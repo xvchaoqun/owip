@@ -37,7 +37,10 @@ public class QueryOrderTest {
         // return: {ret=true/false,msg=’错误信息’ Data={Paycode=,sn=,payertype=,payer=,paid=,paidtime=, amt= }}
        // String sn = "2018010210240864";
         //String sn = "2018010210240575";
-        String sn = "2018010210240870";
+        //String sn = "2018010210240870";
+
+        //String sn = "2018010210240568";
+        String sn = "201801021024056801";
 
 
 

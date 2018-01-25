@@ -10,6 +10,8 @@ import domain.pmd.PmdMemberExample;
 import domain.pmd.PmdMemberExample.Criteria;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMonth;
+import domain.pmd.PmdMonthExample;
+import domain.pmd.PmdOrderCampuscard;
 import domain.pmd.PmdParty;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -28,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
+import sys.spring.DateRange;
+import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -54,12 +58,16 @@ public class PmdMemberController extends PmdBaseController {
             // 1 支部访问 2 直属支部访问 3 党委访问  4 支部或直属支部 访问补缴列表 5 全校缴费列表 6 党费代缴列表
             @RequestParam(required = false, defaultValue = "1") Byte cls,
             Integer userId,
+            Integer chargeUserId,
             Integer partyId,
             Integer branchId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+        if (chargeUserId != null) {
+            modelMap.put("chargeUser", sysUserService.findById(chargeUserId));
         }
         if(cls!=6){
             SecurityUtils.getSubject().checkPermission("pmdMember:list");
@@ -70,6 +78,12 @@ public class PmdMemberController extends PmdBaseController {
                 modelMap.put("party", partyService.findAll().get(partyId));
             if (branchId != null)
                 modelMap.put("branch", branchService.findAll().get(branchId));
+
+            PmdMonthExample example = new PmdMonthExample();
+            example.setOrderByClause("pay_month desc");
+            List<PmdMonth> pmdMonths = pmdMonthMapper.selectByExample(example);
+            modelMap.put("pmdMonths", pmdMonths);
+
             return "pmd/pmdMember/pmdMemberList_page";
         }else if (cls == 3) {
             // 分党委管理员（不包含直属党支部）访问，弹出框
@@ -109,14 +123,17 @@ public class PmdMemberController extends PmdBaseController {
     @RequestMapping("/pmdMember_data")
     public void pmdMember_data(HttpServletResponse response,
                                @RequestParam(required = false, defaultValue = "1") Byte cls,
+                               String orderNo,
                                Integer monthId,
                                Integer partyId,
                                Integer branchId,
                                Integer userId,
+                               Integer chargeUserId,
                                Byte type,
                                Boolean hasPay,
                                Boolean isDelay,
                                Boolean isSelfPay,
+                               @RequestDateRange DateRange _payTime,
                                Integer pageSize, Integer pageNo) throws IOException {
 
         if(cls!=6){
@@ -166,6 +183,25 @@ public class PmdMemberController extends PmdBaseController {
             }
         } else if(cls==5){
             SecurityUtils.getSubject().checkPermission("pmdMember:allList");
+
+            // 根据订单号查找缴费记录
+            if(StringUtils.isNotBlank(orderNo)){
+                PmdOrderCampuscard pmdOrderCampuscard = pmdOrderCampuscardMapper.selectByPrimaryKey(orderNo);
+                if(pmdOrderCampuscard!=null){
+                    criteria.andIdEqualTo(pmdOrderCampuscard.getMemberId());
+                }else{
+                    criteria.andIdIsNull();
+                }
+            }
+
+            if (_payTime.getStart()!=null) {
+                criteria.andPayTimeGreaterThanOrEqualTo(_payTime.getStart());
+            }
+
+            if (_payTime.getEnd()!=null) {
+                criteria.andPayTimeLessThanOrEqualTo(_payTime.getEnd());
+            }
+
         }else if(cls==6){
             // 党费代缴列表
             SecurityUtils.getSubject().checkPermission("pmdMember:helpPay");
@@ -179,6 +215,9 @@ public class PmdMemberController extends PmdBaseController {
         }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
+        }
+        if (chargeUserId != null) {
+            criteria.andChargeUserIdEqualTo(chargeUserId);
         }
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);

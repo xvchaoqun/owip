@@ -182,7 +182,8 @@ public class PmdPayCampusCardService extends BaseMapper {
             oldOrder = pmdOrderCampuscardMapper.selectByPrimaryKey(oldOrderNo);
         }
         if (oldOrder!=null) {
-            if (!StringUtils.equals(newOrder.getPaycode(), oldOrder.getPaycode())
+            if (oldOrder.getIsClosed() // 订单关闭
+                    || !StringUtils.equals(newOrder.getPaycode(), oldOrder.getPaycode())
                     || !StringUtils.equals(newOrder.getPayer(), oldOrder.getPayer())
                     || !StringUtils.equals(newOrder.getPayertype(), oldOrder.getPayertype())
                     || !StringUtils.equals(newOrder.getPayername(), oldOrder.getPayername())
@@ -191,11 +192,11 @@ public class PmdPayCampusCardService extends BaseMapper {
                     || !StringUtils.equals(newOrder.getCommnet(), oldOrder.getCommnet())
                     || !StringUtils.equals(newOrder.getSnoIdName(), oldOrder.getSnoIdName())) {
 
-                logger.info("订单信息变更，生成新订单号");
+                logger.info("订单{}已关闭或信息变更，生成新订单号", oldOrderNo);
                 orderIsNotExist = true;
             }
         } else {
-            logger.info("订单信息不存在，生成订单号");
+            logger.info("订单{}信息不存在，生成订单号", oldOrderNo);
             orderIsNotExist = true;
         }
 
@@ -514,8 +515,12 @@ public class PmdPayCampusCardService extends BaseMapper {
 
         return pmdOrder;
     }
-
-    private void closeTrade(String sn) throws IOException {
+    public class CloseTradeRet{
+        public boolean success;
+        public String code;
+        public String desc;
+    }
+    public CloseTradeRet closeTrade(String sn) throws IOException {
 
         String _signStr = String.format("appId=%s&orderNo=%s&salt=%s",
                 closeTradeAppid, sn, closeTradeSalt);
@@ -532,6 +537,8 @@ public class PmdPayCampusCardService extends BaseMapper {
         httppost.setEntity(postParams);
         CloseableHttpResponse res = httpclient.execute(httppost);
 
+        CloseTradeRet closeTradeRet = new CloseTradeRet();
+        closeTradeRet.success = false;
         if(res.getStatusLine().getStatusCode()== HttpStatus.SC_OK){
 
             String ret = EntityUtils.toString(res.getEntity());
@@ -548,9 +555,14 @@ public class PmdPayCampusCardService extends BaseMapper {
                 pmdOrderCampuscardMapper.updateByPrimaryKeySelective(record);
 
                 logger.info("关闭订单{}成功，接口响应内容：{}", sn, ret);
+                closeTradeRet.success = true;
             }else{
                 logger.warn("关闭订单{}失败，接口响应内容：{}", sn, ret);
             }
+
+            closeTradeRet.code = (code!=null)?code.getAsString():"-1";
+            JsonElement desc = jsonObject.get("desc");
+            closeTradeRet.desc = (desc!=null)?desc.getAsString():"-1";
         }
         /*
             0000：更新成功
@@ -560,6 +572,8 @@ public class PmdPayCampusCardService extends BaseMapper {
             3001：该交易正在处理中，请等待...（只针对于一卡通支付的情况）
             9995：数据库异常，更新失败
         */
+
+        return closeTradeRet;
     }
 
     // 查询订单结果

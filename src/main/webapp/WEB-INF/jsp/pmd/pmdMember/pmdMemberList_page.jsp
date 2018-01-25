@@ -8,12 +8,19 @@ pageEncoding="UTF-8" %>
                  data-url-page="${ctx}/pmd/pmdMember"
                  data-url-export="${ctx}/pmd/pmdMember_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.hasPay
+            <c:set var="_query" value="${not empty param.userId ||not empty param.chargeUserId ||not empty param.hasPay
+            ||not empty param.orderNo ||not empty param.monthId ||not empty param._payTime
              || not empty param.isDelay || not empty param.isSelfPay|| not empty param.partyId}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</a>--%>
+                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                            data-url="${ctx}/pmd/pmdOrderCampusCard"
+                            data-width="850"
+                            data-id-name="memberId">
+                        <i class="fa fa-search"></i> 关联支付订单
+                    </button>
                     <button class="jqOpenViewBtn btn btn-info btn-sm"
                             data-url="${ctx}/sysApprovalLog"
                             data-width="850"
@@ -58,6 +65,25 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                             <input type="hidden" name="cls" value="${cls}">
                             <div class="form-group">
+                                <label>缴费订单号</label>
+                                <input class="form-control search-query" name="orderNo" type="text" value="${param.orderNo}"
+                                       placeholder="请输入缴费订单号">
+                            </div>
+                            <div class="form-group">
+                                <label>缴费月份</label>
+                                <select data-rel="select2" name="monthId"
+                                        data-width="130"
+                                        data-placeholder="请选择">
+                                    <option></option>
+                                    <c:forEach items="${pmdMonths}" var="pmdMonth">
+                                        <option value="${pmdMonth.id}">${cm:formatDate(pmdMonth.payMonth, "yyyy年MM月")}</option>
+                                    </c:forEach>
+                                </select>
+                                <script>
+                                    $("#searchForm select[name=monthId]").val("${param.monthId}")
+                                </script>
+                            </div>
+                            <div class="form-group">
                                 <label>所在分党委</label>
                                 <select class="form-control" data-width="250"  data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/party_selects?del=0"
@@ -77,11 +103,19 @@ pageEncoding="UTF-8" %>
                                         '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                             </script>
                             <div class="form-group">
-                                <label>姓名</label>
+                                <label>缴费党员</label>
                                 <select data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/member_selects?noAuth=1"
                                         name="userId" data-placeholder="请输入账号或姓名或学工号">
                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>代缴人</label>
+                                <select data-rel="select2-ajax"
+                                        data-ajax-url="${ctx}/member_selects?noAuth=1"
+                                        name="chargeUserId" data-placeholder="请输入账号或姓名或学工号">
+                                    <option value="${chargeUser.id}">${chargeUser.realname}-${chargeUser.code}</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -123,6 +157,17 @@ pageEncoding="UTF-8" %>
                                     $("#searchForm select[name=isSelfPay]").val("${param.isSelfPay}")
                                 </script>
                             </div>
+                            <div class="form-group">
+                                <label>缴费日期</label>
+                                <div class="input-group tooltip-success" data-rel="tooltip"
+                                     title="请选择缴费日期范围">
+                                                    <span class="input-group-addon"><i
+                                                            class="fa fa-calendar bigger-110"></i></span>
+                                    <input placeholder="请选择缴费日期范围" data-rel="date-range-picker"
+                                           class="form-control date-range-picker" type="text"
+                                           name="_payTime" value="${param._payTime}"/>
+                                </div>
+                            </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -146,8 +191,10 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <jsp:include page="pmdMember_colModel.jsp?type=admin"/>
+<jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
     register_user_select($('#searchForm select[name=userId]'));
+    register_user_select($('#searchForm select[name=chargeUserId]'));
     $('#searchForm [data-rel="select2"]').select2();
     $("#jqGrid").jqGrid({
         url: '${ctx}/pmd/pmdMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
