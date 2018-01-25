@@ -5,7 +5,12 @@
 ALTER TABLE `sc_matter_check`
 	ADD UNIQUE INDEX `year_num` (`year`, `num`);
 
-
+insert into pmd_order_campuscard(sn, member_id, payer, payername, amt, user_id, is_success, is_closed)
+select pmp.order_no as sn, pmp.member_id, u.code as payer, u.realname as payername,pm.due_pay as amt,
+pmp.order_user_id as user_id, pmp.has_pay as is_success, 0 as is_closed from pmd_member_pay pmp
+left join pmd_member pm on pmp.member_id=pm.id
+left join sys_user_view u on pmp.order_user_id=u.id
+ where pmp.order_no is not null and pmp.order_no not in(select sn from pmd_order_campuscard);
 
 2018-1-19
 ALTER TABLE `ow_member_out`
