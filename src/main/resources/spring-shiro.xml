@@ -63,7 +63,7 @@
     <!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="sessionIdUrlRewritingEnabled" value="false" /><!-- 去掉URL中的JSESSIONID -->
-        <property name="globalSessionTimeout" value="1800000"/>
+        <property name="globalSessionTimeout" value="${global.session.timeout}"/>
         <property name="deleteInvalidSessions" value="true"/>
         <property name="sessionValidationSchedulerEnabled" value="true"/>
         <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
@@ -75,7 +75,7 @@
 
     <!-- 会话验证调度器 -->
     <bean id="sessionValidationScheduler" class="sys.shiro.QuartzSessionValidationScheduler">
-        <property name="sessionValidationInterval" value="1800000"/>
+        <property name="sessionValidationInterval" value="${global.session.timeout}"/>
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
 

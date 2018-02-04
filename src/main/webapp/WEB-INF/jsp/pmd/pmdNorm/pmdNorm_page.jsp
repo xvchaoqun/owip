@@ -112,13 +112,13 @@ pageEncoding="UTF-8" %>
             }},
             { label: '启用日期',name: 'startTime', width:120, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.status!='${PMD_NORM_STATUS_INIT}'){
-                    return new Date(cellvalue).format('yyyy-MM-dd');
+                    return $.date(cellvalue, "yyyy-MM-dd");
                 }
                 return '-';
             }},
             { label: '作废日期',name: 'endTime', width:120, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.status=='${PMD_NORM_STATUS_ABOLISH}'){
-                    return new Date(cellvalue).format('yyyy-MM-dd');
+                    return $.date(cellvalue, "yyyy-MM-dd");
                 }
                 return '-';
             }},

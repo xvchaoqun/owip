@@ -32,9 +32,11 @@
 		<context:exclude-filter type="regex" expression="controller.*\.abroad\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.pcs\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.oa\..*"/>
-		<!--<context:exclude-filter type="regex" expression="controller.*\.pmd\..*"/>-->
+		<context:exclude-filter type="regex" expression="controller.*\.pmd\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.sc.scMatter\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.sc.scLetter\..*"/>
+		<!--<context:exclude-filter type="regex" expression="controller.*\.sc.scGroup\..*"/>
+		<context:exclude-filter type="regex" expression="controller.*\.sc.scCommittee\..*"/>-->
 	</context:component-scan>
 
 	<mvc:interceptors>
@@ -43,10 +45,10 @@
 			<mvc:mapping path="/**/abroad/**"/>
 			<bean class="interceptor.AbroadSessionInterceptor"/>
 		</mvc:interceptor>-->
-		<mvc:interceptor>
+		<!--<mvc:interceptor>
 			<mvc:mapping path="/**/pmd/**"/>
 			<bean class="interceptor.PmdSessionInterceptor"/>
-		</mvc:interceptor>
+		</mvc:interceptor>-->
 	</mvc:interceptors>
 
 	<!-- 激活@Controller模式-->

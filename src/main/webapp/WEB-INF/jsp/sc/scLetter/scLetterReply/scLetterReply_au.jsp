@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-12">
-                                        <div style="min-height: 100px; padding: 10px;">
+                                        <div style="padding: 10px;">
                                             <div id="itemList">
 
                                             </div>
@@ -198,9 +198,8 @@
                 SysMsg.warning("请上传纪委回复文件");
                 return;
             }
-            var base64 = new Base64()
             $(form).ajaxSubmit({
-                data: {items: base64.encode(JSON.stringify(items))},
+                data: {items: new Base64().encode(JSON.stringify(items))},
                 success: function (ret) {
                     if (ret.success) {
                         $.hideView();

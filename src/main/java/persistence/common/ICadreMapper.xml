@@ -58,13 +58,13 @@
         select count(distinct c.id) from cadre_view c where <include refid="statCadreSearchSql" />
     </select>
 
-
-    <select id="selectCadreList" resultMap="persistence.cadre.CadreMapper.BaseResultMap" parameterType="map">
-        select c.* from cadre c, sys_user_view u where c.user_id= u.id
+    <sql id="cadreSearchSql">
         <if test="search != null">
             and (u.username like #{search} or u.realname like #{search} or u.code like #{search})
         </if>
-
+        <if test="isCommitteeMember != null">
+            and c.is_committee_member = #{isCommitteeMember}
+        </if>
         <if test="cadreStatusList!=null and cadreStatusList.size>0">
             and c.status in
             <foreach collection="cadreStatusList" item="st"
@@ -72,21 +72,15 @@
                 #{st}
             </foreach>
         </if>
+     </sql>
+    <select id="selectCadreList" resultMap="persistence.cadre.CadreMapper.BaseResultMap" parameterType="map">
+        select c.* from cadre c, sys_user_view u where c.user_id= u.id
+        <include refid="cadreSearchSql" />
         order by c.sort_order desc
     </select>
     <select id="countCadre" parameterType="map" resultType="java.lang.Integer">
         select count(c.id) from cadre c, sys_user_view u where c.user_id= u.id
-        <if test="search != null">
-            and (u.username like #{search} or u.realname like #{search} or u.code like #{search})
-        </if>
-
-        <if test="cadreStatusList!=null and cadreStatusList.size>0">
-            and c.status in
-            <foreach collection="cadreStatusList" item="st"
-                     index="index" open="(" close=")" separator=",">
-                #{st}
-            </foreach>
-        </if>
+        <include refid="cadreSearchSql" />
     </select>
 
     <select id="selectNotCadreList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">

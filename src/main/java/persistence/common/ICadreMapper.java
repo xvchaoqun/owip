@@ -55,9 +55,11 @@ public interface ICadreMapper {
 
     // 根据账号、姓名、学工号查找干部
     List<Cadre> selectCadreList(@Param("search") String search,
-                                @Param("cadreStatusList")Set<Byte> cadreStatusList, RowBounds rowBounds);
+                                @Param("cadreStatusList")Set<Byte> cadreStatusList,
+                                @Param("isCommitteeMember") Boolean isCommitteeMember, RowBounds rowBounds);
     int countCadre(@Param("search") String search,
-                   @Param("cadreStatusList")Set<Byte> cadreStatusList);
+                   @Param("cadreStatusList")Set<Byte> cadreStatusList,
+                   @Param("isCommitteeMember") Boolean isCommitteeMember);
 
     // 根据账号、姓名、学工号查找 不是 干部的用户
     List<SysUserView> selectNotCadreList(@Param("search") String search,

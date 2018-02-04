@@ -50,7 +50,7 @@
           label: '归还时间', name: 'returnDate', formatter: function (cellvalue, options, rowObject) {
           if (rowObject.isCopy) return '-'
           if (cellvalue == undefined) return ''
-          return new Date(cellvalue).format('yyyy-MM-dd')
+          return $.date(cellvalue, "yyyy-MM-dd");
       }
       },
       {

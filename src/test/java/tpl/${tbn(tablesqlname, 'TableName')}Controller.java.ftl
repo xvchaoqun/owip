@@ -1,7 +1,7 @@
 <#assign TableName=tbn(tablesqlname, "TableName")>
 <#assign tableName=tbn(tablesqlname, "tableName")>
 <#assign tablename=tbn(tablesqlname, "tablename")>
-package controller.${folder};
+package controller.${folder?replace('/', '.')};
 
 import controller.BaseController;
 import domain.${folder?replace('/', '.')}.${TableName};
@@ -160,7 +160,7 @@ public class ${TableName}Controller extends BaseController {
     @RequiresPermissions("${tableName}:del")
     @RequestMapping(value = "/${tableName}_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ${tbn(key, "tableName")}s, ModelMap modelMap) {
+    public Map ${tableName}_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ${tbn(key, "tableName")}s, ModelMap modelMap) {
 
 
         if (null != ${tbn(key, "tableName")}s && ${tbn(key, "tableName")}s.length>0){

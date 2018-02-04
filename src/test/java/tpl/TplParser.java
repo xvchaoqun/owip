@@ -50,7 +50,9 @@ public class TplParser {
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-oa.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-pmd.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-sc.json";
-		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-scLetter.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-scLetter.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-scGroup.json";
+		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-scCommittee.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-pcs.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-verify.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-base.json";

@@ -3,6 +3,9 @@ import sys.constants.SystemConstants;
 import sys.ip.IPSeeker;
 import sys.utils.DateUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * Created by fafa on 2016/8/24.
  */
@@ -13,12 +16,17 @@ public class TTtest {
         System.out.println(SystemConstants.ROLE_MAP);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
         //System.out.println(DateUtils.formatDateTimeMillis(1500889489690L, DateUtils.YYYY_MM_DD_HH_MM_SS));
 
         System.out.println(("sc/scss").replaceAll("\\/", "\\."));
 
         System.out.println(DateUtils.parseDate("2017-06", DateUtils.YYYY_MM_DD));
+
+        String filename = URLEncoder.encode("[20 17]", "UTF-8");
+        filename = filename.replaceAll("\\+", "%20");
+        System.out.println(filename);
+
     }
 
     @Test

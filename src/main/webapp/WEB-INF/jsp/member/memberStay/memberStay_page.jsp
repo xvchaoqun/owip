@@ -460,7 +460,10 @@
             {label: 'QQ号', name: 'qq'},
             {
                 label: '申请保留组织关系起止时间', name: 'mobile', width: 200, formatter: function (cellvalue, options, rowObject) {
-                return new Date(rowObject.saveStartTime).format('yyyy-MM') + "至" + new Date(rowObject.saveEndTime).format('yyyy-MM');
+                return
+                $.date(rowObject.saveStartTime, "yyyy-MM")
+                        + "至" +
+                $.date(rowObject.saveEndTime, "yyyy-MM");
             }
             },
             {label: '党费交纳截止时间', name: 'payTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
@@ -493,7 +496,10 @@
             {label: '留学学校或工作单位', name: 'school', width: 200},
             {
                 label: '出国起止时间', name: 'abroadTime', width: 200, formatter: function (cellvalue, options, rowObject) {
-                return new Date(rowObject.startTime).format('yyyy-MM') + "至" + new Date(rowObject.endTime).format('yyyy-MM');
+                return
+                $.date(rowObject.startTime, "yyyy-MM")
+                + "至" +
+                $.date(rowObject.endTime, "yyyy-MM");
             }
             },
             {label: '预计回国时间', name: 'overDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},

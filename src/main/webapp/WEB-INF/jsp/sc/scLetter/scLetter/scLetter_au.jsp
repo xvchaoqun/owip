@@ -117,7 +117,7 @@
                                         <button type="button" class="btn btn-success btn-sm" onclick="_selectUser()"><i
                                                 class="fa fa-plus"></i> 选择
                                         </button>
-                                        <div style="min-height: 100px; padding-top: 10px;">
+                                        <div style="padding-top: 10px;">
                                             <div id="itemList">
 
                                             </div>
@@ -150,7 +150,7 @@
     <table class="table table-striped table-bordered table-condensed table-unhover2">
         <thead>
         <tr>
-            <td colspan="3">已选择的填报对象</td>
+            <td colspan="3">已选择的函询对象</td>
         </tr>
         <tr>
             <td>姓名</td>
@@ -183,7 +183,7 @@
             $.tip({
                 $target: $select.closest("div").find(".select2-container"),
                 at: 'top center', my: 'bottom center', type: 'success',
-                msg: "请选择填报对象。"
+                msg: "请选择函询对象。"
             });
             return;
         }
@@ -198,7 +198,7 @@
             $.tip({
                 $target: $select.closest("div").find(".select2-container"),
                 at: 'top center', my: 'bottom center', type: 'success',
-                msg: "您已经选择了该填报对象。"
+                msg: "您已经选择了该函询对象。"
             });
             return;
         }

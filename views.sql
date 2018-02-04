@@ -1,3 +1,48 @@
+
+
+--常委会
+DROP VIEW IF EXISTS `sc_committee_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_member_view` AS
+select distinct scm.*, uv.username, uv.code, uv.realname, c.post from sc_committee_member scm
+left join sys_user_view uv on uv.id=scm.user_id
+left join cadre c on c.user_id=scm.user_id;
+
+DROP VIEW IF EXISTS `sc_committee_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_view` AS
+select sc.*, sum(if(scm.is_absent, 0, 1)) as count, sum(if(scm.is_absent, 1, 0)) as absent_count from sc_committee sc
+left join sc_committee_member scm on scm.committee_id=sc.id
+group by sc.id  ;
+
+DROP VIEW IF EXISTS `sc_committee_topic_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_topic_view` AS
+select sct.*, sc.year, sc.hold_date, sc.count, sc.absent_count, sc.attend_users, sc.file_path, sc.log_file from sc_committee_topic sct
+left join sc_committee_view sc on sc.id=sct.committee_id
+where sc.is_deleted=0 ;
+
+DROP VIEW IF EXISTS `sc_committee_vote_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_vote_view` AS
+select scv.*, sct.name, sct.content, sct.committee_id, sc.year, sc.hold_date, sc.count, sc.absent_count, sc.attend_users, sc.file_path, sc.log_file from sc_committee_vote scv
+left join sc_committee_topic sct on sct.id=scv.topic_id
+left join sc_committee_view sc on sc.id=sct.committee_id;
+
+DROP VIEW IF EXISTS `sc_committee_other_vote_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_other_vote_view` AS
+select scov.*, sct.name, sct.content, sct.committee_id, sc.year, sc.hold_date, sc.count, sc.absent_count, sc.attend_users, sc.file_path, sc.log_file
+from sc_committee_other_vote scov
+left join sc_committee_topic sct on sct.id=scov.topic_id
+left join sc_committee_view sc on sc.id=sct.committee_id;
+
+-- 干部小组会
+DROP VIEW IF EXISTS `sc_group_member_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_group_member_view` AS
+select distinct sgm.*, uv.username, uv.code, uv.realname from sc_group_member sgm
+left join sys_user_view uv on uv.id=sgm.user_id;
+
+DROP VIEW IF EXISTS `sc_group_topic_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_group_topic_view` AS
+select sgt.*, sg.year, sg.hold_date, sg.file_path as group_file_path, sg.log_file, sg.attend_users from sc_group_topic sgt
+left join sc_group sg on sgt.group_id = sg.id
+where sg.is_deleted=0 ;
 -- 纪委函询视图
 DROP VIEW IF EXISTS `sc_letter_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_item_view` AS

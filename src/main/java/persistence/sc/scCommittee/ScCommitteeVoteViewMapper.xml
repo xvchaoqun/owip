@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.scCommittee.ScCommitteeVoteViewMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.scCommittee.ScCommitteeVoteView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="topic_id" jdbcType="INTEGER" property="topicId" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="original_post" jdbcType="VARCHAR" property="originalPost" />
+    <result column="original_post_time" jdbcType="DATE" property="originalPostTime" />
+    <result column="cadre_type_id" jdbcType="INTEGER" property="cadreTypeId" />
+    <result column="way_id" jdbcType="INTEGER" property="wayId" />
+    <result column="procedure_id" jdbcType="INTEGER" property="procedureId" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="admin_level_id" jdbcType="INTEGER" property="adminLevelId" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="aggree_count" jdbcType="INTEGER" property="aggreeCount" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="hold_date" jdbcType="DATE" property="holdDate" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="absent_count" jdbcType="INTEGER" property="absentCount" />
+    <result column="attend_users" jdbcType="VARCHAR" property="attendUsers" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="log_file" jdbcType="VARCHAR" property="logFile" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, topic_id, cadre_id, type, original_post, original_post_time, cadre_type_id, way_id, 
+    procedure_id, post, post_id, admin_level_id, unit_id, aggree_count, remark, sort_order, 
+    name, content, committee_id, year, hold_date, count, absent_count, attend_users, 
+    file_path, log_file
+  </sql>
+  <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeVoteViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_committee_vote_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="domain.sc.scCommittee.ScCommitteeVoteViewExample" resultType="java.lang.Long">
+    select count(*) from sc_committee_vote_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scCommittee.ScCommitteeVoteViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_committee_vote_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

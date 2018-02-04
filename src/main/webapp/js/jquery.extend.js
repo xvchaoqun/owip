@@ -288,12 +288,17 @@ var _modal_width;
 
             return $.trim(label);
         },
+        date:function(str, format){
+
+            var date = new Date(Date.parse(str.replace(/-/g,"/")));
+            return date.format(format);
+        },
         //计算天数差的函数，通用
         dayDiff: function (sDate1, sDate2) {    //sDate1和sDate2是2006-12-18格式
             var aDate, oDate1, oDate2, iDays
             sDate1 = sDate1.substr(0, 10)
             sDate2 = sDate2.substr(0, 10)
-            oDate1 = new Date(sDate1.replaceAll("-", "/")).getTime();   //转换为2006/12/18格式
+            oDate1 = new Date(sDate1.replaceAll("-", "/")).getTime();   //转换为2006/12/18格式，兼容IE
             oDate2 = new Date(sDate2.replaceAll("-", "/")).getTime();
             //console.log(oDate1)
             //console.log(oDate2)
@@ -662,6 +667,10 @@ try {
         // console.log(cellvalue)
         return $('<p>' + cellvalue.NoMultiSpace() + '</p>').text()
         //return cellvalue.NoMultiSpace();
+    };
+    $.jgrid.formatter.htmlencodeWithNoSpace = function (cellvalue, options, rowObject) {
+        if (cellvalue == undefined) return ''
+        return cellvalue.htmlencode().NoSpace();
     };
     $.jgrid.formatter.GENDER = function (cellvalue, options, rowObject) {
         if (cellvalue == undefined) return ''

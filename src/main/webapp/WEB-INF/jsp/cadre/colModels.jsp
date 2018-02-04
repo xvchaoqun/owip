@@ -21,6 +21,7 @@
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unit.name', width: 200},
         {label: '现任职务', name: 'post', align: 'left', width: 350},
+        {label: '是否常委', name: 'isCommitteeMember', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
         {
             label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
@@ -34,7 +35,7 @@
             return _cMap.postMap[cellvalue].name;
         }
         },
-        {label: '是否正职', name: 'isPrincipalPost', formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '是否正职', name: 'isPrincipalPost', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         {label: '民族', name: 'nation', width: 60},
         {label: '籍贯', name: 'nativePlace', width: 120},

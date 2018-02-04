@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.scCommittee.ScCommitteeTopicMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.scCommittee.ScCommitteeTopic">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="has_vote" jdbcType="BIT" property="hasVote" />
+    <result column="has_other_vote" jdbcType="BIT" property="hasOtherVote" />
+    <result column="vote_file_path" jdbcType="VARCHAR" property="voteFilePath" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, committee_id, name, content, has_vote, has_other_vote, vote_file_path, remark, 
+    is_deleted
+  </sql>
+  <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeTopicExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_committee_topic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sc_committee_topic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sc_committee_topic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.sc.scCommittee.ScCommitteeTopicExample">
+    delete from sc_committee_topic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.sc.scCommittee.ScCommitteeTopic">
+    insert into sc_committee_topic (id, committee_id, name, 
+      content, has_vote, has_other_vote, 
+      vote_file_path, remark, is_deleted
+      )
+    values (#{id,jdbcType=INTEGER}, #{committeeId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{hasVote,jdbcType=BIT}, #{hasOtherVote,jdbcType=BIT}, 
+      #{voteFilePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.sc.scCommittee.ScCommitteeTopic">
+    insert into sc_committee_topic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="committeeId != null">
+        committee_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="hasVote != null">
+        has_vote,
+      </if>
+      <if test="hasOtherVote != null">
+        has_other_vote,
+      </if>
+      <if test="voteFilePath != null">
+        vote_file_path,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="committeeId != null">
+        #{committeeId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="hasVote != null">
+        #{hasVote,jdbcType=BIT},
+      </if>
+      <if test="hasOtherVote != null">
+        #{hasOtherVote,jdbcType=BIT},
+      </if>
+      <if test="voteFilePath != null">
+        #{voteFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.sc.scCommittee.ScCommitteeTopicExample" resultType="java.lang.Long">
+    select count(*) from sc_committee_topic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sc_committee_topic
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.committeeId != null">
+        committee_id = #{record.committeeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hasVote != null">
+        has_vote = #{record.hasVote,jdbcType=BIT},
+      </if>
+      <if test="record.hasOtherVote != null">
+        has_other_vote = #{record.hasOtherVote,jdbcType=BIT},
+      </if>
+      <if test="record.voteFilePath != null">
+        vote_file_path = #{record.voteFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sc_committee_topic
+    set id = #{record.id,jdbcType=INTEGER},
+      committee_id = #{record.committeeId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      has_vote = #{record.hasVote,jdbcType=BIT},
+      has_other_vote = #{record.hasOtherVote,jdbcType=BIT},
+      vote_file_path = #{record.voteFilePath,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.sc.scCommittee.ScCommitteeTopic">
+    update sc_committee_topic
+    <set>
+      <if test="committeeId != null">
+        committee_id = #{committeeId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="hasVote != null">
+        has_vote = #{hasVote,jdbcType=BIT},
+      </if>
+      <if test="hasOtherVote != null">
+        has_other_vote = #{hasOtherVote,jdbcType=BIT},
+      </if>
+      <if test="voteFilePath != null">
+        vote_file_path = #{voteFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.sc.scCommittee.ScCommitteeTopic">
+    update sc_committee_topic
+    set committee_id = #{committeeId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      has_vote = #{hasVote,jdbcType=BIT},
+      has_other_vote = #{hasOtherVote,jdbcType=BIT},
+      vote_file_path = #{voteFilePath,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scCommittee.ScCommitteeTopicExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_committee_topic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

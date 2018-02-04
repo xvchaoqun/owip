@@ -7,6 +7,7 @@
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="is_committee_member" jdbcType="BIT" property="isCommitteeMember" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
@@ -124,12 +125,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, remark, sort_order, 
-    status, msg_title, mobile, phone, home_phone, email, code, realname, gender, nation, 
-    native_place, idcard, birth, party_id, branch_id, member_status, dp_id, dp_type_id, 
-    dp_post, dp_grow_time, dp_remark, ow_id, ow_grow_time, ow_remark, cadre_grow_time, 
-    cadre_dp_type, edu_id, finish_time, learn_style, school, dep, school_type, major, 
-    degree, post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, 
+    id, user_id, type_id, post_id, unit_id, is_committee_member, title, dispatch_cadre_id, 
+    post, remark, sort_order, status, msg_title, mobile, phone, home_phone, email, code, 
+    realname, gender, nation, native_place, idcard, birth, party_id, branch_id, member_status, 
+    dp_id, dp_type_id, dp_post, dp_grow_time, dp_remark, ow_id, ow_grow_time, ow_remark, 
+    cadre_grow_time, cadre_dp_type, edu_id, finish_time, learn_style, school, dep, school_type, 
+    major, degree, post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, 
     pro_post_level_time, pro_post, manage_level, manage_level_time, arrive_time, work_time, 
     work_start_time, talent_title, main_cadre_post_id, is_double, double_unit_id, is_principal_post, 
     cadre_post_year, admin_level_year, np_relate_id, np_id, np_file_name, np_file, np_work_time, 

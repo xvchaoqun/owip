@@ -720,7 +720,7 @@ $(window).bind("hashchange", function () {
 
     var hash = location.hash;
     //console.log("hash=" + hash)
-    if (hash == '') {
+    if (hash == '' || hash == '#') {
         $("#page-content").renderUrl({
             url: ctx + '/index', fn: function () {
                 _refreshMenu('#');
@@ -1021,7 +1021,7 @@ function pop_reload(fn) {
     //alert($div.data("url-page"))
     var $target = $("#modal .modal-content");
     $target.load($div.data("url-page") + (queryString ? ("?" + queryString) : ""), function () {
-        if (fn) fn();
+        if (typeof fn === "function") fn();
     });
 
     /*var $div = $(".popTableDiv");

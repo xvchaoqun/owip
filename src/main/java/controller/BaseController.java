@@ -364,7 +364,14 @@ public class BaseController extends BaseMapper {
         String savePath = realPath + FileUtils.getExtention(originalFilename);
         FileUtils.copyFile(file, new File(springProps.uploadPath + savePath));
 
-        if (StringUtils.equalsIgnoreCase(type, "pdf")) {
+        if (StringUtils.equalsIgnoreCase(type, "doc")) {
+
+            String pdfPath = realPath + ".pdf";
+            FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath + pdfPath);
+            String swfPath = realPath + ".swf";
+            pdf2Swf(pdfPath, swfPath);
+
+        }else if (StringUtils.equalsIgnoreCase(type, "pdf")) {
 
             String swfPath = realPath + ".swf";
             pdf2Swf(savePath, swfPath);
@@ -385,6 +392,11 @@ public class BaseController extends BaseMapper {
     public String upload(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
 
         return upload(file, saveFolder, null, 0, 0);
+    }
+
+    public String uploadDoc(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
+
+        return upload(file, saveFolder, "doc", 0, 0);
     }
 
     public String uploadPdf(MultipartFile file, String saveFolder) throws IOException, InterruptedException {

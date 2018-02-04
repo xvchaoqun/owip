@@ -224,6 +224,24 @@ import persistence.pmd.PmdPayBranchViewMapper;
 import persistence.pmd.PmdPayPartyMapper;
 import persistence.pmd.PmdPayPartyViewMapper;
 import persistence.pmd.PmdSpecialUserMapper;
+import persistence.sc.scCommittee.ScCommitteeMapper;
+import persistence.sc.scCommittee.ScCommitteeMemberMapper;
+import persistence.sc.scCommittee.ScCommitteeMemberViewMapper;
+import persistence.sc.scCommittee.ScCommitteeOtherVoteMapper;
+import persistence.sc.scCommittee.ScCommitteeOtherVoteViewMapper;
+import persistence.sc.scCommittee.ScCommitteeTopicMapper;
+import persistence.sc.scCommittee.ScCommitteeTopicViewMapper;
+import persistence.sc.scCommittee.ScCommitteeViewMapper;
+import persistence.sc.scCommittee.ScCommitteeVoteMapper;
+import persistence.sc.scCommittee.ScCommitteeVoteViewMapper;
+import persistence.sc.scGroup.ScGroupFileMapper;
+import persistence.sc.scGroup.ScGroupMapper;
+import persistence.sc.scGroup.ScGroupMemberMapper;
+import persistence.sc.scGroup.ScGroupMemberViewMapper;
+import persistence.sc.scGroup.ScGroupParticipantMapper;
+import persistence.sc.scGroup.ScGroupTopicMapper;
+import persistence.sc.scGroup.ScGroupTopicUnitMapper;
+import persistence.sc.scGroup.ScGroupTopicViewMapper;
 import persistence.sc.scLetter.ScLetterItemMapper;
 import persistence.sc.scLetter.ScLetterItemViewMapper;
 import persistence.sc.scLetter.ScLetterMapper;
@@ -347,6 +365,51 @@ public class BaseMapper {
         Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, sortOrder, whereSql);
         return (maxSortOrder == null ? 1 : maxSortOrder + 1);
     }
+
+    /**
+     * 干部选拔-干部小组会议题
+     */
+    @Autowired
+    protected ScGroupMapper scGroupMapper;
+    @Autowired
+    protected ScGroupFileMapper scGroupFileMapper;
+    @Autowired
+    protected ScGroupMemberMapper scGroupMemberMapper;
+    @Autowired
+    protected ScGroupMemberViewMapper scGroupMemberViewMapper;
+    @Autowired
+    protected ScGroupParticipantMapper scGroupParticipantMapper;
+    @Autowired
+    protected ScGroupTopicMapper scGroupTopicMapper;
+    @Autowired
+    protected ScGroupTopicViewMapper scGroupTopicViewMapper;
+    @Autowired
+    protected ScGroupTopicUnitMapper scGroupTopicUnitMapper;
+
+    /**
+     * 干部选拔-党委常委会议题
+     */
+    @Autowired
+    protected ScCommitteeMapper scCommitteeMapper;
+    @Autowired
+    protected ScCommitteeViewMapper scCommitteeViewMapper;
+    @Autowired
+    protected ScCommitteeMemberMapper scCommitteeMemberMapper;
+    @Autowired
+    protected ScCommitteeMemberViewMapper scCommitteeMemberViewMapper;
+    @Autowired
+    protected ScCommitteeTopicMapper scCommitteeTopicMapper;
+    @Autowired
+    protected ScCommitteeTopicViewMapper scCommitteeTopicViewMapper;
+    @Autowired
+    protected ScCommitteeVoteMapper scCommitteeVoteMapper;
+    @Autowired
+    protected ScCommitteeVoteViewMapper scCommitteeVoteViewMapper;
+    @Autowired
+    protected ScCommitteeOtherVoteMapper scCommitteeOtherVoteMapper;
+    @Autowired
+    protected ScCommitteeOtherVoteViewMapper scCommitteeOtherVoteViewMapper;
+
 
     /**
      * 干部选拔-纪委函询管理

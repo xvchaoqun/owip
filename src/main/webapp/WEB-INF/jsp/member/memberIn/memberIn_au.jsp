@@ -311,7 +311,7 @@ pageEncoding="UTF-8"%>
 			var gender = entity.user.gender || '';
 			var birth = '';
 			if (entity.user.birth && entity.user.birth != '')
-				birth = new Date(entity.user.birth).format('yyyy-MM-dd');
+				birth = $.date(entity.user.birth, "yyyy-MM-dd");
 			var nation = entity.user.nation || '';
 			var idcard = entity.user.idcard || '';
 

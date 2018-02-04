@@ -22,6 +22,111 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
+
+        <!--干部选拔-党委常委会议题-->
+        <!--<table tableName="sc_committee" domainObjectName="sc.scCommittee.ScCommittee"
+               mapperName="sc.scCommittee.ScCommitteeMapper">
+        </table>-->
+        <!--<table tableName="sc_committee_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scCommittee.ScCommitteeView" mapperName="sc.scCommittee.ScCommitteeViewMapper">
+            <columnOverride column="count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="absent_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>-->
+        <!--<table tableName="sc_committee_member" domainObjectName="sc.scCommittee.ScCommitteeMember"
+               mapperName="sc.scCommittee.ScCommitteeMemberMapper">
+        </table>-->
+        <!--<table tableName="sc_committee_member_view"
+              enableInsert="false" enableUpdateByPrimaryKey="false"
+              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+              enableDeleteByExample="false"
+              domainObjectName="sc.scCommittee.ScCommitteeMemberView" mapperName="sc.scCommittee.ScCommitteeMemberViewMapper">
+       </table>-->
+
+        <!--<table tableName="sc_committee_topic" domainObjectName="sc.scCommittee.ScCommitteeTopic"
+               mapperName="sc.scCommittee.ScCommitteeTopicMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <!--<table tableName="sc_committee_topic_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scCommittee.ScCommitteeTopicView" mapperName="sc.scCommittee.ScCommitteeTopicViewMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+
+        <!--<table tableName="sc_committee_vote" domainObjectName="sc.scCommittee.ScCommitteeVote"
+              mapperName="sc.scCommittee.ScCommitteeVoteMapper">
+       </table>-->
+        <!--<table tableName="sc_committee_vote_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scCommittee.ScCommitteeVoteView" mapperName="sc.scCommittee.ScCommitteeVoteViewMapper">
+            <columnOverride column="count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="absent_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+
+        <!--
+       <table tableName="sc_committee_other_vote" domainObjectName="sc.scCommittee.ScCommitteeOtherVote"
+              mapperName="sc.scCommittee.ScCommitteeOtherVoteMapper">
+           <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
+       </table>-->
+        <table tableName="sc_committee_other_vote_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scCommittee.ScCommitteeOtherVoteView"
+               mapperName="sc.scCommittee.ScCommitteeOtherVoteViewMapper">
+            <columnOverride column="count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="absent_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
+        </table>
+
+        <!--干部选拔-干部小组会议题-->
+        <!--<table tableName="sc_group" domainObjectName="sc.scGroup.ScGroup"
+               mapperName="sc.scGroup.ScGroupMapper">
+            <columnOverride column="attend_users" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+       <!-- <table tableName="sc_group_file" domainObjectName="sc.scGroup.ScGroupFile"
+               mapperName="sc.scGroup.ScGroupFileMapper">
+        </table>-->
+       <!-- <table tableName="sc_group_member" domainObjectName="sc.scGroup.ScGroupMember"
+               mapperName="sc.scGroup.ScGroupMemberMapper">
+        </table>-->
+
+        <!--<table tableName="sc_group_member_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scGroup.ScGroupMemberView" mapperName="sc.scGroup.ScGroupMemberViewMapper">
+        </table>-->
+        <!--<table tableName="sc_group_participant" domainObjectName="sc.scGroup.ScGroupParticipant"
+               mapperName="sc.scGroup.ScGroupParticipantMapper">
+        </table>-->
+        <!--<table tableName="sc_group_topic" domainObjectName="sc.scGroup.ScGroupTopic"
+               mapperName="sc.scGroup.ScGroupTopicMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <!--<table tableName="sc_group_topic_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scGroup.ScGroupTopicView"
+               mapperName="sc.scGroup.ScGroupTopicViewMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <!--<table tableName="sc_group_topic_unit" domainObjectName="sc.scGroup.ScGroupTopicUnit"
+               mapperName="sc.scGroup.ScGroupTopicUnitMapper">
+        </table>-->
+
+
         <!--干部选拔-纪委函询管理-->
         <!--<table tableName="sc_letter" domainObjectName="sc.scLetter.ScLetter" mapperName="sc.scLetter.ScLetterMapper">
         </table>-->
@@ -44,13 +149,13 @@
         <!--<table tableName="sc_letter_reply" domainObjectName="sc.scLetter.ScLetterReply"
                mapperName="sc.scLetter.ScLetterReplyMapper">
         </table>-->
-        <table tableName="sc_letter_reply_view"
+        <!--<table tableName="sc_letter_reply_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scLetter.ScLetterReplyView"
                mapperName="sc.scLetter.ScLetterReplyViewMapper">
-        </table>
+        </table>-->
         <!--
         <table tableName="sc_letter_reply_item" domainObjectName="sc.scLetter.ScLetterReplyItem"
                mapperName="sc.scLetter.ScLetterReplyItemMapper">
@@ -551,10 +656,10 @@
         <!-- <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
         </table>-->
 
-        <!--  <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
-          </table>-->
+         <!-- <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
+          </table>
 
-        <!-- <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
+         <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">

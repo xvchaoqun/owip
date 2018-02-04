@@ -132,7 +132,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-12">
-                                        <div style="min-height: 100px; padding: 10px;">
+                                        <div style="padding: 10px;">
                                             <div id="itemList">
 
                                             </div>

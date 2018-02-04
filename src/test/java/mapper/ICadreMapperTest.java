@@ -31,10 +31,10 @@ public class ICadreMapperTest {
 	@Test
 	public void list() {
 
-		List<Cadre> cadres = iCadreMapper.selectCadreList("%sd%", SystemConstants.CADRE_STATUS_SET, new RowBounds(0, 2));
+		List<Cadre> cadres = iCadreMapper.selectCadreList("%sd%", SystemConstants.CADRE_STATUS_SET, null, new RowBounds(0, 2));
 		System.out.println("================" + cadres.size());
 
-		int sd = iCadreMapper.countCadre("sd", SystemConstants.CADRE_STATUS_SET);
+		int sd = iCadreMapper.countCadre("sd", SystemConstants.CADRE_STATUS_SET, null);
 		System.out.println(sd);
 	}
 }

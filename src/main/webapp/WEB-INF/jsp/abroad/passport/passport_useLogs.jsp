@@ -92,14 +92,14 @@
             }},
             { label: '出行时间', name: 'startDate'  , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
-                    return new Date(rowObject.applySelf.startDate).format('yyyy-MM-dd');
+                    return $.date(rowObject.applySelf.startDate, "yyyy-MM-dd");
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_OTHER}')
                     return '-';
                 return cellvalue;
             }},
             { label: '回国时间', name: 'endDate'  , formatter:function(cellvalue, options, rowObject){
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_SELF}')
-                    return new Date(rowObject.applySelf.endDate).format('yyyy-MM-dd');
+                    return $.date(rowObject.applySelf.endDate, "yyyy-MM-dd");
                 if(rowObject.type=='${PASSPORT_DRAW_TYPE_OTHER}')
                     return '-';
                 return cellvalue;

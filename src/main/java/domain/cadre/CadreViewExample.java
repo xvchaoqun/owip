@@ -432,6 +432,66 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsCommitteeMemberIsNull() {
+            addCriterion("is_committee_member is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCommitteeMemberIsNotNull() {
+            addCriterion("is_committee_member is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCommitteeMemberEqualTo(Boolean value) {
+            addCriterion("is_committee_member =", value, "isCommitteeMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCommitteeMemberNotEqualTo(Boolean value) {
+            addCriterion("is_committee_member <>", value, "isCommitteeMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCommitteeMemberGreaterThan(Boolean value) {
+            addCriterion("is_committee_member >", value, "isCommitteeMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCommitteeMemberGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_committee_member >=", value, "isCommitteeMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCommitteeMemberLessThan(Boolean value) {
+            addCriterion("is_committee_member <", value, "isCommitteeMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCommitteeMemberLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_committee_member <=", value, "isCommitteeMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCommitteeMemberIn(List<Boolean> values) {
+            addCriterion("is_committee_member in", values, "isCommitteeMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCommitteeMemberNotIn(List<Boolean> values) {
+            addCriterion("is_committee_member not in", values, "isCommitteeMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCommitteeMemberBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_committee_member between", value1, value2, "isCommitteeMember");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCommitteeMemberNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_committee_member not between", value1, value2, "isCommitteeMember");
+            return (Criteria) this;
+        }
+
         public Criteria andTitleIsNull() {
             addCriterion("title is null");
             return (Criteria) this;

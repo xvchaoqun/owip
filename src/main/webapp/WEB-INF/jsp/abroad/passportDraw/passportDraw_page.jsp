@@ -438,7 +438,7 @@
 
                 if(cellvalue==undefined) return ''
 
-                return new Date(cellvalue).format('yyyy-MM-dd');
+                return $.date(cellvalue, "yyyy-MM-dd");
             }},
             { label: '附件', formatter:function(cellvalue, options, rowObject){
                 //console.log(rowObject.attachmentFilename)

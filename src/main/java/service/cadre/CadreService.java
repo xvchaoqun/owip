@@ -15,6 +15,7 @@ import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import domain.unit.Unit;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -240,6 +241,7 @@ public class CadreService extends BaseMapper {
         CadreView cadre = dbFindByUserId(userId);
         if (cadre == null) {
             //if(record.getStatus()!=null)
+            record.setIsCommitteeMember(BooleanUtils.isTrue(record.getIsCommitteeMember()));
             cadreMapper.insertSelective(record);
         } else {
             // 考察对象或后备干部被撤销时，干部信息仍然在库中，现在是覆盖更新
@@ -445,5 +447,14 @@ public class CadreService extends BaseMapper {
         record.setId(cadreId);
         record.setTitle(title);
         cadreMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 常委数量
+    public int countCommitteeMember(){
+
+        CadreExample example = new CadreExample();
+        example.createCriteria().andIsCommitteeMemberEqualTo(true);
+
+        return (int)cadreMapper.countByExample(example);
     }
 }

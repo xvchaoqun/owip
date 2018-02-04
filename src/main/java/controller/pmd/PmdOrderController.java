@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.pmd.PmdPayCampusCardService;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class PmdOrderController extends PmdBaseController {
     public Map pmdOrderCampusCard_closeTrade(String sn, HttpServletRequest request) throws IOException {
 
         PmdPayCampusCardService.CloseTradeRet ret = pmdPayCampusCardService.closeTrade(sn);
-        logger.info(addLog(SystemConstants.LOG_OW, "后台关闭订单：%s，结果: %s", sn, ret));
+        logger.info(addLog(SystemConstants.LOG_OW, "后台关闭订单：%s，结果: %s", sn, JSONUtils.toString(ret, false)));
 
         return ret.success?success(FormUtils.SUCCESS):failed("关闭失败：" + ret.desc + "（" + ret.code+"）");
     }

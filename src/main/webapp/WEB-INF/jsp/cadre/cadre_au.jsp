@@ -80,6 +80,12 @@ pageEncoding="UTF-8"%>
     </div>
     </c:if>
 			<div class="form-group">
+				<label class="col-xs-4 control-label">是否常委</label>
+				<div class="col-xs-6">
+                    <input name="isCommitteeMember" ${cadre.isCommitteeMember?"checked":""}  type="checkbox" />
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-xs-4 control-label"><c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">离任后</c:if>所在单位及职务</label>
 				<div class="col-xs-6">
                         <input  class="form-control" type="text" name="title" value="${cadre.title}">
@@ -152,6 +158,6 @@ pageEncoding="UTF-8"%>
     });
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-
+    $("#modal :checkbox").bootstrapSwitch();
     register_user_select($('[data-rel="select2-ajax"]'));
 </script>

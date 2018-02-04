@@ -7,6 +7,7 @@
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="is_committee_member" jdbcType="BIT" property="isCommitteeMember" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, remark, sort_order, 
-    status
+    id, user_id, type_id, post_id, unit_id, is_committee_member, title, dispatch_cadre_id, 
+    post, remark, sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreExample" resultMap="BaseResultMap">
     select
@@ -108,13 +109,15 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.cadre.Cadre">
     insert into cadre (id, user_id, type_id, 
-      post_id, unit_id, title, 
-      dispatch_cadre_id, post, remark, 
-      sort_order, status)
+      post_id, unit_id, is_committee_member, 
+      title, dispatch_cadre_id, post, 
+      remark, sort_order, status
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, 
-      #{postId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{dispatchCadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
+      #{postId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{isCommitteeMember,jdbcType=BIT}, 
+      #{title,jdbcType=VARCHAR}, #{dispatchCadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}
+      )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.Cadre">
     insert into cadre
@@ -133,6 +136,9 @@
       </if>
       <if test="unitId != null">
         unit_id,
+      </if>
+      <if test="isCommitteeMember != null">
+        is_committee_member,
       </if>
       <if test="title != null">
         title,
@@ -168,6 +174,9 @@
       </if>
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="isCommitteeMember != null">
+        #{isCommitteeMember,jdbcType=BIT},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -213,6 +222,9 @@
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
+      <if test="record.isCommitteeMember != null">
+        is_committee_member = #{record.isCommitteeMember,jdbcType=BIT},
+      </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
@@ -243,6 +255,7 @@
       type_id = #{record.typeId,jdbcType=INTEGER},
       post_id = #{record.postId,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
+      is_committee_member = #{record.isCommitteeMember,jdbcType=BIT},
       title = #{record.title,jdbcType=VARCHAR},
       dispatch_cadre_id = #{record.dispatchCadreId,jdbcType=INTEGER},
       post = #{record.post,jdbcType=VARCHAR},
@@ -267,6 +280,9 @@
       </if>
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="isCommitteeMember != null">
+        is_committee_member = #{isCommitteeMember,jdbcType=BIT},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -295,6 +311,7 @@
       type_id = #{typeId,jdbcType=INTEGER},
       post_id = #{postId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
+      is_committee_member = #{isCommitteeMember,jdbcType=BIT},
       title = #{title,jdbcType=VARCHAR},
       dispatch_cadre_id = #{dispatchCadreId,jdbcType=INTEGER},
       post = #{post,jdbcType=VARCHAR},

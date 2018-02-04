@@ -137,6 +137,8 @@ public class CommonController extends BaseController {
             Integer pageSize,
             // key=0，选项value=cadreId key=1 ，选项value=userId
             @RequestParam(defaultValue = "0", required = false) Byte key,
+            // 是否常委
+            Boolean isCommitteeMember,
             // 出国境带出台湾证件号码
             @RequestParam(defaultValue = "0", required = false) boolean abroad,
             Integer pageNo, String searchStr) throws IOException {
@@ -169,12 +171,13 @@ public class CommonController extends BaseController {
             }
         }
 
-        int count = iCadreMapper.countCadre(searchStr, cadreStatusSet);
+        int count = iCadreMapper.countCadre(searchStr, cadreStatusSet, isCommitteeMember);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, cadreStatusSet, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, cadreStatusSet, isCommitteeMember,
+                new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if (null != cadres && cadres.size() > 0) {
@@ -292,12 +295,13 @@ public class CommonController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if (searchStr != null) searchStr = "%" + searchStr + "%";
 
-        int count = iCadreMapper.countCadre(searchStr, SystemConstants.CADRE_STATUS_SET);
+        int count = iCadreMapper.countCadre(searchStr, SystemConstants.CADRE_STATUS_SET, null);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, SystemConstants.CADRE_STATUS_SET, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, SystemConstants.CADRE_STATUS_SET, null,
+                new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if (null != cadres && cadres.size() > 0) {

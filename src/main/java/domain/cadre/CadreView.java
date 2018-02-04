@@ -63,6 +63,8 @@ public class CadreView implements Serializable {
 
     private Integer unitId;
 
+    private Boolean isCommitteeMember;
+
     private String title;
 
     private Integer dispatchCadreId;
@@ -275,6 +277,14 @@ public class CadreView implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public Boolean getIsCommitteeMember() {
+        return isCommitteeMember;
+    }
+
+    public void setIsCommitteeMember(Boolean isCommitteeMember) {
+        this.isCommitteeMember = isCommitteeMember;
     }
 
     public String getTitle() {

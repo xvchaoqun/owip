@@ -1,3 +1,9 @@
+2018-2-4
+ALTER TABLE `cadre`
+	ADD COLUMN `is_committee_member` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否常委' AFTER `unit_id`;
+
+
+	更新 cadre_view
 
 2018-1-25
 更新 sc_matter_check_view

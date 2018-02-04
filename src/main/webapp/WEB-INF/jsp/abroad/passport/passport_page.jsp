@@ -254,7 +254,7 @@ pageEncoding="UTF-8" %>
                 else if(rowObject.type=='${PASSPORT_TYPE_LOST}'&&cellvalue>rowObject.lostTime) {
                     return '';
                 }
-                return new Date(cellvalue).format('yyyy-MM-dd')
+                return $.date(cellvalue, "yyyy-MM-dd")
             }  },
             <c:if test="${status!=PASSPORT_TYPE_LOST && status!=4}">
             { label:'所在保险柜', name: 'safeBox.code', width: 130 },

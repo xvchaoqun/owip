@@ -66,7 +66,7 @@
                     </select>
                     <button type="button" class="btn btn-success btn-sm" onclick="_selectUser()"><i class="fa fa-plus"></i> 选择
                     </button>
-                    <div style="min-height: 100px; padding-top: 10px;">
+                    <div style="padding-top: 10px;">
                         <div id="itemList">
 
                         </div>

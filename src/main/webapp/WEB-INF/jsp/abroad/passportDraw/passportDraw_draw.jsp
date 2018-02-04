@@ -177,7 +177,7 @@
             return;
         }
 
-        var date = (new Date($('input[name=_returnDate]').val())).format("yyyy年M月d日");
+        var date = $.date($('input[name=_returnDate]').val(), "yyyy年M月d日");
         msg ="${shortMsg}".format(null, null, date);
 
         bootbox.confirm({

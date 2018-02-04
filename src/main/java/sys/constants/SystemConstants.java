@@ -188,6 +188,8 @@ public class SystemConstants {
     public static final String LOG_PMD = "mt_log_pmd";
     public static final String LOG_SC_MATTER = "mt_log_sc_matter"; // 干部选拔任用-个人有关事项
     public static final String LOG_SC_LETTER = "mt_log_sc_letter"; // 干部选拔任用-纪委函询管理
+    public static final String LOG_SC_GROUP = "mt_log_sc_group"; // 干部选拔任用-干部小组会议题
+    public static final String LOG_SC_COMMITTEE = "mt_log_sc_committee"; // 干部选拔任用-党委常委会议题
 
     public static final String RESOURCE_TYPE_FUNCTION = "function";
     public static final String RESOURCE_TYPE_URL = "url";

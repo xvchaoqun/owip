@@ -1,0 +1,59 @@
+{
+  "schema": "db_owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "sc/scGroup",
+  "tables": [
+    {
+      "table": "sc_group",
+      "key": "id",
+      "searchColumns": "year,hold_date",
+      "showColumns": "year,hold_date,file_path,topic_num,word_file_path,log_file,attend_users",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_GROUP",
+      "ignore": false
+    },{
+      "table": "sc_group_file",
+      "key": "id",
+      "searchColumns": "is_current",
+      "showColumns": "file_path,file_name,is_current,sort_order",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_GROUP",
+      "ignore": false
+    },{
+      "table": "sc_group_member",
+      "key": "id",
+      "searchColumns": "user_id,is_current",
+      "showColumns": "user_id,is_current,is_leader,sort_order",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_GROUP",
+      "ignore": false
+    },{
+      "table": "sc_group_participant",
+      "key": "id",
+      "searchColumns": "group_id",
+      "showColumns": "group_id,member_id",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_GROUP",
+      "ignore": false
+    },{
+      "table": "sc_group_topic",
+      "key": "id",
+      "searchColumns": "group_id",
+      "showColumns": "group_id,name,content,memo,remark",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_GROUP",
+      "ignore": false
+    },{
+      "table": "sc_group_topic_unit",
+      "key": "id",
+      "searchColumns": "topic_id",
+      "showColumns": "topic_id,unit_id",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_GROUP",
+      "ignore": false
+    }
+  ]
+}
