@@ -37,8 +37,10 @@ jQuery.validator.setDefaults({
         if (error.html() != '') {
             //$("label:first", element.closest(".form-group")).css("color", "red")
             //console.log(element.data("container"))
-            $.tip({$form: element.closest("form"),$container:$(element.data("container")),
-                field: element.attr("name"), msg: error.text()})
+            $.tip({
+                $form: element.closest("form"), $container: $(element.data("container")),
+                field: element.attr("name"), msg: error.text()
+            })
         }
     }
 })
@@ -73,7 +75,7 @@ jQuery.validator.addMethod("isZipCode", function (value, element) {
 }, "请正确填写您的邮政编码");
 
 // 手机号码验证
-jQuery.validator.addMethod("mobile", function(value, element) {
+jQuery.validator.addMethod("mobile", function (value, element) {
     var length = value.length;
     var mobile = /^1[3|4|5|7|8]\d{9}$/;
     return this.optional(element) || (mobile.test(value));
@@ -186,7 +188,7 @@ var _modal_width;
 
             var $target = params.$target;
             var $container = params.$container;
-            if($container!=undefined && $container.is(":hidden")) return;
+            if ($container != undefined && $container.is(":hidden")) return;
             var msg = params.msg;
             var my = params.my;
             var at = params.at;
@@ -258,9 +260,9 @@ var _modal_width;
                     .format(party.isDeleted ? "delete" : "", _partyView, branch.isDeleted ? "delete" : "", " - " + _branchView);
             } else if (_partyView != null) {
                 return '<span class="{0}">{1}</span>'.format(party.isDeleted ? "delete" : "", _partyView);
-            }else if (_branchView != null) { // 仅显示党支部
+            } else if (_branchView != null) { // 仅显示党支部
                 return '<span class="{0}">{1}</span>'
-                    .format( branch.isDeleted ? "delete" : "", _branchView);
+                    .format(branch.isDeleted ? "delete" : "", _branchView);
             }
             return '';
         },
@@ -283,14 +285,28 @@ var _modal_width;
         user: function (userId, label) {
 
             if (userId > 0 && $.trim(label) != '')
-            return '<a href="javascript:;" class="openView" data-url="{2}/sysUser_view?userId={0}">{1}</a>'
-                .format(userId, label, ctx);
+                return '<a href="javascript:;" class="openView" data-url="{2}/sysUser_view?userId={0}">{1}</a>'
+                    .format(userId, label, ctx);
 
             return $.trim(label);
         },
-        date:function(str, format){
-
-            var date = new Date(Date.parse(str.replace(/-/g,"/")));
+        isIntNum: function (val) {
+            var regPos = /^\d+$/; // 非负整数
+            var regNeg = /^\-[1-9][0-9]*$/; // 负整数
+            if (regPos.test(val) || regNeg.test(val)) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        date: function (str, format) {
+            var date = null;
+            //console.log(str + " " + isNaN(str) + " " + $.isIntNum(str))
+            if($.isIntNum(str)){
+               date = new Date(str);
+            }else {
+                date = new Date(Date.parse(str.replace(/-/g, "/")));
+            }
             return date.format(format);
         },
         //计算天数差的函数，通用
@@ -308,7 +324,7 @@ var _modal_width;
         //计算月份差
         monthDiff: function (date1, date2) {
             //默认格式为"2003-03-03",根据自己需要改格式和方法
-           // console.log("date1=" + date1)
+            // console.log("date1=" + date1)
             var year1 = date1.substr(0, 4);
             var year2 = date2.substr(0, 4);
             var month1 = date1.substr(5, 2);
@@ -379,14 +395,14 @@ var _modal_width;
 
             var _this = btn;
             var url = $(btn).data("url");
-            var msg = "<div class='confirmMsg'>" +$(btn).data("msg") + "</div>";
+            var msg = "<div class='confirmMsg'>" + $(btn).data("msg") + "</div>";
             var loading = $(btn).data("loading");
             var callback = $.trim($(btn).data("callback"));
 
             var $loading = $(loading || "#main-container");
             bootbox.confirm(msg, function (result) {
                 if (result) {
-                    $loading.mask({hide:10000})
+                    $loading.mask({hide: 10000})
                     $.post(url, {}, function (ret) {
                         if (ret.success) {
                             if (callback) {
@@ -574,12 +590,12 @@ var _modal_width;
         }
     });
     $.fn.loadPage = function (options) {
-        var _options ;
+        var _options;
         if (typeof options == "string") {
             _options = {};
             _options.url = options;
             _options.$maskEl = $(this);
-        }else{
+        } else {
             _options = options || {}
         }
 
@@ -589,7 +605,7 @@ var _modal_width;
     $.fn.mask = function (options) {
         //console.log(options)
         options = options || {};
-        if(options.hide!=undefined && options.hide>0) {
+        if (options.hide != undefined && options.hide > 0) {
             options = $.extend(options, {
                 'afterShow': function () {
                     setTimeout(function () {
@@ -601,7 +617,7 @@ var _modal_width;
         var $this = $(this);
         return $this.showLoading(options);
     };
-    $.fn.unmask = function(){
+    $.fn.unmask = function () {
         var $this = $(this);
         return $this.hideLoading();
     }
@@ -658,8 +674,11 @@ try {
 
     $.jgrid.formatter = {};
     $.jgrid.formatter.TRUEFALSE = function (cellvalue, options, rowObject) {
-        if (cellvalue == undefined) return '-';
-        return cellvalue ? "是" : "否";
+
+        if (cellvalue == undefined) cellvalue = false;
+        var op = $.extend({on: '是', off: '否'}, options.colModel.formatoptions);
+
+        return cellvalue ? op.on : op.off;
     };
 
     $.jgrid.formatter.NoMultiSpace = function (cellvalue, options, rowObject) {

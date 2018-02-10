@@ -14,7 +14,7 @@ import org.springframework.util.ResourceUtils;
 import service.analysis.StatCadreService;
 import service.member.MemberStayExportService;
 import service.party.PartyExportService;
-import sys.constants.SystemConstants;
+import sys.constants.MemberConstants;
 import sys.utils.ExcelUtils;
 import sys.utils.ExportHelper;
 
@@ -199,13 +199,13 @@ public class ExportServiceTest {
     @Test
     public void memberStayExportService() throws IOException {
 
-        SXSSFWorkbook wb = memberStayExportService.toXlsx(SystemConstants.MEMBER_STAY_TYPE_ABROAD);
+        SXSSFWorkbook wb = memberStayExportService.toXlsx(MemberConstants.MEMBER_STAY_TYPE_ABROAD);
         FileOutputStream output = new FileOutputStream(new File("D:/tmp/test222.xlsx"));
 
         wb.write(output);
         output.close();
 
-        wb = memberStayExportService.toXlsx(SystemConstants.MEMBER_STAY_TYPE_INTERNAL);
+        wb = memberStayExportService.toXlsx(MemberConstants.MEMBER_STAY_TYPE_INTERNAL);
         output = new FileOutputStream(new File("D:/tmp/test222.xlsx"));
 
         wb.write(output);

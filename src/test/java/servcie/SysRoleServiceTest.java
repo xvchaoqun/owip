@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import service.sys.SysRoleService;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 
 import java.util.List;
 
@@ -27,14 +27,14 @@ public class SysRoleServiceTest {
     @Test
     public void delRole(){
 
-        String role = SystemConstants.ROLE_PMD_PARTY;
+        String role = RoleConstants.ROLE_PMD_PARTY;
         List<SysUserView> sysUserViews = sysUserService.findByRole(role);
 
         for (SysUserView sysUserView : sysUserViews) {
             sysUserService.delRole(sysUserView.getUserId(), role);
         }
 
-        role = SystemConstants.ROLE_PMD_BRANCH;
+        role = RoleConstants.ROLE_PMD_BRANCH;
         sysUserViews = sysUserService.findByRole(role);
 
         for (SysUserView sysUserView : sysUserViews) {

@@ -4,7 +4,7 @@
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "",
-  "folder": "sc",
+  "folder": "sc/scMatter",
   "tables": [
     {
       "table": "sc_matter",
@@ -12,7 +12,7 @@
       "searchColumns": "year,type",
       "showColumns": "year,type,draw_time,hand_time,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC",
+      "logType": "SystemConstants.LOG_SC_MATTER",
       "ignore": false
     },
     {
@@ -21,7 +21,7 @@
       "searchColumns": "matter_id",
       "showColumns": "matter_id,user_id,real_hand_time,fill_time",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC",
+      "logType": "SystemConstants.LOG_SC_MATTER",
       "ignore": false
     },
     {
@@ -30,7 +30,7 @@
       "searchColumns": "check_date",
       "showColumns": "check_date,check_file,num,is_random,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC",
+      "logType": "SystemConstants.LOG_SC_MATTER",
       "ignore": false
     },
     {
@@ -39,7 +39,7 @@
       "searchColumns": "check_id",
       "showColumns": "check_id,user_id,compare_date,result_type,self_file,confirm_type,confirm_date,handle_type,check_file,ow_handle_type,ow_handle_date,ow_handle_file,ow_affect_date,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC",
+      "logType": "SystemConstants.LOG_SC_MATTER",
       "ignore": false
     },
     {
@@ -48,7 +48,7 @@
       "searchColumns": "access_date",
       "showColumns": "access_date,access_file,unit_id,is_copy,purpose,handle_date,handle_user_id,receiver,receive_pdf,return_date,return_user_id,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC",
+      "logType": "SystemConstants.LOG_SC_MATTER",
       "ignore": false
     },
     {
@@ -57,7 +57,7 @@
       "searchColumns": "access_id",
       "showColumns": "access_id,matter_item_id",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC",
+      "logType": "SystemConstants.LOG_SC_MATTER",
       "ignore": false
     },
     {
@@ -66,7 +66,7 @@
       "searchColumns": "user_id",
       "showColumns": "user_id,transfer_date,reason",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC",
+      "logType": "SystemConstants.LOG_SC_MATTER",
       "ignore": false
     },
     {
@@ -75,7 +75,7 @@
       "searchColumns": "transfer_id",
       "showColumns": "transfer_id,matter_item_id",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC",
+      "logType": "SystemConstants.LOG_SC_MATTER",
       "ignore": false
     }
   ]

@@ -1,5 +1,5 @@
 import org.junit.Test;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.ip.IPSeeker;
 import sys.utils.DateUtils;
 
@@ -13,7 +13,7 @@ public class TTtest {
 
     @Test
     public void t(){
-        System.out.println(SystemConstants.ROLE_MAP);
+        System.out.println(RoleConstants.ROLE_MAP);
     }
 
     public static void main(String[] args) throws UnsupportedEncodingException {

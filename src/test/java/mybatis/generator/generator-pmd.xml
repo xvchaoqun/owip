@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/db_owip?useUnicode=true&amp;characterEncoding=UTF8"
+                        userId="root" password="123"/>
+        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <!--党费收缴系统-->
+        <!--<table tableName="pmd_special_user" domainObjectName="pmd.PmdSpecialUser" mapperName="pmd.PmdSpecialUserMapper">
+        </table>-->
+       <!-- <table tableName="pmd_order_campuscard"
+               domainObjectName="pmd.PmdOrderCampuscard" mapperName="pmd.PmdOrderCampuscardMapper">
+        </table>-->
+        <!--<table tableName="pmd_notify_wszf" domainObjectName="pmd.PmdNotifyWszf" mapperName="pmd.PmdNotifyWszfMapper">
+        </table>
+        <table tableName="pmd_notify_campuscard"
+               domainObjectName="pmd.PmdNotifyCampuscard" mapperName="pmd.PmdNotifyCampuscardMapper">
+        </table>-->
+        <!--<table tableName="pmd_month" domainObjectName="pmd.PmdMonth" mapperName="pmd.PmdMonthMapper">
+        </table>-->
+        <!--<table tableName="pmd_norm" domainObjectName="pmd.PmdNorm" mapperName="pmd.PmdNormMapper">
+        </table>-->
+        <!--<table tableName="pmd_config_reset" domainObjectName="pmd.PmdConfigReset" mapperName="pmd.PmdConfigResetMapper">
+        </table>-->
+        <!--<table tableName="pmd_config_member" domainObjectName="pmd.PmdConfigMember" mapperName="pmd.PmdConfigMemberMapper">
+        </table>-->
+        <!--<table tableName="pmd_config_member_type" domainObjectName="pmd.PmdConfigMemberType" mapperName="pmd.PmdConfigMemberTypeMapper">
+        </table>-->
+       <!-- <table tableName="pmd_norm_value" domainObjectName="pmd.PmdNormValue" mapperName="pmd.PmdNormValueMapper">
+        </table>
+        <table tableName="pmd_norm_value_log" domainObjectName="pmd.PmdNormValueLog" mapperName="pmd.PmdNormValueLogMapper">
+        </table>-->
+         <!--<table tableName="pmd_member" domainObjectName="pmd.PmdMember" mapperName="pmd.PmdMemberMapper">
+           <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
+       </table>-->
+        <!--<table tableName="pmd_member_pay" domainObjectName="pmd.PmdMemberPay" mapperName="pmd.PmdMemberPayMapper">
+        </table>
+        <table tableName="pmd_member_pay_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="pmd.PmdMemberPayView" mapperName="pmd.PmdMemberPayViewMapper">
+        </table>-->
+       <!-- <table tableName="pmd_party" domainObjectName="pmd.PmdParty" mapperName="pmd.PmdPartyMapper">
+        </table>
+        <table tableName="pmd_party_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="pmd.PmdPartyView" mapperName="pmd.PmdPartyViewMapper">
+        </table>-->
+       <!-- <table tableName="pmd_pay_party" domainObjectName="pmd.PmdPayParty" mapperName="pmd.PmdPayPartyMapper">
+        </table>
+        <table tableName="pmd_pay_branch" domainObjectName="pmd.PmdPayBranch" mapperName="pmd.PmdPayBranchMapper">
+        </table>-->
+        <!--<table tableName="pmd_branch" domainObjectName="pmd.PmdBranch" mapperName="pmd.PmdBranchMapper">
+        </table>
+        <table tableName="pmd_branch_view"
+        enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+        domainObjectName="pmd.PmdBranchView" mapperName="pmd.PmdBranchViewMapper">
+        </table>-->
+        <!--<table tableName="pmd_pay_party_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="pmd.PmdPayPartyView" mapperName="pmd.PmdPayPartyViewMapper">
+            <columnOverride column="admin_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>
+        <table tableName="pmd_pay_branch_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="pmd.PmdPayBranchView" mapperName="pmd.PmdPayBranchViewMapper">
+            <columnOverride column="admin_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>-->
+
+        <!--<table tableName="pmd_party_admin" domainObjectName="pmd.PmdPartyAdmin" mapperName="pmd.PmdPartyAdminMapper">
+        </table>
+        <table tableName="pmd_branch_admin" domainObjectName="pmd.PmdBranchAdmin" mapperName="pmd.PmdBranchAdminMapper">
+        </table>-->
+
+        <!--<table tableName="pmd_month_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="pmd.PmdMonthView" mapperName="pmd.PmdMonthViewMapper">
+            <columnOverride column="party_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="has_report_party_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="finish_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="delay_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="history_delay_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>-->
+
+    </context>
+</generatorConfiguration>

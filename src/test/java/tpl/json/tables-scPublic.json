@@ -1,0 +1,28 @@
+{
+  "schema": "db_owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "sc/scPublic",
+  "tables": [
+    {
+      "table": "sc_public",
+      "key": "id",
+      "searchColumns": "year,committee_id",
+      "showColumns": "year,committee_id,word_file_path,pdf_file_path,public_date,publish_date,is_finished,is_confirmed,remark",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_PUBLIC",
+      "ignore": false
+    },
+    {
+      "table": "sc_public_user",
+      "key": "id",
+      "searchColumns": "public_id",
+      "showColumns": "public_id,vote_id,sort_order",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_PUBLIC",
+      "ignore": false
+    }
+  ]
+}

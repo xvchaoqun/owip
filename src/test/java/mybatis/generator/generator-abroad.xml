@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/db_owip?useUnicode=true&amp;characterEncoding=UTF8"
+                        userId="root" password="123"/>
+        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <!--因私出国境-->
+        <!-- <table tableName="abroad_applicat_type" domainObjectName="abroad.ApplicatType">
+         </table>-->
+        <!--<table tableName="abroad_apply_self_file" domainObjectName="Aabroad.pplySelfFile">
+        </table>-->
+        <!--  <table tableName="abroad_apply_self" domainObjectName="abroad.ApplySelf" mapperName="abroad.ApplySelfMapper">
+          </table>-->
+        <!-- <table tableName="abroad_apply_self_modify" domainObjectName="abroad.ApplySelfModify">
+         </table>-->
+        <!-- <table tableName="abroad_approval_log" domainObjectName="abroad.ApprovalLog">
+         </table>-->
+
+        <!-- <table tableName="abroad_applicat_cadre" domainObjectName="abroad.ApplicatCadre">
+         </table>-->
+        <!--<table tableName="abroad_approval_order" domainObjectName="abroad.ApprovalOrder">
+        </table>-->
+        <!--<table tableName="abroad_approver" domainObjectName="abroad.Approver">
+        </table>-->
+        <!-- <table tableName="abroad_approver_black_list" domainObjectName="abroad.ApproverBlackList">
+         </table>-->
+        <!--<table tableName="abroad_approver_type" domainObjectName="abroad.ApproverType">
+        </table>-->
+        <!--<table tableName="abroad_passport_draw" domainObjectName="abroad.PassportDraw" mapperName="abroad.PassportDrawMapper">
+        </table>-->
+        <!--
+        <table tableName="abroad_passport_draw_file" domainObjectName="abroad.PassportDrawFile">
+        </table>-->
+        <!-- <table tableName="abroad_passport" domainObjectName="abroad.Passport" mapperName="abroad.PassportMapper">
+         </table>
+   -->
+        <!--<table tableName="abroad_safe_box" domainObjectName="abroad.SafeBox">
+        </table>-->
+        <!--<table tableName="abroad_passport_apply" domainObjectName="abroad.PassportApply">
+        </table>
+        <table tableName="abroad_passport_apply_view" domainObjectName="abroad.PassportApplyView">
+        </table>
+        -->
+        <!-- <table tableName="abroad_taiwan_record" domainObjectName="abroad.TaiwanRecord" mapperName="abroad.TaiwanRecordMapper">
+         </table>-->
+
+    </context>
+</generatorConfiguration>

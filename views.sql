@@ -1,6 +1,19 @@
+-- 文件起草签发
+DROP VIEW IF EXISTS `sc_dispatch_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_dispatch_view` AS
+ select sd.*, sum(if(sdu.type=1, 1, 0)) as appoint_count,
+ sum(if(sdu.type=2, 1, 0))  as dismiss_count from sc_dispatch sd
+left join sc_dispatch_user sdu on sdu.dispatch_id=sd.id
+group by sd.id ;
+
+-- 干部任前公示
+DROP VIEW IF EXISTS `sc_public_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_public_view` AS
+select sp.*, sc.hold_date from sc_public sp
+left join sc_committee sc on sc.id=sp.committee_id ;
 
 
---常委会
+-- 常委会
 DROP VIEW IF EXISTS `sc_committee_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_member_view` AS
 select distinct scm.*, uv.username, uv.code, uv.realname, c.post from sc_committee_member scm

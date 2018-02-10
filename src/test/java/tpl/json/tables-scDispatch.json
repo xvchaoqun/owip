@@ -1,0 +1,37 @@
+{
+  "schema": "db_owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "sc/scDispatch",
+  "tables": [
+    {
+      "table": "sc_dispatch",
+      "key": "id",
+      "searchColumns": "year,dispatch_type_id",
+      "showColumns": "year,dispatch_type_id,code,meeting_time,pub_time,file_path,sign_file_path,remark",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_DISPATCH",
+      "ignore": false
+    },
+    {
+      "table": "sc_dispatch_user",
+      "key": "id",
+      "searchColumns": "dispatch_id",
+      "showColumns": "dispatch_id,vote_id,type,sort_order",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_DISPATCH",
+      "ignore": false
+    },
+    {
+      "table": "sc_dispatch_committee",
+      "key": "id",
+      "searchColumns": "dispatch_id",
+      "showColumns": "dispatch_id,committee_id",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_DISPATCH",
+      "ignore": false
+    }
+  ]
+}

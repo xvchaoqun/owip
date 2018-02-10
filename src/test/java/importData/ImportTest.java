@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import persistence.sys.SysUserMapper;
 import service.sys.SysUserService;
 import shiro.PasswordHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
 import sys.utils.IdcardValidator;
@@ -88,7 +89,7 @@ public class ImportTest {
             sysUser.setIdcard(xlsUser.getIdcard());*/
             sysUser.setType(SystemConstants.USER_TYPE_JZG);
             sysUser.setSource(SystemConstants.USER_SOURCE_ADMIN);
-            sysUser.setRoleIds(sysUserService.buildRoleIds(SystemConstants.ROLE_GUEST));
+            sysUser.setRoleIds(sysUserService.buildRoleIds(RoleConstants.ROLE_GUEST));
             sysUserService.insertSelective(sysUser);
         }
 

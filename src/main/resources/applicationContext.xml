@@ -97,8 +97,12 @@
         <context:exclude-filter type="regex" expression="service.pmd.*"/>
         <context:exclude-filter type="regex" expression="service.sc.scMatter.*"/>
         <context:exclude-filter type="regex" expression="service.sc.scLetter.*"/>
-        <!--<context:exclude-filter type="regex" expression="service.sc.scGroup.*"/>
-        <context:exclude-filter type="regex" expression="service.sc.scCommittee.*"/>-->
+        <!--
+        <context:exclude-filter type="regex" expression="service.sc.scGroup.*"/>
+        <context:exclude-filter type="regex" expression="service.sc.scCommittee.*"/>
+        <context:exclude-filter type="regex" expression="service.sc.scPublic.*"/>
+        <context:exclude-filter type="regex" expression="service.sc.scDispatch.*"/>
+        -->
     </context:component-scan>
     <!--<context:annotation-config />-->
 

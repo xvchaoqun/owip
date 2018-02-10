@@ -36,13 +36,13 @@
   Date today = new Date();
   // 查找已领取证件，但还未归还（该证件昨天应归还）的记录
   PassportDrawExample example = new PassportDrawExample();
-  example.createCriteria().andDrawStatusEqualTo(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW).andReturnDateLessThan(today);
+  example.createCriteria().andDrawStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW).andReturnDateLessThan(today);
   List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
   for (PassportDraw passportDraw : passportDraws) {
 
     Passport passport = passportDraw.getPassport();
-    if(passport.getType()==SystemConstants.PASSPORT_TYPE_KEEP
-            || (passport.getType()==SystemConstants.PASSPORT_TYPE_CANCEL
+    if(passport.getType()==AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP
+            || (passport.getType()==AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL
             && BooleanUtils.isFalse(passport.getCancelConfirm()))) { // 集中管理的 或 未确认的取消集中管理证件，才需要短信提醒
 
       Date returnDate = passportDraw.getReturnDate(); // 应归还时间

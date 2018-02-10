@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <!--<plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin "></plugin>-->
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/db_owip?useUnicode=true&amp;characterEncoding=UTF8"
+                        userId="root" password="123"/>
+
+        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <!--干部选拔-文件起草签发-->
+        <table tableName="sc_dispatch" domainObjectName="sc.scDispatch.ScDispatch"
+               mapperName="sc.scDispatch.ScDispatchMapper">
+        </table>
+        <table tableName="sc_dispatch_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scDispatch.ScDispatchView"
+               mapperName="sc.scDispatch.ScDispatchViewMapper">
+            <columnOverride column="appoint_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="dismiss_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>
+        <table tableName="sc_dispatch_user" domainObjectName="sc.scDispatch.ScDispatchUser"
+               mapperName="sc.scDispatch.ScDispatchUserMapper">
+        </table>
+        <table tableName="sc_dispatch_committee" domainObjectName="sc.scDispatch.ScDispatchCommittee"
+               mapperName="sc.scDispatch.ScDispatchCommitteeMapper">
+        </table>
+
+        <!--干部选拔-任职公示-->
+        <!--<table tableName="sc_public" domainObjectName="sc.scPublic.ScPublic"
+               mapperName="sc.scPublic.ScPublicMapper">
+        </table>
+        <table tableName="sc_public_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scPublic.ScPublicView" mapperName="sc.scPublic.ScPublicViewMapper">
+        </table>-->
+
+        <!--<table tableName="sc_public_user" domainObjectName="sc.scPublic.ScPublicUser"
+               mapperName="sc.scPublic.ScPublicUserMapper">
+        </table>-->
+
+
+        <!--干部选拔-党委常委会议题-->
+        <!--<table tableName="sc_committee" domainObjectName="sc.scCommittee.ScCommittee"
+               mapperName="sc.scCommittee.ScCommitteeMapper">
+        </table>-->
+        <!--<table tableName="sc_committee_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scCommittee.ScCommitteeView" mapperName="sc.scCommittee.ScCommitteeViewMapper">
+            <columnOverride column="count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="absent_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>-->
+        <!--<table tableName="sc_committee_member" domainObjectName="sc.scCommittee.ScCommitteeMember"
+               mapperName="sc.scCommittee.ScCommitteeMemberMapper">
+        </table>-->
+        <!--<table tableName="sc_committee_member_view"
+              enableInsert="false" enableUpdateByPrimaryKey="false"
+              enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+              enableDeleteByExample="false"
+              domainObjectName="sc.scCommittee.ScCommitteeMemberView" mapperName="sc.scCommittee.ScCommitteeMemberViewMapper">
+       </table>-->
+
+        <!--<table tableName="sc_committee_topic" domainObjectName="sc.scCommittee.ScCommitteeTopic"
+               mapperName="sc.scCommittee.ScCommitteeTopicMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <!--<table tableName="sc_committee_topic_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scCommittee.ScCommitteeTopicView" mapperName="sc.scCommittee.ScCommitteeTopicViewMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+
+        <!--<table tableName="sc_committee_vote" domainObjectName="sc.scCommittee.ScCommitteeVote"
+              mapperName="sc.scCommittee.ScCommitteeVoteMapper">
+       </table>-->
+        <!--<table tableName="sc_committee_vote_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scCommittee.ScCommitteeVoteView" mapperName="sc.scCommittee.ScCommitteeVoteViewMapper">
+            <columnOverride column="count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="absent_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+
+        <!--
+       <table tableName="sc_committee_other_vote" domainObjectName="sc.scCommittee.ScCommitteeOtherVote"
+              mapperName="sc.scCommittee.ScCommitteeOtherVoteMapper">
+           <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
+       </table>-->
+        <!--<table tableName="sc_committee_other_vote_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scCommittee.ScCommitteeOtherVoteView"
+               mapperName="sc.scCommittee.ScCommitteeOtherVoteViewMapper">
+            <columnOverride column="count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="absent_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+
+        <!--干部选拔-干部小组会议题-->
+        <!--<table tableName="sc_group" domainObjectName="sc.scGroup.ScGroup"
+               mapperName="sc.scGroup.ScGroupMapper">
+            <columnOverride column="attend_users" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+       <!-- <table tableName="sc_group_file" domainObjectName="sc.scGroup.ScGroupFile"
+               mapperName="sc.scGroup.ScGroupFileMapper">
+        </table>-->
+       <!-- <table tableName="sc_group_member" domainObjectName="sc.scGroup.ScGroupMember"
+               mapperName="sc.scGroup.ScGroupMemberMapper">
+        </table>-->
+
+        <!--<table tableName="sc_group_member_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scGroup.ScGroupMemberView" mapperName="sc.scGroup.ScGroupMemberViewMapper">
+        </table>-->
+        <!--<table tableName="sc_group_participant" domainObjectName="sc.scGroup.ScGroupParticipant"
+               mapperName="sc.scGroup.ScGroupParticipantMapper">
+        </table>-->
+        <!--<table tableName="sc_group_topic" domainObjectName="sc.scGroup.ScGroupTopic"
+               mapperName="sc.scGroup.ScGroupTopicMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <!--<table tableName="sc_group_topic_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scGroup.ScGroupTopicView"
+               mapperName="sc.scGroup.ScGroupTopicViewMapper">
+            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+            <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+        <!--<table tableName="sc_group_topic_unit" domainObjectName="sc.scGroup.ScGroupTopicUnit"
+               mapperName="sc.scGroup.ScGroupTopicUnitMapper">
+        </table>-->
+
+
+        <!--干部选拔-纪委函询管理-->
+        <!--<table tableName="sc_letter" domainObjectName="sc.scLetter.ScLetter" mapperName="sc.scLetter.ScLetterMapper">
+        </table>-->
+        <!--<table tableName="sc_letter_item" domainObjectName="sc.scLetter.ScLetterItem" mapperName="sc.scLetter.ScLetterItemMapper">
+        </table>-->
+        <!--<table tableName="sc_letter_item_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scLetter.ScLetterItemView"
+               mapperName="sc.scLetter.ScLetterItemViewMapper">
+        </table>-->
+        <!--<table tableName="sc_letter_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scLetter.ScLetterView"
+               mapperName="sc.scLetter.ScLetterViewMapper">
+        </table>-->
+        <!--<table tableName="sc_letter_reply" domainObjectName="sc.scLetter.ScLetterReply"
+               mapperName="sc.scLetter.ScLetterReplyMapper">
+        </table>-->
+        <!--<table tableName="sc_letter_reply_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scLetter.ScLetterReplyView"
+               mapperName="sc.scLetter.ScLetterReplyViewMapper">
+        </table>-->
+        <!--
+        <table tableName="sc_letter_reply_item" domainObjectName="sc.scLetter.ScLetterReplyItem"
+               mapperName="sc.scLetter.ScLetterReplyItemMapper">
+        </table>-->
+
+        <!--<table tableName="sc_letter_reply_item_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scLetter.ScLetterReplyItemView"
+               mapperName="sc.scLetter.ScLetterReplyItemViewMapper">
+        </table>-->
+
+        <!--干部选拔-个人有关事项-->
+        <!--<table tableName="sc_matter" domainObjectName="sc.scMatter.ScMatter" mapperName="sc.scMatter.ScMatterMapper">
+        </table>-->
+        <!--<table tableName="sc_matter_item" domainObjectName="sc.scMatter.ScMatterItem" mapperName="sc.scMatter.ScMatterItemMapper">
+        </table>-->
+        <!--<table tableName="sc_matter_item_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scMatter.ScMatterItemView" mapperName="sc.scMatter.ScMatterItemViewMapper">
+        </table>-->
+        <!--<table tableName="sc_matter_user_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scMatter.ScMatterUserView" mapperName="sc.scMatter.ScMatterUserViewMapper">
+        </table>-->
+
+        <!--<table tableName="sc_matter_access" domainObjectName="sc.scMatter.ScMatterAccess" mapperName="sc.scMatter.ScMatterAccessMapper">
+        </table>-->
+
+        <!--<table tableName="sc_matter_access_item" domainObjectName="sc.scMatter.ScMatterAccessItem" mapperName="sc.scMatter.ScMatterAccessItemMapper">
+        </table>-->
+        <!--<table tableName="sc_matter_access_item_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scMatter.ScMatterAccessItemView" mapperName="sc.scMatter.ScMatterAccessItemViewMapper">
+        </table>-->
+        <!-- <table tableName="sc_matter_check" domainObjectName="sc.scMatter.ScMatterCheck" mapperName="sc.scMatter.ScMatterCheckMapper">
+         </table>-->
+        <!--<table tableName="sc_matter_check_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scMatter.ScMatterCheckView" mapperName="sc.scMatter.ScMatterCheckViewMapper">
+            <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="item_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+        </table>-->
+       <!-- <table tableName="sc_matter_check_item" domainObjectName="sc.scMatter.ScMatterCheckItem" mapperName="sc.scMatter.ScMatterCheckItemMapper">
+        </table>-->
+        <!--<table tableName="sc_matter_check_item_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scMatter.ScMatterCheckItemView" mapperName="sc.scMatter.ScMatterCheckItemViewMapper">
+            <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>-->
+        <!--<table tableName="sc_matter_transfer" domainObjectName="sc.scMatter.ScMatterTransfer" mapperName="sc.scMatter.ScMatterTransferMapper">
+        </table>-->
+    </context>
+</generatorConfiguration>

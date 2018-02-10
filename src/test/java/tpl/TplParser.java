@@ -36,27 +36,29 @@ public class TplParser {
 	@Test
 	public void execute() throws Exception{
 		
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-ow.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-sys.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-sys2.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-dispatch.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-modify.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-cadre.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-cis.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-crp.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-cpc.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-train.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-crs.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-oa.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-pmd.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-sc.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-scLetter.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-scGroup.json";
-		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-scCommittee.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-pcs.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-verify.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-base.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\tables-abroad.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-ow.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-sys.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-sys2.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-dispatch.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-modify.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-cadre.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-cis.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-crp.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-cpc.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-train.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-crs.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-oa.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-pmd.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-scMatter.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-scLetter.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-scGroup.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-scCommittee.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-scPublic.json";
+		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-scDispatch.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-pcs.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-verify.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-base.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-abroad.json";
 
 		ObjectMapper m = new ObjectMapper();
 		JsonNode jsonNode = m.readTree(new File(pathname));
