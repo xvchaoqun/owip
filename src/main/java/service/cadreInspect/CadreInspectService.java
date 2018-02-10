@@ -23,6 +23,7 @@ import service.cadre.CadreService;
 import service.cadreReserve.CadreReserveService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -107,10 +108,10 @@ public class CadreInspectService extends BaseMapper {
 
         SysUserView uv = sysUserService.findById(userId);
         // 添加考察对象角色
-        sysUserService.addRole(userId, SystemConstants.ROLE_CADREINSPECT);
+        sysUserService.addRole(userId, RoleConstants.ROLE_CADREINSPECT);
 
-        if(CmTag.hasRole(uv.getUsername(), SystemConstants.ROLE_CADRERECRUIT)){
-            sysUserService.delRole(userId, SystemConstants.ROLE_CADREINSPECT);
+        if(CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRERECRUIT)){
+            sysUserService.delRole(userId, RoleConstants.ROLE_CADREINSPECT);
         }
 
         Integer cadreId = null;
@@ -228,7 +229,7 @@ public class CadreInspectService extends BaseMapper {
 
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
                 // 删除考核对象角色
-                sysUserService.delRole(uv.getId(), SystemConstants.ROLE_CADREINSPECT, uv.getUsername(), uv.getCode());
+                sysUserService.delRole(uv.getId(), RoleConstants.ROLE_CADREINSPECT, uv.getUsername(), uv.getCode());
             }
             cadreInspectMapper.deleteByPrimaryKey(id);
         }
@@ -278,7 +279,7 @@ public class CadreInspectService extends BaseMapper {
         cadreInspectMapper.updateByPrimaryKeySelective(record);
 
         // 改变账号角色，考核对象->干部
-        sysUserService.changeRole(cadre.getUserId(), SystemConstants.ROLE_CADREINSPECT, SystemConstants.ROLE_CADRE);
+        sysUserService.changeRole(cadre.getUserId(), RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADRE);
 
         return cadreMapper.selectByPrimaryKey(cadre.getId());
     }
@@ -311,7 +312,7 @@ public class CadreInspectService extends BaseMapper {
         cadreInspectMapper.updateByPrimaryKeySelective(record);
 
         // 删除考核对象角色
-        sysUserService.delRole(cadre.getUserId(), SystemConstants.ROLE_CADREINSPECT);
+        sysUserService.delRole(cadre.getUserId(), RoleConstants.ROLE_CADREINSPECT);
 
         // 如果原来是后备干部发展过来的，此时肯定有一条记录在后备干部【列为考察对象列表中】，需要将这条记录返回【后备干部库】
         {

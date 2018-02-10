@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 import sys.utils.PropertiesUtils;
@@ -78,7 +79,7 @@ public class CadreBaseInfoController extends BaseController {
         }
 
         {
-            if(StringUtils.isNotBlank(title) && ShiroHelper.hasRole(SystemConstants.ROLE_CADRERECRUIT)){
+            if(StringUtils.isNotBlank(title) && ShiroHelper.hasRole(RoleConstants.ROLE_CADRERECRUIT)){
 
                 cadreService.updateTitle(cadreId, title);
             }

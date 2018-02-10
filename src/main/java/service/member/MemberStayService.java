@@ -21,6 +21,8 @@ import service.party.BranchService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -63,11 +65,11 @@ public class MemberStayService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if (checkType == 1) { //支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_APPLY);
         } else if (checkType == 2) { //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
         } else if (checkType == 3) { //组织部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         } else {
             throw new OpException("审核类型错误");
         }
@@ -95,11 +97,11 @@ public class MemberStayService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if (checkType == 1) { //支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_APPLY);
         } else if (checkType == 2) { //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
         } else if (checkType == 3) { //组织部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         } else {
             throw new OpException("审核类型错误");
         }
@@ -132,11 +134,11 @@ public class MemberStayService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if (checkType == 1) { //支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_APPLY);
         } else if (checkType == 2) { //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
         } else if (checkType == 3) { //组织部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         } else {
             throw new OpException("审核类型错误");
         }
@@ -183,11 +185,11 @@ public class MemberStayService extends BaseMapper {
     public void back(int userId) {
 
         MemberStay memberStay = get(userId);
-        if (memberStay.getStatus() != SystemConstants.MEMBER_STAY_STATUS_APPLY)
+        if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
-        record.setStatus(SystemConstants.MEMBER_STAY_STATUS_SELF_BACK);
+        record.setStatus(MemberConstants.MEMBER_STAY_STATUS_SELF_BACK);
         record.setUserId(memberStay.getUserId());
         //record.setBranchId(memberStay.getBranchId());
         record.setIsBack(false);
@@ -209,12 +211,12 @@ public class MemberStayService extends BaseMapper {
     public void check1(int id) {
 
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
-        if (memberStay.getStatus() != SystemConstants.MEMBER_STAY_STATUS_APPLY)
+        if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setUserId(memberStay.getUserId());
-        record.setStatus(SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
     }
@@ -224,12 +226,12 @@ public class MemberStayService extends BaseMapper {
     public void checkByDirectBranch(int id) {
 
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
-        if (memberStay.getStatus() != SystemConstants.MEMBER_STAY_STATUS_APPLY)
+        if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setUserId(memberStay.getUserId());
-        record.setStatus(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
     }
@@ -239,7 +241,7 @@ public class MemberStayService extends BaseMapper {
     public void check2(int id, int branchId, Integer orgBranchAdminId, String orgBranchAdminPhone) {
 
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
-        if (memberStay.getStatus() != SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY)
+        if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY)
             throw new DBErrorException("状态异常");
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
@@ -247,7 +249,7 @@ public class MemberStayService extends BaseMapper {
         record.setToBranchId(branchId);
         record.setOrgBranchAdminId(orgBranchAdminId);
         record.setOrgBranchAdminPhone(orgBranchAdminPhone);
-        record.setStatus(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
 
@@ -271,12 +273,12 @@ public class MemberStayService extends BaseMapper {
 
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
 
-        if (memberStay.getStatus() != SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY)
+        if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY)
             throw new DBErrorException("状态异常");
 
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
-        record.setStatus(SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY);
         record.setUserId(memberStay.getUserId());
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
@@ -367,7 +369,7 @@ public class MemberStayService extends BaseMapper {
                 check2(memberStay.getId(), branchId, orgBranchAdminId, orgBranchAdminPhone);
             }
             if (type == 3) {
-                SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_ODADMIN);
+                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ODADMIN);
                 memberStay = memberStayMapper.selectByPrimaryKey(id);
                 check3(memberStay.getId());
             }
@@ -386,26 +388,26 @@ public class MemberStayService extends BaseMapper {
     @Transactional
     public void memberStay_back(Integer[] ids, byte status, String reason, int loginUserId) {
 
-        boolean odAdmin = ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN);
+        boolean odAdmin = ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN);
         for (int id : ids) {
 
             MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberStay.getPartyId());
             Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberStay.getPartyId(), memberStay.getBranchId());
 
-            if (memberStay.getStatus() >= SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY) {
+            if (memberStay.getStatus() >= MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY) {
                 if (!odAdmin) throw new UnauthorizedException();
             }
-            if (memberStay.getStatus() >= SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY) {
+            if (memberStay.getStatus() >= MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY) {
                 if (!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
             }
-            if (memberStay.getStatus() >= SystemConstants.MEMBER_STAY_STATUS_BACK) {
+            if (memberStay.getStatus() >= MemberConstants.MEMBER_STAY_STATUS_BACK) {
                 if (!odAdmin && !presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 
             if (partyService.isDirectBranch(memberStay.getPartyId())
-                    && status == SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY) { // 分党委打回至直属党支部，需要直接打回支部审核模块
-                status = SystemConstants.MEMBER_STAY_STATUS_APPLY;
+                    && status == MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY) { // 分党委打回至直属党支部，需要直接打回支部审核模块
+                status = MemberConstants.MEMBER_STAY_STATUS_APPLY;
             }
 
             back(memberStay, status, loginUserId, reason);
@@ -416,10 +418,10 @@ public class MemberStayService extends BaseMapper {
     private void back(MemberStay memberStay, byte status, int loginUserId, String reason) {
 
         byte _status = memberStay.getStatus();
-        if (_status == SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY) {
+        if (_status == MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY) {
             throw new OpException("审核流程已经完成，不可以打回。");
         }
-        if (status > _status || status < SystemConstants.MEMBER_STAY_STATUS_BACK) {
+        if (status > _status || status < MemberConstants.MEMBER_STAY_STATUS_BACK) {
             throw new OpException("参数有误。");
         }
         Integer id = memberStay.getId();
@@ -436,7 +438,7 @@ public class MemberStayService extends BaseMapper {
         applyApprovalLogService.add(id,
                 memberStay.getPartyId(), memberStay.getBranchId(), userId,
                 loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, SystemConstants.MEMBER_STAY_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, MemberConstants.MEMBER_STAY_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

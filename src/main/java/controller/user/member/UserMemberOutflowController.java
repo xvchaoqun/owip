@@ -14,6 +14,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.DateUtils;
@@ -31,7 +33,7 @@ public class UserMemberOutflowController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping("/memberOutflow")
     public String memberOutflow(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -54,14 +56,14 @@ public class UserMemberOutflowController extends MemberBaseController {
         }
 
         if(memberOutflow==null
-                || memberOutflow.getStatus()==SystemConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK
-                || memberOutflow.getStatus()==SystemConstants.MEMBER_OUTFLOW_STATUS_BACK)
+                || memberOutflow.getStatus()== MemberConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK
+                || memberOutflow.getStatus()==MemberConstants.MEMBER_OUTFLOW_STATUS_BACK)
             return "user/member/memberOutflow/memberOutflow_au";
 
         return "user/member/memberOutflow/memberOutflow";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberOutflow_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOutflow_au(@CurrentUser SysUserView loginUser,
@@ -73,12 +75,12 @@ public class UserMemberOutflowController extends MemberBaseController {
         }
 
         MemberOutflow memberOutflow = memberOutflowService.get(loginUser.getId());
-        if(memberOutflow!=null && memberOutflow.getStatus()!=SystemConstants.MEMBER_OUTFLOW_STATUS_BACK
-                && memberOutflow.getStatus()!=SystemConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK)
+        if(memberOutflow!=null && memberOutflow.getStatus()!=MemberConstants.MEMBER_OUTFLOW_STATUS_BACK
+                && memberOutflow.getStatus()!=MemberConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK)
            return failed("不允许修改");
 
         record.setUserId(userId);
-        record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);
+        record.setStatus(MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY);
         record.setIsBack(false);
         if (memberOutflow == null) {
             memberOutflowService.add(record);
@@ -98,7 +100,7 @@ public class UserMemberOutflowController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberOutflow_back", method = RequestMethod.POST)
     @ResponseBody
     public Map memberOutflow_back(@CurrentUser SysUserView loginUser, String remark){

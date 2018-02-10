@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.sys.SchedulerJob;
 import domain.sys.SchedulerJobExample;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -29,6 +30,7 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +50,16 @@ public class SchedulerJobController extends BaseController {
 
     @RequiresPermissions("schedulerJob:list")
     @RequestMapping("/schedulerJob")
-    public String schedulerJob(HttpServletRequest request, Integer pageSize, Integer pageNo, String searchStr, ModelMap modelMap) {
+    public String schedulerJob() {
+
+        return "sys/schedulerJob/schedulerJob_page";
+    }
+
+    @RequiresPermissions("schedulerJob:list")
+    @RequestMapping("/schedulerJob_data")
+    @ResponseBody
+    public void schedulerJob_data(HttpServletRequest request, Integer pageSize,
+                                  Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -69,19 +80,20 @@ public class SchedulerJobController extends BaseController {
             pageNo = Math.max(1, pageNo-1);
         }
         List<SchedulerJob> schedulerJobs = schedulerJobMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
-        modelMap.put("schedulerJobs", schedulerJobs);
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
-        if(StringUtils.isBlank(searchStr))
-            commonList.setSearchStr("&pageSize="+pageSize);
-        else
-            commonList.setSearchStr("&searchStr=" + Escape.escape(Escape.escape(Escape.escape(searchStr))) + "&pageSize="+pageSize);
-        modelMap.put("commonList", commonList);
 
-        modelMap.put("allJobsMap", schedulerJobService.allJobsMap());
-        modelMap.put("runJobsMap", schedulerJobService.runJobsMap());
+        Map resultMap = new HashMap();
+        resultMap.put("rows", schedulerJobs);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+        resultMap.put("allJobs", StringUtils.join(schedulerJobService.allJobsMap().keySet(), "|"));
+        resultMap.put("runJobs", StringUtils.join(schedulerJobService.runJobsMap().keySet(), "|"));
 
-        return "sys/schedulerJob/schedulerJob_page";
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
     }
 
     @RequiresPermissions("schedulerJob:edit")

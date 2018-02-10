@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -166,7 +167,7 @@ public class CrsRuleItemController extends CrsBaseController {
             CrsRuleItem record = records.get(i);
             String[] values = {
                     record.getRequireRuleId() + "",
-                    SystemConstants.CRS_POST_RULE_TYPE_MAP.get(record.getType()),
+                    CrsConstants.CRS_POST_RULE_TYPE_MAP.get(record.getType()),
                     record.getVal(),
                     record.getRemark(),
                     record.getSortOrder() + ""

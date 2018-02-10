@@ -18,6 +18,7 @@ import service.BaseMapper;
 import service.analysis.StatService;
 import service.party.PartyService;
 import service.sys.SysConfigService;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
@@ -62,21 +63,21 @@ public class PcsExportService extends BaseMapper {
                 iPcsMapper.selectPartyCandidates(null, null, configId, stage, type, new RowBounds());
 
         String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
-        if (type == SystemConstants.PCS_USER_TYPE_JW) {
+        if (type == PcsConstants.PCS_USER_TYPE_JW) {
             title = "中国共产党"+getSchoolName()+"第十三届纪律检查委员会委员";
         }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/wy-5-1.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
-        wb.setSheetName(0, SystemConstants.PCS_USER_TYPE_MAP.get(type));
+        wb.setSheetName(0, PcsConstants.PCS_USER_TYPE_MAP.get(type));
         XSSFSheet sheet = wb.getSheetAt(0);
 
         String stageStr = "";
         switch (stage) {
-            case SystemConstants.PCS_STAGE_FIRST:
+            case PcsConstants.PCS_STAGE_FIRST:
                 stageStr = "一上";
                 break;
-            case SystemConstants.PCS_STAGE_SECOND:
+            case PcsConstants.PCS_STAGE_SECOND:
                 stageStr = "二上";
                 break;
         }
@@ -130,16 +131,16 @@ public class PcsExportService extends BaseMapper {
                 iPcsMapper.selectPartyCandidates(null, isChosen, configId, stage, type, new RowBounds());
 
         String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
-        if (type == SystemConstants.PCS_USER_TYPE_JW) {
+        if (type == PcsConstants.PCS_USER_TYPE_JW) {
             title = "中国共产党"+getSchoolName()+"第十三届纪律检查委员会委员";
         }
 
         String stage_s = "";
         switch (stage) {
-            case SystemConstants.PCS_STAGE_FIRST:
+            case PcsConstants.PCS_STAGE_FIRST:
                 stage_s = "二下";
                 break;
-            case SystemConstants.PCS_STAGE_SECOND:
+            case PcsConstants.PCS_STAGE_SECOND:
                 stage_s = "三下";
                 break;
         }
@@ -150,14 +151,14 @@ public class PcsExportService extends BaseMapper {
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/" + filename));
         XSSFWorkbook wb = new XSSFWorkbook(is);
-        wb.setSheetName(0, SystemConstants.PCS_USER_TYPE_MAP.get(type));
+        wb.setSheetName(0, PcsConstants.PCS_USER_TYPE_MAP.get(type));
         XSSFSheet sheet = wb.getSheetAt(0);
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
                 .replace("title", title)
-                .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage))
+                .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage))
                 .replace("ss", stage_s);
         cell.setCellValue(str);
 
@@ -283,7 +284,7 @@ public class PcsExportService extends BaseMapper {
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
-                .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+                .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
 
         row = sheet.getRow(1);
@@ -370,7 +371,7 @@ public class PcsExportService extends BaseMapper {
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
-                .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+                .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
 
         Map<Integer, Integer> partyMemberCountMap = new HashMap<>();
@@ -478,22 +479,22 @@ public class PcsExportService extends BaseMapper {
 
         String deadline = "";
         switch (stage) {
-            case SystemConstants.PCS_STAGE_FIRST:
+            case PcsConstants.PCS_STAGE_FIRST:
                 deadline = "9月6日前";
                 break;
-            case SystemConstants.PCS_STAGE_SECOND:
+            case PcsConstants.PCS_STAGE_SECOND:
                 deadline = "9月11日前";
                 break;
         }
 
         String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
-        if (type == SystemConstants.PCS_USER_TYPE_JW) {
+        if (type == PcsConstants.PCS_USER_TYPE_JW) {
             title = "中国共产党"+getSchoolName()+"第十三届纪律检查委员会委员";
         }
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/wy-2-1_3.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
-        wb.setSheetName(0, SystemConstants.PCS_USER_TYPE_MAP.get(type));
+        wb.setSheetName(0, PcsConstants.PCS_USER_TYPE_MAP.get(type));
         XSSFSheet sheet = wb.getSheetAt(0);
 
         XSSFRow row = sheet.getRow(0);
@@ -501,7 +502,7 @@ public class PcsExportService extends BaseMapper {
         String str = cell.getStringCellValue()
                 .replace("title", title)
                 .replace("deadline", deadline)
-                .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+                .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
 
         row = sheet.getRow(1);
@@ -616,16 +617,16 @@ public class PcsExportService extends BaseMapper {
                 iPcsMapper.selectPartyCandidates(null, true, configId, stage, type, new RowBounds());
 
         String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
-        if (type == SystemConstants.PCS_USER_TYPE_JW) {
+        if (type == PcsConstants.PCS_USER_TYPE_JW) {
             title = "中国共产党"+getSchoolName()+"第十三届纪律检查委员会委员";
         }
 
         String filename = "wy-1-1_6.xlsx";
-        if (stage == SystemConstants.PCS_STAGE_SECOND) {
+        if (stage == PcsConstants.PCS_STAGE_SECOND) {
             filename = "wy-3-1_1.xlsx"; // 三下名单
         }
 
-        String typeName = SystemConstants.PCS_USER_TYPE_MAP.get(type);
+        String typeName = PcsConstants.PCS_USER_TYPE_MAP.get(type);
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/" + filename));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         wb.setSheetName(0, typeName);
@@ -635,12 +636,12 @@ public class PcsExportService extends BaseMapper {
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
                 .replace("title", title)
-                .replace("stage", SystemConstants.PCS_STAGE_MAP.get((byte)(stage+1))); // 下一个阶段
+                .replace("stage", PcsConstants.PCS_STAGE_MAP.get((byte)(stage+1))); // 下一个阶段
         cell.setCellValue(str);
 
-        //if (stage == SystemConstants.PCS_STAGE_FIRST) {
+        //if (stage == PcsConstants.PCS_STAGE_FIRST) {
             String count = "30";
-            if (type == SystemConstants.PCS_USER_TYPE_JW)
+            if (type == PcsConstants.PCS_USER_TYPE_JW)
                 count = "16";
             row = sheet.getRow(2);
             cell = row.getCell(0);

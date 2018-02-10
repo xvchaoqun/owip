@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.jackson.Select2Option;
@@ -129,7 +130,7 @@ public class BranchMemberController extends BaseController {
         return "party/branchMember/branchMember_page";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_au", method = RequestMethod.POST)
     @ResponseBody
@@ -159,7 +160,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping("/branchMember_au")
     public String branchMember_au(Integer id, ModelMap modelMap) {
@@ -171,7 +172,7 @@ public class BranchMemberController extends BaseController {
         return "party/branchMember/branchMember_au";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchAdmin_del", method = RequestMethod.POST)
     @ResponseBody
@@ -179,8 +180,8 @@ public class BranchMemberController extends BaseController {
 
         // 权限控制
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
             // 要求是分党委管理员
             Branch branch = branchService.findAll().get(branchId);
             int partyId = branch.getPartyId();
@@ -198,7 +199,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:del")
     @RequestMapping(value = "/branchMember_del", method = RequestMethod.POST)
     @ResponseBody
@@ -211,7 +212,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:del")
     @RequestMapping(value = "/branchMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -226,7 +227,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:changeOrder")
     @RequestMapping(value = "/branchMember_changeOrder", method = RequestMethod.POST)
     @ResponseBody
@@ -237,7 +238,7 @@ public class BranchMemberController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("branchMember:edit")
     @RequestMapping(value = "/branchMember_admin", method = RequestMethod.POST)
     @ResponseBody
@@ -248,8 +249,8 @@ public class BranchMemberController extends BaseController {
             BranchMember branchMember = branchMemberMapper.selectByPrimaryKey(id);
 
             Subject subject = SecurityUtils.getSubject();
-            if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                    && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                    && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
                 if (branchMember.getUserId().intValue() == loginUser.getId()) {
                     return failed("不能删除自己");
                 }

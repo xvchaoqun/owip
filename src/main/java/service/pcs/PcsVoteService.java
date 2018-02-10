@@ -51,12 +51,12 @@ public class PcsVoteService extends BaseMapper {
 
 
         // 删除录入人角色
-        /*String role = SystemConstants.ROLE_PCS_VOTE_DW;
+        /*String role = RoleConstants.ROLE_PCS_VOTE_DW;
         List<SysUserView> sysUserViews = sysUserService.findByRole(role);
         for (SysUserView sysUserView : sysUserViews) {
             sysUserService.delRole(sysUserView.getUserId(), role);
         }
-        role = SystemConstants.ROLE_PCS_VOTE_JW;
+        role = RoleConstants.ROLE_PCS_VOTE_JW;
         sysUserViews = sysUserService.findByRole(role);
         for (SysUserView sysUserView : sysUserViews) {
             sysUserService.delRole(sysUserView.getUserId(), role);

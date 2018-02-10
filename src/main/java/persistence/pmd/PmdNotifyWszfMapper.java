@@ -2,9 +2,10 @@ package persistence.pmd;
 
 import domain.pmd.PmdNotifyWszf;
 import domain.pmd.PmdNotifyWszfExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface PmdNotifyWszfMapper {
     long countByExample(PmdNotifyWszfExample example);

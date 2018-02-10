@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -161,16 +163,16 @@ public class MemberInController extends MemberBaseController {
         }
 
         if (cls == 1) {
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_IN_STATUS_APPLY);
         } else if (cls == 2) {
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_IN_STATUS_SELF_BACK);
-            statusList.add(SystemConstants.MEMBER_IN_STATUS_BACK);
+            statusList.add(MemberConstants.MEMBER_IN_STATUS_SELF_BACK);
+            statusList.add(MemberConstants.MEMBER_IN_STATUS_BACK);
             criteria.andStatusIn(statusList);
         } else if (cls == 4) { // 直属党支部审核，需要经过组织部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
         } else if (cls == 3) {
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_OW_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_IN_STATUS_OW_VERIFY);
         } else {
             criteria.andUserIdIsNull();
         }
@@ -216,8 +218,8 @@ public class MemberInController extends MemberBaseController {
         //===========权限
         Integer loginUserId = loginUser.getId();
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if (!isAdmin && branchId != null) {
                 isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
@@ -271,7 +273,7 @@ public class MemberInController extends MemberBaseController {
             logger.info(addLog(SystemConstants.LOG_OW, "添加组织关系转入：%s", record.getId()));
         } else {
 
-            if (resubmit != null && resubmit == 1 && memberIn.getStatus() < SystemConstants.MEMBER_IN_STATUS_APPLY) { // 重新提交
+            if (resubmit != null && resubmit == 1 && memberIn.getStatus() < MemberConstants.MEMBER_IN_STATUS_APPLY) { // 重新提交
                 enterApplyService.memberIn(record);
 
                 applyApprovalLogService.add(record.getId(),
@@ -282,7 +284,7 @@ public class MemberInController extends MemberBaseController {
             } else {
 
                 record.setStatus(null); // 更新的时候不能更新状态
-                if (memberIn.getStatus() == SystemConstants.MEMBER_IN_STATUS_OW_VERIFY) {
+                if (memberIn.getStatus() == MemberConstants.MEMBER_IN_STATUS_OW_VERIFY) {
                     memberInService.updateAfterOwVerify(record, memberIn.getUserId());
                 } else {
                     memberInService.updateByPrimaryKeySelective(record);
@@ -295,7 +297,7 @@ public class MemberInController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:list")
     @RequestMapping("/memberIn_approval")
     public String memberIn_approval(@CurrentUser SysUserView loginUser, Integer id,
@@ -306,11 +308,11 @@ public class MemberInController extends MemberBaseController {
         if (id != null) {
             currentMemberIn = memberInMapper.selectByPrimaryKey(id);
             if (type == 1) {
-                if (currentMemberIn.getStatus() != SystemConstants.MEMBER_IN_STATUS_APPLY)
+                if (currentMemberIn.getStatus() != MemberConstants.MEMBER_IN_STATUS_APPLY)
                     currentMemberIn = null;
             }
             if (type == 2) {
-                if (currentMemberIn.getStatus() != SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY)
+                if (currentMemberIn.getStatus() != MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY)
                     currentMemberIn = null;
             }
         } else {
@@ -326,7 +328,7 @@ public class MemberInController extends MemberBaseController {
             modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), currentMemberIn.getPartyId()));
         }
         if (type == 2) {
-            modelMap.put("isAdmin", ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN));
+            modelMap.put("isAdmin", ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN));
         }
 
         // 读取总数
@@ -339,7 +341,7 @@ public class MemberInController extends MemberBaseController {
         return "member/memberIn/memberIn_approval";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping("/memberIn_deny")
     public String memberIn_deny(Integer id, ModelMap modelMap) {
@@ -352,7 +354,7 @@ public class MemberInController extends MemberBaseController {
         return "member/memberIn/memberIn_deny";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_check", method = RequestMethod.POST)
     @ResponseBody
@@ -366,7 +368,7 @@ public class MemberInController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_PARTYADMIN)
+    @RequiresRoles(RoleConstants.ROLE_PARTYADMIN)
     @RequiresPermissions("memberIn:update")
     @RequestMapping("/memberIn_party_check")
     public String memberIn_party_check(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -378,7 +380,7 @@ public class MemberInController extends MemberBaseController {
         return "member/memberIn/memberIn_party_check";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_PARTYADMIN)
+    @RequiresRoles(RoleConstants.ROLE_PARTYADMIN)
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_party_check", method = RequestMethod.POST)
     @ResponseBody
@@ -391,7 +393,7 @@ public class MemberInController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping("/memberIn_back")
     public String memberIn_back() {
@@ -399,7 +401,7 @@ public class MemberInController extends MemberBaseController {
         return "member/memberIn/memberIn_back";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberIn:update")
     @RequestMapping(value = "/memberIn_back", method = RequestMethod.POST)
     @ResponseBody
@@ -480,7 +482,7 @@ public class MemberInController extends MemberBaseController {
             String[] values = {
                     sysUser.getCode(),
                     sysUser.getRealname(),
-                    record.getType() == null ? "" : SystemConstants.MEMBER_INOUT_TYPE_MAP.get(record.getType()),
+                    record.getType() == null ? "" : MemberConstants.MEMBER_INOUT_TYPE_MAP.get(record.getType()),
                     partyId == null ? "" : partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(),
                     record.getFromUnit(),
@@ -488,7 +490,7 @@ public class MemberInController extends MemberBaseController {
                     record.getValidDays() + "",
                     DateUtils.formatDate(record.getFromHandleTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getHandleTime(), DateUtils.YYYY_MM_DD),
-                    record.getStatus() == null ? "" : SystemConstants.MEMBER_IN_STATUS_MAP.get(record.getStatus())
+                    record.getStatus() == null ? "" : MemberConstants.MEMBER_IN_STATUS_MAP.get(record.getStatus())
             };
 
             valuesList.add(values);

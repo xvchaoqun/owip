@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.common.bean.ICrsPost;
 import shiro.ShiroHelper;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -71,11 +72,11 @@ public class UserApplyCrsPostController extends CrsBaseController {
         List<Byte> postStatusList = new ArrayList<>();
         if(cls==1){
             isQuit = false;
-            postStatusList.add(SystemConstants.CRS_POST_STATUS_NORMAL);
+            postStatusList.add(CrsConstants.CRS_POST_STATUS_NORMAL);
         }else if(cls==2){
             // 显示所有报名的记录，包括参加答辩的、退出的、资格审核不通过的（排除已删除的岗位）
-            postStatusList.add(SystemConstants.CRS_POST_STATUS_NORMAL);
-            postStatusList.add(SystemConstants.CRS_POST_STATUS_FINISH);
+            postStatusList.add(CrsConstants.CRS_POST_STATUS_NORMAL);
+            postStatusList.add(CrsConstants.CRS_POST_STATUS_FINISH);
         }
 
         long count = iCrsMapper.countUserApplyCrsPosts(userId, isQuit, postStatusList);

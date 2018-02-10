@@ -2,9 +2,10 @@ package persistence.crs;
 
 import domain.crs.CrsPostFile;
 import domain.crs.CrsPostFileExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CrsPostFileMapper {
     long countByExample(CrsPostFileExample example);

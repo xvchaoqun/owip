@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.jackson.Select2Option;
@@ -43,7 +44,7 @@ public class SitemapController extends BaseController {
         return "base/sitemap/sitemap_view";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/sitemap")
     public String sitemap(ModelMap modelMap) {
 
@@ -51,7 +52,7 @@ public class SitemapController extends BaseController {
         return "base/sitemap/sitemap_page";
     }
     
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value="/sitemap_au", method= RequestMethod.POST)
     @ResponseBody
     public Map do_sitemap_au(@CurrentUser SysUserView loginUser, Sitemap sitemap, HttpServletRequest request) {
@@ -69,7 +70,7 @@ public class SitemapController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/sitemap_au")
     public String sitemap_au(Integer id, Integer fid, ModelMap modelMap) {
 
@@ -106,7 +107,7 @@ public class SitemapController extends BaseController {
         return "base/sitemap/sitemap_au";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value="/sitemap_del", method=RequestMethod.POST)
     @ResponseBody
     public Map do_sitemap_del(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
@@ -120,7 +121,7 @@ public class SitemapController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/sitemap_selects")
     @ResponseBody
     public Map sitemap_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
@@ -165,7 +166,7 @@ public class SitemapController extends BaseController {
         return resultMap;
     }
 
-    /*@RequiresRoles(SystemConstants.ROLE_ADMIN)
+    /*@RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value = "/sitemapRole", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sitemapRole(int id,
@@ -177,7 +178,7 @@ public class SitemapController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/sitemapRole")
     public String sitemapRole(Integer id, ModelMap modelMap) throws IOException {
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.PcsConstants;
 import sys.utils.FormUtils;
 
 import java.util.Map;
@@ -57,9 +57,9 @@ public class PcsVoteStatController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         modelMap.put("pcsConfig", currentPcsConfig);
 
-        PcsVoteGroup dwPcsVoteGroup = iPcsMapper.statPcsVoteGroup(SystemConstants.PCS_USER_TYPE_DW);
+        PcsVoteGroup dwPcsVoteGroup = iPcsMapper.statPcsVoteGroup(PcsConstants.PCS_USER_TYPE_DW);
         modelMap.put("dwPcsVoteGroup", dwPcsVoteGroup);
-        PcsVoteGroup jwPcsVoteGroup = iPcsMapper.statPcsVoteGroup(SystemConstants.PCS_USER_TYPE_JW);
+        PcsVoteGroup jwPcsVoteGroup = iPcsMapper.statPcsVoteGroup(PcsConstants.PCS_USER_TYPE_JW);
         modelMap.put("jwPcsVoteGroup", jwPcsVoteGroup);
         // 分发和回收选票情况
         return "pcs/pcsVoteStat/pcsVoteStat";

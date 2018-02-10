@@ -2,8 +2,9 @@ package persistence.sc.scCommittee;
 
 import domain.sc.scCommittee.ScCommitteeView;
 import domain.sc.scCommittee.ScCommitteeViewExample;
-import java.util.List;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface ScCommitteeViewMapper {
     long countByExample(ScCommitteeViewExample example);

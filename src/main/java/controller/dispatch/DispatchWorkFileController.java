@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -100,7 +101,7 @@ public class DispatchWorkFileController extends BaseController {
             return;
         }*/
 
-        boolean isAdmin = ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN);
+        boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN);
         List<Integer> postIds = new ArrayList<>();
         if(!isAdmin){
             CadreView cadreView = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());

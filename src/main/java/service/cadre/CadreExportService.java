@@ -34,7 +34,6 @@ import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
-import sys.utils.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,6 +57,8 @@ public class CadreExportService extends BaseMapper {
     protected BranchService branchService;
     @Autowired
     protected CadrePostService cadrePostService;
+    @Autowired
+    protected CadreService cadreService;
 
     public SXSSFWorkbook export(Byte status, CadreViewExample example, int exportType) {
 
@@ -158,15 +159,8 @@ public class CadreExportService extends BaseMapper {
                 }
             }
 
-            String partyName = "";// 党派
+            String partyName = cadreService.getCadreParty(record.getCadreDpType());// 党派
             String partyAddTime = DateUtils.formatDate(record.getCadreGrowTime(), DateUtils.YYYY_MM_DD);
-
-            if(NumberUtils.longEqual(record.getCadreDpType(), 0L)){
-                partyName = "中共党员";
-            }else if(record.getCadreDpType()!=null ){
-                MetaType metaType = metaTypeMap.get(record.getCadreDpType().intValue());
-                if(metaType!=null) partyName = metaType.getName();
-            }
 
             String postDispatchCode = ""; // 现职务任命文件
             String postTime = ""; // 任现职时间

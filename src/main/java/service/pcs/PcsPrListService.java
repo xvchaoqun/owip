@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.PcsConstants;
 import sys.utils.FormUtils;
 import sys.utils.PropertiesUtils;
 
@@ -26,7 +26,7 @@ public class PcsPrListService extends BaseMapper {
     // 检查是否保存过姓名笔画顺序
     public boolean hasSort(int configId, int partyId) {
 
-        PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
+        PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, PcsConstants.PCS_STAGE_SECOND, partyId);
         if(pcsPrRecommend==null) return false;
 
         PcsPrCandidateExample example = new PcsPrCandidateExample();
@@ -40,7 +40,7 @@ public class PcsPrListService extends BaseMapper {
 
         PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
         PcsPrCandidateViewExample.Criteria criteria = example.createCriteria()
-                .andConfigIdEqualTo(configId).andStageEqualTo(SystemConstants.PCS_STAGE_SECOND);
+                .andConfigIdEqualTo(configId).andStageEqualTo(PcsConstants.PCS_STAGE_SECOND);
 
         if (partyId != null) {
             criteria.andPartyIdEqualTo(partyId);
@@ -59,7 +59,7 @@ public class PcsPrListService extends BaseMapper {
         PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
         PcsPrCandidateViewExample.Criteria criteria = example.createCriteria()
                 .andConfigIdEqualTo(configId).andPartyIdEqualTo(partyId)
-                .andStageEqualTo(SystemConstants.PCS_STAGE_SECOND);
+                .andStageEqualTo(PcsConstants.PCS_STAGE_SECOND);
 
         if (isChosen != null) {
             criteria.andIsChosenEqualTo(isChosen);
@@ -75,13 +75,13 @@ public class PcsPrListService extends BaseMapper {
     @Transactional
     public void submit(int configId, int partyId, List<PcsPrCandidateFormBean> beans) {
 
-        if (!pcsPrPartyService.allowModify(partyId, configId, SystemConstants.PCS_STAGE_THIRD)) {
+        if (!pcsPrPartyService.allowModify(partyId, configId, PcsConstants.PCS_STAGE_THIRD)) {
             throw new OpException("数据已报送，不可修改。");
         }
 
         // 阶段三共用阶段二的候选人名单
         PcsPrRecommend pcsPrRecommend2 = pcsPrPartyService.getPcsPrRecommend
-                (configId, SystemConstants.PCS_STAGE_SECOND, partyId);
+                (configId, PcsConstants.PCS_STAGE_SECOND, partyId);
         int recommendId = pcsPrRecommend2.getId();
 
         {
@@ -121,7 +121,7 @@ public class PcsPrListService extends BaseMapper {
     @Transactional
     public void sort(int configId, int partyId, Integer[] userIds) {
 
-        PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
+        PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, PcsConstants.PCS_STAGE_SECOND, partyId);
         int recommendId = pcsPrRecommend.getId();
 
         commonMapper.excuteSql("update pcs_pr_candidate set realname_sort_order = null where recommend_id=" + recommendId);

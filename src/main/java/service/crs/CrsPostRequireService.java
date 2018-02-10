@@ -14,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadreService;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
-import sys.utils.NumberUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,29 +39,23 @@ public class CrsPostRequireService extends BaseMapper {
         Map<Byte, String> resultMap = new HashMap<>();
         if (record == null) return resultMap;
 
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
 
-        resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_XL, metaTypeService.getName(record.getEduId()));
-        resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_RZNL, record.getBirth() == null ? "" : DateUtils.calAge(record.getBirth()));
+        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_XL, metaTypeService.getName(record.getEduId()));
+        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_RZNL, record.getBirth() == null ? "" : DateUtils.calAge(record.getBirth()));
 
-        String partyName = null;// 党派
+        String partyName = cadreService.getCadreParty(record.getCadreDpType());// 党派
         String partyAddYear = record.getCadreGrowTime() == null ? null : DateUtils.yearOffNow_cn(record.getCadreGrowTime());
-        if (NumberUtils.longEqual(record.getCadreDpType(), 0L)) {
-            partyName = "中共党员";
-        } else if (record.getCadreDpType() != null) {
-            MetaType metaType = metaTypeMap.get(record.getCadreDpType().intValue());
-            if (metaType != null) partyName = metaType.getName();
-        }
-        resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_ZZMM, combineTowString(partyName, partyAddYear));
+
+        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZZMM, combineTowString(partyName, partyAddYear));
 
         String proPostLevel = record.getProPostLevel();
         String proPostLevelTime = record.getProPostLevelTime() == null ? null : DateUtils.yearOffNow_cn(record.getProPostLevelTime());
-        resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_ZZJS,  combineTowString(proPostLevel, proPostLevelTime));
+        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZZJS,  combineTowString(proPostLevel, proPostLevelTime));
 
         String manageLevel = record.getManageLevel();
         String manageLevelTime = record.getManageLevelTime() == null ? null : DateUtils.yearOffNow_cn(record.getManageLevelTime());
-        resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_GLGW,  combineTowString(manageLevel, manageLevelTime));
+        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_GLGW,  combineTowString(manageLevel, manageLevelTime));
 
         Integer postId = record.getPostId();
         MetaType mainPost = codeKeyMap.get("mt_admin_level_main");
@@ -70,17 +64,17 @@ public class CrsPostRequireService extends BaseMapper {
 
         if(postId != null) {
             if (postId.intValue() == mainPost.getId()) {
-                resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_ZCJ, lpWorkTime);
+                resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZCJ, lpWorkTime);
             } else if (postId.intValue() == vicePost.getId()) {
-                resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_FCJ, lpWorkTime);
+                resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_FCJ, lpWorkTime);
             }
         }
 
         String workTime = record.getWorkTime()==null?null:DateUtils.yearOffNow_cn(record.getWorkTime());
-        resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_GZ, workTime);
+        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_GZ, workTime);
 
         String arriveTime = record.getArriveTime()==null?null:DateUtils.yearOffNow_cn(record.getArriveTime());
-        resultMap.put(SystemConstants.CRS_POST_RULE_TYPE_BXGZ, arriveTime);
+        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_BXGZ, arriveTime);
 
         return resultMap;
     }

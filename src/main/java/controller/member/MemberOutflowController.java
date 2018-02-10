@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -202,24 +204,24 @@ public class MemberOutflowController extends MemberBaseController {
         }
 
         if(cls==1){ // 支部审核（新申请）
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY)
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY)
                     .andIsBackNotEqualTo(true);
         }else if(cls==4){ // 支部审核(返回修改)
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY)
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY)
                     .andIsBackEqualTo(true);
         }else if(cls==5 ||cls==6){ // 支部已审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
         }else if(cls==2) {// 未通过
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK);
-            statusList.add(SystemConstants.MEMBER_OUTFLOW_STATUS_BACK);
+            statusList.add(MemberConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK);
+            statusList.add(MemberConstants.MEMBER_OUTFLOW_STATUS_BACK);
             criteria.andStatusIn(statusList);
         }else {
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY);
            /* if(cls==3)// 已审核（未转出）
-                criteria.andMemberStatusNotEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);*/
+                criteria.andMemberStatusNotEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);*/
             if(cls==31)// 已审核（已转出）
-                criteria.andMemberStatusEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
+                criteria.andMemberStatusEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);
         }
 
         if (export == 1) {
@@ -250,7 +252,7 @@ public class MemberOutflowController extends MemberBaseController {
         return;
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:list")
     @RequestMapping("/memberOutflow_approval")
     public String memberOutflow_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUserView loginUser, Integer id,
@@ -261,11 +263,11 @@ public class MemberOutflowController extends MemberBaseController {
         if(id!=null) {
             currentMemberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
             if(type==1){
-                if(currentMemberOutflow.getStatus()!=SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY)
+                if(currentMemberOutflow.getStatus()!=MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY)
                     currentMemberOutflow = null;
             }
             if(type==2){
-                if(currentMemberOutflow.getStatus()!=SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY)
+                if(currentMemberOutflow.getStatus()!=MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY)
                     currentMemberOutflow = null;
             }
         }else{
@@ -296,7 +298,7 @@ public class MemberOutflowController extends MemberBaseController {
         return "member/memberOutflow/memberOutflow_approval";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:update")
     @RequestMapping("/memberOutflow_deny")
     public String memberOutflow_deny(Integer id, ModelMap modelMap) {
@@ -309,7 +311,7 @@ public class MemberOutflowController extends MemberBaseController {
         return "member/memberOutflow/memberOutflow_deny";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:update")
     @RequestMapping(value = "/memberOutflow_check", method = RequestMethod.POST)
     @ResponseBody
@@ -325,7 +327,7 @@ public class MemberOutflowController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:update")
     @RequestMapping("/memberOutflow_back")
     public String memberOutflow_back() {
@@ -333,7 +335,7 @@ public class MemberOutflowController extends MemberBaseController {
         return "member/memberOutflow/memberOutflow_back";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberOutflow:update")
     @RequestMapping(value = "/memberOutflow_back", method = RequestMethod.POST)
     @ResponseBody
@@ -372,8 +374,8 @@ public class MemberOutflowController extends MemberBaseController {
         //===========权限
         Integer loginUserId = loginUser.getId();
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
                 isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
@@ -382,7 +384,7 @@ public class MemberOutflowController extends MemberBaseController {
         }
 
         if (id == null) {
-            record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);
+            record.setStatus(MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY);
             memberOutflowService.add(record);
             applyApprovalLogService.add(record.getId(),
                     record.getPartyId(), record.getBranchId(), record.getUserId(),

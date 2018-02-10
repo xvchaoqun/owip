@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.AbroadConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -58,7 +60,7 @@ public class UserApplySelfController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-/*    @RequiresRoles(SystemConstants.ROLE_CADRE)
+/*    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequestMapping("/applySelf_download")
     public void applySelf_download(@CurrentUser SysUserView loginUser,
                                    Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -77,7 +79,7 @@ public class UserApplySelfController extends AbroadBaseController {
                 springProps.uploadPath + applySelfFile.getFilePath(), applySelfFile.getFileName());
     }*/
 
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequestMapping("/applySelf_view")
     public String applySelf_view(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
 
@@ -113,14 +115,14 @@ public class UserApplySelfController extends AbroadBaseController {
         return "user/abroad/applySelf/applySelf_view";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequestMapping("/applySelf")
     public String applySelf(ModelMap modelMap) {
 
         return "user/abroad/applySelf/applySelf_page";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequestMapping("/applySelf_data")
     @ResponseBody
     public void applySelf_data(@CurrentUser SysUserView loginUser,
@@ -176,7 +178,7 @@ public class UserApplySelfController extends AbroadBaseController {
         JSONUtils.jsonp(resultMap, baseMixins);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequestMapping(value = "/applySelf_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelf_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -214,7 +216,7 @@ public class UserApplySelfController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/applySelf_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelf_au(
@@ -227,7 +229,7 @@ public class UserApplySelfController extends AbroadBaseController {
 
         // 是否本人操作
         boolean self = false;
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -272,7 +274,7 @@ public class UserApplySelfController extends AbroadBaseController {
             record.setIp(IpUtils.getRealIp(request));
 
             record.setStatus(true);// 提交
-            record.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_FIRST);
+            record.setFlowNode(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST);
 
             applySelfService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
@@ -295,7 +297,7 @@ public class UserApplySelfController extends AbroadBaseController {
             }
             record.setCadreId(null);
             record.setStatus(true);// 重新提交
-            record.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_FIRST);
+            record.setFlowNode(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST);
             record.setIsFinish(false);
 
             ApprovalLogExample example = new ApprovalLogExample();
@@ -322,7 +324,7 @@ public class UserApplySelfController extends AbroadBaseController {
         return resultMap;
     }
 
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequestMapping(value = "/applySelfFile_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_applySelfFile_del(@CurrentUser SysUserView loginUser, Integer id) {
@@ -344,11 +346,11 @@ public class UserApplySelfController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/applySelf_au")
     public String applySelf_au(Integer cadreId, Integer id, ModelMap modelMap) {
 
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContentTypeUtils;
 import sys.utils.ContextHelper;
@@ -63,7 +64,7 @@ public class PcsPrFileController extends PcsBaseController {
         modelMap.put("fileMap", pcsPrFileService.fileMap(configId, partyId));
 
         modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId,
-                SystemConstants.PCS_STAGE_THIRD));
+                PcsConstants.PCS_STAGE_THIRD));
 
         List<PcsPrCandidateView> candidates = pcsPrListService.getList(configId, partyId, null);
         modelMap.put("candidates", candidates);
@@ -113,7 +114,7 @@ public class PcsPrFileController extends PcsBaseController {
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
-        if(!pcsPrPartyService.allowModify(partyId, configId, SystemConstants.PCS_STAGE_THIRD)){
+        if(!pcsPrPartyService.allowModify(partyId, configId, PcsConstants.PCS_STAGE_THIRD)){
             return failed("已报送数据，不可修改。");
         }
 

@@ -2,9 +2,10 @@ package persistence.abroad;
 
 import domain.abroad.Passport;
 import domain.abroad.PassportExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface PassportMapper {
     long countByExample(PassportExample example);

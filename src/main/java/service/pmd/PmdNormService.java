@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.PmdConstants;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -23,7 +23,7 @@ public class PmdNormService extends BaseMapper {
 
         PmdNormExample example = new PmdNormExample();
         PmdNormExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type)
-                .andStatusEqualTo(SystemConstants.PMD_NORM_STATUS_USE);
+                .andStatusEqualTo(PmdConstants.PMD_NORM_STATUS_USE);
         if(setType!=null){
             criteria.andSetTypeEqualTo(setType);
         }
@@ -47,7 +47,7 @@ public class PmdNormService extends BaseMapper {
         PmdNormExample example = new PmdNormExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         PmdNorm record = new PmdNorm();
-        record.setStatus(SystemConstants.PMD_NORM_STATUS_DELETE);
+        record.setStatus(PmdConstants.PMD_NORM_STATUS_DELETE);
 
         pmdNormMapper.updateByExampleSelective(record, example);
     }
@@ -57,7 +57,7 @@ public class PmdNormService extends BaseMapper {
 
         pmdNormMapper.updateByPrimaryKeySelective(record);
 
-        if(record.getSetType()!=null && record.getSetType() != SystemConstants.PMD_NORM_SET_TYPE_FORMULA){
+        if(record.getSetType()!=null && record.getSetType() != PmdConstants.PMD_NORM_SET_TYPE_FORMULA){
             commonMapper.excuteSql("update pmd_norm set formula_type = null where id=" + record.getId());
         }
     }
@@ -69,14 +69,14 @@ public class PmdNormService extends BaseMapper {
         PmdNorm pmdNorm = pmdNormMapper.selectByPrimaryKey(id);
         PmdNormExample example = new PmdNormExample();
         example.createCriteria().andNameEqualTo(pmdNorm.getName())
-                .andStatusEqualTo(SystemConstants.PMD_NORM_STATUS_USE);
+                .andStatusEqualTo(PmdConstants.PMD_NORM_STATUS_USE);
         if(pmdNormMapper.countByExample(example)>0){
             throw new OpException("已经启用相同名称的标准。");
         }
 
         PmdNorm record = new PmdNorm();
         record.setId(id);
-        record.setStatus(SystemConstants.PMD_NORM_STATUS_USE);
+        record.setStatus(PmdConstants.PMD_NORM_STATUS_USE);
         record.setStartTime(new Date());
         record.setStartUserId(ShiroHelper.getCurrentUserId());
 
@@ -89,13 +89,13 @@ public class PmdNormService extends BaseMapper {
 
         PmdNorm record = new PmdNorm();
         record.setId(id);
-        record.setStatus(SystemConstants.PMD_NORM_STATUS_ABOLISH);
+        record.setStatus(PmdConstants.PMD_NORM_STATUS_ABOLISH);
         record.setEndTime(new Date());
         record.setEndUserId(ShiroHelper.getCurrentUserId());
 
         PmdNormExample example = new PmdNormExample();
         example.createCriteria().andIdEqualTo(id)
-                .andStatusEqualTo(SystemConstants.PMD_NORM_STATUS_USE);
+                .andStatusEqualTo(PmdConstants.PMD_NORM_STATUS_USE);
 
         pmdNormMapper.updateByExampleSelective(record, example);
     }

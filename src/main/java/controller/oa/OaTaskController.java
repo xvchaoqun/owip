@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.OaConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -76,14 +77,14 @@ public class OaTaskController extends OaBaseController {
 
         switch (cls) {
             case 1:
-                criteria.andStatusIn(Arrays.asList(SystemConstants.OA_TASK_STATUS_INIT,
-                        SystemConstants.OA_TASK_STATUS_BACK, SystemConstants.OA_TASK_STATUS_PUBLISH));
+                criteria.andStatusIn(Arrays.asList(OaConstants.OA_TASK_STATUS_INIT,
+                        OaConstants.OA_TASK_STATUS_BACK, OaConstants.OA_TASK_STATUS_PUBLISH));
                 break;
             case 2:
-                criteria.andStatusEqualTo(SystemConstants.OA_TASK_STATUS_FINISH);
+                criteria.andStatusEqualTo(OaConstants.OA_TASK_STATUS_FINISH);
                 break;
             case 3:
-                criteria.andStatusEqualTo(SystemConstants.OA_TASK_STATUS_ABOLISH);
+                criteria.andStatusEqualTo(OaConstants.OA_TASK_STATUS_ABOLISH);
                 break;
         }
 
@@ -276,8 +277,8 @@ public class OaTaskController extends OaBaseController {
             publish = BooleanUtils.isTrue(publish);
             OaTask record = new OaTask();
             record.setId(id);
-            record.setStatus(publish ? SystemConstants.OA_TASK_STATUS_PUBLISH
-                    : SystemConstants.OA_TASK_STATUS_BACK);
+            record.setStatus(publish ? OaConstants.OA_TASK_STATUS_PUBLISH
+                    : OaConstants.OA_TASK_STATUS_BACK);
             record.setIsPublish(publish);
             if (publish && oaTask.getPubDate() == null) {
                 record.setPubDate(new Date()); // 记录第一次发布的日期

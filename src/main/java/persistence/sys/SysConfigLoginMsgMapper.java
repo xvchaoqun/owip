@@ -2,9 +2,10 @@ package persistence.sys;
 
 import domain.sys.SysConfigLoginMsg;
 import domain.sys.SysConfigLoginMsgExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface SysConfigLoginMsgMapper {
     long countByExample(SysConfigLoginMsgExample example);

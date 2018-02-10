@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -116,9 +117,9 @@ public class MemberStudentController extends MemberBaseController {
         MemberStudentExample example = new MemberStudentExample();
         Criteria criteria = example.createCriteria();
         if(cls==6)
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);
         else
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
         if(StringUtils.equalsIgnoreCase(sort, "party")){
             example.setOrderByClause(String.format("party_id , branch_id %s, grow_time desc", order));
         }else if(StringUtils.equalsIgnoreCase(sort, "growTime")){
@@ -162,25 +163,25 @@ public class MemberStudentController extends MemberBaseController {
 
         if(age!=null){
             switch (age){
-                case SystemConstants.MEMBER_AGE_20: // 20岁以下
+                case MemberConstants.MEMBER_AGE_20: // 20岁以下
                     criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -20));
                     break;
-                case SystemConstants.MEMBER_AGE_21_30:
+                case MemberConstants.MEMBER_AGE_21_30:
                     criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -30),
                             DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                     break;
-                case SystemConstants.MEMBER_AGE_31_40:
+                case MemberConstants.MEMBER_AGE_31_40:
                     criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -40),
                             DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
                     break;
-                case SystemConstants.MEMBER_AGE_41_50:
+                case MemberConstants.MEMBER_AGE_41_50:
                     criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -50),
                             DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
                     break;
-                case SystemConstants.MEMBER_AGE_51:
+                case MemberConstants.MEMBER_AGE_51:
                     criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
                     break;
-                case SystemConstants.MEMBER_AGE_0:
+                case MemberConstants.MEMBER_AGE_0:
                     criteria.andBirthIsNull();
                     break;
             }
@@ -304,7 +305,7 @@ public class MemberStudentController extends MemberBaseController {
                     record.getGrade(), // 年级
                     partyId==null?"":partyService.findAll().get(partyId).getName(),
                     branchId==null?"":branchService.findAll().get(branchId).getName(),
-                    SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌
+                    MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
                     record.getEduLevel(),
                     record.getEduType(),
@@ -313,7 +314,7 @@ public class MemberStudentController extends MemberBaseController {
                     DateUtils.formatDate(record.getExpectGraduateTime(), DateUtils.YYYY_MM_DD),
                     record.getXjStatus(),
                     (memberStay!=null&&memberStay.getStatus()==
-                            SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY)?"是":"否"// 是否出国留学
+                            MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY)?"是":"否"// 是否出国留学
             };
             valuesList.add(values);
         }

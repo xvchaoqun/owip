@@ -2,7 +2,7 @@ package domain.crs;
 
 import domain.unit.Unit;
 import service.crs.CrsApplicantService;
-import sys.constants.SystemConstants;
+import sys.constants.CrsConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -23,13 +23,13 @@ public class CrsPost implements Serializable {
     }
 
     public Boolean getAutoSwitch(){
-        return enrollStatus == SystemConstants.CRS_POST_ENROLL_STATUS_DEFAULT;
+        return enrollStatus == CrsConstants.CRS_POST_ENROLL_STATUS_DEFAULT;
     }
 
     public Byte getSwitchStatus() {
 
         // 手动开关判断
-        if (enrollStatus != SystemConstants.CRS_POST_ENROLL_STATUS_DEFAULT) {
+        if (enrollStatus != CrsConstants.CRS_POST_ENROLL_STATUS_DEFAULT) {
             return enrollStatus;
         }
 
@@ -38,21 +38,21 @@ public class CrsPost implements Serializable {
         if (startTime != null && endTime != null) {
 
             if (now.after(startTime) && now.before(endTime)) {
-                return SystemConstants.CRS_POST_ENROLL_STATUS_OPEN;
+                return CrsConstants.CRS_POST_ENROLL_STATUS_OPEN;
             }
         } else if (startTime != null) {
 
             if (now.after(startTime)) {
-                return SystemConstants.CRS_POST_ENROLL_STATUS_OPEN;
+                return CrsConstants.CRS_POST_ENROLL_STATUS_OPEN;
             }
         } else if (endTime != null) {
 
             if (now.before(endTime)) {
-                return SystemConstants.CRS_POST_ENROLL_STATUS_OPEN;
+                return CrsConstants.CRS_POST_ENROLL_STATUS_OPEN;
             }
         }
 
-        return SystemConstants.CRS_POST_ENROLL_STATUS_CLOSED;
+        return CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED;
     }
 
     private Integer id;

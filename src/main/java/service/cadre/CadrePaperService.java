@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import shiro.ShiroHelper;
+import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
@@ -77,7 +78,7 @@ public class CadrePaperService extends BaseMapper {
         Integer currentUserId = ShiroHelper.getCurrentUserId();
         ModifyTableApply mta = modifyTableApplyMapper.selectByPrimaryKey(applyId);
         if (mta.getUserId().intValue() != currentUserId ||
-                mta.getStatus() != SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY) {
+                mta.getStatus() != ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY) {
             throw new OpException(String.format("您没有权限更新该记录[申请序号:%s]", applyId));
         }
 
@@ -108,13 +109,13 @@ public class CadrePaperService extends BaseMapper {
         if(isDelete){ // 删除申请时id不允许为空
             record = cadrePaperMapper.selectByPrimaryKey(id);
             original = record;
-            type = SystemConstants.MODIFY_TABLE_APPLY_TYPE_DELETE;
+            type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE;
         }else{
             if(record.getId()==null) // 添加申请
-                type = SystemConstants.MODIFY_TABLE_APPLY_TYPE_ADD;
+                type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD;
             else { // 修改申请
                 original = cadrePaperMapper.selectByPrimaryKey(record.getId());
-                type = SystemConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY;
+                type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY;
 
                 if(StringUtils.isBlank(record.getFilePath())){ // 论文文件留空则保留原文件
                     record.setFilePath(original.getFilePath());
@@ -124,13 +125,13 @@ public class CadrePaperService extends BaseMapper {
         }
 
         Integer originalId = original==null?null:original.getId();
-        if(type == SystemConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
-                type==SystemConstants.MODIFY_TABLE_APPLY_TYPE_DELETE){
+        if(type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
+                type==ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE){
             // 如果是修改或删除请求，则只允许一条未审批记录存在
             ModifyTableApplyExample example = new ModifyTableApplyExample();
             example.createCriteria().andOriginalIdEqualTo(originalId) // 此时originalId肯定不为空
-                    .andModuleEqualTo(SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER)
-                    .andStatusEqualTo(SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
+                    .andModuleEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER)
+                    .andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
             List<ModifyTableApply> applies = modifyTableApplyMapper.selectByExample(example);
             if(applies.size()>0){
                 throw new OpException(String.format("当前记录对应的修改或删除申请[序号%s]已经存在，请等待审核。", applies.get(0).getId()));
@@ -146,7 +147,7 @@ public class CadrePaperService extends BaseMapper {
 
 
         ModifyTableApply _record = new ModifyTableApply();
-        _record.setModule(SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER);
+        _record.setModule(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER);
         _record.setUserId(userId);
         _record.setApplyUserId(userId);
         _record.setTableName("cadre_paper");
@@ -156,7 +157,7 @@ public class CadrePaperService extends BaseMapper {
         _record.setOriginalJson(JSONUtils.toString(original, false));
         _record.setCreateTime(new Date());
         _record.setIp(IpUtils.getRealIp(ContextHelper.getRequest()));
-        _record.setStatus(SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
+        _record.setStatus(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
         modifyTableApplyMapper.insert(_record);
     }
 
@@ -167,7 +168,7 @@ public class CadrePaperService extends BaseMapper {
         Integer modifyId = mta.getModifyId();
         byte type = mta.getType();
 
-        if (type == SystemConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
+        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
 
             CadrePaper modify = cadrePaperMapper.selectByPrimaryKey(modifyId);
             modify.setId(null);
@@ -176,7 +177,7 @@ public class CadrePaperService extends BaseMapper {
             cadrePaperMapper.insertSelective(modify); // 插入新纪录
             record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
 
-        } else if (type == SystemConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
+        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
             CadrePaper modify = cadrePaperMapper.selectByPrimaryKey(modifyId);
             modify.setId(originalId);
@@ -184,7 +185,7 @@ public class CadrePaperService extends BaseMapper {
 
             cadrePaperMapper.updateByPrimaryKey(modify); // 覆盖原纪录
 
-        } else if (type == SystemConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
+        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
 
             // 更新最后删除的记录内容
             record.setOriginalJson(JSONUtils.toString(cadrePaperMapper.selectByPrimaryKey(originalId), false));

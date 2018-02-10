@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
+import sys.constants.PcsConstants;
 import sys.utils.DateUtils;
 
 import java.util.Arrays;
@@ -76,13 +76,13 @@ public class PcsVoteCandidateService extends BaseMapper {
                 record.setInvalid(pcsVoteCandidate.getInvalid());
 
                 PcsCandidateChosen pcsCandidateChosen = pcsOwService.getPcsCandidateChosen(userId,
-                        configId, SystemConstants.PCS_STAGE_THIRD, type);
+                        configId, PcsConstants.PCS_STAGE_THIRD, type);
                 if(pcsCandidateChosen!=null) {
 
                     record.setSortOrder(pcsCandidateChosen.getSortOrder());
 
                     PcsCandidateView candidate = pcsOwService.getPcsCandidateView(userId,
-                            configId, SystemConstants.PCS_STAGE_THIRD, type);
+                            configId, PcsConstants.PCS_STAGE_THIRD, type);
 
                     record.setGender(candidate.getGender());
                     record.setNation(candidate.getNation());

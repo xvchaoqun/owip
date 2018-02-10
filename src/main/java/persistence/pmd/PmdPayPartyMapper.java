@@ -2,9 +2,10 @@ package persistence.pmd;
 
 import domain.pmd.PmdPayParty;
 import domain.pmd.PmdPayPartyExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface PmdPayPartyMapper {
     long countByExample(PmdPayPartyExample example);

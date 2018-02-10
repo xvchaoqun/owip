@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.PmdConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +34,7 @@ public class PmdConfigMemberTypeService extends BaseMapper {
 
         // 类别为公式的计算方法，对应的党员分类必须唯一
         PmdNorm pmdNorm = pmdNormMapper.selectByPrimaryKey(normId);
-        if(pmdNorm.getType() == SystemConstants.PMD_NORM_SET_TYPE_FORMULA){
+        if(pmdNorm.getType() == PmdConstants.PMD_NORM_SET_TYPE_FORMULA){
             criteria.andNormIdEqualTo(pmdNorm.getId());
         }
 
@@ -47,8 +47,8 @@ public class PmdConfigMemberTypeService extends BaseMapper {
     @Cacheable(value = "PmdConfigMemberTypeMap:formula")
     public Map<Byte, PmdConfigMemberType> formulaMap(){
 
-        List<PmdNorm> list = pmdNormService.list(SystemConstants.PMD_NORM_TYPE_PAY,
-                SystemConstants.PMD_NORM_SET_TYPE_FORMULA);
+        List<PmdNorm> list = pmdNormService.list(PmdConstants.PMD_NORM_TYPE_PAY,
+                PmdConstants.PMD_NORM_SET_TYPE_FORMULA);
         Map<Byte, PmdConfigMemberType> map = new HashMap<>();
         for (PmdNorm pmdNorm : list) {
 

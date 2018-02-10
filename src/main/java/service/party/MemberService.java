@@ -33,6 +33,8 @@ import service.sys.LogService;
 import service.sys.SysUserService;
 import service.sys.SysUserSyncService;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
@@ -86,7 +88,7 @@ public class MemberService extends BaseMapper {
 
         Member record = new Member();
         record.setUserId(userId);
-        record.setStatus(SystemConstants.MEMBER_STATUS_NORMAL);
+        record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL);
         //record.setBranchId(member.getBranchId());
         int ret = updateByPrimaryKeySelective(record);
         if (ret > 0) {
@@ -128,7 +130,7 @@ public class MemberService extends BaseMapper {
         }
 
         // 更新系统角色  访客->党员
-        sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST, SystemConstants.ROLE_MEMBER);
+        sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
     }
 
     @Transactional
@@ -150,17 +152,17 @@ public class MemberService extends BaseMapper {
         if (type == SystemConstants.USER_TYPE_JZG) {
 
             // 同步教职工信息到ow_member_teacher表
-            record.setType(SystemConstants.MEMBER_TYPE_TEACHER); // 教职工党员
+            record.setType(MemberConstants.MEMBER_TYPE_TEACHER); // 教职工党员
             sysUserSyncService.snycTeacherInfo(userId, uv);
         } else if (type == SystemConstants.USER_TYPE_BKS) {
 
             // 同步本科生信息到 ow_member_student表
-            record.setType(SystemConstants.MEMBER_TYPE_STUDENT); // 学生党员
+            record.setType(MemberConstants.MEMBER_TYPE_STUDENT); // 学生党员
             sysUserSyncService.snycStudent(userId, uv);
         } else if (type == SystemConstants.USER_TYPE_YJS) {
 
             // 同步研究生信息到 ow_member_student表
-            record.setType(SystemConstants.MEMBER_TYPE_STUDENT); // 学生党员
+            record.setType(MemberConstants.MEMBER_TYPE_STUDENT); // 学生党员
             sysUserSyncService.snycStudent(userId, uv);
         } else {
             throw new DBErrorException("添加失败，该账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
@@ -179,7 +181,7 @@ public class MemberService extends BaseMapper {
         memberApplyService.addOrChangeToGrowApply(userId);
 
         // 更新系统角色  访客->党员
-        sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST, SystemConstants.ROLE_MEMBER);
+        sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
     }
 
 
@@ -197,7 +199,7 @@ public class MemberService extends BaseMapper {
         // 要求转移的用户状态正常，且都属于partyId
         MemberExample example = new MemberExample();
         example.createCriteria().andPartyIdEqualTo(partyId).andUserIdIn(Arrays.asList(userIds))
-                .andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+                .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
         int count = memberMapper.countByExample(example);
         if (count != userIds.length) {
             throw new OpException("数据异常，请重新选择");
@@ -226,7 +228,7 @@ public class MemberService extends BaseMapper {
         // 不判断userIds中分党委和党支部是转移的情况
         MemberExample example = new MemberExample();
         example.createCriteria().andUserIdIn(Arrays.asList(userIds))
-                .andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+                .andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
         int count = memberMapper.countByExample(example);
         if (count != userIds.length) {
             throw new OpException("数据异常，请重新选择[0]");
@@ -308,7 +310,7 @@ public class MemberService extends BaseMapper {
 
         for (Integer userId : userIds) {
             // 更新系统角色  党员->访客
-            sysUserService.changeRole(userId, SystemConstants.ROLE_MEMBER, SystemConstants.ROLE_GUEST);
+            sysUserService.changeRole(userId, RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_GUEST);
         }
     }
 
@@ -375,15 +377,15 @@ public class MemberService extends BaseMapper {
 
         Member member = memberMapper.selectByPrimaryKey(userId);
         if (member != null && member.getPoliticalStatus() != politicalStatus &&
-                SystemConstants.MEMBER_POLITICAL_STATUS_MAP.containsKey(politicalStatus)) {
+                MemberConstants.MEMBER_POLITICAL_STATUS_MAP.containsKey(politicalStatus)) {
             Member record = new Member();
             record.setUserId(userId);
             record.setPoliticalStatus(politicalStatus);
             updateByPrimaryKeySelective(record, StringUtils.defaultIfBlank(remark, "修改党籍状态为"
-                    + SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(politicalStatus)));
+                    + MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(politicalStatus)));
 
             MemberApplyService memberApplyService = CmTag.getBean(MemberApplyService.class);
-            if (politicalStatus == SystemConstants.MEMBER_POLITICAL_STATUS_GROW) {
+            if (politicalStatus == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) {
                 // 正式->预备，需要同时修改或添加入党申请【6.预备党员】阶段
                 memberApplyService.addOrChangeToGrowApply(userId);
             } else {

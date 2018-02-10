@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 
@@ -78,7 +79,7 @@ public class PcsProposalOwController extends PcsBaseController {
         // 提案人
         int userId = pcsProposal.getUserId();
         PcsPrCandidateView pcsPrCandidateView =
-                pcsPrCandidateService.find(userId, configId, SystemConstants.PCS_STAGE_SECOND);
+                pcsPrCandidateService.find(userId, configId, PcsConstants.PCS_STAGE_SECOND);
         modelMap.put("candidate", pcsPrCandidateView);
 
         // 提案类型列表

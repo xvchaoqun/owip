@@ -17,6 +17,7 @@ import service.LoginUserService;
 import service.party.EnterApplyService;
 import service.party.MemberService;
 import service.party.PartyService;
+import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -57,9 +58,9 @@ public class MemberReturnService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_RETURN_STATUS_APPLY);
         } else if(type==2){ //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -78,9 +79,9 @@ public class MemberReturnService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_RETURN_STATUS_APPLY);
         } else if(type==2){ //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -102,9 +103,9 @@ public class MemberReturnService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_RETURN_STATUS_APPLY);
         } else if(type==2){ //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -140,11 +141,11 @@ public class MemberReturnService extends BaseMapper {
     public void checkMember(int userId){
 
         MemberReturn memberReturn = get(userId);
-        if(memberReturn.getStatus()!= SystemConstants.MEMBER_RETURN_STATUS_APPLY)
+        if(memberReturn.getStatus()!= MemberConstants.MEMBER_RETURN_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberReturn record = new MemberReturn();
         record.setId(memberReturn.getId());
-        record.setStatus(SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
         //record.setBranchId(memberReturn.getBranchId());
         updateByPrimaryKeySelective(record);
     }
@@ -158,14 +159,14 @@ public class MemberReturnService extends BaseMapper {
         }
 
         MemberReturn memberReturn = get(userId);
-        if(isDirect && memberReturn.getStatus()!= SystemConstants.MEMBER_RETURN_STATUS_APPLY)
+        if(isDirect && memberReturn.getStatus()!= MemberConstants.MEMBER_RETURN_STATUS_APPLY)
             throw new DBErrorException("状态异常");
-        if(!isDirect && memberReturn.getStatus()!= SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY)
+        if(!isDirect && memberReturn.getStatus()!= MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY)
             throw new DBErrorException("状态异常");
 
         MemberReturn record = new MemberReturn();
         record.setId(memberReturn.getId());
-        record.setStatus(SystemConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY);
         //record.setBranchId(memberReturn.getBranchId());
         updateByPrimaryKeySelective(record);
 
@@ -176,14 +177,14 @@ public class MemberReturnService extends BaseMapper {
         member.setBranchId(memberReturn.getBranchId());
         member.setPoliticalStatus(politicalStatus);
 
-        member.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常党员
-        member.setSource(SystemConstants.MEMBER_SOURCE_RETURNED); //  恢复党员
+        member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
+        member.setSource(MemberConstants.MEMBER_SOURCE_RETURNED); //  恢复党员
         member.setApplyTime(memberReturn.getApplyTime());
         member.setActiveTime(memberReturn.getActiveTime());
         member.setCandidateTime(memberReturn.getCandidateTime());
 
         // 对于归国人员是预备党员的，入党时间就是 “提交恢复组织生活申请时间” 向后推一年
-        if(politicalStatus == SystemConstants.MEMBER_POLITICAL_STATUS_GROW){
+        if(politicalStatus == MemberConstants.MEMBER_POLITICAL_STATUS_GROW){
             Date returnApplyTime = memberReturn.getReturnApplyTime();
             Calendar cal = Calendar.getInstance();
             cal.setTime(returnApplyTime);
@@ -281,10 +282,10 @@ public class MemberReturnService extends BaseMapper {
             Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberReturn.getPartyId(), memberReturn.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberReturn.getPartyId());
 
-            if(memberReturn.getStatus() >= SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY){
+            if(memberReturn.getStatus() >= MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY){
                 if(!presentPartyAdmin) throw new UnauthorizedException();
             }
-            if(memberReturn.getStatus() >= SystemConstants.MEMBER_RETURN_STATUS_DENY){
+            if(memberReturn.getStatus() >= MemberConstants.MEMBER_RETURN_STATUS_DENY){
                 if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 
@@ -296,17 +297,17 @@ public class MemberReturnService extends BaseMapper {
     private  void back(MemberReturn memberReturn, byte status, int loginUserId, String reason){
 
         byte _status = memberReturn.getStatus();
-        if(_status==SystemConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY){
+        if(_status==MemberConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY){
             throw new OpException("审核流程已经完成，不可以打回。");
         }
-        if(status>_status || status<SystemConstants.MEMBER_RETURN_STATUS_DENY ){
+        if(status>_status || status<MemberConstants.MEMBER_RETURN_STATUS_DENY ){
             throw new OpException("参数有误。");
         }
 
         Integer id = memberReturn.getId();
         Integer userId = memberReturn.getUserId();
 
-        if(status==SystemConstants.MEMBER_RETURN_STATUS_DENY ) { // 后台打回申请，需要重置入口提交状态
+        if(status==MemberConstants.MEMBER_RETURN_STATUS_DENY ) { // 后台打回申请，需要重置入口提交状态
             // 状态检查
             EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
             if (_enterApply == null)
@@ -332,7 +333,7 @@ public class MemberReturnService extends BaseMapper {
         applyApprovalLogService.add(id,
                 memberReturn.getPartyId(), memberReturn.getBranchId(), userId,
                 loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, SystemConstants.MEMBER_RETURN_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, MemberConstants.MEMBER_RETURN_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

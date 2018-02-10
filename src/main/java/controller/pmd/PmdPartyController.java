@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.PmdConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -74,7 +76,7 @@ public class PmdPartyController extends PmdBaseController {
 
         PmdPartyViewExample example = new PmdPartyViewExample();
         PmdPartyViewExample.Criteria criteria = example.createCriteria()
-                .andMonthStatusNotEqualTo(SystemConstants.PMD_MONTH_STATUS_INIT);
+                .andMonthStatusNotEqualTo(PmdConstants.PMD_MONTH_STATUS_INIT);
         example.setOrderByClause("pay_month desc, sort_order desc");
 
         if(payMonth!=null){
@@ -94,7 +96,7 @@ public class PmdPartyController extends PmdBaseController {
             }
         }else if(cls==2){
 
-            SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_ODADMIN);
+            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ODADMIN);
             criteria.andMonthIdEqualTo(monthId);
         }else {
             criteria.andIdIsNull();

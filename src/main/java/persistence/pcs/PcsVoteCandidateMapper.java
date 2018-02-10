@@ -2,9 +2,10 @@ package persistence.pcs;
 
 import domain.pcs.PcsVoteCandidate;
 import domain.pcs.PcsVoteCandidateExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface PcsVoteCandidateMapper {
     long countByExample(PcsVoteCandidateExample example);

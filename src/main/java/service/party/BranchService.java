@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.utils.ContextHelper;
 
 import java.util.ArrayList;
@@ -115,8 +115,8 @@ public class BranchService extends BaseMapper {
         Subject subject = SecurityUtils.getSubject();
         ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
         Integer loginUserId = shiroUser.getId();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if (!isAdmin) throw new UnauthorizedException();

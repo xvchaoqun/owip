@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.constants.TrainConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -56,7 +58,7 @@ public class TrainInspectorController extends TrainBaseController {
             if(train.getIsAnonymous()) {
                 TrainInspectorExample example = new TrainInspectorExample();
                 Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId)
-                        .andStatusNotEqualTo(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
+                        .andStatusNotEqualTo(TrainConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
                 if (ids != null && ids.length > 0) criteria.andIdIn(Arrays.asList(ids));
                 //example.setOrderByClause(" type asc, create_time desc");
                 List<TrainInspector> trainInspectors = trainInspectorMapper.selectByExample(example);
@@ -120,18 +122,18 @@ public class TrainInspectorController extends TrainBaseController {
             String[] values ={"",
                     "",
                     train.getName(),
-                    SystemConstants.TRAIN_INSPECTOR_STATUS_MAP.get(trainInspector.getStatus())};
+                    TrainConstants.TRAIN_INSPECTOR_STATUS_MAP.get(trainInspector.getStatus())};
 
             if(train.getIsAnonymous()) {
                 String passwd = trainInspector.getPasswd();
-                if (!SecurityUtils.getSubject().hasRole(SystemConstants.ROLE_ADMIN)) {
+                if (!SecurityUtils.getSubject().hasRole(RoleConstants.ROLE_ADMIN)) {
                     if (trainInspector.getPasswdChangeType() != null) {
                         passwd = "******"; // 本人修改过密码或者管理员重置过密码，则单位管理员不可以看到
                     }
                 } else {
                     // 本人修改了密码，管理员也不能看到
                     if (trainInspector.getPasswdChangeType() != null &&
-                            trainInspector.getPasswdChangeType() == SystemConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF) {
+                            trainInspector.getPasswdChangeType() == TrainConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF) {
                         passwd = "******";
                     }
                 }
@@ -149,7 +151,7 @@ public class TrainInspectorController extends TrainBaseController {
         ExportHelper.export(titles, valuesList, filename, response);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value="/trainInspector_abolish", method=RequestMethod.POST)
     @ResponseBody
     public Map trainInspector_abolish(int id, HttpServletRequest request){
@@ -161,7 +163,7 @@ public class TrainInspectorController extends TrainBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value="/trainInspector_password_reset", method=RequestMethod.POST)
     @ResponseBody
     public Map trainInspector_password_reset(int id, HttpServletRequest request){
@@ -169,14 +171,14 @@ public class TrainInspectorController extends TrainBaseController {
         TrainInspector record = new TrainInspector();
         record.setId(id);
         record.setPasswd(RandomStringUtils.randomNumeric(6));
-        record.setPasswdChangeType(SystemConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_ADMN_RESET);
+        record.setPasswdChangeType(TrainConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_ADMN_RESET);
         trainInspectorMapper.updateByPrimaryKeySelective(record);
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, String.format("重置参评人密码%s", id)));
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value="/trainInspector_delAbolished", method=RequestMethod.POST)
     @ResponseBody
     public Map trainInspector_del(int id, HttpServletRequest request){
@@ -188,7 +190,7 @@ public class TrainInspectorController extends TrainBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    /*@RequiresRoles(SystemConstants.ROLE_ADMIN)
+    /*@RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value="/trainInspector_delAllAbolished", method=RequestMethod.POST)
     @ResponseBody
     public Map trainInspector_delAllAbolished(int trainId, HttpServletRequest request){

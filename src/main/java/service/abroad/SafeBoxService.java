@@ -32,7 +32,7 @@ import service.base.MetaTypeService;
 import service.cadre.CadreService;
 import service.sys.SysUserService;
 import sys.Utils;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
@@ -220,7 +220,7 @@ public class SafeBoxService extends BaseMapper {
 
             PassportExample example = new PassportExample();
             example.createCriteria().andSafeBoxIdEqualTo(safeBoxId).
-                    andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP);
+                    andTypeEqualTo(AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP);
             long keepCount = passportMapper.countByExample(example);
 
             Row header = sheet.createRow(rowNum);
@@ -269,7 +269,7 @@ public class SafeBoxService extends BaseMapper {
                         passport.getCode(),
                         DateUtils.formatDate(passport.getIssueDate(), DateUtils.YYYY_MM_DD),
                         DateUtils.formatDate(passport.getExpiryDate(), DateUtils.YYYY_MM_DD),
-                        SystemConstants.PASSPORT_TYPE_MAP.get(passport.getType()),
+                        AbroadConstants.ABROAD_PASSPORT_TYPE_MAP.get(passport.getType()),
                         BooleanUtils.isTrue(passport.getIsLent()) ? "借出" : "-"
                 };
 

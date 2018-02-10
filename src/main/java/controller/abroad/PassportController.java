@@ -38,6 +38,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.common.PassportSearchBean;
+import sys.constants.AbroadConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
@@ -212,7 +214,7 @@ public class PassportController extends AbroadBaseController {
 
         List<Passport> records = iAbroadMapper.selectPassportList(bean, new RowBounds());
         int rownum = records.size();
-        if(status==SystemConstants.PASSPORT_TYPE_KEEP) {
+        if(status==AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP) {
             String[] titles = {"工作证号|100", "姓名|50", "所在单位及职务|300", "职务属性|100", "干部类型|100",
                     "证件名称|160", "证件号码|100", "发证机关|150", "发证日期|100",
                     "有效期|100", "集中管理日期|100", "所在保险柜|100", "是否借出|80"};
@@ -242,7 +244,7 @@ public class PassportController extends AbroadBaseController {
             ExportHelper.export(titles, valuesList, fileName, response);
         }
 
-        if(status==SystemConstants.PASSPORT_TYPE_CANCEL) {
+        if(status==AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL) {
             String[] titles = {"工作证号", "姓名", "所在单位及职务", "职务属性", "干部类型",
                     "证件名称", "证件号码", "发证机关", "发证日期", "有效期", "集中管理日期", "所在保险柜", "是否借出"
                     , "取消集中保管原因", "状态"};
@@ -265,7 +267,7 @@ public class PassportController extends AbroadBaseController {
                         record.getKeepDate()!=null?DateUtils.formatDate(record.getKeepDate(), DateUtils.YYYY_MM_DD):"",
                         record.getSafeBox().getCode(),
                         record.getIsLent()?"借出":"-",
-                        SystemConstants.PASSPORT_CANCEL_TYPE_MAP.get(record.getCancelType()),
+                        AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_MAP.get(record.getCancelType()),
                         BooleanUtils.isTrue(record.getCancelConfirm())?"已确认":"未确认"
                 };
                 valuesList.add(values);
@@ -295,7 +297,7 @@ public class PassportController extends AbroadBaseController {
                         record.getExpiryDate()!=null?DateUtils.formatDate(record.getExpiryDate(), DateUtils.YYYY_MM_DD):"",
                         record.getKeepDate()!=null?DateUtils.formatDate(record.getKeepDate(), DateUtils.YYYY_MM_DD):"",
                         record.getCancelTime()!=null?DateUtils.formatDate(record.getCancelTime(), DateUtils.YYYY_MM_DD):"",
-                        SystemConstants.PASSPORT_CANCEL_TYPE_MAP.get(record.getCancelType()),
+                        AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_MAP.get(record.getCancelType()),
                         BooleanUtils.isTrue(record.getCancelConfirm())?"已确认":"未确认"
                 };
                 valuesList.add(values);
@@ -304,7 +306,7 @@ public class PassportController extends AbroadBaseController {
             ExportHelper.export(titles, valuesList, fileName, response);
         }
 
-        if(status==SystemConstants.PASSPORT_TYPE_LOST) {
+        if(status==AbroadConstants.ABROAD_PASSPORT_TYPE_LOST) {
             String[] titles = {"工作证号", "姓名", "所在单位及职务", "职务属性", "干部类型",
                     "证件名称", "证件号码", "发证机关", "发证日期", "有效期", "集中管理日期","登记丢失日期"};
             List<String[]> valuesList = new ArrayList<>();
@@ -431,14 +433,14 @@ public class PassportController extends AbroadBaseController {
         return "abroad/passport/passport_lost_view";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
      @RequestMapping("/passport_uploadPic")
      public String passport_uploadPic() {
 
         return "abroad/passport/passport_uploadPic";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/passport_uploadPic", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passport_uploadPic(int id, String _base64,
@@ -476,7 +478,7 @@ public class PassportController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-     @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+     @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
      @RequestMapping("/updateLostProof")
      public String updateLostProof(int id, ModelMap modelMap) {
 
@@ -486,7 +488,7 @@ public class PassportController extends AbroadBaseController {
         return "abroad/passport/updateLostProof";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/updateLostProof", method = RequestMethod.POST)
     @ResponseBody
     public Map do_updateLostProof(
@@ -528,7 +530,7 @@ public class PassportController extends AbroadBaseController {
         return "abroad/passport/passport_cancel_view";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/updateCancelPic")
     public String updateCancelProof(int id, ModelMap modelMap) {
 
@@ -538,7 +540,7 @@ public class PassportController extends AbroadBaseController {
         return "abroad/passport/updateCancelPic";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/updateCancelPic", method = RequestMethod.POST)
     @ResponseBody
     public Map do_updateCancelProof(
@@ -629,7 +631,7 @@ public class PassportController extends AbroadBaseController {
             record.setLostTime(DateUtils.parseDate(_lostTime, DateUtils.YYYY_MM_DD));
         }
 
-        if (type != null && type == SystemConstants.PASSPORT_TYPE_LOST) {
+        if (type != null && type == AbroadConstants.ABROAD_PASSPORT_TYPE_LOST) {
 
             //if (id == null && (_lostProof == null || _lostProof.isEmpty())) throw new OpException("请选择丢失证明文件");
             if (_lostProof != null && !_lostProof.isEmpty()) {
@@ -643,13 +645,13 @@ public class PassportController extends AbroadBaseController {
                 record.setLostProof(savePath);
             }
             if (id == null)
-                record.setLostType(SystemConstants.PASSPORT_LOST_TYPE_ADD);
+                record.setLostType(AbroadConstants.ABROAD_PASSPORT_LOST_TYPE_ADD);
         }
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         if (id == null) {
             if (type == null)
-                record.setType(SystemConstants.PASSPORT_TYPE_KEEP);
+                record.setType(AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP);
             else
                 record.setType(type);
 
@@ -667,10 +669,10 @@ public class PassportController extends AbroadBaseController {
             Passport passport = passportMapper.selectByPrimaryKey(id);
 
             if(!StringUtils.equals(op, "back")) {
-                if (!(passport.getType() == SystemConstants.PASSPORT_TYPE_KEEP
-                        || passport.getType() == SystemConstants.PASSPORT_TYPE_CANCEL
-                        || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
-                        && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
+                if (!(passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP
+                        || passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL
+                        || (passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_LOST
+                        && passport.getLostType() == AbroadConstants.ABROAD_PASSPORT_LOST_TYPE_ADD))) {
                     // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
                     return failed("该证件不可以进行更新操作");
                 }
@@ -739,10 +741,10 @@ public class PassportController extends AbroadBaseController {
             modelMap.put("type", passport.getType());
 
             if(!StringUtils.equals(op, "back")) {
-                if (!(passport.getType() == SystemConstants.PASSPORT_TYPE_KEEP
-                        || passport.getType() == SystemConstants.PASSPORT_TYPE_CANCEL
-                        || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
-                        && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
+                if (!(passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP
+                        || passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL
+                        || (passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_LOST
+                        && passport.getLostType() == AbroadConstants.ABROAD_PASSPORT_LOST_TYPE_ADD))) {
                     // 只有集中管理证件 或 取消集中管理证件 或 从 后台添加的 丢失证件，可以更新
                     throw new OpException("该证件不可以进行更新操作");
                 }
@@ -755,7 +757,7 @@ public class PassportController extends AbroadBaseController {
             passport.setClassId(passportApply.getClassId());
 
             // 已经存在该类证件
-            modelMap.put("isDuplicate", passportService.idDuplicate(id, SystemConstants.PASSPORT_TYPE_KEEP,
+            modelMap.put("isDuplicate", passportService.idDuplicate(id, AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP,
                     passportApply.getCadreId(), passportApply.getClassId(), null)==2);
 
         }else if(taiwanRecordId!=null){
@@ -810,8 +812,8 @@ public class PassportController extends AbroadBaseController {
             record.setLostProof(savePath);
         }
 
-        record.setType(SystemConstants.PASSPORT_TYPE_LOST);
-        record.setLostType(SystemConstants.PASSPORT_LOST_TYPE_TRANSFER);
+        record.setType(AbroadConstants.ABROAD_PASSPORT_TYPE_LOST);
+        record.setLostType(AbroadConstants.ABROAD_PASSPORT_LOST_TYPE_TRANSFER);
         record.setLostUserId(loginUser.getUserId());
 
         // 在“借出”状态, 加备注
@@ -929,7 +931,7 @@ public class PassportController extends AbroadBaseController {
             }
         }
 
-        int successCount = passportService.importPassports(passports, SystemConstants.PASSPORT_TYPE_KEEP);
+        int successCount = passportService.importPassports(passports, AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
         resultMap.put("total", passports.size());

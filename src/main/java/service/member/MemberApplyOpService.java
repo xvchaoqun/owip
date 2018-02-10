@@ -15,6 +15,8 @@ import service.party.EnterApplyService;
 import service.party.MemberService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -559,7 +561,7 @@ public class MemberApplyOpService extends BaseMapper {
         for (int userId : userIds) {
 
             Member member = memberService.get(userId);
-            if(member.getStatus()!=SystemConstants.MEMBER_STATUS_NORMAL){
+            if(member.getStatus()!= MemberConstants.MEMBER_STATUS_NORMAL){
                 SysUserView uv = sysUserService.findById(userId);
                 throw new OpException(uv.getRealname()+"组织关系已经转出");
             }
@@ -610,7 +612,7 @@ public class MemberApplyOpService extends BaseMapper {
         for (int userId : userIds) {
 
             Member member = memberService.get(userId);
-            if(member.getStatus()!=SystemConstants.MEMBER_STATUS_NORMAL){
+            if(member.getStatus()!=MemberConstants.MEMBER_STATUS_NORMAL){
                 SysUserView uv = sysUserService.findById(userId);
                 throw new OpException(uv.getRealname()+"组织关系已经转出");
             }
@@ -664,7 +666,7 @@ public class MemberApplyOpService extends BaseMapper {
         for (int userId : userIds) {
 
             Member member = memberService.get(userId);
-            if(member.getStatus()!=SystemConstants.MEMBER_STATUS_NORMAL){
+            if(member.getStatus()!=MemberConstants.MEMBER_STATUS_NORMAL){
                 SysUserView uv = sysUserService.findById(userId);
                 throw new OpException(uv.getRealname()+"组织关系已经转出");
             }
@@ -688,7 +690,7 @@ public class MemberApplyOpService extends BaseMapper {
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
-            if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN) && !presentPartyAdmin) {
+            if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN) && !presentPartyAdmin) {
                 throw new UnauthorizedException();
             }
 
@@ -722,7 +724,7 @@ public class MemberApplyOpService extends BaseMapper {
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
-            if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN) && !presentPartyAdmin) {
+            if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN) && !presentPartyAdmin) {
                 throw new UnauthorizedException();
             }
             byte stage = memberApply.getStage();

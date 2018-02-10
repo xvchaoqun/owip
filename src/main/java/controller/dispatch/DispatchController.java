@@ -62,6 +62,8 @@ public class DispatchController extends BaseController {
         modelMap.put("cls", cls);
         if (cls == 2) {
             return "forward:/dispatchCadre";
+        }else if (cls == 3) {
+            return "forward:/sc/scDispatch";
         }
 
         if (dispatchTypeId != null) {

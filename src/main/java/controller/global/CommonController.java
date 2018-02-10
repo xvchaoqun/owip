@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.abroad.PassportService;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 
@@ -232,13 +233,13 @@ public class CommonController extends BaseController {
         if (searchStr != null) searchStr = "%" + searchStr + "%";
 
         int count = iCadreMapper.countNotCadre(searchStr, SystemConstants.CADRE_STATUS_SET,
-                sysUserService.buildRoleIds(SystemConstants.ROLE_REG));
+                sysUserService.buildRoleIds(RoleConstants.ROLE_REG));
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<SysUserView> uvs = iCadreMapper.selectNotCadreList(searchStr, SystemConstants.CADRE_STATUS_SET,
-                sysUserService.buildRoleIds(SystemConstants.ROLE_REG), new RowBounds((pageNo - 1) * pageSize, pageSize));
+                sysUserService.buildRoleIds(RoleConstants.ROLE_REG), new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if (null != uvs && uvs.size() > 0) {
@@ -459,8 +460,8 @@ public class CommonController extends BaseController {
         List<Integer> adminBranchIdList = null;
         if (BooleanUtils.isNotTrue(noAuth)){
             Subject subject = SecurityUtils.getSubject();
-            addPermits = !(subject.hasRole(SystemConstants.ROLE_ADMIN)
-                    || subject.hasRole(SystemConstants.ROLE_ODADMIN));
+            addPermits = !(subject.hasRole(RoleConstants.ROLE_ADMIN)
+                    || subject.hasRole(RoleConstants.ROLE_ODADMIN));
             adminPartyIdList = loginUserService.adminPartyIdList();
             adminBranchIdList = loginUserService.adminBranchIdList();
         }
@@ -536,8 +537,8 @@ public class CommonController extends BaseController {
         if (searchStr != null) searchStr = "%" + searchStr + "%";
 
         Subject subject = SecurityUtils.getSubject();
-        boolean addPermits = !(subject.hasRole(SystemConstants.ROLE_ADMIN)
-                || subject.hasRole(SystemConstants.ROLE_ODADMIN));
+        boolean addPermits = !(subject.hasRole(RoleConstants.ROLE_ADMIN)
+                || subject.hasRole(RoleConstants.ROLE_ODADMIN));
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
@@ -606,12 +607,12 @@ public class CommonController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if (searchStr != null) searchStr = "%" + searchStr + "%";
 
-        int count = iMemberMapper.countNotMember(searchStr, sysUserService.buildRoleIds(SystemConstants.ROLE_REG));
+        int count = iMemberMapper.countNotMember(searchStr, sysUserService.buildRoleIds(RoleConstants.ROLE_REG));
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<SysUserView> uvs = iMemberMapper.selectNotMemberList(searchStr, sysUserService.buildRoleIds(SystemConstants.ROLE_REG), new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<SysUserView> uvs = iMemberMapper.selectNotMemberList(searchStr, sysUserService.buildRoleIds(RoleConstants.ROLE_REG), new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if (null != uvs && uvs.size() > 0) {

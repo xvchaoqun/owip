@@ -16,7 +16,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.CrsConstants;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;
@@ -142,12 +142,12 @@ public class CrsPostService extends BaseMapper {
             record.setSeq(genSeq(record.getType(), record.getYear()));
         }
 
-        record.setEnrollStatus(SystemConstants.CRS_POST_ENROLL_STATUS_DEFAULT);
+        record.setEnrollStatus(CrsConstants.CRS_POST_ENROLL_STATUS_DEFAULT);
         record.setCommitteeStatus(false);
         record.setCreateTime(new Date());
-        record.setPubStatus(SystemConstants.CRS_POST_PUB_STATUS_UNPUBLISHED);
+        record.setPubStatus(CrsConstants.CRS_POST_PUB_STATUS_UNPUBLISHED);
         record.setMeetingStatus(false);
-        record.setStatus(SystemConstants.CRS_POST_STATUS_NORMAL);
+        record.setStatus(CrsConstants.CRS_POST_STATUS_NORMAL);
 
         crsPostMapper.insertSelective(record);
     }
@@ -160,7 +160,7 @@ public class CrsPostService extends BaseMapper {
         CrsPostExample example = new CrsPostExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         CrsPost record = new CrsPost();
-        record.setStatus(SystemConstants.CRS_POST_STATUS_DELETE);
+        record.setStatus(CrsConstants.CRS_POST_STATUS_DELETE);
         crsPostMapper.updateByExampleSelective(record, example);
     }
 
@@ -170,7 +170,7 @@ public class CrsPostService extends BaseMapper {
         if (ids == null || ids.length == 0) return;
 
         CrsPostExample example = new CrsPostExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids)).andStatusEqualTo(SystemConstants.CRS_POST_STATUS_DELETE);
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andStatusEqualTo(CrsConstants.CRS_POST_STATUS_DELETE);
 
         crsPostMapper.deleteByExample(example);
     }

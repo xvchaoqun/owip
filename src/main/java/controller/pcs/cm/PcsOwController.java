@@ -27,6 +27,7 @@ import persistence.common.bean.IPcsCandidateView;
 import persistence.common.bean.PcsBranchBean;
 import persistence.common.bean.PcsPartyBean;
 import shiro.ShiroHelper;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
@@ -65,31 +66,31 @@ public class PcsOwController extends PcsBaseController {
                 Party party = partyService.findAll().get(partyId);
                 wb = pcsExportService.exportBranchCandidates(configId, stage, type, partyId);
                 fileName = String.format("附表2-%s. %s候选人推荐提名汇总表（院系级党组织用）（%s）",
-                        type, SystemConstants.PCS_USER_TYPE_MAP.get(type), party.getName());
+                        type, PcsConstants.PCS_USER_TYPE_MAP.get(type), party.getName());
                 break;
             case "4-1":
                 wb = pcsExportService.exportPartyCandidates(null, configId, stage, type);
                 fileName = String.format("%s候选人初步人选推荐提名汇总表（“%s”阶段）",
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type), SystemConstants.PCS_STAGE_MAP.get(stage));
+                        PcsConstants.PCS_USER_TYPE_MAP.get(type), PcsConstants.PCS_STAGE_MAP.get(stage));
                 break;
             case "5-1":
                 wb = pcsExportService.exportPartyCandidates2(configId, stage, type);
                 fileName = String.format("附表5-%s. %s候选人推荐提名汇总表（报上级用）", type,
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
+                        PcsConstants.PCS_USER_TYPE_MAP.get(type));
                 break;
             case "6":
                 wb = pcsExportService.exportRecommends_6(configId, stage);
-                fileName = String.format("参加两委委员候选人推荐提名情况汇总表（“%s”阶段）", SystemConstants.PCS_STAGE_MAP.get(stage));
+                fileName = String.format("参加两委委员候选人推荐提名情况汇总表（“%s”阶段）", PcsConstants.PCS_STAGE_MAP.get(stage));
                 break;
             case "7-1":
                 wb = pcsExportService.exportPartyCandidates(true, configId, stage, type);
                 String stageStr = "";
-                if (stage == SystemConstants.PCS_STAGE_FIRST)
+                if (stage == PcsConstants.PCS_STAGE_FIRST)
                     stageStr = "二下";
-                if (stage == SystemConstants.PCS_STAGE_SECOND)
+                if (stage == PcsConstants.PCS_STAGE_SECOND)
                     stageStr = "三下";
                 fileName = String.format("%s候选人初步人选名册（“%s”名单）",
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type), stageStr);
+                        PcsConstants.PCS_USER_TYPE_MAP.get(type), stageStr);
                 break;
         }
 
@@ -134,7 +135,7 @@ public class PcsOwController extends PcsBaseController {
     public String pcsOw_stat_candidate_page(
             byte stage,
             @RequestParam(required = false,
-                    defaultValue = SystemConstants.PCS_USER_TYPE_DW + "") byte type,
+                    defaultValue = PcsConstants.PCS_USER_TYPE_DW + "") byte type,
             Integer userId,
             ModelMap modelMap) {
 
@@ -192,7 +193,7 @@ public class PcsOwController extends PcsBaseController {
     public String pcsOw_candidate_page(int partyId,
                                        Integer userId,
                                        @RequestParam(required = false,
-                                               defaultValue = SystemConstants.PCS_USER_TYPE_DW + "") byte type,
+                                               defaultValue = PcsConstants.PCS_USER_TYPE_DW + "") byte type,
                                        ModelMap modelMap) {
 
         if (userId != null) {
@@ -270,7 +271,7 @@ public class PcsOwController extends PcsBaseController {
     public String pcsOw_recommend_detail(byte stage,
                                 int userId,
                                 @RequestParam(required = false,
-                                        defaultValue = SystemConstants.PCS_USER_TYPE_DW + "") byte type,
+                                        defaultValue = PcsConstants.PCS_USER_TYPE_DW + "") byte type,
                                 ModelMap modelMap) {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
@@ -392,7 +393,7 @@ public class PcsOwController extends PcsBaseController {
                                           Integer userId,
                                           @RequestParam(required = false, defaultValue = "1") byte cls,
                                           @RequestParam(required = false,
-                                                  defaultValue = SystemConstants.PCS_USER_TYPE_DW + "") byte type,
+                                                  defaultValue = PcsConstants.PCS_USER_TYPE_DW + "") byte type,
                                           Integer pageSize, Integer pageNo) throws IOException {
 
         // cls=2时读取全部
@@ -438,7 +439,7 @@ public class PcsOwController extends PcsBaseController {
                                      byte stage,
                                      Integer userId,
                                      @RequestParam(required = false,
-                                             defaultValue = SystemConstants.PCS_USER_TYPE_DW + "") byte type,
+                                             defaultValue = PcsConstants.PCS_USER_TYPE_DW + "") byte type,
                                      Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -600,10 +601,10 @@ public class PcsOwController extends PcsBaseController {
         // 读取党委委员、纪委委员
         List<PcsCandidateView> dwCandidates =
                 pcsCandidateService.find(record.getPartyId(),
-                        record.getBranchId(), configId, stage, SystemConstants.PCS_USER_TYPE_DW);
+                        record.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_DW);
         List<PcsCandidateView> jwCandidates =
                 pcsCandidateService.find(record.getPartyId(),
-                        record.getBranchId(), configId, stage, SystemConstants.PCS_USER_TYPE_JW);
+                        record.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_JW);
         modelMap.put("dwCandidates", dwCandidates);
         modelMap.put("jwCandidates", jwCandidates);
 

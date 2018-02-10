@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -59,7 +59,7 @@ public class UserPmdMemberController extends PmdBaseController {
             PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
             PmdMember pmdMember = pmdMemberService.get(currentPmdMonth.getId(), _pmdMember.getUserId());
 
-            if(ShiroHelper.lackRole(SystemConstants.ROLE_PMD_OW)) {
+            if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
                 // （只允许支部管理员或直属支部管理员进行代缴）
                 Integer partyId = pmdMember.getPartyId();
                 Integer branchId = pmdMember.getBranchId();

@@ -31,6 +31,8 @@ import service.global.CacheService;
 import service.pcs.PcsAdminService;
 import service.pmd.PmdPartyAdminService;
 import shiro.ShiroHelper;
+import sys.constants.PcsConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -92,7 +94,7 @@ public class SysUserService extends BaseMapper {
     public void changeRoleGuestToMember(int userId) {
 
         // 更新系统角色  访客->党员
-        changeRole(userId, SystemConstants.ROLE_GUEST, SystemConstants.ROLE_MEMBER);
+        changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_MEMBER);
     }
 
 
@@ -116,7 +118,7 @@ public class SysUserService extends BaseMapper {
     public void insertSelective(SysUser record) {
 
         if (StringUtils.isBlank(record.getRoleIds()))
-            record.setRoleIds(buildRoleIds(SystemConstants.ROLE_GUEST));
+            record.setRoleIds(buildRoleIds(RoleConstants.ROLE_GUEST));
         sysUserMapper.insertSelective(record);
 
         // 如果没添加前使用了账号登录或其他原因，可能导致缓存存在且为NULL
@@ -491,7 +493,7 @@ public class SysUserService extends BaseMapper {
             approverTypeBean = applySelfService.getApproverTypeBean(userId);
 
         // 直属党支部管理员不需要“组织机构管理”这个目录
-        if(userRoles.contains(SystemConstants.ROLE_PARTYADMIN)){
+        if(userRoles.contains(RoleConstants.ROLE_PARTYADMIN)){
 
             LoginUserService loginUserService = CmTag.getBean(LoginUserService.class);
             List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
@@ -509,7 +511,7 @@ public class SysUserService extends BaseMapper {
         }
 
         // 党费收缴，直属党支部不具有设置支部管理员的权限
-        if(userRoles.contains(SystemConstants.ROLE_PMD_PARTY)){
+        if(userRoles.contains(RoleConstants.ROLE_PMD_PARTY)){
             PmdPartyAdminService pmdPartyAdminService = CmTag.getBean(PmdPartyAdminService.class);
             if(pmdPartyAdminService!=null){
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
@@ -527,19 +529,19 @@ public class SysUserService extends BaseMapper {
         }
 
         // 党代会分党委管理员，只有书记才拥有添加分党委管理员的权限
-        if (userRoles.contains(SystemConstants.ROLE_PCS_ADMIN)) {
+        if (userRoles.contains(RoleConstants.ROLE_PCS_ADMIN)) {
 
             PcsAdminService pcsAdminService = CmTag.getBean(PcsAdminService.class);
             if(pcsAdminService!=null) {
                 PcsAdmin pcsAdmin = pcsAdminService.getAdmin(userId);
-                if (pcsAdmin==null || pcsAdmin.getType() != SystemConstants.PCS_ADMIN_TYPE_SECRETARY) {
+                if (pcsAdmin==null || pcsAdmin.getType() != PcsConstants.PCS_ADMIN_TYPE_SECRETARY) {
                     userPermissions.remove("pcsPartyAdmin:*");
                 }
             }
         }
 
         // 干部
-        if (userRoles.contains(SystemConstants.ROLE_CADRE)) {
+        if (userRoles.contains(RoleConstants.ROLE_CADRE)) {
             CadreView cadre = CmTag.getCadreByUserId(userId);
 
             //考察对象和离任中层干部不可以看到因私出国申请，现任干部和离任校领导可以
@@ -569,7 +571,7 @@ public class SysUserService extends BaseMapper {
                             || approverTypeBean.isApprover())) {
 
                 userPermissions.remove("applySelf:approvalList"); // 因私出国境审批
-                if (!userRoles.contains(SystemConstants.ROLE_CADREADMIN)) {
+                if (!userRoles.contains(RoleConstants.ROLE_CADREADMIN)) {
                     // 干部管理员 需要目录，普通干部不需要
                     userPermissions.remove("abroad:admin"); // 因私出国境审批（目录）
                 }
@@ -577,7 +579,7 @@ public class SysUserService extends BaseMapper {
 
             // 非干部管理员账号如果有直接修改本人干部信息的权限，则不能看到“干部信息修改申请”菜单
             boolean hasDirectModifyCadreAuth = CmTag.hasDirectModifyCadreAuth(cadre.getId());
-            if (!userRoles.contains(SystemConstants.ROLE_CADREADMIN) && hasDirectModifyCadreAuth) {
+            if (!userRoles.contains(RoleConstants.ROLE_CADREADMIN) && hasDirectModifyCadreAuth) {
 
                 userPermissions.remove("modifyCadreInfo:menu");
             }

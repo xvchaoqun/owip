@@ -2,9 +2,10 @@ package persistence.sc.scLetter;
 
 import domain.sc.scLetter.ScLetterReply;
 import domain.sc.scLetter.ScLetterReplyExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface ScLetterReplyMapper {
     long countByExample(ScLetterReplyExample example);

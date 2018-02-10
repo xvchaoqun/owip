@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
@@ -45,13 +47,13 @@ public class MemberController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/member/search")
     public String member_search(){
 
         return "member/member/member_search";
     }
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/member/search", method = RequestMethod.POST)
     @ResponseBody
     public Map do_member_search(int userId) {
@@ -88,15 +90,15 @@ public class MemberController extends MemberBaseController {
                 }
 
                 // 查询状态
-                if(member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL){
+                if(member.getStatus()==MemberConstants.MEMBER_STATUS_NORMAL){
                     status = "正常";
-                }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
+                }else if(member.getStatus()== MemberConstants.MEMBER_STATUS_TRANSFER){
                     status = "已转出";
-                }else if(member.getStatus()==SystemConstants.MEMBER_STATUS_QUIT){
+                }else if(member.getStatus()==MemberConstants.MEMBER_STATUS_QUIT){
                     status = "已出党";
                 }
 
-                if(member.getType()==SystemConstants.MEMBER_TYPE_TEACHER){
+                if(member.getType()==MemberConstants.MEMBER_TYPE_TEACHER){
                     MemberTeacher memberTeacher = memberTeacherService.get(userId);
                     if(memberTeacher.getIsRetire())
                         status = "已退休";
@@ -104,9 +106,9 @@ public class MemberController extends MemberBaseController {
 
                 MemberStay memberStay = memberStayService.get(userId);
                 if(memberStay!=null){
-                    if(memberStay.getStatus()==SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY){
+                    if(memberStay.getStatus()==MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY){
                         status = "出国暂留申请已完成审批";
-                    }else if(memberStay.getStatus()>=SystemConstants.MEMBER_STAY_STATUS_APPLY)
+                    }else if(memberStay.getStatus()>=MemberConstants.MEMBER_STAY_STATUS_APPLY)
                         status = "已申请出国暂留，但还未审核通过";
                 }
             }
@@ -124,7 +126,7 @@ public class MemberController extends MemberBaseController {
     }
 
     // for test 后台数据库中导入党员数据后，需要同步信息、更新状态
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value = "/member_dbUpdate")
     @ResponseBody
     public Map dbUpdate() {
@@ -154,8 +156,8 @@ public class MemberController extends MemberBaseController {
         //===========权限
         Integer loginUserId = loginUser.getId();
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以添加党员
@@ -194,9 +196,9 @@ public class MemberController extends MemberBaseController {
                 return failed("该用户已经提交了入党申请[当前审批阶段："+SystemConstants.APPLY_STAGE_MAP.get(memberApply.getStage())+"]，不可以直接添加。");
             }
 
-            record.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常
+            record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常
             record.setCreateTime(new Date());
-            record.setSource(SystemConstants.MEMBER_SOURCE_ADMIN); // 后台添加的党员
+            record.setSource(MemberConstants.MEMBER_SOURCE_ADMIN); // 后台添加的党员
             memberService.add(record);
 
             memberService.addModify(record.getUserId(), "后台添加");
@@ -279,8 +281,8 @@ public class MemberController extends MemberBaseController {
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if (!isAdmin && branchId != null) { // 只有支部管理员或分党委管理员可以操作
@@ -313,7 +315,7 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_PARTYADMIN)
+    @RequiresRoles(RoleConstants.ROLE_PARTYADMIN)
     @RequestMapping("/member_changeBranch")
     public String member_changeBranch(@CurrentUser SysUserView loginUser, @RequestParam(value = "ids[]") Integer[] ids,
                                       int partyId, ModelMap modelMap) {
@@ -344,7 +346,7 @@ public class MemberController extends MemberBaseController {
     }
 
     // 批量分党委内部转移
-    @RequiresRoles(SystemConstants.ROLE_PARTYADMIN)
+    @RequiresRoles(RoleConstants.ROLE_PARTYADMIN)
     @RequestMapping(value = "/member_changeBranch", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeBranch(@CurrentUser SysUserView loginUser, HttpServletRequest request,
@@ -365,7 +367,7 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ODADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ODADMIN)
     @RequestMapping("/member_changeParty")
     public String member_changeParty() {
 
@@ -375,7 +377,7 @@ public class MemberController extends MemberBaseController {
     }
 
     // 批量校内组织关系转移
-    @RequiresRoles(SystemConstants.ROLE_ODADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ODADMIN)
     @RequestMapping(value = "/member_changeParty", method = RequestMethod.POST)
     @ResponseBody
     public Map member_changeParty(HttpServletRequest request,
@@ -391,7 +393,7 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    /*@RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    /*@RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("member:del")
     @RequestMapping(value = "/member_del", method = RequestMethod.POST)
     @ResponseBody
@@ -405,7 +407,7 @@ public class MemberController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }*/
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/member_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -452,7 +454,7 @@ public class MemberController extends MemberBaseController {
         Member member = memberService.get(userId);
 
         // 分党委、组织部管理员或管理员才可以操作
-        if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_ADMIN)) {
+        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_ADMIN)) {
             Integer partyId = member.getPartyId();
             Integer branchId = member.getBranchId();
             Integer loginUserId = loginUser.getId();
@@ -462,7 +464,7 @@ public class MemberController extends MemberBaseController {
                 throw new UnauthorizedException();
             }
         }
-        if (member.getType() == SystemConstants.MEMBER_TYPE_TEACHER)  // 这个地方的判断可能有问题，应该用党员信息里的类别++++++++++++
+        if (member.getType() == MemberConstants.MEMBER_TYPE_TEACHER)  // 这个地方的判断可能有问题，应该用党员信息里的类别++++++++++++
             return "member/member/teacher_view";
         return "member/member/student_view";
     }

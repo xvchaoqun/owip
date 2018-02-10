@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -59,7 +60,7 @@ public class PmdNormController extends PmdBaseController {
 
         PmdNormExample example = new PmdNormExample();
         Criteria criteria = example.createCriteria()
-                .andTypeEqualTo(type).andStatusNotEqualTo(SystemConstants.PMD_NORM_STATUS_DELETE);
+                .andTypeEqualTo(type).andStatusNotEqualTo(PmdConstants.PMD_NORM_STATUS_DELETE);
         example.setOrderByClause("sort_order asc");
 
         if (name != null) {
@@ -94,7 +95,7 @@ public class PmdNormController extends PmdBaseController {
         Integer id = record.getId();
 
         if (id == null) {
-            record.setStatus(SystemConstants.PMD_NORM_STATUS_INIT);
+            record.setStatus(PmdConstants.PMD_NORM_STATUS_INIT);
             pmdNormService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_PMD, "添加收费标准：%s", record.getId()));
         } else {

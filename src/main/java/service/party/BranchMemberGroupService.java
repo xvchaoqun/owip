@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
@@ -38,8 +38,8 @@ public class BranchMemberGroupService extends BaseMapper {
         Subject subject = SecurityUtils.getSubject();
         ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
         Integer loginUserId = shiroUser.getId();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin) throw new UnauthorizedException();
@@ -86,7 +86,7 @@ public class BranchMemberGroupService extends BaseMapper {
             // 如果他只是该党支部的管理员，则删除账号所属的"党支部管理员"角色； 否则不处理
             List<Integer> branchIdList = iPartyMapper.adminBranchIdList(userId);
             if(branchIdList.size()==0) {
-                sysUserService.delRole(userId, SystemConstants.ROLE_BRANCHADMIN);
+                sysUserService.delRole(userId, RoleConstants.ROLE_BRANCHADMIN);
             }
         }
     }
@@ -98,8 +98,8 @@ public class BranchMemberGroupService extends BaseMapper {
             SysUserView sysUser = sysUserService.findById(userId);
             // 添加账号的"党支部管理员"角色
             // 如果账号是现任班子的管理员， 且没有"党支部管理员"角色，则添加
-            if (!CmTag.hasRole(sysUser.getUsername(), SystemConstants.ROLE_BRANCHADMIN)) {
-                sysUserService.addRole(userId, SystemConstants.ROLE_BRANCHADMIN);
+            if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_BRANCHADMIN)) {
+                sysUserService.addRole(userId, RoleConstants.ROLE_BRANCHADMIN);
             }
         }
     }

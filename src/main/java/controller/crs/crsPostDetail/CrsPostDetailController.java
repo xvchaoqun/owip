@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import sys.constants.SystemConstants;
+import sys.constants.CrsConstants;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class CrsPostDetailController extends CrsBaseController {
 
         if(step==2){
             int[] count = new int[]{-1, 0,0,0,0};
-            List<Map> sta = iCrsMapper.applicantStatic(id, SystemConstants.CRS_APPLICANT_STATUS_SUBMIT);
+            List<Map> sta = iCrsMapper.applicantStatic(id, CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
             for (Map entity : sta) {
 
                 byte require_check_status = -1;
@@ -45,12 +45,12 @@ public class CrsPostDetailController extends CrsBaseController {
 
                 // cls==1
                 if(is_quit==false) {
-                    if (require_check_status == SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT) {
+                    if (require_check_status == CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT) {
                         count[1] += num;
                     }
                     if (is_require_check_pass) {
                         count[2] += num;
-                    } else if (require_check_status == SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS) {
+                    } else if (require_check_status == CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS) {
                         count[3] += num;
                     }
                 }else{

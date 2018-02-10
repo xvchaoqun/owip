@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.AbroadConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -45,11 +46,11 @@ public class ApproverTypeController extends AbroadBaseController {
 
         Map<String, Object> resultMap = success();
 
-        if (type == SystemConstants.APPROVER_TYPE_UNIT) { // 本单位正职
+        if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT) { // 本单位正职
 
             resultMap.put("tree", cadreCommonService.getMainPostCadreTree());
 
-        }else if (type == SystemConstants.APPROVER_TYPE_LEADER) { // 分管校领导
+        }else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) { // 分管校领导
 
             // 分管校领导 黑名单（即二次编辑中没有选择的干部）
             ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
@@ -70,7 +71,7 @@ public class ApproverTypeController extends AbroadBaseController {
                     selectCadreSet.add(cadre.getId());
             }
 
-            TreeNode tree = cadreCommonService.getTree(cadreSet, SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET,
+            TreeNode tree = cadreCommonService.getTree(cadreSet, AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET,
                     selectCadreSet, null, true, true, true);
             resultMap.put("tree", tree);
         }else{ // 其他审批身份
@@ -79,7 +80,7 @@ public class ApproverTypeController extends AbroadBaseController {
             //Set<Integer> disabledIdSet = approverTypeService.findApproverCadreIds(null);
             //disabledIdSet.removeAll(selectIdSet);
             TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
-                    SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, null);
+                    AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, null);
             resultMap.put("tree", tree);
         }
 
@@ -90,7 +91,7 @@ public class ApproverTypeController extends AbroadBaseController {
     @RequestMapping("/approverType/selectCadres")
     public String select_cadres(Integer id, byte type, ModelMap modelMap) throws IOException {
 
-        if (type != SystemConstants.APPROVER_TYPE_UNIT && type != SystemConstants.APPROVER_TYPE_LEADER) {
+        if (type != AbroadConstants.ABROAD_APPROVER_TYPE_UNIT && type != AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {
             ApproverType approverType = approverTypeMapper.selectByPrimaryKey(id);
             modelMap.put("approverType", approverType);
         }
@@ -102,12 +103,12 @@ public class ApproverTypeController extends AbroadBaseController {
     @ResponseBody
     public Map do_select_cadres(Integer id, byte type, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
 
-        if(type==SystemConstants.APPROVER_TYPE_UNIT){
+        if(type==AbroadConstants.ABROAD_APPROVER_TYPE_UNIT){
             // 本单位正职身份
             ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
             Integer mainPostTypeId = mainPostApproverType.getId();
             approverBlackListService.updateCadreIds(mainPostTypeId, cadreIds);
-        }else if(type==SystemConstants.APPROVER_TYPE_LEADER){
+        }else if(type==AbroadConstants.ABROAD_APPROVER_TYPE_LEADER){
             // 分管校领导身份
             ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
             Integer leaderApproverTypeId = leaderApproverType.getId();

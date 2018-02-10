@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -457,7 +458,7 @@ public class CadreController extends BaseController {
     }
 
     // for test 给所有的干部加上干部身份
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value = "/cadre_addAllCadreRole")
     @ResponseBody
     public Map do_cadre_addAllCadreRole() {
@@ -465,7 +466,7 @@ public class CadreController extends BaseController {
         Map<Integer, CadreView> cadreMap = cadreService.findAll();
         for (CadreView cadre : cadreMap.values()) {
             // 添加干部身份
-            sysUserService.addRole(cadre.getUserId(), SystemConstants.ROLE_CADRE);
+            sysUserService.addRole(cadre.getUserId(), RoleConstants.ROLE_CADRE);
         }
 
         return success(FormUtils.SUCCESS);

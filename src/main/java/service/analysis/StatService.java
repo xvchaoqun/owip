@@ -5,6 +5,7 @@ import bean.analysis.StatByteBean;
 import bean.analysis.StatIntBean;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
+import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class StatService extends BaseMapper{
         }
 
         Map<Byte, Integer> map = new LinkedHashMap<>();
-        for (Byte key : SystemConstants.MEMBER_POLITICAL_STATUS_MAP.keySet()) {
+        for (Byte key : MemberConstants.MEMBER_POLITICAL_STATUS_MAP.keySet()) {
             map.put(key, _map.get(key));
         }
 
@@ -52,7 +53,7 @@ public class StatService extends BaseMapper{
         }
 
         Map<Byte, Integer> map = new LinkedHashMap<>();
-        for (Byte key : SystemConstants.MEMBER_TYPE_MAP.keySet()) {
+        for (Byte key : MemberConstants.MEMBER_TYPE_MAP.keySet()) {
             map.put(key, _map.get(key));
         }
 
@@ -87,36 +88,36 @@ public class StatService extends BaseMapper{
         Map<Byte, Integer> _ageMap = new HashMap<>();
         List<StatIntBean> statIntBeans = new ArrayList<>();
 
-        if (type==null || type == SystemConstants.MEMBER_TYPE_TEACHER)
+        if (type==null || type == MemberConstants.MEMBER_TYPE_TEACHER)
             statIntBeans.addAll(statMemberMapper.member_teatcherGroupByBirth(partyId, branchId));
-        if (type==null || type == SystemConstants.MEMBER_TYPE_STUDENT)
+        if (type==null || type == MemberConstants.MEMBER_TYPE_STUDENT)
             statIntBeans.addAll(statMemberMapper.member_studentGroupByBirth(partyId, branchId));
 
         //int year = DateUtils.getCurrentYear();
         for (StatIntBean statIntBean : statIntBeans) {
             Integer _year = statIntBean.getType();
-            /*byte key = SystemConstants.MEMBER_AGE_0; // 未知年龄
+            /*byte key = MemberConstants.MEMBER_AGE_0; // 未知年龄
             if(_year!=null){
                 if(_year > year-20){ // 20岁及以下
-                    key = SystemConstants.MEMBER_AGE_20;
+                    key = MemberConstants.MEMBER_AGE_20;
                 }else if(_year > year-30){ // 21~30
-                    key = SystemConstants.MEMBER_AGE_21_30;
+                    key = MemberConstants.MEMBER_AGE_21_30;
                 }else if(_year > year-40){ // 31~40
-                    key = SystemConstants.MEMBER_AGE_31_40;
+                    key = MemberConstants.MEMBER_AGE_31_40;
                 }else if(_year > year-50){ // 41~50
-                    key = SystemConstants.MEMBER_AGE_41_50;
+                    key = MemberConstants.MEMBER_AGE_41_50;
                 }else{ // 51及以上
-                    key = SystemConstants.MEMBER_AGE_51;
+                    key = MemberConstants.MEMBER_AGE_51;
                 }
             }*/
-            byte key = SystemConstants.getMemberAgeRange(_year);
+            byte key = MemberConstants.getMemberAgeRange(_year);
             Integer total = _ageMap.get(key);
             total = (total==null)?statIntBean.getNum():(total+statIntBean.getNum());
             _ageMap.put(key, total);
         }
 
         Map<Byte, Integer> ageMap = new LinkedHashMap<>();
-        for (Byte key : SystemConstants.MEMBER_AGE_MAP.keySet()) {
+        for (Byte key : MemberConstants.MEMBER_AGE_MAP.keySet()) {
             ageMap.put(key, _ageMap.get(key));
         }
 

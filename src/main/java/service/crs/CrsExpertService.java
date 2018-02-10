@@ -13,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
+import sys.constants.CisConstants;
+import sys.constants.CrsConstants;
 import sys.tool.tree.TreeNode;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class CrsExpertService extends BaseMapper {
 
             CrsExpert record = new CrsExpert();
             record.setUserId(userId);
-            record.setStatus(SystemConstants.CRS_EXPERT_STATUS_NOW);
+            record.setStatus(CrsConstants.CRS_EXPERT_STATUS_NOW);
             insertSelective(record);
         }
     }
@@ -66,7 +67,7 @@ public class CrsExpertService extends BaseMapper {
         root.hideCheckbox = true;
         List<TreeNode> rootChildren = new ArrayList<TreeNode>();
         root.children = rootChildren;
-        for (Map.Entry<Byte, String> entry : SystemConstants.CRS_EXPERT_STATUS_MAP.entrySet()) {
+        for (Map.Entry<Byte, String> entry : CrsConstants.CRS_EXPERT_STATUS_MAP.entrySet()) {
             TreeNode groupNode = new TreeNode();
             groupNode.title = entry.getValue();
             groupNode.expand = true;
@@ -121,7 +122,7 @@ public class CrsExpertService extends BaseMapper {
         example.setOrderByClause(" sort_order desc");
         List<Cadre> cadres = cadreMapper.selectByExample(example);*/
         for (CadreView cadre : cadreList) {
-            if (SystemConstants.CRS_EXPERT_CADRE_STATUS_SET.contains(cadre.getStatus())) {
+            if (CrsConstants.CRS_EXPERT_CADRE_STATUS_SET.contains(cadre.getStatus())) {
                 List<CadreView> list = null;
                 MetaType postType = postMap.get(cadre.getPostId());
                 int postId = postType.getId();
@@ -201,7 +202,7 @@ public class CrsExpertService extends BaseMapper {
         if (ids == null || ids.length == 0) return;
 
         CrsExpert record = new CrsExpert();
-        record.setStatus(SystemConstants.CIS_INSPECTOR_STATUS_HISTORY);
+        record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_HISTORY);
 
         CrsExpertExample example = new CrsExpertExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -214,7 +215,7 @@ public class CrsExpertService extends BaseMapper {
         if (ids == null || ids.length == 0) return;
 
         CrsExpert record = new CrsExpert();
-        record.setStatus(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
+        record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_NOW);
 
         CrsExpertExample example = new CrsExpertExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -228,7 +229,7 @@ public class CrsExpertService extends BaseMapper {
         if (ids == null || ids.length == 0) return;
 
         CrsExpert record = new CrsExpert();
-        record.setStatus(SystemConstants.CIS_INSPECTOR_STATUS_DELETE);
+        record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_DELETE);
 
         CrsExpertExample example = new CrsExpertExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));

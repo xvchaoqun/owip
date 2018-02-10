@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.member.ApplyApprovalLogService;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
@@ -143,7 +144,7 @@ public class SysUserRegController extends BaseController {
         return;
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("sysUserReg:list")
     @RequestMapping("/sysUserReg_approval")
     public String sysUserReg_approval(@CurrentUser SysUserView loginUser, Integer id, ModelMap modelMap) {
@@ -255,8 +256,8 @@ public class SysUserRegController extends BaseController {
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin) throw new UnauthorizedException();
         }
@@ -292,8 +293,8 @@ public class SysUserRegController extends BaseController {
         //===========权限
         Integer loginUserId = ShiroHelper.getCurrentUserId();
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin) throw new UnauthorizedException();
         }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -44,7 +45,7 @@ public class PmdConfigMemberController extends PmdBaseController {
         }
 
         Map<Byte, List<PmdConfigMemberType>> typeMap = new HashMap<>();
-        for (Byte pmdMemberType : SystemConstants.PMD_MEMBER_TYPE_MAP.keySet()) {
+        for (Byte pmdMemberType : PmdConstants.PMD_MEMBER_TYPE_MAP.keySet()) {
             typeMap.put(pmdMemberType, pmdConfigMemberTypeService.list(pmdMemberType));
         }
         modelMap.put("typeMap", typeMap);

@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
 
 import java.util.List;
 import java.util.Map;
@@ -33,7 +33,7 @@ public interface IAbroadMapper {
 
     @ResultType(bean.ApplySelfModifyBean.class)
     @Select("select modify_proof as modifyProof, modify_proof_file_name as modifyProofFileName,remark from abroad_apply_self_modify " +
-            "where apply_id=#{applyId} and modify_type=" + SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY)
+            "where apply_id=#{applyId} and modify_type=" + AbroadConstants.ABROAD_APPLYSELF_MODIFY_TYPE_MODIFY)
     List<ApplySelfModifyBean> getApplySelfModifyList(@Param("applyId") Integer applyId);
 
     // 其他审批人身份的干部，查找他需要审批的干部
@@ -109,7 +109,7 @@ public interface IAbroadMapper {
 
 
     // 领取证件：重置归还状态为 “未归还”
-    @Update("update abroad_passport_draw apd, abroad_passport p set p.is_lent=1, apd.draw_status="+SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW
+    @Update("update abroad_passport_draw apd, abroad_passport p set p.is_lent=1, apd.draw_status="+AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW
             +" , apd.use_record=null, apd.attachment_filename=null,apd.attachment=null, apd.real_start_date=null, apd.real_end_date=null," +
             "apd.real_to_country=null, apd.return_remark=null," +
             "apd.use_passport=null, apd.real_return_date=null where apd.id=#{id} and p.id=apd.passport_id")

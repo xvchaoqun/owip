@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.PmdConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -339,7 +341,7 @@ public class PmdMemberController extends PmdBaseController {
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
 
         //如果不是组织部管理员，则要求是本支部管理员才允许删除操作
-        if(ShiroHelper.lackRole(SystemConstants.ROLE_PMD_OW)){
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)){
             if(!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
                     pmdMember.getPartyId(), pmdMember.getBranchId())){
                 throw new UnauthorizedException();
@@ -370,7 +372,7 @@ public class PmdMemberController extends PmdBaseController {
         }
         Member member = memberService.get(userId);
 
-        if(ShiroHelper.lackRole(SystemConstants.ROLE_PMD_OW)) {
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
             if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
                     member.getPartyId(), member.getBranchId())) {
                 throw new UnauthorizedException();
@@ -420,7 +422,7 @@ public class PmdMemberController extends PmdBaseController {
 
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
 
-        if(ShiroHelper.lackRole(SystemConstants.ROLE_PMD_OW)) {
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
             if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
                     pmdMember.getPartyId(), pmdMember.getBranchId())) {
                 throw new UnauthorizedException();
@@ -545,7 +547,7 @@ public class PmdMemberController extends PmdBaseController {
             modelMap.put("pmdMember", pmdMemberMapper.selectByPrimaryKey(ids[0]));
         }
 
-        modelMap.put("pmdNorms",  pmdNormService.list(SystemConstants.PMD_NORM_TYPE_REDUCE, null));
+        modelMap.put("pmdNorms",  pmdNormService.list(PmdConstants.PMD_NORM_TYPE_REDUCE, null));
 
         return "pmd/pmdMember/pmdMember_selectReduceNorm";
     }

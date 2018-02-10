@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.ContentTplConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -148,12 +150,12 @@ public class ContentTplController extends BaseController {
             modelMap.put("contentTpl", contentTpl);
         }
 
-        if(contentType==null) contentType = SystemConstants.CONTENT_TPL_CONTENT_TYPE_STRING;
+        if(contentType==null) contentType = ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_STRING;
         modelMap.put("contentType", contentType);
 
-        if(contentType==SystemConstants.CONTENT_TPL_CONTENT_TYPE_STRING)
+        if(contentType==ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_STRING)
             return "base/contentTpl/contentTpl_string_au";
-        if(contentType==SystemConstants.CONTENT_TPL_CONTENT_TYPE_HTML)
+        if(contentType==ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_HTML)
             return "base/contentTpl/contentTpl_html_au";
         throw new OpException("模板类型错误");
     }
@@ -185,7 +187,7 @@ public class ContentTplController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value = "/contentTplRole", method = RequestMethod.POST)
     @ResponseBody
     public Map do_contentTplRole(int id,
@@ -200,7 +202,7 @@ public class ContentTplController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/contentTplRole")
     public String contentTplRole(Integer id, ModelMap modelMap) throws IOException {
 

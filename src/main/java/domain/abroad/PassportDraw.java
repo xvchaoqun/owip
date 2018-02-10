@@ -3,7 +3,7 @@ package domain.abroad;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -52,15 +52,15 @@ public class PassportDraw implements Serializable {
 
     public ApplySelf getApplySelf(){
 
-        if(type== SystemConstants.PASSPORT_DRAW_TYPE_SELF && applyId!=null)
+        if(type== AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF && applyId!=null)
             return CmTag.getApplySelf(applyId);
         return null;
     }
     public String getStatusName(){
-        return SystemConstants.PASSPORT_DRAW_STATUS_MAP.get(status);
+        return AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_MAP.get(status);
     }
     /*public String getDrawStatusName(){
-        return SystemConstants.PASSPORT_DRAW_DRAW_STATUS_MAP.get(drawStatus);
+        return AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_MAP.get(drawStatus);
     }*/
     public Boolean getReturnDateNotNow(){
         Date now = new Date();

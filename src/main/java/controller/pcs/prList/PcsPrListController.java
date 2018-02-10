@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
 import sys.utils.ExportHelper;
@@ -120,7 +122,7 @@ public class PcsPrListController extends PcsBaseController {
         boolean hasSort = pcsPrListService.hasSort(configId, partyId);
         modelMap.put("hasSort", hasSort);
         modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId,
-                SystemConstants.PCS_STAGE_THIRD) && hasSort);
+                PcsConstants.PCS_STAGE_THIRD) && hasSort);
 
         return "pcs/pcsPrList/pcsPrList_page";
     }
@@ -130,7 +132,7 @@ public class PcsPrListController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsPrList_au(String items, HttpServletRequest request) throws UnsupportedEncodingException {
 
-        byte stage = SystemConstants.PCS_STAGE_THIRD;
+        byte stage = PcsConstants.PCS_STAGE_THIRD;
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int partyId = pcsAdmin.getPartyId();
@@ -170,7 +172,7 @@ public class PcsPrListController extends PcsBaseController {
         modelMap.put("pcsPrAllocate", pcsPrAllocate);
 
         PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId,
-                SystemConstants.PCS_STAGE_SECOND, partyId, true);
+                PcsConstants.PCS_STAGE_SECOND, partyId, true);
         modelMap.put("realPcsPrAllocate", realPcsPrAllocate);
 
         return "pcs/pcsPrList/pcsPrList_table_page";
@@ -184,7 +186,7 @@ public class PcsPrListController extends PcsBaseController {
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         int partyId = pcsAdmin.getPartyId();
 
-        byte stage = SystemConstants.PCS_STAGE_THIRD;
+        byte stage = PcsConstants.PCS_STAGE_THIRD;
 
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, stage, partyId);
         modelMap.put("pcsPrRecommend", pcsPrRecommend);
@@ -207,7 +209,7 @@ public class PcsPrListController extends PcsBaseController {
             throw new UnauthorizedException();
         }
 
-        byte stage = SystemConstants.PCS_STAGE_THIRD;
+        byte stage = PcsConstants.PCS_STAGE_THIRD;
 
         int partyId = pcsAdmin.getPartyId();
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
@@ -234,7 +236,7 @@ public class PcsPrListController extends PcsBaseController {
         pcsPrPartyService.report(partyId, configId, stage);
 
         logger.info(addLog(SystemConstants.LOG_PCS, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
-                SystemConstants.PCS_STAGE_MAP.get(stage)));
+                PcsConstants.PCS_STAGE_MAP.get(stage)));
 
         return success(FormUtils.SUCCESS);
     }
@@ -263,7 +265,7 @@ public class PcsPrListController extends PcsBaseController {
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         Map<Integer, PcsPrCandidateView> selectedMap = pcsPrCandidateService.findSelectedMap(configId,
-                SystemConstants.PCS_STAGE_SECOND, partyId);
+                PcsConstants.PCS_STAGE_SECOND, partyId);
 
         List<PcsPrCandidateView> candidates = new ArrayList<>();
         if (userIds != null) {
@@ -296,13 +298,13 @@ public class PcsPrListController extends PcsBaseController {
                     CadreView cv = cadreService.dbFindByUserId(userId);
                     if(cv!=null && SystemConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())){
                         // 是干部
-                        candidate.setUserType(SystemConstants.PCS_PR_USER_TYPE_CADRE);
+                        candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_CADRE);
                         candidate.setEduId(cv.getEduId());
                         candidate.setWorkTime(cv.getWorkTime());
                         candidate.setPost(cv.getPost());
                     }else{
                         // 是普通教师
-                        candidate.setUserType(SystemConstants.PCS_PR_USER_TYPE_TEACHER);
+                        candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_TEACHER);
                         candidate.setEducation(teacherInfo.getEducation());
                         candidate.setWorkTime(teacherInfo.getWorkTime());
                         candidate.setIsRetire(teacherInfo.getIsRetire());
@@ -311,13 +313,13 @@ public class PcsPrListController extends PcsBaseController {
                 }else{
                     StudentInfo studentInfo = studentService.get(userId);
                     // 学生
-                    candidate.setUserType(SystemConstants.PCS_PR_USER_TYPE_STU);
+                    candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_STU);
                     candidate.setEduLevel(studentInfo.getEduLevel());
                 }
 
                 Member member = memberService.get(userId);
                 if(member==null || member.getPoliticalStatus()
-                        != SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE){
+                        != MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE){
                     throw new OpException(uv.getRealname() + "不是正式党员。");
                 }
                 candidate.setGrowTime(member.getGrowTime());

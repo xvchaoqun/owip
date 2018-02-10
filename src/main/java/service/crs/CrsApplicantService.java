@@ -21,6 +21,8 @@ import service.modify.ModifyCadreAuthService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.CrsConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
@@ -49,7 +51,7 @@ public class CrsApplicantService extends BaseMapper {
 
         CrsApplicantViewExample example = new CrsApplicantViewExample();
         example.createCriteria().andPostIdEqualTo(postId)
-                .andStatusEqualTo(SystemConstants.CRS_APPLICANT_STATUS_SUBMIT);
+                .andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
 
         return crsApplicantViewMapper.selectByExample(example);
     }
@@ -59,7 +61,7 @@ public class CrsApplicantService extends BaseMapper {
 
         CrsApplicantViewExample example = new CrsApplicantViewExample();
         example.createCriteria().andPostIdEqualTo(postId)
-                .andStatusEqualTo(SystemConstants.CRS_APPLICANT_STATUS_SUBMIT)
+                .andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT)
                 .andIsRequireCheckPassEqualTo(true);
 
         return crsApplicantViewMapper.selectByExample(example);
@@ -70,8 +72,8 @@ public class CrsApplicantService extends BaseMapper {
         CrsApplicantExample example = new CrsApplicantExample();
         CrsApplicantExample.Criteria criteria = example.createCriteria()
                 .andPostIdEqualTo(postId).andUserIdEqualTo(userId)
-                .andStatusIn(Arrays.asList(SystemConstants.CRS_APPLICANT_STATUS_SAVE,
-                        SystemConstants.CRS_APPLICANT_STATUS_SUBMIT));
+                .andStatusIn(Arrays.asList(CrsConstants.CRS_APPLICANT_STATUS_SAVE,
+                        CrsConstants.CRS_APPLICANT_STATUS_SUBMIT));
 
         if (id != null) criteria.andIdNotEqualTo(id);
 
@@ -87,10 +89,10 @@ public class CrsApplicantService extends BaseMapper {
         }
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
-        if(crsPost==null ||crsPost.getStatus() ==SystemConstants.CRS_POST_STATUS_FINISH){
+        if(crsPost==null ||crsPost.getStatus() ==CrsConstants.CRS_POST_STATUS_FINISH){
             throw new OpException("岗位{0}应聘已经结束。", crsPost==null?"":crsPost.getName());
         }
-        if(crsPost.getSwitchStatus() != SystemConstants.CRS_POST_ENROLL_STATUS_OPEN){
+        if(crsPost.getSwitchStatus() != CrsConstants.CRS_POST_ENROLL_STATUS_OPEN){
             throw new OpException("岗位{0}应聘还未开始。", crsPost==null?"":crsPost.getName());
         }
 
@@ -107,8 +109,8 @@ public class CrsApplicantService extends BaseMapper {
             throw new OpException("岗位{0}重复应聘。", crsPost==null?"":crsPost.getName());
         }
 
-        if(status!=SystemConstants.CRS_APPLICANT_STATUS_SAVE
-                && status!=SystemConstants.CRS_APPLICANT_STATUS_SUBMIT){
+        if(status!=CrsConstants.CRS_APPLICANT_STATUS_SAVE
+                && status!=CrsConstants.CRS_APPLICANT_STATUS_SUBMIT){
             throw new OpException("状态异常。");
         }
 
@@ -125,8 +127,8 @@ public class CrsApplicantService extends BaseMapper {
             record.setReport(report);
             record.setEnrollTime(new Date());
             record.setIsRecommend(false);
-            record.setInfoCheckStatus(SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_INIT);
-            record.setRequireCheckStatus(SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT); //
+            record.setInfoCheckStatus(CrsConstants.CRS_APPLICANT_INFO_CHECK_STATUS_INIT);
+            record.setRequireCheckStatus(CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT); //
             record.setIsQuit(false);
             record.setStatus(status);
             crsApplicantMapper.insertSelective(record);
@@ -146,7 +148,7 @@ public class CrsApplicantService extends BaseMapper {
             CrsApplicant record = new CrsApplicant();
             record.setId(id);
             record.setReport(report);
-            if(status==SystemConstants.CRS_APPLICANT_STATUS_SUBMIT)
+            if(status==CrsConstants.CRS_APPLICANT_STATUS_SUBMIT)
                 record.setStatus(status);
 
             crsApplicantMapper.updateByPrimaryKeySelective(record);
@@ -166,8 +168,8 @@ public class CrsApplicantService extends BaseMapper {
         CrsApplicantExample example = new CrsApplicantExample();
         CrsApplicantExample.Criteria criteria = example.createCriteria()
                 .andPostIdEqualTo(postId).andUserIdEqualTo(userId)
-                .andStatusIn(Arrays.asList(SystemConstants.CRS_APPLICANT_STATUS_SAVE,
-                        SystemConstants.CRS_APPLICANT_STATUS_SUBMIT));
+                .andStatusIn(Arrays.asList(CrsConstants.CRS_APPLICANT_STATUS_SAVE,
+                        CrsConstants.CRS_APPLICANT_STATUS_SUBMIT));
         List<CrsApplicant> crsApplicants = crsApplicantMapper.selectByExample(example);
         if(crsApplicants.size()==0 || crsApplicants.size()>1) return null;
 
@@ -189,7 +191,7 @@ public class CrsApplicantService extends BaseMapper {
         }
 
         CrsApplicant crsApplicant = getAvaliable(postId, userId);
-        if(crsApplicant==null || crsApplicant.getStatus()!=SystemConstants.CRS_APPLICANT_STATUS_SUBMIT)
+        if(crsApplicant==null || crsApplicant.getStatus()!=CrsConstants.CRS_APPLICANT_STATUS_SUBMIT)
             throw new OpException("干部应聘状态异常");
 
         CrsApplicant record = new CrsApplicant();
@@ -210,12 +212,12 @@ public class CrsApplicantService extends BaseMapper {
     public void reApply(int postId, Integer userId) {
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
-        if(crsPost.getSwitchStatus() != SystemConstants.CRS_POST_ENROLL_STATUS_OPEN){
+        if(crsPost.getSwitchStatus() != CrsConstants.CRS_POST_ENROLL_STATUS_OPEN){
             throw new OpException("岗位{0}应聘未开始。", crsPost==null?"":crsPost.getName());
         }
 
         CrsApplicant crsApplicant = getAvaliable(postId, userId);
-        if(crsApplicant==null || crsApplicant.getStatus()!=SystemConstants.CRS_APPLICANT_STATUS_SUBMIT)
+        if(crsApplicant==null || crsApplicant.getStatus()!=CrsConstants.CRS_APPLICANT_STATUS_SUBMIT)
             throw new OpException("干部应聘状态异常");
 
         CrsApplicant record = new CrsApplicant();
@@ -242,7 +244,7 @@ public class CrsApplicantService extends BaseMapper {
         for (Integer applyPostId : applyPostIds) {
 
             CrsApplicant avaliable = getAvaliable(applyPostId, confirmUserId);
-            Assert.isTrue(avaliable!=null && avaliable.getStatus()==SystemConstants.CRS_APPLICANT_STATUS_SUBMIT
+            Assert.isTrue(avaliable!=null && avaliable.getStatus()==CrsConstants.CRS_APPLICANT_STATUS_SUBMIT
                     && avaliable.getUserId().intValue() == confirmUserId, "参数错误");
 
             CrsPost crsPost = crsPostMapper.selectByPrimaryKey(applyPostId);
@@ -250,7 +252,7 @@ public class CrsApplicantService extends BaseMapper {
 
             CrsApplicant record = new CrsApplicant();
             record.setId(avaliable.getId());
-            record.setStatus(SystemConstants.CRS_APPLICANT_STATUS_DELETE);
+            record.setStatus(CrsConstants.CRS_APPLICANT_STATUS_DELETE);
             crsApplicantMapper.updateByPrimaryKeySelective(record);
 
             sysApprovalLogService.add(applyPostId, confirmUserId,
@@ -308,8 +310,8 @@ public class CrsApplicantService extends BaseMapper {
         CadreView cv = cadreService.dbFindByUserId(userId);
 
         // 如果是 干部、考察对象或后备干部，则直接返回干部ID
-        if(ShiroHelper.hasAnyRoles(SystemConstants.ROLE_CADRE,
-                SystemConstants.ROLE_CADREINSPECT, SystemConstants.ROLE_CADRERESERVE)){
+        if(ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE,
+                RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADRERESERVE)){
             return cv.getId();
         }
 
@@ -327,10 +329,10 @@ public class CrsApplicantService extends BaseMapper {
             cadreId = record.getId();
         }
 
-        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADRERECRUIT)) {
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_CADRERECRUIT)) {
 
             // 为普通教师添加应聘干部角色
-            sysUserService.addRole(userId, SystemConstants.ROLE_CADRERECRUIT);
+            sysUserService.addRole(userId, RoleConstants.ROLE_CADRERECRUIT);
             ShiroHelper.refreshRoles();
         }
 

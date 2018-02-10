@@ -5,6 +5,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 
 /**
@@ -24,9 +25,9 @@ public class MemberStaticController extends MemberBaseController {
         modelMap.put("memberOutCount", memberOutService.count(null, null, (byte) 2, null));
         modelMap.put("memberInCount", memberInService.count(null, null, (byte)2));
         modelMap.put("memberStayCount_abroad", memberStayService.count(null, null, (byte) 3,
-                SystemConstants.MEMBER_STAY_TYPE_ABROAD, null));
+                MemberConstants.MEMBER_STAY_TYPE_ABROAD, null));
         modelMap.put("memberStayCount_internal", memberStayService.count(null, null, (byte) 3,
-                SystemConstants.MEMBER_STAY_TYPE_INTERNAL, null));
+                MemberConstants.MEMBER_STAY_TYPE_INTERNAL, null));
 
         modelMap.put("studentPositiveOdCheckCount", memberApplyService.count(null, null, SystemConstants.APPLY_TYPE_STU,
                 SystemConstants.APPLY_STAGE_GROW, (byte) 1));

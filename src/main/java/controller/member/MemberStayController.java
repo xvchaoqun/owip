@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.member.MemberStayExportService;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -106,7 +108,7 @@ public class MemberStayController extends MemberBaseController {
     @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay")
     public String memberStay(@RequestParam(defaultValue = "1") Byte cls,
-                             @RequestParam(defaultValue = SystemConstants.MEMBER_STAY_TYPE_ABROAD+"")Byte type,
+                             @RequestParam(defaultValue = MemberConstants.MEMBER_STAY_TYPE_ABROAD+"")Byte type,
                              @RequestParam(required = false, defaultValue = "0") int export,
                                       Integer userId,
                                       Integer partyId,
@@ -116,7 +118,7 @@ public class MemberStayController extends MemberBaseController {
 
             SXSSFWorkbook wb = memberStayExportService.toXlsx(type);
             String fileName = CmTag.getSysConfig().getSchoolName() + "出国（境）毕业生党员组织关系暂留汇总表";
-            if(type == SystemConstants.MEMBER_STAY_TYPE_INTERNAL)
+            if(type == MemberConstants.MEMBER_STAY_TYPE_INTERNAL)
                 fileName = CmTag.getSysConfig().getSchoolName() +"非出国（境）毕业生党员组织关系暂留汇总表";
 
             ExportHelper.output(wb, fileName + ".xlsx", response);
@@ -175,7 +177,7 @@ public class MemberStayController extends MemberBaseController {
     @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay_data")
     public void memberStay_data(@RequestParam(defaultValue = "1") Byte cls,
-                                @RequestParam(defaultValue = SystemConstants.MEMBER_STAY_TYPE_ABROAD+"")Byte type,
+                                @RequestParam(defaultValue = MemberConstants.MEMBER_STAY_TYPE_ABROAD+"")Byte type,
                                     HttpServletResponse response,
                                     @SortParam(required = false, defaultValue = "id", tableName = "ow_member_stay") String sort,
                                     @OrderParam(required = false, defaultValue = "desc") String order,
@@ -252,38 +254,38 @@ public class MemberStayController extends MemberBaseController {
             criteria.andMobileLike("%" + mobile + "%");
         }
         if (cls == 1) {// 支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_APPLY)
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_APPLY)
                     .andIsBackNotEqualTo(true);
         } else if (cls == 11) {// 支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_APPLY)
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_APPLY)
                     .andIsBackEqualTo(true);
         } else if (cls == 12) {// 支部审核（已审核）
-            criteria.andStatusGreaterThanOrEqualTo(SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
+            criteria.andStatusGreaterThanOrEqualTo(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY);
         } else if (cls == 2) { // 分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY)
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY)
                     .andIsBackNotEqualTo(true);
         } else if (cls == 21) { // 分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY)
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY)
                     .andIsBackEqualTo(true);
         } else if (cls == 22) {// 分党委审核（已审核）
-            criteria.andStatusGreaterThanOrEqualTo(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
+            criteria.andStatusGreaterThanOrEqualTo(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY);
         } else if (cls == 3) {// 组织部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY)
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY)
                     .andIsBackNotEqualTo(true);
         } else if (cls == 31) {// 组织部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY)
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY)
                     .andIsBackEqualTo(true);
         } else if (cls == 4) {
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_STAY_STATUS_SELF_BACK);
-            statusList.add(SystemConstants.MEMBER_STAY_STATUS_BACK);
+            statusList.add(MemberConstants.MEMBER_STAY_STATUS_SELF_BACK);
+            statusList.add(MemberConstants.MEMBER_STAY_STATUS_BACK);
             criteria.andStatusIn(statusList);
         } else {
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY);
             if (cls == 5)
-                criteria.andMemberStatusNotEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
+                criteria.andMemberStatusNotEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);
             if (cls == 6)
-                criteria.andMemberStatusEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
+                criteria.andMemberStatusEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);
         }
 
         if (export == 1) {
@@ -312,7 +314,7 @@ public class MemberStayController extends MemberBaseController {
         return;
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:list")
     @RequestMapping("/memberStay_approval")
     public String memberStay_approval(@RequestParam(defaultValue = "1") byte cls,
@@ -327,15 +329,15 @@ public class MemberStayController extends MemberBaseController {
         if (id != null) {
             currentMemberStay = memberStayMapper.selectByPrimaryKey(id);
             if (checkType == 1) {
-                if (currentMemberStay.getStatus() != SystemConstants.MEMBER_STAY_STATUS_APPLY)
+                if (currentMemberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_APPLY)
                     currentMemberStay = null;
             }
             if (checkType == 2) {
-                if (currentMemberStay.getStatus() != SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY)
+                if (currentMemberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY)
                     currentMemberStay = null;
             }
             if (checkType == 3) {
-                if (currentMemberStay.getStatus() != SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY)
+                if (currentMemberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY)
                     currentMemberStay = null;
             }
         } else {
@@ -373,7 +375,7 @@ public class MemberStayController extends MemberBaseController {
             modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
         }
         if (checkType == 3) {
-            modelMap.put("isAdmin", ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN));
+            modelMap.put("isAdmin", ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN));
         }
 
 
@@ -387,7 +389,7 @@ public class MemberStayController extends MemberBaseController {
         return "member/memberStay/memberStay_approval";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping("/memberStay_deny")
     public String memberStay_deny(Integer id, ModelMap modelMap) {
@@ -400,7 +402,7 @@ public class MemberStayController extends MemberBaseController {
         return "member/memberStay/memberStay_deny";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_check", method = RequestMethod.POST)
     @ResponseBody
@@ -416,7 +418,7 @@ public class MemberStayController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping("/memberStay_back")
     public String memberStay_back() {
@@ -424,7 +426,7 @@ public class MemberStayController extends MemberBaseController {
         return "member/memberStay/memberStay_back";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
     @ResponseBody
@@ -440,7 +442,7 @@ public class MemberStayController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_PARTYADMIN)
+    @RequiresRoles(RoleConstants.ROLE_PARTYADMIN)
     @RequiresPermissions("memberStay:update")
     @RequestMapping("/memberStay_transfer")
     public String memberStay_transfer(@RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -458,7 +460,7 @@ public class MemberStayController extends MemberBaseController {
         return "member/memberStay/memberStay_transfer";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_PARTYADMIN)
+    @RequiresRoles(RoleConstants.ROLE_PARTYADMIN)
     @RequiresPermissions("memberStay:update")
     @RequestMapping(value = "/memberStay_transfer", method = RequestMethod.POST)
     @ResponseBody
@@ -491,8 +493,8 @@ public class MemberStayController extends MemberBaseController {
         //===========权限
         Integer loginUserId = loginUser.getId();
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) { // 支部或分党委管理员都有权限
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) { // 支部或分党委管理员都有权限
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if (!isAdmin && branchId != null) {
                 isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
@@ -521,7 +523,7 @@ public class MemberStayController extends MemberBaseController {
 
         if (id == null) {
             record.setCreateTime(new Date());
-            record.setStatus(SystemConstants.MEMBER_STAY_STATUS_APPLY);
+            record.setStatus(MemberConstants.MEMBER_STAY_STATUS_APPLY);
             memberStayService.insertSelective(record);
 
             applyApprovalLogService.add(record.getId(),
@@ -636,7 +638,7 @@ public class MemberStayController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }*/
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberStay:del")
     @RequestMapping(value = "/memberStay_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -676,11 +678,11 @@ public class MemberStayController extends MemberBaseController {
                     DateUtils.formatDate(record.getStartTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getEndTime(), DateUtils.YYYY_MM_DD),
                     record.getMobile(),
-                    record.getStatus() == null ? "" : SystemConstants.MEMBER_STAY_STATUS_MAP.get(record.getStatus())
+                    record.getStatus() == null ? "" : MemberConstants.MEMBER_STAY_STATUS_MAP.get(record.getStatus())
             };
             valuesList.add(values);
         }
-        String fileName = String.format("党员申请组织关系暂留(%s)_", SystemConstants.MEMBER_STAY_TYPE_MAP.get(type))
+        String fileName = String.format("党员申请组织关系暂留(%s)_", MemberConstants.MEMBER_STAY_TYPE_MAP.get(type))
                 + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }

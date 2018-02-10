@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroUser;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.HashSet;
@@ -35,7 +35,7 @@ public class MenuController extends BaseController {
         return "menu";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/menu_preview")
     public String menu_preview(@RequestParam(value = "resIds[]", required = false) Integer[] resIds, ModelMap modelMap) {
 
@@ -54,7 +54,7 @@ public class MenuController extends BaseController {
         return "menu";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/menu_preview_byRoleId")
     public String menu_preview_byRoleId(Integer roleId, ModelMap modelMap) {
 

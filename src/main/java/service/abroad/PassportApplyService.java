@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.ShortMsgService;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
@@ -28,7 +28,7 @@ public class PassportApplyService extends BaseMapper {
 
         PassportApplyExample example = new PassportApplyExample();
         example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS)
+                .andStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS)
                 .andAbolishEqualTo(false).andClassIdEqualTo(classId)
                 .andHandleDateIsNull().andIsDeletedEqualTo(false);
         return (passportApplyMapper.countByExample(example) > 0);
@@ -38,7 +38,7 @@ public class PassportApplyService extends BaseMapper {
 
         PassportApplyExample example = new PassportApplyExample();
         example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_INIT)
+                .andStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_INIT)
                 .andClassIdEqualTo(classId).andIsDeletedEqualTo(false);
         return (passportApplyMapper.countByExample(example) > 0);
     }

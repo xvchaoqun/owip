@@ -15,6 +15,7 @@ import service.BaseMapper;
 import service.base.ContentTplService;
 import service.base.ShortMsgService;
 import service.sys.UserBeanService;
+import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 
@@ -57,19 +58,19 @@ public class CrsShortMsgService extends BaseMapper {
         String tplContent = tpl.getContent();
         String msg = null;
         switch (tplKey) {
-            case SystemConstants.CONTENT_TPL_CRS_MSG_1:
+            case ContentTplConstants.CONTENT_TPL_CRS_MSG_1:
                 msg = MessageFormat.format(tplContent, postName);
                 break;
-            case SystemConstants.CONTENT_TPL_CRS_MSG_2:
+            case ContentTplConstants.CONTENT_TPL_CRS_MSG_2:
                 msg = MessageFormat.format(tplContent, postName, meetingTime);
                 break;
-            case SystemConstants.CONTENT_TPL_CRS_MSG_3:
+            case ContentTplConstants.CONTENT_TPL_CRS_MSG_3:
                 msg = MessageFormat.format(tplContent, postName, meetingTime, meetingAddress);
                 break;
-            case SystemConstants.CONTENT_TPL_CRS_MSG_4:
+            case ContentTplConstants.CONTENT_TPL_CRS_MSG_4:
                 msg = MessageFormat.format(tplContent, postName, meetingTime, meetingAddress);
                 break;
-            case SystemConstants.CONTENT_TPL_CRS_MSG_5:
+            case ContentTplConstants.CONTENT_TPL_CRS_MSG_5:
                 msg = MessageFormat.format(tplContent, postName, meetingTime, meetingAddress);
                 break;
         }

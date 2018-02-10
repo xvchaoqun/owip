@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -27,7 +27,7 @@ public class CadreAdLogController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(SystemConstants.ROLE_CADREADMIN)
+    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
     @RequestMapping("/cadreAdLog")
     public String cadreAdLog(Integer inspectId, Integer reserveId, Integer cadreId, ModelMap modelMap) {
 
@@ -45,7 +45,7 @@ public class CadreAdLogController extends BaseController {
         return "cadre/cadreAdLog/cadreAdLog_page";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_CADREADMIN)
+    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
     @RequestMapping("/cadreAdLog_data")
     @ResponseBody
     public void cadreAdLog_data(int cadreId,

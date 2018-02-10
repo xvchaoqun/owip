@@ -34,6 +34,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
+import sys.constants.AbroadConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -93,7 +95,7 @@ public class ApplySelfController extends AbroadBaseController {
         }
         if (approvalTypeId == -1) { // 管理员初审
             Assert.isTrue(result == null, "null");
-            SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_CADREADMIN);
+            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CADREADMIN);
         }
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
         if (approvalTypeId > 0) {
@@ -128,7 +130,7 @@ public class ApplySelfController extends AbroadBaseController {
         if (approvalTypeId > 0)
             record.setTypeId(approvalTypeId);
         if (approvalTypeId == -1) {
-            record.setOdType(SystemConstants.APPROVER_LOG_OD_TYPE_FIRST); // 初审
+            record.setOdType(AbroadConstants.ABROAD_APPROVER_LOG_OD_TYPE_FIRST); // 初审
             if (status != 1) { // 不通过，打回申请
                 ApplySelf applySelf = new ApplySelf();
                 applySelf.setId(applySelfId);
@@ -143,7 +145,7 @@ public class ApplySelfController extends AbroadBaseController {
             }
         }
         if (approvalTypeId == 0) {
-            record.setOdType(SystemConstants.APPROVER_LOG_OD_TYPE_LAST); // 终审
+            record.setOdType(AbroadConstants.ABROAD_APPROVER_LOG_OD_TYPE_LAST); // 终审
         }
         record.setStatus(status == 1);
         record.setRemark(remark);
@@ -180,7 +182,7 @@ public class ApplySelfController extends AbroadBaseController {
 
         ApplySelfFile applySelfFile = applySelfFileMapper.selectByPrimaryKey(id);
 
-        if (ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) { // 干部管理员有下载权限
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) { // 干部管理员有下载权限
             int userId = loginUser.getId();
             CadreView cadre = cadreService.dbFindByUserId(userId);
             Integer applyId = applySelfFile.getApplyId();
@@ -205,7 +207,7 @@ public class ApplySelfController extends AbroadBaseController {
         Integer cadreId = applySelf.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
@@ -237,9 +239,9 @@ public class ApplySelfController extends AbroadBaseController {
             ApprovalResult approvalResult = approvalResultMap.get(key);
             if (key > 0 && (approvalResult.getValue() == null || approvalResult.getValue() != -1)) {
                 ApproverType approverType = approverTypeMap.get(key);
-                if (approverType.getType() == SystemConstants.APPROVER_TYPE_SECRETARY) {
+                if (approverType.getType() == AbroadConstants.ABROAD_APPROVER_TYPE_SECRETARY) {
                     needExport = true;
-                } else if (approverType.getType() == SystemConstants.APPROVER_TYPE_MASTER) {
+                } else if (approverType.getType() == AbroadConstants.ABROAD_APPROVER_TYPE_MASTER) {
                     needExport = true;
                 }
             }
@@ -267,7 +269,7 @@ public class ApplySelfController extends AbroadBaseController {
                                         Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
@@ -315,7 +317,7 @@ public class ApplySelfController extends AbroadBaseController {
 
 
     @RequiresPermissions("applySelf:list")
-    @RequiresRoles(SystemConstants.ROLE_CADREADMIN)
+    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
     @RequestMapping("/applySelf")
     public String applySelf(Integer cadreId,
                             // 流程状态，（查询者所属审批人身份的审批状态，1：已完成审批(同意申请) 2 已完成审批(不同意申请) 或0：未完成审批）
@@ -367,7 +369,7 @@ public class ApplySelfController extends AbroadBaseController {
     }
 
     @RequiresPermissions("applySelf:list")
-    @RequiresRoles(SystemConstants.ROLE_CADREADMIN)
+    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
     @RequestMapping("/applySelf_data")
     public void applySelf_data(HttpServletResponse response,
                                @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
@@ -402,7 +404,7 @@ public class ApplySelfController extends AbroadBaseController {
     }
 
     // 非管理员  审批人身份 审批记录
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList")
     public String applySelfList(// 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
@@ -422,7 +424,7 @@ public class ApplySelfController extends AbroadBaseController {
     }
 
     // 非管理员  审批人身份 审批记录
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList_data")
     public void applySelfList_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
@@ -494,7 +496,7 @@ public class ApplySelfController extends AbroadBaseController {
             record.setIp(IpUtils.getRealIp(request));
 
             record.setStatus(true);// 提交
-            record.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_FIRST);
+            record.setFlowNode(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST);
 
             applySelfService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));

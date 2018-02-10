@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -150,8 +152,8 @@ public class BranchController extends BaseController {
         //===========权限（只有分党委管理员，才可以管理党支部）
         //criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
             List<Integer> partyIdList = loginUserService.adminPartyIdList();
             criteria.andPartyIdIn(partyIdList);
         }
@@ -219,8 +221,8 @@ public class BranchController extends BaseController {
 
         // 权限控制
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
             // 要求是分党委管理员
             Integer partyId = record.getPartyId();
             if (id != null) {
@@ -288,8 +290,8 @@ public class BranchController extends BaseController {
 
         // 权限控制
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
             // 要求是分党委管理员
             Branch branch = branchService.findAll().get(id);
             int partyId = branch.getPartyId();
@@ -328,8 +330,8 @@ public class BranchController extends BaseController {
 
         // 权限控制
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
             // 要求是分党委管理员
             Branch branch = branchService.findAll().get(id);
             int partyId = branch.getPartyId();
@@ -458,9 +460,9 @@ public class BranchController extends BaseController {
                 Date birth = (extJzg!=null)?extJzg.getCsrq():null;
                 String ageRange = "";
                 if(birth!=null){
-                    byte memberAgeRange = SystemConstants.getMemberAgeRange(DateUtils.getYear(birth));
+                    byte memberAgeRange = MemberConstants.getMemberAgeRange(DateUtils.getYear(birth));
                     if(memberAgeRange>0)
-                        ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
+                        ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
                 }
                 Member member = memberService.get(userId);
                 Integer partyId = (member!=null)?member.getPartyId():null;
@@ -481,7 +483,7 @@ public class BranchController extends BaseController {
                         extJzg==null?"":extJzg.getMz(),
                         extJzg==null?"":extJzg.getGj(), // 国家/地区
                         extJzg==null?"":extJzg.getSfzh(), // 证件号码
-                        member==null?"":SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(member.getPoliticalStatus()), // 政治面貌
+                        member==null?"":MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(member.getPoliticalStatus()), // 政治面貌
                         partyId==null?"":partyMap.get(partyId).getName(),
                         branchId==null?"":branchMap.get(branchId).getName(),
                         //unitMap.get(record.getUnitId()).getName(),
@@ -544,8 +546,8 @@ public class BranchController extends BaseController {
         //===========权限
         if (BooleanUtils.isTrue(auth)) {
             Subject subject = SecurityUtils.getSubject();
-            if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                    && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                    && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
 
                 List<Integer> partyIdList = loginUserService.adminPartyIdList();
                 Set<Integer> partyIdSet = new HashSet<>();

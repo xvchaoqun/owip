@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.AbroadConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -222,7 +223,7 @@ public class TaiwanRecordController extends AbroadBaseController {
                     DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
                     record.getReason(),
                     record.getPassportCode(),
-                    SystemConstants.TAIWAN_RECORD_HANDLE_TYPE_MAP.get(record.getHandleType()),
+                    AbroadConstants.ABROAD_TAIWAN_RECORD_HANDLE_TYPE_MAP.get(record.getHandleType()),
                     DateUtils.formatDate(record.getExpectDate(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getHandleDate(), DateUtils.YYYY_MM_DD),
                     record.getRemark()

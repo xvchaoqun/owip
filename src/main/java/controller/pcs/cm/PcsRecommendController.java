@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.common.bean.IPcsCandidateView;
 import persistence.common.bean.PcsBranchBean;
 import shiro.ShiroHelper;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -175,10 +176,10 @@ public class PcsRecommendController extends PcsBaseController {
         // 读取党委委员、纪委委员
         List<PcsCandidateView> dwCandidates =
                 pcsCandidateService.find(record.getPartyId(),
-                        record.getBranchId(), configId, stage, SystemConstants.PCS_USER_TYPE_DW);
+                        record.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_DW);
         List<PcsCandidateView> jwCandidates =
                 pcsCandidateService.find(record.getPartyId(),
-                        record.getBranchId(), configId, stage, SystemConstants.PCS_USER_TYPE_JW);
+                        record.getBranchId(), configId, stage, PcsConstants.PCS_USER_TYPE_JW);
         modelMap.put("dwCandidates", dwCandidates);
         modelMap.put("jwCandidates", jwCandidates);
 

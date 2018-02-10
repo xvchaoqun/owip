@@ -1,8 +1,6 @@
 package controller.sc.scCommittee;
 
 import controller.ScCommitteeBaseController;
-import domain.sc.scCommittee.ScCommittee;
-import domain.sc.scCommittee.ScCommitteeExample;
 import domain.sc.scCommittee.ScCommitteeTopic;
 import domain.sc.scCommittee.ScCommitteeTopicView;
 import domain.sc.scCommittee.ScCommitteeTopicViewExample;
@@ -46,13 +44,7 @@ public class ScCommitteeTopicController extends ScCommitteeBaseController {
     public String scCommitteeTopic(@RequestParam(defaultValue = "1") Integer cls, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
-        {
-            ScCommitteeExample example = new ScCommitteeExample();
-            example.createCriteria().andIsDeletedEqualTo(false);
-            example.setOrderByClause("hold_date desc");
-            List<ScCommittee> scCommittees = scCommitteeMapper.selectByExample(example);
-            modelMap.put("scCommittees", scCommittees);
-        }
+        modelMap.put("scCommittees", scCommitteeService.findAll());
 
         return "sc/scCommittee/scCommitteeTopic/scCommitteeTopic_page";
     }
@@ -149,13 +141,8 @@ public class ScCommitteeTopicController extends ScCommitteeBaseController {
         }
 
         modelMap.put("committeeId", committeeId);
-        {
-            ScCommitteeExample example = new ScCommitteeExample();
-            example.createCriteria().andIsDeletedEqualTo(false);
-            example.setOrderByClause("hold_date desc");
-            List<ScCommittee> scCommittees = scCommitteeMapper.selectByExample(example);
-            modelMap.put("scCommittees", scCommittees);
-        }
+
+        modelMap.put("scCommittees", scCommitteeService.findAll());
 
         return "sc/scCommittee/scCommitteeTopic/scCommitteeTopic_au";
     }

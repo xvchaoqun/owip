@@ -20,6 +20,7 @@ import service.cadre.CadreTrainService;
 import service.cadre.CadreWorkService;
 import service.sys.AvatarService;
 import shiro.ShiroHelper;
+import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
@@ -65,7 +66,7 @@ public class ModifyTableApplyService extends BaseMapper {
         Integer currentUserId = ShiroHelper.getCurrentUserId();
         ModifyTableApply mta = modifyTableApplyMapper.selectByPrimaryKey(id);
         if (mta.getUserId().intValue() != currentUserId ||
-                mta.getStatus() != SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY) {
+                mta.getStatus() != ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY) {
             throw new OpException(String.format("您没有权限删除该记录[申请序号:%s]", id));
         }
 
@@ -76,7 +77,7 @@ public class ModifyTableApplyService extends BaseMapper {
 
         ModifyTableApplyExample example = new ModifyTableApplyExample();
         example.createCriteria().andIdEqualTo(id)
-                .andStatusEqualTo(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY); // 只有待审核时才可以删除
+                .andStatusEqualTo(ModifyConstants.MODIFY_BASE_APPLY_STATUS_APPLY); // 只有待审核时才可以删除
         modifyTableApplyMapper.deleteByExample(example);
     }
 
@@ -88,10 +89,10 @@ public class ModifyTableApplyService extends BaseMapper {
 
         ModifyTableApplyExample example = new ModifyTableApplyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids))
-                .andStatusEqualTo(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY); // 只有待审核时才可以操作
+                .andStatusEqualTo(ModifyConstants.MODIFY_BASE_APPLY_STATUS_APPLY); // 只有待审核时才可以操作
         ModifyTableApply record = new ModifyTableApply();
 
-        record.setStatus(SystemConstants.MODIFY_BASE_APPLY_STATUS_DELETE);
+        record.setStatus(ModifyConstants.MODIFY_BASE_APPLY_STATUS_DELETE);
         modifyTableApplyMapper.updateByExampleSelective(record, example);
     }
 
@@ -117,37 +118,37 @@ public class ModifyTableApplyService extends BaseMapper {
 
         if (status) { // 审核通过，需要更新对应的信息
             switch (mta.getModule()) {
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU:
                     cadreEduService.approval(mta, record);
                     break;
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK:
                     cadreWorkService.approval(mta, record);
                     break;
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK:
                     cadreBookService.approval(mta, record);
                     break;
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY:
                     cadreCompanyService.approval(mta, record);
                     break;
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE:
                     cadreCourseService.approval(mta, record);
                     break;
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER:
                     cadrePaperService.approval(mta, record);
                     break;
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME:
                     cadreParttimeService.approval(mta, record);
                     break;
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT:
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN:
                     cadreResearchService.approval(mta, record);
                     break;
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH:
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH:
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER:
                     cadreRewardService.approval(mta, record);
                     break;
-                case SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN:
                     cadreTrainService.approval(mta, record);
                     break;
                 default:
@@ -155,8 +156,8 @@ public class ModifyTableApplyService extends BaseMapper {
             }
         }
 
-        record.setStatus(status ? SystemConstants.MODIFY_TABLE_APPLY_STATUS_PASS
-                : SystemConstants.MODIFY_TABLE_APPLY_STATUS_DENY);
+        record.setStatus(status ? ModifyConstants.MODIFY_TABLE_APPLY_STATUS_PASS
+                : ModifyConstants.MODIFY_TABLE_APPLY_STATUS_DENY);
         record.setCheckRemark(checkRemark);
         record.setCheckReason(checkReason);
         record.setCheckUserId(ShiroHelper.getCurrentUserId());

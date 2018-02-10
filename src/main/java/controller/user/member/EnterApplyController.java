@@ -20,6 +20,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.DateUtils;
@@ -37,7 +39,7 @@ public class EnterApplyController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/apply")
     public String apply(@CurrentUser SysUserView loginUser, HttpServletResponse response, ModelMap modelMap) {
 
@@ -62,7 +64,7 @@ public class EnterApplyController extends MemberBaseController {
         throw new OpException("系统异常");
     }
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberApply_view")
     public String memberApply_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -77,7 +79,7 @@ public class EnterApplyController extends MemberBaseController {
         return "user/member/enterApply/memberApply_view";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberApply")
     public String memberApply(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -102,7 +104,7 @@ public class EnterApplyController extends MemberBaseController {
     }
 
     // 撤回申请
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping(value = "/applyBack", method = RequestMethod.POST)
     @ResponseBody
     public Map applyBack(@CurrentUser SysUserView loginUser, String remark){
@@ -114,7 +116,7 @@ public class EnterApplyController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping(value = "/memberApply", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberApply(@CurrentUser SysUserView loginUser,Integer partyId,
@@ -160,7 +162,7 @@ public class EnterApplyController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberReturn_view")
     public String memberReturn_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -174,7 +176,7 @@ public class EnterApplyController extends MemberBaseController {
         return "user/member/enterApply/memberReturn_view";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberReturn")
     public String memberReturn(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -198,7 +200,7 @@ public class EnterApplyController extends MemberBaseController {
         return "user/member/enterApply/memberReturn";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping(value = "/memberReturn", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberReturn(@CurrentUser SysUserView loginUser, String _returnApplyTime,
@@ -263,7 +265,7 @@ public class EnterApplyController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberIn_view")
     public String memberIn_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -277,7 +279,7 @@ public class EnterApplyController extends MemberBaseController {
         return "user/member/enterApply/memberIn_view";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberIn")
     public String memberIn(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -287,7 +289,7 @@ public class EnterApplyController extends MemberBaseController {
         MemberIn memberIn = memberInService.get(userId);
         // 允许转出后用原账号转入
         Member member = memberService.get(userId);
-        if(member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_TRANSFER){
+        if(member!=null && member.getStatus()== MemberConstants.MEMBER_STATUS_TRANSFER){
             if(memberIn==null)
                 memberIn = new MemberIn();
             memberIn.setPoliticalStatus(member.getPoliticalStatus());
@@ -318,7 +320,7 @@ public class EnterApplyController extends MemberBaseController {
         return "user/member/enterApply/memberIn";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping(value = "/memberIn", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberIn(@CurrentUser SysUserView loginUser, MemberIn record, String _payTime, String _applyTime, String _activeTime, String _candidateTime,
@@ -392,7 +394,7 @@ public class EnterApplyController extends MemberBaseController {
     }
 
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberInflow_view")
     public String memberInflow_view(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -404,7 +406,7 @@ public class EnterApplyController extends MemberBaseController {
         return "user/member/enterApply/memberInflow_view";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping("/memberInflow")
     public String memberInflow(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -427,7 +429,7 @@ public class EnterApplyController extends MemberBaseController {
         return "user/member/enterApply/memberInflow";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_GUEST)
+    @RequiresRoles(RoleConstants.ROLE_GUEST)
     @RequestMapping(value = "/memberInflow", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflow(@CurrentUser SysUserView loginUser,MemberInflow record,

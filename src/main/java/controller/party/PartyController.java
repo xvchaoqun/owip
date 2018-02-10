@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.party.PartyExportService;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -87,7 +88,7 @@ public class PartyController extends BaseController {
         return "party/party_view";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:list")
     @RequestMapping("/party")
     public String party(ModelMap modelMap,
@@ -107,7 +108,7 @@ public class PartyController extends BaseController {
         return "party/party_page";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:list")
     @RequestMapping("/party_data")
     public void party_data(HttpServletResponse response,
@@ -202,7 +203,7 @@ public class PartyController extends BaseController {
         return;
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:edit")
     @RequestMapping(value = "/party_au", method = RequestMethod.POST)
     @ResponseBody
@@ -232,7 +233,7 @@ public class PartyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:edit")
     @RequestMapping("/party_au")
     public String party_au(Integer id, ModelMap modelMap) {
@@ -245,7 +246,7 @@ public class PartyController extends BaseController {
         return "party/party_au";
     }
 
-    /*@RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    /*@RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:del")
     @RequestMapping(value = "/party_del", method = RequestMethod.POST)
     @ResponseBody
@@ -259,7 +260,7 @@ public class PartyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }*/
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:del")
     @RequestMapping(value = "/party_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -276,7 +277,7 @@ public class PartyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequiresPermissions("party:changeOrder")
     @RequestMapping(value = "/party_changeOrder", method = RequestMethod.POST)
     @ResponseBody
@@ -365,8 +366,8 @@ public class PartyController extends BaseController {
         //===========权限
         if(BooleanUtils.isTrue(auth)) {
             Subject subject = SecurityUtils.getSubject();
-            if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                    && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+            if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                    && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
 
                 List<Integer> partyIdList = loginUserService.adminPartyIdList();
                 if(BooleanUtils.isNotTrue(notBranchAdmin)) { // 读取管理党支部所属的分党委，供查询；

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
+import sys.constants.ModifyConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 
@@ -32,7 +34,7 @@ public class ModifyCadreRewardController extends ModifyBaseController {
         //byte rewardType = (byte)request.getAttribute("rewardType");
 
         if (cls == null) {
-            cls = (byte) (ShiroHelper.hasAnyRoles(SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE) ? 0 : 1);
+            cls = (byte) (ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADRERESERVE) ? 0 : 1);
         }
         modelMap.put("cls", cls);
         modelMap.put("rewardType", rewardType);
@@ -46,11 +48,11 @@ public class ModifyCadreRewardController extends ModifyBaseController {
 
         byte module = 0;
         if(rewardType==SystemConstants.CADRE_REWARD_TYPE_TEACH){
-            module = SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH;
+            module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH;
         }else if(rewardType==SystemConstants.CADRE_REWARD_TYPE_RESEARCH){
-            module = SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH;
+            module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH;
         }else if(rewardType==SystemConstants.CADRE_REWARD_TYPE_OTHER){
-            module = SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER;
+            module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER;
         }
         modelMap.put("module", module);
         if (cls == 0) {

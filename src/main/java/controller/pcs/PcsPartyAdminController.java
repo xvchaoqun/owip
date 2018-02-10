@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -34,7 +35,7 @@ public class PcsPartyAdminController extends PcsBaseController {
     public String pcsPartyAdmin(ModelMap modelMap) {
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        if (pcsAdmin == null || pcsAdmin.getType() != SystemConstants.PCS_ADMIN_TYPE_SECRETARY) {
+        if (pcsAdmin == null || pcsAdmin.getType() != PcsConstants.PCS_ADMIN_TYPE_SECRETARY) {
             throw new UnauthorizedException();
         }
 
@@ -52,7 +53,7 @@ public class PcsPartyAdminController extends PcsBaseController {
       /*  {
             PcsAdminExample example = new PcsAdminExample();
             example.createCriteria().andPartyIdEqualTo(partyId)
-                    .andTypeEqualTo(SystemConstants.PCS_ADMIN_TYPE_NORMAL);
+                    .andTypeEqualTo(PcsConstants.PCS_ADMIN_TYPE_NORMAL);
             if (pcsAdminMapper.countByExample(example) > 0) {
                 modelMap.put("hasNormalAdmin", true);
             }
@@ -72,7 +73,7 @@ public class PcsPartyAdminController extends PcsBaseController {
         }
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        if (pcsAdmin == null || pcsAdmin.getType() != SystemConstants.PCS_ADMIN_TYPE_SECRETARY) {
+        if (pcsAdmin == null || pcsAdmin.getType() != PcsConstants.PCS_ADMIN_TYPE_SECRETARY) {
             throw new UnauthorizedException();
         }
         // 添加本单位管理员
@@ -109,8 +110,8 @@ public class PcsPartyAdminController extends PcsBaseController {
         if (admin == null) return success();
 
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
-        if (pcsAdmin == null || pcsAdmin.getType() != SystemConstants.PCS_ADMIN_TYPE_SECRETARY
-                || admin.getType() != SystemConstants.PCS_ADMIN_TYPE_NORMAL
+        if (pcsAdmin == null || pcsAdmin.getType() != PcsConstants.PCS_ADMIN_TYPE_SECRETARY
+                || admin.getType() != PcsConstants.PCS_ADMIN_TYPE_NORMAL
                 || admin.getPartyId().intValue() != pcsAdmin.getPartyId()) {
             throw new UnauthorizedException();
         }

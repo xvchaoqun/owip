@@ -10,7 +10,7 @@ import service.abroad.ApplySelfService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
@@ -118,7 +118,7 @@ public class ApprovalTd extends BodyTagSupport {
             td += "<td class='not_approval'></td>";
         }
 
-        if(!view && ShiroHelper.hasRole(SystemConstants.ROLE_CADREADMIN)) {
+        if(!view && ShiroHelper.hasRole(RoleConstants.ROLE_CADREADMIN)) {
             ApplySelfMapper applySelfMapper = CmTag.getBean(ApplySelfMapper.class);
             SysUserService sysUserService = CmTag.getBean(SysUserService.class);
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);

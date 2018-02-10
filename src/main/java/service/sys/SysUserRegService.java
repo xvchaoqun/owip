@@ -19,6 +19,7 @@ import service.BaseMapper;
 import service.LoginUserService;
 import service.global.CacheService;
 import shiro.PasswordHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
 import sys.utils.FormUtils;
@@ -132,7 +133,7 @@ public class SysUserRegService extends BaseMapper {
             record.setCode(_sysUser.getCode());
             record.setType(_sysUser.getType());
             record.setSource(SystemConstants.USER_SOURCE_REG);
-            record.setRoleIds(sysUserService.buildRoleIds(SystemConstants.ROLE_GUEST));
+            record.setRoleIds(sysUserService.buildRoleIds(RoleConstants.ROLE_GUEST));
 
             sysUserService.updateByPrimaryKeySelective(record);
         }
@@ -190,7 +191,7 @@ public class SysUserRegService extends BaseMapper {
         sysUser.setCreateTime(new Date());
         sysUser.setType(type);
         sysUser.setSource(SystemConstants.USER_SOURCE_REG);
-        sysUser.setRoleIds(sysUserService.buildRoleIds(SystemConstants.ROLE_REG));
+        sysUser.setRoleIds(sysUserService.buildRoleIds(RoleConstants.ROLE_REG));
         sysUserService.insertSelective(sysUser);
 
         SysUserInfo sysUserInfo = new SysUserInfo();

@@ -2,9 +2,10 @@ package persistence.pmd;
 
 import domain.pmd.PmdNotifyCampuscard;
 import domain.pmd.PmdNotifyCampuscardExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface PmdNotifyCampuscardMapper {
     long countByExample(PmdNotifyCampuscardExample example);

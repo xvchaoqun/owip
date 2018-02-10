@@ -21,7 +21,7 @@ public class UserApplicantAdjustController extends CrsBaseController {
         Map<Integer, ICrsPost> applyPostMap = new HashMap<>();
         {
             List<ICrsPost> applyPosts = iCrsMapper.findUserApplyCrsPosts(userId,
-                    SystemConstants.CRS_POST_STATUS_NORMAL, new RowBounds());
+                    CrsConstants.CRS_POST_STATUS_NORMAL, new RowBounds());
             modelMap.put("applyPosts", applyPosts);
 
             for (ICrsPost crsPost : applyPosts) {
@@ -35,15 +35,15 @@ public class UserApplicantAdjustController extends CrsBaseController {
             // 全部岗位
             CrsPostExample example = new CrsPostExample();
             CrsPostExample.Criteria criteria = example.createCriteria()
-                    .andPubStatusEqualTo(SystemConstants.CRS_POST_PUB_STATUS_PUBLISHED)
-                    .andStatusEqualTo(SystemConstants.CRS_POST_STATUS_NORMAL); // 读取已发布、正在招聘的岗位
+                    .andPubStatusEqualTo(CrsConstants.CRS_POST_PUB_STATUS_PUBLISHED)
+                    .andStatusEqualTo(CrsConstants.CRS_POST_STATUS_NORMAL); // 读取已发布、正在招聘的岗位
 
             example.setOrderByClause("create_time desc");
             List<CrsPost> crsPosts = crsPostMapper.selectByExample(example);
 
             for (CrsPost crsPost : crsPosts) {
 
-                if (crsPost.getSwitchStatus() != SystemConstants.CRS_POST_ENROLL_STATUS_OPEN // 必须是可以报名的岗位
+                if (crsPost.getSwitchStatus() != CrsConstants.CRS_POST_ENROLL_STATUS_OPEN // 必须是可以报名的岗位
                         || applyPostMap.containsKey(crsPost.getId())) continue;
                 selectablePosts.add(crsPost);
             }

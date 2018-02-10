@@ -19,6 +19,8 @@ import service.party.EnterApplyService;
 import service.party.MemberService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -57,11 +59,11 @@ public class MemberQuitService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_QUIT_STATUS_APPLY);
         } else if(type==2){ //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY);
         } else if(type==3){ //组织部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -80,11 +82,11 @@ public class MemberQuitService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_QUIT_STATUS_APPLY);
         } else if(type==2){ //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY);
         } else if(type==3){ //组织部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -106,11 +108,11 @@ public class MemberQuitService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_QUIT_STATUS_APPLY);
         } else if(type==2){ //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY);
         } else if(type==3){ //组织部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -133,17 +135,17 @@ public class MemberQuitService extends BaseMapper {
             if (type == 1) {// 支部打回
                 BaseController.VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth(userId);
                 memberQuit = verifyAuth.entity;
-                status = SystemConstants.MEMBER_QUIT_STATUS_BACK;
+                status = MemberConstants.MEMBER_QUIT_STATUS_BACK;
             }
             if (type == 2) {// 分党委打回
                 BaseController.VerifyAuth<MemberQuit> verifyAuth = checkVerityAuth2(userId);
                 memberQuit = verifyAuth.entity;
-                status = SystemConstants.MEMBER_QUIT_STATUS_APPLY;
+                status = MemberConstants.MEMBER_QUIT_STATUS_APPLY;
             }
             if (type == 3) { // 组织部打回
-                SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_ODADMIN);
+                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ODADMIN);
                 memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
-                status = SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY;
+                status = MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY;
             }
 
             back(memberQuit, status, loginUserId, reason);
@@ -155,11 +157,11 @@ public class MemberQuitService extends BaseMapper {
     public void check1(int userId){
 
         MemberQuit memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
-        if(memberQuit.getStatus()!= SystemConstants.MEMBER_QUIT_STATUS_APPLY)
+        if(memberQuit.getStatus()!= MemberConstants.MEMBER_QUIT_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberQuit record = new MemberQuit();
         record.setUserId(memberQuit.getUserId());
-        record.setStatus(SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY);
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
     }
@@ -169,11 +171,11 @@ public class MemberQuitService extends BaseMapper {
     public void checkByDirectBranch(int userId){
 
         MemberQuit memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
-        if(memberQuit.getStatus()!= SystemConstants.MEMBER_QUIT_STATUS_APPLY)
+        if(memberQuit.getStatus()!= MemberConstants.MEMBER_QUIT_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberQuit record = new MemberQuit();
         record.setUserId(memberQuit.getUserId());
-        record.setStatus(SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
     }
@@ -183,11 +185,11 @@ public class MemberQuitService extends BaseMapper {
     public void check2(int userId){
 
         MemberQuit memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
-        if(memberQuit.getStatus()!= SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY)
+        if(memberQuit.getStatus()!= MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY)
             throw new DBErrorException("状态异常");
         MemberQuit record = new MemberQuit();
         record.setUserId(memberQuit.getUserId());
-        record.setStatus(SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY);
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
     }
@@ -196,16 +198,16 @@ public class MemberQuitService extends BaseMapper {
     public void check3(int userId){
 
         MemberQuit memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
-        if(memberQuit.getStatus()!= SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY)
+        if(memberQuit.getStatus()!= MemberConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY)
             throw new DBErrorException("状态异常");
 
         MemberQuit record = new MemberQuit();
         record.setUserId(memberQuit.getUserId());
-        record.setStatus(SystemConstants.MEMBER_QUIT_STATUS_OW_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_QUIT_STATUS_OW_VERIFY);
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
 
-        quit(userId, SystemConstants.MEMBER_STATUS_TRANSFER);
+        quit(userId, MemberConstants.MEMBER_STATUS_TRANSFER);
     }
     
     @Transactional
@@ -253,7 +255,7 @@ public class MemberQuitService extends BaseMapper {
                 check2(memberQuit.getUserId());
             }
             if(type==3) {
-                SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_ODADMIN);
+                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ODADMIN);
                 memberQuit = memberQuitMapper.selectByPrimaryKey(id);
                 check3(memberQuit.getUserId());
             }
@@ -272,20 +274,20 @@ public class MemberQuitService extends BaseMapper {
     @Transactional
     public void memberQuit_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
-        boolean odAdmin = ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN);
+        boolean odAdmin = ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN);
         for (int userId : userIds) {
 
             MemberQuit memberQuit = memberQuitMapper.selectByPrimaryKey(userId);
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberQuit.getPartyId());
             Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberQuit.getPartyId(), memberQuit.getBranchId());
 
-            if(memberQuit.getStatus() >= SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY){
+            if(memberQuit.getStatus() >= MemberConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY){
                 if(!odAdmin) throw new UnauthorizedException();
             }
-            if(memberQuit.getStatus() >= SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY){
+            if(memberQuit.getStatus() >= MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY){
                 if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
             }
-            if(memberQuit.getStatus() >= SystemConstants.MEMBER_QUIT_STATUS_BACK){
+            if(memberQuit.getStatus() >= MemberConstants.MEMBER_QUIT_STATUS_BACK){
                 if(!odAdmin && !presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 
@@ -297,10 +299,10 @@ public class MemberQuitService extends BaseMapper {
     private  void back(MemberQuit memberQuit, byte status, int loginUserId, String reason){
 
         byte _status = memberQuit.getStatus();
-        if(_status==SystemConstants.MEMBER_QUIT_STATUS_OW_VERIFY){
+        if(_status==MemberConstants.MEMBER_QUIT_STATUS_OW_VERIFY){
             throw new OpException("党员已经出党，不可以打回。");
         }
-        if(status>_status || status<SystemConstants.MEMBER_QUIT_STATUS_BACK ){
+        if(status>_status || status<MemberConstants.MEMBER_QUIT_STATUS_BACK ){
             throw new OpException("参数有误。");
         }
 
@@ -316,7 +318,7 @@ public class MemberQuitService extends BaseMapper {
         applyApprovalLogService.add(userId,
                 memberQuit.getPartyId(), memberQuit.getBranchId(), userId,
                 loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, SystemConstants.MEMBER_QUIT_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, MemberConstants.MEMBER_QUIT_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 
@@ -324,8 +326,8 @@ public class MemberQuitService extends BaseMapper {
      * 党员出党
      *
      * @param userId
-     * @param status SystemConstants.MEMBER_STATUS_QUIT
-     *               SystemConstants.MEMBER_STATUS_RETIRE
+     * @param status MemberConstants.MEMBER_STATUS_QUIT
+     *               MemberConstants.MEMBER_STATUS_RETIRE
      */
     @Transactional
     public void quit(int userId, byte status) {

@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -184,14 +186,14 @@ public class MemberReturnController extends MemberBaseController {
         
         if(cls==1){
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_RETURN_STATUS_APPLY);
-            statusList.add(SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
+            statusList.add(MemberConstants.MEMBER_RETURN_STATUS_APPLY);
+            statusList.add(MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
             criteria.andStatusIn(statusList);
 
         }else if(cls==2){
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_DENY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_RETURN_STATUS_DENY);
         }else {
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY);
         }
 
         if (export == 1) {
@@ -234,8 +236,8 @@ public class MemberReturnController extends MemberBaseController {
         //===========权限
         Integer loginUserId = loginUser.getId();
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
                 isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId,  branchId);
@@ -288,7 +290,7 @@ public class MemberReturnController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:list")
     @RequestMapping("/memberReturn_approval")
     public String memberReturn_approval(@CurrentUser SysUserView loginUser, Integer id,
@@ -299,11 +301,11 @@ public class MemberReturnController extends MemberBaseController {
         if (id != null) {
             currentMemberReturn = memberReturnMapper.selectByPrimaryKey(id);
             if (type == 1) {
-                if (currentMemberReturn.getStatus() != SystemConstants.MEMBER_RETURN_STATUS_APPLY)
+                if (currentMemberReturn.getStatus() != MemberConstants.MEMBER_RETURN_STATUS_APPLY)
                     currentMemberReturn = null;
             }
             if (type == 2) {
-                if (currentMemberReturn.getStatus() != SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY)
+                if (currentMemberReturn.getStatus() != MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY)
                     currentMemberReturn = null;
             }
         } else {
@@ -334,7 +336,7 @@ public class MemberReturnController extends MemberBaseController {
         return "member/memberReturn/memberReturn_approval";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:update")
     @RequestMapping("/memberReturn_deny")
     public String memberReturn_deny(Integer id, ModelMap modelMap) {
@@ -347,7 +349,7 @@ public class MemberReturnController extends MemberBaseController {
         return "member/memberReturn/memberReturn_deny";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:update")
     @RequestMapping(value = "/memberReturn_check", method = RequestMethod.POST)
     @ResponseBody
@@ -363,7 +365,7 @@ public class MemberReturnController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:update")
     @RequestMapping("/memberReturn_back")
     public String memberReturn_back() {
@@ -371,7 +373,7 @@ public class MemberReturnController extends MemberBaseController {
         return "member/memberReturn/memberReturn_back";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberReturn:update")
     @RequestMapping(value = "/memberReturn_back", method = RequestMethod.POST)
     @ResponseBody
@@ -459,7 +461,7 @@ public class MemberReturnController extends MemberBaseController {
                     DateUtils.formatDate(record.getCandidateTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getPositiveTime(), DateUtils.YYYY_MM_DD),
-                    record.getStatus()==null?"":SystemConstants.MEMBER_RETURN_STATUS_MAP.get(record.getStatus()),
+                    record.getStatus()==null?"":MemberConstants.MEMBER_RETURN_STATUS_MAP.get(record.getStatus()),
                     record.getRemark(),
                     DateUtils.formatDate(record.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
             };

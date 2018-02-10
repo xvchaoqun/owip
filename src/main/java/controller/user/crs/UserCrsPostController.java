@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -164,7 +165,7 @@ public class UserCrsPostController extends CrsBaseController {
 
         CrsApplicantExample example = new CrsApplicantExample();
         example.createCriteria().andUserIdEqualTo(ShiroHelper.getCurrentUserId())
-                .andStatusEqualTo(SystemConstants.CRS_APPLICANT_STATUS_SUBMIT);
+                .andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
         List<CrsApplicant> crsApplicants = crsApplicantMapper.selectByExample(example);
 
         JSONUtils.write(response, crsApplicants, "postId", "isQuit");
@@ -183,8 +184,8 @@ public class UserCrsPostController extends CrsBaseController {
         {
             CrsPostExample example = new CrsPostExample();
             example.createCriteria()
-                    .andPubStatusEqualTo(SystemConstants.CRS_POST_PUB_STATUS_PUBLISHED)
-                    .andStatusEqualTo(SystemConstants.CRS_POST_STATUS_NORMAL); // 读取已发布、正在招聘的岗位
+                    .andPubStatusEqualTo(CrsConstants.CRS_POST_PUB_STATUS_PUBLISHED)
+                    .andStatusEqualTo(CrsConstants.CRS_POST_STATUS_NORMAL); // 读取已发布、正在招聘的岗位
             postCount = crsPostMapper.countByExample(example);
             modelMap.put("postCount", postCount);
         }
@@ -206,8 +207,8 @@ public class UserCrsPostController extends CrsBaseController {
 
         CrsPostExample example = new CrsPostExample();
         CrsPostExample.Criteria criteria = example.createCriteria()
-                .andPubStatusEqualTo(SystemConstants.CRS_POST_PUB_STATUS_PUBLISHED)
-                .andStatusEqualTo(SystemConstants.CRS_POST_STATUS_NORMAL); // 读取已发布、正在招聘的岗位
+                .andPubStatusEqualTo(CrsConstants.CRS_POST_PUB_STATUS_PUBLISHED)
+                .andStatusEqualTo(CrsConstants.CRS_POST_STATUS_NORMAL); // 读取已发布、正在招聘的岗位
         example.setOrderByClause("create_time desc");
 
         long count = crsPostMapper.countByExample(example);

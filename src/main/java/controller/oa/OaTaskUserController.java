@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.OaConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -46,7 +47,7 @@ public class OaTaskUserController extends OaBaseController {
 
         int totalCount = oaTaskUserService.countTaskUsers(taskId, null, null);
         int hasReportCount = oaTaskUserService.countTaskUsers(taskId, null, true);
-        int passCount = oaTaskUserService.countTaskUsers(taskId, SystemConstants.OA_TASK_USER_STATUS_PASS, true);
+        int passCount = oaTaskUserService.countTaskUsers(taskId, OaConstants.OA_TASK_USER_STATUS_PASS, true);
         modelMap.put("totalCount", totalCount);
         modelMap.put("hasReportCount", hasReportCount);
         modelMap.put("passCount", passCount);
@@ -127,8 +128,8 @@ public class OaTaskUserController extends OaBaseController {
         oaTaskService.checkAuth(oaTask.getType());
 
         oaTaskUserService.check(taskId, taskUserIds,
-                BooleanUtils.isTrue(pass) ? SystemConstants.OA_TASK_USER_STATUS_PASS
-                        : SystemConstants.OA_TASK_USER_STATUS_DENY, remark);
+                BooleanUtils.isTrue(pass) ? OaConstants.OA_TASK_USER_STATUS_PASS
+                        : OaConstants.OA_TASK_USER_STATUS_DENY, remark);
 
         logger.info(addLog(SystemConstants.LOG_PCS, "审核任务报送情况-%s-%s", taskUserIds, pass));
         return success(FormUtils.SUCCESS);

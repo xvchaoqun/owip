@@ -14,7 +14,7 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.sys.AvatarService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.ModifyConstants;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 
@@ -39,8 +39,8 @@ public class ModifyBaseApplyService extends BaseMapper {
         ModifyBaseApplyExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
 
         List<Byte> statusList = new ArrayList<>();
-        statusList.add(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
-        statusList.add(SystemConstants.MODIFY_BASE_APPLY_STATUS_PART_CHECK);
+        statusList.add(ModifyConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
+        statusList.add(ModifyConstants.MODIFY_BASE_APPLY_STATUS_PART_CHECK);
         criteria.andStatusIn(statusList);
 
         List<ModifyBaseApply> records = modifyBaseApplyMapper.selectByExample(example);
@@ -72,7 +72,7 @@ public class ModifyBaseApplyService extends BaseMapper {
         {// 提交申请记录
             ModifyBaseApplyExample example = new ModifyBaseApplyExample();
             example.createCriteria().andUserIdEqualTo(userId).
-                    andStatusEqualTo(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
+                    andStatusEqualTo(ModifyConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
             if (modifyBaseApplyMapper.countByExample(example) > 0) {
                 throw new OpException("您已经提交了申请，请等待审核完成。");
             }
@@ -81,7 +81,7 @@ public class ModifyBaseApplyService extends BaseMapper {
             mba.setUserId(userId);
             mba.setCreateTime(now);
             mba.setIp(ip);
-            mba.setStatus(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
+            mba.setStatus(ModifyConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
 
             modifyBaseApplyMapper.insertSelective(mba);
         }
@@ -103,10 +103,10 @@ public class ModifyBaseApplyService extends BaseMapper {
             mbi.setName("头像");
             mbi.setOrginalValue(backupAvatar);
             mbi.setModifyValue(avatar);
-            mbi.setType(SystemConstants.MODIFY_BASE_ITEM_TYPE_IMAGE);
+            mbi.setType(ModifyConstants.MODIFY_BASE_ITEM_TYPE_IMAGE);
             mbi.setCreateTime(now);
             mbi.setIp(ip);
-            mbi.setStatus(SystemConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
+            mbi.setStatus(ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
 
             modifyBaseItemMapper.insertSelective(mbi);
 
@@ -129,7 +129,7 @@ public class ModifyBaseApplyService extends BaseMapper {
                     mbi.setType(types[i]);
                     mbi.setCreateTime(now);
                     mbi.setIp(ip);
-                    mbi.setStatus(SystemConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
+                    mbi.setStatus(ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
 
                     modifyBaseItemMapper.insertSelective(mbi);
 
@@ -154,14 +154,14 @@ public class ModifyBaseApplyService extends BaseMapper {
 
             ModifyBaseApply mba = modifyBaseApplyMapper.selectByPrimaryKey(id);
             if(mba.getUserId().intValue()!=currentUserId ||
-                    mba.getStatus()!=SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY){
+                    mba.getStatus()!=ModifyConstants.MODIFY_BASE_APPLY_STATUS_APPLY){
                 throw new OpException(String.format("您没有权限撤销该记录[ID:%s]", id));
             }
         }
 
         ModifyBaseApplyExample example = new ModifyBaseApplyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids))
-                .andStatusEqualTo(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY); // 只有待审核时才可以删除
+                .andStatusEqualTo(ModifyConstants.MODIFY_BASE_APPLY_STATUS_APPLY); // 只有待审核时才可以删除
         modifyBaseApplyMapper.deleteByExample(example);
     }
 
@@ -173,10 +173,10 @@ public class ModifyBaseApplyService extends BaseMapper {
 
         ModifyBaseApplyExample example = new ModifyBaseApplyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids))
-                .andStatusEqualTo(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY); // 只有待审核时才可以操作
+                .andStatusEqualTo(ModifyConstants.MODIFY_BASE_APPLY_STATUS_APPLY); // 只有待审核时才可以操作
         ModifyBaseApply record = new ModifyBaseApply();
 
-        record.setStatus(SystemConstants.MODIFY_BASE_APPLY_STATUS_DELETE);
+        record.setStatus(ModifyConstants.MODIFY_BASE_APPLY_STATUS_DELETE);
         modifyBaseApplyMapper.updateByExampleSelective(record, example);
     }
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.sys.SysOnlineStaticService;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -89,7 +90,7 @@ public class SysOnlineLogController extends BaseController {
         return;
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequiresPermissions("sysOnlineLog:kickout")
     @RequestMapping(value = "/sysOnlineLog_kickout", method = RequestMethod.POST)
     @ResponseBody

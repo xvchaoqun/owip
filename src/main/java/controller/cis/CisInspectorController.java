@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CisConstants;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -46,7 +47,7 @@ public class CisInspectorController extends CisBaseController {
     public String cisInspector(HttpServletResponse response,
                                     Integer userId,
                                     @RequestParam(required = false,
-                                            defaultValue = SystemConstants.CIS_INSPECTOR_STATUS_NOW + "") Byte status,
+                                            defaultValue = CisConstants.CIS_INSPECTOR_STATUS_NOW + "") Byte status,
                                     ModelMap modelMap) {
 
         modelMap.put("status", status);
@@ -61,7 +62,7 @@ public class CisInspectorController extends CisBaseController {
                                   @OrderParam(required = false, defaultValue = "desc") String order,
                                   Integer userId,
                                   @RequestParam(required = false,
-                                          defaultValue = SystemConstants.CIS_INSPECTOR_STATUS_NOW + "") Byte status,
+                                          defaultValue = CisConstants.CIS_INSPECTOR_STATUS_NOW + "") Byte status,
                                   @RequestParam(required = false, defaultValue = "0") int export,
                                   @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                   Integer pageSize, Integer pageNo) throws IOException {
@@ -117,7 +118,7 @@ public class CisInspectorController extends CisBaseController {
         Integer id = record.getId();
 
         if (id == null) {
-            record.setStatus(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
+            record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_NOW);
             cisInspectorService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部考察组成员：%s", record.getId()));
         } else {

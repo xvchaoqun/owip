@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import service.BaseMapper;
 import service.DBErrorException;
-import sys.constants.SystemConstants;
+import sys.constants.TrainConstants;
 import sys.utils.DateUtils;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class TrainInspectorService extends BaseMapper {
 
         TrainInspectorExample example = new TrainInspectorExample();
         example.createCriteria().andIdEqualTo(id)
-                .andStatusEqualTo(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
+                .andStatusEqualTo(TrainConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
 
         trainInspectorMapper.deleteByPrimaryKey(id);
 
@@ -55,7 +55,7 @@ public class TrainInspectorService extends BaseMapper {
 
         TrainInspectorExample example = new TrainInspectorExample();
         example.createCriteria().andTrainIdEqualTo(trainId)
-                .andStatusEqualTo(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
+                .andStatusEqualTo(TrainConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
         return trainInspectorMapper.deleteByExample(example);
     }*/
 
@@ -99,7 +99,7 @@ public class TrainInspectorService extends BaseMapper {
                     record.setUsername(buildUsername());
                     record.setPasswd(RandomStringUtils.randomNumeric(6));
                     record.setType(type);
-                    record.setStatus(SystemConstants.TRAIN_INSPECTOR_STATUS_INIT);
+                    record.setStatus(TrainConstants.TRAIN_INSPECTOR_STATUS_INIT);
                     record.setCreateTime(now);
 
                     trainInspectorMapper.insert(record);
@@ -131,7 +131,7 @@ public class TrainInspectorService extends BaseMapper {
                     record.setMobile(mobile);
                     record.setRealname(rowBean.getRealname());
                     record.setType(type);
-                    record.setStatus(SystemConstants.TRAIN_INSPECTOR_STATUS_INIT);
+                    record.setStatus(TrainConstants.TRAIN_INSPECTOR_STATUS_INIT);
                     record.setCreateTime(now);
 
                     trainInspectorMapper.insert(record);
@@ -140,7 +140,7 @@ public class TrainInspectorService extends BaseMapper {
         }
 
         TrainInspectorExample _example = new TrainInspectorExample();
-        _example.createCriteria().andTrainIdEqualTo(trainId).andStatusNotEqualTo(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
+        _example.createCriteria().andTrainIdEqualTo(trainId).andStatusNotEqualTo(TrainConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
         int count = trainInspectorMapper.countByExample(_example);
 
         Train record = new Train();
@@ -174,7 +174,7 @@ public class TrainInspectorService extends BaseMapper {
 
         TrainInspector _inspector = new TrainInspector();
         _inspector.setId(inspectorId);
-        _inspector.setStatus(SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
+        _inspector.setStatus(TrainConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
 
         if (trainInspectorMapper.updateByPrimaryKeySelective(_inspector) != 1)
             throw new DBErrorException("abolish error1.");
@@ -203,7 +203,7 @@ public class TrainInspectorService extends BaseMapper {
         TrainInspector record = new TrainInspector();
         record.setId(inspectorId);
         record.setPasswd(passwd);
-        record.setPasswdChangeType(SystemConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF);
+        record.setPasswdChangeType(TrainConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF);
 
         trainInspectorMapper.updateByPrimaryKeySelective(record);
     }
@@ -239,7 +239,7 @@ public class TrainInspectorService extends BaseMapper {
         List<TrainInspector> trainInspectors = trainInspectorMapper.selectByExample(example);
         if(trainInspectors.size()==1){
             TrainInspector trainInspector = trainInspectors.get(0);
-            if(trainInspector.getStatus()==SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH){
+            if(trainInspector.getStatus()==TrainConstants.TRAIN_INSPECTOR_STATUS_ABOLISH){
                 throw new TrainInspectorAbolishException("该账号已经作废");
             }
             if(trainService.evaIsClosed(trainInspector.getTrainId())!=0){

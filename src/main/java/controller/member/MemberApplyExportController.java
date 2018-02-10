@@ -23,6 +23,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -42,7 +44,7 @@ public class MemberApplyExportController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApplyExport")
     public String memberApplyExport(HttpServletResponse response,
@@ -245,7 +247,7 @@ public class MemberApplyExportController extends MemberBaseController {
                     studentInfo==null?"":studentInfo.getGrade(), // 年级
                     partyId==null?"":partyService.findAll().get(partyId).getName(),
                     branchId==null?"":branchService.findAll().get(branchId).getName(),
-                    record==null?"":SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌
+                    record==null?"":MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()), // 政治面貌
                     memberStudent==null?"":DateUtils.formatDate(memberStudent.getGrowTime(), DateUtils.YYYY_MM_DD),
                     studentInfo==null?"":studentInfo.getEduLevel(),
                     studentInfo==null?"":studentInfo.getEduType(),
@@ -309,9 +311,9 @@ public class MemberApplyExportController extends MemberBaseController {
             Date birth = uv.getBirth();
             String ageRange = "";
             if(birth!=null){
-                byte memberAgeRange = SystemConstants.getMemberAgeRange(DateUtils.getYear(birth));
+                byte memberAgeRange = MemberConstants.getMemberAgeRange(DateUtils.getYear(birth));
                 if(memberAgeRange>0)
-                    ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
+                    ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
 
             CadreView cadre = cadreService.dbFindByUserId(memberApply.getUserId());
@@ -403,9 +405,9 @@ public class MemberApplyExportController extends MemberBaseController {
             Date birth = userBean==null?null:userBean.getBirth();
             String ageRange = "";
             if(birth!=null){
-                byte memberAgeRange = SystemConstants.getMemberAgeRange(DateUtils.getYear(birth));
+                byte memberAgeRange = MemberConstants.getMemberAgeRange(DateUtils.getYear(birth));
                 if(memberAgeRange>0)
-                    ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
+                    ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
 
             CadreView cadre = cadreService.dbFindByUserId(memberApply.getUserId());
@@ -433,7 +435,7 @@ public class MemberApplyExportController extends MemberBaseController {
                     record==null?"":record.getCountry(), // 国家/地区
                     userBean==null?"":userBean.getIdcard(), // 证件号码
                     //extJzg.getZzmm(), // 政治面貌
-                    memberTeacher==null?"":SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(memberTeacher.getPoliticalStatus()),
+                    memberTeacher==null?"":MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(memberTeacher.getPoliticalStatus()),
                     partyId==null?"":partyMap.get(partyId).getName(),
                     branchId==null?"":branchMap.get(branchId).getName(),
                     record==null?"":record.getExtUnit(), // 所在单位

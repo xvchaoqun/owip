@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.PmdConstants;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -101,7 +101,7 @@ public class PmdNormValueService extends BaseMapper {
         }
 
 
-        if(pmdNorm.getType()== SystemConstants.PMD_NORM_TYPE_PAY) {
+        if(pmdNorm.getType()== PmdConstants.PMD_NORM_TYPE_PAY) {
 
             PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -87,19 +88,19 @@ public class PcsVoteCadidateController extends PcsBaseController {
                 type = pcsVoteGroup.getType();
                 wb = pcsVoteExportService.vote_jp(pcsVoteGroup);
                 fileName = String.format("各计票组计票汇总：%s（%s）",
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type), pcsVoteGroup.getName());
+                        PcsConstants.PCS_USER_TYPE_MAP.get(type), pcsVoteGroup.getName());
                 break;
             case 1:
                 SecurityUtils.getSubject().checkPermission("pcsVoteStat:candidate");
                 wb = pcsVoteExportService.vote(type);
                 fileName = String.format("计票汇总用：%s",
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
+                        PcsConstants.PCS_USER_TYPE_MAP.get(type));
                 break;
             case 2:
                 SecurityUtils.getSubject().checkPermission("pcsVoteStat:candidate");
                 wb = pcsVoteExportService.vote_zj(type);
                 fileName = String.format("报总监票人：%s选举结果报告单",
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type));
+                        PcsConstants.PCS_USER_TYPE_MAP.get(type));
                 break;
         }
 

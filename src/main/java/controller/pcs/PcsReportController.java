@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.HtmlUtils;
-import sys.constants.SystemConstants;
+import sys.constants.PcsConstants;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
 
@@ -97,7 +97,7 @@ public class PcsReportController extends PcsBaseController {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-        PcsPrCandidateView candidate = pcsPrCandidateService.find(pcsProposal.getUserId(), configId, SystemConstants.PCS_STAGE_SECOND);
+        PcsPrCandidateView candidate = pcsPrCandidateService.find(pcsProposal.getUserId(), configId, PcsConstants.PCS_STAGE_SECOND);
 
         Map<Integer, MetaType> prTypes = metaTypeService.metaTypes("mc_pcs_proposal");
 

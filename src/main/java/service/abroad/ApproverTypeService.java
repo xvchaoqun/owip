@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -65,7 +65,7 @@ public class ApproverTypeService extends BaseMapper {
     public ApproverType getMainPostApproverType(){
 
         ApproverTypeExample example = new ApproverTypeExample();
-        example.createCriteria().andTypeEqualTo(SystemConstants.APPROVER_TYPE_UNIT);
+        example.createCriteria().andTypeEqualTo(AbroadConstants.ABROAD_APPROVER_TYPE_UNIT);
         List<ApproverType> approverTypes = approverTypeMapper.selectByExample(example);
         if(approverTypes.size()>0) return approverTypes.get(0);
         return null;
@@ -74,7 +74,7 @@ public class ApproverTypeService extends BaseMapper {
     public ApproverType getLeaderApproverType(){
 
         ApproverTypeExample example = new ApproverTypeExample();
-        example.createCriteria().andTypeEqualTo(SystemConstants.APPROVER_TYPE_LEADER);
+        example.createCriteria().andTypeEqualTo(AbroadConstants.ABROAD_APPROVER_TYPE_LEADER);
         List<ApproverType> approverTypes = approverTypeMapper.selectByExample(example);
         if(approverTypes.size()>0) return approverTypes.get(0);
         return null;
@@ -86,8 +86,8 @@ public class ApproverTypeService extends BaseMapper {
 
         ApproverTypeExample example = new ApproverTypeExample();
         ApproverTypeExample.Criteria criteria = example.createCriteria().andNameEqualTo(name);
-        if(type== SystemConstants.APPROVER_TYPE_UNIT
-                ||type==SystemConstants.APPROVER_TYPE_LEADER) {
+        if(type== AbroadConstants.ABROAD_APPROVER_TYPE_UNIT
+                ||type==AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {
             criteria.andTypeEqualTo(type); // 1本单位正职 2分管校领导 只能有一个
         }
         if(id!=null) criteria.andIdNotEqualTo(id);

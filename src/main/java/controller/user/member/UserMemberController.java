@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 
@@ -20,7 +21,7 @@ public class UserMemberController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping("/member")
     public String member(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -29,7 +30,7 @@ public class UserMemberController extends MemberBaseController {
             return "forward:/user/teacher_base";
         return "forward:/user/student_base";
     }
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping("/student_base")
     public String student_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -39,7 +40,7 @@ public class UserMemberController extends MemberBaseController {
 
         return "user/member/member/student_base";
     }
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping("/teacher_base")
     public String teacher_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 

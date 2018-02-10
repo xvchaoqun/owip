@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.AbroadConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -40,7 +42,7 @@ public class UserPassportApplyController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/passportApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportApply_au(int classId, Integer cadreId,  HttpServletRequest request) {
@@ -48,7 +50,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         String ip = ContextHelper.getRealIp();
         PassportApply record = new PassportApply();
 
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -60,7 +62,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         record.setApplyDate(date);
         record.setCreateTime(date);
         record.setIp(ip);
-        record.setStatus(SystemConstants.PASSPORT_APPLY_STATUS_INIT);
+        record.setStatus(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_INIT);
         record.setIsDeleted(false);
 
         passportApplyService.apply(record);
@@ -76,7 +78,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         return success;
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping(value = "/passportApply_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportApply_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -85,7 +87,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         CadreView cadre = cadreService.dbFindByUserId(userId);
         if (id != null) {
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
-            if(passportApply.getStatus()==SystemConstants.PASSPORT_APPLY_STATUS_INIT
+            if(passportApply.getStatus()==AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_INIT
                     && passportApply.getCadreId().intValue() == cadre.getId().intValue()) {
                 passportApplyService.del(id);
                 logger.info(addLog(SystemConstants.LOG_ABROAD, "删除申请办理因私出国证件：%s", id));
@@ -94,26 +96,26 @@ public class UserPassportApplyController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/passportApply_begin")
     public String passportApply_begin() {
 
         return "user/abroad/passportApply/passportApply_begin";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/passportApply_select")
     public String passportApply_select() {
 
         return "user/abroad/passportApply/passportApply_select";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/passportApply_confirm")
     public String passportApply_confirm(Integer cadreId, ModelMap modelMap) {
 
         CadreView cadre = null;
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
         }else{
@@ -124,7 +126,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         return "user/abroad/passportApply/passportApply_confirm";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passportApply")
     public String passportApply(@CurrentUser SysUserView loginUser,
                                      @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_apply") String sort,

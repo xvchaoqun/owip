@@ -26,6 +26,14 @@ public class ScCommitteeService extends BaseMapper {
     @Autowired
     private SysUserService sysUserService;
 
+    public List<ScCommittee> findAll(){
+
+        ScCommitteeExample example = new ScCommitteeExample();
+        example.createCriteria().andIsDeletedEqualTo(false);
+        example.setOrderByClause("hold_date desc");
+        return  scCommitteeMapper.selectByExample(example);
+    }
+
     public ScCommitteeView getView(int id){
 
         ScCommitteeViewExample example = new ScCommitteeViewExample();

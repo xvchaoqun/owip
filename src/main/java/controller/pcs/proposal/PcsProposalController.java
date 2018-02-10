@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -165,7 +166,7 @@ public class PcsProposalController extends PcsBaseController {
                 criteria.andIsSeconder(ShiroHelper.getCurrentUserId());
             }
         } else if (cls == 2 || cls == 3) {  // 征集附议人 & 提案查询
-            criteria.andStatusEqualTo(SystemConstants.PCS_PROPOSAL_STATUS_PASS);
+            criteria.andStatusEqualTo(PcsConstants.PCS_PROPOSAL_STATUS_PASS);
 
             if(BooleanUtils.isTrue(displayInvite)){
                 criteria.andIsInvited(ShiroHelper.getCurrentUserId());
@@ -173,7 +174,7 @@ public class PcsProposalController extends PcsBaseController {
 
         } else if (cls == 8) {  // 提案管理
             if (module == 1)
-                criteria.andStatusNotEqualTo(SystemConstants.PCS_PROPOSAL_STATUS_SAVE);
+                criteria.andStatusNotEqualTo(PcsConstants.PCS_PROPOSAL_STATUS_SAVE);
         }
 
         if (StringUtils.isNotBlank(code)) {
@@ -252,9 +253,9 @@ public class PcsProposalController extends PcsBaseController {
         }
         if (record.getStatus() == null
                 || !NumberUtils.contains(record.getStatus(),
-                SystemConstants.PCS_PROPOSAL_STATUS_SAVE,
-                SystemConstants.PCS_PROPOSAL_STATUS_INIT,
-                SystemConstants.PCS_PROPOSAL_STATUS_DENY)) {
+                PcsConstants.PCS_PROPOSAL_STATUS_SAVE,
+                PcsConstants.PCS_PROPOSAL_STATUS_INIT,
+                PcsConstants.PCS_PROPOSAL_STATUS_DENY)) {
             return failed("状态异常");
         }
 
@@ -283,12 +284,12 @@ public class PcsProposalController extends PcsBaseController {
         boolean sumitMsgToAdmin = false;
         if(record.getId()==null){
             // 首次提交
-            sumitMsgToAdmin = (record.getStatus()==SystemConstants.PCS_PROPOSAL_STATUS_INIT);
+            sumitMsgToAdmin = (record.getStatus()==PcsConstants.PCS_PROPOSAL_STATUS_INIT);
         }else{
             // 如果重复提交，不提示
             PcsProposal pcsProposal = pcsProposalMapper.selectByPrimaryKey(record.getId());
-            sumitMsgToAdmin = (pcsProposal.getStatus()==SystemConstants.PCS_PROPOSAL_STATUS_SAVE
-                    && record.getStatus()==SystemConstants.PCS_PROPOSAL_STATUS_INIT); // 暂存后首次提交
+            sumitMsgToAdmin = (pcsProposal.getStatus()==PcsConstants.PCS_PROPOSAL_STATUS_SAVE
+                    && record.getStatus()==PcsConstants.PCS_PROPOSAL_STATUS_INIT); // 暂存后首次提交
         }
 
         pcsProposalService.saveOrUpdate(record, pcsProposalFiles, inviteIds);
@@ -315,7 +316,7 @@ public class PcsProposalController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
         PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
-        example.createCriteria().andConfigIdEqualTo(configId).andStageEqualTo(SystemConstants.PCS_STAGE_SECOND)
+        example.createCriteria().andConfigIdEqualTo(configId).andStageEqualTo(PcsConstants.PCS_STAGE_SECOND)
                 .andIsChosenEqualTo(true).andIsProposalEqualTo(true)
                 .andUserIdNotEqualTo(userId);
         example.setOrderByClause("proposal_sort_order asc");
@@ -356,7 +357,7 @@ public class PcsProposalController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
         PcsPrCandidateView pcsPrCandidateView =
-                pcsPrCandidateService.find(ShiroHelper.getCurrentUserId(), configId, SystemConstants.PCS_STAGE_SECOND);
+                pcsPrCandidateService.find(ShiroHelper.getCurrentUserId(), configId, PcsConstants.PCS_STAGE_SECOND);
         modelMap.put("candidate", pcsPrCandidateView);
 
         if (id != null) {
@@ -499,7 +500,7 @@ public class PcsProposalController extends PcsBaseController {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-        byte stage = SystemConstants.PCS_STAGE_SECOND;
+        byte stage = PcsConstants.PCS_STAGE_SECOND;
 
         int count = iPcsMapper.countPr(configId, stage, searchStr);
         if ((pageNo - 1) * pageSize >= count) {

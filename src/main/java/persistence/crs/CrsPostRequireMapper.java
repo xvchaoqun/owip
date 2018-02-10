@@ -2,9 +2,10 @@ package persistence.crs;
 
 import domain.crs.CrsPostRequire;
 import domain.crs.CrsPostRequireExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CrsPostRequireMapper {
     long countByExample(CrsPostRequireExample example);

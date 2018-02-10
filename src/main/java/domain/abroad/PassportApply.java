@@ -3,7 +3,7 @@ package domain.abroad;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -45,7 +45,7 @@ public class PassportApply implements Serializable {
     }
     public String getStatusName(){
 
-        return SystemConstants.PASSPORT_APPLY_STATUS_MAP.get(status);
+        return AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_MAP.get(status);
     }
 
     private Integer id;

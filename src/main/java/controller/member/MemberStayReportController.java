@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.ConfigUtil;
@@ -54,8 +56,8 @@ public class MemberStayReportController extends MemberBaseController {
                               Model model) throws IOException, DocumentException {
 
         // 分党委、组织部管理员或管理员才可以操作
-        if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN,
-                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN)) {
+        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
+                RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_PARTYADMIN)) {
             throw new UnauthorizedException();
         }
 
@@ -63,7 +65,7 @@ public class MemberStayReportController extends MemberBaseController {
         for (Integer id : ids) {
             Map<String, Object> map = getMemberStayMap(id);
 
-            if (type == SystemConstants.MEMBER_STAY_TYPE_ABROAD) {
+            if (type == MemberConstants.MEMBER_STAY_TYPE_ABROAD) {
                 map.put("bg1", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR +
                         "jasper" + FILE_SEPARATOR + "member_stay_abroad_page1.jpg");
                 map.put("bg2", ConfigUtil.defaultConfigPath() + FILE_SEPARATOR +
@@ -79,7 +81,7 @@ public class MemberStayReportController extends MemberBaseController {
         // 报表数据源
         JRDataSource jrDataSource = new JRMapCollectionDataSource(data);
 
-        if (type == SystemConstants.MEMBER_STAY_TYPE_ABROAD) {
+        if (type == MemberConstants.MEMBER_STAY_TYPE_ABROAD) {
             model.addAttribute("url", "/WEB-INF/jasper/member_stay_abroad.jasper");
         } else {
             model.addAttribute("url", "/WEB-INF/jasper/member_stay_internal.jasper");
@@ -153,7 +155,7 @@ public class MemberStayReportController extends MemberBaseController {
         map.put("stayReason", ga.getStayReason());
 
 
-        if (ga.getType() == SystemConstants.MEMBER_STAY_TYPE_ABROAD) {
+        if (ga.getType() == MemberConstants.MEMBER_STAY_TYPE_ABROAD) {
             map.put("inAddress", ga.getInAddress());
             map.put("outAddress", ga.getOutAddress());
 
@@ -191,8 +193,8 @@ public class MemberStayReportController extends MemberBaseController {
             map.put("payTime", DateUtils.formatDate(ga.getPayTime(), "yyyy.MM"));
 
             Byte abroadType = ga.getAbroadType();
-            map.put("typeCheck1", abroadType == SystemConstants.MEMBER_STAY_ABROAD_TYPE_MAP_PUB ? "√" : "");
-            map.put("typeCheck2", abroadType == SystemConstants.MEMBER_STAY_ABROAD_TYPE_MAP_SELF ? "√" : "");
+            map.put("typeCheck1", abroadType == MemberConstants.MEMBER_STAY_ABROAD_TYPE_MAP_PUB ? "√" : "");
+            map.put("typeCheck2", abroadType == MemberConstants.MEMBER_STAY_ABROAD_TYPE_MAP_SELF ? "√" : "");
         }
 
         map.put("overDate", DateUtils.formatDate(ga.getOverDate(), "yyyy.MM"));
@@ -232,14 +234,14 @@ public class MemberStayReportController extends MemberBaseController {
         map.put("toBranch", toBranch); // 暂留所在党支部
 
         map.put("check1", (u.getPoliticalStatus() != null && u.getPoliticalStatus()
-                == SystemConstants.MEMBER_POLITICAL_STATUS_GROW) ? "√" : ""); // 预备党员
+                == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) ? "√" : ""); // 预备党员
         map.put("check2", (u.getPoliticalStatus() != null && u.getPoliticalStatus()
-                == SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE) ? "√" : ""); // 正式党员
+                == MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) ? "√" : ""); // 正式党员
 
         String transferTime = "";
-        if (u.getMemberStatus() != null && u.getMemberStatus() == SystemConstants.MEMBER_STATUS_TRANSFER) {
+        if (u.getMemberStatus() != null && u.getMemberStatus() == MemberConstants.MEMBER_STATUS_TRANSFER) {
             MemberOut memberOut = memberOutService.getLatest(userId);
-            if (memberOut != null && memberOut.getStatus()==SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY)
+            if (memberOut != null && memberOut.getStatus()==MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY)
                 transferTime = DateUtils.formatDate(memberOut.getHandleTime(), "yyyy.MM");
         }
         map.put("transferTime", transferTime);

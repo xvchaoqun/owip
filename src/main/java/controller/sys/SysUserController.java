@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.shiro.SaltPassword;
@@ -147,7 +148,7 @@ public class SysUserController extends BaseController {
         return;
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/sysUser_roles")
     public String sysUser_types(String _sysUsername, ModelMap modelMap) {
 
@@ -157,7 +158,7 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUser_roles";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value = "/sysUser_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUser_au(@Validated SysUser sysUser, BindingResult result, HttpServletRequest request) {
@@ -213,7 +214,7 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/sysUser_au")
     public String sysUser_au(Integer id, ModelMap modelMap) {
 
@@ -226,7 +227,7 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUser_au";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value = "/sysUserInfo_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUserInfo_au(int userId, SysUserInfo record, MultipartFile _avatar) throws IOException {
@@ -240,7 +241,7 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/sysUserInfo_au")
     public String sysUserInfo_au(Integer userId, ModelMap modelMap) {
 
@@ -255,7 +256,7 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUserInfo_au";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value = "/sysUser_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUser_del(@RequestParam(value = "ids[]") Integer[] ids, boolean locked, HttpServletRequest request) {
@@ -270,7 +271,7 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value = "/sysUserRole", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUserRole(@CurrentUser SysUserView loginSysUser,
@@ -289,7 +290,7 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/sysUserRole")
     public String sysUserRole(Integer id, ModelMap modelMap) throws IOException {
 

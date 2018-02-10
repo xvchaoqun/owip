@@ -14,6 +14,7 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
 import service.sys.SysUserService;
+import sys.constants.AbroadConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -92,7 +93,7 @@ public class AbroadExportService extends BaseMapper {
             ApprovalResult approvalResult = approvalResultMap.get(key);
             if(key>0&& (approvalResult.getValue()==null || approvalResult.getValue()!=-1)) {
                 ApproverType approverType = approverTypeMap.get(key);
-                if(approverType.getType()==SystemConstants.APPROVER_TYPE_LEADER) {
+                if(approverType.getType()== AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {
                     hasLeader = true;
                     ApprovalLog approvalLog = approvalResult.getApprovalLog();
                     if(approvalLog!=null) {
@@ -102,7 +103,7 @@ public class AbroadExportService extends BaseMapper {
                         leaderRemark = approvalLog.getRemark();
                         leaderApprovalDate = approvalLog.getCreateTime();
                     }
-                }else if(approverType.getType()==SystemConstants.APPROVER_TYPE_SECRETARY) {
+                }else if(approverType.getType()==AbroadConstants.ABROAD_APPROVER_TYPE_SECRETARY) {
                     ApprovalLog approvalLog = approvalResult.getApprovalLog();
                     if(approvalLog!=null) {
                         Integer userId = approvalLog.getUserId();
@@ -111,7 +112,7 @@ public class AbroadExportService extends BaseMapper {
                         secretaryRemark = approvalLog.getRemark();
                         secretaryApprovalDate = approvalLog.getCreateTime();
                     }
-                }else if(approverType.getType()==SystemConstants.APPROVER_TYPE_MASTER){
+                }else if(approverType.getType()==AbroadConstants.ABROAD_APPROVER_TYPE_MASTER){
                     ApprovalLog approvalLog = approvalResult.getApprovalLog();
                     if(approvalLog!=null) {
                         Integer userId = approvalLog.getUserId();

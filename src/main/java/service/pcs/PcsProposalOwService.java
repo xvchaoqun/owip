@@ -12,7 +12,7 @@ import org.apache.shiro.util.Assert;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.PcsConstants;
 import sys.utils.DateUtils;
 
 import java.util.Date;
@@ -96,12 +96,12 @@ public class PcsProposalOwService extends BaseMapper {
     public int check(int id, boolean status) {
 
         PcsProposalView pcsProposal = pcsProposalViewMapper.selectByPrimaryKey(id);
-        if(pcsProposal.getStatus() != SystemConstants.PCS_PROPOSAL_STATUS_INIT)
+        if(pcsProposal.getStatus() != PcsConstants.PCS_PROPOSAL_STATUS_INIT)
             throw new OpException("状态异常");
 
         PcsProposal record = new PcsProposal();
         record.setId(pcsProposal.getId());
-        record.setStatus(status?SystemConstants.PCS_PROPOSAL_STATUS_PASS: SystemConstants.PCS_PROPOSAL_STATUS_DENY);
+        record.setStatus(status?PcsConstants.PCS_PROPOSAL_STATUS_PASS: PcsConstants.PCS_PROPOSAL_STATUS_DENY);
         if(status && StringUtils.isBlank(pcsProposal.getCode())){
             record.setCode(genCode());
         }

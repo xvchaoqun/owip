@@ -26,6 +26,8 @@ import service.base.ContentTplService;
 import service.base.ShortMsgService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
+import sys.constants.ContentTplConstants;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
@@ -54,7 +56,7 @@ public class PcsProposalService extends BaseMapper {
         PcsProposalView pcsProposal = pcsProposalViewMapper.selectByPrimaryKey(proposalId);
         SysUserView applyUser = pcsProposal.getUser();
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PCS_PROPOSAL_SUMIT_INFO);
+        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PCS_PROPOSAL_SUMIT_INFO);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
 
         for (SysUserView uv : receivers) {
@@ -94,7 +96,7 @@ public class PcsProposalService extends BaseMapper {
         String date = DateUtils.formatDate(pcsProposal.getCreateTime(), DateUtils.YYYY_MM_DD_CHINA);
 
         List<PcsPrCandidateView> inviteCandidates = getInviteCandidates(configId, pcsProposal);
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PCS_INVITE_SECONDER);
+        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PCS_INVITE_SECONDER);
 
         for (PcsPrCandidateView candidate : inviteCandidates) {
             try {
@@ -136,7 +138,7 @@ public class PcsProposalService extends BaseMapper {
 
         PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
         PcsPrCandidateViewExample.Criteria criteria = example.createCriteria()
-                .andConfigIdEqualTo(configId).andStageEqualTo(SystemConstants.PCS_STAGE_SECOND)
+                .andConfigIdEqualTo(configId).andStageEqualTo(PcsConstants.PCS_STAGE_SECOND)
                 .andIsChosenEqualTo(true).andIsProposalEqualTo(true);
         if (inviteUserIdList.size() > 0)
             criteria.andUserIdIn(inviteUserIdList);
@@ -161,7 +163,7 @@ public class PcsProposalService extends BaseMapper {
 
         PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
         PcsPrCandidateViewExample.Criteria criteria = example.createCriteria()
-                .andConfigIdEqualTo(configId).andStageEqualTo(SystemConstants.PCS_STAGE_SECOND)
+                .andConfigIdEqualTo(configId).andStageEqualTo(PcsConstants.PCS_STAGE_SECOND)
                 .andIsChosenEqualTo(true).andIsProposalEqualTo(true);
         if (userIdList.size() > 0)
             criteria.andUserIdIn(userIdList);
@@ -195,9 +197,9 @@ public class PcsProposalService extends BaseMapper {
                 // 审核前或审核未通过，本人才可以删除操作
                 if (pcsProposal.getUserId().intValue() != ShiroHelper.getCurrentUserId()
                         || !NumberUtils.contains(pcsProposal.getStatus(),
-                        SystemConstants.PCS_PROPOSAL_STATUS_SAVE,
-                        SystemConstants.PCS_PROPOSAL_STATUS_INIT,
-                        SystemConstants.PCS_PROPOSAL_STATUS_DENY)) {
+                        PcsConstants.PCS_PROPOSAL_STATUS_SAVE,
+                        PcsConstants.PCS_PROPOSAL_STATUS_INIT,
+                        PcsConstants.PCS_PROPOSAL_STATUS_DENY)) {
                     throw new OpException("没有删除权限");
                 }
             }
@@ -231,9 +233,9 @@ public class PcsProposalService extends BaseMapper {
                 // 审核前或审核未通过，本人才可以更新操作
                 if (pcsProposal.getUserId().intValue() != userId
                         || !NumberUtils.contains(pcsProposal.getStatus(),
-                        SystemConstants.PCS_PROPOSAL_STATUS_SAVE,
-                        SystemConstants.PCS_PROPOSAL_STATUS_INIT,
-                        SystemConstants.PCS_PROPOSAL_STATUS_DENY)) {
+                        PcsConstants.PCS_PROPOSAL_STATUS_SAVE,
+                        PcsConstants.PCS_PROPOSAL_STATUS_INIT,
+                        PcsConstants.PCS_PROPOSAL_STATUS_DENY)) {
                     throw new OpException("没有更新权限");
                 }
 
@@ -284,9 +286,9 @@ public class PcsProposalService extends BaseMapper {
                 // 审核前或审核未通过，本人才可以删除操作
                 if (pcsProposal.getUserId().intValue() != ShiroHelper.getCurrentUserId()
                         || !NumberUtils.contains(pcsProposal.getStatus(),
-                        SystemConstants.PCS_PROPOSAL_STATUS_SAVE,
-                        SystemConstants.PCS_PROPOSAL_STATUS_INIT,
-                        SystemConstants.PCS_PROPOSAL_STATUS_DENY)) {
+                        PcsConstants.PCS_PROPOSAL_STATUS_SAVE,
+                        PcsConstants.PCS_PROPOSAL_STATUS_INIT,
+                        PcsConstants.PCS_PROPOSAL_STATUS_DENY)) {
                     throw new OpException("没有删除权限");
                 }
             }

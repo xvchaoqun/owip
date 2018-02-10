@@ -5,7 +5,7 @@ import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -37,7 +37,7 @@ public class Passport implements Serializable {
 
     public String getPassportType(){
 
-        return SystemConstants.PASSPORT_TYPE_MAP.get(type);
+        return AbroadConstants.ABROAD_PASSPORT_TYPE_MAP.get(type);
     }
     public MetaType getPassportClass(){
 

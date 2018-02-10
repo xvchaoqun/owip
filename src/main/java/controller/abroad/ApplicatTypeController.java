@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.AbroadConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -68,7 +69,7 @@ public class ApplicatTypeController extends AbroadBaseController {
         }
 
         TreeNode tree = cadreCommonService.getTree(cadreSet,
-                SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, null, disabledIdSet);
+                AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, null, disabledIdSet);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
@@ -103,7 +104,7 @@ public class ApplicatTypeController extends AbroadBaseController {
         Set<Integer> disabledIdSet = applicatTypeService.getCadreIds(null);
         disabledIdSet.removeAll(selectIdSet);
         TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
-                SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, disabledIdSet);
+                AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, disabledIdSet);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
@@ -283,7 +284,7 @@ public class ApplicatTypeController extends AbroadBaseController {
         modelMap.put("commonList", commonList);
 
         CadreExample cadreExample = new CadreExample();
-        cadreExample.createCriteria().andStatusIn(new ArrayList<>(SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET));
+        cadreExample.createCriteria().andStatusIn(new ArrayList<>(AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET));
         modelMap.put("escapeCount", cadreMapper.countByExample(cadreExample)- applicatTypeService.getCadreIds(null).size());
 
         return "abroad/applicatType/applicatType_page";

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 
@@ -87,17 +88,17 @@ public class CrsApplicantCheckService extends BaseMapper {
         CrsApplicant oldRecord = crsApplicantMapper.selectByPrimaryKey(id);
 
         CrsApplicant record = new CrsApplicant();
-        record.setInfoCheckStatus(status ? SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_PASS :
-                SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_UNPASS);
+        record.setInfoCheckStatus(status ? CrsConstants.CRS_APPLICANT_INFO_CHECK_STATUS_PASS :
+                CrsConstants.CRS_APPLICANT_INFO_CHECK_STATUS_UNPASS);
         record.setInfoCheckRemark(remark);
 
         if (status) {
-            record.setRequireCheckStatus(SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT);
+            record.setRequireCheckStatus(CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT);
         }
 
         CrsApplicantExample example = new CrsApplicantExample();
         example.createCriteria().andIdEqualTo(id)
-                .andInfoCheckStatusEqualTo(SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_INIT);
+                .andInfoCheckStatusEqualTo(CrsConstants.CRS_APPLICANT_INFO_CHECK_STATUS_INIT);
 
         crsApplicantMapper.updateByExampleSelective(record, example);
 
@@ -115,14 +116,14 @@ public class CrsApplicantCheckService extends BaseMapper {
         CrsApplicant oldRecord = crsApplicantMapper.selectByPrimaryKey(id);
 
         CrsApplicant record = new CrsApplicant();
-        record.setRequireCheckStatus(status ? SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS :
-                SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS);
+        record.setRequireCheckStatus(status ? CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS :
+                CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS);
         record.setRequireCheckRemark(remark);
 
         CrsApplicantExample example = new CrsApplicantExample();
         example.createCriteria().andIdEqualTo(id)
-                .andRequireCheckStatusEqualTo(SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT)
-                .andInfoCheckStatusEqualTo(SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_PASS); // 信息审核之后才能资格审核?
+                .andRequireCheckStatusEqualTo(CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT)
+                .andInfoCheckStatusEqualTo(CrsConstants.CRS_APPLICANT_INFO_CHECK_STATUS_PASS); // 信息审核之后才能资格审核?
 
         crsApplicantMapper.updateByExampleSelective(record, example);
 
@@ -138,12 +139,12 @@ public class CrsApplicantCheckService extends BaseMapper {
     public void requireCheck_back(Integer id) {
 
         CrsApplicant record = new CrsApplicant();
-        record.setRequireCheckStatus(SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT);
+        record.setRequireCheckStatus(CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT);
 
         CrsApplicantExample example = new CrsApplicantExample();
         example.createCriteria().andIdEqualTo(id)
-                .andRequireCheckStatusIn(Arrays.asList(SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS,
-                        SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS)); // 信息审核之后才能资格审核?
+                .andRequireCheckStatusIn(Arrays.asList(CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS,
+                        CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS)); // 信息审核之后才能资格审核?
 
         crsApplicantMapper.updateByExampleSelective(record, example);
 
@@ -201,7 +202,7 @@ public class CrsApplicantCheckService extends BaseMapper {
 
             CrsApplicantExample example = new CrsApplicantExample();
             example.createCriteria().andIdEqualTo(id).andRequireCheckStatusEqualTo(
-                    SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS); // 资格审核未通过才可以破格
+                    CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS); // 资格审核未通过才可以破格
 
             crsApplicantMapper.updateByExampleSelective(record, example);
 

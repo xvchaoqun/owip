@@ -23,7 +23,8 @@ import service.party.PartyService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.MemberConstants;
+import sys.constants.PcsConstants;
 import sys.utils.DateUtils;
 
 import java.util.Date;
@@ -51,12 +52,12 @@ public class PcsPrPartyService extends BaseMapper {
     public boolean allowModify(int partyId, int configId, byte stage){
 
         // 二下二上和三下三上，在组织部审批通过上一阶段前，不可填写
-        if(stage==SystemConstants.PCS_STAGE_SECOND){
-            PcsPrRecommend _check = getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_FIRST, partyId);
-            if(_check == null ||  _check.getStatus()==null || _check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
-        }else if(stage==SystemConstants.PCS_STAGE_THIRD){
-            PcsPrRecommend _check = getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
-            if(_check == null || _check.getStatus()==null || _check.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
+        if(stage== PcsConstants.PCS_STAGE_SECOND){
+            PcsPrRecommend _check = getPcsPrRecommend(configId, PcsConstants.PCS_STAGE_FIRST, partyId);
+            if(_check == null ||  _check.getStatus()==null || _check.getStatus() != PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
+        }else if(stage==PcsConstants.PCS_STAGE_THIRD){
+            PcsPrRecommend _check = getPcsPrRecommend(configId, PcsConstants.PCS_STAGE_SECOND, partyId);
+            if(_check == null || _check.getStatus()==null || _check.getStatus() != PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS) return false;
         }
 
         // 分党委已经报送之后，不可修改数据
@@ -83,7 +84,7 @@ public class PcsPrPartyService extends BaseMapper {
         record.setReportUserId(userId);
         record.setReportTime(new Date());
         // 报送后待审核
-        record.setStatus(SystemConstants.PCS_PR_RECOMMEND_STATUS_INIT);
+        record.setStatus(PcsConstants.PCS_PR_RECOMMEND_STATUS_INIT);
 
         pcsPrRecommendMapper.updateByPrimaryKeySelective(record);
     }
@@ -112,7 +113,7 @@ public class PcsPrPartyService extends BaseMapper {
         record.setStage(stage);
         record.setPartyId(partyId);
         record.setHasReport(false);
-        //record.setStatus(SystemConstants.PCS_PR_RECOMMEND_STATUS_INIT);
+        //record.setStatus(PcsConstants.PCS_PR_RECOMMEND_STATUS_INIT);
 
         PcsPrRecommend pcsPrRecommend = getPcsPrRecommend(configId, stage, partyId);
         if(pcsPrRecommend==null || pcsPrRecommend.getId()==null){
@@ -123,10 +124,10 @@ public class PcsPrPartyService extends BaseMapper {
         }
 
         Map<Integer, PcsPrCandidateView> selectedMap = new LinkedHashMap<>();
-        if(stage == SystemConstants.PCS_STAGE_SECOND){
-            selectedMap = pcsPrCandidateService.findSelectedMap(configId, SystemConstants.PCS_STAGE_FIRST, partyId);
-        }else if(stage == SystemConstants.PCS_STAGE_THIRD){
-            selectedMap = pcsPrCandidateService.findSelectedMap(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
+        if(stage == PcsConstants.PCS_STAGE_SECOND){
+            selectedMap = pcsPrCandidateService.findSelectedMap(configId, PcsConstants.PCS_STAGE_FIRST, partyId);
+        }else if(stage == PcsConstants.PCS_STAGE_THIRD){
+            selectedMap = pcsPrCandidateService.findSelectedMap(configId, PcsConstants.PCS_STAGE_SECOND, partyId);
         }
 
         int recommendId = record.getId();
@@ -147,7 +148,7 @@ public class PcsPrPartyService extends BaseMapper {
 
                 Member member = memberService.get(userId);
                 if(member== null && member.getPoliticalStatus()
-                        != SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE){
+                        != MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE){
                     throw new OpException("用户{0}不是正式党员", uv.getRealname());
                 }
 
@@ -157,20 +158,20 @@ public class PcsPrPartyService extends BaseMapper {
                 }
 
                 // 类型校验
-                if(type ==SystemConstants.PCS_PR_TYPE_PRO){
+                if(type ==PcsConstants.PCS_PR_TYPE_PRO){
                     TeacherInfo teacherInfo = teacherInfoService.get(userId);
-                    if(member.getType()!=SystemConstants.MEMBER_TYPE_TEACHER
+                    if(member.getType()!=MemberConstants.MEMBER_TYPE_TEACHER
                             || teacherInfo==null || BooleanUtils.isTrue(teacherInfo.getIsRetire())){
                         throw new OpException("用户{0}不是在职教职工", uv.getRealname());
                     }
-                }else if(type ==SystemConstants.PCS_PR_TYPE_RETIRE){
+                }else if(type ==PcsConstants.PCS_PR_TYPE_RETIRE){
 
                     TeacherInfo teacherInfo = teacherInfoService.get(userId);
                     if(teacherInfo==null || BooleanUtils.isNotTrue(teacherInfo.getIsRetire())){
                         throw new OpException("用户{0}不是离退休教职工", uv.getRealname());
                     }
-                }else if(type ==SystemConstants.PCS_PR_TYPE_STU){
-                    if(member.getType()!=SystemConstants.MEMBER_TYPE_STUDENT){
+                }else if(type ==PcsConstants.PCS_PR_TYPE_STU){
+                    if(member.getType()!=MemberConstants.MEMBER_TYPE_STUDENT){
                         throw new OpException("用户{0}不是学生", uv.getRealname());
                     }
                 }else{
@@ -204,7 +205,7 @@ public class PcsPrPartyService extends BaseMapper {
     @Transactional
     public void submit3(int configId, int partyId, PcsPrRecommend record, List<PcsPrCandidateFormBean> beans) {
 
-        byte stage = SystemConstants.PCS_STAGE_THIRD;
+        byte stage = PcsConstants.PCS_STAGE_THIRD;
         record.setConfigId(configId);
         record.setStage(stage);
         record.setPartyId(partyId);
@@ -221,7 +222,7 @@ public class PcsPrPartyService extends BaseMapper {
         }
 
         // 阶段三共用阶段二的候选人名单
-        PcsPrRecommend pcsPrRecommend2 = getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_SECOND, partyId);
+        PcsPrRecommend pcsPrRecommend2 = getPcsPrRecommend(configId, PcsConstants.PCS_STAGE_SECOND, partyId);
         int recommendId = pcsPrRecommend2.getId();
         for (PcsPrCandidateFormBean bean : beans) {
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -27,6 +28,7 @@ import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -37,9 +39,17 @@ public class SysRoleController extends BaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping("/sysRole")
-	public String sysRole(HttpServletRequest request, Integer pageSize, Integer pageNo, String searchStr, ModelMap modelMap) {
+	public String sysRole() {
+
+		return "sys/sysRole/sysRole_page";
+	}
+
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequestMapping("/sysRole_data")
+	@ResponseBody
+	public void sysRole_data(HttpServletRequest request, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 		
 		if (null == pageSize) {
 			pageSize = springProps.pageSize;
@@ -63,19 +73,20 @@ public class SysRoleController extends BaseController {
 			pageNo = Math.max(1, pageNo-1);
 		}
 		List<SysRole> sysRoles = sysRoleMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
-		modelMap.put("sysRoles", sysRoles);
-		
 		CommonList commonList = new CommonList(count, pageNo, pageSize);
-		if(StringUtils.isBlank(searchStr))
-			commonList.setSearchStr("&pageSize="+pageSize);
-		else
-			commonList.setSearchStr("&searchStr=" + Escape.escape(Escape.escape(Escape.escape(searchStr))) + "&pageSize="+pageSize);
-		modelMap.put("commonList", commonList);
-		
-		return "sys/sysRole/sysRole_page";
+
+		Map resultMap = new HashMap();
+		resultMap.put("rows", sysRoles);
+		resultMap.put("records", count);
+		resultMap.put("page", pageNo);
+		resultMap.put("total", commonList.pageNum);
+
+		Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+		JSONUtils.jsonp(resultMap, baseMixins);
+		return;
 	}
 
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysRole_au", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysRole_au(@CurrentUser SysUserView loginUser,
@@ -84,7 +95,7 @@ public class SysRoleController extends BaseController {
 			HttpServletRequest request) {
 
 		String role = StringUtils.trimToNull(StringUtils.lowerCase(sysRole.getRole()));
-		if(StringUtils.equals(role, SystemConstants.ROLE_ADMIN)) {
+		if(StringUtils.equals(role, RoleConstants.ROLE_ADMIN)) {
 			throw new IllegalArgumentException("不允许添加admin角色");
 		}
 		if (role!=null && sysRoleService.idDuplicate(sysRole.getId(), role)) {
@@ -111,7 +122,7 @@ public class SysRoleController extends BaseController {
 		return success(FormUtils.SUCCESS);
 	}
 
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping("/sysRole_au")
 	public String sysRole_au(Integer id, ModelMap modelMap) throws IOException {
 
@@ -140,7 +151,7 @@ public class SysRoleController extends BaseController {
 		
 		return "sys/sysRole/sysRole_au";
 	}
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysRole_del", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysRole_del(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
@@ -154,7 +165,7 @@ public class SysRoleController extends BaseController {
 		return success(FormUtils.SUCCESS);
 	}
 
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysRole_updateIsSysHold", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysRole_updateIsSysHold(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {

@@ -25,7 +25,7 @@ import service.sys.LogService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.PmdConstants;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 
@@ -73,10 +73,10 @@ public class PmdConfigResetService extends BaseMapper {
                 Byte formulaType = pmdNorm.getFormulaType();
                 // 额度类型为公式，且是在职和校聘的，才允许计算工资，否则跳出工资计算
                 if(false == (formulaType!=null
-                        && (formulaType== SystemConstants.PMD_FORMULA_TYPE_ONJOB
-                        || formulaType== SystemConstants.PMD_FORMULA_TYPE_EXTERNAL))){
+                        && (formulaType== PmdConstants.PMD_FORMULA_TYPE_ONJOB
+                        || formulaType== PmdConstants.PMD_FORMULA_TYPE_EXTERNAL))){
 
-                    if(pmdNorm.getSetType()==SystemConstants.PMD_NORM_SET_TYPE_FIXED) {
+                    if(pmdNorm.getSetType()==PmdConstants.PMD_NORM_SET_TYPE_FIXED) {
                         // 如果是固定额度的，则更新为已设置额度
                         PmdConfigMember _pmdConfigMember = new PmdConfigMember();
                         _pmdConfigMember.setUserId(userId);
@@ -149,9 +149,9 @@ public class PmdConfigResetService extends BaseMapper {
 
                     // 额度类型为公式，且是离退的，才允许计算工资，否则跳出工资计算
                     if(false == (formulaType!=null
-                            && formulaType== SystemConstants.PMD_FORMULA_TYPE_RETIRE)){
+                            && formulaType== PmdConstants.PMD_FORMULA_TYPE_RETIRE)){
 
-                        if(pmdNorm.getSetType()==SystemConstants.PMD_NORM_SET_TYPE_FIXED) {
+                        if(pmdNorm.getSetType()==PmdConstants.PMD_NORM_SET_TYPE_FIXED) {
                             // 如果是固定额度的，则更新为已设置额度
                             PmdConfigMember _pmdConfigMember = new PmdConfigMember();
                             _pmdConfigMember.setUserId(userId);
@@ -205,8 +205,8 @@ public class PmdConfigResetService extends BaseMapper {
 
             // 支部自行设定的额度，需要进行确认，（清除本月已设定的，但未缴费的记录的缴费额度）
             List<Integer> configMemberTypeIdList = new ArrayList<>();
-            List<PmdNorm> pmdNormList = pmdNormService.list(SystemConstants.PMD_NORM_TYPE_PAY,
-                    SystemConstants.PMD_NORM_SET_TYPE_SET);
+            List<PmdNorm> pmdNormList = pmdNormService.list(PmdConstants.PMD_NORM_TYPE_PAY,
+                    PmdConstants.PMD_NORM_SET_TYPE_SET);
             for (PmdNorm pmdNorm : pmdNormList) {
                 int normId = pmdNorm.getId();
                 PmdConfigMemberTypeExample example = new PmdConfigMemberTypeExample();

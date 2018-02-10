@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.TrainConstants;
 import sys.utils.ContextHelper;
 
 import java.io.StringWriter;
@@ -64,7 +64,7 @@ public class TrainInspectorCourseService extends BaseMapper {
             record.setSubmitTime(new Date());
             record.setSubmitIp(ContextHelper.getRealIp());
             record.setFeedback(feedback);
-            record.setStatus(SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH);
+            record.setStatus(TrainConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH);
             trainInspectorCourseMapper.updateByPrimaryKeySelective(record);
         }
         {
@@ -74,9 +74,9 @@ public class TrainInspectorCourseService extends BaseMapper {
             record.setId(tic.getInspectorId());
             record.setFinishCourseNum(finishCourseNum);
             if(finishCourseNum==trainCourseMap.size())
-                record.setStatus(SystemConstants.TRAIN_INSPECTOR_STATUS_ALL_FINISH);
+                record.setStatus(TrainConstants.TRAIN_INSPECTOR_STATUS_ALL_FINISH);
             else
-                record.setStatus(SystemConstants.TRAIN_INSPECTOR_STATUS_PART_FINISH);
+                record.setStatus(TrainConstants.TRAIN_INSPECTOR_STATUS_PART_FINISH);
 
             trainInspectorMapper.updateByPrimaryKeySelective(record);
         }
@@ -92,7 +92,7 @@ public class TrainInspectorCourseService extends BaseMapper {
     public int getFinishCourseNum(int inspectorId){
         TrainInspectorCourseExample example = new TrainInspectorCourseExample();
         example.createCriteria().andInspectorIdEqualTo(inspectorId)
-                .andStatusEqualTo(SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH);
+                .andStatusEqualTo(TrainConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH);
         return trainInspectorCourseMapper.countByExample(example);
     }
 

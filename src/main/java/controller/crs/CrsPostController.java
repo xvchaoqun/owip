@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -122,8 +123,8 @@ public class CrsPostController extends CrsBaseController {
             }
 
             // 不看已删除的
-            criteria.andStatusIn(Arrays.asList(SystemConstants.CRS_POST_STATUS_NORMAL,
-                    SystemConstants.CRS_POST_STATUS_FINISH));
+            criteria.andStatusIn(Arrays.asList(CrsConstants.CRS_POST_STATUS_NORMAL,
+                    CrsConstants.CRS_POST_STATUS_FINISH));
         }
 
         if (export == 1) {
@@ -262,17 +263,17 @@ public class CrsPostController extends CrsBaseController {
 
         CrsPost record = new CrsPost();
         record.setId(id);
-        if (type == SystemConstants.CRS_TEMPLATE_TYPE_BASE) {
+        if (type == CrsConstants.CRS_TEMPLATE_TYPE_BASE) {
             record.setRequirement(content);
-        } else if (type == SystemConstants.CRS_TEMPLATE_TYPE_POST) {
+        } else if (type == CrsConstants.CRS_TEMPLATE_TYPE_POST) {
             record.setQualification(content);
-        } else if (type == SystemConstants.CRS_TEMPLATE_TYPE_MEETINGNOTICE) {
+        } else if (type == CrsConstants.CRS_TEMPLATE_TYPE_MEETINGNOTICE) {
             record.setMeetingNotice(content);
         }
 
         crsPostService.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位%s：%s",
-                SystemConstants.CRS_TEMPLATE_TYPE_MAP.get(type), id));
+                CrsConstants.CRS_TEMPLATE_TYPE_MAP.get(type), id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -315,10 +316,10 @@ public class CrsPostController extends CrsBaseController {
             publish = BooleanUtils.isTrue(publish);
             CrsPost record = new CrsPost();
             record.setId(id);
-            record.setPubStatus(publish ? SystemConstants.CRS_POST_PUB_STATUS_PUBLISHED
-                    : SystemConstants.CRS_POST_PUB_STATUS_CANCEL);
+            record.setPubStatus(publish ? CrsConstants.CRS_POST_PUB_STATUS_PUBLISHED
+                    : CrsConstants.CRS_POST_PUB_STATUS_CANCEL);
             /*if (!publish) {
-                record.setStatus(SystemConstants.CRS_POST_STATUS_DELETE);
+                record.setStatus(CrsConstants.CRS_POST_STATUS_DELETE);
             }*/
 
             crsPostService.updateByPrimaryKeySelective(record);

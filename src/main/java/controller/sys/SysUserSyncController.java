@@ -129,12 +129,7 @@ public class SysUserSyncController extends BaseController {
 
     @RequiresPermissions("sysUserSync:list")
     @RequestMapping("/sysUserSync")
-    public String sysUserSync(HttpServletResponse response,
-                                   @SortParam(required = false, defaultValue = "start_time", tableName = "sys_user_sync") String sort,
-                                   @OrderParam(required = false, defaultValue = "desc") String order,
-                                   Integer userId,
-                                   Byte type,
-                                   Integer pageSize, Integer pageNo, ModelMap modelMap) {
+    public String sysUserSync() {
 
         return "sys/sysUserSync/sysUserSync_page";
     }

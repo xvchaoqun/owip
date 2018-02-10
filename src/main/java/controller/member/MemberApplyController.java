@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.member.MemberApplyOpService;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -73,7 +74,7 @@ public class MemberApplyController extends MemberBaseController {
         return super.checkVerityAuth2(memberApply, memberApply.getPartyId());
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply_approval")
     public String memberApply_approval(@CurrentUser SysUserView loginUser, Integer userId,
@@ -112,7 +113,7 @@ public class MemberApplyController extends MemberBaseController {
                 break;
             case SystemConstants.APPLY_STAGE_DRAW:
                 if (status == -1)
-                    modelMap.put("isAdmin", ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN));
+                    modelMap.put("isAdmin", ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN));
                 else if (status == 2) // 组织部审核之后，党支部才提交
                     modelMap.put("isAdmin", branchMemberService.isPresentAdmin(loginUser.getId(), partyId, branchId));
                 else if (status == 0) // 党支部提交后，分党委审核
@@ -124,7 +125,7 @@ public class MemberApplyController extends MemberBaseController {
                 else if (status == 0)
                     modelMap.put("isAdmin", partyMemberService.isPresentAdmin(loginUser.getId(), partyId));
                 else
-                    modelMap.put("isAdmin", ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN));
+                    modelMap.put("isAdmin", ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN));
                 break;
         }
 
@@ -138,7 +139,7 @@ public class MemberApplyController extends MemberBaseController {
         return "member/memberApply/memberApply_approval";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply")
     public String memberApply(@RequestParam(defaultValue = "1") int cls,
@@ -198,8 +199,8 @@ public class MemberApplyController extends MemberBaseController {
         Map<Byte, Integer> stageCountMap = new HashMap<>();
         Map<String, Integer> stageTypeCountMap = new HashMap<>();
         Subject subject = SecurityUtils.getSubject();
-        boolean addPermits = !(subject.hasRole(SystemConstants.ROLE_ADMIN)
-                || subject.hasRole(SystemConstants.ROLE_ODADMIN));
+        boolean addPermits = !(subject.hasRole(RoleConstants.ROLE_ADMIN)
+                || subject.hasRole(RoleConstants.ROLE_ODADMIN));
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
         List<MemberApplyCount> memberApplyCounts = iMemberMapper.selectMemberApplyCount(addPermits, adminPartyIdList, adminBranchIdList);
@@ -222,7 +223,7 @@ public class MemberApplyController extends MemberBaseController {
         return "member/memberApply/memberApply_page";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApply_data")
     public void memberApply_data(HttpServletResponse response,
@@ -327,7 +328,7 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     // 后台添加入党申请
-    //@RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    //@RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequestMapping("/memberApply_au")
     public String memberApply_au(Integer userId, ModelMap modelMap) {
 
@@ -354,7 +355,7 @@ public class MemberApplyController extends MemberBaseController {
         return "member/memberApply/memberApply_au";
     }
 
-    //@RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN}, logical = Logical.OR)
+    //@RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/memberApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberApply_au(@CurrentUser SysUserView loginUser, int userId, Integer partyId,
@@ -373,8 +374,8 @@ public class MemberApplyController extends MemberBaseController {
         //===========权限
         Integer loginUserId = loginUser.getId();
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, oldPartyId);
             if (isAdmin) {
@@ -703,7 +704,7 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     //组织部管理员审核 预备党员 , 在领取志愿书模块
-    @RequiresRoles(SystemConstants.ROLE_ODADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ODADMIN)
     @RequiresPermissions("memberApply:grow_check2")
     @RequestMapping(value = "/apply_grow_od_check", method = RequestMethod.POST)
     @ResponseBody
@@ -767,7 +768,7 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     //组织部管理员审核 正式党员， 在预备党员模块
-    @RequiresRoles(SystemConstants.ROLE_ODADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ODADMIN)
     @RequiresPermissions("memberApply:positive_check2")
     @RequestMapping(value = "/apply_positive_check2", method = RequestMethod.POST)
     @ResponseBody
@@ -778,7 +779,7 @@ public class MemberApplyController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:update")
     @RequestMapping("/memberApply_back")
     public String memberApply_back() {
@@ -786,7 +787,7 @@ public class MemberApplyController extends MemberBaseController {
         return "member/memberApply/memberApply_back";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:update")
     @RequestMapping(value = "/memberApply_back", method = RequestMethod.POST)
     @ResponseBody
@@ -801,8 +802,8 @@ public class MemberApplyController extends MemberBaseController {
     }
 
     //移除记录（只允许移除未发展的）
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN,
-            SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN,
+            RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:remove")
     @RequestMapping("/memberApply_remove")
     public String memberApply_remove() {
@@ -810,8 +811,8 @@ public class MemberApplyController extends MemberBaseController {
         return "member/memberApply/memberApply_remove";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN,
-            SystemConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN,
+            RoleConstants.ROLE_PARTYADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:remove")
     @RequestMapping(value = "/memberApply_remove", method = RequestMethod.POST)
     @ResponseBody
@@ -824,7 +825,7 @@ public class MemberApplyController extends MemberBaseController {
     }
 
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberApply:list")
     @RequestMapping("/memberApplyLog")
     public String memberApplyLog(@RequestParam(defaultValue = "1") int cls,

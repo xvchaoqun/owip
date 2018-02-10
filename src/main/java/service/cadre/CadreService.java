@@ -25,13 +25,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.base.MetaTypeService;
 import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import shiro.ShiroHelper;
+import sys.constants.AbroadConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
+import sys.utils.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +61,21 @@ public class CadreService extends BaseMapper {
     private CadreInspectService cadreInspectService;
     @Autowired
     private CadreAdLogService cadreAdLogService;
+    @Autowired
+    protected MetaTypeService metaTypeService;
+
+    // 根据CadreView.cadreDpType，获取干部的党派
+    public String getCadreParty(Long cadreDpType){
+
+        String partyName = null;// 党派
+        if (NumberUtils.longEqual(cadreDpType, 0L)) {
+            partyName = "中共党员";
+        } else if (cadreDpType != null) {
+            partyName = metaTypeService.getName(cadreDpType.intValue());
+        }
+
+        return partyName;
+    }
 
     /*
         直接添加干部时执行的检查
@@ -129,19 +148,19 @@ public class CadreService extends BaseMapper {
              */
             {
                 Passport record = new Passport();
-                record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
-                record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS);
+                record.setType(AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL);
+                record.setCancelType(AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_DISMISS);
                 record.setCancelConfirm(false); // 未确认
 
                 PassportExample example = new PassportExample();
                 example.createCriteria().andCadreIdEqualTo(id).
-                        andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP).andIsLentEqualTo(false);
+                        andTypeEqualTo(AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP).andIsLentEqualTo(false);
                 passportMapper.updateByExampleSelective(record, example);
             }
             {
                 Passport record = new Passport();
-                record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
-                record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS);
+                record.setType(AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL);
+                record.setCancelType(AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_DISMISS);
                 //record.setCancelPic(savePath);
                 record.setCancelTime(new Date());
                 record.setCancelConfirm(true); //已确认
@@ -150,7 +169,7 @@ public class CadreService extends BaseMapper {
 
                 PassportExample example = new PassportExample();
                 example.createCriteria().andCadreIdEqualTo(id).
-                        andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP).andIsLentEqualTo(true);
+                        andTypeEqualTo(AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP).andIsLentEqualTo(true);
                 passportMapper.updateByExampleSelective(record, example);
             }
         }
@@ -192,7 +211,7 @@ public class CadreService extends BaseMapper {
             }
 
             // 添加考察对象角色
-            sysUserService.addRole(userId, SystemConstants.ROLE_CADREINSPECT);
+            sysUserService.addRole(userId, RoleConstants.ROLE_CADREINSPECT);
 
             // 检查
             cadreInspectService.directAddCheck(null, userId);
@@ -234,7 +253,7 @@ public class CadreService extends BaseMapper {
 
         if(SystemConstants.CADRE_STATUS_SET.contains(record.getStatus())){
             // 添加干部身份
-            sysUserService.addRole(userId, SystemConstants.ROLE_CADRE);
+            sysUserService.addRole(userId, RoleConstants.ROLE_CADRE);
         }
 
         record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + record.getStatus()));
@@ -306,7 +325,7 @@ public class CadreService extends BaseMapper {
             cadreMapper.deleteByPrimaryKey(id);
 
             // 删除干部身份
-            sysUserService.delRole(cadre.getUserId(), SystemConstants.ROLE_CADRE);
+            sysUserService.delRole(cadre.getUserId(), RoleConstants.ROLE_CADRE);
         }
     }
 

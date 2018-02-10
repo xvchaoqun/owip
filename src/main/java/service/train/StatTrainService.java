@@ -29,7 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import sys.Utils;
-import sys.constants.SystemConstants;
+import sys.constants.TrainConstants;
 import sys.tool.xlsx.ExcelTool;
 
 import java.io.IOException;
@@ -448,7 +448,7 @@ public class StatTrainService extends BaseMapper {
         {
             TrainInspectorCourseExample example = new TrainInspectorCourseExample();
             example.createCriteria().andCourseIdEqualTo(courseId)
-                    .andStatusEqualTo(SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH);
+                    .andStatusEqualTo(TrainConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH);
             trainInspectorCourses = trainInspectorCourseMapper.selectByExample(example);
         }
 

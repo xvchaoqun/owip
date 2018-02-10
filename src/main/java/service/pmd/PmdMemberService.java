@@ -20,6 +20,8 @@ import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.PmdConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
 import java.math.BigDecimal;
@@ -105,7 +107,7 @@ public class PmdMemberService extends BaseMapper {
                 throw new OpException("{0}不允许设定往月额度。", uv.getRealname());
             }
 
-            *//*if(pmdMember.getNormType()!= SystemConstants.PMD_MEMBER_NORM_TYPE_MODIFY){
+            *//*if(pmdMember.getNormType()!= PmdConstants.PMD_MEMBER_NORM_TYPE_MODIFY){
                 throw new OpException("{0}不允许设定额度。", uv.getRealname());
             }*//*
             if(pmdMember.getHasPay()){
@@ -143,16 +145,16 @@ public class PmdMemberService extends BaseMapper {
 
         PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
         byte setType = pmdNorm.getSetType();
-        if(setType==SystemConstants.PMD_NORM_SET_TYPE_FIXED){
+        if(setType== PmdConstants.PMD_NORM_SET_TYPE_FIXED){
             PmdNormValue pmdNormValue = pmdNorm.getPmdNormValue();
             amount = pmdNormValue.getAmount();
-        }else if(setType == SystemConstants.PMD_NORM_SET_TYPE_SET){
+        }else if(setType == PmdConstants.PMD_NORM_SET_TYPE_SET){
             if(amount==null || amount.compareTo(BigDecimal.ZERO)<=0){
                 throw new OpException("额度必须大于0");
             }
         }else {
             // 公式
-            Assert.isTrue(setType == SystemConstants.PMD_NORM_SET_TYPE_FORMULA, "参数错误");
+            Assert.isTrue(setType == PmdConstants.PMD_NORM_SET_TYPE_FORMULA, "参数错误");
             amount = null;
         }
 
@@ -162,7 +164,7 @@ public class PmdMemberService extends BaseMapper {
             SysUserView uv = pmdMember.getUser();
             int userId = uv.getUserId();
 
-            if(pmdMember.getType()==SystemConstants.PMD_MEMBER_TYPE_STUDENT
+            if(pmdMember.getType()==PmdConstants.PMD_MEMBER_TYPE_STUDENT
                     && hasSalary ==null){
                 throw new OpException("{0}是否带薪就读？", uv.getRealname());
             }
@@ -185,13 +187,13 @@ public class PmdMemberService extends BaseMapper {
             Boolean isSalary = false; // 是否由工资计算党费
             Boolean isRetire = false; // 是否由离退休计算党费
             Boolean needSetSalary = false;
-            if(setType==SystemConstants.PMD_NORM_SET_TYPE_FORMULA) {
-                if (pmdNorm.getFormulaType() == SystemConstants.PMD_FORMULA_TYPE_RETIRE) {
+            if(setType==PmdConstants.PMD_NORM_SET_TYPE_FORMULA) {
+                if (pmdNorm.getFormulaType() == PmdConstants.PMD_FORMULA_TYPE_RETIRE) {
                     isRetire = true;
                     ltxf = pmdExtService.getLtxf(uv.getCode());
                     amount = pmdExtService.getDuePayFromLtxf(ltxf);
-                } else if (pmdNorm.getFormulaType() == SystemConstants.PMD_FORMULA_TYPE_ONJOB ||
-                        pmdNorm.getFormulaType() == SystemConstants.PMD_FORMULA_TYPE_EXTERNAL) {
+                } else if (pmdNorm.getFormulaType() == PmdConstants.PMD_FORMULA_TYPE_ONJOB ||
+                        pmdNorm.getFormulaType() == PmdConstants.PMD_FORMULA_TYPE_EXTERNAL) {
 
                     isSalary = true;
                     needSetSalary = BooleanUtils.isNotTrue(pmdConfigMember.getHasSetSalary());
@@ -218,7 +220,7 @@ public class PmdMemberService extends BaseMapper {
 
             {
                 // 除了组织部管理员，其他人员不允许修改党员一级类别
-                if(ShiroHelper.lackRole(SystemConstants.ROLE_ODADMIN)
+                if(ShiroHelper.lackRole(RoleConstants.ROLE_ODADMIN)
                         && configMemberType!=pmdConfigMember.getConfigMemberType()){
                     throw new OpException("{0}不允许修改党员类别。", uv.getRealname());
                 }
@@ -283,22 +285,22 @@ public class PmdMemberService extends BaseMapper {
 
         Integer normValueId = null;
         PmdNorm pmdNorm = pmdNormMapper.selectByPrimaryKey(normId);
-        if(pmdNorm==null && pmdNorm.getType()!=SystemConstants.PMD_NORM_TYPE_REDUCE){
+        if(pmdNorm==null && pmdNorm.getType()!=PmdConstants.PMD_NORM_TYPE_REDUCE){
             throw new OpException("参数有误。");
         }
-        if(pmdNorm.getSetType()==SystemConstants.PMD_NORM_SET_TYPE_FIXED){
+        if(pmdNorm.getSetType()==PmdConstants.PMD_NORM_SET_TYPE_FIXED){
             PmdNormValue pmdNormValue = pmdNorm.getPmdNormValue();
             normValueId = pmdNormValue.getId();
             amount = pmdNormValue.getAmount();
         }
-        if(pmdNorm.getSetType() == SystemConstants.PMD_NORM_SET_TYPE_SET){
+        if(pmdNorm.getSetType() == PmdConstants.PMD_NORM_SET_TYPE_SET){
             if(amount==null || amount.compareTo(BigDecimal.ZERO)<=0){
                 throw new OpException("额度必须大于0");
             }
         }
 
         // 免交
-        boolean isFree = (pmdNorm.getSetType()==SystemConstants.PMD_NORM_SET_TYPE_FREE);
+        boolean isFree = (pmdNorm.getSetType()==PmdConstants.PMD_NORM_SET_TYPE_FREE);
         Integer currentUserId = ShiroHelper.getCurrentUserId();
         for (int id : ids) {
 
@@ -316,8 +318,8 @@ public class PmdMemberService extends BaseMapper {
                 throw new OpException("{0}已设置为延迟缴费。", uv.getRealname());
             }
 
-            /*if(pmdNorm.getType() == SystemConstants.PMD_NORM_TYPE_PAY
-                    && pmdMember.getNormType()!= SystemConstants.PMD_MEMBER_NORM_TYPE_SELECT){
+            /*if(pmdNorm.getType() == PmdConstants.PMD_NORM_TYPE_PAY
+                    && pmdMember.getNormType()!= PmdConstants.PMD_MEMBER_NORM_TYPE_SELECT){
                 throw new OpException("{0}不允许选择缴纳标准。", uv.getRealname());
             }*/
 
@@ -365,7 +367,7 @@ public class PmdMemberService extends BaseMapper {
 
             sysApprovalLogService.add(id, uv.getUserId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
-                    "设定" + SystemConstants.PMD_NORM_TYPE_MAP.get(pmdNorm.getType()) + "：" + pmdNorm.getName(),
+                    "设定" + PmdConstants.PMD_NORM_TYPE_MAP.get(pmdNorm.getType()) + "：" + pmdNorm.getName(),
                     SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
         }
 

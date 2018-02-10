@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.common.bean.PcsPartyBean;
 import persistence.common.bean.PcsPrPartyBean;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
@@ -54,28 +55,28 @@ public class PcsPrOwController extends PcsBaseController {
                 Party party = partyService.findAll().get(partyId);
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, partyId);
                 fileName = String.format("分党委酝酿代表候选人%s名单（%s）",
-                        stage == SystemConstants.PCS_STAGE_FIRST ? "初步" : "预备",
+                        stage == PcsConstants.PCS_STAGE_FIRST ? "初步" : "预备",
                         party.getName());
                 break;
             case "4":
                 party = partyService.findAll().get(partyId);
                 wb = pcsPrExportService.exportPartyAllocate(configId, stage, partyId);
-                if(stage==SystemConstants.PCS_STAGE_THIRD)
+                if(stage==PcsConstants.PCS_STAGE_THIRD)
                     fileName = String.format("党代表数据统计表（%s）",  party.getName());
                 else
                     fileName = String.format("分党委酝酿代表候选人%s人选统计表（%s）",
-                            stage == SystemConstants.PCS_STAGE_FIRST ? "初步" : "预备",
+                            stage == PcsConstants.PCS_STAGE_FIRST ? "初步" : "预备",
                             party.getName());
                 break;
             case "5":
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, null);
                 fileName = String.format("各分党委酝酿代表候选人%s名单汇总表",
-                        stage == SystemConstants.PCS_STAGE_FIRST ? "初步" : "预备");
+                        stage == PcsConstants.PCS_STAGE_FIRST ? "初步" : "预备");
                 break;
             case "6":
                 wb = pcsPrExportService.exportSchoolAllocate(configId, stage);
                 fileName = String.format("各分党委酝酿代表候选人%s人选统计表",
-                        stage == SystemConstants.PCS_STAGE_FIRST ? "初步" : "预备");
+                        stage == PcsConstants.PCS_STAGE_FIRST ? "初步" : "预备");
                 break;
             case "7":
                 wb = pcsPrExportService.exportSchoolRecommend(configId, stage);
@@ -83,9 +84,9 @@ public class PcsPrOwController extends PcsBaseController {
                 break;
             case "ow":
                 wb = pcsPrExportService.exportAllPartyAllocate(configId, stage);
-                if (stage != SystemConstants.PCS_STAGE_THIRD)
+                if (stage != PcsConstants.PCS_STAGE_THIRD)
                     fileName = String.format("各分党委酝酿代表候选人%s人选统计表",
-                            stage == SystemConstants.PCS_STAGE_FIRST ? "初步" : "预备");
+                            stage == PcsConstants.PCS_STAGE_FIRST ? "初步" : "预备");
                 else
                     fileName = "全校党代表数据统计表";
                 break;
@@ -123,7 +124,7 @@ public class PcsPrOwController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
         int hasReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true, null);
         int passCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true,
-                SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS);
+                PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS);
         int hasNotReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, false, null);
         modelMap.put("hasReportCount", NumberUtils.trimToZero(hasReportCount));
         modelMap.put("hasNotReportCount", NumberUtils.trimToZero(hasNotReportCount));
@@ -183,8 +184,8 @@ public class PcsPrOwController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
 
         pcsPrOwService.checkPartyRecommend(configId, stage, partyIds,
-                BooleanUtils.isTrue(status) ? SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS
-                        : SystemConstants.PCS_PR_RECOMMEND_STATUS_DENY, remark);
+                BooleanUtils.isTrue(status) ? PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS
+                        : PcsConstants.PCS_PR_RECOMMEND_STATUS_DENY, remark);
 
         logger.info(addLog(SystemConstants.LOG_PCS, "[组织部管理员]审核分党委推荐-%s-%s-%s-%s",
                 configId, stage, partyIds, status));

@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
+import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 
 import java.util.Date;
@@ -137,54 +138,54 @@ public interface IMemberMapper {
     // 党员出党：打回
     @Update("update ow_member_quit set status= #{status}"
             +" where user_id=#{userId} and status >= #{status} and status<"
-            + SystemConstants.MEMBER_QUIT_STATUS_OW_VERIFY)
+            + MemberConstants.MEMBER_QUIT_STATUS_OW_VERIFY)
     void memberQuit_back(@Param("userId") int userId, @Param("status") byte status);
 
     // 组织关系转入：打回
     @Update("update ow_member_in set status= #{status}"
             +" where id=#{id} and status >= #{status} and status<"
-            + SystemConstants.MEMBER_IN_STATUS_OW_VERIFY)
+            + MemberConstants.MEMBER_IN_STATUS_OW_VERIFY)
     void memberIn_back(@Param("id") int id, @Param("status") byte status);
 
     // 党员出国：打回
     @Update("update ow_member_stay set status= #{status}"
             +" where id=#{id} and status >= #{status} and status<"
-            + SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY)
+            + MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY)
     void memberStay_back(@Param("id") int id, @Param("status") byte status);
 
     // 校内转接：打回
     @Update("update ow_member_transfer set status= #{status}"
             +" where id=#{id} and status >= #{status} and status<"
-            + SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY)
+            + MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY)
     void memberTransfer_back(@Param("id") int id, @Param("status") byte status);
 
     // 转出：打回
     @Update("update ow_member_out set status= #{status}"
             +" where id=#{id} and status >= #{status} and status<"
-            + SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY)
+            + MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY)
     void memberOut_back(@Param("id") int id, @Param("status") byte status);
 
     // 归国：打回
     @Update("update ow_member_return set status= #{status}"
             +" where id=#{id} and status >= #{status} and status<"
-            + SystemConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY)
+            + MemberConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY)
     void memberReturn_back(@Param("id") int id, @Param("status") byte status);
 
     // 流入：打回
     @Update("update ow_member_inflow set inflow_status= #{status}"
             +" where id=#{id} and inflow_status >= #{status} and inflow_status<"
-            + SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY)
+            + MemberConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY)
     void memberInflow_back(@Param("id") int id, @Param("status") byte status);
     // 流入转出：打回
     @Update("update ow_member_inflow set out_status= #{status}"
             +" where id=#{id} and out_status >= #{status} and out_status<"
-            + SystemConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY)
+            + MemberConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY)
     void memberInflowOut_back(@Param("id") int id, @Param("status") byte status);
 
     // 流出：打回
     @Update("update ow_member_outflow set status= #{status}"
             +" where id=#{id} and status >= #{status} and status<"
-            + SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY)
+            + MemberConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY)
     void memberOutflow_back(@Param("id") int id, @Param("status") byte status);
 
     // 清空是否打回状态

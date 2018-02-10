@@ -38,6 +38,8 @@ import shiro.PasswordHelper;
 import shiro.ShiroHelper;
 import sys.SendMsgResult;
 import sys.SendMsgUtils;
+import sys.constants.AbroadConstants;
+import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.ContextHelper;
@@ -97,7 +99,7 @@ public class ShortMsgService extends BaseMapper {
         seq = seq+1;
 
         String code = RandomStringUtils.randomNumeric(4);
-        ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_FIND_PASS);
+        ContentTpl tpl = getShortMsgTpl(ContentTplConstants.CONTENT_TPL_FIND_PASS);
         String msg = MessageFormat.format(tpl.getContent(), username, code, seq);
 
         ShortMsgBean bean = new ShortMsgBean();
@@ -127,7 +129,7 @@ public class ShortMsgService extends BaseMapper {
 
         { // 干部提交办理证件申请，给干部管理员发短信提醒
             PassportApplyExample example = new PassportApplyExample();
-            example.createCriteria().andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_INIT)
+            example.createCriteria().andStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_INIT)
                     .andAbolishEqualTo(false).andIsDeletedEqualTo(false);
             List<PassportApply> passportApplies = passportApplyMapper.selectByExample(example);
             for (PassportApply passportApply : passportApplies) {
@@ -138,7 +140,7 @@ public class ShortMsgService extends BaseMapper {
 
             ApplySelfExample example = new ApplySelfExample();
             example.createCriteria().andStatusEqualTo(true)
-                    .andFlowNodeEqualTo(SystemConstants.APPROVER_TYPE_ID_OD_FIRST)
+                    .andFlowNodeEqualTo(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST)
                     .andIsDeletedEqualTo(false).andIsFinishEqualTo(false);
             List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
             for (ApplySelf applySelf : applySelfs) {
@@ -150,7 +152,7 @@ public class ShortMsgService extends BaseMapper {
 
             ApplySelfExample example = new ApplySelfExample();
             example.createCriteria().andStatusEqualTo(true)
-                    .andFlowNodeEqualTo(SystemConstants.APPROVER_TYPE_ID_OD_LAST)
+                    .andFlowNodeEqualTo(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST)
                     .andIsDeletedEqualTo(false).andIsFinishEqualTo(false);
             List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
             for (ApplySelf applySelf : applySelfs) {
@@ -161,9 +163,9 @@ public class ShortMsgService extends BaseMapper {
         {// 干部提交领取证件申请，给干部管理员发短信提醒
 
             PassportDrawExample example = new PassportDrawExample();
-            example.createCriteria().andStatusEqualTo(SystemConstants.PASSPORT_DRAW_STATUS_INIT)
+            example.createCriteria().andStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_INIT)
                     .andIsDeletedEqualTo(false)
-                    .andDrawStatusEqualTo(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
+                    .andDrawStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
             List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
             for (PassportDraw passportDraw : passportDraws) {
 
@@ -204,7 +206,7 @@ public class ShortMsgService extends BaseMapper {
         CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
         String cadreTitle = cadre.getTitle();
 
-        ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_PASSPORTAPPLY_SUBMIT_ADMIN);
+        ContentTpl tpl = getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PASSPORTAPPLY_SUBMIT_ADMIN);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
 
         for (SysUserView uv : receivers) {
@@ -253,8 +255,8 @@ public class ShortMsgService extends BaseMapper {
         CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
         String cadreTitle = cadre.getTitle();
 
-        //List<SysUserView> cadreAdmin = sysUserService.findByRole(SystemConstants.ROLE_CADREADMIN);
-        ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
+        //List<SysUserView> cadreAdmin = sysUserService.findByRole(RoleConstants.ROLE_CADREADMIN);
+        ContentTpl tpl = getShortMsgTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
 
         for (SysUserView uv : receivers) {
@@ -297,7 +299,7 @@ public class ShortMsgService extends BaseMapper {
         String cadreTitle = cadre.getTitle();
 
         //List<SysUserView> cadreAdmin = sysUserService.findByRole("cadreAdmin-menu1");
-        ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_PASS_INFO);
+        ContentTpl tpl = getShortMsgTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_PASS_INFO);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
 
         for (SysUserView uv : receivers) {
@@ -345,8 +347,8 @@ public class ShortMsgService extends BaseMapper {
         CadreView cadre = cadreService.dbFindByUserId(applyUser.getId());
         String cadreTitle = cadre.getTitle();
 
-        //List<SysUserView> cadreAdmin = sysUserService.findByRole(SystemConstants.ROLE_CADREADMIN);
-        ContentTpl tpl = getShortMsgTpl(SystemConstants.CONTENT_TPL_PASSPORTDRAW_SUBMIT_INFO);
+        //List<SysUserView> cadreAdmin = sysUserService.findByRole(RoleConstants.ROLE_CADREADMIN);
+        ContentTpl tpl = getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_SUBMIT_INFO);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
 
         for (SysUserView uv : receivers) {
@@ -358,7 +360,7 @@ public class ShortMsgService extends BaseMapper {
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle,
                         cadreTitle,applyUser.getRealname(),
                         passportDraw.getPassportClass().getName(),
-                        SystemConstants.PASSPORT_DRAW_TYPE_MAP.get(passportDraw.getType()));
+                        AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP.get(passportDraw.getType()));
 
                 ShortMsgBean bean = new ShortMsgBean();
                 bean.setSender(applyUser.getId());
@@ -399,7 +401,7 @@ public class ShortMsgService extends BaseMapper {
         if(StringUtils.equals(type, "passportInfo")){ // 发送证件信息
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_PASSPORT_INFO;
+            String key = ContentTplConstants.CONTENT_TPL_PASSPORT_INFO;
 
             ContentTpl tpl = getShortMsgTpl(key);
             bean.setRelateId(tpl.getId());
@@ -420,12 +422,12 @@ public class ShortMsgService extends BaseMapper {
         }else if(StringUtils.equals(type, "passport")){ // 取消集中管理-证件到期/不再担任职务/作废
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_PASSPORT_EXPIRE;
-            if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS){
-                key = SystemConstants.CONTENT_TPL_PASSPORT_DISMISS;
+            String key = ContentTplConstants.CONTENT_TPL_PASSPORT_EXPIRE;
+            if(passport.getCancelType() == AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_DISMISS){
+                key = ContentTplConstants.CONTENT_TPL_PASSPORT_DISMISS;
             }
-            if(passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH){
-                key = SystemConstants.CONTENT_TPL_PASSPORT_ABOLISH;
+            if(passport.getCancelType() == AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_ABOLISH){
+                key = ContentTplConstants.CONTENT_TPL_PASSPORT_ABOLISH;
             }
 
             ContentTpl tpl = getShortMsgTpl(key);
@@ -445,9 +447,9 @@ public class ShortMsgService extends BaseMapper {
         }else if(StringUtils.equals(type, "passportKeep")){ // 证件集中管理-添加证件/新办证件交回
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_PASSPORT_KEEP_ADD;
+            String key = ContentTplConstants.CONTENT_TPL_PASSPORT_KEEP_ADD;
             if(passport.getApplyId()!=null){
-                key = SystemConstants.CONTENT_TPL_PASSPORT_KEEP_APPLY;
+                key = ContentTplConstants.CONTENT_TPL_PASSPORT_KEEP_APPLY;
             }
 
             ContentTpl tpl = getShortMsgTpl(key);
@@ -470,7 +472,7 @@ public class ShortMsgService extends BaseMapper {
         }else if(StringUtils.equals(type, "applySelf")){
 
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_APPLYSELF_PASS;
+            String key = ContentTplConstants.CONTENT_TPL_APPLYSELF_PASS;
 
             ApplySelfService applySelfService = ApplicationContextSupport.getContext().getBean(ApplySelfService.class);
             Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(id);
@@ -489,7 +491,7 @@ public class ShortMsgService extends BaseMapper {
                 String msg = MessageFormat.format(tpl.getContent(), msgTitle);
                 bean.setContent(msg);
             }else{
-                key = SystemConstants.CONTENT_TPL_APPLYSELF_UNPASS;
+                key = ContentTplConstants.CONTENT_TPL_APPLYSELF_UNPASS;
                 ContentTpl tpl = getShortMsgTpl(key);
                 bean.setRelateId(tpl.getId());
                 bean.setType(tpl.getName());
@@ -502,7 +504,7 @@ public class ShortMsgService extends BaseMapper {
         }else if(StringUtils.equals(type, "passportApplyPass")){
 
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_PASSPORTAPPLY_PASS;
+            String key = ContentTplConstants.CONTENT_TPL_PASSPORTAPPLY_PASS;
             ContentTpl tpl = getShortMsgTpl(key);
             bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
@@ -520,7 +522,7 @@ public class ShortMsgService extends BaseMapper {
         }else if(StringUtils.equals(type, "passportApplyUnPass")){
 
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_PASSPORTAPPLY_UNPASS;
+            String key = ContentTplConstants.CONTENT_TPL_PASSPORTAPPLY_UNPASS;
             ContentTpl tpl = getShortMsgTpl(key);
             bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
@@ -536,7 +538,7 @@ public class ShortMsgService extends BaseMapper {
             bean.setMobile(mobile);
         }else if(StringUtils.equals(type, "passportApplyDraw")){
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_PASSPORTAPPLY_DRAW;
+            String key = ContentTplConstants.CONTENT_TPL_PASSPORTAPPLY_DRAW;
             ContentTpl tpl = getShortMsgTpl(key);
             bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
@@ -554,7 +556,7 @@ public class ShortMsgService extends BaseMapper {
             bean.setMobile(mobile);
         }else if(StringUtils.equals(type, "taiwanRecordHandle")){ // 因公赴台备案-催交证件
             TaiwanRecord taiwanRecord = taiwanRecordMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_TAIWANRECORD_HANDLE;
+            String key = ContentTplConstants.CONTENT_TPL_TAIWANRECORD_HANDLE;
             ContentTpl tpl = getShortMsgTpl(key);
             bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
@@ -573,7 +575,7 @@ public class ShortMsgService extends BaseMapper {
             bean.setMobile(mobile);
         }else if(StringUtils.equals(type, "passportApplySubmit")){
             PassportApply passportApply = passportApplyMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_PASSPORTAPPLY_SUBMIT; // 发给干部
+            String key = ContentTplConstants.CONTENT_TPL_PASSPORTAPPLY_SUBMIT; // 发给干部
             ContentTpl tpl = getShortMsgTpl(key);
             bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
@@ -590,7 +592,7 @@ public class ShortMsgService extends BaseMapper {
         }else if(StringUtils.equals(type, "passportDraw")){
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_PASSPORTDRAW;
+            String key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW;
             ContentTpl tpl = getShortMsgTpl(key);
             bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
@@ -608,7 +610,7 @@ public class ShortMsgService extends BaseMapper {
         }else if(StringUtils.equals(type, "passportDrawReturn")){
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_PASSPORTDRAW_RETURN;
+            String key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_RETURN;
             ContentTpl tpl = getShortMsgTpl(key);
             bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
@@ -628,7 +630,7 @@ public class ShortMsgService extends BaseMapper {
         }else if(StringUtils.equals(type, "passportDrawReturnSuccess")){
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
-            String key = SystemConstants.CONTENT_TPL_PASSPORTDRAW_RETURN_SUCCESS;
+            String key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_RETURN_SUCCESS;
             ContentTpl tpl = getShortMsgTpl(key);
             bean.setRelateId(tpl.getId());
             bean.setType(tpl.getName());
@@ -646,20 +648,20 @@ public class ShortMsgService extends BaseMapper {
 
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
             String key = "";
-            if(passportDraw.getStatus()==SystemConstants.PASSPORT_DRAW_STATUS_PASS){
+            if(passportDraw.getStatus()==AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_PASS){
 
                 if(BooleanUtils.isTrue(passportDraw.getNeedSign())){
-                    key = SystemConstants.CONTENT_TPL_PASSPORTDRAW_PASS_NEEDSIGN;
+                    key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_PASS_NEEDSIGN;
                 }else{
-                    key = SystemConstants.CONTENT_TPL_PASSPORTDRAW_PASS;
+                    key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_PASS;
                 }
             }
-            if(passportDraw.getStatus()==SystemConstants.PASSPORT_DRAW_STATUS_NOT_PASS){
+            if(passportDraw.getStatus()==AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_NOT_PASS){
 
                 if(BooleanUtils.isTrue(passportDraw.getNeedSign())){
-                    key = SystemConstants.CONTENT_TPL_PASSPORTDRAW_UNPASS_NEEDSIGN;
+                    key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_UNPASS_NEEDSIGN;
                 }else{
-                    key = SystemConstants.CONTENT_TPL_PASSPORTDRAW_UNPASS;
+                    key = ContentTplConstants.CONTENT_TPL_PASSPORTDRAW_UNPASS;
                 }
             }
 

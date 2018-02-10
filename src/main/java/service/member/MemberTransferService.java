@@ -16,6 +16,8 @@ import service.BaseMapper;
 import service.LoginUserService;
 import service.party.PartyService;
 import shiro.ShiroUser;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -52,9 +54,9 @@ public class MemberTransferService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //转出分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_APPLY);
         } else if(type==2){ //转入分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -73,9 +75,9 @@ public class MemberTransferService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //转出分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_APPLY);
         } else if(type==2){ //转入分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -97,9 +99,9 @@ public class MemberTransferService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //转出分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_APPLY);
         } else if(type==2){ //转入分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -124,7 +126,7 @@ public class MemberTransferService extends BaseMapper {
     public MemberTransfer get(int userId) {
 
         MemberTransferExample example = new MemberTransferExample();
-        example.createCriteria().andUserIdEqualTo(userId).andStatusNotEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
+        example.createCriteria().andUserIdEqualTo(userId).andStatusNotEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
         List<MemberTransfer> memberTransfers = memberTransferMapper.selectByExample(example);
         if(memberTransfers.size()>0) return memberTransfers.get(0);
 
@@ -136,12 +138,12 @@ public class MemberTransferService extends BaseMapper {
     public void back(int userId){
 
         MemberTransfer memberTransfer = get(userId);
-        if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
+        if(memberTransfer.getStatus()!= MemberConstants.MEMBER_TRANSFER_STATUS_APPLY)
             throw new OpException("审批已经开始，不可以撤回");
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setUserId(userId);
-        record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK);
+        record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_SELF_BACK);
         //record.setBranchId(memberTransfer.getBranchId());
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
@@ -161,11 +163,11 @@ public class MemberTransferService extends BaseMapper {
     public void deny(int userId, String reason){
 
         MemberTransfer memberTransfer = get(userId);
-        if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
+        if(memberTransfer.getStatus()!= MemberConstants.MEMBER_TRANSFER_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
-        record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_BACK);
+        record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_BACK);
         record.setReason(reason);
         record.setUserId(userId);
         //record.setBranchId(memberTransfer.getBranchId());
@@ -177,12 +179,12 @@ public class MemberTransferService extends BaseMapper {
     public void check1(int userId){
 
         MemberTransfer memberTransfer = get(userId);
-        if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
+        if(memberTransfer.getStatus()!= MemberConstants.MEMBER_TRANSFER_STATUS_APPLY)
             throw new OpException("转出分党委已经审核，请不要重复审核。");
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setUserId(userId);
-        record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
         //record.setBranchId(memberTransfer.getBranchId());
         updateByPrimaryKeySelective(record);
     }
@@ -193,15 +195,15 @@ public class MemberTransferService extends BaseMapper {
 
         MemberTransfer memberTransfer = get(userId);
 
-        /*if(isDirect && memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
+        /*if(isDirect && memberTransfer.getStatus()!= MemberConstants.MEMBER_TRANSFER_STATUS_APPLY)
             throw new DBErrorException("状态异常");*/
-        if(memberTransfer.getStatus()!= SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY)
+        if(memberTransfer.getStatus()!= MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY)
             throw new OpException("转出分党委审核通过之后，才可以进行转入分党委审核。");
 
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setUserId(userId);
-        record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
         //record.setBranchId(memberTransfer.getBranchId());
         updateByPrimaryKeySelective(record);
 
@@ -291,8 +293,8 @@ public class MemberTransferService extends BaseMapper {
     public void memberTransfer_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
         Subject subject = SecurityUtils.getSubject();
-        boolean notAdmin = (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN));
+        boolean notAdmin = (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN));
 
         for (int userId : userIds) {
 
@@ -302,10 +304,10 @@ public class MemberTransferService extends BaseMapper {
                 Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberTransfer.getPartyId());
                 Boolean presentToPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberTransfer.getToPartyId());
 
-                if (memberTransfer.getStatus() >= SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY) {
+                if (memberTransfer.getStatus() >= MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY) {
                     if (!presentToPartyAdmin) throw new UnauthorizedException();
                 }
-                if (memberTransfer.getStatus() >= SystemConstants.MEMBER_TRANSFER_STATUS_BACK) {
+                if (memberTransfer.getStatus() >= MemberConstants.MEMBER_TRANSFER_STATUS_BACK) {
                     if (!presentToPartyAdmin && !presentPartyAdmin) throw new UnauthorizedException();
                 }
             }
@@ -318,10 +320,10 @@ public class MemberTransferService extends BaseMapper {
     private  void back(MemberTransfer memberTransfer, byte status, int loginUserId, String reason){
 
         byte _status = memberTransfer.getStatus();
-        if(_status==SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY){
+        if(_status==MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY){
             throw new OpException("审核流程已经完成，不可以打回。");
         }
-        if(status > _status || status<SystemConstants.MEMBER_TRANSFER_STATUS_BACK ){
+        if(status > _status || status<MemberConstants.MEMBER_TRANSFER_STATUS_BACK ){
             throw new OpException("参数有误。");
         }
 
@@ -339,7 +341,7 @@ public class MemberTransferService extends BaseMapper {
         applyApprovalLogService.add(id,
                 memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId,
                 loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, SystemConstants.MEMBER_TRANSFER_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, MemberConstants.MEMBER_TRANSFER_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

@@ -70,12 +70,12 @@ import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
 import service.dispatch.DispatchUnitService;
 import service.global.CacheService;
+import service.member.RetireApplyService;
 import service.modify.ModifyCadreAuthService;
 import service.party.BranchMemberService;
 import service.party.BranchService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
-import service.member.RetireApplyService;
 import service.sys.HtmlFragmentService;
 import service.sys.SysConfigService;
 import service.sys.SysResourceService;
@@ -586,12 +586,16 @@ public class CmTag {
     // 发文号
     public static String getDispatchCode(Integer code, Integer dispatchTypeId, Integer year) {
 
-        if (code == null || dispatchTypeId == null || year == null) return null;
+        if (dispatchTypeId == null || year == null) return null;
+        String numStr = null;
+        if(code!=null) {
+            numStr = NumberUtils.frontCompWithZore(code, 2);
+        }
 
-        String numStr = NumberUtils.frontCompWithZore(code, 2);
         Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
         DispatchType dispatchType = dispatchTypeMap.get(dispatchTypeId);
-        return String.format("%s[%s]%s号", dispatchType.getName(), year, numStr);
+
+        return String.format("%s[%s]%s号", dispatchType.getName(), year, StringUtils.trimToEmpty(numStr));
     }
 
     public static DispatchType getDispatchType(Integer dispatchTypeId) {

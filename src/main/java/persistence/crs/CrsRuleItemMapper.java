@@ -2,9 +2,10 @@ package persistence.crs;
 
 import domain.crs.CrsRuleItem;
 import domain.crs.CrsRuleItemExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CrsRuleItemMapper {
     long countByExample(CrsRuleItemExample example);

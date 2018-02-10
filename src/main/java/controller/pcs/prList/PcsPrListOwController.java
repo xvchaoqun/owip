@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.common.bean.PcsPrPartyBean;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
@@ -75,12 +76,12 @@ public class PcsPrListOwController extends PcsBaseController {
     @RequestMapping("/pcsPrListOw_party")
     public String pcsPrListOw_party_page(ModelMap modelMap) {
 
-        byte stage = SystemConstants.PCS_STAGE_THIRD;
+        byte stage = PcsConstants.PCS_STAGE_THIRD;
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
         int hasReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true, null);
         int passCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true,
-                SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS);
+                PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS);
         int hasNotReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, false, null);
         modelMap.put("hasReportCount", NumberUtils.trimToZero(hasReportCount));
         modelMap.put("hasNotReportCount", NumberUtils.trimToZero(hasNotReportCount));
@@ -108,7 +109,7 @@ public class PcsPrListOwController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        byte stage = SystemConstants.PCS_STAGE_THIRD;
+        byte stage = PcsConstants.PCS_STAGE_THIRD;
 
         int count = iPcsMapper.countPcsPrPartyBeans(configId, stage, partyId, hasReport, recommendStatus);
         if ((pageNo - 1) * pageSize >= count) {
@@ -144,7 +145,7 @@ public class PcsPrListOwController extends PcsBaseController {
             PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
             int configId = currentPcsConfig.getId();
             modelMap.put("notPassPCSPrRecommendsCount",
-                    pcsPrOwService.notPassPCSPrRecommendsCount(configId, SystemConstants.PCS_STAGE_THIRD));
+                    pcsPrOwService.notPassPCSPrRecommendsCount(configId, PcsConstants.PCS_STAGE_THIRD));
 
         }else if (cls == 2) {
             // 全校党代表数据统计
@@ -186,7 +187,7 @@ public class PcsPrListOwController extends PcsBaseController {
         }
 
         PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId,
-                SystemConstants.PCS_STAGE_SECOND, partyId, true);
+                PcsConstants.PCS_STAGE_SECOND, partyId, true);
         modelMap.put("realPcsPrAllocate", realPcsPrAllocate);
 
         return "pcs/pcsPrListOw/pcsPrListOw_table_page";
@@ -200,7 +201,7 @@ public class PcsPrListOwController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, SystemConstants.PCS_STAGE_THIRD, null,
+        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, PcsConstants.PCS_STAGE_THIRD, null,
                 null, null, new RowBounds());
         modelMap.put("records", records);
 
@@ -234,7 +235,7 @@ public class PcsPrListOwController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
 
         PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
-        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andStageEqualTo(SystemConstants.PCS_STAGE_SECOND)
+        PcsPrCandidateViewExample.Criteria criteria = example.createCriteria().andConfigIdEqualTo(configId).andStageEqualTo(PcsConstants.PCS_STAGE_SECOND)
                 .andIsChosenEqualTo(true);
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);

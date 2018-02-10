@@ -105,7 +105,7 @@ public class PmdExtService extends BaseMapper{
         // 人才称号
         Set<String> rcchList = getRcchNormMap().keySet();
         MemberTeacherExample example = new MemberTeacherExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+        example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
                 .andStaffStatusEqualTo("在职").andAuthorizedTypeEqualTo("事业编")
                 .andTalentTitleRegexp(StringUtils.join(rcchList, "|"));
 
@@ -221,7 +221,7 @@ public class PmdExtService extends BaseMapper{
    /* public Map<Integer, MemberTeacher> getSYB(){
 
         MemberTeacherExample example = new MemberTeacherExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+        example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
                 .andStaffStatusEqualTo("在职").andAuthorizedTypeEqualTo("事业编");
         List<MemberTeacher> memberTeachers = memberTeacherMapper.selectByExample(example);
 
@@ -247,7 +247,7 @@ public class PmdExtService extends BaseMapper{
     /*public Map<Integer, MemberTeacher> getFSYB(){
 
         MemberTeacherExample example = new MemberTeacherExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+        example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
                 .andStaffStatusEqualTo("在职").andAuthorizedTypeNotEqualTo("事业编")
                 .andStaffTypeIn(Arrays.asList("校聘", "学生助理"));
         List<MemberTeacher> memberTeachers = memberTeacherMapper.selectByExample(example);

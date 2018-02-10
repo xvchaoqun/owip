@@ -20,6 +20,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
@@ -37,7 +38,7 @@ import java.util.Map;
 @Controller
 public class ApplyApprovalLogController extends MemberBaseController {
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLog")
     public String applyApprovalLog(Integer id, Byte type, ModelMap modelMap) {
 
@@ -93,10 +94,10 @@ public class ApplyApprovalLogController extends MemberBaseController {
         return "member/applyApprovalLog/applyApprovalLog_page";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,
-            SystemConstants.ROLE_ODADMIN,
-            SystemConstants.ROLE_PARTYADMIN,
-            SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,
+            RoleConstants.ROLE_ODADMIN,
+            RoleConstants.ROLE_PARTYADMIN,
+            RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLog_data")
     public void applyApprovalLog_data(HttpServletResponse response,
                                    Integer id,
@@ -152,7 +153,7 @@ public class ApplyApprovalLogController extends MemberBaseController {
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/applyApprovalLogs")
     public String applyApprovalLogs(HttpServletRequest request, String idName, Byte type, ModelMap modelMap) {
 

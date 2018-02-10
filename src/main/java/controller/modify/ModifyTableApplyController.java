@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.ModifyConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -72,7 +74,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
         ModifyTableApplyExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("create_time desc");
 
-        if (ShiroHelper.hasRole(SystemConstants.ROLE_ADMIN)) {
+        if (ShiroHelper.hasRole(RoleConstants.ROLE_ADMIN)) {
             if (userId != null) {
                 criteria.andUserIdEqualTo(userId);
             }
@@ -83,14 +85,14 @@ public class ModifyTableApplyController extends ModifyBaseController {
         criteria.andModuleEqualTo(module);
 
         if (cls == 1) { // 待审核
-            criteria.andStatusEqualTo(SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
+            criteria.andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
         } else if (cls == 2) { // 审核完成
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MODIFY_TABLE_APPLY_STATUS_PASS);
-            statusList.add(SystemConstants.MODIFY_TABLE_APPLY_STATUS_DENY);
+            statusList.add(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_PASS);
+            statusList.add(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_DENY);
             criteria.andStatusIn(statusList);
         } else if (cls == 3) { // 已删除
-            criteria.andStatusEqualTo(SystemConstants.MODIFY_TABLE_APPLY_STATUS_DELETE);
+            criteria.andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_DELETE);
         } else {
             criteria.andStatusIsNull();
         }
@@ -147,46 +149,46 @@ public class ModifyTableApplyController extends ModifyBaseController {
     @RequestMapping("/modifyTableApply_detail")
     public String modifyCadreEdu_detail(byte module, int applyId, ModelMap modelMap) {
 
-        if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU){
+        if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU){
             return "forward:/modifyCadreEdu_detail?applyId=" + applyId;
-        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK){
+        }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK){
             return "forward:/modifyCadreWork_detail?applyId=" + applyId;
-        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK){
+        }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK){
             return "forward:/modifyCadreBook_detail?applyId=" + applyId;
-        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY){
+        }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY){
             return "forward:/modifyCadreCompany_detail?applyId=" + applyId;
-        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE){
+        }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE){
             return "forward:/modifyCadreCourse_detail?applyId=" + applyId;
-        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER){
+        }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER){
             return "forward:/modifyCadrePaper_detail?applyId=" + applyId;
-        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME){
+        }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME){
             return "forward:/modifyCadreParttime_detail?applyId=" + applyId;
-        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT){
+        }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT){
 
             return "forward:/modifyCadreResearch_detail?applyId=" + applyId
                     +"&researchType=" + SystemConstants.CADRE_RESEARCH_TYPE_DIRECT;
 
-        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN){
+        }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN){
 
             return "forward:/modifyCadreResearch_detail?applyId=" + applyId
                     +"&researchType=" + SystemConstants.CADRE_RESEARCH_TYPE_IN;
 
-        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH){
+        }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH){
 
             return "forward:/modifyCadreReward_detail?applyId=" + applyId
                     + "&rewardType=" + SystemConstants.CADRE_REWARD_TYPE_TEACH;
 
-        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH){
+        }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH){
 
             return "forward:/modifyCadreReward_detail?applyId=" + applyId
                     + "&rewardType=" + SystemConstants.CADRE_REWARD_TYPE_RESEARCH;
 
-        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER){
+        }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER){
 
             return "forward:/modifyCadreReward_detail?applyId=" + applyId
                     + "&rewardType=" + SystemConstants.CADRE_REWARD_TYPE_OTHER;
 
-        }else if(module==SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN){
+        }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN){
             return "forward:/modifyCadreTrain_detail?applyId=" + applyId;
         }
 

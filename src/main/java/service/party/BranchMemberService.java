@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import shiro.ShiroUser;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,8 +41,8 @@ public class BranchMemberService extends BaseMapper {
         Subject subject = SecurityUtils.getSubject();
         ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
         Integer loginUserId = shiroUser.getId();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin) throw new UnauthorizedException();

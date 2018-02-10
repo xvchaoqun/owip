@@ -3,7 +3,7 @@ package domain.pmd;
 import persistence.common.IPmdMapper;
 import persistence.common.bean.PmdReportBean;
 import service.pmd.PmdMonthService;
-import sys.constants.SystemConstants;
+import sys.constants.PmdConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -14,7 +14,7 @@ public class PmdMonth implements Serializable {
 
     public PmdReportBean getR() {
 
-        if (status != SystemConstants.PMD_MONTH_STATUS_START) return null;
+        if (status != PmdConstants.PMD_MONTH_STATUS_START) return null;
 
         IPmdMapper iPmdMapper = CmTag.getBean(IPmdMapper.class);
         return iPmdMapper.getOwPmdReportBean(id);
@@ -22,7 +22,7 @@ public class PmdMonth implements Serializable {
 
     public boolean getCanEnd() {
 
-        if (status == SystemConstants.PMD_MONTH_STATUS_END) return false;
+        if (status == PmdConstants.PMD_MONTH_STATUS_END) return false;
 
         PmdMonthService pmdMonthService = CmTag.getBean(PmdMonthService.class);
         return pmdMonthService.canEnd(id);

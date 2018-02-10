@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -187,16 +189,16 @@ public class MemberTransferController extends MemberBaseController {
 
         if(cls==1){
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
-            statusList.add(SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
+            statusList.add(MemberConstants.MEMBER_TRANSFER_STATUS_APPLY);
+            statusList.add(MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY);
             criteria.andStatusIn(statusList);
         }else if(cls==2){
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK);
-            statusList.add(SystemConstants.MEMBER_TRANSFER_STATUS_BACK);
+            statusList.add(MemberConstants.MEMBER_TRANSFER_STATUS_SELF_BACK);
+            statusList.add(MemberConstants.MEMBER_TRANSFER_STATUS_BACK);
             criteria.andStatusIn(statusList);
         }else {
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY);
         }
         if (export == 1) {
             if(ids!=null && ids.length>0)
@@ -224,7 +226,7 @@ public class MemberTransferController extends MemberBaseController {
         return;
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:list")
     @RequestMapping("/memberTransfer_approval")
     public String memberTransfer_approval(@CurrentUser SysUserView loginUser, Integer id,
@@ -235,11 +237,11 @@ public class MemberTransferController extends MemberBaseController {
         if (id != null) {
             currentMemberTransfer = memberTransferMapper.selectByPrimaryKey(id);
             if (type == 1) {
-                if (currentMemberTransfer.getStatus() != SystemConstants.MEMBER_TRANSFER_STATUS_APPLY)
+                if (currentMemberTransfer.getStatus() != MemberConstants.MEMBER_TRANSFER_STATUS_APPLY)
                     currentMemberTransfer = null;
             }
             if (type == 2) {
-                if (currentMemberTransfer.getStatus() != SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY)
+                if (currentMemberTransfer.getStatus() != MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY)
                     currentMemberTransfer = null;
             }
         } else {
@@ -268,7 +270,7 @@ public class MemberTransferController extends MemberBaseController {
         return "member/memberTransfer/memberTransfer_approval";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping("/memberTransfer_deny")
     public String memberTransfer_deny(Integer id, ModelMap modelMap) {
@@ -280,7 +282,7 @@ public class MemberTransferController extends MemberBaseController {
 
         return "member/memberTransfer/memberTransfer_deny";
     }
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping(value = "/memberTransfer_check", method = RequestMethod.POST)
     @ResponseBody
@@ -296,7 +298,7 @@ public class MemberTransferController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping("/memberTransfer_back")
     public String memberTransfer_back() {
@@ -304,7 +306,7 @@ public class MemberTransferController extends MemberBaseController {
         return "member/memberTransfer/memberTransfer_back";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberTransfer:update")
     @RequestMapping(value = "/memberTransfer_back", method = RequestMethod.POST)
     @ResponseBody
@@ -339,8 +341,8 @@ public class MemberTransferController extends MemberBaseController {
         //===========权限
         Integer loginUserId = loginUser.getId();
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
@@ -371,7 +373,7 @@ public class MemberTransferController extends MemberBaseController {
 
         if (id == null) {
             record.setApplyTime(new Date());
-            record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
+            record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_APPLY);
             memberTransferService.insertSelective(record);
 
             applyApprovalLogService.add(record.getId(),
@@ -475,7 +477,7 @@ public class MemberTransferController extends MemberBaseController {
                     toBranchId==null?"":branchService.findAll().get(toBranchId).getName(),
                     record.getValidDays()+"",
                     DateUtils.formatDate(record.getFromHandleTime(), DateUtils.YYYY_MM_DD),
-                    record.getStatus()==null?"":SystemConstants.MEMBER_TRANSFER_STATUS_MAP.get(record.getStatus())
+                    record.getStatus()==null?"":MemberConstants.MEMBER_TRANSFER_STATUS_MAP.get(record.getStatus())
             };
             valuesList.add(values);
         }

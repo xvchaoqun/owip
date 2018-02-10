@@ -24,7 +24,7 @@ import service.BaseMapper;
 import service.cadre.CadreService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
@@ -99,7 +99,7 @@ public class PassportService extends BaseMapper {
     public Map<Integer, Passport> findByCadreId(int cadreId) {
 
         PassportSearchBean bean = new PassportSearchBean(null, cadreId, null, null,
-                SystemConstants.PASSPORT_TYPE_KEEP, null, null, null);
+                AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP, null, null, null);
         Map<Integer, Passport> passportMap = new HashMap<>();
         List<Passport> passports = iAbroadMapper.selectPassportList(bean, new RowBounds());
         for (Passport passport : passports) {
@@ -127,7 +127,7 @@ public class PassportService extends BaseMapper {
             type = passport.getType();
         } else {
             if (type == null)
-                type = SystemConstants.PASSPORT_TYPE_KEEP; // 默认存入集中保管
+                type = AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP; // 默认存入集中保管
         }
 
         return updateIdDuplicate(id, type, cadreId, classId, code);
@@ -144,7 +144,7 @@ public class PassportService extends BaseMapper {
             if (passportMapper.countByExample(example) > 0) return 1;
         }
 
-        if (type == SystemConstants.PASSPORT_TYPE_KEEP) {
+        if (type == AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP) {
             //“集中管理证件”中不存在同一个人有两本护照（或者港澳通行证、台湾通行证）就可以。
             // 其他三个“取消集中管理、丢失证件、作废证件”中，一个人可以有两本护照。
             PassportExample example2 = new PassportExample();
@@ -228,17 +228,17 @@ public class PassportService extends BaseMapper {
                         String cancelTypeOther) {
 
         if (id != null && cancelType != null
-                && (cancelType == SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH
-                || cancelType == SystemConstants.PASSPORT_CANCEL_TYPE_OTHER)) {
+                && (cancelType == AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_ABOLISH
+                || cancelType == AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_OTHER)) {
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
 
             // “未借出”状态下取消集中管理 ，转移到未确认
             Passport record = new Passport();
             record.setId(id);
-            record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
+            record.setType(AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL);
             record.setCancelType(cancelType);
-            if (cancelType == SystemConstants.PASSPORT_CANCEL_TYPE_OTHER)
+            if (cancelType == AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_OTHER)
                 record.setCancelTypeOther(cancelTypeOther);
 
             // “借出”状态下取消集中管理，转移到已确认，并加备注
@@ -259,14 +259,14 @@ public class PassportService extends BaseMapper {
         if (id != null) {
             Passport passport = passportMapper.selectByPrimaryKey(id);
 
-            if (updateIdDuplicate(id, SystemConstants.PASSPORT_TYPE_KEEP,
+            if (updateIdDuplicate(id, AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP,
                     passport.getCadreId(), passport.getClassId(), passport.getCode()) > 0) {
                 MetaType mcPassportType = CmTag.getMetaType(passport.getClassId());
                 throw new OpException("返回集中管理失败，" + passport.getUser().getRealname()
                         + "[" + mcPassportType.getName() + "]证件重复");
             }
 
-            passport.setType(SystemConstants.PASSPORT_TYPE_KEEP);
+            passport.setType(AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP);
             passport.setCancelType(null);
             passport.setCancelTypeOther(null);
             passport.setCancelConfirm(false);
@@ -276,7 +276,7 @@ public class PassportService extends BaseMapper {
             passport.setCancelUserId(null);
 
             PassportExample example = new PassportExample();
-            example.createCriteria().andIdEqualTo(id).andTypeEqualTo(SystemConstants.PASSPORT_TYPE_CANCEL);
+            example.createCriteria().andIdEqualTo(id).andTypeEqualTo(AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL);
             passportMapper.updateByExample(passport, example);
 
             return passport;
@@ -293,7 +293,7 @@ public class PassportService extends BaseMapper {
         example.createCriteria().andIdIn(Arrays.asList(ids));
 
         Passport record = new Passport();
-        record.setType(SystemConstants.PASSPORT_TYPE_LOST);
+        record.setType(AbroadConstants.ABROAD_PASSPORT_TYPE_LOST);
 
         passportMapper.updateByExampleSelective(record, example);
     }
@@ -306,9 +306,9 @@ public class PassportService extends BaseMapper {
         for (Integer id : ids) {
 
             Passport passport = passportMapper.selectByPrimaryKey(id);
-            if (!(passport.getType() == SystemConstants.PASSPORT_TYPE_KEEP
-                    || (passport.getType() == SystemConstants.PASSPORT_TYPE_LOST
-                    && passport.getLostType() == SystemConstants.PASSPORT_LOST_TYPE_ADD))) {
+            if (!(passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP
+                    || (passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_LOST
+                    && passport.getLostType() == AbroadConstants.ABROAD_PASSPORT_LOST_TYPE_ADD))) {
                 // 只有集中管理证件 或 从 后台添加的 丢失证件，可以更新
                 throw new OpException("只有集中管理库或后台添加的丢失证件可以进行删除操作");
             }
@@ -331,11 +331,11 @@ public class PassportService extends BaseMapper {
     @Transactional
     public int back(Passport record) {
         if (StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(0 == updateIdDuplicate(record.getId(), SystemConstants.PASSPORT_TYPE_KEEP,
+            Assert.isTrue(0 == updateIdDuplicate(record.getId(), AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP,
                     record.getCadreId(), record.getClassId(), record.getCode()), "duplicate");
 
         Passport passport = passportMapper.selectByPrimaryKey(record.getId());
-        Assert.isTrue(passport.getType() == SystemConstants.PASSPORT_TYPE_LOST, "wrong type");
+        Assert.isTrue(passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_LOST, "wrong type");
 
         // 如果该证件找回之前被借出了，则找回时，应该修改借出状态为已归还
         if (passport.getIsLent()) {
@@ -348,11 +348,11 @@ public class PassportService extends BaseMapper {
             _record.setId(passportDraws.get(0).getId()); // 证件在归还之前只能借出一次
             _record.setReturnRemark("证件被找回");
             _record.setRealReturnDate(new Date());
-            _record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_RETURN);
+            _record.setDrawStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN);
             passportDrawMapper.updateByPrimaryKeySelective(_record);
         }
 
-        record.setType(SystemConstants.PASSPORT_TYPE_KEEP);
+        record.setType(AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP);
         record.setIsLent(false);
         record.setHasFind(true);
         record.setFindTime(new Date());
@@ -380,7 +380,7 @@ public class PassportService extends BaseMapper {
         Date now = new Date();
 
         PassportSearchBean bean = new PassportSearchBean(null, null, null, null,
-                SystemConstants.PASSPORT_TYPE_KEEP, null, null, null);
+                AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP, null, null, null);
 
         List<Passport> passports = iAbroadMapper.selectPassportList(bean, new RowBounds());
         for (Passport passport : passports) {
@@ -390,8 +390,8 @@ public class PassportService extends BaseMapper {
                 // 未借出状态，转移到取消未确认
                 Passport record = new Passport();
                 record.setId(passport.getId());
-                record.setType(SystemConstants.PASSPORT_TYPE_CANCEL);
-                record.setCancelType(SystemConstants.PASSPORT_CANCEL_TYPE_EXPIRE);
+                record.setType(AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL);
+                record.setCancelType(AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_EXPIRE);
 
                 if (BooleanUtils.isTrue(passport.getIsLent())) {
                     // 借出状态，转移到取消已确认，并加备注

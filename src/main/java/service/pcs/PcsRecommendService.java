@@ -15,7 +15,8 @@ import persistence.common.bean.IPcsCandidateView;
 import persistence.common.bean.PcsBranchBean;
 import service.BaseMapper;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.PcsConstants;
+import sys.constants.RoleConstants;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -65,7 +66,7 @@ public class PcsRecommendService extends BaseMapper {
         int configId = pcsConfig.getId();
 
         // 只有干部管理员可以直接修改
-        if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             if (!pcsPartyService.allowModify(partyId, configId, stage)) {
                 throw new OpException("已报送数据或已下发名单，不可修改。");
             }
@@ -95,26 +96,26 @@ public class PcsRecommendService extends BaseMapper {
         // 上一阶段已下发名单
         Set<Integer> dwIssueUserIdSet = new HashSet<>();
         Set<Integer> jwIssueUserIdSet = new HashSet<>();
-        if(stage == SystemConstants.PCS_STAGE_SECOND || stage == SystemConstants.PCS_STAGE_THIRD){
+        if(stage == PcsConstants.PCS_STAGE_SECOND || stage == PcsConstants.PCS_STAGE_THIRD){
 
-            byte _stage = (stage == SystemConstants.PCS_STAGE_SECOND)?
-                    SystemConstants.PCS_STAGE_FIRST: SystemConstants.PCS_STAGE_SECOND;
+            byte _stage = (stage == PcsConstants.PCS_STAGE_SECOND)?
+                    PcsConstants.PCS_STAGE_FIRST: PcsConstants.PCS_STAGE_SECOND;
             List<IPcsCandidateView> dwCandidates =
                     iPcsMapper.selectPartyCandidates(null, true, configId,
-                            _stage, SystemConstants.PCS_USER_TYPE_DW, new RowBounds());
+                            _stage, PcsConstants.PCS_USER_TYPE_DW, new RowBounds());
             for (IPcsCandidateView dwCandidate : dwCandidates) {
                 dwIssueUserIdSet.add(dwCandidate.getUserId());
             }
             List<IPcsCandidateView> jwCandidates =
                     iPcsMapper.selectPartyCandidates(null, true, configId,
-                            _stage, SystemConstants.PCS_USER_TYPE_JW, new RowBounds());
+                            _stage, PcsConstants.PCS_USER_TYPE_JW, new RowBounds());
             for (IPcsCandidateView jwCandidate : jwCandidates) {
                 jwIssueUserIdSet.add(jwCandidate.getUserId());
             }
         }
         Date now = new Date();
         // 添加党委委员
-        pcsCandidateService.clear(recommendId, SystemConstants.PCS_USER_TYPE_DW);
+        pcsCandidateService.clear(recommendId, PcsConstants.PCS_USER_TYPE_DW);
         if(dwCandidateIds!=null){
             for (String dwCandidateId : dwCandidateIds) {
 
@@ -128,7 +129,7 @@ public class PcsRecommendService extends BaseMapper {
                 PcsCandidate _pcsCandidate = new PcsCandidate();
                 _pcsCandidate.setRecommendId(recommendId);
                 _pcsCandidate.setUserId(userId);
-                _pcsCandidate.setType(SystemConstants.PCS_USER_TYPE_DW);
+                _pcsCandidate.setType(PcsConstants.PCS_USER_TYPE_DW);
                 _pcsCandidate.setIsFromStage(isFromStage);
                 _pcsCandidate.setAddTime(now);
                 _pcsCandidate.setIsFromStage(dwIssueUserIdSet.contains(userId));
@@ -138,7 +139,7 @@ public class PcsRecommendService extends BaseMapper {
         }
 
         // 添加纪委委员
-        pcsCandidateService.clear(recommendId, SystemConstants.PCS_USER_TYPE_JW);
+        pcsCandidateService.clear(recommendId, PcsConstants.PCS_USER_TYPE_JW);
         if(jwCandidateIds!=null){
             for (String jwCandidateId : jwCandidateIds) {
 
@@ -152,7 +153,7 @@ public class PcsRecommendService extends BaseMapper {
                 PcsCandidate _pcsCandidate = new PcsCandidate();
                 _pcsCandidate.setRecommendId(recommendId);
                 _pcsCandidate.setUserId(userId);
-                _pcsCandidate.setType(SystemConstants.PCS_USER_TYPE_JW);
+                _pcsCandidate.setType(PcsConstants.PCS_USER_TYPE_JW);
                 _pcsCandidate.setIsFromStage(isFromStage);
                 _pcsCandidate.setAddTime(now);
                 _pcsCandidate.setIsFromStage(jwIssueUserIdSet.contains(userId));

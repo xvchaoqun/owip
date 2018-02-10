@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -61,14 +62,14 @@ public class CrsApplyRuleController extends CrsBaseController {
         Date now = new Date();
         if(cls==1){
             // 有效规则
-            criteria.andStatusNotEqualTo(SystemConstants.CRS_APPLY_RULE_STATUS_DELETE);
+            criteria.andStatusNotEqualTo(CrsConstants.CRS_APPLY_RULE_STATUS_DELETE);
             criteria.andEndTimeGreaterThanOrEqualTo(now);
         }else if(cls==2){
             // 过期规则
-            criteria.andStatusNotEqualTo(SystemConstants.CRS_APPLY_RULE_STATUS_DELETE);
+            criteria.andStatusNotEqualTo(CrsConstants.CRS_APPLY_RULE_STATUS_DELETE);
             criteria.andEndTimeLessThan(now);
         }else if(cls==3){
-            criteria.andStatusEqualTo(SystemConstants.CRS_APPLY_RULE_STATUS_DELETE);
+            criteria.andStatusEqualTo(CrsConstants.CRS_APPLY_RULE_STATUS_DELETE);
         }
 
         example.setOrderByClause("start_time asc, end_time asc");

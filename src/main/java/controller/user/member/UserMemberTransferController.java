@@ -16,6 +16,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.DateUtils;
@@ -33,7 +35,7 @@ import java.util.Map;
 public class UserMemberTransferController extends MemberBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping("/memberTransfer")
     public String memberTransfer(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -61,14 +63,14 @@ public class UserMemberTransferController extends MemberBaseController {
             }
         }
 
-        if(memberTransfer==null || memberTransfer.getStatus()== SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK
-                || memberTransfer.getStatus()==SystemConstants.MEMBER_TRANSFER_STATUS_BACK)
+        if(memberTransfer==null || memberTransfer.getStatus()== MemberConstants.MEMBER_TRANSFER_STATUS_SELF_BACK
+                || memberTransfer.getStatus()== MemberConstants.MEMBER_TRANSFER_STATUS_BACK)
             return "user/member/memberTransfer/memberTransfer_au";
 
         return "user/member/memberTransfer/memberTransfer";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberTransfer_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberTransfer_au(@CurrentUser SysUserView loginUser,
@@ -86,8 +88,8 @@ public class UserMemberTransferController extends MemberBaseController {
 
         MemberTransfer memberTransfer = memberTransferService.get(userId);
 
-        if(memberTransfer!=null && memberTransfer.getStatus()!=SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK
-                && memberTransfer.getStatus()!=SystemConstants.MEMBER_TRANSFER_STATUS_BACK)
+        if(memberTransfer!=null && memberTransfer.getStatus()!=MemberConstants.MEMBER_TRANSFER_STATUS_SELF_BACK
+                && memberTransfer.getStatus()!=MemberConstants.MEMBER_TRANSFER_STATUS_BACK)
            return failed("不允许修改");
 
         if(userBean.getPartyId().byteValue() == record.getToPartyId()){
@@ -100,7 +102,7 @@ public class UserMemberTransferController extends MemberBaseController {
 
         record.setUserId(loginUser.getId());
         record.setApplyTime(new Date());
-        record.setStatus(SystemConstants.MEMBER_TRANSFER_STATUS_APPLY);
+        record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_APPLY);
         record.setIsBack(false);
         if (memberTransfer == null) {
             memberTransferService.insertSelective(record);
@@ -122,7 +124,7 @@ public class UserMemberTransferController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberTransfer_back", method = RequestMethod.POST)
     @ResponseBody
     public Map memberTransfer_back(@CurrentUser SysUserView loginUser, String remark){

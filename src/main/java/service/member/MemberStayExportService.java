@@ -25,6 +25,7 @@ import service.party.PartyService;
 import service.sys.StudentInfoService;
 import service.sys.TeacherInfoService;
 import service.sys.UserBeanService;
+import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
@@ -56,7 +57,7 @@ public class MemberStayExportService extends BaseMapper {
     public SXSSFWorkbook toXlsx(byte type) {
 
         MemberStayExample example = new MemberStayExample();
-        example.createCriteria().andTypeEqualTo(type).andStatusEqualTo(SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY);
+        example.createCriteria().andTypeEqualTo(type).andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY);
         List<MemberStay> records = memberStayMapper.selectByExample(example);
         int count = records.size();
 
@@ -81,7 +82,7 @@ public class MemberStayExportService extends BaseMapper {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            if(type == SystemConstants.MEMBER_STAY_TYPE_ABROAD)
+            if(type == MemberConstants.MEMBER_STAY_TYPE_ABROAD)
                 headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + "出国（境）毕业生党员组织关系暂留汇总表");
             else
                 headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + "非出国（境）毕业生党员组织关系暂留汇总表");
@@ -89,7 +90,7 @@ public class MemberStayExportService extends BaseMapper {
             rowNum++;
         }
         String[] titles = null;
-        if(type == SystemConstants.MEMBER_STAY_TYPE_ABROAD) {
+        if(type == MemberConstants.MEMBER_STAY_TYPE_ABROAD) {
             titles = new String[]{"编号", "学号", "姓名", "性别", "民族",
                     "出生年月", "入党时间", "学历", "籍贯", "身份证号",
                     "党籍状况", "手机", "微信号", "电子邮箱", "组织关系所在分党委名称",
@@ -115,7 +116,7 @@ public class MemberStayExportService extends BaseMapper {
 
         int columnIndex = 0;
 
-        if(type == SystemConstants.MEMBER_STAY_TYPE_ABROAD) {
+        if(type == MemberConstants.MEMBER_STAY_TYPE_ABROAD) {
             sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100)); // 编号
             sheet.setColumnWidth(columnIndex++, (short) (35.7 * 100));
             sheet.setColumnWidth(columnIndex++, (short) (35.7 * 150));
@@ -190,16 +191,16 @@ public class MemberStayExportService extends BaseMapper {
 
             String transferTime = "";
             String transferUnit = "";
-            if (u.getMemberStatus() != null && u.getMemberStatus() == SystemConstants.MEMBER_STATUS_TRANSFER) {
+            if (u.getMemberStatus() != null && u.getMemberStatus() == MemberConstants.MEMBER_STATUS_TRANSFER) {
                 MemberOut memberOut = memberOutService.getLatest(userId);
-                if (memberOut != null && memberOut.getStatus()==SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY){
+                if (memberOut != null && memberOut.getStatus()==MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY){
                     transferTime = DateUtils.formatDate(memberOut.getHandleTime(), "yyyy.MM");
                     transferUnit = memberOut.getToUnit();
                 }
             }
 
             String[] values = null;
-            if(type == SystemConstants.MEMBER_STAY_TYPE_ABROAD) {
+            if(type == MemberConstants.MEMBER_STAY_TYPE_ABROAD) {
                 values = new String[]{
                         record.getCode(),
                         u.getCode(),
@@ -213,7 +214,7 @@ public class MemberStayExportService extends BaseMapper {
                         u.getNativePlace(),
                         u.getIdcard(),
 
-                        SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(u.getPoliticalStatus()),
+                        MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(u.getPoliticalStatus()),
                         record.getMobile(),
                         record.getWeixin(),
                         record.getEmail(),
@@ -225,8 +226,8 @@ public class MemberStayExportService extends BaseMapper {
                         record.getCountry(),
                         record.getSchool(),
 
-                        record.getAbroadType() == null ? "" : SystemConstants.MEMBER_STAY_ABROAD_TYPE_MAP_MAP.get(record.getAbroadType()),
-                        u.getMemberStatus() == SystemConstants.MEMBER_STATUS_TRANSFER ? "是" : "否",
+                        record.getAbroadType() == null ? "" : MemberConstants.MEMBER_STAY_ABROAD_TYPE_MAP_MAP.get(record.getAbroadType()),
+                        u.getMemberStatus() == MemberConstants.MEMBER_STATUS_TRANSFER ? "是" : "否",
                         transferTime,
                         transferUnit
                 };
@@ -245,7 +246,7 @@ public class MemberStayExportService extends BaseMapper {
                         u.getNativePlace(),
                         u.getIdcard(),
 
-                        SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(u.getPoliticalStatus()),
+                        MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(u.getPoliticalStatus()),
                         record.getMobile(),
                         record.getWeixin(),
                         record.getQq(),
@@ -257,7 +258,7 @@ public class MemberStayExportService extends BaseMapper {
                         DateUtils.formatDate(record.getStartTime(), "yyyy.MM"),
                         DateUtils.formatDate(record.getOverDate(), "yyyy.MM"),
 
-                        u.getMemberStatus() == SystemConstants.MEMBER_STATUS_TRANSFER ? "是" : "否",
+                        u.getMemberStatus() == MemberConstants.MEMBER_STATUS_TRANSFER ? "是" : "否",
                         transferTime,
                         transferUnit
                 };

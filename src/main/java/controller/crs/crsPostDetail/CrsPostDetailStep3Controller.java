@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.ContentTplConstants;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.security.Base64Utils;
 import sys.tool.paging.CommonList;
@@ -63,7 +65,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
         Map<String, ContentTpl> contentTplMap = contentTplService.codeKeyMap();
         List<ContentTpl> tplList = new ArrayList<>();
-        for (String key : SystemConstants.CRS_SHORT_MSG_TPL_MAP.keySet()) {
+        for (String key : ContentTplConstants.CONTENT_TPL_CRS_MSG_MAP.keySet()) {
 
             tplList.add(contentTplMap.get(key));
         }
@@ -230,11 +232,11 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
         CrsPost record = new CrsPost();
         record.setMeetingStatus(true);
-        record.setStatus(SystemConstants.CRS_POST_STATUS_FINISH);
+        record.setStatus(CrsConstants.CRS_POST_STATUS_FINISH);
 
         CrsPostExample example = new CrsPostExample();
         example.createCriteria().andIdEqualTo(postId)
-                .andStatusEqualTo(SystemConstants.CRS_POST_STATUS_NORMAL);
+                .andStatusEqualTo(CrsConstants.CRS_POST_STATUS_NORMAL);
 
         crsPostMapper.updateByExampleSelective(record, example);
 

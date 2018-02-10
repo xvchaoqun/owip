@@ -234,6 +234,10 @@ import persistence.sc.scCommittee.ScCommitteeTopicViewMapper;
 import persistence.sc.scCommittee.ScCommitteeViewMapper;
 import persistence.sc.scCommittee.ScCommitteeVoteMapper;
 import persistence.sc.scCommittee.ScCommitteeVoteViewMapper;
+import persistence.sc.scDispatch.ScDispatchCommitteeMapper;
+import persistence.sc.scDispatch.ScDispatchMapper;
+import persistence.sc.scDispatch.ScDispatchUserMapper;
+import persistence.sc.scDispatch.ScDispatchViewMapper;
 import persistence.sc.scGroup.ScGroupFileMapper;
 import persistence.sc.scGroup.ScGroupMapper;
 import persistence.sc.scGroup.ScGroupMemberMapper;
@@ -262,6 +266,9 @@ import persistence.sc.scMatter.ScMatterItemViewMapper;
 import persistence.sc.scMatter.ScMatterMapper;
 import persistence.sc.scMatter.ScMatterTransferMapper;
 import persistence.sc.scMatter.ScMatterUserViewMapper;
+import persistence.sc.scPublic.ScPublicMapper;
+import persistence.sc.scPublic.ScPublicUserMapper;
+import persistence.sc.scPublic.ScPublicViewMapper;
 import persistence.sys.AttachFileMapper;
 import persistence.sys.FeedbackMapper;
 import persistence.sys.HtmlFragmentMapper;
@@ -365,6 +372,27 @@ public class BaseMapper {
         Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, sortOrder, whereSql);
         return (maxSortOrder == null ? 1 : maxSortOrder + 1);
     }
+
+    /**
+     * 干部选拔-干部起草文件
+     */
+    @Autowired
+    protected ScDispatchMapper scDispatchMapper;
+    @Autowired
+    protected ScDispatchViewMapper scDispatchViewMapper;
+    @Autowired
+    protected ScDispatchUserMapper scDispatchUserMapper;
+    @Autowired
+    protected ScDispatchCommitteeMapper scDispatchCommitteeMapper;
+    /**
+     * 干部选拔-干部任前公示
+     */
+    @Autowired
+    protected ScPublicMapper scPublicMapper;
+    @Autowired
+    protected ScPublicViewMapper scPublicViewMapper;
+    @Autowired
+    protected ScPublicUserMapper scPublicUserMapper;
 
     /**
      * 干部选拔-干部小组会议题

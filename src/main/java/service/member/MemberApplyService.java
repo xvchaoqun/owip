@@ -22,6 +22,7 @@ import service.party.MemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 
 import java.util.Date;
@@ -60,14 +61,14 @@ public class MemberApplyService extends BaseMapper {
     public void addOrChangeToGrowApply(int userId){
         Member member = memberService.get(userId);
         Integer currentUserId = ShiroHelper.getCurrentUserId();
-        if(member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL
-                && member.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_GROW){
+        if(member!=null && member.getStatus()== MemberConstants.MEMBER_STATUS_NORMAL
+                && member.getPoliticalStatus()==MemberConstants.MEMBER_POLITICAL_STATUS_GROW){
             Date now = new Date();
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
 
             MemberApply record = new MemberApply();
             record.setUserId(userId);
-            record.setType((member.getType()==SystemConstants.MEMBER_TYPE_TEACHER ?
+            record.setType((member.getType()==MemberConstants.MEMBER_TYPE_TEACHER ?
                     SystemConstants.APPLY_TYPE_TEACHER : SystemConstants.APPLY_TYPE_STU));
             record.setPartyId(member.getPartyId());
             record.setBranchId(member.getBranchId());
@@ -286,7 +287,7 @@ public class MemberApplyService extends BaseMapper {
     public void modifyMemberToPositiveStatus(int userId) {
 
         Member member = memberMapper.selectByPrimaryKey(userId);
-        if(member.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE) {
+        if(member.getPoliticalStatus()==MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) {
             MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             if (_memberApply != null) {
 
@@ -378,7 +379,7 @@ public class MemberApplyService extends BaseMapper {
             }
         }
         if(record.getPositiveTime()!=null){ // 如果修改了转正时间
-            if(member!=null && member.getPoliticalStatus()==SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE) {
+            if(member!=null && member.getPoliticalStatus()==MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) {
                 if (member.getPositiveTime()==null || !member.getPositiveTime().equals(record.getPositiveTime())) {
                     Member _member = new Member();
                     _member.setUserId(userId);
@@ -459,7 +460,7 @@ public class MemberApplyService extends BaseMapper {
         //Member member = memberMapper.selectByPrimaryKey(userId);
         Member _record = new Member();
         _record.setUserId(userId);
-        _record.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
+        _record.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE);
         _record.setPositiveTime(memberApply.getPositiveTime());
         //_record.setBranchId(member.getBranchId());
         // 2. 更新党员政治面貌
@@ -494,13 +495,13 @@ public class MemberApplyService extends BaseMapper {
         member.setUserId(userId);
         member.setPartyId(memberApply.getPartyId());
         member.setBranchId(memberApply.getBranchId());
-        member.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
+        member.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
 
         Assert.isTrue(memberApply.getType() == SystemConstants.APPLY_TYPE_STU
                 || memberApply.getType() == SystemConstants.APPLY_TYPE_TEACHER, "wrong apply type");
 
-        member.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常党员
-        member.setSource(SystemConstants.MEMBER_SOURCE_GROW); // 本校发展党员
+        member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
+        member.setSource(MemberConstants.MEMBER_SOURCE_GROW); // 本校发展党员
         member.setApplyTime(memberApply.getApplyTime());
         member.setActiveTime(memberApply.getActiveTime());
         member.setCandidateTime(memberApply.getCandidateTime());
@@ -538,13 +539,13 @@ public class MemberApplyService extends BaseMapper {
         member.setUserId(userId);
         member.setPartyId(memberApply.getPartyId());
         member.setBranchId(memberApply.getBranchId());
-        member.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
+        member.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
 
         Assert.isTrue(memberApply.getType() == SystemConstants.APPLY_TYPE_STU
                 || memberApply.getType() == SystemConstants.APPLY_TYPE_TEACHER, "wrong apply type");
 
-        member.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常党员
-        member.setSource(SystemConstants.MEMBER_SOURCE_GROW); // 本校发展党员
+        member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
+        member.setSource(MemberConstants.MEMBER_SOURCE_GROW); // 本校发展党员
         member.setApplyTime(memberApply.getApplyTime());
         member.setActiveTime(memberApply.getActiveTime());
         member.setCandidateTime(memberApply.getCandidateTime());
@@ -567,7 +568,7 @@ public class MemberApplyService extends BaseMapper {
                     commonMapper.excuteSql("update ow_member set positive_time=null where user_id="+userId);
                     Member record = new Member();
                     record.setUserId(userId);
-                    record.setPoliticalStatus(SystemConstants.MEMBER_POLITICAL_STATUS_GROW);
+                    record.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW);
                     memberService.updateByPrimaryKeySelective(record, "在入党申请中，打回至预备党员初始状态");
                 }
                 break;

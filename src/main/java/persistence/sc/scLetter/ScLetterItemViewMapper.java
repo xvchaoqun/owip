@@ -2,8 +2,9 @@ package persistence.sc.scLetter;
 
 import domain.sc.scLetter.ScLetterItemView;
 import domain.sc.scLetter.ScLetterItemViewExample;
-import java.util.List;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface ScLetterItemViewMapper {
     long countByExample(ScLetterItemViewExample example);

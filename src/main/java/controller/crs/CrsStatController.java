@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import persistence.common.bean.CrsStatApplicantBean;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -77,7 +78,7 @@ public class CrsStatController extends CrsBaseController {
 
         CrsCandidateViewExample example = new CrsCandidateViewExample();
         CrsCandidateViewExample.Criteria criteria = example.createCriteria()
-                .andCrsPostStatusEqualTo(SystemConstants.CRS_POST_STATUS_FINISH); // 招聘会完成后
+                .andCrsPostStatusEqualTo(CrsConstants.CRS_POST_STATUS_FINISH); // 招聘会完成后
         example.setOrderByClause("crs_post_year desc, crs_post_id desc, is_first desc");
 
         if(year!=null){
@@ -143,8 +144,8 @@ public class CrsStatController extends CrsBaseController {
             pageNo = 1;
         }
         pageNo = Math.max(1, pageNo);
-        Byte applicantStatus = SystemConstants.CRS_APPLICANT_STATUS_SUBMIT;
-        Byte postStatus = SystemConstants.CRS_POST_STATUS_FINISH;
+        Byte applicantStatus = CrsConstants.CRS_APPLICANT_STATUS_SUBMIT;
+        Byte postStatus = CrsConstants.CRS_POST_STATUS_FINISH;
         long count = iCrsMapper.countStatApplicants(applicantStatus, postStatus);
         if ((pageNo - 1) * pageSize >= count) {
 
@@ -188,7 +189,7 @@ public class CrsStatController extends CrsBaseController {
         CrsApplicantStatViewExample example = new CrsApplicantStatViewExample();
         CrsApplicantStatViewExample.Criteria criteria = example.createCriteria()
                 .andUserIdEqualTo(userId)
-                .andStatusEqualTo(SystemConstants.CRS_APPLICANT_STATUS_SUBMIT);
+                .andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
         example.setOrderByClause("enroll_time asc");
 
 

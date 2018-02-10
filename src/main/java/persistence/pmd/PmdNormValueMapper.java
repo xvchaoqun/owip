@@ -2,9 +2,10 @@ package persistence.pmd;
 
 import domain.pmd.PmdNormValue;
 import domain.pmd.PmdNormValueExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface PmdNormValueMapper {
     long countByExample(PmdNormValueExample example);

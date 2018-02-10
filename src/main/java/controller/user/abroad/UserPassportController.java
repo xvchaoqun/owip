@@ -19,7 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
+import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -44,7 +45,7 @@ import java.util.Map;
 @RequestMapping("/user/abroad")
 public class UserPassportController extends AbroadBaseController {
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport")
     public String passport(HttpServletResponse response,
                                 // 1证件列表 2申请证件列表
@@ -58,7 +59,7 @@ public class UserPassportController extends AbroadBaseController {
         return "forward:/user/abroad/passportApply";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passportList_page")
     public String passportApply_page(@CurrentUser SysUserView loginUser,
                                      // 1证件列表 2申请证件列表
@@ -71,7 +72,7 @@ public class UserPassportController extends AbroadBaseController {
         {
             PassportExample example = new PassportExample();
             example.createCriteria().andCadreIdEqualTo(cadre.getId())
-                    .andTypeEqualTo(SystemConstants.PASSPORT_TYPE_KEEP);
+                    .andTypeEqualTo(AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP);
             keepPassports = passportMapper.selectByExample(example);
         }
         modelMap.put("keepPassports", keepPassports);
@@ -80,7 +81,7 @@ public class UserPassportController extends AbroadBaseController {
         {
             PassportExample example = new PassportExample();
             example.createCriteria().andCadreIdEqualTo(cadre.getId())
-                    .andTypeEqualTo(SystemConstants.PASSPORT_TYPE_CANCEL);
+                    .andTypeEqualTo(AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL);
             cancelPassports = passportMapper.selectByExample(example);
         }
         modelMap.put("cancelPassports", cancelPassports);
@@ -89,7 +90,7 @@ public class UserPassportController extends AbroadBaseController {
         {
             PassportExample example = new PassportExample();
             example.createCriteria().andCadreIdEqualTo(cadre.getId())
-                    .andTypeEqualTo(SystemConstants.PASSPORT_TYPE_LOST);
+                    .andTypeEqualTo(AbroadConstants.ABROAD_PASSPORT_TYPE_LOST);
             lostPassports = passportMapper.selectByExample(example);
         }
         modelMap.put("lostPassports", lostPassports);
@@ -98,7 +99,7 @@ public class UserPassportController extends AbroadBaseController {
         return "user/abroad/passport/passportList_page";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport_useLogs")
     public String passport_useLogs(@CurrentUser SysUserView loginUser, int id, ModelMap modelMap) {
 
@@ -119,7 +120,7 @@ public class UserPassportController extends AbroadBaseController {
     }
 
     // 取消集中管理确认单
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport_cancel")
     public String passport_cancel(@CurrentUser SysUserView loginUser, int id, ModelMap modelMap) {
 
@@ -135,7 +136,7 @@ public class UserPassportController extends AbroadBaseController {
         return "abroad/passport/passport_cancel";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport_lost_view")
     public String passport_lost_view(@CurrentUser SysUserView loginUser,int id, ModelMap modelMap) {
 
@@ -151,7 +152,7 @@ public class UserPassportController extends AbroadBaseController {
         return "abroad/passport/passport_lost_view";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passport_lostProof_download")
     public void passport_lostProof_download(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request,
                                             HttpServletResponse response) throws IOException {
@@ -177,7 +178,7 @@ public class UserPassportController extends AbroadBaseController {
     }
 
     // 使用记录
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREINSPECT}, logical = Logical.OR)
     @RequestMapping("/passportDraw_data")
     public void passportDraw_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
                                   @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_passport_draw") String sort,
@@ -212,7 +213,7 @@ public class UserPassportController extends AbroadBaseController {
         }
 
         if (export == 1) {
-            passportDrawService.passportDraw_export(SystemConstants.PASSPORT_DRAW_TYPE_SELF, example, response);
+            passportDrawService.passportDraw_export(AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF, example, response);
             return;
         }
 

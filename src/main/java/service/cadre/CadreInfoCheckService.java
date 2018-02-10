@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.common.bean.ICadreInfoCheck;
 import service.BaseMapper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -54,7 +55,7 @@ public class CadreInfoCheckService extends BaseMapper {
         if(notComplete(CmTag.cadreInfoCheck(cadreId, "work_time", 2))) return false;
 
         //普通教师需要校验'所在单位及职务'
-        if(CmTag.hasRole(uv.getUsername(), SystemConstants.ROLE_CADRERECRUIT)
+        if(CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRERECRUIT)
                 && notComplete(CmTag.cadreInfoCheck(cadreId, "title", 7))) return false;
 
         // 最高学历

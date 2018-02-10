@@ -6,7 +6,7 @@ import domain.member.MemberTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.MemberConstants;
 
 @Service
 public class MemberOpService extends BaseMapper{
@@ -29,14 +29,14 @@ public class MemberOpService extends BaseMapper{
 
         MemberOut memberOut = memberOutService.getLatest(userId);
         if(memberOut!=null
-                && memberOut.getStatus()>=SystemConstants.MEMBER_OUT_STATUS_APPLY
-                && memberOut.getStatus()!=SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY){
+                && memberOut.getStatus()>= MemberConstants.MEMBER_OUT_STATUS_APPLY
+                && memberOut.getStatus()!=MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY){
             return 1; // 已经申请了组织关系转出
         }
         MemberTransfer memberTransfer = memberTransferService.get(userId);
         if(memberTransfer!=null
-                && memberTransfer.getStatus()>=SystemConstants.MEMBER_TRANSFER_STATUS_APPLY
-                && memberTransfer.getStatus()< SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY // 完成了校内转接，可以其他申请
+                && memberTransfer.getStatus()>=MemberConstants.MEMBER_TRANSFER_STATUS_APPLY
+                && memberTransfer.getStatus()< MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY // 完成了校内转接，可以其他申请
                 ){
             return 2; // 已经申请了校内组织关系转接
         }

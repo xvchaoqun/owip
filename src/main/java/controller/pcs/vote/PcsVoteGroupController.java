@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.common.bean.IPcsCandidateView;
 import shiro.ShiroHelper;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
@@ -206,7 +207,7 @@ public class PcsVoteGroupController extends PcsBaseController {
                 candidate.setUserId(uv.getUserId());
                 candidate.setRealname(uv.getRealname());
                 candidate.setIsFromStage(iPcsMapper.countPartyCandidates(userId, true, configId,
-                        SystemConstants.PCS_STAGE_THIRD, type)>0);
+                        PcsConstants.PCS_STAGE_THIRD, type)>0);
 
                 candidates.add(candidate);
             }
@@ -223,7 +224,7 @@ public class PcsVoteGroupController extends PcsBaseController {
 
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         List<IPcsCandidateView> candidates =
-                iPcsMapper.selectPartyCandidates(null, true, configId, SystemConstants.PCS_STAGE_THIRD, type, new RowBounds());
+                iPcsMapper.selectPartyCandidates(null, true, configId, PcsConstants.PCS_STAGE_THIRD, type, new RowBounds());
 
         modelMap.put("candidates", candidates);
 

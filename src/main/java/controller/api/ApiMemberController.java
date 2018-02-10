@@ -8,7 +8,7 @@ import interceptor.SignParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.MemberConstants;
 
 import java.util.Map;
 
@@ -35,7 +35,7 @@ public class ApiMemberController extends BaseController {
             resultMap = ret(-2, "该用户不是党员");
             return resultMap;
         }
-        if(member.getStatus()!= SystemConstants.MEMBER_STATUS_TRANSFER){
+        if(member.getStatus()!= MemberConstants.MEMBER_STATUS_TRANSFER){
             resultMap = ret(0, "未转出");
         }else{
             resultMap = ret(1, "已转出");

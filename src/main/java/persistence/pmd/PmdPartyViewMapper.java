@@ -2,8 +2,9 @@ package persistence.pmd;
 
 import domain.pmd.PmdPartyView;
 import domain.pmd.PmdPartyViewExample;
-import java.util.List;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface PmdPartyViewMapper {
     long countByExample(PmdPartyViewExample example);

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -113,7 +114,7 @@ public class PmdConfigMemberTypeController extends PmdBaseController {
             modelMap.put("pmdConfigMemberType", pmdConfigMemberType);
         }
 
-        modelMap.put("pmdNorms", pmdNormService.list(SystemConstants.PMD_NORM_TYPE_PAY, null));
+        modelMap.put("pmdNorms", pmdNormService.list(PmdConstants.PMD_NORM_TYPE_PAY, null));
 
         return "pmd/pmdConfigMemberType/pmdConfigMemberType_au";
     }

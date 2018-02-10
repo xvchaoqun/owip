@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import sys.constants.SystemConstants;
+import sys.constants.MemberConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,8 @@ public class StatMemberController extends BaseController {
     public String stat_member_count(Integer partyId, Integer branchId, ModelMap modelMap) {
 
         modelMap.put("statPoliticalStatusMap", statService.politicalStatusMap(partyId, branchId));
-        modelMap.put("statGrowMap", statService.typeMap(SystemConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId));
-        modelMap.put("statPositiveMap", statService.typeMap(SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
+        modelMap.put("statGrowMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_GROW, partyId, branchId));
+        modelMap.put("statPositiveMap", statService.typeMap(MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE, partyId, branchId));
         return "analysis/party/stat_member_count";
     }
 

@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
+import sys.constants.RoleConstants;
 import sys.jasper.JasperReportsImageView;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
@@ -66,11 +67,11 @@ public class AbroadReportController extends BaseController {
         String check1 = "";
         String check2 = "";
         String check3 = "";
-        if (passport.getCancelType() != null && passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_EXPIRE)
+        if (passport.getCancelType() != null && passport.getCancelType() == AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_EXPIRE)
             check1 = "√";
-        else if (passport.getCancelType() != null && passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_DISMISS)
+        else if (passport.getCancelType() != null && passport.getCancelType() == AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_DISMISS)
             check2 = "√";
-        else if (passport.getCancelType() != null && passport.getCancelType() == SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH)
+        else if (passport.getCancelType() != null && passport.getCancelType() == AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_ABOLISH)
             check3 = "√";
         map.put("check1", check1);
         map.put("check2", check2);
@@ -154,7 +155,7 @@ public class AbroadReportController extends BaseController {
         String sign = ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "px.png";
         String mobile = "";
         if (passportDraw != null) {
-            if (passportDraw.getStatus() != null && passportDraw.getStatus() == SystemConstants.PASSPORT_DRAW_STATUS_PASS) {
+            if (passportDraw.getStatus() != null && passportDraw.getStatus() == AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_PASS) {
                 SysUserView _user = sysUserService.findById(passportDraw.getUserId()); // 审核人
                 if (FileUtils.exists(springProps.uploadPath + _user.getSign()))
                     sign = springProps.uploadPath + _user.getSign();
@@ -223,7 +224,7 @@ public class AbroadReportController extends BaseController {
         String sign = ConfigUtil.defaultConfigPath() + FILE_SEPARATOR + "jasper" + FILE_SEPARATOR + "px.png";
         String mobile = "";
         if (passportApply != null) {
-            if (passportApply.getStatus() != null && passportApply.getStatus() == SystemConstants.PASSPORT_APPLY_STATUS_PASS) {
+            if (passportApply.getStatus() != null && passportApply.getStatus() == AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS) {
                 SysUserView _user = sysUserService.findById(passportApply.getUserId()); // 审核人
                 if (FileUtils.exists(springProps.uploadPath + _user.getSign()))
                     sign = springProps.uploadPath + _user.getSign();
@@ -262,8 +263,8 @@ public class AbroadReportController extends BaseController {
                                     Model model) throws IOException, DocumentException {
 
         // 分党委、组织部管理员或管理员才可以操作
-        if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN,
-                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN)) {
+        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
+                RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_PARTYADMIN)) {
             throw new UnauthorizedException();
         }
 

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.CisConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -59,7 +60,7 @@ public class CisInspectObjController extends CisBaseController {
         if(cadreId!=null) {
             modelMap.put("cadre", CmTag.getCadreById(cadreId));
         }
-        List<CisInspectorView> nowInspectors = cisInspectorService.getInspectors(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
+        List<CisInspectorView> nowInspectors = cisInspectorService.getInspectors(CisConstants.CIS_INSPECTOR_STATUS_NOW);
         modelMap.put("inspectors", nowInspectors);
 
         return "cis/cisInspectObj/cisInspectObj_page";
@@ -253,11 +254,11 @@ public class CisInspectObjController extends CisBaseController {
         List<Unit> historyUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_HISTORY);
         modelMap.put("historyUnits", historyUnits);
 
-        List<CisInspectorView> nowInspectors = cisInspectorService.getInspectors(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
+        List<CisInspectorView> nowInspectors = cisInspectorService.getInspectors(CisConstants.CIS_INSPECTOR_STATUS_NOW);
         modelMap.put("nowInspectors", nowInspectors);
-        List<CisInspectorView> historyInspectors = cisInspectorService.getInspectors(SystemConstants.CIS_INSPECTOR_STATUS_HISTORY);
+        List<CisInspectorView> historyInspectors = cisInspectorService.getInspectors(CisConstants.CIS_INSPECTOR_STATUS_HISTORY);
         modelMap.put("historyInspectors", historyInspectors);
-        List<CisInspectorView> deleteInspectors = cisInspectorService.getInspectors(SystemConstants.CIS_INSPECTOR_STATUS_DELETE);
+        List<CisInspectorView> deleteInspectors = cisInspectorService.getInspectors(CisConstants.CIS_INSPECTOR_STATUS_DELETE);
         modelMap.put("deleteInspectors", deleteInspectors);
 
 

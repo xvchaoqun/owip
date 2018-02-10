@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.utils.FormUtils;
@@ -33,21 +34,21 @@ public class SysResourceController extends BaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 /*
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource")
 	public String sysResource(ModelMap modelMap) {
 
 		modelMap.put("sysResources", sysResourceService.getSortedSysResources().values());
 		return "sys/sysResource/sysResource_page";
 	}*/
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource")
 	public String sysResource(ModelMap modelMap) {
 
 		return "sys/sysResource/sysResource_page";
 	}
 
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource_data")
 	@ResponseBody
 	public Map sysResource_data(HttpServletResponse response,
@@ -70,7 +71,7 @@ public class SysResourceController extends BaseController {
 		return resultMap;
 	}
 	
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysResource_au", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysResource_au(
@@ -115,7 +116,7 @@ public class SysResourceController extends BaseController {
 		
 		return resultMap;
 	}
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource_au")
 	public String sysResource_au(Integer id, Integer parentId, ModelMap modelMap) {
 
@@ -144,7 +145,7 @@ public class SysResourceController extends BaseController {
 		
 		return "sys/sysResource/sysResource_au";
 	}
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysResource_del", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysResource_del(Integer id, HttpServletRequest request) {
@@ -158,7 +159,7 @@ public class SysResourceController extends BaseController {
 		return success(FormUtils.SUCCESS);
 	}
 
-	@RequiresRoles(SystemConstants.ROLE_ADMIN)
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource_selects")
 	@ResponseBody
 	public Map sysResource_selects(Integer pageSize, String[] type, Integer pageNo,String searchStr) throws IOException {

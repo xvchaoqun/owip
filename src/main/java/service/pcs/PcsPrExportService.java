@@ -29,6 +29,7 @@ import service.cadre.CadreService;
 import service.sys.StudentInfoService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
@@ -84,7 +85,7 @@ public class PcsPrExportService extends BaseMapper {
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
-        String str = cell.getStringCellValue().replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+        String str = cell.getStringCellValue().replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
 
         int memberCount = 0;
@@ -209,22 +210,22 @@ public class PcsPrExportService extends BaseMapper {
         String title = "";
         String stageStr = "";
         switch (stage) {
-            case SystemConstants.PCS_STAGE_FIRST:
+            case PcsConstants.PCS_STAGE_FIRST:
                 title = "初步";
                 stageStr = "一上";
                 break;
-            case SystemConstants.PCS_STAGE_SECOND:
+            case PcsConstants.PCS_STAGE_SECOND:
                 title = "预备";
                 stageStr = "二上";
                 break;
-            case SystemConstants.PCS_STAGE_THIRD:
+            case PcsConstants.PCS_STAGE_THIRD:
                 stageStr = "三上";
                 break;
         }
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
-        String str = cell.getStringCellValue().replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+        String str = cell.getStringCellValue().replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
         cell.setCellValue(str);
         //cell.setCellValue(UnderLineIndex(str, getFont(wb)));
 
@@ -267,17 +268,17 @@ public class PcsPrExportService extends BaseMapper {
         String deadline = "";
         String stageStr = "";
         switch (stage) {
-            case SystemConstants.PCS_STAGE_FIRST:
+            case PcsConstants.PCS_STAGE_FIRST:
                 title = "初步";
                 deadline = "9月6号前";
                 stageStr = "一上";
                 break;
-            case SystemConstants.PCS_STAGE_SECOND:
+            case PcsConstants.PCS_STAGE_SECOND:
                 title = "预备";
                 deadline = "9月11日前";
                 stageStr = "二上";
                 break;
-            case SystemConstants.PCS_STAGE_THIRD:
+            case PcsConstants.PCS_STAGE_THIRD:
                 stageStr = "三上";
                 deadline = "9月18日前";
                 break;
@@ -286,7 +287,7 @@ public class PcsPrExportService extends BaseMapper {
         PcsPartyView pv = pcsPartyViewService.get(partyId);
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
-        String str = cell.getStringCellValue().replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage))
+        String str = cell.getStringCellValue().replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage))
                 .replace("deadline", deadline);
         cell.setCellValue(str);
         //cell.setCellValue(UnderLineIndex(str, getFont(wb)));
@@ -312,8 +313,8 @@ public class PcsPrExportService extends BaseMapper {
 
         PcsPrAllocate pcsPrAllocate = pcsPrAlocateService.get(configId, partyId);
         PcsPrAllocate realPcsPrAllocate = null;
-        if (stage == SystemConstants.PCS_STAGE_THIRD)
-            realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, SystemConstants.PCS_STAGE_SECOND, partyId, true);
+        if (stage == PcsConstants.PCS_STAGE_THIRD)
+            realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, PcsConstants.PCS_STAGE_SECOND, partyId, true);
         else
             realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId, stage, partyId, null);
 
@@ -435,7 +436,7 @@ public class PcsPrExportService extends BaseMapper {
         // 全校
         {
             MemberTeacherExample example = new MemberTeacherExample();
-            MemberTeacherExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+            MemberTeacherExample.Criteria criteria = example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
                     .andIsRetireNotEqualTo(true);
             if (politicalStatus != null) {
                 criteria.andPoliticalStatusEqualTo(politicalStatus);
@@ -449,7 +450,7 @@ public class PcsPrExportService extends BaseMapper {
         }
         {
             MemberTeacherExample example = new MemberTeacherExample();
-            MemberTeacherExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+            MemberTeacherExample.Criteria criteria = example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
                     .andIsRetireEqualTo(true);
             if (politicalStatus != null) {
                 criteria.andPoliticalStatusEqualTo(politicalStatus);
@@ -464,7 +465,7 @@ public class PcsPrExportService extends BaseMapper {
 
         {
             MemberStudentExample example = new MemberStudentExample();
-            MemberStudentExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL);
+            MemberStudentExample.Criteria criteria = example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL);
             if (politicalStatus != null) {
                 criteria.andPoliticalStatusEqualTo(politicalStatus);
             }
@@ -577,9 +578,9 @@ public class PcsPrExportService extends BaseMapper {
 
         Boolean isChosen = null;
         String filename = "pr-ow.xlsx";
-        if(stage == SystemConstants.PCS_STAGE_THIRD){
+        if(stage == PcsConstants.PCS_STAGE_THIRD){
             filename = "pr-ow3.xlsx";
-            stage = SystemConstants.PCS_STAGE_SECOND;
+            stage = PcsConstants.PCS_STAGE_SECOND;
             isChosen = true;
         }
 
@@ -593,15 +594,15 @@ public class PcsPrExportService extends BaseMapper {
         String str = null;
         String stageStr = "";
 
-        if(stage != SystemConstants.PCS_STAGE_THIRD) {
+        if(stage != PcsConstants.PCS_STAGE_THIRD) {
             String title = "";
 
             switch (stage) {
-                case SystemConstants.PCS_STAGE_FIRST:
+                case PcsConstants.PCS_STAGE_FIRST:
                     title = "初步";
                     stageStr = "一上";
                     break;
-                case SystemConstants.PCS_STAGE_SECOND:
+                case PcsConstants.PCS_STAGE_SECOND:
                     title = "预备";
                     stageStr = "二上";
                     break;
@@ -611,7 +612,7 @@ public class PcsPrExportService extends BaseMapper {
             cell = row.getCell(0);
             str = cell.getStringCellValue()
                     .replace("title", title)
-                    .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+                    .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
             cell.setCellValue(str);
         }else{
 
@@ -714,7 +715,7 @@ public class PcsPrExportService extends BaseMapper {
         XSSFSheet sheet = wb.getSheetAt(0);
 
         PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId,
-                SystemConstants.PCS_STAGE_FIRST, partyId, null);
+                PcsConstants.PCS_STAGE_FIRST, partyId, null);
 
         List<PcsPrCandidateView> candidates = pcsPrCandidateViewMapper.selectByExample(example);
 
@@ -762,7 +763,7 @@ public class PcsPrExportService extends BaseMapper {
         XSSFSheet sheet = wb.getSheetAt(0);
 
         PcsPrCandidateViewExample example = pcsPrCandidateService.createExample(configId,
-                SystemConstants.PCS_STAGE_FIRST, partyId, null);
+                PcsConstants.PCS_STAGE_FIRST, partyId, null);
         List<PcsPrCandidateView> candidates = pcsPrCandidateViewMapper.selectByExample(example);
 
         XSSFRow row = null;
@@ -820,13 +821,13 @@ public class PcsPrExportService extends BaseMapper {
         String rate = "";
         String nextStageStr = "";
         switch (stage) {
-            case SystemConstants.PCS_STAGE_FIRST:
+            case PcsConstants.PCS_STAGE_FIRST:
                 title = "初步";
                 rate = "30%";
                 deadline = "9月6号前";
                 nextStageStr = "二下";
                 break;
-            case SystemConstants.PCS_STAGE_SECOND:
+            case PcsConstants.PCS_STAGE_SECOND:
                 title = "预备";
                 rate = "20%";
                 deadline = "9月11日前";
@@ -838,7 +839,7 @@ public class PcsPrExportService extends BaseMapper {
         XSSFCell cell = row.getCell(0);
         String str = cell.getStringCellValue()
                 .replace("title", title)
-                .replace("stage", SystemConstants.PCS_STAGE_MAP.get(stage));
+                .replace("stage", PcsConstants.PCS_STAGE_MAP.get(stage));
         if (partyId != null) {
             str = str.replace("deadline", deadline);
         }
@@ -909,7 +910,7 @@ public class PcsPrExportService extends BaseMapper {
 
             // 党代表类型
             cell = row.getCell(column++);
-            cell.setCellValue(SystemConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
+            cell.setCellValue(PcsConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
 
             if (partyId != null) {
                 // 工作证号
@@ -1003,7 +1004,7 @@ public class PcsPrExportService extends BaseMapper {
 
         String filename = "prList-1_1.xlsx";
 
-        PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, SystemConstants.PCS_STAGE_THIRD, partyId);
+        PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId, PcsConstants.PCS_STAGE_THIRD, partyId);
         if(pcsPrRecommend!=null) {
             mt = DateUtils.formatDate(pcsPrRecommend.getMeetingTime(), "yyyy年MM月dd日HH:mm");
             ma = StringUtils.trimToEmpty(pcsPrRecommend.getMeetingAddress());
@@ -1060,7 +1061,7 @@ public class PcsPrExportService extends BaseMapper {
 
             // 党代表类型
             cell = row.getCell(column++);
-            cell.setCellValue(SystemConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
+            cell.setCellValue(PcsConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
 
             // 工作证号
             cell = row.getCell(column++);
@@ -1144,7 +1145,7 @@ public class PcsPrExportService extends BaseMapper {
 
         // 使用阶段二的数据？
         Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId,
-                SystemConstants.PCS_STAGE_SECOND);
+                PcsConstants.PCS_STAGE_SECOND);
 
         XSSFRow row = sheet.getRow(1);
         XSSFCell cell = row.getCell(0);
@@ -1171,7 +1172,7 @@ public class PcsPrExportService extends BaseMapper {
 
             // 党代表类型
             cell = row.getCell(column++);
-            cell.setCellValue(SystemConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
+            cell.setCellValue(PcsConstants.PCS_PR_TYPE_MAP.get(bean.getType()));
 
             // 工作证号
             cell = row.getCell(column++);
@@ -1262,7 +1263,7 @@ public class PcsPrExportService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, SystemConstants.PCS_STAGE_THIRD);
+        Map<String, String> schoolMemberCountMap = getSchoolMemberCountMap(configId, PcsConstants.PCS_STAGE_THIRD);
 
         XSSFRow row = sheet.getRow(1);
         XSSFCell cell = row.getCell(0);
@@ -1276,7 +1277,7 @@ public class PcsPrExportService extends BaseMapper {
 
         PcsPrAllocate pcsPrAllocate = iPcsMapper.schoolPcsPrAllocate(configId);
         PcsPrAllocate realPcsPrAllocate = iPcsMapper.statRealPcsPrAllocate(configId,
-                SystemConstants.PCS_STAGE_SECOND, null, true);
+                PcsConstants.PCS_STAGE_SECOND, null, true);
 
         renderParty(sheet, 4, 3, pcsPrAllocate, realPcsPrAllocate);
 
@@ -1300,7 +1301,7 @@ public class PcsPrExportService extends BaseMapper {
         int expectPositiveMemberCount = 0;
         int actualPositiveMemberCount = 0;
 
-        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, SystemConstants.PCS_STAGE_THIRD,
+        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, PcsConstants.PCS_STAGE_THIRD,
                 null, null, null, new RowBounds());
         int startRow = 2;
         int rowCount = records.size();

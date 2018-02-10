@@ -18,6 +18,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -183,8 +184,8 @@ public class OrgAdminController extends BaseController {
             OrgAdmin orgAdmin = orgAdminMapper.selectByPrimaryKey(id);
             if(orgAdmin!=null) {
                 Subject subject = SecurityUtils.getSubject();
-                if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                        && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+                if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                        && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
                     if (orgAdmin.getUserId().intValue() == loginUser.getId()) {
                         return failed("不能删除自己");
                     }

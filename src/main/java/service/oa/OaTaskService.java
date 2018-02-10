@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.OaConstants;
+import sys.constants.RoleConstants;
 import sys.utils.ContextHelper;
 
 import java.util.Arrays;
@@ -44,14 +45,14 @@ public class OaTaskService extends BaseMapper {
     public Set<Byte> getAdminTypes(){
 
         Set<Byte> types = new HashSet<>();
-        if(ShiroHelper.hasRole(SystemConstants.ROLE_CADREADMIN)){
-            types.add(SystemConstants.OA_TASK_TYPE_CADRE);
+        if(ShiroHelper.hasRole(RoleConstants.ROLE_CADREADMIN)){
+            types.add(OaConstants.OA_TASK_TYPE_CADRE);
         }
-        if(ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN)){
-            types.add(SystemConstants.OA_TASK_TYPE_OW);
+        if(ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)){
+            types.add(OaConstants.OA_TASK_TYPE_OW);
         }
-        if(ShiroHelper.hasRole(SystemConstants.ROLE_TRAINADMIN)){
-            types.add(SystemConstants.OA_TASK_TYPE_TRAIN);
+        if(ShiroHelper.hasRole(RoleConstants.ROLE_TRAINADMIN)){
+            types.add(OaConstants.OA_TASK_TYPE_TRAIN);
         }
 
         return types;
@@ -69,7 +70,7 @@ public class OaTaskService extends BaseMapper {
     public void insertSelective(OaTask record) {
 
         record.setUserId(ShiroHelper.getCurrentUserId());
-        record.setStatus(SystemConstants.OA_TASK_STATUS_INIT);
+        record.setStatus(OaConstants.OA_TASK_STATUS_INIT);
         record.setIsPublish(false);
         record.setIsDelete(false);
         record.setCreateTime(new Date());
@@ -112,7 +113,7 @@ public class OaTaskService extends BaseMapper {
 
             OaTask record = new OaTask();
             record.setId(oaTask.getId());
-            record.setStatus(SystemConstants.OA_TASK_STATUS_ABOLISH);
+            record.setStatus(OaConstants.OA_TASK_STATUS_ABOLISH);
 
             oaTaskMapper.updateByPrimaryKeySelective(record);
         }
@@ -194,7 +195,7 @@ public class OaTaskService extends BaseMapper {
         OaTaskUserExample example = new OaTaskUserExample();
         example.createCriteria().andTaskIdEqualTo(taskId)
                 .andIsDeleteEqualTo(false)
-                .andStatusNotEqualTo(SystemConstants.OA_TASK_USER_STATUS_PASS);
+                .andStatusNotEqualTo(OaConstants.OA_TASK_USER_STATUS_PASS);
         long notPassCount = oaTaskUserMapper.countByExample(example);
         if(notPassCount>0){
             throw new OpException("还有{0}个未完成任务的任务对象", notPassCount);
@@ -202,7 +203,7 @@ public class OaTaskService extends BaseMapper {
 
         OaTask record = new OaTask();
         record.setId(taskId);
-        record.setStatus(SystemConstants.OA_TASK_STATUS_FINISH);
+        record.setStatus(OaConstants.OA_TASK_STATUS_FINISH);
 
         updateByPrimaryKeySelective(record);
     }

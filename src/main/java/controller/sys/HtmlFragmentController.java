@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.jackson.Select2Option;
@@ -70,7 +71,7 @@ public class HtmlFragmentController extends BaseController {
         HtmlFragmentExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("id desc");
 
-        if (!ShiroHelper.hasRole(SystemConstants.ROLE_ADMIN)) {
+        if (!ShiroHelper.hasRole(RoleConstants.ROLE_ADMIN)) {
 
             Set<Integer> roleIdSet = sysUserService.getUserRoleIdSet(loginUser.getRoleIds());
             criteria.andRoleIdIn(new ArrayList<>(roleIdSet));
@@ -145,7 +146,7 @@ public class HtmlFragmentController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value = "/htmlFragmentRole", method = RequestMethod.POST)
     @ResponseBody
     public Map do_htmlFragmentRole(int id,
@@ -160,7 +161,7 @@ public class HtmlFragmentController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/htmlFragmentRole")
     public String htmlFragmentRole(Integer id, ModelMap modelMap) throws IOException {
 
@@ -192,7 +193,7 @@ public class HtmlFragmentController extends BaseController {
         return "sys/htmlFragment/hf_content";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/htmlFragment_selects")
     @ResponseBody
     public Map htmlFragment_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {

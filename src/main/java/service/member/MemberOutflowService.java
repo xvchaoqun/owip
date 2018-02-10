@@ -20,6 +20,7 @@ import service.party.MemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;
 import shiro.ShiroUser;
+import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -63,9 +64,9 @@ public class MemberOutflowService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY);
         } else if(type==2){ //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -90,9 +91,9 @@ public class MemberOutflowService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY);
         } else if(type==2){ //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -119,9 +120,9 @@ public class MemberOutflowService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //支部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY);
         } else if(type==2){ //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -164,11 +165,11 @@ public class MemberOutflowService extends BaseMapper {
     public void back(int userId){
 
         MemberOutflow memberOutflow = get(userId);
-        if(memberOutflow.getStatus()!= SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY) // 只有申请状态可以撤回
+        if(memberOutflow.getStatus()!= MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY) // 只有申请状态可以撤回
             throw new DBErrorException("状态异常");
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
-        record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK);
+        record.setStatus(MemberConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK);
         record.setUserId(userId);
         record.setIsBack(false);
         //record.setBranchId(memberOutflow.getBranchId());
@@ -189,11 +190,11 @@ public class MemberOutflowService extends BaseMapper {
     public void deny(int userId){
 
         MemberOutflow memberOutflow = get(userId);
-        if(memberOutflow.getStatus()== SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY) // 终审操作前，可以不通过（即打回）
+        if(memberOutflow.getStatus()== MemberConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY) // 终审操作前，可以不通过（即打回）
             throw new DBErrorException("状态异常");
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
-        record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_BACK);
+        record.setStatus(MemberConstants.MEMBER_OUTFLOW_STATUS_BACK);
         //record.setBranchId(memberOutflow.getBranchId());
         record.setUserId(userId);
         updateByPrimaryKeySelective(record);
@@ -204,11 +205,11 @@ public class MemberOutflowService extends BaseMapper {
     public void check1(int userId){
 
         MemberOutflow memberOutflow = get(userId);
-        if(memberOutflow.getStatus()!= SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY)
+        if(memberOutflow.getStatus()!= MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
-        record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
         record.setUserId(userId);
         //record.setBranchId(memberOutflow.getBranchId());
         updateByPrimaryKeySelective(record);
@@ -220,14 +221,14 @@ public class MemberOutflowService extends BaseMapper {
 
         MemberOutflow memberOutflow = get(userId);
 
-        if(isDirect && memberOutflow.getStatus()!= SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY)
+        if(isDirect && memberOutflow.getStatus()!= MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY)
             throw new DBErrorException("状态异常");
-        if(!isDirect && memberOutflow.getStatus()!= SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY)
+        if(!isDirect && memberOutflow.getStatus()!= MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY)
             throw new DBErrorException("状态异常");
 
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
-        record.setStatus(SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY);
         //record.setBranchId(memberOutflow.getBranchId());
         record.setUserId(userId);
         updateByPrimaryKeySelective(record);
@@ -254,9 +255,9 @@ public class MemberOutflowService extends BaseMapper {
 
         SysUserView sysUser = sysUserService.findById(userId);
         if(sysUser.getType()==SystemConstants.USER_TYPE_JZG)
-            record.setType(SystemConstants.MEMBER_TYPE_TEACHER);
+            record.setType(MemberConstants.MEMBER_TYPE_TEACHER);
         else
-            record.setType(SystemConstants.MEMBER_TYPE_STUDENT);
+            record.setType(MemberConstants.MEMBER_TYPE_STUDENT);
 
         record.setCreateTime(new Date());
 
@@ -330,10 +331,10 @@ public class MemberOutflowService extends BaseMapper {
             Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberOutflow.getPartyId(), memberOutflow.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberOutflow.getPartyId());
 
-            if(memberOutflow.getStatus() >= SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY){ // 支部审核通过后，只有分党委才有打回的权限
+            if(memberOutflow.getStatus() >= MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY){ // 支部审核通过后，只有分党委才有打回的权限
                 if(!presentPartyAdmin) throw new UnauthorizedException();
             }
-            if(memberOutflow.getStatus() >= SystemConstants.MEMBER_OUTFLOW_STATUS_BACK){ // 在支部审核完成之前，党支部或分党委都可以打回
+            if(memberOutflow.getStatus() >= MemberConstants.MEMBER_OUTFLOW_STATUS_BACK){ // 在支部审核完成之前，党支部或分党委都可以打回
                 if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 
@@ -345,10 +346,10 @@ public class MemberOutflowService extends BaseMapper {
     private  void back(MemberOutflow memberOutflow, byte status, int loginUserId, String reason){
 
         byte _status = memberOutflow.getStatus();
-        if(_status==SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY){
+        if(_status==MemberConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY){
             throw new OpException("审核流程已经完成，不可以打回。");
         }
-        if(status>_status || status<SystemConstants.MEMBER_OUTFLOW_STATUS_BACK ){
+        if(status>_status || status<MemberConstants.MEMBER_OUTFLOW_STATUS_BACK ){
             throw new OpException("参数有误。");
         }
 
@@ -366,7 +367,7 @@ public class MemberOutflowService extends BaseMapper {
         applyApprovalLogService.add(id,
                 memberOutflow.getPartyId(), memberOutflow.getBranchId(), userId,
                 loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, SystemConstants.MEMBER_OUTFLOW_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW, MemberConstants.MEMBER_OUTFLOW_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.ModifyConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -70,7 +72,7 @@ public class ModifyBaseApplyController extends ModifyBaseController{
         ModifyBaseApplyExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("check_time desc");
 
-        if(ShiroHelper.hasRole(SystemConstants.ROLE_ADMIN)){
+        if(ShiroHelper.hasRole(RoleConstants.ROLE_ADMIN)){
             if (userId != null) {
                 criteria.andUserIdEqualTo(userId);
             }
@@ -80,13 +82,13 @@ public class ModifyBaseApplyController extends ModifyBaseController{
 
         if(status==1){ // 待审核、部分审核
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
-            statusList.add(SystemConstants.MODIFY_BASE_APPLY_STATUS_PART_CHECK);
+            statusList.add(ModifyConstants.MODIFY_BASE_APPLY_STATUS_APPLY);
+            statusList.add(ModifyConstants.MODIFY_BASE_APPLY_STATUS_PART_CHECK);
             criteria.andStatusIn(statusList);
         }else if(status==2){ // 审核完成
-            criteria.andStatusEqualTo(SystemConstants.MODIFY_BASE_APPLY_STATUS_ALL_CHECK);
+            criteria.andStatusEqualTo(ModifyConstants.MODIFY_BASE_APPLY_STATUS_ALL_CHECK);
         }else if(status==3){ // 已删除
-            criteria.andStatusEqualTo(SystemConstants.MODIFY_BASE_APPLY_STATUS_DELETE);
+            criteria.andStatusEqualTo(ModifyConstants.MODIFY_BASE_APPLY_STATUS_DELETE);
         }else{
             criteria.andStatusIsNull();
         }

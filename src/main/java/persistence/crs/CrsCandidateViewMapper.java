@@ -2,8 +2,9 @@ package persistence.crs;
 
 import domain.crs.CrsCandidateView;
 import domain.crs.CrsCandidateViewExample;
-import java.util.List;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CrsCandidateViewMapper {
     long countByExample(CrsCandidateViewExample example);

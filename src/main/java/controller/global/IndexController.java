@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.CasUtils;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.IpUtils;
@@ -47,10 +48,10 @@ public class IndexController extends BaseController {
 		return "faq";
 	}
 
-	@RequiresRoles(value = {SystemConstants.ROLE_ADMIN,
-			SystemConstants.ROLE_ODADMIN,
-			SystemConstants.ROLE_PARTYADMIN,
-			SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+	@RequiresRoles(value = {RoleConstants.ROLE_ADMIN,
+			RoleConstants.ROLE_ODADMIN,
+			RoleConstants.ROLE_PARTYADMIN,
+			RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
 	@RequestMapping("/help")
 	public String help(ModelMap modelMap) {
 
@@ -70,7 +71,7 @@ public class IndexController extends BaseController {
 	@RequestMapping("/index")
 	public String index(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
-		if(ShiroHelper.hasRole(SystemConstants.ROLE_REG)){
+		if(ShiroHelper.hasRole(RoleConstants.ROLE_REG)){
 			modelMap.put("sysUserReg", sysUserRegService.findByUserId(loginUser.getId()));
 			return "user/member/sysUserReg/sysUserReg";
 		}

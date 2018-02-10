@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.AbroadConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -165,7 +166,7 @@ public class ScMatterController extends ScMatterBaseController {
             selectIdSet = scMatterService.getItemUserIds(id);
         }
         TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.findAll().values()),
-                SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, null, false, true, false);
+                AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, null, false, true, false);
 
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);

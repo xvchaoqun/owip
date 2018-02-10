@@ -35,7 +35,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.base.ShortMsgService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.ContextHelper;
@@ -67,15 +67,15 @@ public class PassportDrawService extends BaseMapper {
         // 查找已领取证件，但还未归还（该证件昨天应归还）的记录
         PassportDrawExample example = new PassportDrawExample();
         example.createCriteria().andIsDeletedEqualTo(false).
-                andDrawStatusEqualTo(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW)
-                .andUsePassportNotEqualTo(SystemConstants.PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN) // 拒不交回不需要短信提醒
+                andDrawStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW)
+                .andUsePassportNotEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN) // 拒不交回不需要短信提醒
                 .andReturnDateLessThan(today);
         List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
         for (PassportDraw passportDraw : passportDraws) {
 
             Passport passport = passportDraw.getPassport();
-            if (passport.getType() == SystemConstants.PASSPORT_TYPE_KEEP
-                    || (passport.getType() == SystemConstants.PASSPORT_TYPE_CANCEL
+            if (passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP
+                    || (passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL
                     && passport.getCancelConfirm() == false)) { // 集中管理的 或 未确认的取消集中管理证件，才需要短信提醒
 
                 Date returnDate = passportDraw.getReturnDate(); // 应归还时间
@@ -104,8 +104,8 @@ public class PassportDrawService extends BaseMapper {
 
         PassportDrawExample example = new PassportDrawExample();
         example.createCriteria().andPassportIdEqualTo(passportId).andIsDeletedEqualTo(false)
-                .andDrawStatusEqualTo(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW)
-                .andUsePassportEqualTo(SystemConstants.PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN);
+                .andDrawStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW)
+                .andUsePassportEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN);
         List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
 
         Assert.isTrue(passportDraws.size()<=1, "证件拒绝归还状态异常");
@@ -126,8 +126,8 @@ public class PassportDrawService extends BaseMapper {
         record.setIsDeleted(false);
         record.setApplyDate(new Date());
         record.setCreateTime(new Date());
-        record.setStatus(SystemConstants.PASSPORT_DRAW_STATUS_INIT);
-        record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
+        record.setStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_INIT);
+        record.setDrawStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW);
         record.setJobCertify(false);
         return passportDrawMapper.insertSelective(record);
     }
@@ -147,7 +147,7 @@ public class PassportDrawService extends BaseMapper {
         if (isReal) { // 删除已经[逻辑删除]，且未审批的记录
             for (Integer id : ids) {
                 PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
-                if (passportDraw.getStatus() == SystemConstants.PASSPORT_DRAW_STATUS_INIT
+                if (passportDraw.getStatus() == AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_INIT
                         && passportDraw.getIsDeleted()) {
 
                     PassportDrawFileExample example = new PassportDrawFileExample();
@@ -207,7 +207,7 @@ public class PassportDrawService extends BaseMapper {
 
         updateByPrimaryKeySelective(record);
 
-        if(record.getUsePassport() != SystemConstants.PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN) {
+        if(record.getUsePassport() != AbroadConstants.ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN) {
             // 将证件标记为未借出
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
             Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
@@ -241,12 +241,12 @@ public class PassportDrawService extends BaseMapper {
     public void passportDraw_export(byte exportType, PassportDrawExample example, HttpServletResponse response) {
 
         String type = "因私出国（境）";
-        if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
+        if (exportType == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW) {
             type = "因公赴台、长期因公出国";
-        } else if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_OTHER) {
+        } else if (exportType == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER) {
             type = "处理其他事务";
         } else {
-            exportType = SystemConstants.PASSPORT_DRAW_TYPE_SELF;
+            exportType = AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF;
         }
 
         List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
@@ -277,7 +277,7 @@ public class PassportDrawService extends BaseMapper {
 
         XSSFRow firstRow = (XSSFRow) sheet.createRow(rowNum++);
         String[] titles = null;
-        if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_SELF) {
+        if (exportType == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF) {
             titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
                     "证件号码", "申请日期", "申请编码", "因私出国（境）行程", /*"是否签注",*/
                     "出行时间", "回国时间", "前往国家或地区", "因私出国境事由", "借出日期",
@@ -303,7 +303,7 @@ public class PassportDrawService extends BaseMapper {
 
             sheet.setColumnWidth(14, (short) (35.7 * 100));
 
-        } else if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
+        } else if (exportType == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW) {
             titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
                     "证件号码", "申请日期", "申请编码", "申请类型", "出行时间",
                     "回国时间", "出行天数", "因公事由", "费用来源", "是否签注",
@@ -330,7 +330,7 @@ public class PassportDrawService extends BaseMapper {
             sheet.setColumnWidth(15, (short) (35.7 * 100));
             sheet.setColumnWidth(16, (short) (35.7 * 100));
 
-        } else if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_OTHER) {
+        } else if (exportType == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER) {
             titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
                     "证件号码", "申请日期", "申请编码", "使用时间", "归还时间",
                     "使用天数", "事由", "借出日期", "归还日期"};
@@ -372,7 +372,7 @@ public class PassportDrawService extends BaseMapper {
             String toCountry = "";
             String reason = passportDraw.getReason();
 
-            if (passportDraw.getType() == SystemConstants.PASSPORT_DRAW_TYPE_SELF) {
+            if (passportDraw.getType() == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF) {
                 xingcheng = "S" + applySelf.getId();
                 if (passport.getClassId().intValue() != normalPassport.getId()) {
                     needSign = BooleanUtils.isTrue(passportDraw.getNeedSign()) ? "是" : "否";
@@ -381,7 +381,7 @@ public class PassportDrawService extends BaseMapper {
                 endDate = DateUtils.formatDate(applySelf.getEndDate(), DateUtils.YYYY_MM_DD);
                 toCountry = applySelf.getToCountry();
                 reason = applySelf.getReason();
-            } else if (passportDraw.getType() == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
+            } else if (passportDraw.getType() == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW) {
                 //xingcheng = "T"+passportDraw.getId();
                 if (passport.getClassId().intValue() != normalPassport.getId()) {
                     needSign = BooleanUtils.isTrue(passportDraw.getNeedSign()) ? "是" : "否";
@@ -389,13 +389,13 @@ public class PassportDrawService extends BaseMapper {
                 startDate = DateUtils.formatDate(passportDraw.getStartDate(), DateUtils.YYYY_MM_DD);
                 endDate = DateUtils.formatDate(passportDraw.getEndDate(), DateUtils.YYYY_MM_DD);
                 //toCountry="台湾";
-            } else if (passportDraw.getType() == SystemConstants.PASSPORT_DRAW_TYPE_OTHER) {
+            } else if (passportDraw.getType() == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER) {
                 //xingcheng = "Q"+passportDraw.getId();
                 startDate = DateUtils.formatDate(passportDraw.getStartDate(), DateUtils.YYYY_MM_DD);
                 endDate = DateUtils.formatDate(passportDraw.getEndDate(), DateUtils.YYYY_MM_DD);
             }
             String[] values = null;
-            if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_SELF) {
+            if (exportType == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF) {
                 values = new String[]{
                         String.valueOf(i + 1),
                         uv.getCode(),
@@ -415,7 +415,7 @@ public class PassportDrawService extends BaseMapper {
 
                         DateUtils.formatDate(passportDraw.getRealReturnDate(), DateUtils.YYYY_MM_DD),
                 };
-            } else if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
+            } else if (exportType == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW) {
                 /*titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
                         "证件号码", "申请日期", "申请编码", "申请类型", "出行时间",
                         "回国时间", "出行天数", "因公事由", "费用来源", "是否签注",
@@ -430,7 +430,7 @@ public class PassportDrawService extends BaseMapper {
                         passport.getCode(),
                         DateUtils.formatDate(passportDraw.getApplyDate(), DateUtils.YYYY_MM_DD),
                         String.format("D%s", passportDraw.getId()),
-                        SystemConstants.PASSPORT_DRAW_TYPE_MAP.get(passportDraw.getType()),
+                        AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP.get(passportDraw.getType()),
                         startDate,
 
                         endDate, DateUtils.getDayCountBetweenDate(passportDraw.getStartDate(), passportDraw.getEndDate()) + "",
@@ -439,7 +439,7 @@ public class PassportDrawService extends BaseMapper {
                         DateUtils.formatDate(passportDraw.getDrawTime(), DateUtils.YYYY_MM_DD),
                         DateUtils.formatDate(passportDraw.getRealReturnDate(), DateUtils.YYYY_MM_DD),
                 };
-            } else if (exportType == SystemConstants.PASSPORT_DRAW_TYPE_OTHER) {
+            } else if (exportType == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER) {
 
                 /*titles = new String[]{"序号", "工作证号", "姓名", "所在单位及职务", "证件名称",
                         "证件号码", "申请日期", "申请编码", "使用时间", "归还时间",

@@ -6,7 +6,7 @@ import domain.crs.CrsApplyRuleExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.CrsConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +24,7 @@ public class CrsApplyRuleService extends BaseMapper {
             Date now = new Date();
             CrsApplyRuleExample example = new CrsApplyRuleExample();
             example.createCriteria().andContainPostId(postId)
-                    .andStatusNotEqualTo(SystemConstants.CRS_APPLY_RULE_STATUS_DELETE)
+                    .andStatusNotEqualTo(CrsConstants.CRS_APPLY_RULE_STATUS_DELETE)
                     .andEndTimeGreaterThanOrEqualTo(now);
             crsApplyRules = crsApplyRuleMapper.selectByExample(example);
         }

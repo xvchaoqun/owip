@@ -18,6 +18,7 @@ import service.BaseMapper;
 import service.analysis.StatService;
 import service.party.PartyService;
 import service.sys.SysConfigService;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.ExcelUtils;
@@ -50,7 +51,7 @@ public class PcsVoteExportService extends BaseMapper {
         int groupId = pcsVoteGroup.getId();
         byte type = pcsVoteGroup.getType();
 
-        boolean isDw = (type == SystemConstants.PCS_USER_TYPE_DW);
+        boolean isDw = (type == PcsConstants.PCS_USER_TYPE_DW);
         String filePath = isDw ? "classpath:xlsx/pcs/vote_dw_jp.xlsx"
                 : "classpath:xlsx/pcs/vote_jw_jp.xlsx";
 
@@ -142,7 +143,7 @@ public class PcsVoteExportService extends BaseMapper {
 
     public XSSFWorkbook vote(byte type) throws IOException {
 
-        boolean isDw = (type == SystemConstants.PCS_USER_TYPE_DW);
+        boolean isDw = (type == PcsConstants.PCS_USER_TYPE_DW);
         String filePath = isDw ? "classpath:xlsx/pcs/vote_dw.xlsx"
                 : "classpath:xlsx/pcs/vote_jw.xlsx";
 
@@ -221,7 +222,7 @@ public class PcsVoteExportService extends BaseMapper {
 
     public XSSFWorkbook vote_zj(byte type) throws IOException {
 
-        boolean isDw = (type == SystemConstants.PCS_USER_TYPE_DW);
+        boolean isDw = (type == PcsConstants.PCS_USER_TYPE_DW);
         String filePath = isDw ? "classpath:xlsx/pcs/vote_dw_zj.xlsx"
                 : "classpath:xlsx/pcs/vote_jw_zj.xlsx";
 
@@ -304,7 +305,7 @@ public class PcsVoteExportService extends BaseMapper {
 
         {
             PcsVoteMemberExample example = new PcsVoteMemberExample();
-            example.createCriteria().andTypeEqualTo(SystemConstants.PCS_USER_TYPE_DW);
+            example.createCriteria().andTypeEqualTo(PcsConstants.PCS_USER_TYPE_DW);
             example.setOrderByClause("sort_order asc");
             List<PcsVoteMember> pcsVoteMembers = pcsVoteMemberMapper.selectByExample(example);
             int rowCount = Math.min(pcsVoteMembers.size(), 25);
@@ -332,7 +333,7 @@ public class PcsVoteExportService extends BaseMapper {
 
         {
             PcsVoteMemberExample example = new PcsVoteMemberExample();
-            example.createCriteria().andTypeEqualTo(SystemConstants.PCS_USER_TYPE_JW);
+            example.createCriteria().andTypeEqualTo(PcsConstants.PCS_USER_TYPE_JW);
             example.setOrderByClause("sort_order asc");
             List<PcsVoteMember> pcsVoteMembers = pcsVoteMemberMapper.selectByExample(example);
             int rowCount = Math.min(pcsVoteMembers.size(), 13);

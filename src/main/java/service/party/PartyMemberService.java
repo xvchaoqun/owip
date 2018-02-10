@@ -29,6 +29,7 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.sys.SysConfigService;
 import service.unit.UnitService;
+import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
@@ -209,7 +210,7 @@ public class PartyMemberService extends BaseMapper {
                 if(metaType!=null) partyName = metaType.getName();
                 partyAddTime = DateUtils.formatDate(record.getCadreGrowTime(), DateUtils.YYYY_MM_DD);
 
-            }else if(member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL){
+            }else if(member!=null && member.getStatus()==MemberConstants.MEMBER_STATUS_NORMAL){
 
                 partyName = "中共党员";
                 partyAddTime = DateUtils.formatDate(member.getGrowTime(), DateUtils.YYYY_MM_DD);
@@ -222,7 +223,7 @@ public class PartyMemberService extends BaseMapper {
 
 
             String partyFullName = ""; // 所属党组织
-            if(member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL) {
+            if(member!=null && member.getStatus()== MemberConstants.MEMBER_STATUS_NORMAL) {
                 if (record.getPartyId() != null) {
                     Party party = partyMap.get(record.getPartyId());
                     if (party != null) {

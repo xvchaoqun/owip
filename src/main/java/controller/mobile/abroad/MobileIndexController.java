@@ -7,7 +7,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 
@@ -36,7 +36,7 @@ public class MobileIndexController extends AbroadBaseController {
 		Subject subject = SecurityUtils.getSubject();
 		int notApprovalCount = 0;
 		int hasApprovalCount = 0;
-		if(!subject.hasRole(SystemConstants.ROLE_CADREADMIN)) { // 干部 登录
+		if(!subject.hasRole(RoleConstants.ROLE_CADREADMIN)) { // 干部 登录
 
 			Integer userId = loginUser.getId();
 			{

@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
@@ -77,17 +79,17 @@ public class PcsPrPartyController extends PcsBaseController {
             case "3":
                 wb = pcsPrExportService.exportPartyCandidates(configId, stage, partyId);
                 fileName = String.format("分党委酝酿党员代表大会代表候选人%s人选名单（“%s”阶段）",
-                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备",
-                        SystemConstants.PCS_STAGE_MAP.get(stage));
+                        stage== PcsConstants.PCS_STAGE_FIRST?"初步":"预备",
+                        PcsConstants.PCS_STAGE_MAP.get(stage));
                 break;
             case "4":
                 wb = pcsPrExportService.exportPartyAllocate(configId, stage, partyId);
-                if(stage==SystemConstants.PCS_STAGE_THIRD)
+                if(stage==PcsConstants.PCS_STAGE_THIRD)
                     fileName = "党代表数据统计表";
                 else
                     fileName = String.format("分党委酝酿党员代表大会代表候选人%s人选统计表（“%s”阶段）",
-                        stage==SystemConstants.PCS_STAGE_FIRST?"初步":"预备",
-                        SystemConstants.PCS_STAGE_MAP.get(stage));
+                        stage==PcsConstants.PCS_STAGE_FIRST?"初步":"预备",
+                        PcsConstants.PCS_STAGE_MAP.get(stage));
                 break;
 
             case "pl":
@@ -186,7 +188,7 @@ public class PcsPrPartyController extends PcsBaseController {
         pcsPrPartyService.report(partyId, configId, stage);
 
         logger.info(addLog(SystemConstants.LOG_PCS, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
-                SystemConstants.PCS_STAGE_MAP.get(stage)));
+                PcsConstants.PCS_STAGE_MAP.get(stage)));
 
         return success(FormUtils.SUCCESS);
     }
@@ -295,7 +297,7 @@ public class PcsPrPartyController extends PcsBaseController {
 
         // 读取三类代表
         Map<Byte, List<PcsPrCandidateView>> candidatesMap = new HashMap<>();
-        for (Byte prType : SystemConstants.PCS_PR_TYPE_MAP.keySet()) {
+        for (Byte prType : PcsConstants.PCS_PR_TYPE_MAP.keySet()) {
             candidatesMap.put(prType, pcsPrCandidateService.find(configId, stage, prType, partyId));
         }
         modelMap.put("candidatesMap", candidatesMap);
@@ -363,13 +365,13 @@ public class PcsPrPartyController extends PcsBaseController {
                     CadreView cv = cadreService.dbFindByUserId(userId);
                     if(cv!=null && SystemConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())){
                         // 是干部
-                        candidate.setUserType(SystemConstants.PCS_PR_USER_TYPE_CADRE);
+                        candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_CADRE);
                         candidate.setEduId(cv.getEduId());
                         candidate.setWorkTime(cv.getWorkTime());
                         candidate.setPost(cv.getPost());
                     }else{
                         // 是普通教师
-                        candidate.setUserType(SystemConstants.PCS_PR_USER_TYPE_TEACHER);
+                        candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_TEACHER);
                         candidate.setEducation(teacherInfo.getEducation());
                         candidate.setWorkTime(teacherInfo.getWorkTime());
                         candidate.setIsRetire(teacherInfo.getIsRetire());
@@ -378,13 +380,13 @@ public class PcsPrPartyController extends PcsBaseController {
                 }else{
                     StudentInfo studentInfo = studentService.get(userId);
                     // 学生
-                    candidate.setUserType(SystemConstants.PCS_PR_USER_TYPE_STU);
+                    candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_STU);
                     candidate.setEduLevel(studentInfo.getEduLevel());
                 }
 
                 Member member = memberService.get(userId);
                 if(member==null || member.getPoliticalStatus()
-                        != SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE){
+                        != MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE){
                     throw new OpException(uv.getRealname() + "不是正式党员。");
                 }
                 candidate.setGrowTime(member.getGrowTime());

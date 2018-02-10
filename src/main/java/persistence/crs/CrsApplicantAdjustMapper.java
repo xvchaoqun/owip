@@ -2,9 +2,10 @@ package persistence.crs;
 
 import domain.crs.CrsApplicantAdjust;
 import domain.crs.CrsApplicantAdjustExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CrsApplicantAdjustMapper {
     long countByExample(CrsApplicantAdjustExample example);

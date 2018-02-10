@@ -43,6 +43,8 @@ import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
 import sys.tool.fancytree.TreeNode;
 import sys.utils.DateUtils;
@@ -102,7 +104,7 @@ public class PmdMonthService extends BaseMapper {
         }
 
         PmdMonth record = new PmdMonth();
-        record.setStatus(SystemConstants.PMD_MONTH_STATUS_END);
+        record.setStatus(PmdConstants.PMD_MONTH_STATUS_END);
         record.setEndUserId(ShiroHelper.getCurrentUserId());
         record.setEndTime(new Date());
 
@@ -120,7 +122,7 @@ public class PmdMonthService extends BaseMapper {
 
         PmdMonthExample example = new PmdMonthExample();
         example.createCriteria().andIdEqualTo(monthId)
-                .andStatusEqualTo(SystemConstants.PMD_MONTH_STATUS_START);
+                .andStatusEqualTo(PmdConstants.PMD_MONTH_STATUS_START);
         pmdMonthMapper.updateByExampleSelective(record, example);
     }
 
@@ -155,7 +157,7 @@ public class PmdMonthService extends BaseMapper {
     public PmdMonth getCurrentPmdMonth() {
 
         PmdMonthExample example = new PmdMonthExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.PMD_MONTH_STATUS_START);
+        example.createCriteria().andStatusEqualTo(PmdConstants.PMD_MONTH_STATUS_START);
         List<PmdMonth> pmdMonths = pmdMonthMapper.selectByExample(example);
 
         if (pmdMonths.size() > 1) throw new OpException("缴费系统异常，请稍后再试。");
@@ -197,7 +199,7 @@ public class PmdMonthService extends BaseMapper {
             if (partyService.isDirectBranch(partyId)) {
                 // 同步党员（直属党支部）
                 MemberExample example = new MemberExample();
-                example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+                example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
                         .andPartyIdEqualTo(partyId).andBranchIdIsNull();
                 List<Member> members = memberMapper.selectByExample(example);
                 for (Member member : members) {
@@ -250,7 +252,7 @@ public class PmdMonthService extends BaseMapper {
         historyDelayPay = (historyDelayPay == null) ? new BigDecimal(0) : historyDelayPay;
         record.setHistoryDelayPay(historyDelayPay);
 
-        record.setStatus(SystemConstants.PMD_MONTH_STATUS_START);
+        record.setStatus(PmdConstants.PMD_MONTH_STATUS_START);
         pmdMonthMapper.updateByPrimaryKeySelective(record);
 
         long end = System.currentTimeMillis();
@@ -265,7 +267,7 @@ public class PmdMonthService extends BaseMapper {
 
         // 同步党员
         MemberExample example = new MemberExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+        example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
                 .andPartyIdEqualTo(partyId).andBranchIdEqualTo(branchId);
         List<Member> members = memberMapper.selectByExample(example);
         for (Member member : members) {
@@ -318,17 +320,17 @@ public class PmdMonthService extends BaseMapper {
 
             // 特殊缴费人员（年薪制） > 离退 > 高层次人才 > 事业 > 非事业
             // 标准类型
-            Byte normType = SystemConstants.PMD_MEMBER_NORM_TYPE_UNMODIFY;
+            Byte normType = PmdConstants.PMD_MEMBER_NORM_TYPE_UNMODIFY;
             // 标准名称，系统自动计算得到
             String normName = null;
             // 标准对应的额度，系统自动计算得到
             BigDecimal normDuePay = null;
 
-            if (member.getType() == SystemConstants.MEMBER_TYPE_STUDENT) {
+            if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
 
-                type = SystemConstants.PMD_MEMBER_TYPE_STUDENT;
+                type = PmdConstants.PMD_MEMBER_TYPE_STUDENT;
                 // 对于学生来说，需要支部选择缴费标准
-                normType = SystemConstants.PMD_MEMBER_NORM_TYPE_SELECT;
+                normType = PmdConstants.PMD_MEMBER_NORM_TYPE_SELECT;
             } else {
 
                 MemberTeacher memberTeacher = memberTeacherService.get(userId);
@@ -341,19 +343,19 @@ public class PmdMonthService extends BaseMapper {
                 record.setAuthorizedType(memberTeacher.getAuthorizedType());
                 record.setStaffType(memberTeacher.getStaffType());
 
-                type = memberTeacher.getIsRetire()?SystemConstants.PMD_MEMBER_TYPE_RETIRE
-                        :SystemConstants.PMD_MEMBER_TYPE_TEACHER;
+                type = memberTeacher.getIsRetire()?PmdConstants.PMD_MEMBER_TYPE_RETIRE
+                        :PmdConstants.PMD_MEMBER_TYPE_TEACHER;
 
                 // 如果是特殊缴费人员，则规则为支部直接编辑额度
                 Map<String, PmdSpecialUser> pmdSpecialUserMap = pmdSpecialUserService.findAll();
                 PmdSpecialUser pmdSpecialUser = pmdSpecialUserMap.get(uv.getCode());
                 if (pmdSpecialUser != null) {
-                    normType = SystemConstants.PMD_MEMBER_NORM_TYPE_MODIFY;
+                    normType = PmdConstants.PMD_MEMBER_NORM_TYPE_MODIFY;
                     normName = pmdSpecialUser.getType();
                     normDuePay = null;
                 } else {
 
-                    if (type == SystemConstants.PMD_MEMBER_TYPE_RETIRE) {
+                    if (type == PmdConstants.PMD_MEMBER_TYPE_RETIRE) {
 
                         BigDecimal ltxf = pmdExtService.getLtxf(memberTeacher.getCode());
                         if (ltxf == null || ltxf.compareTo(BigDecimal.ZERO) <= 0) {
@@ -407,7 +409,7 @@ public class PmdMonthService extends BaseMapper {
 
                     if (normDuePay == null) {
                         // 对于教职工来说，没找对对应的缴费金额，则允许支部编辑额度
-                        normType = SystemConstants.PMD_MEMBER_NORM_TYPE_MODIFY;
+                        normType = PmdConstants.PMD_MEMBER_NORM_TYPE_MODIFY;
                     }
                 }
             }
@@ -472,12 +474,12 @@ public class PmdMonthService extends BaseMapper {
             ltxf = pmdConfigMember.getRetireSalary();
             needSetSalary = BooleanUtils.isNotTrue(pmdConfigMember.getHasSetSalary());
         } else {
-            if (member.getType() == SystemConstants.MEMBER_TYPE_STUDENT) {
-                configMemberType = SystemConstants.PMD_MEMBER_TYPE_STUDENT;
+            if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
+                configMemberType = PmdConstants.PMD_MEMBER_TYPE_STUDENT;
             } else {
                 MemberTeacher memberTeacher = memberTeacherService.get(userId);
-                configMemberType = memberTeacher.getIsRetire() ? SystemConstants.PMD_MEMBER_TYPE_RETIRE
-                        : SystemConstants.PMD_MEMBER_TYPE_ONJOB;
+                configMemberType = memberTeacher.getIsRetire() ? PmdConstants.PMD_MEMBER_TYPE_RETIRE
+                        : PmdConstants.PMD_MEMBER_TYPE_ONJOB;
                 // 附属学校
                 Set<String> partyCodeSet = new HashSet<>();
                 partyCodeSet.add("030300");
@@ -486,14 +488,14 @@ public class PmdMonthService extends BaseMapper {
                 Party party = partyService.findAll().get(partyId);
                 String partyCode = party.getCode();
                 if (partyCodeSet.contains(partyCode)) {
-                    configMemberType = SystemConstants.PMD_MEMBER_TYPE_OTHER;
+                    configMemberType = PmdConstants.PMD_MEMBER_TYPE_OTHER;
                 }
 
                 Map<Byte, PmdConfigMemberType> formulaMap = pmdConfigMemberTypeService.formulaMap();
-                if (configMemberType == SystemConstants.PMD_MEMBER_TYPE_RETIRE) {
+                if (configMemberType == PmdConstants.PMD_MEMBER_TYPE_RETIRE) {
 
                     // 设定分类别：离退休
-                    PmdConfigMemberType pmdConfigMemberType = formulaMap.get(SystemConstants.PMD_FORMULA_TYPE_RETIRE);
+                    PmdConfigMemberType pmdConfigMemberType = formulaMap.get(PmdConstants.PMD_FORMULA_TYPE_RETIRE);
                     if (pmdConfigMemberType != null) {
                         configMemberTypeId = pmdConfigMemberType.getId();
                     }
@@ -507,7 +509,7 @@ public class PmdMonthService extends BaseMapper {
                         needSetSalary = true;
 
                         // 设定分类别：在职在编教职工
-                        PmdConfigMemberType pmdConfigMemberType = formulaMap.get(SystemConstants.PMD_FORMULA_TYPE_ONJOB);
+                        PmdConfigMemberType pmdConfigMemberType = formulaMap.get(PmdConstants.PMD_FORMULA_TYPE_ONJOB);
                         if (pmdConfigMemberType != null) {
                             configMemberTypeId = pmdConfigMemberType.getId();
                         }
@@ -517,7 +519,7 @@ public class PmdMonthService extends BaseMapper {
                         needSetSalary = true;
 
                         // 设定分类别：校聘教职工
-                        PmdConfigMemberType pmdConfigMemberType = formulaMap.get(SystemConstants.PMD_FORMULA_TYPE_EXTERNAL);
+                        PmdConfigMemberType pmdConfigMemberType = formulaMap.get(PmdConstants.PMD_FORMULA_TYPE_EXTERNAL);
                         if (pmdConfigMemberType != null) {
                             configMemberTypeId = pmdConfigMemberType.getId();
                         }
@@ -544,7 +546,7 @@ public class PmdMonthService extends BaseMapper {
             _pmdMember.setPartyId(member.getPartyId());
             _pmdMember.setBranchId(member.getBranchId());
 
-            if(configMemberType != SystemConstants.PMD_MEMBER_TYPE_STUDENT){
+            if(configMemberType != PmdConstants.PMD_MEMBER_TYPE_STUDENT){
 
                 MemberTeacher memberTeacher = memberTeacherService.get(userId);
                 _pmdMember.setTalentTitle(memberTeacher.getTalentTitle());
@@ -569,10 +571,10 @@ public class PmdMonthService extends BaseMapper {
                     _pmdMember.setConfigMemberTypeNormName(pmdNorm.getName());
 
                     duePayReason = pmdConfigMemberType.getName();
-                    /*if(pmdNorm.getType() == SystemConstants.PMD_NORM_SET_TYPE_FORMULA){
+                    /*if(pmdNorm.getType() == PmdConstants.PMD_NORM_SET_TYPE_FORMULA){
                         switch (pmdNorm.getFormulaType()){
-                            case SystemConstants.PMD_FORMULA_TYPE_ONJOB:
-                            case SystemConstants.PMD_FORMULA_TYPE_EXTERNAL:
+                            case PmdConstants.PMD_FORMULA_TYPE_ONJOB:
+                            case PmdConstants.PMD_FORMULA_TYPE_EXTERNAL:
                                 needSetSalary = true;
                                 break;
                         }
@@ -651,9 +653,9 @@ public class PmdMonthService extends BaseMapper {
     public void updatePartyIds(int monthId, Integer[] partyIds) {
 
         PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(monthId);
-        if (pmdMonth.getStatus() == SystemConstants.PMD_MONTH_STATUS_END) {
+        if (pmdMonth.getStatus() == PmdConstants.PMD_MONTH_STATUS_END) {
             throw new OpException("已结算月份不允许编辑缴费分党委。");
-        } else if (pmdMonth.getStatus() == SystemConstants.PMD_MONTH_STATUS_START) {
+        } else if (pmdMonth.getStatus() == PmdConstants.PMD_MONTH_STATUS_START) {
             throw new OpException("已经启动缴费，不允许重新设置缴费分党委。");
         }
 
@@ -793,7 +795,7 @@ public class PmdMonthService extends BaseMapper {
 
         PmdMonth record = new PmdMonth();
         record.setPayMonth(payMonth);
-        record.setStatus(SystemConstants.PMD_MONTH_STATUS_INIT);
+        record.setStatus(PmdConstants.PMD_MONTH_STATUS_INIT);
         record.setCreateUserId(ShiroHelper.getCurrentUserId());
         record.setCreateTime(now);
 

@@ -34,6 +34,7 @@ import service.source.ExtRetireSalaryImport;
 import service.source.ExtYjsImport;
 import shiro.PasswordHelper;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
 import sys.utils.DateUtils;
@@ -255,7 +256,7 @@ public class SysUserSyncService extends BaseMapper {
             logger.error("同步出错", ex);
         }
 
-        sysUserService.addRole(record.getId(), SystemConstants.ROLE_TEACHER);
+        sysUserService.addRole(record.getId(), RoleConstants.ROLE_TEACHER);
         return ret;
     }
 

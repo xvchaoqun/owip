@@ -2,9 +2,10 @@ package persistence.sc.scCommittee;
 
 import domain.sc.scCommittee.ScCommitteeOtherVote;
 import domain.sc.scCommittee.ScCommitteeOtherVoteExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface ScCommitteeOtherVoteMapper {
     long countByExample(ScCommitteeOtherVoteExample example);

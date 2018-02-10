@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -39,8 +40,8 @@ public class CrsPostFileController extends CrsBaseController {
 
         modelMap.put("crsPost", crsPostMapper.selectByPrimaryKey(postId));
 
-        List<CrsPostFile> images = crsPostFileService.getPostFiles(postId, SystemConstants.CRS_POST_FILE_TYPE_PIC);
-        List<CrsPostFile> audios = crsPostFileService.getPostFiles(postId, SystemConstants.CRS_POST_FILE_TYPE_AUDIO);
+        List<CrsPostFile> images = crsPostFileService.getPostFiles(postId, CrsConstants.CRS_POST_FILE_TYPE_PIC);
+        List<CrsPostFile> audios = crsPostFileService.getPostFiles(postId, CrsConstants.CRS_POST_FILE_TYPE_AUDIO);
 
         modelMap.put("images", images);
         modelMap.put("audios", audios);
@@ -158,9 +159,9 @@ public class CrsPostFileController extends CrsBaseController {
                 FileUtils.copyFile(_file, new File(springProps.uploadPath + savePath));*/
 
                 String savePath = null;
-                if(type==SystemConstants.CRS_POST_FILE_TYPE_PIC) {
+                if(type==CrsConstants.CRS_POST_FILE_TYPE_PIC) {
                     savePath = uploadPic(_file, "crs_post_file", 300, 100);
-                }else if(type==SystemConstants.CRS_POST_FILE_TYPE_AUDIO) {
+                }else if(type==CrsConstants.CRS_POST_FILE_TYPE_AUDIO) {
                     savePath = upload(_file, "crs_post_file");
                 }
                 record.setFile(savePath);

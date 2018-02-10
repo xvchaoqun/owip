@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -73,7 +74,7 @@ public class CrsPostDetailStep2Controller extends CrsBaseController {
         crsPostService.updateByPrimaryKeySelective(record);
 
         logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位[{%s}]报名开关：%s",
-                crsPost.getName(), SystemConstants.CRS_POST_ENROLL_STATUS_MAP.get(enrollStatus)));
+                crsPost.getName(), CrsConstants.CRS_POST_ENROLL_STATUS_MAP.get(enrollStatus)));
 
         return success(FormUtils.SUCCESS);
     }

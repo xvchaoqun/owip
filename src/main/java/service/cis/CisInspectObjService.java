@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.common.FreemarkerService;
-import sys.constants.SystemConstants;
+import sys.constants.CisConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -54,7 +54,7 @@ public class CisInspectObjService extends BaseMapper {
 
         // 主体
         Byte inspectorType = cisInspectObj.getInspectorType();
-        if(inspectorType==SystemConstants.CIS_INSPECTOR_TYPE_OW)
+        if(inspectorType== CisConstants.CIS_INSPECTOR_TYPE_OW)
             dataMap.put("inspectorType", "党委组织部");
         else
             dataMap.put("inspectorType", cisInspectObj.getOtherInspectorType());
@@ -122,7 +122,7 @@ public class CisInspectObjService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(CisInspectObj record) {
 
-        if(record.getInspectorType()==SystemConstants.CIS_INSPECTOR_TYPE_OTHER){
+        if(record.getInspectorType()==CisConstants.CIS_INSPECTOR_TYPE_OTHER){
             commonMapper.excuteSql("delete from cis_obj_inspector where obj_id="+record.getId());
         }
         return cisInspectObjMapper.updateByPrimaryKeySelective(record);

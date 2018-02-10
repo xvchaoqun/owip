@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.ShortMsgService;
 import service.sys.SysApprovalLogService;
+import sys.constants.AbroadConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
@@ -58,9 +59,9 @@ public class ApprovalLogService extends BaseMapper {
         ApprovalLogExample example = new ApprovalLogExample();
         ApprovalLogExample.Criteria criteria = example.createCriteria().andApplyIdEqualTo(applySefId);
         if(approverTypeId==-1){
-           criteria.andTypeIdIsNull().andOdTypeEqualTo(SystemConstants.APPROVER_LOG_OD_TYPE_FIRST);
+           criteria.andTypeIdIsNull().andOdTypeEqualTo(AbroadConstants.ABROAD_APPROVER_LOG_OD_TYPE_FIRST);
         }else if(approverTypeId==0){
-            criteria.andTypeIdIsNull().andOdTypeEqualTo(SystemConstants.APPROVER_LOG_OD_TYPE_LAST);
+            criteria.andTypeIdIsNull().andOdTypeEqualTo(AbroadConstants.ABROAD_APPROVER_LOG_OD_TYPE_LAST);
         }else{
             criteria.andTypeIdEqualTo(approverTypeId);
         }
@@ -74,11 +75,11 @@ public class ApprovalLogService extends BaseMapper {
 
 /*        Integer typeId = record.getTypeId();// 审批人身份ID
         if(typeId==null){
-            if(record.getOdType()==SystemConstants.APPROVER_LOG_OD_TYPE_FIRST){
-                typeId = SystemConstants.APPROVER_TYPE_ID_OD_FIRST; //初审
+            if(record.getOdType()==AbroadConstants.ABROAD_APPROVER_LOG_OD_TYPE_FIRST){
+                typeId = AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST; //初审
             }
-            if(record.getOdType()==SystemConstants.APPROVER_LOG_OD_TYPE_LAST){
-                typeId = SystemConstants.APPROVER_TYPE_ID_OD_LAST; // 终审
+            if(record.getOdType()==AbroadConstants.ABROAD_APPROVER_LOG_OD_TYPE_LAST){
+                typeId = AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST; // 终审
             }
         }*/
         // 先完成审批记录，再更新申请记录审批字段
@@ -103,7 +104,7 @@ public class ApprovalLogService extends BaseMapper {
                 if(nextFlowNode == null){
                     nextFlowNode = flowNode;
                 }
-                if(flowNode == SystemConstants.APPROVER_TYPE_ID_OD_FIRST)
+                if(flowNode == AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST)
                     break; // 还没经过组织部初审
                 else
                     continue;
@@ -119,12 +120,12 @@ public class ApprovalLogService extends BaseMapper {
         applySelf.setFlowNode(nextFlowNode); // 下一个审批身份
         applySelf.setApprovalRemark(record.getRemark());
         if(!record.getStatus()) // 如果上一个领导未通过，应该下面的领导都不需要审批了，直接转到组织部终审。
-            applySelf.setFlowNode(SystemConstants.APPROVER_TYPE_ID_OD_LAST);
+            applySelf.setFlowNode(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST);
 
         applySelf.setFlowNodes(StringUtils.join(flowNodes, ",")); // 已完成审批的 审批身份
         applySelf.setFlowUsers(StringUtils.join(flowUsers, ",")); // 已完成审批（未通过或通过）的 审批人
 
-        if(record.getTypeId()==null && record.getOdType()==SystemConstants.APPROVER_LOG_OD_TYPE_LAST){
+        if(record.getTypeId()==null && record.getOdType()==AbroadConstants.ABROAD_APPROVER_LOG_OD_TYPE_LAST){
             applySelf.setIsFinish(true); // 终审完成
             applySelf.setIsAgreed(record.getStatus());
         }
@@ -133,7 +134,7 @@ public class ApprovalLogService extends BaseMapper {
         applySelfService.doApproval(applySelf);
 
         // 如果通过审批，且下一个审批身份是管理员，则短信通知管理员
-        if(record.getStatus() && nextFlowNode!=null && nextFlowNode==SystemConstants.APPROVER_TYPE_ID_OD_LAST){
+        if(record.getStatus() && nextFlowNode!=null && nextFlowNode==AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST){
             shortMsgService.sendApplySelfPassMsgToCadreAdmin(applyId, IpUtils.getRealIp(ContextHelper.getRequest()));
         }
     }

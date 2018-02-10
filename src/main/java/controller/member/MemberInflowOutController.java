@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -174,20 +176,20 @@ public class MemberInflowOutController extends MemberBaseController {
 
 
         if(cls==1){ // 支部审核（新申请）
-            criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
+            criteria.andOutStatusEqualTo(MemberConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
                     .andOutIsBackNotEqualTo(true);
         }else if(cls==4){ // 支部审核(返回修改)
-            criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
+            criteria.andOutStatusEqualTo(MemberConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
                     .andOutIsBackEqualTo(true);
         }else if(cls==5 || cls==6){ // 支部已审核
-            criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY);
+            criteria.andOutStatusEqualTo(MemberConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY);
         }else if(cls==2) {// 未通过
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_INFLOW_OUT_STATUS_SELF_BACK);
-            statusList.add(SystemConstants.MEMBER_INFLOW_OUT_STATUS_BACK);
+            statusList.add(MemberConstants.MEMBER_INFLOW_OUT_STATUS_SELF_BACK);
+            statusList.add(MemberConstants.MEMBER_INFLOW_OUT_STATUS_BACK);
             criteria.andOutStatusIn(statusList);
         }else {// 已审核
-            criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY);
+            criteria.andOutStatusEqualTo(MemberConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY);
         }
 
         int count = memberInflowMapper.countByExample(example);
@@ -209,7 +211,7 @@ public class MemberInflowOutController extends MemberBaseController {
         return;
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:list")
     @RequestMapping("/memberInflowOut_approval")
     public String memberInflowOut_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUserView loginUser, Integer id,
@@ -220,11 +222,11 @@ public class MemberInflowOutController extends MemberBaseController {
         if (id != null) {
             currentMemberInflow = memberInflowMapper.selectByPrimaryKey(id);
             if (type == 1) {
-                if (currentMemberInflow.getOutStatus() != SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
+                if (currentMemberInflow.getOutStatus() != MemberConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
                     currentMemberInflow = null;
             }
             if (type == 2) {
-                if (currentMemberInflow.getOutStatus() != SystemConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY)
+                if (currentMemberInflow.getOutStatus() != MemberConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY)
                     currentMemberInflow = null;
             }
         } else {
@@ -255,7 +257,7 @@ public class MemberInflowOutController extends MemberBaseController {
         return "member/memberInflowOut/memberInflowOut_approval";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping("/memberInflowOut_deny")
     public String memberInflowOut_deny(Integer id, ModelMap modelMap) {
@@ -268,7 +270,7 @@ public class MemberInflowOutController extends MemberBaseController {
         return "member/memberInflowOut/memberInflowOut_deny";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping(value = "/memberInflowOut_check", method = RequestMethod.POST)
     @ResponseBody
@@ -284,7 +286,7 @@ public class MemberInflowOutController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping("/memberInflowOut_back")
     public String memberInflowOut_back() {
@@ -292,7 +294,7 @@ public class MemberInflowOutController extends MemberBaseController {
         return "member/memberInflowOut/memberInflowOut_back";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflowOut:update")
     @RequestMapping(value = "/memberInflowOut_back", method = RequestMethod.POST)
     @ResponseBody

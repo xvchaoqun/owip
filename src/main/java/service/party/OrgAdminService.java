@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.Date;
@@ -60,8 +60,8 @@ public class OrgAdminService extends BaseMapper {
         // 见PartyMemberAdminService.toggleAdmin
         // 添加账号的"分党委管理员"角色
         // 如果账号是现任班子的管理员， 且没有"分党委管理员"角色，则添加
-        if (!CmTag.hasRole(sysUser.getUsername(), SystemConstants.ROLE_PARTYADMIN)) {
-            sysUserService.addRole(userId, SystemConstants.ROLE_PARTYADMIN);
+        if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_PARTYADMIN)) {
+            sysUserService.addRole(userId, RoleConstants.ROLE_PARTYADMIN);
         }
 
         OrgAdmin record = new OrgAdmin();
@@ -83,8 +83,8 @@ public class OrgAdminService extends BaseMapper {
         // 见 BranchMemberAdminService.toggleAdmin
         // 添加账号的"党支部管理员"角色
         // 如果账号是现任班子的管理员， 且没有"党支部管理员"角色，则添加
-        if (!CmTag.hasRole(sysUser.getUsername(), SystemConstants.ROLE_BRANCHADMIN)) {
-            sysUserService.addRole(userId, SystemConstants.ROLE_BRANCHADMIN);
+        if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_BRANCHADMIN)) {
+            sysUserService.addRole(userId, RoleConstants.ROLE_BRANCHADMIN);
         }
 
         OrgAdmin record = new OrgAdmin();
@@ -114,7 +114,7 @@ public class OrgAdminService extends BaseMapper {
             // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理
             List<Integer> partyIdList = iPartyMapper.adminPartyIdList(userId);
             if (partyIdList.size() == 0) {
-                sysUserService.delRole(userId, SystemConstants.ROLE_PARTYADMIN);
+                sysUserService.delRole(userId, RoleConstants.ROLE_PARTYADMIN);
             }
         }
 
@@ -124,7 +124,7 @@ public class OrgAdminService extends BaseMapper {
             // 如果他只是该党支部的管理员，则删除账号所属的"党支部管理员"角色； 否则不处理
             List<Integer> branchIdList = iPartyMapper.adminBranchIdList(userId);
             if (branchIdList.size() == 0) {
-                sysUserService.delRole(userId, SystemConstants.ROLE_BRANCHADMIN);
+                sysUserService.delRole(userId, RoleConstants.ROLE_BRANCHADMIN);
             }
         }
     }

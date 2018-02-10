@@ -18,6 +18,8 @@ import service.party.EnterApplyService;
 import service.party.PartyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
@@ -55,9 +57,9 @@ public class MemberInflowService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //支部审核
-            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
+            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_APPLY);
         } else if(type==2){ //分党委审核
-            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
+            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -82,9 +84,9 @@ public class MemberInflowService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //支部审核
-            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
+            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_APPLY);
         } else if(type==2){ //分党委审核
-            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
+            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -111,9 +113,9 @@ public class MemberInflowService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //支部审核
-            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY);
+            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_APPLY);
         } else if(type==2){ //分党委审核
-            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
+            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -153,11 +155,11 @@ public class MemberInflowService extends BaseMapper {
     public void checkMember(int userId){
 
         MemberInflow memberInflow = get(userId);
-        if(memberInflow.getInflowStatus()!= SystemConstants.MEMBER_INFLOW_STATUS_APPLY)
+        if(memberInflow.getInflowStatus()!= MemberConstants.MEMBER_INFLOW_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberInflow record = new MemberInflow();
         record.setId(memberInflow.getId());
-        record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
+        record.setInflowStatus(MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
         //record.setBranchId(memberInflow.getBranchId());
         updateByPrimaryKeySelective(record);
     }
@@ -168,14 +170,14 @@ public class MemberInflowService extends BaseMapper {
 
         MemberInflow memberInflow = get(userId);
 
-        if(isDirect && memberInflow.getInflowStatus()!= SystemConstants.MEMBER_INFLOW_STATUS_APPLY)
+        if(isDirect && memberInflow.getInflowStatus()!= MemberConstants.MEMBER_INFLOW_STATUS_APPLY)
             throw new DBErrorException("状态异常");
-        if(!isDirect && memberInflow.getInflowStatus()!= SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY)
+        if(!isDirect && memberInflow.getInflowStatus()!= MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY)
             throw new DBErrorException("状态异常");
 
         MemberInflow record = new MemberInflow();
         record.setId(memberInflow.getId());
-        record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY);
+        record.setInflowStatus(MemberConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY);
         //record.setBranchId(memberInflow.getBranchId());
         updateByPrimaryKeySelective(record);
 
@@ -188,7 +190,7 @@ public class MemberInflowService extends BaseMapper {
         }
 
         // 更新系统角色  访客->流入党员
-        sysUserService.changeRole(userId, SystemConstants.ROLE_GUEST, SystemConstants.ROLE_INFLOWMEMBER);
+        sysUserService.changeRole(userId, RoleConstants.ROLE_GUEST, RoleConstants.ROLE_INFLOWMEMBER);
     }
 
     @Transactional
@@ -211,12 +213,12 @@ public class MemberInflowService extends BaseMapper {
 
             MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
             if(memberInflow!=null
-                    && memberInflow.getInflowStatus()==SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY) {
+                    && memberInflow.getInflowStatus()==MemberConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY) {
 
                 {
                     MemberInflow record = new MemberInflow();
                     record.setId(id);
-                    record.setInflowStatus(SystemConstants.MEMBER_INFLOW_STATUS_BACK);
+                    record.setInflowStatus(MemberConstants.MEMBER_INFLOW_STATUS_BACK);
                     memberInflowMapper.updateByPrimaryKeySelective(record);
                 }
                 Integer userId = memberInflow.getUserId();
@@ -231,13 +233,13 @@ public class MemberInflowService extends BaseMapper {
                     enterApplyMapper.updateByExampleSelective(record, example);
                 }
 
-                sysUserService.changeRole(userId, SystemConstants.ROLE_INFLOWMEMBER, SystemConstants.ROLE_GUEST);
+                sysUserService.changeRole(userId, RoleConstants.ROLE_INFLOWMEMBER, RoleConstants.ROLE_GUEST);
 
                 applyApprovalLogService.add(id,
                         memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
                         ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
-                        SystemConstants.MEMBER_INFLOW_STATUS_MAP.get(memberInflow.getInflowStatus()),
+                        MemberConstants.MEMBER_INFLOW_STATUS_MAP.get(memberInflow.getInflowStatus()),
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, "删除流入党员");
             }
         }
@@ -307,10 +309,10 @@ public class MemberInflowService extends BaseMapper {
             Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberInflow.getPartyId(), memberInflow.getBranchId());
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberInflow.getPartyId());
 
-            if(memberInflow.getInflowStatus() >= SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY){
+            if(memberInflow.getInflowStatus() >= MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY){
                 if(!presentPartyAdmin) throw new UnauthorizedException();
             }
-            if(memberInflow.getInflowStatus() >= SystemConstants.MEMBER_INFLOW_STATUS_BACK){
+            if(memberInflow.getInflowStatus() >= MemberConstants.MEMBER_INFLOW_STATUS_BACK){
                 if(!presentPartyAdmin && !presentBranchAdmin) throw new UnauthorizedException();
             }
 
@@ -322,16 +324,16 @@ public class MemberInflowService extends BaseMapper {
     private  void back(MemberInflow memberInflow, byte status, int loginUserId, String reason){
 
         byte _status = memberInflow.getInflowStatus();
-        if(_status==SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
+        if(_status==MemberConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
             throw new OpException("审核流程已经完成，不可以打回。");
         }
-        if(status>_status || status<SystemConstants.MEMBER_INFLOW_STATUS_BACK ){
+        if(status>_status || status<MemberConstants.MEMBER_INFLOW_STATUS_BACK ){
             throw new OpException("参数有误。");
         }
         Integer id = memberInflow.getId();
         Integer userId = memberInflow.getUserId();
 
-        if(status==SystemConstants.MEMBER_INFLOW_STATUS_BACK ) { // 后台打回申请，需要重置入口提交状态
+        if(status==MemberConstants.MEMBER_INFLOW_STATUS_BACK ) { // 后台打回申请，需要重置入口提交状态
             // 状态检查
             EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
             if (_enterApply == null)
@@ -357,7 +359,7 @@ public class MemberInflowService extends BaseMapper {
         applyApprovalLogService.add(id,
                 memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
                 loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, SystemConstants.MEMBER_INFLOW_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, MemberConstants.MEMBER_INFLOW_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

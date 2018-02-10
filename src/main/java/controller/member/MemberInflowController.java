@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -169,21 +171,21 @@ public class MemberInflowController extends MemberBaseController {
         }
 
         if(cls==1){ // 支部审核（新申请）
-            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY)
+            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_APPLY)
                     .andIsBackNotEqualTo(true);
         }else if(cls==4){ // 支部审核(返回修改)
-            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_APPLY)
+            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_APPLY)
                     .andIsBackEqualTo(true);
         }else if(cls==5 || cls==6){ // 支部已审核
-            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
+            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
         }else if(cls==2) {// 未通过
             List<Byte> statusList = new ArrayList<>();
-            statusList.add(SystemConstants.MEMBER_INFLOW_STATUS_BACK);
+            statusList.add(MemberConstants.MEMBER_INFLOW_STATUS_BACK);
             criteria.andInflowStatusIn(statusList);
         }else {// 已审核
-            criteria.andInflowStatusEqualTo(SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY);
+            criteria.andInflowStatusEqualTo(MemberConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY);
             if(cls==31)// 已审核（已转出）
-                criteria.andOutStatusEqualTo(SystemConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY);
+                criteria.andOutStatusEqualTo(MemberConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY);
         }
 
         if (export == 1) {
@@ -245,8 +247,8 @@ public class MemberInflowController extends MemberBaseController {
         //===========权限
         Integer loginUserId = loginUser.getId();
         Subject subject = SecurityUtils.getSubject();
-        if (!subject.hasRole(SystemConstants.ROLE_ADMIN)
-                && !subject.hasRole(SystemConstants.ROLE_ODADMIN)) {
+        if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
+                && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
 
             boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
             if(!isAdmin && branchId!=null) {
@@ -275,7 +277,7 @@ public class MemberInflowController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflow:list")
     @RequestMapping("/memberInflow_approval")
     public String memberInflow_approval(@RequestParam(defaultValue = "1")byte cls,@CurrentUser SysUserView loginUser, Integer id,
@@ -286,11 +288,11 @@ public class MemberInflowController extends MemberBaseController {
         if (id != null) {
             currentMemberInflow = memberInflowMapper.selectByPrimaryKey(id);
             if (type == 1) {
-                if (currentMemberInflow.getInflowStatus() != SystemConstants.MEMBER_INFLOW_STATUS_APPLY)
+                if (currentMemberInflow.getInflowStatus() != MemberConstants.MEMBER_INFLOW_STATUS_APPLY)
                     currentMemberInflow = null;
             }
             if (type == 2) {
-                if (currentMemberInflow.getInflowStatus() != SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY)
+                if (currentMemberInflow.getInflowStatus() != MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY)
                     currentMemberInflow = null;
             }
         } else {
@@ -321,7 +323,7 @@ public class MemberInflowController extends MemberBaseController {
         return "member/memberInflow/memberInflow_approval";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflow:update")
     @RequestMapping("/memberInflow_deny")
     public String memberInflow_deny(Integer id, ModelMap modelMap) {
@@ -334,7 +336,7 @@ public class MemberInflowController extends MemberBaseController {
         return "member/memberInflow/memberInflow_deny";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflow:update")
     @RequestMapping(value = "/memberInflow_check", method = RequestMethod.POST)
     @ResponseBody
@@ -350,7 +352,7 @@ public class MemberInflowController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflow:update")
     @RequestMapping("/memberInflow_back")
     public String memberInflow_back() {
@@ -358,7 +360,7 @@ public class MemberInflowController extends MemberBaseController {
         return "member/memberInflow/memberInflow_back";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_ADMIN,SystemConstants.ROLE_ODADMIN, SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN,RoleConstants.ROLE_ODADMIN, RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequiresPermissions("memberInflow:update")
     @RequestMapping(value = "/memberInflow_back", method = RequestMethod.POST)
     @ResponseBody

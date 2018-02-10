@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.party.PartyMemberService;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
+import sys.constants.PmdConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
@@ -89,8 +90,8 @@ public class PmdPartyAdminService extends BaseMapper {
         {
             // 先删除所有书记、组织委员
             PmdPartyAdminExample example = new PmdPartyAdminExample();
-            example.createCriteria().andTypeIn(Arrays.asList(SystemConstants.PMD_ADMIN_TYPE_SECRETARY,
-                    SystemConstants.PMD_ADMIN_TYPE_COMMISSARY));
+            example.createCriteria().andTypeIn(Arrays.asList(PmdConstants.PMD_ADMIN_TYPE_SECRETARY,
+                    PmdConstants.PMD_ADMIN_TYPE_COMMISSARY));
             pmdPartyAdminMapper.deleteByExample(example);
         }
 
@@ -104,10 +105,10 @@ public class PmdPartyAdminService extends BaseMapper {
                     PmdPartyAdmin record = new PmdPartyAdmin();
                     record.setPartyId(partyId);
                     record.setUserId(secretary.getUserId());
-                    record.setType(SystemConstants.PMD_ADMIN_TYPE_SECRETARY);
+                    record.setType(PmdConstants.PMD_ADMIN_TYPE_SECRETARY);
 
                     pmdPartyAdminMapper.insertSelective(record);
-                    sysUserService.addRole(record.getUserId(), SystemConstants.ROLE_PMD_PARTY);
+                    sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_PARTY);
                 }
             }
             {
@@ -119,10 +120,10 @@ public class PmdPartyAdminService extends BaseMapper {
                     PmdPartyAdmin record = new PmdPartyAdmin();
                     record.setPartyId(partyId);
                     record.setUserId(zzwy.getUserId());
-                    record.setType(SystemConstants.PMD_ADMIN_TYPE_COMMISSARY);
+                    record.setType(PmdConstants.PMD_ADMIN_TYPE_COMMISSARY);
 
                     pmdPartyAdminMapper.insertSelective(record);
-                    sysUserService.addRole(record.getUserId(), SystemConstants.ROLE_PMD_PARTY);
+                    sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_PARTY);
                 }
             }
         }
@@ -135,25 +136,25 @@ public class PmdPartyAdminService extends BaseMapper {
         record.setPartyId(partyId);
         record.setUserId(userId);
 
-        Byte type = SystemConstants.PMD_ADMIN_TYPE_NORMAL;
+        Byte type = PmdConstants.PMD_ADMIN_TYPE_NORMAL;
         // 书记
         MetaType partySecretaryType = CmTag.getMetaTypeByCode("mt_party_secretary");
         PartyMemberView pmv = partyMemberService.getPartyMemberView(partyId, userId);
         if (pmv != null && pmv.getPostId() == partySecretaryType.getId()) {
-            type = SystemConstants.PMD_ADMIN_TYPE_SECRETARY;
+            type = PmdConstants.PMD_ADMIN_TYPE_SECRETARY;
         } else {
             // 组织委员
             MetaType zzwyType = CmTag.getMetaTypeByCode("mt_party_member_type_zzwy");
             PartyMemberView pmv2 = partyMemberService.getPartyMemberView(partyId, userId, zzwyType.getId());
             if (pmv2 != null && pmv2.getPostId() == partySecretaryType.getId()) {
-                type = SystemConstants.PMD_ADMIN_TYPE_COMMISSARY;
+                type = PmdConstants.PMD_ADMIN_TYPE_COMMISSARY;
             }
         }
 
         record.setType(type);
 
         pmdPartyAdminMapper.insertSelective(record);
-        sysUserService.addRole(record.getUserId(), SystemConstants.ROLE_PMD_PARTY);
+        sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_PARTY);
     }
 
     @Transactional
@@ -166,7 +167,7 @@ public class PmdPartyAdminService extends BaseMapper {
         PmdPartyAdminExample example = new PmdPartyAdminExample();
         example.createCriteria().andUserIdEqualTo(userId);
         if (pmdPartyAdminMapper.countByExample(example) == 0) {
-            sysUserService.delRole(userId, SystemConstants.ROLE_PMD_PARTY);
+            sysUserService.delRole(userId, RoleConstants.ROLE_PMD_PARTY);
         }
     }
 }

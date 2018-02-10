@@ -14,6 +14,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.DateUtils;
@@ -32,7 +34,7 @@ public class UserMemberOutController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping("/memberOut")
     public String memberOut(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -41,21 +43,21 @@ public class UserMemberOutController extends MemberBaseController {
         UserBean userBean = userBeanService.get(userId);
         modelMap.put("userBean", userBean);
         MemberOut memberOut = memberOutService.getLatest(userId);
-        if(userBean.getMemberStatus()==SystemConstants.MEMBER_STATUS_NORMAL
-                && memberOut!=null && memberOut.getStatus()==SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY){
+        if(userBean.getMemberStatus()==MemberConstants.MEMBER_STATUS_NORMAL
+                && memberOut!=null && memberOut.getStatus()== MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY){
             // 如果已是党员，可以进行转出操作
             memberOut = null;
         }
 
         modelMap.put("memberOut", memberOut);
 
-        if(memberOut==null || memberOut.getStatus() <= SystemConstants.MEMBER_OUT_STATUS_BACK)
+        if(memberOut==null || memberOut.getStatus() <= MemberConstants.MEMBER_OUT_STATUS_BACK)
             return "user/member/memberOut/memberOut_au";
 
         return "user/member/memberOut/memberOut";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberOut_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberOut_au(@CurrentUser SysUserView loginUser,
@@ -72,12 +74,12 @@ public class UserMemberOutController extends MemberBaseController {
 
         Member member = memberService.get(userId);
         MemberOut memberOut = null;
-        if(member.getStatus()!=SystemConstants.MEMBER_STATUS_NORMAL){
+        if(member.getStatus()!=MemberConstants.MEMBER_STATUS_NORMAL){
             // 如果已是党员，可以进行转出操作
             memberOut = memberOutService.getLatest(userId);
         }
 
-        if(memberOut!=null && memberOut.getStatus() > SystemConstants.MEMBER_OUT_STATUS_BACK)
+        if(memberOut!=null && memberOut.getStatus() > MemberConstants.MEMBER_OUT_STATUS_BACK)
            return failed("不允许修改");
 
 
@@ -86,7 +88,7 @@ public class UserMemberOutController extends MemberBaseController {
 
         record.setUserId(loginUser.getId());
         record.setApplyTime(new Date());
-        record.setStatus(SystemConstants.MEMBER_OUT_STATUS_APPLY);
+        record.setStatus(MemberConstants.MEMBER_OUT_STATUS_APPLY);
         record.setIsBack(false);
         if (memberOut == null) {
             memberOutService.insertOrUpdateSelective(record);
@@ -109,7 +111,7 @@ public class UserMemberOutController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberOut_back", method = RequestMethod.POST)
     @ResponseBody
     public Map memberOut_back(@CurrentUser SysUserView loginUser, String remark){

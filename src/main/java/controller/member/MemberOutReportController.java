@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.ConfigUtil;
@@ -53,8 +55,8 @@ public class MemberOutReportController extends BaseController {
                                 Model model) throws IOException, DocumentException {
 
         // 分党委、组织部管理员或管理员才可以操作
-        if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN,
-                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN)) {
+        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
+                RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_PARTYADMIN)) {
             throw new UnauthorizedException();
         }
 
@@ -98,8 +100,8 @@ public class MemberOutReportController extends BaseController {
                                Model model) throws IOException, DocumentException {
 
         // 分党委、组织部管理员或管理员才可以操作
-        if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN,
-                SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_PARTYADMIN)) {
+        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
+                RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_PARTYADMIN)) {
             throw new UnauthorizedException();
         }
 
@@ -142,8 +144,8 @@ public class MemberOutReportController extends BaseController {
         map.put("from", memberOut.getFromUnit());
         map.put("to", memberOut.getToUnit());
         map.put("toTitle", memberOut.getToTitle());
-        map.put("check1", (userBean.getPoliticalStatus() != null && userBean.getPoliticalStatus() == SystemConstants.MEMBER_POLITICAL_STATUS_GROW) ? "√" : ""); // 预备党员
-        map.put("check2", (userBean.getPoliticalStatus() != null && userBean.getPoliticalStatus() == SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE) ? "√" : ""); // 正式党员
+        map.put("check1", (userBean.getPoliticalStatus() != null && userBean.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_GROW) ? "√" : ""); // 预备党员
+        map.put("check2", (userBean.getPoliticalStatus() != null && userBean.getPoliticalStatus() == MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE) ? "√" : ""); // 正式党员
         map.put("male", (userBean.getGender() != null && userBean.getGender() == SystemConstants.GENDER_MALE) ? "√" : "");
         map.put("female", (userBean.getGender() != null && userBean.getGender() == SystemConstants.GENDER_FEMALE) ? "√" : "");
         map.put("age", (userBean.getBirth() != null) ? DateUtils.intervalYearsUntilNow(userBean.getBirth()) : "");

@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.global.CacheService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.ModifyConstants;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 
@@ -42,7 +42,7 @@ public class ModifyBaseItemService extends BaseMapper {
 
         ModifyBaseItemExample example = new ModifyBaseItemExample();
         example.createCriteria().andIdEqualTo(id)
-                .andStatusEqualTo(SystemConstants.MODIFY_BASE_ITEM_STATUS_APPLY); // 只有待审批的记录可以删除
+                .andStatusEqualTo(ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY); // 只有待审批的记录可以删除
 
         modifyBaseItemMapper.deleteByExample(example);
     }
@@ -58,7 +58,7 @@ public class ModifyBaseItemService extends BaseMapper {
 
         ModifyBaseItemExample example = new ModifyBaseItemExample();
         example.createCriteria().andIdEqualTo(id)
-                .andStatusEqualTo(SystemConstants.MODIFY_BASE_ITEM_STATUS_APPLY); // 只有待审批的记录可以更新
+                .andStatusEqualTo(ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY); // 只有待审批的记录可以更新
 
         modifyBaseItemMapper.updateByExampleSelective(record, example);
     }
@@ -80,8 +80,8 @@ public class ModifyBaseItemService extends BaseMapper {
         { // 先审核
             ModifyBaseItem record = new ModifyBaseItem();
             record.setId(id);
-            record.setStatus(BooleanUtils.isTrue(status) ? SystemConstants.MODIFY_BASE_ITEM_STATUS_PASS :
-                    SystemConstants.MODIFY_BASE_ITEM_STATUS_DENY);
+            record.setStatus(BooleanUtils.isTrue(status) ? ModifyConstants.MODIFY_BASE_ITEM_STATUS_PASS :
+                    ModifyConstants.MODIFY_BASE_ITEM_STATUS_DENY);
             record.setCheckRemark(checkRemark);
             record.setCheckReason(checkReason);
             record.setCheckUserId(ShiroHelper.getCurrentUserId());
@@ -95,7 +95,7 @@ public class ModifyBaseItemService extends BaseMapper {
             if(BooleanUtils.isTrue(status) && StringUtils.isNotBlank(tableName)){
 
                 // 更新数据库内容，主键值必须是用户ID
-                boolean needSingleQuotes = (mbi.getType()!=SystemConstants.MODIFY_BASE_ITEM_TYPE_INT);
+                boolean needSingleQuotes = (mbi.getType()!=ModifyConstants.MODIFY_BASE_ITEM_TYPE_INT);
                 String sql = "update " + tableName + " set " + mbi.getCode() + " = " + (needSingleQuotes?"'":"") +
                         StringEscapeUtils.escapeSql(mbi.getModifyValue().replace("\\", "\\\\")) + (needSingleQuotes ? "'" : "")
                         + " where "+ mbi.getTableIdName() + "=" + _sysUser.getId();
@@ -109,13 +109,13 @@ public class ModifyBaseItemService extends BaseMapper {
             {
                 ModifyBaseItemExample example = new ModifyBaseItemExample();
                 example.createCriteria().andApplyIdEqualTo(applyId)
-                        .andStatusEqualTo(SystemConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
+                        .andStatusEqualTo(ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
                 applyCount = modifyBaseItemMapper.countByExample(example);
             }
             {
                 ModifyBaseItemExample example = new ModifyBaseItemExample();
                 example.createCriteria().andApplyIdEqualTo(applyId)
-                        .andStatusNotEqualTo(SystemConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
+                        .andStatusNotEqualTo(ModifyConstants.MODIFY_BASE_ITEM_STATUS_APPLY);
                 checkCount = modifyBaseItemMapper.countByExample(example);
             }
             Assert.isTrue(checkCount > 0, "wrong check count"); // 刚才审核了一个，肯定大于0
@@ -123,9 +123,9 @@ public class ModifyBaseItemService extends BaseMapper {
                 ModifyBaseApply record = new ModifyBaseApply();
                 record.setId(mba.getId());
                 if (applyCount == 0)
-                    record.setStatus(SystemConstants.MODIFY_BASE_APPLY_STATUS_ALL_CHECK);
+                    record.setStatus(ModifyConstants.MODIFY_BASE_APPLY_STATUS_ALL_CHECK);
                 if (applyCount > 0)
-                    record.setStatus(SystemConstants.MODIFY_BASE_APPLY_STATUS_PART_CHECK);
+                    record.setStatus(ModifyConstants.MODIFY_BASE_APPLY_STATUS_PART_CHECK);
                 record.setCheckTime(new Date());
                 record.setCheckIp(ip);
 

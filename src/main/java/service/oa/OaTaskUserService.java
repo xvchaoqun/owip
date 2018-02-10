@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.OaConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 
@@ -137,7 +139,7 @@ public class OaTaskUserService extends BaseController {
     @Transactional
     public void check(int taskId, int[] taskUserIds, byte status, String remark) {
 
-        if (!SystemConstants.OA_TASK_USER_STATUS_MAP.containsKey(status)) {
+        if (!OaConstants.OA_TASK_USER_STATUS_MAP.containsKey(status)) {
             return;
         }
 
@@ -145,7 +147,7 @@ public class OaTaskUserService extends BaseController {
 
             OaTaskUser record = new OaTaskUser();
             record.setStatus(status);
-            if (status == SystemConstants.OA_TASK_USER_STATUS_DENY) {
+            if (status == OaConstants.OA_TASK_USER_STATUS_DENY) {
                 record.setHasReport(false);
             }
             record.setCheckRemark(remark);
@@ -153,7 +155,7 @@ public class OaTaskUserService extends BaseController {
             example.createCriteria().andTaskIdEqualTo(taskId)
                     .andIsDeleteEqualTo(false)
                     .andUserIdEqualTo(taskUserId).andHasReportEqualTo(true)
-                    .andStatusEqualTo(SystemConstants.OA_TASK_USER_STATUS_INIT);
+                    .andStatusEqualTo(OaConstants.OA_TASK_USER_STATUS_INIT);
 
             oaTaskUserMapper.updateByExampleSelective(record, example);
         }
@@ -168,7 +170,7 @@ public class OaTaskUserService extends BaseController {
         OaTaskUserView oaTaskUser = getOwnTask(taskId, userId);
 
         if (oaTaskUser == null || (oaTaskUser.getStatus()!=null &&
-                oaTaskUser.getStatus() == SystemConstants.OA_TASK_USER_STATUS_PASS) ) {
+                oaTaskUser.getStatus() == OaConstants.OA_TASK_USER_STATUS_PASS) ) {
 
             throw new OpException("数据异常，请稍后重试。");
         }
@@ -194,7 +196,7 @@ public class OaTaskUserService extends BaseController {
         record.setHasReport(true);
         record.setReportUserId(userId);
         record.setReportTime(new Date());
-        record.setStatus(SystemConstants.OA_TASK_USER_STATUS_INIT);
+        record.setStatus(OaConstants.OA_TASK_USER_STATUS_INIT);
         record.setIsBack(false);
         oaTaskUserMapper.updateByPrimaryKeySelective(record);
     }
@@ -225,7 +227,7 @@ public class OaTaskUserService extends BaseController {
 
         int userId = ShiroHelper.getCurrentUserId();
         OaTaskUserView oaTaskUser = getOwnTask(taskId, userId);
-        if (oaTaskUser == null || oaTaskUser.getStatus() == SystemConstants.OA_TASK_USER_STATUS_PASS) {
+        if (oaTaskUser == null || oaTaskUser.getStatus() == OaConstants.OA_TASK_USER_STATUS_PASS) {
             throw new OpException("撤回失败。");
         }
 
@@ -245,7 +247,7 @@ public class OaTaskUserService extends BaseController {
         OaTaskUser record = new OaTaskUser();
         record.setId(id);
         record.setHasReport(false);
-        record.setStatus(SystemConstants.OA_TASK_USER_STATUS_INIT);
+        record.setStatus(OaConstants.OA_TASK_USER_STATUS_INIT);
         record.setIsBack(true);
 
         oaTaskUserMapper.updateByPrimaryKeySelective(record);
@@ -290,7 +292,7 @@ public class OaTaskUserService extends BaseController {
             OaTaskMsg oaTaskMsg = new OaTaskMsg();
             oaTaskMsg.setTaskId(taskId);
             oaTaskMsg.setUserId(userId);
-            oaTaskMsg.setType(SystemConstants.OA_TASK_MSG_TYPE_INFO);
+            oaTaskMsg.setType(OaConstants.OA_TASK_MSG_TYPE_INFO);
             oaTaskMsg.setContent(msg);
             oaTaskMsg.setSuccess(send);
             oaTaskMsg.setSendUserId(sendUserId);
@@ -348,7 +350,7 @@ public class OaTaskUserService extends BaseController {
             OaTaskMsg oaTaskMsg = new OaTaskMsg();
             oaTaskMsg.setTaskId(taskId);
             oaTaskMsg.setUserId(userId);
-            oaTaskMsg.setType(SystemConstants.OA_TASK_MSG_TYPE_UNREPORT);
+            oaTaskMsg.setType(OaConstants.OA_TASK_MSG_TYPE_UNREPORT);
             oaTaskMsg.setContent(msg);
             oaTaskMsg.setSuccess(send);
             oaTaskMsg.setSendUserId(sendUserId);
@@ -396,7 +398,7 @@ public class OaTaskUserService extends BaseController {
         OaTaskMsg oaTaskMsg = new OaTaskMsg();
         oaTaskMsg.setTaskId(taskId);
         oaTaskMsg.setUserId(userId);
-        oaTaskMsg.setType(SystemConstants.OA_TASK_MSG_TYPE_INFO);
+        oaTaskMsg.setType(OaConstants.OA_TASK_MSG_TYPE_INFO);
         oaTaskMsg.setContent(msg);
         oaTaskMsg.setSuccess(send);
         oaTaskMsg.setSendUserId(sendUserId);
@@ -438,7 +440,7 @@ public class OaTaskUserService extends BaseController {
         oaTaskUserMapper.updateByPrimaryKeySelective(record);
 
         // 添加“协同办公负责人”的角色
-        sysUserService.addRole(assignUserId, SystemConstants.ROLE_OA_USER);
+        sysUserService.addRole(assignUserId, RoleConstants.ROLE_OA_USER);
 
         if(oldAssignUserId != null){
 
@@ -449,7 +451,7 @@ public class OaTaskUserService extends BaseController {
             if(oaTaskUserMapper.countByExample(example)==0){
 
                 // 如果原负责人没有指定任何任务，则删除“协同办公负责人”的角色
-                sysUserService.delRole(oldAssignUserId, SystemConstants.ROLE_OA_USER);
+                sysUserService.delRole(oldAssignUserId, RoleConstants.ROLE_OA_USER);
             }
         }
     }

@@ -35,6 +35,7 @@ import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
@@ -203,7 +204,7 @@ public class PmdPayCampusCardService extends BaseMapper {
         if (orderIsNotExist) {
             // 使用真实的缴费月份当订单号的日期部分，在处理支付通知时，使用该月份为支付月份
             String orderNo = createOrderNo(pmdMemberId, currentPmdMonth,
-                    pmdMember.getIsDelay(), SystemConstants.PMD_PAY_WAY_CAMPUSCARD);
+                    pmdMember.getIsDelay(), PmdConstants.PMD_PAY_WAY_CAMPUSCARD);
             newOrder.setSn(orderNo);
             String md5Str = keys + paycode + newOrder.getSn() +
                     newOrder.getAmt() + newOrder.getPayer() +

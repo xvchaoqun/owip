@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -196,13 +197,13 @@ public class ShortMsgTplController extends BaseController {
     public String shortMsgTpl_au(Integer id, ModelMap modelMap) {
 
         List<String> roleList = Arrays.asList(
-                SystemConstants.ROLE_ADMIN,
-                SystemConstants.ROLE_PARTYADMIN,
-                SystemConstants.ROLE_BRANCHADMIN,
-                SystemConstants.ROLE_ODADMIN,
-                SystemConstants.ROLE_CADREADMIN
+                RoleConstants.ROLE_ADMIN,
+                RoleConstants.ROLE_PARTYADMIN,
+                RoleConstants.ROLE_BRANCHADMIN,
+                RoleConstants.ROLE_ODADMIN,
+                RoleConstants.ROLE_CADREADMIN
         );
-        if (ShiroHelper.lackRole(SystemConstants.ROLE_ADMIN)) {
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_ADMIN)) {
             ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
             Set<String> roles = shiroUser.getRoles();
             roles.retainAll(roleList);

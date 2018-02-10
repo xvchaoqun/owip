@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
+import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
@@ -98,7 +99,7 @@ public class PmdPayWszfService extends BaseMapper {
 
         // 使用真实的缴费月份当订单号的日期部分，在处理支付通知时，使用该月份为支付月份
         String orderNo = createOrderNo(pmdMemberId, currentPmdMonth,
-                pmdMember.getIsDelay(), SystemConstants.PMD_PAY_WAY_WSZF);
+                pmdMember.getIsDelay(), PmdConstants.PMD_PAY_WAY_WSZF);
         String orderDate = DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         String amount = pmdMember.getDuePay().toString();
         String md5Str = "orderDate=" + orderDate +

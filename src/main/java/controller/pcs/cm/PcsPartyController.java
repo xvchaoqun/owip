@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.common.bean.IPcsCandidateView;
 import persistence.common.bean.PcsBranchBean;
 import shiro.ShiroHelper;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
@@ -59,21 +60,21 @@ public class PcsPartyController extends PcsBaseController {
             case "1-1":
                 wb = pcsExportService.exportIssueCandidates(configId, stage, type);
                 String stageStr = "";
-                if(stage==SystemConstants.PCS_STAGE_FIRST)
+                if(stage== PcsConstants.PCS_STAGE_FIRST)
                     stageStr = "二下";
-                if(stage==SystemConstants.PCS_STAGE_SECOND)
+                if(stage==PcsConstants.PCS_STAGE_SECOND)
                     stageStr = "三下";
                 fileName = String.format("%s候选人初步人选名册（“%s”名单，党支部用）",
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type), stageStr);
+                        PcsConstants.PCS_USER_TYPE_MAP.get(type), stageStr);
                 break;
             case "2-1":
                 wb = pcsExportService.exportBranchCandidates(configId, stage, type, partyId);
                 fileName = String.format("%s候选人初步人选推荐提名汇总表（“%s”阶段）",
-                        SystemConstants.PCS_USER_TYPE_MAP.get(type), SystemConstants.PCS_STAGE_MAP.get(stage));
+                        PcsConstants.PCS_USER_TYPE_MAP.get(type), PcsConstants.PCS_STAGE_MAP.get(stage));
                 break;
             case "3":
                 wb = pcsExportService.exportRecommends_3(configId, stage, partyId);
-                fileName = String.format("参加两委委员候选人推荐提名情况汇总表（“%s”阶段）", SystemConstants.PCS_STAGE_MAP.get(stage));
+                fileName = String.format("参加两委委员候选人推荐提名情况汇总表（“%s”阶段）", PcsConstants.PCS_STAGE_MAP.get(stage));
                 break;
         }
 
@@ -87,7 +88,7 @@ public class PcsPartyController extends PcsBaseController {
     @RequestMapping("/pcsParty")
     public String pcsParty(@RequestParam(required = false, defaultValue = "1") byte cls,
                            @RequestParam(required = false,
-                                   defaultValue = SystemConstants.PCS_USER_TYPE_DW+"") byte type,
+                                   defaultValue = PcsConstants.PCS_USER_TYPE_DW+"") byte type,
                            Integer userId,
                            ModelMap modelMap) {
 
@@ -181,7 +182,7 @@ public class PcsPartyController extends PcsBaseController {
         pcsPartyService.report(partyId, configId, stage);
 
         logger.info(addLog(SystemConstants.LOG_PCS, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
-                SystemConstants.PCS_STAGE_MAP.get(stage)));
+                PcsConstants.PCS_STAGE_MAP.get(stage)));
 
         return success(FormUtils.SUCCESS);
     }
@@ -192,7 +193,7 @@ public class PcsPartyController extends PcsBaseController {
                                             byte stage,
                                             Integer userId,
                                             @RequestParam(required = false,
-                                                    defaultValue = SystemConstants.PCS_USER_TYPE_DW+"") byte type,
+                                                    defaultValue = PcsConstants.PCS_USER_TYPE_DW+"") byte type,
                                             Integer pageSize, Integer pageNo) throws IOException {
 
 

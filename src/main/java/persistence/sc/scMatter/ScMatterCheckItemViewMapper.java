@@ -2,8 +2,9 @@ package persistence.sc.scMatter;
 
 import domain.sc.scMatter.ScMatterCheckItemView;
 import domain.sc.scMatter.ScMatterCheckItemViewExample;
-import java.util.List;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface ScMatterCheckItemViewMapper {
     long countByExample(ScMatterCheckItemViewExample example);

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.SessionUtils;
 import sys.constants.SystemConstants;
+import sys.constants.TrainConstants;
 import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
 
@@ -135,7 +136,7 @@ public class MobileTrainEvaController extends TrainBaseController {
         TrainInspectorCourse record = new TrainInspectorCourse();
         record.setInspectorId(trainInspector.getId());
         record.setCourseId(courseId);
-        record.setStatus(SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_SAVE);
+        record.setStatus(TrainConstants.TRAIN_INSPECTOR_COURSE_STATUS_SAVE);
         record.setSubmitIp(ContextHelper.getRealIp());
         record.setSubmitTime(new Date());
         record.setTempdata(tempdataToString);

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class AbroadExportController extends AbroadBaseController {
         Integer cadreId = applySelf.getCadreId();
 
         // 判断一下查看权限++++++++++++++++++++???
-        if (ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             if (cadre.getId().intValue() != cadreId) {
                 ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();

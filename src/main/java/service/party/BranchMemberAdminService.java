@@ -10,11 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by fafa on 2016/1/19.
@@ -53,14 +52,14 @@ public class BranchMemberAdminService extends BaseMapper {
                 // 如果他只是该党支部的管理员，则删除账号所属的"党支部管理员"角色； 否则不处理
                 List<Integer> branchIdList = iPartyMapper.adminBranchIdList(userId);
                 if (branchIdList.size() == 0) {
-                    sysUserService.delRole(userId, SystemConstants.ROLE_BRANCHADMIN);
+                    sysUserService.delRole(userId, RoleConstants.ROLE_BRANCHADMIN);
                 }
             } else {
                 // 添加账号的"党支部管理员"角色
                 // 如果账号是现任班子的管理员， 且没有"党支部管理员"角色，则添加
                 SysUserView sysUser = sysUserService.findById(userId);
-                if (!CmTag.hasRole(sysUser.getUsername(), SystemConstants.ROLE_BRANCHADMIN)) {
-                    sysUserService.addRole(userId, SystemConstants.ROLE_BRANCHADMIN);
+                if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_BRANCHADMIN)) {
+                    sysUserService.addRole(userId, RoleConstants.ROLE_BRANCHADMIN);
                 }
             }
         }

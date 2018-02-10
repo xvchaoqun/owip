@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.FormUtils;
@@ -29,7 +30,7 @@ import java.util.Map;
 public class UserRetireApplyController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping("/retireApply")
     public String retireApply(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -67,7 +68,7 @@ public class UserRetireApplyController extends MemberBaseController {
 
         return "user/member/retireApply/retireApply";
     }
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping(value = "/retireApply_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_retireApply_au(@CurrentUser SysUserView loginUser, RetireApply retireApply, HttpServletRequest request) {

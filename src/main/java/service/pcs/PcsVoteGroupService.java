@@ -14,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.PcsConstants;
+import sys.constants.RoleConstants;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -43,8 +44,8 @@ public class PcsVoteGroupService extends BaseMapper {
         pcsVoteGroupMapper.insertSelective(record);
 
         int type = record.getType();
-        String role = (type == SystemConstants.PCS_USER_TYPE_DW ? SystemConstants.ROLE_PCS_VOTE_DW :
-                SystemConstants.ROLE_PCS_VOTE_JW);
+        String role = (type == PcsConstants.PCS_USER_TYPE_DW ? RoleConstants.ROLE_PCS_VOTE_DW :
+                RoleConstants.ROLE_PCS_VOTE_JW);
         if(record.getRecordUserId()!=null){
             sysUserService.addRole(record.getRecordUserId(), role);
         }
@@ -55,8 +56,8 @@ public class PcsVoteGroupService extends BaseMapper {
 
         PcsVoteGroup pcsVoteGroup = pcsVoteGroupMapper.selectByPrimaryKey(record.getId());
         int type = pcsVoteGroup.getType();
-        String role = (type == SystemConstants.PCS_USER_TYPE_DW ? SystemConstants.ROLE_PCS_VOTE_DW :
-                SystemConstants.ROLE_PCS_VOTE_JW);
+        String role = (type == PcsConstants.PCS_USER_TYPE_DW ? RoleConstants.ROLE_PCS_VOTE_DW :
+                RoleConstants.ROLE_PCS_VOTE_JW);
 
         record.setType(null);
         pcsVoteGroupMapper.updateByPrimaryKeySelective(record);
@@ -130,7 +131,7 @@ public class PcsVoteGroupService extends BaseMapper {
             byte type = _pcsVoteGroup.getType();
 
             PcsCandidateChosen pcsCandidateChosen =
-                    pcsOwService.getPcsCandidateChosen(userId, configId, SystemConstants.PCS_STAGE_THIRD, type);
+                    pcsOwService.getPcsCandidateChosen(userId, configId, PcsConstants.PCS_STAGE_THIRD, type);
             boolean isFromStage = (pcsCandidateChosen!=null);
             record.setIsFromStage(isFromStage);
             if(isFromStage) {

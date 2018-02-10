@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.LogService;
 import service.sys.SysApprovalLogService;
+import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 
@@ -80,8 +81,8 @@ public class PmdConfigMemberService extends BaseMapper {
 
                     PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
 
-                    return (pmdNorm!=null && pmdNorm.getSetType() == SystemConstants.PMD_NORM_SET_TYPE_FORMULA
-                            && pmdNorm.getFormulaType() != SystemConstants.PMD_FORMULA_TYPE_RETIRE);
+                    return (pmdNorm!=null && pmdNorm.getSetType() == PmdConstants.PMD_NORM_SET_TYPE_FORMULA
+                            && pmdNorm.getFormulaType() != PmdConstants.PMD_FORMULA_TYPE_RETIRE);
                 }
             }
         }

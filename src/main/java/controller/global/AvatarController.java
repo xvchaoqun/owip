@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.utils.FileUtils;
 import sys.utils.ImageUtils;
 
@@ -83,7 +83,7 @@ public class AvatarController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(SystemConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/avatar/process")
     public void avatar(String ext){  // ext: 图片存放路径，在头像基础目录之下
 

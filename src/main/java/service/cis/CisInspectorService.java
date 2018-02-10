@@ -8,7 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.CisConstants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +41,7 @@ public class CisInspectorService extends BaseMapper {
         if (ids == null || ids.length == 0) return;
 
         CisInspector record = new CisInspector();
-        record.setStatus(SystemConstants.CIS_INSPECTOR_STATUS_HISTORY);
+        record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_HISTORY);
 
         CisInspectorExample example = new CisInspectorExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -54,7 +54,7 @@ public class CisInspectorService extends BaseMapper {
         if (ids == null || ids.length == 0) return;
 
         CisInspector record = new CisInspector();
-        record.setStatus(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
+        record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_NOW);
 
         CisInspectorExample example = new CisInspectorExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -68,7 +68,7 @@ public class CisInspectorService extends BaseMapper {
         if (ids == null || ids.length == 0) return;
 
         CisInspector record = new CisInspector();
-        record.setStatus(SystemConstants.CIS_INSPECTOR_STATUS_DELETE);
+        record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_DELETE);
 
         CisInspectorExample example = new CisInspectorExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));

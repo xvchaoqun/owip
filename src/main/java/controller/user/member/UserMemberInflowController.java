@@ -14,6 +14,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.FormUtils;
@@ -30,7 +32,7 @@ public class UserMemberInflowController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
+    @RequiresRoles(RoleConstants.ROLE_INFLOWMEMBER)
     @RequestMapping("/memberInflow_base")
     public String memberInflow_base(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -41,12 +43,12 @@ public class UserMemberInflowController extends MemberBaseController {
         return "user/member/memberInflow/memberInflow_base";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
+    @RequiresRoles(RoleConstants.ROLE_INFLOWMEMBER)
     @RequestMapping("/memberInflowOut")
     public String memberInflowOut(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
         MemberInflow memberInflow = memberInflowService.get(loginUser.getId());
-        if(memberInflow==null || memberInflow.getInflowStatus()!=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
+        if(memberInflow==null || memberInflow.getInflowStatus()!=MemberConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY){
             throw new OpException("状态异常");
         }
         modelMap.put("memberInflow", memberInflow);
@@ -62,13 +64,13 @@ public class UserMemberInflowController extends MemberBaseController {
         }
 
         if(memberInflow.getOutStatus()==null ||
-                memberInflow.getOutStatus()<= SystemConstants.MEMBER_INFLOW_OUT_STATUS_BACK)
+                memberInflow.getOutStatus()<= MemberConstants.MEMBER_INFLOW_OUT_STATUS_BACK)
             return "user/member/memberInflow/memberInflowOut_au";
 
         return "user/member/memberInflow/memberInflowOut";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
+    @RequiresRoles(RoleConstants.ROLE_INFLOWMEMBER)
     @RequestMapping(value = "/memberInflowOut", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberInflowOut(@CurrentUser SysUserView loginUser, String outUnit, Integer outLocation,
@@ -90,7 +92,7 @@ public class UserMemberInflowController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_INFLOWMEMBER)
+    @RequiresRoles(RoleConstants.ROLE_INFLOWMEMBER)
     @RequestMapping(value = "/memberInflowOut_back", method = RequestMethod.POST)
     @ResponseBody
     public Map memberInflowOut_back(@CurrentUser SysUserView loginUser, String remark){

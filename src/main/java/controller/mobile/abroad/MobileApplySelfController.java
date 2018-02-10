@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -40,7 +40,7 @@ import java.util.Map;
 public class MobileApplySelfController extends AbroadBaseController {
 
 	@RequiresPermissions("applySelf:list")
-	@RequiresRoles(SystemConstants.ROLE_CADREADMIN)
+	@RequiresRoles(RoleConstants.ROLE_CADREADMIN)
 	@RequestMapping("/applySelf")
 	public String applySelf(ModelMap modelMap) {
 
@@ -54,7 +54,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 	}
 
 	@RequiresPermissions("applySelf:list")
-	@RequiresRoles(SystemConstants.ROLE_CADREADMIN)
+	@RequiresRoles(RoleConstants.ROLE_CADREADMIN)
 	@RequestMapping("/applySelf_page")
 	public String applySelf_page(HttpServletResponse response,
 							   @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
@@ -93,7 +93,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 	}
 
 
-	@RequiresRoles(SystemConstants.ROLE_CADRE)
+	@RequiresRoles(RoleConstants.ROLE_CADRE)
 	@RequiresPermissions("applySelf:approvalList")
 	@RequestMapping("/applySelfList")
 	public String applySelfList(ModelMap modelMap) {
@@ -107,7 +107,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 		return "mobile/abroad/index";
 	}
 
-	@RequiresRoles(SystemConstants.ROLE_CADRE)
+	@RequiresRoles(RoleConstants.ROLE_CADRE)
 	@RequiresPermissions("applySelf:approvalList")
 	@RequestMapping("/applySelfList_page")
 	public String applySelfList_page(@CurrentUser SysUserView loginUser, HttpServletResponse response,
@@ -139,7 +139,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 		Integer cadreId = applySelf.getCadreId();
 
 		// 判断一下查看权限++++++++++++++++++++???
-		if(ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)) {
+		if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
 			CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
 			if(cadre.getId().intValue()!=cadreId) {
 				ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();

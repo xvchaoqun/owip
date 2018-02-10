@@ -25,6 +25,8 @@ import service.party.EnterApplyService;
 import service.party.MemberService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
@@ -67,9 +69,9 @@ public class MemberInService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_IN_STATUS_APPLY);
         } else if(type==2){ //组织部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -88,9 +90,9 @@ public class MemberInService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_IN_STATUS_APPLY);
         } else if(type==2){ //组织部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -112,9 +114,9 @@ public class MemberInService extends BaseMapper {
         criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
         if(type==1){ //分党委审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_APPLY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_IN_STATUS_APPLY);
         } else if(type==2){ //组织部审核
-            criteria.andStatusEqualTo(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
+            criteria.andStatusEqualTo(MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
         }else{
             throw new OpException("审核类型错误");
         }
@@ -140,7 +142,7 @@ public class MemberInService extends BaseMapper {
     public MemberIn get(int userId) {
 
         MemberInExample example = new MemberInExample();
-        example.createCriteria().andUserIdEqualTo(userId).andStatusNotEqualTo(SystemConstants.MEMBER_IN_STATUS_OW_VERIFY);
+        example.createCriteria().andUserIdEqualTo(userId).andStatusNotEqualTo(MemberConstants.MEMBER_IN_STATUS_OW_VERIFY);
         example.setOrderByClause("create_time desc");
         List<MemberIn> memberIns = memberInMapper.selectByExample(example);
         if(memberIns.size()>0) return memberIns.get(0);
@@ -153,11 +155,11 @@ public class MemberInService extends BaseMapper {
     public void checkMember(int userId, boolean hasReceipt){
 
         MemberIn memberIn = get(userId);
-        if(memberIn.getStatus()!= SystemConstants.MEMBER_IN_STATUS_APPLY)
+        if(memberIn.getStatus()!= MemberConstants.MEMBER_IN_STATUS_APPLY)
             throw new DBErrorException("状态异常");
         MemberIn record = new MemberIn();
         record.setId(memberIn.getId());
-        record.setStatus(SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
         record.setHasReceipt(hasReceipt);
         //record.setBranchId(memberIn.getBranchId());
         updateByPrimaryKeySelective(record);
@@ -181,12 +183,12 @@ public class MemberInService extends BaseMapper {
         }*/
 
         MemberIn memberIn = get(userId);
-        if(memberIn.getStatus()!= SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY)
+        if(memberIn.getStatus()!= MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY)
             throw new DBErrorException("分党委还未审核通过");
 
         MemberIn record = new MemberIn();
         record.setId(memberIn.getId());
-        record.setStatus(SystemConstants.MEMBER_IN_STATUS_OW_VERIFY);
+        record.setStatus(MemberConstants.MEMBER_IN_STATUS_OW_VERIFY);
         //record.setBranchId(memberIn.getBranchId());
         updateByPrimaryKeySelective(record);
 
@@ -197,8 +199,8 @@ public class MemberInService extends BaseMapper {
         member.setBranchId(memberIn.getBranchId());
         member.setPoliticalStatus(politicalStatus);
 
-        member.setStatus(SystemConstants.MEMBER_STATUS_NORMAL); // 正常党员
-        member.setSource(SystemConstants.MEMBER_SOURCE_TRANSFER); // 转入党员
+        member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
+        member.setSource(MemberConstants.MEMBER_SOURCE_TRANSFER); // 转入党员
         member.setApplyTime(memberIn.getApplyTime());
         member.setActiveTime(memberIn.getActiveTime());
         member.setCandidateTime(memberIn.getCandidateTime());
@@ -282,7 +284,7 @@ public class MemberInService extends BaseMapper {
     private void addModify(int id, boolean first){
 
         MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
-        Assert.isTrue(memberIn.getStatus()==SystemConstants.MEMBER_IN_STATUS_OW_VERIFY, "wrong status");
+        Assert.isTrue(memberIn.getStatus()==MemberConstants.MEMBER_IN_STATUS_OW_VERIFY, "wrong status");
         MemberInModify modify = new MemberInModify();
         try {
             ConvertUtils.register(new DateConverter(null), Date.class);
@@ -316,7 +318,7 @@ public class MemberInService extends BaseMapper {
 
             // 检查是否已经后台添加成了党员，如果是，则提示打回申请
             Member member = memberService.get(userId);
-            if(member!=null && member.getStatus()==SystemConstants.MEMBER_STATUS_NORMAL){
+            if(member!=null && member.getStatus()==MemberConstants.MEMBER_STATUS_NORMAL){
                 SysUserView uv = CmTag.getUserById(userId);
                 throw new OpException(uv.getRealname() + "已经是党员，请打回该转入申请。");
             }
@@ -335,7 +337,7 @@ public class MemberInService extends BaseMapper {
                 }
             }
             if(type==2) {
-                SecurityUtils.getSubject().checkRole(SystemConstants.ROLE_ODADMIN);
+                SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ODADMIN);
                 addMember(memberIn.getUserId(), memberIn.getPoliticalStatus());
             }
 
@@ -351,16 +353,16 @@ public class MemberInService extends BaseMapper {
     @Transactional
     public void memberIn_back(Integer[] userIds, byte status, String reason, int loginUserId){
 
-        boolean odAdmin = ShiroHelper.hasRole(SystemConstants.ROLE_ODADMIN);
+        boolean odAdmin = ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN);
         for (int userId : userIds) {
 
             MemberIn memberIn = memberInMapper.selectByPrimaryKey(userId);
             Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberIn.getPartyId());
 
-            if(memberIn.getStatus() >= SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY){
+            if(memberIn.getStatus() >= MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY){
                 if(!odAdmin) throw new UnauthorizedException();
             }
-            if(memberIn.getStatus() >= SystemConstants.MEMBER_IN_STATUS_BACK){
+            if(memberIn.getStatus() >= MemberConstants.MEMBER_IN_STATUS_BACK){
                 if(!odAdmin && !presentPartyAdmin) throw new UnauthorizedException();
             }
 
@@ -372,17 +374,17 @@ public class MemberInService extends BaseMapper {
     private  void back(MemberIn memberIn, byte status, int loginUserId, String reason){
 
         byte _status = memberIn.getStatus();
-        if(_status==SystemConstants.MEMBER_IN_STATUS_OW_VERIFY){
+        if(_status==MemberConstants.MEMBER_IN_STATUS_OW_VERIFY){
             throw new OpException("审核流程已经完成，不可以打回。");
         }
-        if(status>_status || status<SystemConstants.MEMBER_IN_STATUS_BACK ){
+        if(status>_status || status<MemberConstants.MEMBER_IN_STATUS_BACK ){
             throw new OpException("参数有误。");
         }
 
         Integer id = memberIn.getId();
         Integer userId = memberIn.getUserId();
 
-        if(status==SystemConstants.MEMBER_IN_STATUS_BACK ) { // 后台打回申请，需要重置入口提交状态
+        if(status==MemberConstants.MEMBER_IN_STATUS_BACK ) { // 后台打回申请，需要重置入口提交状态
             // 状态检查
             EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
             //throw new DBErrorException("系统错误");
@@ -408,7 +410,7 @@ public class MemberInService extends BaseMapper {
         applyApprovalLogService.add(id,
                 memberIn.getPartyId(), memberIn.getBranchId(), userId,
                 loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, SystemConstants.MEMBER_IN_STATUS_MAP.get(status),
+                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, MemberConstants.MEMBER_IN_STATUS_MAP.get(status),
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 

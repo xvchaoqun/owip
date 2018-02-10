@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
@@ -141,7 +142,7 @@ public class UserOaTaskUserController extends OaBaseController {
         SysUserView user = sysUserService.findById(oaTaskUser.getUserId());
         String msgTitle = user.getRealname()+"老师";
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_OA_INFO_USER);
+        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_OA_INFO_USER);
         String msg = MessageFormat.format(tpl.getContent(), assignMsgTitle, msgTitle, oaTask.getName());
 
         modelMap.put("msg", msg);
@@ -163,7 +164,7 @@ public class UserOaTaskUserController extends OaBaseController {
         SysUserView user = sysUserService.findById(oaTaskUser.getUserId());
         String msgTitle = user.getRealname()+"老师";
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_OA_INFO_USER);
+        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_OA_INFO_USER);
         String msg = MessageFormat.format(tpl.getContent(), assignMsgTitle, msgTitle, oaTask.getName());
 
         ShortMsgBean bean = new ShortMsgBean();

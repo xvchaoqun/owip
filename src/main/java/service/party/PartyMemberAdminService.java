@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.util.List;
@@ -53,14 +53,14 @@ public class PartyMemberAdminService extends BaseMapper {
                 // 如果他只是该分党委的管理员，则删除账号所属的"分党委管理员"角色； 否则不处理
                 List<Integer> partyIdList = iPartyMapper.adminPartyIdList(userId);
                 if(partyIdList.size()==0) {
-                    sysUserService.delRole(userId, SystemConstants.ROLE_PARTYADMIN);
+                    sysUserService.delRole(userId, RoleConstants.ROLE_PARTYADMIN);
                 }
             }else{
                 // 添加账号的"分党委管理员"角色
                 // 如果账号是现任班子的管理员， 且没有"分党委管理员"角色，则添加
                 SysUserView sysUser = sysUserService.findById(userId);
-                if (!CmTag.hasRole(sysUser.getUsername(), SystemConstants.ROLE_PARTYADMIN)) {
-                    sysUserService.addRole(userId, SystemConstants.ROLE_PARTYADMIN);
+                if (!CmTag.hasRole(sysUser.getUsername(), RoleConstants.ROLE_PARTYADMIN)) {
+                    sysUserService.addRole(userId, RoleConstants.ROLE_PARTYADMIN);
                 }
             }
         }

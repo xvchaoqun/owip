@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -74,7 +75,7 @@ public class PmdBranchController extends PmdBaseController {
 
         PmdBranchViewExample example = new PmdBranchViewExample();
         PmdBranchViewExample.Criteria criteria = example.createCriteria()
-                .andMonthStatusNotEqualTo(SystemConstants.PMD_MONTH_STATUS_INIT);
+                .andMonthStatusNotEqualTo(PmdConstants.PMD_MONTH_STATUS_INIT);
         example.setOrderByClause("pay_month desc, sort_order desc, id desc");
 
         if(payMonth!=null){

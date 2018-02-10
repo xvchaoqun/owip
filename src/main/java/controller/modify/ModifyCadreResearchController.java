@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
+import sys.constants.ModifyConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 
@@ -34,7 +36,7 @@ public class ModifyCadreResearchController extends ModifyBaseController {
         //byte researchType = (byte)request.getAttribute("researchType");
 
         if (cls == null) {
-            cls = (byte) (ShiroHelper.hasAnyRoles(SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE) ? 0 : 1);
+            cls = (byte) (ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADRERESERVE) ? 0 : 1);
         }
         modelMap.put("cls", cls);
         if (cadreId != null) {
@@ -47,9 +49,9 @@ public class ModifyCadreResearchController extends ModifyBaseController {
 
         byte module = 0;
         if(researchType==SystemConstants.CADRE_RESEARCH_TYPE_DIRECT){
-            module = SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT;
+            module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT;
         }else if(researchType==SystemConstants.CADRE_RESEARCH_TYPE_IN){
-            module = SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN;
+            module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN;
         }
 
         modelMap.put("module", module);

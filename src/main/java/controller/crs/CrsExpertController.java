@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.common.bean.ICrsExpert;
+import sys.constants.CisConstants;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -57,7 +59,7 @@ public class CrsExpertController extends CrsBaseController {
     public Map selectCadres_tree() throws IOException {
 
         CrsExpertExample example = new CrsExpertExample();
-        example.createCriteria().andStatusNotEqualTo(SystemConstants.CRS_EXPERT_STATUS_DELETE);
+        example.createCriteria().andStatusNotEqualTo(CrsConstants.CRS_EXPERT_STATUS_DELETE);
         List<CrsExpert> crsExperts = crsExpertMapper.selectByExample(example);
         Set<Integer> disabledIdSet = new HashSet<>();
         for (CrsExpert crsExpert : crsExperts) {
@@ -95,7 +97,7 @@ public class CrsExpertController extends CrsBaseController {
     public String crsExpert(HttpServletResponse response,
                             Integer userId,
                             @RequestParam(required = false, defaultValue =
-                                    SystemConstants.CIS_INSPECTOR_STATUS_NOW + "") Byte status,
+                                    CisConstants.CIS_INSPECTOR_STATUS_NOW + "") Byte status,
                             ModelMap modelMap) {
 
         modelMap.put("status", status);
@@ -108,7 +110,7 @@ public class CrsExpertController extends CrsBaseController {
     public void crsExpert_data(HttpServletResponse response,
                                Integer userId,
                                @RequestParam(required = false, defaultValue =
-                                       SystemConstants.CIS_INSPECTOR_STATUS_NOW + "") Byte status,
+                                       CisConstants.CIS_INSPECTOR_STATUS_NOW + "") Byte status,
                                @RequestDateRange DateRange meetingTime,
                                Byte orderType,
                                @RequestParam(required = false, defaultValue = "0") int export,
@@ -161,7 +163,7 @@ public class CrsExpertController extends CrsBaseController {
         Integer id = record.getId();
 
         if (id == null) {
-            record.setStatus(SystemConstants.CIS_INSPECTOR_STATUS_NOW);
+            record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_NOW);
             crsExpertService.insertSelective(record);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部考察组成员：%s", record.getId()));
         } else {

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.ModifyConstants;
+import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 
 @Controller
@@ -26,7 +27,7 @@ public class ModifyCadreBookController extends ModifyBaseController {
                                       Integer cadreId, ModelMap modelMap) {
 
         if (cls == null) {
-            cls = (byte) (ShiroHelper.hasAnyRoles(SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADRERESERVE) ? 0 : 1);
+            cls = (byte) (ShiroHelper.hasAnyRoles(RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADRERESERVE) ? 0 : 1);
         }
         modelMap.put("cls", cls);
         if (cadreId != null) {
@@ -37,7 +38,7 @@ public class ModifyCadreBookController extends ModifyBaseController {
             modelMap.put("sysUser", sysUser);
         }
 
-        byte module = SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK;
+        byte module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK;
         modelMap.put("module", module);
         if (cls == 0) {
 

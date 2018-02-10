@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.MemberConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.DateUtils;
@@ -38,8 +40,8 @@ public class UserMemberStayController extends MemberBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(value = {SystemConstants.ROLE_MEMBER, SystemConstants.ROLE_ODADMIN,
-            SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_ODADMIN,
+            RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping("/memberStay")
     public String memberStay(Integer userId, // 申请人
                              Integer id, // memberStay记录ID, 管理员在后台修改时传入
@@ -54,8 +56,8 @@ public class UserMemberStayController extends MemberBaseController {
 
         modelMap.put("type", type);
 
-        if(userId==null || !ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN,
-                SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN)) {
+        if(userId==null || !ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
+                RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN)) {
             // 确认普通用户只能提交自己的申请
             userId = ShiroHelper.getCurrentUserId();
         }
@@ -71,7 +73,7 @@ public class UserMemberStayController extends MemberBaseController {
         if(!selfSubmit){
             //===========权限
             Subject subject = SecurityUtils.getSubject();
-            if (!subject.hasRole(SystemConstants.ROLE_ODADMIN)) { // 支部或分党委管理员都有权限
+            if (!subject.hasRole(RoleConstants.ROLE_ODADMIN)) { // 支部或分党委管理员都有权限
                 boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
                 if (!isAdmin && branchId != null) {
                     isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
@@ -82,7 +84,7 @@ public class UserMemberStayController extends MemberBaseController {
 
         MemberStay memberStay = memberStayService.get(userId);
         modelMap.put("canSubmit", memberStay==null || memberStay.getType()==type
-                || (memberStay.getStatus()<=SystemConstants.MEMBER_STAY_STATUS_BACK));
+                || (memberStay.getStatus()<=MemberConstants.MEMBER_STAY_STATUS_BACK));
         if(memberStay!=null){
             byte hasSubmitType = memberStay.getType();
             modelMap.put("hasSubmitType", hasSubmitType);
@@ -100,15 +102,15 @@ public class UserMemberStayController extends MemberBaseController {
             return "user/member/memberStay/memberStay_au";
         }
 
-        if(memberStay==null || memberStay.getStatus()== SystemConstants.MEMBER_STAY_STATUS_SELF_BACK
-                || memberStay.getStatus()==SystemConstants.MEMBER_STAY_STATUS_BACK)
+        if(memberStay==null || memberStay.getStatus()== MemberConstants.MEMBER_STAY_STATUS_SELF_BACK
+                || memberStay.getStatus()==MemberConstants.MEMBER_STAY_STATUS_BACK)
             return "user/member/memberStay/memberStay_au";
 
         return "user/member/memberStay/memberStay";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_MEMBER, SystemConstants.ROLE_ODADMIN,
-            SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_MEMBER, RoleConstants.ROLE_ODADMIN,
+            RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/memberStay_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_memberStay_au(Integer userId, // 申请人
@@ -116,15 +118,15 @@ public class UserMemberStayController extends MemberBaseController {
                                     MultipartFile _letter,
                                    HttpServletRequest request) {
 
-        if(userId==null || !ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN,
-                SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN)) {
+        if(userId==null || !ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
+                RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN)) {
             // 确认普通用户只能提交自己的申请
             userId = ShiroHelper.getCurrentUserId();
         }
 
         // 如果是管理员修改则以record.id为准
-        if(ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ODADMIN,
-                SystemConstants.ROLE_PARTYADMIN, SystemConstants.ROLE_BRANCHADMIN)){
+        if(ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
+                RoleConstants.ROLE_PARTYADMIN, RoleConstants.ROLE_BRANCHADMIN)){
             if(record.getId()!=null){
                 MemberStay memberStay = memberStayMapper.selectByPrimaryKey(record.getId());
                 userId = memberStay.getUserId();
@@ -143,7 +145,7 @@ public class UserMemberStayController extends MemberBaseController {
         if(!selfSubmit){
             //===========权限
             Subject subject = SecurityUtils.getSubject();
-            if (!subject.hasRole(SystemConstants.ROLE_ODADMIN)) { // 支部或分党委管理员都有权限
+            if (!subject.hasRole(RoleConstants.ROLE_ODADMIN)) { // 支部或分党委管理员都有权限
                 boolean isAdmin = partyMemberService.isPresentAdmin(loginUserId, partyId);
                 if (!isAdmin && branchId != null) {
                     isAdmin = branchMemberService.isPresentAdmin(loginUserId, partyId, branchId);
@@ -160,7 +162,7 @@ public class UserMemberStayController extends MemberBaseController {
             return failed("手机号码有误");
         }
 
-        if(record.getType() == SystemConstants.MEMBER_STAY_TYPE_ABROAD) {
+        if(record.getType() == MemberConstants.MEMBER_STAY_TYPE_ABROAD) {
             if (record.getStartTime() == null || record.getEndTime() == null
                     || record.getStartTime().after(record.getEndTime())) {
                return failed("出国起止时间有误");
@@ -202,8 +204,8 @@ public class UserMemberStayController extends MemberBaseController {
         MemberStay memberStay = memberStayService.get(userId);
 
         // 不允许本人修改
-        if(selfSubmit && memberStay!=null && memberStay.getStatus()!=SystemConstants.MEMBER_STAY_STATUS_SELF_BACK
-                && memberStay.getStatus()!=SystemConstants.MEMBER_STAY_STATUS_BACK)
+        if(selfSubmit && memberStay!=null && memberStay.getStatus()!=MemberConstants.MEMBER_STAY_STATUS_SELF_BACK
+                && memberStay.getStatus()!=MemberConstants.MEMBER_STAY_STATUS_BACK)
            return failed("不允许修改");
 
         if(memberStay!=null){
@@ -216,7 +218,7 @@ public class UserMemberStayController extends MemberBaseController {
 
         record.setUserId(userId);
         record.setCreateTime(new Date());
-        record.setStatus(SystemConstants.MEMBER_STAY_STATUS_APPLY);
+        record.setStatus(MemberConstants.MEMBER_STAY_STATUS_APPLY);
         record.setIsBack(false);
         if (memberStay == null) {
             memberStayService.insertSelective(record);
@@ -245,7 +247,7 @@ public class UserMemberStayController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_MEMBER)
+    @RequiresRoles(RoleConstants.ROLE_MEMBER)
     @RequestMapping(value = "/memberStay_back", method = RequestMethod.POST)
     @ResponseBody
     public Map memberStay_back(@CurrentUser SysUserView loginUser, String remark){

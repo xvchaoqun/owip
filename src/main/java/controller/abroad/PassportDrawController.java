@@ -28,6 +28,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.AbroadConstants;
+import sys.constants.ContentTplConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
@@ -71,7 +74,7 @@ public class PassportDrawController extends AbroadBaseController {
         return "abroad/passportDraw/passportDraw_check";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_CADREADMIN)
+    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
     @RequiresPermissions("passportDraw:edit")
     @RequestMapping(value = "/passportDraw_agree", method = RequestMethod.POST)
     @ResponseBody
@@ -81,7 +84,7 @@ public class PassportDrawController extends AbroadBaseController {
         record.setId(id);
         record.setApproveRemark(StringUtils.trimToNull(remark));
 
-        record.setStatus(SystemConstants.PASSPORT_DRAW_STATUS_PASS);
+        record.setStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_PASS);
         record.setUserId(loginUser.getId());
         record.setApproveTime(new Date());
         record.setIp(IpUtils.getRealIp(request));
@@ -103,7 +106,7 @@ public class PassportDrawController extends AbroadBaseController {
         if(record.getApproveRemark()==null){
             return failed("请输入原因");
         }
-        record.setStatus(SystemConstants.PASSPORT_DRAW_STATUS_NOT_PASS);
+        record.setStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_NOT_PASS);
         record.setUserId(loginUser.getId());
         record.setApproveTime(new Date());
         record.setIp(IpUtils.getRealIp(request));
@@ -168,12 +171,12 @@ public class PassportDrawController extends AbroadBaseController {
             }else {
                 criteria.andIsDeletedEqualTo(false);
 
-                if (type == SystemConstants.PASSPORT_DRAW_TYPE_SELF ||
-                        type == SystemConstants.PASSPORT_DRAW_TYPE_OTHER) {
+                if (type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF ||
+                        type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER) {
                     criteria.andTypeEqualTo(type);
                 } else { // 因公赴台、长期因公出国
-                    criteria.andTypeIn(Arrays.asList(SystemConstants.PASSPORT_DRAW_TYPE_TW,
-                            SystemConstants.PASSPORT_DRAW_TYPE_LONG_SELF));
+                    criteria.andTypeIn(Arrays.asList(AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW,
+                            AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF));
                 }
             }
         }
@@ -231,14 +234,14 @@ public class PassportDrawController extends AbroadBaseController {
         Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
         modelMap.put("passport", passport);
 
-        if(passportDraw.getType()==SystemConstants.PASSPORT_DRAW_TYPE_SELF){
+        if(passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF){
 
             request.setAttribute("isView", true);
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(passportDraw.getApplyId());
             modelMap.put("applySelf", applySelf);
         }
 
-        ContentTpl shortMsgTpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PASSPORTDRAW);
+        ContentTpl shortMsgTpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PASSPORTDRAW);
         Integer userId = passport.getUser().getId();
         String msgTitle = userBeanService.getMsgTitle(userId);
         String shortMsg = MessageFormat.format(shortMsgTpl.getContent(), msgTitle,
@@ -276,7 +279,7 @@ public class PassportDrawController extends AbroadBaseController {
         }
         record.setDrawUserId(loginUser.getId());
         record.setDrawTime(new Date());
-        record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW);
+        record.setDrawStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW);
 
         passportDrawService.drawPassport(record);
 
@@ -293,7 +296,7 @@ public class PassportDrawController extends AbroadBaseController {
         Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
         modelMap.put("passport", passport);
 
-        if(passportDraw.getType()==SystemConstants.PASSPORT_DRAW_TYPE_SELF){
+        if(passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF){
 
             request.setAttribute("isView", true);
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(passportDraw.getApplyId());
@@ -307,7 +310,7 @@ public class PassportDrawController extends AbroadBaseController {
         }
         modelMap.put("countryList", JSONUtils.toString(countryList));
 
-        if(passportDraw.getType()==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
+        if(passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER){
             return "abroad/passportDraw/passportDraw_other_return";
         }
 
@@ -406,8 +409,8 @@ public class PassportDrawController extends AbroadBaseController {
         if(record.getRealReturnDate()==null) // 默认当天为归还时间
             record.setRealReturnDate(new Date());
 
-        if(usePassport != SystemConstants.PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN)
-            record.setDrawStatus(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_RETURN);
+        if(usePassport != AbroadConstants.ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN)
+            record.setDrawStatus(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN);
 
         passportDrawService.returnPassport(record);
 
@@ -435,8 +438,8 @@ public class PassportDrawController extends AbroadBaseController {
         record.setReturnDate(DateUtils.parseDate(_returnDate, DateUtils.YYYY_MM_DD));
 
         PassportDrawExample example = new PassportDrawExample();
-        example.createCriteria().andIdEqualTo(id).andStatusEqualTo(SystemConstants.PASSPORT_DRAW_STATUS_PASS)
-                .andDrawStatusEqualTo(SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW);
+        example.createCriteria().andIdEqualTo(id).andStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_PASS)
+                .andDrawStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW);
         passportDrawMapper.updateByExampleSelective(record, example);
 
         logger.info(addLog(SystemConstants.LOG_ABROAD, "修改归还日期：%s", id));
@@ -468,7 +471,7 @@ public class PassportDrawController extends AbroadBaseController {
         modelMap.put("passportDraw", passportDraw);
 
 
-        if(passportDraw.getType()==SystemConstants.PASSPORT_DRAW_TYPE_SELF){
+        if(passportDraw.getType()==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF){
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(passportDraw.getApplyId());
             modelMap.put("applySelf", applySelf);
         }

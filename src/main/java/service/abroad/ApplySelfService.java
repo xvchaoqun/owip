@@ -52,6 +52,8 @@ import service.cadre.CadreService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
+import sys.constants.AbroadConstants;
+import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.tags.CmTag;
@@ -105,13 +107,13 @@ public class ApplySelfService extends BaseMapper {
 
         // 审批身份类型,（-1：组织部初审，0：组织部终审，其他：其他身份审批）
         if (approvalTypeId <= 0) { // 查找干部管理员
-            /*List<SysUserView> cadreAdmin = sysUserService.findByRole(SystemConstants.ROLE_CADREADMIN);
+            /*List<SysUserView> cadreAdmin = sysUserService.findByRole(RoleConstants.ROLE_CADREADMIN);
             return cadreAdmin;*/
             if(approvalTypeId==-1) { // 组织部初审
-                ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
+                ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
                 return contentTplService.getShorMsgReceivers(tpl.getId());
             }else if(approvalTypeId==0){ // 组织部终审
-                ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_APPLYSELF_PASS_INFO);
+                ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_PASS_INFO);
                 return contentTplService.getShorMsgReceivers(tpl.getId());
             }
 
@@ -125,7 +127,7 @@ public class ApplySelfService extends BaseMapper {
 
             CadreView cadre = CmTag.getCadreById(cadreId);
             ApproverType approverType = approverTypeService.findAll().get(approvalTypeId);
-            if (approverType.getType() == SystemConstants.APPROVER_TYPE_UNIT) { // 查找本单位正职
+            if (approverType.getType() == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT) { // 查找本单位正职
                 List<SysUserView> _users = new ArrayList<SysUserView>();
                 List<Cadre> mainPostList = cadreCommonService.findMainPost(cadre.getUnitId());
                 for (Cadre _cadre : mainPostList) {
@@ -144,7 +146,7 @@ public class ApplySelfService extends BaseMapper {
                 }
 
                 return _users;
-            } else if (approverType.getType() == SystemConstants.APPROVER_TYPE_LEADER) { // 查找分管校领导
+            } else if (approverType.getType() == AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) { // 查找分管校领导
 
                 List<SysUserView> users = new ArrayList<SysUserView>();
                 MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
@@ -236,26 +238,26 @@ public class ApplySelfService extends BaseMapper {
         int size = approvers.size();
         String key = null; // 短信模板代码
         if(size>0) {
-            if (type == SystemConstants.APPROVER_TYPE_UNIT) { // 本单位正职审批
+            if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT) { // 本单位正职审批
 
                 if (size > 1) { // 多个正职审批
-                    key = SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2;
+                    key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2;
                 } else{ // 单个正职审批
-                    key = SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1;
+                    key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1;
                 }
-            } else if (type == SystemConstants.APPROVER_TYPE_LEADER) {  // 校领导审批
+            } else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {  // 校领导审批
 
-                key = SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_LEADER;
-            } else if (type == SystemConstants.APPROVER_TYPE_SECRETARY) { // 书记审批
+                key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_LEADER;
+            } else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_SECRETARY) { // 书记审批
 
-                key = SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_SECRETARY;
-            } else if (type == SystemConstants.APPROVER_TYPE_MASTER) { // 校长审批
+                key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_SECRETARY;
+            } else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_MASTER) { // 校长审批
 
-                key = SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_MASTER;
+                key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_MASTER;
             }
 
             // 校验用，以防万一
-            if(size>1 && !StringUtils.equals(key, SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2)){
+            if(size>1 && !StringUtils.equals(key, ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2)){
                 logger.error("因私审批系统发送短信异常："
                         + JSONUtils.toString(applySelf, MixinUtils.baseMixins(), false));
                 return resultMap;
@@ -277,8 +279,8 @@ public class ApplySelfService extends BaseMapper {
                 bean.setType(tpl.getName());
                 String msg = null;
                 switch (key){
-                    case SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1:
-                    case SystemConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2:
+                    case ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1:
+                    case ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2:
                         msg = MessageFormat.format(msgTpl, msgTitle, applyUser.getRealname());
                         break;
                     default:
@@ -643,7 +645,7 @@ public class ApplySelfService extends BaseMapper {
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
         for (ApproverType approverType : approverTypeMap.values()) {
             Byte type = approverType.getType();
-            if (type != SystemConstants.APPROVER_TYPE_UNIT && type != SystemConstants.APPROVER_TYPE_LEADER) {
+            if (type != AbroadConstants.ABROAD_APPROVER_TYPE_UNIT && type != AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {
                 List<Integer> approvalPostIds = getApprovalPostIds(userId, approverType.getId());
                 if (approvalPostIds.size() > 0) {
                     approverTypePostIdListMap.put(approverType.getId(), approvalPostIds);
@@ -713,14 +715,14 @@ public class ApplySelfService extends BaseMapper {
                 Integer value = null;
                 if (approvalLog.getTypeId() == null) {
                     if (approvalLog.getOdType() == 0) { // 初审
-                        typeId = SystemConstants.APPROVER_TYPE_ID_OD_FIRST;
+                        typeId = AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST;
                         value = approvalLog.getStatus() ? 1 : 0;
-                        //approvalResult.put(SystemConstants.APPROVER_TYPE_ID_OD_FIRST, approvalLog.getStatus() ? 1 : 0);
+                        //approvalResult.put(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST, approvalLog.getStatus() ? 1 : 0);
                     }
                     if (approvalLog.getOdType() == 1) { // 终审
-                        typeId = SystemConstants.APPROVER_TYPE_ID_OD_LAST;
+                        typeId = AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST;
                         value = approvalLog.getStatus() ? 1 : 0;
-                        //approvalResult.put(SystemConstants.APPROVER_TYPE_ID_OD_LAST, approvalLog.getStatus() ? 1 : 0);
+                        //approvalResult.put(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST, approvalLog.getStatus() ? 1 : 0);
                     }
                 } else {
                     typeId = approvalLog.getTypeId();
@@ -733,8 +735,8 @@ public class ApplySelfService extends BaseMapper {
         }
 
 
-        approvalResultMap.put(SystemConstants.APPROVER_TYPE_ID_OD_FIRST, new ApprovalResult(resultMap.get(SystemConstants.APPROVER_TYPE_ID_OD_FIRST),
-                approvalLogMap.get(SystemConstants.APPROVER_TYPE_ID_OD_FIRST))); // 初审
+        approvalResultMap.put(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST, new ApprovalResult(resultMap.get(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST),
+                approvalLogMap.get(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST))); // 初审
 
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
         for (ApproverType approverType : approverTypeMap.values()) {
@@ -744,8 +746,8 @@ public class ApplySelfService extends BaseMapper {
                 approvalResultMap.put(approverType.getId(), new ApprovalResult(-1, null));
         }
 
-        approvalResultMap.put(SystemConstants.APPROVER_TYPE_ID_OD_LAST, new ApprovalResult(resultMap.get(SystemConstants.APPROVER_TYPE_ID_OD_LAST),
-                approvalLogMap.get(SystemConstants.APPROVER_TYPE_ID_OD_LAST))); // 终审
+        approvalResultMap.put(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST, new ApprovalResult(resultMap.get(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST),
+                approvalLogMap.get(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST))); // 终审
 
         // value: -1不需要审批 0未通过 1通过 null未审批
         return approvalResultMap;
@@ -874,7 +876,7 @@ public class ApplySelfService extends BaseMapper {
 
         CadreView cadre = cadreService.dbFindByUserId(userId);
         if (approvalTypeId <= 0) {
-            return ShiroHelper.hasRole(SystemConstants.ROLE_CADREADMIN);
+            return ShiroHelper.hasRole(RoleConstants.ROLE_CADREADMIN);
         } else if (cadre == null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE
                 && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER)) {
             return false; // 必须是现任干部才有审批权限
@@ -887,12 +889,12 @@ public class ApplySelfService extends BaseMapper {
         ApproverType approverType = approverTypeMapper.selectByPrimaryKey(approvalTypeId);
         Byte type = approverType.getType();
 
-        if (type == SystemConstants.APPROVER_TYPE_UNIT) { // 本单位正职审批
+        if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT) { // 本单位正职审批
            // 待审批的干部所在单位
             Set<Integer> unitIds = new HashSet<>();
             unitIds.addAll(getMainPostUnitIds(userId));
             return unitIds.contains(targetCadre.getUnitId());
-        }else if (type == SystemConstants.APPROVER_TYPE_LEADER) {  // 校领导审批
+        }else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {  // 校领导审批
 
             //分管校领导
             MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
@@ -1018,13 +1020,13 @@ public class ApplySelfService extends BaseMapper {
             ApplySelfModifyExample example = new ApplySelfModifyExample();
             example.createCriteria().andApplyIdEqualTo(record.getId());
             if (applySelfModifyMapper.countByExample(example) == 0) {
-                addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL, record.getId(), null, null, "提交的记录");
+                addModify(AbroadConstants.ABROAD_APPLYSELF_MODIFY_TYPE_ORIGINAL, record.getId(), null, null, "提交的记录");
             }
         }
         record.setIsModify(true);
         applySelfMapper.updateByPrimaryKeySelective(record);
 
-        addModify(SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY, record.getId(), modifyProof, modifyProofFileName, modifyRemark);
+        addModify(AbroadConstants.ABROAD_APPLYSELF_MODIFY_TYPE_MODIFY, record.getId(), modifyProof, modifyProofFileName, modifyRemark);
     }
 
     private void addModify(byte modifyType, int applyId, String modifyProof, String modifyProofFileName, String modifyRemark) {
@@ -1050,7 +1052,7 @@ public class ApplySelfService extends BaseMapper {
         modify.setCreateTime(new Date());
 
         // 第一条记录标记为本人提交
-        if (modifyType == SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL) {
+        if (modifyType == AbroadConstants.ABROAD_APPLYSELF_MODIFY_TYPE_ORIGINAL) {
             modify.setModifyUserId(applySelf.getUser().getId());
             modify.setIp(applySelf.getIp());
             modify.setCreateTime(applySelf.getCreateTime());
@@ -1093,7 +1095,7 @@ public class ApplySelfService extends BaseMapper {
                     DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
                     DateUtils.getDayCountBetweenDate(record.getStartDate(), record.getEndDate()) + "",
-                    /*SystemConstants.APPLY_SELF_DATE_TYPE_MAP.get(record.getType()),*/
+                    /*AbroadConstants.ABROAD_APPLY_SELF_DATE_TYPE_MAP.get(record.getType()),*/
                     record.getToCountry(),
                     record.getReason() == null ? "" : record.getReason().replaceAll("\\+\\+\\+", ","),
                     record.getPeerStaff() == null ? "" : record.getPeerStaff().replaceAll("\\+\\+\\+", ","),

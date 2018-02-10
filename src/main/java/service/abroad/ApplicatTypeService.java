@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.cadre.CadreService;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -42,7 +42,7 @@ public class ApplicatTypeService extends BaseMapper {
 
             int cadreId = applicatCadre.getCadreId();
             CadreView cadreView = cadreViewMap.get(cadreId);
-            if (cadreView != null && SystemConstants.ABROAD_APPLICAT_CADRE_STATUS_SET
+            if (cadreView != null && AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET
                     .contains(cadreView.getStatus()))
                 cadreIdSet.add(cadreId);
         }

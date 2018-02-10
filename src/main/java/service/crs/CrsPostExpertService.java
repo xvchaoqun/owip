@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.CrsConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +47,7 @@ public class CrsPostExpertService extends BaseMapper {
                 CrsPostExpert record = new CrsPostExpert();
                 record.setPostId(postId);
                 record.setUserId(userId);
-                record.setRole(SystemConstants.CRS_POST_EXPERT_ROLE_HEAD);
+                record.setRole(CrsConstants.CRS_POST_EXPERT_ROLE_HEAD);
                 crsPostExpertMapper.insert(record);
             }
         }
@@ -58,7 +58,7 @@ public class CrsPostExpertService extends BaseMapper {
                 CrsPostExpert record = new CrsPostExpert();
                 record.setPostId(postId);
                 record.setUserId(userId);
-                record.setRole(SystemConstants.CRS_POST_EXPERT_ROLE_LEADER);
+                record.setRole(CrsConstants.CRS_POST_EXPERT_ROLE_LEADER);
                 crsPostExpertMapper.insert(record);
             }
         }
@@ -69,7 +69,7 @@ public class CrsPostExpertService extends BaseMapper {
                 CrsPostExpert record = new CrsPostExpert();
                 record.setPostId(postId);
                 record.setUserId(userId);
-                record.setRole(SystemConstants.CRS_POST_EXPERT_ROLE_MEMBER);
+                record.setRole(CrsConstants.CRS_POST_EXPERT_ROLE_MEMBER);
                 crsPostExpertMapper.insert(record);
             }
         }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
 import sys.utils.ContentTypeUtils;
@@ -64,7 +65,7 @@ public class PcsPrVoteController extends PcsBaseController {
         modelMap.put("pcsPartyView", pcsPartyView);
 
         PcsPrRecommend pcsPrRecommend = pcsPrPartyService.getPcsPrRecommend(configId,
-                SystemConstants.PCS_STAGE_THIRD, partyId);
+                PcsConstants.PCS_STAGE_THIRD, partyId);
         modelMap.put("pcsPrRecommend", pcsPrRecommend);
 
         // 在第三阶段，共用第二阶段的候选人
@@ -74,7 +75,7 @@ public class PcsPrVoteController extends PcsBaseController {
         boolean hasSort = pcsPrListService.hasSort(configId, partyId);
         modelMap.put("hasSort", hasSort);
         modelMap.put("allowModify", pcsPrPartyService.allowModify(partyId, configId,
-                SystemConstants.PCS_STAGE_THIRD) && hasSort);
+                PcsConstants.PCS_STAGE_THIRD) && hasSort);
 
         return "pcs/pcsPrVote/pcsPrVote_page";
     }

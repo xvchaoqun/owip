@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
 
 import java.util.Arrays;
 
@@ -59,7 +59,7 @@ public class TaiwanRecordService extends BaseMapper {
                     "expect_date=null, handle_date=null where id="+ id);
         }
         if(record.getHandleType()!=null && record.getHandleType()==
-                SystemConstants.TAIWAN_RECORD_HANDLE_TYPE_OW){
+                AbroadConstants.ABROAD_TAIWAN_RECORD_HANDLE_TYPE_OW){
 
             commonMapper.excuteSql("update abroad_taiwan_record set " +
                     "expect_date=null, handle_date=null where id=" + id);

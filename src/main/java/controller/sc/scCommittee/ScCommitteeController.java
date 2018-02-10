@@ -2,6 +2,7 @@ package controller.sc.scCommittee;
 
 import controller.ScCommitteeBaseController;
 import domain.sc.scCommittee.ScCommittee;
+import domain.sc.scCommittee.ScCommitteeExample;
 import domain.sc.scCommittee.ScCommitteeMember;
 import domain.sc.scCommittee.ScCommitteeMemberView;
 import domain.sc.scCommittee.ScCommitteeView;
@@ -32,6 +33,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -219,5 +221,56 @@ public class ScCommitteeController extends ScCommitteeBaseController {
         }
         String fileName = "党委常委会_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequiresPermissions("scCommittee:list")
+    @RequestMapping("/scCommittee_selects")
+    @ResponseBody
+    public Map scCommittee_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        ScCommitteeExample example = new ScCommitteeExample();
+        ScCommitteeExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("id desc");
+
+        if(StringUtils.length(searchStr)==8){
+            Date holdDate = DateUtils.parseDate(searchStr, DateUtils.YYYYMMDD);
+            if(holdDate!=null)
+                criteria.andHoldDateEqualTo(holdDate);
+        }
+
+        long count = scCommitteeMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<ScCommittee> scCommittees = scCommitteeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List options = new ArrayList<>();
+        if(null != scCommittees && scCommittees.size()>0){
+
+            for(ScCommittee scCommittee:scCommittees){
+
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", MessageFormat.format("党委常委会[{0}]号",
+                        DateUtils.formatDate(scCommittee.getHoldDate(), DateUtils.YYYYMMDD)));
+                option.put("id", scCommittee.getId() + "");
+                option.put("year", scCommittee.getYear() + "");
+                option.put("holdDate", scCommittee.getHoldDate());
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
     }
 }

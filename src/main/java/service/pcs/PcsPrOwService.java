@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
+import sys.constants.PcsConstants;
+import sys.constants.RoleConstants;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class PcsPrOwService extends BaseMapper {
     public void checkPartyRecommend(int configId, byte stage,
                                     int[] partyIds, byte status, String remark) {
 
-        if(!SystemConstants.PCS_PR_RECOMMEND_STATUS_MAP.containsKey(status)){
+        if(!PcsConstants.PCS_PR_RECOMMEND_STATUS_MAP.containsKey(status)){
             return ;
         }
         for (int partyId : partyIds) {
@@ -37,7 +38,7 @@ public class PcsPrOwService extends BaseMapper {
             // 必须是已上报、未审核的才能审核
             if (pcsPrRecommend == null
                     || !pcsPrRecommend.getHasReport()
-                    || pcsPrRecommend.getStatus() != SystemConstants.PCS_PR_RECOMMEND_STATUS_INIT) continue;
+                    || pcsPrRecommend.getStatus() != PcsConstants.PCS_PR_RECOMMEND_STATUS_INIT) continue;
 
 
             PcsPrRecommend record = new PcsPrRecommend();
@@ -45,7 +46,7 @@ public class PcsPrOwService extends BaseMapper {
             record.setStatus(status);
             record.setCheckRemark(remark);
 
-            if (status == SystemConstants.PCS_PR_RECOMMEND_STATUS_DENY) {
+            if (status == PcsConstants.PCS_PR_RECOMMEND_STATUS_DENY) {
                 // 审核不通过，分党委可以重新进行当前stage的程序，不可以进行下一stage的程序
                 record.setHasReport(false);
             }
@@ -59,7 +60,7 @@ public class PcsPrOwService extends BaseMapper {
 
         PcsPrRecommendExample example = new PcsPrRecommendExample();
         example.createCriteria().andConfigIdEqualTo(configId)
-                .andStageEqualTo(stage).andStatusNotEqualTo(SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS);
+                .andStageEqualTo(stage).andStatusNotEqualTo(PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS);
 
         return pcsPrRecommendMapper.selectByExample(example);
     }
@@ -68,7 +69,7 @@ public class PcsPrOwService extends BaseMapper {
 
         PcsPrRecommendExample example = new PcsPrRecommendExample();
         example.createCriteria().andConfigIdEqualTo(configId)
-                .andStageEqualTo(stage).andStatusNotEqualTo(SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS);
+                .andStageEqualTo(stage).andStatusNotEqualTo(PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS);
 
         return pcsPrRecommendMapper.countByExample(example);
     }
@@ -80,17 +81,17 @@ public class PcsPrOwService extends BaseMapper {
         // 清空之前的名单（如果存在)
         commonMapper.excuteSql("update pcs_pr_candidate pc,pcs_pr_recommend pr set pc.is_proposal=null, " +
                 "pc.proposal_sort_order=null " + "where pc.recommend_id=pr.id and pr.config_id=" + configId + " and pr.stage="
-                + SystemConstants.PCS_STAGE_SECOND + " and pc.is_chosen = 1");
+                + PcsConstants.PCS_STAGE_SECOND + " and pc.is_chosen = 1");
 
-        List<SysUserView> prUsers = sysUserService.findByRole(SystemConstants.ROLE_PCS_PR);
+        List<SysUserView> prUsers = sysUserService.findByRole(RoleConstants.ROLE_PCS_PR);
         for (SysUserView prUser : prUsers) {
             // 清除角色
-            sysUserService.delRole(prUser.getUserId(), SystemConstants.ROLE_PCS_PR);
+            sysUserService.delRole(prUser.getUserId(), RoleConstants.ROLE_PCS_PR);
         }
 
         PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();
         example.createCriteria().andConfigIdEqualTo(configId)
-                .andStageEqualTo(SystemConstants.PCS_STAGE_SECOND).andIsChosenEqualTo(true);
+                .andStageEqualTo(PcsConstants.PCS_STAGE_SECOND).andIsChosenEqualTo(true);
         example.setOrderByClause("party_sort_order desc, type asc, realname_sort_order asc");
         List<PcsPrCandidateView> records = pcsPrCandidateViewMapper.selectByExample(example);
 
@@ -107,7 +108,7 @@ public class PcsPrOwService extends BaseMapper {
             pcsPrCandidateMapper.updateByPrimaryKeySelective(record);
 
             Integer userId = candidate.getUserId();
-            sysUserService.addRole(userId, SystemConstants.ROLE_PCS_PR);
+            sysUserService.addRole(userId, RoleConstants.ROLE_PCS_PR);
         }
     }
 }

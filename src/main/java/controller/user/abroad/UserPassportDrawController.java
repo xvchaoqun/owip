@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.AbroadConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -55,7 +57,7 @@ public class UserPassportDrawController extends AbroadBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequestMapping(value = "/passportDraw_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_del(@CurrentUser SysUserView loginUser, HttpServletRequest request, Integer id) {
@@ -64,7 +66,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         CadreView cadre = cadreService.dbFindByUserId(userId);
         if (id != null) {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
-            if(passportDraw.getStatus()==SystemConstants.PASSPORT_DRAW_STATUS_INIT
+            if(passportDraw.getStatus()== AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_INIT
                     && passportDraw.getCadreId().intValue() == cadre.getId().intValue()) {
 
                 PassportDrawFileExample example = new PassportDrawFileExample();
@@ -78,7 +80,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw_select")
     public String passportDraw_select(@CurrentUser SysUserView loginUser, ModelMap modelMap) {
 
@@ -92,7 +94,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         return "user/abroad/passportDraw/passportDraw_select";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/passportDraw_self")
     public String passportDraw_self(Integer cadreId, Integer pageSize, Integer pageNo, ModelMap modelMap, HttpServletRequest request) {
         if (null == pageSize) {
@@ -107,7 +109,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         ApplySelfExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("create_time desc");
 
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -134,7 +136,7 @@ public class UserPassportDrawController extends AbroadBaseController {
 
         return "user/abroad/passportDraw/passportDraw_self";
     }
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/passportDraw_self_select")
     public String passportDraw_self_select(Integer cadreId, int applyId, ModelMap modelMap, HttpServletRequest request) {
 
@@ -142,7 +144,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         modelMap.put("applySelf", applySelf);
         request.setAttribute("isView", false);
 
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -155,12 +157,12 @@ public class UserPassportDrawController extends AbroadBaseController {
     }
 
     // 申请签注页面
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/passportDraw_self_sign")
     public String passportDraw_self_sign(Integer cadreId, String type,
                                          Integer passportId, Integer id, ModelMap modelMap) {
 
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -196,7 +198,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         return "user/abroad/passportDraw/passportDraw_self_sign";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/passportDraw_self_confirm")
     public String passportDraw_self_confirm(Integer cadreId, int applyId, int passportId,
                                             HttpServletRequest request, ModelMap modelMap) {
@@ -205,7 +207,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         modelMap.put("applySelf", applySelf);
         request.setAttribute("isView", false);
 
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -220,7 +222,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         return "user/abroad/passportDraw/passportDraw_self_confirm";
     }
 
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequestMapping("/passportDraw")
     public String passportDraw(@CurrentUser SysUserView loginUser,
                                     @RequestParam(required = false, defaultValue = "1")  Byte type,
@@ -230,7 +232,7 @@ public class UserPassportDrawController extends AbroadBaseController {
 
         return "user/abroad/passportDraw/passportDraw_page";
     }
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequestMapping("/userPassportDraw_data")
     @ResponseBody
     public void userPassportDraw_data(@CurrentUser SysUserView loginUser,
@@ -252,12 +254,12 @@ public class UserPassportDrawController extends AbroadBaseController {
         Criteria criteria = example.createCriteria();
         criteria.andIsDeletedEqualTo(false);
 
-        if(type==SystemConstants.PASSPORT_DRAW_TYPE_SELF ||
-                type==SystemConstants.PASSPORT_DRAW_TYPE_OTHER){
+        if(type==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF ||
+                type==AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER){
             criteria.andTypeEqualTo(type);
         }else{ // 因公赴台、长期因公出国
-            criteria.andTypeIn(Arrays.asList(SystemConstants.PASSPORT_DRAW_TYPE_TW,
-                    SystemConstants.PASSPORT_DRAW_TYPE_LONG_SELF));
+            criteria.andTypeIn(Arrays.asList(AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW,
+                    AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF));
         }
         example.setOrderByClause(String.format("%s %s", sort, order));
 
@@ -284,7 +286,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         return;
     }
 
-    @RequiresRoles(SystemConstants.ROLE_CADRE)
+    @RequiresRoles(RoleConstants.ROLE_CADRE)
     @RequestMapping(value = "/passportDraw_self_sign_add", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_self_sign_add(@CurrentUser SysUserView loginUser, int id){
@@ -299,7 +301,7 @@ public class UserPassportDrawController extends AbroadBaseController {
     }
 
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/passportDraw_self_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_self_au(Integer cadreId,
@@ -310,7 +312,7 @@ public class UserPassportDrawController extends AbroadBaseController {
                                   String remark,
                                   HttpServletRequest request) {
 
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -322,7 +324,7 @@ public class UserPassportDrawController extends AbroadBaseController {
 
         PassportDraw record = new PassportDraw();
         record.setCadreId(cadreId);
-        record.setType(SystemConstants.PASSPORT_DRAW_TYPE_SELF);
+        record.setType(AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF);
         record.setApplyId(applyId);
         record.setPassportId(passportId);
 
@@ -341,11 +343,11 @@ public class UserPassportDrawController extends AbroadBaseController {
     }
 
     // 申请 因公赴台、长期因公出国
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/passportDraw_tw")
     public String passportDraw_tw(Integer cadreId, ModelMap modelMap) {
 
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -358,7 +360,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         return "user/abroad/passportDraw/passportDraw_tw";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/passportDraw_tw_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_tw_au(/*@CurrentUser SysUserView loginUser,*/ Integer cadreId,
@@ -372,14 +374,14 @@ public class UserPassportDrawController extends AbroadBaseController {
                                        @RequestParam(required = false, defaultValue = "0")boolean needSign,
                                        HttpServletRequest request) {
 
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
         }
 
-        if(type==null || (type != SystemConstants.PASSPORT_DRAW_TYPE_TW
-                && type != SystemConstants.PASSPORT_DRAW_TYPE_LONG_SELF)){
+        if(type==null || (type != AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW
+                && type != AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF)){
            return failed("请选择申请类型");
         }
         if(passportId==null || passportMapper.selectByPrimaryKey(passportId)==null){
@@ -388,7 +390,7 @@ public class UserPassportDrawController extends AbroadBaseController {
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         Passport passportTw = null;
-        if(type == SystemConstants.PASSPORT_DRAW_TYPE_TW) {
+        if(type == AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW) {
 
             passportTw = passportService.findTwPassport(cadreId);
             if (passportTw == null) {
@@ -439,7 +441,7 @@ public class UserPassportDrawController extends AbroadBaseController {
 
         passportDrawService.insertSelective(record);
         logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（%s）：%s",
-                SystemConstants.PASSPORT_DRAW_TYPE_MAP.get(type), record.getId()));
+                AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP.get(type), record.getId()));
 
         // 给干部管理员发短信提醒
         shortMsgService.sendPassportDrawSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
@@ -452,11 +454,11 @@ public class UserPassportDrawController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping("/passportDraw_other")
     public String passportDraw_other(Integer cadreId, ModelMap modelMap) {
 
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -468,7 +470,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         return "user/abroad/passportDraw/passportDraw_other";
     }
 
-    @RequiresRoles(value = {SystemConstants.ROLE_CADRE, SystemConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequiresRoles(value = {RoleConstants.ROLE_CADRE, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
     @RequestMapping(value = "/passportDraw_other_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_passportDraw_other_au(Integer cadreId,
@@ -480,7 +482,7 @@ public class UserPassportDrawController extends AbroadBaseController {
                                      String remark,
                                      HttpServletRequest request) {
 
-        if(cadreId==null || ShiroHelper.lackRole(SystemConstants.ROLE_CADREADMIN)){
+        if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
@@ -521,7 +523,7 @@ public class UserPassportDrawController extends AbroadBaseController {
 
         record.setReason(reason);
         record.setCadreId(cadre.getId());
-        record.setType(SystemConstants.PASSPORT_DRAW_TYPE_OTHER);
+        record.setType(AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER);
         record.setPassportId(passportId);
         record.setRemark(remark);
         record.setIp(IpUtils.getRealIp(request));

@@ -23,6 +23,7 @@ import service.cadre.CadreService;
 import service.cadreInspect.CadreInspectService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
@@ -131,7 +132,7 @@ public class CadreReserveService extends BaseMapper {
         directAddCheck(record.getId(), userId);
 
         // 添加后备干部角色
-        sysUserService.addRole(userId, SystemConstants.ROLE_CADRERESERVE);
+        sysUserService.addRole(userId, RoleConstants.ROLE_CADRERESERVE);
 
         Integer cadreId = null;
         {
@@ -270,7 +271,7 @@ public class CadreReserveService extends BaseMapper {
         cadreReserveMapper.updateByPrimaryKeySelective(record);
 
         // 改变账号角色，后备干部->考核对象
-        sysUserService.changeRole(userId, SystemConstants.ROLE_CADRERESERVE, SystemConstants.ROLE_CADREINSPECT);
+        sysUserService.changeRole(userId, RoleConstants.ROLE_CADRERESERVE, RoleConstants.ROLE_CADREINSPECT);
 
         // 检查
         //cadreInspectService.directAddCheck(null, userId);
@@ -318,7 +319,7 @@ public class CadreReserveService extends BaseMapper {
         }*/
 
         // 删除后备干部角色
-        sysUserService.delRole(cadre.getUserId(), SystemConstants.ROLE_CADRERESERVE);
+        sysUserService.delRole(cadre.getUserId(), RoleConstants.ROLE_CADRERESERVE);
 
         CadreReserve record = new CadreReserve();
         record.setId(id);

@@ -22,7 +22,7 @@ import service.party.BranchService;
 import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
+import sys.constants.ContentTplConstants;
 import sys.utils.DateUtils;
 
 import java.text.MessageFormat;
@@ -90,7 +90,7 @@ public class PmdSendMsgService extends BaseMapper {
             }
         }
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PMD_NOTIFY_PARTY);
+        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_PARTY);
         String msg = MessageFormat.format(tpl.getContent(), DateUtils.formatDate(payMonth, "yyyy年MM月"));
 
         oneSendService.sendMsg(userList, realnameList, msg);
@@ -114,7 +114,7 @@ public class PmdSendMsgService extends BaseMapper {
             realnameList.add(uv.getRealname());
         }
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PMD_NOTIFY_PARTY);
+        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_PARTY);
         String msg = MessageFormat.format(tpl.getContent(), DateUtils.formatDate(payMonth, "yyyy年MM月"));
 
         oneSendService.sendMsg(userList, realnameList, msg);
@@ -164,7 +164,7 @@ public class PmdSendMsgService extends BaseMapper {
 
             if(userList.size()==0) continue;
 
-            ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PMD_NOTIFY_BRANCH);
+            ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_BRANCH);
             String msg = MessageFormat.format(tpl.getContent(),
                     branch.getName(),
                     DateUtils.formatDate(payMonth, "yyyy年MM月"),
@@ -222,7 +222,7 @@ public class PmdSendMsgService extends BaseMapper {
             realnameList.add(uv.getRealname());
         }
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PMD_URGE_MEMBERS);
+        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PMD_URGE_MEMBERS);
         String msg = MessageFormat.format(tpl.getContent(),
                 DateUtils.formatDate(payMonth, "yyyy年MM月"),
                 branchName);
@@ -273,7 +273,7 @@ public class PmdSendMsgService extends BaseMapper {
             branchName = branch.getName();
         }
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PMD_NOTIFY_MEMBERS);
+        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_MEMBERS);
 
         return  MessageFormat.format(tpl.getContent(),
                 branchName,
@@ -311,7 +311,7 @@ public class PmdSendMsgService extends BaseMapper {
         bean.setReceiver(userId);
         bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(SystemConstants.CONTENT_TPL_PMD_NOTIFY_MEMBER);
+        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_MEMBER);
         bean.setRelateId(tpl.getId());
         bean.setType(tpl.getName());
         String msg = MessageFormat.format(tpl.getContent(), uv.getRealname(),

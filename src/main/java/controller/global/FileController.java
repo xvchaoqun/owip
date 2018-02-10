@@ -17,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.qrcode.QRCodeUtil;
@@ -77,7 +78,7 @@ public class FileController extends BaseController {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(passportDrawFile.getDrawId());
             if (passportDraw.getCadre().getUserId().intValue() != loginUser.getId()) {
                 // 本人、干部管理员或管理员才可以下载
-                if (!ShiroHelper.hasAnyRoles(SystemConstants.ROLE_ADMIN, SystemConstants.ROLE_CADREADMIN)) {
+                if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN)) {
                     throw new UnauthorizedException();
                 }
             }

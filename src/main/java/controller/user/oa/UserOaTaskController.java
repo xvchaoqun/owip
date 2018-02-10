@@ -14,7 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.OaConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -59,8 +59,8 @@ public class UserOaTaskController extends OaBaseController {
         OaTaskUserViewExample.Criteria criteria = example.createCriteria()
                 .andTaskIsDeleteEqualTo(false)
                 .andTaskIsPublishEqualTo(true)
-                .andTaskStatusIn(Arrays.asList(SystemConstants.OA_TASK_STATUS_PUBLISH,
-                        SystemConstants.OA_TASK_STATUS_FINISH))
+                .andTaskStatusIn(Arrays.asList(OaConstants.OA_TASK_STATUS_PUBLISH,
+                        OaConstants.OA_TASK_STATUS_FINISH))
                 .andIsDeleteEqualTo(false)
                 .own(ShiroHelper.getCurrentUserId());
         example.setOrderByClause("id desc");

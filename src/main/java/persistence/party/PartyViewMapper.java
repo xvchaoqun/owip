@@ -2,8 +2,9 @@ package persistence.party;
 
 import domain.party.PartyView;
 import domain.party.PartyViewExample;
-import java.util.List;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface PartyViewMapper {
     long countByExample(PartyViewExample example);

@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.AbroadConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
@@ -77,7 +78,7 @@ public class PassportApplyController extends AbroadBaseController {
         }*/
         record.setExpectDate(date);
 
-        record.setStatus(SystemConstants.PASSPORT_APPLY_STATUS_PASS);
+        record.setStatus(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS);
         record.setUserId(loginUser.getId());
         record.setApproveTime(new Date());
 
@@ -96,7 +97,7 @@ public class PassportApplyController extends AbroadBaseController {
         record.setId(id);
         record.setRemark(remark);
 
-        record.setStatus(SystemConstants.PASSPORT_APPLY_STATUS_NOT_PASS);
+        record.setStatus(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS);
         record.setUserId(loginUser.getId());
         record.setApproveTime(new Date());
 
@@ -167,11 +168,11 @@ public class PassportApplyController extends AbroadBaseController {
         } else {
             criteria.andIsDeletedEqualTo(false);
             if (status == 1) {
-                criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNull().andAbolishEqualTo(false);
+                criteria.andStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNull().andAbolishEqualTo(false);
             } else if (status == 3) {
-                criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNotNull();
+                criteria.andStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS).andHandleDateIsNotNull();
             } else if (status == 4) {
-                criteria.andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS).andAbolishEqualTo(true);
+                criteria.andStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS).andAbolishEqualTo(true);
             } else criteria.andStatusEqualTo(status);
         }
 
@@ -254,7 +255,7 @@ public class PassportApplyController extends AbroadBaseController {
 
         PassportApplyExample example = new PassportApplyExample();
         example.createCriteria().andIdEqualTo(id)
-                .andStatusEqualTo(SystemConstants.PASSPORT_APPLY_STATUS_PASS)
+                .andStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS)
                 .andHandleDateIsNull().andAbolishEqualTo(false).andIsDeletedEqualTo(false);
 
         passportApplyMapper.updateByExampleSelective(record, example);

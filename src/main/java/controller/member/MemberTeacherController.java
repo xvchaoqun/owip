@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -155,25 +156,25 @@ public class MemberTeacherController extends MemberBaseController {
         }
         if(age!=null){
             switch (age){
-                case SystemConstants.MEMBER_AGE_20: // 20岁以下
+                case MemberConstants.MEMBER_AGE_20: // 20岁以下
                     criteria.andBirthGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -20));
                     break;
-                case SystemConstants.MEMBER_AGE_21_30:
+                case MemberConstants.MEMBER_AGE_21_30:
                     criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -30),
                             DateUtils.getDateBeforeOrAfterYears(new Date(), -21));
                     break;
-                case SystemConstants.MEMBER_AGE_31_40:
+                case MemberConstants.MEMBER_AGE_31_40:
                     criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -40),
                             DateUtils.getDateBeforeOrAfterYears(new Date(), -31));
                     break;
-                case SystemConstants.MEMBER_AGE_41_50:
+                case MemberConstants.MEMBER_AGE_41_50:
                     criteria.andBirthBetween(DateUtils.getDateBeforeOrAfterYears(new Date(), -50),
                             DateUtils.getDateBeforeOrAfterYears(new Date(), -41));
                     break;
-                case SystemConstants.MEMBER_AGE_51:
+                case MemberConstants.MEMBER_AGE_51:
                     criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -51));
                     break;
-                case SystemConstants.MEMBER_AGE_0:
+                case MemberConstants.MEMBER_AGE_0:
                     criteria.andBirthIsNull();
                     break;
             }
@@ -225,22 +226,22 @@ public class MemberTeacherController extends MemberBaseController {
          */
         switch (cls){
             case 2:
-                criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+                criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
                         .andIsRetireNotEqualTo(true);
                 break;
             case 3:
-                criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+                criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
                         .andIsRetireEqualTo(true);
                 break;
             case 7:
-                criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_TRANSFER);
+                criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_TRANSFER);
                 break;
            /* case 4:
-                criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_NORMAL)
+                criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
                         .andIsRetireEqualTo(true);
                 break;
             case 5:
-                criteria.andStatusEqualTo(SystemConstants.MEMBER_STATUS_RETIRE)
+                criteria.andStatusEqualTo(MemberConstants.MEMBER_STATUS_RETIRE)
                         .andIsRetireEqualTo(true);
                 break;*/
         }
@@ -309,9 +310,9 @@ public class MemberTeacherController extends MemberBaseController {
             Date birth = record.getBirth();
             String ageRange = "";
             if(birth!=null){
-                byte memberAgeRange = SystemConstants.getMemberAgeRange(DateUtils.getYear(birth));
+                byte memberAgeRange = MemberConstants.getMemberAgeRange(DateUtils.getYear(birth));
                 if(memberAgeRange>0)
-                    ageRange = SystemConstants.MEMBER_AGE_MAP.get(memberAgeRange);
+                    ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
             CadreView cadre = cadreService.dbFindByUserId(record.getUserId());
             String post = record.getPost();  // 行政职务 -- 所在单位及职务
@@ -337,7 +338,7 @@ public class MemberTeacherController extends MemberBaseController {
                     record.getNation(),
                     record.getCountry(),// 国家/地区
                     record.getIdcard(), // 证件号码
-                    SystemConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()),
+                    MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()),
                     partyId==null?"":partyMap.get(partyId).getName(),
                     branchId==null?"":branchMap.get(branchId).getName(),
                     record.getExtUnit(), // 所在单位

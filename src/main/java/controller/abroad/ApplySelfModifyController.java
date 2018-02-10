@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.AbroadConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -34,7 +34,7 @@ public class ApplySelfModifyController extends AbroadBaseController {
         /*List<ApplySelfModifyBean> applySelfModifyList = iAbroadMapper.getApplySelfModifyList(applyId);
         modelMap.put("modifyList", applySelfModifyList);*/
         ApplySelfModifyExample example = new ApplySelfModifyExample();
-        example.createCriteria().andApplyIdEqualTo(applyId).andModifyTypeEqualTo(SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY);
+        example.createCriteria().andApplyIdEqualTo(applyId).andModifyTypeEqualTo(AbroadConstants.ABROAD_APPLYSELF_MODIFY_TYPE_MODIFY);
         List<ApplySelfModify> applySelfModifies = applySelfModifyMapper.selectByExample(example);
         modelMap.put("modifyList", applySelfModifies);
         return "abroad/applySelf/applySelfModifyList";
@@ -47,7 +47,7 @@ public class ApplySelfModifyController extends AbroadBaseController {
 
         // 获取第一条原始记录
         ApplySelfModifyExample example2 = new ApplySelfModifyExample();
-        example2.createCriteria().andApplyIdEqualTo(applyId).andModifyTypeEqualTo(SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL);
+        example2.createCriteria().andApplyIdEqualTo(applyId).andModifyTypeEqualTo(AbroadConstants.ABROAD_APPLYSELF_MODIFY_TYPE_ORIGINAL);
         List<ApplySelfModify> applySelfModifies = applySelfModifyMapper.selectByExampleWithRowbounds(example2, new RowBounds(0, 1));
         if(applySelfModifies.size()>0){
             Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();

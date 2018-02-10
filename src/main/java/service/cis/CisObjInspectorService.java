@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.CisConstants;
 import sys.tool.tree.TreeNode;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class CisObjInspectorService extends BaseMapper {
         root.hideCheckbox = true;
         List<TreeNode> rootChildren = new ArrayList<TreeNode>();
         root.children = rootChildren;
-        for (Map.Entry<Byte, String> entry : SystemConstants.CIS_INSPECTOR_STATUS_MAP.entrySet()) {
+        for (Map.Entry<Byte, String> entry : CisConstants.CIS_INSPECTOR_STATUS_MAP.entrySet()) {
             TreeNode groupNode = new TreeNode();
             groupNode.title = entry.getValue();
             groupNode.expand = true;

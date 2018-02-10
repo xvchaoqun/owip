@@ -2,8 +2,9 @@ package persistence.pcs;
 
 import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrCandidateViewExample;
-import java.util.List;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface PcsPrCandidateViewMapper {
     long countByExample(PcsPrCandidateViewExample example);
