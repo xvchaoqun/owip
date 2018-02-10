@@ -156,7 +156,7 @@
                                     <h4 class="smaller">
                                         任免对象
                                         <div class="buttons pull-right ">
-                                            <button style="top: -5px;"
+                                            <button style="margin-right: 10px;top: -5px;"
                                                     class="btn btn-success btn-xs" type="button"
                                                     onclick="_selectUsers()">
                                                 <i class="fa fa-plus-circle"></i> 从“干部选拔任用表决”中选择
