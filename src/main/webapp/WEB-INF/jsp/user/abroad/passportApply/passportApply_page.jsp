@@ -46,7 +46,7 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </td>--%>
 
-								<td>${PASSPORT_APPLY_STATUS_MAP.get(passportApply.status)}</td>
+								<td>${ABROAD_PASSPORT_APPLY_STATUS_MAP.get(passportApply.status)}</td>
 								<td>${cm:formatDate(passportApply.expectDate,'yyyy-MM-dd')}</td>
 								<td>
                                     <c:if test="${passportApply.abolish}"> - </c:if>
@@ -54,12 +54,12 @@ pageEncoding="UTF-8" %>
                                 </td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_NOT_PASS}">
+                                    <c:if test="${passportApply.status==ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS}">
                                         <button data-remark="${passportApply.remark}" class="remarkBtn btn btn-warning btn-xs">
                                             <i class="fa fa-info-circle"></i> 未批准原因
                                         </button>
                                     </c:if>
-                                    <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_PASS}">
+                                    <c:if test="${passportApply.status==ABROAD_PASSPORT_APPLY_STATUS_PASS}">
                                         <c:if test="${passportApply.abolish}">作废</c:if>
                                         <c:if test="${!passportApply.abolish}">
                                         <button data-id="${passportApply.id}" class="printBtn btn btn-info btn-xs">
@@ -67,7 +67,7 @@ pageEncoding="UTF-8" %>
                                         </button>
                                         </c:if>
                                     </c:if>
-                                     <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_INIT}">
+                                     <c:if test="${passportApply.status==ABROAD_PASSPORT_APPLY_STATUS_INIT}">
                                          <button class="openView btn btn-success btn-xs"
                                                  data-url="${ctx}/user/abroad/passportApply_confirm?type=view&id=${passportApply.id}">
                                              <i class="fa fa-file-o"></i> 查看申请表

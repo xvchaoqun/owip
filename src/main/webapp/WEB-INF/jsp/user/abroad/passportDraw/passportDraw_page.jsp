@@ -18,14 +18,14 @@
             <div class="space-4"></div>
             <div class="tabbable">
                 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">active</c:if>">
-                        <a class="hashchange" data-querystr="type=${PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-plane"></i> 因私出国（境）</a>
+                    <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_SELF}">active</c:if>">
+                        <a class="hashchange" data-querystr="type=${ABROAD_PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-plane"></i> 因私出国（境）</a>
                     </li>
-                    <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_TW}">active</c:if>">
-                        <a class="hashchange" data-querystr="type=${PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-ship"></i> 因公赴台、长期因公出国</a>
+                    <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">active</c:if>">
+                        <a class="hashchange" data-querystr="type=${ABROAD_PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-ship"></i> 因公赴台、长期因公出国</a>
                     </li>
-                    <li class="<c:if test="${type==PASSPORT_DRAW_TYPE_OTHER}">active</c:if>">
-                        <a class="hashchange" data-querystr="type=${PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-share"></i> 处理其他事务</a>
+                    <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_OTHER}">active</c:if>">
+                        <a class="hashchange" data-querystr="type=${ABROAD_PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-share"></i> 处理其他事务</a>
                     </li>
                 </ul>
 
@@ -81,15 +81,15 @@
             }, frozen: true
             },
             {label: '申请日期', name: 'applyDate', frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            <c:if test="${type==PASSPORT_DRAW_TYPE_TW}">
+            <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
             {
                 label: '申请类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.PASSPORT_DRAW_TYPE_MAP[cellvalue];
+                return _cMap.ABROAD_PASSPORT_DRAW_TYPE_MAP[cellvalue];
             }, width: 100, frozen: true
             },
             </c:if>
             {label: '申请领取证件名称', name: 'passportClass.name', width: 180, frozen: true},
-            <c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">
+            <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_SELF}">
             {
                 label: '因私出国（境）行程', name: 'applyId', width: 160, formatter: function (cellvalue, options, rowObject) {
 
@@ -98,15 +98,15 @@
             },
             {
                 label: '领取证件用途', name: 'useType', width: 150, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.PASSPORT_DRAW_USE_TYPE_MAP[cellvalue];
+                return _cMap.ABROAD_PASSPORT_DRAW_USE_TYPE_MAP[cellvalue];
             }
             },
             </c:if>
-            <c:if test="${type==PASSPORT_DRAW_TYPE_TW || type==PASSPORT_DRAW_TYPE_OTHER}">
-            {label: '${type==PASSPORT_DRAW_TYPE_TW?"出行时间":"使用时间"}', name: 'startDate', width: 100},
-            {label: '${type==PASSPORT_DRAW_TYPE_TW?"回国时间":"归还时间"}', name: 'endDate', width: 100},
+            <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW || type==ABROAD_PASSPORT_DRAW_TYPE_OTHER}">
+            {label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行时间":"使用时间"}', name: 'startDate', width: 100},
+            {label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"回国时间":"归还时间"}', name: 'endDate', width: 100},
             {
-                label: '${type==PASSPORT_DRAW_TYPE_TW?"出行天数":"使用天数"}',
+                label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行天数":"使用天数"}',
                 name: 'day',
                 width: 80,
                 formatter: function (cellvalue, options, rowObject) {
@@ -114,18 +114,18 @@
                 }
             },
             {
-                label: '${type==PASSPORT_DRAW_TYPE_TW?"因公事由":"事由"}',
+                label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"因公事由":"事由"}',
                 name: 'reason',
                 width: 200,
                 formatter: function (cellvalue, options, rowObject) {
                     return cellvalue.replace(/\+\+\+/g, ',');
                 }
             },
-            <c:if test="${type==PASSPORT_DRAW_TYPE_TW}">
+            <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
             {label: '费用来源', name: 'costSource', width: 100},
             </c:if>
             {
-                label: '${type==PASSPORT_DRAW_TYPE_TW?"批件":"说明材料"}',
+                label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"批件":"说明材料"}',
                 name: 'files',
                 width: 150,
                 formatter: function (cellvalue, options, rowObject) {
@@ -134,17 +134,17 @@
                     /*for (var i in rowObject.files) {
                         if (rowObject.files.hasOwnProperty(i)) {
                             var file = rowObject.files[i];
-                            filesArray.push('<a href="${ctx}/attach/passportDrawFile?id={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i) + 1));
+                            filesArray.push('<a href="${ctx}/attach/passportDrawFile?id={0}">${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(file.id, parseInt(i) + 1));
                         }
                     }*/
                     rowObject.files.forEach(function(file, i){
-                        filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(encodeURI(file.filePath), parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
+                        filesArray.push('<a class="various" rel="group{2}" title="{3}" data-title-id="{4}" data-path="{0}" data-fancybox-type="image" href="${ctx}/pic?path={0}">${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"批件":"材料"}{1}</a>'.format(encodeURI(file.filePath), parseInt(i) + 1 ,rowObject.id, file.fileName, file.id));
                     })
                     return filesArray.join("，");
                 }
             },
             </c:if>
-            <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
+            <c:if test="${type!=ABROAD_PASSPORT_DRAW_TYPE_OTHER}">
             {
                 label: '是否签注', name: 'needSign', formatter: function (cellvalue, options, rowObject) {
                 return cellvalue ? "是" : "否";
@@ -157,14 +157,14 @@
                 frozen: true,
                 formatter: function (cellvalue, options, rowObject) {
                     var str = "";
-                    <c:if test="${type!=PASSPORT_DRAW_TYPE_OTHER}">
+                    <c:if test="${type!=ABROAD_PASSPORT_DRAW_TYPE_OTHER}">
                     if (rowObject.passportClass.code != 'mt_passport_normal') {
                         //console.log(rowObject.needSign)
                         if (rowObject.needSign)
                             str += _.template($("#needSign_tpl").html().NoMultiSpace())({
                                 id: rowObject.id,
                                 passportId: rowObject.passportId,
-                                printStr:(rowObject.status == '${PASSPORT_DRAW_STATUS_PASS}')?"打印":""
+                                printStr:(rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_PASS}')?"打印":""
                             });
                         else
                             str += _.template($("#notNeedSign_tpl").html().NoMultiSpace())({
@@ -179,13 +179,13 @@
             </c:if>
             {
                 label: '审批状态', name: 'status', width: 150, formatter: function (cellvalue, options, rowObject) {
-                var str = _cMap.PASSPORT_DRAW_STATUS_MAP[cellvalue];
+                var str = _cMap.ABROAD_PASSPORT_DRAW_STATUS_MAP[cellvalue];
                 if ($.trim(rowObject.approveRemark) != '') {
-                    if (rowObject.status == '${PASSPORT_DRAW_STATUS_NOT_PASS}') {
-                        str += '（<a class="remark" data-remark="{0}" data-status="${PASSPORT_DRAW_STATUS_NOT_PASS}"  href="javascript:;">原因</a>）'.format(rowObject.approveRemark)
+                    if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_NOT_PASS}') {
+                        str += '（<a class="remark" data-remark="{0}" data-status="${ABROAD_PASSPORT_DRAW_STATUS_NOT_PASS}"  href="javascript:;">原因</a>）'.format(rowObject.approveRemark)
                     }
-                    if (rowObject.status == '${PASSPORT_DRAW_STATUS_PASS}') {
-                        str += '（<a class="remark" data-remark="{0}" data-status="${PASSPORT_DRAW_STATUS_PASS}" href="javascript:;">备注</a>）'.format(rowObject.approveRemark);
+                    if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_PASS}') {
+                        str += '（<a class="remark" data-remark="{0}" data-status="${ABROAD_PASSPORT_DRAW_STATUS_PASS}" href="javascript:;">备注</a>）'.format(rowObject.approveRemark);
                     }
                 }
                 return str;
@@ -208,7 +208,7 @@
             var remark = $(this).data("remark");
             var status = $(this).data("status");
             var title = "未通过原因";
-            if (status == '${PASSPORT_DRAW_STATUS_PASS}')
+            if (status == '${ABROAD_PASSPORT_DRAW_STATUS_PASS}')
                 title = "备注";
             SysMsg.info(remark, title);
             e.stopPropagation();

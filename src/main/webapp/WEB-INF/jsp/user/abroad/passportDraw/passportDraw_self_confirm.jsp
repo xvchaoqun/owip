@@ -43,7 +43,7 @@
                     <tr>
                         <td>S${applySelf.id}</td>
                         <td>${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</td>
-                        <td>${APPLY_SELF_DATE_TYPE_MAP.get(applySelf.type)}</td>
+                        <td>${ABROAD_APPLY_SELF_DATE_TYPE_MAP.get(applySelf.type)}</td>
                         <td>${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}</td>
                         <td>${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}</td>
                         <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
@@ -83,7 +83,7 @@
         <div class="row" style="padding-left: 50px; padding-top: 15px">
             <div style="float: left; font-weight: bolder;width: 200px;text-align: right" id="useTypeDiv">领取证件用途：</div>
             <div style="float: left; margin-right: 40px; padding-left: 10px;">
-            <c:forEach var="useType" items="${PASSPORT_DRAW_USE_TYPE_MAP}">
+            <c:forEach var="useType" items="${ABROAD_PASSPORT_DRAW_USE_TYPE_MAP}">
              <input name="useType" type="radio" class="bigger" value="${useType.key}"/>  ${useType.value}
                 &nbsp;
             </c:forEach>

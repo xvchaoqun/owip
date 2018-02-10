@@ -2,6 +2,7 @@
 <%@ page import="sys.shiro.Constants" %>
 <%@ page import="sys.utils.DateUtils" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="sys.constants.*" %>
 <%@ page trimDirectiveWhitespaces="true"  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="cm" uri="http://java.sun.com/jsp/jstl/custom" %>
@@ -30,15 +31,15 @@
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
 
-<c:set var="ROLE_ADMIN" value="<%=SystemConstants.ROLE_ADMIN%>"/>
-<c:set var="ROLE_ODADMIN" value="<%=SystemConstants.ROLE_ODADMIN%>"/>
-<c:set var="ROLE_PARTYADMIN" value="<%=SystemConstants.ROLE_PARTYADMIN%>"/>
-<c:set var="ROLE_BRANCHADMIN" value="<%=SystemConstants.ROLE_BRANCHADMIN%>"/>
-<c:set var="ROLE_CADREADMIN" value="<%=SystemConstants.ROLE_CADREADMIN%>"/>
-<c:set var="ROLE_CADRE" value="<%=SystemConstants.ROLE_CADRE%>"/>
-<c:set var="ROLE_CADRERECRUIT" value="<%=SystemConstants.ROLE_CADRERECRUIT%>"/>
-<c:set var="ROLE_CADREINSPECT" value="<%=SystemConstants.ROLE_CADREINSPECT%>"/>
-<c:set var="ROLE_CADRERESERVE" value="<%=SystemConstants.ROLE_CADRERESERVE%>"/>
+<c:set var="ROLE_ADMIN" value="<%=RoleConstants.ROLE_ADMIN%>"/>
+<c:set var="ROLE_ODADMIN" value="<%=RoleConstants.ROLE_ODADMIN%>"/>
+<c:set var="ROLE_PARTYADMIN" value="<%=RoleConstants.ROLE_PARTYADMIN%>"/>
+<c:set var="ROLE_BRANCHADMIN" value="<%=RoleConstants.ROLE_BRANCHADMIN%>"/>
+<c:set var="ROLE_CADREADMIN" value="<%=RoleConstants.ROLE_CADREADMIN%>"/>
+<c:set var="ROLE_CADRE" value="<%=RoleConstants.ROLE_CADRE%>"/>
+<c:set var="ROLE_CADRERECRUIT" value="<%=RoleConstants.ROLE_CADRERECRUIT%>"/>
+<c:set var="ROLE_CADREINSPECT" value="<%=RoleConstants.ROLE_CADREINSPECT%>"/>
+<c:set var="ROLE_CADRERESERVE" value="<%=RoleConstants.ROLE_CADRERESERVE%>"/>
 <c:set var="ROLE_ONLY_CADRE_VIEW" value="role_cadre_view"/>
 
 
@@ -50,19 +51,19 @@
 
 <c:set var="CACHEKEY_MAP" value="<%=SystemConstants.CACHEKEY_MAP%>"/>
 
-<c:set var="CACHEKEY_PASSPORT_DRAW_TYPE_SELF" value="<%=SystemConstants.CACHEKEY_PASSPORT_DRAW_TYPE_SELF%>"/>
-<c:set var="CACHEKEY_PASSPORT_DRAW_TYPE_TW" value="<%=SystemConstants.CACHEKEY_PASSPORT_DRAW_TYPE_TW%>"/>
-<c:set var="CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF" value="<%=SystemConstants.CACHEKEY_PASSPORT_DRAW_TYPE_LONG_SELF%>"/>
-<c:set var="CACHEKEY_PASSPORT_DRAW_TYPE_OTHER" value="<%=SystemConstants.CACHEKEY_PASSPORT_DRAW_TYPE_OTHER%>"/>
+<c:set var="CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_SELF" value="<%=SystemConstants.CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_SELF%>"/>
+<c:set var="CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_TW" value="<%=SystemConstants.CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_TW%>"/>
+<c:set var="CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF" value="<%=SystemConstants.CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF%>"/>
+<c:set var="CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER" value="<%=SystemConstants.CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER%>"/>
 
 <c:set var="ATTACH_FILE_TYPE_PDF" value="<%=SystemConstants.ATTACH_FILE_TYPE_PDF%>"/>
 <c:set var="ATTACH_FILE_TYPE_MAP" value="<%=SystemConstants.ATTACH_FILE_TYPE_MAP%>"/>
 
-<c:set var="CONTENT_TPL_TYPE_MAP" value="<%=SystemConstants.CONTENT_TPL_TYPE_MAP%>"/>
-<c:set var="CONTENT_TPL_CONTENT_TYPE_STRING" value="<%=SystemConstants.CONTENT_TPL_CONTENT_TYPE_STRING%>"/>
-<c:set var="CONTENT_TPL_CONTENT_TYPE_HTML" value="<%=SystemConstants.CONTENT_TPL_CONTENT_TYPE_HTML%>"/>
-<c:set var="CONTENT_TPL_CONTENT_TYPE_MAP" value="<%=SystemConstants.CONTENT_TPL_CONTENT_TYPE_MAP%>"/>
-<c:set var="CONTENT_TPL_ENGINE_MAP" value="<%=SystemConstants.CONTENT_TPL_ENGINE_MAP%>"/>
+<c:set var="CONTENT_TPL_TYPE_MAP" value="<%=ContentTplConstants.CONTENT_TPL_TYPE_MAP%>"/>
+<c:set var="CONTENT_TPL_CONTENT_TYPE_STRING" value="<%=ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_STRING%>"/>
+<c:set var="CONTENT_TPL_CONTENT_TYPE_HTML" value="<%=ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_HTML%>"/>
+<c:set var="CONTENT_TPL_CONTENT_TYPE_MAP" value="<%=ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_MAP%>"/>
+<c:set var="CONTENT_TPL_ENGINE_MAP" value="<%=ContentTplConstants.CONTENT_TPL_ENGINE_MAP%>"/>
 
 
 <c:set var="USER_REG_STATUS_MAP" value="<%=SystemConstants.USER_REG_STATUS_MAP%>"/>
@@ -173,159 +174,159 @@
 
 <c:set value="<%=SystemConstants.CADRE_TUTOR_TYPE_MAP%>" var="CADRE_TUTOR_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP%>" var="SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP"/>
+<c:set value="<%=ScConstants.SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP%>" var="SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.PMD_MONTH_STATUS_INIT%>" var="PMD_MONTH_STATUS_INIT"/>
-<c:set value="<%=SystemConstants.PMD_MONTH_STATUS_START%>" var="PMD_MONTH_STATUS_START"/>
-<c:set value="<%=SystemConstants.PMD_MONTH_STATUS_END%>" var="PMD_MONTH_STATUS_END"/>
-<c:set value="<%=SystemConstants.PMD_MONTH_STATUS_MAP%>" var="PMD_MONTH_STATUS_MAP"/>
+<c:set value="<%=PmdConstants.PMD_MONTH_STATUS_INIT%>" var="PMD_MONTH_STATUS_INIT"/>
+<c:set value="<%=PmdConstants.PMD_MONTH_STATUS_START%>" var="PMD_MONTH_STATUS_START"/>
+<c:set value="<%=PmdConstants.PMD_MONTH_STATUS_END%>" var="PMD_MONTH_STATUS_END"/>
+<c:set value="<%=PmdConstants.PMD_MONTH_STATUS_MAP%>" var="PMD_MONTH_STATUS_MAP"/>
 
-<c:set value="<%=SystemConstants.PMD_ADMIN_TYPE_MAP%>" var="PMD_ADMIN_TYPE_MAP"/>
+<c:set value="<%=PmdConstants.PMD_ADMIN_TYPE_MAP%>" var="PMD_ADMIN_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.PMD_NORM_TYPE_PAY%>" var="PMD_NORM_TYPE_PAY"/>
-<c:set value="<%=SystemConstants.PMD_NORM_TYPE_REDUCE%>" var="PMD_NORM_TYPE_REDUCE"/>
-<c:set value="<%=SystemConstants.PMD_NORM_TYPE_MAP%>" var="PMD_NORM_TYPE_MAP"/>
+<c:set value="<%=PmdConstants.PMD_NORM_TYPE_PAY%>" var="PMD_NORM_TYPE_PAY"/>
+<c:set value="<%=PmdConstants.PMD_NORM_TYPE_REDUCE%>" var="PMD_NORM_TYPE_REDUCE"/>
+<c:set value="<%=PmdConstants.PMD_NORM_TYPE_MAP%>" var="PMD_NORM_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_FIXED%>" var="PMD_NORM_SET_TYPE_FIXED"/>
-<c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_SET%>" var="PMD_NORM_SET_TYPE_SET"/>
-<c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_FREE%>" var="PMD_NORM_SET_TYPE_FREE"/>
-<c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_FORMULA%>" var="PMD_NORM_SET_TYPE_FORMULA"/>
-<c:set value="<%=SystemConstants.PMD_NORM_SET_TYPE_MAP%>" var="PMD_NORM_SET_TYPE_MAP"/>
+<c:set value="<%=PmdConstants.PMD_NORM_SET_TYPE_FIXED%>" var="PMD_NORM_SET_TYPE_FIXED"/>
+<c:set value="<%=PmdConstants.PMD_NORM_SET_TYPE_SET%>" var="PMD_NORM_SET_TYPE_SET"/>
+<c:set value="<%=PmdConstants.PMD_NORM_SET_TYPE_FREE%>" var="PMD_NORM_SET_TYPE_FREE"/>
+<c:set value="<%=PmdConstants.PMD_NORM_SET_TYPE_FORMULA%>" var="PMD_NORM_SET_TYPE_FORMULA"/>
+<c:set value="<%=PmdConstants.PMD_NORM_SET_TYPE_MAP%>" var="PMD_NORM_SET_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.PMD_FORMULA_TYPE_MAP%>" var="PMD_FORMULA_TYPE_MAP"/>
+<c:set value="<%=PmdConstants.PMD_FORMULA_TYPE_MAP%>" var="PMD_FORMULA_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.PMD_NORM_STATUS_INIT%>" var="PMD_NORM_STATUS_INIT"/>
-<c:set value="<%=SystemConstants.PMD_NORM_STATUS_USE%>" var="PMD_NORM_STATUS_USE"/>
-<c:set value="<%=SystemConstants.PMD_NORM_STATUS_ABOLISH%>" var="PMD_NORM_STATUS_ABOLISH"/>
+<c:set value="<%=PmdConstants.PMD_NORM_STATUS_INIT%>" var="PMD_NORM_STATUS_INIT"/>
+<c:set value="<%=PmdConstants.PMD_NORM_STATUS_USE%>" var="PMD_NORM_STATUS_USE"/>
+<c:set value="<%=PmdConstants.PMD_NORM_STATUS_ABOLISH%>" var="PMD_NORM_STATUS_ABOLISH"/>
 
-<c:set value="<%=SystemConstants.PMD_MEMBER_TYPE_ONJOB%>" var="PMD_MEMBER_TYPE_ONJOB"/>
-<c:set value="<%=SystemConstants.PMD_MEMBER_TYPE_RETIRE%>" var="PMD_MEMBER_TYPE_RETIRE"/>
-<c:set value="<%=SystemConstants.PMD_MEMBER_TYPE_STUDENT%>" var="PMD_MEMBER_TYPE_STUDENT"/>
-<c:set value="<%=SystemConstants.PMD_MEMBER_TYPE_MAP%>" var="PMD_MEMBER_TYPE_MAP"/>
+<c:set value="<%=PmdConstants.PMD_MEMBER_TYPE_ONJOB%>" var="PMD_MEMBER_TYPE_ONJOB"/>
+<c:set value="<%=PmdConstants.PMD_MEMBER_TYPE_RETIRE%>" var="PMD_MEMBER_TYPE_RETIRE"/>
+<c:set value="<%=PmdConstants.PMD_MEMBER_TYPE_STUDENT%>" var="PMD_MEMBER_TYPE_STUDENT"/>
+<c:set value="<%=PmdConstants.PMD_MEMBER_TYPE_MAP%>" var="PMD_MEMBER_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.PMD_FORMULA_TYPE_ONJOB%>" var="PMD_FORMULA_TYPE_ONJOB"/>
-<c:set value="<%=SystemConstants.PMD_FORMULA_TYPE_EXTERNAL%>" var="PMD_FORMULA_TYPE_EXTERNAL"/>
+<c:set value="<%=PmdConstants.PMD_FORMULA_TYPE_ONJOB%>" var="PMD_FORMULA_TYPE_ONJOB"/>
+<c:set value="<%=PmdConstants.PMD_FORMULA_TYPE_EXTERNAL%>" var="PMD_FORMULA_TYPE_EXTERNAL"/>
 
-<c:set value="<%=SystemConstants.OA_TASK_TYPE_MAP%>" var="OA_TASK_TYPE_MAP"/>
+<c:set value="<%=OaConstants.OA_TASK_TYPE_MAP%>" var="OA_TASK_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.OA_TASK_USER_STATUS_INIT%>" var="OA_TASK_USER_STATUS_INIT"/>
-<c:set value="<%=SystemConstants.OA_TASK_USER_STATUS_PASS%>" var="OA_TASK_USER_STATUS_PASS"/>
-<c:set value="<%=SystemConstants.OA_TASK_USER_STATUS_DENY%>" var="OA_TASK_USER_STATUS_DENY"/>
+<c:set value="<%=OaConstants.OA_TASK_USER_STATUS_INIT%>" var="OA_TASK_USER_STATUS_INIT"/>
+<c:set value="<%=OaConstants.OA_TASK_USER_STATUS_PASS%>" var="OA_TASK_USER_STATUS_PASS"/>
+<c:set value="<%=OaConstants.OA_TASK_USER_STATUS_DENY%>" var="OA_TASK_USER_STATUS_DENY"/>
 
 
-<c:set value="<%=SystemConstants.CIS_INSPECTOR_STATUS_NOW%>" var="CIS_INSPECTOR_STATUS_NOW"/>
-<c:set value="<%=SystemConstants.CIS_INSPECTOR_STATUS_HISTORY%>" var="CIS_INSPECTOR_STATUS_HISTORY"/>
-<c:set value="<%=SystemConstants.CIS_INSPECTOR_STATUS_DELETE%>" var="CIS_INSPECTOR_STATUS_DELETE"/>
+<c:set value="<%=CisConstants.CIS_INSPECTOR_STATUS_NOW%>" var="CIS_INSPECTOR_STATUS_NOW"/>
+<c:set value="<%=CisConstants.CIS_INSPECTOR_STATUS_HISTORY%>" var="CIS_INSPECTOR_STATUS_HISTORY"/>
+<c:set value="<%=CisConstants.CIS_INSPECTOR_STATUS_DELETE%>" var="CIS_INSPECTOR_STATUS_DELETE"/>
 
-<c:set value="<%=SystemConstants.CIS_INSPECTOR_TYPE_OW%>" var="CIS_INSPECTOR_TYPE_OW"/>
-<c:set value="<%=SystemConstants.CIS_INSPECTOR_TYPE_OTHER%>" var="CIS_INSPECTOR_TYPE_OTHER"/>
-<c:set value="<%=SystemConstants.CIS_INSPECTOR_TYPE_MAP%>" var="CIS_INSPECTOR_TYPE_MAP"/>
+<c:set value="<%=CisConstants.CIS_INSPECTOR_TYPE_OW%>" var="CIS_INSPECTOR_TYPE_OW"/>
+<c:set value="<%=CisConstants.CIS_INSPECTOR_TYPE_OTHER%>" var="CIS_INSPECTOR_TYPE_OTHER"/>
+<c:set value="<%=CisConstants.CIS_INSPECTOR_TYPE_MAP%>" var="CIS_INSPECTOR_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.CIS_EVALUATE_TYPE_MAP%>" var="CIS_EVALUATE_TYPE_MAP"/>
+<c:set value="<%=CisConstants.CIS_EVALUATE_TYPE_MAP%>" var="CIS_EVALUATE_TYPE_MAP"/>
 
 <c:set value="<%=SystemConstants.CRP_RECORD_TYPE_OUT%>" var="CRP_RECORD_TYPE_OUT"/>
 <c:set value="<%=SystemConstants.CRP_RECORD_TYPE_IN%>" var="CRP_RECORD_TYPE_IN"/>
 <c:set value="<%=SystemConstants.CRP_RECORD_TYPE_TRANSFER%>" var="CRP_RECORD_TYPE_TRANSFER"/>
 <c:set value="<%=SystemConstants.CRP_RECORD_TYPE_MAP%>" var="CRP_RECORD_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.TRAIN_INSPECTOR_STATUS_MAP%>" var="TRAIN_INSPECTOR_STATUS_MAP"/>
-<c:set value="<%=SystemConstants.TRAIN_INSPECTOR_STATUS_INIT%>" var="TRAIN_INSPECTOR_STATUS_INIT"/>
-<c:set value="<%=SystemConstants.TRAIN_INSPECTOR_STATUS_ABOLISH%>" var="TRAIN_INSPECTOR_STATUS_ABOLISH"/>
-<c:set value="<%=SystemConstants.TRAIN_INSPECTOR_STATUS_ALL_FINISH%>" var="TRAIN_INSPECTOR_STATUS_ALL_FINISH"/>
-<c:set value="<%=SystemConstants.TRAIN_INSPECTOR_STATUS_PART_FINISH%>" var="TRAIN_INSPECTOR_STATUS_PART_FINISH"/>
+<c:set value="<%=TrainConstants.TRAIN_INSPECTOR_STATUS_MAP%>" var="TRAIN_INSPECTOR_STATUS_MAP"/>
+<c:set value="<%=TrainConstants.TRAIN_INSPECTOR_STATUS_INIT%>" var="TRAIN_INSPECTOR_STATUS_INIT"/>
+<c:set value="<%=TrainConstants.TRAIN_INSPECTOR_STATUS_ABOLISH%>" var="TRAIN_INSPECTOR_STATUS_ABOLISH"/>
+<c:set value="<%=TrainConstants.TRAIN_INSPECTOR_STATUS_ALL_FINISH%>" var="TRAIN_INSPECTOR_STATUS_ALL_FINISH"/>
+<c:set value="<%=TrainConstants.TRAIN_INSPECTOR_STATUS_PART_FINISH%>" var="TRAIN_INSPECTOR_STATUS_PART_FINISH"/>
 
-<c:set value="<%=SystemConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_MAP%>" var="TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_MAP"/>
-<c:set value="<%=SystemConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF%>" var="TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF"/>
-<c:set value="<%=SystemConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_ADMN_RESET%>" var="TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_ADMN_RESET"/>
+<c:set value="<%=TrainConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_MAP%>" var="TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_MAP"/>
+<c:set value="<%=TrainConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF%>" var="TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF"/>
+<c:set value="<%=TrainConstants.TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_ADMN_RESET%>" var="TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_ADMN_RESET"/>
 
-<c:set value="<%=SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_SAVE%>" var="TRAIN_INSPECTOR_COURSE_STATUS_SAVE"/>
-<c:set value="<%=SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH%>" var="TRAIN_INSPECTOR_COURSE_STATUS_FINISH"/>
-<c:set value="<%=SystemConstants.TRAIN_INSPECTOR_COURSE_STATUS_MAP%>" var="TRAIN_INSPECTOR_COURSE_STATUS_MAP"/>
+<c:set value="<%=TrainConstants.TRAIN_INSPECTOR_COURSE_STATUS_SAVE%>" var="TRAIN_INSPECTOR_COURSE_STATUS_SAVE"/>
+<c:set value="<%=TrainConstants.TRAIN_INSPECTOR_COURSE_STATUS_FINISH%>" var="TRAIN_INSPECTOR_COURSE_STATUS_FINISH"/>
+<c:set value="<%=TrainConstants.TRAIN_INSPECTOR_COURSE_STATUS_MAP%>" var="TRAIN_INSPECTOR_COURSE_STATUS_MAP"/>
 
-<c:set value="<%=SystemConstants.PCS_ADMIN_TYPE_MAP%>" var="PCS_ADMIN_TYPE_MAP"/>
-<c:set value="<%=SystemConstants.PCS_ADMIN_TYPE_NORMAL%>" var="PCS_ADMIN_TYPE_NORMAL"/>
-<c:set value="<%=SystemConstants.PCS_ADMIN_TYPE_SECRETARY%>" var="PCS_ADMIN_TYPE_SECRETARY"/>
-<c:set value="<%=SystemConstants.PCS_ADMIN_TYPE_VICE_SECRETARY%>" var="PCS_ADMIN_TYPE_VICE_SECRETARY"/>
+<c:set value="<%=PcsConstants.PCS_ADMIN_TYPE_MAP%>" var="PCS_ADMIN_TYPE_MAP"/>
+<c:set value="<%=PcsConstants.PCS_ADMIN_TYPE_NORMAL%>" var="PCS_ADMIN_TYPE_NORMAL"/>
+<c:set value="<%=PcsConstants.PCS_ADMIN_TYPE_SECRETARY%>" var="PCS_ADMIN_TYPE_SECRETARY"/>
+<c:set value="<%=PcsConstants.PCS_ADMIN_TYPE_VICE_SECRETARY%>" var="PCS_ADMIN_TYPE_VICE_SECRETARY"/>
 
-<c:set value="<%=SystemConstants.PCS_USER_TYPE_DW%>" var="PCS_USER_TYPE_DW"/>
-<c:set value="<%=SystemConstants.PCS_USER_TYPE_JW%>" var="PCS_USER_TYPE_JW"/>
-<c:set value="<%=SystemConstants.PCS_USER_TYPE_MAP%>" var="PCS_USER_TYPE_MAP"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_DW%>" var="PCS_USER_TYPE_DW"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_JW%>" var="PCS_USER_TYPE_JW"/>
+<c:set value="<%=PcsConstants.PCS_USER_TYPE_MAP%>" var="PCS_USER_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.PCS_STAGE_FIRST%>" var="PCS_STAGE_FIRST"/>
-<c:set value="<%=SystemConstants.PCS_STAGE_SECOND%>" var="PCS_STAGE_SECOND"/>
-<c:set value="<%=SystemConstants.PCS_STAGE_THIRD%>" var="PCS_STAGE_THIRD"/>
-<c:set value="<%=SystemConstants.PCS_STAGE_MAP%>" var="PCS_STAGE_MAP"/>
+<c:set value="<%=PcsConstants.PCS_STAGE_FIRST%>" var="PCS_STAGE_FIRST"/>
+<c:set value="<%=PcsConstants.PCS_STAGE_SECOND%>" var="PCS_STAGE_SECOND"/>
+<c:set value="<%=PcsConstants.PCS_STAGE_THIRD%>" var="PCS_STAGE_THIRD"/>
+<c:set value="<%=PcsConstants.PCS_STAGE_MAP%>" var="PCS_STAGE_MAP"/>
 
-<c:set value="<%=SystemConstants.PCS_PR_TYPE_PRO%>" var="PCS_PR_TYPE_PRO"/>
-<c:set value="<%=SystemConstants.PCS_PR_TYPE_STU%>" var="PCS_PR_TYPE_STU"/>
-<c:set value="<%=SystemConstants.PCS_PR_TYPE_RETIRE%>" var="PCS_PR_TYPE_RETIRE"/>
-<c:set value="<%=SystemConstants.PCS_PR_TYPE_MAP%>" var="PCS_PR_TYPE_MAP"/>
+<c:set value="<%=PcsConstants.PCS_PR_TYPE_PRO%>" var="PCS_PR_TYPE_PRO"/>
+<c:set value="<%=PcsConstants.PCS_PR_TYPE_STU%>" var="PCS_PR_TYPE_STU"/>
+<c:set value="<%=PcsConstants.PCS_PR_TYPE_RETIRE%>" var="PCS_PR_TYPE_RETIRE"/>
+<c:set value="<%=PcsConstants.PCS_PR_TYPE_MAP%>" var="PCS_PR_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.PCS_PR_USER_TYPE_CADRE%>" var="PCS_PR_USER_TYPE_CADRE"/>
-<c:set value="<%=SystemConstants.PCS_PR_USER_TYPE_TEACHER%>" var="PCS_PR_USER_TYPE_TEACHER"/>
-<c:set value="<%=SystemConstants.PCS_PR_USER_TYPE_STU%>" var="PCS_PR_USER_TYPE_STU"/>
+<c:set value="<%=PcsConstants.PCS_PR_USER_TYPE_CADRE%>" var="PCS_PR_USER_TYPE_CADRE"/>
+<c:set value="<%=PcsConstants.PCS_PR_USER_TYPE_TEACHER%>" var="PCS_PR_USER_TYPE_TEACHER"/>
+<c:set value="<%=PcsConstants.PCS_PR_USER_TYPE_STU%>" var="PCS_PR_USER_TYPE_STU"/>
 
-<c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_INIT%>" var="PCS_PR_RECOMMEND_STATUS_INIT"/>
-<c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_PASS%>" var="PCS_PR_RECOMMEND_STATUS_PASS"/>
-<c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_DENY%>" var="PCS_PR_RECOMMEND_STATUS_DENY"/>
-<c:set value="<%=SystemConstants.PCS_PR_RECOMMEND_STATUS_MAP%>" var="PCS_PR_RECOMMEND_STATUS_MAP"/>
-
-
-<c:set value="<%=SystemConstants.PCS_PROPOSAL_STATUS_SAVE%>" var="PCS_PROPOSAL_STATUS_SAVE"/>
-<c:set value="<%=SystemConstants.PCS_PROPOSAL_STATUS_INIT%>" var="PCS_PROPOSAL_STATUS_INIT"/>
-<c:set value="<%=SystemConstants.PCS_PROPOSAL_STATUS_PASS%>" var="PCS_PROPOSAL_STATUS_PASS"/>
-<c:set value="<%=SystemConstants.PCS_PROPOSAL_STATUS_MAP%>" var="PCS_PROPOSAL_STATUS_MAP"/>
-
-<c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_NOW%>" var="CRS_EXPERT_STATUS_NOW"/>
-<c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_HISTORY%>" var="CRS_EXPERT_STATUS_HISTORY"/>
-<c:set value="<%=SystemConstants.CRS_EXPERT_STATUS_DELETE%>" var="CRS_EXPERT_STATUS_DELETE"/>
-
-<c:set value="<%=SystemConstants.CRS_TEMPLATE_TYPE_BASE%>" var="CRS_TEMPLATE_TYPE_BASE"/>
-<c:set value="<%=SystemConstants.CRS_TEMPLATE_TYPE_POST%>" var="CRS_TEMPLATE_TYPE_POST"/>
-<c:set value="<%=SystemConstants.CRS_TEMPLATE_TYPE_MEETINGNOTICE%>" var="CRS_TEMPLATE_TYPE_MEETINGNOTICE"/>
-
-<c:set value="<%=SystemConstants.CRS_POST_TYPE_MAP%>" var="CRS_POST_TYPE_MAP"/>
-
-<c:set value="<%=SystemConstants.CRS_POST_RULE_TYPE_MAP%>" var="CRS_POST_RULE_TYPE_MAP"/>
-
-<c:set value="<%=SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_INIT%>" var="CRS_APPLICANT_INFO_CHECK_STATUS_INIT"/>
-<c:set value="<%=SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_PASS%>" var="CRS_APPLICANT_INFO_CHECK_STATUS_PASS"/>
-<c:set value="<%=SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_UNPASS%>" var="CRS_APPLICANT_INFO_CHECK_STATUS_UNPASS"/>
-<c:set value="<%=SystemConstants.CRS_APPLICANT_INFO_CHECK_STATUS_MAP%>" var="CRS_APPLICANT_INFO_CHECK_STATUS_MAP"/>
-
-<c:set value="<%=SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS%>" var="CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS"/>
-<c:set value="<%=SystemConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS%>" var="CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS"/>
+<c:set value="<%=PcsConstants.PCS_PR_RECOMMEND_STATUS_INIT%>" var="PCS_PR_RECOMMEND_STATUS_INIT"/>
+<c:set value="<%=PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS%>" var="PCS_PR_RECOMMEND_STATUS_PASS"/>
+<c:set value="<%=PcsConstants.PCS_PR_RECOMMEND_STATUS_DENY%>" var="PCS_PR_RECOMMEND_STATUS_DENY"/>
+<c:set value="<%=PcsConstants.PCS_PR_RECOMMEND_STATUS_MAP%>" var="PCS_PR_RECOMMEND_STATUS_MAP"/>
 
 
-<c:set value="<%=SystemConstants.CRS_POST_PUB_STATUS_PUBLISHED%>" var="CRS_POST_PUB_STATUS_PUBLISHED"/>
+<c:set value="<%=PcsConstants.PCS_PROPOSAL_STATUS_SAVE%>" var="PCS_PROPOSAL_STATUS_SAVE"/>
+<c:set value="<%=PcsConstants.PCS_PROPOSAL_STATUS_INIT%>" var="PCS_PROPOSAL_STATUS_INIT"/>
+<c:set value="<%=PcsConstants.PCS_PROPOSAL_STATUS_PASS%>" var="PCS_PROPOSAL_STATUS_PASS"/>
+<c:set value="<%=PcsConstants.PCS_PROPOSAL_STATUS_MAP%>" var="PCS_PROPOSAL_STATUS_MAP"/>
 
-<c:set value="<%=SystemConstants.CRS_POST_ENROLL_STATUS_DEFAULT%>" var="CRS_POST_ENROLL_STATUS_DEFAULT"/>
-<c:set value="<%=SystemConstants.CRS_POST_ENROLL_STATUS_OPEN%>" var="CRS_POST_ENROLL_STATUS_OPEN"/>
-<c:set value="<%=SystemConstants.CRS_POST_ENROLL_STATUS_CLOSED%>" var="CRS_POST_ENROLL_STATUS_CLOSED"/>
-<c:set value="<%=SystemConstants.CRS_POST_ENROLL_STATUS_PAUSE%>" var="CRS_POST_ENROLL_STATUS_PAUSE"/>
-<c:set value="<%=SystemConstants.CRS_POST_ENROLL_STATUS_MAP%>" var="CRS_POST_ENROLL_STATUS_MAP"/>
+<c:set value="<%=CrsConstants.CRS_EXPERT_STATUS_NOW%>" var="CRS_EXPERT_STATUS_NOW"/>
+<c:set value="<%=CrsConstants.CRS_EXPERT_STATUS_HISTORY%>" var="CRS_EXPERT_STATUS_HISTORY"/>
+<c:set value="<%=CrsConstants.CRS_EXPERT_STATUS_DELETE%>" var="CRS_EXPERT_STATUS_DELETE"/>
 
-<c:set value="<%=SystemConstants.CRS_POST_EXPERT_ROLE_HEAD%>" var="CRS_POST_EXPERT_ROLE_HEAD"/>
-<c:set value="<%=SystemConstants.CRS_POST_EXPERT_ROLE_LEADER%>" var="CRS_POST_EXPERT_ROLE_LEADER"/>
-<c:set value="<%=SystemConstants.CRS_POST_EXPERT_ROLE_MEMBER%>" var="CRS_POST_EXPERT_ROLE_MEMBER"/>
-<c:set value="<%=SystemConstants.CRS_POST_EXPERT_ROLE_MAP%>" var="CRS_POST_EXPERT_ROLE_MAP"/>
+<c:set value="<%=CrsConstants.CRS_TEMPLATE_TYPE_BASE%>" var="CRS_TEMPLATE_TYPE_BASE"/>
+<c:set value="<%=CrsConstants.CRS_TEMPLATE_TYPE_POST%>" var="CRS_TEMPLATE_TYPE_POST"/>
+<c:set value="<%=CrsConstants.CRS_TEMPLATE_TYPE_MEETINGNOTICE%>" var="CRS_TEMPLATE_TYPE_MEETINGNOTICE"/>
 
-<c:set value="<%=SystemConstants.CRS_SHORT_MSG_TPL_MAP%>" var="CRS_SHORT_MSG_TPL_MAP"/>
+<c:set value="<%=CrsConstants.CRS_POST_TYPE_MAP%>" var="CRS_POST_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.CRS_POST_FILE_TYPE_PIC%>" var="CRS_POST_FILE_TYPE_PIC"/>
-<c:set value="<%=SystemConstants.CRS_POST_FILE_TYPE_AUDIO%>" var="CRS_POST_FILE_TYPE_AUDIO"/>
-<c:set value="<%=SystemConstants.CRS_POST_FILE_TYPE_MAP%>" var="CRS_POST_FILE_TYPE_MAP"/>
+<c:set value="<%=CrsConstants.CRS_POST_RULE_TYPE_MAP%>" var="CRS_POST_RULE_TYPE_MAP"/>
 
-<c:set value="<%=SystemConstants.CRS_APPLICANT_STATUS_SAVE%>" var="CRS_APPLICANT_STATUS_SAVE"/>
-<c:set value="<%=SystemConstants.CRS_APPLICANT_STATUS_SUBMIT%>" var="CRS_APPLICANT_STATUS_SUBMIT"/>
-<c:set value="<%=SystemConstants.CRS_APPLICANT_STATUS_DELETE%>" var="CRS_APPLICANT_STATUS_DELETE"/>
+<c:set value="<%=CrsConstants.CRS_APPLICANT_INFO_CHECK_STATUS_INIT%>" var="CRS_APPLICANT_INFO_CHECK_STATUS_INIT"/>
+<c:set value="<%=CrsConstants.CRS_APPLICANT_INFO_CHECK_STATUS_PASS%>" var="CRS_APPLICANT_INFO_CHECK_STATUS_PASS"/>
+<c:set value="<%=CrsConstants.CRS_APPLICANT_INFO_CHECK_STATUS_UNPASS%>" var="CRS_APPLICANT_INFO_CHECK_STATUS_UNPASS"/>
+<c:set value="<%=CrsConstants.CRS_APPLICANT_INFO_CHECK_STATUS_MAP%>" var="CRS_APPLICANT_INFO_CHECK_STATUS_MAP"/>
 
-<c:set value="<%=SystemConstants.CRS_POST_STATUS_MAP%>" var="CRS_POST_STATUS_MAP"/>
-<c:set value="<%=SystemConstants.CRS_POST_STATUS_NORMAL%>" var="CRS_POST_STATUS_NORMAL"/>
-<c:set value="<%=SystemConstants.CRS_POST_STATUS_FINISH%>" var="CRS_POST_STATUS_FINISH"/>
-<c:set value="<%=SystemConstants.CRS_POST_STATUS_DELETE%>" var="CRS_POST_STATUS_DELETE"/>
+<c:set value="<%=CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS%>" var="CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS"/>
+<c:set value="<%=CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS%>" var="CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS"/>
 
-<c:set value="<%=SystemConstants.CRS_TEMPLATE_TYPE_MAP%>" var="CRS_TEMPLATE_TYPE_MAP"/>
+
+<c:set value="<%=CrsConstants.CRS_POST_PUB_STATUS_PUBLISHED%>" var="CRS_POST_PUB_STATUS_PUBLISHED"/>
+
+<c:set value="<%=CrsConstants.CRS_POST_ENROLL_STATUS_DEFAULT%>" var="CRS_POST_ENROLL_STATUS_DEFAULT"/>
+<c:set value="<%=CrsConstants.CRS_POST_ENROLL_STATUS_OPEN%>" var="CRS_POST_ENROLL_STATUS_OPEN"/>
+<c:set value="<%=CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED%>" var="CRS_POST_ENROLL_STATUS_CLOSED"/>
+<c:set value="<%=CrsConstants.CRS_POST_ENROLL_STATUS_PAUSE%>" var="CRS_POST_ENROLL_STATUS_PAUSE"/>
+<c:set value="<%=CrsConstants.CRS_POST_ENROLL_STATUS_MAP%>" var="CRS_POST_ENROLL_STATUS_MAP"/>
+
+<c:set value="<%=CrsConstants.CRS_POST_EXPERT_ROLE_HEAD%>" var="CRS_POST_EXPERT_ROLE_HEAD"/>
+<c:set value="<%=CrsConstants.CRS_POST_EXPERT_ROLE_LEADER%>" var="CRS_POST_EXPERT_ROLE_LEADER"/>
+<c:set value="<%=CrsConstants.CRS_POST_EXPERT_ROLE_MEMBER%>" var="CRS_POST_EXPERT_ROLE_MEMBER"/>
+<c:set value="<%=CrsConstants.CRS_POST_EXPERT_ROLE_MAP%>" var="CRS_POST_EXPERT_ROLE_MAP"/>
+
+<c:set value="<%=ContentTplConstants.CONTENT_TPL_CRS_MSG_MAP%>" var="CONTENT_TPL_CRS_MSG_MAP"/>
+
+<c:set value="<%=CrsConstants.CRS_POST_FILE_TYPE_PIC%>" var="CRS_POST_FILE_TYPE_PIC"/>
+<c:set value="<%=CrsConstants.CRS_POST_FILE_TYPE_AUDIO%>" var="CRS_POST_FILE_TYPE_AUDIO"/>
+<c:set value="<%=CrsConstants.CRS_POST_FILE_TYPE_MAP%>" var="CRS_POST_FILE_TYPE_MAP"/>
+
+<c:set value="<%=CrsConstants.CRS_APPLICANT_STATUS_SAVE%>" var="CRS_APPLICANT_STATUS_SAVE"/>
+<c:set value="<%=CrsConstants.CRS_APPLICANT_STATUS_SUBMIT%>" var="CRS_APPLICANT_STATUS_SUBMIT"/>
+<c:set value="<%=CrsConstants.CRS_APPLICANT_STATUS_DELETE%>" var="CRS_APPLICANT_STATUS_DELETE"/>
+
+<c:set value="<%=CrsConstants.CRS_POST_STATUS_MAP%>" var="CRS_POST_STATUS_MAP"/>
+<c:set value="<%=CrsConstants.CRS_POST_STATUS_NORMAL%>" var="CRS_POST_STATUS_NORMAL"/>
+<c:set value="<%=CrsConstants.CRS_POST_STATUS_FINISH%>" var="CRS_POST_STATUS_FINISH"/>
+<c:set value="<%=CrsConstants.CRS_POST_STATUS_DELETE%>" var="CRS_POST_STATUS_DELETE"/>
+
+<c:set value="<%=CrsConstants.CRS_TEMPLATE_TYPE_MAP%>" var="CRS_TEMPLATE_TYPE_MAP"/>
 
 <c:set value="<%=SystemConstants.VERIFY_STATUS_DEL%>" var="VERIFY_STATUS_DEL"/>
 
@@ -336,25 +337,25 @@
 <c:set value="<%=SystemConstants.ENTER_APPLY_TYPE_MAP%>" var="ENTER_APPLY_TYPE_MAP"/>
 <c:set value="<%=SystemConstants.ENTER_APPLY_STATUS_MAP%>" var="ENTER_APPLY_STATUS_MAP"/>
 
-<c:set var="MEMBER_QUIT_TYPE_MAP" value="<%=SystemConstants.MEMBER_QUIT_TYPE_MAP%>"/>
+<c:set var="MEMBER_QUIT_TYPE_MAP" value="<%=MemberConstants.MEMBER_QUIT_TYPE_MAP%>"/>
 
-<c:set var="MEMBER_SOURCE_MAP" value="<%=SystemConstants.MEMBER_SOURCE_MAP%>"/>
+<c:set var="MEMBER_SOURCE_MAP" value="<%=MemberConstants.MEMBER_SOURCE_MAP%>"/>
 
-<c:set var="MEMBER_STATUS_MAP" value="<%=SystemConstants.MEMBER_STATUS_MAP%>"/>
-<c:set var="MEMBER_STATUS_QUIT" value="<%=SystemConstants.MEMBER_STATUS_QUIT%>"/>
-<c:set var="MEMBER_STATUS_NORMAL" value="<%=SystemConstants.MEMBER_STATUS_NORMAL%>"/>
-<c:set var="MEMBER_STATUS_TRANSFER" value="<%=SystemConstants.MEMBER_STATUS_TRANSFER%>"/>
+<c:set var="MEMBER_STATUS_MAP" value="<%=MemberConstants.MEMBER_STATUS_MAP%>"/>
+<c:set var="MEMBER_STATUS_QUIT" value="<%=MemberConstants.MEMBER_STATUS_QUIT%>"/>
+<c:set var="MEMBER_STATUS_NORMAL" value="<%=MemberConstants.MEMBER_STATUS_NORMAL%>"/>
+<c:set var="MEMBER_STATUS_TRANSFER" value="<%=MemberConstants.MEMBER_STATUS_TRANSFER%>"/>
 
-<c:set var="MEMBER_TYPE_TEACHER" value="<%=SystemConstants.MEMBER_TYPE_TEACHER%>"/>
-<c:set var="MEMBER_TYPE_STUDENT" value="<%=SystemConstants.MEMBER_TYPE_STUDENT%>"/>
+<c:set var="MEMBER_TYPE_TEACHER" value="<%=MemberConstants.MEMBER_TYPE_TEACHER%>"/>
+<c:set var="MEMBER_TYPE_STUDENT" value="<%=MemberConstants.MEMBER_TYPE_STUDENT%>"/>
 
-<c:set var="MEMBER_AGE_MAP" value="<%=SystemConstants.MEMBER_AGE_MAP%>"/>
+<c:set var="MEMBER_AGE_MAP" value="<%=MemberConstants.MEMBER_AGE_MAP%>"/>
 
 <c:set var="PIE_COLOR_MAP" value="<%=SystemConstants.PIE_COLOR_MAP%>"/>
 
-<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_GROW" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_GROW%>"/>
-<c:set var="MEMBER_POLITICAL_STATUS_POSITIVE" value="<%=SystemConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>"/>
+<c:set var="MEMBER_POLITICAL_STATUS_MAP" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_MAP%>"/>
+<c:set var="MEMBER_POLITICAL_STATUS_GROW" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_GROW%>"/>
+<c:set var="MEMBER_POLITICAL_STATUS_POSITIVE" value="<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>"/>
 
 <c:set var="JASPER_PRINT_TYPE_INSIDE" value="<%=SystemConstants.JASPER_PRINT_TYPE_INSIDE%>"/>
 <c:set var="JASPER_PRINT_TYPE_OUTSIDE" value="<%=SystemConstants.JASPER_PRINT_TYPE_OUTSIDE%>"/>
@@ -362,83 +363,83 @@
 <c:set var="JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL" value="<%=SystemConstants.JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL%>"/>
 
 
-<c:set var="MEMBER_INOUT_TYPE_INSIDE" value="<%=SystemConstants.MEMBER_INOUT_TYPE_INSIDE%>"/>
-<c:set var="MEMBER_INOUT_TYPE_OUTSIDE" value="<%=SystemConstants.MEMBER_INOUT_TYPE_OUTSIDE%>"/>
-<c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=SystemConstants.MEMBER_INOUT_TYPE_MAP%>"/>
+<c:set var="MEMBER_INOUT_TYPE_INSIDE" value="<%=MemberConstants.MEMBER_INOUT_TYPE_INSIDE%>"/>
+<c:set var="MEMBER_INOUT_TYPE_OUTSIDE" value="<%=MemberConstants.MEMBER_INOUT_TYPE_OUTSIDE%>"/>
+<c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>"/>
 
-<c:set var="MEMBER_STAY_TYPE_ABROAD" value="<%=SystemConstants.MEMBER_STAY_TYPE_ABROAD%>"/>
-<c:set var="MEMBER_STAY_TYPE_INTERNAL" value="<%=SystemConstants.MEMBER_STAY_TYPE_INTERNAL%>"/>
-<c:set var="MEMBER_STAY_TYPE_MAP" value="<%=SystemConstants.MEMBER_STAY_TYPE_MAP%>"/>
+<c:set var="MEMBER_STAY_TYPE_ABROAD" value="<%=MemberConstants.MEMBER_STAY_TYPE_ABROAD%>"/>
+<c:set var="MEMBER_STAY_TYPE_INTERNAL" value="<%=MemberConstants.MEMBER_STAY_TYPE_INTERNAL%>"/>
+<c:set var="MEMBER_STAY_TYPE_MAP" value="<%=MemberConstants.MEMBER_STAY_TYPE_MAP%>"/>
 
-<c:set var="MEMBER_STAY_ABROAD_TYPE_MAP_MAP" value="<%=SystemConstants.MEMBER_STAY_ABROAD_TYPE_MAP_MAP%>"/>
+<c:set var="MEMBER_STAY_ABROAD_TYPE_MAP_MAP" value="<%=MemberConstants.MEMBER_STAY_ABROAD_TYPE_MAP_MAP%>"/>
 
-<c:set var="MEMBER_STAY_STATUS_MAP" value="<%=SystemConstants.MEMBER_STAY_STATUS_MAP%>"/>
-<c:set var="MEMBER_STAY_STATUS_SELF_BACK" value="<%=SystemConstants.MEMBER_STAY_STATUS_SELF_BACK%>"/>
-<c:set var="MEMBER_STAY_STATUS_BACK" value="<%=SystemConstants.MEMBER_STAY_STATUS_BACK%>"/>
-<c:set var="MEMBER_STAY_STATUS_APPLY" value="<%=SystemConstants.MEMBER_STAY_STATUS_APPLY%>"/>
-<c:set var="MEMBER_STAY_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY%>"/>
-<c:set var="MEMBER_STAY_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_STAY_STATUS_PARTY_VERIFY%>"/>
-<c:set var="MEMBER_STAY_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_STAY_STATUS_OW_VERIFY%>"/>
+<c:set var="MEMBER_STAY_STATUS_MAP" value="<%=MemberConstants.MEMBER_STAY_STATUS_MAP%>"/>
+<c:set var="MEMBER_STAY_STATUS_SELF_BACK" value="<%=MemberConstants.MEMBER_STAY_STATUS_SELF_BACK%>"/>
+<c:set var="MEMBER_STAY_STATUS_BACK" value="<%=MemberConstants.MEMBER_STAY_STATUS_BACK%>"/>
+<c:set var="MEMBER_STAY_STATUS_APPLY" value="<%=MemberConstants.MEMBER_STAY_STATUS_APPLY%>"/>
+<c:set var="MEMBER_STAY_STATUS_BRANCH_VERIFY" value="<%=MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY%>"/>
+<c:set var="MEMBER_STAY_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_STAY_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY%>"/>
 
-<c:set var="MEMBER_IN_STATUS_MAP" value="<%=SystemConstants.MEMBER_IN_STATUS_MAP%>"/>
-<c:set var="MEMBER_IN_STATUS_SELF_BACK" value="<%=SystemConstants.MEMBER_IN_STATUS_SELF_BACK%>"/>
-<c:set var="MEMBER_IN_STATUS_BACK" value="<%=SystemConstants.MEMBER_IN_STATUS_BACK%>"/>
-<c:set var="MEMBER_IN_STATUS_APPLY" value="<%=SystemConstants.MEMBER_IN_STATUS_APPLY%>"/>
-<c:set var="MEMBER_IN_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_IN_STATUS_PARTY_VERIFY%>"/>
-<c:set var="MEMBER_IN_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_IN_STATUS_OW_VERIFY%>"/>
+<c:set var="MEMBER_IN_STATUS_MAP" value="<%=MemberConstants.MEMBER_IN_STATUS_MAP%>"/>
+<c:set var="MEMBER_IN_STATUS_SELF_BACK" value="<%=MemberConstants.MEMBER_IN_STATUS_SELF_BACK%>"/>
+<c:set var="MEMBER_IN_STATUS_BACK" value="<%=MemberConstants.MEMBER_IN_STATUS_BACK%>"/>
+<c:set var="MEMBER_IN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_IN_STATUS_APPLY%>"/>
+<c:set var="MEMBER_IN_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_IN_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_IN_STATUS_OW_VERIFY%>"/>
 
-<c:set var="MEMBER_OUT_STATUS_MAP" value="<%=SystemConstants.MEMBER_OUT_STATUS_MAP%>"/>
-<c:set var="MEMBER_OUT_STATUS_ABOLISH" value="<%=SystemConstants.MEMBER_OUT_STATUS_ABOLISH%>"/>
-<c:set var="MEMBER_OUT_STATUS_SELF_BACK" value="<%=SystemConstants.MEMBER_OUT_STATUS_SELF_BACK%>"/>
-<c:set var="MEMBER_OUT_STATUS_BACK" value="<%=SystemConstants.MEMBER_OUT_STATUS_BACK%>"/>
-<c:set var="MEMBER_OUT_STATUS_APPLY" value="<%=SystemConstants.MEMBER_OUT_STATUS_APPLY%>"/>
-<c:set var="MEMBER_OUT_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_OUT_STATUS_PARTY_VERIFY%>"/>
-<c:set var="MEMBER_OUT_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_OUT_STATUS_OW_VERIFY%>"/>
+<c:set var="MEMBER_OUT_STATUS_MAP" value="<%=MemberConstants.MEMBER_OUT_STATUS_MAP%>"/>
+<c:set var="MEMBER_OUT_STATUS_ABOLISH" value="<%=MemberConstants.MEMBER_OUT_STATUS_ABOLISH%>"/>
+<c:set var="MEMBER_OUT_STATUS_SELF_BACK" value="<%=MemberConstants.MEMBER_OUT_STATUS_SELF_BACK%>"/>
+<c:set var="MEMBER_OUT_STATUS_BACK" value="<%=MemberConstants.MEMBER_OUT_STATUS_BACK%>"/>
+<c:set var="MEMBER_OUT_STATUS_APPLY" value="<%=MemberConstants.MEMBER_OUT_STATUS_APPLY%>"/>
+<c:set var="MEMBER_OUT_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_OUT_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY%>"/>
 
-<c:set var="MEMBER_TRANSFER_STATUS_MAP" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_MAP%>"/>
-<c:set var="MEMBER_TRANSFER_STATUS_SELF_BACK" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_SELF_BACK%>"/>
-<c:set var="MEMBER_TRANSFER_STATUS_BACK" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_BACK%>"/>
-<c:set var="MEMBER_TRANSFER_STATUS_APPLY" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_APPLY%>"/>
-<c:set var="MEMBER_TRANSFER_STATUS_FROM_VERIFY" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY%>"/>
-<c:set var="MEMBER_TRANSFER_STATUS_TO_VERIFY" value="<%=SystemConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY%>"/>
+<c:set var="MEMBER_TRANSFER_STATUS_MAP" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_MAP%>"/>
+<c:set var="MEMBER_TRANSFER_STATUS_SELF_BACK" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_SELF_BACK%>"/>
+<c:set var="MEMBER_TRANSFER_STATUS_BACK" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_BACK%>"/>
+<c:set var="MEMBER_TRANSFER_STATUS_APPLY" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_APPLY%>"/>
+<c:set var="MEMBER_TRANSFER_STATUS_FROM_VERIFY" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY%>"/>
+<c:set var="MEMBER_TRANSFER_STATUS_TO_VERIFY" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY%>"/>
 
-<c:set var="MEMBER_RETURN_STATUS_MAP" value="<%=SystemConstants.MEMBER_RETURN_STATUS_MAP%>"/>
-<c:set var="MEMBER_RETURN_STATUS_DENY" value="<%=SystemConstants.MEMBER_RETURN_STATUS_DENY%>"/>
-<c:set var="MEMBER_RETURN_STATUS_APPLY" value="<%=SystemConstants.MEMBER_RETURN_STATUS_APPLY%>"/>
-<c:set var="MEMBER_RETURN_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY%>"/>
-<c:set var="MEMBER_RETURN_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_RETURN_STATUS_MAP" value="<%=MemberConstants.MEMBER_RETURN_STATUS_MAP%>"/>
+<c:set var="MEMBER_RETURN_STATUS_DENY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_DENY%>"/>
+<c:set var="MEMBER_RETURN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_APPLY%>"/>
+<c:set var="MEMBER_RETURN_STATUS_BRANCH_VERIFY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY%>"/>
+<c:set var="MEMBER_RETURN_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY%>"/>
 
-<c:set var="MEMBER_TYPE_MAP" value="<%=SystemConstants.MEMBER_TYPE_MAP%>"/>
+<c:set var="MEMBER_TYPE_MAP" value="<%=MemberConstants.MEMBER_TYPE_MAP%>"/>
 
-<c:set var="MEMBER_INFLOW_STATUS_MAP" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_MAP%>"/>
-<c:set var="MEMBER_INFLOW_STATUS_BACK" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_BACK%>"/>
-<c:set var="MEMBER_INFLOW_STATUS_APPLY" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_APPLY%>"/>
-<c:set var="MEMBER_INFLOW_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY%>"/>
-<c:set var="MEMBER_INFLOW_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_INFLOW_STATUS_MAP" value="<%=MemberConstants.MEMBER_INFLOW_STATUS_MAP%>"/>
+<c:set var="MEMBER_INFLOW_STATUS_BACK" value="<%=MemberConstants.MEMBER_INFLOW_STATUS_BACK%>"/>
+<c:set var="MEMBER_INFLOW_STATUS_APPLY" value="<%=MemberConstants.MEMBER_INFLOW_STATUS_APPLY%>"/>
+<c:set var="MEMBER_INFLOW_STATUS_BRANCH_VERIFY" value="<%=MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY%>"/>
+<c:set var="MEMBER_INFLOW_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY%>"/>
 
-<c:set var="MEMBER_INFLOW_OUT_STATUS_MAP" value="<%=SystemConstants.MEMBER_INFLOW_OUT_STATUS_MAP%>"/>
-<c:set var="MEMBER_INFLOW_OUT_STATUS_SELF_BACK" value="<%=SystemConstants.MEMBER_INFLOW_OUT_STATUS_SELF_BACK%>"/>
-<c:set var="MEMBER_INFLOW_OUT_STATUS_BACK" value="<%=SystemConstants.MEMBER_INFLOW_OUT_STATUS_BACK%>"/>
-<c:set var="MEMBER_INFLOW_OUT_STATUS_APPLY" value="<%=SystemConstants.MEMBER_INFLOW_OUT_STATUS_APPLY%>"/>
-<c:set var="MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY%>"/>
-<c:set var="MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_INFLOW_OUT_STATUS_MAP" value="<%=MemberConstants.MEMBER_INFLOW_OUT_STATUS_MAP%>"/>
+<c:set var="MEMBER_INFLOW_OUT_STATUS_SELF_BACK" value="<%=MemberConstants.MEMBER_INFLOW_OUT_STATUS_SELF_BACK%>"/>
+<c:set var="MEMBER_INFLOW_OUT_STATUS_BACK" value="<%=MemberConstants.MEMBER_INFLOW_OUT_STATUS_BACK%>"/>
+<c:set var="MEMBER_INFLOW_OUT_STATUS_APPLY" value="<%=MemberConstants.MEMBER_INFLOW_OUT_STATUS_APPLY%>"/>
+<c:set var="MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY" value="<%=MemberConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY%>"/>
+<c:set var="MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_INFLOW_OUT_STATUS_PARTY_VERIFY%>"/>
 
 <c:set var="OR_STATUS_MAP" value="<%=SystemConstants.OR_STATUS_MAP%>"/>
-<c:set var="MEMBER_OUTFLOW_STATUS_MAP" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_MAP%>"/>
-<c:set var="MEMBER_OUTFLOW_STATUS_BACK" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_BACK%>"/>
-<c:set var="MEMBER_OUTFLOW_STATUS_APPLY" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_APPLY%>"/>
-<c:set var="MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY%>"/>
-<c:set var="MEMBER_OUTFLOW_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_OUTFLOW_STATUS_MAP" value="<%=MemberConstants.MEMBER_OUTFLOW_STATUS_MAP%>"/>
+<c:set var="MEMBER_OUTFLOW_STATUS_BACK" value="<%=MemberConstants.MEMBER_OUTFLOW_STATUS_BACK%>"/>
+<c:set var="MEMBER_OUTFLOW_STATUS_APPLY" value="<%=MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY%>"/>
+<c:set var="MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY" value="<%=MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY%>"/>
+<c:set var="MEMBER_OUTFLOW_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY%>"/>
 
-<c:set var="MEMBER_QUIT_STATUS_MAP" value="<%=SystemConstants.MEMBER_QUIT_STATUS_MAP%>"/>
-<c:set var="MEMBER_QUIT_STATUS_SELF_BACK" value="<%=SystemConstants.MEMBER_QUIT_STATUS_SELF_BACK%>"/>
-<c:set var="MEMBER_QUIT_STATUS_BACK" value="<%=SystemConstants.MEMBER_QUIT_STATUS_BACK%>"/>
-<c:set var="MEMBER_QUIT_STATUS_APPLY" value="<%=SystemConstants.MEMBER_QUIT_STATUS_APPLY%>"/>
-<c:set var="MEMBER_QUIT_STATUS_BRANCH_VERIFY" value="<%=SystemConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY%>"/>
-<c:set var="MEMBER_QUIT_STATUS_PARTY_VERIFY" value="<%=SystemConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY%>"/>
-<c:set var="MEMBER_QUIT_STATUS_OW_VERIFY" value="<%=SystemConstants.MEMBER_QUIT_STATUS_OW_VERIFY%>"/>
+<c:set var="MEMBER_QUIT_STATUS_MAP" value="<%=MemberConstants.MEMBER_QUIT_STATUS_MAP%>"/>
+<c:set var="MEMBER_QUIT_STATUS_SELF_BACK" value="<%=MemberConstants.MEMBER_QUIT_STATUS_SELF_BACK%>"/>
+<c:set var="MEMBER_QUIT_STATUS_BACK" value="<%=MemberConstants.MEMBER_QUIT_STATUS_BACK%>"/>
+<c:set var="MEMBER_QUIT_STATUS_APPLY" value="<%=MemberConstants.MEMBER_QUIT_STATUS_APPLY%>"/>
+<c:set var="MEMBER_QUIT_STATUS_BRANCH_VERIFY" value="<%=MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY%>"/>
+<c:set var="MEMBER_QUIT_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_QUIT_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_QUIT_STATUS_OW_VERIFY%>"/>
 
-<c:set var="MEMBER_STAY_STATUS_MAP" value="<%=SystemConstants.MEMBER_STAY_STATUS_MAP%>"/>
+<c:set var="MEMBER_STAY_STATUS_MAP" value="<%=MemberConstants.MEMBER_STAY_STATUS_MAP%>"/>
 
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MAP" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MAP%>"/>
 <c:set var="APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY" value="<%=SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY%>"/>
@@ -461,37 +462,37 @@
 <c:set var="APPLY_APPROVAL_LOG_STATUS_NONEED" value="<%=SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED%>"/>
 <c:set var="APPLY_APPROVAL_LOG_STATUS_MAP" value="<%=SystemConstants.APPLY_APPROVAL_LOG_STATUS_MAP%>"/>
 
-<c:set var="APPLYSELF_MODIFY_TYPE_ORIGINAL" value="<%=SystemConstants.APPLYSELF_MODIFY_TYPE_ORIGINAL%>"/>
-<c:set var="APPLYSELF_MODIFY_TYPE_MODIFY" value="<%=SystemConstants.APPLYSELF_MODIFY_TYPE_MODIFY%>"/>
+<c:set var="ABROAD_APPLYSELF_MODIFY_TYPE_ORIGINAL" value="<%=AbroadConstants.ABROAD_APPLYSELF_MODIFY_TYPE_ORIGINAL%>"/>
+<c:set var="ABROAD_APPLYSELF_MODIFY_TYPE_MODIFY" value="<%=AbroadConstants.ABROAD_APPLYSELF_MODIFY_TYPE_MODIFY%>"/>
 
-<c:set var="MODIFY_BASE_ITEM_TYPE_STRING" value="<%=SystemConstants.MODIFY_BASE_ITEM_TYPE_STRING%>"/>
-<c:set var="MODIFY_BASE_ITEM_TYPE_INT" value="<%=SystemConstants.MODIFY_BASE_ITEM_TYPE_INT%>"/>
-<c:set var="MODIFY_BASE_ITEM_TYPE_DATE" value="<%=SystemConstants.MODIFY_BASE_ITEM_TYPE_DATE%>"/>
-<c:set var="MODIFY_BASE_ITEM_TYPE_IMAGE" value="<%=SystemConstants.MODIFY_BASE_ITEM_TYPE_IMAGE%>"/>
-<c:set var="MODIFY_BASE_ITEM_TYPE_MAP" value="<%=SystemConstants.MODIFY_BASE_ITEM_TYPE_MAP%>"/>
+<c:set var="MODIFY_BASE_ITEM_TYPE_STRING" value="<%=ModifyConstants.MODIFY_BASE_ITEM_TYPE_STRING%>"/>
+<c:set var="MODIFY_BASE_ITEM_TYPE_INT" value="<%=ModifyConstants.MODIFY_BASE_ITEM_TYPE_INT%>"/>
+<c:set var="MODIFY_BASE_ITEM_TYPE_DATE" value="<%=ModifyConstants.MODIFY_BASE_ITEM_TYPE_DATE%>"/>
+<c:set var="MODIFY_BASE_ITEM_TYPE_IMAGE" value="<%=ModifyConstants.MODIFY_BASE_ITEM_TYPE_IMAGE%>"/>
+<c:set var="MODIFY_BASE_ITEM_TYPE_MAP" value="<%=ModifyConstants.MODIFY_BASE_ITEM_TYPE_MAP%>"/>
 
-<c:set var="MODIFY_BASE_APPLY_STATUS_APPLY" value="<%=SystemConstants.MODIFY_BASE_APPLY_STATUS_APPLY%>"/>
-<c:set var="MODIFY_BASE_APPLY_STATUS_DELETE" value="<%=SystemConstants.MODIFY_BASE_APPLY_STATUS_DELETE%>"/>
-<c:set var="MODIFY_BASE_APPLY_STATUS_ALL_CHECK" value="<%=SystemConstants.MODIFY_BASE_APPLY_STATUS_ALL_CHECK%>"/>
+<c:set var="MODIFY_BASE_APPLY_STATUS_APPLY" value="<%=ModifyConstants.MODIFY_BASE_APPLY_STATUS_APPLY%>"/>
+<c:set var="MODIFY_BASE_APPLY_STATUS_DELETE" value="<%=ModifyConstants.MODIFY_BASE_APPLY_STATUS_DELETE%>"/>
+<c:set var="MODIFY_BASE_APPLY_STATUS_ALL_CHECK" value="<%=ModifyConstants.MODIFY_BASE_APPLY_STATUS_ALL_CHECK%>"/>
 
-<c:set var="MODIFY_BASE_ITEM_STATUS_MAP" value="<%=SystemConstants.MODIFY_BASE_ITEM_STATUS_MAP%>"/>
+<c:set var="MODIFY_BASE_ITEM_STATUS_MAP" value="<%=ModifyConstants.MODIFY_BASE_ITEM_STATUS_MAP%>"/>
 
-<c:set var="MODIFY_TABLE_APPLY_STATUS_APPLY" value="<%=SystemConstants.MODIFY_TABLE_APPLY_STATUS_APPLY%>"/>
-<c:set var="MODIFY_TABLE_APPLY_STATUS_MAP" value="<%=SystemConstants.MODIFY_TABLE_APPLY_STATUS_MAP%>"/>
+<c:set var="MODIFY_TABLE_APPLY_STATUS_APPLY" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY%>"/>
+<c:set var="MODIFY_TABLE_APPLY_STATUS_MAP" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_STATUS_MAP%>"/>
 
-<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_EDU" value="<%=SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU%>"/>
-<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_WORK" value="<%=SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK%>"/>
-<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK" value="<%=SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK%>"/>
-<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY" value="<%=SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY%>"/>
-<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE" value="<%=SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE%>"/>
-<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER" value="<%=SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER%>"/>
-<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME" value="<%=SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME%>"/>
-<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN" value="<%=SystemConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN%>"/>
-<c:set var="MODIFY_TABLE_APPLY_MODULE_MAP" value="<%=SystemConstants.MODIFY_TABLE_APPLY_MODULE_MAP%>"/>
+<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_EDU" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU%>"/>
+<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_WORK" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK%>"/>
+<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK%>"/>
+<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY%>"/>
+<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE%>"/>
+<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER%>"/>
+<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME%>"/>
+<c:set var="MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN%>"/>
+<c:set var="MODIFY_TABLE_APPLY_MODULE_MAP" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_MODULE_MAP%>"/>
 
-<c:set var="MODIFY_TABLE_APPLY_TYPE_MODIFY" value="<%=SystemConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY%>"/>
-<c:set var="MODIFY_TABLE_APPLY_TYPE_DELETE" value="<%=SystemConstants.MODIFY_TABLE_APPLY_TYPE_DELETE%>"/>
-<c:set var="MODIFY_TABLE_APPLY_TYPE_MAP" value="<%=SystemConstants.MODIFY_TABLE_APPLY_TYPE_MAP%>"/>
+<c:set var="MODIFY_TABLE_APPLY_TYPE_MODIFY" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY%>"/>
+<c:set var="MODIFY_TABLE_APPLY_TYPE_DELETE" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE%>"/>
+<c:set var="MODIFY_TABLE_APPLY_TYPE_MAP" value="<%=ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MAP%>"/>
 
 <c:set var="APPLY_TYPE_TEACHER" value="<%=SystemConstants.APPLY_TYPE_TEACHER%>"/>
 <c:set var="APPLY_TYPE_STU" value="<%=SystemConstants.APPLY_TYPE_STU%>"/>
@@ -513,52 +514,52 @@
 
 <c:set var="DISPATCH_WORK_FILE_TYPE_MAP" value="<%=SystemConstants.DISPATCH_WORK_FILE_TYPE_MAP%>"/>
 
-<c:set var="APPLY_SELF_DATE_TYPE_MAP" value="<%=SystemConstants.APPLY_SELF_DATE_TYPE_MAP%>"/>
-<c:set var="PASSPORT_DRAW_TYPE_MAP" value="<%=SystemConstants.PASSPORT_DRAW_TYPE_MAP%>"/>
+<c:set var="ABROAD_APPLY_SELF_DATE_TYPE_MAP" value="<%=AbroadConstants.ABROAD_APPLY_SELF_DATE_TYPE_MAP%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_TYPE_MAP" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP%>"/>
 
-<c:set var="PASSPORT_TYPE_KEEP" value="<%=SystemConstants.PASSPORT_TYPE_KEEP%>"/>
-<c:set var="PASSPORT_TYPE_LOST" value="<%=SystemConstants.PASSPORT_TYPE_LOST%>"/>
-<c:set var="PASSPORT_TYPE_CANCEL" value="<%=SystemConstants.PASSPORT_TYPE_CANCEL%>"/>
-<c:set var="PASSPORT_TYPE_MAP" value="<%=SystemConstants.PASSPORT_TYPE_MAP%>"/>
+<c:set var="ABROAD_PASSPORT_TYPE_KEEP" value="<%=AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP%>"/>
+<c:set var="ABROAD_PASSPORT_TYPE_LOST" value="<%=AbroadConstants.ABROAD_PASSPORT_TYPE_LOST%>"/>
+<c:set var="ABROAD_PASSPORT_TYPE_CANCEL" value="<%=AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL%>"/>
+<c:set var="ABROAD_PASSPORT_TYPE_MAP" value="<%=AbroadConstants.ABROAD_PASSPORT_TYPE_MAP%>"/>
 
-<c:set var="PASSPORT_CANCEL_TYPE_ABOLISH" value="<%=SystemConstants.PASSPORT_CANCEL_TYPE_ABOLISH%>"/>
-<c:set var="PASSPORT_CANCEL_TYPE_OTHER" value="<%=SystemConstants.PASSPORT_CANCEL_TYPE_OTHER%>"/>
-<c:set var="PASSPORT_CANCEL_TYPE_MAP" value="<%=SystemConstants.PASSPORT_CANCEL_TYPE_MAP%>"/>
+<c:set var="ABROAD_PASSPORT_CANCEL_TYPE_ABOLISH" value="<%=AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_ABOLISH%>"/>
+<c:set var="ABROAD_PASSPORT_CANCEL_TYPE_OTHER" value="<%=AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_OTHER%>"/>
+<c:set var="ABROAD_PASSPORT_CANCEL_TYPE_MAP" value="<%=AbroadConstants.ABROAD_PASSPORT_CANCEL_TYPE_MAP%>"/>
 
-<c:set var="PASSPORT_LOST_TYPE_TRANSFER" value="<%=SystemConstants.PASSPORT_LOST_TYPE_TRANSFER%>"/>
+<c:set var="ABROAD_PASSPORT_LOST_TYPE_TRANSFER" value="<%=AbroadConstants.ABROAD_PASSPORT_LOST_TYPE_TRANSFER%>"/>
 
-<c:set var="PASSPORT_DRAW_USE_TYPE_MAP" value="<%=SystemConstants.PASSPORT_DRAW_USE_TYPE_MAP%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_USE_TYPE_MAP" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_USE_TYPE_MAP%>"/>
 
-<c:set var="PASSPORT_DRAW_TYPE_SELF" value="<%=SystemConstants.PASSPORT_DRAW_TYPE_SELF%>"/>
-<c:set var="PASSPORT_DRAW_TYPE_TW" value="<%=SystemConstants.PASSPORT_DRAW_TYPE_TW%>"/>
-<c:set var="PASSPORT_DRAW_TYPE_OTHER" value="<%=SystemConstants.PASSPORT_DRAW_TYPE_OTHER%>"/>
-<c:set var="PASSPORT_DRAW_TYPE_LONG_SELF" value="<%=SystemConstants.PASSPORT_DRAW_TYPE_LONG_SELF%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_TYPE_SELF" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_TYPE_TW" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_TYPE_OTHER" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF%>"/>
 
-<c:set var="PASSPORT_DRAW_STATUS_INIT" value="<%=SystemConstants.PASSPORT_DRAW_STATUS_INIT%>"/>
-<c:set var="PASSPORT_DRAW_STATUS_PASS" value="<%=SystemConstants.PASSPORT_DRAW_STATUS_PASS%>"/>
-<c:set var="PASSPORT_DRAW_STATUS_NOT_PASS" value="<%=SystemConstants.PASSPORT_DRAW_STATUS_NOT_PASS%>"/>
-<c:set var="PASSPORT_DRAW_STATUS_MAP" value="<%=SystemConstants.PASSPORT_DRAW_STATUS_MAP%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_STATUS_INIT" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_INIT%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_STATUS_PASS" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_PASS%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_STATUS_NOT_PASS" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_NOT_PASS%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_STATUS_MAP" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_STATUS_MAP%>"/>
 
-<c:set var="PASSPORT_DRAW_DRAW_STATUS_UNDRAW" value="<%=SystemConstants.PASSPORT_DRAW_DRAW_STATUS_UNDRAW%>"/>
-<c:set var="PASSPORT_DRAW_DRAW_STATUS_DRAW" value="<%=SystemConstants.PASSPORT_DRAW_DRAW_STATUS_DRAW%>"/>
-<c:set var="PASSPORT_DRAW_DRAW_STATUS_RETURN" value="<%=SystemConstants.PASSPORT_DRAW_DRAW_STATUS_RETURN%>"/>
-<c:set var="PASSPORT_DRAW_DRAW_STATUS_ABOLISH" value="<%=SystemConstants.PASSPORT_DRAW_DRAW_STATUS_ABOLISH%>"/>
-<c:set var="PASSPORT_DRAW_DRAW_STATUS_MAP" value="<%=SystemConstants.PASSPORT_DRAW_DRAW_STATUS_MAP%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_DRAW_STATUS_ABOLISH" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_ABOLISH%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_DRAW_STATUS_MAP" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_MAP%>"/>
 
-<c:set var="PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN" value="<%=SystemConstants.PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN%>"/>
+<c:set var="ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN" value="<%=AbroadConstants.ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN%>"/>
 
-<c:set var="PASSPORT_APPLY_STATUS_INIT" value="<%=SystemConstants.PASSPORT_APPLY_STATUS_INIT%>"/>
-<c:set var="PASSPORT_APPLY_STATUS_PASS" value="<%=SystemConstants.PASSPORT_APPLY_STATUS_PASS%>"/>
-<c:set var="PASSPORT_APPLY_STATUS_NOT_PASS" value="<%=SystemConstants.PASSPORT_APPLY_STATUS_NOT_PASS%>"/>
-<c:set var="PASSPORT_APPLY_STATUS_MAP" value="<%=SystemConstants.PASSPORT_APPLY_STATUS_MAP%>"/>
+<c:set var="ABROAD_PASSPORT_APPLY_STATUS_INIT" value="<%=AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_INIT%>"/>
+<c:set var="ABROAD_PASSPORT_APPLY_STATUS_PASS" value="<%=AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_PASS%>"/>
+<c:set var="ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS" value="<%=AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS%>"/>
+<c:set var="ABROAD_PASSPORT_APPLY_STATUS_MAP" value="<%=AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_MAP%>"/>
 
-<c:set var="TAIWAN_RECORD_HANDLE_TYPE_OW" value="<%=SystemConstants.TAIWAN_RECORD_HANDLE_TYPE_OW%>"/>
-<c:set var="TAIWAN_RECORD_HANDLE_TYPE_OFFICE" value="<%=SystemConstants.TAIWAN_RECORD_HANDLE_TYPE_OFFICE%>"/>
-<c:set var="TAIWAN_RECORD_HANDLE_TYPE_MAP" value="<%=SystemConstants.TAIWAN_RECORD_HANDLE_TYPE_MAP%>"/>
+<c:set var="ABROAD_TAIWAN_RECORD_HANDLE_TYPE_OW" value="<%=AbroadConstants.ABROAD_TAIWAN_RECORD_HANDLE_TYPE_OW%>"/>
+<c:set var="ABROAD_TAIWAN_RECORD_HANDLE_TYPE_OFFICE" value="<%=AbroadConstants.ABROAD_TAIWAN_RECORD_HANDLE_TYPE_OFFICE%>"/>
+<c:set var="ABROAD_TAIWAN_RECORD_HANDLE_TYPE_MAP" value="<%=AbroadConstants.ABROAD_TAIWAN_RECORD_HANDLE_TYPE_MAP%>"/>
 
-<c:set var="APPROVER_TYPE_UNIT" value="<%=SystemConstants.APPROVER_TYPE_UNIT%>"/>
-<c:set var="APPROVER_TYPE_LEADER" value="<%=SystemConstants.APPROVER_TYPE_LEADER%>"/>
-<c:set var="APPROVER_TYPE_MAP" value="<%=SystemConstants.APPROVER_TYPE_MAP%>"/>
+<c:set var="ABROAD_APPROVER_TYPE_UNIT" value="<%=AbroadConstants.ABROAD_APPROVER_TYPE_UNIT%>"/>
+<c:set var="ABROAD_APPROVER_TYPE_LEADER" value="<%=AbroadConstants.ABROAD_APPROVER_TYPE_LEADER%>"/>
+<c:set var="ABROAD_APPROVER_TYPE_MAP" value="<%=AbroadConstants.ABROAD_APPROVER_TYPE_MAP%>"/>
 
 <c:set var="SYS_APPROVAL_LOG_TYPE_MAP" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_MAP%>"/>
 <c:set var="SYS_APPROVAL_LOG_TYPE_APPLYSELF" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF%>"/>

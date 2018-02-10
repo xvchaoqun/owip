@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 		<div class="col-xs-12">
 			<div class="col-xs-5">
 				<div class="form-group">
-					<label class="col-xs-3 control-label" style="white-space: nowrap">所属常委会</label>
+					<label class="col-xs-3 control-label" style="white-space: nowrap">党委常委会</label>
 					<div class="col-xs-9">
 						<select required name="committeeId" data-rel="select2"
 								data-width="240"

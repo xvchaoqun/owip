@@ -31,8 +31,8 @@
   <div class="form-group">
     <label class="col-xs-3 control-label">申请类型</label>
     <div class="col-xs-6 choice label-text">
-      <input ${empty passportTw?"disabled":""} name="type"type="radio" value="${PASSPORT_DRAW_TYPE_TW}"> 因公赴台&nbsp;&nbsp;
-      <input name="type" type="radio" value="${PASSPORT_DRAW_TYPE_LONG_SELF}"> 长期因公出国
+      <input ${empty passportTw?"disabled":""} name="type"type="radio" value="${ABROAD_PASSPORT_DRAW_TYPE_TW}"> 因公赴台&nbsp;&nbsp;
+      <input name="type" type="radio" value="${ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF}"> 长期因公出国
     </div>
   </div>
   <div class="form-group">
@@ -165,7 +165,7 @@
   $("input[type=radio][name=type]").click(function(){
     $(".signBtn").html('<span class="label" style="vertical-align: 4px; margin-left: 10px">未申请办理签注</span>');
     $("input[name=needSign]").val(0);
-      if($(this).val()=='${PASSPORT_DRAW_TYPE_TW}'){
+      if($(this).val()=='${ABROAD_PASSPORT_DRAW_TYPE_TW}'){
         $("[data-passport-type=mt_passport_tw]").prop("checked", true);
         $("[data-passport-type=mt_passport_normal], [data-passport-type=mt_passport_hk]").attr("disabled", "disabled");
       }else{
@@ -218,7 +218,7 @@
       SysMsg.info("请选择申请类型");
       return false;
     }
-    if($("input[name=type]:checked").val()=='${PASSPORT_DRAW_TYPE_TW}'){
+    if($("input[name=type]:checked").val()=='${ABROAD_PASSPORT_DRAW_TYPE_TW}'){
       if($.trim("${passportTw}")==''){
         SysMsg.info("您还未提交大陆居民往来台湾通行证");
         return false;

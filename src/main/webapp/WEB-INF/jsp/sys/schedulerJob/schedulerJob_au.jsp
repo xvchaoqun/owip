@@ -52,9 +52,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         $("#modal").modal("hide")
-                        //SysMsg.success('提交成功。', '成功',function(){
-                        _reload()
-                        //});
+                        $("#jqGrid").trigger("reloadGrid");
                     }
                 }
             });

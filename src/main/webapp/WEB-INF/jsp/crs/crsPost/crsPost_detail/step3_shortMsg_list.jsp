@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${CRS_SHORT_MSG_TPL_MAP.get(param.tplKey)}</h3>
+    <h3>${CONTENT_TPL_CRS_MSG_MAP.get(param.tplKey)}</h3>
 </div>
 <div class="modal-body">
     <c:if test="${commonList.recNum>0}">

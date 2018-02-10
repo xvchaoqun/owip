@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select required name="type" data-rel="select2" data-placeholder="请选择"> 
                         <option></option>
-                          <c:forEach items="${APPROVER_TYPE_MAP}" var="type"> 
+                          <c:forEach items="${ABROAD_APPROVER_TYPE_MAP}" var="type"> 
                             <option value="${type.key}">${type.value}</option>
                         </c:forEach> 
                     </select> 

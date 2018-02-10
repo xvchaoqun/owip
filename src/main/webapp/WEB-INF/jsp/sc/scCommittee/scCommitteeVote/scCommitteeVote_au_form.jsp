@@ -65,9 +65,8 @@
             <div class="form-group">
               <label class="col-xs-4 control-label" style="white-space: nowrap">原任职务任职时间</label>
               <div class="col-xs-5">
-                <div class="input-group" style="width: 190px;">
+                <div class="input-group" style="width: 150px;">
                   <input required class="form-control date-picker" name="originalPostTime"
-                         type="text"
                          data-date-format="yyyy-mm-dd"
                          value="${cm:formatDate(scCommitteeVote.originalPostTime,'yyyy-MM-dd')}"/>
                                             <span class="input-group-addon"> <i

@@ -135,7 +135,8 @@
                                                 <a class="jqSearchBtn btn btn-default btn-sm"><i
                                                         class="fa fa-search"></i> 查找</a>
                                                 <c:if test="${_query || not empty param.sort}">&nbsp;
-                                                    <button type="button" class="resetBtn btn btn-warning btn-sm" data-querystr="cls=${cls}">
+                                                    <button type="button" class="resetBtn btn btn-warning btn-sm"
+                                                            data-querystr="cls=${cls}">
                                                         <i class="fa fa-reply"></i> 重置
                                                     </button>
                                                 </c:if>

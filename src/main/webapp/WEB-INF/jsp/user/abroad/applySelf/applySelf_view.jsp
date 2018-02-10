@@ -69,7 +69,7 @@
           <td rowspan="9" class="bg-right" nowrap>申请因私出国（境）情况</td>
           <td rowspan="2" class="bg-right">出行时间</td>
           <td colspan="5" class="bg-left">
-            <c:forEach items="${APPLY_SELF_DATE_TYPE_MAP}" var="type">
+            <c:forEach items="${ABROAD_APPLY_SELF_DATE_TYPE_MAP}" var="type">
               <input type="checkbox" class="big chkBox" ${type.key==applySelf.type?"checked":""} disabled> ${type.value}
               &nbsp;&nbsp;&nbsp;&nbsp;
             </c:forEach>

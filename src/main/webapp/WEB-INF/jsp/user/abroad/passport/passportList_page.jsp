@@ -107,8 +107,8 @@
                                                 <td>${passport.authority}</td>
                                                 <td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
                                                 <td>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>
-                                                <td>${PASSPORT_CANCEL_TYPE_MAP.get(passport.cancelType)}
-                                                <c:if test="${passport.cancelType==PASSPORT_CANCEL_TYPE_OTHER
+                                                <td>${ABROAD_PASSPORT_CANCEL_TYPE_MAP.get(passport.cancelType)}
+                                                <c:if test="${passport.cancelType==ABROAD_PASSPORT_CANCEL_TYPE_OTHER
                                                     && not empty passport.cancelTypeOther}">
                                                     :${passport.cancelTypeOther}
                                                 </c:if>

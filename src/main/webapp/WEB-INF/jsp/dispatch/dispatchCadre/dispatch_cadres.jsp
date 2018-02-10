@@ -19,7 +19,7 @@
             <div class="form-inline">
                 <div class="input-group">
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                    <input class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
+                    <input style="width: 80px;" class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
                            data-date-format="yyyy" data-date-min-view-mode="2" value="${dispatch.year}"/>
                 </div>
                 <select data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchType_selects"

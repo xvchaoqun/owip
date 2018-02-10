@@ -74,7 +74,7 @@
                                         <div class="col-xs-6">
                                             <select name="type" data-rel="select2" data-placeholder="请选择出行时间范围">
                                                 <option></option>
-                                                <c:forEach items="${APPLY_SELF_DATE_TYPE_MAP}" var="type">
+                                                <c:forEach items="${ABROAD_APPLY_SELF_DATE_TYPE_MAP}" var="type">
                                                     <option value="${type.key}">${type.value}</option>
                                                 </c:forEach>
                                             </select>

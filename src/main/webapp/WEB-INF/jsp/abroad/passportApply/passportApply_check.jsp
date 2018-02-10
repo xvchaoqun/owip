@@ -48,14 +48,14 @@ pageEncoding="UTF-8"%>
                             </table>
                     </div></div></div>
         </div>
-    <c:if test="${passportApply.status!=PASSPORT_APPLY_STATUS_NOT_PASS}">
+    <c:if test="${passportApply.status!=ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS}">
         <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px">
             <form class="form-horizontal">
                 <div class="form-group">
                     <label class="col-xs-3 control-label">证件应交回日期</label>
                     <div class="col-xs-6">
                         <div class="input-group">
-                            <input ${passportApply.status==PASSPORT_APPLY_STATUS_PASS?"disabled":""} required class="form-control date-picker" name="_expectDate" type="text"
+                            <input ${passportApply.status==ABROAD_PASSPORT_APPLY_STATUS_PASS?"disabled":""} required class="form-control date-picker" name="_expectDate" type="text"
                                    data-date-format="yyyy年mm月dd日" value="${cm:formatDate(passportApply.expectDate,'yyyy年MM月dd日')}" />
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
@@ -63,38 +63,38 @@ pageEncoding="UTF-8"%>
                 </div>
             </form>
             <div>
-            <c:if test="${passportApply.status!=PASSPORT_APPLY_STATUS_PASS}">
+            <c:if test="${passportApply.status!=ABROAD_PASSPORT_APPLY_STATUS_PASS}">
                 <button id="agree" class="btn btn-success btn-block" style="margin-top:20px;font-size: 20px">已备案，予以批准</button>
             </c:if>
                 <button id="agree_msg" class="btn btn-info btn-block"
                         style="margin-top:20px;font-size: 20px;
-                        display: ${passportApply.status!=PASSPORT_APPLY_STATUS_PASS?'none':'block'}">短信通知</button>
+                        display: ${passportApply.status!=ABROAD_PASSPORT_APPLY_STATUS_PASS?'none':'block'}">短信通知</button>
             </div>
         </div>
     </c:if>
-        <c:if test="${passportApply.status!=PASSPORT_APPLY_STATUS_PASS}">
+        <c:if test="${passportApply.status!=ABROAD_PASSPORT_APPLY_STATUS_PASS}">
         <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px">
             <form class="form-horizontal">
                 <div class="form-group">
                     <label class="col-xs-3 control-label">原因</label>
                     <div class="col-xs-6">
-                        <textarea ${passportApply.status==PASSPORT_APPLY_STATUS_NOT_PASS?"disabled":""}
+                        <textarea ${passportApply.status==ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS?"disabled":""}
                                 class="form-control limited" type="text" name="remark" rows="3">${passportApply.remark}</textarea>
                     </div>
                 </div>
             </form>
             <div>
-            <c:if test="${passportApply.status!=PASSPORT_APPLY_STATUS_NOT_PASS}">
+            <c:if test="${passportApply.status!=ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS}">
                 <button id="disagree" class="btn btn-danger btn-block" style="margin-top:20px;font-size: 20px">不符合条件，不予批准</button>
                 </c:if>
                 <button id="disagree_msg"class="btn btn-info btn-block"
                         style="margin-top:20px;font-size: 20px;
-                        display: ${passportApply.status!=PASSPORT_APPLY_STATUS_NOT_PASS?'none':'block'}">短信通知</button>
+                        display: ${passportApply.status!=ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS?'none':'block'}">短信通知</button>
             </div>
         </div>
         </c:if>
         <div class="center" style="margin-top: 40px">
-    <c:if test="${passportApply.status==PASSPORT_APPLY_STATUS_PASS}">
+    <c:if test="${passportApply.status==ABROAD_PASSPORT_APPLY_STATUS_PASS}">
             <button id="print" class="btn btn-info btn-block" style="font-size: 30px">打印审批表</button>
     </c:if>
             <button class="hideView btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>

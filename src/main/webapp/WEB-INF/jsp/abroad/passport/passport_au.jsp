@@ -10,7 +10,7 @@
             <c:if test="${isHandle}">新办理的证件集中保管</c:if>
             <c:if test="${!isHandle}">
                 <c:if test="${passport!=null}">编辑</c:if><c:if test="${passport==null}">添加</c:if>
-                ${type==PASSPORT_TYPE_LOST?"丢失":""}证件信息
+                ${type==ABROAD_PASSPORT_TYPE_LOST?"丢失":""}证件信息
             </c:if>
         </c:if>
     </h3>
@@ -106,8 +106,8 @@
             </div>
         </div>
 
-        <c:if test="${param.op=='back' || type==PASSPORT_TYPE_KEEP ||
-            (type==PASSPORT_TYPE_LOST && passport.lostType==PASSPORT_LOST_TYPE_TRANSFER)}">
+        <c:if test="${param.op=='back' || type==ABROAD_PASSPORT_TYPE_KEEP ||
+            (type==ABROAD_PASSPORT_TYPE_LOST && passport.lostType==ABROAD_PASSPORT_LOST_TYPE_TRANSFER)}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">集中保管日期</label>
 
@@ -121,7 +121,7 @@
                 </div>
             </div>
         </c:if>
-        <c:if test="${param.op=='back' || type!=PASSPORT_TYPE_LOST}">
+        <c:if test="${param.op=='back' || type!=ABROAD_PASSPORT_TYPE_LOST}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">存放保险柜</label>
 
@@ -138,7 +138,7 @@
                 </div>
             </div>
         </c:if>
-        <c:if test="${param.op!='back' && type==PASSPORT_TYPE_LOST}">
+        <c:if test="${param.op!='back' && type==ABROAD_PASSPORT_TYPE_LOST}">
             <div class="form-group">
                 <label class="col-xs-3 control-label">登记丢失日期</label>
 

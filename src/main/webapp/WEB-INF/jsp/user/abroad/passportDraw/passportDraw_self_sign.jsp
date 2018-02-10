@@ -44,7 +44,7 @@
         </c:if>
         <c:if test="${param.type=='view'}">
             <div class="center" style="margin-top: 40px">
-                <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_PASS}">
+                <c:if test="${passportDraw.status==ABROAD_PASSPORT_DRAW_STATUS_PASS}">
                 <button class="printBtn btn btn-info btn-block" style="font-size: 30px">打印</button>
                 </c:if>
                 <button class="hideView btn btn-default btn-block" style="margin-top:20px;font-size: 30px">返回</button>

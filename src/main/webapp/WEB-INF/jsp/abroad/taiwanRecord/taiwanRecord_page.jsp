@@ -120,7 +120,7 @@ pageEncoding="UTF-8" %>
             {
                 label: '办理新证件方式', name: 'handleType', width: 160, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
-                return _cMap.TAIWAN_RECORD_HANDLE_TYPE_MAP[cellvalue]
+                return _cMap.ABROAD_TAIWAN_RECORD_HANDLE_TYPE_MAP[cellvalue]
             },cellattr:function(rowId, val, rowObject, cm, rdata) {
                 if($.trim(rowObject.handleType)=='') {
                     var _date = rowObject.endDate;
@@ -131,7 +131,7 @@ pageEncoding="UTF-8" %>
             },
             { label: '新证件应交组织部日期',name: '_expectDate', width: 160, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(rowObject.passportCode)!='' ||
-                        rowObject.handleType!='${TAIWAN_RECORD_HANDLE_TYPE_OFFICE}') return '-'
+                        rowObject.handleType!='${ABROAD_TAIWAN_RECORD_HANDLE_TYPE_OFFICE}') return '-'
 
                 //if($.trim(rowObject.handleDate)!='') return rowObject.expectDate.substr(0,10);
                 if($.trim(rowObject.expectDate)!='') return rowObject.expectDate.substr(0,10);
@@ -154,7 +154,7 @@ pageEncoding="UTF-8" %>
                 formatter: function (cellvalue, options, rowObject) {
 
                     if($.trim(rowObject.passportCode)!='' ||
-                            rowObject.handleType!='${TAIWAN_RECORD_HANDLE_TYPE_OFFICE}'
+                            rowObject.handleType!='${ABROAD_TAIWAN_RECORD_HANDLE_TYPE_OFFICE}'
                     || $.trim(rowObject.expectDate)=='') return '-'
 
                     if($.trim(rowObject.handleDate)!='') return '已交证件'
@@ -165,7 +165,7 @@ pageEncoding="UTF-8" %>
             },
             { label: '新证件实交组织部日期',name: '_handleDate', width: 160, formatter: function (cellvalue, options, rowObject) {
                 if($.trim(rowObject.passportCode)!='' ||
-                        rowObject.handleType!='${TAIWAN_RECORD_HANDLE_TYPE_OFFICE}'
+                        rowObject.handleType!='${ABROAD_TAIWAN_RECORD_HANDLE_TYPE_OFFICE}'
                         || $.trim(rowObject.expectDate)=='') return '-'
                 if(rowObject.handleDate==undefined) return '';
                 return rowObject.handleDate.substr(0,10)

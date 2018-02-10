@@ -116,7 +116,7 @@
                                             <i class="ace-icon fa fa-angle-${vs.first?'down':'right'} bigger-110"
                                                data-icon-hide="ace-icon fa fa-angle-down"
                                                data-icon-show="ace-icon fa fa-angle-right"></i>
-                                                ${CRS_SHORT_MSG_TPL_MAP.get(tpl.code)}
+                                                ${CONTENT_TPL_CRS_MSG_MAP.get(tpl.code)}
                                         </a>
                                     </h4>
                                 </div>

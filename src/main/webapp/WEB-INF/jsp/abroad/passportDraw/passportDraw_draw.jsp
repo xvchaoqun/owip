@@ -46,7 +46,7 @@
                         <tr>
                             <td>S${applySelf.id}</td>
                             <td>${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</td>
-                            <td>${APPLY_SELF_DATE_TYPE_MAP.get(applySelf.type)}</td>
+                            <td>${ABROAD_APPLY_SELF_DATE_TYPE_MAP.get(applySelf.type)}</td>
                             <td>${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}</td>
                             <td>${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}</td>
                             <td>${cm:getDayCountBetweenDate(applySelf.startDate,applySelf.endDate)}</td>
@@ -111,7 +111,7 @@
                         <td>${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}</td>
                         <td>${safeBoxMap.get(passport.safeBoxId).code}</td>
                         <td>${passport.isLent?"借出":"-"}</td>
-                        <td>${PASSPORT_TYPE_MAP.get(passport.type)}</td>
+                        <td>${ABROAD_PASSPORT_TYPE_MAP.get(passport.type)}</td>
                     </tr>
                     </tbody>
                 </table>

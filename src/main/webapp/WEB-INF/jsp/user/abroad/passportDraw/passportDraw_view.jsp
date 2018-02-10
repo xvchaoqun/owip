@@ -49,7 +49,7 @@
           <tr>
             <td>S${applySelf.id}</td>
             <td>${cm:formatDate(applySelf.applyDate,'yyyy-MM-dd')}</td>
-            <td>${APPLY_SELF_DATE_TYPE_MAP.get(applySelf.type)}</td>
+            <td>${ABROAD_APPLY_SELF_DATE_TYPE_MAP.get(applySelf.type)}</td>
             <td>${cm:formatDate(applySelf.startDate,'yyyy-MM-dd')}</td>
             <td>${cm:formatDate(applySelf.endDate,'yyyy-MM-dd')}</td>
             <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
@@ -65,7 +65,7 @@
   </div>
   </c:if>
 
-  <c:if test="${passportDraw.type==PASSPORT_DRAW_TYPE_TW}">
+  <c:if test="${passportDraw.type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
     <div class="widget-box transparent">
       <div class="widget-header widget-header-flat">
         <h4 class="widget-title lighter">
@@ -159,7 +159,7 @@
     <td rowspan="4" class="bg-right">审批</td>
     <td class="bg-right">审批状态</td>
     <td colspan="5" class="bg-left">
-      ${PASSPORT_DRAW_STATUS_MAP.get(passportDraw.status)}
+      ${ABROAD_PASSPORT_DRAW_STATUS_MAP.get(passportDraw.status)}
     </td>
   </tr>
   <tr>
@@ -182,12 +182,12 @@
       ${passportDraw.approveRemark}
     </td>
   </tr>
-  <c:if test="${passportDraw.status==PASSPORT_DRAW_STATUS_PASS}">
+  <c:if test="${passportDraw.status==ABROAD_PASSPORT_DRAW_STATUS_PASS}">
   <tr>
     <td rowspan="5" class="bg-right">领取</td>
     <td  class="bg-right">状态</td>
     <td colspan="5" class="bg-left">
-        ${PASSPORT_DRAW_DRAW_STATUS_MAP.get(passportDraw.drawStatus)}
+        ${ABROAD_PASSPORT_DRAW_DRAW_STATUS_MAP.get(passportDraw.drawStatus)}
     </td>
   </tr>
   <tr>

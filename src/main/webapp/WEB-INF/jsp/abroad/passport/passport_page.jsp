@@ -20,7 +20,7 @@ pageEncoding="UTF-8" %>
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
-                            <c:if test="${status==PASSPORT_TYPE_KEEP}">
+                            <c:if test="${status==ABROAD_PASSPORT_TYPE_KEEP}">
                                 <shiro:hasPermission name="passport:edit">
                                     <a class="editBtn btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加证件</a>
                                 </shiro:hasPermission>
@@ -54,7 +54,7 @@ pageEncoding="UTF-8" %>
                                    data-rel="tooltip" data-placement="top" title="导入"><i class="fa fa-upload"></i> 导入</a>
                             </c:if>
 
-                            <c:if test="${status==PASSPORT_TYPE_CANCEL || status==4}">
+                            <c:if test="${status==ABROAD_PASSPORT_TYPE_CANCEL || status==4}">
                                 <button data-url="${ctx}/abroad/passport_unabolish"
                                         data-title="返回集中管理"
                                         data-msg="确定将该证件返回集中管理？"
@@ -67,7 +67,7 @@ pageEncoding="UTF-8" %>
                                     </button>
                                 </shiro:hasPermission>
                             </c:if>
-                            <c:if test="${status==PASSPORT_TYPE_CANCEL}">
+                            <c:if test="${status==ABROAD_PASSPORT_TYPE_CANCEL}">
 
                                 <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                         data-url="${ctx}/shortMsg_view" data-querystr="&type=passport">
@@ -85,7 +85,7 @@ pageEncoding="UTF-8" %>
                                 </a>
                             </c:if>
 
-                            <c:if test="${status==PASSPORT_TYPE_LOST}">
+                            <c:if test="${status==ABROAD_PASSPORT_TYPE_LOST}">
                                 <shiro:hasPermission name="passport:edit">
                                     <a class="addLostBtn btn btn-primary btn-sm"><i class="fa fa-plus"></i> 添加丢失证件</a>
                                 </shiro:hasPermission>
@@ -111,14 +111,14 @@ pageEncoding="UTF-8" %>
                                data-open-by="page" data-url="${ctx}/abroad/passport_useLogs">
                                 <i class="fa fa-history"></i> 使用记录
                             </a>
-                            <c:if test="${status==PASSPORT_TYPE_LOST}">
+                            <c:if test="${status==ABROAD_PASSPORT_TYPE_LOST}">
                             <a class="jqOpenViewBtn btn btn-warning btn-sm"
                                data-url="${ctx}/abroad/passport_au" data-querystr="&op=back">
                                 <i class="fa fa-search"></i> 证件找回
                             </a>
                             </c:if>
 
-                            <c:if test="${status==PASSPORT_TYPE_KEEP}">
+                            <c:if test="${status==ABROAD_PASSPORT_TYPE_KEEP}">
                                 <button disabled id="hasFindBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
                                         data-url="${ctx}/abroad/passport_remark" data-open-by="page">
                                     <i class="fa fa-search"></i> 丢失情况
@@ -187,7 +187,7 @@ pageEncoding="UTF-8" %>
                                             <input class="form-control search-query" name="code" type="text" value="${param.code}"
                                                    placeholder="请输入证件号码">
                                     </div>
-                                    <c:if test="${status!=PASSPORT_TYPE_LOST && status!=4}">
+                                    <c:if test="${status!=ABROAD_PASSPORT_TYPE_LOST && status!=4}">
                                     <div class="form-group">
                                         <label>是否借出</label>
                                         <select name="isLent" data-width="100" data-rel="select2" data-placeholder="请选择">
@@ -251,12 +251,12 @@ pageEncoding="UTF-8" %>
             { label:'有效期', name: 'expiryDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'集中管理日期', name: 'keepDate', width: 120, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
-                else if(rowObject.type=='${PASSPORT_TYPE_LOST}'&&cellvalue>rowObject.lostTime) {
+                else if(rowObject.type=='${ABROAD_PASSPORT_TYPE_LOST}'&&cellvalue>rowObject.lostTime) {
                     return '';
                 }
                 return $.date(cellvalue, "yyyy-MM-dd")
             }  },
-            <c:if test="${status!=PASSPORT_TYPE_LOST && status!=4}">
+            <c:if test="${status!=ABROAD_PASSPORT_TYPE_LOST && status!=4}">
             { label:'所在保险柜', name: 'safeBox.code', width: 130 },
             { label:'是否借出', name: 'isLent', formatter:function(cellvalue, options, rowObject){
                 return cellvalue?($.trim(rowObject.refuseReturnReason)!=''?"拒不交回":"借出"):"-";
@@ -269,14 +269,14 @@ pageEncoding="UTF-8" %>
             <c:if test="${status==4}">
             { label:'取消集中保管日期', name: 'cancelTime', width: 140, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             </c:if>
-            <c:if test="${status==PASSPORT_TYPE_LOST}">
+            <c:if test="${status==ABROAD_PASSPORT_TYPE_LOST}">
             { label:'登记丢失日期', name: 'lostTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             </c:if>
             <c:if test="${status==2||status==4}">
             { label:'取消集中保管原因', name: 'cancelType', width: 140, formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
-                var ret = _cMap.PASSPORT_CANCEL_TYPE_MAP[cellvalue];
-                if(cellvalue=='${PASSPORT_CANCEL_TYPE_OTHER}'){
+                var ret = _cMap.ABROAD_PASSPORT_CANCEL_TYPE_MAP[cellvalue];
+                if(cellvalue=='${ABROAD_PASSPORT_CANCEL_TYPE_OTHER}'){
                     if(rowObject.cancelTypeOther!=''){
                         ret = ret + ":"+  rowObject.cancelTypeOther;
                     }
@@ -288,14 +288,14 @@ pageEncoding="UTF-8" %>
                 return cellvalue?"已确认":"未确认";
             } },
             </c:if>
-            <c:if test="${status==4 || status==PASSPORT_TYPE_LOST}">
+            <c:if test="${status==4 || status==ABROAD_PASSPORT_TYPE_LOST}">
             { label:'备注', name: 'cancelRemark',align:'left', width: 350},
             </c:if>
             {hidden:true, name:'canEdit', formatter:function(cellvalue, options, rowObject) {
                 var type = rowObject.type;
                 var lostType = rowObject.lostType;
                 //console.log(rowObject)
-                return !(type=='${PASSPORT_TYPE_LOST}' && lostType=='${PASSPORT_LOST_TYPE_TRANSFER}')?1:0; // 转移的丢失证件，不可以更新
+                return !(type=='${ABROAD_PASSPORT_TYPE_LOST}' && lostType=='${ABROAD_PASSPORT_LOST_TYPE_TRANSFER}')?1:0; // 转移的丢失证件，不可以更新
             }},{hidden:true, name:'hasFind', formatter:function(cellvalue, options, rowObject) {
                 var hasFind = rowObject.hasFind;
                 return hasFind?1:0;
@@ -325,7 +325,7 @@ pageEncoding="UTF-8" %>
     });
 
     $(".addLostBtn").click(function(){
-        $.loadModal("${ctx}/abroad/passport_au?type=${PASSPORT_TYPE_LOST}");
+        $.loadModal("${ctx}/abroad/passport_au?type=${ABROAD_PASSPORT_TYPE_LOST}");
     });
     $(".cancelConfirmBtn").click(function(){
         $.loadModal("${ctx}/abroad/passport_cancel_confirm?id="+$(this).data("id"));

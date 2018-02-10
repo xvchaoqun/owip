@@ -36,9 +36,9 @@ pageEncoding="UTF-8"%>
         submitHandler: function (form) {
             var type = $('#modal input[type=checkbox]:checked').val();
             if(type==1){
-                $("#modal input[name=cancelType]").val('${PASSPORT_CANCEL_TYPE_ABOLISH}');
+                $("#modal input[name=cancelType]").val('${ABROAD_PASSPORT_CANCEL_TYPE_ABOLISH}');
             }else if(type==2){
-                $("#modal input[name=cancelType]").val('${PASSPORT_CANCEL_TYPE_OTHER}');
+                $("#modal input[name=cancelType]").val('${ABROAD_PASSPORT_CANCEL_TYPE_OTHER}');
                 var cancelTypeOther = $.trim($("#modal input[name=cancelTypeOther]").val());
                 if(cancelTypeOther==''){
                     //SysMsg.info("请输入其他类别", "", function(){

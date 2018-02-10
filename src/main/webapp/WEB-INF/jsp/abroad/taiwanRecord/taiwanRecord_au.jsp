@@ -90,7 +90,7 @@
                 <select name="handleType" data-width="255"
                         data-placeholder="请选择">
                     <option></option>
-                    <c:forEach items="${TAIWAN_RECORD_HANDLE_TYPE_MAP}" var="type">
+                    <c:forEach items="${ABROAD_TAIWAN_RECORD_HANDLE_TYPE_MAP}" var="type">
                         <option value="${type.key}">${type.value}</option>
                     </c:forEach>
                 </select>

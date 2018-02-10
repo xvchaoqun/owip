@@ -52,7 +52,7 @@
     colModel: [
       { label: '操作', name: 'modifyType', width: 150,formatter:function(cellvalue, options, rowObject){
         if(cellvalue==undefined) return ''
-        return _cMap.APPLYSELF_MODIFY_TYPE_MAP[cellvalue];
+        return _cMap.ABROAD_APPLYSELF_MODIFY_TYPE_MAP[cellvalue];
       }, frozen:true },
       { label: '操作人', name: 'modifyUser.realname', width: 150, frozen:true},
       { label:'IP',  name: 'ip', width: 120, frozen:true },

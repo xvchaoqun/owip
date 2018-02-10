@@ -60,7 +60,7 @@
                         <td>${cm:formatDate(passport.keepDate,'yyyy-MM-dd')}</td>
                         <td>${passport.safeBox.code}</td>
                         <td>${passport.isLent?"借出":"-"}</td>
-                        <td>${PASSPORT_TYPE_MAP.get(passport.type)}</td>
+                        <td>${ABROAD_PASSPORT_TYPE_MAP.get(passport.type)}</td>
                     </tr>
                     </tbody>
                 </table>

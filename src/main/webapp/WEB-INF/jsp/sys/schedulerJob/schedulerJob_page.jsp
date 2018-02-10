@@ -2,82 +2,80 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
-    <div id="body-content">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
-                <a class="popupBtn btn btn-primary btn-sm"
+        <div id="body-content" class="myTableDiv">
+            <div class="jqgrid-vertical-offset buttons">
+                <a class="popupBtn btn btn-info btn-sm"
                    data-url="${ctx}/schedulerJob_au"><i class="fa fa-plus"></i> 添加定时任务</a>
 
-                <a class="btn btn-success btn-sm" href="javascript:;" onclick="_reload()"><i class="fa fa-refresh"></i> 立即刷新</a>
-
-                <div class="space-4"></div>
-                <table class="table table-actived table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>任务名称</th>
-                        <th>执行类</th>
-                        <th>cron表达式</th>
-                        <th class="hidden-xs hidden-sm hidden-md">任务描述</th>
-                        <th>状态</th>
-                        <%--<th width="180" class="hidden-xs hidden-sm hidden-md">创建时间</th>--%>
-                        <th></th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <c:forEach items="${schedulerJobs}" var="schedulerJob" varStatus="st">
-                        <tr>
-                            <td>${schedulerJob.name}</td>
-                            <td>${schedulerJob.clazz}</td>
-                            <td nowrap>${schedulerJob.cron}</td>
-                            <td title="${schedulerJob.summary}" class="hidden-xs hidden-sm hidden-md">
-                                    ${cm:substr(schedulerJob.summary, 0, 40, "...")}
-                            </td>
-                            <td nowrap>
-                                ${allJobsMap.get(schedulerJob.name)!=null?'已启动':'已关闭'}
-                                （${runJobsMap.get(schedulerJob.name)!=null?'执行中':'未执行'}）
-                            </td>
-                            <%--<td class="hidden-xs hidden-sm hidden-md">
-                                    ${cm:formatDate(schedulerJob.createTime, "yyyy-MM-dd HH:mm:ss")}
-                            </td>--%>
-                            <td nowrap>
-                                <div class="buttons">
-                                    <button class="popupBtn btn btn-primary btn-sm" data-url="${ctx}/schedulerJob_au?id=${schedulerJob.id}">
-                                        <i class="fa fa-edit"></i> 更新
-                                    </button>
-                                    <c:if test="${!schedulerJob.isStarted}">
-                                    <a class="confirm btn btn-success btn-sm"
-                                       data-url="${ctx}/schedulerJob_start?id=${schedulerJob.id}" data-title="启动定时任务"
-                                       data-msg="确定启动这个定时任务吗？" data-callback="_reload"><i class="fa fa-clock-o"></i> 启动任务</a>
-                                    </c:if>
-                                    <c:if test="${schedulerJob.isStarted}">
-                                    <a class="confirm btn btn-warning btn-sm"
-                                       data-url="${ctx}/schedulerJob_stop?id=${schedulerJob.id}" data-title="关闭定时任务"
-                                       data-msg="确定关闭这个定时任务吗？" data-callback="_reload"><i class="fa fa-times"></i> 关闭任务</a>
-                                    </c:if>
-                                    <a class="confirm btn btn-danger btn-sm"
-                                       data-url="${ctx}/schedulerJob_del?id=${schedulerJob.id}" data-title="删除定时任务"
-                                       data-msg="确定删除这个定时任务吗？" data-callback="_reload"><i class="fa fa-trash"></i> 删除</a>
-                                </div>
-
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <c:if test="${!empty commonList && commonList.pageNum>1 }">
-                    <wo:page commonList="${commonList}" uri="${ctx}/schedulerJob" target="#page-content" pageNum="5"
-                             model="3"/>
-                </c:if>
-        </div>
+                <button class="jqEditBtn btn btn-primary btn-sm" data-url="${ctx}/schedulerJob_au">
+                    <i class="fa fa-edit"></i> 更新
+                </button>
+                <button id="startBtn" class="jqItemBtn btn btn-success btn-sm"
+                   data-url="${ctx}/schedulerJob_start" data-title="启动定时任务"
+                   data-msg="确定启动这个定时任务吗？" data-callback="_reload"><i class="fa fa-clock-o"></i> 启动任务</button>
+                <button id="stopBtn" class="jqItemBtn btn btn-warning btn-sm"
+                   data-url="${ctx}/schedulerJob_stop" data-title="暂停定时任务"
+                   data-msg="确定暂停这个定时任务吗？" data-callback="_reload"><i class="fa fa-dot-circle-o"></i> 暂停任务</button>
+                <button class="jqItemBtn btn btn-danger btn-sm"
+                   data-url="${ctx}/schedulerJob_del" data-title="删除定时任务"
+                   data-msg="确定删除这个定时任务吗？" data-callback="_reload"><i class="fa fa-trash"></i> 删除</button>
+            </div>
+            <div class="space-4"></div>
+            <table id="jqGrid" class="jqGrid table-striped"> </table>
+            <div id="jqGridPager"> </div>
+        </div><div id="item-content"></div>
     </div>
-    <div id="item-content"></div>
 </div>
 
 <script>
-    function _reload() {
+    function _reload(){
+        $("#jqGrid").trigger("reloadGrid");
+    }
+    var allJobsReg;
+    var runJobsReg;
+    $("#jqGrid").jqGrid({
+        url: '${ctx}/schedulerJob_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: [
+            { label: '任务名称', name: 'name', width:300, align:'left'},
+            { label: '执行类', name: 'clazz', width: 300, align:'left'},
+            { label: 'cron表达式', name: 'cron', width: 120, align:'left'},
+            { label: '启动状态', name: '_status', formatter:function(cellvalue, options, rowObject){
+                return (allJobsReg.test(rowObject.name))?'<span class="text-success bolder">已启动</span>':'未启动'
+            }},
+            { label: '执行状态', name: '_runStatus', formatter:function(cellvalue, options, rowObject){
+                return (runJobsReg.test(rowObject.name))?'<span class="text-success bolder">执行中</span>':'未执行'
+            }},
+            { label: '任务描述', name: 'summary', width: 550, align:'left', formatter: $.jgrid.formatter.NoMultiSpace}
+        ],
+        beforeProcessing:function(data, status, xhr){
+          //console.log(data)
+            allJobsReg = new RegExp(data.allJobs||null);
+            runJobsReg = new RegExp(data.runJobs||null);
+        },
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
+        }
+    }).jqGrid("setFrozenColumns");
+    $(window).triggerHandler('resize.jqGrid');
+    $.initNavGrid("jqGrid", "jqGridPager");
 
-        $("#modal").modal('hide');
-        $("#page-content").load("${ctx}/schedulerJob?${cm:encodeQueryString(pageContext.request.queryString)}");
+    function _onSelectRow(grid) {
+        var ids = $(grid).getGridParam("selarrrow");
+        if (ids.length > 1) {
+            $("#startBtn,#stopBtn").prop("disabled", true);
+        } else if (ids.length == 1) {
+            var rowData = $(grid).getRowData(ids[0]);
+            var isStart = (allJobsReg.test(rowData.name));
+            var isRun = (runJobsReg.test(rowData.name));
+
+            $("#startBtn").prop("disabled", isStart);
+            $("#stopBtn").prop("disabled", !isStart);
+        }
     }
 </script>

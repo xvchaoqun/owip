@@ -12,8 +12,8 @@ pageEncoding="UTF-8" %>
             ||not empty param.applyDate || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <li  class="<c:if test="${status==PASSPORT_APPLY_STATUS_INIT}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportApply?status=${PASSPORT_APPLY_STATUS_INIT}"><i class="fa fa-circle-o"></i> 办理证件审批</a>
+                    <li  class="<c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_INIT}">active</c:if>">
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportApply?status=${ABROAD_PASSPORT_APPLY_STATUS_INIT}"><i class="fa fa-circle-o"></i> 办理证件审批</a>
                     </li>
                     <li class="dropdown <c:if test="${status==1||status==3||status==4}">active</c:if>" >
                         <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
@@ -32,8 +32,8 @@ pageEncoding="UTF-8" %>
                             </li>
                         </ul>
                     </li>
-                    <li  class="<c:if test="${status==PASSPORT_APPLY_STATUS_NOT_PASS}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportApply?status=${PASSPORT_APPLY_STATUS_NOT_PASS}"><i class="fa fa-times"></i> 未批准办理新证件</a>
+                    <li  class="<c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS}">active</c:if>">
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportApply?status=${ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS}"><i class="fa fa-times"></i> 未批准办理新证件</a>
                     </li>
                     <li class="<c:if test="${status==-1}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportApply?status=-1"><i class="fa fa-trash"></i> 已删除</a>
@@ -43,13 +43,13 @@ pageEncoding="UTF-8" %>
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
-                            <c:if test="${status==PASSPORT_APPLY_STATUS_INIT}">
+                            <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_INIT}">
                             <button data-url="${ctx}/abroad/passportApply_au"
                                     class="popupBtn btn btn-primary btn-sm">
                                 <i class="fa fa-plus"></i> 申请办理证件
                             </button>
                             </c:if>
-                            <c:if test="${status==PASSPORT_APPLY_STATUS_PASS}">
+                            <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_PASS}">
                                 <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                         data-url="${ctx}/shortMsg_view" data-querystr="&type=passportApplyDraw">
                                     <i class="fa fa-hand-paper-o"></i> 催交证件
@@ -69,7 +69,7 @@ pageEncoding="UTF-8" %>
                                    data-querystr="&"><i class="fa fa-edit"></i>
                                     修改应交日期</a>
                             </c:if>
-                            <c:if test="${status!=PASSPORT_APPLY_STATUS_INIT && status!=-1}">
+                            <c:if test="${status!=ABROAD_PASSPORT_APPLY_STATUS_INIT && status!=-1}">
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-open-by="page"
                                     data-url="${ctx}/abroad/passportApply_check?id=${passportApply.id}">
@@ -170,7 +170,7 @@ pageEncoding="UTF-8" %>
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
             { label: '申办证件名称', name: 'passportClass.name', width: 250 },
-            <c:if test="${status==PASSPORT_APPLY_STATUS_INIT}">
+            <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_INIT}">
             { label: '审批', name: 'statusName', width: 100, formatter:function(cellvalue, options, rowObject){
                 var html = '<button class="jqOpenViewBtn btn btn-success btn-xs" data-open-by="page"'
                 +'data-url="${ctx}/abroad/passportApply_check?id={0}"><i class="fa fa-check-square-o"></i> 审批</button>';
@@ -179,7 +179,7 @@ pageEncoding="UTF-8" %>
                 return html;
             }},
             </c:if>
-            <c:if test="${status!=PASSPORT_APPLY_STATUS_INIT}">
+            <c:if test="${status!=ABROAD_PASSPORT_APPLY_STATUS_INIT}">
             { label: '审批人', name: 'approvalUser.realname', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.approvalUser==undefined) return ''
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
@@ -187,9 +187,9 @@ pageEncoding="UTF-8" %>
             }},
             { label:'审批日期',name: 'approveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
                 </c:if>
-            <c:if test="${status==PASSPORT_APPLY_STATUS_PASS ||status==3}">
+            <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_PASS ||status==3}">
             { label:'应交日期', name: 'expectDate',cellattr:function(rowId, val, rowObject, cm, rdata) {
-                <c:if test="${status==PASSPORT_APPLY_STATUS_PASS}">
+                <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_PASS}">
                 var expectDate = rowObject.expectDate;
                 if(expectDate<=new Date().format('yyyy-MM-dd'))
                     return "class='danger'";
@@ -201,7 +201,7 @@ pageEncoding="UTF-8" %>
             { label:'证件号码', name: 'code'},
             { label:'接收人', name: 'handleUser.realname'},
             </c:if>
-            <c:if test="${status==PASSPORT_APPLY_STATUS_NOT_PASS}">
+            <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_NOT_PASS}">
                 { label:'未批准原因', name: 'handleDate', width: 200 }
             </c:if>
         ]}).jqGrid("setFrozenColumns");

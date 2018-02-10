@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-2 control-label">类型</label>
 				<div class="col-xs-6 label-text">
-					${CRS_SHORT_MSG_TPL_MAP.get(contentTpl.code)}
+					${CONTENT_TPL_CRS_MSG_MAP.get(contentTpl.code)}
 				</div>
 			</div>
 			<div class="form-group">

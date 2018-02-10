@@ -146,9 +146,7 @@
                 data: {resIds: resIds},
                 success: function (data) {
                     if (data.success) {
-
-                        _reload();
-                        //SysMsg.success('操作成功。', '成功');
+                        $.hideView();
                     }
                 }
             });

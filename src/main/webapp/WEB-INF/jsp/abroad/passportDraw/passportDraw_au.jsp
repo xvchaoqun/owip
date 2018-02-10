@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>领取证件申请（${PASSPORT_DRAW_TYPE_MAP.get(type)}）</h3>
+    <h3>领取证件申请（${ABROAD_PASSPORT_DRAW_TYPE_MAP.get(type)}）</h3>
 </div>
 <div class="modal-body">
 	<form  class="form-horizontal">
@@ -28,14 +28,14 @@ pageEncoding="UTF-8"%>
 
 		var cadreId = $("#modal select[name=cadreId]").val();
 		if(cadreId=="") return;
-		<c:if test="${type==PASSPORT_DRAW_TYPE_SELF}">
+		<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_SELF}">
 		$.loadView("${ctx}/user/abroad/passportDraw_self?auth=admin&cadreId=" + cadreId);
 		</c:if>
-		<c:if test="${type==PASSPORT_DRAW_TYPE_TW}">
+		<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
 		$("#modal").modal('hide');
 		$.loadPage({url:"${ctx}/user/abroad/passportDraw_tw?auth=admin&cadreId=" + cadreId});
 		</c:if>
-		<c:if test="${type==PASSPORT_DRAW_TYPE_OTHER}">
+		<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_OTHER}">
 		$.loadView("${ctx}/user/abroad/passportDraw_other?auth=admin&cadreId=" + cadreId);
 		</c:if>
 	})
