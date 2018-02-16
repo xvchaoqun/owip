@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:if test="${empty dispatch.scDispatchId}">
 <div class="widget-box">
   <div class="widget-header">
     <h4 class="smaller">
@@ -171,7 +172,7 @@
     </div>
   </div>
 </div>
-
+</c:if>
 <div style="padding-top: 20px">
   <table class="table table-actived table-striped table-bordered table-hover">
     <thead>
@@ -181,7 +182,17 @@
       <th style="width: 80px">任免程序</th>
       <th style="width: 80px">姓名</th>
       <th>所属单位</th>
-      <th></th>
+      <th>
+<c:if test="${not empty dispatch.scDispatchId}">
+        <button style="margin-right: 10px;top: -5px;"
+                class="confirm btn btn-primary btn-xs" type="button"
+                data-msg="确定同步?"
+                data-callback="_reload"
+                data-url="${ctx}/sc/scDispatch_snyc?dispatchId=${dispatch.id}">
+          <i class="fa fa-refresh"></i> 同步“文件起草签发”
+        </button>
+  </c:if>
+      </th>
     </tr>
     </thead>
     <tbody>
@@ -219,6 +230,10 @@
       });
     }
   });
+  function _reload(){
+    SysMsg.info("同步成功。");
+    $("#dispatch-cadres-view").load("${ctx}/dispatch_cadres_admin?dispatchId=${param.dispatchId}");
+  }
   function _update(id){
     $("#dispatch-cadres-view").load("${ctx}/dispatch_cadres_admin?dispatchId=${param.dispatchId}&id="+ $.trim(id));
   }

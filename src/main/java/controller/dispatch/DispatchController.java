@@ -8,6 +8,7 @@ import domain.dispatch.DispatchExample.Criteria;
 import domain.dispatch.DispatchType;
 import domain.dispatch.DispatchView;
 import domain.dispatch.DispatchViewExample;
+import domain.sc.scDispatch.ScDispatchView;
 import mixin.DispatchMixin;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import service.sc.scDispatch.ScDispatchService;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -257,6 +259,20 @@ public class DispatchController extends BaseController {
 
         Integer id = record.getId();
 
+        if(record.getScDispatchId()!=null){
+            ScDispatchService scDispatchService = CmTag.getBean(ScDispatchService.class);
+            ScDispatchView sd = scDispatchService.get(record.getScDispatchId());
+            record.setYear(sd.getYear());
+            if(sd.getCode()!=null)
+                record.setCode(sd.getCode());
+            record.setDispatchTypeId(sd.getDispatchTypeId());
+            record.setMeetingTime(sd.getMeetingTime());
+            record.setAppointCount(sd.getAppointCount());
+            record.setDismissCount(sd.getDismissCount());
+        }else{
+            record.setMeetingTime(DateUtils.parseDate(_meetingTime, DateUtils.YYYY_MM_DD));
+        }
+
         if (record.getCode() != null
                 && dispatchService.idDuplicate(id, record.getDispatchTypeId(), record.getYear(), record.getCode())) {
             return failed("发文号重复");
@@ -308,7 +324,6 @@ public class DispatchController extends BaseController {
 
         record.setPubTime(DateUtils.parseDate(_pubTime, DateUtils.YYYY_MM_DD));
         record.setWorkTime(DateUtils.parseDate(_workTime, DateUtils.YYYY_MM_DD));
-        record.setMeetingTime(DateUtils.parseDate(_meetingTime, DateUtils.YYYY_MM_DD));
 
         if (id == null) {
             if (record.getCode() == null)
@@ -333,7 +348,7 @@ public class DispatchController extends BaseController {
             if (dispatch.getDispatchTypeId().intValue() != record.getDispatchTypeId()) { // 修改了类型，要修改发文号
                 record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
             }
-            dispatchService.updateByPrimaryKeySelective(record);
+            dispatchService.updateByPrimaryKeySelective(record, true);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "更新发文：%s", id));
         }
 
@@ -434,7 +449,7 @@ public class DispatchController extends BaseController {
             Dispatch record = new Dispatch();
             record.setId(id);
             record.setHasChecked(true);
-            dispatchService.updateByPrimaryKeySelective(record);
+            dispatchService.updateByPrimaryKeySelective(record, false);
         } else {
            return failed("还未全部录入，不能进行复核操作");
         }
@@ -451,7 +466,7 @@ public class DispatchController extends BaseController {
         Dispatch record = new Dispatch();
         record.setId(id);
         record.setHasChecked(false);
-        dispatchService.updateByPrimaryKeySelective(record);
+        dispatchService.updateByPrimaryKeySelective(record, false);
 
         return success(FormUtils.SUCCESS);
     }
@@ -565,7 +580,7 @@ public class DispatchController extends BaseController {
             criteria.andCodeEqualTo(Integer.parseInt(searchStr));
         }
 
-        int count = dispatchMapper.countByExample(example);
+        long count = dispatchMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

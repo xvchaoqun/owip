@@ -609,7 +609,7 @@
                     </execution>-->
                 </executions>
                 <configuration>
-                    <configurationFile>src/test/java/mybatis/generator/generator-sc.xml</configurationFile>
+                    <configurationFile>src/test/java/mybatis/generator/generator-base.xml</configurationFile>
                     <verbose>true</verbose>
                     <overwrite>true</overwrite>
                     <!--<jdbcDriver>com.mysql.jdbc.Driver</jdbcDriver>

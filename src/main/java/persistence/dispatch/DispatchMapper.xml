@@ -1,45 +1,46 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.dispatch.DispatchMapper" >
-  <resultMap id="BaseResultMap" type="domain.dispatch.Dispatch" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="year" property="year" jdbcType="INTEGER" />
-    <result column="dispatch_type_id" property="dispatchTypeId" jdbcType="INTEGER" />
-    <result column="code" property="code" jdbcType="INTEGER" />
-    <result column="meeting_time" property="meetingTime" jdbcType="DATE" />
-    <result column="pub_time" property="pubTime" jdbcType="DATE" />
-    <result column="work_time" property="workTime" jdbcType="DATE" />
-    <result column="appoint_count" property="appointCount" jdbcType="INTEGER" />
-    <result column="real_appoint_count" property="realAppointCount" jdbcType="INTEGER" />
-    <result column="dismiss_count" property="dismissCount" jdbcType="INTEGER" />
-    <result column="real_dismiss_count" property="realDismissCount" jdbcType="INTEGER" />
-    <result column="has_checked" property="hasChecked" jdbcType="BIT" />
-    <result column="file" property="file" jdbcType="VARCHAR" />
-    <result column="file_name" property="fileName" jdbcType="VARCHAR" />
-    <result column="ppt" property="ppt" jdbcType="VARCHAR" />
-    <result column="ppt_name" property="pptName" jdbcType="VARCHAR" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.dispatch.DispatchMapper">
+  <resultMap id="BaseResultMap" type="domain.dispatch.Dispatch">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sc_dispatch_id" jdbcType="INTEGER" property="scDispatchId" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="dispatch_type_id" jdbcType="INTEGER" property="dispatchTypeId" />
+    <result column="code" jdbcType="INTEGER" property="code" />
+    <result column="meeting_time" jdbcType="DATE" property="meetingTime" />
+    <result column="pub_time" jdbcType="DATE" property="pubTime" />
+    <result column="work_time" jdbcType="DATE" property="workTime" />
+    <result column="appoint_count" jdbcType="INTEGER" property="appointCount" />
+    <result column="real_appoint_count" jdbcType="INTEGER" property="realAppointCount" />
+    <result column="dismiss_count" jdbcType="INTEGER" property="dismissCount" />
+    <result column="real_dismiss_count" jdbcType="INTEGER" property="realDismissCount" />
+    <result column="has_checked" jdbcType="BIT" property="hasChecked" />
+    <result column="file" jdbcType="VARCHAR" property="file" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="ppt" jdbcType="VARCHAR" property="ppt" />
+    <result column="ppt_name" jdbcType="VARCHAR" property="pptName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -50,25 +51,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -79,243 +80,253 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, year, dispatch_type_id, code, meeting_time, pub_time, work_time, appoint_count, 
-    real_appoint_count, dismiss_count, real_dismiss_count, has_checked, file, file_name, 
-    ppt, ppt_name, remark, sort_order
+  <sql id="Base_Column_List">
+    id, sc_dispatch_id, year, dispatch_type_id, code, meeting_time, pub_time, work_time, 
+    appoint_count, real_appoint_count, dismiss_count, real_dismiss_count, has_checked, 
+    file, file_name, ppt, ppt_name, remark, sort_order
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.dispatch.DispatchExample" >
+  <select id="selectByExample" parameterType="domain.dispatch.DispatchExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from dispatch
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from dispatch
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from dispatch
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.dispatch.DispatchExample" >
+  <delete id="deleteByExample" parameterType="domain.dispatch.DispatchExample">
     delete from dispatch
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.dispatch.Dispatch" >
-    insert into dispatch (id, year, dispatch_type_id, 
-      code, meeting_time, pub_time, 
-      work_time, appoint_count, real_appoint_count, 
-      dismiss_count, real_dismiss_count, has_checked, 
-      file, file_name, ppt, 
-      ppt_name, remark, sort_order
-      )
-    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{dispatchTypeId,jdbcType=INTEGER}, 
-      #{code,jdbcType=INTEGER}, #{meetingTime,jdbcType=DATE}, #{pubTime,jdbcType=DATE}, 
-      #{workTime,jdbcType=DATE}, #{appointCount,jdbcType=INTEGER}, #{realAppointCount,jdbcType=INTEGER}, 
-      #{dismissCount,jdbcType=INTEGER}, #{realDismissCount,jdbcType=INTEGER}, #{hasChecked,jdbcType=BIT}, 
-      #{file,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{ppt,jdbcType=VARCHAR}, 
-      #{pptName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
-      )
+  <insert keyProperty="id" id="insert" parameterType="domain.dispatch.Dispatch">
+    insert into dispatch (id, sc_dispatch_id, year, 
+      dispatch_type_id, code, meeting_time, 
+      pub_time, work_time, appoint_count, 
+      real_appoint_count, dismiss_count, real_dismiss_count, 
+      has_checked, file, file_name, 
+      ppt, ppt_name, remark, 
+      sort_order)
+    values (#{id,jdbcType=INTEGER}, #{scDispatchId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, 
+      #{dispatchTypeId,jdbcType=INTEGER}, #{code,jdbcType=INTEGER}, #{meetingTime,jdbcType=DATE}, 
+      #{pubTime,jdbcType=DATE}, #{workTime,jdbcType=DATE}, #{appointCount,jdbcType=INTEGER}, 
+      #{realAppointCount,jdbcType=INTEGER}, #{dismissCount,jdbcType=INTEGER}, #{realDismissCount,jdbcType=INTEGER}, 
+      #{hasChecked,jdbcType=BIT}, #{file,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
+      #{ppt,jdbcType=VARCHAR}, #{pptName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{sortOrder,jdbcType=INTEGER})
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.dispatch.Dispatch" >
+  <insert keyProperty="id" id="insertSelective" parameterType="domain.dispatch.Dispatch">
     insert into dispatch
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="year != null" >
+      <if test="scDispatchId != null">
+        sc_dispatch_id,
+      </if>
+      <if test="year != null">
         year,
       </if>
-      <if test="dispatchTypeId != null" >
+      <if test="dispatchTypeId != null">
         dispatch_type_id,
       </if>
-      <if test="code != null" >
+      <if test="code != null">
         code,
       </if>
-      <if test="meetingTime != null" >
+      <if test="meetingTime != null">
         meeting_time,
       </if>
-      <if test="pubTime != null" >
+      <if test="pubTime != null">
         pub_time,
       </if>
-      <if test="workTime != null" >
+      <if test="workTime != null">
         work_time,
       </if>
-      <if test="appointCount != null" >
+      <if test="appointCount != null">
         appoint_count,
       </if>
-      <if test="realAppointCount != null" >
+      <if test="realAppointCount != null">
         real_appoint_count,
       </if>
-      <if test="dismissCount != null" >
+      <if test="dismissCount != null">
         dismiss_count,
       </if>
-      <if test="realDismissCount != null" >
+      <if test="realDismissCount != null">
         real_dismiss_count,
       </if>
-      <if test="hasChecked != null" >
+      <if test="hasChecked != null">
         has_checked,
       </if>
-      <if test="file != null" >
+      <if test="file != null">
         file,
       </if>
-      <if test="fileName != null" >
+      <if test="fileName != null">
         file_name,
       </if>
-      <if test="ppt != null" >
+      <if test="ppt != null">
         ppt,
       </if>
-      <if test="pptName != null" >
+      <if test="pptName != null">
         ppt_name,
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark,
       </if>
-      <if test="sortOrder != null" >
+      <if test="sortOrder != null">
         sort_order,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="year != null" >
+      <if test="scDispatchId != null">
+        #{scDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
         #{year,jdbcType=INTEGER},
       </if>
-      <if test="dispatchTypeId != null" >
+      <if test="dispatchTypeId != null">
         #{dispatchTypeId,jdbcType=INTEGER},
       </if>
-      <if test="code != null" >
+      <if test="code != null">
         #{code,jdbcType=INTEGER},
       </if>
-      <if test="meetingTime != null" >
+      <if test="meetingTime != null">
         #{meetingTime,jdbcType=DATE},
       </if>
-      <if test="pubTime != null" >
+      <if test="pubTime != null">
         #{pubTime,jdbcType=DATE},
       </if>
-      <if test="workTime != null" >
+      <if test="workTime != null">
         #{workTime,jdbcType=DATE},
       </if>
-      <if test="appointCount != null" >
+      <if test="appointCount != null">
         #{appointCount,jdbcType=INTEGER},
       </if>
-      <if test="realAppointCount != null" >
+      <if test="realAppointCount != null">
         #{realAppointCount,jdbcType=INTEGER},
       </if>
-      <if test="dismissCount != null" >
+      <if test="dismissCount != null">
         #{dismissCount,jdbcType=INTEGER},
       </if>
-      <if test="realDismissCount != null" >
+      <if test="realDismissCount != null">
         #{realDismissCount,jdbcType=INTEGER},
       </if>
-      <if test="hasChecked != null" >
+      <if test="hasChecked != null">
         #{hasChecked,jdbcType=BIT},
       </if>
-      <if test="file != null" >
+      <if test="file != null">
         #{file,jdbcType=VARCHAR},
       </if>
-      <if test="fileName != null" >
+      <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
       </if>
-      <if test="ppt != null" >
+      <if test="ppt != null">
         #{ppt,jdbcType=VARCHAR},
       </if>
-      <if test="pptName != null" >
+      <if test="pptName != null">
         #{pptName,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="sortOrder != null" >
+      <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.dispatch.DispatchExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.dispatch.DispatchExample" resultType="java.lang.Long">
     select count(*) from dispatch
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update dispatch
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.year != null" >
+      <if test="record.scDispatchId != null">
+        sc_dispatch_id = #{record.scDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
       </if>
-      <if test="record.dispatchTypeId != null" >
+      <if test="record.dispatchTypeId != null">
         dispatch_type_id = #{record.dispatchTypeId,jdbcType=INTEGER},
       </if>
-      <if test="record.code != null" >
+      <if test="record.code != null">
         code = #{record.code,jdbcType=INTEGER},
       </if>
-      <if test="record.meetingTime != null" >
+      <if test="record.meetingTime != null">
         meeting_time = #{record.meetingTime,jdbcType=DATE},
       </if>
-      <if test="record.pubTime != null" >
+      <if test="record.pubTime != null">
         pub_time = #{record.pubTime,jdbcType=DATE},
       </if>
-      <if test="record.workTime != null" >
+      <if test="record.workTime != null">
         work_time = #{record.workTime,jdbcType=DATE},
       </if>
-      <if test="record.appointCount != null" >
+      <if test="record.appointCount != null">
         appoint_count = #{record.appointCount,jdbcType=INTEGER},
       </if>
-      <if test="record.realAppointCount != null" >
+      <if test="record.realAppointCount != null">
         real_appoint_count = #{record.realAppointCount,jdbcType=INTEGER},
       </if>
-      <if test="record.dismissCount != null" >
+      <if test="record.dismissCount != null">
         dismiss_count = #{record.dismissCount,jdbcType=INTEGER},
       </if>
-      <if test="record.realDismissCount != null" >
+      <if test="record.realDismissCount != null">
         real_dismiss_count = #{record.realDismissCount,jdbcType=INTEGER},
       </if>
-      <if test="record.hasChecked != null" >
+      <if test="record.hasChecked != null">
         has_checked = #{record.hasChecked,jdbcType=BIT},
       </if>
-      <if test="record.file != null" >
+      <if test="record.file != null">
         file = #{record.file,jdbcType=VARCHAR},
       </if>
-      <if test="record.fileName != null" >
+      <if test="record.fileName != null">
         file_name = #{record.fileName,jdbcType=VARCHAR},
       </if>
-      <if test="record.ppt != null" >
+      <if test="record.ppt != null">
         ppt = #{record.ppt,jdbcType=VARCHAR},
       </if>
-      <if test="record.pptName != null" >
+      <if test="record.pptName != null">
         ppt_name = #{record.pptName,jdbcType=VARCHAR},
       </if>
-      <if test="record.remark != null" >
+      <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.sortOrder != null" >
+      <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update dispatch
     set id = #{record.id,jdbcType=INTEGER},
+      sc_dispatch_id = #{record.scDispatchId,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
       dispatch_type_id = #{record.dispatchTypeId,jdbcType=INTEGER},
       code = #{record.code,jdbcType=INTEGER},
@@ -333,70 +344,74 @@
       ppt_name = #{record.pptName,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.dispatch.Dispatch" >
+  <update id="updateByPrimaryKeySelective" parameterType="domain.dispatch.Dispatch">
     update dispatch
-    <set >
-      <if test="year != null" >
+    <set>
+      <if test="scDispatchId != null">
+        sc_dispatch_id = #{scDispatchId,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
         year = #{year,jdbcType=INTEGER},
       </if>
-      <if test="dispatchTypeId != null" >
+      <if test="dispatchTypeId != null">
         dispatch_type_id = #{dispatchTypeId,jdbcType=INTEGER},
       </if>
-      <if test="code != null" >
+      <if test="code != null">
         code = #{code,jdbcType=INTEGER},
       </if>
-      <if test="meetingTime != null" >
+      <if test="meetingTime != null">
         meeting_time = #{meetingTime,jdbcType=DATE},
       </if>
-      <if test="pubTime != null" >
+      <if test="pubTime != null">
         pub_time = #{pubTime,jdbcType=DATE},
       </if>
-      <if test="workTime != null" >
+      <if test="workTime != null">
         work_time = #{workTime,jdbcType=DATE},
       </if>
-      <if test="appointCount != null" >
+      <if test="appointCount != null">
         appoint_count = #{appointCount,jdbcType=INTEGER},
       </if>
-      <if test="realAppointCount != null" >
+      <if test="realAppointCount != null">
         real_appoint_count = #{realAppointCount,jdbcType=INTEGER},
       </if>
-      <if test="dismissCount != null" >
+      <if test="dismissCount != null">
         dismiss_count = #{dismissCount,jdbcType=INTEGER},
       </if>
-      <if test="realDismissCount != null" >
+      <if test="realDismissCount != null">
         real_dismiss_count = #{realDismissCount,jdbcType=INTEGER},
       </if>
-      <if test="hasChecked != null" >
+      <if test="hasChecked != null">
         has_checked = #{hasChecked,jdbcType=BIT},
       </if>
-      <if test="file != null" >
+      <if test="file != null">
         file = #{file,jdbcType=VARCHAR},
       </if>
-      <if test="fileName != null" >
+      <if test="fileName != null">
         file_name = #{fileName,jdbcType=VARCHAR},
       </if>
-      <if test="ppt != null" >
+      <if test="ppt != null">
         ppt = #{ppt,jdbcType=VARCHAR},
       </if>
-      <if test="pptName != null" >
+      <if test="pptName != null">
         ppt_name = #{pptName,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="sortOrder != null" >
+      <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.dispatch.Dispatch" >
+  <update id="updateByPrimaryKey" parameterType="domain.dispatch.Dispatch">
     update dispatch
-    set year = #{year,jdbcType=INTEGER},
+    set sc_dispatch_id = #{scDispatchId,jdbcType=INTEGER},
+      year = #{year,jdbcType=INTEGER},
       dispatch_type_id = #{dispatchTypeId,jdbcType=INTEGER},
       code = #{code,jdbcType=INTEGER},
       meeting_time = #{meetingTime,jdbcType=DATE},
@@ -415,17 +430,17 @@
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.dispatch.DispatchExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.dispatch.DispatchExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from dispatch
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

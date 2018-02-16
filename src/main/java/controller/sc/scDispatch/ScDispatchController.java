@@ -47,11 +47,23 @@ public class ScDispatchController extends ScDispatchBaseController {
 
     @RequiresPermissions("scDispatch:list")
     @RequestMapping("/scDispatch")
-    public String scDispatch(@RequestParam(defaultValue = "1") Integer cls, ModelMap modelMap) {
+    public String scDispatch(@RequestParam(defaultValue = "1") Integer cls,
+                             Integer dispatchTypeId,
+                             ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+        modelMap.put("dispatchTypeId", dispatchTypeId);
 
         return "sc/scDispatch/scDispatch/scDispatch_page";
+    }
+    @RequiresPermissions("scDispatch:list")
+    @RequestMapping("/scDispatch_popup")
+    public String scDispatch_popup(Integer dispatchTypeId,
+                             ModelMap modelMap) {
+
+        modelMap.put("dispatchTypeId", dispatchTypeId);
+
+        return "sc/scDispatch/scDispatch/scDispatch_popup";
     }
 
     @RequiresPermissions("scDispatch:list")
@@ -115,8 +127,8 @@ public class ScDispatchController extends ScDispatchBaseController {
     public Map do_scDispatch_au(ScDispatch record,
                                 MultipartFile _wordFilePath,
                                 MultipartFile _pdfFilePath,
-                                @RequestParam(value = "committeeIds[]") Integer[] committeeIds,
-                                @RequestParam(value = "voteIds[]") Integer[] voteIds,
+                                @RequestParam(required=false, value = "committeeIds[]") Integer[] committeeIds,
+                                @RequestParam(required=false, value = "voteIds[]") Integer[] voteIds,
                                 HttpServletRequest request) throws IOException, InterruptedException {
 
         record.setFilePath(upload(_wordFilePath, "scDispatch-word"));
@@ -142,7 +154,7 @@ public class ScDispatchController extends ScDispatchBaseController {
 
     @RequiresPermissions("scDispatch:edit")
     @RequestMapping("/scDispatch_users")
-    public String scDispatch_users(@RequestParam(value = "committeeIds[]") Integer[] committeeIds, ModelMap modelMap) {
+    public String scDispatch_users(@RequestParam(required=false, value = "committeeIds[]") Integer[] committeeIds, ModelMap modelMap) {
 
         if(committeeIds!=null && committeeIds.length>0) {
             /*ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
@@ -157,11 +169,11 @@ public class ScDispatchController extends ScDispatchBaseController {
 
     @RequiresPermissions("scDispatch:edit")
     @RequestMapping(value = "/scDispatch_selectUser", method = RequestMethod.POST)
-    public void do_scDispatch_selectUser(@RequestParam(value = "voteIds[]") Integer[] voteIds,
+    public void do_scDispatch_selectUser(@RequestParam(required=false, value = "voteIds[]") Integer[] voteIds,
                                        HttpServletResponse response) throws IOException {
 
         List<ScCommitteeVoteView> votes = new ArrayList<>();
-        if(voteIds!=null){
+        if(voteIds!=null && voteIds.length>0){
 
             ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
             example.createCriteria().andIdIn(Arrays.asList(voteIds));
@@ -172,6 +184,34 @@ public class ScDispatchController extends ScDispatchBaseController {
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("votes", votes);
         JSONUtils.write(response, resultMap);
+    }
+    // 添加发文-从文件签发稿中选择
+    @RequiresPermissions("scDispatch:edit")
+    @RequestMapping(value = "/scDispatch_select", method = RequestMethod.POST)
+    public void do_scDispatch_select(int id, HttpServletResponse response) throws IOException {
+
+        ScDispatchView scDispatchView = scDispatchService.get(id);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("scDispatch", scDispatchView);
+        JSONUtils.write(response, resultMap);
+    }
+
+    // 同步干部任免信息-从文件签发稿中同步
+    @RequiresPermissions("scDispatch:edit")
+    @RequestMapping(value = "/scDispatch_snyc", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scDispatch_snyc(int dispatchId, HttpServletResponse response) throws IOException {
+
+        try {
+
+            scDispatchService.sync(dispatchId);
+
+        } catch (Exception e) {
+          return failed("同步失败");
+        }
+
+        return success();
     }
 
     @RequiresPermissions("scDispatch:edit")
@@ -196,7 +236,7 @@ public class ScDispatchController extends ScDispatchBaseController {
     @RequiresPermissions("scDispatch:del")
     @RequestMapping(value = "/scDispatch_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map scDispatch_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scDispatch_batchDel(HttpServletRequest request, @RequestParam(required=false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

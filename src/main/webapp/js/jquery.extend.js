@@ -193,6 +193,7 @@ var _modal_width;
             var my = params.my;
             var at = params.at;
             var type = params.type || "info";
+            var inactive = params.inactive || 1000;
 
             if ($target == undefined) {
 
@@ -220,13 +221,14 @@ var _modal_width;
                 label = '<i class="fa fa-check-circle green"></i> ';
             }
             //console.log($target)
+            //console.log($container)
             $target.qtip({
                 content: label + msg,
                 show: true, hide: {
                     event: 'unfocus',
-                    inactive: params.inactive || 1000
+                    //inactive: inactive
                 }, position: {
-                    container: $container,
+                    container: $container || $('#page-content'),
                     my: my || $target.data("my") || 'left center',
                     at: at || $target.data("at") || 'right center'
                 }
@@ -577,14 +579,20 @@ var _modal_width;
                 });
             })
         },
-        swfPreview: function (filepath, filename, hrefLabel, plainText) {
+        swfPreview: function (filepath, filename, hrefLabel, plainText, type) {
             filepath = $.trim(filepath);
             filename = $.trim(filename);
             hrefLabel = $.trim(hrefLabel)
+            var cls = "";
+            if(type=='url'){
+                cls = "openUrl";
+            }else{
+                cls = "popupBtn"
+            }
             if (filepath != '' && filename != '') {
                 hrefLabel = hrefLabel || filename;
-                return '<a href="javascript:void(0)" class="popupBtn" data-url="{3}/swf/preview?path={0}&filename={1}">{2}</a>'
-                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx);
+                return '<a href="javascript:void(0)" class="{4}" data-url="{3}/swf/preview?path={0}&filename={1}&type={5}">{2}</a>'
+                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, cls, type||'');
             } else
                 return $.trim(plainText);
         }

@@ -309,8 +309,8 @@
         </table>-->
 
         <!--发文-->
-        <!--<table tableName="dispatch" domainObjectName="dispatch.Dispatch">
-         </table>-->
+        <table tableName="dispatch" domainObjectName="dispatch.Dispatch" mapperName="dispatch.DispatchMapper">
+         </table>
         <!-- <table tableName="dispatch_type" domainObjectName="dispatch.DispatchType">
         </table>
       <table tableName="dispatch_cadre" domainObjectName="dispatch.DispatchCadre">

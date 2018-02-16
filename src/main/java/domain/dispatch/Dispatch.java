@@ -16,6 +16,8 @@ public class Dispatch implements Serializable {
 
     private Integer id;
 
+    private Integer scDispatchId;
+
     private Integer year;
 
     private Integer dispatchTypeId;
@@ -58,6 +60,14 @@ public class Dispatch implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getScDispatchId() {
+        return scDispatchId;
+    }
+
+    public void setScDispatchId(Integer scDispatchId) {
+        this.scDispatchId = scDispatchId;
     }
 
     public Integer getYear() {

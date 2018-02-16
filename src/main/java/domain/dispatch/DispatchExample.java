@@ -192,6 +192,66 @@ public class DispatchExample {
             return (Criteria) this;
         }
 
+        public Criteria andScDispatchIdIsNull() {
+            addCriterion("sc_dispatch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScDispatchIdIsNotNull() {
+            addCriterion("sc_dispatch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScDispatchIdEqualTo(Integer value) {
+            addCriterion("sc_dispatch_id =", value, "scDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScDispatchIdNotEqualTo(Integer value) {
+            addCriterion("sc_dispatch_id <>", value, "scDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScDispatchIdGreaterThan(Integer value) {
+            addCriterion("sc_dispatch_id >", value, "scDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScDispatchIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sc_dispatch_id >=", value, "scDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScDispatchIdLessThan(Integer value) {
+            addCriterion("sc_dispatch_id <", value, "scDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScDispatchIdLessThanOrEqualTo(Integer value) {
+            addCriterion("sc_dispatch_id <=", value, "scDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScDispatchIdIn(List<Integer> values) {
+            addCriterion("sc_dispatch_id in", values, "scDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScDispatchIdNotIn(List<Integer> values) {
+            addCriterion("sc_dispatch_id not in", values, "scDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScDispatchIdBetween(Integer value1, Integer value2) {
+            addCriterion("sc_dispatch_id between", value1, value2, "scDispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andScDispatchIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("sc_dispatch_id not between", value1, value2, "scDispatchId");
+            return (Criteria) this;
+        }
+
         public Criteria andYearIsNull() {
             addCriterion("year is null");
             return (Criteria) this;

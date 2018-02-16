@@ -4,6 +4,27 @@
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="smaller">
+            文件签发稿
+            <div class="buttons pull-right ">
+                <button style="margin-right: 10px;top: -5px;"
+                        class="popupBtn btn btn-primary btn-xs" type="button"
+                        data-width="1200"
+                        data-url="${ctx}/sc/scDispatch_popup">
+                    <i class="fa fa-plus-circle"></i> 从“文件起草签发”中选择
+                </button>
+            </div>
+        </h4>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main" id="scDispatchDiv">
+
+        </div>
+    </div>
+</div>
+
+<div class="widget-box">
+    <div class="widget-header">
+        <h4 class="smaller">
             ${dispatch!=null?"修改":"添加"}发文
         </h4>
     </div>
@@ -13,6 +34,7 @@
                   enctype="multipart/form-data">
                 <div class="row">
                     <input type="hidden" name="id" value="${dispatch.id}">
+                    <input type="hidden" name="scDispatchId" value="${dispatch.scDispatchId}">
 
                     <div class="form-group">
                         <label class="col-xs-3 control-label">年份</label>
@@ -129,8 +151,69 @@
         </div>
     </div>
 </div>
-
+<script type="text/template" id="scDispatchTpl">
+    <table class="table table-striped table-bordered table-condensed table-unhover2">
+        <thead>
+        <tr>
+            <td>年份</td>
+            <td>发文类型</td>
+            <td>发文号</td>
+            <td width="60"></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-id="{{sd.id}}">
+            <td>{{=sd.year}}</td>
+            <td>{{=sd.dispatchType.name}}</td>
+            <td>{{=sd.code}}</td>
+            <td>
+                <a href="javasciprt:;" class="del">移除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</script>
 <script>
+    <c:if test="${empty dispatch.scDispatchId}">
+    $("#scDispatchDiv").html('<div class="well">未选择签发文件</div>');
+    </c:if>
+    <c:if test="${not empty dispatch.scDispatchId}">
+    $.post("${ctx}/sc/scDispatch_select", {id:'${dispatch.scDispatchId}'}, function(data){
+        if(data.success) {
+            var sd = data.scDispatch;
+            $("#scDispatchDiv").html(_.template($("#scDispatchTpl").html())({sd: sd}));
+
+            $("#modalForm input[name=year]").prop("disabled", true);
+            var $dispatchTypeId = $("#modalForm select[name=dispatchTypeId]");
+            $dispatchTypeId.select2({theme: "default"}).prop("disabled", true);
+            if(sd.code>0) {
+                $("#modalForm input[name=code]").prop("disabled", true);
+            }
+            $("#modalForm input[name=_meetingTime]").prop("disabled", true);
+            $("#modalForm input[name=appointCount]").prop("disabled", true);
+            $("#modalForm input[name=dismissCount]").prop("disabled", true);
+        }
+    })
+    </c:if>
+    $(document).on('click', "#scDispatchDiv .del", function(){
+
+        $("#scDispatchDiv").html('<div class="well">未选择签发文件</div>');
+
+        $("#modalForm input[name=scDispatchId]").val('');
+
+        $("#modalForm input[name=year]").prop("disabled", false);
+
+        var $dispatchTypeId = $("#modalForm select[name=dispatchTypeId]");
+        $dispatchTypeId.select2({theme: "classic"}).removeAttr("disabled").trigger("change");
+        register_dispatchType_select($('#modalForm select[name=dispatchTypeId]'), $("#modalForm input[name=year]"));
+
+        $("#modalForm input[name=code]").prop("disabled", false);
+
+        $("#modalForm input[name=_meetingTime]").prop("disabled", false);
+        $("#modalForm input[name=appointCount]").prop("disabled", false);
+        $("#modalForm input[name=dismissCount]").prop("disabled", false);
+    })
+
     jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
     jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
 

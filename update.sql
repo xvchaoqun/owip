@@ -1,3 +1,8 @@
+
+2018-2-16
+ALTER TABLE `dispatch`
+	ADD COLUMN `sc_dispatch_id` INT(10) UNSIGNED NULL COMMENT '文件签发稿' AFTER `id`;
+
 2018-2-4
 ALTER TABLE `cadre`
 	ADD COLUMN `is_committee_member` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否常委' AFTER `unit_id`;

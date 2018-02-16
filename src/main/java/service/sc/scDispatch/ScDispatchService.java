@@ -1,14 +1,22 @@
 package service.sc.scDispatch;
 
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchCadre;
+import domain.dispatch.DispatchCadreExample;
 import domain.sc.scCommittee.ScCommitteeVote;
+import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scDispatch.ScDispatch;
 import domain.sc.scDispatch.ScDispatchCommittee;
 import domain.sc.scDispatch.ScDispatchCommitteeExample;
 import domain.sc.scDispatch.ScDispatchExample;
 import domain.sc.scDispatch.ScDispatchUser;
 import domain.sc.scDispatch.ScDispatchUserExample;
+import domain.sc.scDispatch.ScDispatchView;
+import domain.sc.scDispatch.ScDispatchViewExample;
 import domain.sys.SysUserView;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.util.Units;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -24,6 +32,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 import service.BaseMapper;
 import service.SpringProps;
+import service.dispatch.DispatchCadreService;
+import service.dispatch.DispatchService;
 import shiro.ShiroHelper;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -36,6 +46,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +56,20 @@ public class ScDispatchService extends BaseMapper {
 
     @Autowired
     protected SpringProps springProps;
+    @Autowired
+    protected DispatchService dispatchService;
+    @Autowired
+    protected DispatchCadreService dispatchCadreService;
+
+
+    public ScDispatchView get(int id){
+
+        ScDispatchViewExample example = new ScDispatchViewExample();
+        example.createCriteria().andIdEqualTo(id);
+        List<ScDispatchView> scDispatchViews = scDispatchViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return scDispatchViews.size()>0?scDispatchViews.get(0):null;
+    }
 
     public boolean idDuplicate(Integer id, int year, int code) {
 
@@ -108,12 +133,14 @@ public class ScDispatchService extends BaseMapper {
             example.createCriteria().andDispatchIdEqualTo(dispatchId);
             scDispatchCommitteeMapper.deleteByExample(example);
         }
-        for (Integer committeeId : committeeIds) {
-            ScDispatchCommittee record = new ScDispatchCommittee();
-            record.setDispatchId(dispatchId);
-            record.setCommitteeId(committeeId);
+        if(committeeIds!=null) {
+            for (Integer committeeId : committeeIds) {
+                ScDispatchCommittee record = new ScDispatchCommittee();
+                record.setDispatchId(dispatchId);
+                record.setCommitteeId(committeeId);
 
-            scDispatchCommitteeMapper.insertSelective(record);
+                scDispatchCommitteeMapper.insertSelective(record);
+            }
         }
 
         {
@@ -122,15 +149,17 @@ public class ScDispatchService extends BaseMapper {
             scDispatchUserMapper.deleteByExample(example);
         }
 
-        for (Integer voteId : voteIds) {
+        if(voteIds!=null) {
+            for (Integer voteId : voteIds) {
 
-            ScCommitteeVote scCommitteeVote = scCommitteeVoteMapper.selectByPrimaryKey(voteId);
-            ScDispatchUser record = new ScDispatchUser();
-            record.setDispatchId(dispatchId);
-            record.setVoteId(voteId);
-            record.setType(scCommitteeVote.getType());
-            record.setSortOrder(getNextSortOrder("sc_dispatch_user", "type=" + record.getType()));
-            scDispatchUserMapper.insertSelective(record);
+                ScCommitteeVote scCommitteeVote = scCommitteeVoteMapper.selectByPrimaryKey(voteId);
+                ScDispatchUser record = new ScDispatchUser();
+                record.setDispatchId(dispatchId);
+                record.setVoteId(voteId);
+                record.setType(scCommitteeVote.getType());
+                record.setSortOrder(getNextSortOrder("sc_dispatch_user", "type=" + record.getType()));
+                scDispatchUserMapper.insertSelective(record);
+            }
         }
     }
 
@@ -199,5 +228,49 @@ public class ScDispatchService extends BaseMapper {
 
         return wb;
     }
+    @Transactional
+    public void sync(int dispatchId) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
+        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(dispatchId);
+       /*
+        if(dispatch!=null && dispatch.getHasChecked()){
+            return failed("已经复核，不可同步。");
+        }*/
+
+        {
+            DispatchCadreExample example = new DispatchCadreExample();
+            example.createCriteria().andDispatchIdEqualTo(dispatchId);
+            dispatchCadreMapper.deleteByExample(example);
+        }
+
+        {
+            Dispatch record = new Dispatch();
+            record.setId(dispatchId);
+            record.setHasChecked(false);
+            dispatchService.updateByPrimaryKeySelective(record, false);
+        }
+
+        Integer scDispatchId = dispatch.getScDispatchId();
+        List<ScCommitteeVoteView> scDispatchVotes = iScMapper.getScDispatchVotes(scDispatchId);
+
+        for (ScCommitteeVoteView sdv : scDispatchVotes) {
+
+            DispatchCadre record = new DispatchCadre();
+            record.setDispatchId(dispatchId);
+            /*record.setCadreId(sdv.getCadreId());
+            record.setType(sdv.getType());
+            record.setCadreTypeId(sdv.getCadreTypeId());
+            record.setWayId(sdv.getWayId());
+            record.setProcedureId(sdv.getProcedureId());
+            record.setPost(sdv.getPost());
+            record.setPostId(sdv.getPostId());
+            record.setAdminLevelId(sdv.getAdminLevelId());
+            record.setUnitId(sdv.getUnitId());
+            record.setRemark(sdv.getRemark());
+            record.setSortOrder(sdv.getSortOrder());*/
+            PropertyUtils.copyProperties(record, sdv);
+
+            dispatchCadreService.insertSelective(record);
+        }
+    }
 }

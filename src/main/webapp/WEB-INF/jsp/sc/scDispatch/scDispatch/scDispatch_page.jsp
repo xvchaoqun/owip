@@ -64,15 +64,26 @@
                                         <input type="hidden" name="cls" value="${cls}">
                                         <div class="form-group">
                                             <label>年份</label>
-                                            <input class="form-control search-query" name="year" type="text"
-                                                   value="${param.year}"
-                                                   placeholder="请输入年份">
+
+                                            <div class="input-group" style="width: 150px">
+                                                <input required class="form-control date-picker" placeholder="请选择年份"
+                                                       name="year"
+                                                       type="text"
+                                                       data-date-format="yyyy" data-date-min-view-mode="2"
+                                                       value="${param.year}"/>
+                                                <span class="input-group-addon"> <i
+                                                        class="fa fa-calendar bigger-110"></i></span>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <label>发文类型</label>
-                                            <input class="form-control search-query" name="dispatchTypeId" type="text"
-                                                   value="${param.dispatchTypeId}"
-                                                   placeholder="请输入发文类型">
+                                            <c:set var="dispatchType"
+                                                   value="${dispatchTypeMap.get(dispatchTypeId)}"/>
+                                            <select data-rel="select2-ajax"
+                                                    data-ajax-url="${ctx}/dispatchType_selects"
+                                                    name="dispatchTypeId" data-placeholder="请选择发文类型">
+                                                <option value="${dispatchType.id}">${dispatchType.name}</option>
+                                            </select>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
@@ -99,36 +110,16 @@
         <div id="item-content"></div>
     </div>
 </div>
+<jsp:include page="scDispatch_colModel.jsp?type=admin"/>
 <script>
+    register_date($('.date-picker'));
+    register_dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));
+
     // 序号、 年度、 发文类型、 发文号、 党委常委会日期、 起草日期、 任命人数、 免职人数、 文件签发稿、 签发单、 正式签发、 备注
     $("#jqGrid").jqGrid({
         rownumbers:true,
         url: '${ctx}/sc/scDispatch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {label: '年度', name: 'year'},
-            {
-                label: '发文类型', name: 'dispatchType', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-'
-                return cellvalue.name;
-            }, frozen: true
-            },
-            {label: '发文号', name: 'code'},
-            {label: '党委常委会日期', name: 'meetingTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '起草日期', name: 'pubTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '任命人数', name: 'appointCount', width: 80},
-            {label: '免职人数', name: 'dismissCount', width: 80},
-            {label: '文件签发稿', name: 'filePath', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.filePath==undefined) return '-'
-               return '<button data-url="${ctx}/attach/download?path={0}&filename={1}" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-file-word-o"></i> 下载</button>'
-                            .format(encodeURI(rowObject.filePath), "文件签发稿");
-                }
-            },
-            {label: '签发单', name: 'signFilePath', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.signFilePath==undefined) return '-'
-                return $.swfPreview(rowObject.signFilePath, "签发单", "查看");
-            }},
-            {label: '备注', name: 'remark', width: 380}
-        ]
+        colModel: colModel
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");

@@ -113,13 +113,17 @@ public class DispatchService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value="Dispatch:ALL", allEntries = true)
-    public int updateByPrimaryKeySelective(Dispatch record){
+    public void updateByPrimaryKeySelective(Dispatch record, boolean checkScDispatchId){
 
         if(record.getCode()!=null) {
             Assert.isTrue(!idDuplicate(record.getId(),record.getDispatchTypeId(), record.getYear(), record.getCode()), "duplicate");
         }
 
-        return dispatchMapper.updateByPrimaryKeySelective(record);
+        dispatchMapper.updateByPrimaryKeySelective(record);
+
+        if(checkScDispatchId && record.getScDispatchId()==null){
+            commonMapper.excuteSql("update dispatch set sc_dispatch_id=null where id=" + record.getId());
+        }
     }
 
     @Cacheable(value="Dispatch:ALL")
