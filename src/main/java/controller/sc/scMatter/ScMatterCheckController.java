@@ -1,6 +1,5 @@
 package controller.sc.scMatter;
 
-import controller.ScMatterBaseController;
 import controller.global.OpException;
 import domain.sc.scMatter.ScMatterCheck;
 import domain.sc.scMatter.ScMatterCheckExample;

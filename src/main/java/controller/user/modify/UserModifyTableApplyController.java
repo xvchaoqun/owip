@@ -1,6 +1,6 @@
 package controller.user.modify;
 
-import controller.ModifyBaseController;
+import controller.modify.ModifyBaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

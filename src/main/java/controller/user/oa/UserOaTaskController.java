@@ -1,6 +1,6 @@
 package controller.user.oa;
 
-import controller.OaBaseController;
+import controller.oa.OaBaseController;
 import domain.oa.OaTaskUserView;
 import domain.oa.OaTaskUserViewExample;
 import mixin.MixinUtils;

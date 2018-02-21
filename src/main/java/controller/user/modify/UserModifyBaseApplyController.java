@@ -1,6 +1,6 @@
 package controller.user.modify;
 
-import controller.ModifyBaseController;
+import controller.modify.ModifyBaseController;
 import domain.cadre.CadreView;
 import domain.ext.ExtJzg;
 import domain.modify.ModifyBaseApply;

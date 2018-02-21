@@ -1,6 +1,6 @@
 package controller.pcs.cm;
 
-import controller.PcsBaseController;
+import controller.pcs.PcsBaseController;
 import domain.cadre.CadreView;
 import domain.member.MemberTeacher;
 import domain.pcs.PcsAdmin;

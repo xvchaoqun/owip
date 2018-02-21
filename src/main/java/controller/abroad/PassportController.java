@@ -5,7 +5,6 @@ import bean.PassportStatByLentBean;
 import bean.PassportStatByPostBean;
 import bean.XlsPassport;
 import bean.XlsUpload;
-import controller.AbroadBaseController;
 import controller.global.OpException;
 import domain.abroad.Passport;
 import domain.abroad.PassportApply;

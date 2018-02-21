@@ -1,6 +1,5 @@
 package controller.modify;
 
-import controller.ModifyBaseController;
 import domain.cadre.CadreResearch;
 import domain.cadre.CadreResearchExample;
 import domain.cadre.CadreResearchExample.Criteria;

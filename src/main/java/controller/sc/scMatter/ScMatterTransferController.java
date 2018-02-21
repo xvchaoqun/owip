@@ -1,6 +1,5 @@
 package controller.sc.scMatter;
 
-import controller.ScMatterBaseController;
 import domain.sc.scMatter.ScMatterItemView;
 import domain.sc.scMatter.ScMatterItemViewExample;
 import domain.sc.scMatter.ScMatterTransfer;

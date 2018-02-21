@@ -1,7 +1,6 @@
 package controller.abroad;
 
 import bean.SafeBoxBean;
-import controller.AbroadBaseController;
 import domain.abroad.Passport;
 import domain.abroad.SafeBox;
 import domain.abroad.SafeBoxExample;

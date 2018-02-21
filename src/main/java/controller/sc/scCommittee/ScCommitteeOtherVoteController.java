@@ -1,6 +1,5 @@
 package controller.sc.scCommittee;
 
-import controller.ScCommitteeBaseController;
 import domain.sc.scCommittee.ScCommitteeOtherVote;
 import domain.sc.scCommittee.ScCommitteeOtherVoteExample;
 import domain.sc.scCommittee.ScCommitteeOtherVoteView;

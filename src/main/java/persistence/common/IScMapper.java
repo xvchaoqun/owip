@@ -1,5 +1,7 @@
 package persistence.common;
 
+import domain.cadre.CadreView;
+import domain.cis.CisInspectObjView;
 import domain.sc.scCommittee.ScCommittee;
 import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scMatter.ScMatterAccess;
@@ -45,4 +47,24 @@ public interface IScMapper {
     @Select("select sc.* from sc_dispatch_committee sdc, sc_committee sc " +
             "where sdc.dispatch_id=#{dispatchId} and sdc.committee_id=sc.id order by sdc.id asc")
     public List<ScCommittee> getScDispatchCommittees(@Param("dispatchId") int dispatchId);
+
+    // 干部任免审批表-选择常委会中表决的干部
+    @ResultMap("persistence.cadre.CadreViewMapper.BaseResultMap")
+    @Select("select * from cadre_view where id in(" +
+            "select distinct scv.cadre_id from sc_committee_vote scv, sc_committee_topic sct " +
+            "where scv.topic_id=sct.id and sct.committee_id=#{committeeId} " +
+            ") order by FIND_IN_SET(status, '6,4,1,3,-1'), sort_order desc")
+    public List<CadreView> selectScAdCadres(@Param("committeeId") int committeeId);
+
+    // 干部任免审批表-待选任免信息
+    @ResultMap("persistence.sc.scCommittee.ScCommitteeVoteViewMapper.BaseResultMap")
+    @Select("select scv.* from sc_committee_vote_view scv where scv.cadre_id = #{cadreId} " +
+            "and scv.id not in(select vote_id from sc_ad_archive_vote where archive_id != #{archiveId}) order by scv.id desc")
+    public List<ScCommitteeVoteView> selectScAdVotes(@Param("archiveId") int archiveId, @Param("cadreId") int cadreId);
+
+    // 干部任免审批表-待选干部考察报告
+    @ResultMap("persistence.cis.CisInspectObjViewMapper.BaseResultMap")
+    @Select("select cio.* from cis_inspect_obj_view cio where cio.cadre_id=#{cadreId} " +
+            "and cio.id not in(select obj_id from sc_ad_archive where cadre_id=#{cadreId} and id != #{archiveId})")
+    public List<CisInspectObjView>  selectScAdCisInspectObjs(@Param("archiveId") int archiveId, @Param("cadreId") int cadreId);
 }

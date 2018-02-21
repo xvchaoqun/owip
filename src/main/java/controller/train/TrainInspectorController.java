@@ -1,6 +1,5 @@
 package controller.train;
 
-import controller.TrainBaseController;
 import domain.train.Train;
 import domain.train.TrainInspector;
 import domain.train.TrainInspectorExample;

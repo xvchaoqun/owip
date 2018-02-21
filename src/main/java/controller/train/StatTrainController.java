@@ -1,6 +1,5 @@
 package controller.train;
 
-import controller.TrainBaseController;
 import domain.train.Train;
 import domain.train.TrainCourse;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;

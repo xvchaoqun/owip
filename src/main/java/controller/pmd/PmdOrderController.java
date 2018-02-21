@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.pmd.PmdOrderCampuscard;
 import domain.pmd.PmdOrderCampuscardExample;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

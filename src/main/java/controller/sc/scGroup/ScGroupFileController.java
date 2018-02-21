@@ -1,6 +1,5 @@
 package controller.sc.scGroup;
 
-import controller.ScGroupBaseController;
 import domain.sc.scGroup.ScGroupFile;
 import domain.sc.scGroup.ScGroupFileExample;
 import org.apache.commons.lang3.StringUtils;

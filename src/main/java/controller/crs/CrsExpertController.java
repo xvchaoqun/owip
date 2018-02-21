@@ -1,6 +1,5 @@
 package controller.crs;
 
-import controller.CrsBaseController;
 import domain.cadre.CadreView;
 import domain.crs.CrsExpert;
 import domain.crs.CrsExpertExample;

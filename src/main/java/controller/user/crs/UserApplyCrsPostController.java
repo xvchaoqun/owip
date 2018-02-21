@@ -1,6 +1,6 @@
 package controller.user.crs;
 
-import controller.CrsBaseController;
+import controller.crs.CrsBaseController;
 import domain.crs.CrsApplicant;
 import domain.crs.CrsPost;
 import domain.sys.SysApprovalLog;

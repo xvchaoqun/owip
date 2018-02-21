@@ -1,6 +1,5 @@
 package controller.crs;
 
-import controller.CrsBaseController;
 import domain.crs.CrsPostRequire;
 import domain.crs.CrsPostRequireExample;
 import mixin.MixinUtils;

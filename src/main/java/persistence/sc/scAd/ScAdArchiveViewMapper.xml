@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.scAd.ScAdArchiveViewMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.scAd.ScAdArchiveView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="is_adform_saved" jdbcType="BIT" property="isAdformSaved" />
+    <result column="has_appoint" jdbcType="BIT" property="hasAppoint" />
+    <result column="obj_id" jdbcType="INTEGER" property="objId" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="sign_file_path" jdbcType="VARCHAR" property="signFilePath" />
+    <result column="cis_file_path" jdbcType="VARCHAR" property="cisFilePath" />
+    <result column="cis_sign_file_path" jdbcType="VARCHAR" property="cisSignFilePath" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="committee_file_path" jdbcType="VARCHAR" property="committeeFilePath" />
+    <result column="hold_date" jdbcType="DATE" property="holdDate" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.sc.scAd.ScAdArchiveViewWithBLOBs">
+    <result column="adform" jdbcType="LONGVARCHAR" property="adform" />
+    <result column="cis" jdbcType="LONGVARCHAR" property="cis" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, committee_id, cadre_id, is_adform_saved, has_appoint, obj_id, file_path, sign_file_path, 
+    cis_file_path, cis_sign_file_path, remark, year, committee_file_path, hold_date, 
+    code, realname
+  </sql>
+  <sql id="Blob_Column_List">
+    adform, cis
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="domain.sc.scAd.ScAdArchiveViewExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sc_ad_archive_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="domain.sc.scAd.ScAdArchiveViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_ad_archive_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="domain.sc.scAd.ScAdArchiveViewExample" resultType="java.lang.Long">
+    select count(*) from sc_ad_archive_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.sc.scAd.ScAdArchiveViewExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sc_ad_archive_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scAd.ScAdArchiveViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_ad_archive_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

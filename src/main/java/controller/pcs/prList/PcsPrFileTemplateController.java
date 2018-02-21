@@ -1,6 +1,6 @@
 package controller.pcs.prList;
 
-import controller.PcsBaseController;
+import controller.pcs.PcsBaseController;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrFileTemplate;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

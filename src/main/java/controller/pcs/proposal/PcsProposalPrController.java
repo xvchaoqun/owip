@@ -1,6 +1,6 @@
 package controller.pcs.proposal;
 
-import controller.PcsBaseController;
+import controller.pcs.PcsBaseController;
 import domain.pcs.PcsConfig;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;

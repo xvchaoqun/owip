@@ -1,6 +1,6 @@
 package controller.pcs.vote;
 
-import controller.PcsBaseController;
+import controller.pcs.PcsBaseController;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsVoteGroup;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

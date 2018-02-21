@@ -1,6 +1,6 @@
 package controller.user.abroad;
 
-import controller.AbroadBaseController;
+import controller.abroad.AbroadBaseController;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyExample;
 import domain.cadre.CadreView;

@@ -1,6 +1,6 @@
 package controller.sc.scCommittee;
 
-import controller.ScCommitteeBaseController;
+import domain.cadre.CadreView;
 import domain.sc.scCommittee.ScCommittee;
 import domain.sc.scCommittee.ScCommitteeExample;
 import domain.sc.scCommittee.ScCommitteeMember;
@@ -184,6 +184,16 @@ public class ScCommitteeController extends ScCommitteeBaseController {
         }
 
         return "sc/scCommittee/scCommittee/scCommittee_au";
+    }
+
+    @RequiresPermissions("scCommittee:list")
+    @RequestMapping("/scCommittee_selectCadres")
+    @ResponseBody
+    public void scCommittee_au(int committeeId, HttpServletResponse response) throws IOException {
+
+        List<CadreView> cadreViews = iScMapper.selectScAdCadres(committeeId);
+
+        JSONUtils.write(response, cadreViews, "id", "code", "realname","unit","unit.name","title");
     }
 
     @RequiresPermissions("scCommittee:del")

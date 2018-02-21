@@ -1,6 +1,5 @@
 package controller.crs;
 
-import controller.CrsBaseController;
 import domain.crs.CrsApplicantStatView;
 import domain.crs.CrsApplicantStatViewExample;
 import domain.crs.CrsCandidateView;

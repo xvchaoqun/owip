@@ -1,6 +1,6 @@
 package controller.user.crs;
 
-import controller.CrsBaseController;
+import controller.crs.CrsBaseController;
 import controller.global.OpException;
 import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantExample;

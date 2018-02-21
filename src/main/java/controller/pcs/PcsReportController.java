@@ -1,7 +1,6 @@
 package controller.pcs;
 
 import com.lowagie.text.DocumentException;
-import controller.PcsBaseController;
 import domain.base.MetaType;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrCandidateView;

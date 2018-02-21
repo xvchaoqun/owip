@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

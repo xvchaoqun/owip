@@ -1,6 +1,5 @@
 package controller.pcs;
 
-import controller.PcsBaseController;
 import domain.pcs.PcsExcludeBranch;
 import domain.pcs.PcsExcludeBranchExample;
 import domain.pcs.PcsExcludeBranchExample.Criteria;

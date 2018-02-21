@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.party.Branch;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;

@@ -1,6 +1,5 @@
 package controller.train;
 
-import controller.TrainBaseController;
 import domain.train.Train;
 import domain.train.TrainExample;
 import domain.train.TrainExample.Criteria;

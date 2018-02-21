@@ -1,6 +1,6 @@
 package controller.mobile.abroad;
 
-import controller.AbroadBaseController;
+import controller.abroad.AbroadBaseController;
 import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;

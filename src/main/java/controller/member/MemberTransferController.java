@@ -1,7 +1,6 @@
 package controller.member;
 
 import bean.UserBean;
-import controller.MemberBaseController;
 import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberTransfer;

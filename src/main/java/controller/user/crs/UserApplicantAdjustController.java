@@ -1,6 +1,6 @@
 package controller.user.crs;
 
-import controller.CrsBaseController;
+import controller.crs.CrsBaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

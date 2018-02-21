@@ -1,6 +1,5 @@
 package controller.sc.scLetter;
 
-import controller.ScLetterBaseController;
 import controller.global.OpException;
 import domain.sc.scLetter.ScLetter;
 import domain.sc.scLetter.ScLetterItemView;

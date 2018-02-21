@@ -1,6 +1,5 @@
 package controller.sc.scDispatch;
 
-import controller.ScDispatchBaseController;
 import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scCommittee.ScCommitteeVoteViewExample;
 import domain.sc.scDispatch.ScDispatchUser;

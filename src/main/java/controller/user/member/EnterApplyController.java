@@ -1,6 +1,6 @@
 package controller.user.member;
 
-import controller.MemberBaseController;
+import controller.member.MemberBaseController;
 import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberApply;

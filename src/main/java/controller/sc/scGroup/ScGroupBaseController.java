@@ -1,5 +1,6 @@
-package controller;
+package controller.sc.scGroup;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.sc.scGroup.ScGroupFileService;
 import service.sc.scGroup.ScGroupMemberService;

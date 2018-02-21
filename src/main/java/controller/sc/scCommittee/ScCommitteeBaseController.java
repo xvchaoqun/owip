@@ -1,5 +1,6 @@
-package controller;
+package controller.sc.scCommittee;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.sc.scCommittee.ScCommitteeMemberService;
 import service.sc.scCommittee.ScCommitteeOtherVoteService;

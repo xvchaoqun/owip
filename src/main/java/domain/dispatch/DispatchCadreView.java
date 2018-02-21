@@ -8,6 +8,7 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 
 public class DispatchCadreView implements Serializable {
+
     public Dispatch getDispatch(){
         return CmTag.getDispatch(dispatchId);
     }

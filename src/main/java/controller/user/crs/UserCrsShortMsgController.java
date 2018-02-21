@@ -1,6 +1,6 @@
 package controller.user.crs;
 
-import controller.CrsBaseController;
+import controller.crs.CrsBaseController;
 import domain.crs.CrsShortMsg;
 import domain.crs.CrsShortMsgExample;
 import mixin.MixinUtils;

@@ -1,6 +1,5 @@
 package controller.crs;
 
-import controller.CrsBaseController;
 import domain.crs.CrsRequireRule;
 import domain.crs.CrsRequireRuleExample;
 import mixin.MixinUtils;

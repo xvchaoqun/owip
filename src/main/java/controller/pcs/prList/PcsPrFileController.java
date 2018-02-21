@@ -1,6 +1,6 @@
 package controller.pcs.prList;
 
-import controller.PcsBaseController;
+import controller.pcs.PcsBaseController;
 import controller.global.OpException;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsConfig;

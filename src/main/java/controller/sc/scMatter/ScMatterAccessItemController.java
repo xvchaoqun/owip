@@ -1,6 +1,5 @@
 package controller.sc.scMatter;
 
-import controller.ScMatterBaseController;
 import domain.sc.scMatter.ScMatterAccessItem;
 import domain.sc.scMatter.ScMatterAccessItemExample;
 import domain.sc.scMatter.ScMatterAccessItemExample.Criteria;

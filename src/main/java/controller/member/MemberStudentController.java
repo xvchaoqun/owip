@@ -1,6 +1,5 @@
 package controller.member;
 
-import controller.MemberBaseController;
 import domain.member.MemberStay;
 import domain.member.MemberStudent;
 import domain.member.MemberStudentExample;

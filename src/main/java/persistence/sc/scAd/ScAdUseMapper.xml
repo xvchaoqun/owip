@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.scAd.ScAdUseMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.scAd.ScAdUse">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="use_date" jdbcType="DATE" property="useDate" />
+    <result column="is_on_campus" jdbcType="BIT" property="isOnCampus" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="out_unit" jdbcType="VARCHAR" property="outUnit" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="is_adform_saved" jdbcType="BIT" property="isAdformSaved" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="sign_file_path" jdbcType="VARCHAR" property="signFilePath" />
+    <result column="useage" jdbcType="VARCHAR" property="useage" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.sc.scAd.ScAdUse">
+    <result column="adform" jdbcType="LONGVARCHAR" property="adform" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, year, use_date, is_on_campus, unit_id, out_unit, cadre_id, is_adform_saved, file_path, 
+    sign_file_path, useage, remark
+  </sql>
+  <sql id="Blob_Column_List">
+    adform
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="domain.sc.scAd.ScAdUseExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sc_ad_use
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="domain.sc.scAd.ScAdUseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_ad_use
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sc_ad_use
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sc_ad_use
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.sc.scAd.ScAdUseExample">
+    delete from sc_ad_use
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.sc.scAd.ScAdUse">
+    insert into sc_ad_use (id, year, use_date, 
+      is_on_campus, unit_id, out_unit, 
+      cadre_id, is_adform_saved, file_path, 
+      sign_file_path, useage, remark, 
+      adform)
+    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{useDate,jdbcType=DATE}, 
+      #{isOnCampus,jdbcType=BIT}, #{unitId,jdbcType=INTEGER}, #{outUnit,jdbcType=VARCHAR}, 
+      #{cadreId,jdbcType=INTEGER}, #{isAdformSaved,jdbcType=BIT}, #{filePath,jdbcType=VARCHAR}, 
+      #{signFilePath,jdbcType=VARCHAR}, #{useage,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{adform,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.sc.scAd.ScAdUse">
+    insert into sc_ad_use
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="useDate != null">
+        use_date,
+      </if>
+      <if test="isOnCampus != null">
+        is_on_campus,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="outUnit != null">
+        out_unit,
+      </if>
+      <if test="cadreId != null">
+        cadre_id,
+      </if>
+      <if test="isAdformSaved != null">
+        is_adform_saved,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="signFilePath != null">
+        sign_file_path,
+      </if>
+      <if test="useage != null">
+        useage,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="adform != null">
+        adform,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="useDate != null">
+        #{useDate,jdbcType=DATE},
+      </if>
+      <if test="isOnCampus != null">
+        #{isOnCampus,jdbcType=BIT},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="outUnit != null">
+        #{outUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="cadreId != null">
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="isAdformSaved != null">
+        #{isAdformSaved,jdbcType=BIT},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="signFilePath != null">
+        #{signFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="useage != null">
+        #{useage,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="adform != null">
+        #{adform,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.sc.scAd.ScAdUseExample" resultType="java.lang.Long">
+    select count(*) from sc_ad_use
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sc_ad_use
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.useDate != null">
+        use_date = #{record.useDate,jdbcType=DATE},
+      </if>
+      <if test="record.isOnCampus != null">
+        is_on_campus = #{record.isOnCampus,jdbcType=BIT},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.outUnit != null">
+        out_unit = #{record.outUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cadreId != null">
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isAdformSaved != null">
+        is_adform_saved = #{record.isAdformSaved,jdbcType=BIT},
+      </if>
+      <if test="record.filePath != null">
+        file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signFilePath != null">
+        sign_file_path = #{record.signFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.useage != null">
+        useage = #{record.useage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adform != null">
+        adform = #{record.adform,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update sc_ad_use
+    set id = #{record.id,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      use_date = #{record.useDate,jdbcType=DATE},
+      is_on_campus = #{record.isOnCampus,jdbcType=BIT},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      out_unit = #{record.outUnit,jdbcType=VARCHAR},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      is_adform_saved = #{record.isAdformSaved,jdbcType=BIT},
+      file_path = #{record.filePath,jdbcType=VARCHAR},
+      sign_file_path = #{record.signFilePath,jdbcType=VARCHAR},
+      useage = #{record.useage,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      adform = #{record.adform,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sc_ad_use
+    set id = #{record.id,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      use_date = #{record.useDate,jdbcType=DATE},
+      is_on_campus = #{record.isOnCampus,jdbcType=BIT},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      out_unit = #{record.outUnit,jdbcType=VARCHAR},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      is_adform_saved = #{record.isAdformSaved,jdbcType=BIT},
+      file_path = #{record.filePath,jdbcType=VARCHAR},
+      sign_file_path = #{record.signFilePath,jdbcType=VARCHAR},
+      useage = #{record.useage,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.sc.scAd.ScAdUse">
+    update sc_ad_use
+    <set>
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="useDate != null">
+        use_date = #{useDate,jdbcType=DATE},
+      </if>
+      <if test="isOnCampus != null">
+        is_on_campus = #{isOnCampus,jdbcType=BIT},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="outUnit != null">
+        out_unit = #{outUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="cadreId != null">
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="isAdformSaved != null">
+        is_adform_saved = #{isAdformSaved,jdbcType=BIT},
+      </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="signFilePath != null">
+        sign_file_path = #{signFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="useage != null">
+        useage = #{useage,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="adform != null">
+        adform = #{adform,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.sc.scAd.ScAdUse">
+    update sc_ad_use
+    set year = #{year,jdbcType=INTEGER},
+      use_date = #{useDate,jdbcType=DATE},
+      is_on_campus = #{isOnCampus,jdbcType=BIT},
+      unit_id = #{unitId,jdbcType=INTEGER},
+      out_unit = #{outUnit,jdbcType=VARCHAR},
+      cadre_id = #{cadreId,jdbcType=INTEGER},
+      is_adform_saved = #{isAdformSaved,jdbcType=BIT},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      sign_file_path = #{signFilePath,jdbcType=VARCHAR},
+      useage = #{useage,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      adform = #{adform,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.sc.scAd.ScAdUse">
+    update sc_ad_use
+    set year = #{year,jdbcType=INTEGER},
+      use_date = #{useDate,jdbcType=DATE},
+      is_on_campus = #{isOnCampus,jdbcType=BIT},
+      unit_id = #{unitId,jdbcType=INTEGER},
+      out_unit = #{outUnit,jdbcType=VARCHAR},
+      cadre_id = #{cadreId,jdbcType=INTEGER},
+      is_adform_saved = #{isAdformSaved,jdbcType=BIT},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      sign_file_path = #{signFilePath,jdbcType=VARCHAR},
+      useage = #{useage,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.sc.scAd.ScAdUseExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sc_ad_use
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scAd.ScAdUseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_ad_use
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

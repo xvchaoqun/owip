@@ -1,6 +1,5 @@
 package controller.crs;
 
-import controller.CrsBaseController;
 import domain.crs.CrsApplyRule;
 import domain.crs.CrsApplyRuleExample;
 import domain.crs.CrsApplyRuleExample.Criteria;

@@ -116,6 +116,7 @@ public class SystemConstants {
     public static final String LOG_SC_COMMITTEE = "mt_log_sc_committee"; // 干部选拔任用-党委常委会议题
     public static final String LOG_SC_PUBLIC = "mt_log_sc_public"; // 干部选拔任用-干部任前公示
     public static final String LOG_SC_DISPATCH = "mt_log_sc_dispatch"; // 干部选拔任用-文件起草签发
+    public static final String LOG_SC_AD = "mt_log_sc_ad"; // 干部选拔任用-干部任免审批表
 
     public static final String RESOURCE_TYPE_FUNCTION = "function";
     public static final String RESOURCE_TYPE_URL = "url";

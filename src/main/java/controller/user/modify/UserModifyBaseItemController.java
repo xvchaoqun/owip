@@ -1,6 +1,6 @@
 package controller.user.modify;
 
-import controller.ModifyBaseController;
+import controller.modify.ModifyBaseController;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseItem;
 import domain.sys.SysUserView;

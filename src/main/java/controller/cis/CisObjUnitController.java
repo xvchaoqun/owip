@@ -1,6 +1,5 @@
 package controller.cis;
 
-import controller.CisBaseController;
 import domain.cis.CisObjUnit;
 import domain.cis.CisObjUnitExample;
 import domain.cis.CisObjUnitExample.Criteria;

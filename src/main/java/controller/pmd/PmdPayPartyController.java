@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.pmd.PmdPayPartyView;
 import domain.pmd.PmdPayPartyViewExample;
 import mixin.MixinUtils;

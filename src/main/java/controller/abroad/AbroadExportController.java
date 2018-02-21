@@ -1,7 +1,6 @@
 package controller.abroad;
 
 import bean.ApproverTypeBean;
-import controller.AbroadBaseController;
 import controller.global.OpException;
 import domain.abroad.ApplySelf;
 import domain.cadre.CadreView;

@@ -224,6 +224,10 @@ import persistence.pmd.PmdPayBranchViewMapper;
 import persistence.pmd.PmdPayPartyMapper;
 import persistence.pmd.PmdPayPartyViewMapper;
 import persistence.pmd.PmdSpecialUserMapper;
+import persistence.sc.scAd.ScAdArchiveMapper;
+import persistence.sc.scAd.ScAdArchiveViewMapper;
+import persistence.sc.scAd.ScAdArchiveVoteMapper;
+import persistence.sc.scAd.ScAdUseMapper;
 import persistence.sc.scCommittee.ScCommitteeMapper;
 import persistence.sc.scCommittee.ScCommitteeMemberMapper;
 import persistence.sc.scCommittee.ScCommitteeMemberViewMapper;
@@ -372,6 +376,18 @@ public class BaseMapper {
         Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, sortOrder, whereSql);
         return (maxSortOrder == null ? 1 : maxSortOrder + 1);
     }
+
+    /**
+     * 干部选拔-干部任免审批表
+     */
+    @Autowired
+    protected ScAdArchiveMapper scAdArchiveMapper;
+    @Autowired
+    protected ScAdArchiveViewMapper scAdArchiveViewMapper;
+    @Autowired
+    protected ScAdArchiveVoteMapper scAdArchiveVoteMapper;
+    @Autowired
+    protected ScAdUseMapper scAdUseMapper;
 
     /**
      * 干部选拔-干部起草文件

@@ -1,5 +1,6 @@
-package controller;
+package controller.sc.scMatter;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.sc.scMatter.ScMatterAccessItemService;
 import service.sc.scMatter.ScMatterAccessService;

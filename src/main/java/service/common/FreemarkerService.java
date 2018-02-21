@@ -78,7 +78,7 @@ public class FreemarkerService {
     }
 
     // 按段落读取kindEditor中的内容（段首缩进）
-    public String genEditorSegment(String content) throws IOException, TemplateException {
+    /*public String genEditorSegment(String content) throws IOException, TemplateException {
 
         List<String> rows = new ArrayList();
 
@@ -98,10 +98,10 @@ public class FreemarkerService {
         dataMap.put("dataList", rows);
 
         return process("/common/editor.ftl", dataMap);
-    }
+    }*/
 
     // 按段落读取textarea（段首缩进）
-    public String genTextareaSegment(String content) throws IOException, TemplateException {
+    public String genTextareaSegment(String content, String tpl) throws IOException, TemplateException {
 
         if (StringUtils.isBlank(content)) return null;
 
@@ -110,13 +110,16 @@ public class FreemarkerService {
         String[] strings = content.split("\n");
         for (String str : strings) {
             String plainText = HtmlEscapeUtils.getTextFromHTML(str);
-            rows.add(HtmlUtils.htmlEscapeDecimal(plainText));
+            plainText = HtmlUtils.htmlEscapeDecimal(plainText);
+            if(StringUtils.isBlank(plainText)) continue;
+
+            rows.add(plainText);
         }
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("dataList", rows);
 
-        return process("/common/textarea.ftl", dataMap);
+        return process(tpl, dataMap);
     }
 
     // 一行末尾带冒号，则认为是标题行。
@@ -242,12 +245,16 @@ public class FreemarkerService {
 
     public static void main(String[] args) {
 
-        String content = "<p class=\"MsoNormal\" align=\"left\" style=\"font-size:18.6667px;text-indent:28.8pt;\">\n" +
+        /*String content = "<p class=\"MsoNormal\" align=\"left\" style=\"font-size:18.6667px;text-indent:28.8pt;\">\n" +
                 "\t该同志政治立场<b>坚定</b>，思想觉悟较高。工作积极投入、认真负责。业务水平高，具有较强的协调能力，对外联络能力强，有创新精神。为人热情开朗，待人诚恳、乐于助人、团结同事，群众基础较好。\n" +
                 "</p>\n" +
                 "<p class=\"MsoNormal\" align=\"left\" style=\"font-size:18.6667px;text-indent:28.8pt;\">\n" +
                 "\t<b>不足或希望：</b>希望工作中多思考，多研究，不断完善制度建设，使共建工作的管理更加顺畅。\n" +
-                "</p>";
+                "</p>";*/
+        String content = "<p class=\"MsoNormal\" align=\"left\" style=\"font-size:18.6667px;text-indent:28.8pt;\">\n" +
+                "\t该同志政治立场<b>坚定</b>，思想觉悟较高。工作积极投入、认真负责。业务水平高，具有较强的协调能力，对外联络能力强，有创新精神。为人热情开朗，待人诚恳、乐于助人、团结同事，群众基础较好。\n" +
+                "</p>\n" +
+                "\t<b>不足或希望：</b>希望工作中多思考，多研究，不断完善制度建设，使共建工作的管理更加顺畅。\n";
         Document doc = Jsoup.parse(content);
         Elements p1 = doc.getElementsByTag("p");
 

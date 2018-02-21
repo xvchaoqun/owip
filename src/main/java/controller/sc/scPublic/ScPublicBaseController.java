@@ -1,5 +1,6 @@
-package controller;
+package controller.sc.scPublic;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.sc.scPublic.ScPublicService;
 import service.sc.scPublic.ScPublicUserService;

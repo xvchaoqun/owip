@@ -1,6 +1,5 @@
 package controller.abroad;
 
-import controller.AbroadBaseController;
 import domain.abroad.Approver;
 import domain.abroad.ApproverExample;
 import domain.abroad.ApproverExample.Criteria;

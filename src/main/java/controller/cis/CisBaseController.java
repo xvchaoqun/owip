@@ -1,5 +1,6 @@
-package controller;
+package controller.cis;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.cis.CisEvaluateService;
 import service.cis.CisInspectObjService;

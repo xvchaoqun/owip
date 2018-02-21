@@ -1,6 +1,5 @@
 package controller.member;
 
-import controller.MemberBaseController;
 import domain.member.Member;
 import domain.member.MemberAbroad;
 import domain.member.MemberAbroadView;

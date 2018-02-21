@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.party.Branch;
 import domain.party.BranchExample;
 import domain.party.Party;

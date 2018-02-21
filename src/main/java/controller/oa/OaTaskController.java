@@ -1,6 +1,5 @@
 package controller.oa;
 
-import controller.OaBaseController;
 import domain.cadre.CadreView;
 import domain.oa.OaTask;
 import domain.oa.OaTaskFile;

@@ -1,7 +1,6 @@
 package controller.sc.scMatter;
 
 import com.lowagie.text.DocumentException;
-import controller.ScMatterBaseController;
 import domain.sc.scMatter.ScMatterAccess;
 import domain.sc.scMatter.ScMatterAccessItemView;
 import domain.sc.scMatter.ScMatterAccessItemViewExample;

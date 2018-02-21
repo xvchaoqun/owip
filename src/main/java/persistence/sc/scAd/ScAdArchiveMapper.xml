@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.scAd.ScAdArchiveMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.scAd.ScAdArchive">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="is_adform_saved" jdbcType="BIT" property="isAdformSaved" />
+    <result column="has_appoint" jdbcType="BIT" property="hasAppoint" />
+    <result column="obj_id" jdbcType="INTEGER" property="objId" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="sign_file_path" jdbcType="VARCHAR" property="signFilePath" />
+    <result column="cis_file_path" jdbcType="VARCHAR" property="cisFilePath" />
+    <result column="cis_sign_file_path" jdbcType="VARCHAR" property="cisSignFilePath" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.sc.scAd.ScAdArchiveWithBLOBs">
+    <result column="adform" jdbcType="LONGVARCHAR" property="adform" />
+    <result column="cis" jdbcType="LONGVARCHAR" property="cis" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, committee_id, cadre_id, is_adform_saved, has_appoint, obj_id, file_path, sign_file_path, 
+    cis_file_path, cis_sign_file_path, remark
+  </sql>
+  <sql id="Blob_Column_List">
+    adform, cis
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="domain.sc.scAd.ScAdArchiveExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sc_ad_archive
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="domain.sc.scAd.ScAdArchiveExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_ad_archive
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sc_ad_archive
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sc_ad_archive
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.sc.scAd.ScAdArchiveExample">
+    delete from sc_ad_archive
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.sc.scAd.ScAdArchiveWithBLOBs">
+    insert into sc_ad_archive (id, committee_id, cadre_id, 
+      is_adform_saved, has_appoint, obj_id, 
+      file_path, sign_file_path, cis_file_path, 
+      cis_sign_file_path, remark, adform, 
+      cis)
+    values (#{id,jdbcType=INTEGER}, #{committeeId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
+      #{isAdformSaved,jdbcType=BIT}, #{hasAppoint,jdbcType=BIT}, #{objId,jdbcType=INTEGER}, 
+      #{filePath,jdbcType=VARCHAR}, #{signFilePath,jdbcType=VARCHAR}, #{cisFilePath,jdbcType=VARCHAR}, 
+      #{cisSignFilePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{adform,jdbcType=LONGVARCHAR}, 
+      #{cis,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.sc.scAd.ScAdArchiveWithBLOBs">
+    insert into sc_ad_archive
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="committeeId != null">
+        committee_id,
+      </if>
+      <if test="cadreId != null">
+        cadre_id,
+      </if>
+      <if test="isAdformSaved != null">
+        is_adform_saved,
+      </if>
+      <if test="hasAppoint != null">
+        has_appoint,
+      </if>
+      <if test="objId != null">
+        obj_id,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="signFilePath != null">
+        sign_file_path,
+      </if>
+      <if test="cisFilePath != null">
+        cis_file_path,
+      </if>
+      <if test="cisSignFilePath != null">
+        cis_sign_file_path,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="adform != null">
+        adform,
+      </if>
+      <if test="cis != null">
+        cis,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="committeeId != null">
+        #{committeeId,jdbcType=INTEGER},
+      </if>
+      <if test="cadreId != null">
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="isAdformSaved != null">
+        #{isAdformSaved,jdbcType=BIT},
+      </if>
+      <if test="hasAppoint != null">
+        #{hasAppoint,jdbcType=BIT},
+      </if>
+      <if test="objId != null">
+        #{objId,jdbcType=INTEGER},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="signFilePath != null">
+        #{signFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="cisFilePath != null">
+        #{cisFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="cisSignFilePath != null">
+        #{cisSignFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="adform != null">
+        #{adform,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="cis != null">
+        #{cis,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.sc.scAd.ScAdArchiveExample" resultType="java.lang.Long">
+    select count(*) from sc_ad_archive
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sc_ad_archive
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.committeeId != null">
+        committee_id = #{record.committeeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cadreId != null">
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isAdformSaved != null">
+        is_adform_saved = #{record.isAdformSaved,jdbcType=BIT},
+      </if>
+      <if test="record.hasAppoint != null">
+        has_appoint = #{record.hasAppoint,jdbcType=BIT},
+      </if>
+      <if test="record.objId != null">
+        obj_id = #{record.objId,jdbcType=INTEGER},
+      </if>
+      <if test="record.filePath != null">
+        file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signFilePath != null">
+        sign_file_path = #{record.signFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cisFilePath != null">
+        cis_file_path = #{record.cisFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cisSignFilePath != null">
+        cis_sign_file_path = #{record.cisSignFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adform != null">
+        adform = #{record.adform,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.cis != null">
+        cis = #{record.cis,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update sc_ad_archive
+    set id = #{record.id,jdbcType=INTEGER},
+      committee_id = #{record.committeeId,jdbcType=INTEGER},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      is_adform_saved = #{record.isAdformSaved,jdbcType=BIT},
+      has_appoint = #{record.hasAppoint,jdbcType=BIT},
+      obj_id = #{record.objId,jdbcType=INTEGER},
+      file_path = #{record.filePath,jdbcType=VARCHAR},
+      sign_file_path = #{record.signFilePath,jdbcType=VARCHAR},
+      cis_file_path = #{record.cisFilePath,jdbcType=VARCHAR},
+      cis_sign_file_path = #{record.cisSignFilePath,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      adform = #{record.adform,jdbcType=LONGVARCHAR},
+      cis = #{record.cis,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sc_ad_archive
+    set id = #{record.id,jdbcType=INTEGER},
+      committee_id = #{record.committeeId,jdbcType=INTEGER},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      is_adform_saved = #{record.isAdformSaved,jdbcType=BIT},
+      has_appoint = #{record.hasAppoint,jdbcType=BIT},
+      obj_id = #{record.objId,jdbcType=INTEGER},
+      file_path = #{record.filePath,jdbcType=VARCHAR},
+      sign_file_path = #{record.signFilePath,jdbcType=VARCHAR},
+      cis_file_path = #{record.cisFilePath,jdbcType=VARCHAR},
+      cis_sign_file_path = #{record.cisSignFilePath,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.sc.scAd.ScAdArchiveWithBLOBs">
+    update sc_ad_archive
+    <set>
+      <if test="committeeId != null">
+        committee_id = #{committeeId,jdbcType=INTEGER},
+      </if>
+      <if test="cadreId != null">
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="isAdformSaved != null">
+        is_adform_saved = #{isAdformSaved,jdbcType=BIT},
+      </if>
+      <if test="hasAppoint != null">
+        has_appoint = #{hasAppoint,jdbcType=BIT},
+      </if>
+      <if test="objId != null">
+        obj_id = #{objId,jdbcType=INTEGER},
+      </if>
+      <if test="filePath != null">
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="signFilePath != null">
+        sign_file_path = #{signFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="cisFilePath != null">
+        cis_file_path = #{cisFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="cisSignFilePath != null">
+        cis_sign_file_path = #{cisSignFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="adform != null">
+        adform = #{adform,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="cis != null">
+        cis = #{cis,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.sc.scAd.ScAdArchiveWithBLOBs">
+    update sc_ad_archive
+    set committee_id = #{committeeId,jdbcType=INTEGER},
+      cadre_id = #{cadreId,jdbcType=INTEGER},
+      is_adform_saved = #{isAdformSaved,jdbcType=BIT},
+      has_appoint = #{hasAppoint,jdbcType=BIT},
+      obj_id = #{objId,jdbcType=INTEGER},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      sign_file_path = #{signFilePath,jdbcType=VARCHAR},
+      cis_file_path = #{cisFilePath,jdbcType=VARCHAR},
+      cis_sign_file_path = #{cisSignFilePath,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      adform = #{adform,jdbcType=LONGVARCHAR},
+      cis = #{cis,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.sc.scAd.ScAdArchive">
+    update sc_ad_archive
+    set committee_id = #{committeeId,jdbcType=INTEGER},
+      cadre_id = #{cadreId,jdbcType=INTEGER},
+      is_adform_saved = #{isAdformSaved,jdbcType=BIT},
+      has_appoint = #{hasAppoint,jdbcType=BIT},
+      obj_id = #{objId,jdbcType=INTEGER},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      sign_file_path = #{signFilePath,jdbcType=VARCHAR},
+      cis_file_path = #{cisFilePath,jdbcType=VARCHAR},
+      cis_sign_file_path = #{cisSignFilePath,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.sc.scAd.ScAdArchiveExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sc_ad_archive
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scAd.ScAdArchiveExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_ad_archive
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

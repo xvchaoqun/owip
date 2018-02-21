@@ -1,6 +1,5 @@
 package controller.sc.scGroup;
 
-import controller.ScGroupBaseController;
 import controller.global.OpException;
 import domain.sc.scGroup.ScGroup;
 import domain.sc.scGroup.ScGroupExample;

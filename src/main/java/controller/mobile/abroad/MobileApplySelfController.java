@@ -3,7 +3,7 @@ package controller.mobile.abroad;
 import bean.ApprovalResult;
 import bean.ApproverTypeBean;
 import bean.m.Breadcrumb;
-import controller.AbroadBaseController;
+import controller.abroad.AbroadBaseController;
 import controller.global.OpException;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApplySelfExample;

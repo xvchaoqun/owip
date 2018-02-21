@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.member.Member;
 import domain.pmd.PmdBranch;
 import domain.pmd.PmdConfigMember;

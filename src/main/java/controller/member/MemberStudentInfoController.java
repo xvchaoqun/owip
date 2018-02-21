@@ -1,6 +1,5 @@
 package controller.member;
 
-import controller.MemberBaseController;
 import controller.global.OpException;
 import domain.sys.StudentInfo;
 import domain.sys.SysUserInfo;

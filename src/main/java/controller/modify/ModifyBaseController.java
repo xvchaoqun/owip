@@ -1,5 +1,6 @@
-package controller;
+package controller.modify;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.modify.ModifyBaseApplyService;
 import service.modify.ModifyBaseItemService;

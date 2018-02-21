@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.pmd.PmdNormValueLog;
 import domain.pmd.PmdNormValueLogExample;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

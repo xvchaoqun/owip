@@ -2,7 +2,6 @@ package controller.member;
 
 import bean.UserBean;
 import com.lowagie.text.DocumentException;
-import controller.MemberBaseController;
 import domain.member.MemberOut;
 import domain.member.MemberStay;
 import domain.party.Branch;

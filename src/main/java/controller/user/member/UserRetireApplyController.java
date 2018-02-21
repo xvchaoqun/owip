@@ -1,6 +1,6 @@
 package controller.user.member;
 
-import controller.MemberBaseController;
+import controller.member.MemberBaseController;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.party.RetireApply;

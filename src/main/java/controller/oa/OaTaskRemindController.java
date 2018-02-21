@@ -1,6 +1,5 @@
 package controller.oa;
 
-import controller.OaBaseController;
 import domain.oa.OaTaskRemind;
 import domain.oa.OaTaskRemindExample;
 import domain.oa.OaTaskRemindExample.Criteria;

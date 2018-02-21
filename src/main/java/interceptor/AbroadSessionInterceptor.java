@@ -1,6 +1,6 @@
 package interceptor;
 
-import controller.AbroadBaseController;
+import controller.abroad.AbroadBaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.ModelMap;

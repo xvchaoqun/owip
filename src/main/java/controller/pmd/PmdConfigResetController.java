@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.pmd.PmdConfigReset;
 import domain.pmd.PmdConfigResetExample;
 import org.apache.ibatis.session.RowBounds;

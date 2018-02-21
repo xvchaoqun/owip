@@ -1,6 +1,5 @@
 package controller.abroad;
 
-import controller.AbroadBaseController;
 import domain.abroad.ApplySelf;
 import domain.abroad.Passport;
 import domain.abroad.PassportDraw;

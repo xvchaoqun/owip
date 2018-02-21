@@ -1,6 +1,5 @@
 package controller.sc.scMatter;
 
-import controller.ScMatterBaseController;
 import domain.sc.scMatter.ScMatter;
 import domain.sc.scMatter.ScMatterExample;
 import domain.sc.scMatter.ScMatterExample.Criteria;

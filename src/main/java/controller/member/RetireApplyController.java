@@ -1,6 +1,5 @@
 package controller.member;
 
-import controller.MemberBaseController;
 import domain.party.RetireApply;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.UnauthorizedException;

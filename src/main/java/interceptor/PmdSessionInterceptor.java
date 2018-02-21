@@ -1,6 +1,6 @@
 package interceptor;
 
-import controller.PmdBaseController;
+import controller.pmd.PmdBaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.ModelMap;

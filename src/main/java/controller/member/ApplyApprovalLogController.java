@@ -1,6 +1,5 @@
 package controller.member;
 
-import controller.MemberBaseController;
 import domain.member.ApplyApprovalLog;
 import domain.member.ApplyApprovalLogExample;
 import domain.member.MemberAbroad;

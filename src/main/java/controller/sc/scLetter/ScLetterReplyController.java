@@ -1,6 +1,5 @@
 package controller.sc.scLetter;
 
-import controller.ScLetterBaseController;
 import domain.sc.scLetter.ScLetterItemView;
 import domain.sc.scLetter.ScLetterItemViewExample;
 import domain.sc.scLetter.ScLetterReply;

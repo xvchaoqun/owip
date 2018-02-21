@@ -1,6 +1,6 @@
 package controller.mobile.train;
 
-import controller.TrainBaseController;
+import controller.train.TrainBaseController;
 import domain.train.Train;
 import domain.train.TrainInspector;
 import org.apache.commons.lang.StringUtils;

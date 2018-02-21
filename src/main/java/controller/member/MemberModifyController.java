@@ -1,6 +1,5 @@
 package controller.member;
 
-import controller.MemberBaseController;
 import domain.member.MemberModify;
 import domain.member.MemberModifyExample;
 import mixin.MixinUtils;

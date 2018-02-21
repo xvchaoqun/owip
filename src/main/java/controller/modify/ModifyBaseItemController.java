@@ -1,6 +1,5 @@
 package controller.modify;
 
-import controller.ModifyBaseController;
 import domain.cadre.CadreView;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseItem;

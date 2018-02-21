@@ -1,6 +1,5 @@
 package controller.sc.scMatter;
 
-import controller.ScMatterBaseController;
 import domain.base.MetaClass;
 import domain.base.MetaType;
 import org.apache.shiro.authz.UnauthorizedException;

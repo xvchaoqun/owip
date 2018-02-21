@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import controller.global.OpException;
 import domain.member.Member;
 import domain.pmd.PmdMember;

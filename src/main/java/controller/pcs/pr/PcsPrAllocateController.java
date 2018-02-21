@@ -1,6 +1,6 @@
 package controller.pcs.pr;
 
-import controller.PcsBaseController;
+import controller.pcs.PcsBaseController;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrAllocate;
 import org.apache.ibatis.session.RowBounds;

@@ -1,6 +1,5 @@
 package controller.sc.scPublic;
 
-import controller.ScPublicBaseController;
 import controller.global.OpException;
 import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scCommittee.ScCommitteeVoteViewExample;

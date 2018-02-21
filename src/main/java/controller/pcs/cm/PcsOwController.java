@@ -1,6 +1,6 @@
 package controller.pcs.cm;
 
-import controller.PcsBaseController;
+import controller.pcs.PcsBaseController;
 import domain.party.Branch;
 import domain.party.BranchExample;
 import domain.party.Party;

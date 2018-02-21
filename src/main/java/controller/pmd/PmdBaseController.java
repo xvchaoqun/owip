@@ -1,5 +1,6 @@
-package controller;
+package controller.pmd;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.pmd.PmdBranchAdminService;
 import service.pmd.PmdBranchService;

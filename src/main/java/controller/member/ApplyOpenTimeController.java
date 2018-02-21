@@ -1,6 +1,5 @@
 package controller.member;
 
-import controller.MemberBaseController;
 import domain.member.ApplyOpenTime;
 import domain.member.ApplyOpenTimeExample;
 import domain.member.ApplyOpenTimeExample.Criteria;

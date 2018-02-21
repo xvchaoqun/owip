@@ -1,7 +1,7 @@
 package controller.user.abroad;
 
 import bean.ApprovalResult;
-import controller.AbroadBaseController;
+import controller.abroad.AbroadBaseController;
 import controller.global.OpException;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApplySelfExample;

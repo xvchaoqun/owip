@@ -1,6 +1,6 @@
 package controller.pcs.proposal;
 
-import controller.PcsBaseController;
+import controller.pcs.PcsBaseController;
 import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.pcs.PcsConfig;

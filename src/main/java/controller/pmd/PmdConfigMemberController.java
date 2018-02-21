@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.pmd.PmdConfigMember;
 import domain.pmd.PmdConfigMemberExample;
 import domain.pmd.PmdConfigMemberExample.Criteria;

@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.pmd.PmdBranch;
 import domain.pmd.PmdBranchView;
 import domain.pmd.PmdBranchViewExample;

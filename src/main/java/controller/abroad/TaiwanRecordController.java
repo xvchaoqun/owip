@@ -1,6 +1,5 @@
 package controller.abroad;
 
-import controller.AbroadBaseController;
 import domain.abroad.TaiwanRecord;
 import domain.abroad.TaiwanRecordExample;
 import domain.abroad.TaiwanRecordExample.Criteria;

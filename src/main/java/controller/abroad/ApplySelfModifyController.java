@@ -1,6 +1,5 @@
 package controller.abroad;
 
-import controller.AbroadBaseController;
 import domain.abroad.ApplySelfModify;
 import domain.abroad.ApplySelfModifyExample;
 import mixin.MixinUtils;

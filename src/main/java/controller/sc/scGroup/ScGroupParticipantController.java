@@ -1,6 +1,5 @@
 package controller.sc.scGroup;
 
-import controller.ScGroupBaseController;
 import domain.sc.scGroup.ScGroupParticipant;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;

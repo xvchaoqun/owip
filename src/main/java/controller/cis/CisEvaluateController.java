@@ -1,6 +1,5 @@
 package controller.cis;
 
-import controller.CisBaseController;
 import domain.cis.CisEvaluate;
 import domain.cis.CisEvaluateExample;
 import domain.cis.CisEvaluateExample.Criteria;

@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdMonthExample;
 import mixin.MixinUtils;

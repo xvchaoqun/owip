@@ -1,6 +1,5 @@
 package controller.member;
 
-import controller.MemberBaseController;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.member.MemberTeacher;

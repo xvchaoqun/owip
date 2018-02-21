@@ -1,6 +1,5 @@
 package controller.cis;
 
-import controller.CisBaseController;
 import domain.cis.CisInspectorView;
 import domain.cis.CisObjInspector;
 import domain.cis.CisObjInspectorExample;

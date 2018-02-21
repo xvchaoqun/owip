@@ -1,6 +1,5 @@
 package controller.oa;
 
-import controller.OaBaseController;
 import domain.oa.OaTaskMsg;
 import domain.oa.OaTaskMsgExample;
 import domain.oa.OaTaskMsgExample.Criteria;

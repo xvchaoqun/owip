@@ -1,5 +1,6 @@
 package controller.cadre;
 
+import bean.CadreAdform;
 import controller.BaseController;
 import domain.cadre.CadreView;
 import freemarker.template.TemplateException;
@@ -41,7 +42,7 @@ public class CadreAdformController extends BaseController {
     // 干部任免审批表下载
     @RequiresPermissions("cadreAdform:download")
     @RequestMapping("/cadreAdform_download")
-    public void adform(int cadreId, HttpServletResponse response) throws IOException, TemplateException {
+    public void cadreAdform_download(int cadreId, HttpServletResponse response) throws IOException, TemplateException {
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         //输出文件
@@ -51,8 +52,7 @@ public class CadreAdformController extends BaseController {
                 "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
         response.setContentType("application/msword;charset=UTF-8");
 
-        cadreAdformService.process(cadreId, response.getWriter());
+        CadreAdform adform = cadreAdformService.getCadreAdform(cadreId);
+        cadreAdformService.process(adform, response.getWriter());
     }
-
-
 }

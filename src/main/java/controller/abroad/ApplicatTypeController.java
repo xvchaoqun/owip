@@ -1,6 +1,5 @@
 package controller.abroad;
 
-import controller.AbroadBaseController;
 import domain.abroad.ApplicatType;
 import domain.abroad.ApplicatTypeExample;
 import domain.abroad.ApplicatTypeExample.Criteria;

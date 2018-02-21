@@ -1,6 +1,6 @@
 package controller.pcs.pr;
 
-import controller.PcsBaseController;
+import controller.pcs.PcsBaseController;
 import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.member.Member;

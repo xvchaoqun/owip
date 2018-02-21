@@ -1,6 +1,6 @@
 package controller.crs.crsPostDetail;
 
-import controller.CrsBaseController;
+import controller.crs.CrsBaseController;
 import domain.base.ContentTpl;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsPost;

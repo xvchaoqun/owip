@@ -1,6 +1,5 @@
 package controller.modify;
 
-import controller.ModifyBaseController;
 import domain.modify.ModifyBaseApply;
 import domain.modify.ModifyBaseApplyExample;
 import domain.sys.SysUserView;

@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.pmd.PmdNorm;
 import domain.pmd.PmdNormExample;
 import domain.pmd.PmdNormExample.Criteria;

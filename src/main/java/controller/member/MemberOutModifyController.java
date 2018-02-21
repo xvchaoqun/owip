@@ -1,6 +1,5 @@
 package controller.member;
 
-import controller.MemberBaseController;
 import domain.member.MemberOutModify;
 import domain.member.MemberOutModifyExample;
 import interceptor.OrderParam;

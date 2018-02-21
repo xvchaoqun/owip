@@ -1,6 +1,5 @@
 package controller.sc.scPublic;
 
-import controller.ScPublicBaseController;
 import domain.sc.scPublic.ScPublicUser;
 import domain.sc.scPublic.ScPublicUserExample;
 import domain.sc.scPublic.ScPublicUserExample.Criteria;

@@ -1,7 +1,7 @@
 package controller.mobile.train;
 
 import bean.TrainTempData;
-import controller.TrainBaseController;
+import controller.train.TrainBaseController;
 import controller.global.OpException;
 import domain.train.TrainCourse;
 import domain.train.TrainEvaNorm;

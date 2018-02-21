@@ -1,6 +1,5 @@
 package controller.crs;
 
-import controller.CrsBaseController;
 import domain.crs.CrsTemplate;
 import domain.crs.CrsTemplateExample;
 import domain.crs.CrsTemplateExample.Criteria;

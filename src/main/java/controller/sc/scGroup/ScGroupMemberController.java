@@ -1,6 +1,5 @@
 package controller.sc.scGroup;
 
-import controller.ScGroupBaseController;
 import domain.ext.ExtJzg;
 import domain.sc.scGroup.ScGroupMember;
 import domain.sc.scGroup.ScGroupMemberExample;

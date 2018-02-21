@@ -1,6 +1,5 @@
 package controller.cis;
 
-import controller.CisBaseController;
 import domain.cis.CisInspectObj;
 import domain.cis.CisInspectObjView;
 import domain.cis.CisInspectObjViewExample;
@@ -292,7 +291,7 @@ public class CisInspectObjController extends CisBaseController {
                 "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
         response.setContentType("application/msword;charset=UTF-8");
 
-        cisInspectObjService.process(objId, response.getWriter());
+        cisInspectObjService.process(cisInspectObjService.getDataMap(cisInspectObj), response.getWriter());
     }
 
     @RequiresPermissions("cisInspectObj:del")

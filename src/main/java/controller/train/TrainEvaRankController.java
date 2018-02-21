@@ -1,6 +1,5 @@
 package controller.train;
 
-import controller.TrainBaseController;
 import domain.train.TrainEvaRank;
 import domain.train.TrainEvaRankExample;
 import domain.train.TrainEvaRankExample.Criteria;

@@ -1,6 +1,5 @@
 package controller.sc.scCommittee;
 
-import controller.ScCommitteeBaseController;
 import domain.sc.scCommittee.ScCommitteeMember;
 import domain.sc.scCommittee.ScCommitteeMemberExample;
 import domain.sc.scCommittee.ScCommitteeMemberView;

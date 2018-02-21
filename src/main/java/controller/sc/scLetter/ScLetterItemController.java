@@ -1,6 +1,5 @@
 package controller.sc.scLetter;
 
-import controller.ScLetterBaseController;
 import domain.sc.scLetter.ScLetterItem;
 import domain.sc.scLetter.ScLetterItemExample;
 import domain.sc.scLetter.ScLetterItemExample.Criteria;

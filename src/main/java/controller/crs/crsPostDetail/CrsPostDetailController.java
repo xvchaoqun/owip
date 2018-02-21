@@ -1,6 +1,6 @@
 package controller.crs.crsPostDetail;
 
-import controller.CrsBaseController;
+import controller.crs.CrsBaseController;
 import domain.crs.CrsPost;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

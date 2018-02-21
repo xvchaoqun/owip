@@ -1,6 +1,5 @@
 package controller.sc.scCommittee;
 
-import controller.ScCommitteeBaseController;
 import domain.sc.scCommittee.ScCommitteeTopic;
 import domain.sc.scCommittee.ScCommitteeTopicView;
 import domain.sc.scCommittee.ScCommitteeTopicViewExample;

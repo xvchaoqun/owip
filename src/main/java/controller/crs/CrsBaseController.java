@@ -1,5 +1,6 @@
-package controller;
+package controller.crs;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.crs.CrsApplicantCheckService;
 import service.crs.CrsApplicantService;

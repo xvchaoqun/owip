@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.base.ContentTpl;
 import domain.party.Branch;
 import domain.party.Party;

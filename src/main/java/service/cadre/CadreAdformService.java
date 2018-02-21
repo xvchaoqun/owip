@@ -164,52 +164,50 @@ public class CadreAdformService extends BaseMapper{
     }
 
     // 输出任免审批表
-    public void process(int cadreId, Writer out) throws IOException, TemplateException {
-
-        CadreAdform bean = getCadreAdform(cadreId);
+    public void process(CadreAdform adform, Writer out) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put("name", bean.getRealname());
-        dataMap.put("gender", SystemConstants.GENDER_MAP.get(bean.getGender()));
-        dataMap.put("birth", DateUtils.formatDate(bean.getBirth(), "yyyy.MM"));
-        dataMap.put("age", bean.getAge());
-        dataMap.put("avatar", bean.getAvatar());
-        dataMap.put("nation", bean.getNation());
-        dataMap.put("nativePlace", bean.getNativePlace());
-        dataMap.put("homeplace", bean.getHomeplace());
-        dataMap.put("growTime", DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM"));
-        dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM"));
+        dataMap.put("name", adform.getRealname());
+        dataMap.put("gender", SystemConstants.GENDER_MAP.get(adform.getGender()));
+        dataMap.put("birth", DateUtils.formatDate(adform.getBirth(), "yyyy.MM"));
+        dataMap.put("age", adform.getAge());
+        dataMap.put("avatar", adform.getAvatar());
+        dataMap.put("nation", adform.getNation());
+        dataMap.put("nativePlace", adform.getNativePlace());
+        dataMap.put("homeplace", adform.getHomeplace());
+        dataMap.put("growTime", DateUtils.formatDate(adform.getGrowTime(), "yyyy.MM"));
+        dataMap.put("workTime", DateUtils.formatDate(adform.getWorkTime(), "yyyy.MM"));
 
-        dataMap.put("health", bean.getHealth());
-        dataMap.put("proPost", bean.getProPost());
-        dataMap.put("specialty", bean.getSpecialty());
+        dataMap.put("health", adform.getHealth());
+        dataMap.put("proPost", adform.getProPost());
+        dataMap.put("specialty", adform.getSpecialty());
 
-        dataMap.put("edu", bean.getEdu());
-        dataMap.put("degree", bean.getDegree());
-        dataMap.put("schoolDepMajor", bean.getSchoolDepMajor());
-        dataMap.put("inDegree", bean.getInDegree());
-        dataMap.put("inSchoolDepMajor", bean.getInSchoolDepMajor());
+        dataMap.put("edu", adform.getEdu());
+        dataMap.put("degree", adform.getDegree());
+        dataMap.put("schoolDepMajor", adform.getSchoolDepMajor());
+        dataMap.put("inDegree", adform.getInDegree());
+        dataMap.put("inSchoolDepMajor", adform.getInSchoolDepMajor());
 
-        dataMap.put("post", bean.getPost());
-        dataMap.put("inPost", bean.getInPost());
-        dataMap.put("prePost", bean.getPrePost());
-        if(bean.getReward()!=null)
-            dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward()));
-        dataMap.put("ces", bean.getCes());
-        dataMap.put("reason", bean.getReason());
+        dataMap.put("post", adform.getPost());
+        dataMap.put("inPost", adform.getInPost());
+        dataMap.put("prePost", adform.getPrePost());
+        if(adform.getReward()!=null)
+            dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, adform.getReward()));
+        dataMap.put("ces", adform.getCes());
+        dataMap.put("reason", adform.getReason());
 
         dataMap.put("learnDesc", "");
         dataMap.put("workDesc", "");
 
-        if(bean.getLearnDesc()!=null)
-            dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc()));
-        if(bean.getWorkDesc()!=null)
-            dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc()));
-        if(bean.getTrainDesc()!=null)
-            dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, bean.getTrainDesc()));
+        if(adform.getLearnDesc()!=null)
+            dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", adform.getLearnDesc()));
+        if(adform.getWorkDesc()!=null)
+            dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", adform.getWorkDesc()));
+        if(adform.getTrainDesc()!=null)
+            dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, adform.getTrainDesc()));
 
         String famliy = "";
-        List<CadreFamliy> cadreFamliys = bean.getCadreFamliys();
+        List<CadreFamliy> cadreFamliys = adform.getCadreFamliys();
         int size = cadreFamliys.size();
         for (int i=0; i<5; i++) {
             if(size<=i)

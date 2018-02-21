@@ -1,6 +1,6 @@
 package controller.user.member;
 
-import controller.MemberBaseController;
+import controller.member.MemberBaseController;
 import domain.member.MemberStudent;
 import domain.member.MemberTeacher;
 import domain.sys.SysUserView;

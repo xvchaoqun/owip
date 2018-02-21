@@ -1,6 +1,5 @@
 package controller.train;
 
-import controller.TrainBaseController;
 import domain.train.TrainEvaTable;
 import domain.train.TrainEvaTableExample;
 import domain.train.TrainEvaTableExample.Criteria;

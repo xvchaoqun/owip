@@ -1,6 +1,6 @@
 package controller.pcs.pr;
 
-import controller.PcsBaseController;
+import controller.pcs.PcsBaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;

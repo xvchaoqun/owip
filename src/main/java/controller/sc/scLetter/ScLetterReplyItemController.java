@@ -1,6 +1,5 @@
 package controller.sc.scLetter;
 
-import controller.ScLetterBaseController;
 import domain.sc.scLetter.ScLetterReplyItemView;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;

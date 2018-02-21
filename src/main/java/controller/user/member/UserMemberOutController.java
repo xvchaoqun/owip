@@ -1,7 +1,7 @@
 package controller.user.member;
 
 import bean.UserBean;
-import controller.MemberBaseController;
+import controller.member.MemberBaseController;
 import domain.member.Member;
 import domain.member.MemberOut;
 import domain.sys.SysUserView;

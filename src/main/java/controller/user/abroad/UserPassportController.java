@@ -1,6 +1,6 @@
 package controller.user.abroad;
 
-import controller.AbroadBaseController;
+import controller.abroad.AbroadBaseController;
 import domain.abroad.Passport;
 import domain.abroad.PassportDraw;
 import domain.abroad.PassportDrawExample;

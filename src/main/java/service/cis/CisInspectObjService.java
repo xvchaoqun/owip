@@ -16,6 +16,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.HtmlUtils;
 import service.BaseMapper;
 import service.common.FreemarkerService;
 import sys.constants.CisConstants;
@@ -41,9 +42,8 @@ public class CisInspectObjService extends BaseMapper {
     private CisObjInspectorService cisObjInspectorService;
 
     // 输出考察报告
-    public void process(int objId, Writer out) throws IOException, TemplateException {
+    public Map<String, Object> getDataMap(CisInspectObj cisInspectObj) throws IOException, TemplateException {
 
-        CisInspectObj cisInspectObj = cisInspectObjMapper.selectByPrimaryKey(objId);
         CadreView cadre = cisInspectObj.getCadre();
         SysUserView uv = cadre.getUser();
 
@@ -69,7 +69,9 @@ public class CisInspectObjService extends BaseMapper {
             dataMap.put("inspectors", StringUtils.join(names, "，"));
         }
 
-        dataMap.put("info", freemarkerService.genEditorSegment(cisInspectObj.getSummary()));
+        String content = HtmlUtils.htmlUnescape(cisInspectObj.getSummary());
+        dataMap.put("content", content);
+        dataMap.put("info", freemarkerService.genTextareaSegment(content, "/common/editor.ftl"));
 
         CisInspectorView chiefInspector = cisInspectObj.getChiefInspector();
         dataMap.put("chief", chiefInspector.getRealname());
@@ -77,6 +79,12 @@ public class CisInspectObjService extends BaseMapper {
         //dataMap.put("exportDate", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
         dataMap.put("schoolName", CmTag.getSysConfig().getSchoolName());
+
+        return dataMap;
+    }
+
+    public void process(Map<String, Object> dataMap, Writer out) throws IOException, TemplateException {
+
         freemarkerService.process("/cis/evaReport.ftl", dataMap, out);
     }
 

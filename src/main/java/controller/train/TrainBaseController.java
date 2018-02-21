@@ -1,5 +1,6 @@
-package controller;
+package controller.train;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.train.StatTrainService;
 import service.train.TrainCourseService;

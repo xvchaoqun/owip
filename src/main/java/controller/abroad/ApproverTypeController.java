@@ -1,6 +1,5 @@
 package controller.abroad;
 
-import controller.AbroadBaseController;
 import domain.abroad.ApproverBlackList;
 import domain.abroad.ApproverType;
 import domain.abroad.ApproverTypeExample;

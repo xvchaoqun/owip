@@ -1,5 +1,6 @@
-package controller;
+package controller.oa;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.oa.OaTaskMsgService;
 import service.oa.OaTaskRemindService;

@@ -1,5 +1,6 @@
-package controller;
+package controller.abroad;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.abroad.AbroadExportService;
 import service.abroad.ApplicatTypeService;

@@ -2,6 +2,7 @@ package bean;
 
 import domain.cadre.CadreFamliy;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by fafa on 2016/10/29.
  * 干部任免审批表要素
  */
-public class CadreAdform {
+public class CadreAdform  implements Serializable {
 
     private Integer cadreId;
     // 真实姓名

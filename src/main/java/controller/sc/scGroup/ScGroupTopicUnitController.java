@@ -1,6 +1,5 @@
 package controller.sc.scGroup;
 
-import controller.ScGroupBaseController;
 import domain.sc.scGroup.ScGroupTopicUnit;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

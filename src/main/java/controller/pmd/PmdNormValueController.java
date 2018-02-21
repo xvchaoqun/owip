@@ -1,6 +1,5 @@
 package controller.pmd;
 
-import controller.PmdBaseController;
 import domain.pmd.PmdNormValue;
 import domain.pmd.PmdNormValueExample;
 import org.apache.ibatis.session.RowBounds;

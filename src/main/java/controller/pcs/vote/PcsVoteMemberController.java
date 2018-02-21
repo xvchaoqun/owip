@@ -1,6 +1,6 @@
 package controller.pcs.vote;
 
-import controller.PcsBaseController;
+import controller.pcs.PcsBaseController;
 import domain.pcs.PcsVoteMember;
 import domain.pcs.PcsVoteMemberExample;
 import domain.pcs.PcsVoteMemberExample.Criteria;

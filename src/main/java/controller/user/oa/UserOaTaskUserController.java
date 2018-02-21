@@ -1,7 +1,7 @@
 package controller.user.oa;
 
 import bean.ShortMsgBean;
-import controller.OaBaseController;
+import controller.oa.OaBaseController;
 import domain.base.ContentTpl;
 import domain.oa.OaTask;
 import domain.oa.OaTaskUser;

@@ -1,6 +1,5 @@
 package controller.pcs;
 
-import controller.PcsBaseController;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsAdminExample;
 import domain.pcs.PcsAdminExample.Criteria;

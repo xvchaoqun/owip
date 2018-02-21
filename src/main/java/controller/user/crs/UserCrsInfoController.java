@@ -1,6 +1,6 @@
 package controller.user.crs;
 
-import controller.CrsBaseController;
+import controller.crs.CrsBaseController;
 import domain.member.MemberTeacher;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;

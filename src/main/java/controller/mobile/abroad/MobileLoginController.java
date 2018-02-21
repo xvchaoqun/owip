@@ -1,7 +1,7 @@
 package controller.mobile.abroad;
 
 import bean.ApproverTypeBean;
-import controller.AbroadBaseController;
+import controller.abroad.AbroadBaseController;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;

@@ -1,5 +1,6 @@
-package controller;
+package controller.sc.scLetter;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.sc.scLetter.ScLetterItemService;
 import service.sc.scLetter.ScLetterReplyService;

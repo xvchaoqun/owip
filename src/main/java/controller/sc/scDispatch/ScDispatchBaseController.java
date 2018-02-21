@@ -1,5 +1,6 @@
-package controller;
+package controller.sc.scDispatch;
 
+import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.sc.scDispatch.ScDispatchCommitteeService;
 import service.sc.scDispatch.ScDispatchService;

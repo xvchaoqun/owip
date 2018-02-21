@@ -1,6 +1,5 @@
 package controller.sc.scDispatch;
 
-import controller.ScDispatchBaseController;
 import domain.sc.scDispatch.ScDispatchCommittee;
 import domain.sc.scDispatch.ScDispatchCommitteeExample;
 import domain.sc.scDispatch.ScDispatchCommitteeExample.Criteria;

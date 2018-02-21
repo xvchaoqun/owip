@@ -199,7 +199,8 @@ public class CrsExportService extends BaseMapper{
             int cadreId = cadre.getId();
             Map<String, Object> applicantDataMap = cadreInfoFormService.getDataMap(cadreId);
             applicantDataMap.put("postName", postName);
-            applicantDataMap.put("applicantReport", freemarkerService.genTextareaSegment(crsApplicant.getReport()));
+            applicantDataMap.put("applicantReport",
+                    freemarkerService.genTextareaSegment(crsApplicant.getReport(), "/common/textarea.ftl"));
 
             applicants.add(applicantDataMap);
         }
