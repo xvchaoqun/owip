@@ -1,0 +1,38 @@
+{
+  "schema": "db_owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "sc/scAd",
+  "resFolder": "sc",
+  "tables": [
+    {
+      "table": "sc_ad_archive",
+      "key": "id",
+      "searchColumns": "committee_id,cadre_id",
+      "showColumns": "committee_id,cadre_id,sign_file_path,cis_sign_file_path,remark",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_AD",
+      "ignore": false
+    },
+    {
+      "table": "sc_ad_archive_vote",
+      "key": "id",
+      "searchColumns": "archive_id",
+      "showColumns": "archive_id,vote_id",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_AD",
+      "ignore": false
+    },
+    {
+      "table": "sc_ad_use",
+      "key": "id",
+      "searchColumns": "year,use_date",
+      "showColumns": "year,use_date,is_on_campus,unit_id,unit,cadre_id,sign_file_path,useage,remark",
+      "excludeEditColumns": "id",
+      "logType": "SystemConstants.LOG_SC_AD",
+      "ignore": false
+    }
+  ]
+}

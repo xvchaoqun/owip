@@ -54,7 +54,8 @@ public class TplParser {
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-scGroup.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-scCommittee.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-scPublic.json";
-		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-scDispatch.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-scDispatch.json";
+		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-scAd.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-pcs.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-verify.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\json\\tables-base.json";
@@ -66,6 +67,7 @@ public class TplParser {
 		String tablePrefix = jsonNode.path("tablePrefix").getTextValue();
 		//String folder = tablePrefix.substring(0, tablePrefix.length() - 1);
 		String folder = jsonNode.path("folder").getTextValue();
+		String resFolder = jsonNode.path("resFolder").getTextValue();
 		String schema = jsonNode.path("schema").getTextValue();
 		String cpath = jsonNode.path("cpath").getTextValue() + "\\" + folder+ "\\";
 		String spath = jsonNode.path("spath").getTextValue() + "\\" + folder+ "\\";
@@ -101,18 +103,18 @@ public class TplParser {
 
 			String listPageShowColumns = tableNode.path("showColumns").getTextValue();
 			List<ColumnBean> listPageTableColumns= dbOperator.getTableColumns(tablePrefix + tablename, schema, listPageShowColumns, true);
-			genPageJsp(tablename, key,  cnTableName , searchColumnBeans, listPageTableColumns, outpath4Page );
+			genPageJsp(resFolder, tablename, key,  cnTableName , searchColumnBeans, listPageTableColumns, outpath4Page );
 
-			genController(folder, tablePrefix, tablename, key, searchColumnBeans, logType, cnTableName, listPageTableColumns, cpath);
+			genController(folder, resFolder, tablePrefix, tablename, key, searchColumnBeans, logType, cnTableName, listPageTableColumns, cpath);
 
 			String savePageExcludeColumns = tableNode.path("excludeEditColumns").getTextValue();
 			List<ColumnBean> savePageTableColumns= dbOperator.getTableColumns(tablePrefix + tablename, schema, savePageExcludeColumns, false);
-			genCuJsp(tablename, cnTableName, savePageTableColumns, outpath4Page);
+			genCuJsp(resFolder, tablename, cnTableName, savePageTableColumns, outpath4Page);
 		
 		}
 	}
 	
-	public static void genController(String folder, String tablePrefix, String tablesqlname, String key, List<ColumnBean> searchColumnBeans,
+	public static void genController(String folder, String resFolder, String tablePrefix, String tablesqlname, String key, List<ColumnBean> searchColumnBeans,
 									 String logType, String cnTableName, List<ColumnBean> tableColumns, String outpath) throws IOException, TemplateException{
 		
 		String curPath = System.getProperty("user.dir")+ "\\src\\test\\java\\tpl\\";
@@ -122,6 +124,7 @@ public class TplParser {
 		
 		Map root = new HashMap();
 		root.put("folder", folder);
+		root.put("resFolder", resFolder);
 		root.put("tablePrefix", tablePrefix);
 		root.put("tablesqlname", StringUtils.lowerCase(tablesqlname));
 		root.put("key",  StringUtils.lowerCase(key));
@@ -179,7 +182,7 @@ public class TplParser {
 		saveFile( System.getProperty("user.dir") +  outpath, filename, false, content, "");
 	}
 	
-	public static void genCuJsp(String tablesqlname, String cnTableName,
+	public static void genCuJsp( String resFolder, String tablesqlname, String cnTableName,
 			List<ColumnBean> tableColumns, String outpath
 			) throws IOException, TemplateException{
 		
@@ -190,6 +193,7 @@ public class TplParser {
 		cfg.setSharedVariable("tbn", new TableNameMethod());
 		
 		Map root = new HashMap();
+		root.put("resFolder", resFolder);
 		root.put("tablesqlname", StringUtils.lowerCase(tablesqlname));
 		root.put("cnTableName", cnTableName);
 		root.put("tableColumns", tableColumns);
@@ -211,7 +215,7 @@ public class TplParser {
 		saveFile( System.getProperty("user.dir") +  outpath, filename, false, content,"utf-8");
 	}
 	
-	public static void genPageJsp(String tablesqlname, String key, String cnTableName,
+	public static void genPageJsp( String resFolder, String tablesqlname, String key, String cnTableName,
 								  List<ColumnBean>  searchColumnBeans, List<ColumnBean> tableColumns, String outpath
 			) throws IOException, TemplateException{
 		
@@ -222,6 +226,7 @@ public class TplParser {
 		cfg.setSharedVariable("tbn", new TableNameMethod());
 		
 		Map root = new HashMap();
+		root.put("resFolder", resFolder);
 		root.put("tablesqlname", StringUtils.lowerCase(tablesqlname));
 		root.put("key", key);
 		root.put("searchColumnBeans", searchColumnBeans);

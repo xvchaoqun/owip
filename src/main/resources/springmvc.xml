@@ -26,7 +26,7 @@
 
 		<context:exclude-filter type="regex" expression="controller.*\.member\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.modify\..*"/>
-		<context:exclude-filter type="regex" expression="controller.*\.cis\..*"/>
+		<!--<context:exclude-filter type="regex" expression="controller.*\.cis\..*"/>-->
 		<context:exclude-filter type="regex" expression="controller.*\.crs\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.train\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.abroad\..*"/>
@@ -40,6 +40,7 @@
 		<context:exclude-filter type="regex" expression="controller.*\.sc.scCommittee\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.sc.scPublic\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.sc.scDispatch\..*"/>
+		<context:exclude-filter type="regex" expression="controller.*\.sc.scAd\..*"/>
 		-->
 	</context:component-scan>
 

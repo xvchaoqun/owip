@@ -95,4 +95,25 @@ public class FtlTest {
 
         System.out.println(writer.toString());
     }
+    @Test
+    public void nullstringTemplate2() throws IOException, TemplateException {
+
+        //.replace('/', '.')
+
+        StringTemplateLoader stringLoader = new StringTemplateLoader();
+        //String templateContent="欢迎：<#if resFolder?? && resFolder?trim!=''>@RequestMapping(\"/${resFolder?trim}\")</#if>";
+        String templateContent="欢迎：@RequestMapping(\"/${(resFolder!'')?trim}\")";
+        stringLoader.putTemplate("myTemplate",templateContent);
+
+        Configuration cfg = freeMarkerConfigurer.getConfiguration();
+        cfg.setTemplateLoader(stringLoader);
+
+        Template template = cfg.getTemplate("myTemplate","utf-8");
+        Map root = new HashMap();
+        //root.put("resFolder", " 1 ");
+        StringWriter writer = new StringWriter();
+        template.process(root, writer);
+
+        System.out.println(writer.toString());
+    }
 }

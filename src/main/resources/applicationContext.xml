@@ -88,7 +88,7 @@
     <context:component-scan base-package="service,sys.service">
         <context:exclude-filter type="regex" expression="service.member.*"/>
         <context:exclude-filter type="regex" expression="service.modify.*"/>
-        <context:exclude-filter type="regex" expression="service.cis.*"/>
+        <!--<context:exclude-filter type="regex" expression="service.cis.*"/>-->
         <context:exclude-filter type="regex" expression="service.crs.*"/>
         <context:exclude-filter type="regex" expression="service.train.*"/>
         <context:exclude-filter type="regex" expression="service.abroad.*"/>
@@ -102,6 +102,7 @@
         <context:exclude-filter type="regex" expression="service.sc.scCommittee.*"/>
         <context:exclude-filter type="regex" expression="service.sc.scPublic.*"/>
         <context:exclude-filter type="regex" expression="service.sc.scDispatch.*"/>
+        <context:exclude-filter type="regex" expression="service.sc.scAd.*"/>
         -->
     </context:component-scan>
     <!--<context:annotation-config />-->

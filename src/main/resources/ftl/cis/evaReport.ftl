@@ -1471,8 +1471,8 @@
 								<w:rPr>
 									<w:rFonts w:ascii="宋体" w:h-ansi="宋体"/>
 									<wx:font wx:val="宋体"/>
-									<w:sz w:val="24"/>
-									<w:sz-cs w:val="24"/>
+									<w:sz w:val="28"/>
+									<w:sz-cs w:val="28"/>
 								</w:rPr>
 								<w:t>${remark!}</w:t>
 							</w:r>

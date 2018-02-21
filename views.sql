@@ -1,3 +1,10 @@
+-- 干部任免审批表归档
+DROP VIEW IF EXISTS `sc_ad_archive_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_ad_archive_view` AS
+select saa.*, sc.year, sc.file_path as committee_file_path, sc.hold_date, cv.code, cv.realname  from sc_ad_archive saa
+left join sc_committee sc on sc.id = saa.committee_id
+left join cadre_view cv on cv.id = saa.cadre_id ;
+
 -- 文件起草签发
 DROP VIEW IF EXISTS `sc_dispatch_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_dispatch_view` AS

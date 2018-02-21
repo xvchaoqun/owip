@@ -8,21 +8,21 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-                 data-url-page="&{ctx}/${tableName}"
-                 data-url-export="&{ctx}/${tableName}_data"
+                 data-url-page="&{ctx}/<#if resFolder?? && resFolder?trim!=''>${resFolder?trim}/</#if>${tableName}"
+                 data-url-export="&{ctx}/<#if resFolder?? && resFolder?trim!=''>${resFolder?trim}/</#if>${tableName}_data"
                  data-querystr="&{cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="&{<#list searchColumnBeans as column>not empty param.${tbn(column.name, "tableName")} ||</#list> not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="${tableName}:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="&{ctx}/${tableName}_au"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="popupBtn btn btn-info btn-sm"  data-url="&{ctx}/<#if resFolder?? && resFolder?trim!=''>${resFolder?trim}/</#if>${tableName}_au"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="&{ctx}/${tableName}_au"
+                       data-url="&{ctx}/<#if resFolder?? && resFolder?trim!=''>${resFolder?trim}/</#if>${tableName}_au"
                        data-grid-id="#jqGrid"
                        data-querystr="&"><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="${tableName}:del">
-                    <button data-url="&{ctx}/${tableName}_batchDel"
+                    <button data-url="&{ctx}/<#if resFolder?? && resFolder?trim!=''>${resFolder?trim}/</#if>${tableName}_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -76,7 +76,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $("#jqGrid").jqGrid({
-        url: '&{ctx}/${tableName}_data?callback=?&&{cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '&{ctx}/<#if resFolder?? && resFolder?trim!=''>${resFolder?trim}/</#if>${tableName}_data?callback=?&&{cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             <#list tableColumns as column>
             { label: '${column.comments}',name: '${tbn(column.name, "tableName")}'}<#if column_has_next>,</#if>

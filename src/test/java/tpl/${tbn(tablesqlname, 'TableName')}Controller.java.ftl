@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.util.Date;
 
 @Controller
+<#if resFolder?? && resFolder?trim!=''>@RequestMapping("/${resFolder?trim}")</#if>
 public class ${TableName}Controller extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

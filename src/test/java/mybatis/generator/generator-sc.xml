@@ -22,25 +22,37 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
-        <!--干部选拔-文件起草签发-->
-        <table tableName="sc_dispatch" domainObjectName="sc.scDispatch.ScDispatch"
-               mapperName="sc.scDispatch.ScDispatchMapper">
-        </table>
-        <table tableName="sc_dispatch_view"
+        <!--干部选拔-干部任免审批表-->
+        <!--<table tableName="sc_ad_archive" domainObjectName="sc.scAd.ScAdArchive"
+               mapperName="sc.scAd.ScAdArchiveMapper">
+        </table>-->
+        <!--<table tableName="sc_ad_archive_vote" domainObjectName="sc.scAd.ScAdArchiveVote"
+               mapperName="sc.scAd.ScAdArchiveVoteMapper">
+        </table>-->
+
+        <!--<table tableName="sc_ad_archive_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
-               domainObjectName="sc.scDispatch.ScDispatchView"
-               mapperName="sc.scDispatch.ScDispatchViewMapper">
-            <columnOverride column="appoint_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-            <columnOverride column="dismiss_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+               domainObjectName="sc.scAd.ScAdArchiveView"
+               mapperName="sc.scAd.ScAdArchiveViewMapper">
+        </table>-->
+
+        <table tableName="sc_ad_use" domainObjectName="sc.scAd.ScAdUse"
+               mapperName="sc.scAd.ScAdUseMapper">
         </table>
+
+        <!--干部选拔-文件起草签发-->
+        <!--<table tableName="sc_dispatch" domainObjectName="sc.scDispatch.ScDispatch"
+               mapperName="sc.scDispatch.ScDispatchMapper">
+        </table>
+
         <table tableName="sc_dispatch_user" domainObjectName="sc.scDispatch.ScDispatchUser"
                mapperName="sc.scDispatch.ScDispatchUserMapper">
         </table>
         <table tableName="sc_dispatch_committee" domainObjectName="sc.scDispatch.ScDispatchCommittee"
                mapperName="sc.scDispatch.ScDispatchCommitteeMapper">
-        </table>
+        </table>-->
 
         <!--干部选拔-任职公示-->
         <!--<table tableName="sc_public" domainObjectName="sc.scPublic.ScPublic"
