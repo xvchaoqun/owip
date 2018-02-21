@@ -293,7 +293,7 @@
             return item.id;
         }).join(",");
 
-        $.loadModal("${ctx}/sc/scDispatch_users?committeeIds[]=" + committeeIds, 900);
+        $.loadModal("${ctx}/sc/scDispatch_users?committeeIds[]=" + committeeIds, 1200);
     }
 
     function _download() {

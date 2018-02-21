@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
-<ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
+<ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i
                 class="fa fa-flag"></i> 干部考察报告</a>
@@ -44,9 +44,8 @@
         pager: "#jqGridPager_cadreInspectInfo",
         url: url,
         colModel: colModel
-    }).on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid2');
     });
+    $(window).triggerHandler('resize.jqGrid2');
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

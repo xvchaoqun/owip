@@ -77,8 +77,7 @@ pageEncoding="UTF-8" %>
                 label: '排序', width: 90, index: 'sort', formatter: function (cellvalue, options, rowObject) {
                 return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id,
                     url:"${ctx}/sc/scGroupMember_changeOrder"})
-            }, frozen: true
-            }
+            }}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

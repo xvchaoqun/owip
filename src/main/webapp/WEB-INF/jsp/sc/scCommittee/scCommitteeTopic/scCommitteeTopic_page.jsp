@@ -66,7 +66,7 @@ pageEncoding="UTF-8" %>
                             </div>
                             <div class="form-group">
                                 <label>编号</label>
-                                <select required name="groupId" data-rel="select2"
+                                <select required name="committeeId" data-rel="select2"
                                         data-width="240"
                                         data-placeholder="请选择">
                                     <option></option>
