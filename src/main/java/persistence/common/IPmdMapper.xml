@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.common.IPmdMapper">
 
+    <!-- 删除某个支部下的所有未缴费记录 -->
+    <delete id="delNotPayMembers" parameterType="map">
+        delete pmp.* from pmd_member_pay pmp, pmd_member pm where pmp.member_id=pm.id
+        and pm.month_id=#{currentMonthId} and pm.party_id = #{partyId} and pm.branch_id = #{branchId} and pm.has_pay=0;
+        delete from pmd_member where month_id=#{currentMonthId} and party_id = #{partyId} and branch_id = #{branchId} and has_pay=0;
+    </delete>
+
     <!-- 往月延迟缴费党员数（已启动缴费，同步了党员信息之后汇总） -->
     <select id="historyDelayMemberCount" parameterType="map" resultType="java.lang.Integer">
         select count(distinct pmpv.user_id) from pmd_member_pay_view pmpv,

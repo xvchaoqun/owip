@@ -21,6 +21,7 @@ import persistence.common.bean.PmdExcelReportBean;
 import persistence.common.bean.PmdReportBean;
 import service.BaseMapper;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -38,7 +39,6 @@ public class PmdPartyService extends BaseMapper {
 
     @Autowired
     private PmdMonthService pmdMonthService;
-
     @Autowired
     private PmdPartyAdminService pmdPartyAdminService;
 
@@ -96,7 +96,7 @@ public class PmdPartyService extends BaseMapper {
         pmdPartyMapper.updateByExampleSelective(record, example);
     }
 
-    // 判断分党委是否可以报送
+    // 判断报送权限
     public boolean canReport(int monthId, int parytId){
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
@@ -104,6 +104,13 @@ public class PmdPartyService extends BaseMapper {
 
         PmdParty pmdParty = get(monthId, parytId);
         if(pmdParty==null) return false;
+
+        // 组织部管理员、分党委管理员允许报送
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), parytId)) {
+                return false;
+            }
+        }
 
         // 如果是直属党支部
         if(CmTag.isDirectBranch(parytId)){

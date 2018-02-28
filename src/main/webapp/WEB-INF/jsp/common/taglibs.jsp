@@ -42,6 +42,7 @@
 <c:set var="ROLE_CADRERESERVE" value="<%=RoleConstants.ROLE_CADRERESERVE%>"/>
 <c:set var="ROLE_ONLY_CADRE_VIEW" value="role_cadre_view"/>
 
+<c:set var="ROLE_PMD_OW" value="<%=RoleConstants.ROLE_PMD_OW%>"/>
 
 <c:set var="PERMISSION_CADREADMIN" value="<%=SystemConstants.PERMISSION_CADREADMIN%>"/>
 <c:set var="PERMISSION_CADREADMINSELF" value="<%=SystemConstants.PERMISSION_CADREADMINSELF%>"/>

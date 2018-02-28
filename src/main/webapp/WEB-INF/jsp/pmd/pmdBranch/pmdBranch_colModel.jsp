@@ -4,15 +4,12 @@
   var colModel = [
     {label: '月份', name: 'payMonth', formatter: 'date', formatoptions: {newformat: 'Y年m月'}, frozen: true},
     { label: '报送',name: '_report', formatter: function (cellvalue, options, rowObject) {
-      <c:if test="${cls==1}">
+
       if (rowObject.hasReport) return '<span class="text-success">已报送</span>'
       return ('<button class="popupBtn btn btn-success btn-xs" ' +
-      'data-url="${ctx}/pmd/pmdBranch_report?id={0}" {1}><i class="fa fa-hand-paper-o"></i> 报送</button>')
+      'data-url="${ctx}/pmd/pmdBranch_report?id={0}&cls=${cls}" {1}><i class="fa fa-hand-paper-o"></i> 报送</button>')
               .format(rowObject.id, rowObject.canReport ? '' : 'disabled');
-      </c:if>
-      <c:if test="${cls==2}">
-      return (rowObject.hasReport) ? '<span class="text-success">已报送</span>' : '<span class="text-danger">未报送</span>'
-      </c:if>
+
     }, frozen: true},
     /*{ label: '报表',name: '_table', frozen: true},*/
 

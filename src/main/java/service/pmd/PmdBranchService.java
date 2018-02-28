@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import persistence.common.bean.PmdReportBean;
 import service.BaseMapper;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +25,8 @@ public class PmdBranchService extends BaseMapper {
     private PmdMonthService pmdMonthService;
     @Autowired
     private PmdBranchAdminService pmdBranchAdminService;
+    @Autowired
+    private PmdPartyAdminService pmdPartyAdminService;
 
     // 党支部报送
     @Transactional
@@ -71,7 +73,7 @@ public class PmdBranchService extends BaseMapper {
         pmdBranchMapper.updateByExampleSelective(record, example);
     }
 
-    // 判断支部是否可以报送
+    // 判断报送权限
     public boolean canReport(int monthId, int parytId, int branchId){
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
@@ -79,6 +81,16 @@ public class PmdBranchService extends BaseMapper {
 
         PmdBranch pmdBranch = get(monthId, parytId, branchId);
         if(pmdBranch==null) return false;
+
+        // 组织部管理员、分党委管理员、党支部管理员允许报送
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), parytId)) {
+                if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), parytId, branchId)) {
+                    return false;
+                }
+            }
+        }
+
 
         // 如果存在 没有支付且没有设置为延迟缴费， 则不可报送
         PmdMemberExample example = new PmdMemberExample();
@@ -108,19 +120,34 @@ public class PmdBranchService extends BaseMapper {
     }
 
     @Transactional
-    public void del(Integer id) {
+    public void del(int pmdBranchId){
 
-        pmdBranchMapper.deleteByPrimaryKey(id);
-    }
+        // 只能删除当月的缴费党支部
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if(currentPmdMonth==null){
+            throw new OpException("缴费未开启");
+        }
+        int monthId = currentPmdMonth.getId();
+        PmdBranch pmdBranch = pmdBranchMapper.selectByPrimaryKey(pmdBranchId);
+        if(pmdBranch.getMonthId() != monthId){
+            throw new OpException("仅允许删除当前缴费月份的党支部");
+        }
 
-    @Transactional
-    public void batchDel(Integer[] ids) {
+        if(pmdBranch.getHasReport()){
+            throw new OpException("该支部已报送");
+        }
 
-        if (ids == null || ids.length == 0) return;
+        int partyId = pmdBranch.getPartyId();
+        int branchId = pmdBranch.getBranchId();
+        iPmdMapper.delNotPayMembers(monthId, partyId, branchId);
 
-        PmdBranchExample example = new PmdBranchExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        pmdBranchMapper.deleteByExample(example);
+        PmdMemberExample example = new PmdMemberExample();
+        example.createCriteria().andMonthIdEqualTo(monthId).andPartyIdEqualTo(partyId)
+                .andBranchIdEqualTo(branchId);
+        if(pmdMemberMapper.countByExample(example)==0){
+
+            pmdBranchMapper.deleteByPrimaryKey(pmdBranchId);
+        }
     }
 
     @Transactional

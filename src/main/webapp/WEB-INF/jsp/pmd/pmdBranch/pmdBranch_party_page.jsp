@@ -23,10 +23,21 @@
                 <div class="jqgrid-vertical-offset buttons">
                     <c:if test="${param.monthId==_pmdMonth.id}">
                     <button class="popupBtn btn btn-warning btn-sm"
-                            ${(empty _pmdMonth)?'disabled':''}
-                            data-url="${ctx}/pmd/pmdSendMsg_notifyBranchAdmins?partyId=${param.partyId}"
+                        ${(empty _pmdMonth)?'disabled':''}
+                                      data-url="${ctx}/pmd/pmdSendMsg_notifyBranchAdmins?partyId=${param.partyId}"
                             ><i class="fa fa-send"></i> 通知支部管理员
                     </button>
+                    <shiro:hasPermission name="pmdBranch:del">
+                        <button id="delBtn" data-url="${ctx}/pmd/pmdBranch_del"
+                            ${(empty _pmdMonth)?'disabled':''}
+                                data-title="删除"
+                                data-grid-id="#jqGrid2"
+                                data-msg="<div class='model-alert-tip'>确定删除这个党支部？（将删除所有未缴费的缴费记录，删除后不可恢复，请谨慎操作）</div>"
+                                data-callback="_reload2"
+                                class="jqItemBtn btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i> 删除
+                        </button>
+                    </shiro:hasPermission>
                     </c:if>
                 </div>
                 <div class="space-4"></div>
@@ -38,6 +49,10 @@
 </div>
 <jsp:include page="pmdBranch_colModel.jsp"/>
 <script>
+    function _reload2(){
+        SysMsg.info("操作成功。");
+        $("#jqGrid2").trigger("reloadGrid");
+    }
     $("#jqGrid2").jqGrid({
         pager: "jqGridPager2",
         url: '${ctx}/pmd/pmdBranch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

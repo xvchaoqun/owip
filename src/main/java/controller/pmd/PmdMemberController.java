@@ -174,13 +174,15 @@ public class PmdMemberController extends PmdBaseController {
         } else if (cls == 3) {
             // 分党委（不包含直属党支部）访问党员列表
             // 此时必须传入partyId,branchId
-            List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
-            Set<Integer> adminPartyIdSet = new HashSet<>();
-            adminPartyIdSet.addAll(adminPartyIds);
-            if (adminPartyIdSet.contains(partyId)) {
-                criteria.andPartyIdEqualTo(partyId).andBranchIdEqualTo(branchId);
-            } else {
-                criteria.andPartyIdIsNull();
+            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+                List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+                Set<Integer> adminPartyIdSet = new HashSet<>();
+                adminPartyIdSet.addAll(adminPartyIds);
+                if (adminPartyIdSet.contains(partyId)) {
+                    criteria.andPartyIdEqualTo(partyId).andBranchIdEqualTo(branchId);
+                } else {
+                    criteria.andPartyIdIsNull();
+                }
             }
         } else if(cls==5){
             SecurityUtils.getSubject().checkPermission("pmdMember:allList");

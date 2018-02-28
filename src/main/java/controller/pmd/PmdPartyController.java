@@ -49,10 +49,11 @@ public class PmdPartyController extends PmdBaseController {
         modelMap.put("cls", cls);
 
         if(cls==2) {
-            // 组织部管理员访问支部列表
+            // 组织部管理员访问分党委列表
             return "pmd/pmdParty/pmdParty_ow_page";
         }
-        // 党委管理员访问
+
+        // 组织部管理员或党委管理员访问
         return "pmd/pmdParty/pmdParty_page";
     }
 
@@ -86,16 +87,19 @@ public class PmdPartyController extends PmdBaseController {
         }
 
         if(cls==1) {
-            int userId = ShiroHelper.getCurrentUserId();
-            List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
-            if (adminPartyIds.size() > 0) {
-                criteria.andPartyIdIn(adminPartyIds);
-            } else {
-                criteria.andPartyIdIsNull();
+            if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)){
+
+                int userId = ShiroHelper.getCurrentUserId();
+                List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
+                if (adminPartyIds.size() > 0) {
+                    criteria.andPartyIdIn(adminPartyIds);
+                } else {
+                    criteria.andPartyIdIsNull();
+                }
             }
         }else if(cls==2){
 
-            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ODADMIN);
+            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_PMD_OW);
             criteria.andMonthIdEqualTo(monthId);
         }else {
             criteria.andIdIsNull();
@@ -159,6 +163,26 @@ public class PmdPartyController extends PmdBaseController {
         }
 
         return null;
+    }
+
+    // 分党委批量延迟缴费
+    @RequiresPermissions("pmdParty:delay")
+    @RequestMapping(value = "/pmdParty_delay", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdParty_delay(int id, String delayReason, HttpServletRequest request) {
+
+        pmdPayService.delayParty(id, delayReason);
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pmdParty:delay")
+    @RequestMapping("/pmdParty_delay")
+    public String pmdParty_delay(int id, ModelMap modelMap) {
+
+        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(id);
+        modelMap.put("pmdParty", pmdParty);
+
+        return "pmd/pmdParty/pmdParty_delay";
     }
 
     /*@RequiresPermissions("pmdParty:edit")

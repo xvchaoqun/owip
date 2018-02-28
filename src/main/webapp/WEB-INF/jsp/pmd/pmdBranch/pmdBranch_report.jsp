@@ -32,7 +32,13 @@
         $.post("${ctx}/pmd/pmdBranch_report", {id: '${param.id}'}, function (ret) {
             if (ret.success) {
                 $("#modal").modal('hide');
-                $("#jqGrid").trigger("reloadGrid");
+                <c:if test="${param.cls!=2}">
+                var $jqGrid = $("#jqGrid");
+                </c:if>
+                <c:if test="${param.cls==2}">
+                var $jqGrid = $("#jqGrid2");
+                </c:if>
+                $jqGrid.trigger("reloadGrid");
             }
         });
     });

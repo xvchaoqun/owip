@@ -18,6 +18,11 @@ import java.util.List;
  */
 public interface IPmdMapper {
 
+    // 删除某个支部下的所有未缴费记录
+    public void delNotPayMembers(@Param("currentMonthId") int currentMonthId,
+                          @Param("partyId") int partyId,
+                          @Param("branchId") int branchId);
+
     @Select("select distinct rq from ext_jzg_salary where rq in(select distinct rq from ext_retire_salary) order by rq desc")
     public List<String> extSalaryMonthList();
 

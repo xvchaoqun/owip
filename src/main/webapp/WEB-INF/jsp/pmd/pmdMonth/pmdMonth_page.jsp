@@ -23,7 +23,7 @@
                                         data-url="${ctx}/pmd/pmdMonth_create"><i
                                         class="fa fa-plus"></i> 新建
                                 </button>
-                                <button id="selectPartiesBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
+                                <button id="selectPartiesBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/pmd/pmdMonth_selectParties"
                                         data-id-name="monthId"
                                         data-grid-id="#jqGrid"

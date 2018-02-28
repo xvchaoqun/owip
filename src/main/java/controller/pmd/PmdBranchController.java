@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -46,11 +47,12 @@ public class PmdBranchController extends PmdBaseController {
 
         modelMap.put("cls", cls);
 
-        if(cls==2) {
+        if (cls == 2) {
             // 分党委管理员访问支部列表
             return "pmd/pmdBranch/pmdBranch_party_page";
         }
-        // 支部管理员访问
+
+        // 组织部管理员或支部管理员访问
         return "pmd/pmdBranch/pmdBranch_page";
     }
 
@@ -77,33 +79,36 @@ public class PmdBranchController extends PmdBaseController {
                 .andMonthStatusNotEqualTo(PmdConstants.PMD_MONTH_STATUS_INIT);
         example.setOrderByClause("pay_month desc, sort_order desc, id desc");
 
-        if(payMonth!=null){
+        if (payMonth != null) {
             criteria.andPayMonthEqualTo(DateUtils.getFirstDateOfMonth(payMonth));
         }
         if (hasReport != null) {
             criteria.andHasReportEqualTo(hasReport);
         }
 
-        if(cls==1) {
+        if (cls == 1) {
             List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(ShiroHelper.getCurrentUserId());
             if (adminBranchIds.size() > 0) {
                 criteria.andBranchIdIn(adminBranchIds);
             } else {
                 criteria.andBranchIdIsNull();
             }
-        }else if(cls==2){
+
+        } else if (cls == 2) {
             // 此时必须传入monthId和partyId
             criteria.andMonthIdEqualTo(monthId);
 
-            List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
-            Set<Integer> adminPartyIdSet = new HashSet<>();
-            adminPartyIdSet.addAll(adminPartyIds);
-            if(adminPartyIdSet.contains(partyId)){
-                criteria.andPartyIdEqualTo(partyId);
-            }else{
-                criteria.andPartyIdIsNull();
+            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+                List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
+                Set<Integer> adminPartyIdSet = new HashSet<>();
+                adminPartyIdSet.addAll(adminPartyIds);
+                if (adminPartyIdSet.contains(partyId)) {
+                    criteria.andPartyIdEqualTo(partyId);
+                } else {
+                    criteria.andPartyIdIsNull();
+                }
             }
-        }else{
+        } else {
             criteria.andIdIsNull();
         }
 
@@ -180,31 +185,18 @@ public class PmdBranchController extends PmdBaseController {
         }
         return "pmd/pmdBranch/pmdBranch_au";
     }
-
+*/
+    // 删除当月的缴费党支部（不包含直属党支部），（如果党支部下存在已缴费的记录，则只删除该党支部下的未缴费的记录，党支部仍然保留）
     @RequiresPermissions("pmdBranch:del")
     @RequestMapping(value = "/pmdBranch_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdBranch_del(HttpServletRequest request, Integer id) {
+    public Map do_pmdBranch_del(Integer id) {
 
         if (id != null) {
 
             pmdBranchService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PMD, "删除每月参与线上收费的党支部：%s", id));
+            logger.info(addLog(SystemConstants.LOG_PMD, "删除当月参与线上收费的党支部：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
-
-    @RequiresPermissions("pmdBranch:del")
-    @RequestMapping(value = "/pmdBranch_batchDel", method = RequestMethod.POST)
-    @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
-
-        if (null != ids && ids.length > 0) {
-            pmdBranchService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PMD, "批量删除每月参与线上收费的党支部：%s", StringUtils.join(ids, ",")));
-        }
-
-        return success(FormUtils.SUCCESS);
-    }*/
 }

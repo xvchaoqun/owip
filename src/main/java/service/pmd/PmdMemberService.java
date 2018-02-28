@@ -220,7 +220,7 @@ public class PmdMemberService extends BaseMapper {
 
             {
                 // 除了组织部管理员，其他人员不允许修改党员一级类别
-                if(ShiroHelper.lackRole(RoleConstants.ROLE_ODADMIN)
+                if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)
                         && configMemberType!=pmdConfigMember.getConfigMemberType()){
                     throw new OpException("{0}不允许修改党员类别。", uv.getRealname());
                 }
