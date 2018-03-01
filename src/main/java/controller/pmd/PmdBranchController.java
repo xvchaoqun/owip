@@ -5,6 +5,7 @@ import domain.pmd.PmdBranchView;
 import domain.pmd.PmdBranchViewExample;
 import domain.pmd.PmdMonth;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -197,6 +198,20 @@ public class PmdBranchController extends PmdBaseController {
             pmdBranchService.del(id);
             logger.info(addLog(SystemConstants.LOG_PMD, "删除当月参与线上收费的党支部：%s", id));
         }
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pmdBranch:del")
+    @RequestMapping(value = "/pmdBranch_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pmdBranch_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length > 0) {
+            pmdBranchService.batchDel(ids);
+            logger.info(addLog(SystemConstants.LOG_PMD, "批量删除当月参与线上收费的党支部：%s", StringUtils.join(ids, ",")));
+        }
+
         return success(FormUtils.SUCCESS);
     }
 }

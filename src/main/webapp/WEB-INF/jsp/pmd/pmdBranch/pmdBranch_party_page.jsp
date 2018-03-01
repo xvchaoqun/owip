@@ -28,13 +28,13 @@
                             ><i class="fa fa-send"></i> 通知支部管理员
                     </button>
                     <shiro:hasPermission name="pmdBranch:del">
-                        <button id="delBtn" data-url="${ctx}/pmd/pmdBranch_del"
+                        <button id="delBtn" data-url="${ctx}/pmd/pmdBranch_batchDel"
                             ${(empty _pmdMonth)?'disabled':''}
                                 data-title="删除"
                                 data-grid-id="#jqGrid2"
-                                data-msg="<div class='model-alert-tip'>确定删除这个党支部？（将删除所有未缴费的缴费记录，删除后不可恢复，请谨慎操作）</div>"
+                                data-msg="<div class='model-alert-tip'>确定删除这{0}个党支部？（将删除所有未缴费的缴费记录，删除后不可恢复，请谨慎操作）</div>"
                                 data-callback="_reload2"
-                                class="jqItemBtn btn btn-danger btn-sm">
+                                class="jqBatchBtn btn btn-danger btn-sm">
                             <i class="fa fa-trash"></i> 删除
                         </button>
                     </shiro:hasPermission>

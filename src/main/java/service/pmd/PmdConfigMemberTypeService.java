@@ -36,6 +36,8 @@ public class PmdConfigMemberTypeService extends BaseMapper {
         PmdNorm pmdNorm = pmdNormMapper.selectByPrimaryKey(normId);
         if(pmdNorm.getType() == PmdConstants.PMD_NORM_SET_TYPE_FORMULA){
             criteria.andNormIdEqualTo(pmdNorm.getId());
+        }else {
+            return false;
         }
 
         if (id != null) criteria.andIdNotEqualTo(id);

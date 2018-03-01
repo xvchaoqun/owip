@@ -174,10 +174,11 @@ public class PmdMonthService extends BaseMapper {
             throw new OpException("存在未结算月份，不可以启动缴费。");
         }
 
-        PmdMonth currentMonth = getMonth(new Date());
+        PmdMonth currentMonth = pmdMonthMapper.selectByPrimaryKey(monthId);
+        /*PmdMonth currentMonth = getMonth(new Date());
         if (currentMonth.getId() != monthId) {
             throw new OpException("只允许启动当前月份的缴费工作。");
-        }
+        }*/
 
         Set<Integer> partyIdSet = getMonthPartyIdSet(monthId);
         if (partyIdSet.size() == 0) {
@@ -873,5 +874,25 @@ public class PmdMonthService extends BaseMapper {
         return pmdMonthMapper.updateByPrimaryKeySelective(record);
     }
 
+    // 修改缴费月份
+    @Transactional
+    public void update(int id, Date month) {
 
+        PmdMonth pmdMonth = getMonth(month);
+        if(pmdMonth!=null && pmdMonth.getId()!=id){
+            throw new OpException("缴费月份重复。");
+        }
+
+        PmdMonth _pmdMonth = pmdMonthMapper.selectByPrimaryKey(id);
+        if(_pmdMonth.getStatus()!=PmdConstants.PMD_MONTH_STATUS_INIT){
+
+            throw new OpException("只能修改未启动的缴费月份。");
+        }
+
+        PmdMonth record = new PmdMonth();
+        record.setId(id);
+        record.setPayMonth(month);
+
+        pmdMonthMapper.updateByPrimaryKeySelective(record);
+    }
 }

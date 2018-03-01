@@ -98,6 +98,28 @@ public class PmdMonthController extends PmdBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    // 更新未启动的月份
+    @RequiresPermissions("pmdMonth:edit")
+    @RequestMapping("/pmdMonth_au")
+    public String pmdMonth_au(int id, ModelMap modelMap) {
+
+        PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(id);
+        modelMap.put("pmdMonth", pmdMonth);
+
+        return "pmd/pmdMonth/pmdMonth_au";
+    }
+
+    @RequiresPermissions("pmdMonth:edit")
+    @RequestMapping(value = "/pmdMonth_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMonth_au(int id, @DateTimeFormat(pattern = "yyyy-MM") Date month, HttpServletRequest request) {
+
+        pmdMonthService.update(id, month);
+
+        logger.info(addLog(SystemConstants.LOG_PMD, "修改缴费月份"));
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("pmdMonth:edit")
     @RequestMapping(value = "/pmdMonth_selectParties", method = RequestMethod.POST)
     @ResponseBody

@@ -151,6 +151,14 @@ public class PmdBranchService extends BaseMapper {
     }
 
     @Transactional
+    public void batchDel(Integer[] ids) {
+
+        for (Integer id : ids) {
+            del(id);
+        }
+    }
+
+    @Transactional
     public int updateByPrimaryKeySelective(PmdBranch record) {
         return pmdBranchMapper.updateByPrimaryKeySelective(record);
     }

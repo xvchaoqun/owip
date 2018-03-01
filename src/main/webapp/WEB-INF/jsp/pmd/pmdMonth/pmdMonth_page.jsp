@@ -23,6 +23,12 @@
                                         data-url="${ctx}/pmd/pmdMonth_create"><i
                                         class="fa fa-plus"></i> 新建
                                 </button>
+                                <button id="updateBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
+                                   data-url="${ctx}/pmd/pmdMonth_au"
+                                   data-grid-id="#jqGrid"
+                                        data-width="400"
+                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                    修改</button>
                                 <button id="selectPartiesBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/pmd/pmdMonth_selectParties"
                                         data-id-name="monthId"
@@ -240,7 +246,7 @@
     function _onSelectRow(grid) {
         var ids = $(grid).getGridParam("selarrrow");
         if (ids.length > 1) {
-            $("#selectPartiesBtn").prop("disabled", true);
+            $("#selectPartiesBtn,#updateBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
             <c:if test="${not empty _pmdMonth}">
@@ -250,6 +256,8 @@
             <c:if test="${empty _pmdMonth}">
             $("#selectPartiesBtn").prop("disabled", ( rowData.status != '${PMD_MONTH_STATUS_INIT}'));
             </c:if>
+
+            $("#updateBtn").prop("disabled", (rowData.status != '${PMD_MONTH_STATUS_INIT}'));
         }
     }
 </script>
