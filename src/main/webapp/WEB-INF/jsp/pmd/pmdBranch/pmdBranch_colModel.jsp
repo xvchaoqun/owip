@@ -59,7 +59,7 @@
     }},
     { label: '实补缴<br/>往月党费数',name: 'realDelayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.realDelayPay;
-    }}/*,
+    }}, {hidden: true, name: 'hasReport'}, {hidden: true, name: 'canReport'}/*,
     { label: '线上补缴<br/>往月党费数',name: 'onlineRealDelayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.onlineRealDelayPay;
     }},

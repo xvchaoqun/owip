@@ -3,6 +3,7 @@ package service.pmd;
 import controller.global.OpException;
 import domain.pmd.PmdBranch;
 import domain.pmd.PmdBranchExample;
+import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberExample;
 import domain.pmd.PmdMonth;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -23,6 +24,8 @@ public class PmdBranchService extends BaseMapper {
 
     @Autowired
     private PmdMonthService pmdMonthService;
+    @Autowired
+    private PmdPayService pmdPayService;
     @Autowired
     private PmdBranchAdminService pmdBranchAdminService;
     @Autowired
@@ -74,18 +77,18 @@ public class PmdBranchService extends BaseMapper {
     }
 
     // 判断报送权限
-    public boolean canReport(int monthId, int parytId, int branchId){
+    public boolean canReport(int monthId, int partytId, int branchId){
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if(currentPmdMonth==null || currentPmdMonth.getId()!=monthId) return false;
 
-        PmdBranch pmdBranch = get(monthId, parytId, branchId);
+        PmdBranch pmdBranch = get(monthId, partytId, branchId);
         if(pmdBranch==null) return false;
 
         // 组织部管理员、分党委管理员、党支部管理员允许报送
         if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
-            if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), parytId)) {
-                if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), parytId, branchId)) {
+            if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partytId)) {
+                if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partytId, branchId)) {
                     return false;
                 }
             }
@@ -95,7 +98,7 @@ public class PmdBranchService extends BaseMapper {
         // 如果存在 没有支付且没有设置为延迟缴费， 则不可报送
         PmdMemberExample example = new PmdMemberExample();
         example.createCriteria().andMonthIdEqualTo(monthId)
-                .andPartyIdEqualTo(parytId)
+                .andPartyIdEqualTo(partytId)
                 .andBranchIdEqualTo(branchId)
                 .andHasPayEqualTo(false)
                 .andIsDelayEqualTo(false);
@@ -161,5 +164,18 @@ public class PmdBranchService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(PmdBranch record) {
         return pmdBranchMapper.updateByPrimaryKeySelective(record);
+    }
+
+    //获取还未设置应缴额度的党员
+    public List<PmdMember> listUnsetDuepayMembers(int pmdBranchId) {
+
+        PmdBranch pmdBranch = pmdBranchMapper.selectByPrimaryKey(pmdBranchId);
+
+        PmdMemberExample example = new PmdMemberExample();
+        example.createCriteria().andMonthIdEqualTo(pmdBranch.getMonthId())
+                .andPartyIdEqualTo(pmdBranch.getPartyId())
+                .andBranchIdEqualTo(pmdBranch.getBranchId()).andDuePayIsNull();
+
+        return pmdMemberMapper.selectByExample(example);
     }
 }

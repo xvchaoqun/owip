@@ -41,7 +41,11 @@ pageEncoding="UTF-8" %>
                             <i class="fa fa-trash"></i> 删除
                         </button>
                     </shiro:hasPermission>
-
+                    <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-primary btn-sm"
+                            data-url="${ctx}/pmd/pmdMember_selectMemberType"
+                            data-grid-id="#jqGrid">
+                        <i class="fa fa-check-square-o"></i> 选择党员类别
+                    </button>
                     <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-success btn-sm"
                             data-width="600"
                             data-url="${ctx}/user/pmd/pmdMember_setSalary"
@@ -228,5 +232,32 @@ pageEncoding="UTF-8" %>
                     (rowData.formulaType!=${PMD_FORMULA_TYPE_ONJOB}&&rowData.formulaType!=${PMD_FORMULA_TYPE_EXTERNAL}) ||
                     rowData.isSelfSetSalary=="1" || hasPay || !isCurrentMonth || isDelay);
         }
+
+        var configMemberType; // 选择的党员类别（设定党员分类别时的url参数，此时要求是同一类别）
+        var selectMemberTypeBtn = true;
+        $.each(ids, function(i, id){
+            var rowData = $(grid).getRowData(id);
+
+            if(selectMemberTypeBtn){
+                if (hasPay || isDelay) {
+                    selectMemberTypeBtn = false;
+                }
+            }
+
+            if(configMemberType != -1){
+                if(configMemberType!=undefined && rowData.type != configMemberType){
+                    configMemberType = -1; // 选择的党员不是同一类别
+                }else {
+                    configMemberType = rowData.type;
+                }
+            }
+        })
+
+        $("#selectMemberTypeBtn").each(function(){
+            var querystr = "&auth=1&configMemberType=" + configMemberType;
+            $(this).data("querystr", querystr);
+        });
+
+        $("#selectMemberTypeBtn").prop("disabled", !selectMemberTypeBtn || configMemberType==-1);
     }
 </script>

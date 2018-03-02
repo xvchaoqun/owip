@@ -3,7 +3,9 @@ package controller.pmd;
 import domain.pmd.PmdBranch;
 import domain.pmd.PmdBranchView;
 import domain.pmd.PmdBranchViewExample;
+import domain.pmd.PmdMember;
 import domain.pmd.PmdMonth;
+import domain.pmd.PmdParty;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -44,12 +46,17 @@ public class PmdBranchController extends PmdBaseController {
 
     @RequiresPermissions("pmdBranch:list")
     @RequestMapping("/pmdBranch")
-    public String pmdBranch(@RequestParam(required = false, defaultValue = "1") Byte cls, ModelMap modelMap) {
+    public String pmdBranch(@RequestParam(required = false, defaultValue = "1") Byte cls,
+                            Integer monthId,
+                            Integer partyId,
+                            ModelMap modelMap) {
 
         modelMap.put("cls", cls);
 
         if (cls == 2) {
             // 分党委管理员访问支部列表
+            PmdParty pmdParty = pmdPartyService.get(monthId, partyId);
+            modelMap.put("pmdParty", pmdParty);
             return "pmd/pmdBranch/pmdBranch_party_page";
         }
 
@@ -139,6 +146,11 @@ public class PmdBranchController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdBranch_report(int id, HttpServletRequest request) {
 
+        PmdBranch pmdBranch = pmdBranchMapper.selectByPrimaryKey(id);
+        if(pmdBranch.getHasReport()){
+            return  failed("已经报送。");
+        }
+
         pmdBranchService.report(id);
         logger.info(addLog(SystemConstants.LOG_PMD, "党支部报送：%s", id));
 
@@ -156,6 +168,47 @@ public class PmdBranchController extends PmdBaseController {
 
         return "pmd/pmdBranch/pmdBranch_report";
     }
+
+    // 支部批量延迟缴费
+    @RequiresPermissions("pmdBranch:delay")
+    @RequestMapping(value = "/pmdBranch_delay", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdBranch_delay(int id, String delayReason, HttpServletRequest request) {
+
+        PmdBranch pmdBranch = pmdBranchMapper.selectByPrimaryKey(id);
+        if(pmdBranchService.canReport(pmdBranch.getMonthId(), pmdBranch.getPartyId(), pmdBranch.getBranchId())){
+            return success(FormUtils.SUCCESS);
+        }else if(pmdBranch.getHasReport()){
+            return  failed("已经报送。");
+        }
+        pmdPayService.delayAll(pmdBranch.getPartyId(), pmdBranch.getBranchId(), delayReason);
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pmdBranch:delay")
+    @RequestMapping("/pmdBranch_delay")
+    public String pmdBranch_delay(int id, ModelMap modelMap) {
+
+        PmdBranch pmdBranch = pmdBranchMapper.selectByPrimaryKey(id);
+        modelMap.put("pmdBranch", pmdBranch);
+
+        return "pmd/pmdBranch/pmdBranch_delay";
+    }
+
+    @RequiresPermissions("pmdBranch:delay")
+    @RequestMapping(value = "/pmdBranch_checkDelay", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pmdBranch_checkDelay(int id, HttpServletRequest request) {
+
+        List<PmdMember> pmdMembers = pmdBranchService.listUnsetDuepayMembers(id);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("unsetDuepayMembers", pmdMembers);
+
+        return resultMap;
+    }
+
 
     /*@RequiresPermissions("pmdBranch:edit")
     @RequestMapping(value = "/pmdBranch_au", method = RequestMethod.POST)

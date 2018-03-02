@@ -184,6 +184,21 @@ var _modal_width;
                 if (!data.startWith("{")) $("#modal").modal('show').draggable({handle: dragTarget});
             });
         },
+        showModal: function (content, width, dragTarget) { // dragTarget：拖拽位置
+            //$("#modal").modal('hide');
+            //console.log("width="+width + " _modal_width=" + _modal_width);
+            if (width > 0) {
+                $('#modal .modal-dialog').removeClass("width" + _modal_width).addClass("width" + width);
+                _modal_width = width;
+            } else {
+                $('#modal .modal-dialog').removeClass("width" + _modal_width);
+                _modal_width = undefined;
+            }
+            dragTarget = dragTarget || ".modal-header";
+
+            $('#modal .modal-content').html(content);
+            $("#modal").modal('show').draggable({handle: dragTarget});
+        },
         tip: function (params) {
 
             var $target = params.$target;

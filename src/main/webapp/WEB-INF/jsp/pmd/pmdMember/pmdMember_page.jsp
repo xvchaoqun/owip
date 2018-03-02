@@ -128,7 +128,7 @@
                            data-width="600"
                            data-url="${ctx}/user/pmd/pmdMember_setSalary"
                            data-grid-id="#jqGrid2"
-                           data-querystr="&isSelf=0"
+                           data-querystr="&isBranchAdmin=1&isSelf=0"
                            data-id-name="pmdMemberId">
                             <i class="fa fa-rmb"></i> 修改党费应交额</button>
 

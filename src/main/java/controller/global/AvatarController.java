@@ -91,7 +91,7 @@ public class AvatarController extends BaseController {
         long startTime=System.currentTimeMillis();
         AvatarImportResult result = new AvatarImportResult();
         avatarService.importAvatar(new File(springProps.avatarFolder +
-                FILE_SEPARATOR + StringUtils.defaultString(ext, springProps.avatarFolderExt)), result);
+                FILE_SEPARATOR + StringUtils.defaultIfBlank(ext, springProps.avatarFolderExt)), result);
         long endTime=System.currentTimeMillis();
         logger.info("total:" + result.total + " save:" + result.save + " error:" + result.error + "处理头像运行时间： " + (endTime - startTime) + "ms");
     }

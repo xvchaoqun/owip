@@ -19,6 +19,7 @@ import service.BaseMapper;
 import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
 import java.math.BigDecimal;
@@ -155,9 +156,9 @@ public class PmdPayService extends BaseMapper {
     }
 
 
-    // 当前缴费月份下，分党委批量延迟缴费
+    // 当前缴费月份下，分党委或支部批量延迟缴费
     @Transactional
-    public void delayParty(int pmdPartyId, String delayReason) {
+    public void delayAll(int partyId, Integer branchId, String delayReason) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         // 只有当前缴费月份才允许操作
@@ -165,22 +166,37 @@ public class PmdPayService extends BaseMapper {
             throw new OpException("操作失败，请稍后再试。");
         }
 
-        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(pmdPartyId);
-        if (currentPmdMonth == null || currentPmdMonth.getId().intValue() != pmdParty.getMonthId()) {
-            throw new OpException("操作失败，请稍后再试。");
-        }
-
         PmdMember record = new PmdMember();
         record.setIsDelay(true);
-        record.setDelayReason(StringUtils.defaultString(delayReason, "批量延迟缴费"));
+        record.setDelayReason(StringUtils.defaultIfBlank(delayReason, "批量延迟缴费"));
 
         PmdMemberExample example = new PmdMemberExample();
-        example.createCriteria()
+        PmdMemberExample.Criteria criteria = example.createCriteria()
                 .andMonthIdEqualTo(currentPmdMonth.getId())
-                .andPartyIdEqualTo(pmdParty.getPartyId())
-                .andDuePayGreaterThan(BigDecimal.ZERO)  // 必须设置了缴纳额度才允许延迟缴费
+                .andPartyIdEqualTo(partyId)
+                .andDuePayIsNotNull()  // 必须设置了缴纳额度才允许延迟缴费
                 .andHasPayEqualTo(false)
                 .andIsDelayEqualTo(false);
+
+        if(branchId!=null){
+            criteria.andBranchIdEqualTo(branchId);
+
+            // 组织部管理员、分党委管理员、党支部管理员允许延迟
+            if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+                if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
+                    if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+                        throw new UnauthorizedException();
+                    }
+                }
+            }
+        }else{
+            // 组织部管理员、分党委管理员允许延迟
+            if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+                if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
+                    throw new UnauthorizedException();
+                }
+            }
+        }
 
         List<PmdMember> pmdMembers = pmdMemberMapper.selectByExample(example);
         for (PmdMember pmdMember : pmdMembers) {
@@ -214,7 +230,7 @@ public class PmdPayService extends BaseMapper {
                 "取消延迟缴费", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
-    // 检测支部或直属党支部的操作权限
+    // 检测支部或直属党支部的操作权限（允许上级分党委或组织部管理员操作）
     public PmdMember checkAdmin(int pmdMemberId) {
 
         int userId = ShiroHelper.getCurrentUserId();
@@ -230,12 +246,18 @@ public class PmdPayService extends BaseMapper {
         Integer partyId = _pmdMember.getPartyId();
         Integer branchId = _pmdMember.getBranchId();
 
+        List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
+        Set<Integer> adminPartyIdSet = new HashSet<>();
+        adminPartyIdSet.addAll(adminPartyIds);
+
+        List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(userId);
+        Set<Integer> adminBranchIdSet = new HashSet<>();
+        adminBranchIdSet.addAll(adminBranchIds);
+
         if (partyService.isDirectBranch(partyId)) {
 
-            List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
-            Set<Integer> adminPartyIdSet = new HashSet<>();
-            adminPartyIdSet.addAll(adminPartyIds);
-            if (!adminPartyIdSet.contains(partyId)) {
+            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)
+                    && !adminPartyIdSet.contains(partyId)) {
                 throw new UnauthorizedException();
             }
 
@@ -244,10 +266,10 @@ public class PmdPayService extends BaseMapper {
                 throw new OpException("数据已经报送，不允许操作。");
             }
         } else {
-            List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(userId);
-            Set<Integer> adminBranchIdSet = new HashSet<>();
-            adminBranchIdSet.addAll(adminBranchIds);
-            if (!adminBranchIdSet.contains(branchId)) {
+
+            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)
+                    && !adminPartyIdSet.contains(partyId)
+                    && !adminBranchIdSet.contains(branchId)) {
                 throw new UnauthorizedException();
             }
 

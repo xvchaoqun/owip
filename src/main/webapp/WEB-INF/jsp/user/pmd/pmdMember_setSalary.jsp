@@ -303,7 +303,12 @@
                                 $("#duePaySpan").html(ret.duePay);
                             } else {
                                 $("#modal").modal('hide');
+                                <c:if test="${param.isBranchAdmin==1}">
+                                $("#jqGrid2").trigger("reloadGrid");
+                                </c:if>
+                                <c:if test="${param.isBranchAdmin!=1}">
                                 $("#jqGrid").trigger("reloadGrid");
+                                </c:if>
                             }
                         }
                     }

@@ -38,6 +38,21 @@
                             <i class="fa fa-trash"></i> 删除
                         </button>
                     </shiro:hasPermission>
+                    <c:if test="${!pmdParty.hasReport}">
+                    <shiro:hasPermission name="pmdBranch:delay">
+                        <button id="delayBtn" data-url="${ctx}/pmd/pmdBranch_delay"
+                                data-grid-id="#jqGrid2"
+                                class="jqOpenViewBtn btn btn-info btn-sm">
+                            <i class="fa fa-hourglass-1"></i> 批量延迟缴费
+                        </button>
+                    </shiro:hasPermission>
+                    <shiro:hasPermission name="pmdParty:forceReport">
+                        <button data-url="${ctx}/pmd/pmdParty_forceReport?id=${pmdParty.id}"
+                                class="popupBtn btn btn-success btn-sm">
+                            <i class="fa fa-hand-paper-o"></i> 强制报送
+                        </button>
+                    </shiro:hasPermission>
+                    </c:if>
                     </c:if>
                 </div>
                 <div class="space-4"></div>
@@ -56,8 +71,29 @@
     $("#jqGrid2").jqGrid({
         pager: "jqGridPager2",
         url: '${ctx}/pmd/pmdBranch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: colModel
+        colModel: colModel,
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
+
+    function _onSelectRow(grid) {
+        var ids = $(grid).getGridParam("selarrrow");
+
+        if (ids.length > 1) {
+            $("#delayBtn").prop("disabled", true);
+        } else if (ids.length == 1) {
+            var rowData = $(grid).getRowData(ids[0]);
+            var hasReport = (rowData.hasReport == "true");
+            var canReport = (rowData.canReport == "true");
+            $("#delayBtn").prop("disabled", hasReport||canReport);
+        }
+    }
 </script>

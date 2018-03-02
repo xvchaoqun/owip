@@ -24,13 +24,19 @@
                     <c:if test="${param.monthId==_pmdMonth.id}">
                     <shiro:hasPermission name="pmdParty:delay">
                         <button data-url="${ctx}/pmd/pmdParty_delay"
-                                data-title="批量延迟缴费"
                                 data-grid-id="#jqGrid2"
-                                class="jqOpenViewBtn btn btn-warning btn-sm">
+                                class="jqOpenViewBtn btn btn-info btn-sm">
                             <i class="fa fa-hourglass-1"></i> 批量延迟缴费
                         </button>
                     </shiro:hasPermission>
-                </c:if>
+                    <shiro:hasPermission name="pmdParty:forceReport">
+                        <button data-url="${ctx}/pmd/pmdParty_forceReport"
+                                data-grid-id="#jqGrid2"
+                                class="jqOpenViewBtn btn btn-success btn-sm">
+                            <i class="fa fa-hand-paper-o"></i> 强制报送
+                        </button>
+                    </shiro:hasPermission>
+                    </c:if>
                 </div>
                 <div class="space-4"></div>
                 <table id="jqGrid2" class="jqGrid2 table-striped"></table>

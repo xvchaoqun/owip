@@ -126,7 +126,12 @@
                 success: function (ret) {
                     if (ret.success) {
                         $("#modal").modal('hide');
+                        <c:if test="${param.auth==1}">
+                        $("#jqGrid").trigger("reloadGrid");
+                        </c:if>
+                        <c:if test="${param.auth!=1}">
                         $("#jqGrid2").trigger("reloadGrid");
+                        </c:if>
                     }
                 }
             });

@@ -1,5 +1,6 @@
 package controller.pmd;
 
+import domain.pmd.PmdMember;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdParty;
 import domain.pmd.PmdPartyView;
@@ -135,6 +136,11 @@ public class PmdPartyController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdParty_report(int id, HttpServletRequest request) {
 
+        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(id);
+        if(pmdParty.getHasReport()){
+            return  failed("已经报送。");
+        }
+
         pmdPartyService.report(id);
         logger.info(addLog(SystemConstants.LOG_PMD, "党委报送：%s", id));
 
@@ -151,6 +157,47 @@ public class PmdPartyController extends PmdBaseController {
         modelMap.put("pmdMonth", pmdMonth);
 
         return "pmd/pmdParty/pmdParty_report";
+    }
+
+    // 强制报送
+    @RequiresPermissions("pmdParty:forceReport")
+    @RequestMapping(value = "/pmdParty_checkForceReport", method = RequestMethod.POST)
+    @ResponseBody
+    public Map pmdParty_checkForceReport(int id, HttpServletRequest request) {
+
+        List<PmdMember> pmdMembers = pmdPartyService.listUnsetDuepayMembers(id);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("unsetDuepayMembers", pmdMembers);
+
+        return resultMap;
+    }
+    @RequiresPermissions("pmdParty:forceReport")
+    @RequestMapping(value = "/pmdParty_forceReport", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdParty_forceReport(int id, HttpServletRequest request) {
+
+        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(id);
+        if(pmdParty.getHasReport()){
+            return  failed("已经报送。");
+        }
+
+        pmdPartyService.forceReport(id);
+        logger.info(addLog(SystemConstants.LOG_PMD, "党委强制报送：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pmdParty:forceReport")
+    @RequestMapping("/pmdParty_forceReport")
+    public String pmdParty_forceReport(int id, ModelMap modelMap) {
+
+        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(id);
+        modelMap.put("pmdParty", pmdParty);
+        PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(pmdParty.getMonthId());
+        modelMap.put("pmdMonth", pmdMonth);
+
+        return "pmd/pmdParty/pmdParty_forceReport";
     }
 
     @RequiresPermissions("pmdParty:export")
@@ -171,7 +218,9 @@ public class PmdPartyController extends PmdBaseController {
     @ResponseBody
     public Map do_pmdParty_delay(int id, String delayReason, HttpServletRequest request) {
 
-        pmdPayService.delayParty(id, delayReason);
+        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(id);
+        pmdPayService.delayAll(pmdParty.getPartyId(), null, delayReason);
+
         return success(FormUtils.SUCCESS);
     }
 

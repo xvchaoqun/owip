@@ -2,7 +2,9 @@ package service.pmd;
 
 import controller.global.OpException;
 import domain.party.Party;
+import domain.pmd.PmdBranch;
 import domain.pmd.PmdBranchExample;
+import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberExample;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdParty;
@@ -13,6 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +42,10 @@ public class PmdPartyService extends BaseMapper {
 
     @Autowired
     private PmdMonthService pmdMonthService;
+    @Autowired
+    private PmdPayService pmdPayService;
+    @Autowired
+    private PmdBranchService pmdBranchService;
     @Autowired
     private PmdPartyAdminService pmdPartyAdminService;
 
@@ -347,5 +354,55 @@ public class PmdPartyService extends BaseMapper {
         cell.setCellValue(totalCashPay.toString());
 
         return wb;
+    }
+
+    //获取还未设置应缴额度的党员
+    public List<PmdMember> listUnsetDuepayMembers(int pmdPartyId) {
+
+        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(pmdPartyId);
+
+        PmdMemberExample example = new PmdMemberExample();
+        example.createCriteria().andMonthIdEqualTo(pmdParty.getMonthId())
+                .andPartyIdEqualTo(pmdParty.getPartyId()).andDuePayIsNull();
+
+        return pmdMemberMapper.selectByExample(example);
+    }
+
+    // 强制报送
+    @Transactional
+    public void forceReport(int pmdPartyId) {
+
+        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(pmdPartyId);
+        if(pmdParty.getHasReport()){
+            throw new OpException("重复报送。");
+        }
+
+        // 组织部管理员、分党委管理员允许报送
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), pmdParty.getPartyId())) {
+                throw new UnauthorizedException();
+            }
+        }
+
+        List<PmdMember> pmdMembers = listUnsetDuepayMembers(pmdPartyId);
+        if(pmdMembers.size()>0){
+            throw new OpException("强制报送失败：存在未设定缴费额度的党员");
+        }
+
+        pmdPayService.delayAll(pmdParty.getPartyId(), null, "强制报送");
+
+        // 报送所有支部
+        PmdBranchExample example = new PmdBranchExample();
+        example.createCriteria()
+                .andMonthIdEqualTo(pmdParty.getMonthId())
+                .andPartyIdEqualTo(pmdParty.getPartyId())
+                .andHasReportEqualTo(false);
+        List<PmdBranch> pmdBranchs = pmdBranchMapper.selectByExample(example);
+        for (PmdBranch pmdBranch : pmdBranchs) {
+            pmdBranchService.report(pmdBranch.getId());
+        }
+
+        //报送
+        report(pmdPartyId);
     }
 }
