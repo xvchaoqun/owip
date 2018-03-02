@@ -22,13 +22,13 @@
             <div class="multi-row-head-table tab-content padding-8">
                 <div class="jqgrid-vertical-offset buttons">
                     <c:if test="${param.monthId==_pmdMonth.id}">
-                    <shiro:hasPermission name="pmdParty:delay">
+                    <%--<shiro:hasPermission name="pmdParty:delay">
                         <button data-url="${ctx}/pmd/pmdParty_delay"
                                 data-grid-id="#jqGrid2"
                                 class="jqOpenViewBtn btn btn-info btn-sm">
                             <i class="fa fa-hourglass-1"></i> 批量延迟缴费
                         </button>
-                    </shiro:hasPermission>
+                    </shiro:hasPermission>--%>
                     <shiro:hasPermission name="pmdParty:forceReport">
                         <button data-url="${ctx}/pmd/pmdParty_forceReport"
                                 data-grid-id="#jqGrid2"
