@@ -7,6 +7,7 @@ import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberExample;
 import domain.pmd.PmdMemberPay;
 import domain.pmd.PmdMemberPayExample;
+import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdNorm;
 import domain.pmd.PmdNormValue;
@@ -18,14 +19,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysApprovalLogService;
-import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class PmdMemberService extends BaseMapper {
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
     @Autowired
-    private SysUserService sysUserService;
+    private  PmdMemberPayService pmdMemberPayService;
 
     public PmdMember get(int monthId, int userId){
 
@@ -67,22 +66,23 @@ public class PmdMemberService extends BaseMapper {
     public void del(Integer id) {
 
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
-        if(!pmdMember.getHasPay()) {
 
-            pmdMemberMapper.deleteByPrimaryKey(id);
-            pmdMemberPayMapper.deleteByPrimaryKey(id);
+        if(pmdMember.getHasPay()){
+            throw  new OpException("操作失败，只能删除未缴费的记录。");
         }
 
-    }
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if(pmdMember.getMonthId()!=currentPmdMonth.getId()){
 
-    @Transactional
-    public void batchDel(Integer[] ids) {
+            throw new OpException("操作失败，只能删除当前缴费月份的未缴费记录。");
+        }
+        if(pmdMemberPayService.branchHasReport(pmdMember, currentPmdMonth)){
 
-        if (ids == null || ids.length == 0) return;
+            throw  new OpException("操作失败，支部已报送。");
+        }
 
-        PmdMemberExample example = new PmdMemberExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        pmdMemberMapper.deleteByExample(example);
+        pmdMemberMapper.deleteByPrimaryKey(id);
+        pmdMemberPayMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
@@ -388,8 +388,15 @@ public class PmdMemberService extends BaseMapper {
             BigDecimal duePay = pmdMember.getDuePay();
             int userId = pmdMember.getUserId();
 
-            if(pmdMember.getHasPay() && pmdMember.getIsDelay()==false){
-                throw  new OpException("操作失败，{0}已缴费。", realname);
+            if(pmdMember.getHasPay()){
+                PmdMemberPayView pmdMemberPayView = pmdMemberPayService.get(pmdMemberId);
+                if(pmdMemberPayView.getPayMonthId()!=currentMonthId){
+                    throw  new OpException("操作失败，{0}是往月已缴费记录。", realname);
+                }
+            }
+
+            if(pmdMemberPayService.branchHasReport(pmdMember, currentPmdMonth)){
+                throw  new OpException("操作失败，{0}所在支部已报送。", realname);
             }
 
             boolean _isOnlinePay = pmdMember.getIsOnlinePay(); // 当前缴费方式

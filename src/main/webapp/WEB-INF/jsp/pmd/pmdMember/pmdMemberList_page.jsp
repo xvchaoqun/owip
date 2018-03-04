@@ -15,7 +15,7 @@ pageEncoding="UTF-8" %>
                 <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</a>--%>
-                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                    <button id="orderBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
                             data-url="${ctx}/pmd/pmdOrderCampusCard"
                             data-width="850"
                             data-id-name="memberId">
@@ -45,6 +45,12 @@ pageEncoding="UTF-8" %>
                             data-url="${ctx}/pmd/pmdMember_selectMemberType"
                             data-grid-id="#jqGrid">
                         <i class="fa fa-check-square-o"></i> 选择党员类别
+                    </button>
+                    <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                            data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"
+                            data-querystr="&auth=1"
+                            data-grid-id="#jqGrid">
+                        <i class="fa fa-edit"></i> 修改缴费方式
                     </button>
                     <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-success btn-sm"
                             data-width="600"
@@ -233,24 +239,28 @@ pageEncoding="UTF-8" %>
         var ids = $(grid).getGridParam("selarrrow");
 
         if (ids.length > 1) {
-            $("#delBtn,#helpSetSalaryBtn").prop("disabled", true);
+            $("#delBtn,#helpSetSalaryBtn, #orderBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
             var hasPay = (rowData.hasPay == "true");
             var isCurrentMonth = (rowData.monthId == '${_pmdMonth.id}');
             var isDelay = (rowData.isDelay == "true");
+            var isOnlinePay = (rowData.isOnlinePay == "true");
 
             $("#delBtn").prop("disabled", hasPay);
             $("#helpSetSalaryBtn").prop("disabled",
                     (rowData.formulaType!=${PMD_FORMULA_TYPE_ONJOB}&&rowData.formulaType!=${PMD_FORMULA_TYPE_EXTERNAL}) ||
                     rowData.isSelfSetSalary=="1" || hasPay || !isCurrentMonth || isDelay);
+
+            $("#orderBtn").prop("disabled", !isOnlinePay);
         }
 
         var configMemberType; // 选择的党员类别（设定党员分类别时的url参数，此时要求是同一类别）
         var selectMemberTypeBtn = true;
         $.each(ids, function(i, id){
             var rowData = $(grid).getRowData(id);
-
+            var hasPay = (rowData.hasPay == "true");
+            var isDelay = (rowData.isDelay == "true");
             if(selectMemberTypeBtn){
                 if (hasPay || isDelay) {
                     selectMemberTypeBtn = false;

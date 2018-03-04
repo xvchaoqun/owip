@@ -84,22 +84,30 @@ public class PmdMemberPayService extends BaseMapper {
               */
             int userId = pmdMemberPayView.getUserId();
             PmdMember pmdMember = pmdMemberService.get(currentMonthId, userId);
-            int partyId = pmdMember.getPartyId();
-            Integer branchId = pmdMember.getBranchId();
-
-            if (branchId != null) {
-
-                PmdBranch pmdBranch = pmdBranchService.get(currentPmdMonth.getId(), partyId, branchId);
-                // 支部已报送
-                if (pmdBranch==null || pmdBranch.getHasReport()) return notAllowed;
-            } else {
-
-                PmdParty pmdParty = pmdPartyService.get(currentPmdMonth.getId(), partyId);
-                // 直属党支部已报送
-                if (pmdParty==null || pmdParty.getHasReport()) return notAllowed;
-            }
+            if(branchHasReport(pmdMember, currentPmdMonth))
+                return notAllowed;
 
             return delayPay;
         }
+    }
+
+    public boolean branchHasReport(PmdMember pmdMember, PmdMonth currentPmdMonth){
+
+        int partyId = pmdMember.getPartyId();
+        Integer branchId = pmdMember.getBranchId();
+
+        if (branchId != null) {
+
+            PmdBranch pmdBranch = pmdBranchService.get(currentPmdMonth.getId(), partyId, branchId);
+            // 支部已报送
+            if (pmdBranch==null || pmdBranch.getHasReport()) return true;
+        } else {
+
+            PmdParty pmdParty = pmdPartyService.get(currentPmdMonth.getId(), partyId);
+            // 直属党支部已报送
+            if (pmdParty==null || pmdParty.getHasReport()) return true;
+        }
+
+        return false;
     }
 }

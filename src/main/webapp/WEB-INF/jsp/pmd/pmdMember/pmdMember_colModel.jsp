@@ -12,8 +12,9 @@
               .format(rowObject.id, rowObject.payStatus==1?'缴费':'补缴');
     }, frozen: true},
     </c:if>
-      { label: '缴费方式',name: 'isOnlinePay', width: 90, formatter: $.jgrid.formatter.TRUEFALSE,
-          formatoptions: {on: '线上缴费', off:'<span class="text-success bolder">现金缴费</span>'}, frozen: true},
+      { label: '缴费方式',name: '_isOnlinePay', width: 90, formatter: function (cellvalue, options, rowObject) {
+          return (rowObject.isOnlinePay)?'线上缴费':'<span class="text-success bolder">现金缴费</span>';
+      }, frozen: true},
     { label: '缴费状态',name: '_hasPay', formatter: function (cellvalue, options, rowObject) {
         if(!rowObject.isOnlinePay) return '-'
       return rowObject.hasPay?('<span class="text-success">'+ (rowObject.isDelay?'补缴已确认':'缴费已确认') + '</span>')
@@ -111,7 +112,7 @@
       if(!rowObject.isDelay) return '-'
       return "延迟缴费：" + $.trim(cellvalue);
     }},{hidden: true, name: 'normType'}, {hidden: true, name: 'hasPay'},
-    {hidden: true, name: 'isDelay'}, {hidden: true, name: 'monthId'},
+    {hidden: true, name: 'isOnlinePay'}, {hidden: true, name: 'isDelay'}, {hidden: true, name: 'monthId'},
     {hidden: true, name: 'type'}, {hidden: true, name: 'configMemberTypeId'},
     {hidden: true, name: 'isSelfSetSalary', formatter: function (cellvalue, options, rowObject) {
       if(rowObject.pmdConfigMember==undefined || rowObject.pmdConfigMember.isSelfSetSalary==undefined) return "0";
