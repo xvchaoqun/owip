@@ -165,8 +165,8 @@ public class PmdConfigMemberService extends BaseMapper {
                 sysApprovalLogService.add(pmdMember.getId(), userId,
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                         SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
-                        remark, SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                        null);
+                        "更新缴费额度", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                        remark);
             }
         }
     }

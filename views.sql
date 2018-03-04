@@ -125,7 +125,7 @@ DROP VIEW IF EXISTS `pmd_member_pay_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pmd_member_pay_view` AS
 select pm.id, pmp.*, pm.pay_month, pm.month_id, pm.is_delay,
 pm.delay_reason, pm.user_id, pm.party_id,
-pm.branch_id, pm.type, pm.due_pay from pmd_member_pay pmp
+pm.branch_id, pm.type, pm.config_member_type_id, pm.due_pay_reason, pm.due_pay from pmd_member_pay pmp
 left join pmd_member pm on pmp.member_id=pm.id ;
 
 DROP VIEW IF EXISTS `pmd_pay_party_view`;

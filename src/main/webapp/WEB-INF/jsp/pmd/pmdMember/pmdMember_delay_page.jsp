@@ -72,6 +72,11 @@
                             data-grid-id="#jqGrid2">
                         <i class="fa fa-rmb"></i> 代缴党费
                     </button>
+                    <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                            data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"
+                            data-grid-id="#jqGrid2">
+                        <i class="fa fa-edit"></i> 修改缴费方式
+                    </button>
                 </c:if>
                 </div>
                 <div class="space-4"></div>

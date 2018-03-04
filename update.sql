@@ -1,4 +1,18 @@
 
+
+ALTER TABLE `pmd_member`
+	ADD COLUMN `is_online_pay` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '缴费方式，1 线上缴费 0 现金缴费' AFTER `has_pay`,
+	CHANGE COLUMN `is_self_pay` `is_self_pay` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '线上缴费途径， 1 线上缴费、0 代缴党费' AFTER `is_online_pay`;
+
+ALTER TABLE `pmd_member_pay`
+	ADD COLUMN `is_online_pay` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '缴费方式，1 线上缴费 0 现金缴费' AFTER `has_pay`,
+	CHANGE COLUMN `is_self_pay` `is_self_pay` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '线上缴费途径， 1 线上缴费、0 代缴党费' AFTER `is_online_pay`;
+
+ALTER TABLE `pmd_config_member`
+	ADD COLUMN `is_online_pay` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '缴费方式，1 线上缴费 0 现金缴费 ， 缴费额度没设置前，不允许设置为现金缴费' AFTER `config_member_type_id`;
+
+更新 pmd_member_pay_view
+
 2018-2-16
 ALTER TABLE `dispatch`
 	ADD COLUMN `sc_dispatch_id` INT(10) UNSIGNED NULL COMMENT '文件签发稿' AFTER `id`;

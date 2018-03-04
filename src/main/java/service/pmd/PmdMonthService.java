@@ -204,7 +204,7 @@ public class PmdMonthService extends BaseMapper {
                         .andPartyIdEqualTo(partyId).andBranchIdIsNull();
                 List<Member> members = memberMapper.selectByExample(example);
                 for (Member member : members) {
-                    addMember(currentMonth, member);
+                    addOrResetMember(null, currentMonth, member);
                 }
                 //Integer memberCount = members.size();
 
@@ -272,7 +272,7 @@ public class PmdMonthService extends BaseMapper {
                 .andPartyIdEqualTo(partyId).andBranchIdEqualTo(branchId);
         List<Member> members = memberMapper.selectByExample(example);
         for (Member member : members) {
-            addMember(currentMonth, member);
+            addOrResetMember(null, currentMonth, member);
         }
 
         {
@@ -442,9 +442,9 @@ public class PmdMonthService extends BaseMapper {
         }
     }*/
 
-    // 添加一个党员
+    // 添加或重置党员缴费记录
     @Transactional
-    private PmdMember addMember(PmdMonth pmdMonth, Member member) {
+    private PmdMember addOrResetMember(Integer pmdMemberId, PmdMonth pmdMonth, Member member) {
 
         int monthId = pmdMonth.getId();
         int userId = member.getUserId();
@@ -467,6 +467,8 @@ public class PmdMonthService extends BaseMapper {
         // 党费缴纳标准（辅助字段）
         String duePayReason = null;
 
+        Boolean isOnlinePay = true;
+
         PmdConfigMember pmdConfigMember = pmdConfigMemberMapper.selectByPrimaryKey(userId);
         if (pmdConfigMember != null && pmdConfigMember.getConfigMemberType() != null) {
             configMemberType = pmdConfigMember.getConfigMemberType();
@@ -474,6 +476,18 @@ public class PmdMonthService extends BaseMapper {
             configMemberTypeId = pmdConfigMember.getConfigMemberTypeId();
             ltxf = pmdConfigMember.getRetireSalary();
             needSetSalary = BooleanUtils.isNotTrue(pmdConfigMember.getHasSetSalary());
+            isOnlinePay = pmdConfigMember.getIsOnlinePay();
+
+            if(pmdMemberId!=null){
+
+                isOnlinePay = true;
+                // 缴费方式更新为线上缴费（现金缴费修改为线上缴费时调用）
+                PmdConfigMember record = new PmdConfigMember();
+                record.setUserId(userId);
+                record.setIsOnlinePay(true);
+                pmdConfigMemberMapper.updateByPrimaryKeySelective(record);
+            }
+
         } else {
             if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
                 configMemberType = PmdConstants.PMD_MEMBER_TYPE_STUDENT;
@@ -534,10 +548,13 @@ public class PmdMonthService extends BaseMapper {
             record.setConfigMemberTypeId(configMemberTypeId);
             record.setDuePay(duePay);
             record.setRetireSalary(ltxf);
+            // 默认线上缴费
+            record.setIsOnlinePay(true);
+
             pmdConfigMemberService.insertSelective(record);
         }
 
-        Integer memberId = null;
+        Integer _pmdMemberId = null;
         // 新建党员快照
         PmdMember _pmdMember = new PmdMember();
         {
@@ -593,36 +610,68 @@ public class PmdMonthService extends BaseMapper {
             _pmdMember.setIsDelay(false);
             _pmdMember.setHasPay(false);
 
-            pmdMemberMapper.insertSelective(_pmdMember);
-            memberId = _pmdMember.getId();
+            _pmdMember.setIsOnlinePay(true);
+
+            if(pmdMemberId==null) {
+                pmdMemberMapper.insertSelective(_pmdMember);
+                _pmdMemberId = _pmdMember.getId();
+            }else{
+                _pmdMember.setId(pmdMemberId);
+                _pmdMember.setRealPay(new BigDecimal(0));
+                pmdMemberMapper.updateByPrimaryKeySelective(_pmdMember);
+            }
         }
 
-        {
+        if(pmdMemberId==null) {
             // 同步至党员账本
             PmdMemberPay record = new PmdMemberPay();
-            record.setMemberId(memberId);
+            record.setMemberId(_pmdMemberId);
             record.setHasPay(false);
 
             pmdMemberPayMapper.insertSelective(record);
+        }else{
+
+            commonMapper.excuteSql("update pmd_member_pay set real_pay=null, " +
+                    "has_pay=0, is_online_pay=1, pay_month_id=null where member_id=" + pmdMemberId);
+        }
+
+        // 当党员默认为现金缴费时，同步添加当月的缴费记录时，需要更新为已缴费
+        if(!isOnlinePay){
+
+            if(pmdMemberId != null || duePay == null){
+                // 重置缴费信息时，不可能为现金缴费
+                throw new OpException("参数有误");
+            }
+
+            commonMapper.excuteSql(String.format("update pmd_member set real_pay=%s, has_pay=1, " +
+                    "is_online_pay=0 where id=%s", duePay, _pmdMemberId));
+
+            int partyId = _pmdMember.getPartyId();
+            Integer branchId = _pmdMember.getBranchId();
+
+            commonMapper.excuteSql(String.format("update pmd_member_pay set real_pay=%s, " +
+                    "has_pay=1, is_online_pay=0, pay_month_id=%s, charge_party_id=%s, charge_branch_id=%s"
+                    +" where member_id=%s" , duePay, monthId, partyId, branchId,  _pmdMemberId));
         }
         
         return _pmdMember;
     }
 
-    // 添加一条党员缴费记录
+    // 添加或重置党员缴费记录
     @Transactional
     @CacheEvict(value = "PmdConfigMember", key = "#userId")
-    public void addPmdMember(int userId){
+    public void addOrResetPmdMember(int userId, Integer pmdMemberId){
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         Member member = memberService.get(userId);
         if(currentPmdMonth==null || member==null){
 
-            logger.info("添加缴费记录失败，未到缴费月份或不是党员：" + userId);
-            return;
+            throw new OpException("{1}缴费记录失败，未到缴费月份或不是党员：{0}",
+                    sysUserService.findById(member.getUserId()).getRealname(),
+                    pmdMemberId==null?"添加":"更新");
         }
 
-        PmdMember pmdMember = addMember(currentPmdMonth, member);
+        PmdMember pmdMember = addOrResetMember(pmdMemberId, currentPmdMonth, member);
 
         String salaryMonth = DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM");
         SysUserView uv = sysUserService.findById(userId);
@@ -637,7 +686,7 @@ public class PmdMonthService extends BaseMapper {
 
         sysApprovalLogService.add(pmdMember.getId(), userId, SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
-                "添加缴费记录", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+                (pmdMemberId==null?"添加":"更新")+ "缴费记录", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
     // 得到某月的分党委ID列表
@@ -887,6 +936,16 @@ public class PmdMonthService extends BaseMapper {
         if(_pmdMonth.getStatus()!=PmdConstants.PMD_MONTH_STATUS_INIT){
 
             throw new OpException("只能修改未启动的缴费月份。");
+        }
+
+        {
+            PmdMonthExample example = new PmdMonthExample();
+            example.createCriteria().andIdNotEqualTo(id)
+                    .andPayMonthGreaterThanOrEqualTo(DateUtils.getFirstDateOfMonth(month));
+            if(pmdMonthMapper.countByExample(example)>0){
+
+                throw new OpException("缴费月份有误。");
+            }
         }
 
         PmdMonth record = new PmdMonth();

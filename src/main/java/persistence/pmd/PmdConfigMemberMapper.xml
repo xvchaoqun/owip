@@ -6,6 +6,7 @@
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="config_member_type" jdbcType="TINYINT" property="configMemberType" />
     <result column="config_member_type_id" jdbcType="INTEGER" property="configMemberTypeId" />
+    <result column="is_online_pay" jdbcType="BIT" property="isOnlinePay" />
     <result column="due_pay" jdbcType="DECIMAL" property="duePay" />
     <result column="has_salary" jdbcType="BIT" property="hasSalary" />
     <result column="has_reset" jdbcType="BIT" property="hasReset" />
@@ -88,9 +89,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, mobile, config_member_type, config_member_type_id, due_pay, has_salary, 
-    has_reset, has_set_salary, retire_salary, gwgz, xjgz, gwjt, zwbt, zwbt1, shbt, sbf, 
-    xlf, gzcx, shiyebx, yanglaobx, yiliaobx, gsbx, shengyubx, qynj, zynj, gjj
+    user_id, mobile, config_member_type, config_member_type_id, is_online_pay, due_pay, 
+    has_salary, has_reset, has_set_salary, retire_salary, gwgz, xjgz, gwjt, zwbt, zwbt1, 
+    shbt, sbf, xlf, gzcx, shiyebx, yanglaobx, yiliaobx, gsbx, shengyubx, qynj, zynj, 
+    gjj
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdConfigMemberExample" resultMap="BaseResultMap">
     select
@@ -124,21 +126,23 @@
   </delete>
   <insert id="insert" parameterType="domain.pmd.PmdConfigMember">
     insert into pmd_config_member (user_id, mobile, config_member_type, 
-      config_member_type_id, due_pay, has_salary, 
-      has_reset, has_set_salary, retire_salary, 
-      gwgz, xjgz, gwjt, zwbt, 
-      zwbt1, shbt, sbf, xlf, 
-      gzcx, shiyebx, yanglaobx, 
-      yiliaobx, gsbx, shengyubx, 
-      qynj, zynj, gjj)
+      config_member_type_id, is_online_pay, due_pay, 
+      has_salary, has_reset, has_set_salary, 
+      retire_salary, gwgz, xjgz, 
+      gwjt, zwbt, zwbt1, 
+      shbt, sbf, xlf, gzcx, 
+      shiyebx, yanglaobx, yiliaobx, 
+      gsbx, shengyubx, qynj, 
+      zynj, gjj)
     values (#{userId,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{configMemberType,jdbcType=TINYINT}, 
-      #{configMemberTypeId,jdbcType=INTEGER}, #{duePay,jdbcType=DECIMAL}, #{hasSalary,jdbcType=BIT}, 
-      #{hasReset,jdbcType=BIT}, #{hasSetSalary,jdbcType=BIT}, #{retireSalary,jdbcType=DECIMAL}, 
-      #{gwgz,jdbcType=DECIMAL}, #{xjgz,jdbcType=DECIMAL}, #{gwjt,jdbcType=DECIMAL}, #{zwbt,jdbcType=DECIMAL}, 
-      #{zwbt1,jdbcType=DECIMAL}, #{shbt,jdbcType=DECIMAL}, #{sbf,jdbcType=DECIMAL}, #{xlf,jdbcType=DECIMAL}, 
-      #{gzcx,jdbcType=DECIMAL}, #{shiyebx,jdbcType=DECIMAL}, #{yanglaobx,jdbcType=DECIMAL}, 
-      #{yiliaobx,jdbcType=DECIMAL}, #{gsbx,jdbcType=DECIMAL}, #{shengyubx,jdbcType=DECIMAL}, 
-      #{qynj,jdbcType=DECIMAL}, #{zynj,jdbcType=DECIMAL}, #{gjj,jdbcType=DECIMAL})
+      #{configMemberTypeId,jdbcType=INTEGER}, #{isOnlinePay,jdbcType=BIT}, #{duePay,jdbcType=DECIMAL}, 
+      #{hasSalary,jdbcType=BIT}, #{hasReset,jdbcType=BIT}, #{hasSetSalary,jdbcType=BIT}, 
+      #{retireSalary,jdbcType=DECIMAL}, #{gwgz,jdbcType=DECIMAL}, #{xjgz,jdbcType=DECIMAL}, 
+      #{gwjt,jdbcType=DECIMAL}, #{zwbt,jdbcType=DECIMAL}, #{zwbt1,jdbcType=DECIMAL}, 
+      #{shbt,jdbcType=DECIMAL}, #{sbf,jdbcType=DECIMAL}, #{xlf,jdbcType=DECIMAL}, #{gzcx,jdbcType=DECIMAL}, 
+      #{shiyebx,jdbcType=DECIMAL}, #{yanglaobx,jdbcType=DECIMAL}, #{yiliaobx,jdbcType=DECIMAL}, 
+      #{gsbx,jdbcType=DECIMAL}, #{shengyubx,jdbcType=DECIMAL}, #{qynj,jdbcType=DECIMAL}, 
+      #{zynj,jdbcType=DECIMAL}, #{gjj,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdConfigMember">
     insert into pmd_config_member
@@ -154,6 +158,9 @@
       </if>
       <if test="configMemberTypeId != null">
         config_member_type_id,
+      </if>
+      <if test="isOnlinePay != null">
+        is_online_pay,
       </if>
       <if test="duePay != null">
         due_pay,
@@ -234,6 +241,9 @@
       </if>
       <if test="configMemberTypeId != null">
         #{configMemberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="isOnlinePay != null">
+        #{isOnlinePay,jdbcType=BIT},
       </if>
       <if test="duePay != null">
         #{duePay,jdbcType=DECIMAL},
@@ -324,6 +334,9 @@
       <if test="record.configMemberTypeId != null">
         config_member_type_id = #{record.configMemberTypeId,jdbcType=INTEGER},
       </if>
+      <if test="record.isOnlinePay != null">
+        is_online_pay = #{record.isOnlinePay,jdbcType=BIT},
+      </if>
       <if test="record.duePay != null">
         due_pay = #{record.duePay,jdbcType=DECIMAL},
       </if>
@@ -401,6 +414,7 @@
       mobile = #{record.mobile,jdbcType=VARCHAR},
       config_member_type = #{record.configMemberType,jdbcType=TINYINT},
       config_member_type_id = #{record.configMemberTypeId,jdbcType=INTEGER},
+      is_online_pay = #{record.isOnlinePay,jdbcType=BIT},
       due_pay = #{record.duePay,jdbcType=DECIMAL},
       has_salary = #{record.hasSalary,jdbcType=BIT},
       has_reset = #{record.hasReset,jdbcType=BIT},
@@ -438,6 +452,9 @@
       </if>
       <if test="configMemberTypeId != null">
         config_member_type_id = #{configMemberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="isOnlinePay != null">
+        is_online_pay = #{isOnlinePay,jdbcType=BIT},
       </if>
       <if test="duePay != null">
         due_pay = #{duePay,jdbcType=DECIMAL},
@@ -513,6 +530,7 @@
     set mobile = #{mobile,jdbcType=VARCHAR},
       config_member_type = #{configMemberType,jdbcType=TINYINT},
       config_member_type_id = #{configMemberTypeId,jdbcType=INTEGER},
+      is_online_pay = #{isOnlinePay,jdbcType=BIT},
       due_pay = #{duePay,jdbcType=DECIMAL},
       has_salary = #{hasSalary,jdbcType=BIT},
       has_reset = #{hasReset,jdbcType=BIT},

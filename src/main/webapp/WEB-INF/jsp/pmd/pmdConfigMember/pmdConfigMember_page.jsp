@@ -8,7 +8,7 @@
              data-url-page="${ctx}/pmd/pmdConfigMember"
              data-url-export="${ctx}/pmd/pmdConfigMember_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.configMemberType
+            <c:set var="_query" value="${not empty param.userId ||not empty param.isOnlinePay ||not empty param.configMemberType
             ||not empty param.configMemberTypeId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <%--<shiro:hasPermission name="pmdConfigMember:edit">
@@ -49,6 +49,19 @@
                 <div class="widget-body">
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
+                            <div class="form-group">
+                                <label>缴费方式</label>
+                                <select data-rel="select2" name="isOnlinePay"
+                                        data-width="120"
+                                        data-placeholder="请选择">
+                                    <option></option>
+                                    <option value="1">线上缴费</option>
+                                    <option value="0">现金缴费</option>
+                                </select>
+                                <script>
+                                    $("#searchForm select[name=isOnlinePay]").val("${param.isOnlinePay}")
+                                </script>
+                            </div>
                             <div class="form-group">
                                 <label>姓名</label>
                                 <select data-rel="select2-ajax"
@@ -121,9 +134,11 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/pmd/pmdConfigMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '工作证号', name: 'user.code', width: 120},
-            {label: '姓名', name: 'user.realname'},
-            {label: '手机号码', name: 'mobile', width: 110},
+            {label: '工作证号', name: 'user.code', width: 120, frozen: true},
+            {label: '姓名', name: 'user.realname', frozen: true},
+            {label: '手机号码', name: 'mobile', width: 110, frozen: true},
+            { label: '缴费方式',name: 'isOnlinePay', width: 90, formatter: $.jgrid.formatter.TRUEFALSE,
+                formatoptions: {on: '线上缴费', off:'<span class="text-success bolder">现金缴费</span>'}, frozen: true},
             {
                 label: '党员类别', name: 'configMemberType', formatter: function (cellvalue, options, rowObject) {
                 return _cMap.PMD_MEMBER_TYPE_MAP[cellvalue];

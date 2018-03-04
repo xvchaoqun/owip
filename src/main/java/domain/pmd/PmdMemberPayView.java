@@ -1,6 +1,7 @@
 package domain.pmd;
 
 import domain.sys.SysUserView;
+import persistence.pmd.PmdConfigMemberMapper;
 import service.pmd.PmdMemberPayService;
 import sys.tags.CmTag;
 
@@ -31,6 +32,12 @@ public class PmdMemberPayView implements Serializable {
         return pmdMemberPayService.getPayStatus(memberId);
     }
 
+    public PmdConfigMember getPmdConfigMember(){
+
+        PmdConfigMemberMapper pmdConfigMemberMapper = CmTag.getBean(PmdConfigMemberMapper.class);
+        return pmdConfigMemberMapper.selectByPrimaryKey(userId);
+    }
+
     private Integer id;
 
     private Integer memberId;
@@ -42,6 +49,8 @@ public class PmdMemberPayView implements Serializable {
     private BigDecimal realPay;
 
     private Boolean hasPay;
+
+    private Boolean isOnlinePay;
 
     private Boolean isSelfPay;
 
@@ -70,6 +79,10 @@ public class PmdMemberPayView implements Serializable {
     private Integer branchId;
 
     private Byte type;
+
+    private Integer configMemberTypeId;
+
+    private String duePayReason;
 
     private BigDecimal duePay;
 
@@ -121,6 +134,14 @@ public class PmdMemberPayView implements Serializable {
 
     public void setHasPay(Boolean hasPay) {
         this.hasPay = hasPay;
+    }
+
+    public Boolean getIsOnlinePay() {
+        return isOnlinePay;
+    }
+
+    public void setIsOnlinePay(Boolean isOnlinePay) {
+        this.isOnlinePay = isOnlinePay;
     }
 
     public Boolean getIsSelfPay() {
@@ -233,6 +254,22 @@ public class PmdMemberPayView implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Integer getConfigMemberTypeId() {
+        return configMemberTypeId;
+    }
+
+    public void setConfigMemberTypeId(Integer configMemberTypeId) {
+        this.configMemberTypeId = configMemberTypeId;
+    }
+
+    public String getDuePayReason() {
+        return duePayReason;
+    }
+
+    public void setDuePayReason(String duePayReason) {
+        this.duePayReason = duePayReason == null ? null : duePayReason.trim();
     }
 
     public BigDecimal getDuePay() {

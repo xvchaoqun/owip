@@ -177,6 +177,7 @@ public class PmdConfigResetService extends BaseMapper {
         }
     }
 
+    // 重置党员缴费基本信息，只针对线上缴费，缴费方式已设置为现金缴费的不处理。
     @Transactional
     @CacheEvict(value = "PmdConfigMember", allEntries = true)
     public void reset(String salaryMonth) {
@@ -184,7 +185,10 @@ public class PmdConfigResetService extends BaseMapper {
         {
             PmdConfigMember record = new PmdConfigMember();
             record.setHasReset(false);
-            pmdConfigMemberMapper.updateByExampleSelective(record, new PmdConfigMemberExample());
+
+            PmdConfigMemberExample example = new PmdConfigMemberExample();
+            example.createCriteria().andIsOnlinePayEqualTo(true);
+            pmdConfigMemberMapper.updateByExampleSelective(record, example);
         }
 
         // 同步月份工资到党员缴费分类列表中 （在职、校聘教职工）
@@ -200,10 +204,10 @@ public class PmdConfigResetService extends BaseMapper {
             updateDuePayByRetireSalary(ers);
         }
 
-        {
-            PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        // 支部自行设定的额度，需要进行确认，（清除本月已设定的，但未缴费、未延迟缴费的记录的缴费额度）
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if(currentPmdMonth!=null){
 
-            // 支部自行设定的额度，需要进行确认，（清除本月已设定的，但未缴费的记录的缴费额度）
             List<Integer> configMemberTypeIdList = new ArrayList<>();
             List<PmdNorm> pmdNormList = pmdNormService.list(PmdConstants.PMD_NORM_TYPE_PAY,
                     PmdConstants.PMD_NORM_SET_TYPE_SET);
@@ -220,7 +224,9 @@ public class PmdConfigResetService extends BaseMapper {
             PmdMemberExample example = new PmdMemberExample();
             example.createCriteria().andMonthIdEqualTo(currentPmdMonth.getId())
                     .andConfigMemberTypeIdIn(configMemberTypeIdList)
-                    .andHasPayEqualTo(false);
+                    .andHasPayEqualTo(false)
+                    .andIsDelayEqualTo(false)
+                    .andIsOnlinePayEqualTo(true); // 只针对线上缴费
             List<PmdMember> pmdMembers = pmdMemberMapper.selectByExample(example);
             for (PmdMember pmdMember : pmdMembers) {
                 pmdConfigMemberService.clearPmdMemberDuePay(pmdMember.getUserId());

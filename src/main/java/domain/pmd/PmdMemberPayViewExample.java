@@ -503,6 +503,66 @@ public class PmdMemberPayViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsOnlinePayIsNull() {
+            addCriterion("is_online_pay is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlinePayIsNotNull() {
+            addCriterion("is_online_pay is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlinePayEqualTo(Boolean value) {
+            addCriterion("is_online_pay =", value, "isOnlinePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlinePayNotEqualTo(Boolean value) {
+            addCriterion("is_online_pay <>", value, "isOnlinePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlinePayGreaterThan(Boolean value) {
+            addCriterion("is_online_pay >", value, "isOnlinePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlinePayGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_online_pay >=", value, "isOnlinePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlinePayLessThan(Boolean value) {
+            addCriterion("is_online_pay <", value, "isOnlinePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlinePayLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_online_pay <=", value, "isOnlinePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlinePayIn(List<Boolean> values) {
+            addCriterion("is_online_pay in", values, "isOnlinePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlinePayNotIn(List<Boolean> values) {
+            addCriterion("is_online_pay not in", values, "isOnlinePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlinePayBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_online_pay between", value1, value2, "isOnlinePay");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlinePayNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_online_pay not between", value1, value2, "isOnlinePay");
+            return (Criteria) this;
+        }
+
         public Criteria andIsSelfPayIsNull() {
             addCriterion("is_self_pay is null");
             return (Criteria) this;
@@ -1350,6 +1410,136 @@ public class PmdMemberPayViewExample {
 
         public Criteria andTypeNotBetween(Byte value1, Byte value2) {
             addCriterion("type not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdIsNull() {
+            addCriterion("config_member_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdIsNotNull() {
+            addCriterion("config_member_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdEqualTo(Integer value) {
+            addCriterion("config_member_type_id =", value, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdNotEqualTo(Integer value) {
+            addCriterion("config_member_type_id <>", value, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdGreaterThan(Integer value) {
+            addCriterion("config_member_type_id >", value, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("config_member_type_id >=", value, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdLessThan(Integer value) {
+            addCriterion("config_member_type_id <", value, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("config_member_type_id <=", value, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdIn(List<Integer> values) {
+            addCriterion("config_member_type_id in", values, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdNotIn(List<Integer> values) {
+            addCriterion("config_member_type_id not in", values, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("config_member_type_id between", value1, value2, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfigMemberTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("config_member_type_id not between", value1, value2, "configMemberTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonIsNull() {
+            addCriterion("due_pay_reason is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonIsNotNull() {
+            addCriterion("due_pay_reason is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonEqualTo(String value) {
+            addCriterion("due_pay_reason =", value, "duePayReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonNotEqualTo(String value) {
+            addCriterion("due_pay_reason <>", value, "duePayReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonGreaterThan(String value) {
+            addCriterion("due_pay_reason >", value, "duePayReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonGreaterThanOrEqualTo(String value) {
+            addCriterion("due_pay_reason >=", value, "duePayReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonLessThan(String value) {
+            addCriterion("due_pay_reason <", value, "duePayReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonLessThanOrEqualTo(String value) {
+            addCriterion("due_pay_reason <=", value, "duePayReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonLike(String value) {
+            addCriterion("due_pay_reason like", value, "duePayReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonNotLike(String value) {
+            addCriterion("due_pay_reason not like", value, "duePayReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonIn(List<String> values) {
+            addCriterion("due_pay_reason in", values, "duePayReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonNotIn(List<String> values) {
+            addCriterion("due_pay_reason not in", values, "duePayReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonBetween(String value1, String value2) {
+            addCriterion("due_pay_reason between", value1, value2, "duePayReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andDuePayReasonNotBetween(String value1, String value2) {
+            addCriterion("due_pay_reason not between", value1, value2, "duePayReason");
             return (Criteria) this;
         }
 

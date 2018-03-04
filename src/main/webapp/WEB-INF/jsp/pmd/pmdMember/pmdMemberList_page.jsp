@@ -8,8 +8,8 @@ pageEncoding="UTF-8" %>
                  data-url-page="${ctx}/pmd/pmdMember"
                  data-url-export="${ctx}/pmd/pmdMember_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.chargeUserId ||not empty param.hasPay
-            ||not empty param.orderNo ||not empty param.monthId ||not empty param._payTime
+            <c:set var="_query" value="${not empty param.userId ||not empty param.chargeUserId ||not empty param.isOnlinePay
+             ||not empty param.hasPay ||not empty param.orderNo ||not empty param.monthId ||not empty param._payTime
              || not empty param.isDelay || not empty param.isSelfPay|| not empty param.partyId}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
@@ -107,6 +107,19 @@ pageEncoding="UTF-8" %>
                                         '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                             </script>
                             <div class="form-group">
+                                <label>缴费方式</label>
+                                <select data-rel="select2" name="isOnlinePay"
+                                        data-width="120"
+                                        data-placeholder="请选择">
+                                    <option></option>
+                                    <option value="1">线上缴费</option>
+                                    <option value="0">现金缴费</option>
+                                </select>
+                                <script>
+                                    $("#searchForm select[name=isOnlinePay]").val("${param.isOnlinePay}")
+                                </script>
+                            </div>
+                            <div class="form-group">
                                 <label>缴费党员</label>
                                 <select data-rel="select2-ajax"
                                         data-ajax-url="${ctx}/member_selects?noAuth=1"
@@ -149,7 +162,7 @@ pageEncoding="UTF-8" %>
                                 </script>
                             </div>
                             <div class="form-group">
-                                <label>缴费方式</label>
+                                <label>线上缴费方式</label>
                                 <select data-rel="select2" name="isSelfPay"
                                         data-width="120"
                                         data-placeholder="请选择">

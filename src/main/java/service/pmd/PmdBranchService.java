@@ -137,7 +137,7 @@ public class PmdBranchService extends BaseMapper {
         }
 
         if(pmdBranch.getHasReport()){
-            throw new OpException("该支部已报送");
+            throw new OpException("不能删除已报送支部");
         }
 
         int partyId = pmdBranch.getPartyId();

@@ -12,13 +12,17 @@
               .format(rowObject.id, rowObject.payStatus==1?'缴费':'补缴');
     }, frozen: true},
     </c:if>
+      { label: '缴费方式',name: 'isOnlinePay', width: 90, formatter: $.jgrid.formatter.TRUEFALSE,
+          formatoptions: {on: '线上缴费', off:'<span class="text-success bolder">现金缴费</span>'}, frozen: true},
     { label: '缴费状态',name: '_hasPay', formatter: function (cellvalue, options, rowObject) {
+        if(!rowObject.isOnlinePay) return '-'
       return rowObject.hasPay?('<span class="text-success">'+ (rowObject.isDelay?'补缴已确认':'缴费已确认') + '</span>')
               :'<span class="text-danger">未缴费</span>';
     }, frozen: true},
     { label: '按时/延迟缴费',name: '_isDelay', width: 120, formatter: function (cellvalue, options, rowObject) {
 
       if(rowObject.isDelay) return '延迟缴费'
+      if(!rowObject.isOnlinePay) return '-'
       return (rowObject.hasPay)?"按时缴费":"-";
     }, frozen: true},
     { label: '工作证号',name: 'user.code', width: 120/*, formatter:function(cellvalue, options, rowObject){
@@ -47,6 +51,7 @@
         if(rowObject.pmdConfigMember==undefined || rowObject.pmdConfigMember.hasReset==undefined) return "-";
         return $.trim(rowObject.pmdConfigMember.hasReset?rowObject.duePay:rowObject.configMemberDuePay);
     }},
+    <c:if test="${cls!=4}">
     { label: '确认额度',name: '_confirmDuePay', formatter: function (cellvalue, options, rowObject) {
 
         if(rowObject.hasPay) return '-'
@@ -65,12 +70,13 @@
         return '-'
     }},
     </c:if>
+    </c:if>
     <c:if test="${param.type!='admin'}">
     { label: '应交金额',name: 'duePay'},
     </c:if>
     { label: '实交金额',name: 'realPay'},
-    { label: '缴费方式',name: 'isSelfPay', formatter: function (cellvalue, options, rowObject) {
-      if(!rowObject.hasPay) return '-'
+    { label: '线上缴费方式',name: 'isSelfPay', width: 120, formatter: function (cellvalue, options, rowObject) {
+      if(!rowObject.hasPay || !rowObject.isOnlinePay) return '-'
       return cellvalue?"线上缴费":"代缴党费";
     }},
     <c:if test="${param.type=='admin'}">

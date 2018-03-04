@@ -101,6 +101,8 @@ public class PmdMember implements Serializable {
 
     private Boolean hasPay;
 
+    private Boolean isOnlinePay;
+
     private Boolean isSelfPay;
 
     private Date payTime;
@@ -355,6 +357,14 @@ public class PmdMember implements Serializable {
 
     public void setHasPay(Boolean hasPay) {
         this.hasPay = hasPay;
+    }
+
+    public Boolean getIsOnlinePay() {
+        return isOnlinePay;
+    }
+
+    public void setIsOnlinePay(Boolean isOnlinePay) {
+        this.isOnlinePay = isOnlinePay;
     }
 
     public Boolean getIsSelfPay() {

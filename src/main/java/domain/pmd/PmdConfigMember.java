@@ -28,6 +28,8 @@ public class PmdConfigMember implements Serializable {
 
     private Integer configMemberTypeId;
 
+    private Boolean isOnlinePay;
+
     private BigDecimal duePay;
 
     private Boolean hasSalary;
@@ -104,6 +106,14 @@ public class PmdConfigMember implements Serializable {
 
     public void setConfigMemberTypeId(Integer configMemberTypeId) {
         this.configMemberTypeId = configMemberTypeId;
+    }
+
+    public Boolean getIsOnlinePay() {
+        return isOnlinePay;
+    }
+
+    public void setIsOnlinePay(Boolean isOnlinePay) {
+        this.isOnlinePay = isOnlinePay;
     }
 
     public BigDecimal getDuePay() {

@@ -55,6 +55,7 @@ public class PmdConfigMemberController extends PmdBaseController {
     @RequiresPermissions("pmdConfigMember:list")
     @RequestMapping("/pmdConfigMember_data")
     public void pmdConfigMember_data(HttpServletResponse response,
+                                     Boolean isOnlinePay,
                                      Integer userId,
                                      Byte configMemberType,
                                      Integer configMemberTypeId,
@@ -73,6 +74,9 @@ public class PmdConfigMemberController extends PmdBaseController {
         PmdConfigMemberExample example = new PmdConfigMemberExample();
         Criteria criteria = example.createCriteria();
 
+        if (isOnlinePay != null) {
+            criteria.andIsOnlinePayEqualTo(isOnlinePay);
+        }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);
         }

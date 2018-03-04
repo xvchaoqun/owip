@@ -29,6 +29,8 @@
                             </div>
                         </div>
                         <div class="clearfix form-actions">
+                            <div class="text-danger bolder"
+                                 style="font-size: larger;margin-bottom: 5px;">注：两种情况不处理：1、缴费方式已设置为现金缴费。 2、当前缴费月份已缴费或已设置为延迟缴费。</div>
                             <div class="col-md-offset-3 col-md-9">
                                 <button id="submitBtn" class="btn btn-info btn-sm"
                                         data-loading-text="<i class='fa fa-spinner fa-spin '></i> 同步数据中，请稍后"

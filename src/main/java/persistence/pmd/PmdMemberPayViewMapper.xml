@@ -8,6 +8,7 @@
     <result column="order_user_id" jdbcType="INTEGER" property="orderUserId" />
     <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
     <result column="has_pay" jdbcType="BIT" property="hasPay" />
+    <result column="is_online_pay" jdbcType="BIT" property="isOnlinePay" />
     <result column="is_self_pay" jdbcType="BIT" property="isSelfPay" />
     <result column="pay_month_id" jdbcType="INTEGER" property="payMonthId" />
     <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
@@ -22,6 +23,8 @@
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="config_member_type_id" jdbcType="INTEGER" property="configMemberTypeId" />
+    <result column="due_pay_reason" jdbcType="VARCHAR" property="duePayReason" />
     <result column="due_pay" jdbcType="DECIMAL" property="duePay" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -54,9 +57,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, member_id, order_no, order_user_id, real_pay, has_pay, is_self_pay, pay_month_id, 
-    pay_time, charge_user_id, charge_party_id, charge_branch_id, pay_month, month_id, 
-    is_delay, delay_reason, user_id, party_id, branch_id, type, due_pay
+    id, member_id, order_no, order_user_id, real_pay, has_pay, is_online_pay, is_self_pay, 
+    pay_month_id, pay_time, charge_user_id, charge_party_id, charge_branch_id, pay_month, 
+    month_id, is_delay, delay_reason, user_id, party_id, branch_id, type, config_member_type_id, 
+    due_pay_reason, due_pay
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdMemberPayViewExample" resultMap="BaseResultMap">
     select

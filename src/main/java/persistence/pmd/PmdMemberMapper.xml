@@ -33,6 +33,7 @@
     <result column="is_delay" jdbcType="BIT" property="isDelay" />
     <result column="delay_reason" jdbcType="VARCHAR" property="delayReason" />
     <result column="has_pay" jdbcType="BIT" property="hasPay" />
+    <result column="is_online_pay" jdbcType="BIT" property="isOnlinePay" />
     <result column="is_self_pay" jdbcType="BIT" property="isSelfPay" />
     <result column="pay_time" jdbcType="TIMESTAMP" property="payTime" />
     <result column="charge_user_id" jdbcType="INTEGER" property="chargeUserId" />
@@ -101,7 +102,7 @@
     config_member_due_pay, need_set_salary, has_salary, talent_title, post_class, main_post_level, 
     pro_post_level, manage_level, office_level, authorized_type, staff_type, salary, 
     norm_id, norm_value_id, due_pay_reason, due_pay, real_pay, is_delay, delay_reason, 
-    has_pay, is_self_pay, pay_time, charge_user_id
+    has_pay, is_online_pay, is_self_pay, pay_time, charge_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdMemberExample" resultMap="BaseResultMap">
     select
@@ -133,7 +134,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.pmd.PmdMember">
+  <insert keyProperty="id" id="insert" parameterType="domain.pmd.PmdMember">
     insert into pmd_member (id, month_id, user_id, 
       pay_month, party_id, branch_id, 
       type, config_member_type_id, config_member_type_name, 
@@ -144,8 +145,9 @@
       authorized_type, staff_type, salary, 
       norm_id, norm_value_id, due_pay_reason, 
       due_pay, real_pay, is_delay, 
-      delay_reason, has_pay, is_self_pay, 
-      pay_time, charge_user_id)
+      delay_reason, has_pay, is_online_pay, 
+      is_self_pay, pay_time, charge_user_id
+      )
     values (#{id,jdbcType=INTEGER}, #{monthId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{payMonth,jdbcType=DATE}, #{partyId,jdbcType=INTEGER}, #{branchId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{configMemberTypeId,jdbcType=INTEGER}, #{configMemberTypeName,jdbcType=VARCHAR}, 
@@ -156,8 +158,9 @@
       #{authorizedType,jdbcType=VARCHAR}, #{staffType,jdbcType=VARCHAR}, #{salary,jdbcType=DECIMAL}, 
       #{normId,jdbcType=INTEGER}, #{normValueId,jdbcType=INTEGER}, #{duePayReason,jdbcType=VARCHAR}, 
       #{duePay,jdbcType=DECIMAL}, #{realPay,jdbcType=DECIMAL}, #{isDelay,jdbcType=BIT}, 
-      #{delayReason,jdbcType=VARCHAR}, #{hasPay,jdbcType=BIT}, #{isSelfPay,jdbcType=BIT}, 
-      #{payTime,jdbcType=TIMESTAMP}, #{chargeUserId,jdbcType=INTEGER})
+      #{delayReason,jdbcType=VARCHAR}, #{hasPay,jdbcType=BIT}, #{isOnlinePay,jdbcType=BIT}, 
+      #{isSelfPay,jdbcType=BIT}, #{payTime,jdbcType=TIMESTAMP}, #{chargeUserId,jdbcType=INTEGER}
+      )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.pmd.PmdMember">
     insert into pmd_member
@@ -254,6 +257,9 @@
       </if>
       <if test="hasPay != null">
         has_pay,
+      </if>
+      <if test="isOnlinePay != null">
+        is_online_pay,
       </if>
       <if test="isSelfPay != null">
         is_self_pay,
@@ -358,6 +364,9 @@
       </if>
       <if test="hasPay != null">
         #{hasPay,jdbcType=BIT},
+      </if>
+      <if test="isOnlinePay != null">
+        #{isOnlinePay,jdbcType=BIT},
       </if>
       <if test="isSelfPay != null">
         #{isSelfPay,jdbcType=BIT},
@@ -472,6 +481,9 @@
       <if test="record.hasPay != null">
         has_pay = #{record.hasPay,jdbcType=BIT},
       </if>
+      <if test="record.isOnlinePay != null">
+        is_online_pay = #{record.isOnlinePay,jdbcType=BIT},
+      </if>
       <if test="record.isSelfPay != null">
         is_self_pay = #{record.isSelfPay,jdbcType=BIT},
       </if>
@@ -519,6 +531,7 @@
       is_delay = #{record.isDelay,jdbcType=BIT},
       delay_reason = #{record.delayReason,jdbcType=VARCHAR},
       has_pay = #{record.hasPay,jdbcType=BIT},
+      is_online_pay = #{record.isOnlinePay,jdbcType=BIT},
       is_self_pay = #{record.isSelfPay,jdbcType=BIT},
       pay_time = #{record.payTime,jdbcType=TIMESTAMP},
       charge_user_id = #{record.chargeUserId,jdbcType=INTEGER}
@@ -619,6 +632,9 @@
       <if test="hasPay != null">
         has_pay = #{hasPay,jdbcType=BIT},
       </if>
+      <if test="isOnlinePay != null">
+        is_online_pay = #{isOnlinePay,jdbcType=BIT},
+      </if>
       <if test="isSelfPay != null">
         is_self_pay = #{isSelfPay,jdbcType=BIT},
       </if>
@@ -663,6 +679,7 @@
       is_delay = #{isDelay,jdbcType=BIT},
       delay_reason = #{delayReason,jdbcType=VARCHAR},
       has_pay = #{hasPay,jdbcType=BIT},
+      is_online_pay = #{isOnlinePay,jdbcType=BIT},
       is_self_pay = #{isSelfPay,jdbcType=BIT},
       pay_time = #{payTime,jdbcType=TIMESTAMP},
       charge_user_id = #{chargeUserId,jdbcType=INTEGER}

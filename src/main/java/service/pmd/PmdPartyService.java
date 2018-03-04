@@ -389,7 +389,7 @@ public class PmdPartyService extends BaseMapper {
             throw new OpException("强制报送失败：存在未设定缴费额度的党员");
         }
 
-        pmdPayService.delayAll(pmdParty.getPartyId(), null, "强制报送");
+        pmdPayService.delayAll(pmdParty.getPartyId(), null, "系统报送");
 
         // 报送所有支部
         PmdBranchExample example = new PmdBranchExample();

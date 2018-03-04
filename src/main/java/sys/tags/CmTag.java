@@ -467,7 +467,7 @@ public class CmTag {
 
     public static ApproverTypeBean getApproverTypeBean(Integer userId) {
 
-        ApplySelfService applySelfService = context.getBean(ApplySelfService.class);
+        ApplySelfService applySelfService = getBean(ApplySelfService.class);
 
         return applySelfService.getApproverTypeBean(userId);
     }
@@ -556,7 +556,7 @@ public class CmTag {
 
     public static RetireApply getRetireApply(Integer userId) {
 
-        RetireApplyService retireApplyService = context.getBean(RetireApplyService.class);
+        RetireApplyService retireApplyService = getBean(RetireApplyService.class);
         return retireApplyService.get(userId);
     }
 
@@ -644,73 +644,74 @@ public class CmTag {
 
     public static ApplySelf getApplySelf(Integer applyId) {
 
-        ApplySelfService applySelfService = context.getBean(ApplySelfService.class);
+        ApplySelfService applySelfService = getBean(ApplySelfService.class);
         return applySelfService.get(applyId);
     }
 
     public static List<ApplySelfModifyBean> getApplySelfModifyList(Integer applyId) {
 
         // getBean("IAbroadMapper")， I要大写？
-        IAbroadMapper iAbroadMapper =  context.getBean(IAbroadMapper.class);
+        IAbroadMapper iAbroadMapper =  getBean(IAbroadMapper.class);
         return iAbroadMapper.getApplySelfModifyList(applyId);
     }
 
     // 获取因私出国申请记录 初审 结果
     public static Integer getAdminFirstTrialStatus(Integer applyId) {
 
-        ApprovalLogService approvalLogService = context.getBean(ApprovalLogService.class);
+        ApprovalLogService approvalLogService = getBean(ApprovalLogService.class);
         return approvalLogService.getAdminFirstTrialStatus(applyId);
     }
 
     public static Map getApprovalTdBeanMap(Integer applySelfId) {
 
-        ApplySelfService applySelfService = context.getBean(ApplySelfService.class);
+        ApplySelfService applySelfService = getBean(ApplySelfService.class);
         return applySelfService.getApprovalTdBeanMap(applySelfId);
     }
 
     // 获取因私出国申请记录 的评审log
     public static List<ApprovalLog> findApprovalLogs(Integer applyId) {
 
-        ApprovalLogService approvalLogService = context.getBean(ApprovalLogService.class);
+        ApprovalLogService approvalLogService = getBean(ApprovalLogService.class);
         return approvalLogService.findByApplyId(applyId);
     }
 
     public static Map<Integer, SafeBox> getSafeBoxMap() {
 
-        SafeBoxService safeBoxService = context.getBean(SafeBoxService.class);
+        SafeBoxService safeBoxService = getBean(SafeBoxService.class);
         return safeBoxService.findAll();
     }
 
     // 证件
     public static Passport getPassport(Integer id) {
 
-        PassportMapper passportMapper = context.getBean(PassportMapper.class);
+        PassportMapper passportMapper = getBean(PassportMapper.class);
         return passportMapper.selectByPrimaryKey(id);
     }
 
     // 拒绝归还证件借出记录
     public static PassportDraw getRefuseReturnPassportDraw(Integer passportId) {
 
-        PassportDrawService passportDrawService = context.getBean(PassportDrawService.class);
+        PassportDrawService passportDrawService = getBean(PassportDrawService.class);
         return passportDrawService.getRefuseReturnPassportDraw(passportId);
     }
 
     public static List<PassportDrawFile> getPassportDrawFiles(Integer id) {
 
-        PassportDrawService passportDrawService = context.getBean(PassportDrawService.class);
+        PassportDrawService passportDrawService = getBean(PassportDrawService.class);
         return passportDrawService.getPassportDrawFiles(id);
     }
 
     public static ApprovalLog getApprovalLog(Integer applySelfId, Integer approverTypeId) {
 
-        ApprovalLogService approvalLogService = context.getBean(ApprovalLogService.class);
+        ApprovalLogService approvalLogService = getBean(ApprovalLogService.class);
         return approvalLogService.getApprovalLog(applySelfId, approverTypeId);
     }
 
     // 判断干部是否拥有直接修改本人干部信息的权限
     public static Boolean hasDirectModifyCadreAuth(Integer cadreId) {
 
-        ModifyCadreAuthService modifyCadreAuthService = context.getBean(ModifyCadreAuthService.class);
+        ModifyCadreAuthService modifyCadreAuthService = getBean(ModifyCadreAuthService.class);
+        if(modifyCadreAuthService==null) return false;
 
         String today = DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD);
         List<ModifyCadreAuth> modifyCadreAuths = modifyCadreAuthService.findAll(cadreId);
@@ -745,40 +746,40 @@ public class CmTag {
 
     public static List<CisInspectorView> getCisInspectors(Integer objId) {
 
-        CisInspectObjService cisInspectObjService = context.getBean(CisInspectObjService.class);
+        CisInspectObjService cisInspectObjService = getBean(CisInspectObjService.class);
         return cisInspectObjService.getInspectors(objId);
     }
 
     public static CisInspectorView getCisInspector(Integer id) {
 
-        CisInspectorService cisInspectorService = context.getBean(CisInspectorService.class);
+        CisInspectorService cisInspectorService = getBean(CisInspectorService.class);
         return cisInspectorService.getInspector(id);
     }
 
     public static TrainEvaTable getTrainEvaTable(Integer evaTableId) {
 
-        TrainEvaTableService trainEvaTableService = context.getBean(TrainEvaTableService.class);
+        TrainEvaTableService trainEvaTableService = getBean(TrainEvaTableService.class);
 
         return trainEvaTableService.findAll().get(evaTableId);
     }
 
     public static Map<Integer, TrainEvaNorm> getTrainEvaNorms(Integer evaTableId) {
 
-        TrainEvaNormService trainEvaNormService = context.getBean(TrainEvaNormService.class);
+        TrainEvaNormService trainEvaNormService = getBean(TrainEvaNormService.class);
 
         return trainEvaNormService.findAll(evaTableId);
     }
 
     public static Map<Integer, TrainEvaRank> getTrainEvaRanks(Integer evaTableId) {
 
-        TrainEvaRankService trainEvaRankService = context.getBean(TrainEvaRankService.class);
+        TrainEvaRankService trainEvaRankService = getBean(TrainEvaRankService.class);
 
         return trainEvaRankService.findAll(evaTableId);
     }
 
     public static Integer evaIsClosed(Integer courseId) {
 
-        TrainCourseService trainCourseService = context.getBean(TrainCourseService.class);
+        TrainCourseService trainCourseService = getBean(TrainCourseService.class);
 
         return trainCourseService.evaIsClosed(courseId);
     }
@@ -786,21 +787,21 @@ public class CmTag {
 
     public static Map<Integer, CrsRequireRule> getCrsRequireRules(Integer postRequireId) {
 
-        CrsRequireRuleService crsRequireRuleService = context.getBean(CrsRequireRuleService.class);
+        CrsRequireRuleService crsRequireRuleService = getBean(CrsRequireRuleService.class);
 
         return crsRequireRuleService.findAll(postRequireId);
     }
 
     public static CrsPost getCrsPost(Integer id) {
 
-        CrsPostService crsPostService = context.getBean(CrsPostService.class);
+        CrsPostService crsPostService = getBean(CrsPostService.class);
 
         return crsPostService.get(id);
     }
 
     public static List<CrsPost> getCrsPost(List<Integer> ids) {
 
-        CrsPostService crsPostService = context.getBean(CrsPostService.class);
+        CrsPostService crsPostService = getBean(CrsPostService.class);
         return crsPostService.get(ids);
     }
 

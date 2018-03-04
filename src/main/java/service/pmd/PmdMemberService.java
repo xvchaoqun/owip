@@ -373,6 +373,90 @@ public class PmdMemberService extends BaseMapper {
 
     }
 
+    // 当月修改缴费方式 或 往月延迟缴费进行现金缴费
+    @Transactional
+    public void setIsOnlinePay(int[] ids, boolean isOnlinePay, String remark) {
+
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        int currentMonthId = currentPmdMonth.getId();
+
+        for (int id : ids) {
+
+            PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
+            int pmdMemberId = pmdMember.getId();
+            String realname = pmdMember.getUser().getRealname();
+            BigDecimal duePay = pmdMember.getDuePay();
+            int userId = pmdMember.getUserId();
+
+            if(pmdMember.getHasPay() && pmdMember.getIsDelay()==false){
+                throw  new OpException("操作失败，{0}已缴费。", realname);
+            }
+
+            boolean _isOnlinePay = pmdMember.getIsOnlinePay(); // 当前缴费方式
+            if(_isOnlinePay==isOnlinePay) continue;
+
+            String opStr = "现金缴费 -> 线上缴费";
+            if(isOnlinePay && !_isOnlinePay){
+
+                if(pmdMember.getMonthId() == currentMonthId && pmdMember.getIsDelay()==false) {
+                    // 现金缴费 -> 线上缴费
+                    pmdMonthService.addOrResetPmdMember(pmdMember.getUserId(), pmdMemberId);
+
+                }else if(pmdMember.getMonthId() != currentMonthId && pmdMember.getIsDelay()){
+                    // 现金缴费 -> 延迟缴费
+                    opStr = "现金缴费 -> 延迟缴费";
+                    commonMapper.excuteSql(String.format("update pmd_member set real_pay=null, has_pay=0, " +
+                            "is_online_pay=1 where id=%s", pmdMemberId));
+
+                    commonMapper.excuteSql(String.format("update pmd_member_pay set real_pay=null, " +
+                            "has_pay=0, is_online_pay=1, pay_month_id=null, charge_party_id=null, charge_branch_id=null"
+                            +" where member_id=%s", pmdMemberId));
+
+                    PmdConfigMember record = new PmdConfigMember();
+                    record.setUserId(userId);
+                    record.setIsOnlinePay(true);
+                    pmdConfigMemberMapper.updateByPrimaryKeySelective(record);
+                }
+
+            }else if(!isOnlinePay && _isOnlinePay){
+
+                Assert.isTrue(pmdMember.getMonthId() == currentMonthId || pmdMember.getIsDelay());
+
+                opStr = "线上缴费 -> 现金缴费";
+                if(pmdMember.getMonthId() != currentMonthId){
+                    opStr = "现金补缴";
+                }else if(pmdMember.getIsDelay()){
+                    opStr = "延迟缴费 -> 现金缴费";
+                }
+
+                // 线上缴费 -> 现金缴费
+                if(duePay==null){
+                    throw  new OpException("操作失败，{0}没有设置缴费额度。", realname);
+                }
+
+                commonMapper.excuteSql(String.format("update pmd_member set real_pay=%s, has_pay=1, " +
+                        "is_online_pay=0 where id=%s", duePay, pmdMemberId));
+
+                PmdMember _pmdMember = get(currentMonthId, userId);
+                int partyId = _pmdMember.getPartyId();
+                Integer branchId = _pmdMember.getBranchId();
+
+                commonMapper.excuteSql(String.format("update pmd_member_pay set real_pay=%s, " +
+                        "has_pay=1, is_online_pay=0, pay_month_id=%s, charge_party_id=%s, charge_branch_id=%s"
+                        +" where member_id=%s" , duePay, currentMonthId, partyId, branchId,  pmdMemberId));
+
+                PmdConfigMember record = new PmdConfigMember();
+                record.setUserId(userId);
+                record.setIsOnlinePay(false);
+                pmdConfigMemberMapper.updateByPrimaryKeySelective(record);
+            }
+
+            sysApprovalLogService.add(id, userId, SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
+                    opStr, SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
+        }
+    }
+
     // 清除订单号生成人
     /*@Transactional
     public void clearOrderUser(int pmdMemberId) {

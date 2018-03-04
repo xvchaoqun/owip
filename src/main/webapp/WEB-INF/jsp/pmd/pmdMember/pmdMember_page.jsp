@@ -18,7 +18,19 @@
         <input type="hidden" name="partyId" value="${param.partyId}">
         <input type="hidden" name="branchId" value="${param.branchId}">
         <input type="hidden" name="monthId" value="${param.monthId}">
-
+        <div class="form-group">
+            <label>缴费方式</label>
+            <select data-rel="select2" name="isOnlinePay"
+                    data-width="120"
+                    data-placeholder="请选择">
+                <option></option>
+                <option value="1">线上缴费</option>
+                <option value="0">现金缴费</option>
+            </select>
+            <script>
+                $("#searchForm select[name=isOnlinePay]").val("${param.isOnlinePay}")
+            </script>
+        </div>
         <div class="form-group">
             <label>姓名</label>
             <select data-rel="select2-ajax"
@@ -54,7 +66,7 @@
             </script>
         </div>
         <div class="form-group">
-            <label>缴费方式</label>
+            <label>线上缴费方式</label>
             <select data-rel="select2" name="isSelfPay"
                     data-width="120"
                     data-placeholder="请选择">
@@ -66,7 +78,7 @@
                 $("#searchForm2 select[name=isSelfPay]").val("${param.isSelfPay}")
             </script>
         </div>
-        <c:set var="_query" value="${not empty param.userId ||not empty param.hasPay
+        <c:set var="_query" value="${not empty param.userId ||not empty param.isOnlinePay ||not empty param.hasPay
              || not empty param.isDelay || not empty param.isSelfPay}"/>
         <div class="form-group">
             <button type="button" data-url="${ctx}/pmd/pmdMember"
@@ -117,6 +129,11 @@
                                 data-url="${ctx}/pmd/pmdMember_selectMemberType"
                                 data-grid-id="#jqGrid2">
                             <i class="fa fa-check-square-o"></i> 选择党员类别
+                        </button>
+                        <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                                data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"
+                                data-grid-id="#jqGrid2">
+                            <i class="fa fa-edit"></i> 修改缴费方式
                         </button>
                         <button id="selectReduceNormBtn" class="jqOpenViewBatchBtn btn btn-danger btn-sm"
                                 data-url="${ctx}/pmd/pmdMember_selectReduceNorm"

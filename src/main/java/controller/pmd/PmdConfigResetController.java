@@ -30,7 +30,7 @@ public class PmdConfigResetController extends PmdBaseController {
     public String pmdConfigReset(Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
         if (null == pageSize) {
-            pageSize = springProps.pageSize;
+            pageSize = 5;
         }
         if (null == pageNo) {
             pageNo = 1;

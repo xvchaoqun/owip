@@ -131,6 +131,7 @@ public class PmdMemberController extends PmdBaseController {
                                Integer userId,
                                Integer chargeUserId,
                                Byte type,
+                               Boolean isOnlinePay,
                                Boolean hasPay,
                                Boolean isDelay,
                                Boolean isSelfPay,
@@ -230,6 +231,9 @@ public class PmdMemberController extends PmdBaseController {
         }
         if (type != null) {
             criteria.andTypeEqualTo(type);
+        }
+        if (isOnlinePay != null) {
+            criteria.andIsOnlinePayEqualTo(isOnlinePay);
         }
         if (hasPay != null) {
             criteria.andHasPayEqualTo(hasPay);
@@ -380,7 +384,7 @@ public class PmdMemberController extends PmdBaseController {
             }
         }
 
-        pmdMonthService.addPmdMember(userId);
+        pmdMonthService.addOrResetPmdMember(userId, null);
 
         return success(FormUtils.SUCCESS);
     }
@@ -534,8 +538,36 @@ public class PmdMemberController extends PmdBaseController {
 
         pmdMemberService.selectMemberType(ids, hasSalary, configMemberType, configMemberTypeId, amount, remark);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "[支部管理员]选择党员分类别-%s-%s-%s",
+        logger.info(addLog(SystemConstants.LOG_PMD, "修改党员分类别-%s-%s-%s",
                 StringUtils.join(ids, ","), configMemberTypeId, amount));
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 修改缴费方式
+    @RequiresPermissions("pmdMember:setIsOnlinePay")
+    @RequestMapping("/pmdMember_setIsOnlinePay")
+    public String pmdMember_setIsOnlinePay(@RequestParam(value = "ids[]") int[] ids,
+                                             ModelMap modelMap) {
+
+        if (ids.length == 1) {
+            PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(ids[0]);
+            modelMap.put("pmdMember", pmdMember);
+        }
+
+        return "pmd/pmdMember/pmdMember_setIsOnlinePay";
+    }
+
+    @RequiresPermissions("pmdMember:setIsOnlinePay")
+    @RequestMapping(value = "/pmdMember_setIsOnlinePay", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMember_setIsOnlinePay(@RequestParam(value = "ids[]") int[] ids,
+                                          Boolean isOnlinePay, String remark) {
+
+
+        pmdMemberService.setIsOnlinePay(ids, BooleanUtils.isTrue(isOnlinePay) , remark);
+
+        logger.info(addLog(SystemConstants.LOG_PMD, "修改缴费方式-%s-%s-%s",
+                StringUtils.join(ids, ","), isOnlinePay, remark));
         return success(FormUtils.SUCCESS);
     }
 
