@@ -129,9 +129,9 @@ public class EnterApplyService extends BaseMapper{
 
         checkMemberApplyAuth(userId);
 
+        record.setIsRemove(false);
 
         if(memberApplyMapper.selectByPrimaryKey(userId)==null) {
-            record.setIsRemove(false);
             memberApplyMapper.insert(record);
         }else
             memberApplyMapper.updateByPrimaryKey(record);

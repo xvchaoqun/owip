@@ -7,7 +7,8 @@
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/pmd/pmdSendMsg_notifyMembers" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${param.id}">
+        <input type="hidden" name="partyId" value="${param.partyId}">
+        <input type="hidden" name="branchId" value="${param.branchId}">
         <%--<div class="form-group">
             <label class="col-xs-3 control-label">手机号码</label>
             <div class="col-xs-6">

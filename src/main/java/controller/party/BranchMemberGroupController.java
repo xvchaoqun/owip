@@ -119,8 +119,14 @@ public class BranchMemberGroupController extends BaseController {
         Subject subject = SecurityUtils.getSubject();
         if (!subject.hasRole(RoleConstants.ROLE_ADMIN)
                 && !subject.hasRole(RoleConstants.ROLE_ODADMIN)) {
-            List<Integer> partyIdList = loginUserService.adminPartyIdList();
-            criteria.andPartyIdIn(partyIdList);
+
+            if(!subject.isPermitted("party:list")) { // 有查看基层党组织的权限的话，则可以查看所有的支部
+
+                List<Integer> partyIdList = loginUserService.adminPartyIdList();
+                if (partyIdList.size() > 0)
+                    criteria.andPartyIdIn(partyIdList);
+                else criteria.andPartyIdIsNull();
+            }
         }
 
         if (branchId!=null) {
