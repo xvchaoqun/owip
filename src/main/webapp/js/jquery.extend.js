@@ -77,9 +77,16 @@ jQuery.validator.addMethod("isZipCode", function (value, element) {
 // 手机号码验证
 jQuery.validator.addMethod("mobile", function (value, element) {
     var length = value.length;
-    var mobile = /^1[3|4|5|7|8]\d{9}$/;
+    var mobile = /^1[3|4|5|6|7|8|9]\d{9}$/;
     return this.optional(element) || (mobile.test(value));
 }, "请正确填写手机号码");
+
+// 课时
+jQuery.validator.addMethod("period",function(value,element){
+    var period = /^\d*(\.(5|0))?$/;
+    //console.log(value + ":" + period.test(value))
+    return this.optional(element)||(period.test(value));
+},"请输入正确的课时（最小单位0.5小时）");
 
 /*========jquery.validate.extend=====end===*/
 

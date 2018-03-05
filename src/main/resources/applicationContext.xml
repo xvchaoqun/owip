@@ -91,10 +91,11 @@
         <context:exclude-filter type="regex" expression="service.cis.*"/>
         <context:exclude-filter type="regex" expression="service.crs.*"/>
         <context:exclude-filter type="regex" expression="service.train.*"/>
+        <!--<context:exclude-filter type="regex" expression="service.cet.*"/>-->
         <context:exclude-filter type="regex" expression="service.abroad.*"/>
         <context:exclude-filter type="regex" expression="service.pcs.*"/>
         <context:exclude-filter type="regex" expression="service.oa.*"/>
-        <!--<context:exclude-filter type="regex" expression="service.pmd.*"/>-->
+        <context:exclude-filter type="regex" expression="service.pmd.*"/>
         <context:exclude-filter type="regex" expression="service.sc.scMatter.*"/>
         <context:exclude-filter type="regex" expression="service.sc.scLetter.*"/>
         <context:exclude-filter type="regex" expression="service.sc.scGroup.*"/>

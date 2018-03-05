@@ -64,6 +64,9 @@ import persistence.cadreInspect.CadreInspectMapper;
 import persistence.cadreInspect.CadreInspectViewMapper;
 import persistence.cadreReserve.CadreReserveMapper;
 import persistence.cadreReserve.CadreReserveViewMapper;
+import persistence.cet.CetCourseMapper;
+import persistence.cet.CetCourseTypeMapper;
+import persistence.cet.CetExpertMapper;
 import persistence.cis.CisEvaluateMapper;
 import persistence.cis.CisInspectObjMapper;
 import persistence.cis.CisInspectObjViewMapper;
@@ -376,6 +379,16 @@ public class BaseMapper {
         Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, sortOrder, whereSql);
         return (maxSortOrder == null ? 1 : maxSortOrder + 1);
     }
+
+    /**
+     * 干部教育培训
+     */
+    @Autowired
+    protected CetCourseMapper cetCourseMapper;
+    @Autowired
+    protected CetCourseTypeMapper cetCourseTypeMapper;
+    @Autowired
+    protected CetExpertMapper cetExpertMapper;
 
     /**
      * 干部选拔-干部任免审批表

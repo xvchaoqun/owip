@@ -10,7 +10,16 @@
         <!-- 编码设置 -->
         <property name="freemarkerSettings">
             <props>
-                <prop key="defaultEncoding">UTF-8</prop>
+                <prop key="template_update_delay">3600</prop><!--刷新模板的周期，单位为秒  -->
+                <prop key="default_encoding">UTF-8</prop><!--模板的编码格式  -->
+                <prop key="locale">UTF-8</prop><!--本地化设置  -->
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="time_format">HH:mm:ss</prop>
+                <prop key="number_format">0.####</prop>
+                <prop key="boolean_format">true,false</prop>
+                <prop key="whitespace_stripping">true</prop>
+                <prop key="tag_syntax">auto_detect</prop>
+                <prop key="url_escaping_charset">UTF-8</prop>
             </props>
         </property>
     </bean>

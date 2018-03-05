@@ -142,3 +142,4 @@ cm:committee member 委员
 oa:Office Automation 办公自动化
 pmd:party membership dues 党费
 sc:select cadres 选拔干部
+cet:Cadre education training 干部教育培训系统

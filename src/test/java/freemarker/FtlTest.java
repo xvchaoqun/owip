@@ -66,6 +66,15 @@ public class FtlTest {
         System.out.println(result);
     }
 
+    @Test
+    public void resFolder() throws IOException, TemplateException {
+        Map<String,Object> dataMap = new HashMap<>();
+        dataMap.put("resFolder", "test");
+        String result = processFtl("test/test.ftl", dataMap);
+
+        System.out.println(result);
+    }
+
     public String processFtl(String path, Map<String,Object> dataMap) throws IOException, TemplateException {
 
         Configuration cf = freeMarkerConfigurer.getConfiguration();

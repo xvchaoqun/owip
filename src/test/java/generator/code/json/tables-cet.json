@@ -1,0 +1,38 @@
+{
+  "schema": "db_owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "cet",
+  "resFolder": "cet",
+  "tables": [
+    {
+      "table": "cet_expert",
+      "key": "id",
+      "searchColumns": "realname",
+      "showColumns": "realname,unit,post,contact,sort_order,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_course_type",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "name,sort_order,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_course",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "found_date,name,expert_id,period,course_type_id,sort_order,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    }
+  ]
+}

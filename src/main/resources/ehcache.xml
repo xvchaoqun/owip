@@ -10,6 +10,16 @@
                       properties="bootstrapAsynchronously=true, maximumChunkSizeBytes=5000000"
                       propertySeparator="," />
        </defaultCache>
+
+       <cache name="CetCourseType:ALL"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+
        <cache name="PmdConfigMember"
            eternal="false"
            maxElementsInMemory="2000"

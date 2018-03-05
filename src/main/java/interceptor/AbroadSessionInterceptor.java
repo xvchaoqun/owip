@@ -1,20 +1,23 @@
 package interceptor;
 
-import controller.abroad.AbroadBaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import service.abroad.ApproverTypeService;
+import service.abroad.SafeBoxService;
+import sys.tags.CmTag;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class AbroadSessionInterceptor extends AbroadBaseController implements AsyncHandlerInterceptor {
+public class AbroadSessionInterceptor implements AsyncHandlerInterceptor {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
+    private static SafeBoxService safeBoxService = CmTag.getBean(SafeBoxService.class);
+    private static ApproverTypeService approverTypeService = CmTag.getBean(ApproverTypeService.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

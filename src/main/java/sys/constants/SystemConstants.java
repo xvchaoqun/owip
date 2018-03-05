@@ -118,6 +118,8 @@ public class SystemConstants {
     public static final String LOG_SC_DISPATCH = "mt_log_sc_dispatch"; // 干部选拔任用-文件起草签发
     public static final String LOG_SC_AD = "mt_log_sc_ad"; // 干部选拔任用-干部任免审批表
 
+    public static final String LOG_CET = "mt_log_cet"; // 干部教育培训
+
     public static final String RESOURCE_TYPE_FUNCTION = "function";
     public static final String RESOURCE_TYPE_URL = "url";
     public static final String RESOURCE_TYPE_MENU = "menu";
