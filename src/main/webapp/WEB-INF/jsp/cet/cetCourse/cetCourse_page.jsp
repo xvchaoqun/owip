@@ -89,6 +89,7 @@ pageEncoding="UTF-8" %>
                 if(cellvalue==undefined) return ''
                 return courseTypeMap[cellvalue].name
             }},
+            { label: '详情',name: '_detail'},
             { label: '备注',name: 'remark', width:400}
         ]
     }).jqGrid("setFrozenColumns");

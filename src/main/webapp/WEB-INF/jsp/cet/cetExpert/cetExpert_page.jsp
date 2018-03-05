@@ -78,9 +78,12 @@ pageEncoding="UTF-8" %>
                 return _.template($("#common_sort_tpl").html().NoMultiSpace())({id:rowObject.id,
                     url:"${ctx}/cet/cetExpert_changeOrder"})
             }},
-            { label: '所在单位',name: 'unit', width:300, align:'left'},
-            { label: '职务和职称',name: 'post', width:400, align:'left'},
+            { label: '所在单位',name: 'unit', width:200, align:'left'},
+            { label: '职务和职称',name: 'post', width:300, align:'left'},
             { label: '联系方式',name: 'contact', width:150},
+            { label: '主讲课程',name: '_course'},
+            { label: '选课人次',name: '_count'},
+            { label: '学员评价',name: '_eva'},
             { label: '备注',name: 'remark', width:300}
         ]
     }).jqGrid("setFrozenColumns");
