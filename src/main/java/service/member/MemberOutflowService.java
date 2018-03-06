@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.DBErrorException;
+import controller.global.OpException;
 import service.LoginUserService;
 import service.party.BranchService;
 import service.party.MemberService;
@@ -166,7 +166,7 @@ public class MemberOutflowService extends BaseMapper {
 
         MemberOutflow memberOutflow = get(userId);
         if(memberOutflow.getStatus()!= MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY) // 只有申请状态可以撤回
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
         record.setStatus(MemberConstants.MEMBER_OUTFLOW_STATUS_SELF_BACK);
@@ -191,7 +191,7 @@ public class MemberOutflowService extends BaseMapper {
 
         MemberOutflow memberOutflow = get(userId);
         if(memberOutflow.getStatus()== MemberConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY) // 终审操作前，可以不通过（即打回）
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
         record.setStatus(MemberConstants.MEMBER_OUTFLOW_STATUS_BACK);
@@ -206,7 +206,7 @@ public class MemberOutflowService extends BaseMapper {
 
         MemberOutflow memberOutflow = get(userId);
         if(memberOutflow.getStatus()!= MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());
         record.setStatus(MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY);
@@ -222,9 +222,9 @@ public class MemberOutflowService extends BaseMapper {
         MemberOutflow memberOutflow = get(userId);
 
         if(isDirect && memberOutflow.getStatus()!= MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         if(!isDirect && memberOutflow.getStatus()!= MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
 
         MemberOutflow record = new MemberOutflow();
         record.setId(memberOutflow.getId());

@@ -14,9 +14,7 @@
 <t:link href="/css/login.css"/>
 <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
     <!--[if lt IE 9]>
-    <script type="text/javascript">
-        location.href="${ctx}/extend/unsupport.html"
-    </script>
+    <script type="text/javascript">location.href="${ctx}/jsp/browsers.jsp?type=unsupport";</script>
     <![endif]-->
 </head>
 <body>
@@ -43,7 +41,7 @@
                 <dt></dt><dd><input name="rememberMe" type="checkbox" value="true"><span class="txt">下次自动登录</span></dd></dt>
                 <dt></dt><dd><a href="javascript:" class="submit_btn" id="login_btn"></a></dd>
                 <dt></dt><dd>
-                  <a  href="${ctx}/extend/browsers.html" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器</a>
+                  <a  href="${ctx}/jsp/browsers.jsp" target="_blank" class="to_reg_btn" style="float: left">推荐浏览器</a>
                 <a href="" class="to_reg_btn" data-target="#reg">立即注册</a>
                 <a href="${ctx}/find_pass" class="to_reg_btn">忘记密码</a>
             </dd>
@@ -54,6 +52,13 @@
             </div>
         </div>
         <div class="login-layout" id="reg">
+            <div class="reg-tip" >
+                <ol>
+                    <li>
+                        如果您已经有信息门户的账号，请不要在此注册。
+                    </li>
+                    <li>手机号码可用于密码找回，请正确填写。</li>
+                </ol></div>
             <form id="reg-form" method="POST" action="${ctx}/reg">
                 <dt>登录账号</dt><dd><div class="input_box"><input name="username" type="text"/></div></dd>
                 <dt>登录密码</dt><dd><div class="input_box"><input name="passwd" type="password"/></div></dd>

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.DBErrorException;
 import service.LoginUserService;
 import service.party.EnterApplyService;
 import service.party.MemberService;
@@ -142,7 +141,7 @@ public class MemberReturnService extends BaseMapper {
 
         MemberReturn memberReturn = get(userId);
         if(memberReturn.getStatus()!= MemberConstants.MEMBER_RETURN_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberReturn record = new MemberReturn();
         record.setId(memberReturn.getId());
         record.setStatus(MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY);
@@ -160,9 +159,9 @@ public class MemberReturnService extends BaseMapper {
 
         MemberReturn memberReturn = get(userId);
         if(isDirect && memberReturn.getStatus()!= MemberConstants.MEMBER_RETURN_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         if(!isDirect && memberReturn.getStatus()!= MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
 
         MemberReturn record = new MemberReturn();
         record.setId(memberReturn.getId());
@@ -311,7 +310,7 @@ public class MemberReturnService extends BaseMapper {
             // 状态检查
             EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
             if (_enterApply == null)
-                throw new DBErrorException("系统错误");
+                throw new OpException("系统错误");
 
             EnterApply enterApply = new EnterApply();
             enterApply.setId(_enterApply.getId());

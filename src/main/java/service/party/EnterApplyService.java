@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.DBErrorException;
 import service.member.ApplyApprovalLogService;
 import service.member.MemberApplyService;
 import service.member.MemberInService;
@@ -85,10 +84,14 @@ public class EnterApplyService extends BaseMapper{
 
         EnterApplyExample example = new EnterApplyExample();
         example.createCriteria().andUserIdEqualTo(userId).andStatusEqualTo(SystemConstants.ENTER_APPLY_STATUS_APPLY);
-
+        example.setOrderByClause("id asc");
         List<EnterApply> enterApplies = enterApplyMapper.selectByExample(example);
-        if(enterApplies.size()>1)
-            throw new DBErrorException("重复申请"); // 当前申请状态每个用户只允许一个，且是最新的一条
+        if(enterApplies.size()>1) {
+            // 当前申请状态每个用户只允许一个，且是最新的一条
+            throw new OpException("重复申请，已经申请了[{0}]。（申请入党、留学归国申请、转入申请、流入申请只能同时申请一个）",
+                    SystemConstants.ENTER_APPLY_TYPE_MAP.get(enterApplies.get(0).getType()));
+        }
+
         if(enterApplies.size()==1) return enterApplies.get(0);
 
         return null;
@@ -288,7 +291,7 @@ public class EnterApplyService extends BaseMapper{
         // 状态检查
         EnterApply _enterApply = getCurrentApply(userId);
         if(_enterApply==null)
-            throw new DBErrorException("申请不存在。");
+            throw new OpException("申请不存在。");
 
         EnterApply enterApply = new EnterApply();
         enterApply.setId(_enterApply.getId());
@@ -302,10 +305,10 @@ public class EnterApplyService extends BaseMapper{
                 // 状态检查
                 MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
                 if(_memberApply==null)
-                    throw new DBErrorException("系统错误");
+                    throw new OpException("系统错误");
                 if(_memberApply.getStage()!=SystemConstants.APPLY_STAGE_INIT &&
                         _memberApply.getStage() != SystemConstants.APPLY_STAGE_DENY){
-                    throw new DBErrorException("申请已进入审核阶段，不允许撤回。");
+                    throw new OpException("申请已进入审核阶段，不允许撤回。");
                 }
 
                 MemberApply record = new MemberApply();
@@ -332,10 +335,10 @@ public class EnterApplyService extends BaseMapper{
                 // 状态检查
                 MemberReturn _memberReturn = memberReturnService.get(userId);
                 if(_memberReturn==null)
-                    throw new DBErrorException("系统错误");
+                    throw new OpException("系统错误");
                 if(_memberReturn.getStatus()!=MemberConstants.MEMBER_RETURN_STATUS_APPLY &&
                         _memberReturn.getStatus() != MemberConstants.MEMBER_RETURN_STATUS_DENY){
-                    throw new DBErrorException("申请已进入审核阶段，不允许撤回。");
+                    throw new OpException("申请已进入审核阶段，不允许撤回。");
                 }
 
                 MemberReturn record = new MemberReturn();
@@ -362,10 +365,10 @@ public class EnterApplyService extends BaseMapper{
                 // 状态检查
                 MemberIn _memberIn = memberInService.get(userId);
                 if(_memberIn==null)
-                    throw new DBErrorException("系统错误");
+                    throw new OpException("系统错误");
                 if(_memberIn.getStatus()!=MemberConstants.MEMBER_IN_STATUS_APPLY &&
                         _memberIn.getStatus() != MemberConstants.MEMBER_IN_STATUS_BACK){
-                    throw new DBErrorException("申请已进入审核阶段，不允许撤回。");
+                    throw new OpException("申请已进入审核阶段，不允许撤回。");
                 }
 
                 MemberIn record = new MemberIn();
@@ -394,10 +397,10 @@ public class EnterApplyService extends BaseMapper{
                 // 状态检查
                 MemberInflow _memberInflow = memberInflowService.get(userId);
                 if(_memberInflow==null)
-                    throw new DBErrorException("系统错误");
+                    throw new OpException("系统错误");
                 if(_memberInflow.getInflowStatus()!=MemberConstants.MEMBER_INFLOW_STATUS_APPLY &&
                         _memberInflow.getInflowStatus() != MemberConstants.MEMBER_INFLOW_STATUS_BACK){
-                    throw new DBErrorException("申请已进入审核阶段，不允许撤回。");
+                    throw new OpException("申请已进入审核阶段，不允许撤回。");
                 }
 
                 MemberInflow record = new MemberInflow();

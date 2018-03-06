@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.DBErrorException;
+import controller.global.OpException;
 import service.LoginUserService;
 import service.party.BranchService;
 import service.party.PartyService;
@@ -186,7 +186,7 @@ public class MemberStayService extends BaseMapper {
 
         MemberStay memberStay = get(userId);
         if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setStatus(MemberConstants.MEMBER_STAY_STATUS_SELF_BACK);
@@ -212,7 +212,7 @@ public class MemberStayService extends BaseMapper {
 
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
         if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setUserId(memberStay.getUserId());
@@ -227,7 +227,7 @@ public class MemberStayService extends BaseMapper {
 
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
         if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setUserId(memberStay.getUserId());
@@ -242,7 +242,7 @@ public class MemberStayService extends BaseMapper {
 
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
         if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());
         record.setUserId(memberStay.getUserId());
@@ -274,7 +274,7 @@ public class MemberStayService extends BaseMapper {
         MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
 
         if (memberStay.getStatus() != MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
 
         MemberStay record = new MemberStay();
         record.setId(memberStay.getId());

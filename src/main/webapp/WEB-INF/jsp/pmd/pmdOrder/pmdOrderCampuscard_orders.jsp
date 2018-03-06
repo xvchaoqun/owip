@@ -42,9 +42,9 @@
 </div>
 <script>
     function _closeTrade(sn){
-        $.post("${ctx}/pmd/pmdOrderCampusCard_closeTrade", {sn:sn},function(data){
+        $.post("${ctx}/pmd/pmdOrderCampuscard_closeTrade", {sn:sn},function(data){
             if(data.success){
-                $.loadModal("${ctx}/pmd/pmdOrderCampusCard?memberId=${param.memberId}", "850");
+                $.loadModal("${ctx}/pmd/pmdOrderCampuscard_orders?memberId=${param.memberId}", "850");
             }
         });
     }

@@ -164,7 +164,7 @@ public class MemberTransferService extends BaseMapper {
 
         MemberTransfer memberTransfer = get(userId);
         if(memberTransfer.getStatus()!= MemberConstants.MEMBER_TRANSFER_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberTransfer record = new MemberTransfer();
         record.setId(memberTransfer.getId());
         record.setStatus(MemberConstants.MEMBER_TRANSFER_STATUS_BACK);
@@ -196,7 +196,7 @@ public class MemberTransferService extends BaseMapper {
         MemberTransfer memberTransfer = get(userId);
 
         /*if(isDirect && memberTransfer.getStatus()!= MemberConstants.MEMBER_TRANSFER_STATUS_APPLY)
-            throw new DBErrorException("状态异常");*/
+            throw new OpException("状态异常");*/
         if(memberTransfer.getStatus()!= MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY)
             throw new OpException("转出分党委审核通过之后，才可以进行转入分党委审核。");
 

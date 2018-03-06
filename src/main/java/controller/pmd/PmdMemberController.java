@@ -539,7 +539,7 @@ public class PmdMemberController extends PmdBaseController {
         pmdMemberService.selectMemberType(ids, hasSalary, configMemberType, configMemberTypeId, amount, remark);
 
         logger.info(addLog(SystemConstants.LOG_PMD, "修改党员分类别-%s-%s-%s",
-                StringUtils.join(ids, ","), configMemberTypeId, amount));
+                ids, configMemberTypeId, amount));
         return success(FormUtils.SUCCESS);
     }
 

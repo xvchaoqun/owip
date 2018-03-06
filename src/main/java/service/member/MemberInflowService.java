@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.DBErrorException;
+import controller.global.OpException;
 import service.LoginUserService;
 import service.party.EnterApplyService;
 import service.party.PartyService;
@@ -156,7 +156,7 @@ public class MemberInflowService extends BaseMapper {
 
         MemberInflow memberInflow = get(userId);
         if(memberInflow.getInflowStatus()!= MemberConstants.MEMBER_INFLOW_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberInflow record = new MemberInflow();
         record.setId(memberInflow.getId());
         record.setInflowStatus(MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY);
@@ -171,9 +171,9 @@ public class MemberInflowService extends BaseMapper {
         MemberInflow memberInflow = get(userId);
 
         if(isDirect && memberInflow.getInflowStatus()!= MemberConstants.MEMBER_INFLOW_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         if(!isDirect && memberInflow.getInflowStatus()!= MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
 
         MemberInflow record = new MemberInflow();
         record.setId(memberInflow.getId());
@@ -337,7 +337,7 @@ public class MemberInflowService extends BaseMapper {
             // 状态检查
             EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
             if (_enterApply == null)
-                throw new DBErrorException("系统错误");
+                throw new OpException("系统错误");
 
             EnterApply enterApply = new EnterApply();
             enterApply.setId(_enterApply.getId());

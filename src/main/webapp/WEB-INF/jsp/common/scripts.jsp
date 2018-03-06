@@ -3,7 +3,7 @@
 <%@ include file="taglibs.jsp"%>
 <script type="text/javascript">var ctx="${ctx}"; var _permissions=${cm:toJSONObject(cm:findPermissions(_user.username))};var _uploadMaxSize=${_uploadMaxSize}</script>
 <!--[if lt IE 9]>
-<script type="text/javascript">location.href="${ctx}/extend/unsupport.html";</script>
+<script type="text/javascript">location.href="${ctx}/jsp/browsers.jsp?type=unsupport";</script>
 <![endif]-->
 <script src="${ctx}/js/main.js"></script>
 <script type="text/javascript">if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");</script>

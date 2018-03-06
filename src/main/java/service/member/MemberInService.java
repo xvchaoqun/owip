@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.DBErrorException;
+import controller.global.OpException;
 import service.LoginUserService;
 import service.party.EnterApplyService;
 import service.party.MemberService;
@@ -156,7 +156,7 @@ public class MemberInService extends BaseMapper {
 
         MemberIn memberIn = get(userId);
         if(memberIn.getStatus()!= MemberConstants.MEMBER_IN_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberIn record = new MemberIn();
         record.setId(memberIn.getId());
         record.setStatus(MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY);
@@ -184,7 +184,7 @@ public class MemberInService extends BaseMapper {
 
         MemberIn memberIn = get(userId);
         if(memberIn.getStatus()!= MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY)
-            throw new DBErrorException("分党委还未审核通过");
+            throw new OpException("分党委还未审核通过");
 
         MemberIn record = new MemberIn();
         record.setId(memberIn.getId());
@@ -387,7 +387,7 @@ public class MemberInService extends BaseMapper {
         if(status==MemberConstants.MEMBER_IN_STATUS_BACK ) { // 后台打回申请，需要重置入口提交状态
             // 状态检查
             EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
-            //throw new DBErrorException("系统错误");
+            //throw new OpException("系统错误");
             if (_enterApply != null) {
                 EnterApply enterApply = new EnterApply();
                 enterApply.setId(_enterApply.getId());

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import service.DBErrorException;
+import controller.global.OpException;
 import service.LoginUserService;
 import service.party.EnterApplyService;
 import service.sys.SysUserService;
@@ -154,7 +154,7 @@ public class MemberInflowOutService extends BaseMapper {
 
         MemberInflow memberInflow = get(userId);
         if(memberInflow.getOutStatus()!= MemberConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberInflow record = new MemberInflow();
         record.setId(memberInflow.getId());
         record.setOutStatus(MemberConstants.MEMBER_INFLOW_OUT_STATUS_SELF_BACK);
@@ -216,7 +216,7 @@ public class MemberInflowOutService extends BaseMapper {
 
         MemberInflow memberInflow = get(userId);
         if(memberInflow.getOutStatus()!= MemberConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberInflow record = new MemberInflow();
         record.setId(memberInflow.getId());
         record.setOutStatus(MemberConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY);
@@ -230,9 +230,9 @@ public class MemberInflowOutService extends BaseMapper {
         MemberInflow memberInflow = get(userId);
 
         if(isDirect && memberInflow.getOutStatus()!= MemberConstants.MEMBER_INFLOW_OUT_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         if(!isDirect && memberInflow.getOutStatus()!= MemberConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
 
         MemberInflow record = new MemberInflow();
         record.setId(memberInflow.getId());

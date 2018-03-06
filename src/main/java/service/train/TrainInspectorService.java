@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import service.BaseMapper;
-import service.DBErrorException;
+import controller.global.OpException;
 import sys.constants.TrainConstants;
 import sys.utils.DateUtils;
 
@@ -177,7 +177,7 @@ public class TrainInspectorService extends BaseMapper {
         _inspector.setStatus(TrainConstants.TRAIN_INSPECTOR_STATUS_ABOLISH);
 
         if (trainInspectorMapper.updateByPrimaryKeySelective(_inspector) != 1)
-            throw new DBErrorException("abolish error1.");
+            throw new OpException("abolish error1.");
 
         Integer trainId = inspector.getTrainId();
         Train train = trainMapper.selectByPrimaryKey(trainId);
@@ -185,7 +185,7 @@ public class TrainInspectorService extends BaseMapper {
         _train.setId(trainId);
         _train.setTotalCount(Math.max(0, train.getTotalCount() - 1));
         if (trainMapper.updateByPrimaryKeySelective(_train) != 1)
-            throw new DBErrorException("abolish error2.");
+            throw new OpException("abolish error2.");
 
         // 已完成的测评人，所有关联课程的总完成数量要减一
         iTrainMapper.abolishTrainInspector(inspectorId);

@@ -129,6 +129,7 @@
         <property name="filterChainDefinitions">
             <value>
                 /test/** = anon
+                /jsp/** = anon
 
                 /mobile/js/** = anon
                 /mobile/css/** = anon

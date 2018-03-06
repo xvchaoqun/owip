@@ -58,6 +58,8 @@ public class SafeBoxService extends BaseMapper {
 
     public SafeBox getByCode(String code) {
 
+        Assert.isTrue(StringUtils.isNotBlank(code), "保险柜编号为空");
+
         SafeBoxExample example = new SafeBoxExample();
         example.createCriteria().andCodeEqualTo(code.trim());
         List<SafeBox> safeBoxes = safeBoxMapper.selectByExample(example);

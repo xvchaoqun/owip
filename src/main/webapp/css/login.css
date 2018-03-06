@@ -53,12 +53,12 @@ iframe{background: transparent;}
 .login_box .login-layout#reg dd input.yz{width:110px;padding-left:10px;background:#fff;border:1px solid #418bd9;height:38px;line-height:38px;float:left;}
 .login_box .login-layout#reg dd a.submit_btn{ cursor: pointer; width:242px;height:37px;display:block;background:url(/extend/img/reg_btn.jpg) top center no-repeat;}
 
-.login_box .login-layout#reg dt{height: 35px;line-height: 35px;padding: 2px 0px;padding-right:10px;}
-.login_box .login-layout#reg dd{height: 35px;padding: 2px 0px;}
-.login_box .login-layout#reg dd .input_box{height: 33px}
-.login_box .login-layout#reg dd input{height: 33px;line-height: 33px}
-.login_box .login-layout#reg dd input.yz{height: 33px;line-height: 33px}
-.login_box .login-layout#reg dd img{height: 33px}
+.login_box .login-layout#reg dt{height: 32px;line-height: 32px;padding: 2px 0px;padding-right:10px;}
+.login_box .login-layout#reg dd{height: 32px;padding: 2px 0px;}
+.login_box .login-layout#reg dd .input_box{height: 30px}
+.login_box .login-layout#reg dd input{height: 30px;line-height: 30px}
+.login_box .login-layout#reg dd input.yz{height: 30px;line-height: 30px}
+.login_box .login-layout#reg dd img{height: 30px}
 
 .login_box .login-error{
 	font-size: 12pt;
@@ -93,7 +93,7 @@ iframe{background: transparent;}
 	color:#c7254e;
 	background-color: #f9f2f4;
 	border-radius:6px;
-	padding-left: 20px;
+	/*padding-left: 20px;*/
 	margin-top: -30px;
 	/*margin-bottom: 5px;*/
 }

@@ -51,7 +51,7 @@ public class PmdSendMsgController extends PmdBaseController {
     @RequiresPermissions("pmdSendMsg:notify")
     @RequestMapping(value = "/pmdSendMsg_notifyMembers", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdSendMsg_notify(int partyId, Integer branchId, HttpServletRequest request) {
+    public Map do_pmdSendMsg_notifyMembers(int partyId, Integer branchId, HttpServletRequest request) {
 
         /*if(StringUtils.isBlank(mobile) || !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
             return failed("手机号码有误");

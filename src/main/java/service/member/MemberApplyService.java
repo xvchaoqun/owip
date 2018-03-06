@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.DBErrorException;
+import controller.global.OpException;
 import service.LoginUserService;
 import service.party.EnterApplyService;
 import service.party.MemberService;
@@ -442,7 +442,7 @@ public class MemberApplyService extends BaseMapper {
 
         MemberApply memberApply = get(userId);
         if(memberApply==null || memberApply.getIsRemove())
-            throw new DBErrorException("状态异常，请稍后再试");
+            throw new OpException("状态异常，请稍后再试");
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_POSITIVE);
@@ -455,7 +455,7 @@ public class MemberApplyService extends BaseMapper {
 
         // 1. 更新申请状态
         if (updateByExampleSelective(userId, record, example) == 0)
-            throw new DBErrorException("状态异常，请稍后再试");
+            throw new OpException("状态异常，请稍后再试");
 
         //Member member = memberMapper.selectByPrimaryKey(userId);
         Member _record = new Member();
@@ -465,7 +465,7 @@ public class MemberApplyService extends BaseMapper {
         //_record.setBranchId(member.getBranchId());
         // 2. 更新党员政治面貌
         if(memberService.updateByPrimaryKeySelective(_record) == 0)
-            throw new DBErrorException("状态异常，请稍后再试");
+            throw new OpException("状态异常，请稍后再试");
     }
 
     // 成为预备党员 (组织部审核之后，直属党支部提交发展时间)
@@ -475,7 +475,7 @@ public class MemberApplyService extends BaseMapper {
         SysUserView sysUser = sysUserService.findById(userId);
         MemberApply memberApply = get(userId);
         if(sysUser==null || memberApply==null || memberApply.getIsRemove())
-            throw new DBErrorException("状态异常，请稍后再试");
+            throw new OpException("状态异常，请稍后再试");
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_GROW);
@@ -489,7 +489,7 @@ public class MemberApplyService extends BaseMapper {
 
         //1. 更新申请状态
         if (updateByExampleSelective(userId, record, example) == 0)
-            throw new DBErrorException("需要组织部审核之后，才可以发展为预备党员");
+            throw new OpException("需要组织部审核之后，才可以发展为预备党员");
 
         Member member = new Member();
         member.setUserId(userId);
@@ -520,7 +520,7 @@ public class MemberApplyService extends BaseMapper {
         SysUserView sysUser = sysUserService.findById(userId);
         MemberApply memberApply = get(userId);
         if(sysUser==null || memberApply==null || memberApply.getIsRemove())
-            throw new DBErrorException("状态异常，请稍后再试");
+            throw new OpException("状态异常，请稍后再试");
 
         MemberApply record = new MemberApply();
         record.setStage(SystemConstants.APPLY_STAGE_GROW);
@@ -533,7 +533,7 @@ public class MemberApplyService extends BaseMapper {
 
         //1. 更新申请状态
         if (updateByExampleSelective(userId, record, example) == 0)
-            throw new DBErrorException("需要党支部提交发展时间之后，才可以审核");
+            throw new OpException("需要党支部提交发展时间之后，才可以审核");
 
         Member member = new Member();
         member.setUserId(userId);

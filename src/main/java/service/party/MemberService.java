@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.DBErrorException;
+import controller.global.OpException;
 import service.member.MemberApplyService;
 import service.sys.LogService;
 import service.sys.SysUserService;
@@ -126,7 +126,7 @@ public class MemberService extends BaseMapper {
             // 同步研究生信息到 ow_member_student表
             sysUserSyncService.snycStudent(userId, uv);
         } else {
-            throw new DBErrorException("添加失败，该账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
+            throw new OpException("添加失败，该账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
         }
 
         // 更新系统角色  访客->党员
@@ -165,7 +165,7 @@ public class MemberService extends BaseMapper {
             record.setType(MemberConstants.MEMBER_TYPE_STUDENT); // 学生党员
             sysUserSyncService.snycStudent(userId, uv);
         } else {
-            throw new DBErrorException("添加失败，该账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
+            throw new OpException("添加失败，该账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
         }
 
         Member _member = get(userId);

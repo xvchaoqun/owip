@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.CasUtils;
@@ -31,7 +32,8 @@ public class IndexController extends BaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	@RequestMapping("/monitor")
-	public String monitor(HttpServletRequest request, String type) {
+	@ResponseBody
+	public void monitor(HttpServletRequest request, String type) {
 
 		String userAgent = RequestUtils.getUserAgent(request);
 		String ip = IpUtils.getRealIp(request);
@@ -39,7 +41,6 @@ public class IndexController extends BaseController {
 		ShiroUser shiroUser =(ShiroUser)SecurityUtils.getSubject().getPrincipal();
 		logger.warn(String.format("monitor type=%s, userAgent=%s, ip=%s, username=%s, cas=%s", type,
 				userAgent, ip, (shiroUser!=null)?shiroUser.getUsername():null, CasUtils.getUsername(request)));
-		return "monitor";
 	}
 
 	@RequestMapping("/faq")

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.DBErrorException;
+import controller.global.OpException;
 import service.LoginUserService;
 import service.party.MemberService;
 import service.party.PartyService;
@@ -176,7 +176,7 @@ public class MemberOutService extends BaseMapper {
 
         MemberOut memberOut = getLatest(userId);
         if (memberOut==null || memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
         record.setUserId(userId);
@@ -201,7 +201,7 @@ public class MemberOutService extends BaseMapper {
 
         MemberOut memberOut = getLatest(userId);
         if (memberOut==null || memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
         record.setStatus(MemberConstants.MEMBER_OUT_STATUS_BACK);
@@ -217,7 +217,7 @@ public class MemberOutService extends BaseMapper {
 
         MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
         if (memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_APPLY)
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         MemberOut record = new MemberOut();
         record.setId(memberOut.getId());
         record.setUserId(memberOut.getUserId());
@@ -232,9 +232,9 @@ public class MemberOutService extends BaseMapper {
         MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
         Integer userId = memberOut.getUserId();
         if (isDirect && memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_APPLY)  // 分党委直接通过的情况（已弃用）
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
         if (!isDirect && memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY) // 组织部审核通过
-            throw new DBErrorException("状态异常");
+            throw new OpException("状态异常");
 
         MemberOut record = new MemberOut();
         record.setId(id);
@@ -252,7 +252,7 @@ public class MemberOutService extends BaseMapper {
 
         MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
         if (memberOut.getStatus() != MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY)
-            throw new DBErrorException("还没完成转出审批，不能撤销");
+            throw new OpException("还没完成转出审批，不能撤销");
 
         Integer userId = memberOut.getUserId();
         MemberOut record = new MemberOut();

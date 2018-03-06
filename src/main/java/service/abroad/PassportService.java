@@ -56,9 +56,9 @@ public class PassportService extends BaseMapper {
 
             String userCode = uRow.getUserCode();
             SysUserView uv = sysUserService.findByCode(userCode);
-            if (uv == null) throw new OpException("工作证号：" + userCode + "不存在");
+            if (uv == null) throw new OpException("工作证号{0}不存在", userCode);
             CadreView cadre = cadreService.dbFindByUserId(uv.getId());
-            if (cadre == null) throw new OpException("工作证号：" + userCode + " 姓名：" + uv.getRealname() + "不是干部");
+            if (cadre == null) throw new OpException("工作证号：{0} 姓名：{1} 不是干部", userCode, uv.getRealname());
             record.setCadreId(cadre.getId());
             record.setType(type);
 
@@ -74,9 +74,12 @@ public class PassportService extends BaseMapper {
             record.setKeepDate(uRow.getKeepDate());
 
             //
+            if(StringUtils.isBlank(uRow.getSafeCode())){
+                throw new OpException("工作证号：{0} 姓名：{1} 保险柜编号为空", userCode, uv.getRealname());
+            }
             SafeBox safeBox = safeBoxService.getByCode(uRow.getSafeCode());
             if (safeBox == null)
-                if (uv == null) throw new OpException("保险柜：" + safeBox.getCode() + "不存在");
+                if (uv == null) throw new OpException("工作证号：{0} 姓名：{1} 保险柜编号{2}不存在", userCode, uv.getRealname(), safeBox.getCode());
             record.setSafeBoxId(safeBox.getId());
             record.setCreateTime(new Date());
             record.setIsLent(false);

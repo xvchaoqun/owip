@@ -31,7 +31,12 @@
                 </shiro:hasPermission>--%>
                 <a class="popupBtn btn btn-success btn-sm" data-url="${ctx}/pmd/pmdConfigReset"><i
                         class="fa fa-gear"></i> 党费重新计算</a>
-
+                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                        data-open-by="page"
+                        data-id-name="userId"
+                        data-url="${ctx}/pmd/pmdOrderCampuscard">
+                    <i class="fa fa-history"></i> 支付订单查询
+                </button>
                <%-- <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</a>--%>
@@ -253,7 +258,7 @@
                 if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_ONJOB}') return '-'
                 return $.trim(cellvalue)
             }
-            }
+            },{hidden:true, name:'userId', key:true}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
