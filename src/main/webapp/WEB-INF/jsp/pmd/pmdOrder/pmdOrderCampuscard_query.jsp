@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-  <h3>查询订单状态</h3>
+  <h3>查询订单</h3>
 </div>
 <div class="modal-body">
   <table class="table table-bordered table-unhover">

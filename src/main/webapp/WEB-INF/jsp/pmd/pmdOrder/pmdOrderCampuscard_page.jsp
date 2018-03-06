@@ -39,11 +39,11 @@
         url: '${ctx}/pmd/pmdOrderCampuscard_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '订单号',name: 'sn', width:150},
-            { label: '订单状态',name: 'isClosed', formatter: function (cellvalue, options, rowObject) {
+            { label: '订单状态',name: 'isClosed', width:150, formatter: function (cellvalue, options, rowObject) {
 
                 if(rowObject.isClosed) return '已关闭'
-                return ('<button class="popupBtn btn btn-success btn-xs" ' +
-                'data-url="${ctx}/pmd/pmdOrderCampuscard_query?sn={0}&code={1}"><i class="fa fa-search"></i> 查询</button>')
+                return ('<button class="popupBtn btn btn-info btn-xs" ' +
+                'data-url="${ctx}/pmd/pmdOrderCampuscard_query?sn={0}&code={1}"><i class="fa fa-search"></i> 查询支付接口</button>')
                         .format(rowObject.sn, rowObject.payer);
             }},
             { label: '关闭订单',name: '_close', width:150, formatter: function (cellvalue, options, rowObject) {
