@@ -38,7 +38,7 @@
         pager: "jqGridPager2",
         url: '${ctx}/pmd/pmdOrderCampuscard_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '订单号',name: 'sn', width:150},
+            { label: '订单号',name: 'sn', width:200},
             { label: '订单状态',name: 'isClosed', width:150, formatter: function (cellvalue, options, rowObject) {
 
                 if(rowObject.isClosed) return '已关闭'
@@ -66,6 +66,7 @@
             { label: '提交人的学工号',name: 'snoIdName', width:150},
             { label: '支付状态',name: 'isSuccess', formatter: $.jgrid.formatter.TRUEFALSE,
                 formatoptions: {on: '已支付', off:'未支付'}},
+            { label: '创建时间',name: 'createTime', width:180}
         ],
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);
