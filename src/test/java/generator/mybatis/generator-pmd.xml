@@ -26,6 +26,12 @@
        <!-- <table tableName="pmd_order_campuscard"
                domainObjectName="pmd.PmdOrderCampuscard" mapperName="pmd.PmdOrderCampuscardMapper">
         </table>-->
+        <table tableName="pmd_order_campuscard_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="pmd.PmdOrderCampuscardView" mapperName="pmd.PmdOrderCampuscardViewMapper">
+        </table>
         <!--<table tableName="pmd_notify_wszf" domainObjectName="pmd.PmdNotifyWszf" mapperName="pmd.PmdNotifyWszfMapper">
         </table>
         <table tableName="pmd_notify_campuscard"

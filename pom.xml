@@ -13,7 +13,7 @@
         <shiro.version>1.4.0</shiro.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <generator.mybatis.modal>cet</generator.mybatis.modal>
+        <generator.mybatis.modal>pmd</generator.mybatis.modal>
     </properties>
     <dependencies>
         <dependency>
@@ -610,7 +610,7 @@
                     </execution>-->
                 </executions>
                 <configuration>
-                    <configurationFile>src/test/java/mybatis/generator/generator-${generator.mybatis.modal}.xml</configurationFile>
+                    <configurationFile>src/test/java/generator/mybatis/generator-${generator.mybatis.modal}.xml</configurationFile>
                     <verbose>true</verbose>
                     <overwrite>true</overwrite>
                     <!--<jdbcDriver>com.mysql.jdbc.Driver</jdbcDriver>

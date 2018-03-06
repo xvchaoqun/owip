@@ -39,6 +39,9 @@
         url: '${ctx}/pmd/pmdOrderCampuscard_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '订单号',name: 'sn', width:200},
+            { label: '缴费月份', name: 'payMonth', formatter: 'date', formatoptions: {newformat: 'Y年m月'}, frozen: true},
+            { label: '缴费人',name: 'realname'},
+            { label: '缴费账号',name: 'code', width:120},
             { label: '订单状态',name: 'isClosed', width:150, formatter: function (cellvalue, options, rowObject) {
 
                 if(rowObject.isClosed) return '已关闭'
@@ -53,20 +56,20 @@
                 'data-callback="_reload2" data-url="${ctx}/pmd/pmdOrderCampuscard_closeTrade?sn={0}"><i class="fa fa-close"></i> 关闭订单</button>')
                         .format(rowObject.sn);
             }},
-            { label: '缴费人账号',name: 'payer', width:120},
-            { label: '缴费人账号类型',name: 'payertype', width:150, formatter: function (cellvalue, options, rowObject) {
+            { label: '支付人',name: 'payername'},
+            { label: '支付账号',name: 'payer', width:120},
+            /*{ label: '缴费人账号类型',name: 'payertype', width:150, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return ''
                 if(cellvalue==1) return '学工号';
                 return cellvalue;
-            }},
-            { label: '缴费人姓名',name: 'payername'},
-            { label: '该次缴费金额',name: 'amt'},
-            { label: '收费商户账号',name: 'macc'},
-            { label: '缴费说明',name: 'commnet'},
-            { label: '提交人的学工号',name: 'snoIdName', width:150},
+            }},*/
+            { label: '支付金额',name: 'amt'},
+            /*{ label: '收费商户账号',name: 'macc'},*/
+            /*{ label: '缴费说明',name: 'commnet'},*/
+            /*{ label: '提交人的学工号',name: 'snoIdName', width:150},*/
             { label: '支付状态',name: 'isSuccess', formatter: $.jgrid.formatter.TRUEFALSE,
                 formatoptions: {on: '已支付', off:'未支付'}},
-            { label: '创建时间',name: 'createTime', width:180}
+            { label: '订单生成时间',name: 'createTime', width:180}
         ],
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);

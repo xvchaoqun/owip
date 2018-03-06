@@ -2,6 +2,8 @@ package controller.pmd;
 
 import domain.pmd.PmdOrderCampuscard;
 import domain.pmd.PmdOrderCampuscardExample;
+import domain.pmd.PmdOrderCampuscardView;
+import domain.pmd.PmdOrderCampuscardViewExample;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -63,9 +65,6 @@ public class PmdOrderController extends PmdBaseController {
                               int userId,
                              Integer pageSize, Integer pageNo) throws IOException {
 
-        SysUserView uv = sysUserService.findById(userId);
-        String code = uv.getCode();
-
         if (null == pageSize) {
             pageSize = springProps.pageSize;
         }
@@ -74,17 +73,21 @@ public class PmdOrderController extends PmdBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PmdOrderCampuscardExample example = new PmdOrderCampuscardExample();
-        PmdOrderCampuscardExample.Criteria criteria = example.createCriteria()
-                .andPayerEqualTo(code);
+        PmdOrderCampuscardViewExample example = new PmdOrderCampuscardViewExample();
+
+        // 查询支付人或缴费人
+        SysUserView uv = sysUserService.findById(userId);
+        String code = uv.getCode();
+        example.or().andMemberUserIdEqualTo(userId);
+        example.or().andPayerEqualTo(code);
+
         example.setOrderByClause("create_time desc");
 
-        long count = pmdOrderCampuscardMapper.countByExample(example);
+        long count = pmdOrderCampuscardViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
-
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PmdOrderCampuscard> records = pmdOrderCampuscardMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<PmdOrderCampuscardView> records = pmdOrderCampuscardViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
