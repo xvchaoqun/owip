@@ -35,7 +35,7 @@
                         data-open-by="page"
                         data-id-name="userId"
                         data-url="${ctx}/pmd/pmdOrderCampuscard">
-                    <i class="fa fa-history"></i> 支付订单查询
+                    <i class="fa fa-history"></i> 历史支付订单
                 </button>
                <%-- <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
