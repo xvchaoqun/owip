@@ -12,7 +12,7 @@
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="javascript:;">${uv.realname}-所有支付订单</a>
+                    <a href="javascript:;">${uv.realname}-历史支付订单</a>
                 </li>
             </ul>
         </div>
@@ -40,19 +40,22 @@
         colModel: [
             { label: '订单号',name: 'sn', width:150},
             { label: '订单状态',name: 'isClosed', formatter: function (cellvalue, options, rowObject) {
+
                 if(rowObject.isClosed) return '已关闭'
                 return ('<button class="popupBtn btn btn-success btn-xs" ' +
                 'data-url="${ctx}/pmd/pmdOrderCampuscard_query?sn={0}&code={1}"><i class="fa fa-search"></i> 查询</button>')
                         .format(rowObject.sn, rowObject.payer);
             }},
             { label: '关闭订单',name: '_close', width:150, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.isClosed) return '-'
+                if(rowObject.isSuccess) return '-'
+                if(rowObject.isClosed) return '已关闭'
                 return ('<button class="confirm btn btn-danger btn-xs" data-title="关闭订单" data-msg="确定关闭订单？（请确保订单未支付后操作）" ' +
                 'data-callback="_reload2" data-url="${ctx}/pmd/pmdOrderCampuscard_closeTrade?sn={0}"><i class="fa fa-close"></i> 关闭订单</button>')
                         .format(rowObject.sn);
             }},
-            { label: '缴费人账号',name: 'payer'},
+            { label: '缴费人账号',name: 'payer', width:120},
             { label: '缴费人账号类型',name: 'payertype', width:150, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return ''
                 if(cellvalue==1) return '学工号';
                 return cellvalue;
             }},

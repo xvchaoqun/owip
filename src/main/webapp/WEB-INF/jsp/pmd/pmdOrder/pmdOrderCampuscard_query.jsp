@@ -17,7 +17,7 @@
     </tr>
     <tr>
       <td class="bg-right">接口返回</td>
-      <td>${ret}</td>
+      <td style="word-break: break-all">${ret}</td>
     </tr>
   </table>
 </div>
