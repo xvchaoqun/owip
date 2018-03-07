@@ -84,7 +84,7 @@ public class PmdMemberPayService extends BaseMapper {
               */
             int userId = pmdMemberPayView.getUserId();
             PmdMember pmdMember = pmdMemberService.get(currentMonthId, userId);
-            if(branchHasReport(pmdMember, currentPmdMonth))
+            if(pmdMember==null || branchHasReport(pmdMember, currentPmdMonth))
                 return notAllowed;
 
             return delayPay;
