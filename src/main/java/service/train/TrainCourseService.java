@@ -87,13 +87,13 @@ public class TrainCourseService extends BaseMapper {
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;
-
+        byte orderBy = ORDER_BY_ASC;
         TrainCourse entity = trainCourseMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
         Integer trainId = entity.getTrainId();
 
         TrainCourseExample example = new TrainCourseExample();
-        if (addNum < 0) { // 正序
+        if (addNum*orderBy > 0) {
 
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder)
             .andTrainIdEqualTo(trainId).andStatusEqualTo(SystemConstants.AVAILABLE);
@@ -110,7 +110,7 @@ public class TrainCourseService extends BaseMapper {
 
             TrainCourse targetEntity = overEntities.get(overEntities.size()-1);
 
-            if (addNum < 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder("train_course", "train_id="+trainId + " and status="+SystemConstants.AVAILABLE, baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder("train_course", "train_id="+trainId + " and status="+SystemConstants.AVAILABLE, baseSortOrder, targetEntity.getSortOrder());

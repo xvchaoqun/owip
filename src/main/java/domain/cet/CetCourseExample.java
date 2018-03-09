@@ -193,6 +193,66 @@ public class CetCourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsOnlineIsNull() {
+            addCriterion("is_online is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineIsNotNull() {
+            addCriterion("is_online is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineEqualTo(Boolean value) {
+            addCriterion("is_online =", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineNotEqualTo(Boolean value) {
+            addCriterion("is_online <>", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineGreaterThan(Boolean value) {
+            addCriterion("is_online >", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_online >=", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineLessThan(Boolean value) {
+            addCriterion("is_online <", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_online <=", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineIn(List<Boolean> values) {
+            addCriterion("is_online in", values, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineNotIn(List<Boolean> values) {
+            addCriterion("is_online not in", values, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_online between", value1, value2, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_online not between", value1, value2, "isOnline");
+            return (Criteria) this;
+        }
+
         public Criteria andFoundDateIsNull() {
             addCriterion("found_date is null");
             return (Criteria) this;
@@ -443,6 +503,66 @@ public class CetCourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andDurationIsNull() {
+            addCriterion("duration is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationIsNotNull() {
+            addCriterion("duration is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationEqualTo(BigDecimal value) {
+            addCriterion("duration =", value, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationNotEqualTo(BigDecimal value) {
+            addCriterion("duration <>", value, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationGreaterThan(BigDecimal value) {
+            addCriterion("duration >", value, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("duration >=", value, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationLessThan(BigDecimal value) {
+            addCriterion("duration <", value, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("duration <=", value, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationIn(List<BigDecimal> values) {
+            addCriterion("duration in", values, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationNotIn(List<BigDecimal> values) {
+            addCriterion("duration not in", values, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("duration between", value1, value2, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("duration not between", value1, value2, "duration");
+            return (Criteria) this;
+        }
+
         public Criteria andCourseTypeIdIsNull() {
             addCriterion("course_type_id is null");
             return (Criteria) this;
@@ -630,6 +750,66 @@ public class CetCourseExample {
 
         public Criteria andRemarkNotBetween(String value1, String value2) {
             addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNull() {
+            addCriterion("is_deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNotNull() {
+            addCriterion("is_deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedEqualTo(Boolean value) {
+            addCriterion("is_deleted =", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
+            addCriterion("is_deleted <>", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
+            addCriterion("is_deleted >", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted >=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThan(Boolean value) {
+            addCriterion("is_deleted <", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted <=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIn(List<Boolean> values) {
+            addCriterion("is_deleted in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
+            addCriterion("is_deleted not in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
     }

@@ -177,6 +177,15 @@
 
 <c:set value="<%=ScConstants.SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP%>" var="SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP"/>
 
+<c:set value="<%=CetConstants.CET_TRAINEE_TYPE_TEMPLATE_MAP%>" var="CET_TRAINEE_TYPE_TEMPLATE_MAP"/>
+
+<c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT%>" var="CET_TRAIN_ENROLL_STATUS_DEFAULT"/>
+<c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_OPEN%>" var="CET_TRAIN_ENROLL_STATUS_OPEN"/>
+<c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_CLOSED%>" var="CET_TRAIN_ENROLL_STATUS_CLOSED"/>
+<c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_PAUSE%>" var="CET_TRAIN_ENROLL_STATUS_PAUSE"/>
+<c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_MAP%>" var="CET_TRAIN_ENROLL_STATUS_MAP"/>
+
+
 <c:set value="<%=PmdConstants.PMD_MONTH_STATUS_INIT%>" var="PMD_MONTH_STATUS_INIT"/>
 <c:set value="<%=PmdConstants.PMD_MONTH_STATUS_START%>" var="PMD_MONTH_STATUS_START"/>
 <c:set value="<%=PmdConstants.PMD_MONTH_STATUS_END%>" var="PMD_MONTH_STATUS_END"/>

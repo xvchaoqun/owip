@@ -42,7 +42,14 @@ public class CetCourseController extends CetBaseController {
 
     @RequiresPermissions("cetCourse:list")
     @RequestMapping("/cetCourse")
-    public String cetCourse(ModelMap modelMap) {
+    public String cetCourse(@RequestParam(defaultValue = "1") Integer cls, Byte isOnline, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+        if (cls == 2) {
+            return "forward:/cet/cetColumn?type=1&isOnline="+ isOnline;
+        }else if (cls == 3) {
+            return "forward:/cet/cetColumn?type=2&isOnline="+ isOnline;
+        }
 
         Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
         modelMap.put("courseTypeMap", courseTypeMap);
@@ -53,6 +60,7 @@ public class CetCourseController extends CetBaseController {
     @RequiresPermissions("cetCourse:list")
     @RequestMapping("/cetCourse_data")
     public void cetCourse_data(HttpServletResponse response,
+                                    boolean isOnline,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -67,7 +75,7 @@ public class CetCourseController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetCourseExample example = new CetCourseExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andIsOnlineEqualTo(isOnline);
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(name)) {
@@ -122,12 +130,17 @@ public class CetCourseController extends CetBaseController {
 
     @RequiresPermissions("cetCourse:edit")
     @RequestMapping("/cetCourse_au")
-    public String cetCourse_au(Integer id, ModelMap modelMap) {
+    public String cetCourse_au(Integer id, Boolean isOnline, ModelMap modelMap) {
 
         if (id != null) {
             CetCourse cetCourse = cetCourseMapper.selectByPrimaryKey(id);
             modelMap.put("cetCourse", cetCourse);
+            if(cetCourse!=null){
+                isOnline = cetCourse.getIsOnline();
+            }
         }
+
+        modelMap.put("isOnline", isOnline);
 
         Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
         modelMap.put("courseTypes", courseTypeMap.values());
@@ -197,7 +210,7 @@ public class CetCourseController extends CetBaseController {
 
     @RequestMapping("/cetCourse_selects")
     @ResponseBody
-    public Map cetCourse_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map cetCourse_selects(Integer pageSize, Integer pageNo, Boolean isOnline, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -210,6 +223,10 @@ public class CetCourseController extends CetBaseController {
         CetCourseExample example = new CetCourseExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
+
+        if(isOnline!=null){
+            criteria.andIsOnlineEqualTo(isOnline);
+        }
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");

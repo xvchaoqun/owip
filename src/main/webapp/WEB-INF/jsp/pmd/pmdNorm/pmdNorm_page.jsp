@@ -88,10 +88,10 @@ pageEncoding="UTF-8" %>
                 return _cMap.PMD_FORMULA_TYPE_MAP[cellvalue];
             }, width:200},
             <c:if test="${!_query}">
-            { label:'排序',align:'center',index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#common_sort_tpl").html().NoMultiSpace())({id:rowObject.id,
-                    url:"${ctx}/pmd/pmdNorm_changeOrder"})
-            },frozen:true },
+            {
+                label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url: "${ctx}/pmd/pmdNorm_changeOrder"},frozen:true
+            },
             </c:if>
             { label: '额度', name: 'pmdNormValue.amount', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.setType!='${PMD_NORM_SET_TYPE_FIXED}') return '-'

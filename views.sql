@@ -1,3 +1,10 @@
+-- 干部教育培训
+DROP VIEW IF EXISTS `cet_column_course_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_column_course_view` AS
+SELECT ccc.*, cc.name as column_name, cc2.name as course_name from cet_column_course ccc
+left join cet_column cc on ccc.column_id = cc.id
+left join cet_course cc2 on ccc.course_id = cc2.id ;
+
 -- 干部任免审批表归档
 DROP VIEW IF EXISTS `sc_ad_archive_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_ad_archive_view` AS

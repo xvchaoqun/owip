@@ -3,13 +3,16 @@
 <mapper namespace="persistence.cet.CetCourseMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetCourse">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="is_online" jdbcType="BIT" property="isOnline" />
     <result column="found_date" jdbcType="DATE" property="foundDate" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="expert_id" jdbcType="INTEGER" property="expertId" />
     <result column="period" jdbcType="DECIMAL" property="period" />
+    <result column="duration" jdbcType="DECIMAL" property="duration" />
     <result column="course_type_id" jdbcType="INTEGER" property="courseTypeId" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, found_date, name, expert_id, period, course_type_id, sort_order, remark
+    id, is_online, found_date, name, expert_id, period, duration, course_type_id, sort_order, 
+    remark, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetCourseExample" resultMap="BaseResultMap">
     select
@@ -103,18 +107,23 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cet.CetCourse">
-    insert into cet_course (id, found_date, name, 
-      expert_id, period, course_type_id, 
-      sort_order, remark)
-    values (#{id,jdbcType=INTEGER}, #{foundDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, 
-      #{expertId,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, #{courseTypeId,jdbcType=INTEGER}, 
-      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+    insert into cet_course (id, is_online, found_date, 
+      name, expert_id, period, 
+      duration, course_type_id, sort_order, 
+      remark, is_deleted)
+    values (#{id,jdbcType=INTEGER}, #{isOnline,jdbcType=BIT}, #{foundDate,jdbcType=DATE}, 
+      #{name,jdbcType=VARCHAR}, #{expertId,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, 
+      #{duration,jdbcType=DECIMAL}, #{courseTypeId,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetCourse">
     insert into cet_course
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="isOnline != null">
+        is_online,
       </if>
       <if test="foundDate != null">
         found_date,
@@ -128,6 +137,9 @@
       <if test="period != null">
         period,
       </if>
+      <if test="duration != null">
+        duration,
+      </if>
       <if test="courseTypeId != null">
         course_type_id,
       </if>
@@ -137,10 +149,16 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="isOnline != null">
+        #{isOnline,jdbcType=BIT},
       </if>
       <if test="foundDate != null">
         #{foundDate,jdbcType=DATE},
@@ -154,6 +172,9 @@
       <if test="period != null">
         #{period,jdbcType=DECIMAL},
       </if>
+      <if test="duration != null">
+        #{duration,jdbcType=DECIMAL},
+      </if>
       <if test="courseTypeId != null">
         #{courseTypeId,jdbcType=INTEGER},
       </if>
@@ -162,6 +183,9 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -177,6 +201,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.isOnline != null">
+        is_online = #{record.isOnline,jdbcType=BIT},
+      </if>
       <if test="record.foundDate != null">
         found_date = #{record.foundDate,jdbcType=DATE},
       </if>
@@ -189,6 +216,9 @@
       <if test="record.period != null">
         period = #{record.period,jdbcType=DECIMAL},
       </if>
+      <if test="record.duration != null">
+        duration = #{record.duration,jdbcType=DECIMAL},
+      </if>
       <if test="record.courseTypeId != null">
         course_type_id = #{record.courseTypeId,jdbcType=INTEGER},
       </if>
@@ -198,6 +228,9 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -206,13 +239,16 @@
   <update id="updateByExample" parameterType="map">
     update cet_course
     set id = #{record.id,jdbcType=INTEGER},
+      is_online = #{record.isOnline,jdbcType=BIT},
       found_date = #{record.foundDate,jdbcType=DATE},
       name = #{record.name,jdbcType=VARCHAR},
       expert_id = #{record.expertId,jdbcType=INTEGER},
       period = #{record.period,jdbcType=DECIMAL},
+      duration = #{record.duration,jdbcType=DECIMAL},
       course_type_id = #{record.courseTypeId,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -220,6 +256,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetCourse">
     update cet_course
     <set>
+      <if test="isOnline != null">
+        is_online = #{isOnline,jdbcType=BIT},
+      </if>
       <if test="foundDate != null">
         found_date = #{foundDate,jdbcType=DATE},
       </if>
@@ -232,6 +271,9 @@
       <if test="period != null">
         period = #{period,jdbcType=DECIMAL},
       </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=DECIMAL},
+      </if>
       <if test="courseTypeId != null">
         course_type_id = #{courseTypeId,jdbcType=INTEGER},
       </if>
@@ -241,18 +283,24 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetCourse">
     update cet_course
-    set found_date = #{foundDate,jdbcType=DATE},
+    set is_online = #{isOnline,jdbcType=BIT},
+      found_date = #{foundDate,jdbcType=DATE},
       name = #{name,jdbcType=VARCHAR},
       expert_id = #{expertId,jdbcType=INTEGER},
       period = #{period,jdbcType=DECIMAL},
+      duration = #{duration,jdbcType=DECIMAL},
       course_type_id = #{courseTypeId,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetCourseExample" resultMap="BaseResultMap">

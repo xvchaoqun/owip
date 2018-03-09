@@ -24,7 +24,7 @@ public class ${TableName}Service extends BaseMapper {
 
     public boolean idDuplicate(Integer ${tbn(key, "tableName")}, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "null");
 
         ${TableName}Example example = new ${TableName}Example();
         ${TableName}Example.Criteria criteria = example.createCriteria().andCodeEqualTo(code).andStatusEqualTo(true);
@@ -37,7 +37,7 @@ public class ${TableName}Service extends BaseMapper {
     @CacheEvict(value="${TableName}:ALL", allEntries = true)
     public void insertSelective(${TableName} record){
 
-        Assert.isTrue(!idDuplicate(null, record.getCode()));
+        Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate");
         record.setSortOrder(getNextSortOrder("${tablesqlname}", "1=1"));
         ${tableName}Mapper.insertSelective(record);
     }
@@ -64,7 +64,7 @@ public class ${TableName}Service extends BaseMapper {
     @CacheEvict(value="${TableName}:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(${TableName} record){
         if(StringUtils.isNotBlank(record.getCode()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getCode()));
+            Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate");
         return ${tableName}Mapper.updateByPrimaryKeySelective(record);
     }
 
@@ -94,11 +94,13 @@ public class ${TableName}Service extends BaseMapper {
 
         if(addNum == 0) return ;
 
+        byte orderBy = ORDER_BY_DESC;
+
         ${TableName} entity = ${tableName}Mapper.selectByPrimaryKey(${tbn(key, "tableName")});
         Integer baseSortOrder = entity.getSortOrder();
 
         ${TableName}Example example = new ${TableName}Example();
-        if (addNum > 0) {
+        if (addNum*orderBy > 0) {
 
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
@@ -113,7 +115,7 @@ public class ${TableName}Service extends BaseMapper {
 
             ${TableName} targetEntity = overEntities.get(overEntities.size()-1);
 
-            if (addNum > 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder("${tablePrefix}${tablesqlname}", "1=1", baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder("${tablePrefix}${tablesqlname}", "1=1", baseSortOrder, targetEntity.getSortOrder());

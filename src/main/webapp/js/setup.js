@@ -654,6 +654,7 @@ $(document).on("click", ".myTableDiv .changeOrderBtn", function () {
 // 调序 for jqgird
 $(document).on("click", ".jqOrderBtn", function () {
 
+    //alert($(this).data("grid-id"))
     var gridId = $(this).data("grid-id") || "#jqGrid";
     //alert(gridId)
     var grid = $(gridId);

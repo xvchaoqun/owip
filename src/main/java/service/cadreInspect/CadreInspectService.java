@@ -330,7 +330,7 @@ public class CadreInspectService extends BaseMapper {
     public void changeOrder(int id, int addNum) {
 
         if (addNum == 0) return;
-
+        byte orderBy = ORDER_BY_ASC;
         CadreInspect entity = cadreInspectMapper.selectByPrimaryKey(id);
         byte type = entity.getType();
         // 只对正常状态进行排序
@@ -339,7 +339,7 @@ public class CadreInspectService extends BaseMapper {
         Integer baseSortOrder = entity.getSortOrder();
 
         CadreInspectExample example = new CadreInspectExample();
-        if (addNum < 0) {
+        if (addNum*orderBy > 0) {
 
             example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_INSPECT_STATUS_NORMAL)
                     .andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
@@ -356,7 +356,7 @@ public class CadreInspectService extends BaseMapper {
 
             CadreInspect targetEntity = overEntities.get(overEntities.size() - 1);
 
-            if (addNum < 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder(TABLE_NAME,
                         "status=" + SystemConstants.CADRE_INSPECT_STATUS_NORMAL + " and type=" + type,
                         baseSortOrder, targetEntity.getSortOrder());

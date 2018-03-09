@@ -339,6 +339,17 @@ body {
     /*top: 39px !important;*/
 }
 
+/*modal弹出框显示*/
+.popup-jqgrid.multi-row-head-table .frozen-bdiv.ui-jqgrid-bdiv {
+    top: 48px !important;
+}
+.popup-jqgrid .frozen-bdiv.ui-jqgrid-bdiv {
+    top: 39px !important;
+}
+.popup-jqgrid .frozen-div.ui-jqgrid-hdiv{
+    height: auto!important;
+}
+
 /*jqgrid ====end*/
 
 

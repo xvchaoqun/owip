@@ -355,7 +355,7 @@ public class CadreReserveService extends BaseMapper {
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;
-
+        byte orderBy = ORDER_BY_ASC;
         CadreReserve entity = cadreReserveMapper.selectByPrimaryKey(id);
         byte type = entity.getType();
         // 只对后备干部正常状态进行排序
@@ -364,7 +364,7 @@ public class CadreReserveService extends BaseMapper {
         Integer baseSortOrder = entity.getSortOrder();
 
         CadreReserveExample example = new CadreReserveExample();
-        if (addNum < 0) { // 正序
+        if (addNum*orderBy > 0){
 
             example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_RESERVE_STATUS_NORMAL)
                     .andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
@@ -381,7 +381,7 @@ public class CadreReserveService extends BaseMapper {
 
             CadreReserve targetEntity = overEntities.get(overEntities.size()-1);
 
-            if (addNum < 0) // 正序
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder(TABLE_NAME,
                         "status=" + SystemConstants.CADRE_RESERVE_STATUS_NORMAL + " and type="+type,
                         baseSortOrder, targetEntity.getSortOrder());

@@ -64,9 +64,15 @@ import persistence.cadreInspect.CadreInspectMapper;
 import persistence.cadreInspect.CadreInspectViewMapper;
 import persistence.cadreReserve.CadreReserveMapper;
 import persistence.cadreReserve.CadreReserveViewMapper;
+import persistence.cet.CetColumnCourseMapper;
+import persistence.cet.CetColumnCourseViewMapper;
+import persistence.cet.CetColumnMapper;
 import persistence.cet.CetCourseMapper;
 import persistence.cet.CetCourseTypeMapper;
 import persistence.cet.CetExpertMapper;
+import persistence.cet.CetTrainMapper;
+import persistence.cet.CetTrainTraineeTypeMapper;
+import persistence.cet.CetTraineeTypeMapper;
 import persistence.cis.CisEvaluateMapper;
 import persistence.cis.CisInspectObjMapper;
 import persistence.cis.CisInspectObjViewMapper;
@@ -319,68 +325,6 @@ import java.io.File;
 
 public class BaseMapper {
 
-    // #tomcat版本>=8.0.39 下 win10下url路径中带正斜杠的文件路径读取不了
-    protected final static String FILE_SEPARATOR = File.separator;
-
-    protected class VerifyAuth<T> {
-        public Boolean isBranchAdmin;
-        public Boolean isPartyAdmin;
-        public Boolean isDirectBranch; // 是否直属党支部
-        public Boolean isParty; // 是否分党委
-        public T entity;
-    }
-
-    /**
-     * 当前操作人员应该是申请人所在党支部或直属党支部的管理员，否则抛出异常
-     */
-    protected <T> VerifyAuth<T> checkVerityAuth(T entity, Integer partyId, Integer branchId) {
-
-        VerifyAuth<T> verifyAuth = new VerifyAuth<T>();
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-
-        int loginUserId = shiroUser.getId();
-        verifyAuth.entity = entity;
-
-        verifyAuth.isBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, partyId, branchId);
-        verifyAuth.isPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, partyId);
-        verifyAuth.isDirectBranch = CmTag.isDirectBranch(partyId);
-        if (!verifyAuth.isBranchAdmin && (!verifyAuth.isDirectBranch || !verifyAuth.isPartyAdmin)) { // 不是党支部管理员， 也不是直属党支部管理员
-            throw new UnauthorizedException();
-        }
-        return verifyAuth;
-    }
-
-    /**
-     * 当前操作人员应该是应是申请人所在的分党委、党总支、直属党支部的管理员
-     */
-    protected <T> VerifyAuth<T> checkVerityAuth2(T entity, Integer partyId) {
-        VerifyAuth<T> verifyAuth = new VerifyAuth<T>();
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-
-        int loginUserId = shiroUser.getId();
-        verifyAuth.entity = entity;
-
-        if (!CmTag.isPresentPartyAdmin(loginUserId, partyId)) {
-            throw new UnauthorizedException();
-        }
-        verifyAuth.isParty = CmTag.isParty(partyId);
-        verifyAuth.isPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, partyId);
-        verifyAuth.isDirectBranch = CmTag.isDirectBranch(partyId);
-        return verifyAuth;
-    }
-
-    // 获得表中最大的排序序号
-    public int getNextSortOrder(String tableName, String whereSql) {
-
-        return  getNextSortOrder(tableName, "sort_order", whereSql);
-    }
-
-    public int getNextSortOrder(String tableName, String sortOrder, String whereSql) {
-
-        Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, sortOrder, whereSql);
-        return (maxSortOrder == null ? 1 : maxSortOrder + 1);
-    }
-
     /**
      * 干部教育培训
      */
@@ -390,6 +334,18 @@ public class BaseMapper {
     protected CetCourseTypeMapper cetCourseTypeMapper;
     @Autowired
     protected CetExpertMapper cetExpertMapper;
+    @Autowired
+    protected CetColumnMapper cetColumnMapper;
+    @Autowired
+    protected CetColumnCourseMapper cetColumnCourseMapper;
+    @Autowired
+    protected CetColumnCourseViewMapper cetColumnCourseViewMapper;
+    @Autowired
+    protected CetTrainMapper cetTrainMapper;
+    @Autowired
+    protected CetTraineeTypeMapper cetTraineeTypeMapper;
+    @Autowired
+    protected CetTrainTraineeTypeMapper cetTrainTraineeTypeMapper;
 
     /**
      * 干部选拔-干部任免审批表
@@ -1098,4 +1054,71 @@ public class BaseMapper {
     protected SitemapRoleMapper sitemapRoleMapper;
     @Autowired
     protected ShortMsgTplMapper shortMsgTplMapper;
+
+
+    // #tomcat版本>=8.0.39 下 win10下url路径中带正斜杠的文件路径读取不了
+    protected final static String FILE_SEPARATOR = File.separator;
+
+    protected class VerifyAuth<T> {
+        public Boolean isBranchAdmin;
+        public Boolean isPartyAdmin;
+        public Boolean isDirectBranch; // 是否直属党支部
+        public Boolean isParty; // 是否分党委
+        public T entity;
+    }
+
+    /**
+     * 当前操作人员应该是申请人所在党支部或直属党支部的管理员，否则抛出异常
+     */
+    protected <T> VerifyAuth<T> checkVerityAuth(T entity, Integer partyId, Integer branchId) {
+
+        VerifyAuth<T> verifyAuth = new VerifyAuth<T>();
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+
+        int loginUserId = shiroUser.getId();
+        verifyAuth.entity = entity;
+
+        verifyAuth.isBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, partyId, branchId);
+        verifyAuth.isPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, partyId);
+        verifyAuth.isDirectBranch = CmTag.isDirectBranch(partyId);
+        if (!verifyAuth.isBranchAdmin && (!verifyAuth.isDirectBranch || !verifyAuth.isPartyAdmin)) { // 不是党支部管理员， 也不是直属党支部管理员
+            throw new UnauthorizedException();
+        }
+        return verifyAuth;
+    }
+
+    /**
+     * 当前操作人员应该是应是申请人所在的分党委、党总支、直属党支部的管理员
+     */
+    protected <T> VerifyAuth<T> checkVerityAuth2(T entity, Integer partyId) {
+        VerifyAuth<T> verifyAuth = new VerifyAuth<T>();
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+
+        int loginUserId = shiroUser.getId();
+        verifyAuth.entity = entity;
+
+        if (!CmTag.isPresentPartyAdmin(loginUserId, partyId)) {
+            throw new UnauthorizedException();
+        }
+        verifyAuth.isParty = CmTag.isParty(partyId);
+        verifyAuth.isPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, partyId);
+        verifyAuth.isDirectBranch = CmTag.isDirectBranch(partyId);
+        return verifyAuth;
+    }
+
+    // 排序顺序
+    public final static byte ORDER_BY_ASC = -1; // 正序
+    public final static byte ORDER_BY_DESC = 1; // 逆序
+
+    // 获得表中最大的排序序号
+    public int getNextSortOrder(String tableName, String whereSql) {
+
+        return  getNextSortOrder(tableName, "sort_order", whereSql);
+    }
+
+    public int getNextSortOrder(String tableName, String sortOrder, String whereSql) {
+
+        Integer maxSortOrder = commonMapper.getMaxSortOrder(tableName, sortOrder, whereSql);
+        return (maxSortOrder == null ? 1 : maxSortOrder + 1);
+    }
 }

@@ -95,10 +95,8 @@
             {label: '被推荐人姓名', name: 'realname', width: 120, frozen: true},
             <c:if test="${cls==4}">
             {
-                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#common_sort_tpl").html().NoMultiSpace())
-                ({id: rowObject.id, url: "${ctx}/pcsProposal_candidateChangeOrder"});
-            }, frozen: true
+                label: '排序', width: 80, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url: "${ctx}/pcsProposal_candidateChangeOrder"}, frozen: true
             },
             </c:if>
             {label: '所在单位', name: 'unitName', width: 160, align: 'left', frozen: true},

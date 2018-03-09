@@ -21,12 +21,27 @@
         </javaClientGenerator>
 
         <!--干部教育培训系统-->
-        <table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
-        </table>
-        <table tableName="cet_course_type" domainObjectName="cet.CetCourseType" mapperName="cet.CetCourseTypeMapper">
+        <!--<table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
+        </table>-->
+        <!--<table tableName="cet_course_type" domainObjectName="cet.CetCourseType" mapperName="cet.CetCourseTypeMapper">
         </table>
         <table tableName="cet_expert" domainObjectName="cet.CetExpert" mapperName="cet.CetExpertMapper">
+        </table>-->
+       <!-- <table tableName="cet_column" domainObjectName="cet.CetColumn" mapperName="cet.CetColumnMapper">
+        </table>-->
+        <!--<table tableName="cet_column_course" domainObjectName="cet.CetColumnCourse" mapperName="cet.CetColumnCourseMapper">
+        </table>-->
+        <table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
         </table>
+        <!--<table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">
+        </table>
+        <table tableName="cet_train_trainee_type" domainObjectName="cet.CetTrainTraineeType" mapperName="cet.CetTrainTraineeTypeMapper">
+        </table>-->
+        <!--<table tableName="cet_column_course_view" domainObjectName="cet.CetColumnCourseView" mapperName="cet.CetColumnCourseViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>-->
 
     </context>
 </generatorConfiguration>

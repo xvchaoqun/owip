@@ -88,7 +88,7 @@ public class PcsOwService extends BaseMapper {
     public void changeOrder(int chosenId, int addNum) {
 
         if (addNum == 0) return;
-
+        byte orderBy = ORDER_BY_ASC;
         PcsCandidateChosen entity = pcsCandidateChosenMapper.selectByPrimaryKey(chosenId);
         Integer baseSortOrder = entity.getSortOrder();
         int configId = entity.getConfigId();
@@ -96,7 +96,7 @@ public class PcsOwService extends BaseMapper {
         byte type = entity.getType();
 
         PcsCandidateChosenExample example = new PcsCandidateChosenExample();
-        if (addNum < 0) { // 升序
+        if (addNum*orderBy > 0){ // 升序
 
             example.createCriteria().andConfigIdEqualTo(configId)
                     .andStageEqualTo(stage)
@@ -116,7 +116,7 @@ public class PcsOwService extends BaseMapper {
 
             PcsCandidateChosen targetEntity = overEntities.get(overEntities.size() - 1);
 
-            if (addNum < 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder(TABLE_NAME,  "config_id=" + configId +
                         " and stage=" + stage +
                         " and type=" + type, baseSortOrder, targetEntity.getSortOrder());

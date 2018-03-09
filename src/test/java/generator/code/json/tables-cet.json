@@ -14,7 +14,7 @@
       "showColumns": "realname,unit,post,contact,sort_order,remark",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_course_type",
@@ -23,13 +23,58 @@
       "showColumns": "name,sort_order,remark",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_course",
       "key": "id",
       "searchColumns": "name",
       "showColumns": "found_date,name,expert_id,period,course_type_id,sort_order,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": true
+    },
+    {
+      "table": "cet_column",
+      "key": "id",
+      "searchColumns": "is_online",
+      "showColumns": "is_online,fid,child_num,name,type,sort_order,remark",
+      "excludeEditColumns": "id,is_deleted",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_column_course",
+      "key": "id",
+      "searchColumns": "column_id,course_id",
+      "showColumns": "column_id,course_id,sort_order,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_train",
+      "key": "id",
+      "searchColumns": "year,num,name",
+      "showColumns": "year,num,name,subject,start_date,end_date,enroll_status,remark",
+      "excludeEditColumns": "id,is_deleted,create_time",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_trainee_type",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "name,template_id,sort_order,remark",
+      "excludeEditColumns": "id,is_deleted",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_train_trainee_type",
+      "key": "id",
+      "searchColumns": "train_id,trainee_type_id",
+      "showColumns": "train_id,trainee_type_id",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_CET",
       "ignore": false

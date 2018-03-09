@@ -5,7 +5,7 @@
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
   <h3>${branch.name}-缴费详情</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body popup-jqgrid">
   <form class="form-inline search-form" id="searchForm_popup">
     <input type="hidden" name="cls" value="${param.cls}">
     <input type="hidden" name="partyId" value="${param.partyId}">
@@ -96,6 +96,6 @@
     pager:"jqGridPager_popup",
     url: "${ctx}/pmd/pmdMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}",
     colModel: colModel
-  });
+  }).jqGrid("setFrozenColumns");
   $.initNavGrid("jqGrid_popup", "jqGridPager_popup");
 </script>

@@ -157,12 +157,12 @@ public class PmdConfigMemberTypeService extends BaseMapper {
     public void changeOrder(int id, int addNum) {
 
         if (addNum == 0) return;
-
+        byte orderBy = ORDER_BY_ASC;
         PmdConfigMemberType entity = pmdConfigMemberTypeMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
 
         PmdConfigMemberTypeExample example = new PmdConfigMemberTypeExample();
-        if (addNum < 0) {
+        if (addNum*orderBy > 0) {
 
             example.createCriteria().andIsDeletedEqualTo(false).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
@@ -177,7 +177,7 @@ public class PmdConfigMemberTypeService extends BaseMapper {
 
             PmdConfigMemberType targetEntity = overEntities.get(overEntities.size() - 1);
 
-            if (addNum < 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder(TABLE_NAME, "is_deleted=0", baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder(TABLE_NAME, "is_deleted=0", baseSortOrder, targetEntity.getSortOrder());

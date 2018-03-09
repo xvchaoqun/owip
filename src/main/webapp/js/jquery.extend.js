@@ -734,6 +734,15 @@ try {
         return _cMap.metaTypeMap[cellvalue].name
     };
 
+    $.jgrid.formatter.sortOrder = function (cellvalue, options, rowObject) {
+        var op = $.extend({grid:''}, options.colModel.formatoptions);
+        return _.template($("#common_sort_tpl").html().NoMultiSpace())({
+            grid: op.grid,
+            id: rowObject.id,
+            url: op.url
+        })
+    };
+
     toastr.options = {
         "closeButton": true,
         "debug": false,

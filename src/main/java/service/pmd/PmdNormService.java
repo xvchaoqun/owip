@@ -105,13 +105,13 @@ public class PmdNormService extends BaseMapper {
     public void changeOrder(int chosenId, int addNum) {
 
         if (addNum == 0) return;
-
+        byte orderBy = ORDER_BY_ASC;
         PmdNorm entity = pmdNormMapper.selectByPrimaryKey(chosenId);
         Integer baseSortOrder = entity.getSortOrder();
         byte type = entity.getType();
 
         PmdNormExample example = new PmdNormExample();
-        if (addNum < 0) { // 升序
+        if (addNum*orderBy > 0) {
 
             example.createCriteria().andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
@@ -127,7 +127,7 @@ public class PmdNormService extends BaseMapper {
 
             PmdNorm targetEntity = overEntities.get(overEntities.size() - 1);
 
-            if (addNum < 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder(TABLE_NAME,  "type=" + type, baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder(TABLE_NAME,  "type=" + type, baseSortOrder, targetEntity.getSortOrder());

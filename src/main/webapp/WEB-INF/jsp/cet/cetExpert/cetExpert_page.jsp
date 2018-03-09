@@ -74,10 +74,10 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/cet/cetExpert_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '姓名',name: 'realname'},
-            { label:'排序',align:'center',index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#common_sort_tpl").html().NoMultiSpace())({id:rowObject.id,
-                    url:"${ctx}/cet/cetExpert_changeOrder"})
-            }},
+            {
+                label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url: "${ctx}/cet/cetExpert_changeOrder"}
+            },
             { label: '所在单位',name: 'unit', width:200, align:'left'},
             { label: '职务和职称',name: 'post', width:300, align:'left'},
             { label: '联系方式',name: 'contact', width:150},

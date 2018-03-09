@@ -1,5 +1,14 @@
 
+2018-3-9
+ALTER TABLE `cet_course`
+	COMMENT='课程中心',
+	ADD COLUMN `is_online` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否线上课程' AFTER `id`,
+	ADD COLUMN `duration` DECIMAL(10,1) NOT NULL COMMENT '时长' AFTER `period`;
+ALTER TABLE `cet_course`
+	CHANGE COLUMN `sort_order` `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序，线下或线上内的排序' AFTER `course_type_id`;
 
+
+2018-3-6
 ALTER TABLE `pmd_member`
 	ADD COLUMN `is_online_pay` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '缴费方式，1 线上缴费 0 现金缴费' AFTER `has_pay`,
 	CHANGE COLUMN `is_self_pay` `is_self_pay` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '线上缴费途径， 1 线上缴费、0 代缴党费' AFTER `is_online_pay`;

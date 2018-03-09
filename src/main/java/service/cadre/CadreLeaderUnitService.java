@@ -78,13 +78,13 @@ public class CadreLeaderUnitService extends BaseMapper {
     public void changeOrder(int id, int addNum) {
 
         if (addNum == 0) return;
-
+        byte orderBy = ORDER_BY_ASC;
         CadreLeaderUnit entity = cadreLeaderUnitMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
         Integer leaderId = entity.getLeaderId();
 
         CadreLeaderUnitExample example = new CadreLeaderUnitExample();
-        if (addNum < 0) {
+        if (addNum*orderBy > 0) {
 
             example.createCriteria().andLeaderIdEqualTo(leaderId)
                     .andSortOrderGreaterThan(baseSortOrder);
@@ -101,7 +101,7 @@ public class CadreLeaderUnitService extends BaseMapper {
 
             CadreLeaderUnit targetEntity = overEntities.get(overEntities.size() - 1);
 
-            if (addNum < 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder("cadre_leader_unit", "leader_id="+leaderId, baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder("cadre_leader_unit", "leader_id="+leaderId, baseSortOrder, targetEntity.getSortOrder());

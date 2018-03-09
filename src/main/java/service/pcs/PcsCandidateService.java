@@ -72,14 +72,14 @@ public class PcsCandidateService extends BaseMapper {
     public void changeOrder(int id, int addNum) {
 
         if (addNum == 0) return;
-
+        byte orderBy = ORDER_BY_ASC;
         PcsCandidate entity = pcsCandidateMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
         int recommendId = entity.getRecommendId();
         byte type = entity.getType();
 
         PcsCandidateExample example = new PcsCandidateExample();
-        if (addNum < 0) { // 升序
+        if (addNum*orderBy > 0) {
 
             example.createCriteria().andRecommendIdEqualTo(recommendId).andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
@@ -94,7 +94,7 @@ public class PcsCandidateService extends BaseMapper {
 
             PcsCandidate targetEntity = overEntities.get(overEntities.size() - 1);
 
-            if (addNum < 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder(TABLE_NAME,  "recommend_id=" + recommendId
                         + " and type=" + type, baseSortOrder, targetEntity.getSortOrder());
             else

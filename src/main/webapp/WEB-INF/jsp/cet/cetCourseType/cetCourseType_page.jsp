@@ -74,10 +74,10 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/cet/cetCourseType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '专题分类',name: 'name', width:200},
-            { label:'排序',align:'center',index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#common_sort_tpl").html().NoMultiSpace())({id:rowObject.id,
-                    url:"${ctx}/cet/cetCourseType_changeOrder"})
-            }},
+            {
+                label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url: "${ctx}/cet/cetCourseType_changeOrder"}
+            },
             { label: '课程',name: '_courses'},
             { label: '选课人次',name: '_count'},
             { label: '备注',name: 'remark', width:300}

@@ -21,7 +21,7 @@ public class CetCourseTypeService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String name){
 
-        Assert.isTrue(StringUtils.isNotBlank(name));
+        Assert.isTrue(StringUtils.isNotBlank(name), "类型为空");
 
         CetCourseTypeExample example = new CetCourseTypeExample();
         CetCourseTypeExample.Criteria criteria = example.createCriteria().andNameEqualTo(name.trim());
@@ -34,7 +34,7 @@ public class CetCourseTypeService extends BaseMapper {
     @CacheEvict(value="CetCourseType:ALL", allEntries = true)
     public void insertSelective(CetCourseType record){
 
-        Assert.isTrue(!idDuplicate(null, record.getName()));
+        Assert.isTrue(!idDuplicate(null, record.getName()), "类型重复");
         record.setSortOrder(getNextSortOrder("cet_course_type", "1=1"));
         cetCourseTypeMapper.insertSelective(record);
     }
@@ -55,7 +55,7 @@ public class CetCourseTypeService extends BaseMapper {
     public int updateByPrimaryKeySelective(CetCourseType record){
 
         if(StringUtils.isNotBlank(record.getName()))
-            Assert.isTrue(!idDuplicate(record.getId(), record.getName()));
+            Assert.isTrue(!idDuplicate(record.getId(), record.getName()), "类型重复");
 
         return cetCourseTypeMapper.updateByPrimaryKeySelective(record);
     }
@@ -85,12 +85,12 @@ public class CetCourseTypeService extends BaseMapper {
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;
-
+        byte orderBy = ORDER_BY_ASC;
         CetCourseType entity = cetCourseTypeMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
 
         CetCourseTypeExample example = new CetCourseTypeExample();
-        if (addNum < 0) {
+        if (addNum*orderBy > 0) {
 
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
@@ -105,7 +105,7 @@ public class CetCourseTypeService extends BaseMapper {
 
             CetCourseType targetEntity = overEntities.get(overEntities.size()-1);
 
-            if (addNum < 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder("cet_course_type", "1=1", baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder("cet_course_type", "1=1", baseSortOrder, targetEntity.getSortOrder());

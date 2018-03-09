@@ -48,13 +48,13 @@ public class PcsPrFileTemplateService extends BaseMapper {
     public void changeOrder(int id, int addNum) {
 
         if (addNum == 0) return;
-
+        byte orderBy = ORDER_BY_ASC;
         PcsPrFileTemplate entity = pcsPrFileTemplateMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
         boolean isDeleted = entity.getIsDeleted();
 
         PcsPrFileTemplateExample example = new PcsPrFileTemplateExample();
-        if (addNum < 0) { // 升序
+        if (addNum*orderBy > 0) { // 升序
 
             example.createCriteria().andIsDeletedEqualTo(isDeleted).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
@@ -69,7 +69,7 @@ public class PcsPrFileTemplateService extends BaseMapper {
 
             PcsPrFileTemplate targetEntity = overEntities.get(overEntities.size() - 1);
 
-            if (addNum < 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder(TABLE_NAME,  "is_deleted=" + isDeleted, baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder(TABLE_NAME,  "is_deleted=" + isDeleted, baseSortOrder, targetEntity.getSortOrder());
