@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pcs_proposal" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="ec91bba6-a973-420a-a700-5c26ad2552a7">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="130"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -104,6 +104,7 @@
 		</box>
 	</style>
 	<style name="zh_CN" isDefault="true" fontName="宋体" fontSize="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
 	<subDataset name="Table Dataset 1" uuid="a97062e5-41a2-493e-a2c2-1dd86564bf17">
 		<field name="realname" class="java.lang.String"/>
 		<field name="unitName" class="java.lang.String"/>
@@ -307,60 +308,6 @@
 				<text><![CDATA[标    题]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="285" width="81" height="344" uuid="b9047d2d-86c6-4133-9abf-e92fbb406e12"/>
-				<box leftPadding="40" rightPadding="40">
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="宋体" size="11" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[提案内容及建议]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="zh_CN" x="81" y="285" width="434" height="344" uuid="0c4bf059-78ca-4d22-ba04-c8779388b2a4"/>
-				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement verticalAlignment="Top">
-					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-					<paragraph firstLineIndent="20" leftIndent="8" rightIndent="8" spacingBefore="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{content}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="629" width="81" height="113" uuid="964fcc6e-a70e-4697-aae0-b409a03058a1"/>
-				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="宋体" size="11" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[附    件]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="zh_CN" x="81" y="629" width="434" height="113" uuid="9cf56710-e42f-41ac-ab66-0675158849ef"/>
-				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
-					<paragraph leftIndent="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{files}]]></textFieldExpression>
-			</textField>
-			<staticText>
 				<reportElement x="0" y="225" width="81" height="30" uuid="ede2685f-26ce-4c77-b630-7af8d3ab84f1"/>
 				<box>
 					<topPen lineWidth="0.0"/>
@@ -436,6 +383,64 @@
 				<text><![CDATA[中国共产党北京师范大学第十三次党员代表大会
 党员代表提案]]></text>
 			</staticText>
+			<elementGroup>
+				<staticText>
+					<reportElement x="0" y="629" width="81" height="113" uuid="964fcc6e-a70e-4697-aae0-b409a03058a1"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="宋体" size="11" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[附    件]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="zh_CN" x="81" y="629" width="434" height="113" uuid="9cf56710-e42f-41ac-ab66-0675158849ef"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+						<paragraph leftIndent="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{files}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<elementGroup>
+				<staticText>
+					<reportElement stretchType="RelativeToTallestObject" x="0" y="285" width="81" height="344" uuid="b9047d2d-86c6-4133-9abf-e92fbb406e12"/>
+					<box leftPadding="40" rightPadding="40">
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="宋体" size="11" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[提案内容及建议]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement style="zh_CN" stretchType="RelativeToTallestObject" x="81" y="285" width="434" height="344" uuid="0c4bf059-78ca-4d22-ba04-c8779388b2a4"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Top">
+						<font fontName="宋体" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H" isPdfEmbedded="true"/>
+						<paragraph firstLineIndent="20" leftIndent="8" rightIndent="8" spacingBefore="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{content}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
 		</band>
 		<band height="300">
 			<componentElement>
@@ -616,5 +621,6 @@
 				<text><![CDATA[附议人]]></text>
 			</staticText>
 		</band>
+		<band height="50"/>
 	</detail>
 </jasperReport>
