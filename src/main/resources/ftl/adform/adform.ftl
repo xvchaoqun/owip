@@ -2502,7 +2502,7 @@
 				<w:tr wsp:rsidR="00F43419" wsp:rsidTr="000D2128">
 					<w:trPr>
 						<w:cantSplit/>
-						<w:trHeight w:h-rule="exact" w:val="2551"/>
+						<w:trHeight w:h-rule="exact" w:val="2451"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
