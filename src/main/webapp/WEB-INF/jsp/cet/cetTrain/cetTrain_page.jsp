@@ -105,6 +105,7 @@
             {label: '年度', name: 'year', width:'60', frozen: true},
             {
                 label: '编号', name: 'num', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.type==undefined || rowObject.type<=0) return ''
                 return _cMap.metaTypeMap[rowObject.type].name + "[" + rowObject.year + "]" + rowObject.num + "号";
 
             }, width: 200, frozen: true
