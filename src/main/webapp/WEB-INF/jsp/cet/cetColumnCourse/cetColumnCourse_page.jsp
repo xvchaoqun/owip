@@ -73,15 +73,17 @@
     register_ajax_select($('#modal [data-rel="select2-ajax"]'));
 
     $("#jqGrid_popup").jqGrid({
+        multiselect:false,
         pager:"#jqGridPager_popup",
         url: '${ctx}/cet/cetColumnCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '课程',name: 'courseName',width:320},
+            { label: '课程',name: 'courseName',width:280},
+            {label: '主讲人', name: 'realname',width:90},
             {
                 label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{grid:'#jqGrid_popup', url: "${ctx}/cet/cetColumnCourse_changeOrder"}
+                formatoptions:{grid:'#jqGrid_popup', url: "${ctx}/cet/cetColumnCourse_changeOrder"},width:90
             },
-            { label: '操作',name: '_op',formatter: function(cellvalue, options, rowObject){
+            { label: '操作',name: '_op',width:80,formatter: function(cellvalue, options, rowObject){
 
                 return ('<button class="confirm btn btn-xs btn-danger" ' +
                         'data-url="${ctx}/cet/cetColumnCourse_batchDel?ids[]={0}" data-msg="确定删除？" '

@@ -3,14 +3,14 @@ package domain.cet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CetColumnExample {
+public class CetColumnViewExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CetColumnExample() {
+    public CetColumnViewExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -601,6 +601,126 @@ public class CetColumnExample {
 
         public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_deleted not between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andChildNumIsNull() {
+            addCriterion("child_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChildNumIsNotNull() {
+            addCriterion("child_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChildNumEqualTo(Integer value) {
+            addCriterion("child_num =", value, "childNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andChildNumNotEqualTo(Integer value) {
+            addCriterion("child_num <>", value, "childNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andChildNumGreaterThan(Integer value) {
+            addCriterion("child_num >", value, "childNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andChildNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("child_num >=", value, "childNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andChildNumLessThan(Integer value) {
+            addCriterion("child_num <", value, "childNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andChildNumLessThanOrEqualTo(Integer value) {
+            addCriterion("child_num <=", value, "childNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andChildNumIn(List<Integer> values) {
+            addCriterion("child_num in", values, "childNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andChildNumNotIn(List<Integer> values) {
+            addCriterion("child_num not in", values, "childNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andChildNumBetween(Integer value1, Integer value2) {
+            addCriterion("child_num between", value1, value2, "childNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andChildNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("child_num not between", value1, value2, "childNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNumIsNull() {
+            addCriterion("course_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNumIsNotNull() {
+            addCriterion("course_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNumEqualTo(Integer value) {
+            addCriterion("course_num =", value, "courseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNumNotEqualTo(Integer value) {
+            addCriterion("course_num <>", value, "courseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNumGreaterThan(Integer value) {
+            addCriterion("course_num >", value, "courseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("course_num >=", value, "courseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNumLessThan(Integer value) {
+            addCriterion("course_num <", value, "courseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNumLessThanOrEqualTo(Integer value) {
+            addCriterion("course_num <=", value, "courseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNumIn(List<Integer> values) {
+            addCriterion("course_num in", values, "courseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNumNotIn(List<Integer> values) {
+            addCriterion("course_num not in", values, "courseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNumBetween(Integer value1, Integer value2) {
+            addCriterion("course_num between", value1, value2, "courseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("course_num not between", value1, value2, "courseNum");
             return (Criteria) this;
         }
     }

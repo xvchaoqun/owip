@@ -16,16 +16,30 @@ pageEncoding="UTF-8"%>
 							   name="year"
 							   type="text"
 							   data-date-format="yyyy" data-date-min-view-mode="2"
-							   value="${cetTrain.year}"/>
+							   value="${empty cetTrain.year?_thisYear:cetTrain.year}"/>
                                             <span class="input-group-addon"> <i
 													class="fa fa-calendar bigger-110"></i></span>
 					</div>
 				</div>
 			</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">培训班类型</label>
+
+			<div class="col-xs-6">
+				<select required data-rel="select2" name="type" data-placeholder="请选择" data-width="240">
+					<option></option>
+					<c:import url="/metaTypes?__code=mc_cet_train_type"/>
+				</select>
+				<script type="text/javascript">
+					$("#modalForm select[name=type]").val(${cetTrain.type});
+				</script>
+			</div>
+		</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">编号</label>
 				<div class="col-xs-6">
-                        <input required class="form-control num" type="text" name="num" value="${cetTrain.num}">
+					<input class="form-control num" type="text" name="num" value="${cetTrain.num}">
+					<span class="label-inline"> * 留空自动生成</span>
 				</div>
 			</div>
 			<div class="form-group">

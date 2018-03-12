@@ -3,6 +3,8 @@ package controller.cet;
 import domain.cet.CetColumn;
 import domain.cet.CetColumnExample;
 import domain.cet.CetColumnExample.Criteria;
+import domain.cet.CetColumnView;
+import domain.cet.CetColumnViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -63,8 +65,8 @@ public class CetColumnController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetColumnExample example = new CetColumnExample();
-        Criteria criteria = example.createCriteria().andIsOnlineEqualTo(isOnline).andTypeEqualTo(type);
+        CetColumnViewExample example = new CetColumnViewExample();
+        CetColumnViewExample.Criteria criteria = example.createCriteria().andIsOnlineEqualTo(isOnline).andTypeEqualTo(type);
         example.setOrderByClause("sort_order desc");
 
         if(fid!=null){
@@ -80,12 +82,12 @@ public class CetColumnController extends CetBaseController {
             return;
         }
 
-        long count = cetColumnMapper.countByExample(example);
+        long count = cetColumnViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetColumn> records= cetColumnMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetColumnView> records= cetColumnViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -167,14 +169,14 @@ public class CetColumnController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cetColumn_export(CetColumnExample example, HttpServletResponse response) {
+    public void cetColumn_export(CetColumnViewExample example, HttpServletResponse response) {
 
-        List<CetColumn> records = cetColumnMapper.selectByExample(example);
+        List<CetColumnView> records = cetColumnViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"是否线上课程栏目|100","所属栏目|100","子栏目数量|100","栏目名称|100","类型|100","排序|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetColumn record = records.get(i);
+            CetColumnView record = records.get(i);
             String[] values = {
                 record.getIsOnline() + "",
                             record.getFid()+"",

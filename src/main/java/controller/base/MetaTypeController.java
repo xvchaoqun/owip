@@ -5,8 +5,6 @@ import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.base.MetaTypeExample;
 import domain.base.MetaTypeExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -65,8 +63,6 @@ public class MetaTypeController extends BaseController {
     @RequestMapping("/metaType")
     public String metaType(HttpServletRequest request,
                            HttpServletResponse response,
-                           @SortParam(required = false, defaultValue = "sort_order", tableName = "base_meta_type") String sort,
-                           @OrderParam(required = false, defaultValue = "desc") String order,
                            String name, String code, Integer classId,
                            @RequestParam(required = false, defaultValue = "0") int export,
                            Integer pageSize, Integer pageNo, ModelMap modelMap) {
@@ -81,7 +77,7 @@ public class MetaTypeController extends BaseController {
 
         MetaTypeExample example = new MetaTypeExample();
         Criteria criteria = example.createCriteria().andAvailableEqualTo(true);
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("sort_order asc");
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
         }
@@ -117,12 +113,12 @@ public class MetaTypeController extends BaseController {
         if (classId != null) {
             searchStr += "&classId=" + classId;
         }
-        if (StringUtils.isNotBlank(sort)) {
+       /* if (StringUtils.isNotBlank(sort)) {
             searchStr += "&sort=" + sort;
         }
         if (StringUtils.isNotBlank(order)) {
             searchStr += "&order=" + order;
-        }
+        }*/
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 

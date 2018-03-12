@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.cet.CetColumnCourseViewMapper">
-  <resultMap id="BaseResultMap" type="domain.cet.CetColumnCourseView">
+<mapper namespace="persistence.cet.CetColumnViewMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetColumnView">
     <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="column_id" jdbcType="INTEGER" property="columnId" />
-    <result column="course_id" jdbcType="INTEGER" property="courseId" />
+    <result column="is_online" jdbcType="BIT" property="isOnline" />
+    <result column="fid" jdbcType="INTEGER" property="fid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="column_name" jdbcType="VARCHAR" property="columnName" />
-    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
-    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="child_num" jdbcType="INTEGER" property="childNum" />
+    <result column="course_num" jdbcType="INTEGER" property="courseNum" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -41,15 +43,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, column_id, course_id, sort_order, remark, column_name, course_name, realname
+    id, is_online, fid, name, type, sort_order, remark, is_deleted, child_num, course_num
   </sql>
-  <select id="selectByExample" parameterType="domain.cet.CetColumnCourseViewExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.cet.CetColumnViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_column_course_view
+    from cet_column_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -57,19 +59,19 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="countByExample" parameterType="domain.cet.CetColumnCourseViewExample" resultType="java.lang.Long">
-    select count(*) from cet_column_course_view
+  <select id="countByExample" parameterType="domain.cet.CetColumnViewExample" resultType="java.lang.Long">
+    select count(*) from cet_column_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetColumnCourseViewExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetColumnViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_column_course_view
+    from cet_column_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

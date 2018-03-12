@@ -3,6 +3,8 @@ package controller.cet;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainExample;
 import domain.cet.CetTrainExample.Criteria;
+import domain.cet.CetTrainView;
+import domain.cet.CetTrainViewExample;
 import domain.cet.CetTraineeType;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -67,8 +69,8 @@ public class CetTrainController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetTrainExample example = new CetTrainExample();
-        Criteria criteria = example.createCriteria();
+        CetTrainViewExample example = new CetTrainViewExample();
+        CetTrainViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("create_time desc");
 
         if (year!=null) {
@@ -88,12 +90,12 @@ public class CetTrainController extends CetBaseController {
             return;
         }
 
-        long count = cetTrainMapper.countByExample(example);
+        long count = cetTrainViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetTrain> records= cetTrainMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetTrainView> records= cetTrainViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -118,10 +120,15 @@ public class CetTrainController extends CetBaseController {
         Integer id = record.getId();
 
         if (id == null) {
+            if (record.getNum() == null)
+                record.setNum(cetTrainService.genNum(record.getType(), record.getYear()));
             cetTrainService.insertSelective(record, traineeTypeIds);
             logger.info(addLog( SystemConstants.LOG_CET, "添加培训班：%s", record.getId()));
         } else {
-
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(id);
+            if (cetTrain.getType().intValue() != record.getType()) { // 修改了类型，要修改发文号
+                record.setNum(cetTrainService.genNum(record.getType(), record.getYear()));
+            }
             cetTrainService.updateWithTraineeTypes(record, traineeTypeIds);
             logger.info(addLog( SystemConstants.LOG_CET, "更新培训班：%s", record.getId()));
         }
@@ -172,14 +179,14 @@ public class CetTrainController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cetTrain_export(CetTrainExample example, HttpServletResponse response) {
+    public void cetTrain_export(CetTrainViewExample example, HttpServletResponse response) {
 
-        List<CetTrain> records = cetTrainMapper.selectByExample(example);
+        List<CetTrainView> records = cetTrainViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"年度|100","编号|100","培训班名称|100","培训主题|100","开课日期|100","结课日期|100","选课状态|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetTrain record = records.get(i);
+            CetTrainView record = records.get(i);
             String[] values = {
                 record.getYear()+"",
                             record.getNum()+"",

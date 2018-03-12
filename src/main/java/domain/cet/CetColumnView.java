@@ -2,7 +2,7 @@ package domain.cet;
 
 import java.io.Serializable;
 
-public class CetColumn implements Serializable {
+public class CetColumnView implements Serializable {
     private Integer id;
 
     private Boolean isOnline;
@@ -18,6 +18,10 @@ public class CetColumn implements Serializable {
     private String remark;
 
     private Boolean isDeleted;
+
+    private Integer childNum;
+
+    private Integer courseNum;
 
     private static final long serialVersionUID = 1L;
 
@@ -83,5 +87,21 @@ public class CetColumn implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Integer getChildNum() {
+        return childNum;
+    }
+
+    public void setChildNum(Integer childNum) {
+        this.childNum = childNum;
+    }
+
+    public Integer getCourseNum() {
+        return courseNum;
+    }
+
+    public void setCourseNum(Integer courseNum) {
+        this.courseNum = courseNum;
     }
 }

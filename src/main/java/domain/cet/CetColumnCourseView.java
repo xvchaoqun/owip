@@ -17,6 +17,8 @@ public class CetColumnCourseView implements Serializable {
 
     private String courseName;
 
+    private String realname;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -73,5 +75,13 @@ public class CetColumnCourseView implements Serializable {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName == null ? null : courseName.trim();
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
     }
 }

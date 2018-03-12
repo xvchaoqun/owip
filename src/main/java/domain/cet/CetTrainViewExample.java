@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class CetTrainExample {
+public class CetTrainViewExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CetTrainExample() {
+    public CetTrainViewExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -1119,6 +1119,76 @@ public class CetTrainExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesIsNull() {
+            addCriterion("trainee_types is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesIsNotNull() {
+            addCriterion("trainee_types is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesEqualTo(String value) {
+            addCriterion("trainee_types =", value, "traineeTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesNotEqualTo(String value) {
+            addCriterion("trainee_types <>", value, "traineeTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesGreaterThan(String value) {
+            addCriterion("trainee_types >", value, "traineeTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesGreaterThanOrEqualTo(String value) {
+            addCriterion("trainee_types >=", value, "traineeTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesLessThan(String value) {
+            addCriterion("trainee_types <", value, "traineeTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesLessThanOrEqualTo(String value) {
+            addCriterion("trainee_types <=", value, "traineeTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesLike(String value) {
+            addCriterion("trainee_types like", value, "traineeTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesNotLike(String value) {
+            addCriterion("trainee_types not like", value, "traineeTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesIn(List<String> values) {
+            addCriterion("trainee_types in", values, "traineeTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesNotIn(List<String> values) {
+            addCriterion("trainee_types not in", values, "traineeTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesBetween(String value1, String value2) {
+            addCriterion("trainee_types between", value1, value2, "traineeTypes");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypesNotBetween(String value1, String value2) {
+            addCriterion("trainee_types not between", value1, value2, "traineeTypes");
             return (Criteria) this;
         }
     }

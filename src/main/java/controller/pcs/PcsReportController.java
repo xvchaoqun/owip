@@ -21,6 +21,7 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -52,7 +53,7 @@ import java.util.Map;
 public class PcsReportController extends PcsBaseController {
 
     public Logger logger = LoggerFactory.getLogger(getClass());
-
+    @RequiresPermissions("pcsProposalOw:*")
     @RequestMapping(value = "/pcsProposal", method = RequestMethod.GET)
     public String pcsProposal(@RequestParam(value = "ids[]")int[] ids,
                       @RequestParam(defaultValue = "pdf") String format,
@@ -121,6 +122,7 @@ public class PcsReportController extends PcsBaseController {
             }
             content.append(StringUtils.trimToEmpty(strs[i]) + "\n");
         }
+        //map.put("content", content.toString());
         map.put("content", HtmlUtils.htmlUnescape(content.toString()));
         //map.put("content", HtmlUtils.htmlUnescape(_content));
         String files = "";

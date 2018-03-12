@@ -105,13 +105,13 @@
             {label: '年度', name: 'year', width:'60', frozen: true},
             {
                 label: '编号', name: 'num', formatter: function (cellvalue, options, rowObject) {
-                //var type = _cMap.CRS_POST_TYPE_MAP[rowObject.type];
-                return "[" + rowObject.year + "]" + rowObject.num + "号";
+                return _cMap.metaTypeMap[rowObject.type].name + "[" + rowObject.year + "]" + rowObject.num + "号";
 
-            }, width: 180, frozen: true
+            }, width: 200, frozen: true
             },
             {label: '培训班名称', name: 'name', width:200, align:'left'},
             {label: '培训主题', name: 'subject', width:200},
+            {label: '参训人类型', name: 'traineeTypes', width:200},
             {label: '开课日期', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '结课日期', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '可选课人数', name: '_count', width:120},

@@ -27,12 +27,27 @@
         </table>
         <table tableName="cet_expert" domainObjectName="cet.CetExpert" mapperName="cet.CetExpertMapper">
         </table>-->
-       <!-- <table tableName="cet_column" domainObjectName="cet.CetColumn" mapperName="cet.CetColumnMapper">
+        <!--<table tableName="cet_column" domainObjectName="cet.CetColumn" mapperName="cet.CetColumnMapper">
+        </table>-->
+        <!--<table tableName="cet_column_view" domainObjectName="cet.CetColumnView" mapperName="cet.CetColumnViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+            <columnOverride column="child_num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="course_num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
         <!--<table tableName="cet_column_course" domainObjectName="cet.CetColumnCourse" mapperName="cet.CetColumnCourseMapper">
         </table>-->
-        <table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
+        <!--<table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
+        </table>-->
+       <!-- <table tableName="cet_train_view" domainObjectName="cet.CetTrainView" mapperName="cet.CetTrainViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>-->
+        <table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
         </table>
+
         <!--<table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">
         </table>
         <table tableName="cet_train_trainee_type" domainObjectName="cet.CetTrainTraineeType" mapperName="cet.CetTrainTraineeTypeMapper">

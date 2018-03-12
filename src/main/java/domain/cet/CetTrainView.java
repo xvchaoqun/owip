@@ -1,12 +1,11 @@
 package domain.cet;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import sys.constants.CetConstants;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class CetTrain implements Serializable {
+public class CetTrainView implements Serializable {
 
     public Boolean getAutoSwitch(){
         return enrollStatus == CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT;
@@ -55,10 +54,8 @@ public class CetTrain implements Serializable {
 
     private Integer templateId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
     private Date startTime;
@@ -74,6 +71,8 @@ public class CetTrain implements Serializable {
     private Boolean isDeleted;
 
     private Date createTime;
+
+    private String traineeTypes;
 
     private static final long serialVersionUID = 1L;
 
@@ -203,5 +202,13 @@ public class CetTrain implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getTraineeTypes() {
+        return traineeTypes;
+    }
+
+    public void setTraineeTypes(String traineeTypes) {
+        this.traineeTypes = traineeTypes == null ? null : traineeTypes.trim();
     }
 }

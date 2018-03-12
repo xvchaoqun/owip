@@ -1,4 +1,32 @@
 
+2018-3-12
+
+ALTER TABLE `cet_course`
+	CHANGE COLUMN `duration` `duration` DECIMAL(10,1) NULL COMMENT '时长' AFTER `period`;
+
+ALTER TABLE `cet_column_course`
+	ADD CONSTRAINT `FK_cet_column_course_cet_course` FOREIGN KEY (`course_id`) REFERENCES `cet_course` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `cet_column`
+	DROP COLUMN `child_num`,
+	DROP COLUMN `course_num`;
+
+ALTER TABLE `cet_column`
+	ADD CONSTRAINT `FK_cet_column_cet_column` FOREIGN KEY (`fid`) REFERENCES `cet_column` (`id`) ON DELETE CASCADE;
+
+
+-- 元数据升序
+set @maxSortOrder = (select max(sort_order) from base_meta_type);
+update base_meta_type set sort_order = (@maxSortOrder - sort_order)+1;
+
+
+ALTER TABLE `cet_train`
+	ADD COLUMN `type` INT(10) UNSIGNED NOT NULL COMMENT '培训班类型，关联元数据' AFTER `year`;
+
+ALTER TABLE `cet_train`
+	ADD UNIQUE INDEX `year_type_num` (`year`, `type`, `num`);
+
+
 2018-3-9
 ALTER TABLE `cet_course`
 	COMMENT='课程中心',

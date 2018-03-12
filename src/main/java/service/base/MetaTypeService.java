@@ -87,7 +87,7 @@ public class MetaTypeService extends BaseMapper {
 
         MetaTypeExample example = new MetaTypeExample();
         example.createCriteria().andClassIdEqualTo(classId).andAvailableEqualTo(true);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
         List<MetaType> metaTypes = metaTypeMapper.selectByExample(example);
         for (MetaType metaType : metaTypes) {
             map.put(metaType.getId(), metaType);
@@ -194,7 +194,7 @@ public class MetaTypeService extends BaseMapper {
 
         MetaTypeExample example = new MetaTypeExample();
         example.createCriteria().andAvailableEqualTo(true);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
         List<MetaType> metaTypees = metaTypeMapper.selectByExample(example);
         Map<Integer, MetaType> map = new LinkedHashMap<>();
         for (MetaType metaType : metaTypees) {
@@ -209,7 +209,7 @@ public class MetaTypeService extends BaseMapper {
 
         MetaTypeExample example = new MetaTypeExample();
         example.createCriteria().andAvailableEqualTo(true);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
         List<MetaType> metaTypees = metaTypeMapper.selectByExample(example);
         Map<String, MetaType> map = new LinkedHashMap<>();
         for (MetaType metaType : metaTypees) {
@@ -228,13 +228,13 @@ public class MetaTypeService extends BaseMapper {
     public void changeOrder(int id, int addNum) { // 分类内部排序
 
         if(addNum == 0) return ;
-
+        byte orderBy = ORDER_BY_ASC;
         MetaType entity = metaTypeMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
         int classId = entity.getClassId();
 
         MetaTypeExample example = new MetaTypeExample();
-        if (addNum > 0) {
+        if (addNum*orderBy > 0) {
 
             example.createCriteria().andClassIdEqualTo(classId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
@@ -249,7 +249,7 @@ public class MetaTypeService extends BaseMapper {
 
             MetaType targetEntity = overEntities.get(overEntities.size()-1);
 
-            if (addNum > 0)
+            if (addNum*orderBy > 0)
                 commonMapper.downOrder("base_meta_type", "class_id=" + classId, baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder("base_meta_type", "class_id=" + classId, baseSortOrder, targetEntity.getSortOrder());

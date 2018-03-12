@@ -1,6 +1,5 @@
 package service.cet;
 
-import domain.cet.CetColumn;
 import domain.cet.CetColumnCourse;
 import domain.cet.CetColumnCourseExample;
 import org.apache.ibatis.session.RowBounds;
@@ -23,27 +22,11 @@ public class CetColumnCourseService extends BaseMapper {
     }
 
     @Transactional
-    public void updateCourseNum(int columnId){
-
-        CetColumnCourseExample example = new CetColumnCourseExample();
-        example.createCriteria().andColumnIdEqualTo(columnId);
-        long num = cetColumnCourseMapper.countByExample(example);
-
-        CetColumn record = new CetColumn();
-        record.setId(columnId);
-        record.setCourseNum((int) num);
-
-        cetColumnMapper.updateByPrimaryKeySelective(record);
-    }
-
-    @Transactional
     public void insertSelective(CetColumnCourse record){
 
         //Assert.isTrue(!idDuplicate(null, record.getCode()));
         record.setSortOrder(getNextSortOrder("cet_column_course", "1=1"));
         cetColumnCourseMapper.insertSelective(record);
-
-        updateCourseNum(record.getColumnId());
     }
 
     @Transactional
@@ -51,8 +34,6 @@ public class CetColumnCourseService extends BaseMapper {
 
         CetColumnCourse cetColumnCourse = cetColumnCourseMapper.selectByPrimaryKey(id);
         cetColumnCourseMapper.deleteByPrimaryKey(id);
-
-        updateCourseNum(cetColumnCourse.getColumnId());
     }
 
     @Transactional

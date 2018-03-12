@@ -26,19 +26,6 @@ public class CetColumnService extends BaseMapper {
         return cetColumnMapper.countByExample(example) > 0;
     }
 
-    // 更新子栏目的数量
-    private void updateChildNum(Integer fid){
-        if(fid!=null){
-            CetColumnExample example = new CetColumnExample();
-            example.createCriteria().andFidEqualTo(fid);
-            int childNum = (int) cetColumnMapper.countByExample(example);
-            CetColumn _main = new CetColumn();
-            _main.setId(fid);
-            _main.setChildNum(childNum);
-            cetColumnMapper.updateByPrimaryKeySelective(_main);
-        }
-    }
-
     @Transactional
     public void insertSelective(CetColumn record){
 
@@ -49,8 +36,6 @@ public class CetColumnService extends BaseMapper {
 
         record.setSortOrder(getNextSortOrder("cet_column", whereSql));
         cetColumnMapper.insertSelective(record);
-
-        updateChildNum(record.getFid());
     }
 
     @Transactional
@@ -58,35 +43,10 @@ public class CetColumnService extends BaseMapper {
 
         if(ids==null || ids.length==0) return;
 
-        List<CetColumn> subCetColumns = null;
-        {
-            CetColumnExample example = new CetColumnExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids)).andFidIsNotNull();
-            subCetColumns = cetColumnMapper.selectByExample(example);
-        }
-
-        {
-            //删除子栏目
-            CetColumnExample example = new CetColumnExample();
-            example.createCriteria().andFidIn(Arrays.asList(ids));
-            cetColumnMapper.deleteByExample(example);
-        }
-
-        {
-            // 删除栏目
-            CetColumnExample example = new CetColumnExample();
-            example.createCriteria().andIdIn(Arrays.asList(ids));
-            cetColumnMapper.deleteByExample(example);
-        }
-
-        {
-            // 更新数量
-            if(subCetColumns!=null){
-                for (CetColumn subCetColumn : subCetColumns) {
-                    updateChildNum(subCetColumn.getFid());
-                }
-            }
-        }
+        // 删除栏目
+        CetColumnExample example = new CetColumnExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        cetColumnMapper.deleteByExample(example);
     }
 
     @Transactional

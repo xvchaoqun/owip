@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.cet.CetTrain">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="subject" jdbcType="VARCHAR" property="subject" />
@@ -77,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, num, name, subject, template_id, start_date, end_date, start_time, end_time, 
-    enroll_status, pub_status, remark, is_deleted, create_time
+    id, year, type, num, name, subject, template_id, start_date, end_date, start_time, 
+    end_time, enroll_status, pub_status, remark, is_deleted, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainExample" resultMap="BaseResultMap">
     select
@@ -111,18 +112,18 @@
     </if>
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.cet.CetTrain">
-    insert into cet_train (id, year, num, 
-      name, subject, template_id, 
-      start_date, end_date, start_time, 
-      end_time, enroll_status, pub_status, 
-      remark, is_deleted, create_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, #{templateId,jdbcType=INTEGER}, 
-      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{enrollStatus,jdbcType=TINYINT}, #{pubStatus,jdbcType=TINYINT}, 
-      #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}
-      )
+    insert into cet_train (id, year, type, 
+      num, name, subject, 
+      template_id, start_date, end_date, 
+      start_time, end_time, enroll_status, 
+      pub_status, remark, is_deleted, 
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{num,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, 
+      #{templateId,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{enrollStatus,jdbcType=TINYINT}, 
+      #{pubStatus,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cet.CetTrain">
     insert into cet_train
@@ -132,6 +133,9 @@
       </if>
       <if test="year != null">
         year,
+      </if>
+      <if test="type != null">
+        type,
       </if>
       <if test="num != null">
         num,
@@ -179,6 +183,9 @@
       </if>
       <if test="year != null">
         #{year,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="num != null">
         #{num,jdbcType=INTEGER},
@@ -236,6 +243,9 @@
       <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
       </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
       <if test="record.num != null">
         num = #{record.num,jdbcType=INTEGER},
       </if>
@@ -284,6 +294,7 @@
     update cet_train
     set id = #{record.id,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
       num = #{record.num,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       subject = #{record.subject,jdbcType=VARCHAR},
@@ -306,6 +317,9 @@
     <set>
       <if test="year != null">
         year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="num != null">
         num = #{num,jdbcType=INTEGER},
@@ -352,6 +366,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetTrain">
     update cet_train
     set year = #{year,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       subject = #{subject,jdbcType=VARCHAR},

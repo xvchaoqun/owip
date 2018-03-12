@@ -1,9 +1,29 @@
+
+
+
 -- 干部教育培训
 DROP VIEW IF EXISTS `cet_column_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_column_course_view` AS
-SELECT ccc.*, cc.name as column_name, cc2.name as course_name from cet_column_course ccc
+SELECT ccc.*, cc.name as column_name, cc2.name as course_name, ce.realname from cet_column_course ccc
 left join cet_column cc on ccc.column_id = cc.id
-left join cet_course cc2 on ccc.course_id = cc2.id ;
+left join cet_course cc2 on ccc.course_id = cc2.id
+left join cet_expert ce on cc2.expert_id=ce.id;
+
+DROP VIEW IF EXISTS `cet_column_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_column_view` AS
+select cc.*, count(cc2.id) as child_num, count(ccc.id) as course_num from cet_column cc
+left join cet_column_course ccc on ccc.column_id=cc.id
+left join cet_column cc2 on cc2.fid=cc.id
+group by cc.id ;
+
+DROP VIEW IF EXISTS `cet_train_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_train_view` AS
+select ct.*, group_concat(ctt.name order by ctt.sort_order asc) as trainee_types from cet_train ct
+left join cet_train_trainee_type cttt on cttt.train_id = ct.id
+left join cet_trainee_type ctt on cttt.trainee_type_id= ctt.id
+group by ct.id ;
+
+
 
 -- 干部任免审批表归档
 DROP VIEW IF EXISTS `sc_ad_archive_view`;
@@ -642,8 +662,8 @@ mtmp2.t_num as teacher_member_count, mtmp2.t2_num as retire_member_count, gtmp.n
 left join (select  sum(if(political_status=2, 1, 0)) as positive_count, sum(if(type=2, 1, 0)) as s_num, count(*) as num,  branch_id from ow_member where  status=1 group by branch_id) mtmp on mtmp.branch_id=b.id
 left join (select sum(if(is_retire=0, 1, 0)) as t_num, sum(if(is_retire=1, 1, 0)) as t2_num,
 count(*) as num, branch_id from ow_member_teacher where status=1 group by branch_id) mtmp2 on mtmp2.branch_id=b.id
-left join (select count(*) as num, branch_id from ow_branch_member_group group by branch_id) gtmp on gtmp.branch_id=b.id
-left join (select count(*) as num, branch_id from ow_branch_member_group where is_present=1 group by  branch_id) gtmp2 on gtmp2.branch_id=b.id;
+left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 group by branch_id) gtmp on gtmp.branch_id=b.id
+left join (select count(*) as num, branch_id from ow_branch_member_group where is_deleted=0 and is_present=1 group by branch_id) gtmp2 on gtmp2.branch_id=b.id;
 -- ----------------------------
 --  View definition for `ow_member_abroad_view`
 -- ----------------------------

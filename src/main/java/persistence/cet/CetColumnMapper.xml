@@ -5,10 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="is_online" jdbcType="BIT" property="isOnline" />
     <result column="fid" jdbcType="INTEGER" property="fid" />
-    <result column="child_num" jdbcType="INTEGER" property="childNum" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="TINYINT" property="type" />
-    <result column="course_num" jdbcType="INTEGER" property="courseNum" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
@@ -72,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, is_online, fid, child_num, name, type, course_num, sort_order, remark, is_deleted
+    id, is_online, fid, name, type, sort_order, remark, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetColumnExample" resultMap="BaseResultMap">
     select
@@ -106,13 +104,11 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetColumn">
     insert into cet_column (id, is_online, fid, 
-      child_num, name, type, 
-      course_num, sort_order, remark, 
-      is_deleted)
+      name, type, sort_order, 
+      remark, is_deleted)
     values (#{id,jdbcType=INTEGER}, #{isOnline,jdbcType=BIT}, #{fid,jdbcType=INTEGER}, 
-      #{childNum,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
-      #{courseNum,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{isDeleted,jdbcType=BIT})
+      #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetColumn">
     insert into cet_column
@@ -126,17 +122,11 @@
       <if test="fid != null">
         fid,
       </if>
-      <if test="childNum != null">
-        child_num,
-      </if>
       <if test="name != null">
         name,
       </if>
       <if test="type != null">
         type,
-      </if>
-      <if test="courseNum != null">
-        course_num,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -158,17 +148,11 @@
       <if test="fid != null">
         #{fid,jdbcType=INTEGER},
       </if>
-      <if test="childNum != null">
-        #{childNum,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
-      </if>
-      <if test="courseNum != null">
-        #{courseNum,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -199,17 +183,11 @@
       <if test="record.fid != null">
         fid = #{record.fid,jdbcType=INTEGER},
       </if>
-      <if test="record.childNum != null">
-        child_num = #{record.childNum,jdbcType=INTEGER},
-      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
-      </if>
-      <if test="record.courseNum != null">
-        course_num = #{record.courseNum,jdbcType=INTEGER},
       </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -230,10 +208,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       is_online = #{record.isOnline,jdbcType=BIT},
       fid = #{record.fid,jdbcType=INTEGER},
-      child_num = #{record.childNum,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=TINYINT},
-      course_num = #{record.courseNum,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       is_deleted = #{record.isDeleted,jdbcType=BIT}
@@ -250,17 +226,11 @@
       <if test="fid != null">
         fid = #{fid,jdbcType=INTEGER},
       </if>
-      <if test="childNum != null">
-        child_num = #{childNum,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
-      </if>
-      <if test="courseNum != null">
-        course_num = #{courseNum,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
@@ -278,10 +248,8 @@
     update cet_column
     set is_online = #{isOnline,jdbcType=BIT},
       fid = #{fid,jdbcType=INTEGER},
-      child_num = #{childNum,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=TINYINT},
-      course_num = #{courseNum,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=BIT}

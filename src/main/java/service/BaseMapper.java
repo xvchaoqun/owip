@@ -67,11 +67,14 @@ import persistence.cadreReserve.CadreReserveViewMapper;
 import persistence.cet.CetColumnCourseMapper;
 import persistence.cet.CetColumnCourseViewMapper;
 import persistence.cet.CetColumnMapper;
+import persistence.cet.CetColumnViewMapper;
 import persistence.cet.CetCourseMapper;
 import persistence.cet.CetCourseTypeMapper;
 import persistence.cet.CetExpertMapper;
+import persistence.cet.CetTrainCourseMapper;
 import persistence.cet.CetTrainMapper;
 import persistence.cet.CetTrainTraineeTypeMapper;
+import persistence.cet.CetTrainViewMapper;
 import persistence.cet.CetTraineeTypeMapper;
 import persistence.cis.CisEvaluateMapper;
 import persistence.cis.CisInspectObjMapper;
@@ -337,11 +340,17 @@ public class BaseMapper {
     @Autowired
     protected CetColumnMapper cetColumnMapper;
     @Autowired
+    protected CetColumnViewMapper cetColumnViewMapper;
+    @Autowired
     protected CetColumnCourseMapper cetColumnCourseMapper;
     @Autowired
     protected CetColumnCourseViewMapper cetColumnCourseViewMapper;
     @Autowired
     protected CetTrainMapper cetTrainMapper;
+    @Autowired
+    protected CetTrainViewMapper cetTrainViewMapper;
+    @Autowired
+    protected CetTrainCourseMapper cetTrainCourseMapper;
     @Autowired
     protected CetTraineeTypeMapper cetTraineeTypeMapper;
     @Autowired
