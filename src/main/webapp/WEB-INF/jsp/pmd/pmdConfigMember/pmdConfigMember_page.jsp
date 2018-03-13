@@ -164,19 +164,14 @@
             },
             {label: '党员分类别', name: 'pmdConfigMemberType.name', width: 220},
             {label: '缴纳额度', name: 'duePay'},
-            { label: '确认额度',name: 'hasReset', formatter:  $.jgrid.formatter.TRUEFALSE,
-                formatoptions:{on:'-', off:'<span class="text-danger bolder">未确认</span>'} },
-            { label: '确认额度',name: '_confirmDuePay', formatter: function (cellvalue, options, rowObject) {
+            { label: '确认额度',name: 'hasReset', formatter: function (cellvalue, options, rowObject) {
 
                 if(rowObject.pmdConfigMemberType==undefined
                         ||rowObject.pmdConfigMemberType.pmdNorm==undefined) return "-";
-
                 if(rowObject.hasReset) return '-'
 
                 if(rowObject.pmdConfigMemberType.pmdNorm.setType == ${PMD_NORM_SET_TYPE_SET}){
-                    return ('<button class="popupBtn btn btn-success btn-xs" ' +
-                    'data-url="${ctx}/pmd/pmdMember_selectMemberType?ids[]={0}&configMemberType={1}&confirm=1&auth=1"><i class="fa fa-rmb"></i> 确认额度</button>')
-                            .format(rowObject.id, rowObject.type)
+                   return '<span class="text-danger bolder">未确认</span>'
                 }
 
                 return '-'
