@@ -54,6 +54,7 @@ public class CetTrainController extends CetBaseController {
     @RequiresPermissions("cetTrain:list")
     @RequestMapping("/cetTrain_data")
     public void cetTrain_data(HttpServletResponse response,
+                              @RequestParam(defaultValue = "1") Integer cls,
                                     Integer year,
                                     Integer num,
                                     String name,
@@ -71,6 +72,15 @@ public class CetTrainController extends CetBaseController {
 
         CetTrainViewExample example = new CetTrainViewExample();
         CetTrainViewExample.Criteria criteria = example.createCriteria();
+
+        if(cls==1){
+            criteria.andIsDeletedEqualTo(false);
+        }else if(cls==2){
+            criteria.andIsDeletedEqualTo(false);
+        }else if(cls==3){
+            criteria.andIsDeletedEqualTo(true);
+        }
+
         example.setOrderByClause("create_time desc");
 
         if (year!=null) {
@@ -108,6 +118,17 @@ public class CetTrainController extends CetBaseController {
         //baseMixins.put(cetTrain.class, cetTrainMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
+    }
+
+    @RequiresPermissions("cetTrain:edit")
+    @RequestMapping("/cetTrain_detail")
+    public String cetTrain_detail(Integer trainId, ModelMap modelMap) {
+
+        if (trainId != null) {
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+            modelMap.put("cetTrain", cetTrain);
+        }
+        return "cet/cetTrain/cetTrain_detail";
     }
 
     @RequiresPermissions("cetTrain:edit")

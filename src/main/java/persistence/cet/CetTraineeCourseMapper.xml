@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.cet.CetTraineeTypeMapper">
-  <resultMap id="BaseResultMap" type="domain.cet.CetTraineeType">
+<mapper namespace="persistence.cet.CetTraineeCourseMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetTraineeCourse">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
-    <result column="template_id" jdbcType="INTEGER" property="templateId" />
-    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
-    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="trainee_id" jdbcType="INTEGER" property="traineeId" />
+    <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
+    <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="choose_time" jdbcType="TIMESTAMP" property="chooseTime" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,15 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, code, template_id, sort_order, is_deleted, remark
+    id, trainee_id, train_course_id, is_finished, remark, choose_time, ip
   </sql>
-  <select id="selectByExample" parameterType="domain.cet.CetTraineeTypeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.cet.CetTraineeCourseExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_trainee_type
+    from cet_trainee_course
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,105 +88,105 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from cet_trainee_type
+    from cet_trainee_course
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from cet_trainee_type
+    delete from cet_trainee_course
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cet.CetTraineeTypeExample">
-    delete from cet_trainee_type
+  <delete id="deleteByExample" parameterType="domain.cet.CetTraineeCourseExample">
+    delete from cet_trainee_course
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cet.CetTraineeType">
-    insert into cet_trainee_type (id, name, code, 
-      template_id, sort_order, is_deleted, 
-      remark)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
-      #{templateId,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="domain.cet.CetTraineeCourse">
+    insert into cet_trainee_course (id, trainee_id, train_course_id, 
+      is_finished, remark, choose_time, 
+      ip)
+    values (#{id,jdbcType=INTEGER}, #{traineeId,jdbcType=INTEGER}, #{trainCourseId,jdbcType=INTEGER}, 
+      #{isFinished,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{chooseTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.cet.CetTraineeType">
-    insert into cet_trainee_type
+  <insert id="insertSelective" parameterType="domain.cet.CetTraineeCourse">
+    insert into cet_trainee_course
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="name != null">
-        name,
+      <if test="traineeId != null">
+        trainee_id,
       </if>
-      <if test="code != null">
-        code,
+      <if test="trainCourseId != null">
+        train_course_id,
       </if>
-      <if test="templateId != null">
-        template_id,
-      </if>
-      <if test="sortOrder != null">
-        sort_order,
-      </if>
-      <if test="isDeleted != null">
-        is_deleted,
+      <if test="isFinished != null">
+        is_finished,
       </if>
       <if test="remark != null">
         remark,
+      </if>
+      <if test="chooseTime != null">
+        choose_time,
+      </if>
+      <if test="ip != null">
+        ip,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="traineeId != null">
+        #{traineeId,jdbcType=INTEGER},
       </if>
-      <if test="code != null">
-        #{code,jdbcType=VARCHAR},
+      <if test="trainCourseId != null">
+        #{trainCourseId,jdbcType=INTEGER},
       </if>
-      <if test="templateId != null">
-        #{templateId,jdbcType=INTEGER},
-      </if>
-      <if test="sortOrder != null">
-        #{sortOrder,jdbcType=INTEGER},
-      </if>
-      <if test="isDeleted != null">
-        #{isDeleted,jdbcType=BIT},
+      <if test="isFinished != null">
+        #{isFinished,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="chooseTime != null">
+        #{chooseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cet.CetTraineeTypeExample" resultType="java.lang.Long">
-    select count(*) from cet_trainee_type
+  <select id="countByExample" parameterType="domain.cet.CetTraineeCourseExample" resultType="java.lang.Long">
+    select count(*) from cet_trainee_course
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update cet_trainee_type
+    update cet_trainee_course
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.traineeId != null">
+        trainee_id = #{record.traineeId,jdbcType=INTEGER},
       </if>
-      <if test="record.code != null">
-        code = #{record.code,jdbcType=VARCHAR},
+      <if test="record.trainCourseId != null">
+        train_course_id = #{record.trainCourseId,jdbcType=INTEGER},
       </if>
-      <if test="record.templateId != null">
-        template_id = #{record.templateId,jdbcType=INTEGER},
-      </if>
-      <if test="record.sortOrder != null">
-        sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      </if>
-      <if test="record.isDeleted != null">
-        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      <if test="record.isFinished != null">
+        is_finished = #{record.isFinished,jdbcType=BIT},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chooseTime != null">
+        choose_time = #{record.chooseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -194,59 +194,59 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update cet_trainee_type
+    update cet_trainee_course
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      code = #{record.code,jdbcType=VARCHAR},
-      template_id = #{record.templateId,jdbcType=INTEGER},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      is_deleted = #{record.isDeleted,jdbcType=BIT},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      trainee_id = #{record.traineeId,jdbcType=INTEGER},
+      train_course_id = #{record.trainCourseId,jdbcType=INTEGER},
+      is_finished = #{record.isFinished,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      choose_time = #{record.chooseTime,jdbcType=TIMESTAMP},
+      ip = #{record.ip,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetTraineeType">
-    update cet_trainee_type
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetTraineeCourse">
+    update cet_trainee_course
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="traineeId != null">
+        trainee_id = #{traineeId,jdbcType=INTEGER},
       </if>
-      <if test="code != null">
-        code = #{code,jdbcType=VARCHAR},
+      <if test="trainCourseId != null">
+        train_course_id = #{trainCourseId,jdbcType=INTEGER},
       </if>
-      <if test="templateId != null">
-        template_id = #{templateId,jdbcType=INTEGER},
-      </if>
-      <if test="sortOrder != null">
-        sort_order = #{sortOrder,jdbcType=INTEGER},
-      </if>
-      <if test="isDeleted != null">
-        is_deleted = #{isDeleted,jdbcType=BIT},
+      <if test="isFinished != null">
+        is_finished = #{isFinished,jdbcType=BIT},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="chooseTime != null">
+        choose_time = #{chooseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cet.CetTraineeType">
-    update cet_trainee_type
-    set name = #{name,jdbcType=VARCHAR},
-      code = #{code,jdbcType=VARCHAR},
-      template_id = #{templateId,jdbcType=INTEGER},
-      sort_order = #{sortOrder,jdbcType=INTEGER},
-      is_deleted = #{isDeleted,jdbcType=BIT},
-      remark = #{remark,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="domain.cet.CetTraineeCourse">
+    update cet_trainee_course
+    set trainee_id = #{traineeId,jdbcType=INTEGER},
+      train_course_id = #{trainCourseId,jdbcType=INTEGER},
+      is_finished = #{isFinished,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
+      choose_time = #{chooseTime,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTraineeTypeExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTraineeCourseExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_trainee_type
+    from cet_trainee_course
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

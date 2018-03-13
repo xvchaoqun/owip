@@ -1,6 +1,7 @@
 package service.pmd;
 
 import domain.pmd.PmdBranch;
+import domain.pmd.PmdConfigMember;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMemberPayViewExample;
@@ -65,6 +66,11 @@ public class PmdMemberPayService extends BaseMapper {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if (currentPmdMonth == null) return notAllowed; // 已关闭缴费
+
+        PmdConfigMember pmdConfigMember = pmdMemberPayView.getPmdConfigMember();
+        if(pmdConfigMember.getHasReset()==false){
+            return notAllowed;  // 未确认缴费额度
+        }
 
         int monthId = pmdMemberPayView.getMonthId();
         Integer currentMonthId = currentPmdMonth.getId();

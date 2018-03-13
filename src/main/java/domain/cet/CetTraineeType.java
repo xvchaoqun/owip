@@ -7,6 +7,8 @@ public class CetTraineeType implements Serializable {
 
     private String name;
 
+    private String code;
+
     private Integer templateId;
 
     private Integer sortOrder;
@@ -31,6 +33,14 @@ public class CetTraineeType implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     public Integer getTemplateId() {

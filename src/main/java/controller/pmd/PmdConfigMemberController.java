@@ -56,6 +56,7 @@ public class PmdConfigMemberController extends PmdBaseController {
     @RequestMapping("/pmdConfigMember_data")
     public void pmdConfigMember_data(HttpServletResponse response,
                                      Boolean isOnlinePay,
+                                     Boolean hasReset,
                                      Integer userId,
                                      Byte configMemberType,
                                      Integer configMemberTypeId,
@@ -76,6 +77,9 @@ public class PmdConfigMemberController extends PmdBaseController {
 
         if (isOnlinePay != null) {
             criteria.andIsOnlinePayEqualTo(isOnlinePay);
+        }
+        if (hasReset != null) {
+            criteria.andHasResetEqualTo(hasReset);
         }
         if (userId != null) {
             criteria.andUserIdEqualTo(userId);

@@ -8,7 +8,7 @@
              data-url-page="${ctx}/pmd/pmdConfigMember"
              data-url-export="${ctx}/pmd/pmdConfigMember_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.isOnlinePay ||not empty param.configMemberType
+            <c:set var="_query" value="${not empty param.userId ||not empty param.isOnlinePay ||not empty param.hasReset ||not empty param.configMemberType
             ||not empty param.configMemberTypeId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <%--<shiro:hasPermission name="pmdConfigMember:edit">
@@ -96,6 +96,19 @@
                                     <option></option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>确认额度</label>
+                                <select data-rel="select2" name="hasReset"
+                                        data-width="120"
+                                        data-placeholder="请选择">
+                                    <option></option>
+                                    <option value="1">已确认</option>
+                                    <option value="0">未确认</option>
+                                </select>
+                                <script>
+                                    $("#searchForm select[name=hasReset]").val("${param.hasReset}")
+                                </script>
+                            </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -151,6 +164,23 @@
             },
             {label: '党员分类别', name: 'pmdConfigMemberType.name', width: 220},
             {label: '缴纳额度', name: 'duePay'},
+            { label: '确认额度',name: 'hasReset', formatter:  $.jgrid.formatter.TRUEFALSE,
+                formatoptions:{on:'-', off:'<span class="text-danger bolder">未确认</span>'} },
+            { label: '确认额度',name: '_confirmDuePay', formatter: function (cellvalue, options, rowObject) {
+
+                if(rowObject.pmdConfigMemberType==undefined
+                        ||rowObject.pmdConfigMemberType.pmdNorm==undefined) return "-";
+
+                if(rowObject.hasReset) return '-'
+
+                if(rowObject.pmdConfigMemberType.pmdNorm.setType == ${PMD_NORM_SET_TYPE_SET}){
+                    return ('<button class="popupBtn btn btn-success btn-xs" ' +
+                    'data-url="${ctx}/pmd/pmdMember_selectMemberType?ids[]={0}&configMemberType={1}&confirm=1&auth=1"><i class="fa fa-rmb"></i> 确认额度</button>')
+                            .format(rowObject.id, rowObject.type)
+                }
+
+                return '-'
+            }},
             {
                 label: '离退休费', name: 'retireSalary', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.configMemberType != '${PMD_MEMBER_TYPE_RETIRE}') return '-'

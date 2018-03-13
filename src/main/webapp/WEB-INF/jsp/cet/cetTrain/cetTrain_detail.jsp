@@ -18,25 +18,25 @@
                     <ul class="nav nav-tabs" id="detail-ul">
                         <li class="active">
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-content" data-callback="_menuSelected"
-                               data-url="${ctx}/cet/cetTrain_detail/step?id=${param.id}&step=1">
+                               data-load-el="#detail-content" data-callback="_menuSelected"
+                               data-url="${ctx}/cet/cetTrainCourse?trainId=${param.trainId}">
                                 <i class="green ace-icon fa fa-bullhorn bigger-120"></i> 培训课程</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-content" data-callback="_menuSelected"
-                               data-url="${ctx}/cet/cetTrain_detail/step2_time?id=${param.id}">
+                               data-load-el="#detail-content" data-callback="_menuSelected"
+                               data-url="${ctx}/cet/cetTrain_detail_time?trainId=${param.trainId}">
                                 <i class="green ace-icon fa fa-calendar bigger-120"></i> 选课时间管理</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-content" data-callback="_menuSelected"
-                               data-url="${ctx}/cet/cetTrain_detail/step?id=${param.id}&step=2">
+                               data-load-el="#detail-content" data-callback="_menuSelected"
+                               data-url="${ctx}/cet/cetTrain_detail/detail?id=${param.id}&detail=2">
                                 <i class="green ace-icon fa fa-gears bigger-120"></i> 可选课人员及选课情况</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-content" data-callback="_menuSelected"
+                               data-load-el="#detail-content" data-callback="_menuSelected"
                                data-url="${ctx}/cet/cetTrain_detail/step?id=${param.id}&step=3">
                                 <i class="green ace-icon fa fa-users bigger-120"></i> 开课</a>
                         </li>
@@ -45,8 +45,8 @@
             </div>
             <div class="widget-body">
                 <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
-                    <div class="tab-content padding-4" id="step-content">
-                    <c:import url="${ctx}/cet/cetTrain_detail/step?id=${param.id}&step=1"/>
+                    <div class="tab-content padding-4" id="detail-content">
+                    <c:import url="${ctx}/cet/cetTrainCourse?id=${param.id}"/>
                     </div>
                 </div>
             </div>
@@ -55,12 +55,12 @@
 </div>
 <script>
 
-    function _stepReload(){
+    function _detailReload(){
         $("#detail-ul li.active .loadPage").click()
     }
 
-    function _stepContentReload(){
-        $("#step-content li.active .loadPage").click()
+    function _detailContentReload(){
+        $("#detail-content li.active .loadPage").click()
     }
 
     function _menuSelected($aHref){

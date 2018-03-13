@@ -10,6 +10,8 @@ import service.cet.CetExpertService;
 import service.cet.CetTrainCourseService;
 import service.cet.CetTrainService;
 import service.cet.CetTrainTraineeTypeService;
+import service.cet.CetTraineeCourseService;
+import service.cet.CetTraineeService;
 import service.cet.CetTraineeTypeService;
 
 /**
@@ -31,6 +33,10 @@ public class CetBaseController extends BaseController {
     protected CetTrainService cetTrainService;
     @Autowired
     protected CetTrainCourseService cetTrainCourseService;
+    @Autowired
+    protected CetTraineeService cetTraineeService;
+    @Autowired
+    protected CetTraineeCourseService cetTraineeCourseService;
     @Autowired
     protected CetTraineeTypeService cetTraineeTypeService;
     @Autowired

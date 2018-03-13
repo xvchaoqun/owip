@@ -37,9 +37,9 @@ public class CetTrainService extends BaseMapper {
         CetTrainExample example = new CetTrainExample();
         example.createCriteria().andYearEqualTo(year).andTypeEqualTo(type);
         example.setOrderByClause("num desc");
-        List<CetTrain> dispatches = cetTrainMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
-        if(dispatches.size()>0){
-            num = dispatches.get(0).getNum() + 1;
+        List<CetTrain> records = cetTrainMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+        if(records.size()>0){
+            num = records.get(0).getNum() + 1;
         }else{
             num = 1;
         }
@@ -84,9 +84,7 @@ public class CetTrainService extends BaseMapper {
     @Transactional
     public void updateWithTraineeTypes(CetTrain record, Integer[] traineeTypeIds){
 
-        if(record.getNum()!=null) {
-            Assert.isTrue(!idDuplicate(record.getId(),record.getType(), record.getYear(), record.getNum()), "duplicate");
-        }
+        Assert.isTrue(!idDuplicate(record.getId(),record.getType(), record.getYear(), record.getNum()), "duplicate");
 
         cetTrainMapper.updateByPrimaryKeySelective(record);
 

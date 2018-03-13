@@ -75,6 +75,8 @@ import persistence.cet.CetTrainCourseMapper;
 import persistence.cet.CetTrainMapper;
 import persistence.cet.CetTrainTraineeTypeMapper;
 import persistence.cet.CetTrainViewMapper;
+import persistence.cet.CetTraineeCourseMapper;
+import persistence.cet.CetTraineeMapper;
 import persistence.cet.CetTraineeTypeMapper;
 import persistence.cis.CisEvaluateMapper;
 import persistence.cis.CisInspectObjMapper;
@@ -351,6 +353,10 @@ public class BaseMapper {
     protected CetTrainViewMapper cetTrainViewMapper;
     @Autowired
     protected CetTrainCourseMapper cetTrainCourseMapper;
+    @Autowired
+    protected CetTraineeMapper cetTraineeMapper;
+    @Autowired
+    protected CetTraineeCourseMapper cetTraineeCourseMapper;
     @Autowired
     protected CetTraineeTypeMapper cetTraineeTypeMapper;
     @Autowired

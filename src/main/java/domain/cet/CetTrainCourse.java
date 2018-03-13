@@ -1,24 +1,36 @@
 package domain.cet;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import persistence.cet.CetCourseMapper;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CetTrainCourse implements Serializable {
+
+    public CetCourse getCetCourse(){
+
+        if(courseId==null) return null;
+        CetCourseMapper cetCourseMapper = CmTag.getBean(CetCourseMapper.class);
+        return cetCourseMapper.selectByPrimaryKey(courseId);
+    }
+
     private Integer id;
 
     private Integer trainId;
 
     private Integer courseId;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date startTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date endTime;
 
-    private Boolean isGlobal;
+    private String address;
 
-    private Integer evaTableId;
-
-    private Integer finishCount;
+    private Integer traineeCount;
 
     private Integer sortOrder;
 
@@ -66,28 +78,20 @@ public class CetTrainCourse implements Serializable {
         this.endTime = endTime;
     }
 
-    public Boolean getIsGlobal() {
-        return isGlobal;
+    public String getAddress() {
+        return address;
     }
 
-    public void setIsGlobal(Boolean isGlobal) {
-        this.isGlobal = isGlobal;
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
     }
 
-    public Integer getEvaTableId() {
-        return evaTableId;
+    public Integer getTraineeCount() {
+        return traineeCount;
     }
 
-    public void setEvaTableId(Integer evaTableId) {
-        this.evaTableId = evaTableId;
-    }
-
-    public Integer getFinishCount() {
-        return finishCount;
-    }
-
-    public void setFinishCount(Integer finishCount) {
-        this.finishCount = finishCount;
+    public void setTraineeCount(Integer traineeCount) {
+        this.traineeCount = traineeCount;
     }
 
     public Integer getSortOrder() {

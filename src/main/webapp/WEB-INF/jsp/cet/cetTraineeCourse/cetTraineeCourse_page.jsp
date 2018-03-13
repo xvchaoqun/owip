@@ -5,21 +5,21 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content" class="myTableDiv"
-                 data-url-page="${ctx}/cet/cetTraineeType"
-                 data-url-export="${ctx}/cet/cetTraineeType_data"
+                 data-url-page="${ctx}/cet/cetTraineeCourse"
+                 data-url-export="${ctx}/cet/cetTraineeCourse_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.traineeId ||not empty param.trainCourseId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="cetTraineeType:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/cet/cetTraineeType_au"><i class="fa fa-plus"></i> 添加</a>
+                <shiro:hasPermission name="cetTraineeCourse:edit">
+                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/cet/cetTraineeCourse_au"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cet/cetTraineeType_au"
+                       data-url="${ctx}/cet/cetTraineeCourse_au"
                        data-grid-id="#jqGrid"
                        data-querystr="&"><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cetTraineeType:del">
-                    <button data-url="${ctx}/cet/cetTraineeType_batchDel"
+                <shiro:hasPermission name="cetTraineeCourse:del">
+                    <button data-url="${ctx}/cet/cetTraineeCourse_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -27,7 +27,9 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-
+                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                    <i class="fa fa-download"></i> 导出</a>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -43,9 +45,14 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
-                            <label>参训人员类型</label>
-                            <input class="form-control search-query" name="name" type="text" value="${param.name}"
-                                   placeholder="请输入参训人员类型">
+                            <label>参训人员</label>
+                            <input class="form-control search-query" name="traineeId" type="text" value="${param.traineeId}"
+                                   placeholder="请输入参训人员">
+                        </div>
+                        <div class="form-group">
+                            <label>培训班课程</label>
+                            <input class="form-control search-query" name="trainCourseId" type="text" value="${param.trainCourseId}"
+                                   placeholder="请输入培训班课程">
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -69,18 +76,14 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/cet/cetTraineeType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cet/cetTraineeCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '参训人员类型',name: 'name', width:200},
-            { label: '类型代码',name: 'code', width:150, align:'left'},
-            { label: '信息模板',name: 'templateId', width:400, align:'left',formatter:function(cellvalue, options, rowObject){
-                return _cMap.CET_TRAINEE_TYPE_TEMPLATE_MAP[cellvalue];
-            }},
-            {
-                label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{url: "${ctx}/cet/cetTraineeType_changeOrder"}
-            },
-            { label: '备注',name: 'remark', width:400}
+            { label: '参训人员',name: 'traineeId'},
+            { label: '培训班课程',name: 'trainCourseId'},
+            { label: '是否实际完成',name: 'isFinished'},
+            { label: '备注',name: 'remark'},
+            { label: '选课时间',name: 'chooseTime'},
+            { label: 'IP',name: 'ip'}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

@@ -1,4 +1,20 @@
 
+
+2018-3-13
+ALTER TABLE `cet_course`
+	ADD COLUMN `year` INT(10) UNSIGNED NOT NULL COMMENT '年份，设立时间的年份' AFTER `id`,
+	ADD COLUMN `num` INT(10) UNSIGNED NOT NULL COMMENT '编号' AFTER `is_online`,
+	ADD UNIQUE INDEX `year_is_online_num` (`year`, `is_online`, `num`);
+
+	ALTER TABLE `cet_course`
+	ADD COLUMN `has_summary` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否提交了课程要点' AFTER `name`,
+	ADD COLUMN `summary` TEXT NULL COMMENT '课程要点' AFTER `has_summary`,
+	ADD COLUMN `teach_method` INT(10) UNSIGNED NOT NULL COMMENT '授课方式，关联元数据' AFTER `expert_id`;
+
+ALTER TABLE `cet_trainee_type`
+	ADD COLUMN `code` VARCHAR(20) NOT NULL COMMENT '类型代码' AFTER `name`;
+
+
 2018-3-12
 
 ALTER TABLE `cet_course`

@@ -41,7 +41,7 @@
       "showColumns": "is_online,fid,child_num,name,type,sort_order,remark",
       "excludeEditColumns": "id,is_deleted",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_column_course",
@@ -50,7 +50,7 @@
       "showColumns": "column_id,course_id,sort_order,remark",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_train",
@@ -59,7 +59,7 @@
       "showColumns": "year,num,name,subject,start_date,end_date,enroll_status,remark",
       "excludeEditColumns": "id,is_deleted,create_time",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_trainee_type",
@@ -68,7 +68,7 @@
       "showColumns": "name,template_id,sort_order,remark",
       "excludeEditColumns": "id,is_deleted",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_train_trainee_type",
@@ -76,6 +76,24 @@
       "searchColumns": "train_id,trainee_type_id",
       "showColumns": "train_id,trainee_type_id",
       "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": true
+    },
+    {
+      "table": "cet_trainee",
+      "key": "id",
+      "searchColumns": "train_id,user_id",
+      "showColumns": "train_id,user_id,course_count,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_trainee_course",
+      "key": "id",
+      "searchColumns": "trainee_id,train_course_id",
+      "showColumns": "trainee_id,train_course_id,is_finished,remark,choose_time,ip",
+      "excludeEditColumns": "id,choose_time,ip",
       "logType":"SystemConstants.LOG_CET",
       "ignore": false
     }

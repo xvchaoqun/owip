@@ -393,6 +393,15 @@ public class PmdMemberService extends BaseMapper {
                 if(pmdMemberPayView.getPayMonthId()!=currentMonthId){
                     throw  new OpException("操作失败，{0}是往月已缴费记录。", realname);
                 }
+
+                if(pmdMember.getIsOnlinePay()){
+                    throw new OpException("操作失败，{0}已线上缴费。", realname);
+                }
+            }
+
+            PmdConfigMember pmdConfigMember = pmdMember.getPmdConfigMember();
+            if(pmdConfigMember.getHasReset()==false){
+                throw  new OpException("操作失败，{0}未确认缴费额度。", realname); // 未确认缴费额度
             }
 
             if(pmdMemberPayService.branchHasReport(pmdMember, currentPmdMonth)){

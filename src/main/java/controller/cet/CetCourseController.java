@@ -121,7 +121,7 @@ public class CetCourseController extends CetBaseController {
             logger.info(addLog( SystemConstants.LOG_CET, "添加课程中心：%s", record.getId()));
         } else {
 
-            cetCourseService.updateByPrimaryKeySelective(record);
+            cetCourseService.updateByPrimaryKeySelectiveWithNum(record);
             logger.info(addLog( SystemConstants.LOG_CET, "更新课程中心：%s", record.getId()));
         }
 
@@ -146,6 +146,33 @@ public class CetCourseController extends CetBaseController {
         modelMap.put("courseTypes", courseTypeMap.values());
 
         return "cet/cetCourse/cetCourse_au";
+    }
+
+    @RequiresPermissions("cetCourse:edit")
+    @RequestMapping("/cetCourse_summary")
+    public String cetCourse_summary(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            CetCourse cetCourse = cetCourseMapper.selectByPrimaryKey(id);
+            modelMap.put("cetCourse", cetCourse);
+        }
+        return "cet/cetCourse/cetCourse_summary";
+    }
+
+    @RequiresPermissions("cetCourse:edit")
+    @RequestMapping(value = "/cetCourse_summary", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetCourse_summary(Integer id, String summary) {
+
+        CetCourse record = new CetCourse();
+        record.setId(id);
+        record.setSummary(summary);
+        record.setHasSummary(StringUtils.isNotBlank(summary));
+
+        cetCourseMapper.updateByPrimaryKeySelective(record);
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新课程要点：%s", id));
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cetCourse:del")

@@ -15,6 +15,7 @@
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
+                            <c:if test="${cls==1}">
                             <shiro:hasPermission name="cetTrain:edit">
                                 <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/cet/cetTrain_au"><i
                                         class="fa fa-plus"></i> 创建培训班</a>
@@ -33,6 +34,7 @@
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </shiro:hasPermission>
+                            </c:if>
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>
@@ -99,7 +101,8 @@
         url: '${ctx}/cet/cetTrain_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '详情', name: '_detail', width:'80', formatter: function (cellvalue, options, rowObject) {
-                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/cet/cetTrain_detail?id={0}"><i class="fa fa-search"></i> 详情</button>'
+                return ('<button class="openView btn btn-success btn-xs" ' +
+                        'data-url="${ctx}/cet/cetTrain_detail?trainId={0}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.id);
             }, frozen: true},
             {label: '年度', name: 'year', width:'60', frozen: true},
@@ -110,6 +113,7 @@
 
             }, width: 200, frozen: true
             },
+            {label: '培训班类型', name: 'type', width:200, formatter: $.jgrid.formatter.MetaType},
             {label: '培训班名称', name: 'name', width:200, align:'left'},
             {label: '培训主题', name: 'subject', width:200},
             {label: '参训人类型', name: 'traineeTypes', width:200},

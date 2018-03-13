@@ -14,6 +14,13 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="name" value="${cetTraineeType.name}">
 				</div>
 			</div>
+            <div class="form-group">
+				<label class="col-xs-3 control-label">类型代码</label>
+				<div class="col-xs-6">
+                        <input required class="form-control" type="text" name="code" value="${cetTraineeType.code}">
+                        <span class="label-inline"> * 由开发人员维护</span>
+				</div>
+			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">信息模板</label>
 				<div class="col-xs-6">

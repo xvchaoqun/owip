@@ -52,7 +52,7 @@
         if(rowObject.pmdConfigMember==undefined || rowObject.pmdConfigMember.hasReset==undefined) return "-";
         return $.trim(rowObject.pmdConfigMember.hasReset?rowObject.duePay:rowObject.configMemberDuePay);
     }},
-    <c:if test="${cls!=4}">
+    <c:if test="${cls==1||cls==2}">
     { label: '确认额度',name: '_confirmDuePay', formatter: function (cellvalue, options, rowObject) {
 
         if(rowObject.hasPay) return '-'

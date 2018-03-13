@@ -24,6 +24,13 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-xs-3 control-label">编号</label>
+				<div class="col-xs-6">
+					<input ${empty cetCourse?'':'required'} class="form-control num" type="text" name="num" value="${cetCourse.num}">
+					<c:if test="${empty cetCourse}"><span class="label-inline"> * 留空自动生成</span></c:if>
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="col-xs-3 control-label">课程名称</label>
 				<div class="col-xs-6">
                         <input required class="form-control" type="text" name="name" value="${cetCourse.name}">
@@ -38,6 +45,19 @@ pageEncoding="UTF-8"%>
 					</select>
 				</div>
 			</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">授课方式</label>
+
+			<div class="col-xs-6">
+				<select required data-rel="select2" name="teachMethod" data-placeholder="请选择" data-width="240">
+					<option></option>
+					<c:import url="/metaTypes?__code=mc_cet_teach_method"/>
+				</select>
+				<script type="text/javascript">
+					$("#modalForm select[name=teachMethod]").val(${cetCourse.teachMethod});
+				</script>
+			</div>
+		</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">学时</label>
 				<div class="col-xs-6">

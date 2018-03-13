@@ -1,6 +1,5 @@
-package controller.cet.cetTrainDetail;
+package controller.cet;
 
-import controller.cet.CetBaseController;
 import domain.cet.CetTrain;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -22,31 +21,31 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/cet")
-public class CetTrainDetailStep2Controller extends CetBaseController {
+public class CetTrainDetailController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping("/cetTrain_detail/step2_time")
-    public String step2_time(int id, ModelMap modelMap) {
+    @RequestMapping("/cetTrain_detail_time")
+    public String time(int trainId, ModelMap modelMap) {
 
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(id);
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
         modelMap.put("cetTrain", cetTrain);
 
-        return "cet/cetTrain/cetTrain_detail/step2_time";
+        return "cet/cetTrain/cetTrain_detail_time";
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping(value = "/cetTrain_detail/step2_time", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetTrain_detail_time", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_step2_time(int id, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date startTime,
+    public Map do_cetTrain_detail_time(int trainId, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date startTime,
                              @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date endTime,
                              HttpServletRequest request) {
 
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(id);
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
 
         CetTrain record = new CetTrain();
-        record.setId(id);
+        record.setId(trainId);
         record.setStartTime(startTime);
         record.setEndTime(endTime);
 
@@ -60,16 +59,16 @@ public class CetTrainDetailStep2Controller extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping(value = "/cetTrain_detail/step2_enrollStatus", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetTrain_detail_enrollStatus", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_step2_enrollStatus(int id,
+    public Map do_step2_enrollStatus(int trainId,
                              byte enrollStatus, // 开启、关闭、暂停报名
                              HttpServletRequest request) {
 
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(id);
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
 
         CetTrain record = new CetTrain();
-        record.setId(id);
+        record.setId(trainId);
         record.setEnrollStatus(enrollStatus);
 
         cetTrainService.updateBase(record);

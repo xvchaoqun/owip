@@ -38,8 +38,8 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">编号</label>
 				<div class="col-xs-6">
-					<input class="form-control num" type="text" name="num" value="${cetTrain.num}">
-					<span class="label-inline"> * 留空自动生成</span>
+					<input ${empty cetTrain?'':'required'} class="form-control num" type="text" name="num" value="${cetTrain.num}">
+					<c:if test="${empty cetTrain}"><span class="label-inline"> * 留空自动生成</span></c:if>
 				</div>
 			</div>
 			<div class="form-group">

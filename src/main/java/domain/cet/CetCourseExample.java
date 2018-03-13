@@ -193,6 +193,66 @@ public class CetCourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andYearIsNull() {
+            addCriterion("year is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearIsNotNull() {
+            addCriterion("year is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearEqualTo(Integer value) {
+            addCriterion("year =", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotEqualTo(Integer value) {
+            addCriterion("year <>", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearGreaterThan(Integer value) {
+            addCriterion("year >", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearGreaterThanOrEqualTo(Integer value) {
+            addCriterion("year >=", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearLessThan(Integer value) {
+            addCriterion("year <", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearLessThanOrEqualTo(Integer value) {
+            addCriterion("year <=", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearIn(List<Integer> values) {
+            addCriterion("year in", values, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotIn(List<Integer> values) {
+            addCriterion("year not in", values, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearBetween(Integer value1, Integer value2) {
+            addCriterion("year between", value1, value2, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotBetween(Integer value1, Integer value2) {
+            addCriterion("year not between", value1, value2, "year");
+            return (Criteria) this;
+        }
+
         public Criteria andIsOnlineIsNull() {
             addCriterion("is_online is null");
             return (Criteria) this;
@@ -250,6 +310,66 @@ public class CetCourseExample {
 
         public Criteria andIsOnlineNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_online not between", value1, value2, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumIsNull() {
+            addCriterion("num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumIsNotNull() {
+            addCriterion("num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumEqualTo(Integer value) {
+            addCriterion("num =", value, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumNotEqualTo(Integer value) {
+            addCriterion("num <>", value, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumGreaterThan(Integer value) {
+            addCriterion("num >", value, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("num >=", value, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumLessThan(Integer value) {
+            addCriterion("num <", value, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumLessThanOrEqualTo(Integer value) {
+            addCriterion("num <=", value, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumIn(List<Integer> values) {
+            addCriterion("num in", values, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumNotIn(List<Integer> values) {
+            addCriterion("num not in", values, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumBetween(Integer value1, Integer value2) {
+            addCriterion("num between", value1, value2, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("num not between", value1, value2, "num");
             return (Criteria) this;
         }
 
@@ -383,6 +503,66 @@ public class CetCourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andHasSummaryIsNull() {
+            addCriterion("has_summary is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasSummaryIsNotNull() {
+            addCriterion("has_summary is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasSummaryEqualTo(Boolean value) {
+            addCriterion("has_summary =", value, "hasSummary");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasSummaryNotEqualTo(Boolean value) {
+            addCriterion("has_summary <>", value, "hasSummary");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasSummaryGreaterThan(Boolean value) {
+            addCriterion("has_summary >", value, "hasSummary");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasSummaryGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_summary >=", value, "hasSummary");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasSummaryLessThan(Boolean value) {
+            addCriterion("has_summary <", value, "hasSummary");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasSummaryLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_summary <=", value, "hasSummary");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasSummaryIn(List<Boolean> values) {
+            addCriterion("has_summary in", values, "hasSummary");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasSummaryNotIn(List<Boolean> values) {
+            addCriterion("has_summary not in", values, "hasSummary");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasSummaryBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_summary between", value1, value2, "hasSummary");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasSummaryNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_summary not between", value1, value2, "hasSummary");
+            return (Criteria) this;
+        }
+
         public Criteria andExpertIdIsNull() {
             addCriterion("expert_id is null");
             return (Criteria) this;
@@ -440,6 +620,66 @@ public class CetCourseExample {
 
         public Criteria andExpertIdNotBetween(Integer value1, Integer value2) {
             addCriterion("expert_id not between", value1, value2, "expertId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeachMethodIsNull() {
+            addCriterion("teach_method is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeachMethodIsNotNull() {
+            addCriterion("teach_method is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeachMethodEqualTo(Integer value) {
+            addCriterion("teach_method =", value, "teachMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeachMethodNotEqualTo(Integer value) {
+            addCriterion("teach_method <>", value, "teachMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeachMethodGreaterThan(Integer value) {
+            addCriterion("teach_method >", value, "teachMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeachMethodGreaterThanOrEqualTo(Integer value) {
+            addCriterion("teach_method >=", value, "teachMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeachMethodLessThan(Integer value) {
+            addCriterion("teach_method <", value, "teachMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeachMethodLessThanOrEqualTo(Integer value) {
+            addCriterion("teach_method <=", value, "teachMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeachMethodIn(List<Integer> values) {
+            addCriterion("teach_method in", values, "teachMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeachMethodNotIn(List<Integer> values) {
+            addCriterion("teach_method not in", values, "teachMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeachMethodBetween(Integer value1, Integer value2) {
+            addCriterion("teach_method between", value1, value2, "teachMethod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeachMethodNotBetween(Integer value1, Integer value2) {
+            addCriterion("teach_method not between", value1, value2, "teachMethod");
             return (Criteria) this;
         }
 
