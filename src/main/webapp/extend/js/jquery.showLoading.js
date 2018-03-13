@@ -83,6 +83,7 @@ jQuery.fn.showLoading = function(options) {
     var $this = $(this);
     jQuery(overlayDiv).on("click", ".close", function(){
         $this.hideLoading();
+        try{NProgress.done()}catch(e){}
     })
 
     //
