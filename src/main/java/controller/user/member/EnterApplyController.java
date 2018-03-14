@@ -158,7 +158,7 @@ public class EnterApplyController extends MemberBaseController {
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "提交入党申请");
 
-        logger.info(addLog(SystemConstants.LOG_OW, "提交入党申请"));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "提交入党申请"));
         return success(FormUtils.SUCCESS);
     }
 

@@ -31,7 +31,7 @@
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#detail-content" data-callback="_menuSelected"
-                               data-url="${ctx}/cet/cetTrain_detail/detail?id=${param.id}&detail=2">
+                               data-url="${ctx}/cet/cetTrain_detail_trainee?trainId=${param.trainId}">
                                 <i class="green ace-icon fa fa-gears bigger-120"></i> 可选课人员及选课情况</a>
                         </li>
                         <li>

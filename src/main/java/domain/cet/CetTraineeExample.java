@@ -284,6 +284,66 @@ public class CetTraineeExample {
             return (Criteria) this;
         }
 
+        public Criteria andTraineeTypeIdIsNull() {
+            addCriterion("trainee_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdIsNotNull() {
+            addCriterion("trainee_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdEqualTo(Integer value) {
+            addCriterion("trainee_type_id =", value, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdNotEqualTo(Integer value) {
+            addCriterion("trainee_type_id <>", value, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdGreaterThan(Integer value) {
+            addCriterion("trainee_type_id >", value, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("trainee_type_id >=", value, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdLessThan(Integer value) {
+            addCriterion("trainee_type_id <", value, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("trainee_type_id <=", value, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdIn(List<Integer> values) {
+            addCriterion("trainee_type_id in", values, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdNotIn(List<Integer> values) {
+            addCriterion("trainee_type_id not in", values, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("trainee_type_id between", value1, value2, "traineeTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("trainee_type_id not between", value1, value2, "traineeTypeId");
+            return (Criteria) this;
+        }
+
         public Criteria andCourseCountIsNull() {
             addCriterion("course_count is null");
             return (Criteria) this;

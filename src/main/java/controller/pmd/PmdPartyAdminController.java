@@ -42,7 +42,7 @@ public class PmdPartyAdminController extends PmdBaseController {
 
         pmdPartyAdminService.add(partyId, userId);
 
-        logger.info(addLog(SystemConstants.LOG_OW, "添加缴费分党委管理员：%s， %s", partyId, userId));
+        logger.info(addLog(SystemConstants.LOG_PMD, "添加缴费分党委管理员：%s， %s", partyId, userId));
         return success(FormUtils.SUCCESS);
     }
 
@@ -53,7 +53,7 @@ public class PmdPartyAdminController extends PmdBaseController {
                                     HttpServletRequest request, Integer id) {
 
         pmdPartyAdminService.del(id);
-        logger.info(addLog(SystemConstants.LOG_OW, "删除缴费分党委管理员：%s", id));
+        logger.info(addLog(SystemConstants.LOG_PMD, "删除缴费分党委管理员：%s", id));
         return success(FormUtils.SUCCESS);
     }
 
@@ -63,7 +63,7 @@ public class PmdPartyAdminController extends PmdBaseController {
     public Map do_pmdPartyAdmin_sync() {
 
         pmdPartyAdminService.syncPartyAdmins();
-        logger.info(addLog(SystemConstants.LOG_OW, "同步缴费分党委管理员"));
+        logger.info(addLog(SystemConstants.LOG_PMD, "同步缴费分党委管理员"));
         return success(FormUtils.SUCCESS);
     }
 }

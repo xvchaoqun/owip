@@ -99,26 +99,54 @@ public class SystemConstants {
         ATTACH_FILE_TYPE_MAP.put(ATTACH_FILE_TYPE_VIDEO, "视频");
     }
 
+    /** 系统日志分类 **/
+    public static final int LOG_ADMIN = 10; // 系统管理
+    public static final int LOG_PARTY = 20; // 党建
+    public static final int LOG_USER = 30; // 用户操作
+    public static final int LOG_MEMBER = 40; // 党员信息
+    public static final int LOG_CADRE = 50; // 干部信息
+    //public static final int LOG_MEMBER = "mt_log_member_apply"; // 申请入党
+    public static final int LOG_ABROAD = 60; // 因私出国
+    public static final int LOG_PCS = 70; // 党代会
+    public static final int LOG_OA = 80; // 协同办公
+    public static final int LOG_PMD = 90; // 党费收缴
+    public static final int LOG_CPC = 100; // 干部职数
+    public static final int LOG_CRS = 110; // 干部竞争上岗
+    public static final int LOG_SC_MATTER = 120; // 干部选拔任用-个人有关事项
+    public static final int LOG_SC_LETTER = 130; // 干部选拔任用-纪委函询管理
+    public static final int LOG_SC_GROUP = 140; // 干部选拔任用-干部小组会议题
+    public static final int LOG_SC_COMMITTEE = 150; // 干部选拔任用-党委常委会议题
+    public static final int LOG_SC_PUBLIC = 160; // 干部选拔任用-干部任前公示
+    public static final int LOG_SC_DISPATCH = 170; // 干部选拔任用-文件起草签发
+    public static final int LOG_SC_AD = 180; // 干部选拔任用-干部任免审批表
 
-    //public static final String LOG_LOGIN = "mt_log_login"; 登录单独记录
-    public static final String LOG_ADMIN = "mt_log_admin";
-    public static final String LOG_OW = "mt_log_ow";
-    public static final String LOG_USER = "mt_log_user";
-    public static final String LOG_MEMBER = "mt_log_member";
-    public static final String LOG_MEMBER_APPLY = "mt_log_member_apply";
-    public static final String LOG_ABROAD = "mt_log_abroad";
-    public static final String LOG_PCS = "mt_log_pcs";
-    public static final String LOG_OA = "mt_log_oa";
-    public static final String LOG_PMD = "mt_log_pmd";
-    public static final String LOG_SC_MATTER = "mt_log_sc_matter"; // 干部选拔任用-个人有关事项
-    public static final String LOG_SC_LETTER = "mt_log_sc_letter"; // 干部选拔任用-纪委函询管理
-    public static final String LOG_SC_GROUP = "mt_log_sc_group"; // 干部选拔任用-干部小组会议题
-    public static final String LOG_SC_COMMITTEE = "mt_log_sc_committee"; // 干部选拔任用-党委常委会议题
-    public static final String LOG_SC_PUBLIC = "mt_log_sc_public"; // 干部选拔任用-干部任前公示
-    public static final String LOG_SC_DISPATCH = "mt_log_sc_dispatch"; // 干部选拔任用-文件起草签发
-    public static final String LOG_SC_AD = "mt_log_sc_ad"; // 干部选拔任用-干部任免审批表
+    public static final int LOG_CET = 190; // 干部教育培训
 
-    public static final String LOG_CET = "mt_log_cet"; // 干部教育培训
+    public final static Map<Integer, String> LOG_MAP = new LinkedHashMap<>();
+    static {
+        LOG_MAP.put(LOG_ADMIN, "系统管理");
+        LOG_MAP.put(LOG_PARTY, "党建");
+        LOG_MAP.put(LOG_USER, "用户操作");
+        LOG_MAP.put(LOG_MEMBER, "党员信息");
+        LOG_MAP.put(LOG_CADRE, "干部信息");
+
+        LOG_MAP.put(LOG_ABROAD, "因私出国");
+        LOG_MAP.put(LOG_PCS, "党代会");
+        LOG_MAP.put(LOG_OA, "协同办公");
+        LOG_MAP.put(LOG_PMD, "党费收缴");
+        LOG_MAP.put(LOG_CPC, "干部职数");
+
+        LOG_MAP.put(LOG_CRS, "干部竞争上岗");
+        LOG_MAP.put(LOG_SC_MATTER, "个人有关事项");
+        LOG_MAP.put(LOG_SC_LETTER, "纪委函询管理");
+        LOG_MAP.put(LOG_SC_GROUP, "干部小组会议题");
+        LOG_MAP.put(LOG_SC_COMMITTEE, "党委常委会议题");
+
+        LOG_MAP.put(LOG_SC_PUBLIC, "干部任前公示");
+        LOG_MAP.put(LOG_SC_DISPATCH, "文件起草签发");
+        LOG_MAP.put(LOG_SC_AD, "干部任免审批表");
+        LOG_MAP.put(LOG_CET, "干部教育培训");
+    }
 
     public static final String RESOURCE_TYPE_FUNCTION = "function";
     public static final String RESOURCE_TYPE_URL = "url";
@@ -842,6 +870,7 @@ public class SystemConstants {
     public final static byte SYS_APPROVAL_LOG_TYPE_APPLYSELF = 1; // 因私出国
     public final static byte SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT = 2; // 干部招聘-报名审核
     public final static byte SYS_APPROVAL_LOG_TYPE_PMD_MEMBER = 3; // 党费收缴
+    public final static byte SYS_APPROVAL_LOG_TYPE_CET = 4; // 干部教育培训
 
     public final static Map<Byte, String> SYS_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 
@@ -849,6 +878,7 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_APPLYSELF, "因私出国");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT, "干部招聘");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_PMD_MEMBER, "党费收缴");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET, "干部教育培训");
     }
 
     // 操作人类别, 0本人 1 干部管理员 2 因私审批人员

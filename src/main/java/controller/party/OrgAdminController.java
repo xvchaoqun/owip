@@ -154,11 +154,11 @@ public class OrgAdminController extends BaseController {
         if (record.getPartyId() != null) {
             Party party = partyService.findAll().get(record.getPartyId());
             orgAdminService.addPartyAdmin(record.getUserId(), record.getPartyId());
-            logger.info(addLog(SystemConstants.LOG_OW, "添加分党委管理员：%s， %s", uv.getCode(), party.getName()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "添加分党委管理员：%s， %s", uv.getCode(), party.getName()));
         } else if (record.getBranchId() != null) {
             Branch branch = branchService.findAll().get(record.getBranchId());
             orgAdminService.addBranchAdmin(record.getUserId(), record.getBranchId());
-            logger.info(addLog(SystemConstants.LOG_OW, "添加党支部管理员：%s， %s", uv.getCode(), branch.getName()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "添加党支部管理员：%s， %s", uv.getCode(), branch.getName()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -201,7 +201,7 @@ public class OrgAdminController extends BaseController {
                 }
 
                 orgAdminService.del(id, orgAdmin.getUserId());
-                logger.info(addLog(SystemConstants.LOG_OW, "删除党组织管理员：%s, %s%s"
+                logger.info(addLog(SystemConstants.LOG_PARTY, "删除党组织管理员：%s, %s%s"
                         , uv.getCode(), party == null ? "" : party.getName(), branch == null ? "" : branch.getName()));
             }
         }

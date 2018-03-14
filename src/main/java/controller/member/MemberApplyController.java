@@ -428,7 +428,7 @@ public class MemberApplyController extends MemberBaseController {
                     SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "提交入党申请",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, "");
 
-            logger.info(addLog(SystemConstants.LOG_OW, "提交入党申请"));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "提交入党申请"));
         } else {
 
             StringBuffer _remark = new StringBuffer();
@@ -543,7 +543,7 @@ public class MemberApplyController extends MemberBaseController {
                         SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, "修改",
                         SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, _remark.toString());
 
-                logger.info(addLog(SystemConstants.LOG_OW, "修改入党申请"));
+                logger.info(addLog(SystemConstants.LOG_PARTY, "修改入党申请"));
             }/*else{
                 return failed("您没有进行任何字段的修改。");
             }*/
@@ -796,7 +796,7 @@ public class MemberApplyController extends MemberBaseController {
 
         memberApplyOpService.memberApply_back(ids, stage, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "打回入党申请：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "打回入党申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 

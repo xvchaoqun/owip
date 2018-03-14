@@ -1,5 +1,6 @@
 package service.cet;
 
+import controller.global.OpException;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainExample;
 import domain.cet.CetTrainTraineeType;
@@ -7,7 +8,6 @@ import domain.cet.CetTrainTraineeTypeExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import service.BaseMapper;
 import sys.constants.CetConstants;
 
@@ -50,7 +50,9 @@ public class CetTrainService extends BaseMapper {
     @Transactional
     public void insertSelective(CetTrain record, Integer[] traineeTypeIds){
 
-        Assert.isTrue(!idDuplicate(null, record.getType(), record.getYear(), record.getNum()), "duplicate");
+        if(idDuplicate(null, record.getType(), record.getYear(), record.getNum())){
+            throw new OpException("编号重复。");
+        }
 
         record.setEnrollStatus(CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT);
         record.setPubStatus(CetConstants.CET_TRAIN_PUB_STATUS_UNPUBLISHED);
@@ -84,7 +86,9 @@ public class CetTrainService extends BaseMapper {
     @Transactional
     public void updateWithTraineeTypes(CetTrain record, Integer[] traineeTypeIds){
 
-        Assert.isTrue(!idDuplicate(record.getId(),record.getType(), record.getYear(), record.getNum()), "duplicate");
+        if(idDuplicate(record.getId(), record.getType(), record.getYear(), record.getNum())){
+            throw new OpException("编号重复。");
+        }
 
         cetTrainMapper.updateByPrimaryKeySelective(record);
 

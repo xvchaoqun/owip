@@ -1,5 +1,42 @@
 
 
+
+
+2018-3-14
+ALTER TABLE `cet_trainee`
+	ADD COLUMN `trainee_type_id` INT(10) UNSIGNED NOT NULL COMMENT '参训人员类型' AFTER `user_id`;
+
+ALTER TABLE `cet_trainee`
+	CHANGE COLUMN `course_count` `course_count` INT(10) UNSIGNED NULL COMMENT '已选课程数量' AFTER `trainee_type_id`;
+
+
+update cet_trainee  set course_count=null;
+
+update sys_role  set sort_order=id;
+
+update sys_log set type_id=80 where type_id=400;
+
+update sys_log set type_id=70 where type_id=399;
+
+update sys_log set type_id=20 where type_id=51;
+
+update sys_log set type_id=50 where type_id=28;
+
+update sys_log set type_id=10 where type_id=27;
+
+update sys_log set type_id=10 where type_id=26;
+
+update sys_log set type_id=30 where type_id=143;
+
+update sys_log set type_id=60 where type_id=144;
+
+update sys_log set type_id=40 where type_id=145;
+
+update sys_log set type_id=40 where type_id=146;
+
+update sys_log set type_id=90 where type_id=401;
+
+
 2018-3-13
 ALTER TABLE `cet_course`
 	ADD COLUMN `year` INT(10) UNSIGNED NOT NULL COMMENT '年份，设立时间的年份' AFTER `id`,

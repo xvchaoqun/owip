@@ -101,11 +101,11 @@ public class CrsRequireRuleController extends CrsBaseController {
 
         if (id == null) {
             crsRequireRuleService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加招聘岗位规则：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_CRS, "添加招聘岗位规则：%s", record.getId()));
         } else {
 
             crsRequireRuleService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新招聘岗位规则：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_CRS, "更新招聘岗位规则：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -134,7 +134,7 @@ public class CrsRequireRuleController extends CrsBaseController {
         if (id != null) {
 
             //crsRequireRuleService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除招聘岗位规则：%s", id));
+            logger.info(addLog(SystemConstants.LOG_CRS, "删除招聘岗位规则：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -147,7 +147,7 @@ public class CrsRequireRuleController extends CrsBaseController {
 
         if (null != ids && ids.length > 0) {
             crsRequireRuleService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除招聘岗位规则：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_CRS, "批量删除招聘岗位规则：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -159,7 +159,7 @@ public class CrsRequireRuleController extends CrsBaseController {
     public Map do_crsRequireRule_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         crsRequireRuleService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "招聘岗位规则调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_CRS, "招聘岗位规则调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

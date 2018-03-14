@@ -51,7 +51,7 @@ public class OaTaskService extends BaseMapper {
         if(ShiroHelper.hasRole(RoleConstants.ROLE_ODADMIN)){
             types.add(OaConstants.OA_TASK_TYPE_OW);
         }
-        if(ShiroHelper.hasRole(RoleConstants.ROLE_TRAINADMIN)){
+        if(ShiroHelper.hasRole(RoleConstants.ROLE_CET_ADMIN)){
             types.add(OaConstants.OA_TASK_TYPE_TRAIN);
         }
 

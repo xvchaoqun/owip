@@ -327,7 +327,7 @@ public class MemberOutController extends MemberBaseController {
 
         memberOutService.memberOut_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "组织关系转出申请-审核：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "组织关系转出申请-审核：%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -352,7 +352,7 @@ public class MemberOutController extends MemberBaseController {
 
         memberOutService.memberOut_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回组织关系转出申请：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "分党委打回组织关系转出申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -418,7 +418,7 @@ public class MemberOutController extends MemberBaseController {
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
                     "提交组织关系转出申请");
 
-            logger.info(addLog(SystemConstants.LOG_OW, "添加组织关系转出：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "添加组织关系转出：%s", record.getId()));
         } else {
             MemberOut before = memberOutMapper.selectByPrimaryKey(record.getId());
             // 重新提交未通过的申请
@@ -439,7 +439,7 @@ public class MemberOutController extends MemberBaseController {
             } else if (hasModified(before, record)) {
 
                 memberOutService.updateByPrimaryKeySelective(record);
-                logger.info(addLog(SystemConstants.LOG_OW, "更新组织关系转出：%s", record.getId()));
+                logger.info(addLog(SystemConstants.LOG_PARTY, "更新组织关系转出：%s", record.getId()));
 
                 MemberOut _memberOut = memberOutMapper.selectByPrimaryKey(record.getId());
                 if (_memberOut.getStatus() == MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY) { // 转出之后，如果还有修改，则需要保存记录
@@ -547,7 +547,7 @@ public class MemberOutController extends MemberBaseController {
 
         if (id != null) {
             memberOutService.abolish(id, remark, (byte) 3); // 默认组织部撤销
-            logger.info(addLog(SystemConstants.LOG_OW, "撤销已完成的组织关系转出：%s", id));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "撤销已完成的组织关系转出：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -560,7 +560,7 @@ public class MemberOutController extends MemberBaseController {
         if (id != null) {
 
             memberOutService.del(id);
-            logger.info(addLog(SystemConstants.LOG_OW, "删除组织关系转出：%s", id));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "删除组织关系转出：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -573,7 +573,7 @@ public class MemberOutController extends MemberBaseController {
 
         if (null != ids && ids.length > 0) {
             memberOutService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_OW, "批量删除组织关系转出：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除组织关系转出：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

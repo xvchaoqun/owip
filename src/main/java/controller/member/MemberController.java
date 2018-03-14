@@ -401,7 +401,7 @@ public class MemberController extends MemberBaseController {
         if (id != null) {
 
             memberService.del(id);
-            logger.info(addLog(SystemConstants.LOG_MEMBER_APPLY, "删除党员信息表：%s", id));
+            logger.info(addLog(SystemConstants.LOG_MEMBER, "删除党员信息表：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/

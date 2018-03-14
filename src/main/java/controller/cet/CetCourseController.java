@@ -170,7 +170,7 @@ public class CetCourseController extends CetBaseController {
         record.setHasSummary(StringUtils.isNotBlank(summary));
 
         cetCourseMapper.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新课程要点：%s", id));
+        logger.info(addLog(SystemConstants.LOG_CET, "更新课程要点：%s", id));
 
         return success(FormUtils.SUCCESS);
     }

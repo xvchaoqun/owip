@@ -23,7 +23,7 @@ public class RoleConstants {
     // 三大管理员
     public static final String ROLE_ODADMIN = "odAdmin";
     public static final String ROLE_CADREADMIN = "cadreAdmin";
-    public static final String ROLE_TRAINADMIN = "trainAdmin";
+    public static final String ROLE_CET_ADMIN = "cet_admin";
 
     public static final String ROLE_TEACHER = "role_teacher"; // 教职工
     public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会-分党委管理员

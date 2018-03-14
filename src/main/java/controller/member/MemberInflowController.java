@@ -266,11 +266,11 @@ public class MemberInflowController extends MemberBaseController {
                     "后台添加",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
                     "提交流入党员申请");
-            logger.info(addLog(SystemConstants.LOG_OW, "添加流入党员：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "添加流入党员：%s", record.getId()));
         } else {
 
             memberInflowService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "更新流入党员：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "更新流入党员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -346,7 +346,7 @@ public class MemberInflowController extends MemberBaseController {
 
         memberInflowService.memberInflow_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "流入党员申请-审核：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "流入党员申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -371,7 +371,7 @@ public class MemberInflowController extends MemberBaseController {
 
         memberInflowService.memberInflow_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回流入党员申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "分党委打回流入党员申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     @RequiresPermissions("memberInflow:edit")
@@ -405,7 +405,7 @@ public class MemberInflowController extends MemberBaseController {
         if (id != null) {
 
             memberInflowService.del(id);
-            logger.info(addLog(SystemConstants.LOG_OW, "删除流入党员：%s", id));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "删除流入党员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -419,7 +419,7 @@ public class MemberInflowController extends MemberBaseController {
 
         if (null != ids && ids.length > 0) {
             memberInflowService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_OW, "批量删除流入党员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除流入党员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -201,7 +201,7 @@ public class SysUserRegController extends BaseController {
         int userId = sysUserReg.getUserId();
 
         sysUserRegService.deny(sysUserReg.getId());
-        logger.info(addLog(SystemConstants.LOG_OW, "拒绝用户注册申请：%s", id));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "拒绝用户注册申请：%s", id));
 
         ApplyApprovalLogService applyApprovalLogService = CmTag.getBean(ApplyApprovalLogService.class);
         applyApprovalLogService.add(sysUserReg.getId(),
@@ -222,7 +222,7 @@ public class SysUserRegController extends BaseController {
         SysUserReg sysUserReg = verifyAuth.entity;
 
         sysUserRegService.pass(sysUserReg.getId());
-        logger.info(addLog(SystemConstants.LOG_OW, "用户注册-分党委审核：%s", id));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "用户注册-分党委审核：%s", id));
 
         int loginUserId = loginUser.getId();
         int userId = sysUserReg.getUserId();

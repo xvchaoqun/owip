@@ -1,6 +1,4 @@
 
-
-
 -- 干部教育培训
 DROP VIEW IF EXISTS `cet_column_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_column_course_view` AS
@@ -22,6 +20,13 @@ select ct.*, group_concat(ctt.name order by ctt.sort_order asc) as trainee_types
 left join cet_train_trainee_type cttt on cttt.train_id = ct.id
 left join cet_trainee_type ctt on cttt.trainee_type_id= ctt.id
 group by ct.id ;
+
+DROP VIEW IF EXISTS `cet_trainee_cadre_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_cadre_view` AS
+select ct.*, cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.pro_post,
+cv.lp_work_time, cv.mobile, cv.email, cv.status from cet_trainee ct
+left join cadre_view cv on ct.user_id=cv.user_id
+order by cv.sort_order desc ;
 
 
 

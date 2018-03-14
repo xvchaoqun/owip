@@ -110,7 +110,7 @@ public class CetTrainCourseController extends CetBaseController {
         record.setCourseId(courseId);
         record.setTrainId(trainId);
         cetTrainCourseService.insertSelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加培训班课程：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_CET, "添加培训班课程：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -130,7 +130,7 @@ public class CetTrainCourseController extends CetBaseController {
     public Map do_cetTrainCourse_info(CetTrainCourse record, HttpServletRequest request) {
 
         cetTrainCourseService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新培训班课程信息：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_CET, "更新培训班课程信息：%s", record.getId()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -150,7 +150,7 @@ public class CetTrainCourseController extends CetBaseController {
         if (id != null) {
 
             //cetTrainCourseService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除培训课程：%s", id));
+            logger.info(addLog(SystemConstants.LOG_CET, "删除培训课程：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -163,7 +163,7 @@ public class CetTrainCourseController extends CetBaseController {
 
         if (null != ids && ids.length > 0) {
             cetTrainCourseService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除培训课程：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_CET, "批量删除培训课程：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -175,7 +175,7 @@ public class CetTrainCourseController extends CetBaseController {
     public Map do_cetTrainCourse_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetTrainCourseService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "培训课程调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_CET, "培训课程调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

@@ -163,7 +163,7 @@ public class CrsPostController extends CrsBaseController {
         if (id == null) {
 
             crsPostService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加岗位：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_CRS, "添加岗位：%s", record.getId()));
         } else {
             CrsPost crsPost = crsPostMapper.selectByPrimaryKey(id);
             if (crsPost.getType().intValue() != record.getType()
@@ -172,7 +172,7 @@ public class CrsPostController extends CrsBaseController {
             }
 
             crsPostService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_CRS, "更新岗位：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -232,7 +232,7 @@ public class CrsPostController extends CrsBaseController {
         record.setId(id);
         record.setNotice(savePath);
         crsPostService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "上传招聘公告：%s", id));
+        logger.info(addLog(SystemConstants.LOG_CRS, "上传招聘公告：%s", id));
 
         Map<String, Object> resultMap = success();
         resultMap.put("fileName", file.getOriginalFilename());
@@ -271,7 +271,7 @@ public class CrsPostController extends CrsBaseController {
         }
 
         crsPostService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位%s：%s",
+        logger.info(addLog(SystemConstants.LOG_CRS, "更新岗位%s：%s",
                 CrsConstants.CRS_TEMPLATE_TYPE_MAP.get(type), id));
 
         return success(FormUtils.SUCCESS);
@@ -299,7 +299,7 @@ public class CrsPostController extends CrsBaseController {
         record.setMeetingSummary(meetingSummary);
 
         crsPostService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位会议备忘：%s", id));
+        logger.info(addLog(SystemConstants.LOG_CRS, "更新岗位会议备忘：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -322,7 +322,7 @@ public class CrsPostController extends CrsBaseController {
             }*/
 
             crsPostService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, (BooleanUtils.isTrue(publish) ? "发布" : "取消发布") + "岗位：%s", id));
+            logger.info(addLog(SystemConstants.LOG_CRS, (BooleanUtils.isTrue(publish) ? "发布" : "取消发布") + "岗位：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -334,7 +334,7 @@ public class CrsPostController extends CrsBaseController {
 
         if (null != ids && ids.length > 0) {
             crsPostService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除岗位[假删除]：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_CRS, "批量删除岗位[假删除]：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -346,7 +346,7 @@ public class CrsPostController extends CrsBaseController {
 
         if (null != ids && ids.length > 0) {
             crsPostService.realDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除岗位：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_CRS, "批量删除岗位：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

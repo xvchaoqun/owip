@@ -260,11 +260,11 @@ public class BranchController extends BaseController {
         if (id == null) {
             record.setCreateTime(new Date());
             branchService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "添加党支部：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "添加党支部：%s", record.getId()));
         } else {
             record.setCode(null); // 不修改编号
             branchService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "更新党支部：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "更新党支部：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -308,7 +308,7 @@ public class BranchController extends BaseController {
 
         if (id != null) {
             branchService.del(id);
-            logger.info(addLog(SystemConstants.LOG_OW, "删除党支部：%s", id));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "删除党支部：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -323,7 +323,7 @@ public class BranchController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             branchService.batchDel(ids, isDeleted);
-            logger.info(addLog(SystemConstants.LOG_OW, "批量删除党支部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除党支部：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -347,7 +347,7 @@ public class BranchController extends BaseController {
         }
 
         branchService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_OW, "党支部调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "党支部调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }*/
 

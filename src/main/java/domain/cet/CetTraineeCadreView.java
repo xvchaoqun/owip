@@ -1,0 +1,178 @@
+package domain.cet;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class CetTraineeCadreView implements Serializable {
+    private Integer id;
+
+    private Integer trainId;
+
+    private Integer userId;
+
+    private Integer traineeTypeId;
+
+    private Integer courseCount;
+
+    private String remark;
+
+    private String code;
+
+    private String realname;
+
+    private String title;
+
+    private Integer typeId;
+
+    private Integer postId;
+
+    private Long cadreDpType;
+
+    private String proPost;
+
+    private Date lpWorkTime;
+
+    private String mobile;
+
+    private String email;
+
+    private Byte status;
+
+    private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getTrainId() {
+        return trainId;
+    }
+
+    public void setTrainId(Integer trainId) {
+        this.trainId = trainId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getTraineeTypeId() {
+        return traineeTypeId;
+    }
+
+    public void setTraineeTypeId(Integer traineeTypeId) {
+        this.traineeTypeId = traineeTypeId;
+    }
+
+    public Integer getCourseCount() {
+        return courseCount;
+    }
+
+    public void setCourseCount(Integer courseCount) {
+        this.courseCount = courseCount;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
+
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
+    }
+
+    public Integer getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Integer postId) {
+        this.postId = postId;
+    }
+
+    public Long getCadreDpType() {
+        return cadreDpType;
+    }
+
+    public void setCadreDpType(Long cadreDpType) {
+        this.cadreDpType = cadreDpType;
+    }
+
+    public String getProPost() {
+        return proPost;
+    }
+
+    public void setProPost(String proPost) {
+        this.proPost = proPost == null ? null : proPost.trim();
+    }
+
+    public Date getLpWorkTime() {
+        return lpWorkTime;
+    }
+
+    public void setLpWorkTime(Date lpWorkTime) {
+        this.lpWorkTime = lpWorkTime;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+}

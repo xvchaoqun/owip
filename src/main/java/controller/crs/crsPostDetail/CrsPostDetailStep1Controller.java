@@ -89,7 +89,7 @@ public class CrsPostDetailStep1Controller extends CrsBaseController {
         record.setId(id);
         record.setPostRequireId(postRequireId);
         crsPostService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位要求：%s", id));
+        logger.info(addLog(SystemConstants.LOG_CRS, "更新岗位要求：%s", id));
 
         return success(FormUtils.SUCCESS);
     }

@@ -63,7 +63,7 @@ public class RetireApplyController extends MemberBaseController {
         retireApply.setStatus(SystemConstants.RETIRE_APPLY_STATUS_UNCHECKED);
 
         retireApplyService.insertSelective(retireApply);
-        logger.info(addLog(SystemConstants.LOG_OW, "党员退休-提交"));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "党员退休-提交"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -81,7 +81,7 @@ public class RetireApplyController extends MemberBaseController {
 
         retireApplyService.verify(userId, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "党员退休-审核"));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "党员退休-审核"));
         return success(FormUtils.SUCCESS);
     }
 }

@@ -93,11 +93,11 @@ public class CrsTemplateController extends CrsBaseController {
 
         if (id == null) {
             crsTemplateService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加招聘条件通用模板：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_CRS, "添加招聘条件通用模板：%s", record.getId()));
         } else {
 
             crsTemplateService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新招聘条件通用模板：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_CRS, "更新招聘条件通用模板：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -122,7 +122,7 @@ public class CrsTemplateController extends CrsBaseController {
 
         if (null != ids && ids.length > 0) {
             crsTemplateService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除招聘条件通用模板：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_CRS, "批量删除招聘条件通用模板：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

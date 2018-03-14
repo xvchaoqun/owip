@@ -25,7 +25,7 @@ public class LogService extends BaseMapper {
     @Autowired
     private MetaTypeService metaTypeService;
 
-    public String log(String logType, String content){
+    public String log(Integer logType, String content){
 
         HttpServletRequest request = ContextHelper.getRequest();
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
@@ -39,9 +39,7 @@ public class LogService extends BaseMapper {
         record.setAgent(RequestUtils.getUserAgent(request));
         String api = request.getRequestURI().substring(1);
         record.setApi(api);
-        MetaType metaType = metaTypeService.codeKeyMap().get(logType);
-        if(metaType!=null)
-            record.setTypeId(metaType.getId());
+        record.setTypeId(logType);
         record.setStatus(SystemConstants.AVAILABLE);
 
         sysLogMapper.insertSelective(record );

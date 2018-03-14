@@ -2,6 +2,7 @@ package controller.sys;
 
 import controller.BaseController;
 import domain.abroad.ApplySelf;
+import domain.cet.CetTrainee;
 import domain.crs.CrsApplicant;
 import domain.pmd.PmdMember;
 import domain.sys.SysApprovalLog;
@@ -48,6 +49,11 @@ public class SysApprovalLogController extends BaseController {
                 case SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER: {
                     PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
                     userId = pmdMember.getUserId();
+                    break;
+                }
+                case SystemConstants.SYS_APPROVAL_LOG_TYPE_CET: {
+                    CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(id);
+                    userId = cetTrainee.getUserId();
                     break;
                 }
             }

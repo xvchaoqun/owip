@@ -75,6 +75,7 @@ import persistence.cet.CetTrainCourseMapper;
 import persistence.cet.CetTrainMapper;
 import persistence.cet.CetTrainTraineeTypeMapper;
 import persistence.cet.CetTrainViewMapper;
+import persistence.cet.CetTraineeCadreViewMapper;
 import persistence.cet.CetTraineeCourseMapper;
 import persistence.cet.CetTraineeMapper;
 import persistence.cet.CetTraineeTypeMapper;
@@ -88,6 +89,7 @@ import persistence.cis.CisObjUnitMapper;
 import persistence.common.CommonMapper;
 import persistence.common.IAbroadMapper;
 import persistence.common.ICadreMapper;
+import persistence.common.ICetMapper;
 import persistence.common.ICpcMapper;
 import persistence.common.ICrsMapper;
 import persistence.common.IDispatchMapper;
@@ -334,6 +336,8 @@ public class BaseMapper {
      * 干部教育培训
      */
     @Autowired
+    protected ICetMapper iCetMapper;
+    @Autowired
     protected CetCourseMapper cetCourseMapper;
     @Autowired
     protected CetCourseTypeMapper cetCourseTypeMapper;
@@ -355,6 +359,8 @@ public class BaseMapper {
     protected CetTrainCourseMapper cetTrainCourseMapper;
     @Autowired
     protected CetTraineeMapper cetTraineeMapper;
+    @Autowired
+    protected CetTraineeCadreViewMapper cetTraineeCadreViewMapper;
     @Autowired
     protected CetTraineeCourseMapper cetTraineeCourseMapper;
     @Autowired

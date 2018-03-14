@@ -118,11 +118,11 @@ public class CrsPostFileController extends CrsBaseController {
         if (id == null) {
             record.setCreateTime(new Date());
             crsPostFileService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加招聘会记录文件：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_CRS, "添加招聘会记录文件：%s", record.getId()));
         } else {
 
             crsPostFileService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新招聘会记录文件：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_CRS, "更新招聘会记录文件：%s", record.getId()));
         }
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
@@ -174,7 +174,7 @@ public class CrsPostFileController extends CrsBaseController {
         }
 
         crsPostFileService.batchAdd(records);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "批量添加招聘会记录文件：%s", JSONUtils.toString(records, false)));
+        logger.info(addLog(SystemConstants.LOG_CRS, "批量添加招聘会记录文件：%s", JSONUtils.toString(records, false)));
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("records", records);
@@ -207,7 +207,7 @@ public class CrsPostFileController extends CrsBaseController {
         if (id != null) {
 
             crsPostFileService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除招聘会记录文件：%s", id));
+            logger.info(addLog(SystemConstants.LOG_CRS, "删除招聘会记录文件：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -220,7 +220,7 @@ public class CrsPostFileController extends CrsBaseController {
 
         if (null != ids && ids.length > 0) {
             crsPostFileService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除招聘会记录文件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_CRS, "批量删除招聘会记录文件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

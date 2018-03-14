@@ -73,12 +73,9 @@
             },
             {label: '上课地点', name: 'address', width: 200},
             {
-                label: '选课情况', name: 'selectCount', formatter: function (cellvalue, options, rowObject) {
-
-                if(cellvalue==0) return '0';
-                return ('<button class="popupBtn btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/cet/cetTrainCourse_selectList?trainCourseId={0}"><i class="fa fa-search"></i> 查看</button>')
-                        .format(rowObject.id);
+                label: '选课情况', name: 'traineeCount', formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return '-';
+                return '已选课({0})'.format(cellvalue);
             }
             }
 

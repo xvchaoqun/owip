@@ -103,7 +103,7 @@ public class CpcAllocationController extends BaseController {
 
         cpcAllocationService.update(records);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部职数配置情况：%s", JSONUtils.toString(records)));
+        logger.info(addLog(SystemConstants.LOG_CPC, "更新干部职数配置情况：%s", JSONUtils.toString(records)));
 
         return success(FormUtils.SUCCESS);
     }
@@ -215,7 +215,7 @@ public class CpcAllocationController extends BaseController {
         cpcAllocationService.update(records);
 
         Unit unit = unitService.findAll().get(unitId);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部职数配置情况【%s】：%s", unit.getName(), JSONUtils.toString(records)));
+        logger.info(addLog(SystemConstants.LOG_CPC, "更新干部职数配置情况【%s】：%s", unit.getName(), JSONUtils.toString(records)));
 
 
         return success(FormUtils.SUCCESS);
@@ -269,7 +269,7 @@ public class CpcAllocationController extends BaseController {
 
         if (null != unitIds && unitIds.length > 0) {
             cpcAllocationService.batchDel(unitIds);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部职数配置情况：%s", StringUtils.join(unitIds, ",")));
+            logger.info(addLog(SystemConstants.LOG_CPC, "批量删除干部职数配置情况：%s", StringUtils.join(unitIds, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -85,7 +85,7 @@ public class ScGroupFileController extends ScGroupBaseController {
 
         scGroupFileService.batchAdd(records);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "批量添加小组会成立文件：%s",  JSONUtils.toString(records, false)));
+        logger.info(addLog(SystemConstants.LOG_SC_GROUP, "批量添加小组会成立文件：%s",  JSONUtils.toString(records, false)));
         return success(FormUtils.SUCCESS);
     }
 
@@ -96,7 +96,7 @@ public class ScGroupFileController extends ScGroupBaseController {
 
         if (id != null) {
             scGroupFileService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除小组会成立文件：%s", id));
+            logger.info(addLog(SystemConstants.LOG_SC_GROUP, "删除小组会成立文件：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -108,7 +108,7 @@ public class ScGroupFileController extends ScGroupBaseController {
 
         if (id != null) {
             scGroupFileService.setCurrent(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "应用小组会成立文件：%s", id));
+            logger.info(addLog(SystemConstants.LOG_SC_GROUP, "应用小组会成立文件：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }

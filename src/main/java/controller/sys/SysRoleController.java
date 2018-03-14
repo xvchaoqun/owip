@@ -63,7 +63,7 @@ public class SysRoleController extends BaseController {
 		
 		SysRoleExample example = new SysRoleExample();
 		//example.createCriteria().andStatusEqualTo(0);
-		example.setOrderByClause(" id desc");
+		example.setOrderByClause(" sort_order desc");
 		if(StringUtils.isNotBlank(searchStr)){
 			example.createCriteria().andRoleLike("%" + searchStr + "%");
 		}
@@ -114,8 +114,7 @@ public class SysRoleController extends BaseController {
 			sysRoleService.insert(sysRole);
 			logger.info(addLog(SystemConstants.LOG_ADMIN, "创建角色：%s", JSONUtils.toString(sysRole, MixinUtils.baseMixins(), false)));
 		}else{
-			SysRole oldSysRole = sysRoleMapper.selectByPrimaryKey(sysRole.getId());
-			sysRoleService.updateByPrimaryKeySelective(sysRole, sysRole.getRole(), oldSysRole.getRole());
+			sysRoleService.updateByPrimaryKeySelective(sysRole);
 			logger.info(addLog(SystemConstants.LOG_ADMIN, "更新角色：%s", JSONUtils.toString(sysRole, MixinUtils.baseMixins(), false)));
 		}
 		
@@ -157,11 +156,20 @@ public class SysRoleController extends BaseController {
 	public Map do_sysRole_del(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
 		
 		if(id!=null){
-			SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);
-			sysRoleService.del(id, sysRole.getRole());
+			sysRoleService.del(id);
 			logger.info(addLog(SystemConstants.LOG_ADMIN, "删除角色：%s", id));
 		}
 		
+		return success(FormUtils.SUCCESS);
+	}
+
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequestMapping(value = "/sysRole_changeOrder", method = RequestMethod.POST)
+	@ResponseBody
+	public Map do_sysRole_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+		sysRoleService.changeOrder(id, addNum);
+		logger.info(addLog(SystemConstants.LOG_ADMIN, "角色调序：%s,%s", id, addNum));
 		return success(FormUtils.SUCCESS);
 	}
 
@@ -180,7 +188,7 @@ public class SysRoleController extends BaseController {
 			SysRole record = new SysRole();
 			record.setId(id);
 			record.setIsSysHold(!isSysHold);
-			sysRoleService.updateByPrimaryKeySelective(record, role, role);
+			sysRoleService.updateByPrimaryKeySelective(record);
 			logger.info(addLog(SystemConstants.LOG_ADMIN, "更改角色是否系统自动控制：%s, %s", role, !isSysHold));
 		}
 

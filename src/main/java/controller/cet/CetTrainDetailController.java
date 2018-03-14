@@ -26,8 +26,18 @@ public class CetTrainDetailController extends CetBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cetTrain:edit")
+    @RequestMapping("/cetTrain_detail_trainee")
+    public String cetTrain_detail_trainee(int trainId, ModelMap modelMap) {
+
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+        modelMap.put("cetTrain", cetTrain);
+
+        return "cet/cetTrain/cetTrain_detail_trainee";
+    }
+
+    @RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_detail_time")
-    public String time(int trainId, ModelMap modelMap) {
+    public String cetTrain_detail_time(int trainId, ModelMap modelMap) {
 
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
         modelMap.put("cetTrain", cetTrain);
@@ -51,7 +61,7 @@ public class CetTrainDetailController extends CetBaseController {
 
         cetTrainService.updateBase(record);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新培训班[{%s}]报名时间：%s~%s",
+        logger.info(addLog(SystemConstants.LOG_CET, "更新培训班[{%s}]报名时间：%s~%s",
                 cetTrain.getName(), DateUtils.formatDate(startTime, DateUtils.YYYY_MM_DD_HH_MM),
                 DateUtils.formatDate(endTime, DateUtils.YYYY_MM_DD_HH_MM)));
 
@@ -73,7 +83,7 @@ public class CetTrainDetailController extends CetBaseController {
 
         cetTrainService.updateBase(record);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新培训班[{%s}]报名开关：%s",
+        logger.info(addLog(SystemConstants.LOG_CET, "更新培训班[{%s}]报名开关：%s",
                 cetTrain.getName(), CrsConstants.CRS_POST_ENROLL_STATUS_MAP.get(enrollStatus)));
 
         return success(FormUtils.SUCCESS);

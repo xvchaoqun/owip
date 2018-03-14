@@ -129,7 +129,7 @@ public class CrsApplicantCheckController extends CrsBaseController {
         crsApplicantCheckService.special(record.getId(), specialStatus,
                 filePath, record.getSpecialRemark());
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, (specialStatus ? "" : "取消") + "破格操作：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_CRS, (specialStatus ? "" : "取消") + "破格操作：%s", record.getId()));
         return success(FormUtils.SUCCESS);
     }
 

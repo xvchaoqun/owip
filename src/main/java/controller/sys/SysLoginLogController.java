@@ -38,7 +38,6 @@ public class SysLoginLogController extends BaseController {
 			modelMap.put("sysUser", sysUserService.findById(userId));
 		}
 
-		modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_sys_log"));
 		return "sys/sysLoginLog/sysLoginLog_page";
 	}
 	@RequiresPermissions("sysLoginLog:list")

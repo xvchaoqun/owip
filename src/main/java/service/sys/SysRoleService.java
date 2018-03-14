@@ -6,13 +6,13 @@ import domain.sys.SysRole;
 import domain.sys.SysRoleExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.sys.SysRoleMapper;
+import service.BaseMapper;
+import service.global.CacheService;
 import sys.tool.tree.TreeNode;
 
 import java.util.ArrayList;
@@ -23,12 +23,12 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public class SysRoleService {
+public class SysRoleService extends BaseMapper {
 
 	@Autowired
-	private SysRoleMapper sysRoleMapper;
-	@Autowired
 	private SysResourceService sysResourceService;
+	@Autowired
+	private CacheService cacheService;
 
 	public boolean idDuplicate(Integer id, String role){
 
@@ -40,41 +40,28 @@ public class SysRoleService {
 	}
 
 	@Transactional
-	@Caching(evict={
-			@CacheEvict(value="UserPermissions", allEntries=true),
-			@CacheEvict(value="Menus", allEntries=true),
-			@CacheEvict(value="SysRole", key = "#role"),
-			@CacheEvict(value="SysResources", allEntries=true),
-			@CacheEvict(value = "UserRoles", allEntries=true)
-	})
-	public void del(Integer id, String role){
+	public void del(Integer id){
 
 		sysRoleMapper.deleteByPrimaryKey(id);
+
+		cacheService.clearRoleCache();
 	}
 
 	@Transactional
-	@Caching(evict={
-			@CacheEvict(value="UserPermissions", allEntries=true),
-			@CacheEvict(value="Menus", allEntries=true),
-			@CacheEvict(value="SysRoles", allEntries=true)
-	})
-	public int insert(SysRole sysRole){
-		
-		return sysRoleMapper.insert(sysRole);
+	public void insert(SysRole record){
+
+		record.setSortOrder(getNextSortOrder("sys_role", "1=1"));
+		sysRoleMapper.insert(record);
+
+		cacheService.clearRoleCache();
 	}
 	
 	@Transactional
-	@Caching(evict={
-			@CacheEvict(value="UserPermissions", allEntries=true),
-			@CacheEvict(value="Menus", allEntries=true),
-			@CacheEvict(value="SysRole", key = "#role"),
-			@CacheEvict(value="SysRole", key = "#oldRole"),
-			@CacheEvict(value="SysRoles", allEntries=true),
-			@CacheEvict(value = "UserRoles", allEntries=true)
-	})
-	public int updateByPrimaryKeySelective(SysRole sysRole, String role, String oldRole){
+	public void updateByPrimaryKeySelective(SysRole sysRole){
 
-		return sysRoleMapper.updateByPrimaryKeySelective(sysRole);
+		sysRoleMapper.updateByPrimaryKeySelective(sysRole);
+
+		cacheService.clearRoleCache();
 	}
 
 	@Cacheable(value = "SysRoles", key = "#role")
@@ -96,6 +83,49 @@ public class SysRoleService {
 			sysRoleMap.put(sysRole.getId(), sysRole);
 		}
 		return sysRoleMap;
+	}
+
+	/**
+	 * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
+	 * @param id
+	 * @param addNum
+	 */
+	@Transactional
+	public void changeOrder(int id, int addNum) {
+
+		if(addNum == 0) return ;
+		byte orderBy = ORDER_BY_DESC;
+		SysRole entity = sysRoleMapper.selectByPrimaryKey(id);
+		Integer baseSortOrder = entity.getSortOrder();
+
+		SysRoleExample example = new SysRoleExample();
+		if (addNum*orderBy > 0) {
+
+			example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+			example.setOrderByClause("sort_order asc");
+		}else {
+
+			example.createCriteria().andSortOrderLessThan(baseSortOrder);
+			example.setOrderByClause("sort_order desc");
+		}
+
+		List<SysRole> overEntities = sysRoleMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+		if(overEntities.size()>0) {
+
+			SysRole targetEntity = overEntities.get(overEntities.size()-1);
+
+			if (addNum*orderBy > 0)
+				commonMapper.downOrder("sys_role", "1=1", baseSortOrder, targetEntity.getSortOrder());
+			else
+				commonMapper.upOrder("sys_role", "1=1", baseSortOrder, targetEntity.getSortOrder());
+
+			SysRole record = new SysRole();
+			record.setId(id);
+			record.setSortOrder(targetEntity.getSortOrder());
+			sysRoleMapper.updateByPrimaryKeySelective(record);
+		}
+
+		cacheService.clearRoleCache();
 	}
 
 	// 获取某个角色下拥有的所有权限

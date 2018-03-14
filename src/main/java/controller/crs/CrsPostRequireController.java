@@ -110,11 +110,11 @@ public class CrsPostRequireController extends CrsBaseController {
         if (id == null) {
             record.setStatus(SystemConstants.AVAILABLE);
             crsPostRequireService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "添加招聘岗位资格模板：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_CRS, "添加招聘岗位资格模板：%s", record.getId()));
         } else {
 
             crsPostRequireService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "更新招聘岗位资格模板：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_CRS, "更新招聘岗位资格模板：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -150,7 +150,7 @@ public class CrsPostRequireController extends CrsBaseController {
         if (id != null) {
 
             //crsPostRequireService.del(id);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "删除招聘岗位资格模板：%s", id));
+            logger.info(addLog( SystemConstants.LOG_CRS, "删除招聘岗位资格模板：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -163,7 +163,7 @@ public class CrsPostRequireController extends CrsBaseController {
 
         if (null != ids && ids.length>0){
             crsPostRequireService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量删除招聘岗位资格模板：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog( SystemConstants.LOG_CRS, "批量删除招聘岗位资格模板：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -175,7 +175,7 @@ public class CrsPostRequireController extends CrsBaseController {
     public Map do_crsPostRequire_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         crsPostRequireService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_ADMIN, "招聘岗位资格模板调序：%s,%s", id, addNum));
+        logger.info(addLog( SystemConstants.LOG_CRS, "招聘岗位资格模板调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

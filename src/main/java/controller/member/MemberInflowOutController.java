@@ -280,7 +280,7 @@ public class MemberInflowOutController extends MemberBaseController {
 
         memberInflowOutService.memberInflowOut_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "流入党员申请-审核：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "流入党员申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -305,7 +305,7 @@ public class MemberInflowOutController extends MemberBaseController {
 
         memberInflowOutService.memberInflowOut_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回流入党员申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "分党委打回流入党员申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     @RequiresPermissions("memberInflowOut:edit")
@@ -347,7 +347,7 @@ public class MemberInflowOutController extends MemberBaseController {
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "后台提交流入党员转出申请");
 
-        logger.info(addLog(SystemConstants.LOG_OW, "后台提交流入党员转出申请"));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "后台提交流入党员转出申请"));
 
         return success(FormUtils.SUCCESS);
     }

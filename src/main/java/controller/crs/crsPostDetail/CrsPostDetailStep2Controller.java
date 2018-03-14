@@ -51,7 +51,7 @@ public class CrsPostDetailStep2Controller extends CrsBaseController {
 
         crsPostService.updateByPrimaryKeySelective(record);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位[{%s}]报名时间：%s~%s",
+        logger.info(addLog(SystemConstants.LOG_CRS, "更新岗位[{%s}]报名时间：%s~%s",
                 crsPost.getName(), DateUtils.formatDate(startTime, DateUtils.YYYY_MM_DD_HH_MM),
                 DateUtils.formatDate(endTime, DateUtils.YYYY_MM_DD_HH_MM)));
 
@@ -73,7 +73,7 @@ public class CrsPostDetailStep2Controller extends CrsBaseController {
 
         crsPostService.updateByPrimaryKeySelective(record);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新岗位[{%s}]报名开关：%s",
+        logger.info(addLog(SystemConstants.LOG_CRS, "更新岗位[{%s}]报名开关：%s",
                 crsPost.getName(), CrsConstants.CRS_POST_ENROLL_STATUS_MAP.get(enrollStatus)));
 
         return success(FormUtils.SUCCESS);

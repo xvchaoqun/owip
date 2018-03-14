@@ -269,7 +269,7 @@ public class MemberReturnController extends MemberBaseController {
         if (id == null) {
 
             enterApplyService.memberReturn(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "添加留学归国人员申请恢复组织生活：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "添加留学归国人员申请恢复组织生活：%s", record.getId()));
 
             applyApprovalLogService.add(record.getId(),
                     record.getPartyId(), record.getBranchId(), record.getUserId(),
@@ -283,7 +283,7 @@ public class MemberReturnController extends MemberBaseController {
 
             record.setStatus(null); // 更新的时候不能更新状态
             memberReturnService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "更新留学归国人员申请恢复组织生活：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "更新留学归国人员申请恢复组织生活：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -359,7 +359,7 @@ public class MemberReturnController extends MemberBaseController {
 
         memberReturnService.memberReturn_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "留学归国人员申请恢复组织生活申请-审核：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "留学归国人员申请恢复组织生活申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -384,7 +384,7 @@ public class MemberReturnController extends MemberBaseController {
 
         memberReturnService.memberReturn_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回留学归国人员申请恢复组织生活申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "分党委打回留学归国人员申请恢复组织生活申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     
@@ -420,7 +420,7 @@ public class MemberReturnController extends MemberBaseController {
         if (id != null) {
 
             memberReturnService.del(id);
-            logger.info(addLog(SystemConstants.LOG_OW, "删除留学归国人员申请恢复组织生活：%s", id));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "删除留学归国人员申请恢复组织生活：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -433,7 +433,7 @@ public class MemberReturnController extends MemberBaseController {
 
         if (null != ids && ids.length>0){
             memberReturnService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_OW, "批量删除留学归国人员申请恢复组织生活：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除留学归国人员申请恢复组织生活：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

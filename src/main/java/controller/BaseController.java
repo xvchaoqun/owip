@@ -434,7 +434,7 @@ public class BaseController extends BaseMapper {
     }
 
     // 登录后操作日志
-    public String addLog(String logType, String content, Object... params) {
+    public String addLog(Integer logType, String content, Object... params) {
 
         if (params != null && params.length > 0)
             content = String.format(content, params);

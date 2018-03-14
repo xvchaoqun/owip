@@ -35,8 +35,8 @@
                                             <label>类别</label>
                                                 <select name="typeId" data-placeholder="请选择类别">
                                                     <option></option>
-                                                    <c:forEach var="metaType" items="${metaTypeMap}">
-                                                        <option value="${metaType.value.id}">${metaType.value.name}</option>
+                                                    <c:forEach var="logType" items="${LOG_MAP}">
+                                                        <option value="${logType.key}">${logType.value}</option>
                                                     </c:forEach>
                                                 </select>
                                                 <script type="text/javascript">
@@ -82,7 +82,9 @@
         multiselect:false,
         url: '${ctx}/sysLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '模块', name: 'logType.name', width: 120,frozen:true},
+            { label: '模块', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
+                return $.trim(_cMap.LOG_MAP[cellvalue]);
+            }},
             { label: '操作人',  name: 'user.realname', width: 100, formatter:function(cellvalue, options, rowObject){
                 if(rowObject.user==undefined) return '-'
                 return $.user(rowObject.user.id, rowObject.user.realname);

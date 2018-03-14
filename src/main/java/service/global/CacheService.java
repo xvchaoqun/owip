@@ -275,6 +275,15 @@ public class CacheService extends BaseController{
     })
     public void clearUserCache(SysUserReg u) {}
 
+    @Caching(evict={
+            @CacheEvict(value="UserPermissions", allEntries=true),
+            @CacheEvict(value="Menus", allEntries=true),
+            @CacheEvict(value="SysResources", allEntries=true),
+            @CacheEvict(value="UserRoles", allEntries=true),
+            @CacheEvict(value="SysRoles", allEntries=true)
+    })
+    public void clearRoleCache() {}
+
     @Caching(evict = {
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })

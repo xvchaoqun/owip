@@ -185,11 +185,11 @@ public class MemberAbroadController extends MemberBaseController {
 
         if (record.getId() == null) {
             memberAbroadService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "添加党员出国境信息：%s", record.getUserId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "添加党员出国境信息：%s", record.getUserId()));
         } else {
 
             memberAbroadService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "更新党员出国境信息：%s", record.getUserId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "更新党员出国境信息：%s", record.getUserId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -214,7 +214,7 @@ public class MemberAbroadController extends MemberBaseController {
         if (userId != null) {
 
             memberAbroadService.del(userId);
-            logger.info(addLog(SystemConstants.LOG_OW, "删除党员出国境信息：%s", userId));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "删除党员出国境信息：%s", userId));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -227,7 +227,7 @@ public class MemberAbroadController extends MemberBaseController {
 
         if (null != userIds && userIds.length>0){
             memberAbroadService.batchDel(userIds);
-            logger.info(addLog(SystemConstants.LOG_OW, "批量删除党员出国境信息：%s", StringUtils.join(userIds, ",")));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除党员出国境信息：%s", StringUtils.join(userIds, ",")));
         }
 
         return success(FormUtils.SUCCESS);

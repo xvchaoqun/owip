@@ -412,7 +412,7 @@ public class MemberStayController extends MemberBaseController {
 
         memberStayService.memberStay_check(ids, type, null, null, null, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请-审核：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "暂留申请-审核：%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -437,7 +437,7 @@ public class MemberStayController extends MemberBaseController {
 
         memberStayService.memberStay_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "暂留申请：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "暂留申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -470,7 +470,7 @@ public class MemberStayController extends MemberBaseController {
 
         memberStayService.memberStay_check(ids, (byte) 2, branchId, orgBranchAdminId, orgBranchAdminPhone, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委审核暂留申请：%s，转移至支部%s", StringUtils.join(ids, ","), branchId));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "分党委审核暂留申请：%s，转移至支部%s", StringUtils.join(ids, ","), branchId));
         return success(FormUtils.SUCCESS);
     }
 
@@ -533,11 +533,11 @@ public class MemberStayController extends MemberBaseController {
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
                     "提交暂留申请");
 
-            logger.info(addLog(SystemConstants.LOG_OW, "添加暂留：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "添加暂留：%s", record.getId()));
         } else {
 
             memberStayService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "更新暂留：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "更新暂留：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -586,7 +586,7 @@ public class MemberStayController extends MemberBaseController {
         record.setOrgBranchAdminId(orgBranchAdminId);
         record.setOrgBranchAdminPhone(orgBranchAdminPhone);
         memberStayService.trasferAu(record);
-        logger.info(addLog(SystemConstants.LOG_OW, "更新暂留党支部等信息：%s", record.getId()));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "更新暂留党支部等信息：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -632,7 +632,7 @@ public class MemberStayController extends MemberBaseController {
         if (id != null) {
 
             memberStayService.del(id);
-            logger.info(addLog(SystemConstants.LOG_OW, "删除暂留：%s", id));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "删除暂留：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -650,7 +650,7 @@ public class MemberStayController extends MemberBaseController {
             List<MemberStay> memberStays = memberStayMapper.selectByExample(example);
 
             memberStayService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_OW, "批量删除暂留：%s", JSONUtils.toString(memberStays)));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除暂留：%s", JSONUtils.toString(memberStays)));
         }
         return success(FormUtils.SUCCESS);
     }

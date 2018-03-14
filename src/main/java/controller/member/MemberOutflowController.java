@@ -321,7 +321,7 @@ public class MemberOutflowController extends MemberBaseController {
 
         memberOutflowService.memberOutflow_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "流出党员申请-审核：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "流出党员申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -346,7 +346,7 @@ public class MemberOutflowController extends MemberBaseController {
 
         memberOutflowService.memberOutflow_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_OW, "分党委打回流出党员申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(SystemConstants.LOG_PARTY, "分党委打回流出党员申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -392,11 +392,11 @@ public class MemberOutflowController extends MemberBaseController {
                     "后台添加",
                     SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
                     "提交流出党员申请");
-            logger.info(addLog(SystemConstants.LOG_OW, "添加流出党员：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "添加流出党员：%s", record.getId()));
         } else {
             record.setStatus(null);// 不修改状态
             memberOutflowService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_OW, "更新流出党员：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "更新流出党员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -434,7 +434,7 @@ public class MemberOutflowController extends MemberBaseController {
         if (id != null) {
 
             memberOutflowService.del(id);
-            logger.info(addLog(SystemConstants.LOG_OW, "删除流出党员：%s", id));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "删除流出党员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -447,7 +447,7 @@ public class MemberOutflowController extends MemberBaseController {
 
         if (null != ids && ids.length>0){
             memberOutflowService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_OW, "批量删除流出党员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除流出党员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

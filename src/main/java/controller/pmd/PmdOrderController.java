@@ -108,7 +108,7 @@ public class PmdOrderController extends PmdBaseController {
     public Map pmdOrderCampuscard_closeTrade(String sn, HttpServletRequest request) throws IOException {
 
         PmdPayCampusCardService.CloseTradeRet ret = pmdPayCampusCardService.closeTrade(sn);
-        logger.info(addLog(SystemConstants.LOG_OW, "后台关闭订单：%s，结果: %s", sn, JSONUtils.toString(ret, false)));
+        logger.info(addLog(SystemConstants.LOG_PMD, "后台关闭订单：%s，结果: %s", sn, JSONUtils.toString(ret, false)));
 
         return ret.success?success(FormUtils.SUCCESS):failed("关闭失败：" + ret.desc + "（" + ret.code+"）");
     }

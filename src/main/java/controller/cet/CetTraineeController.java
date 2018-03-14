@@ -1,8 +1,8 @@
 package controller.cet;
 
-import domain.cet.CetTrainee;
-import domain.cet.CetTraineeExample;
-import domain.cet.CetTraineeExample.Criteria;
+import domain.cet.CetTrain;
+import domain.cet.CetTraineeCadreViewExample;
+import domain.cet.CetTraineeType;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -24,8 +25,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/cet")
@@ -35,7 +39,15 @@ public class CetTraineeController extends CetBaseController {
 
     @RequiresPermissions("cetTrainee:list")
     @RequestMapping("/cetTrainee")
-    public String cetTrainee() {
+    public String cetTrainee(int trainId, Integer traineeTypeId, ModelMap modelMap) {
+
+        List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(trainId);
+        modelMap.put("cetTraineeTypes", cetTraineeTypes);
+
+        if (traineeTypeId == null) {
+            traineeTypeId = cetTraineeTypes.get(0).getId();
+        }
+        modelMap.put("traineeTypeId", traineeTypeId);
 
         return "cet/cetTrainee/cetTrainee_page";
     }
@@ -43,11 +55,13 @@ public class CetTraineeController extends CetBaseController {
     @RequiresPermissions("cetTrainee:list")
     @RequestMapping("/cetTrainee_data")
     public void cetTrainee_data(HttpServletResponse response,
-                                    Integer trainId,
-                                    Integer userId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                @RequestParam(defaultValue = "1") Integer cls,
+                                int trainId,
+                                int traineeTypeId,
+                                Integer userId,
+                                @RequestParam(required = false, defaultValue = "0") int export,
+                                @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -57,30 +71,49 @@ public class CetTraineeController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetTraineeExample example = new CetTraineeExample();
-        Criteria criteria = example.createCriteria();
-        //example.setOrderByClause(String.format("%s %s", sort, order));
+        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
+        String code = cetTraineeType.getCode();
 
-        if (trainId!=null) {
-            criteria.andTrainIdEqualTo(trainId);
-        }
-        if (userId!=null) {
-            criteria.andUserIdEqualTo(userId);
-        }
+        List records = null;
+        int count = 0, total = 0;
+        switch (code) {
+            // 中层干部、后备干部
+            case "t_cadre":
+            case "t_reserve":
+                CetTraineeCadreViewExample example = new CetTraineeCadreViewExample();
+                CetTraineeCadreViewExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId)
+                        .andTraineeTypeIdEqualTo(traineeTypeId);
+                switch (cls){
+                    case 2: // 已选课人员
+                        criteria.andCourseCountGreaterThan(0);
+                        break;
+                    case 3: // 退班人员
+                        criteria.andCourseCountEqualTo(0);
+                        break;
+                }
 
-        long count = cetTraineeMapper.countByExample(example);
-        if ((pageNo - 1) * pageSize >= count) {
+                if (userId != null) {
+                    criteria.andUserIdEqualTo(userId);
+                }
 
-            pageNo = Math.max(1, pageNo - 1);
+                count = (int) cetTraineeCadreViewMapper.countByExample(example);
+                if ((pageNo - 1) * pageSize >= count) {
+
+                    pageNo = Math.max(1, pageNo - 1);
+                }
+                records = cetTraineeCadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                CommonList commonList = new CommonList(count, pageNo, pageSize);
+                total = commonList.pageNum;
+                break;
+            default:
+                break;
         }
-        List<CetTrainee> records= cetTraineeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-        CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
         resultMap.put("rows", records);
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
-        resultMap.put("total", commonList.pageNum);
+        resultMap.put("total", total);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
         //baseMixins.put(cetTrainee.class, cetTraineeMixin.class);
@@ -89,33 +122,51 @@ public class CetTraineeController extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrainee:edit")
-    @RequestMapping(value = "/cetTrainee_au", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetTrainee_add", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrainee_au(CetTrainee record, HttpServletRequest request) {
+    public Map do_cetTrainee_add(int trainId, int traineeTypeId,
+                                 @RequestParam(value = "userIds[]", required = false) Integer[] userIds ,
+                                 HttpServletRequest request) {
 
-        Integer id = record.getId();
-
-        if (id == null) {
-            cetTraineeService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加可选课人员：%s", record.getId()));
-        } else {
-
-            cetTraineeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新可选课人员：%s", record.getId()));
-        }
+        cetTraineeService.addOrUpdate(trainId, traineeTypeId, userIds);
+        logger.info(addLog(SystemConstants.LOG_CET, "编辑可选课人员： %s, %s, %s", trainId, traineeTypeId,
+                StringUtils.join(userIds, ",")));
 
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cetTrainee:edit")
-    @RequestMapping("/cetTrainee_au")
-    public String cetTrainee_au(Integer id, ModelMap modelMap) {
+    @RequestMapping("/cetTrainee_add")
+    public String cetTrainee_add(int trainId, int traineeTypeId, ModelMap modelMap) {
 
-        if (id != null) {
-            CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(id);
-            modelMap.put("cetTrainee", cetTrainee);
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+        modelMap.put("cetTrain", cetTrain);
+        CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
+        String code = cetTraineeType.getCode();
+        switch (code) {
+            // 中层干部
+            case "t_cadre":
+                return "cet/cetTrainee/cetTrainee_selectCadres";
         }
-        return "cet/cetTrainee/cetTrainee_au";
+
+        return null;
+    }
+
+    @RequiresPermissions("cetTrainee:edit")
+    @RequestMapping("/cetTrainee_selectCadres_tree")
+    @ResponseBody
+    public Map cetTrainee_selectCadres_tree(int trainId) throws IOException {
+
+        Set<Integer> selectIdSet = cetTraineeService.getSelectedTraineeUserIdSet(trainId);
+
+        Set<Byte> cadreStatusList = new HashSet<>();
+        cadreStatusList.add(SystemConstants.CADRE_STATUS_MIDDLE);
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.findAll().values()),
+                cadreStatusList, selectIdSet, null, false, true, false);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
     }
 
     @RequiresPermissions("cetTrainee:del")
@@ -126,7 +177,7 @@ public class CetTraineeController extends CetBaseController {
         if (id != null) {
 
             cetTraineeService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除可选课人员：%s", id));
+            logger.info(addLog(SystemConstants.LOG_CET, "删除可选课人员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -137,9 +188,9 @@ public class CetTraineeController extends CetBaseController {
     public Map cetTrainee_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             cetTraineeService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除可选课人员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(SystemConstants.LOG_CET, "批量删除可选课人员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

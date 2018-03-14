@@ -104,11 +104,11 @@ public class CrsApplyRuleController extends CrsBaseController {
         if (id == null) {
 
             crsApplyRuleService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "添加报名规则：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_CRS, "添加报名规则：%s", record.getId()));
         } else {
 
             crsApplyRuleService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "更新报名规则：%s", record.getId()));
+            logger.info(addLog( SystemConstants.LOG_CRS, "更新报名规则：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -133,7 +133,7 @@ public class CrsApplyRuleController extends CrsBaseController {
         if (id != null) {
 
             crsApplyRuleService.del(id);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "删除报名规则：%s", id));
+            logger.info(addLog( SystemConstants.LOG_CRS, "删除报名规则：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -146,7 +146,7 @@ public class CrsApplyRuleController extends CrsBaseController {
 
         if (null != ids && ids.length>0){
             crsApplyRuleService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量删除报名规则：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog( SystemConstants.LOG_CRS, "批量删除报名规则：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
