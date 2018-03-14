@@ -41,9 +41,9 @@ public class ExtJzgImport extends Source {
     public void update(Map<String, Object> map, ResultSet rs) throws SQLException {
 
         String zgh = StringUtils.trimToEmpty(rs.getString("zgh"));
-        if(zgh.startsWith("113120180")){
+        /*if(zgh.startsWith("113120180")){
             logger.info("zgh=========" + rs.getString("zgh"));
-        }
+        }*/
         //Gson gson = new Gson();
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         ExtJzg extJzg = gson.fromJson(JSONUtils.toString(map), ExtJzg.class);
@@ -55,8 +55,8 @@ public class ExtJzgImport extends Source {
             extJzgMapper.updateByExample(extJzg, example);
         } else {
            extJzgMapper.insert(extJzg);
-            if(StringUtils.equals("11312018031", zgh))
-                    logger.info("插入=========" + rs.getString("zgh"));
+           /* if(StringUtils.equals("11312018031", zgh))
+                    logger.info("插入=========" + rs.getString("zgh"));*/
         }
     }
 
