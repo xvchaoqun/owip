@@ -233,7 +233,7 @@ public class SysUserSyncService extends BaseMapper {
         record.setLocked(false);
 
         int ret = -1;
-        SysUserView sysUser = sysUserService.findByCode(code);
+        SysUserView sysUser = sysUserService.dbFindByCode(code);
         try {
             if (sysUser == null) {
                 SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
@@ -242,7 +242,7 @@ public class SysUserSyncService extends BaseMapper {
                 record.setCreateTime(new Date());
                 sysUserService.insertSelective(record);
 
-                sysUser = sysUserService.findByCode(code); // 下面同步时要用
+                sysUser = sysUserService.dbFindByCode(code); // 下面同步时要用
                 ret = 1;
             } else {
                 record.setId(sysUser.getId());
@@ -360,7 +360,7 @@ public class SysUserSyncService extends BaseMapper {
         record.setLocked(false);
 
         int ret = -1;
-        SysUserView sysUser = sysUserService.findByCode(code);
+        SysUserView sysUser = sysUserService.dbFindByCode(code);
         try {
             if (sysUser == null) {
                 SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
@@ -369,7 +369,7 @@ public class SysUserSyncService extends BaseMapper {
                 record.setCreateTime(new Date());
                 sysUserService.insertSelective(record);
 
-                sysUser = sysUserService.findByCode(code); // 下面同步时要用
+                sysUser = sysUserService.dbFindByCode(code); // 下面同步时要用
                 ret = 1;
             } else {
                 record.setId(sysUser.getId());
@@ -490,7 +490,7 @@ public class SysUserSyncService extends BaseMapper {
         record.setLocked(false);
 
         int ret = -1;
-        SysUserView sysUser = sysUserService.findByCode(code);
+        SysUserView sysUser = sysUserService.dbFindByCode(code);
         try {
             if (sysUser == null) {
                 SaltPassword encrypt = passwordHelper.encryptByRandomSalt(code); // 初始化密码与账号相同
@@ -499,7 +499,7 @@ public class SysUserSyncService extends BaseMapper {
                 record.setCreateTime(new Date());
                 sysUserService.insertSelective(record);
 
-                sysUser = sysUserService.findByCode(code); // 下面同步时要用
+                sysUser = sysUserService.dbFindByCode(code); // 下面同步时要用
                 ret = 1;
             } else {
                 record.setId(sysUser.getId());

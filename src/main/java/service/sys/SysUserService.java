@@ -202,14 +202,19 @@ public class SysUserService extends BaseMapper {
         return (users.size() > 0) ? users.get(0) : null;
     }
 
-    @Cacheable(value = "SysUserView:CODE_", key = "#code")
-    public SysUserView findByCode(String code) {
+    public SysUserView dbFindByCode(String code) {
 
         SysUserViewExample example = new SysUserViewExample();
         example.createCriteria().andCodeEqualTo(code);
         List<SysUserView> users = sysUserViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
         return (users.size() > 0) ? users.get(0) : null;
+    }
+
+    @Cacheable(value = "SysUserView:CODE_", key = "#code")
+    public SysUserView findByCode(String code) {
+
+        return dbFindByCode(code);
     }
 
     // 根据角色标识查找用户

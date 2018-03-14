@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import domain.ext.ExtJzg;
 import domain.ext.ExtJzgExample;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,18 +40,23 @@ public class ExtJzgImport extends Source {
 
     public void update(Map<String, Object> map, ResultSet rs) throws SQLException {
 
+        String zgh = StringUtils.trimToEmpty(rs.getString("zgh"));
+        if(zgh.startsWith("113120180")){
+            logger.info("zgh=========" + rs.getString("zgh"));
+        }
         //Gson gson = new Gson();
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
         ExtJzg extJzg = gson.fromJson(JSONUtils.toString(map), ExtJzg.class);
         ExtJzgExample example = new ExtJzgExample();
-        example.createCriteria().andZghEqualTo(rs.getString("zgh"));
+        example.createCriteria().andZghEqualTo(zgh);
         List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
         if (extJzges.size() > 0) {
             extJzg.setId(extJzges.get(0).getId());
             extJzgMapper.updateByExample(extJzg, example);
         } else {
            extJzgMapper.insert(extJzg);
-           //logger.info("插入=========" + rs.getString("zgh"));
+            if(StringUtils.equals("11312018031", zgh))
+                    logger.info("插入=========" + rs.getString("zgh"));
         }
     }
 

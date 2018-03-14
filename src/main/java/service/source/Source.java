@@ -70,7 +70,7 @@ public abstract class Source {
             int pageSize = 1000;
             int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
             logger.info(String.format("总数：%s， 每页%s条， 总%s页", count, pageSize, pageNo));
-            for (int i = 0; i <= pageNo; i++) {
+            for (int i = 1; i <= pageNo; i++) {
                 logger.info(String.format("总数：%s， 每页%s条， 总%s页， 当前第%s页", count, pageSize, pageNo, i));
                 String sql = getLimitString("select * from " + tbl, (i - 1) * pageSize, pageSize);
                 //stat = conn.createStatement();
@@ -168,7 +168,7 @@ public abstract class Source {
             int pageSize = 1000;
             int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
             logger.info(String.format("总数：%s， 每页%s条， 总%s页", count, pageSize, pageNo));
-            for (int i = 0; i <= pageNo; i++) {
+            for (int i = 1; i <= pageNo; i++) {
                 logger.info(String.format("总数：%s， 每页%s条， 总%s页， 当前第%s页", count, pageSize, pageNo, i));
                 String sql = getLimitString("select * from " + tbl + searchStr, (i - 1) * pageSize, pageSize);
 
