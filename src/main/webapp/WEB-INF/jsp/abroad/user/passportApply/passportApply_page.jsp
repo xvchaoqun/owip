@@ -6,7 +6,7 @@ pageEncoding="UTF-8" %>
         <!-- PAGE CONTENT BEGINS -->
         <div id="body-content">
             <div class="tabbable">
-                <jsp:include page="/WEB-INF/jsp/user/abroad/passport/passport_menu.jsp"/>
+                <jsp:include page="/WEB-INF/jsp/abroad/user/passport/passport_menu.jsp"/>
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
                         <div class="buttons">
