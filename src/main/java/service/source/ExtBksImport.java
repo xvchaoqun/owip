@@ -29,7 +29,7 @@ public class ExtBksImport extends Source {
 
         logger.info("更新本科生账号库基本信息");
         long startTime=System.currentTimeMillis();
-        excute(schema, tableName, syncId);
+        excute(schema, tableName, "order by xh", syncId);
         long endTime=System.currentTimeMillis();
         logger.info("更新本科生账号库基本信息运行时间： " + (endTime - startTime) + "ms");
     }

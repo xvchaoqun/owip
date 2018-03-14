@@ -33,7 +33,7 @@ public class ExtYjsImport extends Source {
 
         logger.info("更新研究生账号库基本信息");
         long startTime=System.currentTimeMillis();
-        excute(schema, tableName, syncId);
+        excute(schema, tableName, "order by xh", syncId);
         long endTime=System.currentTimeMillis();
         logger.info("更新研究生账号库基本信息程序运行时间： " + (endTime - startTime) + "ms");
     }

@@ -33,7 +33,7 @@ public class ExtJzgImport extends Source {
     public void excute(Integer syncId){
         logger.info("更新教职工账号库基本信息");
         long startTime=System.currentTimeMillis();
-        excute(schema, tableName, syncId);
+        excute(schema, tableName, "order by zgh", syncId);
         long endTime=System.currentTimeMillis();
         logger.info("更新教职工账号库基本信息程序运行时间： " + (endTime - startTime) + "ms");
     }
