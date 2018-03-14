@@ -1062,6 +1062,66 @@ public class CetTrainViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsFinishedIsNull() {
+            addCriterion("is_finished is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedIsNotNull() {
+            addCriterion("is_finished is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedEqualTo(Boolean value) {
+            addCriterion("is_finished =", value, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedNotEqualTo(Boolean value) {
+            addCriterion("is_finished <>", value, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedGreaterThan(Boolean value) {
+            addCriterion("is_finished >", value, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_finished >=", value, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedLessThan(Boolean value) {
+            addCriterion("is_finished <", value, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_finished <=", value, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedIn(List<Boolean> values) {
+            addCriterion("is_finished in", values, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedNotIn(List<Boolean> values) {
+            addCriterion("is_finished not in", values, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_finished between", value1, value2, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_finished not between", value1, value2, "isFinished");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -1119,76 +1179,6 @@ public class CetTrainViewExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesIsNull() {
-            addCriterion("trainee_types is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesIsNotNull() {
-            addCriterion("trainee_types is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesEqualTo(String value) {
-            addCriterion("trainee_types =", value, "traineeTypes");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesNotEqualTo(String value) {
-            addCriterion("trainee_types <>", value, "traineeTypes");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesGreaterThan(String value) {
-            addCriterion("trainee_types >", value, "traineeTypes");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesGreaterThanOrEqualTo(String value) {
-            addCriterion("trainee_types >=", value, "traineeTypes");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesLessThan(String value) {
-            addCriterion("trainee_types <", value, "traineeTypes");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesLessThanOrEqualTo(String value) {
-            addCriterion("trainee_types <=", value, "traineeTypes");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesLike(String value) {
-            addCriterion("trainee_types like", value, "traineeTypes");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesNotLike(String value) {
-            addCriterion("trainee_types not like", value, "traineeTypes");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesIn(List<String> values) {
-            addCriterion("trainee_types in", values, "traineeTypes");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesNotIn(List<String> values) {
-            addCriterion("trainee_types not in", values, "traineeTypes");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesBetween(String value1, String value2) {
-            addCriterion("trainee_types between", value1, value2, "traineeTypes");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypesNotBetween(String value1, String value2) {
-            addCriterion("trainee_types not between", value1, value2, "traineeTypes");
             return (Criteria) this;
         }
     }

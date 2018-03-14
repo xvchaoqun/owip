@@ -185,6 +185,10 @@
 <c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_PAUSE%>" var="CET_TRAIN_ENROLL_STATUS_PAUSE"/>
 <c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_MAP%>" var="CET_TRAIN_ENROLL_STATUS_MAP"/>
 
+<c:set value="<%=CetConstants.CET_TRAIN_PUB_STATUS_UNPUBLISHED%>" var="CET_TRAIN_PUB_STATUS_UNPUBLISHED"/>
+<c:set value="<%=CetConstants.CET_TRAIN_PUB_STATUS_PUBLISHED%>" var="CET_TRAIN_PUB_STATUS_PUBLISHED"/>
+<c:set value="<%=CetConstants.CET_TRAIN_PUB_STATUS_CANCEL%>" var="CET_TRAIN_PUB_STATUS_CANCEL"/>
+
 
 <c:set value="<%=PmdConstants.PMD_MONTH_STATUS_INIT%>" var="PMD_MONTH_STATUS_INIT"/>
 <c:set value="<%=PmdConstants.PMD_MONTH_STATUS_START%>" var="PMD_MONTH_STATUS_START"/>

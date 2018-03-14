@@ -38,6 +38,8 @@ public class RoleConstants {
     public static final String ROLE_PMD_PARTY = "role_pmd_party"; // 党费收缴-分党委管理员
     public static final String ROLE_PMD_BRANCH = "role_pmd_branch"; // 党费收缴-支部管理员
 
+    public static final String ROLE_CET_TRAINEE = "cet_trainee"; // 参训人员-干部教育培训
+
     public final static Map<String, String> ROLE_MAP = new LinkedHashMap<>();
 
     static {
@@ -61,7 +63,10 @@ public class RoleConstants {
 
         ROLE_MAP.put(ROLE_OA_USER, "协同办公负责人");
 
-        ROLE_MAP.put(ROLE_PMD_PARTY, "党费收缴-分党委管理员");
-        ROLE_MAP.put(ROLE_PMD_BRANCH, "党费收缴-支部管理员");
+        ROLE_MAP.put(ROLE_PMD_PARTY, "分党委管理员(党费收缴)");
+        ROLE_MAP.put(ROLE_PMD_BRANCH, "支部管理员(党费收缴)");
+
+        ROLE_MAP.put(ROLE_CET_ADMIN, "干部教育培训管理员");
+        ROLE_MAP.put(ROLE_CET_TRAINEE, "参训人员(干部教育培训)");
     }
 }

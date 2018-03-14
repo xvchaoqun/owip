@@ -1259,9 +1259,16 @@ function templateSelection(state) {
     return $state;
 }
 
-function register_ajax_select($select, params) {
+function defaultTemplateResult(state) {
+    // 反转义
+    return $('<div/>').html(state.text).text();
+}
 
+function register_ajax_select($select, params) {
+    params = params||{};
     return $($select).select2($.extend({
+            templateResult:params.templateResult || defaultTemplateResult,
+            templateSelection: params.templateSelection || defaultTemplateResult,
             ajax: {
                 dataType: 'json',
                 delay: 300,

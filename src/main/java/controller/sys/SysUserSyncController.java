@@ -53,7 +53,59 @@ public class SysUserSyncController extends BaseController {
     @Autowired
     private ExtYjsImport extYjsImport;
 
-    // 同步学校信息（单个用户）
+    // 同步学校信息（系统不存在账号插入，已存在的更新）
+    @RequiresPermissions("sysUserSync:edit")
+    @RequestMapping("/sync_user_byCode")
+    public String sync_user_byCode() {
+
+        return "sys/sysUserSync/sync_user_byCode";
+    }
+
+    @RequiresPermissions("sysUserSync:edit")
+    @RequestMapping(value = "/sync_user_byCode", method = RequestMethod.POST)
+    @ResponseBody
+    public Map sync_user_byCode(String code) {
+
+        logger.info(addLog(SystemConstants.LOG_ADMIN, "同步账号信息：%s", code));
+
+        {
+            extJzgImport.byCode(code);
+
+            ExtJzgExample example = new ExtJzgExample();
+            example.createCriteria().andZghEqualTo(code);
+            List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
+            if(extJzges.size()==1){
+                sysUserSyncService.syncExtJzg(extJzges.get(0));
+                return success(FormUtils.SUCCESS);
+            }
+        }
+        {
+                extYjsImport.byCode(code);
+
+                ExtYjsExample example = new ExtYjsExample();
+                example.createCriteria().andXhEqualTo(code);
+                List<ExtYjs> extYjses = extYjsMapper.selectByExample(example);
+                if(extYjses.size()==1){
+                    sysUserSyncService.sysExtYjs(extYjses.get(0));
+                    return success(FormUtils.SUCCESS);
+                }
+        }
+        {
+                extBksImport.byCode(code);
+                ExtBksExample example = new ExtBksExample();
+                example.createCriteria().andXhEqualTo(code);
+                List<ExtBks> extBkses = extBksMapper.selectByExample(example);
+                if(extBkses.size()==1){
+                    sysUserSyncService.syncExtBks(extBkses.get(0));
+                    return success(FormUtils.SUCCESS);
+                }
+        }
+
+        return failed("学工号不存在");
+    }
+
+    // 同步学校用户信息（系统已存在该账号）
+    @RequiresPermissions("sysUserSync:edit")
     @RequestMapping(value = "/sync_user", method = RequestMethod.POST)
     @ResponseBody
     public Map sync_user(Integer userId) {
@@ -88,6 +140,7 @@ public class SysUserSyncController extends BaseController {
     }
 
     // 同步学校信息（批量）
+    @RequiresPermissions("sysUserSync:edit")
     @RequestMapping("/sync_user_batch")
     @ResponseBody
     public Map sync_user_batch(int type) {
@@ -115,6 +168,7 @@ public class SysUserSyncController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("sysUserSync:list")
     @RequestMapping("/sync_status")
     @ResponseBody
     public Map sync_status() {
@@ -183,6 +237,7 @@ public class SysUserSyncController extends BaseController {
 
     }
 
+    @RequiresPermissions("sysUserSync:edit")
     @RequestMapping(value = "/sync_stop", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUserSync_au(int id,  HttpServletRequest request) {

@@ -247,7 +247,7 @@ public class ApplySelfController extends AbroadBaseController {
         }
         modelMap.put("needExport", needExport);
 
-        return "user/abroad/applySelf/applySelf_view";
+        return "abroad/user/applySelf/applySelf_view";
     }
 
     @RequiresPermissions("applySelf:view")
@@ -258,7 +258,7 @@ public class ApplySelfController extends AbroadBaseController {
         Integer currentYear = DateUtils.getYear(applySelf.getApplyDate());
         modelMap.put("applySelf", applySelf);
         modelMap.put("currentYear", currentYear);
-        return "user/abroad/applySelf/applySelf_yearLogs";
+        return "abroad/user/applySelf/applySelf_yearLogs";
     }
 
     @RequiresPermissions("applySelf:view")

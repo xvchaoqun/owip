@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CetConstants;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -74,9 +75,9 @@ public class CetTrainController extends CetBaseController {
         CetTrainViewExample.Criteria criteria = example.createCriteria();
 
         if(cls==1){
-            criteria.andIsDeletedEqualTo(false);
+            criteria.andIsDeletedEqualTo(false).andIsFinishedEqualTo(false);
         }else if(cls==2){
-            criteria.andIsDeletedEqualTo(false);
+            criteria.andIsDeletedEqualTo(false).andIsFinishedEqualTo(true);
         }else if(cls==3){
             criteria.andIsDeletedEqualTo(true);
         }
@@ -184,6 +185,43 @@ public class CetTrainController extends CetBaseController {
 
 
         return "cet/cetTrain/cetTrain_au";
+    }
+
+    @RequiresPermissions("cetTrain:pub")
+    @RequestMapping(value = "/cetTrain_pub", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetTrain_pub(HttpServletRequest request, Integer id, Byte pubStatus) {
+
+        if (id != null) {
+
+            CetTrain record = new CetTrain();
+            record.setId(id);
+            record.setPubStatus(pubStatus);
+            cetTrainMapper.updateByPrimaryKeySelective(record);
+
+            logger.info(addLog(SystemConstants.LOG_CET,
+                    CetConstants.CET_TRAIN_PUB_STATUS_MAP.get(pubStatus) + "培训班：%s", id));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+    @RequiresPermissions("cetTrain:pub")
+    @RequestMapping(value = "/cetTrain_finish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetTrain_finish(HttpServletRequest request, Integer id) {
+
+        if (id != null) {
+
+            CetTrain record = new CetTrain();
+            record.setId(id);
+            record.setIsFinished(true);
+            cetTrainMapper.updateByPrimaryKeySelective(record);
+
+            logger.info(addLog(SystemConstants.LOG_CET,
+                    "培训班结课：%s", id));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cetTrain:del")

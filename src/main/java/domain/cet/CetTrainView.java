@@ -70,6 +70,8 @@ public class CetTrainView implements Serializable {
 
     private Boolean isDeleted;
 
+    private Boolean isFinished;
+
     private Date createTime;
 
     private String traineeTypes;
@@ -194,6 +196,14 @@ public class CetTrainView implements Serializable {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Boolean getIsFinished() {
+        return isFinished;
+    }
+
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
     }
 
     public Date getCreateTime() {

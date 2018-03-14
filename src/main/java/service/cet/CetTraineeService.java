@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysApprovalLogService;
+import service.sys.SysUserService;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
 import java.util.Arrays;
@@ -18,13 +20,9 @@ import java.util.Set;
 public class CetTraineeService extends BaseMapper {
 
     @Autowired
+    private SysUserService sysUserService;
+    @Autowired
     private SysApprovalLogService sysApprovalLogService;
-
-    @Transactional
-    public void insertSelective(CetTrainee record){
-
-        cetTraineeMapper.insertSelective(record);
-    }
 
     @Transactional
     public void del(Integer id){
@@ -33,22 +31,31 @@ public class CetTraineeService extends BaseMapper {
         int userId = cetTrainee.getUserId();
         cetTraineeMapper.deleteByPrimaryKey(id);
 
-
+        delRoleIfNotTrainee(userId);
     }
 
     @Transactional
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
-
         for (Integer id : ids) {
-
             del(id);
+        }
+    }
+
+    // 检查是否删除参训人员角色
+    private void delRoleIfNotTrainee(int userId){
+
+        CetTraineeExample example = new CetTraineeExample();
+        example.createCriteria().andUserIdEqualTo(userId);
+        if(cetTraineeMapper.countByExample(example)==0) {
+            sysUserService.delRole(userId, RoleConstants.ROLE_CET_TRAINEE);
         }
     }
 
     @Transactional
     public int updateByPrimaryKeySelective(CetTrainee record){
+
         return cetTraineeMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -90,6 +97,8 @@ public class CetTraineeService extends BaseMapper {
             record.setCourseCount(0);
             cetTraineeMapper.insertSelective(record);
 
+            sysUserService.addRole(userId, RoleConstants.ROLE_CET_TRAINEE);
+
             sysApprovalLogService.add(record.getId(), record.getUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET,
@@ -103,6 +112,8 @@ public class CetTraineeService extends BaseMapper {
             CetTraineeExample example = new CetTraineeExample();
             example.createCriteria().andTrainIdEqualTo(trainId).andUserIdEqualTo(userId);
             cetTraineeMapper.deleteByExample(example);
+
+            delRoleIfNotTrainee(userId);
         }
     }
 }

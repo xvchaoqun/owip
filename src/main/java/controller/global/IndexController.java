@@ -74,7 +74,7 @@ public class IndexController extends BaseController {
 
 		if(ShiroHelper.hasRole(RoleConstants.ROLE_REG)){
 			modelMap.put("sysUserReg", sysUserRegService.findByUserId(loginUser.getId()));
-			return "user/member/sysUserReg/sysUserReg";
+			return "member/user/sysUserReg/sysUserReg";
 		}
 
 		return "index_page";

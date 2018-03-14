@@ -17,7 +17,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">课程名称</label>
             <div class="col-xs-6">
-                <select required data-rel="select2-ajax"
+                <select required data-rel="select2-ajax" data-width="320"
                         data-ajax-url="${ctx}/cet/cetCourse_selects"
                         name="courseId" data-placeholder="请输入课程名称">
                     <option></option>

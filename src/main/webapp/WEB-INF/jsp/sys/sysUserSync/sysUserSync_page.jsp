@@ -62,6 +62,9 @@
                     </li>
                 </ul>
             </div>
+            <a class="popupBtn btn btn-info"
+                   data-url="${ctx}/sync_user_byCode"><i class="fa fa-level-down"></i> 同步账号信息</a>
+
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
             <div id="jqGridPager"> </div>

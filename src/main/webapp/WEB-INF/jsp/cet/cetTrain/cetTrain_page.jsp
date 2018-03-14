@@ -17,23 +17,49 @@
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${cls==1}">
                             <shiro:hasPermission name="cetTrain:edit">
-                                <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/cet/cetTrain_au"><i
-                                        class="fa fa-plus"></i> 创建培训班</a>
-                                <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                                <button class="popupBtn btn btn-info btn-sm" data-url="${ctx}/cet/cetTrain_au"><i
+                                        class="fa fa-plus"></i> 创建培训班</button>
+                                <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/cet/cetTrain_au"
                                    data-grid-id="#jqGrid"
                                    data-querystr="&"><i class="fa fa-edit"></i>
-                                    修改</a>
-                            </shiro:hasPermission>
-                            <shiro:hasPermission name="cetTrain:del">
-                                <button data-url="${ctx}/cet/cetTrain_batchDel"
-                                        data-title="删除"
-                                        data-msg="确定删除这{0}条数据？"
+                                    修改</button>
+                                <button id="pubBtn" class="jqItemBtn btn btn-success btn-sm"
+                                        data-url="${ctx}/cet/cetTrain_pub"
+                                        data-title="发布"
+                                        data-msg="确定发布该培训班？"
+                                        data-callback="_reload"
                                         data-grid-id="#jqGrid"
-                                        class="jqBatchBtn btn btn-danger btn-sm">
-                                    <i class="fa fa-trash"></i> 删除
-                                </button>
+                                        data-querystr="pubStatus=1"><i class="fa fa-check"></i>
+                                    发布</button>
+                                <button id="unPubBtn" class="jqItemBtn btn btn-warning btn-sm"
+                                        data-url="${ctx}/cet/cetTrain_pub"
+                                        data-title="发布"
+                                        data-msg="确定取消发布该培训班？"
+                                        data-callback="_reload"
+                                        data-grid-id="#jqGrid"
+                                        data-querystr="pubStatus=2"><i class="fa fa-times"></i>
+                                    取消发布</button>
+                                <button id="finishBtn" class="jqItemBtn btn btn-primary btn-sm"
+                                        data-url="${ctx}/cet/cetTrain_finish"
+                                        data-title="结课"
+                                        data-msg="确定培训班结课？"
+                                        data-callback="_reload"
+                                        data-grid-id="#jqGrid"
+                                        data-querystr="&"><i class="fa fa-dot-circle-o"></i>
+                                    结课</button>
                             </shiro:hasPermission>
+                            </c:if>
+                            <c:if test="${cls==1||cls==2}">
+                                <shiro:hasPermission name="cetTrain:del">
+                                    <button data-url="${ctx}/cet/cetTrain_batchDel"
+                                            data-title="删除"
+                                            data-msg="确定删除这{0}条数据？"
+                                            data-grid-id="#jqGrid"
+                                            class="jqBatchBtn btn btn-danger btn-sm">
+                                        <i class="fa fa-trash"></i> 删除
+                                    </button>
+                                </shiro:hasPermission>
                             </c:if>
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -97,6 +123,9 @@
     </div>
 </div>
 <script>
+    function _reload(){
+        $("#jqGrid").trigger("reloadGrid");
+    }
     $("#jqGrid").jqGrid({
         url: '${ctx}/cet/cetTrain_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -113,22 +142,80 @@
 
             }, width: 200, frozen: true
             },
+            {label: '可选课人数', name: '_count', width:120},
+            {label: '选课情况', name: '_select'},
+            {label: '发布状态', name: '_pubStatus', formatter: function (cellvalue, options, rowObject) {
+                if (rowObject.pubStatus == undefined) return '-';
+                return ('<span class="{0}">' + _cMap.CET_TRAIN_PUB_STATUS_MAP[rowObject.pubStatus] + '</span>')
+                        .format(rowObject.pubStatus!=${CET_TRAIN_PUB_STATUS_PUBLISHED}?'text-danger bolder':'text-success');
+
+            }},
+            {label: '选课状态', name: 'enrollStatus', formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '-';
+                if(rowObject.autoSwitch){
+                    var startTime = Date.parse(rowObject.startTime);
+                    var endTime = Date.parse(rowObject.endTime);
+                    var nowTime = new Date().getTime();
+                    //console.log(startTime + " " + endTime + " "  +new Date().getTime())
+                    if(startTime > nowTime){
+                        return '未开启选课';
+                    }else if(endTime >= nowTime){
+                        return '<span class="text-success">正在选课</span>'
+                    }else{
+                        return '选课结束'
+                    }
+                }
+                if(cellvalue==${CET_TRAIN_ENROLL_STATUS_OPEN}){
+                    return '<span class="text-success">正在选课</span>'
+                }
+                return _cMap.CET_TRAIN_ENROLL_STATUS_MAP_MAP[cellvalue];
+            }},
+            <c:if test="${cls==3||cls==4}">
+            {label: '状态', name: '_isFinished', width:110, formatter: function (cellvalue, options, rowObject) {
+                var str = rowObject.isFinished?'已结课':'未结课';
+                <c:if test="${cls==4}">
+                str += rowObject.isDeleted?'(已删除)':'';
+                </c:if>
+                return str;
+            }},
+            </c:if>
             {label: '培训班类型', name: 'type', width:200, formatter: $.jgrid.formatter.MetaType},
             {label: '培训班名称', name: 'name', width:200, align:'left'},
             {label: '培训主题', name: 'subject', width:200},
             {label: '参训人类型', name: 'traineeTypes', width:200},
             {label: '开课日期', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '结课日期', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '可选课人数', name: '_count', width:120},
-            {label: '选课情况', name: '_select'},
-            {label: '发布状态', name: '_pubStatus'},
-            {label: '发布', name: '_pub'},
-            {label: '状态', name: '_status'},
-            {label: '备注', name: 'remark', width:300}
-        ]
+            {label: '备注', name: 'remark', width:300}, {hidden: true, name: 'pubStatus'},
+            {hidden: true, name: 'isFinished'}
+        ],
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+
+    function _onSelectRow(grid) {
+        var ids = $(grid).getGridParam("selarrrow");
+
+        if (ids.length > 1) {
+            $("#pubBtn,#unPubBtn,#finishBtn").prop("disabled", true);
+        } else if (ids.length == 1) {
+            var rowData = $(grid).getRowData(ids[0]);
+
+            var pubStatus = rowData.pubStatus;
+            var isFinished = (rowData.isFinished == "true");
+
+            $("#pubBtn").prop("disabled", pubStatus==${CET_TRAIN_PUB_STATUS_PUBLISHED});
+            $("#unPubBtn").prop("disabled", pubStatus!=${CET_TRAIN_PUB_STATUS_PUBLISHED});
+            $("#finishBtn").prop("disabled", isFinished || pubStatus!=${CET_TRAIN_PUB_STATUS_PUBLISHED});
+        }
+    }
 </script>

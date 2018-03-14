@@ -1,5 +1,14 @@
 
+2018-3-14
+ALTER TABLE `cet_train`
+	ADD COLUMN `is_finished` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态，0 未结课 1 已结课' AFTER `is_deleted`;
 
+更新cet_train_view
+
+ALTER TABLE `cet_train_course`
+	ADD UNIQUE INDEX `train_id_course_id` (`train_id`, `course_id`);
+
+update cet_train_course set sort_order = id;
 
 
 2018-3-14

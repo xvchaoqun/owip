@@ -1062,6 +1062,66 @@ public class CetTrainExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsFinishedIsNull() {
+            addCriterion("is_finished is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedIsNotNull() {
+            addCriterion("is_finished is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedEqualTo(Boolean value) {
+            addCriterion("is_finished =", value, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedNotEqualTo(Boolean value) {
+            addCriterion("is_finished <>", value, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedGreaterThan(Boolean value) {
+            addCriterion("is_finished >", value, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_finished >=", value, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedLessThan(Boolean value) {
+            addCriterion("is_finished <", value, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_finished <=", value, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedIn(List<Boolean> values) {
+            addCriterion("is_finished in", values, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedNotIn(List<Boolean> values) {
+            addCriterion("is_finished not in", values, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_finished between", value1, value2, "isFinished");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFinishedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_finished not between", value1, value2, "isFinished");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

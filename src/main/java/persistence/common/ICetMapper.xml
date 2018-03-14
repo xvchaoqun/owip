@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.common.ICetMapper">
+
+    <resultMap id="TrainBaseResultMap" type="persistence.common.bean.ICetTrain"
+               extends="persistence.cet.CetTrainMapper.BaseResultMap">
+        <result column="course_count" jdbcType="INTEGER" property="courseCount"/>
+    </resultMap>
+    <sql id="searchTrains">
+        from cet_train ct, cet_trainee ctee
+        where ctee.train_id=ct.id and ctee.user_id=#{userId} and ct.pub_status=1
+        <if test="hasSelected!=null">
+            <if test="hasSelected">
+                and ctee.courseCount > 0
+            </if>
+            <if test="!hasSelected">
+                and (ctee.courseCount is null or ctee.courseCount <![CDATA[<=]]> 0)
+            </if>
+        </if>
+        <if test="isFinished!=null">
+            and ct.is_finished = #{isFinished}
+        </if>
+    </sql>
+    <select id="findUserCetTrains" resultMap="TrainBaseResultMap" parameterType="map">
+        select ct.*, ctee.course_count
+        <include refid="searchTrains"/>
+        order by ct.create_time desc
+    </select>
+    <select id="countUserCetTrains" parameterType="map" resultType="java.lang.Integer">
+        select count(ct.id)
+        <include refid="searchTrains"/>
+    </select>
+</mapper>

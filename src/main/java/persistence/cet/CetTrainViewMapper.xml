@@ -17,8 +17,11 @@
     <result column="pub_status" jdbcType="TINYINT" property="pubStatus" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="trainee_types" jdbcType="VARCHAR" property="traineeTypes" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetTrainView">
+    <result column="trainee_types" jdbcType="LONGVARCHAR" property="traineeTypes" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -51,8 +54,27 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, type, num, name, subject, template_id, start_date, end_date, start_time, 
-    end_time, enroll_status, pub_status, remark, is_deleted, create_time, trainee_types
+    end_time, enroll_status, pub_status, remark, is_deleted, is_finished, create_time
   </sql>
+  <sql id="Blob_Column_List">
+    trainee_types
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="domain.cet.CetTrainViewExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cet_train_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="domain.cet.CetTrainViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -71,6 +93,22 @@
     select count(*) from cet_train_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.cet.CetTrainViewExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cet_train_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
     </if>
   </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTrainViewExample" resultMap="BaseResultMap">

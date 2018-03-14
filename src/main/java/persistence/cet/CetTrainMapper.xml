@@ -17,6 +17,7 @@
     <result column="pub_status" jdbcType="TINYINT" property="pubStatus" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -79,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, type, num, name, subject, template_id, start_date, end_date, start_time, 
-    end_time, enroll_status, pub_status, remark, is_deleted, create_time
+    end_time, enroll_status, pub_status, remark, is_deleted, is_finished, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainExample" resultMap="BaseResultMap">
     select
@@ -117,13 +118,13 @@
       template_id, start_date, end_date, 
       start_time, end_time, enroll_status, 
       pub_status, remark, is_deleted, 
-      create_time)
+      is_finished, create_time)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
       #{num,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, 
       #{templateId,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{enrollStatus,jdbcType=TINYINT}, 
       #{pubStatus,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{isFinished,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cet.CetTrain">
     insert into cet_train
@@ -172,6 +173,9 @@
       </if>
       <if test="isDeleted != null">
         is_deleted,
+      </if>
+      <if test="isFinished != null">
+        is_finished,
       </if>
       <if test="createTime != null">
         create_time,
@@ -222,6 +226,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="isFinished != null">
+        #{isFinished,jdbcType=BIT},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -282,6 +289,9 @@
       <if test="record.isDeleted != null">
         is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
+      <if test="record.isFinished != null">
+        is_finished = #{record.isFinished,jdbcType=BIT},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -307,6 +317,7 @@
       pub_status = #{record.pubStatus,jdbcType=TINYINT},
       remark = #{record.remark,jdbcType=VARCHAR},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
+      is_finished = #{record.isFinished,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -357,6 +368,9 @@
       <if test="isDeleted != null">
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
+      <if test="isFinished != null">
+        is_finished = #{isFinished,jdbcType=BIT},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -379,6 +393,7 @@
       pub_status = #{pubStatus,jdbcType=TINYINT},
       remark = #{remark,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=BIT},
+      is_finished = #{isFinished,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

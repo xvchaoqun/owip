@@ -19,11 +19,9 @@ public class CetTrainCourseService extends BaseMapper {
 
         record.setTraineeCount(0);
         record.setStatus(SystemConstants.AVAILABLE);
-        record.setSortOrder(getNextSortOrder("train_course",
+        record.setSortOrder(getNextSortOrder("cet_train_course",
                 "train_id="+record.getTrainId()+ " and status="+SystemConstants.AVAILABLE));
         cetTrainCourseMapper.insertSelective(record);
-        // 更新班次的课程数量
-        iTrainMapper.update_train_courseNum();
     }
 
     @Transactional
@@ -37,9 +35,6 @@ public class CetTrainCourseService extends BaseMapper {
         CetTrainCourse record = new CetTrainCourse();
         record.setStatus(SystemConstants.UNAVAILABLE);
         cetTrainCourseMapper.updateByExampleSelective(record, example);
-
-        // 更新班次的课程数量
-        iTrainMapper.update_train_courseNum();
     }
 
     @Transactional
@@ -82,9 +77,9 @@ public class CetTrainCourseService extends BaseMapper {
             CetTrainCourse targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("train_course", "train_id="+trainId + " and status="+SystemConstants.AVAILABLE, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cet_train_course", "train_id="+trainId + " and status="+SystemConstants.AVAILABLE, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("train_course", "train_id="+trainId + " and status="+SystemConstants.AVAILABLE, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cet_train_course", "train_id="+trainId + " and status="+SystemConstants.AVAILABLE, baseSortOrder, targetEntity.getSortOrder());
 
             CetTrainCourse record = new CetTrainCourse();
             record.setId(id);

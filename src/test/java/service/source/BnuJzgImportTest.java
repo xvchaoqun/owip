@@ -17,4 +17,10 @@ public class BnuJzgImportTest {
         extJzgImport.excute(null);
     }
 
+    @Test
+    public void byCode(){
+
+        extJzgImport.byCode("11132018004");
+    }
+
 }
