@@ -1,11 +1,24 @@
 package domain.cet;
 
+import domain.base.MetaType;
 import sys.constants.CetConstants;
+import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class CetTrainView implements Serializable {
+
+    public String getSn(){
+
+        if(type==null) return null;
+        MetaType metaType = CmTag.getMetaType(type);
+        if(metaType==null) return null;
+
+        return String.format("%s[%s]%s号",
+                metaType.getName(),
+                year, num);
+    }
 
     public Boolean getAutoSwitch(){
         return enrollStatus == CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT;
@@ -50,7 +63,7 @@ public class CetTrainView implements Serializable {
 
     private String name;
 
-    private String subject;
+    private Boolean hasSummary;
 
     private Integer templateId;
 
@@ -75,6 +88,8 @@ public class CetTrainView implements Serializable {
     private Date createTime;
 
     private String traineeTypes;
+
+    private String summary;
 
     private static final long serialVersionUID = 1L;
 
@@ -118,12 +133,12 @@ public class CetTrainView implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getSubject() {
-        return subject;
+    public Boolean getHasSummary() {
+        return hasSummary;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject == null ? null : subject.trim();
+    public void setHasSummary(Boolean hasSummary) {
+        this.hasSummary = hasSummary;
     }
 
     public Integer getTemplateId() {
@@ -220,5 +235,13 @@ public class CetTrainView implements Serializable {
 
     public void setTraineeTypes(String traineeTypes) {
         this.traineeTypes = traineeTypes == null ? null : traineeTypes.trim();
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary == null ? null : summary.trim();
     }
 }

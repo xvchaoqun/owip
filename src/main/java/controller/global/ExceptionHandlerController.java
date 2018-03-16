@@ -22,7 +22,9 @@ import sys.utils.JSONUtils;
 import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -33,17 +35,17 @@ public class ExceptionHandlerController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    public String getMsg(HttpServletRequest request, Exception ex){
+    public String getMsg(HttpServletRequest request, Exception ex) {
 
         //ex.printStackTrace();
 
         ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        String username = (shiroUser!=null)?shiroUser.getUsername():null;
+        String username = (shiroUser != null) ? shiroUser.getUsername() : null;
         return MessageFormat.format("{0}, {1}, {2}, {3}, {4}, {5}, {6}",
                 username, ex.getMessage(), request.getRequestURI(),
-                        request.getMethod(),
-                        JSONUtils.toString(request.getParameterMap(), false),
-                        RequestUtils.getUserAgent(request), IpUtils.getRealIp(request));
+                request.getMethod(),
+                JSONUtils.toString(request.getParameterMap(), false),
+                RequestUtils.getUserAgent(request), IpUtils.getRealIp(request));
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
@@ -64,23 +66,23 @@ public class ExceptionHandlerController {
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
-        if(ex.getCause() instanceof MySQLIntegrityConstraintViolationException){
+        if (ex.getCause() instanceof MySQLIntegrityConstraintViolationException) {
 
             resultMap.put("success", false);
-            if(StringUtils.contains(ex.getCause().getMessage(), "Duplicate")) {
+            if (StringUtils.contains(ex.getCause().getMessage(), "Duplicate")) {
 
                 resultMap.put("msg", "添加重复");
                 logger.warn(getMsg(request, ex), ex);
 
-            } else if(StringUtils.contains(ex.getCause().getMessage(), "foreign key constraint")) {
+            } else if (StringUtils.contains(ex.getCause().getMessage(), "foreign key constraint")) {
                 //resultMap.put("msg", "请先删除关联表的所有数据");
                 resultMap.put("msg", "数据已在别的地方使用，不可以删除");
                 logger.warn(getMsg(request, ex), ex);
-            }else {
+            } else {
                 resultMap.put("msg", "系统异常，请稍后重试");
                 logger.error(getMsg(request, ex), ex);
             }
-        }else if(ex.getCause() instanceof SQLException){
+        } else if (ex.getCause() instanceof SQLException) {
 
             resultMap.put("success", false);
             resultMap.put("msg", "系统异常，请稍后重试");
@@ -96,9 +98,9 @@ public class ExceptionHandlerController {
 
         logger.error(getMsg(request, ex), ex);
         String msg = "系统异常，请稍后重试";
-        if(ex instanceof FileNotFoundException){
+        if (ex instanceof FileNotFoundException) {
             msg = "文件不存在";
-        }else if(ex instanceof OpException){
+        } else if (ex instanceof OpException) {
             msg = ex.getMessage();
         }
         //ex.printStackTrace();
@@ -162,7 +164,7 @@ public class ExceptionHandlerController {
 
             //ex.printStackTrace();
             ModelAndView mv = new ModelAndView();
-            mv.addObject("exception", "系统异常["+ ex.getMessage() +"]，请稍后重试");
+            mv.addObject("exception", "系统异常[" + ex.getMessage() + "]，请稍后重试");
             mv.setViewName("500");
             return mv;
         }
@@ -179,16 +181,41 @@ public class ExceptionHandlerController {
     }
 
     @ExceptionHandler(SignParamsException.class)
-    @ResponseBody
-    public Map resolveSignParamsException(HttpServletRequest request, Exception ex) {
+    public void resolveSignParamsException(HttpServletRequest request, HttpServletResponse response, Exception ex) {
 
-        String msg = "签名错误";
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("ret", -10);
-        resultMap.put("msg", msg);
+        String msg = "签名错误";
+        String app = request.getParameter("app");
+        String sign = request.getParameter("sign");
+        if(StringUtils.isBlank(app)){
+            try {
+                JSONUtils.write(response, "参数app为空", false);
+            } catch (IOException e) {}
+        }
+
+        if(StringUtils.isBlank(sign)){
+            try {
+                JSONUtils.write(response, "参数sign为空", false);
+            } catch (IOException e) {}
+        }
+        switch (app) {
+            case "oa":
+                resultMap.put("Message", msg);
+                resultMap.put("Success", false);
+                break;
+            default:
+                resultMap.put("ret", -10);
+                resultMap.put("msg", msg);
+                break;
+        }
 
         logger.warn(getMsg(request, ex), ex);
-        return resultMap;
+
+        try {
+            JSONUtils.write(response, resultMap, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

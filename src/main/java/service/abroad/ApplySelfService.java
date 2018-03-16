@@ -375,15 +375,13 @@ public class ApplySelfService extends BaseMapper {
     public Map findApplySelfList(int userId/*审批人*/, Integer cadreId/*被审批干部*/,
                                  DateRange _applyDate,
                                  // 出行时间范围
-                                 Byte type, int status, Integer pageNo, Integer pageSize) {
+                                 Byte type, int status,
+                                 // pageNo<0时，只统计数量，不读取分页数据
+                                 Integer pageNo, Integer pageSize) {
 
         if (null == pageSize) {
             pageSize = springProps.mPageSize;
         }
-        if (null == pageNo) {
-            pageNo = 1;
-        }
-        pageNo = Math.max(1, pageNo);
 
         int count = 0;
         List<ApplySelf> applySelfs = null;
@@ -428,17 +426,19 @@ public class ApplySelfService extends BaseMapper {
             if (status == 1)
                 count = iAbroadMapper.countHasApproval(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap, userId);
 
-            if ((pageNo - 1) * pageSize >= count) {
-                pageNo = Math.max(1, pageNo - 1);
+            if (null == pageNo) pageNo = 1;
+            if(pageNo>0){
+                pageNo = Math.max(1, pageNo);
+                if ((pageNo - 1) * pageSize >= count) {
+                    pageNo = Math.max(1, pageNo - 1);
+                }
+                if (status == 0)
+                    applySelfs = iAbroadMapper.selectNotApprovalList(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap,
+                            new RowBounds((pageNo - 1) * pageSize, pageSize));
+                if (status == 1)
+                    applySelfs = iAbroadMapper.selectHasApprovalList(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap, userId,
+                            new RowBounds((pageNo - 1) * pageSize, pageSize));
             }
-
-            if (status == 0)
-                applySelfs = iAbroadMapper.selectNotApprovalList(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap,
-                        new RowBounds((pageNo - 1) * pageSize, pageSize));
-            if (status == 1)
-                applySelfs = iAbroadMapper.selectHasApprovalList(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap, userId,
-                        new RowBounds((pageNo - 1) * pageSize, pageSize));
-
         }
         Map map = new HashMap();
         map.put("applySelfs", applySelfs);

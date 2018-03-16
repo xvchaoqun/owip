@@ -5,6 +5,8 @@ import domain.cet.CetCourse;
 import domain.cet.CetCourseExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -44,7 +46,14 @@ public class CetCourseService extends BaseMapper {
         return num;
     }
 
+    @Cacheable(value = "CetCourse", key = "#id")
+    public CetCourse get(int id){
+
+        return cetCourseMapper.selectByPrimaryKey(id);
+    }
+
     @Transactional
+    @CacheEvict(value="CetCourse", key = "#record.id")
     public void insertSelective(CetCourse record){
 
         Assert.isTrue(record.getFoundDate()!=null, "null");
@@ -63,12 +72,14 @@ public class CetCourseService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value="CetCourse", key = "#id")
     public void del(Integer id){
 
         cetCourseMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
+    @CacheEvict(value="CetCourse", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -79,7 +90,7 @@ public class CetCourseService extends BaseMapper {
     }
 
     @Transactional
-
+    @CacheEvict(value="CetCourse", key = "#record.id")
     public int updateByPrimaryKeySelectiveWithNum(CetCourse record){
 
         Assert.isTrue(record.getFoundDate()!=null, "null");
@@ -95,17 +106,30 @@ public class CetCourseService extends BaseMapper {
         return cetCourseMapper.updateByPrimaryKeySelective(record);
     }
 
+    // 更新（不改变编号）
+    @Transactional
+    @CacheEvict(value="CetCourse", key = "#record.id")
+    public int updateByPrimaryKeySelectiveWithoutNum(CetCourse record){
+
+        record.setYear(null);
+        record.setIsOnline(null);
+        record.setNum(null);
+
+        return cetCourseMapper.updateByPrimaryKeySelective(record);
+    }
+
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      * @param id
      * @param addNum
      */
     @Transactional
+    @CacheEvict(value="CetCourse", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;
 
-        CetCourse entity = cetCourseMapper.selectByPrimaryKey(id);
+        CetCourse entity = get(id);
         Integer baseSortOrder = entity.getSortOrder();
 
         CetCourseExample example = new CetCourseExample();

@@ -40,13 +40,14 @@
         </table>-->
         <!--<table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
         </table>-->
-        <table tableName="cet_train_view" domainObjectName="cet.CetTrainView" mapperName="cet.CetTrainViewMapper"
+        <!--<table tableName="cet_train_view" domainObjectName="cet.CetTrainView" mapperName="cet.CetTrainViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
-        <!--<table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
+                <columnOverride column="trainee_types" jdbcType="VARCHAR"></columnOverride>
         </table>-->
+        <table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
+        </table>
         <!--<table tableName="cet_trainee" domainObjectName="cet.CetTrainee" mapperName="cet.CetTraineeMapper">
         </table>-->
         <!--<table tableName="cet_trainee_cadre_view" domainObjectName="cet.CetTraineeCadreView"
@@ -55,7 +56,7 @@
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
         </table>-->
-        <!--<table tableName="cet_trainee_course" domainObjectName="cet.CetTraineeCourse" mapperName="cet.CetTraineeCourseMapper">
+       <!-- <table tableName="cet_trainee_course" domainObjectName="cet.CetTraineeCourse" mapperName="cet.CetTraineeCourseMapper">
         </table>-->
 
         <!--<table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">

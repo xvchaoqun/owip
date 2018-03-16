@@ -30,7 +30,7 @@ public class CetConstants {
         CET_TRAIN_PUB_STATUS_MAP.put(CET_TRAIN_PUB_STATUS_CANCEL, "取消发布");
     }
 
-    // 培训班 选课状态，0 根据选课时间而定 1 强制开启、2 强制关闭、3 暂停选课
+    // 培训班 选课状态，0 根据选课时间而定 1 正在选课、2 选课结束、3 暂停选课
     public final static byte CET_TRAIN_ENROLL_STATUS_DEFAULT = 0;
     public final static byte CET_TRAIN_ENROLL_STATUS_OPEN = 1;
     public final static byte CET_TRAIN_ENROLL_STATUS_CLOSED = 2;

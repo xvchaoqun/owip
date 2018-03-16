@@ -34,7 +34,7 @@
                                     发布</button>
                                 <button id="unPubBtn" class="jqItemBtn btn btn-warning btn-sm"
                                         data-url="${ctx}/cet/cetTrain_pub"
-                                        data-title="发布"
+                                        data-title="取消发布"
                                         data-msg="确定取消发布该培训班？"
                                         data-callback="_reload"
                                         data-grid-id="#jqGrid"
@@ -52,7 +52,7 @@
                             </c:if>
                             <c:if test="${cls==1||cls==2}">
                                 <shiro:hasPermission name="cetTrain:del">
-                                    <button data-url="${ctx}/cet/cetTrain_batchDel"
+                                    <button data-url="${ctx}/cet/cetTrain_fakeDel"
                                             data-title="删除"
                                             data-msg="确定删除这{0}条数据？"
                                             data-grid-id="#jqGrid"
@@ -61,6 +61,15 @@
                                     </button>
                                 </shiro:hasPermission>
                             </c:if>
+                    <c:if test="${cls==3}">
+                            <button data-url="${ctx}/cet/cetTrain_batchDel"
+                                    data-title="彻底删除"
+                                    data-msg="确定彻底删除这{0}条数据？（该培训班下的所有数据均将彻底删除，请谨慎操作！）"
+                                    data-grid-id="#jqGrid"
+                                    class="jqBatchBtn btn btn-danger btn-sm">
+                                <i class="fa fa-trash"></i> 彻底删除
+                            </button>
+                        </c:if>
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>
@@ -135,13 +144,7 @@
                         .format(rowObject.id);
             }, frozen: true},
             {label: '年度', name: 'year', width:'60', frozen: true},
-            {
-                label: '编号', name: 'num', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.type==undefined || rowObject.type<=0) return ''
-                return _cMap.metaTypeMap[rowObject.type].name + "[" + rowObject.year + "]" + rowObject.num + "号";
-
-            }, width: 200, frozen: true
-            },
+            {label: '编号', name: 'sn', width: 200, frozen: true},
             {label: '可选课人数', name: '_count', width:120},
             {label: '选课情况', name: '_select'},
             {label: '发布状态', name: '_pubStatus', formatter: function (cellvalue, options, rowObject) {
@@ -181,8 +184,21 @@
             </c:if>
             {label: '培训班类型', name: 'type', width:200, formatter: $.jgrid.formatter.MetaType},
             {label: '培训班名称', name: 'name', width:200, align:'left'},
-            {label: '培训主题', name: 'subject', width:200},
-            {label: '参训人类型', name: 'traineeTypes', width:200},
+            {label: '内容简介', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
+                var btnStr = "添加";
+                var btnCss = "btn-success";
+                var iCss = "fa-plus";
+                if (rowObject.hasSummary){
+                    btnStr = "查看";
+                    btnCss = "btn-primary";
+                    iCss = "fa-search";
+                }
+
+                return ('<button class="popupBtn btn {2} btn-xs" data-width="750" ' +
+                'data-url="${ctx}/cet/cetTrain_summary?id={0}"><i class="fa {3}"></i> {1}</button>')
+                        .format(rowObject.id, btnStr, btnCss, iCss);
+            }, frozen:true},
+            {label: '参训人员类型', name: 'traineeTypes', width:120, align:'left'},
             {label: '开课日期', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '结课日期', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '备注', name: 'remark', width:300}, {hidden: true, name: 'pubStatus'},

@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
-import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -239,14 +238,14 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
         }
         List<${TableName}> ${tableName}s = ${tableName}Mapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
-        List<Select2Option> options = new ArrayList<Select2Option>();
+        List options = new ArrayList<>();
         if(null != ${tableName}s && ${tableName}s.size()>0){
 
             for(${TableName} ${tableName}:${tableName}s){
 
-                Select2Option option = new Select2Option();
-                option.setText(${tableName}.getName());
-                option.setId(${tableName}.getId() + "");
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", ${tableName}.getName());
+                option.put("id", ${tableName}.getId() + "");
 
                 options.add(option);
             }

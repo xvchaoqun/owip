@@ -14,14 +14,14 @@ import java.util.List;
 @Service
 public class CetTrainCourseService extends BaseMapper {
 
-    @Transactional
-    public void insertSelective(CetTrainCourse record){
 
-        record.setTraineeCount(0);
-        record.setStatus(SystemConstants.AVAILABLE);
-        record.setSortOrder(getNextSortOrder("cet_train_course",
-                "train_id="+record.getTrainId()+ " and status="+SystemConstants.AVAILABLE));
-        cetTrainCourseMapper.insertSelective(record);
+    public CetTrainCourse get(int trainId, int courseId){
+
+        CetTrainCourseExample example = new CetTrainCourseExample();
+        example.createCriteria().andTrainIdEqualTo(trainId).andCourseIdEqualTo(courseId);
+        List<CetTrainCourse> cetTrainCourses = cetTrainCourseMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return (cetTrainCourses.size()>0)?cetTrainCourses.get(0):null;
     }
 
     @Transactional
@@ -32,9 +32,7 @@ public class CetTrainCourseService extends BaseMapper {
         CetTrainCourseExample example = new CetTrainCourseExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
 
-        CetTrainCourse record = new CetTrainCourse();
-        record.setStatus(SystemConstants.UNAVAILABLE);
-        cetTrainCourseMapper.updateByExampleSelective(record, example);
+        cetTrainCourseMapper.deleteByExample(example);
     }
 
     @Transactional
@@ -62,12 +60,12 @@ public class CetTrainCourseService extends BaseMapper {
         if (addNum*orderBy > 0) {
 
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder)
-            .andTrainIdEqualTo(trainId).andStatusEqualTo(SystemConstants.AVAILABLE);
+            .andTrainIdEqualTo(trainId);
             example.setOrderByClause("sort_order asc");
         }else {
 
             example.createCriteria().andSortOrderLessThan(baseSortOrder)
-                    .andTrainIdEqualTo(trainId).andStatusEqualTo(SystemConstants.AVAILABLE);
+                    .andTrainIdEqualTo(trainId);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -85,6 +83,25 @@ public class CetTrainCourseService extends BaseMapper {
             record.setId(id);
             record.setSortOrder(targetEntity.getSortOrder());
             cetTrainCourseMapper.updateByPrimaryKeySelective(record);
+        }
+    }
+
+    // 添加课程
+    @Transactional
+    public void selectCourses(int trainId, Integer[] courseIds) {
+
+        if(courseIds==null || courseIds.length==0) return;
+
+        for (Integer courseId : courseIds) {
+
+            if(get(trainId, courseId)!=null) continue;
+
+            CetTrainCourse record = new CetTrainCourse();
+            record.setTrainId(trainId);
+            record.setCourseId(courseId);
+            record.setTraineeCount(0);
+            record.setSortOrder(getNextSortOrder("cet_train_course", "train_id="+record.getTrainId()));
+            cetTrainCourseMapper.insertSelective(record);
         }
     }
 }

@@ -133,7 +133,7 @@ public class CetCourseController extends CetBaseController {
     public String cetCourse_au(Integer id, Boolean isOnline, ModelMap modelMap) {
 
         if (id != null) {
-            CetCourse cetCourse = cetCourseMapper.selectByPrimaryKey(id);
+            CetCourse cetCourse = cetCourseService.get(id);
             modelMap.put("cetCourse", cetCourse);
             if(cetCourse!=null){
                 isOnline = cetCourse.getIsOnline();
@@ -153,10 +153,17 @@ public class CetCourseController extends CetBaseController {
     public String cetCourse_summary(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-            CetCourse cetCourse = cetCourseMapper.selectByPrimaryKey(id);
+            CetCourse cetCourse = cetCourseService.get(id);
             modelMap.put("cetCourse", cetCourse);
         }
         return "cet/cetCourse/cetCourse_summary";
+    }
+
+    @RequiresPermissions("cetCourse:edit")
+    @RequestMapping("/cetCourse_addToTrain")
+    public String cetCourse_addToTrain() {
+
+        return "cet/cetCourse/cetCourse_addToTrain";
     }
 
     @RequiresPermissions("cetCourse:edit")
@@ -169,7 +176,7 @@ public class CetCourseController extends CetBaseController {
         record.setSummary(summary);
         record.setHasSummary(StringUtils.isNotBlank(summary));
 
-        cetCourseMapper.updateByPrimaryKeySelective(record);
+        cetCourseService.updateByPrimaryKeySelectiveWithoutNum(record);
         logger.info(addLog(SystemConstants.LOG_CET, "更新课程要点：%s", id));
 
         return success(FormUtils.SUCCESS);

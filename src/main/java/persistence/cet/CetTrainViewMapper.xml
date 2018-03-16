@@ -7,7 +7,7 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="subject" jdbcType="VARCHAR" property="subject" />
+    <result column="has_summary" jdbcType="BIT" property="hasSummary" />
     <result column="template_id" jdbcType="INTEGER" property="templateId" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
@@ -19,9 +19,10 @@
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="trainee_types" jdbcType="VARCHAR" property="traineeTypes" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetTrainView">
-    <result column="trainee_types" jdbcType="LONGVARCHAR" property="traineeTypes" />
+    <result column="summary" jdbcType="LONGVARCHAR" property="summary" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -53,11 +54,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, type, num, name, subject, template_id, start_date, end_date, start_time, 
-    end_time, enroll_status, pub_status, remark, is_deleted, is_finished, create_time
+    id, year, type, num, name, has_summary, template_id, start_date, end_date, start_time, 
+    end_time, enroll_status, pub_status, remark, is_deleted, is_finished, create_time, 
+    trainee_types
   </sql>
   <sql id="Blob_Column_List">
-    trainee_types
+    summary
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="domain.cet.CetTrainViewExample" resultMap="ResultMapWithBLOBs">
     select

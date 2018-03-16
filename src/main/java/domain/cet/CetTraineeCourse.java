@@ -1,9 +1,21 @@
 package domain.cet;
 
+import persistence.cet.CetTrainCourseMapper;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CetTraineeCourse implements Serializable {
+
+    public CetTrainCourse getCetTrainCourse(){
+
+        if(trainCourseId==null) return null;
+        CetTrainCourseMapper cetTrainCourseMapper = CmTag.getBean(CetTrainCourseMapper.class);
+
+        return cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
+    }
+
     private Integer id;
 
     private Integer traineeId;

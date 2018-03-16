@@ -152,7 +152,7 @@
 
         }, invalidHandler: function (form, validator) {
             //var errors = validator.numberOfInvalids();
-            SysMsg.error("请选择用户和类别", '错误');
+            SysMsg.info("请选择用户和类别", '错误');
         }
     });*/
 </script>

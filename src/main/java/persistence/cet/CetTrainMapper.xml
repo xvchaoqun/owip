@@ -7,7 +7,7 @@
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="subject" jdbcType="VARCHAR" property="subject" />
+    <result column="has_summary" jdbcType="BIT" property="hasSummary" />
     <result column="template_id" jdbcType="INTEGER" property="templateId" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
@@ -19,6 +19,9 @@
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetTrain">
+    <result column="summary" jdbcType="LONGVARCHAR" property="summary" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,9 +82,28 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, type, num, name, subject, template_id, start_date, end_date, start_time, 
+    id, year, type, num, name, has_summary, template_id, start_date, end_date, start_time, 
     end_time, enroll_status, pub_status, remark, is_deleted, is_finished, create_time
   </sql>
+  <sql id="Blob_Column_List">
+    summary
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="domain.cet.CetTrainExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cet_train
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="domain.cet.CetTrainExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -96,9 +118,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from cet_train
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -114,17 +138,19 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.cet.CetTrain">
     insert into cet_train (id, year, type, 
-      num, name, subject, 
+      num, name, has_summary, 
       template_id, start_date, end_date, 
       start_time, end_time, enroll_status, 
       pub_status, remark, is_deleted, 
-      is_finished, create_time)
+      is_finished, create_time, summary
+      )
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{num,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, 
+      #{num,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{hasSummary,jdbcType=BIT}, 
       #{templateId,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{enrollStatus,jdbcType=TINYINT}, 
       #{pubStatus,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
-      #{isFinished,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP})
+      #{isFinished,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{summary,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cet.CetTrain">
     insert into cet_train
@@ -144,8 +170,8 @@
       <if test="name != null">
         name,
       </if>
-      <if test="subject != null">
-        subject,
+      <if test="hasSummary != null">
+        has_summary,
       </if>
       <if test="templateId != null">
         template_id,
@@ -180,6 +206,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="summary != null">
+        summary,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -197,8 +226,8 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="subject != null">
-        #{subject,jdbcType=VARCHAR},
+      <if test="hasSummary != null">
+        #{hasSummary,jdbcType=BIT},
       </if>
       <if test="templateId != null">
         #{templateId,jdbcType=INTEGER},
@@ -233,6 +262,9 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="summary != null">
+        #{summary,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.cet.CetTrainExample" resultType="java.lang.Long">
@@ -259,8 +291,8 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.subject != null">
-        subject = #{record.subject,jdbcType=VARCHAR},
+      <if test="record.hasSummary != null">
+        has_summary = #{record.hasSummary,jdbcType=BIT},
       </if>
       <if test="record.templateId != null">
         template_id = #{record.templateId,jdbcType=INTEGER},
@@ -295,7 +327,34 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.summary != null">
+        summary = #{record.summary,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update cet_train
+    set id = #{record.id,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      has_summary = #{record.hasSummary,jdbcType=BIT},
+      template_id = #{record.templateId,jdbcType=INTEGER},
+      start_date = #{record.startDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      enroll_status = #{record.enrollStatus,jdbcType=TINYINT},
+      pub_status = #{record.pubStatus,jdbcType=TINYINT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      is_finished = #{record.isFinished,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      summary = #{record.summary,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -307,7 +366,7 @@
       type = #{record.type,jdbcType=INTEGER},
       num = #{record.num,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
-      subject = #{record.subject,jdbcType=VARCHAR},
+      has_summary = #{record.hasSummary,jdbcType=BIT},
       template_id = #{record.templateId,jdbcType=INTEGER},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
@@ -338,8 +397,8 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="subject != null">
-        subject = #{subject,jdbcType=VARCHAR},
+      <if test="hasSummary != null">
+        has_summary = #{hasSummary,jdbcType=BIT},
       </if>
       <if test="templateId != null">
         template_id = #{templateId,jdbcType=INTEGER},
@@ -374,7 +433,31 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.cet.CetTrain">
+    update cet_train
+    set year = #{year,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      has_summary = #{hasSummary,jdbcType=BIT},
+      template_id = #{templateId,jdbcType=INTEGER},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      enroll_status = #{enrollStatus,jdbcType=TINYINT},
+      pub_status = #{pubStatus,jdbcType=TINYINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      is_finished = #{isFinished,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      summary = #{summary,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetTrain">
@@ -383,7 +466,7 @@
       type = #{type,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
-      subject = #{subject,jdbcType=VARCHAR},
+      has_summary = #{hasSummary,jdbcType=BIT},
       template_id = #{templateId,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
@@ -397,6 +480,22 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.cet.CetTrainExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cet_train
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTrainExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

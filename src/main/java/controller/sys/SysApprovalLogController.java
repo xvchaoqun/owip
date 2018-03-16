@@ -51,7 +51,7 @@ public class SysApprovalLogController extends BaseController {
                     userId = pmdMember.getUserId();
                     break;
                 }
-                case SystemConstants.SYS_APPROVAL_LOG_TYPE_CET: {
+                case SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE: {
                     CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(id);
                     userId = cetTrainee.getUserId();
                     break;
@@ -100,7 +100,7 @@ public class SysApprovalLogController extends BaseController {
 
         //criteria.addPermits(loginUserService.adminPartyIdList(), loginUserService.adminBranchIdList());
 
-        example.setOrderByClause("create_time desc");
+        example.setOrderByClause("id desc");
 
         if (id != null)
             criteria.andRecordIdEqualTo(id);

@@ -2,6 +2,13 @@
 
 select * from licdc_zg.v_zzry_gz_dydf t;--党员工资详情
 
+
+### 查询某个党委的离退休费
+select m.code, m.realname, s.ltxf from ow_member_teacher m
+left join ext_retire_salary s on s.zgh = m.code and s.rq=(select max(rq) from ext_retire_salary)
+ where m.party_id=21 and m.status=1 and ltxf is not null;
+
+
 ############
 ## 视图权限
 drop user data@219.224.19.33;

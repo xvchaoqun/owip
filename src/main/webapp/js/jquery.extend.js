@@ -103,12 +103,19 @@ SysMsg.error = function (msg, title, callback) {
         callback = title;
         title = '';
     }
-    bootbox.alert({
-        message: msg,
-        callback: callback,
-        title: title
-    });
-    //toastr.error(msg, title);
+    bootbox.dialog({
+        title:'<div class="msg title text-danger"><i class="fa fa-exclamation-triangle"></i> '+(title||"提示")+'</div>',
+        message: '<div class="msg info">'+msg+'</div>',
+        closeButton: false,
+        buttons: {
+            close: {
+                label: "关闭",
+                className: "btn-default",
+                callback: callback || function () {
+                }
+            }
+        }
+    }).draggable({handle: ".modal-header"});
 }
 SysMsg.warning = function (msg, title, callback) {
     $("body").css('padding-right', '0px');
@@ -117,11 +124,19 @@ SysMsg.warning = function (msg, title, callback) {
         callback = title;
         title = '';
     }
-    bootbox.alert({
-        message: msg,
-        callback: callback,
-        title: title
-    });
+    bootbox.dialog({
+        title:'<div class="msg title text-info"><i class="fa fa-exclamation-triangle"></i> '+(title||"提示")+'</div>',
+        message: '<div class="msg info">'+msg+'</div>',
+        closeButton: false,
+        buttons: {
+            close: {
+                label: "确定",
+                className: "btn-primary",
+                callback: callback || function () {
+                }
+            }
+        }
+    }).draggable({handle: ".modal-header"});
 }
 SysMsg.success = function (msg, title, callback) {
     $("body").css('padding-right', '0px');
@@ -130,11 +145,19 @@ SysMsg.success = function (msg, title, callback) {
         callback = title;
         title = '';
     }
-    bootbox.alert({
-        message: msg,
-        callback: callback,
-        title: title
-    });
+    bootbox.dialog({
+        title:'<div class="msg title text-success"><i class="fa fa-check-square-o"></i> '+(title||"操作成功")+'</div>',
+        message: '<div class="msg info">'+msg+'</div>',
+        closeButton: false,
+        buttons: {
+            close: {
+                label: "确定",
+                className: "btn-primary",
+                callback: callback || function () {
+                }
+            }
+        }
+    }).draggable({handle: ".modal-header"});;
 }
 SysMsg.info = function (msg, title, callback) {
     $("body").css('padding-right', '0px');
@@ -144,8 +167,8 @@ SysMsg.info = function (msg, title, callback) {
         title = '';
     }
     bootbox.dialog({
-        title: title,
-        message: msg,
+        title:'<div class="msg title text-info"><i class="fa fa-info-circle"></i> '+(title||"提示")+'</div>',
+        message: '<div class="msg info">'+msg+'</div>',
         closeButton: false,
         buttons: {
             close: {
@@ -155,7 +178,7 @@ SysMsg.info = function (msg, title, callback) {
                 }
             }
         }
-    });
+    }).draggable({handle: ".modal-header"});
 }
 SysMsg.confirm = function (msg, title, callback) {
     $("body").css('padding-right', '0px');
@@ -165,11 +188,17 @@ SysMsg.confirm = function (msg, title, callback) {
         title = '';
     }
     bootbox.confirm({
-        message: msg,
-        callback: callback,
-        title: title/*,
-         closeButton:false*/
-    });
+        title:'<div class="msg title text-primary"><i class="fa fa-info-circle"></i> '+(title||"信息确认")+'</div>',
+        message: '<div class="msg info text-danger">'+msg+'</div>',
+        callback: function(result){
+            if(result){
+                if(callback) callback();
+            }
+        }
+        /*,
+         closeButton:false
+         */
+    }).draggable({handle: ".modal-header"});
 };
 
 var _modal_width;
@@ -419,25 +448,29 @@ var _modal_width;
 
             var _this = btn;
             var url = $(btn).data("url");
-            var msg = "<div class='confirmMsg'>" + $(btn).data("msg") + "</div>";
             var loading = $(btn).data("loading");
+            var title = $(btn).data("title");
             var callback = $.trim($(btn).data("callback"));
-
             var $loading = $(loading || "#main-container");
-            bootbox.confirm(msg, function (result) {
-                if (result) {
-                    $loading.mask({hide: 10000})
-                    $.post(url, {}, function (ret) {
-                        if (ret.success) {
-                            if (callback) {
-                                // console.log(_this)
-                                window[callback](_this);
+
+            bootbox.confirm({
+                title:'<div class="msg title text-primary"><i class="fa fa-info-circle"></i> '+(title||"信息确认")+'</div>',
+                message: '<div class="msg info text-danger">'+$(btn).data("msg")+'</div>',
+                callback: function(result){
+                    if(result){
+                        $loading.mask({hide: 10000})
+                        $.post(url, {}, function (ret) {
+                            if (ret.success) {
+                                if (callback) {
+                                    // console.log(_this)
+                                    window[callback](_this);
+                                }
                             }
-                        }
-                        $loading.unmask();
-                    });
+                            $loading.unmask();
+                        });
+                    }
                 }
-            });
+            }).draggable({handle: ".modal-header"});
         },
         /**
          * 1、传入的querystr和path均为空时，是触发window.hashchange事件

@@ -53,7 +53,7 @@
             }
             if ($.trim($repasswd.val()) != $.trim($passwd.val())) {
                 $repasswd.focus();
-                SysMsg.error("两次输入的密码不相同，请重新输入。");
+                SysMsg.info("两次输入的密码不相同，请重新输入。");
                 return;
             }
 

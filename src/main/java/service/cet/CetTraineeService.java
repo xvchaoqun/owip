@@ -24,6 +24,15 @@ public class CetTraineeService extends BaseMapper {
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
 
+    public CetTrainee get(int userId, int trainId){
+
+        CetTraineeExample example = new CetTraineeExample();
+        example.createCriteria().andUserIdEqualTo(userId).andTrainIdEqualTo(trainId);
+        List<CetTrainee> cetTrainees = cetTraineeMapper.selectByExample(example);
+
+        return cetTrainees.size()>0?cetTrainees.get(0):null;
+    }
+
     @Transactional
     public void del(Integer id){
 
@@ -44,7 +53,7 @@ public class CetTraineeService extends BaseMapper {
     }
 
     // 检查是否删除参训人员角色
-    private void delRoleIfNotTrainee(int userId){
+    public void delRoleIfNotTrainee(int userId){
 
         CetTraineeExample example = new CetTraineeExample();
         example.createCriteria().andUserIdEqualTo(userId);
@@ -101,9 +110,9 @@ public class CetTraineeService extends BaseMapper {
 
             sysApprovalLogService.add(record.getId(), record.getUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET,
-                    "添加可选课人员", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                    "");
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
+                    "可选课人员", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    "新建");
         }
 
         // 需要删除的人员

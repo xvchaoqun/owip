@@ -38,7 +38,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">编号</label>
 				<div class="col-xs-6">
-					<input ${empty cetTrain?'':'required'} class="form-control num" type="text" name="num" value="${cetTrain.num}">
+					<input ${empty cetTrain?'':'required'} autocomplete="off" class="form-control num" type="text" name="num" value="${cetTrain.num}">
 					<c:if test="${empty cetTrain}"><span class="label-inline"> * 留空自动生成</span></c:if>
 				</div>
 			</div>
@@ -48,12 +48,7 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="name" value="${cetTrain.name}">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">培训主题</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="subject" value="${cetTrain.subject}">
-				</div>
-			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">参训人员类型模板</label>
 				<div class="col-xs-6">

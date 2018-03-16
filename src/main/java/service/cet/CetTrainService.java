@@ -5,7 +5,10 @@ import domain.cet.CetTrain;
 import domain.cet.CetTrainExample;
 import domain.cet.CetTrainTraineeType;
 import domain.cet.CetTrainTraineeTypeExample;
+import domain.cet.CetTrainee;
+import domain.cet.CetTraineeExample;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -18,6 +21,9 @@ import java.util.List;
 
 @Service
 public class CetTrainService extends BaseMapper {
+
+    @Autowired
+    private CetTraineeService cetTraineeService;
 
     public boolean idDuplicate(Integer id, int type, int year, int num){
 
@@ -64,7 +70,7 @@ public class CetTrainService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void fakeDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
 
@@ -75,6 +81,30 @@ public class CetTrainService extends BaseMapper {
         record.setIsDeleted(true);
 
         cetTrainMapper.updateByExampleSelective(record, example);
+    }
+
+    // 彻底删除
+    @Transactional
+    public void batchDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+
+        {
+            CetTraineeExample example = new CetTraineeExample();
+            example.createCriteria().andTrainIdIn(Arrays.asList(ids));
+            List<CetTrainee> cetTrainees = cetTraineeMapper.selectByExample(example);
+
+            for (CetTrainee cetTrainee : cetTrainees) {
+
+                cetTraineeService.delRoleIfNotTrainee(cetTrainee.getUserId());
+            }
+        }
+
+        {
+            CetTrainExample example = new CetTrainExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            cetTrainMapper.deleteByExample(example);
+        }
     }
 
     @Transactional

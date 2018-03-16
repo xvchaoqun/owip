@@ -27,7 +27,7 @@
             data-grid-id="#jqGrid2"
             data-url="${ctx}/sysApprovalLog"
             data-width="850"
-            data-querystr="&displayType=1&type=${SYS_APPROVAL_LOG_TYPE_CET}">
+            data-querystr="&displayType=1&hideStatus=1&type=${SYS_APPROVAL_LOG_TYPE_CET_TRAINEE}">
         <i class="fa fa-history"></i> 操作记录
     </button>
 </div>

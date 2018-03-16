@@ -1,6 +1,7 @@
 package controller.cet;
 
 import domain.cet.CetCourse;
+import domain.cet.CetCourseType;
 import domain.cet.CetExpert;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
@@ -45,6 +46,10 @@ public class CetTrainCourseController extends CetBaseController {
     public String cetTrainCourse(int trainId, ModelMap modelMap) {
 
         modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
+
+        Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
+        modelMap.put("courseTypeMap", courseTypeMap);
+
         return "cet/cetTrainCourse/cetTrainCourse_page";
     }
 
@@ -65,8 +70,7 @@ public class CetTrainCourseController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetTrainCourseExample example = new CetTrainCourseExample();
-        CetTrainCourseExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId)
-                .andStatusEqualTo(SystemConstants.AVAILABLE);
+        CetTrainCourseExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId);
         example.setOrderByClause("sort_order asc");
 /*
         if (StringUtils.isNotBlank(name)) {
@@ -101,27 +105,65 @@ public class CetTrainCourseController extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrainCourse:edit")
-    @RequestMapping(value = "/cetTrainCourse_add", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetTrainCourse_selectCourses", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrainCourse_add(int trainId, int courseId, HttpServletRequest request) {
+    public Map do_cetTrainCourse_selectCourses(int trainId,
+                                               @RequestParam(value = "courseIds[]") Integer[] courseIds,
+                                               HttpServletRequest request) {
 
-
-        CetTrainCourse record = new CetTrainCourse();
-        record.setCourseId(courseId);
-        record.setTrainId(trainId);
-        cetTrainCourseService.insertSelective(record);
-        logger.info(addLog(SystemConstants.LOG_CET, "添加培训班课程：%s", record.getId()));
+        cetTrainCourseService.selectCourses(trainId, courseIds);
+        logger.info(addLog(SystemConstants.LOG_CET, "添加培训班课程：%s, %s",trainId, StringUtils.join(courseIds, ",")));
 
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cetTrainCourse:edit")
-    @RequestMapping("/cetTrainCourse_add")
-    public String cetTrainCourse_add(int trainId, ModelMap modelMap) {
+    @RequestMapping("/cetTrainCourse_selectCourses")
+    public String cetTrainCourse_selectCourses(int trainId, Integer expertId, ModelMap modelMap) {
 
         modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
+        if(expertId!=null)
+            modelMap.put("cetExpert", cetExpertMapper.selectByPrimaryKey(expertId));
 
-        return "cet/cetTrainCourse/cetTrainCourse_add";
+        Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
+        modelMap.put("courseTypeMap", courseTypeMap);
+
+        return "cet/cetTrainCourse/cetTrainCourse_selectCourses";
+    }
+
+    @RequiresPermissions("cetCourse:list")
+    @RequestMapping("/cetTrainCourse_selectCourses_data")
+    public void cetTrainCourse_selectCourses_data(HttpServletResponse response,
+                                                  int trainId, Integer expertId, String name,
+                                                  Integer pageSize, Integer pageNo)  throws IOException{
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        int count = iCetMapper.cetTrainCourse_countCourses(trainId, expertId, name);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CetCourse> records= iCetMapper.cetTrainCourse_selectCourses(trainId, expertId, name,
+                new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(cetCourse.class, cetCourseMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
     }
 
     @RequiresPermissions("cetTrainCourse:edit")
@@ -143,23 +185,9 @@ public class CetTrainCourseController extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrainCourse:del")
-    @RequestMapping(value = "/cetTrainCourse_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetTrainCourse_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            //cetTrainCourseService.del(id);
-            logger.info(addLog(SystemConstants.LOG_CET, "删除培训课程：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetTrainCourse:del")
     @RequestMapping(value = "/cetTrainCourse_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-
+    public Map cetTrainCourse_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
             cetTrainCourseService.batchDel(ids);

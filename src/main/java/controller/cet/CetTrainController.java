@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CetConstants;
 import sys.constants.SystemConstants;
-import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -187,6 +186,33 @@ public class CetTrainController extends CetBaseController {
         return "cet/cetTrain/cetTrain_au";
     }
 
+
+    @RequiresPermissions("cetTrain:edit")
+    @RequestMapping("/cetTrain_summary")
+    public String cetTrain_summary(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(id);
+            modelMap.put("cetTrain", cetTrain);
+        }
+        return "cet/cetTrain/cetTrain_summary";
+    }
+
+    @RequiresPermissions("cetTrain:edit")
+    @RequestMapping(value = "/cetTrain_summary", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetTrain_summary(Integer id, String summary) {
+
+        CetTrain record = new CetTrain();
+        record.setId(id);
+        record.setSummary(summary);
+        record.setHasSummary(StringUtils.isNotBlank(summary));
+        cetTrainMapper.updateByPrimaryKeySelective(record);
+        logger.info(addLog(SystemConstants.LOG_CET, "更新内容简介：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("cetTrain:pub")
     @RequestMapping(value = "/cetTrain_pub", method = RequestMethod.POST)
     @ResponseBody
@@ -225,6 +251,20 @@ public class CetTrainController extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrain:del")
+    @RequestMapping(value = "/cetTrain_fakeDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cetTrain_fakeDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length>0){
+            cetTrainService.fakeDel(ids);
+            logger.info(addLog( SystemConstants.LOG_CET, "批量删除培训班：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetTrain:del")
     @RequestMapping(value = "/cetTrain_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map cetTrain_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -242,7 +282,7 @@ public class CetTrainController extends CetBaseController {
 
         List<CetTrainView> records = cetTrainViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年度|100","编号|100","培训班名称|100","培训主题|100","开课日期|100","结课日期|100","选课状态|100","备注|100"};
+        String[] titles = {"年度|100","编号|100","培训班名称|100","内容简介|100","开课日期|100","结课日期|100","选课状态|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetTrainView record = records.get(i);
@@ -250,7 +290,7 @@ public class CetTrainController extends CetBaseController {
                 record.getYear()+"",
                             record.getNum()+"",
                             record.getName(),
-                            record.getSubject(),
+                            record.getSummary(),
                             DateUtils.formatDate(record.getStartDate(), DateUtils.YYYY_MM_DD),
                             DateUtils.formatDate(record.getEndDate(), DateUtils.YYYY_MM_DD),
                             record.getEnrollStatus() + "",
@@ -276,7 +316,7 @@ public class CetTrainController extends CetBaseController {
 
         CetTrainExample example = new CetTrainExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("create_time desc");
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");
@@ -289,14 +329,15 @@ public class CetTrainController extends CetBaseController {
         }
         List<CetTrain> cetTrains = cetTrainMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
-        List<Select2Option> options = new ArrayList<Select2Option>();
+        List options = new ArrayList<>();
         if(null != cetTrains && cetTrains.size()>0){
 
             for(CetTrain cetTrain:cetTrains){
 
-                Select2Option option = new Select2Option();
-                option.setText(cetTrain.getName());
-                option.setId(cetTrain.getId() + "");
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", cetTrain.getName());
+                option.put("id", cetTrain.getId());
+                option.put("sn", cetTrain.getSn());
 
                 options.add(option);
             }

@@ -33,6 +33,12 @@
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </shiro:hasPermission>
+
+                            <button class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                               data-url="${ctx}/cet/cetCourse_addToTrain"
+                               data-grid-id="#jqGrid"
+                               data-querystr="&"><i class="fa fa-plus-circle"></i>
+                                添加到培训班</button>
                             <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>--%>
@@ -83,49 +89,11 @@
         <div id="item-content"></div>
     </div>
 </div>
+<jsp:include page="cetCourse_colModel.jsp?type=admin"/>
 <script>
-    var courseTypeMap = ${cm:toJSONObject(courseTypeMap)};
     $("#jqGrid").jqGrid({
         url: '${ctx}/cet/cetCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {label: '课程编号', name: 'sn'},
-            {label: '设立时间', name: 'foundDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '课程名称', name: 'name', width: 300, align: 'left'},
-            {label: '课程要点', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
-                var btnStr = "添加";
-                var btnCss = "btn-success";
-                var iCss = "fa-plus";
-                if (rowObject.hasSummary){
-                    btnStr = "查看";
-                    btnCss = "btn-primary";
-                    iCss = "fa-search";
-                }
-
-                return ('<button class="popupBtn btn {2} btn-xs" ' +
-                        'data-url="${ctx}/cet/cetCourse_summary?id={0}"><i class="fa {3}"></i> {1}</button>')
-                        .format(rowObject.id, btnStr, btnCss, iCss);
-            }},
-            {
-                label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
-                formatoptions: {url: "${ctx}/cet/cetCourse_changeOrder"}
-            },
-            {label: '主讲人', name: 'cetExpert.realname'},
-            {label: '所在单位', name: 'cetExpert.unit', width: 300, align: 'left'},
-            {label: '职务和职称', name: 'cetExpert.post', width: 120, align: 'left'},
-            {label: '授课方式', name: 'teachMethod', formatter: $.jgrid.formatter.MetaType},
-            {label: '学时', name: 'period', width: 70},
-            <c:if test="${param.isOnline==1}">
-            {label: '时长', name: 'duration'},
-            </c:if>
-            {
-                label: '专题分类', name: 'courseTypeId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return ''
-                return courseTypeMap[cellvalue].name
-            }
-            },
-            {label: '详情', name: '_detail'},
-            {label: '备注', name: 'remark', width: 400}
-        ]
+        colModel: colModel
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");

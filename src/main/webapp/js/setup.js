@@ -905,21 +905,19 @@ $(document).on("click", ".jqBatchBtn", function (e) {
     }
     clearJqgridSelected();
 
-    title = '<h3 class="label label-success" style="font-size: 20px; height: 30px;">{0}</h3>'.format(title);
-    msg = '<p style="padding:10px;font-size:20px;text-indent: 2em; ">' + msg + '</p>';
-    SysMsg.confirm(msg.format(ids.length), title, function (result) {
-        if (result) {
-            $.post(url, {ids: ids}, function (ret) {
-                if (ret.success) {
-                    if (callback) {
-                        // console.log(_this)
-                        window[callback](_this);
-                    } else {
-                        grid.trigger("reloadGrid");
-                    }
+    //title = '<h3 class="label label-success" style="font-size: 20px; height: 30px;">{0}</h3>'.format(title);
+    //msg = '<p style="padding:10px;font-size:20px;text-indent: 2em; ">' + msg + '</p>';
+    SysMsg.confirm(msg.format(ids.length), title, function () {
+        $.post(url, {ids: ids}, function (ret) {
+            if (ret.success) {
+                if (callback) {
+                    // console.log(_this)
+                    window[callback](_this);
+                } else {
+                    grid.trigger("reloadGrid");
                 }
-            });
-        }
+            }
+        });
     });
 });
 
@@ -944,20 +942,19 @@ $(document).on("click", ".jqItemBtn", function () {
     var msg = $(this).data("msg");
     var grid = $("#jqGrid");
 
-    SysMsg.confirm(msg, title, function (result) {
-        if (result) {
-            $.post(url, function (ret) {
-                if (ret.success) {
-                    if (callback) {
-                        // console.log(_this)
-                        window[callback](_this);
-                    } else {
-                        //grid.trigger("reloadGrid");
-                        $(window).resize(); // 解决jqgrid显示的问题
-                    }
+    SysMsg.confirm(msg, title, function () {
+
+        $.post(url, function (ret) {
+            if (ret.success) {
+                if (callback) {
+                    // console.log(_this)
+                    window[callback](_this);
+                } else {
+                    //grid.trigger("reloadGrid");
+                    $(window).resize(); // 解决jqgrid显示的问题
                 }
-            });
-        }
+            }
+        });
     });
 });
 

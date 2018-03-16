@@ -719,6 +719,22 @@ br.xs-100 {
     margin-right: 20px;
 }
 
+.modal .msg.title{
+    font-size: 16pt;
+    font-weight: bolder;
+}
+
+.modal .msg.info{
+    margin: 30px;
+    font-size: 16pt;
+    font-weight: bolder;
+    text-indent: 2em;
+}
+
+.modal .label-inline{
+    color: darkred;
+}
+
 /*width*/
 .width300 {
     width: 300px;

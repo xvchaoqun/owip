@@ -1,7 +1,7 @@
 package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import persistence.cet.CetCourseMapper;
+import service.cet.CetCourseService;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -12,8 +12,8 @@ public class CetTrainCourse implements Serializable {
     public CetCourse getCetCourse(){
 
         if(courseId==null) return null;
-        CetCourseMapper cetCourseMapper = CmTag.getBean(CetCourseMapper.class);
-        return cetCourseMapper.selectByPrimaryKey(courseId);
+        CetCourseService cetCourseService = CmTag.getBean(CetCourseService.class);
+        return cetCourseService.get(courseId);
     }
 
     private Integer id;
@@ -33,8 +33,6 @@ public class CetTrainCourse implements Serializable {
     private Integer traineeCount;
 
     private Integer sortOrder;
-
-    private Byte status;
 
     private static final long serialVersionUID = 1L;
 
@@ -100,13 +98,5 @@ public class CetTrainCourse implements Serializable {
 
     public void setSortOrder(Integer sortOrder) {
         this.sortOrder = sortOrder;
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
     }
 }

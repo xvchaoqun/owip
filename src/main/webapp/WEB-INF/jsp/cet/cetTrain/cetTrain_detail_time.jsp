@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="space-4"></div>
 <c:set var="isOpen" value="${cetTrain.switchStatus==CET_TRAIN_ENROLL_STATUS_OPEN}"/>
 <c:set var="isClosed" value="${cetTrain.switchStatus==CET_TRAIN_ENROLL_STATUS_CLOSED}"/>
 <c:set var="isPause" value="${cetTrain.switchStatus==CET_TRAIN_ENROLL_STATUS_PAUSE}"/>
-<div class="row" style="width: 850px">
+<div style="width: 850px">
     <div class="alert alert-warning" style="">
         说明：<br/>
         1）自动开关设定好之后，如果手动开关没有任何操作，那么严格按照设定的实际来自动开启和关闭；<br/>
@@ -119,6 +118,7 @@
         </div>
     </div>
 </div>
+<div style="clear: both"></div>
 <script>
     register_datetime($('.datetime-picker'));
 

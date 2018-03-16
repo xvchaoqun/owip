@@ -3,18 +3,20 @@
 <mapper namespace="persistence.common.ICetMapper">
 
     <resultMap id="TrainBaseResultMap" type="persistence.common.bean.ICetTrain"
-               extends="persistence.cet.CetTrainMapper.BaseResultMap">
+               extends="persistence.cet.CetTrainViewMapper.BaseResultMap">
+        <result column="trainee_id" jdbcType="INTEGER" property="traineeId"/>
         <result column="course_count" jdbcType="INTEGER" property="courseCount"/>
+        <result column="total_period" jdbcType="DECIMAL" property="totalPeriod"/>
+        <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod"/>
     </resultMap>
     <sql id="searchTrains">
-        from cet_train ct, cet_trainee ctee
-        where ctee.train_id=ct.id and ctee.user_id=#{userId} and ct.pub_status=1
+        where ctee.train_id=ct.id and ctee.user_id=#{userId} and ct.is_deleted=0 and ct.pub_status=1
         <if test="hasSelected!=null">
             <if test="hasSelected">
-                and ctee.courseCount > 0
+                and ctee.course_count > 0
             </if>
             <if test="!hasSelected">
-                and (ctee.courseCount is null or ctee.courseCount <![CDATA[<=]]> 0)
+                and (ctee.course_count is null or ctee.course_count <![CDATA[<=]]> 0)
             </if>
         </if>
         <if test="isFinished!=null">
@@ -22,12 +24,49 @@
         </if>
     </sql>
     <select id="findUserCetTrains" resultMap="TrainBaseResultMap" parameterType="map">
-        select ct.*, ctee.course_count
+        select ct.*, ctee.id as trainee_id, ctee.course_count
+        <if test="hasSelected">
+        , tmp.total_period, tmp.finish_period
+        </if>
+        from cet_train_view ct, cet_trainee ctee
+        <if test="hasSelected">
+        , (
+        select cteec.trainee_id, sum(cc.period) total_period, sum(if(cteec.is_finished, cc.period, 0)) as finish_period
+        from cet_trainee_course cteec, cet_train_course ctc, cet_course cc, cet_trainee ctee
+        where ctee.id=cteec.trainee_id and cteec.train_course_id=ctc.id and ctc.course_id=cc.id
+        group by cteec.trainee_id
+        ) tmp
+        </if>
         <include refid="searchTrains"/>
+        <if test="hasSelected">
+        and tmp.trainee_id=ctee.id
+        </if>
         order by ct.create_time desc
     </select>
     <select id="countUserCetTrains" parameterType="map" resultType="java.lang.Integer">
-        select count(ct.id)
+        select count(ct.id) from cet_train_view ct, cet_trainee ctee
         <include refid="searchTrains"/>
+    </select>
+
+
+    <sql id="searchCourses">
+        <where>
+        <if test="name!=null">
+            and cc.name like '%${name}%'
+        </if>
+        <if test="expertId!=null">
+          and cc.expert_id=#{expertId}
+        </if>
+          and cc.id not in(select course_id from cet_train_course where train_id=#{trainId})
+        </where>
+    </sql>
+    <select id="cetTrainCourse_selectCourses" resultMap="persistence.cet.CetCourseMapper.BaseResultMap" parameterType="map">
+        select cc.* from cet_course cc
+        <include refid="searchCourses"/>
+        order by sort_order desc
+    </select>
+    <select id="cetTrainCourse_countCourses" parameterType="map" resultType="java.lang.Integer">
+        select count(cc.id) from cet_course cc
+        <include refid="searchCourses"/>
     </select>
 </mapper>

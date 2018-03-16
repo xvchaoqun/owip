@@ -3,15 +3,15 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>编辑课程要点</h3>
+    <h3>编辑内容简介</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cet/cetCourse_summary" id="summaryForm" method="post">
-        <input type="hidden" name="id" value="${cetCourse.id}">
+    <form class="form-horizontal" action="${ctx}/cet/cetTrain_summary" id="summaryForm" method="post">
+        <input type="hidden" name="id" value="${cetTrain.id}">
         <div class="form-group">
             <div class="col-xs-6">
                 <input type="hidden" name="summary">
-                <textarea id="contentId">${cetCourse.summary}</textarea>
+                <textarea id="contentId">${cetTrain.summary}</textarea>
             </div>
         </div>
     </form>

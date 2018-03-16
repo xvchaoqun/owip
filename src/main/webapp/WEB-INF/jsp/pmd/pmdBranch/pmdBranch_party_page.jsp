@@ -25,7 +25,7 @@
                     <button class="popupBtn btn btn-warning btn-sm"
                         ${(empty _pmdMonth)?'disabled':''}
                                       data-url="${ctx}/pmd/pmdSendMsg_notifyBranchAdmins?partyId=${param.partyId}"
-                            ><i class="fa fa-send"></i> 通知支部管理员
+                            ><i class="fa fa-send"></i> 通知全部支部管理员
                     </button>
                     <shiro:hasPermission name="pmdBranch:del">
                         <button id="delBtn" data-url="${ctx}/pmd/pmdBranch_batchDel"

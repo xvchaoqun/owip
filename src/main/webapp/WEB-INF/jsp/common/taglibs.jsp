@@ -579,7 +579,7 @@
 <c:set var="SYS_APPROVAL_LOG_TYPE_APPLYSELF" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF%>"/>
 <c:set var="SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT%>"/>
 <c:set var="SYS_APPROVAL_LOG_TYPE_PMD_MEMBER" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER%>"/>
-<c:set var="SYS_APPROVAL_LOG_TYPE_CET" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CET%>"/>
+<c:set var="SYS_APPROVAL_LOG_TYPE_CET_TRAINEE" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE%>"/>
 
 <c:set var="SYS_APPROVAL_LOG_STATUS_BACK" value="<%=SystemConstants.SYS_APPROVAL_LOG_STATUS_BACK%>"/>
 

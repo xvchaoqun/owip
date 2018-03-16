@@ -1,4 +1,29 @@
 
+2018-3-16
+ALTER TABLE `cet_train`
+	CHANGE COLUMN `subject` `summary` TEXT NULL DEFAULT NULL COMMENT '内容简介' AFTER `name`;
+ALTER TABLE `cet_train`
+	ADD COLUMN `has_summary` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否提交了内容简介' AFTER `name`;
+更新cet_train_view
+
+ALTER TABLE `cet_trainee`
+	ADD CONSTRAINT `FK_cet_trainee_cet_train` FOREIGN KEY (`train_id`) REFERENCES `cet_train` (`id`) ON DELETE CASCADE;
+ALTER TABLE `cet_trainee_course`
+	ADD CONSTRAINT `FK_cet_trainee_course_cet_trainee` FOREIGN KEY (`trainee_id`) REFERENCES `cet_trainee` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `cet_train_course`
+	ADD CONSTRAINT `FK_cet_train_course_cet_train` FOREIGN KEY (`train_id`) REFERENCES `cet_train` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `cet_train_trainee_type`
+	ADD CONSTRAINT `FK_cet_train_trainee_type_cet_train` FOREIGN KEY (`train_id`) REFERENCES `cet_train` (`id`) ON DELETE CASCADE;
+
+
+ALTER TABLE `cet_trainee_course`
+	ADD CONSTRAINT `FK_cet_trainee_course_cet_train_course` FOREIGN KEY (`train_course_id`) REFERENCES `cet_train_course` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `cet_train_course`
+	DROP COLUMN `status`;
+
 2018-3-14
 ALTER TABLE `cet_train`
 	ADD COLUMN `is_finished` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态，0 未结课 1 已结课' AFTER `is_deleted`;

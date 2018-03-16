@@ -214,12 +214,10 @@
     $(".checkBtn").click(function () {
         var id = $(this).data("id");
         var status = $(this).data("status");
-        SysMsg.confirm(status == 0 ? "确认审核不通过？" : "确认审核通过？", "审核", function (result) {
-            if (result) {
-                $.post("${ctx}/pcsProposal_check", {id: id, status: status}, function () {
-                    $.hideView();
-                });
-            }
+        SysMsg.confirm(status == 0 ? "确认审核不通过？" : "确认审核通过？", "审核", function () {
+            $.post("${ctx}/pcsProposal_check", {id: id, status: status}, function () {
+                $.hideView();
+            });
         })
     });
 
