@@ -26,11 +26,12 @@ public class ApiTest {
         String url = "http://localhost:8080/api/abroad/approve_count";
         String app = "oa";
         String key = "b887e286bf5d82b7b9712ed03d3e6e0e";
-        String code = "111120130691";
+        String code = "11112013069";
         //String code = "zzbgz";
         String _signStr = String.format("app=%s&code=%s&key=%s", app, code, key);
-
         String sign = MD5Util.md5Hex(_signStr, "utf-8");
+
+        System.out.println("sign = " + sign);
 
         List<BasicNameValuePair> urlParameters = new ArrayList<>();
         urlParameters.add(new BasicNameValuePair("code", code));
@@ -47,8 +48,12 @@ public class ApiTest {
 
         System.out.println(_signStr);
 
-        // {"Message":"该用户不是干部","Success":false}
+        // "参数app为空"
+        // "参数sign为空"
+        // {"Message":"参数code不能为空","Success":false}
+        // {"Message":"签名错误","Success":false}
         // {"Message":"系统访问出错","Success":false}
+        // {"Message":"该用户不是干部","Success":false}
         // {"Message":"没有这个学工号","Success":false}
         // {"Success":true,"Count":0}
 
