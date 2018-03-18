@@ -37,9 +37,11 @@ group by ct.id order by cv.sort_order desc ;
 
 DROP VIEW IF EXISTS `cet_train_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_course_view` AS
-select ctc.*, count(distinct cteec.id) as selected_count, sum(if(cteec.is_finished, 1,0)) as finish_count
-from cet_train_course ctc, cet_trainee_course cteec where cteec.train_course_id = ctc.id
-group by cteec.train_course_id;
+select ctc.*, cteec.selected_count, cteec.finish_count
+from cet_train_course ctc
+left join (select train_course_id, count(id) as selected_count, sum(if(is_finished, 1,0)) as finish_count from  cet_trainee_course
+group by train_course_id) as cteec
+on ctc.id=cteec.train_course_id;
 
 DROP VIEW IF EXISTS `cet_trainee_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_view` AS
