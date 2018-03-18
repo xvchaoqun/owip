@@ -109,7 +109,7 @@ SysMsg.error = function (msg, title, callback) {
         closeButton: false,
         buttons: {
             close: {
-                label: "关闭",
+                label: '<i class="fa fa-hand-o-right"> 关闭',
                 className: "btn-default",
                 callback: callback || function () {
                 }
@@ -130,8 +130,8 @@ SysMsg.warning = function (msg, title, callback) {
         closeButton: false,
         buttons: {
             close: {
-                label: "确定",
-                className: "btn-primary",
+                label: '<i class="fa fa-hand-o-right"> 确定',
+                className: "btn-warning",
                 callback: callback || function () {
                 }
             }
@@ -151,8 +151,8 @@ SysMsg.success = function (msg, title, callback) {
         closeButton: false,
         buttons: {
             close: {
-                label: "确定",
-                className: "btn-primary",
+                label: '<i class="fa fa-hand-o-right"> 确定',
+                className: "btn-success",
                 callback: callback || function () {
                 }
             }
@@ -172,8 +172,8 @@ SysMsg.info = function (msg, title, callback) {
         closeButton: false,
         buttons: {
             close: {
-                label: "确定",
-                className: "btn-info",
+                label: '<i class="fa fa-hand-o-right"> 确定',
+                className: "btn-primary",
                 callback: callback || function () {
                 }
             }

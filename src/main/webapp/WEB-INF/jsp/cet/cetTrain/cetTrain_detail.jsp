@@ -40,6 +40,12 @@
                                data-url="${ctx}/cet/cetTrain_detail_start?trainId=${param.trainId}">
                                 <i class="green ace-icon fa fa-calendar bigger-120"></i> 开课</a>
                         </li>
+                        <li>
+                            <a href="javascript:;" class="loadPage"
+                               data-load-el="#detail-content" data-callback="_menuSelected"
+                               data-url="${ctx}/cet/cetTrainEva?trainId=${param.trainId}">
+                                <i class="green ace-icon fa fa-calendar bigger-120"></i> 评课</a>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -3,6 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">
+    <c:if test="${cls==1}">
     <shiro:hasPermission name="cetTrainCourse:edit">
         <a class="popupBtn btn btn-info btn-sm"
            data-width="1200"
@@ -30,6 +31,7 @@
        data-grid-id="#jqGrid2"
        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
         <i class="fa fa-download"></i> 导出课程</a>
+    </c:if>
 </div>
 <div class="space-4"></div>
 <table id="jqGrid2" class="jqGrid2 table-striped"></table>
@@ -69,10 +71,12 @@
                 'data-url="${ctx}/cet/cetCourse_summary?id={0}"><i class="fa {3}"></i> {1}</button>')
                         .format(rowObject.cetCourse.id, btnStr, btnCss, iCss);
             }, frozen:true},
+            <c:if test="${cls==1}">
             {
                 label: '排序', width: 80, align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {url: "${ctx}/cet/cetTrainCourse_changeOrder", grid:'#jqGrid2'}, frozen:true
             },
+            </c:if>
             {label: '主讲人', name: 'cetCourse.cetExpert.realname', frozen:true},
             {
                 label: '选课情况', name: 'selectedCount', width: 80,formatter: function (cellvalue, options, rowObject) {

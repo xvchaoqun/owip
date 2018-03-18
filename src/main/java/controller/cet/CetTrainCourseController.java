@@ -46,7 +46,9 @@ public class CetTrainCourseController extends CetBaseController {
 
     @RequiresPermissions("cetTrainCourse:list")
     @RequestMapping("/cetTrainCourse")
-    public String cetTrainCourse(int trainId, ModelMap modelMap) {
+    public String cetTrainCourse(@RequestParam(defaultValue = "1") Integer cls, int trainId, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
 
         modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
 

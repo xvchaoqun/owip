@@ -262,7 +262,12 @@ $.ajaxSetup({
         if (ret.success==undefined || ret.success) return data;
 
         if (ret.msg == "login") {
-            bootbox.dialog({
+
+
+            SysMsg.info("登录超时或账号已在别处登录，请您重新登录", "登录超时",function(){
+                location.reload();
+            });
+            /*bootbox.dialog({
                 message: "登陆超时或账号已在别处登录，请您重新登陆",
                 closeButton: false,
                 buttons: {
@@ -274,7 +279,13 @@ $.ajaxSetup({
                         }
                     }
                 }
-            });
+            });*/
+
+            try {
+                $(".loading-indicator-overlay, .loading-indicator").hide();
+                NProgress.done();
+            }catch(e){}
+
             throw  new Error("login");
             //$(".modal").width(300);
         } else if (ret.msg == "filemax") {
