@@ -1,8 +1,6 @@
 package controller.mobile.abroad;
 
-import bean.ApproverTypeBean;
 import controller.abroad.AbroadBaseController;
-import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.util.SavedRequest;
@@ -18,7 +16,6 @@ import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
 import sys.shiro.CurrentUser;
-import sys.tags.CmTag;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -62,17 +59,11 @@ public class MobileLoginController extends AbroadBaseController {
 			return failed("登录失败，请使用PC端登录网站办理相关业务，谢谢!");
 		}
 		// 是干部，但不是干部管理员
-		if(roles.contains(RoleConstants.ROLE_CADRE) && !roles.contains(RoleConstants.ROLE_CADREADMIN)){
-			ApproverTypeBean approverTypeBean = CmTag.getApproverTypeBean(sysUser.getId());
-			if(approverTypeBean==null)
-				return failed(sysUser.getRealname()+"老师，您好！您没有因私出国（境）审批权限，无法登陆。请在电脑的浏览器中登录系统办理相关业务。谢谢！");
-			CadreView cadre = approverTypeBean.getCadre();
-			// 没有审批权限的干部 不能登录
-			if ((cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE
-					&& cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER) ||
-					!(approverTypeBean.getMainPostUnitIds().size()>0 || approverTypeBean.isManagerLeader() || approverTypeBean.isApprover())) {
-				return failed(sysUser.getRealname()+"老师，您好！您没有因私出国（境）审批权限，无法登陆。请在电脑的浏览器中登录系统办理相关业务。谢谢！");
-			}
+		if(roles.contains(RoleConstants.ROLE_CADRE)
+				&& !roles.contains(RoleConstants.ROLE_CADREADMIN)
+				&& !approverService.hasApproveAuth(sysUser.getId())){
+
+			return failed(sysUser.getRealname() +"老师，您好！您没有因私出国（境）审批权限，无法登陆。请在电脑的浏览器中登录系统办理相关业务。谢谢！");
 		}
 
 		AuthToken token = new AuthToken(username,

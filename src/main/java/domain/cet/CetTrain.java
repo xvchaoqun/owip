@@ -1,57 +1,29 @@
 package domain.cet;
 
-import domain.base.MetaType;
 import org.springframework.format.annotation.DateTimeFormat;
 import sys.constants.CetConstants;
-import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class CetTrain implements Serializable {
 
-    public String getSn(){
-
-        if(type==null) return null;
-        MetaType metaType = CmTag.getMetaType(type);
-        if(metaType==null) return null;
-
-        return String.format("%s[%s]%s号",
-                metaType.getName(),
-                year, num);
+    public String getSn() {
+        return BaseCetTrain.getSn(type, year, num);
     }
 
-    public Boolean getAutoSwitch(){
+    public Boolean getAutoSwitch() {
         return enrollStatus == CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT;
     }
 
     public Byte getSwitchStatus() {
 
-        // 手动开关判断
-        if (enrollStatus != CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT) {
-            return enrollStatus;
-        }
+        return BaseCetTrain.getSwitchStatus(enrollStatus, startTime, endTime);
+    }
 
-        // 自动开关判断
-        Date now = new Date();
-        if (startTime != null && endTime != null) {
+    public String getSwitchStatusText() {
 
-            if (now.after(startTime) && now.before(endTime)) {
-                return CetConstants.CET_TRAIN_ENROLL_STATUS_OPEN;
-            }
-        } else if (startTime != null) {
-
-            if (now.after(startTime)) {
-                return CetConstants.CET_TRAIN_ENROLL_STATUS_OPEN;
-            }
-        } else if (endTime != null) {
-
-            if (now.before(endTime)) {
-                return CetConstants.CET_TRAIN_ENROLL_STATUS_OPEN;
-            }
-        }
-
-        return CetConstants.CET_TRAIN_ENROLL_STATUS_CLOSED;
+        return BaseCetTrain.getSwitchStatusText(getAutoSwitch(), enrollStatus, startTime, endTime);
     }
 
     private Integer id;

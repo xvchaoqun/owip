@@ -11,7 +11,9 @@ import sys.tags.CmTag;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class XlsUpload {
 
@@ -504,6 +506,42 @@ public class XlsUpload {
         }
 
         return rows;
+    }
+
+
+    public static List<Map<Integer, String>> getXlsRows(XSSFSheet sheet) {
+
+        List<Map<Integer, String>> xlsRows = new ArrayList<>();
+        XSSFRow rowTitle = sheet.getRow(0);
+        //System.out.println(rowTitle);
+        if (null == rowTitle) return xlsRows; // 第一行标题
+
+        int cellNum = rowTitle.getLastCellNum() - rowTitle.getFirstCellNum(); // 列数
+
+        for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getLastRowNum(); i++) {
+
+            XSSFRow row = sheet.getRow(i);
+            // 行数据如果为空，不处理
+            if (row == null) continue;
+
+            boolean allIsNull = true;
+            Map<Integer, String> xlsRow = new HashMap<>();
+            for (int j = 0; j < cellNum; j++) {
+
+                XSSFCell cell = row.getCell(j);
+                String val = null;
+                if(cell!=null){
+                    val = getCell(cell);
+                    allIsNull = false;
+                }
+
+                xlsRow.put(j, val);
+            }
+            // 如果所有的列都是空的，不处理
+            if(!allIsNull) xlsRows.add(xlsRow);
+        }
+
+        return xlsRows;
     }
 
     public static List<XlsTrainInspector> fetchTrainInspectors(XSSFSheet sheet) {

@@ -1,7 +1,9 @@
 package service.abroad;
 
+import bean.ApproverTypeBean;
 import domain.abroad.Approver;
 import domain.abroad.ApproverExample;
+import domain.cadre.CadreView;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -17,6 +21,23 @@ import java.util.Map;
 
 @Service
 public class ApproverService extends BaseMapper {
+
+    // 判断一个用户（非干部管理员）是否有因私出国境审批权限
+    public boolean hasApproveAuth(int userId){
+
+        ApproverTypeBean approverTypeBean = CmTag.getApproverTypeBean(userId);
+        if(approverTypeBean==null) return false;
+        CadreView cadre = approverTypeBean.getCadre();
+        if ((cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE
+                && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER) ||
+                !(approverTypeBean.getMainPostUnitIds().size()>0
+                        || approverTypeBean.isManagerLeader()
+                        || approverTypeBean.isApprover())) {
+            return false;
+        }
+
+        return true;
+    }
 
     // 根据审批人身份类型查找审批人
     public List<Approver> findByType(int typeId){

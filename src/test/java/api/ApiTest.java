@@ -53,8 +53,8 @@ public class ApiTest {
         // {"Message":"参数code不能为空","Success":false}
         // {"Message":"签名错误","Success":false}
         // {"Message":"系统访问出错","Success":false}
-        // {"Message":"该用户不是干部","Success":false}
         // {"Message":"没有这个学工号","Success":false}
+        // {"Message":"没有审批权限","Success":false}
         // {"Success":true,"Count":0}
 
         System.out.println(EntityUtils.toString(res.getEntity()));

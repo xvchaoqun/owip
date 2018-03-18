@@ -103,7 +103,6 @@ public class CetTraineeService extends BaseMapper {
             record.setTrainId(trainId);
             record.setUserId(userId);
             record.setTraineeTypeId(traineeTypeId);
-            record.setCourseCount(0);
             cetTraineeMapper.insertSelective(record);
 
             sysUserService.addRole(userId, RoleConstants.ROLE_CET_TRAINEE);

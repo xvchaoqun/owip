@@ -7,6 +7,8 @@ import service.cet.CetColumnService;
 import service.cet.CetCourseService;
 import service.cet.CetCourseTypeService;
 import service.cet.CetExpertService;
+import service.cet.CetExportService;
+import service.cet.CetShortMsgService;
 import service.cet.CetTrainCourseService;
 import service.cet.CetTrainService;
 import service.cet.CetTrainTraineeTypeService;
@@ -41,4 +43,8 @@ public class CetBaseController extends BaseController {
     protected CetTraineeTypeService cetTraineeTypeService;
     @Autowired
     protected CetTrainTraineeTypeService cetTrainTraineeTypeService;
+    @Autowired
+    protected CetShortMsgService cetShortMsgService;
+    @Autowired
+    protected CetExportService cetExportService;
 }

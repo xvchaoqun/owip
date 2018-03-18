@@ -16,7 +16,7 @@
             </div>
             <div class="widget-body rownumbers">
                 <div class="tab-content padding-8">
-                    <div class="panel panel-primary">
+                    <div class="panel panel-primary" style="margin-bottom: 10px">
                         <div class="panel-heading">
                             <h3 class="panel-title"><span class="bolder"><i
                                     class="fa fa-check-square-o"></i>   已选课列表</span>
@@ -29,7 +29,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" style="margin-bottom: 0">
                         <div class="panel-heading">
                             <h3 class="panel-title"><span class="text-danger bolder"><i
                                     class="fa fa-times-rectangle-o"></i>   未选课列表</span>
@@ -55,6 +55,7 @@
         pager: null,
         multiboxonly: true,
         multiselect:false,
+        height:200,
         datatype: "local",
         data: selectedCetTraineeCourses,
         colModel: [
@@ -97,6 +98,7 @@
         pager: null,
         multiboxonly: true,
         multiselect:false,
+        height:200,
         datatype: "local",
         data: unSelectedCetTrainCourses,
         colModel: [

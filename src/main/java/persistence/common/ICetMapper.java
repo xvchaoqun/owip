@@ -6,11 +6,13 @@ import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeType;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
 import persistence.common.bean.ICetTrain;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lm on 2017/6/13.
@@ -53,4 +55,21 @@ public interface ICetMapper {
     int cetTrainCourse_countCourses(@Param("trainId") int trainId,
                                     @Param("expertId") Integer expertId,
                                     @Param("name") String name);
+
+    // 获取参训人员第二天的第一堂课
+    @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
+    @Select("select ctc.* from cet_train_course ctc, cet_trainee_course cteec " +
+            "where ctc.id = cteec.train_course_id and cteec.trainee_id=#{traineeId} and " +
+            "left(ctc.start_time, 10) = date_add(curdate(),interval 1 day) " +
+            "order by ctc.start_time asc limit 1")
+    public CetTrainCourse getTomorrowFirstCourse(@Param("traineeId") int traineeId);
+
+    // 获取某个培训班下面，每个参训人员的年度参加培训情况（年度参加培训的总学时数）
+    @ResultType(java.util.HashMap.class)
+    @Select("select cteecv.user_id as userId, sum(cteecv.period) as yearPeriod from cet_trainee ctee, cet_train ct, cet_trainee_course_view cteecv " +
+            "where ctee.train_id=#{trainId} and ct.id=ctee.train_id " +
+            "and cteecv.is_finished=1 and cteecv.user_id=ctee.user_id and cteecv.year=ct.year " +
+            "group by cteecv.user_id")
+    public List<Map> listTraineeYearPeriod(@Param("trainId") int trainId);
+
 }

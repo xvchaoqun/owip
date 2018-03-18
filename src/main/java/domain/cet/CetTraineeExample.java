@@ -344,66 +344,6 @@ public class CetTraineeExample {
             return (Criteria) this;
         }
 
-        public Criteria andCourseCountIsNull() {
-            addCriterion("course_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountIsNotNull() {
-            addCriterion("course_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountEqualTo(Integer value) {
-            addCriterion("course_count =", value, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountNotEqualTo(Integer value) {
-            addCriterion("course_count <>", value, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountGreaterThan(Integer value) {
-            addCriterion("course_count >", value, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("course_count >=", value, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountLessThan(Integer value) {
-            addCriterion("course_count <", value, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountLessThanOrEqualTo(Integer value) {
-            addCriterion("course_count <=", value, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountIn(List<Integer> values) {
-            addCriterion("course_count in", values, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountNotIn(List<Integer> values) {
-            addCriterion("course_count not in", values, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountBetween(Integer value1, Integer value2) {
-            addCriterion("course_count between", value1, value2, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("course_count not between", value1, value2, "courseCount");
-            return (Criteria) this;
-        }
-
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

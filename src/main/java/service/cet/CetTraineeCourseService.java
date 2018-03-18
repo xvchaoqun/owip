@@ -6,6 +6,8 @@ import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainee;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseExample;
+import domain.sys.SysUserView;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysApprovalLogService;
+import service.sys.SysUserService;
 import sys.constants.CetConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
@@ -21,6 +24,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CetTraineeCourseService extends BaseMapper {
@@ -29,6 +33,8 @@ public class CetTraineeCourseService extends BaseMapper {
     private CetTraineeService cetTraineeService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
+    @Autowired
+    private SysUserService sysUserService;
 
     public CetTraineeCourse get(int traineeId, int trainCourseId){
 
@@ -64,19 +70,6 @@ public class CetTraineeCourseService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(CetTraineeCourse record){
         return cetTraineeCourseMapper.updateByPrimaryKeySelective(record);
-    }
-
-    // 更新已选课程数量
-    private int updateCourseCount(int traineeId){
-
-        CetTraineeCourseExample example = new CetTraineeCourseExample();
-        example.createCriteria().andTraineeIdEqualTo(traineeId);
-        int courseCount = (int)cetTraineeCourseMapper.countByExample(example);
-
-        CetTrainee record = new CetTrainee();
-        record.setId(traineeId);
-        record.setCourseCount(courseCount);
-        return cetTraineeMapper.updateByPrimaryKeySelective(record);
     }
 
     //
@@ -120,8 +113,6 @@ public class CetTraineeCourseService extends BaseMapper {
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
                 "报名", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                 MessageFormat.format("已选{0}门课", trainCourseIds.length));
-
-        updateCourseCount(traineeId);
     }
 
     // 选课/退课
@@ -179,8 +170,6 @@ public class CetTraineeCourseService extends BaseMapper {
                     "退课", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     cetTrainCourse.getCetCourse().getName());
         }
-
-        updateCourseCount(traineeId);
     }
 
     // 退出培训班
@@ -211,5 +200,77 @@ public class CetTraineeCourseService extends BaseMapper {
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
                 "退出培训班", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                 "");
+    }
+
+    // 签到/还原
+    @Transactional
+    public void sign(Integer[] traineeCourseIds, boolean sign, byte signType) {
+
+        for (Integer traineeCourseId : traineeCourseIds) {
+
+            CetTraineeCourse cetTraineeCourse = cetTraineeCourseMapper.selectByPrimaryKey(traineeCourseId);
+            int traineeId = cetTraineeCourse.getTraineeId();
+            CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);
+            int userId = cetTrainee.getUserId();
+            String courseName = cetTraineeCourse.getCetTrainCourse().getCetCourse().getName();
+
+            CetTraineeCourse record = new CetTraineeCourse();
+            record.setIsFinished(sign);
+            record.setSignType(signType);
+            record.setSignTime(new Date());
+
+            CetTraineeCourseExample example = new CetTraineeCourseExample();
+            example.createCriteria().andIdEqualTo(traineeCourseId).andIsFinishedNotEqualTo(sign);
+            cetTraineeCourseMapper.updateByExampleSelective(record, example);
+
+            if(!sign){
+                commonMapper.excuteSql("update cet_trainee_course set sign_time=null, sign_type=null where id="
+                        + traineeCourseId);
+            }
+
+            sysApprovalLogService.add(traineeId, userId,
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
+                    sign?"签到":"还原", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, courseName);
+        }
+    }
+
+    // 批量签到
+    @Transactional
+    public int signImport(int trainCourseId, List<Map<Integer, String>> xlsRows) {
+
+        CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
+        Integer trainId = cetTrainCourse.getTrainId();
+        String courseName = cetTrainCourse.getCetCourse().getName();
+
+        int success = 0;
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            String code = StringUtils.trim(xlsRow.get(0));
+            if(StringUtils.isBlank(code)) continue;
+            SysUserView uv = sysUserService.findByCode(code);
+            if(uv==null) continue;
+            int userId = uv.getId();
+            CetTrainee cetTrainee = cetTraineeService.get(userId, trainId);
+            if(cetTrainee==null) continue;
+            int traineeId = cetTrainee.getId();
+
+            CetTraineeCourse record = new CetTraineeCourse();
+            record.setIsFinished(true);
+            record.setSignType(CetConstants.CET_TRAINEE_SIGN_TYPE_IMPORT);
+            record.setSignTime(new Date());
+
+            CetTraineeCourseExample example = new CetTraineeCourseExample();
+            example.createCriteria().andTraineeIdEqualTo(traineeId)
+                    .andTrainCourseIdEqualTo(trainCourseId).andIsFinishedEqualTo(false);
+            success += cetTraineeCourseMapper.updateByExampleSelective(record, example);
+
+            sysApprovalLogService.add(traineeId, userId,
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
+                    "签到(导入)", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, courseName);
+        }
+
+        return success;
     }
 }

@@ -145,34 +145,25 @@
             }, frozen: true},
             {label: '年度', name: 'year', width:'60', frozen: true},
             {label: '编号', name: 'sn', width: 200, frozen: true},
-            {label: '可选课人数', name: '_count', width:120},
-            {label: '选课情况', name: '_select'},
+            {label: '培训班类型', name: 'type', width:200, formatter: $.jgrid.formatter.MetaType, frozen: true},
+            {label: '培训班名称', name: 'name', width:200, align:'left', frozen: true},
+            {label: '可选课人数', name: 'traineeCount', width: 90},
+            {label: '选课情况', name: 'switchStatusText', formatter: function (cellvalue, options, rowObject) {
+                var isOpen = (rowObject.switchStatus==${CET_TRAIN_ENROLL_STATUS_OPEN});
+                if(isOpen || rowObject.selectedCount>0){
+                    var str = cellvalue;
+                    str +="(" + rowObject.selectedCount + ")"
+                    if(isOpen) str='<span class="text-success bolder">'+str+'</span>'
+                }
+                return str;
+            }},
             {label: '发布状态', name: '_pubStatus', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.pubStatus == undefined) return '-';
                 return ('<span class="{0}">' + _cMap.CET_TRAIN_PUB_STATUS_MAP[rowObject.pubStatus] + '</span>')
                         .format(rowObject.pubStatus!=${CET_TRAIN_PUB_STATUS_PUBLISHED}?'text-danger bolder':'text-success');
 
             }},
-            {label: '选课状态', name: 'enrollStatus', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                if(rowObject.autoSwitch){
-                    var startTime = Date.parse(rowObject.startTime);
-                    var endTime = Date.parse(rowObject.endTime);
-                    var nowTime = new Date().getTime();
-                    //console.log(startTime + " " + endTime + " "  +new Date().getTime())
-                    if(startTime > nowTime){
-                        return '未开启选课';
-                    }else if(endTime >= nowTime){
-                        return '<span class="text-success">正在选课</span>'
-                    }else{
-                        return '选课结束'
-                    }
-                }
-                if(cellvalue==${CET_TRAIN_ENROLL_STATUS_OPEN}){
-                    return '<span class="text-success">正在选课</span>'
-                }
-                return _cMap.CET_TRAIN_ENROLL_STATUS_MAP_MAP[cellvalue];
-            }},
+
             <c:if test="${cls==3||cls==4}">
             {label: '状态', name: '_isFinished', width:110, formatter: function (cellvalue, options, rowObject) {
                 var str = rowObject.isFinished?'已结课':'未结课';
@@ -182,8 +173,7 @@
                 return str;
             }},
             </c:if>
-            {label: '培训班类型', name: 'type', width:200, formatter: $.jgrid.formatter.MetaType},
-            {label: '培训班名称', name: 'name', width:200, align:'left'},
+
             {label: '内容简介', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
                 var btnStr = "添加";
                 var btnCss = "btn-success";

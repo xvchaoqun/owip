@@ -6,6 +6,8 @@
     <result column="trainee_id" jdbcType="INTEGER" property="traineeId" />
     <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
+    <result column="sign_time" jdbcType="TIMESTAMP" property="signTime" />
+    <result column="sign_type" jdbcType="TINYINT" property="signType" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="choose_time" jdbcType="TIMESTAMP" property="chooseTime" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
@@ -69,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, trainee_id, train_course_id, is_finished, remark, choose_time, ip
+    id, trainee_id, train_course_id, is_finished, sign_time, sign_type, remark, choose_time, 
+    ip
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeCourseExample" resultMap="BaseResultMap">
     select
@@ -103,11 +106,13 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetTraineeCourse">
     insert into cet_trainee_course (id, trainee_id, train_course_id, 
-      is_finished, remark, choose_time, 
-      ip)
+      is_finished, sign_time, sign_type, 
+      remark, choose_time, ip
+      )
     values (#{id,jdbcType=INTEGER}, #{traineeId,jdbcType=INTEGER}, #{trainCourseId,jdbcType=INTEGER}, 
-      #{isFinished,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{chooseTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR})
+      #{isFinished,jdbcType=BIT}, #{signTime,jdbcType=TIMESTAMP}, #{signType,jdbcType=TINYINT}, 
+      #{remark,jdbcType=VARCHAR}, #{chooseTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetTraineeCourse">
     insert into cet_trainee_course
@@ -123,6 +128,12 @@
       </if>
       <if test="isFinished != null">
         is_finished,
+      </if>
+      <if test="signTime != null">
+        sign_time,
+      </if>
+      <if test="signType != null">
+        sign_type,
       </if>
       <if test="remark != null">
         remark,
@@ -146,6 +157,12 @@
       </if>
       <if test="isFinished != null">
         #{isFinished,jdbcType=BIT},
+      </if>
+      <if test="signTime != null">
+        #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signType != null">
+        #{signType,jdbcType=TINYINT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -179,6 +196,12 @@
       <if test="record.isFinished != null">
         is_finished = #{record.isFinished,jdbcType=BIT},
       </if>
+      <if test="record.signTime != null">
+        sign_time = #{record.signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.signType != null">
+        sign_type = #{record.signType,jdbcType=TINYINT},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -199,6 +222,8 @@
       trainee_id = #{record.traineeId,jdbcType=INTEGER},
       train_course_id = #{record.trainCourseId,jdbcType=INTEGER},
       is_finished = #{record.isFinished,jdbcType=BIT},
+      sign_time = #{record.signTime,jdbcType=TIMESTAMP},
+      sign_type = #{record.signType,jdbcType=TINYINT},
       remark = #{record.remark,jdbcType=VARCHAR},
       choose_time = #{record.chooseTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR}
@@ -218,6 +243,12 @@
       <if test="isFinished != null">
         is_finished = #{isFinished,jdbcType=BIT},
       </if>
+      <if test="signTime != null">
+        sign_time = #{signTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="signType != null">
+        sign_type = #{signType,jdbcType=TINYINT},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -235,6 +266,8 @@
     set trainee_id = #{traineeId,jdbcType=INTEGER},
       train_course_id = #{trainCourseId,jdbcType=INTEGER},
       is_finished = #{isFinished,jdbcType=BIT},
+      sign_time = #{signTime,jdbcType=TIMESTAMP},
+      sign_type = #{signType,jdbcType=TINYINT},
       remark = #{remark,jdbcType=VARCHAR},
       choose_time = #{chooseTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR}

@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<script>
+    var yearPeriodMap = ${cm:toJSONObject(yearPeriodMap)}
+</script>
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="active">
         <a href="javascript:;" class="loadPage"

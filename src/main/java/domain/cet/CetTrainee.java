@@ -11,8 +11,6 @@ public class CetTrainee implements Serializable {
 
     private Integer traineeTypeId;
 
-    private Integer courseCount;
-
     private String remark;
 
     private static final long serialVersionUID = 1L;
@@ -47,14 +45,6 @@ public class CetTrainee implements Serializable {
 
     public void setTraineeTypeId(Integer traineeTypeId) {
         this.traineeTypeId = traineeTypeId;
-    }
-
-    public Integer getCourseCount() {
-        return courseCount;
-    }
-
-    public void setCourseCount(Integer courseCount) {
-        this.courseCount = courseCount;
     }
 
     public String getRemark() {

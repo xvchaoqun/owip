@@ -12,8 +12,10 @@
         </c:forEach>
     </div>
     <c:if test="${param.cls==1}">
-            <a class="popupBtn btn btn-success btn-sm" data-width="700"
-               data-url="${ctx}/cet/cetTrainee_add?trainId=${param.trainId}&traineeTypeId=${traineeTypeId}"><i class="fa fa-plus"></i> 选择可选课人员</a>
+        <button class="popupBtn btn btn-success btn-sm" data-width="700"
+           data-url="${ctx}/cet/cetTrainee_add?trainId=${param.trainId}&traineeTypeId=${traineeTypeId}">
+            <i class="fa fa-plus"></i> 选择可选课人员</button>
+
         <button data-url="${ctx}/cet/cetTrainee_batchDel"
                 data-title="删除"
                 data-msg="确定删除这{0}个人员？"
@@ -23,6 +25,7 @@
             <i class="fa fa-trash"></i> 删除
         </button>
     </c:if>
+
     <button class="jqOpenViewBtn btn btn-info btn-sm"
             data-grid-id="#jqGrid2"
             data-url="${ctx}/sysApprovalLog"
@@ -93,6 +96,7 @@
     }
 </style>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
+<jsp:include page="cetTrainee_colModel.jsp?type=admin"/>
 <script>
     $(".typeCheckbox").click(function () {
         var $input = $("input", $(this));
@@ -100,49 +104,13 @@
         $("#searchForm2 .jqSearchBtn").click();
     })
 
-    function _reload() {
-        $("#jqGrid2").trigger("reloadGrid");
-    }
     register_user_select($("#searchForm2 select[name=userId]"));
 
     $("#jqGrid2").jqGrid({
         pager: "#jqGridPager2",
         rownumbers: true,
         url: '${ctx}/cet/cetTrainee_data?callback=?&traineeTypeId=${traineeTypeId}&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            { label: '选课情况',name: 'trainId'},
-            {label: '工作证号', name: 'code', width: 100, frozen: true},
-            {label: '姓名', name: 'realname', width: 120, frozen: true},
-            {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
-            {
-                label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return _cMap.adminLevelMap[cellvalue].name;
-            }},
-            {
-                label: '职务属性', name: 'postId', width: 150, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return _cMap.postMap[cellvalue].name;
-            }},
-            {
-                label: '党派', name: 'cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
-
-                if (cellvalue == 0) return "中共党员"
-                else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
-                return "-";
-            }},
-            {label: '专业技术职务', name: 'proPost', width: 120},
-            {
-                label: '任现职时间',
-                name: 'lpWorkTime',
-                formatter: 'date',
-                formatoptions: {newformat: 'Y-m-d'}
-            },
-            {label: '联系方式', name: 'mobile', width: 120},
-            {label: '电子邮箱', name: 'email', width: 150},
-            { label: '本年度参加培训情况',name: 'courseCount', width: 180},
-            { label: '备注',name: 'remark', width: 250}
-        ]
+        colModel: colModel
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");

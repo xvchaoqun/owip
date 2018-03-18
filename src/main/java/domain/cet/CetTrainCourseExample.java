@@ -475,66 +475,6 @@ public class CetTrainCourseExample {
             return (Criteria) this;
         }
 
-        public Criteria andTraineeCountIsNull() {
-            addCriterion("trainee_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeCountIsNotNull() {
-            addCriterion("trainee_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeCountEqualTo(Integer value) {
-            addCriterion("trainee_count =", value, "traineeCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeCountNotEqualTo(Integer value) {
-            addCriterion("trainee_count <>", value, "traineeCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeCountGreaterThan(Integer value) {
-            addCriterion("trainee_count >", value, "traineeCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("trainee_count >=", value, "traineeCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeCountLessThan(Integer value) {
-            addCriterion("trainee_count <", value, "traineeCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeCountLessThanOrEqualTo(Integer value) {
-            addCriterion("trainee_count <=", value, "traineeCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeCountIn(List<Integer> values) {
-            addCriterion("trainee_count in", values, "traineeCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeCountNotIn(List<Integer> values) {
-            addCriterion("trainee_count not in", values, "traineeCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeCountBetween(Integer value1, Integer value2) {
-            addCriterion("trainee_count between", value1, value2, "traineeCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("trainee_count not between", value1, value2, "traineeCount");
-            return (Criteria) this;
-        }
-
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

@@ -45,19 +45,39 @@
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
                 <columnOverride column="trainee_types" jdbcType="VARCHAR"></columnOverride>
+                <columnOverride column="trainee_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+                <columnOverride column="selected_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
-        <table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
-        </table>
+
+        <!--<table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
+        </table>-->
+        <!--<table tableName="cet_train_course_view" domainObjectName="cet.CetTrainCourseView" mapperName="cet.CetTrainCourseViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+            <columnOverride column="selected_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>-->
+        <!--<table tableName="cet_short_msg" domainObjectName="cet.CetShortMsg" mapperName="cet.CetShortMsgMapper">
+        </table>-->
         <!--<table tableName="cet_trainee" domainObjectName="cet.CetTrainee" mapperName="cet.CetTraineeMapper">
-        </table>-->
-        <!--<table tableName="cet_trainee_cadre_view" domainObjectName="cet.CetTraineeCadreView"
+        </table>
+        <table tableName="cet_trainee_cadre_view" domainObjectName="cet.CetTraineeCadreView"
                mapperName="cet.CetTraineeCadreViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
+            <columnOverride column="course_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
-       <!-- <table tableName="cet_trainee_course" domainObjectName="cet.CetTraineeCourse" mapperName="cet.CetTraineeCourseMapper">
-        </table>-->
+        <table tableName="cet_trainee_course_view" domainObjectName="cet.CetTraineeCourseView"
+               mapperName="cet.CetTraineeCourseViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>
+        <table tableName="cet_trainee_course" domainObjectName="cet.CetTraineeCourse" mapperName="cet.CetTraineeCourseMapper">
+        </table>
 
         <!--<table tableName="cet_trainee_type" domainObjectName="cet.CetTraineeType" mapperName="cet.CetTraineeTypeMapper">
         </table>-->

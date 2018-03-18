@@ -44,4 +44,16 @@ public class CetConstants {
         CET_TRAIN_ENROLL_STATUS_MAP.put(CET_TRAIN_ENROLL_STATUS_CLOSED, "选课结束");
         CET_TRAIN_ENROLL_STATUS_MAP.put(CET_TRAIN_ENROLL_STATUS_PAUSE, "暂停选课");
     }
+
+    // 签到类型， 1 手动签到 2 批量导入 3 刷卡签到
+    public final static byte CET_TRAINEE_SIGN_TYPE_MANUAL = 1;
+    public final static byte CET_TRAINEE_SIGN_TYPE_IMPORT = 2;
+    public final static byte CET_TRAINEE_SIGN_TYPE_CARD = 3;
+    public static Map<Byte, String> CET_TRAINEE_SIGN_TYPE_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+        CET_TRAINEE_SIGN_TYPE_MAP.put(CET_TRAINEE_SIGN_TYPE_MANUAL, "手动签到");
+        CET_TRAINEE_SIGN_TYPE_MAP.put(CET_TRAINEE_SIGN_TYPE_IMPORT, "批量导入");
+        CET_TRAINEE_SIGN_TYPE_MAP.put(CET_TRAINEE_SIGN_TYPE_CARD, "刷卡签到");
+    }
 }

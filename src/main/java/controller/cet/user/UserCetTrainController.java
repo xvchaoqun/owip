@@ -103,6 +103,7 @@ public class UserCetTrainController extends CetBaseController {
 
         int userId = ShiroHelper.getCurrentUserId();
         CetTrainee cetTrainee = cetTraineeService.get(userId, trainId);
+        int traineeId = cetTrainee.getId();
         modelMap.put("cetTrainee", cetTrainee);
 
         CetTrainCourseExample example = new CetTrainCourseExample();
@@ -111,6 +112,9 @@ public class UserCetTrainController extends CetBaseController {
         List<CetTrainCourse> cetTrainCourses = cetTrainCourseMapper.selectByExample(example);
 
         modelMap.put("cetTrainCourses", cetTrainCourses);
+
+        List<CetTraineeCourse> selectedCetTraineeCourses = iCetMapper.selectedCetTraineeCourses(traineeId);
+        modelMap.put("selectedCetTraineeCourses", selectedCetTraineeCourses);
 
         return "cet/user/cetTrain_apply";
     }

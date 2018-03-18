@@ -16,18 +16,42 @@ group by cc.id ;
 
 DROP VIEW IF EXISTS `cet_train_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_view` AS
-select ct.*, group_concat(ctt.name order by ctt.sort_order asc) as trainee_types from cet_train ct
+select ct.*, count(distinct ctee.id) as trainee_count, count(distinct cteec.trainee_id) as selected_count, group_concat(distinct cteet.name order by cteet.sort_order asc) as trainee_types from cet_train ct
 left join cet_train_trainee_type cttt on cttt.train_id = ct.id
-left join cet_trainee_type ctt on cttt.trainee_type_id= ctt.id
-group by ct.id ;
+left join cet_trainee_type cteet on cttt.trainee_type_id= cteet.id
+left join cet_trainee ctee on ctee.train_id=ct.id
+left join cet_trainee_course cteec on cteec.trainee_id=ctee.id
+group by ct.id;
 
 DROP VIEW IF EXISTS `cet_trainee_cadre_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_cadre_view` AS
-select ct.*, cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.pro_post,
+select ct.*, sum(cc.period) as total_period, sum(if(cteec.is_finished, cc.period, 0)) finish_period,
+count(cc.id) course_count, sum(if(cteec.is_finished, 1,0)) finish_count,
+cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.pro_post,
 cv.lp_work_time, cv.mobile, cv.email, cv.status from cet_trainee ct
 left join cadre_view cv on ct.user_id=cv.user_id
-order by cv.sort_order desc ;
+left join cet_trainee_course cteec on cteec.trainee_id=ct.id
+left join cet_train_course ctc on ctc.id=cteec.train_course_id
+left join cet_course cc on cc.id=ctc.course_id
+group by ct.id order by cv.sort_order desc ;
 
+DROP VIEW IF EXISTS `cet_train_course_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_train_course_view` AS
+select ctc.*, count(distinct cteec.id) as selected_count, sum(if(cteec.is_finished, 1,0)) as finish_count
+from cet_train_course ctc, cet_trainee_course cteec where cteec.train_course_id = ctc.id
+group by cteec.train_course_id;
+
+DROP VIEW IF EXISTS `cet_trainee_course_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_view` AS
+select cteec.*, ctee.train_id, ctee.trainee_type_id, ctee.user_id, cc.period, ct.year,
+cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.pro_post,
+cv.lp_work_time, cv.mobile, cv.email, cv.status from cet_trainee_course cteec
+left join cet_trainee ctee on cteec.trainee_id=ctee.id
+left join cet_train ct on ct.id=ctee.train_id
+left join cet_train_course ctc on ctc.id=cteec.train_course_id
+left join cet_course cc on cc.id=ctc.course_id
+left join cadre_view cv on ctee.user_id=cv.user_id
+order by cv.sort_order desc;
 
 
 -- 干部任免审批表归档

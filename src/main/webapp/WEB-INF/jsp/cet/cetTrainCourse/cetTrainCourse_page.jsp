@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">
     <shiro:hasPermission name="cetTrainCourse:edit">
         <a class="popupBtn btn btn-info btn-sm"
@@ -41,6 +42,12 @@
         pager: "jqGridPager2",
         url: '${ctx}/cet/cetTrainCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {
+
+                return ('<button class="popupBtn btn btn-success btn-xs" data-width="1200" ' +
+                'data-url="${ctx}/cet/cetTrainCourse_trainee?trainCourseId={0}"><i class="fa fa-search"></i> 已签到({1})</button>')
+                        .format(rowObject.id, rowObject.finishCount);
+            }},
             {label: '课程编号', name: 'cetCourse.sn', frozen:true},
             {
                 label: '课程名称',
@@ -67,6 +74,12 @@
                 formatoptions: {url: "${ctx}/cet/cetTrainCourse_changeOrder", grid:'#jqGrid2'}, frozen:true
             },
             {label: '主讲人', name: 'cetCourse.cetExpert.realname', frozen:true},
+            {
+                label: '选课情况', name: 'selectedCount', width: 80,formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return '-';
+                return '已选课({0})'.format(cellvalue);
+            }
+            },
             {label: '所在单位', name: 'cetCourse.cetExpert.unit', width: 300, align: 'left'},
             {label: '职务和职称', name: 'cetCourse.cetExpert.post', width: 120, align: 'left'},
             {label: '授课方式', name: 'cetCourse.teachMethod', formatter: $.jgrid.formatter.MetaType},
@@ -92,13 +105,9 @@
                 formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
             },
-            {label: '上课地点', name: 'address', width: 300},
-            {
-                label: '选课情况', name: 'traineeCount', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-';
-                return '已选课({0})'.format(cellvalue);
-            }
-            }
+            {label: '上课地点', name: 'address', align: 'left', width: 250, formatter: function (cellvalue, options, rowObject) {
+                return (rowObject.cetCourse.isOnline==false)? $.trim(cellvalue):'-'
+            }}
 
         ]
     }).jqGrid("setFrozenColumns");

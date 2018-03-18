@@ -1,11 +1,17 @@
 package controller.cet;
 
+import bean.XlsUpload;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseExample;
 import domain.cet.CetTraineeCourseExample.Criteria;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import sys.constants.CetConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -144,4 +152,42 @@ public class CetTraineeCourseController extends CetBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
+    // 手动签到
+    @RequiresPermissions("cetTraineeCourse:sign")
+    @RequestMapping(value = "/cetTraineeCourse_sign", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cetTraineeCourse_sign(@RequestParam(value = "ids[]") Integer[] ids,
+                                     Boolean sign) {
+
+        if (null != ids && ids.length>0){
+
+            cetTraineeCourseService.sign(ids, BooleanUtils.isTrue(sign), CetConstants.CET_TRAINEE_SIGN_TYPE_MANUAL);
+            logger.info(addLog( SystemConstants.LOG_CET,
+                    (BooleanUtils.isTrue(sign)?"签到":"还原") + "：%s",
+                    StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 签到，批量导入
+    @RequiresPermissions("cetTraineeCourse:sign")
+    @RequestMapping(value = "/cetTraineeCourse_sign_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cetTraineeCourse_sign_import(MultipartFile xlsx, int trainCourseId) throws IOException, InvalidFormatException {
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        int successCount = cetTraineeCourseService.signImport(trainCourseId, xlsRows);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", xlsRows.size());
+
+        return resultMap;
+    }
+
 }

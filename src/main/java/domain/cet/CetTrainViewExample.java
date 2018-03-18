@@ -1172,6 +1172,126 @@ public class CetTrainViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andTraineeCountIsNull() {
+            addCriterion("trainee_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeCountIsNotNull() {
+            addCriterion("trainee_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeCountEqualTo(Integer value) {
+            addCriterion("trainee_count =", value, "traineeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeCountNotEqualTo(Integer value) {
+            addCriterion("trainee_count <>", value, "traineeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeCountGreaterThan(Integer value) {
+            addCriterion("trainee_count >", value, "traineeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("trainee_count >=", value, "traineeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeCountLessThan(Integer value) {
+            addCriterion("trainee_count <", value, "traineeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeCountLessThanOrEqualTo(Integer value) {
+            addCriterion("trainee_count <=", value, "traineeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeCountIn(List<Integer> values) {
+            addCriterion("trainee_count in", values, "traineeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeCountNotIn(List<Integer> values) {
+            addCriterion("trainee_count not in", values, "traineeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeCountBetween(Integer value1, Integer value2) {
+            addCriterion("trainee_count between", value1, value2, "traineeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andTraineeCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("trainee_count not between", value1, value2, "traineeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCountIsNull() {
+            addCriterion("selected_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCountIsNotNull() {
+            addCriterion("selected_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCountEqualTo(Integer value) {
+            addCriterion("selected_count =", value, "selectedCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCountNotEqualTo(Integer value) {
+            addCriterion("selected_count <>", value, "selectedCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCountGreaterThan(Integer value) {
+            addCriterion("selected_count >", value, "selectedCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("selected_count >=", value, "selectedCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCountLessThan(Integer value) {
+            addCriterion("selected_count <", value, "selectedCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCountLessThanOrEqualTo(Integer value) {
+            addCriterion("selected_count <=", value, "selectedCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCountIn(List<Integer> values) {
+            addCriterion("selected_count in", values, "selectedCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCountNotIn(List<Integer> values) {
+            addCriterion("selected_count not in", values, "selectedCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCountBetween(Integer value1, Integer value2) {
+            addCriterion("selected_count between", value1, value2, "selectedCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("selected_count not between", value1, value2, "selectedCount");
+            return (Criteria) this;
+        }
+
         public Criteria andTraineeTypesIsNull() {
             addCriterion("trainee_types is null");
             return (Criteria) this;

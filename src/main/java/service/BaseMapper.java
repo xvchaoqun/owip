@@ -71,12 +71,15 @@ import persistence.cet.CetColumnViewMapper;
 import persistence.cet.CetCourseMapper;
 import persistence.cet.CetCourseTypeMapper;
 import persistence.cet.CetExpertMapper;
+import persistence.cet.CetShortMsgMapper;
 import persistence.cet.CetTrainCourseMapper;
+import persistence.cet.CetTrainCourseViewMapper;
 import persistence.cet.CetTrainMapper;
 import persistence.cet.CetTrainTraineeTypeMapper;
 import persistence.cet.CetTrainViewMapper;
 import persistence.cet.CetTraineeCadreViewMapper;
 import persistence.cet.CetTraineeCourseMapper;
+import persistence.cet.CetTraineeCourseViewMapper;
 import persistence.cet.CetTraineeMapper;
 import persistence.cet.CetTraineeTypeMapper;
 import persistence.cis.CisEvaluateMapper;
@@ -358,15 +361,21 @@ public class BaseMapper {
     @Autowired
     protected CetTrainCourseMapper cetTrainCourseMapper;
     @Autowired
+    protected CetTrainCourseViewMapper cetTrainCourseViewMapper;
+    @Autowired
     protected CetTraineeMapper cetTraineeMapper;
     @Autowired
     protected CetTraineeCadreViewMapper cetTraineeCadreViewMapper;
+    @Autowired
+    protected CetTraineeCourseViewMapper cetTraineeCourseViewMapper;
     @Autowired
     protected CetTraineeCourseMapper cetTraineeCourseMapper;
     @Autowired
     protected CetTraineeTypeMapper cetTraineeTypeMapper;
     @Autowired
     protected CetTrainTraineeTypeMapper cetTrainTraineeTypeMapper;
+    @Autowired
+    protected CetShortMsgMapper cetShortMsgMapper;
 
     /**
      * 干部选拔-干部任免审批表

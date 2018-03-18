@@ -7,6 +7,7 @@ import domain.cet.CetTrainView;
 import domain.cet.CetTrainViewExample;
 import domain.cet.CetTraineeType;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -187,14 +188,18 @@ public class CetTrainController extends CetBaseController {
     }
 
 
-    @RequiresPermissions("cetTrain:edit")
+    //@RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_summary")
-    public String cetTrain_summary(Integer id, ModelMap modelMap) {
+    public String cetTrain_summary(Integer id, Boolean view, ModelMap modelMap) {
 
         if (id != null) {
             CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(id);
             modelMap.put("cetTrain", cetTrain);
         }
+
+        if(BooleanUtils.isTrue(view))
+            return "cet/cetTrain/cetTrain_summary_view";
+
         return "cet/cetTrain/cetTrain_summary";
     }
 

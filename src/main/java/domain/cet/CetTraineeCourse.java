@@ -24,6 +24,10 @@ public class CetTraineeCourse implements Serializable {
 
     private Boolean isFinished;
 
+    private Date signTime;
+
+    private Byte signType;
+
     private String remark;
 
     private Date chooseTime;
@@ -62,6 +66,22 @@ public class CetTraineeCourse implements Serializable {
 
     public void setIsFinished(Boolean isFinished) {
         this.isFinished = isFinished;
+    }
+
+    public Date getSignTime() {
+        return signTime;
+    }
+
+    public void setSignTime(Date signTime) {
+        this.signTime = signTime;
+    }
+
+    public Byte getSignType() {
+        return signType;
+    }
+
+    public void setSignType(Byte signType) {
+        this.signType = signType;
     }
 
     public String getRemark() {

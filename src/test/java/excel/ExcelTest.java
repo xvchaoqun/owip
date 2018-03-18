@@ -55,4 +55,17 @@ public class ExcelTest {
         wb.write(output);
         output.close();
     }
+    @Test
+    public void t2() throws IOException {
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cet/1.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        //XSSFSheet sheet = wb.getSheetAt(0);
+
+
+        FileOutputStream output = new FileOutputStream(new File("D:/tmp/test2.xlsx"));  //读取的文件路径
+
+        wb.write(output);
+        output.close();
+    }
 }

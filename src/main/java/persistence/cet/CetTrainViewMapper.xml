@@ -19,6 +19,8 @@
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="trainee_count" jdbcType="INTEGER" property="traineeCount" />
+    <result column="selected_count" jdbcType="INTEGER" property="selectedCount" />
     <result column="trainee_types" jdbcType="VARCHAR" property="traineeTypes" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetTrainView">
@@ -56,7 +58,7 @@
   <sql id="Base_Column_List">
     id, year, type, num, name, has_summary, template_id, start_date, end_date, start_time, 
     end_time, enroll_status, pub_status, remark, is_deleted, is_finished, create_time, 
-    trainee_types
+    trainee_count, selected_count, trainee_types
   </sql>
   <sql id="Blob_Column_List">
     summary

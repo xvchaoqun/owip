@@ -66,6 +66,9 @@
 <c:set var="CONTENT_TPL_CONTENT_TYPE_MAP" value="<%=ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_MAP%>"/>
 <c:set var="CONTENT_TPL_ENGINE_MAP" value="<%=ContentTplConstants.CONTENT_TPL_ENGINE_MAP%>"/>
 
+<c:set value="<%=ContentTplConstants.CONTENT_TPL_CRS_MSG_MAP%>" var="CONTENT_TPL_CRS_MSG_MAP"/>
+<c:set value="<%=ContentTplConstants.CONTENT_TPL_CET_MSG_MAP%>" var="CONTENT_TPL_CET_MSG_MAP"/>
+
 
 <c:set var="USER_REG_STATUS_MAP" value="<%=SystemConstants.USER_REG_STATUS_MAP%>"/>
 <c:set var="USER_REG_STATUS_APPLY" value="<%=SystemConstants.USER_REG_STATUS_APPLY%>"/>
@@ -188,6 +191,8 @@
 <c:set value="<%=CetConstants.CET_TRAIN_PUB_STATUS_UNPUBLISHED%>" var="CET_TRAIN_PUB_STATUS_UNPUBLISHED"/>
 <c:set value="<%=CetConstants.CET_TRAIN_PUB_STATUS_PUBLISHED%>" var="CET_TRAIN_PUB_STATUS_PUBLISHED"/>
 <c:set value="<%=CetConstants.CET_TRAIN_PUB_STATUS_CANCEL%>" var="CET_TRAIN_PUB_STATUS_CANCEL"/>
+
+<c:set value="<%=CetConstants.CET_TRAINEE_SIGN_TYPE_MANUAL%>" var="CET_TRAINEE_SIGN_TYPE_MANUAL"/>
 
 
 <c:set value="<%=PmdConstants.PMD_MONTH_STATUS_INIT%>" var="PMD_MONTH_STATUS_INIT"/>
@@ -324,8 +329,6 @@
 <c:set value="<%=CrsConstants.CRS_POST_EXPERT_ROLE_LEADER%>" var="CRS_POST_EXPERT_ROLE_LEADER"/>
 <c:set value="<%=CrsConstants.CRS_POST_EXPERT_ROLE_MEMBER%>" var="CRS_POST_EXPERT_ROLE_MEMBER"/>
 <c:set value="<%=CrsConstants.CRS_POST_EXPERT_ROLE_MAP%>" var="CRS_POST_EXPERT_ROLE_MAP"/>
-
-<c:set value="<%=ContentTplConstants.CONTENT_TPL_CRS_MSG_MAP%>" var="CONTENT_TPL_CRS_MSG_MAP"/>
 
 <c:set value="<%=CrsConstants.CRS_POST_FILE_TYPE_PIC%>" var="CRS_POST_FILE_TYPE_PIC"/>
 <c:set value="<%=CrsConstants.CRS_POST_FILE_TYPE_AUDIO%>" var="CRS_POST_FILE_TYPE_AUDIO"/>

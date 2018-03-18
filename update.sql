@@ -1,4 +1,18 @@
 
+
+2018-3-18
+ALTER TABLE `cet_trainee`
+	DROP COLUMN `course_count`;
+
+	更新cet_trainee_cadre_view
+
+ALTER TABLE `cet_trainee_course`
+	CHANGE COLUMN `is_finished` `is_finished` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否实际完成，签到即完成' AFTER `train_course_id`,
+	ADD COLUMN `sign_time` DATETIME NULL COMMENT '签到时间' AFTER `is_finished`,
+	ADD COLUMN `sign_type` TINYINT(3) UNSIGNED NULL COMMENT '签到类型， 1 手动签到 2 批量导入 3 刷卡签到' AFTER `sign_time`;
+
+更新 cet_trainee_course_view
+
 2018-3-16
 ALTER TABLE `cet_train`
 	CHANGE COLUMN `subject` `summary` TEXT NULL DEFAULT NULL COMMENT '内容简介' AFTER `name`;
@@ -23,6 +37,10 @@ ALTER TABLE `cet_trainee_course`
 
 	ALTER TABLE `cet_train_course`
 	DROP COLUMN `status`;
+
+ALTER TABLE `cet_train_course`
+	DROP COLUMN `trainee_count`;
+
 
 2018-3-14
 ALTER TABLE `cet_train`

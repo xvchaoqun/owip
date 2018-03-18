@@ -20,7 +20,7 @@
                 </div>
                 <div class="modal-footer center jqgrid-vertical-offset">
                     <c:if test="${cetTrain.switchStatus!=CET_TRAIN_ENROLL_STATUS_OPEN}">
-                        <span class="text-danger bolder">还未开始选课</span>
+                        <span class="text-danger bolder" style="font-size: 16pt">${cetTrain.switchStatusText}</span>
                     </c:if>
                     <c:if test="${cetTrain.switchStatus==CET_TRAIN_ENROLL_STATUS_OPEN}">
                     <button id="selectBtn" ${cetTrainee.courseCount>0?'disabled':''}
@@ -58,6 +58,10 @@
     })
 
     var cetTrainCourses = ${cm:toJSONArray(cetTrainCourses)};
+    var selectedTrainCourseIds = $.map(${cm:toJSONArray(selectedCetTraineeCourses)}, function(ctc){
+        return ctc.trainCourseId;
+    })
+    //console.log(selectedTrainCourseIds)
     $("#jqGrid2").jqGrid({
         pager: null,
         rownumbers: true,
@@ -91,7 +95,13 @@
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
             },
             {label: '上课地点', name: 'address', width: 300}
-        ]
+        ],
+        rowattr: function(rowData, currentObj, rowId){
+            //console.log(rowId + " " + $.inArray(rowId, selectedTrainCourseIds));
+            if($.inArray(parseInt(rowId), selectedTrainCourseIds)>=0) {
+                return {'class':'info'}
+            }
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
 </script>

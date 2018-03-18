@@ -6,7 +6,6 @@
     <result column="train_id" jdbcType="INTEGER" property="trainId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
-    <result column="course_count" jdbcType="INTEGER" property="courseCount" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -68,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_id, user_id, trainee_type_id, course_count, remark
+    id, train_id, user_id, trainee_type_id, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeExample" resultMap="BaseResultMap">
     select
@@ -102,11 +101,9 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.cet.CetTrainee">
     insert into cet_trainee (id, train_id, user_id, 
-      trainee_type_id, course_count, remark
-      )
+      trainee_type_id, remark)
     values (#{id,jdbcType=INTEGER}, #{trainId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{traineeTypeId,jdbcType=INTEGER}, #{courseCount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+      #{traineeTypeId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cet.CetTrainee">
     insert into cet_trainee
@@ -122,9 +119,6 @@
       </if>
       <if test="traineeTypeId != null">
         trainee_type_id,
-      </if>
-      <if test="courseCount != null">
-        course_count,
       </if>
       <if test="remark != null">
         remark,
@@ -142,9 +136,6 @@
       </if>
       <if test="traineeTypeId != null">
         #{traineeTypeId,jdbcType=INTEGER},
-      </if>
-      <if test="courseCount != null">
-        #{courseCount,jdbcType=INTEGER},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -172,9 +163,6 @@
       <if test="record.traineeTypeId != null">
         trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
       </if>
-      <if test="record.courseCount != null">
-        course_count = #{record.courseCount,jdbcType=INTEGER},
-      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -189,7 +177,6 @@
       train_id = #{record.trainId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
-      course_count = #{record.courseCount,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -207,9 +194,6 @@
       <if test="traineeTypeId != null">
         trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
       </if>
-      <if test="courseCount != null">
-        course_count = #{courseCount,jdbcType=INTEGER},
-      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -221,7 +205,6 @@
     set train_id = #{trainId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
-      course_count = #{courseCount,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

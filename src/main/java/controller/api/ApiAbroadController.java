@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import service.abroad.ApplySelfService;
+import service.abroad.ApproverService;
+import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.IpUtils;
@@ -51,17 +53,17 @@ public class ApiAbroadController extends BaseController {
             }
 
             int userId = uv.getId();
-            ApplySelfService applySelfService = CmTag.getBean(ApplySelfService.class);
-
             CadreView cv = cadreService.dbFindByUserId(userId);
-            if (cv == null) {
-                result.put("Message", "该用户不是干部");
+            ApproverService approverService = CmTag.getBean(ApproverService.class);
+            if(!CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRE)
+                    || cv == null || !approverService.hasApproveAuth(userId)){
+                result.put("Message", "没有审批权限");
                 JSONUtils.write(response, result, false);
                 return;
             }
 
             int cadreId = cv.getId();
-
+            ApplySelfService applySelfService = CmTag.getBean(ApplySelfService.class);
             Map map = applySelfService.findApplySelfList(userId, cadreId, null,
                     null, 0, -1, null);
             CommonList commonList = (CommonList) map.get("commonList");

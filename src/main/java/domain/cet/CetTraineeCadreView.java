@@ -1,6 +1,7 @@
 package domain.cet;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetTraineeCadreView implements Serializable {
@@ -12,9 +13,15 @@ public class CetTraineeCadreView implements Serializable {
 
     private Integer traineeTypeId;
 
+    private String remark;
+
+    private BigDecimal totalPeriod;
+
+    private BigDecimal finishPeriod;
+
     private Integer courseCount;
 
-    private String remark;
+    private Integer finishCount;
 
     private String code;
 
@@ -72,6 +79,30 @@ public class CetTraineeCadreView implements Serializable {
         this.traineeTypeId = traineeTypeId;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
+    public BigDecimal getTotalPeriod() {
+        return totalPeriod;
+    }
+
+    public void setTotalPeriod(BigDecimal totalPeriod) {
+        this.totalPeriod = totalPeriod;
+    }
+
+    public BigDecimal getFinishPeriod() {
+        return finishPeriod;
+    }
+
+    public void setFinishPeriod(BigDecimal finishPeriod) {
+        this.finishPeriod = finishPeriod;
+    }
+
     public Integer getCourseCount() {
         return courseCount;
     }
@@ -80,12 +111,12 @@ public class CetTraineeCadreView implements Serializable {
         this.courseCount = courseCount;
     }
 
-    public String getRemark() {
-        return remark;
+    public Integer getFinishCount() {
+        return finishCount;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+    public void setFinishCount(Integer finishCount) {
+        this.finishCount = finishCount;
     }
 
     public String getCode() {

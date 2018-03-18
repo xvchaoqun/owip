@@ -30,8 +30,6 @@ public class CetTrainCourse implements Serializable {
 
     private String address;
 
-    private Integer traineeCount;
-
     private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
@@ -82,14 +80,6 @@ public class CetTrainCourse implements Serializable {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
-    }
-
-    public Integer getTraineeCount() {
-        return traineeCount;
-    }
-
-    public void setTraineeCount(Integer traineeCount) {
-        this.traineeCount = traineeCount;
     }
 
     public Integer getSortOrder() {

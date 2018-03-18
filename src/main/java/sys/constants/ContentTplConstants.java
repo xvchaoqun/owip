@@ -115,6 +115,18 @@ public class ContentTplConstants {
         CONTENT_TPL_CRS_MSG_MAP.put(CONTENT_TPL_CRS_MSG_5, "通知5：招聘会前一小时提醒");
     }
 
+    /*******
+     * 干部教育培训
+     *******/
+    public final static String CONTENT_TPL_CET_MSG_1 = "ct_cet_msg_1";
+    public final static String CONTENT_TPL_CET_MSG_2 = "ct_cet_msg_2";
+
+    public final static Map<String, String> CONTENT_TPL_CET_MSG_MAP = new LinkedHashMap<>();
+    static {
+        CONTENT_TPL_CET_MSG_MAP.put(CONTENT_TPL_CET_MSG_1, "通知1：培训班开班前一天通知");
+        CONTENT_TPL_CET_MSG_MAP.put(CONTENT_TPL_CET_MSG_2, "通知2：每堂课开课前半小时通知");
+    }
+
     /** 干部选拨 **/
     // 干部任前公示结束确认提醒
     public final static String CONTENT_TPL_SC_PUBLIC_FINISH_CONFIRM = "ct_sc_public_finish_confirm";

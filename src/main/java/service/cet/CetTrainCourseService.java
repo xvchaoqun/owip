@@ -99,7 +99,6 @@ public class CetTrainCourseService extends BaseMapper {
             CetTrainCourse record = new CetTrainCourse();
             record.setTrainId(trainId);
             record.setCourseId(courseId);
-            record.setTraineeCount(0);
             record.setSortOrder(getNextSortOrder("cet_train_course", "train_id="+record.getTrainId()));
             cetTrainCourseMapper.insertSelective(record);
         }

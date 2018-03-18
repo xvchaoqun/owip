@@ -1,5 +1,6 @@
 package domain.cet;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -372,66 +373,6 @@ public class CetTraineeCadreViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andCourseCountIsNull() {
-            addCriterion("course_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountIsNotNull() {
-            addCriterion("course_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountEqualTo(Integer value) {
-            addCriterion("course_count =", value, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountNotEqualTo(Integer value) {
-            addCriterion("course_count <>", value, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountGreaterThan(Integer value) {
-            addCriterion("course_count >", value, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("course_count >=", value, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountLessThan(Integer value) {
-            addCriterion("course_count <", value, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountLessThanOrEqualTo(Integer value) {
-            addCriterion("course_count <=", value, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountIn(List<Integer> values) {
-            addCriterion("course_count in", values, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountNotIn(List<Integer> values) {
-            addCriterion("course_count not in", values, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountBetween(Integer value1, Integer value2) {
-            addCriterion("course_count between", value1, value2, "courseCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("course_count not between", value1, value2, "courseCount");
-            return (Criteria) this;
-        }
-
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;
@@ -499,6 +440,246 @@ public class CetTraineeCadreViewExample {
 
         public Criteria andRemarkNotBetween(String value1, String value2) {
             addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPeriodIsNull() {
+            addCriterion("total_period is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPeriodIsNotNull() {
+            addCriterion("total_period is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPeriodEqualTo(BigDecimal value) {
+            addCriterion("total_period =", value, "totalPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPeriodNotEqualTo(BigDecimal value) {
+            addCriterion("total_period <>", value, "totalPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPeriodGreaterThan(BigDecimal value) {
+            addCriterion("total_period >", value, "totalPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPeriodGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("total_period >=", value, "totalPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPeriodLessThan(BigDecimal value) {
+            addCriterion("total_period <", value, "totalPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPeriodLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("total_period <=", value, "totalPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPeriodIn(List<BigDecimal> values) {
+            addCriterion("total_period in", values, "totalPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPeriodNotIn(List<BigDecimal> values) {
+            addCriterion("total_period not in", values, "totalPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPeriodBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("total_period between", value1, value2, "totalPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("total_period not between", value1, value2, "totalPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodIsNull() {
+            addCriterion("finish_period is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodIsNotNull() {
+            addCriterion("finish_period is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodEqualTo(BigDecimal value) {
+            addCriterion("finish_period =", value, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodNotEqualTo(BigDecimal value) {
+            addCriterion("finish_period <>", value, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodGreaterThan(BigDecimal value) {
+            addCriterion("finish_period >", value, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("finish_period >=", value, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodLessThan(BigDecimal value) {
+            addCriterion("finish_period <", value, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("finish_period <=", value, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodIn(List<BigDecimal> values) {
+            addCriterion("finish_period in", values, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodNotIn(List<BigDecimal> values) {
+            addCriterion("finish_period not in", values, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("finish_period between", value1, value2, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("finish_period not between", value1, value2, "finishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseCountIsNull() {
+            addCriterion("course_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseCountIsNotNull() {
+            addCriterion("course_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseCountEqualTo(Integer value) {
+            addCriterion("course_count =", value, "courseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseCountNotEqualTo(Integer value) {
+            addCriterion("course_count <>", value, "courseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseCountGreaterThan(Integer value) {
+            addCriterion("course_count >", value, "courseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("course_count >=", value, "courseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseCountLessThan(Integer value) {
+            addCriterion("course_count <", value, "courseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseCountLessThanOrEqualTo(Integer value) {
+            addCriterion("course_count <=", value, "courseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseCountIn(List<Integer> values) {
+            addCriterion("course_count in", values, "courseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseCountNotIn(List<Integer> values) {
+            addCriterion("course_count not in", values, "courseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseCountBetween(Integer value1, Integer value2) {
+            addCriterion("course_count between", value1, value2, "courseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("course_count not between", value1, value2, "courseCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountIsNull() {
+            addCriterion("finish_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountIsNotNull() {
+            addCriterion("finish_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountEqualTo(Integer value) {
+            addCriterion("finish_count =", value, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountNotEqualTo(Integer value) {
+            addCriterion("finish_count <>", value, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountGreaterThan(Integer value) {
+            addCriterion("finish_count >", value, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("finish_count >=", value, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountLessThan(Integer value) {
+            addCriterion("finish_count <", value, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountLessThanOrEqualTo(Integer value) {
+            addCriterion("finish_count <=", value, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountIn(List<Integer> values) {
+            addCriterion("finish_count in", values, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountNotIn(List<Integer> values) {
+            addCriterion("finish_count not in", values, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountBetween(Integer value1, Integer value2) {
+            addCriterion("finish_count between", value1, value2, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andFinishCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("finish_count not between", value1, value2, "finishCount");
             return (Criteria) this;
         }
 

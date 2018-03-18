@@ -75,7 +75,7 @@
                         .format(rowObject.id, rowObject.courseCount>0?'btn-primary':'btn-success')
             }, width: 125, frozen: true},
             {label: '报名状态', name: 'courseCount', formatter: function (cellvalue, options, rowObject) {
-                return cellvalue>0?'已报名':'-'
+                return cellvalue>0?('已报名('+cellvalue+')'):'-'
             }, width: 90, frozen: true},
             </c:if>
             <c:if test="${module==2}">
@@ -96,7 +96,12 @@
             }, width: 200, frozen: true
             },
             {label: '培训班名称', name: 'name', width:200, align:'left'},
-            {label: '培训主题', name: 'subject', width:200},
+            {label: '内容简介', name: '_summary', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.hasSummary==false) return'-'
+                return ('<button class="popupBtn btn btn-primary btn-xs" data-width="750" ' +
+                'data-url="${ctx}/cet/cetTrain_summary?id={0}&view=1"><i class="fa fa-search"></i> 查看</button>')
+                        .format(rowObject.id);
+            }},
             {label: '参训人员类型', name: 'traineeTypes', width:200},
             {label: '开课日期', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '结课日期', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},

@@ -345,6 +345,126 @@ public class CetTraineeCourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andSignTimeIsNull() {
+            addCriterion("sign_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTimeIsNotNull() {
+            addCriterion("sign_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTimeEqualTo(Date value) {
+            addCriterion("sign_time =", value, "signTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTimeNotEqualTo(Date value) {
+            addCriterion("sign_time <>", value, "signTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTimeGreaterThan(Date value) {
+            addCriterion("sign_time >", value, "signTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("sign_time >=", value, "signTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTimeLessThan(Date value) {
+            addCriterion("sign_time <", value, "signTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTimeLessThanOrEqualTo(Date value) {
+            addCriterion("sign_time <=", value, "signTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTimeIn(List<Date> values) {
+            addCriterion("sign_time in", values, "signTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTimeNotIn(List<Date> values) {
+            addCriterion("sign_time not in", values, "signTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTimeBetween(Date value1, Date value2) {
+            addCriterion("sign_time between", value1, value2, "signTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTimeNotBetween(Date value1, Date value2) {
+            addCriterion("sign_time not between", value1, value2, "signTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTypeIsNull() {
+            addCriterion("sign_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTypeIsNotNull() {
+            addCriterion("sign_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTypeEqualTo(Byte value) {
+            addCriterion("sign_type =", value, "signType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTypeNotEqualTo(Byte value) {
+            addCriterion("sign_type <>", value, "signType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTypeGreaterThan(Byte value) {
+            addCriterion("sign_type >", value, "signType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("sign_type >=", value, "signType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTypeLessThan(Byte value) {
+            addCriterion("sign_type <", value, "signType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTypeLessThanOrEqualTo(Byte value) {
+            addCriterion("sign_type <=", value, "signType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTypeIn(List<Byte> values) {
+            addCriterion("sign_type in", values, "signType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTypeNotIn(List<Byte> values) {
+            addCriterion("sign_type not in", values, "signType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTypeBetween(Byte value1, Byte value2) {
+            addCriterion("sign_type between", value1, value2, "signType");
+            return (Criteria) this;
+        }
+
+        public Criteria andSignTypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("sign_type not between", value1, value2, "signType");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

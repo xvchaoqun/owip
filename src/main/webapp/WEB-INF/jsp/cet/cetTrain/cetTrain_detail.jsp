@@ -20,25 +20,25 @@
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#detail-content" data-callback="_menuSelected"
                                data-url="${ctx}/cet/cetTrainCourse?trainId=${param.trainId}">
-                                <i class="green ace-icon fa fa-bullhorn bigger-120"></i> 培训课程</a>
+                                <i class="green ace-icon fa fa-list bigger-120"></i> 培训课程</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#detail-content" data-callback="_menuSelected"
                                data-url="${ctx}/cet/cetTrain_detail_time?trainId=${param.trainId}">
-                                <i class="green ace-icon fa fa-calendar bigger-120"></i> 选课时间管理</a>
+                                <i class="green ace-icon fa fa-history bigger-120"></i> 选课时间管理</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#detail-content" data-callback="_menuSelected"
                                data-url="${ctx}/cet/cetTrain_detail_trainee?trainId=${param.trainId}">
-                                <i class="green ace-icon fa fa-gears bigger-120"></i> 可选课人员及选课情况</a>
+                                <i class="green ace-icon fa fa-users bigger-120"></i> 可选课人员及选课情况</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#detail-content" data-callback="_menuSelected"
-                               data-url="${ctx}/cet/cetTrain_detail/step?id=${param.id}&step=3">
-                                <i class="green ace-icon fa fa-users bigger-120"></i> 开课</a>
+                               data-url="${ctx}/cet/cetTrain_detail_start?trainId=${param.trainId}">
+                                <i class="green ace-icon fa fa-calendar bigger-120"></i> 开课</a>
                         </li>
                     </ul>
                 </div>

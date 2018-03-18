@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${crsShortMsg!=null}">确定</c:if><c:if test="${crsShortMsg==null}">添加</c:if>"/>
+    <input type="submit" class="btn btn-primary" value="<c:if test="${contentTpl!=null}">确定</c:if><c:if test="${contentTpl==null}">添加</c:if>"/>
 </div>
 
 <script>

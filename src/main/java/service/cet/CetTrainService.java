@@ -17,7 +17,9 @@ import sys.constants.CetConstants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CetTrainService extends BaseMapper {
@@ -155,5 +157,17 @@ public class CetTrainService extends BaseMapper {
             record.setTraineeTypeId(traineeTypeId);
             cetTrainTraineeTypeMapper.insertSelective(record);
         }
+    }
+
+    // 每个参训人员的年度参加培训情况（年度参加培训的总学时数）
+    public Map<Integer, Object> traineeYearPeriodMap(int trainId){
+
+        Map<Integer, Object> userMap = new HashMap<>();
+        List<Map> records = iCetMapper.listTraineeYearPeriod(trainId);
+        for (Map record : records) {
+            userMap.put(((Long) record.get("userId")).intValue(), record.get("yearPeriod"));
+        }
+
+        return userMap;
     }
 }
