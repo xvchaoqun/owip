@@ -43,7 +43,7 @@
         url: '${ctx}/cet/cetTrainCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {
-
+                if(rowObject.finishCount==undefined) return '-'
                 return ('<button class="popupBtn btn btn-success btn-xs" data-width="1200" ' +
                 'data-url="${ctx}/cet/cetTrainCourse_trainee?trainCourseId={0}"><i class="fa fa-search"></i> 已签到({1})</button>')
                         .format(rowObject.id, rowObject.finishCount);
