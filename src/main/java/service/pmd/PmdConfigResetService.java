@@ -9,11 +9,13 @@ import domain.pmd.PmdConfigMemberExample;
 import domain.pmd.PmdConfigMemberType;
 import domain.pmd.PmdConfigMemberTypeExample;
 import domain.pmd.PmdConfigReset;
+import domain.pmd.PmdConfigResetExample;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberExample;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdNorm;
 import domain.sys.SysUserView;
+import org.apache.ibatis.session.RowBounds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,16 @@ public class PmdConfigResetService extends BaseMapper {
     private LogService logService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    // 得到计算缴费工资的月份
+    public Date getSalaryMonth(){
+
+        PmdConfigResetExample example = new PmdConfigResetExample();
+        example.setOrderByClause("id desc");
+        List<PmdConfigReset> pmdConfigResets = pmdConfigResetMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return pmdConfigResets.size()>0?pmdConfigResets.get(0).getSalaryMonth():null;
+    }
 
     // 党费重新计算-更新党费计算工资（在职教职工）
     @Transactional

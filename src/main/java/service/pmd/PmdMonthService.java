@@ -673,16 +673,20 @@ public class PmdMonthService extends BaseMapper {
 
         PmdMember pmdMember = addOrResetMember(pmdMemberId, currentPmdMonth, member);
 
-        String salaryMonth = DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyyMM");
-        SysUserView uv = sysUserService.findById(userId);
+        Date salaryMonth = pmdConfigResetService.getSalaryMonth();
+        if(salaryMonth!=null) {
 
-        ExtJzgSalary ejs = iPmdMapper.getExtJzgSalary(salaryMonth, uv.getCode());
-        // 更新在职教职工工资
-        pmdConfigResetService.updateDuePayByJzgSalary(ejs);
+            String _salaryMonth = DateUtils.formatDate(salaryMonth, "yyyyMM");
+            SysUserView uv = sysUserService.findById(userId);
 
-        ExtRetireSalary ers = iPmdMapper.getExtRetireSalary(salaryMonth, uv.getCode());
-        // 更新离退休费
-        pmdConfigResetService.updateDuePayByRetireSalary(ers);
+            ExtJzgSalary ejs = iPmdMapper.getExtJzgSalary(_salaryMonth, uv.getCode());
+            // 更新在职教职工工资
+            pmdConfigResetService.updateDuePayByJzgSalary(ejs);
+
+            ExtRetireSalary ers = iPmdMapper.getExtRetireSalary(_salaryMonth, uv.getCode());
+            // 更新离退休费
+            pmdConfigResetService.updateDuePayByRetireSalary(ers);
+        }
 
         sysApprovalLogService.add(pmdMember.getId(), userId, SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
