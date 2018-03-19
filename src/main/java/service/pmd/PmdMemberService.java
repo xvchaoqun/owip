@@ -400,7 +400,7 @@ public class PmdMemberService extends BaseMapper {
             }
 
             PmdConfigMember pmdConfigMember = pmdMember.getPmdConfigMember();
-            if(pmdConfigMember.getHasReset()==false){
+            if(BooleanUtils.isFalse(pmdConfigMember.getHasReset())){
                 throw  new OpException("操作失败，{0}未确认缴费额度。", realname); // 未确认缴费额度
             }
 
