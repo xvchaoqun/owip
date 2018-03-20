@@ -33,9 +33,13 @@ public class CetTrainView implements Serializable {
 
     private Integer num;
 
+    private Boolean isOnCampus;
+
     private String name;
 
     private Boolean hasSummary;
+
+    private String summary;
 
     private Integer templateId;
 
@@ -51,6 +55,14 @@ public class CetTrainView implements Serializable {
 
     private Byte pubStatus;
 
+    private Integer evaCount;
+
+    private Boolean evaAnonymous;
+
+    private Boolean evaClosed;
+
+    private Date evaCloseTime;
+
     private String remark;
 
     private Boolean isDeleted;
@@ -59,13 +71,15 @@ public class CetTrainView implements Serializable {
 
     private Date createTime;
 
+    private Integer courseNum;
+
     private Integer traineeCount;
 
     private Integer selectedCount;
 
     private String traineeTypes;
 
-    private String summary;
+    private String evaNote;
 
     private static final long serialVersionUID = 1L;
 
@@ -101,6 +115,14 @@ public class CetTrainView implements Serializable {
         this.num = num;
     }
 
+    public Boolean getIsOnCampus() {
+        return isOnCampus;
+    }
+
+    public void setIsOnCampus(Boolean isOnCampus) {
+        this.isOnCampus = isOnCampus;
+    }
+
     public String getName() {
         return name;
     }
@@ -115,6 +137,14 @@ public class CetTrainView implements Serializable {
 
     public void setHasSummary(Boolean hasSummary) {
         this.hasSummary = hasSummary;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary == null ? null : summary.trim();
     }
 
     public Integer getTemplateId() {
@@ -173,6 +203,38 @@ public class CetTrainView implements Serializable {
         this.pubStatus = pubStatus;
     }
 
+    public Integer getEvaCount() {
+        return evaCount;
+    }
+
+    public void setEvaCount(Integer evaCount) {
+        this.evaCount = evaCount;
+    }
+
+    public Boolean getEvaAnonymous() {
+        return evaAnonymous;
+    }
+
+    public void setEvaAnonymous(Boolean evaAnonymous) {
+        this.evaAnonymous = evaAnonymous;
+    }
+
+    public Boolean getEvaClosed() {
+        return evaClosed;
+    }
+
+    public void setEvaClosed(Boolean evaClosed) {
+        this.evaClosed = evaClosed;
+    }
+
+    public Date getEvaCloseTime() {
+        return evaCloseTime;
+    }
+
+    public void setEvaCloseTime(Date evaCloseTime) {
+        this.evaCloseTime = evaCloseTime;
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -205,6 +267,14 @@ public class CetTrainView implements Serializable {
         this.createTime = createTime;
     }
 
+    public Integer getCourseNum() {
+        return courseNum;
+    }
+
+    public void setCourseNum(Integer courseNum) {
+        this.courseNum = courseNum;
+    }
+
     public Integer getTraineeCount() {
         return traineeCount;
     }
@@ -229,11 +299,11 @@ public class CetTrainView implements Serializable {
         this.traineeTypes = traineeTypes == null ? null : traineeTypes.trim();
     }
 
-    public String getSummary() {
-        return summary;
+    public String getEvaNote() {
+        return evaNote;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary == null ? null : summary.trim();
+    public void setEvaNote(String evaNote) {
+        this.evaNote = evaNote == null ? null : evaNote.trim();
     }
 }

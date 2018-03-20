@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import service.train.StatTrainService;
+import service.cet.CetTrainStatService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,7 +20,7 @@ import java.io.IOException;
 public class StatTrainServiceTest {
 
     @Autowired
-    StatTrainService statTrainService;
+    CetTrainStatService statTrainService;
 
     @Test
     public void stat() throws IOException {

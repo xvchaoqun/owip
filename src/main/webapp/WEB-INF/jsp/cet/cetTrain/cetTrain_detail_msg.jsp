@@ -18,19 +18,19 @@
               <div class="buttons">
                 <button type="button"
                         data-width="650"
-                        data-url="${ctx}/cetTrain_detail_msg_au?tplKey=${tpl.code}"
+                        data-url="${ctx}/cet/cetTrain_detail_msg_au?tplKey=${tpl.code}"
                         class="popupBtn btn btn-xs btn-primary">
                   <i class="ace-icon fa fa-edit"></i>
                   编辑
                 </button>
                 <button type="button"
-                        data-url="${ctx}/cetTrain_detail_msg_send?postId=${crsPost.id}&tplKey=${tpl.code}"
+                        data-url="${ctx}/cet/cetTrain_detail_msg_send?postId=${crsPost.id}&tplKey=${tpl.code}"
                         class="popupBtn btn btn-xs btn-warning">
                   <i class="ace-icon fa fa-send"></i>
                   发送
                 </button>
                 <button type="button"
-                        data-url="${ctx}/cetTrain_detail_msg_list?postId=${crsPost.id}&tplKey=${tpl.code}"
+                        data-url="${ctx}/cet/cetTrain_detail_msg_list?postId=${crsPost.id}&tplKey=${tpl.code}"
                         class="popupBtn btn btn-xs btn-info">
                   <i class="ace-icon fa fa-history"></i>
                   记录

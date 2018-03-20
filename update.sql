@@ -1,4 +1,85 @@
 
+2018-3-20
+ALTER TABLE `cet_train`
+	ADD COLUMN `eva_is_closed` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否关闭评课' AFTER `pub_status`,
+	ADD COLUMN `eva_close_time` DATETIME NULL DEFAULT NULL COMMENT '评课关闭时间' AFTER `eva_is_closed`;
+
+	ALTER TABLE `cet_train`
+	ADD COLUMN `eva_note` TEXT NULL COMMENT '评课说明' AFTER `pub_status`;
+
+ALTER TABLE `cet_train`
+	ADD COLUMN `eva_anonymous` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT ' 是否匿名测评，如果是实名测评，则导入学员手机号等信息关联测评账号。' AFTER `pub_status`,
+	CHANGE COLUMN `eva_is_closed` `eva_closed` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否关闭评课' AFTER `eva_note`;
+
+	ALTER TABLE `cet_train`
+	ADD COLUMN `is_on_campus` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT ' 是否校内培训，校外培训以上3个字段为空' AFTER `num`;
+
+ALTER TABLE `cet_train`
+	CHANGE COLUMN `year` `year` INT(10) UNSIGNED NULL COMMENT '年度' AFTER `id`,
+	CHANGE COLUMN `type` `type` INT(10) UNSIGNED NULL COMMENT '培训班类型，关联元数据' AFTER `year`,
+	CHANGE COLUMN `num` `num` INT(10) UNSIGNED NULL COMMENT '编号' AFTER `type`;
+
+ALTER TABLE `cet_train`
+	CHANGE COLUMN `is_finished` `is_finished` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态，0 未结课 1 已结课，校外培训无此字段' AFTER `is_deleted`;
+
+
+ALTER TABLE `cet_train_course`
+	CHANGE COLUMN `course_id` `course_id` INT(10) UNSIGNED NULL COMMENT '课程，针对校内培训' AFTER `train_id`,
+	ADD COLUMN `name` VARCHAR(50) NULL COMMENT '名称，针对校外培训、整个培训班测评' AFTER `course_id`,
+	ADD COLUMN `teacher` VARCHAR(50) NULL DEFAULT NULL COMMENT '教师名称，针对校外培训' AFTER `name`,
+	ADD COLUMN `is_global` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否针对专题班测评，如果是，则评课针对整个培训班次，而不是某个课程；此时没有教师名称。' AFTER `end_time`,
+	ADD COLUMN `eva_table_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '评估表' AFTER `is_global`;
+
+
+ALTER TABLE `cet_train`
+	CHANGE COLUMN `name` `name` VARCHAR(50) NOT NULL COMMENT '培训班名称' AFTER `is_on_campus`,
+	CHANGE COLUMN `template_id` `template_id` INT(10) UNSIGNED NULL COMMENT '参训人类型信息模板，针对校内培训' AFTER `summary`,
+	CHANGE COLUMN `enroll_status` `enroll_status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '选课状态，0 根据选课时间而定 1 强制开启、2 强制关闭、3 暂停' AFTER `end_time`,
+	CHANGE COLUMN `pub_status` `pub_status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '发布状态，0 未发布 1 已发布  2 取消发布' AFTER `enroll_status`;
+
+ALTER TABLE `cet_train`
+	ADD COLUMN `eva_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '参评人数量' AFTER `pub_status`;
+
+
+更新cet_train_view
+
+insert into cet_train(id, is_on_campus, name, has_summary, summary, start_date, end_date, eva_count, eva_anonymous, eva_note, eva_closed, eva_close_time, remark, is_deleted, create_time)
+select id, 0 as is_on_campus, name, (length(summary)>0) as has_summary, summary, start_date, end_date, total_count as eva_count,
+is_anonymous as eva_anonymous , note as eva_note, is_closed as eva_closed, close_time as eva_close_time, remark, !status as is_deleted, create_time
+from train;
+
+insert into cet_train_course(id, train_id, name, teacher, start_time, end_time, is_global, eva_table_id, sort_order)
+select id, train_id, name, teacher, start_time, end_time, is_global, eva_table_id, sort_order from train_course where status=1;
+
+RENAME TABLE `train_eva_table` TO `cet_train_eva_table`;
+RENAME TABLE `train_eva_norm` TO `cet_train_eva_norm`;
+RENAME TABLE `train_eva_rank` TO `cet_train_eva_rank`;
+RENAME TABLE `train_eva_result` TO `cet_train_eva_result`;
+RENAME TABLE `train_inspector` TO `cet_train_inspector`;
+RENAME TABLE `train_inspector_course` TO `cet_train_inspector_course`;
+
+ALTER TABLE `cet_train_eva_result`
+	ADD CONSTRAINT `FK_train_eva_result_train` FOREIGN KEY (`train_id`) REFERENCES `cet_train` (`id`) ON DELETE CASCADE,
+	ADD CONSTRAINT `FK_train_eva_result_train_course` FOREIGN KEY (`course_id`) REFERENCES `cet_train_course` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `cet_train_inspector`
+	ADD CONSTRAINT `FK_train_inspector_train` FOREIGN KEY (`train_id`) REFERENCES `cet_train` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `cet_train_inspector_course`
+	ADD CONSTRAINT `FK_train_inspector_course_train_course` FOREIGN KEY (`course_id`) REFERENCES `cet_train_course` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `cet_train_inspector_course`
+	CHANGE COLUMN `course_id` `train_course_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '培训课程' AFTER `inspector_id`;
+
+
+ALTER TABLE `cet_train_inspector`
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态，（0可用、1作废）' AFTER `create_time`,
+	DROP COLUMN `finish_course_num`;
+
+ALTER TABLE `cet_train_eva_result`
+	CHANGE COLUMN `course_id` `train_course_id` INT(10) UNSIGNED NOT NULL COMMENT '培训课程' AFTER `train_id`;
+
+更新 cet_train_course_view
 
 2018-3-18
 ALTER TABLE `cet_trainee`

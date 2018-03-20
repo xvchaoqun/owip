@@ -285,6 +285,146 @@ public class CetTrainCourseViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andNameIsNull() {
+            addCriterion("name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIsNotNull() {
+            addCriterion("name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("name =", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("name <>", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("name >", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("name >=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThan(String value) {
+            addCriterion("name <", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("name <=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLike(String value) {
+            addCriterion("name like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotLike(String value) {
+            addCriterion("name not like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("name in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("name not in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("name between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("name not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherIsNull() {
+            addCriterion("teacher is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherIsNotNull() {
+            addCriterion("teacher is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherEqualTo(String value) {
+            addCriterion("teacher =", value, "teacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherNotEqualTo(String value) {
+            addCriterion("teacher <>", value, "teacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherGreaterThan(String value) {
+            addCriterion("teacher >", value, "teacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherGreaterThanOrEqualTo(String value) {
+            addCriterion("teacher >=", value, "teacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherLessThan(String value) {
+            addCriterion("teacher <", value, "teacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherLessThanOrEqualTo(String value) {
+            addCriterion("teacher <=", value, "teacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherLike(String value) {
+            addCriterion("teacher like", value, "teacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherNotLike(String value) {
+            addCriterion("teacher not like", value, "teacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherIn(List<String> values) {
+            addCriterion("teacher in", values, "teacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherNotIn(List<String> values) {
+            addCriterion("teacher not in", values, "teacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherBetween(String value1, String value2) {
+            addCriterion("teacher between", value1, value2, "teacher");
+            return (Criteria) this;
+        }
+
+        public Criteria andTeacherNotBetween(String value1, String value2) {
+            addCriterion("teacher not between", value1, value2, "teacher");
+            return (Criteria) this;
+        }
+
         public Criteria andStartTimeIsNull() {
             addCriterion("start_time is null");
             return (Criteria) this;
@@ -402,6 +542,126 @@ public class CetTrainCourseViewExample {
 
         public Criteria andEndTimeNotBetween(Date value1, Date value2) {
             addCriterion("end_time not between", value1, value2, "endTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalIsNull() {
+            addCriterion("is_global is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalIsNotNull() {
+            addCriterion("is_global is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalEqualTo(Integer value) {
+            addCriterion("is_global =", value, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalNotEqualTo(Integer value) {
+            addCriterion("is_global <>", value, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalGreaterThan(Integer value) {
+            addCriterion("is_global >", value, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_global >=", value, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalLessThan(Integer value) {
+            addCriterion("is_global <", value, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalLessThanOrEqualTo(Integer value) {
+            addCriterion("is_global <=", value, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalIn(List<Integer> values) {
+            addCriterion("is_global in", values, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalNotIn(List<Integer> values) {
+            addCriterion("is_global not in", values, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalBetween(Integer value1, Integer value2) {
+            addCriterion("is_global between", value1, value2, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGlobalNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_global not between", value1, value2, "isGlobal");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaTableIdIsNull() {
+            addCriterion("eva_table_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaTableIdIsNotNull() {
+            addCriterion("eva_table_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaTableIdEqualTo(Integer value) {
+            addCriterion("eva_table_id =", value, "evaTableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaTableIdNotEqualTo(Integer value) {
+            addCriterion("eva_table_id <>", value, "evaTableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaTableIdGreaterThan(Integer value) {
+            addCriterion("eva_table_id >", value, "evaTableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaTableIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eva_table_id >=", value, "evaTableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaTableIdLessThan(Integer value) {
+            addCriterion("eva_table_id <", value, "evaTableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaTableIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eva_table_id <=", value, "evaTableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaTableIdIn(List<Integer> values) {
+            addCriterion("eva_table_id in", values, "evaTableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaTableIdNotIn(List<Integer> values) {
+            addCriterion("eva_table_id not in", values, "evaTableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaTableIdBetween(Integer value1, Integer value2) {
+            addCriterion("eva_table_id between", value1, value2, "evaTableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaTableIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eva_table_id not between", value1, value2, "evaTableId");
             return (Criteria) this;
         }
 
@@ -652,6 +912,66 @@ public class CetTrainCourseViewExample {
 
         public Criteria andFinishCountNotBetween(Integer value1, Integer value2) {
             addCriterion("finish_count not between", value1, value2, "finishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaFinishCountIsNull() {
+            addCriterion("eva_finish_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaFinishCountIsNotNull() {
+            addCriterion("eva_finish_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaFinishCountEqualTo(Integer value) {
+            addCriterion("eva_finish_count =", value, "evaFinishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaFinishCountNotEqualTo(Integer value) {
+            addCriterion("eva_finish_count <>", value, "evaFinishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaFinishCountGreaterThan(Integer value) {
+            addCriterion("eva_finish_count >", value, "evaFinishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaFinishCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eva_finish_count >=", value, "evaFinishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaFinishCountLessThan(Integer value) {
+            addCriterion("eva_finish_count <", value, "evaFinishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaFinishCountLessThanOrEqualTo(Integer value) {
+            addCriterion("eva_finish_count <=", value, "evaFinishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaFinishCountIn(List<Integer> values) {
+            addCriterion("eva_finish_count in", values, "evaFinishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaFinishCountNotIn(List<Integer> values) {
+            addCriterion("eva_finish_count not in", values, "evaFinishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaFinishCountBetween(Integer value1, Integer value2) {
+            addCriterion("eva_finish_count between", value1, value2, "evaFinishCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaFinishCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("eva_finish_count not between", value1, value2, "evaFinishCount");
             return (Criteria) this;
         }
     }

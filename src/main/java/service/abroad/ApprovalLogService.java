@@ -4,6 +4,7 @@ import bean.ApprovalResult;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApprovalLog;
 import domain.abroad.ApprovalLogExample;
+import domain.abroad.ApproverType;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,12 +85,17 @@ public class ApprovalLogService extends BaseMapper {
         }*/
         // 先完成审批记录，再更新申请记录审批字段
         insertSelective(record);
+        String _approverType = "";
+        if(record.getTypeId()!=null){
+            ApproverType approverType = approverTypeMapper.selectByPrimaryKey(record.getTypeId());
+            if(approverType!=null) _approverType = approverType.getName();
+        }
 
         ApplySelf _applySelf = applySelfMapper.selectByPrimaryKey(record.getApplyId());
         sysApprovalLogService.add(_applySelf.getId(), _applySelf.getUser().getUserId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF,
-                "审批", record.getStatus() ? SystemConstants.SYS_APPROVAL_LOG_STATUS_PASS
+                _approverType+ "审批", record.getStatus() ? SystemConstants.SYS_APPROVAL_LOG_STATUS_PASS
                         : SystemConstants.SYS_APPROVAL_LOG_STATUS_DENY, record.getRemark());
 
         Integer applyId = record.getApplyId();

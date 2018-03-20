@@ -1,5 +1,6 @@
 package persistence.common;
 
+import bean.analysis.StatTrainBean;
 import domain.cet.CetCourse;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTraineeCourse;
@@ -71,5 +72,14 @@ public interface ICetMapper {
             "and cteecv.is_finished=1 and cteecv.user_id=ctee.user_id and cteecv.year=ct.year " +
             "group by cteecv.user_id")
     public List<Map> listTraineeYearPeriod(@Param("trainId") int trainId);
+
+
+    @ResultType(bean.analysis.StatTrainBean.class)
+    @Select("select result.train_course_id as trainCourseId, result.inspector_id as inspectorId, sum(rank.score) as totalScore, ic.feedback " +
+            "from cet_train_eva_result result, cet_train_eva_rank rank, cet_train_inspector_course ic " +
+            "where result.train_id=#{trainId} and rank.id=result.rank_id and " +
+            "ic.train_course_id=result.train_course_id and ic.inspector_id=result.inspector_id " +
+            "group by result.inspector_id, result.train_course_id")
+    public List<StatTrainBean> stat(@Param("trainId") int trainId);
 
 }

@@ -63,6 +63,11 @@ public class SysResourceService extends BaseMapper{
 			commonMapper.excuteSql("update sys_resource set is_leaf=0 where id=" + record.getParentId());
 		}
 
+		List<SysResource> subSysResourses = getSubSysResourses(record.getId());
+		if(subSysResourses.size()==0){
+			record.setIsLeaf(true);
+		}
+
 		sysResourceMapper.updateByPrimaryKeySelective(record);
 
 		updateAllChildParentIds(record.getId());
@@ -198,12 +203,17 @@ public class SysResourceService extends BaseMapper{
 		return root;
 	}
 
-	public void loopChildNode(int parentId, TreeNode root, Set<Integer> selectIdSet){
+	public List<SysResource> getSubSysResourses(int parentId){
 
 		SysResourceExample example = new SysResourceExample();
 		example.createCriteria().andParentIdEqualTo(parentId);
 		example.setOrderByClause("sort_order desc");
-		List<SysResource> sysResources = sysResourceMapper.selectByExample(example);
+		return sysResourceMapper.selectByExample(example);
+	}
+
+	public void loopChildNode(int parentId, TreeNode root, Set<Integer> selectIdSet){
+
+		List<SysResource> sysResources = getSubSysResourses(parentId);
 
 		root.isFolder = (sysResources.size()>0);
 

@@ -15,6 +15,7 @@ import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
@@ -23,9 +24,9 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,7 +45,6 @@ import sys.utils.DateUtils;
 import sys.utils.DownloadUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
-import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,104 +73,104 @@ public class ApplySelfController extends AbroadBaseController {
         return "abroad/applySelf/applySelf_approval";
     }
 
+    // 干部管理员直接审批（代审）
+    @RequiresPermissions("applySelf:approval")
+    @RequestMapping("/applySelf_approval_direct")
+    public String applySelf_approval_direct(int applySelfId, int approvalTypeId, ModelMap modelMap) {
+
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
+        int cadreId = applySelf.getCadreId();
+
+        List<SysUserView> approvers = applySelfService.findApprovers(cadreId, approvalTypeId);
+        modelMap.put("approvers", approvers);
+
+        return "abroad/applySelf/applySelf_approval_direct";
+    }
+
     @RequiresPermissions("applySelf:approval")
     @RequestMapping(value = "/applySelf_approval", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_applySelf_approval(@CurrentUser SysUserView loginUser,
-                                     int applySelfId, int approvalTypeId,
-                                     int status, String remark, HttpServletRequest request) {
+    public Map do_applySelf_approval( int applySelfId, int approvalTypeId,
+                                     boolean pass, String remark,
+                                     Boolean isAdmin, // 干部管理员直接审批
+                                      Integer approvalUserId, // 干部管理员直接审批时，选择的审批人
+                                      @DateTimeFormat(pattern = "yyyy-MM-dd") Date approvalTime, // 干部管理员直接审批时可修改时间
+                                     HttpServletRequest request) {
 
-        int userId = loginUser.getId();
-        if (!applySelfService.canApproval(userId, applySelfId, approvalTypeId))
-            return failed("您没有权限进行审批");
+        //int userId = ShiroHelper.getCurrentUserId();
 
-        Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(applySelfId);
-        Integer result = approvalResultMap.get(approvalTypeId).getValue();
-        if (result != null && result != -1) {
-            return failed("重复审批");
-        }
-        if (result != null && result == -1) {
-            return failed("不需该审批人身份进行审批");
-        }
-        if (approvalTypeId == -1) { // 管理员初审
-            Assert.isTrue(result == null, "null");
+        if(BooleanUtils.isTrue(isAdmin)){
             SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CADREADMIN);
+            if(approvalTime==null) approvalTime = new Date();
+            if(approvalUserId==null) approvalUserId = ShiroHelper.getCurrentUserId();
+        }else{
+            approvalUserId = ShiroHelper.getCurrentUserId();
+            if (!applySelfService.canApproval(approvalUserId, applySelfId, approvalTypeId))
+                return failed("您没有权限进行审批");
+            approvalTime = new Date();
         }
-        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
-        if (approvalTypeId > 0) {
-            for (Map.Entry<Integer, ApproverType> entry : approverTypeMap.entrySet()) {
-                Integer key = entry.getKey();
-                if (key != approvalTypeId) {
-                    Integer preResult = approvalResultMap.get(key).getValue();
-                    if (preResult == null || preResult == 0)
-                        return failed(entry.getValue().getName() + "审批未通过，不允许进行当前审批");
-                }
-                if (key == approvalTypeId) break;
+
+        applySelfService.approval(approvalUserId, applySelfId, approvalTypeId, pass, approvalTime, remark);
+
+        if (BooleanUtils.isNotTrue(isAdmin)) {
+            //if (springProps.applySelfSendApprovalMsg) {
+            // 如果在工作日周一至周五，8:30-17:30，那么就立即发送给下一个领导
+            // 短信通知下一个审批人
+            Date now = new Date();
+            String nowTime = DateUtils.formatDate(now, "HHmm");
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(now);
+            int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+            if ((dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY)
+                    && (nowTime.compareTo("0830") >= 0 && nowTime.compareTo("1730") <= 0)) {
+
+                Map<String, Integer> resultMap = applySelfService.sendApprovalMsg(applySelfId);
+                logger.info("【因私审批】在指定时间自动发送给下一个审批人，结果:" + JSONUtils.toString(resultMap, MixinUtils.baseMixins(), false));
             }
+            //}
         }
-        if (approvalTypeId == 0) {
-            // 验证前面的审批均已完成（通过或未通过）
-            for (Map.Entry<Integer, ApproverType> entry : approverTypeMap.entrySet()) {
-                Integer key = entry.getKey();
-                //if (key != 0) {
-                Integer preResult = approvalResultMap.get(key).getValue();
-
-                if (preResult != null && preResult == 0) break; // 前面有审批未通过的，则可以直接终审
-                if (preResult != null && preResult == -1) continue; // 跳过不需要审批的
-
-                if (preResult == null) // 前面存在 未审批
-                    return failed(entry.getValue().getName() + "未完成审批");
-                // }
-            }
-        }
-
-        ApprovalLog record = new ApprovalLog();
-        record.setApplyId(applySelfId);
-        if (approvalTypeId > 0)
-            record.setTypeId(approvalTypeId);
-        if (approvalTypeId == -1) {
-            record.setOdType(AbroadConstants.ABROAD_APPROVER_LOG_OD_TYPE_FIRST); // 初审
-            if (status != 1) { // 不通过，打回申请
-                ApplySelf applySelf = new ApplySelf();
-                applySelf.setId(applySelfId);
-                applySelf.setStatus(false); // 打回
-                applySelf.setApprovalRemark(remark);
-
-                //如果管理员初审未通过，就不需要领导审批，也不需要管理员再终审一次，直接就退回给干部了。
-                // 也就是说只要管理员初审不通过，就相当于此次申请已经完成了审批。那么这条记录应该转移到“已完成审批”中去。
-                applySelf.setIsFinish(true);
-
-                applySelfService.doApproval(applySelf);
-            }
-        }
-        if (approvalTypeId == 0) {
-            record.setOdType(AbroadConstants.ABROAD_APPROVER_LOG_OD_TYPE_LAST); // 终审
-        }
-        record.setStatus(status == 1);
-        record.setRemark(remark);
-        record.setUserId(userId);
-        record.setCreateTime(new Date());
-        record.setIp(IpUtils.getRealIp(request));
-
-        approvalLogService.doApproval(record);
-
-        //if (springProps.applySelfSendApprovalMsg) {
-        // 如果在工作日周一至周五，8:30-17:30，那么就立即发送给下一个领导
-        // 短信通知下一个审批人
-        Date now = new Date();
-        String nowTime = DateUtils.formatDate(now, "HHmm");
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(now);
-        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-        if ((dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY)
-                && (nowTime.compareTo("0830") >= 0 && nowTime.compareTo("1730") <= 0)) {
-
-            Map<String, Integer> resultMap = applySelfService.sendApprovalMsg(applySelfId);
-            logger.info("【因私审批】在指定时间自动发送给下一个审批人，结果:" + JSONUtils.toString(resultMap, MixinUtils.baseMixins(), false));
-        }
-        //}
 
         logger.info(addLog(SystemConstants.LOG_ABROAD, "因私出国申请审批：%s", applySelfId));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 干部管理员直接修改审批
+    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequestMapping("/applySelf_approval_direct_au")
+    public String applySelf_approval_direct_au(int approvalLogId, ModelMap modelMap) {
+
+        ApprovalLog approvalLog = approvalLogMapper.selectByPrimaryKey(approvalLogId);
+        modelMap.put("approvalLog", approvalLog);
+
+        return "abroad/applySelf/applySelf_approval_direct_au";
+    }
+
+    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequestMapping(value = "/applySelf_approval_direct_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_applySelf_approval_direct_au(HttpServletRequest request,
+                                               int applySelfId,
+                                               int approvalLogId,
+                                               @DateTimeFormat(pattern = "yyyy-MM-dd") Date approvalTime,
+                                               String remark, ModelMap modelMap) {
+
+
+        ApprovalLog approvalLog = approvalLogMapper.selectByPrimaryKey(approvalLogId);
+        String before = JSONUtils.toString(approvalLog, false);
+        logger.info(addLog(SystemConstants.LOG_ABROAD, "修改审批意见和审批时间，修改前：%s", before));
+
+        ApprovalLog record = new ApprovalLog();
+        record.setId(approvalLogId);
+        record.setCreateTime(approvalTime);
+        record.setRemark(remark);
+        approvalLogMapper.updateByPrimaryKeySelective(record);
+
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
+        sysApprovalLogService.add(applySelfId, applySelf.getUser().getUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF,
+                "修改审批", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, before);
 
         return success(FormUtils.SUCCESS);
     }

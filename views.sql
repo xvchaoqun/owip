@@ -16,11 +16,16 @@ group by cc.id ;
 
 DROP VIEW IF EXISTS `cet_train_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_view` AS
-select ct.*, count(distinct ctee.id) as trainee_count, count(distinct cteec.trainee_id) as selected_count, group_concat(distinct cteet.name order by cteet.sort_order asc) as trainee_types from cet_train ct
+select ct.*,
+count(distinct ctc.id) as course_num,
+count(distinct ctee.id) as trainee_count,
+count(distinct cteec.trainee_id) as selected_count,
+group_concat(distinct cteet.name order by cteet.sort_order asc) as trainee_types from cet_train ct
 left join cet_train_trainee_type cttt on cttt.train_id = ct.id
 left join cet_trainee_type cteet on cttt.trainee_type_id= cteet.id
 left join cet_trainee ctee on ctee.train_id=ct.id
 left join cet_trainee_course cteec on cteec.trainee_id=ctee.id
+left join cet_train_course ctc on ctc.train_id=ct.id
 group by ct.id;
 
 DROP VIEW IF EXISTS `cet_trainee_cadre_view`;
@@ -37,11 +42,12 @@ group by ct.id order by cv.sort_order desc ;
 
 DROP VIEW IF EXISTS `cet_train_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_course_view` AS
-select ctc.*, cteec.selected_count, cteec.finish_count
+select ctc.*, cteec.selected_count, cteec.finish_count, ctic.eva_finish_count
 from cet_train_course ctc
-left join (select train_course_id, count(id) as selected_count, sum(if(is_finished, 1,0)) as finish_count from  cet_trainee_course
-group by train_course_id) as cteec
-on ctc.id=cteec.train_course_id;
+left join (select train_course_id, count(id) as selected_count, sum(if(is_finished, 1,0)) as finish_count
+from  cet_trainee_course group by train_course_id) cteec on ctc.id=cteec.train_course_id
+left join (select train_course_id, count(id) as eva_finish_count from cet_train_inspector_course group by train_course_id)
+ ctic on ctc.id=ctic.train_course_id;
 
 DROP VIEW IF EXISTS `cet_trainee_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_view` AS
@@ -54,6 +60,13 @@ left join cet_train_course ctc on ctc.id=cteec.train_course_id
 left join cet_course cc on cc.id=ctc.course_id
 left join cadre_view cv on ctee.user_id=cv.user_id
 order by cv.sort_order desc;
+
+DROP VIEW IF EXISTS `cet_train_inspector_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_train_inspector_view` AS
+select cti.*, sum(if(ctic.status=1, 1,0)) as finish_course_num,
+sum(if(ctic.status=0, 1,0)) as save_course_num from cet_train_inspector cti
+left join cet_train_inspector_course ctic on ctic.inspector_id=cti.id
+group by cti.id ;
 
 
 -- 干部任免审批表归档

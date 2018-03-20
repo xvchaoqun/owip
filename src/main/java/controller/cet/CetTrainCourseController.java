@@ -1,5 +1,7 @@
 package controller.cet;
 
+import bean.XlsTrainCourse;
+import bean.XlsUpload;
 import domain.cet.CetCourse;
 import domain.cet.CetCourseType;
 import domain.cet.CetExpert;
@@ -7,11 +9,17 @@ import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseView;
 import domain.cet.CetTrainCourseViewExample;
+import domain.cet.CetTrainEvaTable;
 import domain.cet.CetTraineeCourseView;
 import domain.cet.CetTraineeCourseViewExample;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -46,22 +56,27 @@ public class CetTrainCourseController extends CetBaseController {
 
     @RequiresPermissions("cetTrainCourse:list")
     @RequestMapping("/cetTrainCourse")
-    public String cetTrainCourse(@RequestParam(defaultValue = "1") Integer cls, int trainId, ModelMap modelMap) {
-
-        modelMap.put("cls", cls);
+    public String cetTrainCourse(@RequestParam(defaultValue = "1") Integer cls,
+                                 @RequestParam(defaultValue = "1")Boolean isOnCampus,
+                                 int trainId, ModelMap modelMap) {
 
         modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
+        if(isOnCampus) {
 
-        Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
-        modelMap.put("courseTypeMap", courseTypeMap);
+            modelMap.put("cls", cls);
+            Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
+            modelMap.put("courseTypeMap", courseTypeMap);
+        }
 
-        return "cet/cetTrainCourse/cetTrainCourse_page";
+        return isOnCampus?"cet/cetTrainCourse/cetTrainCourse_page":"cet/cetTrainCourse/cetTrainCourse_off_page";
     }
 
     @RequiresPermissions("cetTrainCourse:list")
     @RequestMapping("/cetTrainCourse_data")
     public void cetTrainCourse_data(HttpServletResponse response,
+                                    @RequestParam(defaultValue = "1")Boolean isOnCampus,
                                  int trainId,
+                                    String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -77,15 +92,19 @@ public class CetTrainCourseController extends CetBaseController {
         CetTrainCourseViewExample example = new CetTrainCourseViewExample();
         CetTrainCourseViewExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId);
         example.setOrderByClause("sort_order asc");
-/*
+
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
-        }*/
+        }
 
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cetTrainCourse_export(example, response);
+
+            if(isOnCampus)
+                cetTrainCourse_export(example, response);
+            else
+                cetTrainCourse_off_export(example, response);
             return;
         }
 
@@ -288,5 +307,123 @@ public class CetTrainCourseController extends CetBaseController {
         }
         String fileName = "培训班课程_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    public void cetTrainCourse_off_export(CetTrainCourseViewExample example, HttpServletResponse response) {
+
+        List<CetTrainCourseView> records = cetTrainCourseViewMapper.selectByExample(example);
+        int rownum = records.size();
+        String[] titles = {"培训班次|200", "课程名称|300", "教师名称|80", "开始时间|200", "结束时间|200", "评估表|200", "评课情况（已完成/总数）|200"};
+        List<String[]> valuesList = new ArrayList<>();
+        for (int i = 0; i < rownum; i++) {
+            CetTrainCourseView record = records.get(i);
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(record.getTrainId());
+            CetTrainEvaTable trainEvaTable = cetTrainEvaTableMapper.selectByPrimaryKey(record.getEvaTableId());
+            String[] values = {
+                    cetTrain.getName(),
+                    record.getName(),
+                    record.getTeacher(),
+                    DateUtils.formatDate(record.getStartTime(), DateUtils.YYYY_MM_DD_HH_MM),
+                    DateUtils.formatDate(record.getEndTime(), DateUtils.YYYY_MM_DD_HH_MM),
+                    trainEvaTable.getName(),
+                    (record.getFinishCount()==null?0:record.getFinishCount())
+                            + "/" + (cetTrain.getEvaCount()==null?0:cetTrain.getEvaCount())
+            };
+            valuesList.add(values);
+        }
+        String fileName = "培训课程_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequiresPermissions("cetTrainCourse:edit")
+    @RequestMapping(value = "/cetTrainCourse_au", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetTrainCourse_au(CetTrainCourse record, HttpServletRequest request) {
+
+        Integer id = record.getId();
+        record.setIsGlobal(BooleanUtils.isTrue(record.getIsGlobal()));
+
+        if(record.getStartTime()!=null && record.getEndTime()!=null
+                && record.getStartTime().after(record.getEndTime())){
+            return failed("开始时间不能晚于结束时间");
+        }
+
+        if (id == null) {
+
+            cetTrainCourseService.insertSelective(record);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加培训课程：%s", record.getId()));
+        } else {
+
+            cetTrainCourseService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新培训课程：%s", record.getId()));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetTrainCourse:edit")
+    @RequestMapping("/cetTrainCourse_au")
+    public String cetTrainCourse_au(Integer id, Integer trainId, ModelMap modelMap) {
+
+        if (id != null) {
+            CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(id);
+            modelMap.put("cetTrainCourse", cetTrainCourse);
+
+            trainId = cetTrainCourse.getTrainId();
+        }
+        modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
+
+        return "cet/cetTrainCourse/cetTrainCourse_au";
+    }
+
+    @RequiresPermissions("cetTrainCourse:edit")
+    @RequestMapping("/cetTrainCourse_evaTable")
+    public String cetTrainCourse_evaTable(int trainId, ModelMap modelMap) {
+
+        modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
+        modelMap.put("cetTrainEvaTableMap", cetTrainEvaTableService.findAll());
+
+        return "cet/cetTrainCourse/cetTrainCourse_evaTable";
+    }
+
+    @RequiresPermissions("cetTrainCourse:edit")
+    @RequestMapping(value = "/cetTrainCourse_evaTable", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetTrainCourse_evaTable(int trainId, @RequestParam(value = "ids[]") Integer[] ids, int evaTableId) {
+
+        cetTrainCourseService.evaTable(trainId, ids, evaTableId);
+        //logger.info(addLog(SystemConstants.LOG_ADMIN, "更新培训课程评估表：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetTrainCourse:import")
+    @RequestMapping("/cetTrainCourse_import")
+    public String cetTrainCourse_import() {
+
+        return "cet/cetTrainCourse/cetTrainCourse_import";
+    }
+
+    @RequiresPermissions("cetTrainCourse:import")
+    @RequestMapping(value="/cetTrainCourse_import", method=RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetTrainCourse_import( int trainId, HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        List<XlsTrainCourse> records = new ArrayList<XlsTrainCourse>();
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        records.addAll(XlsUpload.fetchTrainCourses(sheet));
+
+        int successCount = cetTrainCourseService.imports(records, trainId);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", successCount);
+        resultMap.put("total", records.size());
+
+        return resultMap;
     }
 }

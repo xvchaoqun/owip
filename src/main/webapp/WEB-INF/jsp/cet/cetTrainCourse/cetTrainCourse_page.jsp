@@ -58,18 +58,12 @@
                 align: 'left', frozen:true
             },
             {label: '课程要点', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
-                var btnStr = "添加";
-                var btnCss = "btn-success";
-                var iCss = "fa-plus";
-                if (rowObject.cetCourse.hasSummary){
-                    btnStr = "查看";
-                    btnCss = "btn-primary";
-                    iCss = "fa-search";
-                }
 
-                return ('<button class="popupBtn btn {2} btn-xs" data-width="750" ' +
-                'data-url="${ctx}/cet/cetCourse_summary?id={0}"><i class="fa {3}"></i> {1}</button>')
-                        .format(rowObject.cetCourse.id, btnStr, btnCss, iCss);
+                if (rowObject.cetCourse.hasSummary==false) return '-'
+
+                return ('<button class="popupBtn btn btn-primary btn-xs" data-width="750" ' +
+                'data-url="${ctx}/cet/cetCourse_summary?id={0}&view=1"><i class="fa fa-search"></i> 查看</button>')
+                        .format(rowObject.cetCourse.id);
             }, frozen:true},
             <c:if test="${cls==1}">
             {

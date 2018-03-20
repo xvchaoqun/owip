@@ -8,6 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetTrain_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetTrain.id}">
+		<input type="hidden" name="isOnCampus" value="1">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">年度</label>
 				<div class="col-xs-6">

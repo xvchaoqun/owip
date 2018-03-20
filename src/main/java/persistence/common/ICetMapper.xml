@@ -28,7 +28,7 @@
         <if test="hasSelected">
         , tmp.total_period, tmp.finish_period
         </if>
-        from cet_train_view ct, cet_trainee ctee
+        from cet_train_view ct, cet_trainee_cadre_view ctee
         <if test="hasSelected">
         , (
         select cteec.trainee_id, sum(cc.period) total_period, sum(if(cteec.is_finished, cc.period, 0)) as finish_period
@@ -44,7 +44,7 @@
         order by ct.create_time desc
     </select>
     <select id="countUserCetTrains" parameterType="map" resultType="java.lang.Integer">
-        select count(ct.id) from cet_train_view ct, cet_trainee ctee
+        select count(ct.id) from cet_train_view ct, cet_trainee_cadre_view ctee
         <include refid="searchTrains"/>
     </select>
 

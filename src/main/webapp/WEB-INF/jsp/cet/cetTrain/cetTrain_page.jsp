@@ -150,12 +150,12 @@
             {label: '可选课人数', name: 'traineeCount', width: 90},
             {label: '选课情况', name: 'switchStatusText', formatter: function (cellvalue, options, rowObject) {
                 var isOpen = (rowObject.switchStatus==${CET_TRAIN_ENROLL_STATUS_OPEN});
+                var str = cellvalue;
                 if(isOpen || rowObject.selectedCount>0){
-                    var str = cellvalue;
                     str +="(" + rowObject.selectedCount + ")"
                     if(isOpen) str='<span class="text-success bolder">'+str+'</span>'
                 }
-                return str;
+                return (str==undefined)?'-':str;
             }},
             {label: '发布状态', name: '_pubStatus', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.pubStatus == undefined) return '-';

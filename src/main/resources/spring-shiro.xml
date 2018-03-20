@@ -133,7 +133,7 @@
 
                 /mobile/js/** = anon
                 /mobile/css/** = anon
-                /m_train/** = anon
+                /m/cet/** = anon
                 /m/abroad/login = anon
                 /m/abroad/logout = anon
 

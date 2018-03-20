@@ -6,8 +6,10 @@
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="is_on_campus" jdbcType="BIT" property="isOnCampus" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="has_summary" jdbcType="BIT" property="hasSummary" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="template_id" jdbcType="INTEGER" property="templateId" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
@@ -15,13 +17,17 @@
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="enroll_status" jdbcType="TINYINT" property="enrollStatus" />
     <result column="pub_status" jdbcType="TINYINT" property="pubStatus" />
+    <result column="eva_count" jdbcType="INTEGER" property="evaCount" />
+    <result column="eva_anonymous" jdbcType="BIT" property="evaAnonymous" />
+    <result column="eva_closed" jdbcType="BIT" property="evaClosed" />
+    <result column="eva_close_time" jdbcType="TIMESTAMP" property="evaCloseTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetTrain">
-    <result column="summary" jdbcType="LONGVARCHAR" property="summary" />
+    <result column="eva_note" jdbcType="LONGVARCHAR" property="evaNote" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,11 +88,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, type, num, name, has_summary, template_id, start_date, end_date, start_time, 
-    end_time, enroll_status, pub_status, remark, is_deleted, is_finished, create_time
+    id, year, type, num, is_on_campus, name, has_summary, summary, template_id, start_date, 
+    end_date, start_time, end_time, enroll_status, pub_status, eva_count, eva_anonymous, 
+    eva_closed, eva_close_time, remark, is_deleted, is_finished, create_time
   </sql>
   <sql id="Blob_Column_List">
-    summary
+    eva_note
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="domain.cet.CetTrainExample" resultMap="ResultMapWithBLOBs">
     select
@@ -138,18 +145,22 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.cet.CetTrain">
     insert into cet_train (id, year, type, 
-      num, name, has_summary, 
-      template_id, start_date, end_date, 
-      start_time, end_time, enroll_status, 
-      pub_status, remark, is_deleted, 
-      is_finished, create_time, summary
+      num, is_on_campus, name, 
+      has_summary, summary, template_id, 
+      start_date, end_date, start_time, 
+      end_time, enroll_status, pub_status, 
+      eva_count, eva_anonymous, eva_closed, 
+      eva_close_time, remark, is_deleted, 
+      is_finished, create_time, eva_note
       )
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{num,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{hasSummary,jdbcType=BIT}, 
-      #{templateId,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{enrollStatus,jdbcType=TINYINT}, 
-      #{pubStatus,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
-      #{isFinished,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{summary,jdbcType=LONGVARCHAR}
+      #{num,jdbcType=INTEGER}, #{isOnCampus,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, 
+      #{hasSummary,jdbcType=BIT}, #{summary,jdbcType=VARCHAR}, #{templateId,jdbcType=INTEGER}, 
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{enrollStatus,jdbcType=TINYINT}, #{pubStatus,jdbcType=TINYINT}, 
+      #{evaCount,jdbcType=INTEGER}, #{evaAnonymous,jdbcType=BIT}, #{evaClosed,jdbcType=BIT}, 
+      #{evaCloseTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
+      #{isFinished,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{evaNote,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cet.CetTrain">
@@ -167,11 +178,17 @@
       <if test="num != null">
         num,
       </if>
+      <if test="isOnCampus != null">
+        is_on_campus,
+      </if>
       <if test="name != null">
         name,
       </if>
       <if test="hasSummary != null">
         has_summary,
+      </if>
+      <if test="summary != null">
+        summary,
       </if>
       <if test="templateId != null">
         template_id,
@@ -194,6 +211,18 @@
       <if test="pubStatus != null">
         pub_status,
       </if>
+      <if test="evaCount != null">
+        eva_count,
+      </if>
+      <if test="evaAnonymous != null">
+        eva_anonymous,
+      </if>
+      <if test="evaClosed != null">
+        eva_closed,
+      </if>
+      <if test="evaCloseTime != null">
+        eva_close_time,
+      </if>
       <if test="remark != null">
         remark,
       </if>
@@ -206,8 +235,8 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="summary != null">
-        summary,
+      <if test="evaNote != null">
+        eva_note,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -223,11 +252,17 @@
       <if test="num != null">
         #{num,jdbcType=INTEGER},
       </if>
+      <if test="isOnCampus != null">
+        #{isOnCampus,jdbcType=BIT},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="hasSummary != null">
         #{hasSummary,jdbcType=BIT},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
       </if>
       <if test="templateId != null">
         #{templateId,jdbcType=INTEGER},
@@ -250,6 +285,18 @@
       <if test="pubStatus != null">
         #{pubStatus,jdbcType=TINYINT},
       </if>
+      <if test="evaCount != null">
+        #{evaCount,jdbcType=INTEGER},
+      </if>
+      <if test="evaAnonymous != null">
+        #{evaAnonymous,jdbcType=BIT},
+      </if>
+      <if test="evaClosed != null">
+        #{evaClosed,jdbcType=BIT},
+      </if>
+      <if test="evaCloseTime != null">
+        #{evaCloseTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
@@ -262,8 +309,8 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="summary != null">
-        #{summary,jdbcType=LONGVARCHAR},
+      <if test="evaNote != null">
+        #{evaNote,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -288,11 +335,17 @@
       <if test="record.num != null">
         num = #{record.num,jdbcType=INTEGER},
       </if>
+      <if test="record.isOnCampus != null">
+        is_on_campus = #{record.isOnCampus,jdbcType=BIT},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.hasSummary != null">
         has_summary = #{record.hasSummary,jdbcType=BIT},
+      </if>
+      <if test="record.summary != null">
+        summary = #{record.summary,jdbcType=VARCHAR},
       </if>
       <if test="record.templateId != null">
         template_id = #{record.templateId,jdbcType=INTEGER},
@@ -315,6 +368,18 @@
       <if test="record.pubStatus != null">
         pub_status = #{record.pubStatus,jdbcType=TINYINT},
       </if>
+      <if test="record.evaCount != null">
+        eva_count = #{record.evaCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.evaAnonymous != null">
+        eva_anonymous = #{record.evaAnonymous,jdbcType=BIT},
+      </if>
+      <if test="record.evaClosed != null">
+        eva_closed = #{record.evaClosed,jdbcType=BIT},
+      </if>
+      <if test="record.evaCloseTime != null">
+        eva_close_time = #{record.evaCloseTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -327,8 +392,8 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.summary != null">
-        summary = #{record.summary,jdbcType=LONGVARCHAR},
+      <if test="record.evaNote != null">
+        eva_note = #{record.evaNote,jdbcType=LONGVARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -341,8 +406,10 @@
       year = #{record.year,jdbcType=INTEGER},
       type = #{record.type,jdbcType=INTEGER},
       num = #{record.num,jdbcType=INTEGER},
+      is_on_campus = #{record.isOnCampus,jdbcType=BIT},
       name = #{record.name,jdbcType=VARCHAR},
       has_summary = #{record.hasSummary,jdbcType=BIT},
+      summary = #{record.summary,jdbcType=VARCHAR},
       template_id = #{record.templateId,jdbcType=INTEGER},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
@@ -350,11 +417,15 @@
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       enroll_status = #{record.enrollStatus,jdbcType=TINYINT},
       pub_status = #{record.pubStatus,jdbcType=TINYINT},
+      eva_count = #{record.evaCount,jdbcType=INTEGER},
+      eva_anonymous = #{record.evaAnonymous,jdbcType=BIT},
+      eva_closed = #{record.evaClosed,jdbcType=BIT},
+      eva_close_time = #{record.evaCloseTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
       is_finished = #{record.isFinished,jdbcType=BIT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      summary = #{record.summary,jdbcType=LONGVARCHAR}
+      eva_note = #{record.evaNote,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -365,8 +436,10 @@
       year = #{record.year,jdbcType=INTEGER},
       type = #{record.type,jdbcType=INTEGER},
       num = #{record.num,jdbcType=INTEGER},
+      is_on_campus = #{record.isOnCampus,jdbcType=BIT},
       name = #{record.name,jdbcType=VARCHAR},
       has_summary = #{record.hasSummary,jdbcType=BIT},
+      summary = #{record.summary,jdbcType=VARCHAR},
       template_id = #{record.templateId,jdbcType=INTEGER},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
@@ -374,6 +447,10 @@
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       enroll_status = #{record.enrollStatus,jdbcType=TINYINT},
       pub_status = #{record.pubStatus,jdbcType=TINYINT},
+      eva_count = #{record.evaCount,jdbcType=INTEGER},
+      eva_anonymous = #{record.evaAnonymous,jdbcType=BIT},
+      eva_closed = #{record.evaClosed,jdbcType=BIT},
+      eva_close_time = #{record.evaCloseTime,jdbcType=TIMESTAMP},
       remark = #{record.remark,jdbcType=VARCHAR},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
       is_finished = #{record.isFinished,jdbcType=BIT},
@@ -394,11 +471,17 @@
       <if test="num != null">
         num = #{num,jdbcType=INTEGER},
       </if>
+      <if test="isOnCampus != null">
+        is_on_campus = #{isOnCampus,jdbcType=BIT},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="hasSummary != null">
         has_summary = #{hasSummary,jdbcType=BIT},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
       </if>
       <if test="templateId != null">
         template_id = #{templateId,jdbcType=INTEGER},
@@ -421,6 +504,18 @@
       <if test="pubStatus != null">
         pub_status = #{pubStatus,jdbcType=TINYINT},
       </if>
+      <if test="evaCount != null">
+        eva_count = #{evaCount,jdbcType=INTEGER},
+      </if>
+      <if test="evaAnonymous != null">
+        eva_anonymous = #{evaAnonymous,jdbcType=BIT},
+      </if>
+      <if test="evaClosed != null">
+        eva_closed = #{evaClosed,jdbcType=BIT},
+      </if>
+      <if test="evaCloseTime != null">
+        eva_close_time = #{evaCloseTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -433,8 +528,8 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="summary != null">
-        summary = #{summary,jdbcType=LONGVARCHAR},
+      <if test="evaNote != null">
+        eva_note = #{evaNote,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -444,8 +539,10 @@
     set year = #{year,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER},
+      is_on_campus = #{isOnCampus,jdbcType=BIT},
       name = #{name,jdbcType=VARCHAR},
       has_summary = #{hasSummary,jdbcType=BIT},
+      summary = #{summary,jdbcType=VARCHAR},
       template_id = #{templateId,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
@@ -453,11 +550,15 @@
       end_time = #{endTime,jdbcType=TIMESTAMP},
       enroll_status = #{enrollStatus,jdbcType=TINYINT},
       pub_status = #{pubStatus,jdbcType=TINYINT},
+      eva_count = #{evaCount,jdbcType=INTEGER},
+      eva_anonymous = #{evaAnonymous,jdbcType=BIT},
+      eva_closed = #{evaClosed,jdbcType=BIT},
+      eva_close_time = #{evaCloseTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=BIT},
       is_finished = #{isFinished,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      summary = #{summary,jdbcType=LONGVARCHAR}
+      eva_note = #{evaNote,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetTrain">
@@ -465,8 +566,10 @@
     set year = #{year,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER},
+      is_on_campus = #{isOnCampus,jdbcType=BIT},
       name = #{name,jdbcType=VARCHAR},
       has_summary = #{hasSummary,jdbcType=BIT},
+      summary = #{summary,jdbcType=VARCHAR},
       template_id = #{templateId,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
@@ -474,6 +577,10 @@
       end_time = #{endTime,jdbcType=TIMESTAMP},
       enroll_status = #{enrollStatus,jdbcType=TINYINT},
       pub_status = #{pubStatus,jdbcType=TINYINT},
+      eva_count = #{evaCount,jdbcType=INTEGER},
+      eva_anonymous = #{evaAnonymous,jdbcType=BIT},
+      eva_closed = #{evaClosed,jdbcType=BIT},
+      eva_close_time = #{evaCloseTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=BIT},
       is_finished = #{isFinished,jdbcType=BIT},

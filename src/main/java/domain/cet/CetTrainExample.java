@@ -372,6 +372,66 @@ public class CetTrainExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsOnCampusIsNull() {
+            addCriterion("is_on_campus is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnCampusIsNotNull() {
+            addCriterion("is_on_campus is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnCampusEqualTo(Boolean value) {
+            addCriterion("is_on_campus =", value, "isOnCampus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnCampusNotEqualTo(Boolean value) {
+            addCriterion("is_on_campus <>", value, "isOnCampus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnCampusGreaterThan(Boolean value) {
+            addCriterion("is_on_campus >", value, "isOnCampus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnCampusGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_on_campus >=", value, "isOnCampus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnCampusLessThan(Boolean value) {
+            addCriterion("is_on_campus <", value, "isOnCampus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnCampusLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_on_campus <=", value, "isOnCampus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnCampusIn(List<Boolean> values) {
+            addCriterion("is_on_campus in", values, "isOnCampus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnCampusNotIn(List<Boolean> values) {
+            addCriterion("is_on_campus not in", values, "isOnCampus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnCampusBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_on_campus between", value1, value2, "isOnCampus");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnCampusNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_on_campus not between", value1, value2, "isOnCampus");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;
@@ -499,6 +559,76 @@ public class CetTrainExample {
 
         public Criteria andHasSummaryNotBetween(Boolean value1, Boolean value2) {
             addCriterion("has_summary not between", value1, value2, "hasSummary");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryIsNull() {
+            addCriterion("summary is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryIsNotNull() {
+            addCriterion("summary is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryEqualTo(String value) {
+            addCriterion("summary =", value, "summary");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryNotEqualTo(String value) {
+            addCriterion("summary <>", value, "summary");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryGreaterThan(String value) {
+            addCriterion("summary >", value, "summary");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryGreaterThanOrEqualTo(String value) {
+            addCriterion("summary >=", value, "summary");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryLessThan(String value) {
+            addCriterion("summary <", value, "summary");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryLessThanOrEqualTo(String value) {
+            addCriterion("summary <=", value, "summary");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryLike(String value) {
+            addCriterion("summary like", value, "summary");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryNotLike(String value) {
+            addCriterion("summary not like", value, "summary");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryIn(List<String> values) {
+            addCriterion("summary in", values, "summary");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryNotIn(List<String> values) {
+            addCriterion("summary not in", values, "summary");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryBetween(String value1, String value2) {
+            addCriterion("summary between", value1, value2, "summary");
+            return (Criteria) this;
+        }
+
+        public Criteria andSummaryNotBetween(String value1, String value2) {
+            addCriterion("summary not between", value1, value2, "summary");
             return (Criteria) this;
         }
 
@@ -919,6 +1049,246 @@ public class CetTrainExample {
 
         public Criteria andPubStatusNotBetween(Byte value1, Byte value2) {
             addCriterion("pub_status not between", value1, value2, "pubStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCountIsNull() {
+            addCriterion("eva_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCountIsNotNull() {
+            addCriterion("eva_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCountEqualTo(Integer value) {
+            addCriterion("eva_count =", value, "evaCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCountNotEqualTo(Integer value) {
+            addCriterion("eva_count <>", value, "evaCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCountGreaterThan(Integer value) {
+            addCriterion("eva_count >", value, "evaCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eva_count >=", value, "evaCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCountLessThan(Integer value) {
+            addCriterion("eva_count <", value, "evaCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCountLessThanOrEqualTo(Integer value) {
+            addCriterion("eva_count <=", value, "evaCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCountIn(List<Integer> values) {
+            addCriterion("eva_count in", values, "evaCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCountNotIn(List<Integer> values) {
+            addCriterion("eva_count not in", values, "evaCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCountBetween(Integer value1, Integer value2) {
+            addCriterion("eva_count between", value1, value2, "evaCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("eva_count not between", value1, value2, "evaCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaAnonymousIsNull() {
+            addCriterion("eva_anonymous is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaAnonymousIsNotNull() {
+            addCriterion("eva_anonymous is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaAnonymousEqualTo(Boolean value) {
+            addCriterion("eva_anonymous =", value, "evaAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaAnonymousNotEqualTo(Boolean value) {
+            addCriterion("eva_anonymous <>", value, "evaAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaAnonymousGreaterThan(Boolean value) {
+            addCriterion("eva_anonymous >", value, "evaAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaAnonymousGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("eva_anonymous >=", value, "evaAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaAnonymousLessThan(Boolean value) {
+            addCriterion("eva_anonymous <", value, "evaAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaAnonymousLessThanOrEqualTo(Boolean value) {
+            addCriterion("eva_anonymous <=", value, "evaAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaAnonymousIn(List<Boolean> values) {
+            addCriterion("eva_anonymous in", values, "evaAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaAnonymousNotIn(List<Boolean> values) {
+            addCriterion("eva_anonymous not in", values, "evaAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaAnonymousBetween(Boolean value1, Boolean value2) {
+            addCriterion("eva_anonymous between", value1, value2, "evaAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaAnonymousNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("eva_anonymous not between", value1, value2, "evaAnonymous");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaClosedIsNull() {
+            addCriterion("eva_closed is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaClosedIsNotNull() {
+            addCriterion("eva_closed is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaClosedEqualTo(Boolean value) {
+            addCriterion("eva_closed =", value, "evaClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaClosedNotEqualTo(Boolean value) {
+            addCriterion("eva_closed <>", value, "evaClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaClosedGreaterThan(Boolean value) {
+            addCriterion("eva_closed >", value, "evaClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaClosedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("eva_closed >=", value, "evaClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaClosedLessThan(Boolean value) {
+            addCriterion("eva_closed <", value, "evaClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaClosedLessThanOrEqualTo(Boolean value) {
+            addCriterion("eva_closed <=", value, "evaClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaClosedIn(List<Boolean> values) {
+            addCriterion("eva_closed in", values, "evaClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaClosedNotIn(List<Boolean> values) {
+            addCriterion("eva_closed not in", values, "evaClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaClosedBetween(Boolean value1, Boolean value2) {
+            addCriterion("eva_closed between", value1, value2, "evaClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaClosedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("eva_closed not between", value1, value2, "evaClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCloseTimeIsNull() {
+            addCriterion("eva_close_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCloseTimeIsNotNull() {
+            addCriterion("eva_close_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCloseTimeEqualTo(Date value) {
+            addCriterion("eva_close_time =", value, "evaCloseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCloseTimeNotEqualTo(Date value) {
+            addCriterion("eva_close_time <>", value, "evaCloseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCloseTimeGreaterThan(Date value) {
+            addCriterion("eva_close_time >", value, "evaCloseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCloseTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("eva_close_time >=", value, "evaCloseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCloseTimeLessThan(Date value) {
+            addCriterion("eva_close_time <", value, "evaCloseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCloseTimeLessThanOrEqualTo(Date value) {
+            addCriterion("eva_close_time <=", value, "evaCloseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCloseTimeIn(List<Date> values) {
+            addCriterion("eva_close_time in", values, "evaCloseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCloseTimeNotIn(List<Date> values) {
+            addCriterion("eva_close_time not in", values, "evaCloseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCloseTimeBetween(Date value1, Date value2) {
+            addCriterion("eva_close_time between", value1, value2, "evaCloseTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEvaCloseTimeNotBetween(Date value1, Date value2) {
+            addCriterion("eva_close_time not between", value1, value2, "evaCloseTime");
             return (Criteria) this;
         }
 

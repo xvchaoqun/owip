@@ -9,6 +9,7 @@ import domain.abroad.ApproverType;
 import domain.base.Location;
 import domain.base.MetaType;
 import domain.cadre.CadreViewExample;
+import domain.cet.CetTrainEvaTable;
 import domain.dispatch.DispatchType;
 import domain.party.Branch;
 import domain.party.Party;
@@ -16,7 +17,6 @@ import domain.sys.SysRole;
 import domain.sys.SysUser;
 import domain.sys.SysUserReg;
 import domain.sys.SysUserView;
-import domain.train.TrainEvaTable;
 import domain.unit.Unit;
 import mixin.MetaTypeOptionMixin;
 import mixin.OptionMixin;
@@ -225,7 +225,7 @@ public class CacheService extends BaseController{
         baseMixins.put(Location.class, OptionMixin.class);
         //baseMixins.put(Country.class, OptionMixin.class);
 
-        baseMixins.put(TrainEvaTable.class, OptionMixin.class);
+        baseMixins.put(CetTrainEvaTable.class, OptionMixin.class);
 
         baseMixins.put(SysRole.class, OptionMixin.class);
 

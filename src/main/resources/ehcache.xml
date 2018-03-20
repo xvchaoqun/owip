@@ -37,6 +37,40 @@
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
 
+       <cache name="CetTrainCourses"
+              eternal="false"
+              maxElementsInMemory="2000"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU"/>
+       <cache name="CetTrainEvaNorms"
+              eternal="false"
+              maxElementsInMemory="2000"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU"/>
+       <cache name="CetTrainEvaRanks"
+              eternal="false"
+              maxElementsInMemory="2000"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU"/>
+       <cache name="CetTrainEvaTable:ALL"
+              eternal="false"
+              maxElementsInMemory="2000"
+              overflowToDisk="false"
+              diskPersistent="false"
+              timeToIdleSeconds="0"
+              timeToLiveSeconds="300"
+              memoryStoreEvictionPolicy="LRU"/>
+
+
        <cache name="PmdConfigMember"
            eternal="false"
            maxElementsInMemory="2000"
@@ -110,40 +144,6 @@
            timeToIdleSeconds="0"
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
-
-    <cache name="TrainCourses"
-           eternal="false"
-           maxElementsInMemory="2000"
-           overflowToDisk="false"
-           diskPersistent="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="300"
-           memoryStoreEvictionPolicy="LRU"/>
-    <cache name="TrainEvaNorms"
-           eternal="false"
-           maxElementsInMemory="2000"
-           overflowToDisk="false"
-           diskPersistent="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="300"
-           memoryStoreEvictionPolicy="LRU"/>
-    <cache name="TrainEvaRanks"
-           eternal="false"
-           maxElementsInMemory="2000"
-           overflowToDisk="false"
-           diskPersistent="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="300"
-           memoryStoreEvictionPolicy="LRU"/>
-    <cache name="TrainEvaTable:ALL"
-           eternal="false"
-           maxElementsInMemory="2000"
-           overflowToDisk="false"
-           diskPersistent="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="300"
-           memoryStoreEvictionPolicy="LRU"/>
-
 
     <cache name="ModifyCadreAuths"
            eternal="false"

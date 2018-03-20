@@ -4,25 +4,25 @@ pageEncoding="UTF-8"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>
-		${param.status==1?'同意申请':'不同意申请'}
+		${param.pass==1?'同意申请':'不同意申请'}
     </h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/abroad/applySelf_approval" id="modalForm" method="post">
         <input type="hidden" name="applySelfId" value="${param.applySelfId}">
         <input type="hidden" name="approvalTypeId" value="${param.approvalTypeId}">
-        <input type="hidden" name="status" value="${param.status}">
+        <input type="hidden" name="pass" value="${param.pass}">
 			<div class="form-group">
-				<label class="col-xs-3 control-label">${param.status==1?'审批意见':'原因'}</label>
+				<label class="col-xs-3 control-label">${param.pass==1?'审批意见':'原因'}</label>
 				<div class="col-xs-6">
-					<textarea ${param.status==1?'':'required'} class="form-control limited" type="text" name="remark" rows="5"></textarea>
+					<textarea ${param.pass==1?'':'required'} class="form-control limited" type="text" name="remark" rows="5"></textarea>
 				</div>
 			</div>
 
     </form>
 </div>
 <div class="modal-footer">
-    <input type="button" id="approvalBtn" class="btn ${param.status==1?"btn-primary":"btn-danger"}" value="确认"/>
+    <input type="button" id="approvalBtn" class="btn ${param.pass==1?"btn-primary":"btn-danger"}" value="确认"/>
 	<a href="javascript:;" data-dismiss="modal" class="btn btn-default">返回</a>
 </div>
 <script src="${ctx}/assets/js/bootstrap-tag.js"></script>

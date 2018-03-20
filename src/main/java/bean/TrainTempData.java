@@ -1,6 +1,6 @@
 package bean;
 
-import domain.train.TrainEvaResult;
+import domain.cet.CetTrainEvaResult;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -12,8 +12,8 @@ public class TrainTempData implements Serializable {
 	public int stopStep;
 	// 总步骤 <normNum>
 	public int stepNum;
-	// 已保存结果 <normId, TrainEvaResult>
-	public Map<Integer, TrainEvaResult> trainEvaResultMap;
+	// 已保存结果 <normId, CetTrainEvaResult>
+	public Map<Integer, CetTrainEvaResult> trainEvaResultMap;
 	// 评估意见
 	public String feedback;
 	// 评估总分
@@ -21,7 +21,7 @@ public class TrainTempData implements Serializable {
 
 	public TrainTempData() {
 		
-		trainEvaResultMap = new HashMap<Integer, TrainEvaResult>();
+		trainEvaResultMap = new HashMap<Integer, CetTrainEvaResult>();
 	}
 
 	public int getStopStep() {
@@ -40,11 +40,11 @@ public class TrainTempData implements Serializable {
 		this.stepNum = stepNum;
 	}
 
-	public Map<Integer, TrainEvaResult> getTrainEvaResultMap() {
+	public Map<Integer, CetTrainEvaResult> getTrainEvaResultMap() {
 		return trainEvaResultMap;
 	}
 
-	public void setTrainEvaResultMap(Map<Integer, TrainEvaResult> trainEvaResultMap) {
+	public void setTrainEvaResultMap(Map<Integer, CetTrainEvaResult> trainEvaResultMap) {
 		this.trainEvaResultMap = trainEvaResultMap;
 	}
 

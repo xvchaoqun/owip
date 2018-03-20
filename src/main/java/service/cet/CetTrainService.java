@@ -7,6 +7,7 @@ import domain.cet.CetTrainTraineeType;
 import domain.cet.CetTrainTraineeTypeExample;
 import domain.cet.CetTrainee;
 import domain.cet.CetTraineeExample;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,12 +39,14 @@ public class CetTrainService extends BaseMapper {
         return cetTrainMapper.countByExample(example) > 0;
     }
 
-    // 师党干[2015]01号
+    // 编号（针对校内培训）
     public int genNum(int type, int year){
 
         int num ;
         CetTrainExample example = new CetTrainExample();
-        example.createCriteria().andYearEqualTo(year).andTypeEqualTo(type);
+        example.createCriteria().andYearEqualTo(year)
+                .andTypeEqualTo(type)
+                .andIsOnCampusEqualTo(true);
         example.setOrderByClause("num desc");
         List<CetTrain> records = cetTrainMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         if(records.size()>0){
@@ -58,8 +61,10 @@ public class CetTrainService extends BaseMapper {
     @Transactional
     public void insertSelective(CetTrain record, Integer[] traineeTypeIds){
 
-        if(idDuplicate(null, record.getType(), record.getYear(), record.getNum())){
-            throw new OpException("编号重复。");
+        if(record.getIsOnCampus()) {
+            if (idDuplicate(null, record.getType(), record.getYear(), record.getNum())) {
+                throw new OpException("编号重复。");
+            }
         }
 
         record.setEnrollStatus(CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT);
@@ -68,7 +73,9 @@ public class CetTrainService extends BaseMapper {
         record.setCreateTime(new Date());
         cetTrainMapper.insertSelective(record);
 
-        updateTrainTypes(record.getId(), traineeTypeIds);
+        if(record.getIsOnCampus()) {
+            updateTrainTypes(record.getId(), traineeTypeIds);
+        }
     }
 
     @Transactional
@@ -118,13 +125,17 @@ public class CetTrainService extends BaseMapper {
     @Transactional
     public void updateWithTraineeTypes(CetTrain record, Integer[] traineeTypeIds){
 
-        if(idDuplicate(record.getId(), record.getType(), record.getYear(), record.getNum())){
-            throw new OpException("编号重复。");
+        if(record.getIsOnCampus()) {
+            if (idDuplicate(record.getId(), record.getType(), record.getYear(), record.getNum())) {
+                throw new OpException("编号重复。");
+            }
         }
 
         cetTrainMapper.updateByPrimaryKeySelective(record);
 
-        updateTrainTypes(record.getId(), traineeTypeIds);
+        if(record.getIsOnCampus()) {
+            updateTrainTypes(record.getId(), traineeTypeIds);
+        }
     }
 
     // 已选参训人类型
@@ -169,5 +180,39 @@ public class CetTrainService extends BaseMapper {
         }
 
         return userMap;
+    }
+
+    // 修改评课关闭时间
+    @Transactional
+    public void updateEvaCloseTime(int id, boolean evaClosed, Date closeTime) {
+
+        if(evaClosed) {
+            String sql = "update cet_train set eva_closed=1, eva_close_time=null where id="+id;
+            commonMapper.excuteSql(sql);
+        }else{
+            CetTrain record = new CetTrain();
+            record.setId(id);
+            record.setEvaClosed(evaClosed);
+            record.setEvaCloseTime(closeTime);
+            cetTrainMapper.updateByPrimaryKeySelective(record);
+        }
+    }
+
+    // 1:已关闭评课 3：评课已结束
+    public int evaIsClosed(int trainId){
+
+        CetTrain train = cetTrainMapper.selectByPrimaryKey(trainId);
+        if(BooleanUtils.isTrue(train.getEvaClosed())){
+            return 1;
+        }
+
+        Date now = new Date();
+        Date closeTime = train.getEvaCloseTime();
+
+        if(closeTime!=null && now.after(closeTime)){
+            return 3;
+        }
+
+        return 0;
     }
 }

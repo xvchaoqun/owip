@@ -28,7 +28,7 @@
         <c:if test="${needExport}">
         <button class="linkBtn btn btn-primary btn-sm"
                 data-url="${ctx}/abroad/applySelf_export?applySelfId=${applySelf.id}"
-                style="margin-left: 150px">
+                <%--style="margin-left: 150px"--%>>
           <i class="fa fa-file-excel-o"></i>  导出</button>
         </c:if>
         <button class="openView btn btn-info btn-sm"
@@ -132,6 +132,13 @@
                   <c:set var="approvalType" value="${approverTypeMap.get(result.key)}"/>
                   ${approvalType.name}
                 </c:if>意见
+                <c:if test="${result.key>0 && result.key==applySelf.flowNode}">
+                <shiro:hasRole name="${ROLE_CADREADMIN}">
+                  <button type="button" class="popupBtn btn btn-success btn-xs"
+                          data-url="${ctx}/abroad/applySelf_approval_direct?applySelfId=${applySelf.id}&approvalTypeId=${result.key}">
+                <i class="fa fa-check"></i> 审批通过</button>
+                </shiro:hasRole>
+                </c:if>
               </td>
             </tr>
             <tr>
@@ -143,6 +150,9 @@
                   审批意见：${approvalLog.remark}<br/>
                   <c:if test="${!justView}">审批人：${sysUser.realname}<br/></c:if>
                   审批时间：${cm:formatDate(approvalLog.createTime,'yyyy-MM-dd')}
+                  &nbsp;<button type="button" class="popupBtn btn btn-primary btn-xs"
+                          data-url="${ctx}/abroad/applySelf_approval_direct_au?applySelfId=${applySelf.id}&approvalLogId=${approvalLog.id}&approvalTypeId=${result.key}&type=${param.type}">
+                    <i class="fa fa-edit"></i> 修改</button>
                 </c:if>
               </td>
             </tr>
@@ -175,10 +185,10 @@
 <script>
 <c:if test="${param.type=='approval'}">
   $("#agree").click(function(){
-    $.loadModal("${ctx}/abroad/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&status=1");
+    $.loadModal("${ctx}/abroad/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&pass=1");
   });
   $("#disagree").click(function(){
-    $.loadModal("${ctx}/abroad/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&status=0");
+    $.loadModal("${ctx}/abroad/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&pass=0");
   });
 </c:if>
 </script>

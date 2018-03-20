@@ -1,7 +1,7 @@
 package interceptor;
 
 import controller.BaseController;
-import domain.train.TrainInspector;
+import domain.cet.CetTrainInspector;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
@@ -40,14 +40,14 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
         });
 
         String servletPath = request.getServletPath();
-        if(servletPath.startsWith("/m_train/")){
+        if(servletPath.startsWith("/m/cet/")){
 
-            if(StringUtils.equalsIgnoreCase(servletPath, "/m_train/login")){
+            if(StringUtils.equalsIgnoreCase(servletPath, "/m/cet/login")){
                 return true;
             }else{
-                TrainInspector trainInspector = SessionUtils.getTrainInspector(request);
+                CetTrainInspector trainInspector = SessionUtils.getTrainInspector(request);
                 if(trainInspector==null){
-                    WebUtils.issueRedirect(request, response, "/m_train/login");
+                    WebUtils.issueRedirect(request, response, "/m/cet/login");
                     return false;
                 }
                 return true;

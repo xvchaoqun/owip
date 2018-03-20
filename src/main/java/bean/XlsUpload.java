@@ -544,9 +544,9 @@ public class XlsUpload {
         return xlsRows;
     }
 
-    public static List<XlsTrainInspector> fetchTrainInspectors(XSSFSheet sheet) {
+    public static List<XlsCetTrainInspector> fetchCetTrainInspectors(XSSFSheet sheet) {
 
-        List<XlsTrainInspector> rows = new ArrayList<XlsTrainInspector>();
+        List<XlsCetTrainInspector> rows = new ArrayList<XlsCetTrainInspector>();
         XSSFRow rowTitle = sheet.getRow(0);
         if (null == rowTitle)
             return rows;
@@ -561,7 +561,7 @@ public class XlsUpload {
                 continue;
             }
 
-            XlsTrainInspector dataRow = new XlsTrainInspector();
+            XlsCetTrainInspector dataRow = new XlsCetTrainInspector();
             XSSFCell cell = row.getCell(0);
             if (null != cell) {
                 String mobile = getCell(cell);

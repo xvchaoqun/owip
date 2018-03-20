@@ -2,17 +2,17 @@ package bean.analysis;
 
 public class StatTrainBean {
 
-    public Integer courseId;
+    public Integer trainCourseId;
     public Integer inspectorId;
     public Double totalScore;
     public String feedback;
 
-    public Integer getCourseId() {
-        return courseId;
+    public Integer getTrainCourseId() {
+        return trainCourseId;
     }
 
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
+    public void setTrainCourseId(Integer trainCourseId) {
+        this.trainCourseId = trainCourseId;
     }
 
     public Integer getInspectorId() {

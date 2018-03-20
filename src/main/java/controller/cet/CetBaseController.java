@@ -10,11 +10,17 @@ import service.cet.CetExpertService;
 import service.cet.CetExportService;
 import service.cet.CetShortMsgService;
 import service.cet.CetTrainCourseService;
+import service.cet.CetTrainEvaNormService;
+import service.cet.CetTrainEvaRankService;
+import service.cet.CetTrainEvaTableService;
+import service.cet.CetTrainInspectorCourseService;
+import service.cet.CetTrainInspectorService;
 import service.cet.CetTrainService;
 import service.cet.CetTrainTraineeTypeService;
 import service.cet.CetTraineeCourseService;
 import service.cet.CetTraineeService;
 import service.cet.CetTraineeTypeService;
+import service.cet.CetTrainStatService;
 
 /**
  * Created by lm on 2017/9/20.
@@ -47,4 +53,18 @@ public class CetBaseController extends BaseController {
     protected CetShortMsgService cetShortMsgService;
     @Autowired
     protected CetExportService cetExportService;
+
+    @Autowired
+    protected CetTrainStatService cetTrainStatService;
+
+    @Autowired
+    protected CetTrainEvaNormService cetTrainEvaNormService;
+    @Autowired
+    protected CetTrainEvaRankService cetTrainEvaRankService;
+    @Autowired
+    protected CetTrainEvaTableService cetTrainEvaTableService;
+    @Autowired
+    protected CetTrainInspectorService cetTrainInspectorService;
+    @Autowired
+    protected CetTrainInspectorCourseService cetTrainInspectorCourseService;
 }

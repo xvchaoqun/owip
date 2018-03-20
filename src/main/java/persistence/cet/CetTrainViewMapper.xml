@@ -6,8 +6,10 @@
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="is_on_campus" jdbcType="BIT" property="isOnCampus" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="has_summary" jdbcType="BIT" property="hasSummary" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="template_id" jdbcType="INTEGER" property="templateId" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
@@ -15,16 +17,21 @@
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="enroll_status" jdbcType="TINYINT" property="enrollStatus" />
     <result column="pub_status" jdbcType="TINYINT" property="pubStatus" />
+    <result column="eva_count" jdbcType="INTEGER" property="evaCount" />
+    <result column="eva_anonymous" jdbcType="BIT" property="evaAnonymous" />
+    <result column="eva_closed" jdbcType="BIT" property="evaClosed" />
+    <result column="eva_close_time" jdbcType="TIMESTAMP" property="evaCloseTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="course_num" jdbcType="INTEGER" property="courseNum" />
     <result column="trainee_count" jdbcType="INTEGER" property="traineeCount" />
     <result column="selected_count" jdbcType="INTEGER" property="selectedCount" />
     <result column="trainee_types" jdbcType="VARCHAR" property="traineeTypes" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetTrainView">
-    <result column="summary" jdbcType="LONGVARCHAR" property="summary" />
+    <result column="eva_note" jdbcType="LONGVARCHAR" property="evaNote" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -56,12 +63,13 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, type, num, name, has_summary, template_id, start_date, end_date, start_time, 
-    end_time, enroll_status, pub_status, remark, is_deleted, is_finished, create_time, 
+    id, year, type, num, is_on_campus, name, has_summary, summary, template_id, start_date, 
+    end_date, start_time, end_time, enroll_status, pub_status, eva_count, eva_anonymous, 
+    eva_closed, eva_close_time, remark, is_deleted, is_finished, create_time, course_num, 
     trainee_count, selected_count, trainee_types
   </sql>
   <sql id="Blob_Column_List">
-    summary
+    eva_note
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="domain.cet.CetTrainViewExample" resultMap="ResultMapWithBLOBs">
     select

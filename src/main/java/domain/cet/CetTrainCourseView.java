@@ -15,15 +15,29 @@ public class CetTrainCourseView implements Serializable {
         return cetCourseService.get(courseId);
     }
 
+    public CetTrainEvaTable getTrainEvaTable(){
+
+        if(evaTableId==null) return null;
+        return CmTag.getCetTrainEvaTable(evaTableId);
+    }
+
     private Integer id;
 
     private Integer trainId;
 
     private Integer courseId;
 
+    private String name;
+
+    private String teacher;
+
     private Date startTime;
 
     private Date endTime;
+
+    private Integer isGlobal;
+
+    private Integer evaTableId;
 
     private String address;
 
@@ -32,6 +46,8 @@ public class CetTrainCourseView implements Serializable {
     private Integer selectedCount;
 
     private Integer finishCount;
+
+    private Integer evaFinishCount;
 
     private static final long serialVersionUID = 1L;
 
@@ -59,6 +75,22 @@ public class CetTrainCourseView implements Serializable {
         this.courseId = courseId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher == null ? null : teacher.trim();
+    }
+
     public Date getStartTime() {
         return startTime;
     }
@@ -73,6 +105,22 @@ public class CetTrainCourseView implements Serializable {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Integer getIsGlobal() {
+        return isGlobal;
+    }
+
+    public void setIsGlobal(Integer isGlobal) {
+        this.isGlobal = isGlobal;
+    }
+
+    public Integer getEvaTableId() {
+        return evaTableId;
+    }
+
+    public void setEvaTableId(Integer evaTableId) {
+        this.evaTableId = evaTableId;
     }
 
     public String getAddress() {
@@ -105,5 +153,13 @@ public class CetTrainCourseView implements Serializable {
 
     public void setFinishCount(Integer finishCount) {
         this.finishCount = finishCount;
+    }
+
+    public Integer getEvaFinishCount() {
+        return evaFinishCount;
+    }
+
+    public void setEvaFinishCount(Integer evaFinishCount) {
+        this.evaFinishCount = evaFinishCount;
     }
 }

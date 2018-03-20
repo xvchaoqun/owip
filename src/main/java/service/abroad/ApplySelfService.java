@@ -5,6 +5,7 @@ import bean.ApprovalResult;
 import bean.ApprovalTdBean;
 import bean.ApproverTypeBean;
 import bean.ShortMsgBean;
+import controller.global.OpException;
 import domain.abroad.ApplicatCadre;
 import domain.abroad.ApplicatCadreExample;
 import domain.abroad.ApplySelf;
@@ -42,6 +43,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.SpringProps;
 import service.base.ContentTplService;
@@ -54,6 +56,7 @@ import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.AbroadConstants;
 import sys.constants.ContentTplConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.tags.CmTag;
@@ -80,6 +83,7 @@ import java.util.Set;
 
 @Service
 public class ApplySelfService extends BaseMapper {
+
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private CadreService cadreService;
@@ -101,6 +105,8 @@ public class ApplySelfService extends BaseMapper {
     protected UserBeanService userBeanService;
     @Autowired
     protected SpringProps springProps;
+    @Autowired
+    protected ApprovalLogService approvalLogService;
 
     // 查找审批人
     public List<SysUserView> findApprovers(int cadreId/*被审批干部*/, int approvalTypeId) {
@@ -872,6 +878,87 @@ public class ApplySelfService extends BaseMapper {
 
         return false;
     }
+
+    // 审批
+    @Transactional
+    public void approval(int opUserId, // 审批人
+                         int applySelfId,
+                         int approvalTypeId,
+                         boolean pass,
+                         Date approvalTime, // 审批时间
+                         String remark){
+
+        Map<Integer, ApprovalResult> approvalResultMap = getApprovalResultMap(applySelfId);
+        Integer result = approvalResultMap.get(approvalTypeId).getValue();
+        if (result != null && result != -1) {
+            throw new OpException("重复审批");
+        }
+        if (result != null && result == -1) {
+            throw new OpException("不需该审批人身份进行审批");
+        }
+        if (approvalTypeId == -1) { // 管理员初审
+            Assert.isTrue(result == null, "null");
+            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CADREADMIN);
+        }
+        Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
+        if (approvalTypeId > 0) {
+            for (Map.Entry<Integer, ApproverType> entry : approverTypeMap.entrySet()) {
+                Integer key = entry.getKey();
+                if (key != approvalTypeId) {
+                    Integer preResult = approvalResultMap.get(key).getValue();
+                    if (preResult == null || preResult == 0)
+                        throw new OpException(entry.getValue().getName() + "审批未通过，不允许进行当前审批");
+                }
+                if (key == approvalTypeId) break;
+            }
+        }
+        if (approvalTypeId == 0) {
+            // 验证前面的审批均已完成（通过或未通过）
+            for (Map.Entry<Integer, ApproverType> entry : approverTypeMap.entrySet()) {
+                Integer key = entry.getKey();
+                //if (key != 0) {
+                Integer preResult = approvalResultMap.get(key).getValue();
+
+                if (preResult != null && preResult == 0) break; // 前面有审批未通过的，则可以直接终审
+                if (preResult != null && preResult == -1) continue; // 跳过不需要审批的
+
+                if (preResult == null) // 前面存在 未审批
+                    throw new OpException(entry.getValue().getName() + "未完成审批");
+                // }
+            }
+        }
+
+        ApprovalLog record = new ApprovalLog();
+        record.setApplyId(applySelfId);
+        if (approvalTypeId > 0)
+            record.setTypeId(approvalTypeId);
+        if (approvalTypeId == -1) {
+            record.setOdType(AbroadConstants.ABROAD_APPROVER_LOG_OD_TYPE_FIRST); // 初审
+            if (!pass) { // 不通过，打回申请
+                ApplySelf applySelf = new ApplySelf();
+                applySelf.setId(applySelfId);
+                applySelf.setStatus(false); // 打回
+                applySelf.setApprovalRemark(remark);
+
+                //如果管理员初审未通过，就不需要领导审批，也不需要管理员再终审一次，直接就退回给干部了。
+                // 也就是说只要管理员初审不通过，就相当于此次申请已经完成了审批。那么这条记录应该转移到“已完成审批”中去。
+                applySelf.setIsFinish(true);
+
+                doApproval(applySelf);
+            }
+        }
+        if (approvalTypeId == 0) {
+            record.setOdType(AbroadConstants.ABROAD_APPROVER_LOG_OD_TYPE_LAST); // 终审
+        }
+        record.setStatus(pass);
+        record.setRemark(remark);
+        record.setUserId(opUserId);
+        record.setCreateTime(approvalTime);
+        record.setIp(ContextHelper.getRealIp());
+
+        approvalLogService.doApproval(record);
+    }
+
     /*public boolean canApproval(int userId, int applySelfId, int approvalTypeId) {
 
         CadreView cadre = cadreService.dbFindByUserId(userId);

@@ -5,8 +5,12 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="train_id" jdbcType="INTEGER" property="trainId" />
     <result column="course_id" jdbcType="INTEGER" property="courseId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="teacher" jdbcType="VARCHAR" property="teacher" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="is_global" jdbcType="BIT" property="isGlobal" />
+    <result column="eva_table_id" jdbcType="INTEGER" property="evaTableId" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
@@ -69,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_id, course_id, start_time, end_time, address, sort_order
+    id, train_id, course_id, name, teacher, start_time, end_time, is_global, eva_table_id, 
+    address, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainCourseExample" resultMap="BaseResultMap">
     select
@@ -103,11 +108,13 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetTrainCourse">
     insert into cet_train_course (id, train_id, course_id, 
-      start_time, end_time, address, 
-      sort_order)
+      name, teacher, start_time, 
+      end_time, is_global, eva_table_id, 
+      address, sort_order)
     values (#{id,jdbcType=INTEGER}, #{trainId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER})
+      #{name,jdbcType=VARCHAR}, #{teacher,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{isGlobal,jdbcType=BIT}, #{evaTableId,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetTrainCourse">
     insert into cet_train_course
@@ -121,11 +128,23 @@
       <if test="courseId != null">
         course_id,
       </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="teacher != null">
+        teacher,
+      </if>
       <if test="startTime != null">
         start_time,
       </if>
       <if test="endTime != null">
         end_time,
+      </if>
+      <if test="isGlobal != null">
+        is_global,
+      </if>
+      <if test="evaTableId != null">
+        eva_table_id,
       </if>
       <if test="address != null">
         address,
@@ -144,11 +163,23 @@
       <if test="courseId != null">
         #{courseId,jdbcType=INTEGER},
       </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="teacher != null">
+        #{teacher,jdbcType=VARCHAR},
+      </if>
       <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isGlobal != null">
+        #{isGlobal,jdbcType=BIT},
+      </if>
+      <if test="evaTableId != null">
+        #{evaTableId,jdbcType=INTEGER},
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
@@ -176,11 +207,23 @@
       <if test="record.courseId != null">
         course_id = #{record.courseId,jdbcType=INTEGER},
       </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teacher != null">
+        teacher = #{record.teacher,jdbcType=VARCHAR},
+      </if>
       <if test="record.startTime != null">
         start_time = #{record.startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.endTime != null">
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isGlobal != null">
+        is_global = #{record.isGlobal,jdbcType=BIT},
+      </if>
+      <if test="record.evaTableId != null">
+        eva_table_id = #{record.evaTableId,jdbcType=INTEGER},
       </if>
       <if test="record.address != null">
         address = #{record.address,jdbcType=VARCHAR},
@@ -198,8 +241,12 @@
     set id = #{record.id,jdbcType=INTEGER},
       train_id = #{record.trainId,jdbcType=INTEGER},
       course_id = #{record.courseId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      teacher = #{record.teacher,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      is_global = #{record.isGlobal,jdbcType=BIT},
+      eva_table_id = #{record.evaTableId,jdbcType=INTEGER},
       address = #{record.address,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -215,11 +262,23 @@
       <if test="courseId != null">
         course_id = #{courseId,jdbcType=INTEGER},
       </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="teacher != null">
+        teacher = #{teacher,jdbcType=VARCHAR},
+      </if>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isGlobal != null">
+        is_global = #{isGlobal,jdbcType=BIT},
+      </if>
+      <if test="evaTableId != null">
+        eva_table_id = #{evaTableId,jdbcType=INTEGER},
       </if>
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
@@ -234,8 +293,12 @@
     update cet_train_course
     set train_id = #{trainId,jdbcType=INTEGER},
       course_id = #{courseId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      teacher = #{teacher,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_global = #{isGlobal,jdbcType=BIT},
+      eva_table_id = #{evaTableId,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

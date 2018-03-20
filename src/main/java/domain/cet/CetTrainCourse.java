@@ -15,6 +15,11 @@ public class CetTrainCourse implements Serializable {
         CetCourseService cetCourseService = CmTag.getBean(CetCourseService.class);
         return cetCourseService.get(courseId);
     }
+    public CetTrainEvaTable getTrainEvaTable(){
+
+        if(evaTableId==null) return null;
+        return CmTag.getCetTrainEvaTable(evaTableId);
+    }
 
     private Integer id;
 
@@ -22,11 +27,19 @@ public class CetTrainCourse implements Serializable {
 
     private Integer courseId;
 
+    private String name;
+
+    private String teacher;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date startTime;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date endTime;
+
+    private Boolean isGlobal;
+
+    private Integer evaTableId;
 
     private String address;
 
@@ -58,6 +71,22 @@ public class CetTrainCourse implements Serializable {
         this.courseId = courseId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher == null ? null : teacher.trim();
+    }
+
     public Date getStartTime() {
         return startTime;
     }
@@ -72,6 +101,22 @@ public class CetTrainCourse implements Serializable {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Boolean getIsGlobal() {
+        return isGlobal;
+    }
+
+    public void setIsGlobal(Boolean isGlobal) {
+        this.isGlobal = isGlobal;
+    }
+
+    public Integer getEvaTableId() {
+        return evaTableId;
+    }
+
+    public void setEvaTableId(Integer evaTableId) {
+        this.evaTableId = evaTableId;
     }
 
     public String getAddress() {

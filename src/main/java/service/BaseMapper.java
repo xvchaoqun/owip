@@ -74,6 +74,13 @@ import persistence.cet.CetExpertMapper;
 import persistence.cet.CetShortMsgMapper;
 import persistence.cet.CetTrainCourseMapper;
 import persistence.cet.CetTrainCourseViewMapper;
+import persistence.cet.CetTrainEvaNormMapper;
+import persistence.cet.CetTrainEvaRankMapper;
+import persistence.cet.CetTrainEvaResultMapper;
+import persistence.cet.CetTrainEvaTableMapper;
+import persistence.cet.CetTrainInspectorCourseMapper;
+import persistence.cet.CetTrainInspectorMapper;
+import persistence.cet.CetTrainInspectorViewMapper;
 import persistence.cet.CetTrainMapper;
 import persistence.cet.CetTrainTraineeTypeMapper;
 import persistence.cet.CetTrainViewMapper;
@@ -105,7 +112,6 @@ import persistence.common.IPmdMapper;
 import persistence.common.IPropertyMapper;
 import persistence.common.IScMapper;
 import persistence.common.ISysMapper;
-import persistence.common.ITrainMapper;
 import persistence.common.IUnitMapper;
 import persistence.common.StatCadreMapper;
 import persistence.common.StatMemberMapper;
@@ -311,14 +317,6 @@ import persistence.sys.SysUserRegMapper;
 import persistence.sys.SysUserSyncMapper;
 import persistence.sys.SysUserViewMapper;
 import persistence.sys.TeacherInfoMapper;
-import persistence.train.TrainCourseMapper;
-import persistence.train.TrainEvaNormMapper;
-import persistence.train.TrainEvaRankMapper;
-import persistence.train.TrainEvaResultMapper;
-import persistence.train.TrainEvaTableMapper;
-import persistence.train.TrainInspectorCourseMapper;
-import persistence.train.TrainInspectorMapper;
-import persistence.train.TrainMapper;
 import persistence.unit.HistoryUnitMapper;
 import persistence.unit.UnitAdminGroupMapper;
 import persistence.unit.UnitAdminMapper;
@@ -376,6 +374,20 @@ public class BaseMapper {
     protected CetTrainTraineeTypeMapper cetTrainTraineeTypeMapper;
     @Autowired
     protected CetShortMsgMapper cetShortMsgMapper;
+    @Autowired
+    protected CetTrainEvaNormMapper cetTrainEvaNormMapper;
+    @Autowired
+    protected CetTrainEvaRankMapper cetTrainEvaRankMapper;
+    @Autowired
+    protected CetTrainEvaTableMapper cetTrainEvaTableMapper;
+    @Autowired
+    protected CetTrainEvaResultMapper cetTrainEvaResultMapper;
+    @Autowired
+    protected CetTrainInspectorMapper cetTrainInspectorMapper;
+    @Autowired
+    protected CetTrainInspectorViewMapper cetTrainInspectorViewMapper;
+    @Autowired
+    protected CetTrainInspectorCourseMapper cetTrainInspectorCourseMapper;
 
     /**
      * 干部选拔-干部任免审批表
@@ -866,26 +878,6 @@ public class BaseMapper {
     protected CpcAllocationMapper cpcAllocationMapper;
 
     /**
-     * 培训
-     */
-    @Autowired
-    protected TrainMapper trainMapper;
-    @Autowired
-    protected TrainCourseMapper trainCourseMapper;
-    @Autowired
-    protected TrainEvaNormMapper trainEvaNormMapper;
-    @Autowired
-    protected TrainEvaRankMapper trainEvaRankMapper;
-    @Autowired
-    protected TrainEvaTableMapper trainEvaTableMapper;
-    @Autowired
-    protected TrainEvaResultMapper trainEvaResultMapper;
-    @Autowired
-    protected TrainInspectorMapper trainInspectorMapper;
-    @Autowired
-    protected TrainInspectorCourseMapper trainInspectorCourseMapper;
-
-    /**
      * 干部招聘
      */
     @Autowired
@@ -1042,8 +1034,6 @@ public class BaseMapper {
     protected IPartyMapper iPartyMapper;
     @Autowired
     protected ISysMapper iSysMapper;
-    @Autowired
-    protected ITrainMapper iTrainMapper;
     @Autowired
     protected IUnitMapper iUnitMapper;
     @Autowired

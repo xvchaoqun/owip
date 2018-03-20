@@ -16,6 +16,9 @@ import domain.cadre.CadreEdu;
 import domain.cadre.CadreFamliy;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
+import domain.cet.CetTrainEvaNorm;
+import domain.cet.CetTrainEvaRank;
+import domain.cet.CetTrainEvaTable;
 import domain.cis.CisInspectorView;
 import domain.crs.CrsPost;
 import domain.crs.CrsRequireRule;
@@ -34,9 +37,6 @@ import domain.sys.HtmlFragment;
 import domain.sys.SysConfig;
 import domain.sys.SysResource;
 import domain.sys.SysUserView;
-import domain.train.TrainEvaNorm;
-import domain.train.TrainEvaRank;
-import domain.train.TrainEvaTable;
 import domain.unit.Unit;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -60,6 +60,10 @@ import service.cadre.CadreFamliyService;
 import service.cadre.CadreInfoCheckService;
 import service.cadre.CadrePostService;
 import service.cadre.CadreService;
+import service.cet.CetTrainCourseService;
+import service.cet.CetTrainEvaNormService;
+import service.cet.CetTrainEvaRankService;
+import service.cet.CetTrainEvaTableService;
 import service.cis.CisInspectObjService;
 import service.cis.CisInspectorService;
 import service.crs.CrsPostService;
@@ -80,10 +84,6 @@ import service.sys.HtmlFragmentService;
 import service.sys.SysConfigService;
 import service.sys.SysResourceService;
 import service.sys.SysUserService;
-import service.train.TrainCourseService;
-import service.train.TrainEvaNormService;
-import service.train.TrainEvaRankService;
-import service.train.TrainEvaTableService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
@@ -756,32 +756,32 @@ public class CmTag {
         return cisInspectorService.getInspector(id);
     }
 
-    public static TrainEvaTable getTrainEvaTable(Integer evaTableId) {
+    public static CetTrainEvaTable getCetTrainEvaTable(Integer evaTableId) {
 
-        TrainEvaTableService trainEvaTableService = getBean(TrainEvaTableService.class);
+        CetTrainEvaTableService CetTrainEvaTableService = getBean(CetTrainEvaTableService.class);
 
-        return trainEvaTableService.findAll().get(evaTableId);
+        return CetTrainEvaTableService.findAll().get(evaTableId);
     }
 
-    public static Map<Integer, TrainEvaNorm> getTrainEvaNorms(Integer evaTableId) {
+    public static Map<Integer, CetTrainEvaNorm> getCetTrainEvaNorms(Integer evaTableId) {
 
-        TrainEvaNormService trainEvaNormService = getBean(TrainEvaNormService.class);
+        CetTrainEvaNormService cetTrainEvaNormService = getBean(CetTrainEvaNormService.class);
 
-        return trainEvaNormService.findAll(evaTableId);
+        return cetTrainEvaNormService.findAll(evaTableId);
     }
 
-    public static Map<Integer, TrainEvaRank> getTrainEvaRanks(Integer evaTableId) {
+    public static Map<Integer, CetTrainEvaRank> getCetTrainEvaRanks(Integer evaTableId) {
 
-        TrainEvaRankService trainEvaRankService = getBean(TrainEvaRankService.class);
+        CetTrainEvaRankService CetTrainEvaRankService = getBean(CetTrainEvaRankService.class);
 
-        return trainEvaRankService.findAll(evaTableId);
+        return CetTrainEvaRankService.findAll(evaTableId);
     }
 
     public static Integer evaIsClosed(Integer courseId) {
 
-        TrainCourseService trainCourseService = getBean(TrainCourseService.class);
+        CetTrainCourseService cetTrainCourseService = getBean(CetTrainCourseService.class);
 
-        return trainCourseService.evaIsClosed(courseId);
+        return cetTrainCourseService.evaIsClosed(courseId);
     }
 
 

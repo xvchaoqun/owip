@@ -5,6 +5,7 @@ import domain.cet.CetCourseExample;
 import domain.cet.CetCourseExample.Criteria;
 import domain.cet.CetCourseType;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -150,12 +151,16 @@ public class CetCourseController extends CetBaseController {
 
     @RequiresPermissions("cetCourse:edit")
     @RequestMapping("/cetCourse_summary")
-    public String cetCourse_summary(Integer id, ModelMap modelMap) {
+    public String cetCourse_summary(Integer id, Boolean view, ModelMap modelMap) {
 
         if (id != null) {
             CetCourse cetCourse = cetCourseService.get(id);
             modelMap.put("cetCourse", cetCourse);
         }
+
+        if(BooleanUtils.isTrue(view))
+            return "cet/cetCourse/cetCourse_summary_view";
+
         return "cet/cetCourse/cetCourse_summary";
     }
 
