@@ -5,6 +5,9 @@ import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainInspector;
 import domain.cet.CetTrainInspectorCourse;
+import domain.cet.CetTraineeCadreView;
+import domain.cet.CetTraineeCourse;
+import domain.sys.SysUserView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sys.SessionUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -38,10 +43,30 @@ public class MobileTrainIndexController extends CetBaseController {
 
 		CetTrainInspector trainInspector = SessionUtils.getTrainInspector(request);
 		Integer trainId = trainInspector.getTrainId();
-		CetTrain train = cetTrainMapper.selectByPrimaryKey(trainId);
-		Map<Integer, CetTrainCourse> trainCourseMap = cetTrainCourseService.findAll(trainId);
+		CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+
+		Map<Integer, CetTrainCourse> trainCourseMap = new HashMap<>();
+		if(cetTrain.getIsOnCampus()){
+
+			// 校内培训，读取已选课程
+			String code = trainInspector.getMobile();
+			SysUserView uv = sysUserService.findByCode(code);
+			int userId = uv.getUserId();
+			CetTraineeCadreView cetTrainee = cetTraineeService.get(userId, trainId);
+			int traineeId = cetTrainee.getId();
+			List<CetTraineeCourse> selectedCetTraineeCourses = iCetMapper.selectedCetTraineeCourses(traineeId);
+			for (CetTraineeCourse cetTraineeCourse : selectedCetTraineeCourses) {
+				CetTrainCourse cetTrainCourse = cetTraineeCourse.getCetTrainCourse();
+				trainCourseMap.put(cetTrainCourse.getId(), cetTrainCourse);
+			}
+
+		}else {
+			// 校外培训
+			trainCourseMap = cetTrainCourseService.findAll(trainId);
+		}
+
 		Map<Integer, CetTrainInspectorCourse> ticMap = cetTrainInspectorCourseService.get(trainInspector.getId());
-		modelMap.put("train", train);
+		modelMap.put("cetTrain", cetTrain);
 		modelMap.put("trainCourseMap", trainCourseMap);
 		modelMap.put("ticMap", ticMap);
 

@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.cet.CetColumnCourseViewMapper">
-  <resultMap id="BaseResultMap" type="domain.cet.CetColumnCourseView">
-    <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="column_id" jdbcType="INTEGER" property="columnId" />
+<mapper namespace="persistence.cet.CetTrainCourseStatViewMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetTrainCourseStatView">
+    <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
     <result column="course_id" jdbcType="INTEGER" property="courseId" />
-    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="f_column_id" jdbcType="INTEGER" property="fColumnId" />
-    <result column="f_column_name" jdbcType="VARCHAR" property="fColumnName" />
-    <result column="column_name" jdbcType="VARCHAR" property="columnName" />
-    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
-    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="score" jdbcType="DECIMAL" property="score" />
+    <result column="train_id" jdbcType="INTEGER" property="trainId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="selected_count" jdbcType="INTEGER" property="selectedCount" />
+    <result column="finish_count" jdbcType="INTEGER" property="finishCount" />
+    <result column="eva_finish_count" jdbcType="INTEGER" property="evaFinishCount" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -43,16 +41,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, column_id, course_id, sort_order, remark, f_column_id, f_column_name, column_name, 
-    course_name, realname
+    train_course_id, course_id, score, train_id, name, selected_count, finish_count, 
+    eva_finish_count
   </sql>
-  <select id="selectByExample" parameterType="domain.cet.CetColumnCourseViewExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.cet.CetTrainCourseStatViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_column_course_view
+    from cet_train_course_stat_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -60,19 +58,19 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="countByExample" parameterType="domain.cet.CetColumnCourseViewExample" resultType="java.lang.Long">
-    select count(*) from cet_column_course_view
+  <select id="countByExample" parameterType="domain.cet.CetTrainCourseStatViewExample" resultType="java.lang.Long">
+    select count(*) from cet_train_course_stat_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetColumnCourseViewExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTrainCourseStatViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_column_course_view
+    from cet_train_course_stat_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

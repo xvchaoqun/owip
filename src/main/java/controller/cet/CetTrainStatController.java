@@ -26,7 +26,7 @@ public class CetTrainStatController extends CetBaseController {
 
     @RequiresPermissions("cetTrainStat:list")
     @RequestMapping("/cetTrainStat")
-    public String cetTrainStat(int trainId, Integer courseId,
+    public String cetTrainStat(int trainId, Integer trainCourseId,
                              @RequestParam(required = false, defaultValue = "0") int export,
                              ModelMap modelMap, HttpServletResponse response) throws IOException {
 
@@ -39,14 +39,16 @@ public class CetTrainStatController extends CetBaseController {
             return null;
         }
 
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+        modelMap.put("cetTrain", cetTrain);
         Map<Integer, CetTrainCourse> trainCourseMap = cetTrainCourseService.findAll(trainId);
         modelMap.put("trainCourses", trainCourseMap.values());
 
-        if (courseId == null) {
+        if (trainCourseId == null) {
             Map<String, Object> resultMap = cetTrainStatService.statTrain(trainId);
             modelMap.putAll(resultMap);
         } else {
-            Map<String, Object> resultMap = cetTrainStatService.statCourse(courseId);
+            Map<String, Object> resultMap = cetTrainStatService.statCourse(trainCourseId);
             modelMap.putAll(resultMap);
         }
 

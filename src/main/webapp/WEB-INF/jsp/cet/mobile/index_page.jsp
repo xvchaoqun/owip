@@ -7,7 +7,7 @@
             <div class="col-xs-12">
                 <div class="alert alert-block alert-success" style="font-size: 18px;font-weight: bolder">
                     <i class="ace-icon fa fa-hourglass-1 green"></i>
-                    &nbsp;&nbsp;${train.name}
+                    &nbsp;&nbsp;${cetTrain.name}
                 </div>
             </div>
             <div class="row">
@@ -24,7 +24,7 @@
                                     <table class="course-list">
                                     <tr>
                                         <td class="name ${tic.status==CET_TRAIN_INSPECTOR_COURSE_STATUS_FINISH?'finish':''}">
-                                            ${cm:substr(tc.name, 0, 11, '')}
+                                            ${cm:substr(cetTrain.isOnCampus?tc.cetCourse.name:tc.name, 0, 11, '')}
                                         </td>
                                         <td style="padding-left: 10px;">
                                             <c:if test="${tic.status==CET_TRAIN_INSPECTOR_COURSE_STATUS_FINISH}">
@@ -53,7 +53,7 @@
                                                     ${cm:formatDate(tc.startTime, "yyyy-MM-dd HH:mm")}
                                                         </c:if>
                                                 <c:if test="${!tc.isGlobal}">
-                                                    ${cm:substr(tc.teacher, 0, 4, '')}&nbsp;&nbsp;${cm:formatDate(tc.startTime, "HH:mm")}~${cm:formatDate(tc.endTime, "HH:mm")}
+                                                    ${cm:substr(cetTrain.isOnCampus?tc.cetCourse.cetExpert.realname:tc.teacher, 0, 4, '')}&nbsp;&nbsp;<c:if test="${not empty tc.startTime}"> ${cm:formatDate(tc.startTime, "HH:mm")}~${cm:formatDate(tc.endTime, "HH:mm")}</c:if>
                                                 &nbsp;&nbsp;${cm:formatDate(tc.startTime, "yyyy-MM-dd")}
                                                 </c:if>
                                         </span>

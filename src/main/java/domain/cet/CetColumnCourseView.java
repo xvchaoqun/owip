@@ -13,6 +13,10 @@ public class CetColumnCourseView implements Serializable {
 
     private String remark;
 
+    private Integer fColumnId;
+
+    private String fColumnName;
+
     private String columnName;
 
     private String courseName;
@@ -59,6 +63,22 @@ public class CetColumnCourseView implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getfColumnId() {
+        return fColumnId;
+    }
+
+    public void setfColumnId(Integer fColumnId) {
+        this.fColumnId = fColumnId;
+    }
+
+    public String getfColumnName() {
+        return fColumnName;
+    }
+
+    public void setfColumnName(String fColumnName) {
+        this.fColumnName = fColumnName == null ? null : fColumnName.trim();
     }
 
     public String getColumnName() {

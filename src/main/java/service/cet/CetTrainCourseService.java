@@ -2,12 +2,14 @@ package service.cet;
 
 import bean.XlsTrainCourse;
 import controller.global.OpException;
+import domain.cet.CetCourse;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseExample;
 import domain.cet.CetTrainEvaResultExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ import java.util.Map;
 @Service
 public class CetTrainCourseService extends BaseMapper {
 
+    @Autowired
+    private CetCourseService cetCourseService;
 
     public CetTrainCourse get(int trainId, int courseId){
 
@@ -128,13 +132,22 @@ public class CetTrainCourseService extends BaseMapper {
 
         if(courseIds==null || courseIds.length==0) return;
 
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+        Boolean isOnCampus = cetTrain.getIsOnCampus();
         for (Integer courseId : courseIds) {
 
-            if(get(trainId, courseId)!=null) continue;
+            CetTrainCourse cetTrainCourse = get(trainId, courseId);
+            if(cetTrainCourse!=null) continue;
 
             CetTrainCourse record = new CetTrainCourse();
             record.setTrainId(trainId);
             record.setCourseId(courseId);
+            if(!isOnCampus){
+                // 校外培训,同步课程名称和专家姓名
+                CetCourse cetCourse = cetCourseService.get(courseId);
+                record.setName(cetCourse.getName());
+                record.setTeacher(cetCourse.getCetExpert().getRealname());
+            }
             record.setSortOrder(getNextSortOrder("cet_train_course", "train_id="+record.getTrainId()));
             cetTrainCourseMapper.insertSelective(record);
         }

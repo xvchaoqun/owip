@@ -13,6 +13,8 @@ public class CetTraineeCadreView implements Serializable {
 
     private Integer traineeTypeId;
 
+    private Boolean isQuit;
+
     private String remark;
 
     private BigDecimal totalPeriod;
@@ -77,6 +79,14 @@ public class CetTraineeCadreView implements Serializable {
 
     public void setTraineeTypeId(Integer traineeTypeId) {
         this.traineeTypeId = traineeTypeId;
+    }
+
+    public Boolean getIsQuit() {
+        return isQuit;
+    }
+
+    public void setIsQuit(Boolean isQuit) {
+        this.isQuit = isQuit;
     }
 
     public String getRemark() {

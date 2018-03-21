@@ -3,20 +3,27 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="tabbable">
-
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                <c:if test="${param.detail!=1}">
                 <li>
                 <a href="javascript:" class="hideView btn btn-xs btn-success" style="background-position: inherit">
                     <i class="ace-icon fa fa-backward"></i>
                     返回</a>
                 </li>
-                <li class="<c:if test="${empty param.courseId}">active</c:if>">
-                    <a href="javascript:void(0)" class="openView" data-url="${ctx}/cet/cetTrainStat?trainId=${param.trainId}"><i class="fa fa-signal"></i> 汇总</a>
+                </c:if>
+                <li class="<c:if test="${empty param.trainCourseId}">active</c:if>">
+                    <a href="javascript:void(0)" class="${cetTrain.isOnCampus?"loadPage":"openView"}"
+                            <c:if test="${cetTrain.isOnCampus}"> data-load-el="#detail-item-content"  data-callback="_menuSelected" </c:if>
+                       data-url="${ctx}/cet/cetTrainStat?trainId=${param.trainId}&detail=${param.detail}"><i class="fa fa-signal"></i> 汇总</a>
                 </li>
                 <c:forEach items="${trainCourses}" var="tc">
-                    <li class="<c:if test="${param.courseId==tc.id}">active</c:if>">
-                        <a href="javascript:void(0)" class="openView" data-url="${ctx}/cet/cetTrainStat?trainId=${param.trainId}&courseId=${tc.id}"><i class="fa fa-signal"></i>
-                        ${tc.isGlobal?tc.name:tc.teacher}
+                    <li class="${param.trainCourseId==tc.id?'active':''}">
+                        <a href="javascript:void(0)" class="${empty tc.evaTableId?"red bolder":(cetTrain.isOnCampus?"loadPage":"openView")}"
+                           <c:if test="${cetTrain.isOnCampus}"> data-load-el="#detail-item-content"  data-callback="_menuSelected" </c:if>
+                           data-url="${ctx}/cet/cetTrainStat?trainId=${param.trainId}&trainCourseId=${tc.id}&detail=${param.detail}">
+                            <i class="fa fa-signal"></i>
+                        ${tc.isGlobal?(cetTrain.isOnCampus?tc.cetCourse.name:tc.name)
+                        :(cetTrain.isOnCampus?tc.cetCourse.cetExpert.realname:tc.teacher)}
                         </a>
                     </li>
                 </c:forEach>
@@ -27,7 +34,7 @@
                 </div>
             </ul>
             <div class="tab-content">
-                <c:if test="${empty param.courseId}">
+                <c:if test="${empty param.trainCourseId}">
                     <table class="table table-center tabel-unhover table-striped table-bordered">
                         <thead>
                         <tr>
@@ -40,8 +47,8 @@
                         <tbody>
                         <c:forEach items="${trainCourses}" var="tc">
                             <tr>
-                                <td nowrap style="text-align: left">${tc.name}</td>
-                                <td>${tc.isGlobal?'-':tc.teacher}</td>
+                                <td nowrap style="text-align: left">${cetTrain.isOnCampus?tc.cetCourse.name:tc.name}</td>
+                                <td>${tc.isGlobal?'-':(cetTrain.isOnCampus?tc.cetCourse.cetExpert.realname:tc.teacher)}</td>
                                 <fmt:formatNumber var="_score" type="number" value="${courseScoreMap.get(tc.id)}" maxFractionDigits="1"/>
                                 <td>${_score}</td>
                                 <td style="text-align: left">
@@ -55,7 +62,7 @@
                         </tbody>
                     </table>
                 </c:if>
-                <c:if test="${not empty param.courseId}">
+                <c:if test="${not empty param.trainCourseId}">
                     <jsp:include page="stat_course.jsp"/>
                 </c:if>
             </div>

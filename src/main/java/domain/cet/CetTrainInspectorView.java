@@ -28,6 +28,10 @@ public class CetTrainInspectorView implements Serializable {
 
     private Integer saveCourseNum;
 
+    private Integer selectedCourseNum;
+
+    private Integer unEvaCourseNum;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -124,5 +128,21 @@ public class CetTrainInspectorView implements Serializable {
 
     public void setSaveCourseNum(Integer saveCourseNum) {
         this.saveCourseNum = saveCourseNum;
+    }
+
+    public Integer getSelectedCourseNum() {
+        return selectedCourseNum;
+    }
+
+    public void setSelectedCourseNum(Integer selectedCourseNum) {
+        this.selectedCourseNum = selectedCourseNum;
+    }
+
+    public Integer getUnEvaCourseNum() {
+        return unEvaCourseNum;
+    }
+
+    public void setUnEvaCourseNum(Integer unEvaCourseNum) {
+        this.unEvaCourseNum = unEvaCourseNum;
     }
 }

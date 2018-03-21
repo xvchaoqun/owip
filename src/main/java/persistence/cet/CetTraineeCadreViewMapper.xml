@@ -6,6 +6,7 @@
     <result column="train_id" jdbcType="INTEGER" property="trainId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
+    <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="total_period" jdbcType="DECIMAL" property="totalPeriod" />
     <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod" />
@@ -53,9 +54,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_id, user_id, trainee_type_id, remark, total_period, finish_period, course_count, 
-    finish_count, code, realname, title, type_id, post_id, cadre_dp_type, pro_post, lp_work_time, 
-    mobile, email, status
+    id, train_id, user_id, trainee_type_id, is_quit, remark, total_period, finish_period, 
+    course_count, finish_count, code, realname, title, type_id, post_id, cadre_dp_type, 
+    pro_post, lp_work_time, mobile, email, status
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeCadreViewExample" resultMap="BaseResultMap">
     select

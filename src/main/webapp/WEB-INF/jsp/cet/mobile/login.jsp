@@ -28,7 +28,7 @@
 										<div class="widget-main">
 											<h4 class="header blue lighter bigger">
 												<i class="ace-icon fa fa-key green"></i>
-												${empty train?'请使用评课账号密码登录':'请输入手机号登录'}
+												${empty train?'请使用评课账号密码登录':(train.isOnCampus?'请输入工作证号登录':'请输入手机号登录')}
 											</h4>
 
 											<div class="space-6"></div>
@@ -59,7 +59,7 @@
 
 														<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="number" name="mobile" class="form-control" placeholder="请输入手机号" />
+															<input type="number" name="mobile" class="form-control" placeholder="${train.isOnCampus?'请输入工作证号':'请输入手机号'}" />
 															<i class="ace-icon fa fa-lock"></i>
 														</span>
 														</label>

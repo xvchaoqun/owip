@@ -1,4 +1,11 @@
 
+2018-3-21
+ALTER TABLE `cet_trainee`
+	ADD COLUMN `is_quit` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否退出培训班' AFTER `trainee_type_id`;
+
+	更新 cet_trainee_cadre_view
+
+
 2018-3-20
 ALTER TABLE `cet_train`
 	ADD COLUMN `eva_is_closed` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否关闭评课' AFTER `pub_status`,

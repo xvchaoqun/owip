@@ -88,7 +88,7 @@ public class CetTraineeController extends CetBaseController {
                         criteria.andCourseCountGreaterThan(0);
                         break;
                     case 3: // 退班人员
-                        criteria.andCourseCountEqualTo(0);
+                        criteria.andCourseCountEqualTo(0).andIsQuitEqualTo(true);
                         break;
                 }
 

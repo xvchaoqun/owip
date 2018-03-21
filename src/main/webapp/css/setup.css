@@ -302,6 +302,9 @@ body {
 .rownumbers #jqGrid2_cb {
     text-align: left !important;
 }
+.rownumbers #jqGrid3_cb {
+    text-align: left !important;
+}
 
 .jqgrow td:first-child input[type=checkbox] {
     display: inherit !important;
@@ -691,7 +694,7 @@ br.xs-100 {
     overflow-y: auto;
 }
 
-.modal-header, .modal-footer.draggable {
+.modal .modal-header, .modal-footer.draggable {
     cursor: move;
 }
 

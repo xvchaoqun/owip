@@ -62,7 +62,6 @@ public class MobileTrainLoginController extends CetBaseController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> do_login(String username, String password,
-
                                         Integer trainId, String mobile, // 实名测评
                                         HttpServletRequest request) throws IOException {
 
@@ -80,11 +79,11 @@ public class MobileTrainLoginController extends CetBaseController {
             CetTrainInspector trainInspector = cetTrainInspectorService.tryLogin(trainId, mobile);
             if (trainInspector == null) {
                 logger.info(sysLoginLogService.trainInspectorLoginlog(null, mobile, false,
-                        String.format("【%s】登录失败，手机号码【%s】不存在", train.getName(), mobile)));
-                return failed("该手机号码不存在");
+                        String.format("【%s】登录失败，评课账号【%s】不存在", train.getName(), mobile)));
+                return failed("评课账号不存在");
             }
             logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), mobile, true,
-                    String.format("【%s】，手机号码【%s】登录成功", train.getName(), mobile)));
+                    String.format("【%s】，评课账号【%s】登录成功", train.getName(), mobile)));
             SessionUtils.setTrainInspector(request, trainInspector);
         }
 

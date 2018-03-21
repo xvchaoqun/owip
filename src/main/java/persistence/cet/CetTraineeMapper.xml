@@ -6,6 +6,7 @@
     <result column="train_id" jdbcType="INTEGER" property="trainId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
+    <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_id, user_id, trainee_type_id, remark
+    id, train_id, user_id, trainee_type_id, is_quit, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert keyProperty="id" id="insert" parameterType="domain.cet.CetTrainee">
     insert into cet_trainee (id, train_id, user_id, 
-      trainee_type_id, remark)
+      trainee_type_id, is_quit, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{trainId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{traineeTypeId,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+      #{traineeTypeId,jdbcType=INTEGER}, #{isQuit,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert keyProperty="id" id="insertSelective" parameterType="domain.cet.CetTrainee">
     insert into cet_trainee
@@ -119,6 +122,9 @@
       </if>
       <if test="traineeTypeId != null">
         trainee_type_id,
+      </if>
+      <if test="isQuit != null">
+        is_quit,
       </if>
       <if test="remark != null">
         remark,
@@ -136,6 +142,9 @@
       </if>
       <if test="traineeTypeId != null">
         #{traineeTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="isQuit != null">
+        #{isQuit,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -163,6 +172,9 @@
       <if test="record.traineeTypeId != null">
         trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
       </if>
+      <if test="record.isQuit != null">
+        is_quit = #{record.isQuit,jdbcType=BIT},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -177,6 +189,7 @@
       train_id = #{record.trainId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
+      is_quit = #{record.isQuit,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -194,6 +207,9 @@
       <if test="traineeTypeId != null">
         trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
       </if>
+      <if test="isQuit != null">
+        is_quit = #{isQuit,jdbcType=BIT},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -205,6 +221,7 @@
     set train_id = #{trainId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
+      is_quit = #{isQuit,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

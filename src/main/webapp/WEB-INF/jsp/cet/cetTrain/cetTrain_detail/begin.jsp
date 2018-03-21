@@ -5,7 +5,7 @@
     <li>
         <a href="javascript:;" class="loadPage"
            data-load-el="#detail-item-content" data-callback="_menuSelected"
-           data-url='${ctx}/cet/cetTrain_detail_msg?trainId=${param.trainId}'><i
+           data-url='${ctx}/cet/cetTrain_detail/msg?trainId=${param.trainId}'><i
                 class="fa fa-bullhorn"></i> 通知
         </a>
     </li>
@@ -19,7 +19,7 @@
     <li>
         <a href="javascript:;" class="loadPage"
            data-load-el="#detail-item-content" data-callback="_menuSelected"
-           data-url='${ctx}/cet/cetTrain_detail_stat?trainId=${param.trainId}'><i
+           data-url='${ctx}/cet/cetTrain_detail/stat?trainId=${param.trainId}'><i
                 class="fa fa-bar-chart"></i> 统计
         </a>
     </li>

@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainee;
+import domain.cet.CetTraineeCadreView;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseExample;
 import domain.sys.SysUserView;
@@ -90,7 +91,7 @@ public class CetTraineeCourseService extends BaseMapper {
 
         checkApplyIsOpen(trainId);
 
-        CetTrainee cetTrainee = cetTraineeService.get(userId, trainId);
+        CetTraineeCadreView cetTrainee = cetTraineeService.get(userId, trainId);
         if(cetTrainee==null) return;
         int traineeId = cetTrainee.getId();
         Date now = new Date();
@@ -124,7 +125,7 @@ public class CetTraineeCourseService extends BaseMapper {
 
         checkApplyIsOpen(trainId);
 
-        CetTrainee cetTrainee = cetTraineeService.get(userId, trainId);
+        CetTraineeCadreView cetTrainee = cetTraineeService.get(userId, trainId);
         if(cetTrainee==null) return;
         int traineeId = cetTrainee.getId();
         Date now = new Date();
@@ -147,6 +148,13 @@ public class CetTraineeCourseService extends BaseMapper {
 
             cetTraineeCourseMapper.insertSelective(record);
 
+            if(cetTrainee.getIsQuit()){
+                CetTrainee _record = new CetTrainee();
+                _record.setId(traineeId);
+                _record.setIsQuit(false);
+                cetTraineeMapper.updateByPrimaryKeySelective(_record);
+            }
+
             sysApprovalLogService.add(traineeId, userId,
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
@@ -164,6 +172,14 @@ public class CetTraineeCourseService extends BaseMapper {
 
             cetTraineeCourseMapper.deleteByPrimaryKey(cetTraineeCourse.getId());
 
+            List<CetTraineeCourse> selectedCetTraineeCourses = iCetMapper.selectedCetTraineeCourses(traineeId);
+            if(selectedCetTraineeCourses.size()==0){
+                // 退出培训班
+                CetTrainee record = new CetTrainee();
+                record.setId(traineeId);
+                record.setIsQuit(true);
+                cetTraineeMapper.updateByPrimaryKeySelective(record);
+            }
             sysApprovalLogService.add(traineeId, userId,
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
@@ -251,7 +267,7 @@ public class CetTraineeCourseService extends BaseMapper {
             SysUserView uv = sysUserService.findByCode(code);
             if(uv==null) continue;
             int userId = uv.getId();
-            CetTrainee cetTrainee = cetTraineeService.get(userId, trainId);
+            CetTraineeCadreView cetTrainee = cetTraineeService.get(userId, trainId);
             if(cetTrainee==null) continue;
             int traineeId = cetTrainee.getId();
 

@@ -25,26 +25,26 @@
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#detail-content" data-callback="_menuSelected"
-                               data-url="${ctx}/cet/cetTrain_detail_time?trainId=${param.trainId}">
+                               data-url="${ctx}/cet/cetTrain_detail/time?trainId=${param.trainId}">
                                 <i class="green ace-icon fa fa-history bigger-120"></i> 选课时间管理</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#detail-content" data-callback="_menuSelected"
-                               data-url="${ctx}/cet/cetTrain_detail_trainee?trainId=${param.trainId}">
+                               data-url="${ctx}/cet/cetTrain_detail/trainee?trainId=${param.trainId}">
                                 <i class="green ace-icon fa fa-users bigger-120"></i> 可选课人员及选课情况</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#detail-content" data-callback="_menuSelected"
-                               data-url="${ctx}/cet/cetTrain_detail_start?trainId=${param.trainId}">
+                               data-url="${ctx}/cet/cetTrain_detail/begin?trainId=${param.trainId}">
                                 <i class="green ace-icon fa fa-calendar bigger-120"></i> 开课</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#detail-content" data-callback="_menuSelected"
-                               data-url="${ctx}/cet/cetTrainEva?trainId=${param.trainId}">
-                                <i class="green ace-icon fa fa-calendar bigger-120"></i> 评课</a>
+                               data-url="${ctx}/cet/cetTrain_detail_eva?trainId=${param.trainId}">
+                                <i class="green ace-icon fa fa-pencil-square-o bigger-120"></i> 评课</a>
                         </li>
                     </ul>
                 </div>

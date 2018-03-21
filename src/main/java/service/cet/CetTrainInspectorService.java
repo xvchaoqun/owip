@@ -8,6 +8,8 @@ import domain.cet.CetTrainEvaResultExample;
 import domain.cet.CetTrainInspector;
 import domain.cet.CetTrainInspectorCourseExample;
 import domain.cet.CetTrainInspectorExample;
+import domain.cet.CetTraineeCadreView;
+import domain.cet.CetTraineeCadreViewExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -147,6 +149,65 @@ public class CetTrainInspectorService extends BaseMapper {
         record.setId(trainId);
         record.setEvaCount(count);
         record.setEvaAnonymous(evaAnonymous);
+        cetTrainMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 校内培训，生成评课账号
+    @Transactional
+    public void generateInspectorOnCampus(int trainId) throws IOException, InvalidFormatException {
+
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+
+        int closed = cetTrainService.evaIsClosed(trainId);
+        if (closed == 1) {
+            throw new OpException("评课已关闭。");
+        } else if (closed == 3) {
+            throw new OpException("评课已结束于" + DateUtils.formatDate(cetTrain.getEvaCloseTime(), DateUtils.YYYY_MM_DD_HH_MM));
+        }
+
+        // 读取已选课人员
+        CetTraineeCadreViewExample example = new CetTraineeCadreViewExample();
+        example.createCriteria().andTrainIdEqualTo(trainId)
+                .andCourseCountGreaterThan(0);
+        List<CetTraineeCadreView> cetTraineeCadreViews = cetTraineeCadreViewMapper.selectByExample(example);
+
+        Date now = new Date();
+        for (CetTraineeCadreView ctee : cetTraineeCadreViews) {
+
+            // 使用工作证号当做账号
+            String mobile = ctee.getCode();
+            String realname = ctee.getRealname();
+            CetTrainInspector cetTrainInspector = tryLogin(trainId, mobile);
+            if (cetTrainInspector != null) {
+                // 存在则进行更新操作
+                CetTrainInspector record = new CetTrainInspector();
+                record.setId(cetTrainInspector.getId());
+                record.setRealname(realname);
+                cetTrainInspectorMapper.updateByPrimaryKeySelective(record);
+            } else {
+
+                CetTrainInspector record = new CetTrainInspector();
+                record.setTrainId(trainId);
+                record.setUsername(buildUsername());
+                record.setPasswd(RandomStringUtils.randomNumeric(6));
+                record.setMobile(mobile);
+                record.setRealname(realname);
+                record.setType((byte)1);
+                record.setStatus(CetConstants.CET_TRAIN_INSPECTOR_STATUS_INIT);
+                record.setCreateTime(now);
+
+                cetTrainInspectorMapper.insert(record);
+            }
+        }
+
+        CetTrainInspectorExample _example = new CetTrainInspectorExample();
+        _example.createCriteria().andTrainIdEqualTo(trainId);
+        int count = (int) cetTrainInspectorMapper.countByExample(_example);
+
+        CetTrain record = new CetTrain();
+        record.setId(trainId);
+        record.setEvaCount(count);
+        record.setEvaAnonymous(false);
         cetTrainMapper.updateByPrimaryKeySelective(record);
     }
 

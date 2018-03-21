@@ -73,7 +73,7 @@ public interface ICetMapper {
             "group by cteecv.user_id")
     public List<Map> listTraineeYearPeriod(@Param("trainId") int trainId);
 
-
+    // 一个培训班内，每个参训人对每个课程的评价情况
     @ResultType(bean.analysis.StatTrainBean.class)
     @Select("select result.train_course_id as trainCourseId, result.inspector_id as inspectorId, sum(rank.score) as totalScore, ic.feedback " +
             "from cet_train_eva_result result, cet_train_eva_rank rank, cet_train_inspector_course ic " +

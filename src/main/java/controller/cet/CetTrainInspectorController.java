@@ -4,6 +4,7 @@ import domain.cet.CetTrain;
 import domain.cet.CetTrainInspector;
 import domain.cet.CetTrainInspectorView;
 import domain.cet.CetTrainInspectorViewExample;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -26,12 +27,14 @@ import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -104,6 +107,58 @@ public class CetTrainInspectorController extends CetBaseController {
         modelMap.put("inspectors", inspectors);
 
         return "cet/cetTrainInspector/cetTrainInspector_list";
+    }
+
+    @RequiresPermissions("cetTrainInspector:list")
+    @RequestMapping("/cetTrainInspector_data")
+    public void cetTrainInspector_data(HttpServletResponse response,
+                                       int trainId,
+                                      String realname,
+                                      Boolean status,
+                                      Integer pageSize, Integer pageNo)  throws IOException{
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CetTrainInspectorViewExample example = new CetTrainInspectorViewExample();
+        CetTrainInspectorViewExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId);
+        example.setOrderByClause("id asc");
+
+        if (realname!=null) {
+            criteria.andRealnameLike("%" + realname + "%");
+        }
+        if (status!=null) {
+            if(BooleanUtils.isTrue(status)){
+                criteria.andUnEvaCourseNumEqualTo(0);
+            }else{
+                criteria.andUnEvaCourseNumGreaterThan(0);
+            }
+        }
+
+        long count = cetTrainInspectorViewMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CetTrainInspectorView> records= cetTrainInspectorViewMapper.selectByExampleWithRowbounds(example,
+                        new RowBounds((pageNo - 1) * pageSize, pageSize));
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        //baseMixins.put(cetTrainInspectorView.class, cetTrainInspectorViewMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
     }
 
     public void cetTrainInspector_export(int trainId, CetTrainInspectorViewExample example, HttpServletResponse response) throws IOException {
@@ -212,6 +267,16 @@ public class CetTrainInspectorController extends CetBaseController {
                                      HttpServletRequest request) throws IOException, InvalidFormatException {
 
         cetTrainInspectorService.generateInspector(trainId, type, BooleanUtils.isTrue(evaAnonymous), count, xlsx);
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetTrainInspector:edit")
+    @RequestMapping(value = "/cetTrainInspector_gen_oncampus", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetTrainInspector_gen_oncampus(int trainId, HttpServletRequest request) throws IOException, InvalidFormatException {
+
+        cetTrainInspectorService.generateInspectorOnCampus(trainId);
 
         return success(FormUtils.SUCCESS);
     }

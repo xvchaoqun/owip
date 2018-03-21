@@ -373,6 +373,66 @@ public class CetTraineeCadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsQuitIsNull() {
+            addCriterion("is_quit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitIsNotNull() {
+            addCriterion("is_quit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitEqualTo(Boolean value) {
+            addCriterion("is_quit =", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitNotEqualTo(Boolean value) {
+            addCriterion("is_quit <>", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitGreaterThan(Boolean value) {
+            addCriterion("is_quit >", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_quit >=", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitLessThan(Boolean value) {
+            addCriterion("is_quit <", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_quit <=", value, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitIn(List<Boolean> values) {
+            addCriterion("is_quit in", values, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitNotIn(List<Boolean> values) {
+            addCriterion("is_quit not in", values, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_quit between", value1, value2, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsQuitNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_quit not between", value1, value2, "isQuit");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

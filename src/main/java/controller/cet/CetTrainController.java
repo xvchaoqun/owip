@@ -126,17 +126,6 @@ public class CetTrainController extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping("/cetTrain_detail")
-    public String cetTrain_detail(Integer trainId, ModelMap modelMap) {
-
-        if (trainId != null) {
-            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-            modelMap.put("cetTrain", cetTrain);
-        }
-        return "cet/cetTrain/cetTrain_detail";
-    }
-
-    @RequiresPermissions("cetTrain:edit")
     @RequestMapping(value = "/cetTrain_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetTrain_au(CetTrain record,
@@ -233,12 +222,11 @@ public class CetTrainController extends CetBaseController {
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping(value = "/cetTrain_evaNote", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrain_evaNote(int id,
-                             String note) {
+    public Map do_cetTrain_evaNote(int trainId, String evaNote) {
 
         CetTrain record = new CetTrain();
-        record.setId(id);
-        record.setEvaNote(note);
+        record.setId(trainId);
+        record.setEvaNote(evaNote);
 
         cetTrainMapper.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "更新培训评课说明：%s", record.getId()));
@@ -248,10 +236,10 @@ public class CetTrainController extends CetBaseController {
 
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_evaNote")
-    public String cetTrain_evaNote(Integer id, ModelMap modelMap) {
+    public String cetTrain_evaNote(Integer trainId, ModelMap modelMap) {
 
-        if (id != null) {
-            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(id);
+        if (trainId != null) {
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
             modelMap.put("cetTrain", cetTrain);
         }
         return "cet/cetTrain/cetTrain_evaNote";
@@ -259,10 +247,10 @@ public class CetTrainController extends CetBaseController {
 
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_evaCloseTime")
-    public String cetTrain_evaCloseTime(Integer id, ModelMap modelMap) {
+    public String cetTrain_evaCloseTime(Integer trainId, ModelMap modelMap) {
 
-        if (id != null) {
-            modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(id));
+        if (trainId != null) {
+            modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
         }
         return "cet/cetTrain/cetTrain_evaCloseTime";
     }
@@ -270,7 +258,7 @@ public class CetTrainController extends CetBaseController {
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping(value = "/cetTrain_evaCloseTime", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrain_evaCloseTime(int id, Boolean evaClosed, String _evaCloseTime) {
+    public Map do_cetTrain_evaCloseTime(int trainId, Boolean evaClosed, String _evaCloseTime) {
 
         Date evaCloseTime = DateUtils.parseDate(_evaCloseTime, DateUtils.YYYY_MM_DD_HH_MM);
 
@@ -280,7 +268,7 @@ public class CetTrainController extends CetBaseController {
             }
         }*/
 
-        cetTrainService.updateEvaCloseTime(id, BooleanUtils.isTrue(evaClosed), evaCloseTime);
+        cetTrainService.updateEvaCloseTime(trainId, BooleanUtils.isTrue(evaClosed), evaCloseTime);
         //logger.info(addLog(SystemConstants.LOG_ADMIN, "更新培训评课关闭时间：%s", id));
 
         return success(FormUtils.SUCCESS);

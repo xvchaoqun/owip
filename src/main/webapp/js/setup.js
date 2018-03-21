@@ -497,6 +497,7 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
 
     var openBy = $(this).data("open-by");
     var needId = $(this).data("need-id");
+    if (needId == undefined) needId = true;
     var gridId = $(this).data("grid-id") || "#jqGrid";
     var grid = $(gridId);
     var idsName = $(this).data("ids-name") || 'ids[]';

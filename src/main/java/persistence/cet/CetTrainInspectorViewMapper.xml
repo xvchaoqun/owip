@@ -14,6 +14,8 @@
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="finish_course_num" jdbcType="INTEGER" property="finishCourseNum" />
     <result column="save_course_num" jdbcType="INTEGER" property="saveCourseNum" />
+    <result column="selected_course_num" jdbcType="INTEGER" property="selectedCourseNum" />
+    <result column="un_eva_course_num" jdbcType="INTEGER" property="unEvaCourseNum" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -46,7 +48,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, train_id, username, passwd, mobile, realname, passwd_change_type, type, create_time, 
-    status, finish_course_num, save_course_num
+    status, finish_course_num, save_course_num, selected_course_num, un_eva_course_num
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainInspectorViewExample" resultMap="BaseResultMap">
     select

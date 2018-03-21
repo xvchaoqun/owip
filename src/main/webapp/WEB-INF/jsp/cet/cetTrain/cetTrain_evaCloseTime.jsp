@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<div style="${param.detail==1?'width:500px':''}">
 <div class="modal-header">
-    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+    <%--<button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>--%>
     <h3>评课设置</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetTrain_evaCloseTime" id="modalForm" method="post">
-        <input type="hidden" name="id" value="${cetTrain.id}">
+        <input type="hidden" name="trainId" value="${cetTrain.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">培训班次</label>
 				<div class="col-xs-6 label-text">
@@ -39,11 +40,16 @@ pageEncoding="UTF-8"%>
 			</div>
     </form>
 </div>
-<div class="modal-footer">
+<div class="modal-footer center">
+	<c:if test="${param.detail!=1}">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="确定"/>
+    <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
+	</c:if>
+	<c:if test="${param.detail==1}">
+    <input  id="submitBtn" type="button" class="btn btn-primary" value="设置"/>
+	</c:if>
 </div>
-
+</div>
 <script>
 	function evaClosedChanged(){
 		if($('#modalForm input[name=evaClosed]').bootstrapSwitch("state")) {
@@ -59,13 +65,22 @@ pageEncoding="UTF-8"%>
 	evaClosedChanged()
 
 	register_datetime($('.datetime-picker'));
+	$("#submitBtn").click(function(){
+		$("#modalForm").submit();
+		return false;
+	})
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        $("#modal").modal('hide');
-                        $("#jqGrid").trigger("reloadGrid");
+						<c:if test="${param.detail!=1}">
+						$("#modal").modal('hide');
+						$("#jqGrid").trigger("reloadGrid");
+						</c:if>
+						<c:if test="${param.detail==1}">
+						SysMsg.success("设置成功。");
+						</c:if>
                     }
                 }
             });

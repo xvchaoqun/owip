@@ -32,6 +32,13 @@
        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
         <i class="fa fa-download"></i> 导出课程</a>
     </c:if>
+    <c:if test="${cls==3}">
+        <a class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+           data-url="${ctx}/cet/cetTrainCourse_evaTable"
+           data-grid-id="#jqGrid2"
+           data-querystr="&trainId=${cetTrain.id}"><i class="fa fa-table"></i>
+            设置评估表</a>
+    </c:if>
 </div>
 <div class="space-4"></div>
 <table id="jqGrid2" class="jqGrid2 table-striped"></table>
@@ -44,6 +51,7 @@
         pager: "jqGridPager2",
         url: '${ctx}/cet/cetTrainCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            <c:if test="${cls!=3}">
             {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.finishCount==undefined) return '-'
                 return ('<button class="popupBtn btn btn-success btn-xs" data-width="1200" ' +
@@ -51,12 +59,14 @@
                         .format(rowObject.id, rowObject.finishCount);
             }},
             {label: '课程编号', name: 'cetCourse.sn', frozen:true},
+            </c:if>
             {
                 label: '课程名称',
                 name: 'cetCourse.name',
                 width: 300,
                 align: 'left', frozen:true
             },
+            <c:if test="${cls!=3}">
             {label: '课程要点', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
 
                 if (rowObject.cetCourse.hasSummary==false) return '-'
@@ -71,13 +81,10 @@
                 formatoptions: {url: "${ctx}/cet/cetTrainCourse_changeOrder", grid:'#jqGrid2'}, frozen:true
             },
             </c:if>
+            </c:if>
+
             {label: '主讲人', name: 'cetCourse.cetExpert.realname', frozen:true},
-            {
-                label: '选课情况', name: 'selectedCount', width: 80,formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-';
-                return '已选课({0})'.format(cellvalue);
-            }
-            },
+            <c:if test="${cls!=3}">
             {label: '所在单位', name: 'cetCourse.cetExpert.unit', width: 300, align: 'left'},
             {label: '职务和职称', name: 'cetCourse.cetExpert.post', width: 120, align: 'left'},
             {label: '授课方式', name: 'cetCourse.teachMethod', formatter: $.jgrid.formatter.MetaType},
@@ -89,6 +96,7 @@
                 return courseTypeMap[cellvalue].name
             }
             },
+            </c:if>
             {
                 label: '开始时间',
                 name: 'startTime',
@@ -103,10 +111,29 @@
                 formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
             },
+            {
+                label: '选课情况', name: 'selectedCount', width: 80,formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return '-';
+                return '已选课({0})'.format(cellvalue);
+            }
+            },
+            <c:if test="${cls!=3}">
             {label: '上课地点', name: 'address', align: 'left', width: 250, formatter: function (cellvalue, options, rowObject) {
                 return (rowObject.cetCourse.isOnline==false)? $.trim(cellvalue):'-'
-            }}
+            }},
+            </c:if>
+            <c:if test="${cls==3}">
+            {label: '评估表', name: 'trainEvaTable', width: 200, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return '-'
+                return '<a href="javascript:void(0)" class="popupBtn" data-width="700" data-url="${ctx}/cet/cetTrainEvaTable_preview?id={0}">{1}</a>'
+                        .format(cellvalue.id, cellvalue.name);
+            }},
 
+            {label: '测评情况（已测评/总数）', name: '_eva', width: 200, formatter: function (cellvalue, options, rowObject) {
+                if('${cetTrain.evaCount}'=='') return '-'
+                return '{0}/${cetTrain.evaCount}'.format(rowObject.evaFinishCount==undefined?0:rowObject.evaFinishCount);
+            }}
+            </c:if>
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

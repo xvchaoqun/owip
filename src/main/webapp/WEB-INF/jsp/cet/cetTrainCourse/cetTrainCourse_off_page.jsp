@@ -45,9 +45,12 @@
                     </button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cetTrainCourse:edit">
-                    <a class="popupBtn btn btn-primary btn-sm tooltip-success"
+                    <button class="popupBtn btn btn-primary btn-sm tooltip-success"
                        data-url="${ctx}/cet/cetTrainCourse_import?trainId=${cetTrain.id}"
-                       data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
+                       data-rel="tooltip" data-placement="top" title="从Excel导入"><i class="fa fa-upload"></i> 从Excel导入</button>
+                    <button class="popupBtn btn btn-info btn-sm tooltip-success"
+                       data-url="${ctx}/cet/cetTrainCourse_selectCourses?trainId=${cetTrain.id}" data-width="1200"
+                       data-rel="tooltip" data-placement="top" title="从课程中心导入"><i class="fa fa-search-plus"></i> 从课程中心导入</button>
                 </shiro:hasPermission>
                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/cet/cetTrainCourse_data"
@@ -86,9 +89,13 @@
                 if(rowObject.isGlobal || cellvalue==undefined) return '-'
                 return cellvalue;
             }},
+            {label: '课程来源', name: 'courseId', width: 90, frozen: true,formatter:function(cellvalue, options, rowObject){
+                return (cellvalue==undefined)?'添加':'课程中心';
+            }},
             {label: '开始时间', name: 'startTime', width: 130, formatter: 'date', formatoptions: {srcformat:'Y-m-d H:i',newformat:'Y-m-d H:i'}, frozen: true},
             {label: '结束时间', name: 'endTime', width: 130, frozen: true, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.isGlobal || cellvalue==undefined) return '-'
+                if(rowObject.isGlobal) return '-'
+                if(cellvalue==undefined) return ''
                 return cellvalue.substr(0,16);
             }},
             {
@@ -108,9 +115,8 @@
             }}
 
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid2');
-    });
+    }).jqGrid("setFrozenColumns")
+    $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
 
 </script>

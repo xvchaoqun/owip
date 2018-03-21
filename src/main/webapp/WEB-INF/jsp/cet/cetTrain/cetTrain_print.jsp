@@ -8,7 +8,7 @@
 <meta charset="UTF-8" />
 <title>登录二维码</title>
 </head>
-<body>
+<body onload="print()">
 <div style="width: 1200px; " id="printArea">
 	<table style="width: 1100px;padding-left: 80px;padding-right: 80px;font-size: 20pt">
 		<tr>
@@ -45,6 +45,7 @@
 			<td align="left">
 				<fmt:message key="site.train.login" bundle="${spring}" var="loginUrl"/>
 				<c:set var="loginUrl" value="${loginUrl}?trainId=${cetTrain.id}"></c:set>
+				<%--${loginUrl}--%>
 				<img src="${ctx}/qrcode?content=${cm:encodeURI(loginUrl)}"  style="width: 400px;margin: 20px"/>
 			</td>
 		</tr>

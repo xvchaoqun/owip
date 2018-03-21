@@ -57,7 +57,7 @@
         <if test="expertId!=null">
           and cc.expert_id=#{expertId}
         </if>
-          and cc.id not in(select course_id from cet_train_course where train_id=#{trainId})
+          and cc.id not in(select course_id from cet_train_course where train_id=#{trainId} and course_id is not null)
         </where>
     </sql>
     <select id="cetTrainCourse_selectCourses" resultMap="persistence.cet.CetCourseMapper.BaseResultMap" parameterType="map">

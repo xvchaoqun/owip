@@ -1,6 +1,8 @@
 package service.cet;
 
 import bean.analysis.StatTrainBean;
+import domain.cet.CetCourse;
+import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainEvaNorm;
 import domain.cet.CetTrainEvaRank;
@@ -135,7 +137,17 @@ public class CetTrainStatService extends BaseMapper {
         Double score = (Double) statCourseMap.get("score");
 
         int inspectorCount = inspectorTotalScoreMap.size();
-        Sheet sheet = wb.createSheet(cetTrainCourse.getIsGlobal() ? cetTrainCourse.getName() : cetTrainCourse.getTeacher());
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(cetTrainCourse.getTrainId());
+
+        String sheetName = null;
+        if(cetTrain.getIsOnCampus()){
+            CetCourse cetCourse = cetTrainCourse.getCetCourse();
+            sheetName = cetTrainCourse.getIsGlobal() ? cetCourse.getName()
+                    : cetCourse.getCetExpert().getRealname();
+        }else{
+            sheetName = cetTrainCourse.getIsGlobal() ? cetTrainCourse.getName() : cetTrainCourse.getTeacher();
+        }
+        Sheet sheet = wb.createSheet(sheetName);
         //sheet.setDefaultColumnWidth(10*256);
 
         sheet.setColumnWidth(0, (short) (35.7 * 100));

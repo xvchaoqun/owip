@@ -3,7 +3,7 @@ package controller.cet.user;
 import controller.cet.CetBaseController;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseExample;
-import domain.cet.CetTrainee;
+import domain.cet.CetTraineeCadreView;
 import domain.cet.CetTraineeCourse;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -102,7 +102,7 @@ public class UserCetTrainController extends CetBaseController {
         modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
 
         int userId = ShiroHelper.getCurrentUserId();
-        CetTrainee cetTrainee = cetTraineeService.get(userId, trainId);
+        CetTraineeCadreView cetTrainee = cetTraineeService.get(userId, trainId);
         int traineeId = cetTrainee.getId();
         modelMap.put("cetTrainee", cetTrainee);
 
@@ -173,7 +173,7 @@ public class UserCetTrainController extends CetBaseController {
         modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
 
         int userId = ShiroHelper.getCurrentUserId();
-        CetTrainee cetTrainee = cetTraineeService.get(userId, trainId);
+        CetTraineeCadreView cetTrainee = cetTraineeService.get(userId, trainId);
         modelMap.put("cetTrainee", cetTrainee);
 
         int traineeId = cetTrainee.getId();

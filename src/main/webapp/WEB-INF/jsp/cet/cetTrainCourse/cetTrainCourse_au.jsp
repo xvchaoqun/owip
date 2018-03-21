@@ -15,16 +15,17 @@ pageEncoding="UTF-8"%>
 					${cetTrain.name}
 				</div>
 			</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label">是否专题班测评</label>
+			<c:if test="${empty cetTrainCourse.courseId}">
+			<div class="form-group">
+				<label class="col-xs-3 control-label">是否专题班测评</label>
 
-			<div class="col-xs-6">
-				<label>
-					<input name="isGlobal" ${cetTrainCourse.isGlobal?"checked":""} type="checkbox"/>
-					<span class="lbl"></span>
-				</label>
+				<div class="col-xs-6">
+					<label>
+						<input name="isGlobal" ${cetTrainCourse.isGlobal?"checked":""} type="checkbox"/>
+						<span class="lbl"></span>
+					</label>
+				</div>
 			</div>
-		</div>
 			<div class="form-group" id="_name">
 				<label class="col-xs-3 control-label">课程名称</label>
 				<div class="col-xs-6">
@@ -37,6 +38,21 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="teacher" value="${cetTrainCourse.teacher}">
 				</div>
 			</div>
+			</c:if>
+			<c:if test="${not empty cetTrainCourse.courseId}">
+			<div class="form-group" id="_name">
+				<label class="col-xs-3 control-label">课程名称</label>
+				<div class="col-xs-6 label-text">
+						${cetTrainCourse.name}
+				</div>
+			</div>
+			<div class="form-group" id="_teacher">
+				<label class="col-xs-3 control-label">教师姓名</label>
+				<div class="col-xs-6 label-text">
+						${cetTrainCourse.teacher}
+				</div>
+			</div>
+			</c:if>
 			<div class="form-group" id="_startTime">
 				<label class="col-xs-3 control-label">开始时间</label>
 				<div class="col-xs-6">
@@ -69,6 +85,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+	<c:if test="${empty cetTrainCourse.courseId}">
 	function isGlobalChanged(){
 		if($('#modalForm input[name=isGlobal]').bootstrapSwitch("state")) {
 
@@ -94,7 +111,7 @@ pageEncoding="UTF-8"%>
 		isGlobalChanged()
 	});
 	isGlobalChanged()
-
+	</c:if>
 	register_datetime($('.datetime-picker'));
     $("#modalForm").validate({
         submitHandler: function (form) {

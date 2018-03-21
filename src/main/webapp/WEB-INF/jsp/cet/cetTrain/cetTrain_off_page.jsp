@@ -20,6 +20,7 @@ pageEncoding="UTF-8" %>
                         修改</a>
                     <a class="jqOpenViewBtn btn btn-info btn-sm"
                        data-url="${ctx}/cet/cetTrain_evaCloseTime"
+                       data-id-name="trainId"
                        data-querystr="&"><i class="fa fa-gear"></i>
                         评课设置</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -118,7 +119,7 @@ pageEncoding="UTF-8" %>
                             .format(rowObject.id, cellvalue);
             }, width: 200},
             {label: '评课说明', name: '_note', formatter: function (cellvalue, options, rowObject) {
-                return '<a href="javascript:void(0)" class="popupBtn" data-width="750" data-url="${ctx}/cet/cetTrain_evaNote?id={0}">编辑</a>'
+                return '<a href="javascript:void(0)" class="popupBtn" data-width="750" data-url="${ctx}/cet/cetTrain_evaNote?trainId={0}">编辑</a>'
                         .format(rowObject.id);
             }},
             {label: '评课账号（总数）', name: '_eva', width: 130, formatter: function (cellvalue, options, rowObject) {

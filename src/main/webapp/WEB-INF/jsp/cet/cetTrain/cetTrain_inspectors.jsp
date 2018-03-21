@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="well">
-            1、导入的文件请严格按照<a href="${ctx}/attach?code=sample_trainInspector" target="_blank">培训人员录入样表.xlsx</a>（点击下载）的数据格式<br/>
+            1、导入的文件请严格按照<a href="${ctx}/attach?code=sample_cetTrainInspector" target="_blank">培训人员录入样表.xlsx</a>（点击下载）的数据格式<br/>
             2、可以在excel文件中增加或修改人员信息后导入<br/>
             3、原人员信息会进行更新处理，但相关已测评结果保持不变
         </div>

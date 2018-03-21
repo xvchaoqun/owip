@@ -414,6 +414,136 @@ public class CetColumnCourseViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andFColumnIdIsNull() {
+            addCriterion("f_column_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnIdIsNotNull() {
+            addCriterion("f_column_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnIdEqualTo(Integer value) {
+            addCriterion("f_column_id =", value, "fColumnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnIdNotEqualTo(Integer value) {
+            addCriterion("f_column_id <>", value, "fColumnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnIdGreaterThan(Integer value) {
+            addCriterion("f_column_id >", value, "fColumnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("f_column_id >=", value, "fColumnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnIdLessThan(Integer value) {
+            addCriterion("f_column_id <", value, "fColumnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnIdLessThanOrEqualTo(Integer value) {
+            addCriterion("f_column_id <=", value, "fColumnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnIdIn(List<Integer> values) {
+            addCriterion("f_column_id in", values, "fColumnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnIdNotIn(List<Integer> values) {
+            addCriterion("f_column_id not in", values, "fColumnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnIdBetween(Integer value1, Integer value2) {
+            addCriterion("f_column_id between", value1, value2, "fColumnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("f_column_id not between", value1, value2, "fColumnId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameIsNull() {
+            addCriterion("f_column_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameIsNotNull() {
+            addCriterion("f_column_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameEqualTo(String value) {
+            addCriterion("f_column_name =", value, "fColumnName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameNotEqualTo(String value) {
+            addCriterion("f_column_name <>", value, "fColumnName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameGreaterThan(String value) {
+            addCriterion("f_column_name >", value, "fColumnName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameGreaterThanOrEqualTo(String value) {
+            addCriterion("f_column_name >=", value, "fColumnName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameLessThan(String value) {
+            addCriterion("f_column_name <", value, "fColumnName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameLessThanOrEqualTo(String value) {
+            addCriterion("f_column_name <=", value, "fColumnName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameLike(String value) {
+            addCriterion("f_column_name like", value, "fColumnName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameNotLike(String value) {
+            addCriterion("f_column_name not like", value, "fColumnName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameIn(List<String> values) {
+            addCriterion("f_column_name in", values, "fColumnName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameNotIn(List<String> values) {
+            addCriterion("f_column_name not in", values, "fColumnName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameBetween(String value1, String value2) {
+            addCriterion("f_column_name between", value1, value2, "fColumnName");
+            return (Criteria) this;
+        }
+
+        public Criteria andFColumnNameNotBetween(String value1, String value2) {
+            addCriterion("f_column_name not between", value1, value2, "fColumnName");
+            return (Criteria) this;
+        }
+
         public Criteria andColumnNameIsNull() {
             addCriterion("column_name is null");
             return (Criteria) this;

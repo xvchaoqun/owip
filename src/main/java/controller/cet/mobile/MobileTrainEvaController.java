@@ -52,7 +52,7 @@ public class MobileTrainEvaController extends CetBaseController {
         Map<Integer, CetTrainEvaTable> evaTableMap = cetTrainEvaTableService.findAll();
         CetTrainEvaTable trainEvaTable = evaTableMap.get(trainCourse.getEvaTableId());
         if(trainEvaTable==null){
-            throw new OpException("该课程当前没有分配课程评估表，不可以进行测评");
+            throw new OpException("该课程还没有分配课程评估表，不可以进行测评");
         }
 
         return "cet/mobile/eva_page";

@@ -73,6 +73,7 @@ import persistence.cet.CetCourseTypeMapper;
 import persistence.cet.CetExpertMapper;
 import persistence.cet.CetShortMsgMapper;
 import persistence.cet.CetTrainCourseMapper;
+import persistence.cet.CetTrainCourseStatViewMapper;
 import persistence.cet.CetTrainCourseViewMapper;
 import persistence.cet.CetTrainEvaNormMapper;
 import persistence.cet.CetTrainEvaRankMapper;
@@ -360,6 +361,8 @@ public class BaseMapper {
     protected CetTrainCourseMapper cetTrainCourseMapper;
     @Autowired
     protected CetTrainCourseViewMapper cetTrainCourseViewMapper;
+    @Autowired
+    protected CetTrainCourseStatViewMapper cetTrainCourseStatViewMapper;
     @Autowired
     protected CetTraineeMapper cetTraineeMapper;
     @Autowired

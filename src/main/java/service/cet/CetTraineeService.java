@@ -1,6 +1,8 @@
 package service.cet;
 
 import domain.cet.CetTrainee;
+import domain.cet.CetTraineeCadreView;
+import domain.cet.CetTraineeCadreViewExample;
 import domain.cet.CetTraineeExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,11 +26,11 @@ public class CetTraineeService extends BaseMapper {
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
 
-    public CetTrainee get(int userId, int trainId){
+    public CetTraineeCadreView get(int userId, int trainId){
 
-        CetTraineeExample example = new CetTraineeExample();
+        CetTraineeCadreViewExample example = new CetTraineeCadreViewExample();
         example.createCriteria().andUserIdEqualTo(userId).andTrainIdEqualTo(trainId);
-        List<CetTrainee> cetTrainees = cetTraineeMapper.selectByExample(example);
+        List<CetTraineeCadreView> cetTrainees = cetTraineeCadreViewMapper.selectByExample(example);
 
         return cetTrainees.size()>0?cetTrainees.get(0):null;
     }

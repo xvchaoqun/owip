@@ -864,6 +864,126 @@ public class CetTrainInspectorViewExample {
             addCriterion("save_course_num not between", value1, value2, "saveCourseNum");
             return (Criteria) this;
         }
+
+        public Criteria andSelectedCourseNumIsNull() {
+            addCriterion("selected_course_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCourseNumIsNotNull() {
+            addCriterion("selected_course_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCourseNumEqualTo(Integer value) {
+            addCriterion("selected_course_num =", value, "selectedCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCourseNumNotEqualTo(Integer value) {
+            addCriterion("selected_course_num <>", value, "selectedCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCourseNumGreaterThan(Integer value) {
+            addCriterion("selected_course_num >", value, "selectedCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCourseNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("selected_course_num >=", value, "selectedCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCourseNumLessThan(Integer value) {
+            addCriterion("selected_course_num <", value, "selectedCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCourseNumLessThanOrEqualTo(Integer value) {
+            addCriterion("selected_course_num <=", value, "selectedCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCourseNumIn(List<Integer> values) {
+            addCriterion("selected_course_num in", values, "selectedCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCourseNumNotIn(List<Integer> values) {
+            addCriterion("selected_course_num not in", values, "selectedCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCourseNumBetween(Integer value1, Integer value2) {
+            addCriterion("selected_course_num between", value1, value2, "selectedCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSelectedCourseNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("selected_course_num not between", value1, value2, "selectedCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnEvaCourseNumIsNull() {
+            addCriterion("un_eva_course_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnEvaCourseNumIsNotNull() {
+            addCriterion("un_eva_course_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnEvaCourseNumEqualTo(Integer value) {
+            addCriterion("un_eva_course_num =", value, "unEvaCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnEvaCourseNumNotEqualTo(Integer value) {
+            addCriterion("un_eva_course_num <>", value, "unEvaCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnEvaCourseNumGreaterThan(Integer value) {
+            addCriterion("un_eva_course_num >", value, "unEvaCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnEvaCourseNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("un_eva_course_num >=", value, "unEvaCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnEvaCourseNumLessThan(Integer value) {
+            addCriterion("un_eva_course_num <", value, "unEvaCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnEvaCourseNumLessThanOrEqualTo(Integer value) {
+            addCriterion("un_eva_course_num <=", value, "unEvaCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnEvaCourseNumIn(List<Integer> values) {
+            addCriterion("un_eva_course_num in", values, "unEvaCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnEvaCourseNumNotIn(List<Integer> values) {
+            addCriterion("un_eva_course_num not in", values, "unEvaCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnEvaCourseNumBetween(Integer value1, Integer value2) {
+            addCriterion("un_eva_course_num between", value1, value2, "unEvaCourseNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnEvaCourseNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("un_eva_course_num not between", value1, value2, "unEvaCourseNum");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

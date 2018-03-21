@@ -34,19 +34,31 @@ public class CetTrainDetailController extends CetBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping("/cetTrain_detail_start")
-    public String cetTrain_detail_start(int trainId, ModelMap modelMap) {
+    @RequestMapping("/cetTrain_detail")
+    public String cetTrain_detail(Integer trainId, ModelMap modelMap) {
+
+        if (trainId != null) {
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+            modelMap.put("cetTrain", cetTrain);
+        }
+        return "cet/cetTrain/cetTrain_detail";
+    }
+
+    // 开课
+    @RequiresPermissions("cetTrain:edit")
+    @RequestMapping("/cetTrain_detail/begin")
+    public String begin(int trainId, ModelMap modelMap) {
 
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
         modelMap.put("cetTrain", cetTrain);
 
-        return "cet/cetTrain/cetTrain_detail_start";
+        return "cet/cetTrain/cetTrain_detail/begin";
     }
 
     // 通知
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping("/cetTrain_detail_msg")
-    public String cetTrain_detail_msg(int trainId, ModelMap modelMap) {
+    @RequestMapping("/cetTrain_detail/msg")
+    public String msg(int trainId, ModelMap modelMap) {
 
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
         modelMap.put("cetTrain", cetTrain);
@@ -59,23 +71,23 @@ public class CetTrainDetailController extends CetBaseController {
         }
         modelMap.put("tplList", tplList);
 
-        return "cet/cetTrain/cetTrain_detail_msg";
+        return "cet/cetTrain/cetTrain_detail/msg";
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping("/cetTrain_detail_msg_au")
-    public String cetTrain_detail_msg_au(String tplKey, ModelMap modelMap) {
+    @RequestMapping("/cetTrain_detail/msg_au")
+    public String msg_au(String tplKey, ModelMap modelMap) {
 
         Map<String, ContentTpl> contentTplMap = contentTplService.codeKeyMap();
         ContentTpl tpl = contentTplMap.get(tplKey);
         modelMap.put("contentTpl", tpl);
 
-        return "cet/cetTrain/cetTrain_detail_msg_au";
+        return "cet/cetTrain/cetTrain_detail/msg_au";
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping("/cetTrain_detail_msg_list")
-    public String cetTrain_detail_msg_list(int trainId, String tplKey,
+    @RequestMapping("/cetTrain_detail/msg_list")
+    public String msg_list(int trainId, String tplKey,
                                  Integer pageSize, Integer pageNo,
                                  ModelMap modelMap) {
 
@@ -106,25 +118,25 @@ public class CetTrainDetailController extends CetBaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        return "cet/cetTrain/cetTrain_detail_msg_list";
+        return "cet/cetTrain/cetTrain_detail/msg_list";
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping("/cetTrain_detail_msg_send")
-    public String cetTrain_detail_msg_send(int trainId, String tplKey, ModelMap modelMap) {
+    @RequestMapping("/cetTrain_detail/msg_send")
+    public String msg_send(int trainId, String tplKey, ModelMap modelMap) {
 
         Map<String, ContentTpl> contentTplMap = contentTplService.codeKeyMap();
         ContentTpl tpl = contentTplMap.get(tplKey);
         modelMap.put("contentTpl", tpl);
         //modelMap.put("msg", cetShortMsgService.getMsg(tpl, cetTrainMapper.selectByPrimaryKey(trainId)));
         
-        return "cet/cetTrain/cetTrain_detail_msg_send";
+        return "cet/cetTrain/cetTrain_detail/msg_send";
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping(value = "/cetTrain_detail_msg_send_1", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetTrain_detail/msg_send_1", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrain_detail_msg_send_1(int traineeId) {
+    public Map do_msg_send_1(int traineeId) {
 
         boolean ret = cetShortMsgService.sendMsg_1(traineeId);
         logger.info(addLog(SystemConstants.LOG_CET, "干部教育培训，发送短信：%s, %s", traineeId, ret));
@@ -135,9 +147,9 @@ public class CetTrainDetailController extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping(value = "/cetTrain_detail_msg_send_2", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetTrain_detail/msg_send_2", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrain_detail_msg_send_2(int traineeId, int trainCourseId) {
+    public Map do_msg_send_2(int traineeId, int trainCourseId) {
 
         boolean ret = cetShortMsgService.sendMsg_2(traineeId, trainCourseId);
         logger.info(addLog(SystemConstants.LOG_CET, "干部教育培训，发送短信：%s, %s, %s",
@@ -149,18 +161,18 @@ public class CetTrainDetailController extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping("/cetTrain_detail_stat")
-    public String cetTrain_detail_stat(int trainId, ModelMap modelMap) {
+    @RequestMapping("/cetTrain_detail/stat")
+    public String stat(int trainId, ModelMap modelMap) {
 
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
         modelMap.put("cetTrain", cetTrain);
 
-        return "cet/cetTrain/cetTrain_detail_stat";
+        return "cet/cetTrain/cetTrain_detail/stat";
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping("/cetTrain_detail_trainee")
-    public String cetTrain_detail_trainee(int trainId, ModelMap modelMap) {
+    @RequestMapping("/cetTrain_detail/trainee")
+    public String trainee(int trainId, ModelMap modelMap) {
 
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
         modelMap.put("cetTrain", cetTrain);
@@ -168,23 +180,23 @@ public class CetTrainDetailController extends CetBaseController {
         Map<Integer, Object> yearPeriodMap = cetTrainService.traineeYearPeriodMap(trainId);
         modelMap.put("yearPeriodMap", yearPeriodMap);
 
-        return "cet/cetTrain/cetTrain_detail_trainee";
+        return "cet/cetTrain/cetTrain_detail/trainee";
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping("/cetTrain_detail_time")
-    public String cetTrain_detail_time(int trainId, ModelMap modelMap) {
+    @RequestMapping("/cetTrain_detail/time")
+    public String time(int trainId, ModelMap modelMap) {
 
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
         modelMap.put("cetTrain", cetTrain);
 
-        return "cet/cetTrain/cetTrain_detail_time";
+        return "cet/cetTrain/cetTrain_detail/time";
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping(value = "/cetTrain_detail_time", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetTrain_detail/time", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrain_detail_time(int trainId, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date startTime,
+    public Map do_time(int trainId, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date startTime,
                              @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date endTime,
                              HttpServletRequest request) {
 
@@ -205,9 +217,9 @@ public class CetTrainDetailController extends CetBaseController {
     }
 
     @RequiresPermissions("cetTrain:edit")
-    @RequestMapping(value = "/cetTrain_detail_enrollStatus", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetTrain_detail/enrollStatus", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_step2_enrollStatus(int trainId,
+    public Map do_enrollStatus(int trainId,
                              byte enrollStatus, // 开启、关闭、暂停报名
                              HttpServletRequest request) {
 

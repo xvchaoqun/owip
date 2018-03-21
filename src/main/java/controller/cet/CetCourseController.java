@@ -172,6 +172,16 @@ public class CetCourseController extends CetBaseController {
     }
 
     @RequiresPermissions("cetCourse:edit")
+    @RequestMapping("/cetCourse_detail")
+    public String cetCourse_detail(int courseId, ModelMap modelMap) {
+
+        CetCourse cetCourse = cetCourseService.get(courseId);
+        modelMap.put("cetCourse", cetCourse);
+
+        return "cet/cetCourse/cetCourse_detail";
+    }
+
+    @RequiresPermissions("cetCourse:edit")
     @RequestMapping(value = "/cetCourse_summary", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetCourse_summary(Integer id, String summary) {
