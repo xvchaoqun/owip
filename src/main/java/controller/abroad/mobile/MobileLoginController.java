@@ -1,4 +1,4 @@
-package controller.mobile.abroad;
+package controller.abroad.mobile;
 
 import controller.abroad.AbroadBaseController;
 import domain.sys.SysUserView;
@@ -33,7 +33,7 @@ public class MobileLoginController extends AbroadBaseController {
 	@RequestMapping("/login")
 	public String login() {
 
-		return "mobile/abroad/login";
+		return "abroad/mobile/login";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)

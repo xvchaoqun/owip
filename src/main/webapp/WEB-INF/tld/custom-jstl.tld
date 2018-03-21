@@ -332,6 +332,11 @@
 		<function-signature>java.lang.String htmlUnescape(java.lang.String)</function-signature>
 	</function>
 	<function>
+		<name>trimToZero</name>
+		<function-class>sys.utils.NumberUtils</function-class>
+		<function-signature>int trimToZero(java.lang.Integer)</function-signature>
+	</function>
+	<function>
 		<name>stripTrailingZeros</name>
 		<function-class>sys.utils.NumberUtils</function-class>
 		<function-signature>java.lang.String stripTrailingZeros(java.math.BigDecimal)</function-signature>

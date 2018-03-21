@@ -71,7 +71,7 @@
                         </c:choose>
                         <span class="label ${labelCss}">${labelTxt}</span>
                 </td>
-                    <td>${inspector.finishCourseNum}/${inspector.saveCourseNum}/${courseNum}</td>
+                    <td>${cm:trimToZero(inspector.finishCourseNum)}/${cm:trimToZero(inspector.saveCourseNum)}/${courseNum}</td>
                     <td nowrap="">
                         <c:if test="${cetTrain.evaAnonymous && inspector.passwdChangeType==CET_TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF &&
                         inspector.status!=CET_TRAIN_INSPECTOR_STATUS_ABOLISH}">

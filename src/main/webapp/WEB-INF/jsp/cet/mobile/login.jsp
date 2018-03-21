@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<jsp:include page="/WEB-INF/jsp/mobile/head.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/jsp/common/m_head.jsp"></jsp:include>
 	</head>
 	<body class="login-layout blue-login">
 		<div class="main-container">

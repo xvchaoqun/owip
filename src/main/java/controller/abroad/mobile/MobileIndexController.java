@@ -1,4 +1,4 @@
-package controller.mobile.abroad;
+package controller.abroad.mobile;
 
 import controller.abroad.AbroadBaseController;
 import domain.sys.SysUserView;
@@ -21,7 +21,7 @@ public class MobileIndexController extends AbroadBaseController {
 	@RequestMapping("/index")
 	public String _index(ModelMap modelMap) {
 
-		return "mobile/abroad/index";
+		return "abroad/mobile/index";
 	}
 
 	@RequestMapping("/")
@@ -66,6 +66,6 @@ public class MobileIndexController extends AbroadBaseController {
 		modelMap.put("notApprovalCount", notApprovalCount);
 		modelMap.put("hasApprovalCount", hasApprovalCount);
 
-		return "mobile/abroad/index_page";
+		return "abroad/mobile/index_page";
 	}
 }
