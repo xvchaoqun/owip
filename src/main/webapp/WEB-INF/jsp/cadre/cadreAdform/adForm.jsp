@@ -193,6 +193,8 @@ td.bolder{font-weight: bolder}
         </div>
       </td>
       <td class="td6 padding10" colspan="2">
+        ${bean.inEdu}
+        <br/>
         ${bean.inDegree}
       </td>
       <td class="td8 center bolder">

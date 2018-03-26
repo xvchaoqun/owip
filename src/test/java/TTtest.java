@@ -16,6 +16,17 @@ public class TTtest {
         System.out.println(RoleConstants.ROLE_MAP);
     }
 
+    @Test
+    public void ttt(){
+
+        String str = "1999.09-2003.06   辽宁大学广播影视学院电子科学与技术专业 工学学士学位";
+        System.out.println(str);
+        str = str.replaceFirst("[ |\\s]+", "  ");
+        System.out.println(str);
+        str = str.replaceFirst("-", "--");
+        System.out.println(str);
+    }
+
     public static void main(String[] args) throws UnsupportedEncodingException {
         //System.out.println(DateUtils.formatDateTimeMillis(1500889489690L, DateUtils.YYYY_MM_DD_HH_MM_SS));
 

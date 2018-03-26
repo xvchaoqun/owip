@@ -10,8 +10,19 @@ import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.Node;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.util.HtmlUtils;
 import service.BaseMapper;
 import service.SpringProps;
 import service.base.MetaTypeService;
@@ -24,7 +35,10 @@ import sys.utils.DateUtils;
 import sys.utils.ImageUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 import java.util.Date;
 import java.util.HashMap;
@@ -67,6 +81,7 @@ public class CadreAdformService extends BaseMapper{
         bean.setRealname(uv.getRealname());
         bean.setRealname(uv.getRealname());
         bean.setGender(uv.getGender());
+        bean.setIdCard(uv.getIdcard());
         bean.setBirth(cadre.getBirth());
         bean.setAge(DateUtils.intervalYearsUntilNow(cadre.getBirth()));
 
@@ -94,9 +109,10 @@ public class CadreAdformService extends BaseMapper{
                         StringUtils.trimToEmpty(highEdu.getDep())
                         +StringUtils.trimToEmpty(highEdu.getMajor()));*/
         String _fulltimeEdu = "";
-        String _fulltimeDegreee = "";
+        String _fulltimeDegree = "";
         String _fulltimeMajor = "";
         String _onjobEdu = "";
+        String _onjobDegree = "";
         String _onjobMajor = "";
         CadreEdu[] cadreEdus = cadre.getCadreEdus();
         CadreEdu fulltimeEdu = cadreEdus[0];
@@ -105,23 +121,33 @@ public class CadreAdformService extends BaseMapper{
             Integer eduId = fulltimeEdu.getEduId();
             //String degree = fulltimeEdu.getDegree();
             _fulltimeEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-            _fulltimeMajor = fulltimeEdu.getSchool() + fulltimeEdu.getDep() + fulltimeEdu.getMajor()
-                    + (StringUtils.isNotBlank(fulltimeEdu.getMajor())?"专业":"");
 
-            _fulltimeDegreee = fulltimeEdu.getDegree(); // 学位
+            bean.setSchool(fulltimeEdu.getSchool());
+            bean.setDepMajor(fulltimeEdu.getMajor()
+                    + (StringUtils.isNotBlank(fulltimeEdu.getMajor())?"专业":""));
+            _fulltimeMajor = bean.getSchool() + bean.getDepMajor();
+
+            _fulltimeDegree = fulltimeEdu.getDegree(); // 学位
         }
         if(onjobEdu!=null){
             Integer eduId = onjobEdu.getEduId();
             //String degree = onjobEdu.getDegree();
             _onjobEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-            _onjobMajor = onjobEdu.getSchool() + onjobEdu.getDep() + onjobEdu.getMajor()
-                    + (StringUtils.isNotBlank(onjobEdu.getMajor())?"专业":"");
+
+            bean.setInSchool(onjobEdu.getSchool());
+            bean.setInDepMajor(onjobEdu.getMajor()
+                    + (StringUtils.isNotBlank(onjobEdu.getMajor())?"专业":""));
+            _onjobMajor =  bean.getInSchool() + bean.getInDepMajor();
+
+            _onjobDegree = onjobEdu.getDegree();
         }
         // 全日制最高学历
         bean.setEdu(_fulltimeEdu);
-        bean.setDegree(_fulltimeDegreee);
+        bean.setDegree(_fulltimeDegree);
         bean.setSchoolDepMajor(_fulltimeMajor);
-        bean.setInDegree(_onjobEdu);
+        // 在职最高学历
+        bean.setInEdu(_onjobEdu);
+        bean.setInDegree(_onjobDegree);
         bean.setInSchoolDepMajor(_onjobMajor);
 
         // 主职,现任职务
@@ -185,6 +211,7 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("edu", adform.getEdu());
         dataMap.put("degree", adform.getDegree());
         dataMap.put("schoolDepMajor", adform.getSchoolDepMajor());
+        dataMap.put("inEdu", adform.getInEdu());
         dataMap.put("inDegree", adform.getInDegree());
         dataMap.put("inSchoolDepMajor", adform.getInSchoolDepMajor());
 
@@ -225,6 +252,133 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("d1", DateUtils.getDay(new Date()));
 
         freemarkerService.process("/adform/adform.ftl", dataMap, out);
+    }
+
+    private Document getZZBTemplate() throws FileNotFoundException, DocumentException {
+
+        SAXReader reader = new SAXReader();
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xml/adform/rm.xml"));
+        return reader.read(is);
+    }
+
+    private void setNodeText(Document doc, String nodeKey, String value){
+
+        Node node = doc.selectSingleNode("//Person//" + nodeKey);
+        node.setText(StringUtils.trimToEmpty(value));
+    }
+
+    public String html2Paragraphs(String content){
+
+        if(StringUtils.isBlank(content)) return null;
+
+        org.jsoup.nodes.Document doc = Jsoup.parse(HtmlUtils.htmlUnescape(content));
+        Elements pElements = doc.getElementsByTag("p");
+        int size = pElements.size();
+        String str = "";
+        //String lineSeparator = System.getProperty("line.separator", "/n");
+        for (org.jsoup.nodes.Element pElement : pElements) {
+            String style = pElement.attr("style");
+            int type = 0;
+            if (StringUtils.contains(style, "2em")
+                    || StringUtils.contains(style, "text-indent"))
+                type = 1;
+            if (StringUtils.contains(style, "5em"))
+                type = 2;
+
+            String rowStr = StringUtils.trimToEmpty(pElement.text());
+            System.out.println(rowStr);
+            rowStr = rowStr.replaceFirst("[ |\\s]+", "  ").replaceFirst("-", "--");
+            str +=  rowStr + "\r\n";
+            System.out.println(rowStr);
+        }
+
+        if (size == 0) {
+            str += StringUtils.trimToEmpty(doc.text());
+        }
+
+        //str = str.replace("-", "--");
+
+        //System.out.println(str);
+
+        return str;
+    }
+
+    // 输出中组部任免审批表
+    public void zzb(CadreAdform adform, Writer out) throws IOException, DocumentException {
+
+        Document doc = getZZBTemplate();
+
+        setNodeText(doc, "XingMing", adform.getRealname());
+        setNodeText(doc, "XingBie", SystemConstants.GENDER_MAP.get(adform.getGender()));
+        setNodeText(doc, "ChuShengNianYue", DateUtils.formatDate(adform.getBirth(), "yyyyMM"));
+        setNodeText(doc, "MinZu", adform.getNation());
+        setNodeText(doc, "JiGuan", adform.getNativePlace());
+        setNodeText(doc, "ChuShengDi", adform.getHomeplace());
+        setNodeText(doc, "RuDangShiJian", DateUtils.formatDate(adform.getGrowTime(), "yyyyMM"));
+        setNodeText(doc, "CanJiaGongZuoShiJian", DateUtils.formatDate(adform.getWorkTime(), "yyyyMM"));
+        setNodeText(doc, "JianKangZhuangKuang", adform.getHealth());
+        setNodeText(doc, "ZhuanYeJiShuZhiWu", adform.getProPost());
+        setNodeText(doc, "ShuXiZhuanYeYouHeZhuanChang", adform.getSpecialty());
+
+        setNodeText(doc, "QuanRiZhiJiaoYu_XueLi", adform.getEdu());
+        setNodeText(doc, "QuanRiZhiJiaoYu_XueWei", adform.getDegree());
+        setNodeText(doc, "QuanRiZhiJiaoYu_XueLi_BiYeYuanXiaoXi", adform.getSchool());
+        setNodeText(doc, "QuanRiZhiJiaoYu_XueWei_BiYeYuanXiaoXi", adform.getDepMajor());
+        setNodeText(doc, "ZaiZhiJiaoYu_XueLi", adform.getInEdu());
+        setNodeText(doc, "ZaiZhiJiaoYu_XueWei", adform.getInDegree());
+        setNodeText(doc, "ZaiZhiJiaoYu_XueLi_BiYeYuanXiaoXi", adform.getInSchool());
+        setNodeText(doc, "ZaiZhiJiaoYu_XueWei_BiYeYuanXiaoXi", adform.getInDepMajor());
+
+        setNodeText(doc, "XianRenZhiWu", adform.getPost());
+        setNodeText(doc, "NiRenZhiWu", adform.getInPost());
+        setNodeText(doc, "NiMianZhiWu", adform.getPrePost());
+        setNodeText(doc, "JianLi", html2Paragraphs(adform.getLearnDesc() + adform.getWorkDesc()));
+        setNodeText(doc, "JiangChengQingKuang", html2Paragraphs(adform.getReward()));
+        setNodeText(doc, "NianDuKaoHeJieGuo", adform.getCes());
+        setNodeText(doc, "RenMianLiYou", adform.getReason());
+
+        // 家庭成员
+        Element famliys = (Element)doc.selectSingleNode("//Person//JiaTingChengYuan");
+        List<CadreFamliy> cadreFamliys = adform.getCadreFamliys();
+        int size = Math.min(cadreFamliys.size(), 10);
+        for (int i=0; i<size; i++) {
+
+            CadreFamliy cf = cadreFamliys.get(i);
+            Element item = famliys.addElement("Item");
+            item.addElement("ChengWei").setText(StringUtils.trimToEmpty(SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(cf.getTitle())));
+            item.addElement("XingMing").setText(StringUtils.trimToEmpty(cf.getRealname()));
+            item.addElement("ChuShengRiQi").setText(StringUtils.trimToEmpty(DateUtils.formatDate(cf.getBirthday(), "yyyyMM")));
+
+            String fps = "";
+            if(cf!=null && cf.getPoliticalStatus()!=null){
+                fps = metaTypeService.getName(cf.getPoliticalStatus());
+            }
+            item.addElement("ZhengZhiMianMao").setText(StringUtils.trimToEmpty(fps));
+            item.addElement("GongZuoDanWeiJiZhiWu").setText(cf==null?"":StringUtils.trimToEmpty(cf.getUnit()));
+        }
+
+        setNodeText(doc, "ChengBaoDanWei", "");
+        setNodeText(doc, "JiSuanNianLingShiJian", DateUtils.formatDate(new Date(), "yyyyMMdd"));
+        setNodeText(doc, "TianBiaoShiJian", "");
+        SysUserView currentUser = ShiroHelper.getCurrentUser();
+        setNodeText(doc, "TianBiaoRen", currentUser==null?"": currentUser.getRealname());
+        setNodeText(doc, "ShenFenZheng", adform.getIdCard());
+        setNodeText(doc, "ZhaoPian", adform.getAvatar());
+        setNodeText(doc, "Version", "3.2.1.6");
+
+
+        // 设置发送的内容
+        OutputFormat format = new OutputFormat();
+        XMLWriter writer = null;
+        format.setEncoding("UTF-8");
+        writer = new XMLWriter(out,format);
+        writer.write(doc);
+        writer.close();
+
+        /*OutputFormat format = OutputFormat.createPrettyPrint();
+        XMLWriter writer = new XMLWriter(out, format);
+        writer.write(doc);
+        writer.close();*/
     }
 
     private String getFamliySeg(CadreFamliy cf, String ftlPath) throws IOException, TemplateException {

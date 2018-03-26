@@ -125,6 +125,7 @@ public class CadreInfoFormService extends BaseMapper {
         String _fulltimeDegreee = "";
         String _fulltimeMajor = "";
         String _onjobEdu = "";
+        String _onjobDegree = "";
         String _onjobMajor = "";
         CadreEdu[] cadreEdus = cadre.getCadreEdus();
         CadreEdu fulltimeEdu = cadreEdus[0];
@@ -143,12 +144,15 @@ public class CadreInfoFormService extends BaseMapper {
             _onjobEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
             _onjobMajor = onjobEdu.getSchool() + onjobEdu.getDep() + onjobEdu.getMajor()
                     + (StringUtils.isNotBlank(onjobEdu.getMajor()) ? "专业" : "");
+
+            _onjobDegree = onjobEdu.getDegree();
         }
         // 全日制最高学历
         bean.setEdu(_fulltimeEdu);
         bean.setDegree(_fulltimeDegreee);
         bean.setSchoolDepMajor(_fulltimeMajor);
-        bean.setInDegree(_onjobEdu);
+        bean.setInEdu(_onjobEdu);
+        bean.setInDegree(_onjobDegree);
         bean.setInSchoolDepMajor(_onjobMajor);
 
         // 硕士导师

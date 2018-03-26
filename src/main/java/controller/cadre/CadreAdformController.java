@@ -5,6 +5,7 @@ import controller.BaseController;
 import domain.cadre.CadreView;
 import freemarker.template.TemplateException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.dom4j.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -54,5 +55,22 @@ public class CadreAdformController extends BaseController {
 
         CadreAdform adform = cadreAdformService.getCadreAdform(cadreId);
         cadreAdformService.process(adform, response.getWriter());
+    }
+
+    // 中组部干部任免审批表下载
+    @RequiresPermissions("cadreAdform:download")
+    @RequestMapping("/cadreAdform_zzb")
+    public void cadreAdform_zzb(int cadreId, HttpServletResponse response) throws IOException, TemplateException, DocumentException {
+
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        //输出文件
+        String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getUser().getRealname();
+        response.reset();
+        response.setHeader("Content-Disposition",
+                "attachment;filename=" + new String((filename + ".lrmx").getBytes(), "iso-8859-1"));
+        response.setContentType("text/xml;charset=UTF-8");
+
+        CadreAdform adform = cadreAdformService.getCadreAdform(cadreId);
+        cadreAdformService.zzb(adform, response.getWriter());
     }
 }

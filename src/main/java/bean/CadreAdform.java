@@ -17,6 +17,8 @@ public class CadreAdform  implements Serializable {
     private String realname;
     // 性别
     private Byte gender;
+    // 身份证号
+    private String idCard;
     // 出生日期
     private Date birth;
     // 年龄
@@ -44,10 +46,20 @@ public class CadreAdform  implements Serializable {
     private String edu;
     // 全日制教育-最高学位
     private String degree;
+    // 全日制教育-毕业院校
+    private String school;
+    // 全日制教育-系及专业
+    private String depMajor;
     // 全日制教育-毕业院校系及专业
     private String schoolDepMajor;
     // 在职教育-最高学历
+    private String inEdu;
+    // 在职教育-最高学位
     private String inDegree;
+    // 在职教育-毕业院校
+    private String inSchool;
+    // 在职教育-系及专业
+    private String inDepMajor;
     // 在职教育-毕业院校系及专业
     private String inSchoolDepMajor;
 
@@ -95,6 +107,14 @@ public class CadreAdform  implements Serializable {
 
     public void setGender(Byte gender) {
         this.gender = gender;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
     }
 
     public Date getBirth() {
@@ -207,6 +227,46 @@ public class CadreAdform  implements Serializable {
 
     public void setSchoolDepMajor(String schoolDepMajor) {
         this.schoolDepMajor = schoolDepMajor;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getInSchool() {
+        return inSchool;
+    }
+
+    public void setInSchool(String inSchool) {
+        this.inSchool = inSchool;
+    }
+
+    public String getDepMajor() {
+        return depMajor;
+    }
+
+    public void setDepMajor(String depMajor) {
+        this.depMajor = depMajor;
+    }
+
+    public String getInDepMajor() {
+        return inDepMajor;
+    }
+
+    public void setInDepMajor(String inDepMajor) {
+        this.inDepMajor = inDepMajor;
+    }
+
+    public String getInEdu() {
+        return inEdu;
+    }
+
+    public void setInEdu(String inEdu) {
+        this.inEdu = inEdu;
     }
 
     public String getInDegree() {

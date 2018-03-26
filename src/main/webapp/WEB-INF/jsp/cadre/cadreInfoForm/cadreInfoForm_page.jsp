@@ -200,6 +200,8 @@ td.padding10{
                     <span>教  育</span>
                 </div>
             </td><td class="td9 padding10" colspan="5">
+            ${bean.inEdu}
+            <br/>
             ${bean.inDegree}
         </td><td class="td5 center bolder" colspan="2">
                 <span>毕业学校</span>

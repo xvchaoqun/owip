@@ -1731,6 +1731,7 @@
 								<w:t>${edu!}</w:t>
 							</w:r>
 						</w:p>
+<#if degree??>
 						<w:p wsp:rsidR="00123E1F" wsp:rsidRPr="0042663B" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
 							<w:pPr>
 								<w:rPr>
@@ -1745,6 +1746,7 @@
 								<w:t>${degree!}</w:t>
 							</w:r>
 						</w:p>
+</#if>
 					</w:tc>
 					<w:tc>
 						<w:tcPr>
@@ -1902,7 +1904,7 @@
 							<w:gridSpan w:val="2"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						<w:p wsp:rsidR="0060451C" wsp:rsidRDefault="006C7AAB">
+						<w:p wsp:rsidR="004F66D3" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
 							<w:pPr>
 								<w:rPr>
 									<w:sz w:val="24"/>
@@ -1910,11 +1912,28 @@
 							</w:pPr>
 							<w:r>
 								<w:rPr>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${inEdu!}</w:t>
+							</w:r>
+						</w:p>
+<#if inDegree??>
+						<w:p wsp:rsidR="00123E1F" wsp:rsidRPr="0042663B" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
+							<w:pPr>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<wx:font wx:val="宋体"/>
 									<w:sz w:val="24"/>
 								</w:rPr>
 								<w:t>${inDegree!}</w:t>
 							</w:r>
 						</w:p>
+</#if>
 					</w:tc>
 					<w:tc>
 						<w:tcPr>
