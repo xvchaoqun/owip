@@ -184,9 +184,11 @@ left join sc_letter sl on sl.id=slr.letter_id ;
 
 DROP VIEW IF EXISTS `sc_letter_reply_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_reply_item_view` AS
-select slri.*, slr.letter_id, u.realname, u.code from sc_letter_reply_item slri
+select slri.*, slr.letter_id, slr.type as reply_type, slr.reply_date, slr.num as reply_num, sl.year as letter_year, sl.num as letter_num,
+sl.query_date as letter_query_date, sl.type as letter_type, u.realname, u.code from sc_letter_reply_item slri
 left join sys_user_view u on slri.user_id=u.id
-left join sc_letter_reply slr on slr.id=slri.reply_id;
+left join sc_letter_reply slr on slr.id=slri.reply_id and slr.is_deleted=0
+left join sc_letter sl on sl.id=slr.letter_id and sl.is_deleted=0;
 
 -- 个人有关事项视图
 DROP VIEW IF EXISTS `sc_matter_item_view`;

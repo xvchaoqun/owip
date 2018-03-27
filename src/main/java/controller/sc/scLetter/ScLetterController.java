@@ -50,7 +50,11 @@ public class ScLetterController extends ScLetterBaseController {
 
         modelMap.put("cls", cls);
         if (cls == 2) {
+            return "forward:/sc/scLetterReplyItem";
+        }else if (cls == 3) {
             return "forward:/sc/scLetterReply";
+        }else if (cls == 4) {
+            return "sc/scLetter/scLetter/scLetter_setting_page";
         }
 
         return "sc/scLetter/scLetter/scLetter_page";

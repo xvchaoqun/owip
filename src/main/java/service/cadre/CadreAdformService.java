@@ -286,14 +286,15 @@ public class CadreAdformService extends BaseMapper{
                 type = 2;
 
             String rowStr = StringUtils.trimToEmpty(pElement.text());
-            System.out.println(rowStr);
+            //System.out.println(rowStr);
             rowStr = rowStr.replaceFirst("[ |\\s]+", "  ").replaceFirst("-", "--");
             str +=  rowStr + "\r\n";
-            System.out.println(rowStr);
+            //System.out.println(rowStr);
         }
 
         if (size == 0) {
-            str += StringUtils.trimToEmpty(doc.text());
+            str += StringUtils.trimToEmpty(doc.text())
+                    .replaceFirst("[ |\\s]+", "  ").replaceFirst("-", "--");
         }
 
         //str = str.replace("-", "--");

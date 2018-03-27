@@ -425,8 +425,8 @@ body {
 }
 
 .table-center > thead > tr > th, .table-center > tbody > tr > td {
-
     text-align: center;
+    vertical-align: middle;
 }
 
 .bg-right {

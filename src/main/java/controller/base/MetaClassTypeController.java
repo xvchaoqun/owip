@@ -45,17 +45,18 @@ public class MetaClassTypeController extends BaseController{
     }
 
     @RequestMapping("/metaClass_type_list")
-    public String metaClass_type_list(String cls, ModelMap modelMap) {
-
-        checkPermission(cls);
-
-        MetaClass metaClass = metaClassService.codeKeyMap().get(cls);
-        modelMap.put("metaClass", metaClass);
-
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.metaTypes(cls);
-        modelMap.put("metaTypes", metaTypeMap.values());
+    public String metaClass_type_list(String[] cls, ModelMap modelMap) {
 
         return "base/metaClass/metaClass_type_list";
+    }
+
+    @RequestMapping("/metaClass_type_list_item")
+    public String metaClass_type_list_item(String code, ModelMap modelMap) {
+
+        checkPermission(code);
+        Map<String, MetaClass> metaClassMap = metaClassService.codeKeyMap();
+        modelMap.put("metaClass", metaClassMap.get(code));
+        return "base/metaClass/metaClass_type_list_item";
     }
 
     @RequestMapping("/metaClass_type_au")

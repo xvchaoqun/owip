@@ -1,6 +1,8 @@
 package domain.sc.scLetter;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class ScLetterReplyItemViewExample {
@@ -102,6 +104,32 @@ public class ScLetterReplyItemViewExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -411,6 +439,426 @@ public class ScLetterReplyItemViewExample {
 
         public Criteria andLetterIdNotBetween(Integer value1, Integer value2) {
             addCriterion("letter_id not between", value1, value2, "letterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyTypeIsNull() {
+            addCriterion("reply_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyTypeIsNotNull() {
+            addCriterion("reply_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyTypeEqualTo(Integer value) {
+            addCriterion("reply_type =", value, "replyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyTypeNotEqualTo(Integer value) {
+            addCriterion("reply_type <>", value, "replyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyTypeGreaterThan(Integer value) {
+            addCriterion("reply_type >", value, "replyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("reply_type >=", value, "replyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyTypeLessThan(Integer value) {
+            addCriterion("reply_type <", value, "replyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("reply_type <=", value, "replyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyTypeIn(List<Integer> values) {
+            addCriterion("reply_type in", values, "replyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyTypeNotIn(List<Integer> values) {
+            addCriterion("reply_type not in", values, "replyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyTypeBetween(Integer value1, Integer value2) {
+            addCriterion("reply_type between", value1, value2, "replyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("reply_type not between", value1, value2, "replyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyDateIsNull() {
+            addCriterion("reply_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyDateIsNotNull() {
+            addCriterion("reply_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyDateEqualTo(Date value) {
+            addCriterionForJDBCDate("reply_date =", value, "replyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("reply_date <>", value, "replyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("reply_date >", value, "replyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("reply_date >=", value, "replyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyDateLessThan(Date value) {
+            addCriterionForJDBCDate("reply_date <", value, "replyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("reply_date <=", value, "replyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyDateIn(List<Date> values) {
+            addCriterionForJDBCDate("reply_date in", values, "replyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("reply_date not in", values, "replyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("reply_date between", value1, value2, "replyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("reply_date not between", value1, value2, "replyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyNumIsNull() {
+            addCriterion("reply_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyNumIsNotNull() {
+            addCriterion("reply_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyNumEqualTo(Integer value) {
+            addCriterion("reply_num =", value, "replyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyNumNotEqualTo(Integer value) {
+            addCriterion("reply_num <>", value, "replyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyNumGreaterThan(Integer value) {
+            addCriterion("reply_num >", value, "replyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("reply_num >=", value, "replyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyNumLessThan(Integer value) {
+            addCriterion("reply_num <", value, "replyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyNumLessThanOrEqualTo(Integer value) {
+            addCriterion("reply_num <=", value, "replyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyNumIn(List<Integer> values) {
+            addCriterion("reply_num in", values, "replyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyNumNotIn(List<Integer> values) {
+            addCriterion("reply_num not in", values, "replyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyNumBetween(Integer value1, Integer value2) {
+            addCriterion("reply_num between", value1, value2, "replyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("reply_num not between", value1, value2, "replyNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterYearIsNull() {
+            addCriterion("letter_year is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterYearIsNotNull() {
+            addCriterion("letter_year is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterYearEqualTo(Integer value) {
+            addCriterion("letter_year =", value, "letterYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterYearNotEqualTo(Integer value) {
+            addCriterion("letter_year <>", value, "letterYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterYearGreaterThan(Integer value) {
+            addCriterion("letter_year >", value, "letterYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterYearGreaterThanOrEqualTo(Integer value) {
+            addCriterion("letter_year >=", value, "letterYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterYearLessThan(Integer value) {
+            addCriterion("letter_year <", value, "letterYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterYearLessThanOrEqualTo(Integer value) {
+            addCriterion("letter_year <=", value, "letterYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterYearIn(List<Integer> values) {
+            addCriterion("letter_year in", values, "letterYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterYearNotIn(List<Integer> values) {
+            addCriterion("letter_year not in", values, "letterYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterYearBetween(Integer value1, Integer value2) {
+            addCriterion("letter_year between", value1, value2, "letterYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterYearNotBetween(Integer value1, Integer value2) {
+            addCriterion("letter_year not between", value1, value2, "letterYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterNumIsNull() {
+            addCriterion("letter_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterNumIsNotNull() {
+            addCriterion("letter_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterNumEqualTo(Integer value) {
+            addCriterion("letter_num =", value, "letterNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterNumNotEqualTo(Integer value) {
+            addCriterion("letter_num <>", value, "letterNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterNumGreaterThan(Integer value) {
+            addCriterion("letter_num >", value, "letterNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("letter_num >=", value, "letterNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterNumLessThan(Integer value) {
+            addCriterion("letter_num <", value, "letterNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterNumLessThanOrEqualTo(Integer value) {
+            addCriterion("letter_num <=", value, "letterNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterNumIn(List<Integer> values) {
+            addCriterion("letter_num in", values, "letterNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterNumNotIn(List<Integer> values) {
+            addCriterion("letter_num not in", values, "letterNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterNumBetween(Integer value1, Integer value2) {
+            addCriterion("letter_num between", value1, value2, "letterNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("letter_num not between", value1, value2, "letterNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterQueryDateIsNull() {
+            addCriterion("letter_query_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterQueryDateIsNotNull() {
+            addCriterion("letter_query_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterQueryDateEqualTo(Date value) {
+            addCriterionForJDBCDate("letter_query_date =", value, "letterQueryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterQueryDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("letter_query_date <>", value, "letterQueryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterQueryDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("letter_query_date >", value, "letterQueryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterQueryDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("letter_query_date >=", value, "letterQueryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterQueryDateLessThan(Date value) {
+            addCriterionForJDBCDate("letter_query_date <", value, "letterQueryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterQueryDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("letter_query_date <=", value, "letterQueryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterQueryDateIn(List<Date> values) {
+            addCriterionForJDBCDate("letter_query_date in", values, "letterQueryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterQueryDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("letter_query_date not in", values, "letterQueryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterQueryDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("letter_query_date between", value1, value2, "letterQueryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterQueryDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("letter_query_date not between", value1, value2, "letterQueryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterTypeIsNull() {
+            addCriterion("letter_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterTypeIsNotNull() {
+            addCriterion("letter_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterTypeEqualTo(Integer value) {
+            addCriterion("letter_type =", value, "letterType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterTypeNotEqualTo(Integer value) {
+            addCriterion("letter_type <>", value, "letterType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterTypeGreaterThan(Integer value) {
+            addCriterion("letter_type >", value, "letterType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("letter_type >=", value, "letterType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterTypeLessThan(Integer value) {
+            addCriterion("letter_type <", value, "letterType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("letter_type <=", value, "letterType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterTypeIn(List<Integer> values) {
+            addCriterion("letter_type in", values, "letterType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterTypeNotIn(List<Integer> values) {
+            addCriterion("letter_type not in", values, "letterType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterTypeBetween(Integer value1, Integer value2) {
+            addCriterion("letter_type between", value1, value2, "letterType");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("letter_type not between", value1, value2, "letterType");
             return (Criteria) this;
         }
 

@@ -38,9 +38,9 @@
                mapperName="sc.scAd.ScAdArchiveViewMapper">
         </table>-->
 
-        <table tableName="sc_ad_use" domainObjectName="sc.scAd.ScAdUse"
+        <!--<table tableName="sc_ad_use" domainObjectName="sc.scAd.ScAdUse"
                mapperName="sc.scAd.ScAdUseMapper">
-        </table>
+        </table>-->
 
         <!--干部选拔-文件起草签发-->
         <!--<table tableName="sc_dispatch" domainObjectName="sc.scDispatch.ScDispatch"
@@ -208,13 +208,13 @@
                mapperName="sc.scLetter.ScLetterReplyItemMapper">
         </table>-->
 
-        <!--<table tableName="sc_letter_reply_item_view"
+        <table tableName="sc_letter_reply_item_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scLetter.ScLetterReplyItemView"
                mapperName="sc.scLetter.ScLetterReplyItemViewMapper">
-        </table>-->
+        </table>
 
         <!--干部选拔-个人有关事项-->
         <!--<table tableName="sc_matter" domainObjectName="sc.scMatter.ScMatter" mapperName="sc.scMatter.ScMatterMapper">

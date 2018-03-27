@@ -130,7 +130,7 @@
             {
                 label: '回复情况', name: '_replyItems', formatter: function (cellvalue, options, rowObject) {
                 return ('<button class="popupBtn btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scLetterReplyItem?replyId={0}">查看</button>')
+                'data-url="${ctx}/sc/scLetterReplyItems?replyId={0}">查看</button>')
                         .format( rowObject.id);
             }},
             {label: '备注', name: 'remark', width: 320}

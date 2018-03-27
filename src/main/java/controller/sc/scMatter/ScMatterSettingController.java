@@ -1,26 +1,9 @@
 package controller.sc.scMatter;
 
-import domain.base.MetaClass;
-import domain.base.MetaType;
-import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
-import sys.utils.FormUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/sc")
@@ -28,7 +11,7 @@ public class ScMatterSettingController extends ScMatterBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private static Set<String> codeSet = new LinkedHashSet<>(Arrays.asList("mc_sc_matter_check_ow_handle_type"
+    /*private static Set<String> codeSet = new LinkedHashSet<>(Arrays.asList("mc_sc_matter_check_ow_handle_type"
     , "mc_sc_matter_check_handle_type", "mc_sc_matter_check_result_type"));
 
     @RequiresPermissions("scMatterSetting:list")
@@ -98,5 +81,5 @@ public class ScMatterSettingController extends ScMatterBaseController {
         metaTypeService.changeOrder(id, addNum);
         logger.info(addLog(SystemConstants.LOG_SC_MATTER, "个人有关事项参数设置-调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 }

@@ -30,7 +30,11 @@
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
-                        _reload()
+
+                        $.get("${ctx}/metaClass_type_list_item",{code:"${param.cls}"},function(html){
+                            $("#modal").modal('hide');
+                            $('div[data-cls="${param.cls}"]').replaceWith(html);
+                        });
                     }
                 }
             });

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row dispatch_au">
+<div class="row dispatch_au" style="width: 1510px">
     <div class="preview">
         <div class="widget-box">
             <div class="widget-header">
@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <div class="au">
+    <div class="au" style="width: 700px;">
         <div id="dispatch-cadres-view">
             <div class="widget-box">
                 <div class="widget-header">
@@ -56,10 +56,10 @@
                                 <input type="hidden" name="fileName" value="${scLetterReply.fileName}">
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">类型</label>
+                                    <label class="col-xs-4 control-label">类型</label>
 
                                     <div class="col-xs-6">
-                                        <select data-rel="select2" name="type" data-placeholder="请选择" data-width="240">
+                                        <select required data-rel="select2" name="type" data-placeholder="请选择" data-width="240">
                                             <option></option>
                                             <c:import url="/metaTypes?__code=mc_sc_letter_reply_type"/>
                                         </select>
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">回复文件编号</label>
+                                    <label class="col-xs-4 control-label">回复文件编号</label>
 
                                     <div class="col-xs-6">
                                         <input class="form-control digits" type="text" name="num"
@@ -78,7 +78,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">回复日期</label>
+                                    <label class="col-xs-4 control-label">回复日期</label>
 
                                     <div class="col-xs-6">
                                         <div class="input-group">
@@ -93,7 +93,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">回复情况</label>
+                                    <label class="col-xs-4 control-label">回复情况：</label>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-12">
@@ -105,7 +105,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-3 control-label">备注</label>
+                                    <label class="col-xs-4 control-label">备注</label>
 
                                     <div class="col-xs-6">
                                         <textarea class="form-control limited"
@@ -127,12 +127,13 @@
     </div>
 </div>
 <script type="text/template" id="itemListTpl">
-    <table class="table table-striped table-bordered table-condensed table-unhover2">
+    <table class="table table-striped table-bordered table-condensed table-unhover2 table-center">
         <thead>
         <tr>
-            <td width="100">姓名</td>
-            <td width="100">工号</td>
-            <td>回复情况</td>
+            <td width="120">函询对象姓名</td>
+            <td width="150">函询对象工作证号</td>
+            <td width="200">纪委回复情况</td>
+            <td></td>
         </tr>
         </thead>
         <tbody>
@@ -143,13 +144,23 @@
             <td>
                  <textarea class="form-control limited">{{=u.content}}</textarea>
             </td>
+            <td style="text-align: left">
+                <select data-rel="select2" class="content" data-placeholder="请选择" data-width="240">
+                    <option></option>
+                    <c:import url="/metaTypes?__code=mc_sc_letter_reply_content"/>
+                </select>
+            </td>
         </tr>
         {{});}}
         </tbody>
     </table>
 </script>
 <script>
-
+    $(document).on('change', 'select.content', function(){
+        var content = $(this).find("option:selected").text();
+        //alert(content)
+        $(this).closest("tr").find("textarea").val(content);
+    })
     var selectedItems = ${cm:toJSONArrayWithFilter(itemList, "userId,code,realname,content")};
     $("#itemList").append(_.template($("#itemListTpl").html())({users: selectedItems}));
 

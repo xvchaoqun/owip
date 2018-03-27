@@ -7,6 +7,13 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="letter_id" jdbcType="INTEGER" property="letterId" />
+    <result column="reply_type" jdbcType="INTEGER" property="replyType" />
+    <result column="reply_date" jdbcType="DATE" property="replyDate" />
+    <result column="reply_num" jdbcType="INTEGER" property="replyNum" />
+    <result column="letter_year" jdbcType="INTEGER" property="letterYear" />
+    <result column="letter_num" jdbcType="INTEGER" property="letterNum" />
+    <result column="letter_query_date" jdbcType="DATE" property="letterQueryDate" />
+    <result column="letter_type" jdbcType="INTEGER" property="letterType" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="code" jdbcType="VARCHAR" property="code" />
   </resultMap>
@@ -40,7 +47,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, reply_id, user_id, content, letter_id, realname, code
+    id, reply_id, user_id, content, letter_id, reply_type, reply_date, reply_num, letter_year, 
+    letter_num, letter_query_date, letter_type, realname, code
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scLetter.ScLetterReplyItemViewExample" resultMap="BaseResultMap">
     select
