@@ -115,7 +115,7 @@
         colModel: [
             {label: '年份', name: 'year', width: 80},
             {
-                label: '函询编号', name: 'num', width: 120, formatter: function (cellvalue, options, rowObject) {
+                label: '函询编号', name: 'num', width: 180, formatter: function (cellvalue, options, rowObject) {
                 var _num = _cMap.metaTypeMap[rowObject.type].name+"[{0}]{1}号".format(rowObject.year, rowObject.num)
                 return $.swfPreview(rowObject.checkFile, rowObject.checkFileName, _num, _num);
             }, frozen: true

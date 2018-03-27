@@ -108,7 +108,7 @@
         colModel: [
             {label: '年份', name: 'letterYear', width: 80},
             {
-                label: '函询编号', name: 'letterNum', width: 120, formatter: function (cellvalue, options, rowObject) {
+                label: '函询编号', name: 'letterNum', width: 180, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.metaTypeMap[rowObject.letterType].name+"[{0}]{1}号".format(rowObject.letterYear, rowObject.letterNum)
             }, frozen: true
             },
