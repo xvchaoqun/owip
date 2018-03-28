@@ -310,33 +310,6 @@ $.ajaxSetup({
     }
 });
 
-function msg_prompt(elem, event) {
-    //  alert(0)
-    var settings = {
-        animation: 'pop',
-        title: '温馨提示',
-        content: '<div class="alert alert-success">' + $(elem).data("prompt") + '</div>'
-    };
-    $(elem).webuiPopover(settings).webuiPopover('show');
-    //$(elem).qtip({content:$(elem).data("msg"),show: true});
-    event.stopPropagation();
-}
-/********************************/
-//add tooltip for small view action buttons in dropdown menu
-//tooltip placement on right or left
-function tooltip_placement(context, source) {
-    var $source = $(source);
-    var $parent = $source.closest('table');
-    var off1 = $parent.offset();
-    var w1 = $parent.width();
-
-    var off2 = $source.offset();
-    //var w2 = $source.width();
-
-    if (parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2)) return 'right';
-    return 'left';
-}
-
 //select/deselect all rows according to table header checkbox
 var active_class = 'active';
 $(document).on('click', '.table > thead > tr > th input[type=checkbox]', function () {
@@ -370,14 +343,150 @@ function page_reload(fn) {
         if (typeof fn == 'function') fn();
     });
 }
+
 // 添加/编辑
 $(document).on("click", ".myTableDiv .editBtn", function () {
 
     var id = $(this).data("id");
     var $div = $(this).closest("div.myTableDiv");
     var url = $div.data("url-au");
-    if ((id > 0))url = url.split("?")[0] + "?id=" + id;
+    if(id>0) url += (url.indexOf("?") > 0 ? "&" : "?") + "id=" + id;
+
     $.loadModal(url, $(this).data("width"));
+});
+
+// 调序
+$(document).on("click", ".myTableDiv .changeOrderBtn", function () {
+
+    var $this = $(this);
+    var id = $this.data("id");
+    var direction = parseInt($this.data("direction"));
+    var step = $this.closest("td").find("input").val();
+    var addNum = (parseInt(step) || 1) * direction;
+    var $div = $this.closest(".myTableDiv");
+
+    var fn = $this.data("callback");
+    var url = $this.data("url") || $div.data("url-co");
+    //console.log($div.data("url-co"))
+    $.post(url, {id: id, addNum: addNum}, function (ret) {
+        if (ret.success) {
+
+            if (fn) {
+                window[fn]($this);
+            } else {
+                //SysMsg.success('操作成功。', '成功',function(){
+                if ($this.hasClass("pageReload")) {
+                    page_reload();
+                } else
+                    $("#jqGrid").trigger("reloadGrid");
+                //});
+            }
+        }
+    });
+});
+
+// 排序
+/*$(document).on("click", ".myTableDiv .table th.sortable", function () {
+
+    var $this = $(this);
+    //alert($this.hasClass("asc"))
+    var order = $this.hasClass("asc") ? "desc" : "asc";
+    var $div = $(this).closest(".myTableDiv");
+
+    $(".myTableDiv #searchForm input[name=sort]").val($this.data("field"));
+    $(".myTableDiv #searchForm input[name=order]").val(order);
+    //alert($("div.myTableDiv #searchForm").serialize())
+
+    var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
+    _tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("div.myTableDiv #searchForm").serialize());
+});*/
+// 导出
+$(document).on("click", ".myTableDiv .exportBtn", function () {
+
+    var $div = $(this).closest(".myTableDiv");
+    location.href = $div.data("url-page") + "?export=1&" + $("div.myTableDiv #searchForm").serialize();
+});
+
+// 删除
+$(document).on("click", ".myTableDiv .delBtn", function () {
+
+    var id = $(this).data("id");
+    var $div = $(this).closest("div.myTableDiv");
+    bootbox.confirm("确定删除该记录吗？", function (result) {
+        if (result) {
+            $.post($div.data("url-del"), {id: id}, function (ret) {
+                if (ret.success) {
+                    page_reload();
+                    //SysMsg.success('操作成功。', '成功');
+                }
+            });
+        }
+    });
+});
+// 批量删除
+$(document).on("click", ".myTableDiv .batchDelBtn", function () {
+
+    var $div = $(this).closest(".myTableDiv");
+    var ids = $.map($(".myTableDiv .table td :checkbox:checked"), function (item, index) {
+        return $(item).val();
+    });
+    if (ids.length == 0) {
+        SysMsg.warning("请选择行", "提示");
+        return;
+    }
+    bootbox.confirm("确定删除这" + ids.length + "条数据？", function (result) {
+        if (result) {
+            $.post($div.data("url-bd"), {ids: ids}, function (ret) {
+                if (ret.success) {
+                    page_reload();
+                    //SysMsg.success('操作成功。', '成功');
+                }
+            });
+        }
+    });
+});
+
+// hashchange
+$(document).on("click", ".hashchange", function () {
+
+    var _this = $(this);
+    $.hashchange(_this.data("querystr"), _this.data("url"))
+});
+
+// load page
+$(document).on("click", ".loadPage", function () {
+
+    var _this = $(this);
+
+    var queryString = _this.data("querystr");
+    var url = _this.data("url") + (queryString ? ("?" + queryString) : "");
+    var loadEl = _this.data("load-el") || "#page-content";
+    var maskEl = _this.data("mask-el") || loadEl || "#page-content";
+    var fn = _this.data("callback");
+    //console.log("maskEl="+maskEl)
+    $.loadPage({
+        url: url, loadEl: loadEl, maskEl: maskEl, callback: function () {
+            $("#modal").modal('hide');
+            clearJqgridSelected();
+            if (fn) {
+                // console.log(_this)
+                window[fn](_this);
+            }
+        }
+    })
+});
+// 显示内页
+$(document).on("click", ".openView", function () {
+    var $this = $(this);
+    $this.attr("disabled", "disabled");
+    $.loadView($this.data("url"), function () {
+        $this.removeAttr("disabled");
+    });
+});
+// 隐藏内页
+$(document).on("click", ".hideView", function () {
+
+    $.hideView($(this).data("url"))
 });
 
 // 打开弹出框modal
@@ -386,8 +495,9 @@ $(document).on("click", ".popupBtn", function (e) {
     e.stopPropagation();
     $.loadModal($(this).data("url"), $(this).data("width"));
 });
-
+// 子窗口打开连接
 $(document).on("click", ".openUrl", function (e) {
+
     e.stopPropagation();
     e.preventDefault();
     var width = $(this).data("width") || 720;
@@ -395,8 +505,49 @@ $(document).on("click", ".openUrl", function (e) {
     openwindow($(this).data("url"), '', width, height)
 });
 
-// 编辑 for jqgrid
-$(document).on("click", ".myTableDiv .jqEditBtn", function () {
+$(document).on("click", ".confirm", function (e) {
+
+    e.stopPropagation();
+    $.confirm(this);
+});
+// 按钮打开连接
+$(document).on("click", ".linkBtn", function (e) {
+
+    e.stopPropagation();
+    var $this = $(this);
+    var url = $this.data("url");
+    var target = $this.data("target");
+    window.open(url, target || '_self', '');
+});
+// 打印地址
+$(document).on("click", ".pirntBtn", function (e) {
+
+    e.stopPropagation();
+    $.print($(this).data("url"));
+});
+
+// 重置
+$(document).on("click", " .resetBtn", function () {
+
+    var $this = $(this);
+    var querystr = $this.data("querystr");
+    var $div = $this.closest(".myTableDiv");
+    //var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
+    var $target = $($this.data("target") || $div.data("target") || "#page-content");
+    var url = $this.data("url") || $div.data("url-page");
+
+    $target.renderUrl({
+        url: url,
+        params: "&" + querystr
+    });
+});
+
+/**
+ * 编辑 for jqgrid
+ *
+ * 默认需要选择一条记录，弹出框显示
+  */
+$(document).on("click", ".jqEditBtn", function () {
 
     var _this = $(this);
     var openBy = _this.data("open-by");
@@ -413,16 +564,11 @@ $(document).on("click", ".myTableDiv .jqEditBtn", function () {
 
     if (needId) saveJqgridSelected("#jqGrid");
 
-    var url = _this.data("url");
-    if ($.trim(url) == '') {
-        var $div = _this.closest("div.myTableDiv");
-        url = $div.data("url-au");
-    }
+    var url = $(this).data("url") ||  _this.closest(".myTableDiv").data("url-au");
+    var queryString = $(this).data("querystr");
+    if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
+    if(id>0) url += (url.indexOf("?") > 0 ? "&" : "?") + idName + "=" + id;
 
-    if ((id > 0))url = url.split("?")[0] + "?" + idName + "=" + id;
-
-    var querystr = _this.data("querystr");
-    url += (querystr != undefined) ? (querystr) : "";
     if (openBy == 'page') {
         var $container = $("#body-content");
         $container.mask()
@@ -464,14 +610,10 @@ $(document).on("click", ".jqOpenViewBtn", function (e) {
     if (needId) saveJqgridSelected(gridId);
 
     var url = $(this).data("url");
-    var querystr = $(this).data("querystr");
-    if ((id > 0)) {
-        url = url.split("?")[0] + "?" + idName + "=" + id + ((querystr != undefined) ? (querystr) : "");
-    } else {
-        if (querystr != undefined)
-            url = url.split("?")[0] + "?" + querystr;
-    }
-    //url += (querystr&&querystr!='')?(querystr):"";
+    var queryString = $(this).data("querystr");
+    if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
+    if(id>0) url += (url.indexOf("?") > 0 ? "&" : "?") + idName + "=" + id;
+
     if (openBy == 'page') {
         var loadEl = $(this).data("load-el");
         var $maskEl = $(loadEl || "#body-content");
@@ -508,8 +650,9 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
     }
 
     var url = $(this).data("url");
-    var querystr = $(this).data("querystr");
-    url = url.split("?")[0] + "?" + idsName + "=" + ids + ((querystr != undefined) ? (querystr) : "");
+    var queryString = $(this).data("querystr");
+    if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
+    url += (url.indexOf("?") > 0 ? "&" : "?") + idsName + "=" + ids;
 
     if (openBy == 'page') {
         var $container = $("#body-content");
@@ -521,23 +664,6 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
     } else {
         $.loadModal(url, $(this).data("width"));
     }
-});
-
-$(document).on("click", ".confirm", function (e) {
-
-    e.stopPropagation();
-    $.confirm(this);
-});
-
-$(document).on("click", ".linkBtn", function (e) {
-
-    e.stopPropagation();
-
-    var _this = this;
-    var url = $(this).data("url");
-    var target = $(this).data("target");
-
-    window.open(url, target || '_self', '');
 });
 
 $(document).on("click", ".jqLinkItemBtn", function (e) {
@@ -558,8 +684,8 @@ $(document).on("click", ".jqLinkItemBtn", function (e) {
 
     var url = $(this).data("url");
     var queryString = $(this).data("querystr");
-    url = url.split("?")[0] + (queryString ? ("?" + queryString) : "");
-    url = url + (url.indexOf("?") > 0 ? "&" : "?") + idName + "=" + id;
+    if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
+    if(id>0) url += (url.indexOf("?") > 0 ? "&" : "?") + idName + "=" + id;
 
     var target = $(this).data("target");
     window.open(url, target || '_self', '');
@@ -582,87 +708,13 @@ $(document).on("click", ".jqLinkBtn", function (e) {
 
     var url = $(this).data("url");
     var queryString = $(this).data("querystr");
-    url = url.split("?")[0] + (queryString ? ("?" + queryString) : "");
-    url = url + (url.indexOf("?") > 0 ? "&" : "?") + idsName + "=" + ids;
+    if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
+    url += (url.indexOf("?") > 0 ? "&" : "?") + idsName + "=" + ids;
 
     var target = $(this).data("target");
     window.open(url, target || '_self', '');
 });
 
-$(document).on("click", ".pirntBtn", function (e) {
-
-    e.stopPropagation();
-
-    $.print($(this).data("url"));
-});
-
-// 删除
-$(document).on("click", ".myTableDiv .delBtn", function () {
-
-    var id = $(this).data("id");
-    var $div = $(this).closest("div.myTableDiv");
-    bootbox.confirm("确定删除该记录吗？", function (result) {
-        if (result) {
-            $.post($div.data("url-del"), {id: id}, function (ret) {
-                if (ret.success) {
-                    page_reload();
-                    //SysMsg.success('操作成功。', '成功');
-                }
-            });
-        }
-    });
-});
-// 删除
-$(document).on("click", ".myTableDiv .jqItemDelBtn", function () {
-
-    var grid = $("#jqGrid");
-    var id = grid.getGridParam("selrow");
-    if (!id) {
-        SysMsg.warning("请选择行", "提示");
-        return;
-    }
-
-    var $div = $(this).closest("div.myTableDiv");
-    bootbox.confirm("确定删除该记录吗？", function (result) {
-        if (result) {
-            $.post($div.data("url-del"), {id: id}, function (ret) {
-                if (ret.success) {
-                    page_reload();
-                    //SysMsg.success('操作成功。', '成功');
-                }
-            });
-        }
-    });
-});
-// 调序
-$(document).on("click", ".myTableDiv .changeOrderBtn", function () {
-
-    var $this = $(this);
-    var id = $this.data("id");
-    var direction = parseInt($this.data("direction"));
-    var step = $this.closest("td").find("input").val();
-    var addNum = (parseInt(step) || 1) * direction;
-    var $div = $this.closest(".myTableDiv");
-
-    var fn = $this.data("callback");
-    var url = $this.data("url") || $div.data("url-co");
-    //console.log($div.data("url-co"))
-    $.post(url, {id: id, addNum: addNum}, function (ret) {
-        if (ret.success) {
-
-            if (fn) {
-                window[fn]($this);
-            } else {
-                //SysMsg.success('操作成功。', '成功',function(){
-                if ($this.hasClass("pageReload")) {
-                    page_reload();
-                } else
-                    $("#jqGrid").trigger("reloadGrid");
-                //});
-            }
-        }
-    });
-});
 // 调序 for jqgird
 $(document).on("click", ".jqOrderBtn", function () {
 
@@ -678,14 +730,122 @@ $(document).on("click", ".jqOrderBtn", function () {
     var step = $(this).closest("td").find("input").val();
     var addNum = (parseInt(step) || 1) * direction;
 
-    var $div = $(this).closest(".myTableDiv");
-    var url = $(this).data("url") || $div.data("url-co");
+    var url = $(this).data("url") || $(this).closest(".myTableDiv").data("url-co");
     //console.log($div.data("url-co"))
     $.post(url, {id: id, addNum: addNum}, function (ret) {
         if (ret.success) {
             grid.trigger("reloadGrid");
             //SysMsg.success('操作成功。', '成功');
         }
+    });
+});
+
+// 搜索 for jqgrid
+$(document).on("click", " .jqSearchBtn", function () {
+
+    var $this = $(this);
+    var $div = $this.closest(".myTableDiv");
+    var url = $this.data("url") || $div.data("url-page");
+    //var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
+    var $target = $($this.data("target") || $div.data("target") || "#page-content");
+    var $form = $($this.data("form") || "div.myTableDiv #searchForm");
+
+    $target.renderUrl({
+        url: url,
+        params: $form.serialize()
+    });
+});
+
+// 导出 for jqgrid
+$(document).on("click", ".jqExportBtn", function () {
+
+    var _this = $(this);
+    var gridId = _this.data("grid-id") || "#jqGrid";
+    var grid = $(gridId);
+    var ids = grid.getGridParam("selarrrow");
+
+    var url = _this.data("url") || $(this).closest(".myTableDiv").data("url-export");
+    var queryString = _this.data("querystr");
+    if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
+
+    var searchFormId = _this.data("search-form-id") || "div.myTableDiv #searchForm";
+    location.href = url + (url.indexOf("?") > 0 ? "&" : "?") + "export=1&ids[]=" + ids + "&" + $(searchFormId).serialize();
+});
+
+// 批量操作 for jqgrid
+$(document).on("click", ".jqBatchBtn", function (e) {
+
+    e.stopPropagation();
+    var _this = $(this);
+    var url = _this.data("url");
+    var queryString = _this.data("querystr");
+    if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
+
+    var title = _this.data("title");
+    var msg = _this.data("msg");
+    var gridId = _this.data("grid-id") || "#jqGrid";
+    var grid = $(gridId);
+    var ids = grid.getGridParam("selarrrow");
+    var callback = $.trim(_this.data("callback"));
+
+    if (ids.length == 0) {
+        SysMsg.warning("请选择行", "提示");
+        return;
+    }
+    clearJqgridSelected();
+
+    //title = '<h3 class="label label-success" style="font-size: 20px; height: 30px;">{0}</h3>'.format(title);
+    //msg = '<p style="padding:10px;font-size:20px;text-indent: 2em; ">' + msg + '</p>';
+    SysMsg.confirm(msg.format(ids.length), title, function () {
+        $.post(url, {ids: ids}, function (ret) {
+            if (ret.success) {
+                if (callback) {
+                    // console.log(_this)
+                    window[callback](_this);
+                } else {
+                    grid.trigger("reloadGrid");
+                }
+            }
+        });
+    });
+});
+
+// 操作for jqgrid
+$(document).on("click", ".jqItemBtn", function () {
+
+    var _this = $(this);
+    var gridId = _this.data("grid-id") || "#jqGrid";
+    var grid = $(gridId);
+    var id = grid.getGridParam("selrow");
+    var ids = grid.getGridParam("selarrrow");
+    if (!id || ids.length > 1) {
+        SysMsg.warning("请选择一行", "提示");
+        return;
+    }
+    var callback = $.trim(_this.data("callback"));
+    var idName = $(this).data("id-name") || 'id';
+    var url = $(this).data("url");
+    var queryString = $(this).data("querystr");
+    if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
+    if(id>0) url += (url.indexOf("?") > 0 ? "&" : "?") + idName + "=" + id;
+
+    var title = $(this).data("title");
+    var msg = $(this).data("msg");
+    var grid = $("#jqGrid");
+
+    SysMsg.confirm(msg, title, function () {
+
+        $.post(url, function (ret) {
+            if (ret.success) {
+                if (callback) {
+                    // console.log(_this)
+                    window[callback](_this);
+                } else {
+                    //grid.trigger("reloadGrid");
+                    $(window).resize(); // 解决jqgrid显示的问题
+                }
+            }
+        });
     });
 });
 
@@ -793,228 +953,6 @@ $(window).bind("hashchange", function () {
 
 });
 
-// hashchange
-$(document).on("click", ".hashchange", function () {
-
-    var _this = $(this);
-    $.hashchange(_this.data("querystr"), _this.data("url"))
-});
-
-// load page
-$(document).on("click", ".loadPage", function () {
-
-    var _this = $(this);
-
-    var queryString = _this.data("querystr");
-    var url = _this.data("url") + (queryString ? ("?" + queryString) : "");
-    var loadEl = _this.data("load-el") || "#page-content";
-    var maskEl = _this.data("mask-el") || loadEl || "#page-content";
-    var fn = _this.data("callback");
-    //console.log("maskEl="+maskEl)
-    $.loadPage({
-        url: url, loadEl: loadEl, maskEl: maskEl, callback: function () {
-            $("#modal").modal('hide');
-            clearJqgridSelected();
-            if (fn) {
-                // console.log(_this)
-                window[fn](_this);
-            }
-        }
-    })
-});
-
-// 搜索 for jqgrid
-$(document).on("click", " .jqSearchBtn", function () {
-
-    var $this = $(this);
-    var $div = $this.closest(".myTableDiv");
-    var url = $this.data("url") || $div.data("url-page");
-    //var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
-    var $target = $($this.data("target") || $div.data("target") || "#page-content");
-    var $form = $($this.data("form") || "div.myTableDiv #searchForm");
-
-    $target.renderUrl({
-        url: url,
-        params: $form.serialize()
-    });
-});
-
-// 重置
-$(document).on("click", " .resetBtn", function () {
-
-    var $this = $(this);
-    var querystr = $this.data("querystr");
-    var $div = $this.closest(".myTableDiv");
-    //var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
-    var $target = $($this.data("target") || $div.data("target") || "#page-content");
-    var url = $this.data("url") || $div.data("url-page");
-
-    $target.renderUrl({
-        url: url,
-        params: "&" + querystr
-    });
-});
-// 排序
-$(document).on("click", ".myTableDiv .table th.sortable", function () {
-
-    var $this = $(this);
-    //alert($this.hasClass("asc"))
-    var order = $this.hasClass("asc") ? "desc" : "asc";
-    var $div = $(this).closest(".myTableDiv");
-
-    $(".myTableDiv #searchForm input[name=sort]").val($this.data("field"));
-    $(".myTableDiv #searchForm input[name=order]").val(order);
-    //alert($("div.myTableDiv #searchForm").serialize())
-
-    var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
-    _tunePage(1, "", $div.data("url-page"), $target, "", "&" + $("div.myTableDiv #searchForm").serialize());
-});
-// 导出
-$(document).on("click", ".myTableDiv .exportBtn", function () {
-
-    var $div = $(this).closest(".myTableDiv");
-    location.href = $div.data("url-page") + "?export=1&" + $("div.myTableDiv #searchForm").serialize();
-});
-// 导出 for jqgrid
-$(document).on("click", ".jqExportBtn", function () {
-
-    var _this = $(this);
-    var gridId = _this.data("grid-id") || "#jqGrid";
-    var grid = $(gridId);
-    var ids = grid.getGridParam("selarrrow");
-
-    var url = _this.data("url");
-    if ($.trim(url) == '') {
-        var $div = $(this).closest(".myTableDiv");
-        url = $div.data("url-export");
-    }
-    var queryString = _this.data("querystr");
-    url = url + (queryString ? ("?" + queryString) : "");
-
-    var searchFormId = _this.data("search-form-id") || "div.myTableDiv #searchForm";
-
-    location.href = url + (url.indexOf("?") > 0 ? "&" : "?") + "export=1&ids[]=" + ids + "&" + $(searchFormId).serialize();
-});
-
-// 批量操作 for jqgrid
-$(document).on("click", ".jqBatchBtn", function (e) {
-
-    e.stopPropagation();
-    var _this = $(this);
-    var queryString = _this.data("querystr");
-    var url = _this.data("url") + (queryString ? ("?" + queryString) : "");
-
-    var title = _this.data("title");
-    var msg = _this.data("msg");
-    var gridId = _this.data("grid-id") || "#jqGrid";
-    var grid = $(gridId);
-    var ids = grid.getGridParam("selarrrow");
-    var callback = $.trim(_this.data("callback"));
-
-    if (ids.length == 0) {
-        SysMsg.warning("请选择行", "提示");
-        return;
-    }
-    clearJqgridSelected();
-
-    //title = '<h3 class="label label-success" style="font-size: 20px; height: 30px;">{0}</h3>'.format(title);
-    //msg = '<p style="padding:10px;font-size:20px;text-indent: 2em; ">' + msg + '</p>';
-    SysMsg.confirm(msg.format(ids.length), title, function () {
-        $.post(url, {ids: ids}, function (ret) {
-            if (ret.success) {
-                if (callback) {
-                    // console.log(_this)
-                    window[callback](_this);
-                } else {
-                    grid.trigger("reloadGrid");
-                }
-            }
-        });
-    });
-});
-
-// 操作for jqgrid
-$(document).on("click", ".jqItemBtn", function () {
-
-    var _this = $(this);
-    var gridId = _this.data("grid-id") || "#jqGrid";
-    var grid = $(gridId);
-    var id = grid.getGridParam("selrow");
-    var ids = grid.getGridParam("selarrrow");
-    if (!id || ids.length > 1) {
-        SysMsg.warning("请选择一行", "提示");
-        return;
-    }
-    var callback = $.trim(_this.data("callback"));
-    var queryString = $(this).data("querystr");
-    var idName = $(this).data("id-name") || 'id';
-    var url = $(this).data("url").split("?")[0] + "?" + idName + "=" + id + (queryString ? ("&" + queryString) : "");
-
-    var title = $(this).data("title");
-    var msg = $(this).data("msg");
-    var grid = $("#jqGrid");
-
-    SysMsg.confirm(msg, title, function () {
-
-        $.post(url, function (ret) {
-            if (ret.success) {
-                if (callback) {
-                    // console.log(_this)
-                    window[callback](_this);
-                } else {
-                    //grid.trigger("reloadGrid");
-                    $(window).resize(); // 解决jqgrid显示的问题
-                }
-            }
-        });
-    });
-});
-
-// 批量删除
-$(document).on("click", ".myTableDiv .batchDelBtn", function () {
-
-    var $div = $(this).closest(".myTableDiv");
-    var ids = $.map($(".myTableDiv .table td :checkbox:checked"), function (item, index) {
-        return $(item).val();
-    });
-    if (ids.length == 0) {
-        SysMsg.warning("请选择行", "提示");
-        return;
-    }
-    bootbox.confirm("确定删除这" + ids.length + "条数据？", function (result) {
-        if (result) {
-            $.post($div.data("url-bd"), {ids: ids}, function (ret) {
-                if (ret.success) {
-                    page_reload();
-                    //SysMsg.success('操作成功。', '成功');
-                }
-            });
-        }
-    });
-});
-
-// 批量删除 for jqgrid
-$(document).on("click", ".myTableDiv .jqDelBtn", function () {
-
-    var $div = $(this).closest(".myTableDiv");
-    var grid = $("#jqGrid");
-    var ids = grid.getGridParam("selarrrow");
-
-    if (ids.length == 0) {
-        SysMsg.warning("请选择行", "提示");
-        return;
-    }
-    bootbox.confirm("确定删除这<span  class='label label-lg label-danger arrowed-in arrowed-in-right'>" + ids.length + "条</span>数据？", function (result) {
-        if (result) {
-            $.post($div.data("url-bd"), {ids: ids}, function (ret) {
-                if (ret.success) {
-                    grid.trigger("reloadGrid");
-                    //SysMsg.success('操作成功。', '成功');
-                }
-            });
-        }
-    });
-});
 // 弹出框提交表单
 $(document).on("click", "#modal input[type=submit]", function () {
     $("#modal form").submit();
@@ -1101,21 +1039,6 @@ $(document).on("click", "#view-box .widget-toolbar .nav-tabs li a", function () 
     } else {
         SysMsg.warning("暂缓开通该功能");
     }
-});
-
-
-// 内页展示
-$(document).on("click", ".openView", function () {
-    var $this = $(this);
-    $this.attr("disabled", "disabled");
-    $.loadView($this.data("url"), function () {
-        $this.removeAttr("disabled");
-    });
-});
-
-$(document).on("click", ".hideView", function () {
-
-    $.hideView($(this).data("url"))
 });
 
 // 分党委、党支部select2联动

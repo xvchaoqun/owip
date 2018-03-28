@@ -121,11 +121,6 @@
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
-<script type="text/template" id="sort_tpl">
-<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
@@ -137,9 +132,7 @@
                         .format(rowObject.id, cellvalue);
             },frozen:true },
             <c:if test="${!_query}">
-            { label:'排序',align:'center',index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
-            },frozen:true },
+            { label:'排序',align:'center', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             { label: '单位类型', name: 'unitType.name', width: 250,frozen:true  },
             { label: '成立时间', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},

@@ -17,7 +17,7 @@
                             <a class="popupBtn btn btn-warning btn-sm"
                                data-url="${ctx}/pcsAdmin_msg?type=2&stage=${param.stage}"><i class="fa fa-send"></i> 短信催促未报送单位</a>
                             <a class="jqOpenViewBatchBtn btn btn-success btn-sm"
-                               data-querystr="&stage=${PCS_STAGE_THIRD}"
+                               data-querystr="stage=${PCS_STAGE_THIRD}"
                                data-ids-name="partyIds[]"
                                data-url="${ctx}/pcsPrOw_check"><i class="fa fa-check-square"></i> 批量审批</a>
 

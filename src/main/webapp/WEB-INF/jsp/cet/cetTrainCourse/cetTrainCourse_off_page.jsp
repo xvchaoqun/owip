@@ -31,7 +31,7 @@
                     <a class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                        data-url="${ctx}/cet/cetTrainCourse_evaTable"
                        data-grid-id="#jqGrid2"
-                       data-querystr="&trainId=${cetTrain.id}"><i class="fa fa-table"></i>
+                       data-querystr="trainId=${cetTrain.id}"><i class="fa fa-table"></i>
                         设置评估表</a>
 
                 </shiro:hasPermission>
@@ -67,12 +67,6 @@
     </div>
     <!-- /.widget-body -->
 </div>
-<script type="text/template" id="sort_tpl">
-<a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid2" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
-       title="修改操作步长">
-<a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid2" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <!-- /.widget-box -->
 <script>
     register_date($('.date-picker'));
@@ -99,9 +93,8 @@
                 return cellvalue.substr(0,16);
             }},
             {
-                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id, url:"${ctx}/cet/cetTrainCourse_changeOrder"})
-            }, frozen: true
+                label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url: "${ctx}/cet/cetTrainCourse_changeOrder"}, frozen: true
             },
             {label: '评估表', name: 'trainEvaTable', width: 200, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'

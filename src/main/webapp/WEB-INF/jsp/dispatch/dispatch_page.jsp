@@ -7,8 +7,6 @@
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-page="${ctx}/dispatch"
-                 data-url-del="${ctx}/dispatch_del"
-                 data-url-bd="${ctx}/dispatch_batchDel"
                  data-url-export="${ctx}/dispatch_data"
                  data-url-co="${ctx}/dispatch_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -47,7 +45,9 @@
                                    data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i
                                         class="fa fa-download"></i> 导出</a>
                                 <shiro:hasPermission name="dispatch:del">
-                                    <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                                    <a class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/dispatch_batchDel" data-title="删除"
+                                       data-msg="确定删除这{0}个任免文件吗？"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
 
                             </div>
@@ -164,12 +164,6 @@
         <i class="fa fa-check"></i> 确定</a>&nbsp;
     <a class="btn btn-default btn-sm" onclick="hideDel()"><i class="fa fa-trash"></i> 取消</a>
 </script>
-<%--<script type="text/template" id="sort_tpl">
-<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>--%>
-
 <script>
 
     function hideDel() {
@@ -203,11 +197,6 @@
                 return $.swfPreview(rowObject.file, rowObject.fileName, cellvalue, cellvalue);
             }, frozen: true
             },
-            /*  <c:if test="${!_query}">
-             { label:'排序', index:'sort', formatter:function(cellvalue, options, rowObject){
-             return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
-             },frozen:true },
-            </c:if>*/
             {label: '党委常委会日期', name: 'meetingTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '发文日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '任免日期', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},

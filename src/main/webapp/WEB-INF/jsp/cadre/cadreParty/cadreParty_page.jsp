@@ -7,7 +7,6 @@
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-page="${ctx}/cadreParty"
-                 data-url-bd="${ctx}/cadreParty_batchDel"
                  data-url-export="${ctx}/cadreParty_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.typeId||not empty param.classId
@@ -26,7 +25,9 @@
                                     <i class="fa fa-edit"></i> 修改信息
                                 </button>
                                 <shiro:hasPermission name="cadreParty:del">
-                                    <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                                    <a class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/cadreParty_batchDel" data-title="删除"
+                                       data-msg="确定删除这{0}条数据吗？"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
                             </div>
                             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

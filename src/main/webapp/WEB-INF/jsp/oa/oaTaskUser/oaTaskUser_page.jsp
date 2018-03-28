@@ -24,7 +24,7 @@
                        data-url="${ctx}/oa/oaTaskUser_unreportMsg?taskId=${oaTask.id}"><i class="fa fa-send"></i>
                         短信催促未报送对象</a>
                     <a class="jqOpenViewBatchBtn btn btn-primary btn-sm"
-                       data-querystr="&taskId=${oaTask.id}"
+                       data-querystr="taskId=${oaTask.id}"
                        data-ids-name="taskUserIds[]"
                        data-grid-id="#jqGrid2"
                        data-url="${ctx}/oa/oaTaskUser_check"><i class="fa fa-check-square-o"></i> 批量审批</a>

@@ -48,7 +48,7 @@ pageEncoding="UTF-8" %>
                     </button>
                     <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
                             data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"
-                            data-querystr="&auth=1"
+                            data-querystr="auth=1"
                             data-grid-id="#jqGrid">
                         <i class="fa fa-edit"></i> 修改缴费方式
                     </button>

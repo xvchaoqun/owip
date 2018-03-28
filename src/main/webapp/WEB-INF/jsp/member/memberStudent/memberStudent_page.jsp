@@ -9,7 +9,6 @@
         <div id="body-content" class="myTableDiv"
                  data-url-au="${ctx}/member_au"
                  data-url-page="${ctx}/memberStudent"
-                 data-url-bd="${ctx}/member_batchDel"
                  data-url-export="${ctx}/memberStudent_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.userId ||not empty param.unitId
@@ -50,9 +49,9 @@
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>
                             <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN}">
-                            <a class="jqDelBtn btn btn-danger btn-sm">
-                                <i class="fa fa-trash"></i> 删除
-                            </a>
+                                <a class="jqBatchBtn btn btn-danger btn-sm"
+                                   data-url="${ctx}/member_batchDel" data-title="删除"
+                                   data-msg="确定删除这{0}条数据吗？"><i class="fa fa-trash"></i> 删除</a>
                             </shiro:hasAnyRoles>
                             </div>
                         <div class="jqgrid-vertical-offset widget-box collapsed<%--${_query?'':'collapsed'}--%> hidden-sm hidden-xs">

@@ -78,7 +78,7 @@
                                     </c:if>
                                     <c:if test="${cls==2}">
                                         <button class="jqEditBtn btn btn-primary btn-sm"
-                                                data-querystr="&reapply=1"
+                                                data-querystr="reapply=1"
                                                 data-open-by="page">
                                             <i class="fa fa-edit"></i> 重新申请
                                         </button>
@@ -126,13 +126,13 @@
                                 <c:if test="${cls==3}">
                                 <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/report/printPreview"
-                                        data-querystr="&type=${JASPER_PRINT_TYPE_INSIDE}"
+                                        data-querystr="type=${JASPER_PRINT_TYPE_INSIDE}"
                                         data-open-by="page">
                                     <i class="fa fa-print"></i> 批量打印介绍信
                                 </button>
                                 <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                                         data-url="${ctx}/report/printPreview"
-                                        data-querystr="&type=${JASPER_PRINT_TYPE_OUTSIDE}"
+                                        data-querystr="type=${JASPER_PRINT_TYPE_OUTSIDE}"
                                         data-open-by="page">
                                     <i class="fa fa-print"></i> 批量介绍信套打
                                 </button>
@@ -495,7 +495,7 @@
     <c:if test="${cls==1||cls==4||cls==6||cls==7}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"批量打回申请",
-        btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
+        btnbase:"btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){
             var ids  = $(this).getGridParam("selarrrow");

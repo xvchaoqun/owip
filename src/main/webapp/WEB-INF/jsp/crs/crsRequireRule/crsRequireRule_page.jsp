@@ -77,12 +77,6 @@
             data-callback="_delCallback"><i class="fa fa-times"></i> 删除
     </button>
 </script>
-<script type="text/template" id="sort_tpl">
-    <a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid2" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
-           title="修改操作步长">
-<a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid2" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <script>
     register_date($('.date-picker'));
     $("#jqGrid2").jqGrid({
@@ -99,9 +93,8 @@
                 });
             }, width: 150},
             {
-                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id, url:"${ctx}/crsRequireRule_changeOrder"})
-            }, frozen: true
+                label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{grid:'#jqGrid2', url: "${ctx}/crsRequireRule_changeOrder"}, frozen: true
             },
             { label: '类别名称',name: 'name', width: 250},
             {label: '添加条例', name: '_items', width: 150, formatter: function (cellvalue, options, rowObject) {
@@ -184,9 +177,8 @@
                 }},
                 { label: '规格',name: 'val', width: 250},
                 {
-                    label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                    return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id, url:"${ctx}/crsRuleItem_changeOrder"})
-                }, frozen: true
+                    label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                    formatoptions:{grid:'#jqGrid2', url: "${ctx}/crsRuleItem_changeOrder"}, frozen: true
                 },
                 { label: '备注',name: 'remark'},
                 {

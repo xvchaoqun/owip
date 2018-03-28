@@ -116,7 +116,7 @@
                                 data-rel="tooltip" data-placement="top" title="提醒未缴纳党费的党员尽快缴纳党费。"
                                 data-url="${ctx}/pmd/pmdSendMsg_urgeMembers"
                                 data-grid-id="#jqGrid2"
-                                data-querystr="&partyId=${param.partyId}&branchId=${param.branchId}"
+                                data-querystr="partyId=${param.partyId}&branchId=${param.branchId}"
                                 data-need-id="false"><i class="fa fa-send"></i> 短信提醒
                         </button>
 

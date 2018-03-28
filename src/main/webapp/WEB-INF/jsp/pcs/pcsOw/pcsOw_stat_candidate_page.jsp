@@ -171,12 +171,6 @@
         text-align: left;
     }
 </style>
-<script type="text/template" id="sort_tpl">
-    <a href="javascript:;" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-    <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
-           title="修改操作步长">
-    <a href="javascript:;" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <script>
 
     $("#issueBtn").click(function () {
@@ -227,9 +221,8 @@
             <c:if test="${cls==4}">
            <shiro:hasPermission name="pcsOw:admin">
             {
-                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.chosenId, url:"${ctx}/pcsCandidateChosen_changeOrder"})
-            }, frozen: true
+                label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url: "${ctx}/pcsCandidateChosen_changeOrder"}, frozen: true
             },
             </shiro:hasPermission>
             </c:if>

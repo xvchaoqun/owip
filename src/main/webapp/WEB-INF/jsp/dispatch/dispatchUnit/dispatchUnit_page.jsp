@@ -8,8 +8,6 @@
             <div class="myTableDiv"
                  data-url-au="${ctx}/dispatchUnit_au"
                  data-url-page="${ctx}/dispatchUnit"
-                 data-url-del="${ctx}/dispatchUnit_del"
-                 data-url-bd="${ctx}/dispatchUnit_batchDel"
                  data-url-co="${ctx}/dispatchUnit_changeOrder"
                  data-url-export="${ctx}/dispatchUnit_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -23,7 +21,9 @@
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
                     <shiro:hasPermission name="dispatchUnit:del">
-                        <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                        <a class="jqBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/dispatchUnit_batchDel" data-title="删除"
+                           data-msg="确定删除这{0}条数据吗？"><i class="fa fa-trash"></i> 删除</a>
                     </shiro:hasPermission>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs" style="margin-right: 20px">

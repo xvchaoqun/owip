@@ -50,12 +50,6 @@
     <!-- /.widget-body -->
 </div>
 <!-- /.widget-box -->
-<script type="text/template" id="sort_tpl">
-<a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid2" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
-       title="修改操作步长">
-<a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid2" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
@@ -79,9 +73,8 @@
             }, frozen: true
             },
             {
-                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id, url:"${ctx}/partyMember_changeOrder"})
-            }, frozen: true
+                label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{grid:'#jqGrid2', url: "${ctx}/partyMember_changeOrder"}, frozen: true
             },
             {label: '管理员', name: 'isAdmin', width: 100,align:'left',formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)

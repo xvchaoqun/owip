@@ -179,17 +179,6 @@
         }
     </script>
 </c:if>
-
-<script type="text/template" id="sort_tpl">
-<a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid_cadreCourse"
-       data-url="${ctx}/cadreCourse_changeOrder?cadreId=${param.cadreId}" data-id="{{=id}}"
-       data-direction="-1" title="上升"><i class="fa fa-arrow-up"></i></a>
-<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
-           title="修改操作步长">
-<a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid_cadreCourse"
-       data-url="${ctx}/cadreCourse_changeOrder?cadreId=${param.cadreId}"
-       data-id="{{=id}}" data-direction="1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <script>
     <c:if test="${!canUpdate}">
     $("button.btn").prop("disabled", true);

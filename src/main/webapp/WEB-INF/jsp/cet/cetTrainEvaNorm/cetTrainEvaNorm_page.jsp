@@ -83,12 +83,6 @@
             data-callback="_delCallback"><i class="fa fa-times"></i> 删除
     </button>
 </script>
-<script type="text/template" id="sort_tpl">
-    <a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid2" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
-           title="修改操作步长">
-<a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid2" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <script>
     register_date($('.date-picker'));
     $("#jqGrid2").jqGrid({
@@ -105,9 +99,8 @@
                 });
             }, width: 130},
             {
-                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id, url:"${ctx}/cet/cetTrainEvaNorm_changeOrder"})
-            }, frozen: true
+                label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url: "${ctx}/cet/cetTrainEvaNorm_changeOrder"}, frozen: true
             },
             { label: '评估内容',name: 'name'},
             { label: '备注',name: 'remark', width: 280}
@@ -180,9 +173,8 @@
             colModel: [
                 { label: '指标名称',name: 'name', width: 180},
                 {
-                    label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                    return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id, url:"${ctx}/cet/cetTrainEvaNorm_changeOrder"})
-                }, frozen: true
+                    label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                    formatoptions:{url: "${ctx}/cet/cetTrainEvaNorm_changeOrder"}, frozen: true
                 },
                 { label: '备注',name: 'remark'},
                 {

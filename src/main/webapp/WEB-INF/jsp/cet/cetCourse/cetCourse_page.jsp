@@ -36,8 +36,7 @@
 
                             <button class="jqOpenViewBatchBtn btn btn-info btn-sm"
                                data-url="${ctx}/cet/cetCourse_addToTrain"
-                               data-grid-id="#jqGrid"
-                               data-querystr="&"><i class="fa fa-plus-circle"></i>
+                               data-grid-id="#jqGrid"><i class="fa fa-plus-circle"></i>
                                 添加到培训班</button>
                             <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">

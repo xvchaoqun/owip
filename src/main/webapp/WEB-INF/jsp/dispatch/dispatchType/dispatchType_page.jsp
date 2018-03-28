@@ -77,12 +77,6 @@
         </div><div id="item-content"></div>
     </div>
 </div>
-
-<script type="text/template" id="sort_tpl">
-<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
@@ -90,13 +84,8 @@
         colModel: [
             { label: '名称', name: 'name', width: 250,frozen:true },
             { label: '发文属性', name: 'attr', width: 150,frozen:true },
-            <%--<c:if test="${!_query}">
-            { label:'排序',align:'center', width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
-            },frozen:true },
-            </c:if>--%>
             { label: '所属年份', name: 'year', width: 100 },
-            { label: '添加时间',  name: 'createTime', width: 150 }
+            { label: '添加时间',  name: 'createTime', width: 180 }
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

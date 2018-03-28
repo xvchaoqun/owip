@@ -47,7 +47,7 @@
                                     </button>
                                 </c:if>
                                 <button data-url="${ctx}/dispatchWorkFile_transfer"
-                                        data-querystr="&type=${param.type}"
+                                        data-querystr="type=${param.type}"
                                         class="jqOpenViewBatchBtn btn btn-primary btn-sm">
                                     <i class="fa fa-random"></i> 批量转移
                                 </button>
@@ -137,11 +137,6 @@
         <div id="item-content"></div>
     </div>
 </div>
-<script type="text/template" id="sort_tpl">
-    <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-    <input type="text" value="1" style="height:20px;" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-    <a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
@@ -181,9 +176,7 @@
             {label: '发文日期', name: 'pubDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '年度', name: 'year', width: 75},
             {
-                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
-            }
+                label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder
             },
             {label: '所属专项工作', name: 'workType', width: 180, formatter: $.jgrid.formatter.MetaType},
             {label: '保密级别', name: 'privacyType', width: 120, formatter: $.jgrid.formatter.MetaType},

@@ -8,8 +8,6 @@
             <div class="myTableDiv"
                  data-url-au="${ctx}/cadreLeader_au"
                  data-url-page="${ctx}/cadreLeader"
-                 data-url-del="${ctx}/cadreLeader_del"
-                 data-url-bd="${ctx}/cadreLeader_batchDel"
                  data-url-co="${ctx}/cadreLeader_changeOrder"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
@@ -28,7 +26,9 @@
                         </button>
                     </shiro:hasPermission>
                     <shiro:hasPermission name="cadreLeader:del">
-                        <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                        <a class="jqBatchBtn btn btn-danger btn-sm"
+                           data-url="${ctx}/cadreLeader_batchDel" data-title="删除"
+                           data-msg="确定删除这{0}位校领导吗？"><i class="fa fa-trash"></i> 删除</a>
                     </shiro:hasPermission>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
@@ -90,11 +90,6 @@
         <div id="item-content"></div>
     </div>
 </div>
-<script type="text/template" id="sort_tpl">
-<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/cadreLeader_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -105,9 +100,7 @@
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 300,frozen:true  },
             <c:if test="${!_query}">
-            { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
-            },frozen:true },
+            { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             {
                 label: '行政级别', name: 'cadre.typeId', formatter: function (cellvalue, options, rowObject) {

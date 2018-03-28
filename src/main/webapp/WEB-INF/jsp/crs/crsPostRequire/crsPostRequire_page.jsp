@@ -66,12 +66,6 @@ pageEncoding="UTF-8" %>
         <div id="item-content"></div>
     </div>
 </div>
-<script type="text/template" id="sort_tpl">
-<a href="javascript:;" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
-           title="修改操作步长">
-<a href="javascript:;" class="jqOrderBtn" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/crsPostRequire_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -79,9 +73,8 @@ pageEncoding="UTF-8" %>
             { label: '模板名称',name: 'name', width: 300, align:'left', frozen: true},
 
             {
-                label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id, url:"${ctx}/crsPostRequire_changeOrder"})
-            }, frozen: true
+                label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url: "${ctx}/crsPostRequire_changeOrder"}, frozen: true
             },
             {label: '岗位要求', name: '_ruleNum', formatter: function (cellvalue, options, rowObject) {
 

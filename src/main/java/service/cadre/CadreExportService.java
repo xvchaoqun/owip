@@ -110,10 +110,11 @@ public class CadreExportService extends BaseMapper {
                 "联系方式|100", "党委委员|100", "纪委委员|120", "电子信箱|200", "所属党组织|500",
                 "备注|500"}));
 
-        int[] exportCloumns_1 = new int[]{1, 2, 3, 4, 6, 7, 8, 14,15,16, 17, 18,20,34, 41,51, 54};
+        int[] exportCloumns_1 = new int[]{1, 2, 3, 4, 6, 7, 8, 10, 14,15,16, 17, 18,20,34, 41,51, 54};
         if(exportType==1) {
             //新增一个角色，限制查看中层干部库权限，
-            // 字段为：工作证号，姓名，身份证号、出生时间、年龄、学历、专业技术职务、任现职时间、部门属性、所在单位、所在单位及职务、行政级别、职务属性、党派、党派加入时间、联系方式、电子邮箱。
+            // 字段为：工作证号，姓名，性别，身份证号、出生时间、年龄、学历、专业技术职务、任现职时间、
+            // 部门属性、所在单位、所在单位及职务、行政级别、职务属性、党派、党派加入时间、联系方式、电子邮箱。
             List<String> _titles = new ArrayList<>();
             for (int exportCloumn : exportCloumns_1) {
                 _titles.add(titles.get(exportCloumn - 1));

@@ -9,19 +9,18 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-        <div id="body-content" class="myTableDiv"
-                 data-url-page="&{ctx}/${_resFolder}${tableName}"
-                 data-url-export="&{ctx}/${_resFolder}${tableName}_data"
-                 data-querystr="&{cm:encodeQueryString(pageContext.request.queryString)}">
+        <div id="body-content" data-querystr="&{cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="&{<#list searchColumnBeans as column>not empty param.${tbn(column.name, "tableName")} ||</#list> not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="${tableName}:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="&{ctx}/${_resFolder}${tableName}_au"><i class="fa fa-plus"></i> 添加</a>
-                    <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                    <button class="popupBtn btn btn-info btn-sm"
+                            data-url="&{ctx}/${_resFolder}${tableName}_au">
+                        <i class="fa fa-plus"></i> 添加</button>
+                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="&{ctx}/${_resFolder}${tableName}_au"
                        data-grid-id="#jqGrid"
                        data-querystr="&"><i class="fa fa-edit"></i>
-                        修改</a>
+                        修改</button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="${tableName}:del">
                     <button data-url="&{ctx}/${_resFolder}${tableName}_batchDel"
@@ -32,9 +31,10 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                   data-url="&{ctx}/${_resFolder}${tableName}_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</a>
+                    <i class="fa fa-download"></i> 导出</button>
             </div>
             <div class="jqgrid-vertical-offset widget-box &{_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -58,7 +58,6 @@ pageEncoding="UTF-8" %>
                         </#list>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
-
                                 <c:if test="&{_query}">&nbsp;
                                     <button type="button" class="resetBtn btn btn-warning btn-sm">
                                         <i class="fa fa-reply"></i> 重置

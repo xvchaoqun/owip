@@ -377,7 +377,7 @@
     <c:if test="${cls==1}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"批量打回申请",
-        btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
+        btnbase:"btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){
             var ids  = $(this).getGridParam("selarrrow");
@@ -399,7 +399,7 @@
     <shiro:hasRole name="${ROLE_ODADMIN}">
     $("#jqGrid").navButtonAdd('#jqGridPager',{
         caption:"批量打回申请",
-        btnbase:"jqOpenViewBatchBtn btn btn-danger btn-xs",
+        btnbase:"btn btn-danger btn-xs",
         buttonicon:"fa fa-reply-all",
         onClickButton: function(){
             var ids  = $(this).getGridParam("selarrrow");

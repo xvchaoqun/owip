@@ -57,12 +57,6 @@ pageEncoding="UTF-8" %>
         <div id="item-content"></div>
     </div>
 </div>
-<script type="text/template" id="sort_tpl">
-    <a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid" data-url="{{=url}}" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-    <input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top"
-           title="修改操作步长">
-    <a href="javascript:;" class="jqOrderBtn" data-grid-id="#jqGrid" data-url="{{=url}}" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <script>
     $("#jqGrid").jqGrid({
         responsive:false,
@@ -74,10 +68,8 @@ pageEncoding="UTF-8" %>
             {label: '工作证号', name: 'user.code', width: 150},
             { label: '是否组长',name: 'isLeader', formatter: $.jgrid.formatter.TRUEFALSE},
             {
-                label: '排序', width: 90, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id,
-                    url:"${ctx}/sc/scGroupMember_changeOrder"})
-            }}
+                label: '排序', width: 90, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url: "${ctx}/sc/scGroupMember_changeOrder"}}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

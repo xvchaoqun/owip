@@ -213,11 +213,6 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
-<script type="text/template" id="sort_tpl">
-<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
-<input type="text" value="1" class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-<a href="javascript:;" class="jqOrderBtn" data-id="{{=id}}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>
-</script>
 <script>
 
     $("#jqGrid").jqGrid({
@@ -229,9 +224,7 @@ pageEncoding="UTF-8" %>
                         .format(rowObject.id, cellvalue);
             },frozen:true },
             <c:if test="${status==1 && !_query}">
-            { label:'排序',width: 100, index:'sort', formatter:function(cellvalue, options, rowObject){
-                return _.template($("#sort_tpl").html().NoMultiSpace())({id:rowObject.id})
-            },frozen:true },
+            { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             { label:'支部数量', name: 'branchCount', width: 70, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;

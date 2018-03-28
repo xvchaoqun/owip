@@ -13,9 +13,7 @@
         },
         <shiro:hasPermission name="cadre:changeOrder">
         {
-            label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-            return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
-        }, frozen: true
+            label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder, frozen: true
         },
         </shiro:hasPermission>
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
@@ -238,6 +236,10 @@
     colModels.cadre2 = [
         {label: '工作证号', name: 'code', width: 100, frozen: true},
         {label: '姓名', name: 'realname', width: 120, frozen: true},
+        {label: '部门属性', name: 'unit.unitType.name', width: 150},
+        {label: '所在单位', name: 'unit.name', width: 200},
+        {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
+        {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         {label: '身份证号', name: 'idcard', width: 170},
         {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
@@ -249,9 +251,6 @@
             formatter: 'date',
             formatoptions: {newformat: 'Y-m-d'}
         },
-        {label: '部门属性', name: 'unit.unitType.name', width: 150},
-        {label: '所在单位', name: 'unit.name', width: 200},
-        {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
         {
             label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '-';
@@ -290,9 +289,7 @@
         }, frozen: true
         },
         {
-            label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-            return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
-        }, frozen: true
+            label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder, frozen: true
         },
         {label: '原所在单位', name: 'unit.name', width: 200},
         {label: '原职务', name: 'post', width: 350},
@@ -524,9 +521,8 @@
         {label: '课程名称', name: 'name', width: 550},
         <c:if test="${param._sort ne 'no' && (cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth)}">
         {
-            label: '排序', width: 80, index: 'sort', formatter: function (cellvalue, options, rowObject) {
-            return _.template($("#sort_tpl").html().NoMultiSpace())({id: rowObject.id})
-        }, frozen: true
+            label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+            formatoptions:{grid:'#jqGrid_cadreCourse', url: "${ctx}/cadreCourse_changeOrder?cadreId=${param.cadreId}"}, frozen: true
         },
         </c:if>
         {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}

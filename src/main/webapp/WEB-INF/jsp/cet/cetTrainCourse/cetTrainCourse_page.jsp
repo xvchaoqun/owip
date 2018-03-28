@@ -36,7 +36,7 @@
         <a class="jqOpenViewBatchBtn btn btn-warning btn-sm"
            data-url="${ctx}/cet/cetTrainCourse_evaTable"
            data-grid-id="#jqGrid2"
-           data-querystr="&trainId=${cetTrain.id}"><i class="fa fa-table"></i>
+           data-querystr="trainId=${cetTrain.id}"><i class="fa fa-table"></i>
             设置评估表</a>
     </c:if>
 </div>
