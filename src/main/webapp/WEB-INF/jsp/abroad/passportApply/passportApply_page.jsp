@@ -72,7 +72,7 @@ pageEncoding="UTF-8" %>
                             <c:if test="${status!=ABROAD_PASSPORT_APPLY_STATUS_INIT && status!=-1}">
                             <button class="jqOpenViewBtn btn btn-warning btn-sm"
                                     data-open-by="page"
-                                    data-url="${ctx}/abroad/passportApply_check?id=${passportApply.id}">
+                                    data-url="${ctx}/abroad/passportApply_check">
                                     <i class="fa fa-info-circle"></i> 申请表
                             </button>
                             </c:if>

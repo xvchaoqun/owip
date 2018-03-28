@@ -30,7 +30,7 @@
     </div>
     <div class="widget-body" style="display: block;">
       <div class="widget-main no-padding">
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-unhover2">
           <thead>
           <tr>
             <th>编号</th>
@@ -41,8 +41,7 @@
             <th>出行天数</th>
             <th>前往国家或地区</th>
             <th>事由</th>
-            <th>组织部初审</th>
-            <th>组织部终审</th>
+
           </tr>
           </thead>
           <tbody>
@@ -55,8 +54,7 @@
             <td>${cm:getDayCountBetweenDate(applySelf.startDate, applySelf.endDate)}</td>
             <td>${applySelf.toCountry}</td>
             <td>${fn:replace(applySelf.reason, '+++', ',')}</td>
-            <td></td>
-            <td></td>
+
           </tr>
           </tbody>
         </table>
@@ -80,7 +78,7 @@
       </div>
       <div class="widget-body" style="display: block;">
         <div class="widget-main no-padding">
-          <table class="table table-striped table-bordered table-hover">
+          <table class="table table-striped table-bordered table-unhover2">
             <thead>
             <tr>
               <th>申请日期</th>
