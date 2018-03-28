@@ -208,7 +208,7 @@
 
     $('[data-rel="tooltip"]').tooltip();
 
-    register_user_select($('#searchForm2 select[name=userId]'));
+    $.register.user_select($('#searchForm2 select[name=userId]'));
     $('#searchForm2 [data-rel="select2"]').select2();
     function _reload2() {
         $("#jqGrid2").trigger("reloadGrid");

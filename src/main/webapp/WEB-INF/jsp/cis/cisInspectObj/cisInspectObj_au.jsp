@@ -153,7 +153,7 @@
     });
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    register_date($('.date-picker'));
-    register_user_select($('#modalForm select[name=cadreId], #modalForm select[name=chiefInspectorId]'));
+    $.register.date($('.date-picker'));
+    $.register.user_select($('#modalForm select[name=cadreId], #modalForm select[name=chiefInspectorId]'));
 
 </script>

@@ -99,7 +99,7 @@
             });
         }
     });
-    register_datetime($('.datetime-picker'));
+    $.register.datetime($('.datetime-picker'));
     $("#modalForm :checkbox").bootstrapSwitch();
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

@@ -42,7 +42,7 @@
   }
 </style>
 <script>
-  register_user_select($('#payUserId'));
+  $.register.user_select($('#payUserId'));
 
   $("#searchBtn").click(function(){
     var userId = $.trim($("#payUserId").val());

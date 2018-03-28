@@ -74,7 +74,7 @@
         }
     });
     register_party_select($('#modalForm select[name=partyId]'));
-    register_user_select($('#modalForm select[name=userId]')).on("change",function(){
+    $.register.user_select($('#modalForm select[name=userId]')).on("change",function(){
         //console.log($(this).select2("data")[0])
         var mobile = $(this).select2("data")[0]['user'].mobile||'';
         $('#modalForm input[name=mobile]').val(mobile);

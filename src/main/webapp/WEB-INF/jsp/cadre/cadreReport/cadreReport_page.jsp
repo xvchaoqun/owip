@@ -81,7 +81,7 @@
 </div>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <script>
-    register_user_select($('#searchForm select[name=cadreId]'))
+    $.register.user_select($('#searchForm select[name=cadreId]'))
     $("#jqGrid").jqGrid({
         rownumbers: true,
         url: '${ctx}/cadreReport_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

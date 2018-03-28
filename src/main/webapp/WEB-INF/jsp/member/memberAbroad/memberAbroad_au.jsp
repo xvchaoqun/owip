@@ -86,8 +86,8 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    register_date($('.date-picker'));
-    register_user_select($('#modalForm select[name=userId]'));
+    $.register.date($('.date-picker'));
+    $.register.user_select($('#modalForm select[name=userId]'));
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

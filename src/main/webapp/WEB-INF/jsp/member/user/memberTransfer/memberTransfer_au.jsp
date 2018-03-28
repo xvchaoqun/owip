@@ -61,7 +61,7 @@
                             </div>
                         </div>
                         <script>
-                            register_party_branch_select($("#modalForm"), "toBranchDiv",
+                            $.register.party_branch_select($("#modalForm"), "toBranchDiv",
                                     '${cm:getMetaTypeByCode("mt_direct_branch").id}',
                                     "${toParty.id}", "${toParty.classId}" , "toPartyId", "toBranchId", true);
                         </script>
@@ -123,7 +123,7 @@
 <script>
 
     $('textarea.limited').inputlimiter();
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#submitBtn").click(function(){
         var $btn = $(this).button('loading');
         $("#modalForm").submit();

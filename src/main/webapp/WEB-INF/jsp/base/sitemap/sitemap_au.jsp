@@ -75,10 +75,10 @@
 
 <script>
 
-    register_ajax_select($("#modal select[name=resourceId]"),
+    $.register.ajax_select($("#modal select[name=resourceId]"),
             {dropdownCssClass: "bigdrop", placeholder: "请选择资源"})
 
-    register_ajax_select($("#modal select[name=fid]"),
+    $.register.ajax_select($("#modal select[name=fid]"),
             {dropdownCssClass: "bigdrop", placeholder: "请选择上级对象"})
 
     $("#typeSelect").select2({theme: "classic", width: '180px', allowClear: true})

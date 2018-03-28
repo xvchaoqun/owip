@@ -241,7 +241,7 @@
   $('[data-rel="select2"]').select2();
   $('[data-rel="tooltip"]').tooltip();
 
-  var $selectCadre = register_user_select($('#cadreForm select[name=cadreId]'),function(state){ var $state = state.text;
+  var $selectCadre = $.register.user_select($('#cadreForm select[name=cadreId]'),function(state){ var $state = state.text;
     if(state.code!=undefined && state.code.length>0)
       $state = state.code;
     return $state;
@@ -251,6 +251,5 @@
     var name = $(this).select2("data")[0]['text']||'';
     $('#cadreForm input[name=_name]').val(name);
   });
-  //register_cadre_select($('#cadreForm select[name=cadreId]'), $('#cadreForm input[name=_name]'));
-  register_unit_select($('#cadreForm select[name=_unitStatus]'), $('#cadreForm select[name=unitId]'), $('#cadreForm input[name=_unitType]'));
+  $.register.unit_select($('#cadreForm select[name=_unitStatus]'), $('#cadreForm select[name=unitId]'), $('#cadreForm input[name=_unitType]'));
 </script>

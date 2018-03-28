@@ -138,9 +138,9 @@
         ]
     }).jqGrid("setFrozenColumns");
 
-    register_user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($('[data-rel="select2-ajax"]'));
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $('[data-rel="select2"]').select2();
 </script>

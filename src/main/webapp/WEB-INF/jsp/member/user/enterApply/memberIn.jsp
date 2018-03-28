@@ -89,7 +89,7 @@
         </div>
       </div>
       <script>
-        register_party_branch_select($("#modalForm"), "branchDiv",
+        $.register.party_branch_select($("#modalForm"), "branchDiv",
                 '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", null,null, true );
       </script>
         <div class="form-group">
@@ -261,7 +261,7 @@
       <script>
         $('#spinner').ace_spinner({value:0,min:1,max:999,step:1, on_sides: true, icon_up:'ace-icon fa fa-plus bigger-110', icon_down:'ace-icon fa fa-minus bigger-110', btn_up_class:'btn-success' , btn_down_class:'btn-danger'});
         $('#modalForm [data-rel="select2"]').select2();
-        register_date($('.date-picker'));
+        $.register.date($('.date-picker'));
 
         var jqValid = $("form").validate({
           submitHandler: function (form) {

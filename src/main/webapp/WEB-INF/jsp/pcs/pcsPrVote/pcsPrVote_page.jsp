@@ -198,7 +198,7 @@
         });
     }
 
-    register_datetime($('.datetime-picker'));
+    $.register.datetime($('.datetime-picker'));
 
     $.fileInput($('#recommendForm input[type=file]'),{
         no_file: '请选择pdf文件 ...',

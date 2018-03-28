@@ -112,7 +112,7 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/pmd/pmdMember/pmdMember_colModel.jsp"/>
 <script>
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#jqGrid").jqGrid({
         multiselect:false,
         url: '${ctx}/user/pmd/pmdMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

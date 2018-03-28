@@ -309,6 +309,6 @@
         allowExt: ['pdf'],
         allowMime: ['application/pdf']
     });
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $('#modalForm [data-rel="select2"]').select2();
 </script>

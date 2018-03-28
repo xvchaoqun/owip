@@ -205,7 +205,7 @@
 
         var $dispatchTypeId = $("#modalForm select[name=dispatchTypeId]");
         $dispatchTypeId.select2({theme: "classic"}).removeAttr("disabled").trigger("change");
-        register_dispatchType_select($('#modalForm select[name=dispatchTypeId]'), $("#modalForm input[name=year]"));
+        $.register.dispatchType_select($('#modalForm select[name=dispatchTypeId]'), $("#modalForm input[name=year]"));
 
         $("#modalForm input[name=code]").prop("disabled", false);
 
@@ -220,8 +220,8 @@
     $('textarea.limited').inputlimiter();
     $.fileInput($('#modalForm input[type=file]'));
 
-    register_dispatchType_select($('#modalForm select[name=dispatchTypeId]'), $("#modalForm input[name=year]"));
-    register_date($('.date-picker'));
+    $.register.dispatchType_select($('#modalForm select[name=dispatchTypeId]'), $("#modalForm input[name=year]"));
+    $.register.date($('.date-picker'));
 
     $("#modalForm").validate({
         rules: {

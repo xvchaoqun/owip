@@ -119,7 +119,7 @@
     showLocation("${memberOutflow.province}");
 
     $('textarea.limited').inputlimiter();
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#submitBtn").click(function(){
         var $btn = $(this).button('loading');
         $("#modalForm").submit();

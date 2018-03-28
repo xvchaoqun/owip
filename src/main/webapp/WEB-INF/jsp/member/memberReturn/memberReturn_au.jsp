@@ -47,7 +47,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <script>
-            register_party_branch_select($("#modalForm"), "branchDiv",
+            $.register.party_branch_select($("#modalForm"), "branchDiv",
                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
         </script>
         <div class="form-group">
@@ -141,7 +141,7 @@ pageEncoding="UTF-8"%>
     jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
     jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
     $('textarea.limited').inputlimiter();
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
 
     $("#modal form").validate({
         submitHandler: function (form) {
@@ -167,5 +167,5 @@ pageEncoding="UTF-8"%>
     });
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    register_user_select($('#modalForm select[name=userId]'));
+    $.register.user_select($('#modalForm select[name=userId]'));
 </script>

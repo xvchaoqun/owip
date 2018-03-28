@@ -85,7 +85,7 @@ pageEncoding="UTF-8"%>
     </c:if>
 
     $.fileInput($('#modalForm input[type=file]'))
-	register_datetime($('.datetime-picker'));
+	$.register.datetime($('.datetime-picker'));
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

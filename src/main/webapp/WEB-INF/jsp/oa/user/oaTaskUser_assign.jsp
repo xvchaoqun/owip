@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
     <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>
 <script>
-    register_user_select($('#modalForm select[name=userId]'));
+    $.register.user_select($('#modalForm select[name=userId]'));
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {

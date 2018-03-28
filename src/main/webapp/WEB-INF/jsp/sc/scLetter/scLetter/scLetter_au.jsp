@@ -224,8 +224,8 @@
                 })
                 $(this).closest("tr").remove();
             });
-    register_user_select($('#modalForm [data-rel="select2-ajax"]'));
-    register_date($('.date-picker'));
+    $.register.user_select($('#modalForm [data-rel="select2-ajax"]'));
+    $.register.date($('.date-picker'));
     $('#modalForm [data-rel="select2"]').select2();
     $("#upload-file").change(function () {
         if ($("#upload-file").val() != "") {

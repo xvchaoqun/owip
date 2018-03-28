@@ -403,7 +403,7 @@
         colModel: colModel,
         gridComplete:function(){
             <c:if test="${allowModify}">
-            register_date($('.date-picker'));
+            $.register.date($('.date-picker'));
             </c:if>
             <c:if test="${!allowModify}">
             $("#recommendForm input, .panel input, .panel select").prop("disabled", true);
@@ -554,5 +554,5 @@
         $count.html($jqGrid.jqGrid("getDataIDs").length);
     })
 
-    register_user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($('[data-rel="select2-ajax"]'));
 </script>

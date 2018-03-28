@@ -202,7 +202,7 @@
             });
         }
     });
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#modalForm :checkbox").bootstrapSwitch();
     $('#modalForm [data-rel="select2"]').select2();
 </script>

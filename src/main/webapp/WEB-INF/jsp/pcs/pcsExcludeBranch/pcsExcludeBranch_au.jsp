@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <script>
-            register_party_branch_select($("#modalForm"), "branchDiv",
+            $.register.party_branch_select($("#modalForm"), "branchDiv",
                     '${cm:getMetaTypeByCode("mt_direct_branch").id}',
                     "${party.id}", "${party.classId}", "partyId", "branchId", true);
         </script>

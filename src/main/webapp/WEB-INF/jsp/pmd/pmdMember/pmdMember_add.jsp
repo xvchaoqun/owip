@@ -51,5 +51,5 @@
             });
         }
     });
-    register_user_select($('#modalForm select[name=userId]'));
+    $.register.user_select($('#modalForm select[name=userId]'));
 </script>

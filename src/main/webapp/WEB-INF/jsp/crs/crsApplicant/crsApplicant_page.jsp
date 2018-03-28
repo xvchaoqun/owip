@@ -169,7 +169,7 @@
     function _reload() {
         $("#jqGrid2").trigger("reloadGrid");
     }
-    register_user_select($("#searchForm2 select[name=userId]"))
+    $.register.user_select($("#searchForm2 select[name=userId]"))
     $("#jqGrid2").jqGrid({
         pager: "#jqGridPager2",
         rownumbers: true,

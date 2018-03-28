@@ -51,5 +51,5 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    register_ajax_select('#modalForm [data-rel="select2-ajax"]')
+    $.register.ajax_select('#modalForm [data-rel="select2-ajax"]')
 </script>

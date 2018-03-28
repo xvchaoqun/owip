@@ -43,7 +43,7 @@
 </div>
 
 <script>
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#submitBtn").click(function () {
         $("#modalForm").submit();
         return false;

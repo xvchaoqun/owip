@@ -97,7 +97,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<script>
-					register_party_branch_select($("#modalForm"), "toBranchDiv",
+					$.register.party_branch_select($("#modalForm"), "toBranchDiv",
 							'${cm:getMetaTypeByCode("mt_direct_branch").id}',
 							"${toParty.id}", "${toParty.classId}" , "toPartyId", "toBranchId");
 				</script>
@@ -164,7 +164,7 @@ pageEncoding="UTF-8"%>
 <script>
 
 	$('textarea.limited').inputlimiter();
-	register_date($('.date-picker'));
+	$.register.date($('.date-picker'));
 	$("#item-content input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
 	$("#modalForm").validate({
         submitHandler: function (form) {
@@ -196,7 +196,7 @@ pageEncoding="UTF-8"%>
     });
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-	var $select = register_user_select($('#modalForm select[name=userId]'));
+	var $select = $.register.user_select($('#modalForm select[name=userId]'));
 	$select.on("change",function(){
 		var entity = $(this).select2("data")[0];
 		if(entity && entity.id && entity.id>0) {

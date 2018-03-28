@@ -302,7 +302,7 @@
         }
     })
 
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $('textarea.limited').inputlimiter();
     $("#voteForm button[type=submit]").click(function () {
         $("#voteForm").submit();
@@ -327,7 +327,7 @@
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
-    var $selectCadre = register_user_select($('#voteForm select[name=cadreId]'), function (state) {
+    var $selectCadre = $.register.user_select($('#voteForm select[name=cadreId]'), function (state) {
         var $state = state.text;
         if (state.code != undefined && state.code.length > 0)
             $state = state.code;
@@ -338,6 +338,5 @@
         var name = $(this).select2("data")[0]['text'] || '';
         $('#voteForm input[name=_name]').val(name);
     });
-    //register_cadre_select($('#voteForm select[name=cadreId]'), $('#voteForm input[name=_name]'));
-    register_unit_select($('#voteForm select[name=_unitStatus]'), $('#voteForm select[name=unitId]'), $('#voteForm input[name=_unitType]'));
+    $.register.unit_select($('#voteForm select[name=_unitStatus]'), $('#voteForm select[name=unitId]'), $('#voteForm input[name=_unitType]'));
 </script>

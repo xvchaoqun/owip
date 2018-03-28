@@ -79,8 +79,8 @@ pageEncoding="UTF-8"%>
 
 <script>
     $('textarea.limited').inputlimiter();
-    register_date($('.date-picker'));
-    register_user_select($('#modalForm select[name=cadreId]'));
+    $.register.date($('.date-picker'));
+    $.register.user_select($('#modalForm select[name=cadreId]'));
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

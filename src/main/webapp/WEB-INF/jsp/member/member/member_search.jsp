@@ -56,7 +56,7 @@
   </div>
 </script>
 <script>
-  register_user_select($('#modal select[name=userId]'));
+  $.register.user_select($('#modal select[name=userId]'));
   $("#modal #search").click(function(){
     var userId = $("#modal select[name=userId]").val();
     if(userId=='') return;

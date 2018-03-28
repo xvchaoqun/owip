@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
         // 反转义
         return $('<div/>').html($state).text();
     }
-    register_ajax_select($("#modalForm select[name=trainId]"),
+    $.register.ajax_select($("#modalForm select[name=trainId]"),
             {templateResult:_templateResult, templateSelection:_templateResult})
     $("#modal form").validate({
         submitHandler: function (form) {

@@ -4,14 +4,14 @@ order by field(c.status, 2,5,3,1,4,6) desc
 
 <div class="footer-margin"/>
 
-register_class_party_branch_select($("#modalForm"), "party", "branch",
+$.register.class_party_branch_select($("#modalForm"), "party", "branch",
                 '${cm:getMetaTypeByCode("mt_direct_branch").id}')
-register_party_branch_select($("#searchForm"), "branchDiv",
+$.register.party_branch_select($("#searchForm"), "branchDiv",
                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
 
 
-register_user_select($('#modalForm select[name=userId]'));
-register_date($('.date-picker'));
+$.register.user_select($('#modalForm select[name=userId]'));
+$.register.date($('.date-picker'));
 
 干部档案页链接
  <mytag:cadre cadreId="${cadre.id}" realname="${sysUser.realname}"/>

@@ -117,6 +117,6 @@
     });
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    register_user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($('[data-rel="select2-ajax"]'));
     $('[data-rel="select2"]').select2();
 </script>

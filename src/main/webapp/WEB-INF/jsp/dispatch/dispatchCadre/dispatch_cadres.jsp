@@ -68,7 +68,7 @@
         });
     }
     </shiro:hasPermission>
-    register_date($('.date-picker'));
-    register_dispatch_select($('.dispatch_cadres select[name=dispatchTypeId]'),
+    $.register.date($('.date-picker'));
+    $.register.dispatch_select($('.dispatch_cadres select[name=dispatchTypeId]'),
             $(".dispatch_cadres input[name=year]"), $(".dispatch_cadres select[name=dispatchId]"));
 </script>

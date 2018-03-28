@@ -80,7 +80,7 @@ pageEncoding="UTF-8"%>
             msg: "例如：国家自然科学基金项目、国家社会科学基金项目、教育部新世纪优秀人才支持计划项目、" +
             "科技部973计划子课题、国家杰出青年科学基金项目等。"})*/
     })
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

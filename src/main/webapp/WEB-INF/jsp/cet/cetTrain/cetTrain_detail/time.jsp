@@ -120,7 +120,7 @@
 </div>
 <div style="clear: both"></div>
 <script>
-    register_datetime($('.datetime-picker'));
+    $.register.datetime($('.datetime-picker'));
 
     $("#timeForm").validate({
         submitHandler: function (form) {

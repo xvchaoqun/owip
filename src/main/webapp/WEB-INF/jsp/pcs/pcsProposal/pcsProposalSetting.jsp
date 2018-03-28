@@ -124,7 +124,7 @@
   }
 </style>
 <script>
-  register_datetime($('.datetime-picker'));
+  $.register.datetime($('.datetime-picker'));
   $("#timeForm").validate({
     submitHandler: function (form) {
       $(form).ajaxSubmit({

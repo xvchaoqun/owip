@@ -121,7 +121,7 @@ pageEncoding="UTF-8"%>
     });
     $("#modalForm :checkbox").bootstrapSwitch();
     $('#modalForm [data-rel="select2"]').select2();
-	register_date($('.date-picker'));
+	$.register.date($('.date-picker'));
 	function formatExpertSelection(state) {
 		var $state = state.text;
 		if ($.trim(state.unit) != '')
@@ -130,6 +130,6 @@ pageEncoding="UTF-8"%>
 			$state += ($state != '' ? '-' : '') + state.post;
 		return $state;
 	}
-	register_ajax_select($('[data-rel="select2-ajax"][name=expertId]'),
+	$.register.ajax_select($('[data-rel="select2-ajax"][name=expertId]'),
 			{templateResult: formatExpertSelection, templateSelection:formatExpertSelection, width: '275px'});
 </script>

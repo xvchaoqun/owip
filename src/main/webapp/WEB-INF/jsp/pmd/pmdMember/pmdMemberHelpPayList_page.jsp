@@ -65,7 +65,7 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="pmdMember_colModel.jsp"/>
 <script>
-    register_user_select($('#searchForm select[name=userId]'));
+    $.register.user_select($('#searchForm select[name=userId]'));
     $('#searchForm [data-rel="select2"]').select2();
     $("#jqGrid2").jqGrid({
         url: '${ctx}/pmd/pmdMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

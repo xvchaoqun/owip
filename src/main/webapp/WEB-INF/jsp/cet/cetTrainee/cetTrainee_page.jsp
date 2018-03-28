@@ -104,7 +104,7 @@
         $("#searchForm2 .jqSearchBtn").click();
     })
 
-    register_user_select($("#searchForm2 select[name=userId]"));
+    $.register.user_select($("#searchForm2 select[name=userId]"));
 
     $("#jqGrid2").jqGrid({
         pager: "#jqGridPager2",

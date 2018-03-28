@@ -79,7 +79,7 @@
     $("#jqGrid2").trigger("reloadGrid");
   }
   $('#searchForm2 [data-rel="select2"]').select2();
-  register_date($('.date-picker'));
+  $.register.date($('.date-picker'));
   $("#jqGrid2").jqGrid({
     pager: "jqGridPager2",
     rownumbers:true,

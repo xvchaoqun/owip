@@ -47,7 +47,7 @@ pageEncoding="UTF-8"%>
 
 <script>
 
-    register_class_party_branch_select($("#modalForm"), "party", "branch",
+    $.register.class_party_branch_select($("#modalForm"), "party", "branch",
             '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}');
 
     $("#modalForm").validate({

@@ -138,8 +138,8 @@
 	}
 </style>
 <script>
-	register_multiselect($('#modalForm select[name=countCacheKeys]'), [${sysResource.countCacheKeys}], {buttonWidth:'270px'});
-	register_multiselect($('#modalForm select[name=countCacheRoles]'), [${sysResource.countCacheRoles}], {buttonWidth:'270px'});
+	$.register.multiselect($('#modalForm select[name=countCacheKeys]'), [${sysResource.countCacheKeys}], {buttonWidth:'270px'});
+	$.register.multiselect($('#modalForm select[name=countCacheRoles]'), [${sysResource.countCacheRoles}], {buttonWidth:'270px'});
 
 	/*if('${sysResource.type}'=="function"){
 		$(".menuNeeded").hide();
@@ -147,7 +147,7 @@
 		$(".menuNeeded").show();
 	}*/
 
-	register_ajax_select($("#modal select[name=parentId]"),
+	$.register.ajax_select($("#modal select[name=parentId]"),
 			{dropdownCssClass: "bigdrop", placeholder: "请选择上级对象"})
 
 	$("#typeSelect").select2({ theme: "classic",width:'180px',allowClear:true })/*.on("select2:select",function(e){

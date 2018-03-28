@@ -66,8 +66,8 @@
     function _reload2() {
         $("#jqGrid_popup").trigger("reloadGrid");
     }
-    register_date($('#searchForm_popup .date-picker'));
-    register_dispatchType_select($('#searchForm_popup select[name=dispatchTypeId]'), $("#searchForm_popup input[name=year]"));
+    $.register.date($('#searchForm_popup .date-picker'));
+    $.register.dispatchType_select($('#searchForm_popup select[name=dispatchTypeId]'), $("#searchForm_popup input[name=year]"));
 
     clearJqgridSelected();
 

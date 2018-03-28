@@ -147,8 +147,8 @@
         <i class="fa fa-{{=isPublish?'times':'check'}}"></i> {{=isPublish?'取消发布':'发布'}}</button>
 </script>
 <script>
-    register_user_select($('#searchForm select[name=expertUserId]'));
-    register_date($('.date-picker'));
+    $.register.user_select($('#searchForm select[name=expertUserId]'));
+    $.register.date($('.date-picker'));
 
     function _reload(){
         $("#modal").modal('hide');

@@ -90,6 +90,6 @@ pageEncoding="UTF-8"%>
         }
     });
     $("#modalForm :checkbox").bootstrapSwitch();
-    register_date($('.date-picker'), {startDate:'${today}'});
-    register_user_select($('#modalForm select[name=cadreId]'));
+    $.register.date($('.date-picker'), {startDate:'${today}'});
+    $.register.user_select($('#modalForm select[name=cadreId]'));
 </script>

@@ -50,7 +50,7 @@
 </div>
 
 <script>
-    register_user_select($('#modal [data-rel="select2-ajax"]'));
+    $.register.user_select($('#modal [data-rel="select2-ajax"]'));
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

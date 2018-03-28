@@ -90,7 +90,7 @@
                                         </select>
                                     </div>
                                     <script>
-                                        register_party_branch_select($("#searchForm"), "branchDiv",
+                                        $.register.party_branch_select($("#searchForm"), "branchDiv",
                                                 '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                     </script>
 

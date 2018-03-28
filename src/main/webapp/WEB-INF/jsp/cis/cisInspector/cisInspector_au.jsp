@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    register_user_select($('#modalForm select[name=userId]'));
+    $.register.user_select($('#modalForm select[name=userId]'));
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

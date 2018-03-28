@@ -139,8 +139,8 @@
 </style>
 
 <script>
-    register_date($('.date-picker'))
-    register_user_select($('[data-rel="select2-ajax"]'));
+    $.register.date($('.date-picker'))
+    $.register.user_select($('[data-rel="select2-ajax"]'));
     $('textarea.limited').inputlimiter();
     $("#item-content button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({

@@ -171,8 +171,8 @@
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
-    register_user_select($('#searchForm select[name=userId]'));
+    $.register.user_select($('#searchForm select[name=userId]'));
     $('[data-rel="tooltip"]').tooltip();
 
-    register_fancybox();
+    $.register.fancybox();
 </script>

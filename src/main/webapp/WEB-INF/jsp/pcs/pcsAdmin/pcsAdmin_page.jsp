@@ -132,6 +132,6 @@
     $('#searchForm [data-rel="select2"]').select2();
 
     register_party_select($('#searchForm select[name=partyId]'));
-    register_user_select($('#searchForm select[name=userId]'));
+    $.register.user_select($('#searchForm select[name=userId]'));
     $('[data-rel="tooltip"]').tooltip();
 </script>

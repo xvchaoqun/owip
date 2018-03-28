@@ -106,7 +106,7 @@
             });
         }
     });
-    register_date($('.date-picker'))
+    $.register.date($('.date-picker'))
     $('[data-rel="select2"]').select2();
-    register_user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($('[data-rel="select2-ajax"]'));
 </script>

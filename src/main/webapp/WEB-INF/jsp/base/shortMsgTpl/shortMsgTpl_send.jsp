@@ -38,7 +38,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    var $selectCadre = register_user_select($('#modalForm select[name=receiverId]'));
+    var $selectCadre = $.register.user_select($('#modalForm select[name=receiverId]'));
     $selectCadre.on("change",function(){
         var user = $(this).select2("data")[0]['user']||{};
         $('#modalForm input[name=mobile]').val(user.mobile);

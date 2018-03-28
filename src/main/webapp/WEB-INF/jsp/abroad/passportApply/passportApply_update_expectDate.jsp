@@ -28,7 +28,7 @@
     <input type="submit" class="btn btn-primary" value="确定"/>
 </div>
 <script>
-    register_date($('.date-picker'))
+    $.register.date($('.date-picker'))
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

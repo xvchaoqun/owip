@@ -58,7 +58,7 @@
 
 
 <script>
-    register_ajax_select($('#searchForm2 select[name=branchId]'));
+    $.register.ajax_select($('#searchForm2 select[name=branchId]'));
     $("#jqGrid2").jqGrid({
         pager: "#jqGridPager2",
         rownumbers: true,

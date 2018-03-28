@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <script>
-            register_party_branch_select($("#modalForm"), "branchDiv",
+            $.register.party_branch_select($("#modalForm"), "branchDiv",
                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
         </script>
 			<div class="form-group">
@@ -84,7 +84,7 @@ pageEncoding="UTF-8"%>
 
 <script>
     $("#modal :checkbox").bootstrapSwitch();
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

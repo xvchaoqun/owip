@@ -149,7 +149,7 @@
 </div>
 <script>
 	$('textarea.limited').inputlimiter({limit:50});
-	register_date($('.date-picker'));
+	$.register.date($('.date-picker'));
 	$("#submitBtn").click(function(){
 		var $btn = $(this).button('loading');
 		$("#modalForm").submit();

@@ -411,8 +411,8 @@
             });
         }
     });
-    register_date($('.date-picker'))
-    register_date($('input[name=_realStartDate], input[name=_realEndDate]'))
+    $.register.date($('.date-picker'))
+    $.register.date($('input[name=_realStartDate], input[name=_realEndDate]'))
             .on("changeDate", function(e){
                 var _realStartDate = $('input[name=_realStartDate]').val();
                 var _realEndDate = $('input[name=_realEndDate]').val();

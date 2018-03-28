@@ -175,8 +175,8 @@ pageEncoding="UTF-8" %>
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 
-    register_date($('.date-picker'));
-    register_multiselect($('#searchForm select[name="unitIds"]'), ${cm:toJSONArray(selectedUnitIds)},
+    $.register.date($('.date-picker'));
+    $.register.multiselect($('#searchForm select[name="unitIds"]'), ${cm:toJSONArray(selectedUnitIds)},
             {enableClickableOptGroups: true, enableCollapsibleOptGroups: true});
 
     $('#searchForm [data-rel="select2"]').select2();

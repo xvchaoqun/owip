@@ -67,7 +67,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $.fileInput($('#modalForm input[type=file]'))
 
     $("#modal form").validate({

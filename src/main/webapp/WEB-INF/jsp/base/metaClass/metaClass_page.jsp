@@ -114,5 +114,5 @@
                 '<shiro:hasRole name="${ROLE_ADMIN}">800</shiro:hasRole><shiro:lacksRole name="${ROLE_ADMIN}">400</shiro:lacksRole>');
     }
 
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
 </script>

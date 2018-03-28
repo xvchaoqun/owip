@@ -90,5 +90,5 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
 
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
 </script>

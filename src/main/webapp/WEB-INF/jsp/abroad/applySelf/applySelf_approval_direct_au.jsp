@@ -32,7 +32,7 @@
   <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>
 <script>
-  register_date($('.date-picker'))
+  $.register.date($('.date-picker'))
   $("#submitBtn").click(function(){
     $("#modalForm").submit(); return false;
   });

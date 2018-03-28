@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
                             <script>
-                                register_date($('.date-picker'));
+                                $.register.date($('.date-picker'));
                             </script>
                         </c:when>
                         <c:when test="${record.type==MODIFY_BASE_ITEM_TYPE_IMAGE}">
@@ -83,5 +83,5 @@ pageEncoding="UTF-8"%>
         }
     });
     $('[data-rel="select2"]').select2();
-   // register_date($('.date-picker'));
+   // $.register.date($('.date-picker'));
 </script>

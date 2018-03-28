@@ -23,7 +23,7 @@ pageEncoding="UTF-8"%>
     <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>
 <script>
-	register_user_select($('#modal select[name=cadreId]'));
+	$.register.user_select($('#modal select[name=cadreId]'));
     $("#modal #submitBtn").click(function(){
 
 		var cadreId = $("#modal select[name=cadreId]").val();

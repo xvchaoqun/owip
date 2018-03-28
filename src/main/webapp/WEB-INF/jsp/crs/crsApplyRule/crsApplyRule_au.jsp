@@ -73,9 +73,9 @@ pageEncoding="UTF-8"%>
     </div>
 </script>
 <script>
-    register_datetime($('.datetime-picker'));
+    $.register.datetime($('.datetime-picker'));
 
-    register_ajax_select($("select[name=postId]", "#modalForm"))
+    $.register.ajax_select($("select[name=postId]", "#modalForm"))
     var $selectPost =  $("select[name=postId]", "#modalForm");
     var $target = $selectPost.closest("div").find(".select2-container");
     function _addPost(){

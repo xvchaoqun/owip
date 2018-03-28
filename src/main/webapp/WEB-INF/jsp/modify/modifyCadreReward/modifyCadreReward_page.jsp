@@ -50,7 +50,7 @@
         url: '${ctx}/cadreReward_data?cadreId=${cadre.id}&rewardType=${rewardType}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel:colModels.cadreReward
     }).jqGrid("setFrozenColumns");
-    register_fancybox(function () {
+    $.register.fancybox(function () {
         //console.log(this)
         this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
                         .format($(this.element).data('path'));

@@ -133,9 +133,9 @@
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
 
-    register_multiselect($('#cisForm select[name="unitIds[]"]'), ${selectUnitIds},{enableClickableOptGroups: true,
+    $.register.multiselect($('#cisForm select[name="unitIds[]"]'), ${selectUnitIds},{enableClickableOptGroups: true,
         enableCollapsibleOptGroups: true});
-    register_multiselect($('#cisForm select[name="inspectorIds[]"]'), ${selectInspectorIds},{enableClickableOptGroups: true,
+    $.register.multiselect($('#cisForm select[name="inspectorIds[]"]'), ${selectInspectorIds},{enableClickableOptGroups: true,
         enableCollapsibleOptGroups: true});
 
     var ke = KindEditor.create('#content', {

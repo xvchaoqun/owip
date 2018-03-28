@@ -175,13 +175,13 @@ pageEncoding="UTF-8" %>
         $("#searchForm input[name=displayInvite]").val($(this).prop("checked")?1:0);
         $("#searchForm .jqSearchBtn").click();
     })
-    register_fancybox(function () {
+    $.register.fancybox(function () {
         //console.log(this)
         this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
                         .format($(this.element).data('path'));
     });
-    register_user_select($("#searchForm select[name=userId]"))
-    register_multiselect($('#searchForm select[name=types]'), ${cm:toJSONArray(selectTypes)});
+    $.register.user_select($("#searchForm select[name=userId]"))
+    $.register.multiselect($('#searchForm select[name=types]'), ${cm:toJSONArray(selectTypes)});
 
     $("#jqGrid").jqGrid({
         <c:if test="${!(cls==1 && module==1)}">

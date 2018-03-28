@@ -127,6 +127,6 @@
             }
         });
     });
-    register_date($('.date-picker'))
+    $.register.date($('.date-picker'))
     $('textarea.limited').inputlimiter();
 </script>

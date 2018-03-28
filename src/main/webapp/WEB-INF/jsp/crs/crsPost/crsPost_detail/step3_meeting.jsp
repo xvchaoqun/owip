@@ -172,7 +172,7 @@
     }
 </style>
 <script>
-    register_datetime($('.datetime-picker'));
+    $.register.datetime($('.datetime-picker'));
 
     $("#modalForm").validate({
         submitHandler: function (form) {

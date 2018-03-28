@@ -26,7 +26,7 @@
 <script>
     var candidates = ${cm:toJSONArray(candidates)};
 
-    var $selectPr = register_user_select($("#modal select[name=userId]"))
+    var $selectPr = $.register.user_select($("#modal select[name=userId]"))
     $selectPr.on("change",function(e){
 
         //console.log($(this).select2("data")[0])

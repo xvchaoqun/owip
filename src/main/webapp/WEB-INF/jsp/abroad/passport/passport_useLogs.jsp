@@ -50,7 +50,7 @@
     </div><!-- /.widget-body -->
 </div><!-- /.widget-box -->
 <script>
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#useLogForm ._searchBtn").click(function(){
         var year = $("#useLogForm input[name=year]").val();
         if(year==''){

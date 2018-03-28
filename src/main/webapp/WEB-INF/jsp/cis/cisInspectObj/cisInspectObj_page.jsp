@@ -141,8 +141,8 @@
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <script>
-    register_date($('.date-picker'));
-    register_user_select($('#searchForm select[name=cadreId]'))
+    $.register.date($('.date-picker'));
+    $.register.user_select($('#searchForm select[name=cadreId]'))
     $("#jqGrid").jqGrid({
         rownumbers: true,
         url: '${ctx}/cisInspectObj_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

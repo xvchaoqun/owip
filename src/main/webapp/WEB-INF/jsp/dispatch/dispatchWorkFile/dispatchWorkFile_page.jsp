@@ -140,9 +140,9 @@
 <script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
-    register_multiselect($('#searchForm select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
-    register_multiselect($('#searchForm select[name=workTypes]'), ${cm:toJSONArray(selectWorkTypes)});
-    register_multiselect($('#searchForm select[name=privacyTypes]'), ${cm:toJSONArray(selectPrivacyTypes)});
+    $.register.multiselect($('#searchForm select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
+    $.register.multiselect($('#searchForm select[name=workTypes]'), ${cm:toJSONArray(selectWorkTypes)});
+    $.register.multiselect($('#searchForm select[name=privacyTypes]'), ${cm:toJSONArray(selectPrivacyTypes)});
 
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatchWorkFile_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -192,7 +192,7 @@
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid');
     })
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

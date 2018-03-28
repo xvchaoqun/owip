@@ -45,7 +45,7 @@
 <div id="jqGridPager2"></div>
 
 <script>
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#jqGrid2").jqGrid({
         //forceFit:true,
         pager: "jqGridPager2",

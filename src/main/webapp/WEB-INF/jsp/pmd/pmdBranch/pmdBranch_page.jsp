@@ -92,7 +92,7 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="pmdBranch_colModel.jsp"/>
 <script>
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#jqGrid").jqGrid({
         url: '${ctx}/pmd/pmdBranch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModel

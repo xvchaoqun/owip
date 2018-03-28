@@ -94,5 +94,5 @@ pageEncoding="UTF-8"%>
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
-    register_user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($('[data-rel="select2-ajax"]'));
 </script>

@@ -597,7 +597,7 @@
 </style>
 <script type="text/javascript" src="${ctx}/extend/js/location.js"></script>
 <script>
-    register_fancybox(function () {
+    $.register.fancybox(function () {
         //console.log(this)
         this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
                         .format($(this.element).data('path'));
@@ -619,7 +619,7 @@
     })
 
     $('textarea.limited').inputlimiter();
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#submitBtn").click(function () {
         var $btn = $(this).button('loading');
         $("#modalForm").submit();

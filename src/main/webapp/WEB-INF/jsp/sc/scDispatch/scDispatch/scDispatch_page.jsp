@@ -112,8 +112,8 @@
 </div>
 <jsp:include page="scDispatch_colModel.jsp?type=admin"/>
 <script>
-    register_date($('.date-picker'));
-    register_dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));
+    $.register.date($('.date-picker'));
+    $.register.dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));
 
     // 序号、 年度、 发文类型、 发文号、 党委常委会日期、 起草日期、 任命人数、 免职人数、 文件签发稿、 签发单、 正式签发、 备注
     $("#jqGrid").jqGrid({

@@ -64,7 +64,7 @@
 <script>
     showLocation("${memberInflow.outLocation}");
     $('textarea.limited').inputlimiter();
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

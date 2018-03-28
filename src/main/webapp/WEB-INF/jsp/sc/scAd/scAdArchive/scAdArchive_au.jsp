@@ -29,7 +29,7 @@
 <script>
 
     var $gridLoading = $("#jqGridPopup").closest(".ui-jqgrid").find('.loading');
-    var $selectCommittee = register_ajax_select($('#modal select[name=committeeId]'), {maximumInputLength: 8})
+    var $selectCommittee = $.register.ajax_select($('#modal select[name=committeeId]'), {maximumInputLength: 8})
     $selectCommittee.on("change", function () {
         //var unitType = $(this).select2("data")[0]['type']||'';
         var committeeId = $(this).val();

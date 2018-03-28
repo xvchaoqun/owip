@@ -24,15 +24,15 @@
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Service" />
 
-		<context:exclude-filter type="regex" expression="controller.*\.member\..*"/>
+		<!--<context:exclude-filter type="regex" expression="controller.*\.member\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.modify\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.cis\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.crs\..*"/>
-		<!--<context:exclude-filter type="regex" expression="controller.*\.cet\..*"/>-->
+		<context:exclude-filter type="regex" expression="controller.*\.cet\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.abroad\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.pcs\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.oa\..*"/>
-		<context:exclude-filter type="regex" expression="controller.*\.pmd\..*"/><!--
+		<context:exclude-filter type="regex" expression="controller.*\.pmd\..*"/>--><!--
 		<context:exclude-filter type="regex" expression="controller.*\.sc.scMatter\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.sc.scLetter\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.sc.scGroup\..*"/>

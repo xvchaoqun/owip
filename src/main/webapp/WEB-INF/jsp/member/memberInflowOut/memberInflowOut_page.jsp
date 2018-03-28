@@ -141,7 +141,7 @@
                                                             </select>
                                                     </div>
                                                 <script>
-                                                    register_party_branch_select($("#searchForm"), "branchDiv",
+                                                    $.register.party_branch_select($("#searchForm"), "branchDiv",
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                                                 </script>
                                             <div class="form-group">
@@ -407,5 +407,5 @@
     </c:if>
 
     $('[data-rel="select2"]').select2();
-    register_user_select($('#searchForm select[name=userId]'));
+    $.register.user_select($('#searchForm select[name=userId]'));
 </script>

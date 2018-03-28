@@ -50,7 +50,7 @@
   </div>
 </div>
 <script>
-  register_user_select($('#searchForm select[name=userId]'));
+  $.register.user_select($('#searchForm select[name=userId]'));
   $("#jqGrid").jqGrid({
     multiselect:false,
     url: "${ctx}/sysApprovalLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}",

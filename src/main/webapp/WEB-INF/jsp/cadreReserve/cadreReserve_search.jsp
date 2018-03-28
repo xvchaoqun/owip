@@ -58,7 +58,7 @@
     </div>
 </script>
 <script>
-    register_user_select($('#modal select[name=cadreId]'));
+    $.register.user_select($('#modal select[name=cadreId]'));
 
     $("#modal #search").click(function () {
         var cadreId = $("#modal select[name=cadreId]").val();

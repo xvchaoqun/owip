@@ -109,7 +109,7 @@ pageEncoding="UTF-8" %>
                                 </select>
                             </div>
                             <script>
-                                register_party_branch_select($("#searchForm"), "branchDiv",
+                                $.register.party_branch_select($("#searchForm"), "branchDiv",
                                         '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
                             </script>
                             <div class="form-group">
@@ -216,8 +216,8 @@ pageEncoding="UTF-8" %>
 <jsp:include page="pmdMember_colModel.jsp?type=admin"/>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
-    register_user_select($('#searchForm select[name=userId]'));
-    register_user_select($('#searchForm select[name=chargeUserId]'));
+    $.register.user_select($('#searchForm select[name=userId]'));
+    $.register.user_select($('#searchForm select[name=chargeUserId]'));
     $('#searchForm [data-rel="select2"]').select2();
     $("#jqGrid").jqGrid({
         url: '${ctx}/pmd/pmdMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

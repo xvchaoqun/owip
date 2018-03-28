@@ -52,7 +52,7 @@
                 </div>
             </div>
             <script>
-                register_party_branch_select($("#modalForm"), "branchDiv",
+                $.register.party_branch_select($("#modalForm"), "branchDiv",
                         '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}", null, null, true);
             </script>
             <div class="form-group">
@@ -177,7 +177,7 @@
     $('textarea.limited').inputlimiter();
     $("#modalForm :checkbox").bootstrapSwitch();
     showLocation("${memberInflow.province}", null, null, $("#loc_province_container1"));
-    register_date($('.date-picker'), {endDate: '${today}'});
+    $.register.date($('.date-picker'), {endDate: '${today}'});
     $('#modalForm [data-rel="select2"]').select2();
     $("form").validate({
         submitHandler: function (form) {

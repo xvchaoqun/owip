@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
     <input type="submit" class="btn btn-primary" value="确定"/>
 </div>
 <script>
-	register_date($('#modal .date-picker'))
+	$.register.date($('#modal .date-picker'))
     $("#modal input[type=submit]").click(function(){
 		var _returnDate = $("#modal input[name=_returnDate]").val();
 		if(_returnDate==''){

@@ -56,7 +56,7 @@ pageEncoding="UTF-8" %>
                                                     </select>
                                                 </div>
                                                 <script>
-                                                    register_party_branch_select($("#exportForm1"), "branchDiv1",
+                                                    $.register.party_branch_select($("#exportForm1"), "branchDiv1",
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                 </script>
                                                 <div class="text-danger bolder">
@@ -119,7 +119,7 @@ pageEncoding="UTF-8" %>
                                                     </select>
                                                 </div>
                                                 <script>
-                                                    register_party_branch_select($("#exportForm2"), "branchDiv2",
+                                                    $.register.party_branch_select($("#exportForm2"), "branchDiv2",
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                 </script>
                                                 <div class="text-danger bolder">
@@ -181,7 +181,7 @@ pageEncoding="UTF-8" %>
                                                     </select>
                                                 </div>
                                                 <script>
-                                                    register_party_branch_select($("#exportForm3"), "branchDiv3",
+                                                    $.register.party_branch_select($("#exportForm3"), "branchDiv3",
                                                             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                 </script>
                                                 <div class="text-danger bolder">

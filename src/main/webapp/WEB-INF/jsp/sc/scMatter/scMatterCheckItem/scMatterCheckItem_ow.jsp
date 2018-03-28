@@ -87,7 +87,7 @@ pageEncoding="UTF-8"%>
 		allowExt: ['pdf'],
 		allowMime: ['application/pdf']
 	});
-	register_date($('.date-picker'));
+	$.register.date($('.date-picker'));
 	$('textarea.limited').inputlimiter();
     $('#owForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

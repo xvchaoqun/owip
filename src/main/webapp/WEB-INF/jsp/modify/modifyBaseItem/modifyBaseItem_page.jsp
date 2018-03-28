@@ -53,7 +53,7 @@
     .info .value{padding-right: 50px;}
 </style>
 <script>
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
 
     $("#jqGrid2").jqGrid({
         //forceFit:true,

@@ -107,6 +107,6 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $('[data-rel="select2"]').select2();
 </script>

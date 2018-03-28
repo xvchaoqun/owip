@@ -393,17 +393,17 @@
 <script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css"/>
 <script>
-    register_multiselect($('#searchForm select[name=dpTypes]'), ${cm:toJSONArray(selectDpTypes)});
-    register_multiselect($('#searchForm select[name=unitIds]'), ${cm:toJSONArray(selectUnitIds)}, {
+    $.register.multiselect($('#searchForm select[name=dpTypes]'), ${cm:toJSONArray(selectDpTypes)});
+    $.register.multiselect($('#searchForm select[name=unitIds]'), ${cm:toJSONArray(selectUnitIds)}, {
         enableClickableOptGroups: true,
         enableCollapsibleOptGroups: true, collapsed: true, selectAllJustVisible: false
     });
-    register_multiselect($('#searchForm select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
-    register_multiselect($('#searchForm select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
-    register_multiselect($('#searchForm select[name=maxEdus]'), ${cm:toJSONArray(selectMaxEdus)});
-    register_multiselect($('#searchForm select[name=postIds]'), ${cm:toJSONArray(selectPostIds)});
-    register_multiselect($('#searchForm select[name=proPosts]'), ${cm:toJSONArray(selectProPosts)});
-    register_multiselect($('#searchForm select[name=proPostLevels]'), ${cm:toJSONArray(selectProPostLevels)});
+    $.register.multiselect($('#searchForm select[name=unitTypes]'), ${cm:toJSONArray(selectUnitTypes)});
+    $.register.multiselect($('#searchForm select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
+    $.register.multiselect($('#searchForm select[name=maxEdus]'), ${cm:toJSONArray(selectMaxEdus)});
+    $.register.multiselect($('#searchForm select[name=postIds]'), ${cm:toJSONArray(selectPostIds)});
+    $.register.multiselect($('#searchForm select[name=proPosts]'), ${cm:toJSONArray(selectProPosts)});
+    $.register.multiselect($('#searchForm select[name=proPostLevels]'), ${cm:toJSONArray(selectProPostLevels)});
 
     function _reAssignCallback() {
         $.hashchange('', '${ctx}/cadreInspect');
@@ -433,5 +433,5 @@
     $.initNavGrid("jqGrid", "jqGridPager");
 
     $('[data-rel="select2"]').select2();
-    register_user_select($('#searchForm select[name=cadreId]'));
+    $.register.user_select($('#searchForm select[name=cadreId]'));
 </script>

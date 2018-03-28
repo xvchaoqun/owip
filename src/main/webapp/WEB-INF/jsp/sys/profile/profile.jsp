@@ -279,7 +279,7 @@
         }]);
     })*/
 
-    register_date($('.date-picker'), {defaultViewDate: {year: 1980}})
+    $.register.date($('.date-picker'), {defaultViewDate: {year: 1980}})
     $("#user-profile form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

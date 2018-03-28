@@ -136,6 +136,6 @@
         }
     });
     $("#batchForm :checkbox").bootstrapSwitch();
-    register_date($('.date-picker'), {startDate:'${today}'});
-    register_user_select($('#batchForm select[name=cadreId]'));
+    $.register.date($('.date-picker'), {startDate:'${today}'});
+    $.register.user_select($('#batchForm select[name=cadreId]'));
 </script>

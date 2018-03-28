@@ -109,5 +109,5 @@
         }
     });
 
-    register_ajax_select($('#modal [data-rel="select2-ajax"]'))
+    $.register.ajax_select($('#modal [data-rel="select2-ajax"]'))
 </script>

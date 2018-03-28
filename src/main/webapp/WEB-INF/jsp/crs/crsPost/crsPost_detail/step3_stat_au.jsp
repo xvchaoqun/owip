@@ -128,7 +128,7 @@
     $("#statForm input").prop("disabled", true);
     </c:if>
     $('#statForm [data-rel="select2"]').select2();
-    register_date($('.datetime-picker'));
+    $.register.date($('.datetime-picker'));
     $.fileInput($('#statForm input[type=file]'), {
         no_file: '请上传pdf文件',
         allowExt: ['pdf']

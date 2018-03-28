@@ -368,5 +368,5 @@
         $count.html($jqGrid.jqGrid("getDataIDs").length);
     })
 
-    register_user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($('[data-rel="select2-ajax"]'));
 </script>

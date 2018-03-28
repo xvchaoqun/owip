@@ -82,11 +82,11 @@ jQuery.validator.addMethod("mobile", function (value, element) {
 }, "请正确填写手机号码");
 
 // 课时
-jQuery.validator.addMethod("period",function(value,element){
+jQuery.validator.addMethod("period", function (value, element) {
     var period = /^\d*(\.(5|0))?$/;
     //console.log(value + ":" + period.test(value))
-    return this.optional(element)||(period.test(value));
-},"请输入正确的课时（最小单位0.5小时）");
+    return this.optional(element) || (period.test(value));
+}, "请输入正确的课时（最小单位0.5小时）");
 
 /*========jquery.validate.extend=====end===*/
 
@@ -104,8 +104,8 @@ SysMsg.error = function (msg, title, callback) {
         title = '';
     }
     bootbox.dialog({
-        title:'<div class="msg title text-danger"><i class="fa fa-exclamation-triangle"></i> '+(title||"提示")+'</div>',
-        message: '<div class="msg info">'+msg+'</div>',
+        title: '<div class="msg title text-danger"><i class="fa fa-exclamation-triangle"></i> ' + (title || "提示") + '</div>',
+        message: '<div class="msg info">' + msg + '</div>',
         closeButton: false,
         buttons: {
             close: {
@@ -125,8 +125,8 @@ SysMsg.warning = function (msg, title, callback) {
         title = '';
     }
     bootbox.dialog({
-        title:'<div class="msg title text-info"><i class="fa fa-exclamation-triangle"></i> '+(title||"提示")+'</div>',
-        message: '<div class="msg info">'+msg+'</div>',
+        title: '<div class="msg title text-info"><i class="fa fa-exclamation-triangle"></i> ' + (title || "提示") + '</div>',
+        message: '<div class="msg info">' + msg + '</div>',
         closeButton: false,
         buttons: {
             close: {
@@ -146,8 +146,8 @@ SysMsg.success = function (msg, title, callback) {
         title = '';
     }
     bootbox.dialog({
-        title:'<div class="msg title text-success"><i class="fa fa-check-square-o"></i> '+(title||"操作成功")+'</div>',
-        message: '<div class="msg info">'+msg+'</div>',
+        title: '<div class="msg title text-success"><i class="fa fa-check-square-o"></i> ' + (title || "操作成功") + '</div>',
+        message: '<div class="msg info">' + msg + '</div>',
         closeButton: false,
         buttons: {
             close: {
@@ -157,7 +157,7 @@ SysMsg.success = function (msg, title, callback) {
                 }
             }
         }
-    }).draggable({handle: ".modal-header"});;
+    }).draggable({handle: ".modal-header"});
 }
 SysMsg.info = function (msg, title, callback) {
     $("body").css('padding-right', '0px');
@@ -167,8 +167,8 @@ SysMsg.info = function (msg, title, callback) {
         title = '';
     }
     bootbox.dialog({
-        title:'<div class="msg title text-info"><i class="fa fa-info-circle"></i> '+(title||"提示")+'</div>',
-        message: '<div class="msg info">'+msg+'</div>',
+        title: '<div class="msg title text-info"><i class="fa fa-info-circle"></i> ' + (title || "提示") + '</div>',
+        message: '<div class="msg info">' + msg + '</div>',
         closeButton: false,
         buttons: {
             close: {
@@ -188,11 +188,11 @@ SysMsg.confirm = function (msg, title, callback) {
         title = '';
     }
     bootbox.confirm({
-        title:'<div class="msg title text-primary"><i class="fa fa-info-circle"></i> '+(title||"信息确认")+'</div>',
-        message: '<div class="msg info text-danger">'+msg+'</div>',
-        callback: function(result){
-            if(result){
-                if(callback) callback();
+        title: '<div class="msg title text-primary"><i class="fa fa-info-circle"></i> ' + (title || "信息确认") + '</div>',
+        message: '<div class="msg info text-danger">' + msg + '</div>',
+        callback: function (result) {
+            if (result) {
+                if (callback) callback();
             }
         }
         /*,
@@ -204,6 +204,35 @@ SysMsg.confirm = function (msg, title, callback) {
 var _modal_width;
 (function ($) {
     $.extend({
+        /**
+         * detect IE
+         * returns version of IE or false, if browser is not Internet Explorer
+         */
+        isIE: function () {
+            var ua = window.navigator.userAgent;
+
+            var msie = ua.indexOf('MSIE ');
+            if (msie > 0) {
+                // IE 10 or older => return version number
+                return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+            }
+
+            var trident = ua.indexOf('Trident/');
+            if (trident > 0) {
+                // IE 11 => return version number
+                var rv = ua.indexOf('rv:');
+                return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+            }
+
+            var edge = ua.indexOf('Edge/');
+            if (edge > 0) {
+                // Edge (IE 12+) => return version number
+                return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+            }
+
+            // other browser
+            return false;
+        },
         loadModal: function (url, width, dragTarget) { // dragTarget：拖拽位置
             //$("#modal").modal('hide');
             //console.log("width="+width + " _modal_width=" + _modal_width);
@@ -355,9 +384,9 @@ var _modal_width;
         date: function (str, format) {
             var date = null;
             //console.log(str + " " + isNaN(str) + " " + $.isIntNum(str))
-            if($.isIntNum(str)){
-               date = new Date(str);
-            }else {
+            if ($.isIntNum(str)) {
+                date = new Date(str);
+            } else {
                 date = new Date(Date.parse(str.replace(/-/g, "/")));
             }
             return date.format(format);
@@ -454,10 +483,10 @@ var _modal_width;
             var $loading = $(loading || "#main-container");
 
             bootbox.confirm({
-                title:'<div class="msg title text-primary"><i class="fa fa-info-circle"></i> '+(title||"信息确认")+'</div>',
-                message: '<div class="msg info text-danger">'+$(btn).data("msg")+'</div>',
-                callback: function(result){
-                    if(result){
+                title: '<div class="msg title text-primary"><i class="fa fa-info-circle"></i> ' + (title || "信息确认") + '</div>',
+                message: '<div class="msg info text-danger">' + $(btn).data("msg") + '</div>',
+                callback: function (result) {
+                    if (result) {
                         $loading.mask({hide: 10000})
                         $.post(url, {}, function (ret) {
                             if (ret.success) {
@@ -575,8 +604,8 @@ var _modal_width;
         },
         print: function (url) {
             var isFirefox = navigator.userAgent.toUpperCase().indexOf("FIREFOX") ? true : false;
-            //alert(isFirefox)
-            if (detectIE() || isFirefox) {
+            //alert($.isIE())
+            if ($.isIE() || isFirefox) {
                 var win = window.open(url);
                 win.focus();
                 win.print();
@@ -639,53 +668,74 @@ var _modal_width;
             filename = $.trim(filename);
             hrefLabel = $.trim(hrefLabel)
             var cls = "";
-            if(type=='url'){
+            if (type == 'url') {
                 cls = "openUrl";
-            }else{
+            } else {
                 cls = "popupBtn"
             }
             if (filepath != '' && filename != '') {
                 hrefLabel = hrefLabel || filename;
                 return '<a href="javascript:void(0)" class="{4}" data-url="{3}/swf/preview?path={0}&filename={1}&type={5}">{2}</a>'
-                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, cls, type||'');
+                    .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, cls, type || '');
             } else
                 return $.trim(plainText);
         }
     });
-    $.fn.loadPage = function (options) {
-        var _options;
-        if (typeof options == "string") {
-            _options = {};
-            _options.url = options;
-            _options.$maskEl = $(this);
-        } else {
-            _options = options || {}
-        }
 
-        _options.$loadEl = $(this);
-        $.loadPage(_options);
-    };
-    $.fn.mask = function (options) {
-        //console.log(options)
-        options = options || {};
-        if (options.hide != undefined && options.hide > 0) {
-            options = $.extend(options, {
-                'afterShow': function () {
-                    setTimeout(function () {
-                        $this.hideLoading();
-                    }, options.hide);
-                }
-            })
+    $.fn.extend({
+        loadPage: function (options) {
+            var _options;
+            if (typeof options == "string") {
+                _options = {};
+                _options.url = options;
+                _options.$maskEl = $(this);
+            } else {
+                _options = options || {}
+            }
+
+            _options.$loadEl = $(this);
+            $.loadPage(_options);
+        },
+        mask: function (options) {
+            //console.log(options)
+            options = options || {};
+            if (options.hide != undefined && options.hide > 0) {
+                options = $.extend(options, {
+                    'afterShow': function () {
+                        setTimeout(function () {
+                            $this.hideLoading();
+                        }, options.hide);
+                    }
+                })
+            }
+            var $this = $(this);
+            return $this.showLoading(options);
+        },
+
+        unmask: function () {
+            var $this = $(this);
+            return $this.hideLoading();
         }
-        var $this = $(this);
-        return $this.showLoading(options);
-    };
-    $.fn.unmask = function () {
-        var $this = $(this);
-        return $this.hideLoading();
-    }
+    })
+
 })(jQuery);
+
 try {
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "positionClass": "toast-bottom-full-width",
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "3000",
+        "extendedTimeOut": "0",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
     bootbox.setDefaults({locale: 'zh_CN'});
     $.fn.select2.defaults.set("language", "zh-CN");
     $.fn.select2.defaults.set("theme", "classic");
@@ -735,61 +785,493 @@ try {
         }
     });
 
+    // 格式化jqGrid字段
     $.jgrid.formatter = {};
-    $.jgrid.formatter.TRUEFALSE = function (cellvalue, options, rowObject) {
+    $.extend($.jgrid.formatter, {
+        TRUEFALSE: function (cellvalue, options, rowObject) {
 
-        if (cellvalue == undefined) cellvalue = false;
-        var op = $.extend({on: '是', off: '否'}, options.colModel.formatoptions);
+            if (cellvalue == undefined) cellvalue = false;
+            var op = $.extend({on: '是', off: '否'}, options.colModel.formatoptions);
 
-        return cellvalue ? op.on : op.off;
-    };
+            return cellvalue ? op.on : op.off;
+        },
+        NoMultiSpace: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return ''
+            // console.log(cellvalue)
+            return $('<p>' + cellvalue.NoMultiSpace() + '</p>').text()
+            //return cellvalue.NoMultiSpace();
+        },
+        htmlencodeWithNoSpace: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return ''
+            return cellvalue.htmlencode().NoSpace();
+        },
+        GENDER: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return ''
+            return _cMap.GENDER_MAP[cellvalue];
+        },
+        AGE: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '';
+            return $.yearOffNow(cellvalue);
+        },
+        MetaType: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return ''
+            return _cMap.metaTypeMap[cellvalue].name
+        },
+        sortOrder: function (cellvalue, options, rowObject) {
+            var op = $.extend({grid: ''}, options.colModel.formatoptions);
+            return _.template($("#common_sort_tpl").html().NoMultiSpace())({
+                grid: op.grid,
+                id: rowObject.id,
+                url: op.url
+            })
+        }
+    });
 
-    $.jgrid.formatter.NoMultiSpace = function (cellvalue, options, rowObject) {
-        if (cellvalue == undefined) return ''
-        // console.log(cellvalue)
-        return $('<p>' + cellvalue.NoMultiSpace() + '</p>').text()
-        //return cellvalue.NoMultiSpace();
-    };
-    $.jgrid.formatter.htmlencodeWithNoSpace = function (cellvalue, options, rowObject) {
-        if (cellvalue == undefined) return ''
-        return cellvalue.htmlencode().NoSpace();
-    };
-    $.jgrid.formatter.GENDER = function (cellvalue, options, rowObject) {
-        if (cellvalue == undefined) return ''
-        return _cMap.GENDER_MAP[cellvalue];
-    };
-    $.jgrid.formatter.AGE = function (cellvalue, options, rowObject) {
-        if (cellvalue == undefined) return '';
-        return $.yearOffNow(cellvalue);
-    };
-    $.jgrid.formatter.MetaType = function (cellvalue, options, rowObject) {
-        if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return ''
-        return _cMap.metaTypeMap[cellvalue].name
-    };
+    // 初始化表单控件
+    $.register = {};
+    $.extend($.register, {
+        formatState: function (state) {
+            if (!state.id) {
+                return state.text;
+            }
+            var $state = $.trim(state.text);
+            if ($.trim(state.code) != '')
+                $state += ($state != '' ? '-' : '') + state.code;
+            if ($.trim(state.unit) != '') {
+                $state += '-' + state.unit;
+            }
+            //console.log($state)
+            return $state;
+        },
+        templateSelection: function (state) {
+            var $state = state.text;
+            if ($.trim(state.code) != '')
+                $state += ($state != '' ? '-' : '') + state.code;
+            return $state;
+        },
+        defaultTemplateResult: function (state) {
+            // 反转义
+            return $('<div/>').html(state.text).text();
+        },
+        // 下拉多选
+        multiselect: function ($select, selected, params) {
+            $select.multiselect($.extend({
+                enableFiltering: true,
+                /*enableHTML: true,*/
+                buttonClass: 'btn btn-default',
+                filterPlaceholder: '查找',
+                nonSelectedText: '请选择',
+                nSelectedText: '已选择',
+                includeSelectAllOption: true,
+                selectAllText: '全选/取消全选',
+                allSelectedText: '全部已选择',
+                maxHeight: 300,
+                buttonWidth: '200px'
+                /* templates: {
+                 button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
+                 ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+                 filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+                 filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
+                 li: '<li><a tabindex="0"><label></label></a></li>',
+                 divider: '<li class="multiselect-item divider"></li>',
+                 liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
+                 }*/
+            }, params));
 
-    $.jgrid.formatter.sortOrder = function (cellvalue, options, rowObject) {
-        var op = $.extend({grid:''}, options.colModel.formatoptions);
-        return _.template($("#common_sort_tpl").html().NoMultiSpace())({
-            grid: op.grid,
-            id: rowObject.id,
-            url: op.url
-        })
-    };
+            if (selected != undefined && selected instanceof Array && selected.length > 0)
+                $select.multiselect('select', selected);
+        },
+        // 图片
+        fancybox: function (afterLoad) {
 
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "positionClass": "toast-bottom-full-width",
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "3000",
-        "extendedTimeOut": "0",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
+            $(".various").fancybox({
+                live: true,
+                tpl: {error: '<p class="fancybox-error">该文件不是有效的图片格式，请下载后查看。</p>'},
+                maxWidth: 800,
+                maxHeight: 600,
+                fitToView: false,
+                width: '70%',
+                height: '70%',
+                autoSize: false,
+                closeClick: false,
+                openEffect: 'none',
+                closeEffect: 'none',
+                loop: false,
+
+                arrows: false,
+                prevEffect: 'none',
+                nextEffect: 'none',
+                closeBtn: false,
+                helpers: {
+                    overlay: {
+                        closeClick: false,
+                        locked: false
+                    },
+                    title: {type: 'inside'},
+                    buttons: {}
+                },
+                beforeShow: function () {
+                    this.wrap.draggable();
+                },
+                afterLoad: afterLoad || function () {
+                }
+            });
+        },
+        // 根据单位状态 - 选择单位
+        unit_select: function ($unitTypeSelect, $unitSelect, $unitType) {
+            $unitTypeSelect.on("change", function () {
+                $unitSelect.val(null).trigger("change");
+            });
+            $unitSelect.select2({
+                ajax: {
+                    dataType: 'json',
+                    delay: 300,
+                    data: function (params) {
+                        return {
+                            status: $unitTypeSelect.val() | '',
+                            searchStr: params.term,
+                            pageSize: 10,
+                            pageNo: params.page
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.options, pagination: {
+                                more: (params.page * 10) < data.totalCount
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            }).on("change", function () {
+                var unitType = $(this).select2("data")[0]['type'] || '';
+                $unitType.val(unitType);
+            });
+        },
+        // 日历
+        date: function ($date, params) {
+            return $date.datepicker($.extend({
+                language: "zh-CN",
+                autoclose: true,
+                todayHighlight: true,
+                clearBtn: true
+            }, params))
+        },
+        // 日历时间
+        datetime: function ($date, params) {
+            $date.datetimepicker($.extend({
+                language: "zh-CN",
+                autoclose: true,
+                todayHighlight: true,
+                //todayBtn: true,
+                clearBtn: true
+            }, params))
+        },
+
+        // 选择发文类型
+        dispatchType_select: function ($select, $year) {
+            $year.on("change", function () {
+                $select.val(null).trigger("change");
+            });
+            var t = $select.select2({
+                language: {
+                    noResults: function (term) {
+                        return "请先选择年份";
+                    }
+                },
+                templateResult: $.register.formatState,
+                ajax: {
+                    dataType: 'json',
+                    delay: 300,
+                    data: function (params) {
+                        return {
+                            year: $year.val() || -1,
+                            searchStr: params.term,
+                            pageSize: 10,
+                            pageNo: params.page
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.options, pagination: {
+                                more: (params.page * 10) < data.totalCount
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            });
+        },
+        // 年份-发文类型-发文， 选择任免文件
+        dispatch_select: function ($dispatchTypeSelect, $year, $dispatchSelect) {
+            register_dispatchType_select($dispatchTypeSelect, $year);
+            $year.on("change", function () {
+                $dispatchTypeSelect.val(null).trigger("change");
+                $dispatchSelect.val(null).trigger("change");
+            });
+            $dispatchTypeSelect.on("change", function () {
+                $dispatchSelect.val(null).trigger("change");
+            });
+            $dispatchSelect.select2({
+                templateResult: $.register.formatState,
+                ajax: {
+                    dataType: 'json',
+                    delay: 300,
+                    data: function (params) {
+                        return {
+                            dispatchTypeId: $dispatchTypeSelect.val() || '',
+                            searchStr: params.term,
+                            pageSize: 10,
+                            pageNo: params.page
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.options, pagination: {
+                                more: (params.page * 10) < data.totalCount
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            }).on("change", function () {
+                var id = $(this).val();
+                if (id > 0) {
+                    $("#item-content").load(ctx + "/dispatch_cadres?dispatchId=" + id);
+                    /*$("#dispatch-file-view").load(ctx + "/swf_preview?way=3&id=" + id + "&type=file");
+                     $("#dispatch-cadres-view").load(ctx + "/dispatch_cadres_admin?dispatchId=" + id);
+
+                     var dispatchType = $(this).select2("data")[0]['type']||'';
+                     var year = $(this).select2("data")[0]['year']||'';
+                     $dispatchTypeSelect.val(dispatchType);
+                     $year.val(year);*/
+                }
+            });
+        },
+        // 分党委、党支部select2联动
+        party_branch_select: function ($container, branchDivId, mt_direct_branch_id,
+                                       init_party_id, init_party_class, partyId, branchId, branchIsNotEmpty) {
+
+            //var $container = $("#modalForm");
+            partyId = partyId || "partyId";
+            branchId = branchId || "branchId";
+            $('select[name=' + partyId + '], select[name=' + branchId + ']', $container).select2({
+                templateResult: function (state) {
+
+                    return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                },
+                templateSelection: function (state) {
+                    return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                },
+                ajax: {
+                    dataType: 'json',
+                    delay: 300,
+                    data: function (params) {
+                        return {
+                            searchStr: params.term,
+                            pageSize: 10,
+                            pageNo: params.page,
+                            partyId: $('select[name=' + partyId + ']', $container).val()
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.options, pagination: {
+                                more: (params.page * 10) < data.totalCount
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            });
+            $('select[name=' + partyId + ']', $container).on("change", function () {
+
+                $("#" + branchDivId + " select", $container).removeAttr("required");
+
+                var $party_class = $(this).select2("data")[0]['class'] || init_party_class;
+                //alert("${party.id}")
+                if ($(this).val() != init_party_id)
+                    $('select[name=' + branchId + ']', $container).val(null).trigger("change");
+                if ($(this).val() > 0 && $party_class != mt_direct_branch_id) {
+                    $("#" + branchDivId, $container).show();
+                    if (branchIsNotEmpty != undefined && branchIsNotEmpty)
+                        $("#" + branchDivId + " select", $container).attr("required", "required");
+                } else {
+                    $('select[name=' + branchId + ']', $container).val(null).trigger("change");
+                    $("#" + branchDivId, $container).hide();
+                }
+            }).change();
+            $('select[name=' + partyId + ']', $container).on("select2:unselect", function () {
+                $('select[name=' + branchId + ']', $container).val(null).trigger("change");
+                $("#" + branchDivId, $container).hide();
+            })
+        },
+        // 类型、分党委、党支部 3级联动
+        class_party_branch_select: function ($container, partyDivId, branchDivId,
+                                             mt_direct_branch_id, init_party_id, classId, partyId, branchId, isNotEmpty) {
+
+            classId = classId || "classId";
+            partyId = partyId || "partyId";
+            branchId = branchId || "branchId";
+
+            $('select[name=' + classId + ']', $container).select2({width: 200}).on("change", function () {
+
+                $("#" + partyDivId + " select").removeAttr("required");
+
+                $('select[name=' + partyId + ']', $container).val(null).trigger("change");
+                $('select[name=' + branchId + ']', $container).val(null).trigger("change");
+                if ($(this).val() > 0) {
+                    $("#" + partyDivId, $container).show();
+                    if (isNotEmpty != undefined && isNotEmpty)
+                        $("#" + partyDivId + " select").attr("required", "required");
+                } else {
+
+                    $("#" + partyDivId + ", #" + branchDivId, $container).hide();
+                }
+            });
+
+            $('select[name=' + partyId + '], select[name=' + branchId + ']', $container).select2({
+                width: 400,
+                ajax: {
+                    dataType: 'json',
+                    delay: 300,
+                    data: function (params) {
+                        return {
+                            searchStr: params.term,
+                            pageSize: 10,
+                            pageNo: params.page,
+                            classId: $('select[name=' + classId + ']', $container).val(),
+                            partyId: $('select[name=' + partyId + ']', $container).val()
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.options, pagination: {
+                                more: (params.page * 10) < data.totalCount
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            });
+
+            $('select[name=' + partyId + ']', $container).on("change", function () {
+
+                $("#" + branchDivId + " select").removeAttr("required");
+
+                if ($(this).val() != init_party_id)
+                    $('select[name=' + branchId + ']', $container).val(null).trigger("change");
+
+                if ($(this).val() > 0 && $('select[name=' + classId + ']', $container).val() != mt_direct_branch_id) {
+                    $("#" + branchDivId, $container).show();
+                    if (isNotEmpty != undefined && isNotEmpty)
+                        $("#" + branchDivId + " select").attr("required", "required");
+                } else {
+                    $('select[name=' + branchId + ']', $container).val(null).trigger("change");
+                    $("#" + branchDivId, $container).hide();
+                }
+            });
+        },
+        ajax_select: function ($select, params) {
+            params = params || {};
+            return $($select).select2($.extend({
+                    templateResult: params.templateResult || $.register.defaultTemplateResult,
+                    templateSelection: params.templateSelection || $.register.defaultTemplateResult,
+                    ajax: {
+                        dataType: 'json',
+                        delay: 300,
+                        data: function (params) {
+                            return {
+                                searchStr: params.term,
+                                pageSize: 10,
+                                pageNo: params.page
+                            };
+                        },
+                        processResults: function (data, params) {
+                            params.page = params.page || 1;
+                            return {
+                                results: data.options, pagination: {
+                                    more: (params.page * 10) < data.totalCount
+                                }
+                            };
+                        },
+                        cache: true
+                    }
+                }, params)
+            );
+        },
+        // 选择账号
+        user_select: function ($select, ts) {
+            return $select.select2({
+                templateResult: $.register.formatState,
+                templateSelection: ts || $.register.templateSelection,
+                ajax: {
+                    dataType: 'json',
+                    delay: 300,
+                    data: function (params) {
+                        return {
+                            searchStr: params.term,
+                            pageSize: 10,
+                            pageNo: params.page
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.options, pagination: {
+                                more: (params.page * 10) < data.totalCount
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            });
+        },
+        // 选择分党委
+        party_select: function ($select, width) {
+            return $select.select2({
+                width: width || 350,
+                templateResult: function (state) {
+
+                    return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                },
+                templateSelection: function (state) {
+                    return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                },
+                ajax: {
+                    dataType: 'json',
+                    delay: 300,
+                    data: function (params) {
+                        return {
+                            searchStr: params.term,
+                            pageSize: 10,
+                            pageNo: params.page
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        return {
+                            results: data.options, pagination: {
+                                more: (params.page * 10) < data.totalCount
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            });
+        }
+    });
 } catch (e) {
     console.log(e)
 }

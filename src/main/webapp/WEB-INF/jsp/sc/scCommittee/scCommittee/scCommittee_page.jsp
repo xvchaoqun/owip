@@ -152,7 +152,7 @@ pageEncoding="UTF-8" %>
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

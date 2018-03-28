@@ -24,7 +24,7 @@
 	<input type="submit" class="btn btn-primary" value="认定"/>
 </div>
 <script>
-	register_user_select($('[data-rel="select2-ajax"]'));
+	$.register.user_select($('[data-rel="select2-ajax"]'));
 	$("#modalForm").validate({
 		submitHandler: function (form) {
 			$(form).ajaxSubmit({

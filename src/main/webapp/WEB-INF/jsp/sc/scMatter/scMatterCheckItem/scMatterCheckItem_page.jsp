@@ -172,8 +172,8 @@
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 
-    register_user_select($('#searchForm [data-rel="select2-ajax"]'));
-    register_date($('.date-picker'));
+    $.register.user_select($('#searchForm [data-rel="select2-ajax"]'));
+    $.register.date($('.date-picker'));
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

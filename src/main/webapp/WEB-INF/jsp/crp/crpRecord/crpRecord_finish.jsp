@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
 
 <script>
 
-	register_date($('.date-picker'));
+	$.register.date($('.date-picker'));
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

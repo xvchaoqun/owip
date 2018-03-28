@@ -268,7 +268,7 @@
                 $(this).closest("tr").remove();
             });
 
-    register_dispatchType_select($('#modalForm select[name=dispatchTypeId]'), $("#modalForm input[name=year]"));
+    $.register.dispatchType_select($('#modalForm select[name=dispatchTypeId]'), $("#modalForm input[name=year]"));
     $.fileInput($("#modalForm input[name=_wordFilePath]"), {
         no_file: '请上传WORD文件 ...',
         allowExt: ['doc', 'docx']
@@ -411,7 +411,7 @@
         allowExt: ['pdf'],
         allowMime: ['application/pdf']
     });
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $('#modalForm [data-rel="select2"]').select2();
-    register_ajax_select($('#modalForm select[name=committeeId]'), {maximumInputLength: 8})
+    $.register.ajax_select($('#modalForm select[name=committeeId]'), {maximumInputLength: 8})
 </script>

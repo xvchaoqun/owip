@@ -43,5 +43,5 @@ pageEncoding="UTF-8"%>
         }
     });
 
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
 </script>

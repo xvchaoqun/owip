@@ -89,9 +89,9 @@
       </div>
       </form>
       <script>
-        register_class_party_branch_select($("#modalForm"), "party", "branch",
+        $.register.class_party_branch_select($("#modalForm"), "party", "branch",
                 '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}');
-        register_date($('.date-picker'));
+        $.register.date($('.date-picker'));
 
         $("form").validate({
           submitHandler: function (form) {

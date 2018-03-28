@@ -69,7 +69,7 @@
 </div>
 
 <script>
-    register_ajax_select($('#searchForm select[name=branchId]'));
+    $.register.ajax_select($('#searchForm select[name=branchId]'));
     $("#jqGrid").jqGrid({
         rownumbers: true,
         url: '${ctx}/pcsRecommend_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

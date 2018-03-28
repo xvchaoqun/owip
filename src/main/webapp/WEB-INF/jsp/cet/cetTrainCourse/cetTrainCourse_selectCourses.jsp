@@ -49,7 +49,7 @@
 <jsp:include page="../cetCourse/cetCourse_colModel.jsp"/>
 <script>
 
-    register_user_select($('#searchForm_popup select[name=expertId]'));
+    $.register.user_select($('#searchForm_popup select[name=expertId]'));
     $("#jqGrid_popup").jqGrid({
         height: 390,
         width: 1160,

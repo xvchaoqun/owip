@@ -81,7 +81,7 @@
 
 <script>
 	$("#modal :checkbox").bootstrapSwitch();
-	register_date($('.date-picker'));
+	$.register.date($('.date-picker'));
 
 	$("#modal form").validate({
 		submitHandler: function (form) {

@@ -105,9 +105,9 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-	register_date($('.date-picker'));
+	$.register.date($('.date-picker'));
 	$('textarea.limited').inputlimiter();
-	var $selectUnit = register_ajax_select($('#modalForm select[name=unitId]'));
+	var $selectUnit = $.register.ajax_select($('#modalForm select[name=unitId]'));
 	$selectUnit.on("change",function(){
 		var unitType = $(this).select2("data")[0]['type']||'';
 		$('#modalForm input[name=unitType]').val(unitType);

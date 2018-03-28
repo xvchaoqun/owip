@@ -23,7 +23,7 @@
   <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>
 <script>
-  register_user_select($('#modal select[name=userId]'));
+  $.register.user_select($('#modal select[name=userId]'));
   $("#modal #submitBtn").click(function(){
 
     var userId = $("#modal select[name=userId]").val();

@@ -200,7 +200,7 @@ pageEncoding="UTF-8" %>
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
-    register_user_select($('#searchForm select[name=cadreId]'));
+    $.register.user_select($('#searchForm select[name=cadreId]'));
     $('#searchForm select[name=groupId]').select2({
         ajax: {
             dataType: 'json',

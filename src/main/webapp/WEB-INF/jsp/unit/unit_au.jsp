@@ -81,5 +81,5 @@ pageEncoding="UTF-8"%>
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
 </script>

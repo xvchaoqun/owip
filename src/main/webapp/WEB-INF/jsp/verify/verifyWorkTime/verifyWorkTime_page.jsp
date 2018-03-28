@@ -93,7 +93,7 @@
     </div>
 </div>
 <script>
-    register_user_select($('[data-rel="select2-ajax"]'));
+    $.register.user_select($('[data-rel="select2-ajax"]'));
     $("#jqGrid").jqGrid({
         url: '${ctx}/verifyWorkTime_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [

@@ -157,12 +157,12 @@
     <a class="btn btn-default btn-sm" onclick="hideDel()"><i class="fa fa-trash"></i> 取消</a>
 </script>
 <script>
-    register_multiselect($('#searchForm select[name=wayId]'), ${cm:toJSONArray(selectedWayIds)});
-    register_multiselect($('#searchForm select[name=procedureId]'), ${cm:toJSONArray(selectedProcedureIds)});
-    register_multiselect($('#searchForm select[name=adminLevelId]'), ${cm:toJSONArray(selectedAdminLevelIds)});
+    $.register.multiselect($('#searchForm select[name=wayId]'), ${cm:toJSONArray(selectedWayIds)});
+    $.register.multiselect($('#searchForm select[name=procedureId]'), ${cm:toJSONArray(selectedProcedureIds)});
+    $.register.multiselect($('#searchForm select[name=adminLevelId]'), ${cm:toJSONArray(selectedAdminLevelIds)});
 
-    register_date($('.date-picker'));
-    register_dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));
+    $.register.date($('.date-picker'));
+    $.register.dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));
 
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatchCadre_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
@@ -224,5 +224,5 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    register_user_select($('#searchForm select[name=cadreId]'));
+    $.register.user_select($('#searchForm select[name=cadreId]'));
 </script>

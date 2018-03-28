@@ -85,7 +85,7 @@
       $("#jqGrid_popup").trigger("reloadGrid");
     }
 
-  register_user_select($('#searchForm_popup select[name=userId]'));
+  $.register.user_select($('#searchForm_popup select[name=userId]'));
   $('#searchForm_popup [data-rel="select2"]').select2();
   $("#jqGrid_popup").jqGrid({
     multiselect:false,

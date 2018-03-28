@@ -68,7 +68,7 @@
 </div>
 
 <script>
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
 
     $("#modalForm").validate({
         submitHandler: function (form) {

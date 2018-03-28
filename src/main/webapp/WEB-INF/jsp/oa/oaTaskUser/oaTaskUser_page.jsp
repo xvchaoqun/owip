@@ -43,7 +43,7 @@
     function _oaTaskUser_reload(){
         $("#jqGrid2").trigger("reloadGrid");
     }
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $("#jqGrid2").jqGrid({
         rownumbers:true,
         //forceFit:true,

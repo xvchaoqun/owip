@@ -134,6 +134,6 @@
         }
     });
 
-    register_date($('.date-picker'));
-    register_ajax_select($('[data-rel="select2-ajax"]'));
+    $.register.date($('.date-picker'));
+    $.register.ajax_select($('[data-rel="select2-ajax"]'));
 </script>

@@ -128,5 +128,5 @@ pageEncoding="UTF-8"%>
         }
     });
     $('[data-rel="select2"]').select2();
-    register_ajax_select($('#modal [data-rel="select2-ajax"]'))
+    $.register.ajax_select($('#modal [data-rel="select2-ajax"]'))
 </script>

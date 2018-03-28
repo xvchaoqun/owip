@@ -171,9 +171,9 @@ pageEncoding="UTF-8"%>
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
-    register_ajax_select($('#modalForm select[name=dispatchId][data-rel="select2-ajax"]'));
+    $.register.ajax_select($('#modalForm select[name=dispatchId][data-rel="select2-ajax"]'));
 
-    var $selectCadre = register_user_select($('#modalForm select[name=cadreId]'),function(state){ var $state = state.text;
+    var $selectCadre = $.register.user_select($('#modalForm select[name=cadreId]'),function(state){ var $state = state.text;
         if(state.code!=undefined && state.code.length>0)
             $state = state.code;
         return $state;
@@ -182,5 +182,4 @@ pageEncoding="UTF-8"%>
         var name = $(this).select2("data")[0]['text']||'';
         $('#modalForm input[name=_name]').val(name);
     });
-    //register_cadre_select($('#modalForm select[name=cadreId]'), $('#modalForm input[name=_name]'));
 </script>

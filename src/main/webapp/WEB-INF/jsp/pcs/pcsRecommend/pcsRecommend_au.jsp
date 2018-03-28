@@ -514,5 +514,5 @@
         $count.html($jqGrid.jqGrid("getDataIDs").length);
     })
 
-    register_user_select($('#dwUserId, #jwUserId'));
+    $.register.user_select($('#dwUserId, #jwUserId'));
 </script>

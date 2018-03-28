@@ -207,12 +207,12 @@
            value="<c:if test="${party!=null}">确定</c:if><c:if test="${party==null}">添加</c:if>"/>
 </div>
 <script>
-    register_user_select($('#modalForm select[name=userId]'));
+    $.register.user_select($('#modalForm select[name=userId]'));
 
-    register_party_branch_select($("#modalForm"), "branch",
+    $.register.party_branch_select($("#modalForm"), "branch",
             '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
 
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
 
     $("#modalForm").validate({
         submitHandler: function (form) {

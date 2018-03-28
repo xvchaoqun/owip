@@ -120,7 +120,7 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 					<script>
-						register_party_branch_select($("#modalForm"), "branchDiv",
+						$.register.party_branch_select($("#modalForm"), "branchDiv",
 								'${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
 					</script>
 
@@ -272,7 +272,7 @@ pageEncoding="UTF-8"%>
 
 	$("#modalForm :checkbox").bootstrapSwitch();
 	$('textarea.limited').inputlimiter();
-	register_date($('.date-picker'));
+	$.register.date($('.date-picker'));
 	$("#item-content input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
 	$("#modalForm").validate({
         submitHandler: function (form) {
@@ -303,7 +303,7 @@ pageEncoding="UTF-8"%>
 		return false;
 	});
 
-	var $select = register_user_select($('#modalForm select[name=userId]'));
+	var $select = $.register.user_select($('#modalForm select[name=userId]'));
 	$select.on("change",function(){
 		var entity = $(this).select2("data")[0];
 		if(entity && entity.id && entity.id>0) {

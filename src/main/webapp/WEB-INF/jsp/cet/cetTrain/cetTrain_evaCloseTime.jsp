@@ -64,7 +64,7 @@ pageEncoding="UTF-8"%>
 	});
 	evaClosedChanged()
 
-	register_datetime($('.datetime-picker'));
+	$.register.datetime($('.datetime-picker'));
 	$("#submitBtn").click(function(){
 		$("#modalForm").submit();
 		return false;

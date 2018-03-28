@@ -423,7 +423,7 @@
                                                                             </div>
                                                                         </c:if>
                                                                             <script>
-                                                                                register_party_branch_select($("#searchForm"), "branchDiv",
+                                                                                $.register.party_branch_select($("#searchForm"), "branchDiv",
                                                                                         '${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}");
                                                                             </script>
                                                                         <div class="clearfix form-actions center">
@@ -871,6 +871,6 @@
 
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip({container:'#page-content'});
-    register_user_select($('#searchForm select[name=userId]'));
+    $.register.user_select($('#searchForm select[name=userId]'));
 
 </script>

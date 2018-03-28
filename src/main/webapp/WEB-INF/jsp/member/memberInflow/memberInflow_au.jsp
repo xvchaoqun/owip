@@ -54,7 +54,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				<script>
-					register_party_branch_select($("#modalForm"), "branchDiv",
+					$.register.party_branch_select($("#modalForm"), "branchDiv",
 							'${cm:getMetaTypeByCode("mt_direct_branch").id}', "${party.id}", "${party.classId}" );
 				</script>
 			<div class="form-group">
@@ -162,7 +162,7 @@ pageEncoding="UTF-8"%>
 	showLocation("${memberInflow.province}",null, null, $("#loc_province_container1"));
 	showLocation("${memberInflow.outLocation}",null, null, $("#loc_province_container2"));
 	$('textarea.limited').inputlimiter();
-	register_date($('.date-picker'));
+	$.register.date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
 			if(!$("#branchDiv").is(":hidden")){
@@ -185,5 +185,5 @@ pageEncoding="UTF-8"%>
     });
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-	register_user_select($('#modalForm select[name=userId]'));
+	$.register.user_select($('#modalForm select[name=userId]'));
 </script>

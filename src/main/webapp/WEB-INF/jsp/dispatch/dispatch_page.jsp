@@ -178,9 +178,9 @@
             }
         });
     }
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $('[data-rel="select2"]').select2();
-    register_dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));
+    $.register.dispatchType_select($('#searchForm select[name=dispatchTypeId]'), $("#searchForm input[name=year]"));
 
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

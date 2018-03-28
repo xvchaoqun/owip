@@ -257,7 +257,7 @@
     $("#modalForm :checkbox").bootstrapSwitch();
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    register_user_select($('[data-rel="select2-ajax"]'), function (state) {
+    $.register.user_select($('[data-rel="select2-ajax"]'), function (state) {
         var $status = state.status;
         //alert($("input[name=isPresentCadre]").bootstrapSwitch("state"))
         if (($status == '${CADRE_STATUS_MIDDLE}' || $status == '${CADRE_STATUS_LEADER}') &&
@@ -268,6 +268,6 @@
         }
         return templateSelection(state);
     });
-    register_date($(".date-picker"))
+    $.register.date($(".date-picker"))
     $('textarea.limited').inputlimiter();
 </script>

@@ -131,5 +131,5 @@
             });
         }
     });
-    register_user_select($('#modal [data-rel="select2-ajax"]'));
+    $.register.user_select($('#modal [data-rel="select2-ajax"]'));
 </script>

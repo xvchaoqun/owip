@@ -112,7 +112,7 @@ pageEncoding="UTF-8"%>
 	});
 	isGlobalChanged()
 	</c:if>
-	register_datetime($('.datetime-picker'));
+	$.register.datetime($('.datetime-picker'));
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

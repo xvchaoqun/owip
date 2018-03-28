@@ -220,7 +220,7 @@
             });
         }
     });
-    register_date($('.date-picker'))
+    $.register.date($('.date-picker'))
     /*$('.date-picker').datepicker({
         language:"zh-CN",
         autoclose: true,

@@ -69,10 +69,10 @@ pageEncoding="UTF-8"%>
 <script>
     jgrid_left = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollLeft();
     jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $('textarea.limited').inputlimiter();
 
-    register_user_select($('#modalForm select[name=userId]'));
+    $.register.user_select($('#modalForm select[name=userId]'));
     $('#modalForm [data-rel="select2"]').select2();
 
     $("#modal form").validate({

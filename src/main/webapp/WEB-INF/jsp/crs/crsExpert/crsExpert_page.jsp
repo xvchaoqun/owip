@@ -133,7 +133,7 @@
         $("#searchForm input[name=orderType]").val($(this).val());
         $("#searchForm .jqSearchBtn").click();
     })
-    register_user_select($('#searchForm select[name=userId]'));
+    $.register.user_select($('#searchForm select[name=userId]'));
     $("#jqGrid").jqGrid({
         url: '${ctx}/crsExpert_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [

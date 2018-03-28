@@ -225,9 +225,9 @@
             });
         }
     });
-    register_user_select($('#modal [data-rel="select2-ajax"]'));
-    register_date($('.date-picker'));
-    register_datetime($('.datetime-picker'));
+    $.register.user_select($('#modal [data-rel="select2-ajax"]'));
+    $.register.date($('.date-picker'));
+    $.register.datetime($('.datetime-picker'));
     $('textarea.limited').inputlimiter();
     $("#modalForm :checkbox").bootstrapSwitch();
     $('#modalForm [data-rel="select2"]').select2();

@@ -57,7 +57,7 @@
             </div>
           </div>
           <script>
-            register_class_party_branch_select($("#modalForm"), "party", "branch",
+            $.register.class_party_branch_select($("#modalForm"), "party", "branch",
                     '${cm:getMetaTypeByCode("mt_direct_branch").id}', '${party.id}', null,null,null,true)
           </script>
           <div class="form-group">
@@ -181,7 +181,7 @@
       <script>
         $('textarea.limited').inputlimiter();
 
-        register_date($('.date-picker'), {endDate:'${today}'});
+        $.register.date($('.date-picker'), {endDate:'${today}'});
         $('#modalForm [data-rel="select2"]').select2();
         var jqValid = $("form").validate({
           submitHandler: function (form) {

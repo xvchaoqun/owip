@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    register_date($('.date-picker'));
+    $.register.date($('.date-picker'));
     $.fileInput($('#modalForm input[type=file]'),{
         no_file:'请上传pdf文件',
         allowExt: ['pdf']
@@ -69,5 +69,5 @@ pageEncoding="UTF-8"%>
         }
     });
     $('#modalForm [data-rel="select2"]').select2();
-    register_user_select($('#modalForm select[name=cadreId]'));
+    $.register.user_select($('#modalForm select[name=cadreId]'));
 </script>

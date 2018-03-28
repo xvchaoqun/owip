@@ -73,7 +73,7 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
-    register_user_select($('#searchForm select[name=userId]'));
+    $.register.user_select($('#searchForm select[name=userId]'));
     $("#jqGrid").jqGrid({
         url: '${ctx}/feedback_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [

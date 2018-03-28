@@ -45,7 +45,7 @@
   <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>
 <script>
-  register_date($('.date-picker'))
+  $.register.date($('.date-picker'))
   $('#modalForm [data-rel="select2"]').select2();
   $("#submitBtn").click(function(){
     $("#modalForm").submit(); return false;

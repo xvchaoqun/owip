@@ -141,7 +141,7 @@
     $("#modalForm select[name=handleType]").select2({theme: "default"}).val(null).trigger("change").prop("disabled", true);
     </c:if>
     <c:if test="${empty taiwanRecord}">
-    var $selectCadre = register_user_select($('#modal select[name=cadreId]'));
+    var $selectCadre = $.register.user_select($('#modal select[name=cadreId]'));
     $selectCadre.on("change",function(){
         var twPassportCode = $(this).select2("data")[0]['twPassportCode'] || '';
 
@@ -156,8 +156,8 @@
         }
     }).change();
     </c:if>
-    register_date($('#modalForm input[name=recordDate]'))
-    register_date($('.date-picker'))
+    $.register.date($('#modalForm input[name=recordDate]'))
+    $.register.date($('.date-picker'))
     $("#modalForm").validate({
         submitHandler: function (form) {
 

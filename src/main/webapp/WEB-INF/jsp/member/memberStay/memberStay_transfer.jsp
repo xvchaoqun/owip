@@ -64,9 +64,9 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    register_ajax_select($('#modalForm select[name=branchId]'));
-    register_user_select($('#modalForm select[name=orgBranchAdminId]'));
-    register_date($('.date-picker'));
+    $.register.ajax_select($('#modalForm select[name=branchId]'));
+    $.register.user_select($('#modalForm select[name=orgBranchAdminId]'));
+    $.register.date($('.date-picker'));
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
