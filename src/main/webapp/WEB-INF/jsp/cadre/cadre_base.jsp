@@ -750,7 +750,7 @@ pageEncoding="UTF-8"%>
 									${empty xtJzg.csrq?'':cm:intervalYearsUntilNow(extJzg.csrq)}
 							</td>
 						</tr>
-						<c:set var="_needModifyParty" value="${cadre.cadreDpType<=0 && empty member}"/>
+						<c:set var="_needModifyParty" value="${cadre.cadreDpType<0 && empty member}"/>
 						<tr>
 							<td>政治面貌</td>
 							<td>

@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.pmd.common;
 
 import domain.ext.ExtJzgSalary;
 import domain.ext.ExtRetireSalary;

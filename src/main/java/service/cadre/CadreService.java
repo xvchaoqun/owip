@@ -347,6 +347,35 @@ public class CadreService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
+    public void cadrePartyImport(List<CadreParty> records) {
+
+        for (CadreParty record : records) {
+            int userId = record.getUserId();
+            byte type = record.getType();
+
+            CadreParty cadreParty = get(userId, type);
+            if(cadreParty!=null){
+                cadrePartyMapper.updateByPrimaryKeySelective(record);
+            }else{
+                cadrePartyMapper.insertSelective(record);
+            }
+        }
+    }
+
+    public CadreParty get(int userId, byte type){
+
+        CadrePartyExample example = new CadrePartyExample();
+        example.createCriteria().andUserIdEqualTo(userId).andTypeEqualTo(type);
+        List<CadreParty> cadreParties = cadrePartyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return cadreParties.size()>0?cadreParties.get(0):null;
+    }
+
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
     public void cadreParty_batchDel(Integer[] ids) {
 
         for (Integer id : ids) {

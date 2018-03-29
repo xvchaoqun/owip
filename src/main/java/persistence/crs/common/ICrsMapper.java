@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.crs.common;
 
 import domain.crs.CrsApplicant;
 import org.apache.ibatis.annotations.Param;

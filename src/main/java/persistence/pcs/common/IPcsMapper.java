@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.pcs.common;
 
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsPrAllocate;

@@ -17,9 +17,15 @@
                         <div id="home4" class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="cadreParty:edit">
-                                    <a class="popupBtn btn btn-info btn-sm btn-success"
+                                    <a class="popupBtn btn btn-sm btn-success"
                                        data-url="${ctx}/cadreParty_au?type=${type}"><i class="fa fa-plus"></i> 添加</a>
                                 </shiro:hasPermission>
+                                <c:if test="${type==2}">
+                                <a class="popupBtn btn btn-warning btn-sm tooltip-success"
+                                   data-url="${ctx}/cadreParty_import"
+                                   data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                    批量导入</a>
+                                </c:if>
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/cadreParty_au">
                                     <i class="fa fa-edit"></i> 修改信息

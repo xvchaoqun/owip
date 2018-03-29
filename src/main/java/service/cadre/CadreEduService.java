@@ -13,7 +13,6 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.modify.ModifyTableApplyMapper;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import shiro.ShiroHelper;
@@ -31,8 +30,6 @@ import java.util.Map;
 @Service
 public class CadreEduService extends BaseMapper {
 
-    @Autowired
-    private ModifyTableApplyMapper modifyTableApplyMapper;
     @Autowired
     private CadreService cadreService;
     @Autowired

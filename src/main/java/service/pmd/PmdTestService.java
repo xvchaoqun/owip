@@ -10,11 +10,11 @@ import domain.pmd.PmdPartyExample;
 import org.apache.commons.lang.math.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.common.CommonMapper;
-import persistence.common.IPmdMapper;
 import persistence.pmd.PmdBranchMapper;
 import persistence.pmd.PmdMemberMapper;
 import persistence.pmd.PmdNormMapper;
 import persistence.pmd.PmdPartyMapper;
+import persistence.pmd.common.IPmdMapper;
 import sys.utils.DateUtils;
 
 import java.util.List;

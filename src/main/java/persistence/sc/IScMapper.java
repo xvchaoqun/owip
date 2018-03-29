@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.sc;
 
 import domain.cadre.CadreView;
 import domain.cis.CisInspectObjView;

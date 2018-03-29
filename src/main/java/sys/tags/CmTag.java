@@ -45,7 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import persistence.abroad.PassportMapper;
-import persistence.common.IAbroadMapper;
+import persistence.abroad.common.IAbroadMapper;
 import persistence.sys.HtmlFragmentMapper;
 import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;

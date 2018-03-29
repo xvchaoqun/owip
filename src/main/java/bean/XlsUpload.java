@@ -508,7 +508,7 @@ public class XlsUpload {
         return rows;
     }
 
-
+    // 每行数据key从0开始计数
     public static List<Map<Integer, String>> getXlsRows(XSSFSheet sheet) {
 
         List<Map<Integer, String>> xlsRows = new ArrayList<>();

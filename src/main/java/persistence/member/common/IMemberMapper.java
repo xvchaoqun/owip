@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.member.common;
 
 import bean.MemberApplyCount;
 import domain.member.Member;

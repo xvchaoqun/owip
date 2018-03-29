@@ -20,6 +20,7 @@ import persistence.abroad.PassportDrawMapper;
 import persistence.abroad.PassportMapper;
 import persistence.abroad.SafeBoxMapper;
 import persistence.abroad.TaiwanRecordMapper;
+import persistence.abroad.common.IAbroadMapper;
 import persistence.base.ContentTplMapper;
 import persistence.base.CountryMapper;
 import persistence.base.LocationMapper;
@@ -90,6 +91,7 @@ import persistence.cet.CetTraineeCourseMapper;
 import persistence.cet.CetTraineeCourseViewMapper;
 import persistence.cet.CetTraineeMapper;
 import persistence.cet.CetTraineeTypeMapper;
+import persistence.cet.common.ICetMapper;
 import persistence.cis.CisEvaluateMapper;
 import persistence.cis.CisInspectObjMapper;
 import persistence.cis.CisInspectObjViewMapper;
@@ -98,20 +100,13 @@ import persistence.cis.CisInspectorViewMapper;
 import persistence.cis.CisObjInspectorMapper;
 import persistence.cis.CisObjUnitMapper;
 import persistence.common.CommonMapper;
-import persistence.common.IAbroadMapper;
 import persistence.common.ICadreMapper;
-import persistence.common.ICetMapper;
 import persistence.common.ICpcMapper;
-import persistence.common.ICrsMapper;
 import persistence.common.IDispatchMapper;
 import persistence.common.IExtMapper;
-import persistence.common.IMemberMapper;
 import persistence.common.IModifyMapper;
 import persistence.common.IPartyMapper;
-import persistence.common.IPcsMapper;
-import persistence.common.IPmdMapper;
 import persistence.common.IPropertyMapper;
-import persistence.common.IScMapper;
 import persistence.common.ISysMapper;
 import persistence.common.IUnitMapper;
 import persistence.common.StatCadreMapper;
@@ -137,6 +132,7 @@ import persistence.crs.CrsRequireRuleMapper;
 import persistence.crs.CrsRuleItemMapper;
 import persistence.crs.CrsShortMsgMapper;
 import persistence.crs.CrsTemplateMapper;
+import persistence.crs.common.ICrsMapper;
 import persistence.dispatch.DispatchCadreMapper;
 import persistence.dispatch.DispatchCadreRelateMapper;
 import persistence.dispatch.DispatchCadreViewMapper;
@@ -176,6 +172,7 @@ import persistence.member.MemberStayViewMapper;
 import persistence.member.MemberStudentMapper;
 import persistence.member.MemberTeacherMapper;
 import persistence.member.MemberTransferMapper;
+import persistence.member.common.IMemberMapper;
 import persistence.modify.ModifyBaseApplyMapper;
 import persistence.modify.ModifyBaseItemMapper;
 import persistence.modify.ModifyCadreAuthMapper;
@@ -226,6 +223,7 @@ import persistence.pcs.PcsRecommendMapper;
 import persistence.pcs.PcsVoteCandidateMapper;
 import persistence.pcs.PcsVoteGroupMapper;
 import persistence.pcs.PcsVoteMemberMapper;
+import persistence.pcs.common.IPcsMapper;
 import persistence.pmd.PmdBranchAdminMapper;
 import persistence.pmd.PmdBranchMapper;
 import persistence.pmd.PmdBranchViewMapper;
@@ -251,6 +249,8 @@ import persistence.pmd.PmdPayBranchViewMapper;
 import persistence.pmd.PmdPayPartyMapper;
 import persistence.pmd.PmdPayPartyViewMapper;
 import persistence.pmd.PmdSpecialUserMapper;
+import persistence.pmd.common.IPmdMapper;
+import persistence.sc.IScMapper;
 import persistence.sc.scAd.ScAdArchiveMapper;
 import persistence.sc.scAd.ScAdArchiveViewMapper;
 import persistence.sc.scAd.ScAdArchiveVoteMapper;
@@ -337,745 +337,745 @@ public class BaseMapper {
     /**
      * 干部教育培训
      */
-    @Autowired
+    @Autowired(required = false)
     protected ICetMapper iCetMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetCourseMapper cetCourseMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetCourseTypeMapper cetCourseTypeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetExpertMapper cetExpertMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetColumnMapper cetColumnMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetColumnViewMapper cetColumnViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetColumnCourseMapper cetColumnCourseMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetColumnCourseViewMapper cetColumnCourseViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainMapper cetTrainMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainViewMapper cetTrainViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainCourseMapper cetTrainCourseMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainCourseViewMapper cetTrainCourseViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainCourseStatViewMapper cetTrainCourseStatViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTraineeMapper cetTraineeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTraineeCadreViewMapper cetTraineeCadreViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTraineeCourseViewMapper cetTraineeCourseViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTraineeCourseMapper cetTraineeCourseMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTraineeTypeMapper cetTraineeTypeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainTraineeTypeMapper cetTrainTraineeTypeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetShortMsgMapper cetShortMsgMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainEvaNormMapper cetTrainEvaNormMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainEvaRankMapper cetTrainEvaRankMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainEvaTableMapper cetTrainEvaTableMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainEvaResultMapper cetTrainEvaResultMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainInspectorMapper cetTrainInspectorMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainInspectorViewMapper cetTrainInspectorViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CetTrainInspectorCourseMapper cetTrainInspectorCourseMapper;
 
     /**
      * 干部选拔-干部任免审批表
      */
-    @Autowired
+    @Autowired(required = false)
     protected ScAdArchiveMapper scAdArchiveMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScAdArchiveViewMapper scAdArchiveViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScAdArchiveVoteMapper scAdArchiveVoteMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScAdUseMapper scAdUseMapper;
 
     /**
      * 干部选拔-干部起草文件
      */
-    @Autowired
+    @Autowired(required = false)
     protected ScDispatchMapper scDispatchMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScDispatchViewMapper scDispatchViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScDispatchUserMapper scDispatchUserMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScDispatchCommitteeMapper scDispatchCommitteeMapper;
     /**
      * 干部选拔-干部任前公示
      */
-    @Autowired
+    @Autowired(required = false)
     protected ScPublicMapper scPublicMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScPublicViewMapper scPublicViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScPublicUserMapper scPublicUserMapper;
 
     /**
      * 干部选拔-干部小组会议题
      */
-    @Autowired
+    @Autowired(required = false)
     protected ScGroupMapper scGroupMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScGroupFileMapper scGroupFileMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScGroupMemberMapper scGroupMemberMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScGroupMemberViewMapper scGroupMemberViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScGroupParticipantMapper scGroupParticipantMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScGroupTopicMapper scGroupTopicMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScGroupTopicViewMapper scGroupTopicViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScGroupTopicUnitMapper scGroupTopicUnitMapper;
 
     /**
      * 干部选拔-党委常委会议题
      */
-    @Autowired
+    @Autowired(required = false)
     protected ScCommitteeMapper scCommitteeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScCommitteeViewMapper scCommitteeViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScCommitteeMemberMapper scCommitteeMemberMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScCommitteeMemberViewMapper scCommitteeMemberViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScCommitteeTopicMapper scCommitteeTopicMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScCommitteeTopicViewMapper scCommitteeTopicViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScCommitteeVoteMapper scCommitteeVoteMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScCommitteeVoteViewMapper scCommitteeVoteViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScCommitteeOtherVoteMapper scCommitteeOtherVoteMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScCommitteeOtherVoteViewMapper scCommitteeOtherVoteViewMapper;
 
 
     /**
      * 干部选拔-纪委函询管理
      */
-    @Autowired
+    @Autowired(required = false)
     protected ScLetterMapper scLetterMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScLetterViewMapper scLetterViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScLetterItemMapper scLetterItemMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScLetterItemViewMapper scLetterItemViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScLetterReplyMapper scLetterReplyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScLetterReplyViewMapper scLetterReplyViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScLetterReplyItemMapper scLetterReplyItemMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScLetterReplyItemViewMapper scLetterReplyItemViewMapper;
 
 
     /**
      * 干部选拔-个人有关事项
      */
-    @Autowired
+    @Autowired(required = false)
     protected ScMatterMapper scMatterMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScMatterItemMapper scMatterItemMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScMatterItemViewMapper scMatterItemViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScMatterUserViewMapper scMatterUserViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScMatterAccessMapper scMatterAccessMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScMatterAccessItemMapper scMatterAccessItemMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScMatterAccessItemViewMapper scMatterAccessItemViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScMatterCheckMapper scMatterCheckMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScMatterCheckViewMapper scMatterCheckViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScMatterCheckItemMapper scMatterCheckItemMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScMatterCheckItemViewMapper scMatterCheckItemViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ScMatterTransferMapper scMatterTransferMapper;
-    @Autowired
+    @Autowired(required = false)
     protected IScMapper iScMapper;
 
     /**
      * 党费
      */
-    @Autowired
+    @Autowired(required = false)
     protected PmdPayPartyMapper pmdPayPartyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdPayBranchMapper pmdPayBranchMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdPayPartyViewMapper pmdPayPartyViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdPayBranchViewMapper pmdPayBranchViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdMonthMapper pmdMonthMapper;
-    @Autowired
+    @Autowired(required = false)
     protected IPmdMapper iPmdMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdMemberMapper pmdMemberMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdMemberPayMapper pmdMemberPayMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdMemberPayViewMapper pmdMemberPayViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdOrderCampuscardMapper pmdOrderCampuscardMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdOrderCampuscardViewMapper pmdOrderCampuscardViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdNotifyWszfMapper pmdNotifyWszfMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdNotifyCampuscardMapper pmdNotifyCampuscardMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdPartyMapper pmdPartyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdPartyViewMapper pmdPartyViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdBranchMapper pmdBranchMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdBranchViewMapper pmdBranchViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdPartyAdminMapper pmdPartyAdminMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdBranchAdminMapper pmdBranchAdminMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdNormMapper pmdNormMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdNormValueMapper pmdNormValueMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdNormValueLogMapper pmdNormValueLogMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdSpecialUserMapper pmdSpecialUserMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdConfigMemberTypeMapper pmdConfigMemberTypeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdConfigMemberMapper pmdConfigMemberMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PmdConfigResetMapper pmdConfigResetMapper;
 
     /**
      * 协同办公
      */
-    @Autowired
+    @Autowired(required = false)
     protected OaTaskMapper oaTaskMapper;
-    @Autowired
+    @Autowired(required = false)
     protected OaTaskViewMapper oaTaskViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected OaTaskFileMapper oaTaskFileMapper;
-    @Autowired
+    @Autowired(required = false)
     protected OaTaskMsgMapper oaTaskMsgMapper;
-    @Autowired
+    @Autowired(required = false)
     protected OaTaskRemindMapper oaTaskRemindMapper;
-    @Autowired
+    @Autowired(required = false)
     protected OaTaskUserMapper oaTaskUserMapper;
-    @Autowired
+    @Autowired(required = false)
     protected OaTaskUserViewMapper oaTaskUserViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected OaTaskUserFileMapper oaTaskUserFileMapper;
 
     /**
      * 因私出国境
      */
-    @Autowired
+    @Autowired(required = false)
     protected ApplicatCadreMapper applicatCadreMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ApplicatTypeMapper applicatTypeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ApprovalOrderMapper approvalOrderMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ApproverMapper approverMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ApproverBlackListMapper approverBlackListMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ApproverTypeMapper approverTypeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PassportDrawFileMapper passportDrawFileMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PassportDrawMapper passportDrawMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ApplySelfMapper applySelfMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ApplySelfModifyMapper applySelfModifyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ApplySelfFileMapper applySelfFileMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ApprovalLogMapper approvalLogMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PassportMapper passportMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SafeBoxMapper safeBoxMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PassportApplyMapper passportApplyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PassportApplyViewMapper passportApplyViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected TaiwanRecordMapper taiwanRecordMapper;
 
     /**
      * 党建
      */
-    @Autowired
+    @Autowired(required = false)
     protected EnterApplyMapper enterApplyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ApplyApprovalLogMapper applyApprovalLogMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberTransferMapper memberTransferMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberOutMapper memberOutMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberOutViewMapper memberOutViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberOutModifyMapper memberOutModifyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberInMapper memberInMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberInModifyMapper memberInModifyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberOutflowMapper memberOutflowMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberOutflowViewMapper memberOutflowViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberInflowMapper memberInflowMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberReturnMapper memberReturnMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberAbroadMapper memberAbroadMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberAbroadViewMapper memberAbroadViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberStayMapper memberStayMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberStayViewMapper memberStayViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberQuitMapper memberQuitMapper;
-    @Autowired
+    @Autowired(required = false)
     protected RetireApplyMapper retireApplyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected StudentInfoMapper studentInfoMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberStudentMapper memberStudentMapper;
-    @Autowired
+    @Autowired(required = false)
     protected TeacherInfoMapper teacherInfoMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberTeacherMapper memberTeacherMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberMapper memberMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberModifyMapper memberModifyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ApplyOpenTimeMapper applyOpenTimeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberApplyMapper memberApplyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MemberApplyViewMapper memberApplyViewMapper;
 
     /**
      * 组织机构
      */
-    @Autowired
+    @Autowired(required = false)
     protected BranchMemberGroupMapper branchMemberGroupMapper;
-    @Autowired
+    @Autowired(required = false)
     protected BranchMemberGroupViewMapper branchMemberGroupViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected BranchMemberMapper branchMemberMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PartyMapper partyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PartyViewMapper partyViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PartyMemberMapper partyMemberMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PartyMemberViewMapper partyMemberViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PartyMemberGroupMapper partyMemberGroupMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PartyMemberGroupViewMapper partyMemberGroupViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected BranchMapper branchMapper;
-    @Autowired
+    @Autowired(required = false)
     protected BranchTransferLogMapper branchTransferLogMapper;
-    @Autowired
+    @Autowired(required = false)
     protected BranchViewMapper branchViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected OrgAdminMapper orgAdminMapper;
 
-    @Autowired
+    @Autowired(required = false)
     protected UnitAdminGroupMapper unitAdminGroupMapper;
-    @Autowired
+    @Autowired(required = false)
     protected UnitAdminMapper unitAdminMapper;
 
     /**
      * 干部库
      */
-    @Autowired
+    @Autowired(required = false)
     protected CadreInfoMapper cadreInfoMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreInfoCheckMapper cadreInfoCheckMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreFamliyAbroadMapper cadreFamliyAbroadMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreFamliyMapper cadreFamliyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreCompanyMapper cadreCompanyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreParttimeMapper cadreParttimeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreTrainMapper cadreTrainMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreRewardMapper cadreRewardMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadrePaperMapper cadrePaperMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreResearchMapper cadreResearchMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreBookMapper cadreBookMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreCourseMapper cadreCourseMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadrePostMapper cadrePostMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadrePostProMapper cadrePostProMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadrePostAdminMapper cadrePostAdminMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadrePostWorkMapper cadrePostWorkMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreAdminLevelMapper cadreAdminLevelMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreWorkMapper cadreWorkMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreEduMapper cadreEduMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreUnderEduMapper cadreUnderEduMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreTutorMapper cadreTutorMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreReportMapper cadreReportMapper;
 
-    @Autowired
+    @Autowired(required = false)
     protected CadreLeaderMapper cadreLeaderMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreLeaderUnitMapper cadreLeaderUnitMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreAdditionalPostMapper cadreAdditionalPostMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreMapper cadreMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreViewMapper cadreViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadrePartyMapper cadrePartyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreAdLogMapper cadreAdLogMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreInspectMapper cadreInspectMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreInspectViewMapper cadreInspectViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreReserveMapper cadreReserveMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreReserveViewMapper cadreReserveViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CadreStatHistoryMapper cadreStatHistoryMapper;
 
     /**
      * 干部考察系统
      */
-    @Autowired
+    @Autowired(required = false)
     protected CisEvaluateMapper cisEvaluateMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CisInspectObjMapper cisInspectObjMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CisInspectObjViewMapper cisInspectObjViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CisInspectorMapper cisInspectorMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CisInspectorViewMapper cisInspectorViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CisObjInspectorMapper cisObjInspectorMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CisObjUnitMapper cisObjUnitMapper;
 
-    @Autowired
+    @Autowired(required = false)
     protected CrpRecordMapper crpRecordMapper;
 
     /**
      * 党代会
      */
-    @Autowired
+    @Autowired(required = false)
     protected IPcsMapper iPcsMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsExcludeBranchMapper pcsExcludeBranchMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPartyViewMapper pcsPartyViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsIssueMapper pcsIssueMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsAdminMapper pcsAdminMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsAdminReportMapper pcsAdminReportMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsCandidateMapper pcsCandidateMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsCandidateViewMapper pcsCandidateViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsCandidateChosenMapper pcsCandidateChosenMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsConfigMapper pcsConfigMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsRecommendMapper pcsRecommendMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrAllocateMapper pcsPrAllocateMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrRecommendMapper pcsPrRecommendMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrCandidateMapper pcsPrCandidateMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrCandidateViewMapper pcsPrCandidateViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrFileTemplateMapper pcsPrFileTemplateMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrFileMapper pcsPrFileMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsProposalMapper pcsProposalMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsProposalViewMapper pcsProposalViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsProposalFileMapper pcsProposalFileMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsProposalSeconderMapper pcsProposalSeconderMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsVoteGroupMapper pcsVoteGroupMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsVoteCandidateMapper pcsVoteCandidateMapper;
-    @Autowired
+    @Autowired(required = false)
     protected PcsVoteMemberMapper pcsVoteMemberMapper;
 
     /**
      * 干部职数
      */
-    @Autowired
+    @Autowired(required = false)
     protected CpcAllocationMapper cpcAllocationMapper;
 
     /**
      * 干部招聘
      */
-    @Autowired
+    @Autowired(required = false)
     protected CrsTemplateMapper crsTemplateMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsExpertMapper crsExpertMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsExpertViewMapper crsExpertViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsApplicantMapper crsApplicantMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsApplicantViewMapper crsApplicantViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsApplicantStatViewMapper crsApplicantStatViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsApplicantAdjustMapper crsApplicantAdjustMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsApplicantAdjustViewMapper crsApplicantAdjustViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsApplicantCheckMapper crsApplicantCheckMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsPostMapper crsPostMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsCandidateViewMapper crsCandidateViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsCandidateMapper crsCandidateMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsApplyRuleMapper crsApplyRuleMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsShortMsgMapper crsShortMsgMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsPostRequireMapper crsPostRequireMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsRequireRuleMapper crsRequireRuleMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsRuleItemMapper crsRuleItemMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsPostExpertMapper crsPostExpertMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CrsPostFileMapper crsPostFileMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ICrsMapper iCrsMapper;
 
     /**
      * 档案认定
      */
-    @Autowired
+    @Autowired(required = false)
     protected VerifyAgeMapper verifyAgeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected VerifyWorkTimeMapper verifyWorkTimeMapper;
 
     /**
      * 发文
      */
-    @Autowired
+    @Autowired(required = false)
     protected UnitTransferMapper unitTransferMapper;
-    @Autowired
+    @Autowired(required = false)
     protected UnitCadreTransferGroupMapper unitCadreTransferGroupMapper;
-    @Autowired
+    @Autowired(required = false)
     protected UnitCadreTransferMapper unitCadreTransferMapper;
-    @Autowired
+    @Autowired(required = false)
     protected DispatchMapper dispatchMapper;
-    @Autowired
+    @Autowired(required = false)
     protected DispatchViewMapper dispatchViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected DispatchTypeMapper dispatchTypeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected DispatchCadreMapper dispatchCadreMapper;
-    @Autowired
+    @Autowired(required = false)
     protected DispatchCadreViewMapper dispatchCadreViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected DispatchCadreRelateMapper dispatchCadreRelateMapper;
-    @Autowired
+    @Autowired(required = false)
     protected DispatchUnitMapper dispatchUnitMapper;
-    @Autowired
+    @Autowired(required = false)
     protected DispatchUnitRelateMapper dispatchUnitRelateMapper;
-    @Autowired
+    @Autowired(required = false)
     protected DispatchWorkFileMapper dispatchWorkFileMapper;
-    @Autowired
+    @Autowired(required = false)
     protected DispatchWorkFileAuthMapper dispatchWorkFileAuthMapper;
 
 
-    @Autowired
+    @Autowired(required = false)
     protected StatCadreMapper statCadreMapper;
 
-    @Autowired
+    @Autowired(required = false)
     protected HistoryUnitMapper historyUnitMapper;
-    @Autowired
+    @Autowired(required = false)
     protected UnitMapper unitMapper;
 
     /**
      * 干部信息修改申请
      */
-    @Autowired
+    @Autowired(required = false)
     protected ModifyCadreAuthMapper modifyCadreAuthMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ModifyBaseApplyMapper modifyBaseApplyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ModifyBaseItemMapper modifyBaseItemMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ModifyTableApplyMapper modifyTableApplyMapper;
 
-    @Autowired
+    @Autowired(required = false)
     protected SysConfigMapper sysConfigMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SysConfigLoginMsgMapper sysConfigLoginMsgMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SysApprovalLogMapper sysApprovalLogMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SysUserSyncMapper sysUserSyncMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SysLogMapper sysLogMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SysLoginLogMapper sysLoginLogMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SysUserMapper sysUserMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SysUserInfoMapper sysUserInfoMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SysUserViewMapper sysUserViewMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SysUserRegMapper sysUserRegMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SysRoleMapper sysRoleMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SysResourceMapper sysResourceMapper;
-    @Autowired
+    @Autowired(required = false)
     protected AttachFileMapper attachFileMapper;
-    @Autowired
+    @Autowired(required = false)
     protected HtmlFragmentMapper htmlFragmentMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SysOnlineStaticMapper sysOnlineStaticMapper;
-    @Autowired
+    @Autowired(required = false)
     protected FeedbackMapper feedbackMapper;
 
 
-    @Autowired
+    @Autowired(required = false)
     protected CommonMapper commonMapper;
-    @Autowired
+    @Autowired(required = false)
     protected IPropertyMapper IPropertyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected IAbroadMapper iAbroadMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ICadreMapper iCadreMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ICpcMapper iCpcMapper;
-    @Autowired
+    @Autowired(required = false)
     protected IDispatchMapper iDispatchMapper;
-    @Autowired
+    @Autowired(required = false)
     protected IMemberMapper iMemberMapper;
-    @Autowired
+    @Autowired(required = false)
     protected IModifyMapper iModifyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected IPartyMapper iPartyMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ISysMapper iSysMapper;
-    @Autowired
+    @Autowired(required = false)
     protected IUnitMapper iUnitMapper;
-    @Autowired
+    @Autowired(required = false)
     protected StatMemberMapper statMemberMapper;
 
-    @Autowired
+    @Autowired(required = false)
     protected IExtMapper iExtMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ExtYjsMapper extYjsMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ExtBksMapper extBksMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ExtJzgMapper extJzgMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ExtAbroadMapper extAbroadMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ExtRetireSalaryMapper extRetireSalaryMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ExtJzgSalaryMapper extJzgSalaryMapper;
 
-    @Autowired
+    @Autowired(required = false)
     protected LocationMapper locationMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MetaClassMapper metaClassMapper;
-    @Autowired
+    @Autowired(required = false)
     protected MetaTypeMapper metaTypeMapper;
-    @Autowired
+    @Autowired(required = false)
     protected CountryMapper countryMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ShortMsgMapper shortMsgMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ShortMsgReceiverMapper shortMsgReceiverMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ContentTplMapper contentTplMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SitemapMapper sitemapMapper;
-    @Autowired
+    @Autowired(required = false)
     protected SitemapRoleMapper sitemapRoleMapper;
-    @Autowired
+    @Autowired(required = false)
     protected ShortMsgTplMapper shortMsgTplMapper;
 
 

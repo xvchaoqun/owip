@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.cet.common;
 
 import bean.analysis.StatTrainBean;
 import domain.cet.CetCourse;

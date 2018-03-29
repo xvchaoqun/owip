@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.common.IAbroadMapper">
+<mapper namespace="persistence.abroad.common.IAbroadMapper">
     <!-- <select id="selectCadrePassports" resultMap="persistence.PassportMapper.BaseResultMap" parameterType="map">
          select  p.* from abroad_passport p, base_meta_type mt where p.cadre_id=#{cadreId} and p.class_id=mt.id order by mt.sort_order desc
      </select>-->

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.common.IPmdMapper">
+<mapper namespace="persistence.pmd.common.IPmdMapper">
 
     <!-- 删除某个支部下的所有未缴费记录 -->
     <delete id="delNotPayMembers" parameterType="map">

@@ -1,7 +1,7 @@
 package domain.pmd;
 
-import persistence.common.IPmdMapper;
 import persistence.common.bean.PmdReportBean;
+import persistence.pmd.common.IPmdMapper;
 import service.pmd.PmdBranchService;
 import sys.tags.CmTag;
 
