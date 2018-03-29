@@ -43,7 +43,7 @@
 </div>
 
 <script>
-    register_party_select($('#modalForm select[name=partyId]'), 300);
+    $.register.party_select($('#modalForm select[name=partyId]'), 300);
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

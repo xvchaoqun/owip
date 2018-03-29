@@ -73,7 +73,7 @@
             });
         }
     });
-    register_party_select($('#modalForm select[name=partyId]'));
+    $.register.party_select($('#modalForm select[name=partyId]'));
     $.register.user_select($('#modalForm select[name=userId]')).on("change",function(){
         //console.log($(this).select2("data")[0])
         var mobile = $(this).select2("data")[0]['user'].mobile||'';

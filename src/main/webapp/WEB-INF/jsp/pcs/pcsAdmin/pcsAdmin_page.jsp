@@ -131,7 +131,7 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
 
-    register_party_select($('#searchForm select[name=partyId]'));
+    $.register.party_select($('#searchForm select[name=partyId]'));
     $.register.user_select($('#searchForm select[name=userId]'));
     $('[data-rel="tooltip"]').tooltip();
 </script>

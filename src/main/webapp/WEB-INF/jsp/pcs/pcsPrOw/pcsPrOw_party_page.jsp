@@ -142,6 +142,6 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
-    register_party_select($('#searchForm select[name=partyId]'));
+    $.register.party_select($('#searchForm select[name=partyId]'));
     $('[data-rel="select2"]').select2();
 </script>

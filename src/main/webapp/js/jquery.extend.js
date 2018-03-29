@@ -1006,7 +1006,7 @@ try {
         },
         // 年份-发文类型-发文， 选择任免文件
         dispatch_select: function ($dispatchTypeSelect, $year, $dispatchSelect) {
-            register_dispatchType_select($dispatchTypeSelect, $year);
+            $.register.dispatchType_select($dispatchTypeSelect, $year);
             $year.on("change", function () {
                 $dispatchTypeSelect.val(null).trigger("change");
                 $dispatchSelect.val(null).trigger("change");
