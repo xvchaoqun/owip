@@ -8,7 +8,6 @@ import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
@@ -182,11 +180,9 @@ public class FileController extends BaseController {
                 }
             }
         }else{
-            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-            String username = (shiroUser!=null)?shiroUser.getUsername():null;
 
             logger.warn(MessageFormat.format("{0}, {1}, {2}, {3}, {4}, {5}, {6}",
-                    username, "图片" + imagepath + "不存在", request.getRequestURI(),
+                    ShiroHelper.getCurrentUsername(), "图片" + imagepath + "不存在", request.getRequestURI(),
                     request.getMethod(),
                     JSONUtils.toString(request.getParameterMap(), false),
                     RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)));

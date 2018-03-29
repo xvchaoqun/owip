@@ -5,17 +5,15 @@ import domain.member.MemberInflow;
 import domain.member.MemberInflowExample;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import controller.global.OpException;
 import service.LoginUserService;
 import service.party.EnterApplyService;
 import service.sys.SysUserService;
-import shiro.ShiroUser;
+import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -164,10 +162,9 @@ public class MemberInflowOutService extends BaseMapper {
         // 清空是否打回状态
         iMemberMapper.resetIsBack("ow_member_inflow", "out_is_back", false, "id", memberInflow.getId());
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         applyApprovalLogService.add(memberInflow.getId(),
                 memberInflow.getPartyId(), memberInflow.getBranchId(), memberInflow.getUserId(),
-                shiroUser.getId(),  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                ShiroHelper.getCurrentUserId(),  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
                 "撤回",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

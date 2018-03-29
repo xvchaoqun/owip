@@ -11,7 +11,6 @@ import domain.sys.SysRole;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -204,7 +203,7 @@ public class ShortMsgTplController extends BaseController {
                 RoleConstants.ROLE_CADREADMIN
         );
         if (ShiroHelper.lackRole(RoleConstants.ROLE_ADMIN)) {
-            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+            ShiroUser shiroUser = ShiroHelper.getShiroUser();
             Set<String> roles = shiroUser.getRoles();
             roles.retainAll(roleList);
 

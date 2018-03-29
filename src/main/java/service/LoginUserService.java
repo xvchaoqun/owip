@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.party.BranchMemberAdminService;
 import service.party.PartyMemberAdminService;
+import shiro.ShiroHelper;
 import shiro.ShiroUser;
 
 import java.util.ArrayList;
@@ -22,11 +23,9 @@ public class LoginUserService {
     protected BranchMemberAdminService branchMemberAdminService;
 
     public List<Integer> adminPartyIdList(){
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        return  new ArrayList<>(partyMemberAdminService.adminPartyIdList(shiroUser.getId()));
+        return  new ArrayList<>(partyMemberAdminService.adminPartyIdList(ShiroHelper.getCurrentUserId()));
     }
     public List<Integer> adminBranchIdList(){
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        return  new ArrayList<>(branchMemberAdminService.adminBranchIdList(shiroUser.getId()));
+        return  new ArrayList<>(branchMemberAdminService.adminBranchIdList(ShiroHelper.getCurrentUserId()));
     }
 }

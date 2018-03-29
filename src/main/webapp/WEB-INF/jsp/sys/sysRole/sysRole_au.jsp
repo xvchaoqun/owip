@@ -66,7 +66,8 @@
                                 <c:import url="/menu_preview_byRoleId?roleId=${sysRole.id}"/>
                             </div>
                             <script type="text/javascript">
-                                $("#sidebar-review a").attr("href", "#")
+                                //$("#sidebar-review a").attr("href", "#")
+                                $("#sidebar-review a").removeClass("hashchange").removeAttr("href")
                                 $("#sidebar-review ul.submenu").each(function(){
                                     if($("li", this).length==0){
                                         $(this).closest("li").find(".menu-text").css("color", "red");
@@ -112,7 +113,8 @@
             });
             $('#sidebar-review .sidebar').load("${ctx}/menu_preview",{resIds:resIds},function(){
                 //$('#sidebar-review .sidebar').ace_sidebar();
-                $("#sidebar-review a").attr("href", "#")
+                //$("#sidebar-review a").attr("href", "#")
+                $("#sidebar-review a").removeClass("hashchange").removeAttr("href")
                 $("#sidebar-review ul.submenu").each(function(){
                     if($("li", this).length==0){
                         $(this).closest("li").find(".menu-text").css("color", "red");

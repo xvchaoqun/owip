@@ -209,7 +209,7 @@ public class ApplySelfController extends AbroadBaseController {
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             if (cadre.getId().intValue() != cadreId) {
-                ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+                ShiroUser shiroUser = ShiroHelper.getShiroUser();
                 ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
                 if (approverTypeBean == null || !approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
                     throw new OpException("您没有权限");
@@ -271,7 +271,7 @@ public class ApplySelfController extends AbroadBaseController {
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             if (cadre.getId().intValue() != cadreId) {
-                ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+                ShiroUser shiroUser = ShiroHelper.getShiroUser();
                 ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
                 if (approverTypeBean == null || !approverTypeBean.getApprovalCadreIdSet().contains(cadreId))
                     throw new OpException("您没有权限");

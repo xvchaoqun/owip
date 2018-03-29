@@ -28,6 +28,11 @@
                             <i class="fa fa-edit"></i> 修改人事基础信息
                         </button>
                     </shiro:hasPermission>
+                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                            data-url="${ctx}/sysUser_menu" data-width="550"
+                            data-id-name="userId">
+                        <i class="fa fa-search"></i> 菜单预览
+                    </button>
                     <button class="jqOpenViewBtn btn btn-warning btn-sm"
                             data-url="${ctx}/sysUserRole">
                         <i class="fa fa-pencil"></i> 修改角色

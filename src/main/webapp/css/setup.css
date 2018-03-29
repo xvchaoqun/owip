@@ -742,12 +742,22 @@ br.xs-100 {
 .width300 {
     width: 300px;
 }
+.width350 {
+    width: 350px;
+}
 .width400 {
     width: 400px;
 }
 
+.width450 {
+    width: 450px;
+}
+
 .width500 {
     width: 500px;
+}
+.width500 {
+    width: 550px;
 }
 
 .width600 {

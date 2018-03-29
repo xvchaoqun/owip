@@ -403,7 +403,7 @@ public class ApplySelfService extends BaseMapper {
             ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
             ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
 
-            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+            ShiroUser shiroUser = ShiroHelper.getShiroUser();
             ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
 
             if (approverTypeBean != null) {
@@ -486,7 +486,7 @@ public class ApplySelfService extends BaseMapper {
         // <审批人身份id，审批td类型>
         Map<Integer, ApprovalTdBean> resultMap = new LinkedHashMap<>();
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        Integer currentUserId = ShiroHelper.getCurrentUserId();
         Map<Integer, ApprovalResult> approvalResultMap = getApprovalResultMap(applySelfId);
         int size = approvalResultMap.size();
         if(size==0){
@@ -506,7 +506,7 @@ public class ApplySelfService extends BaseMapper {
                 if (isView) {
                     bean.setTdType(3);
                 } else {
-                    boolean canApproval = canApproval(shiroUser.getId(), applySelfId, -1);
+                    boolean canApproval = canApproval(currentUserId, applySelfId, -1);
                     bean.setCanApproval(canApproval);
                     bean.setTdType(4);
                 }
@@ -548,7 +548,7 @@ public class ApplySelfService extends BaseMapper {
                         if (isView) {
                             bean.setTdType(3);
                         } else {
-                            boolean canApproval = canApproval(shiroUser.getId(), applySelfId, keys[i]);
+                            boolean canApproval = canApproval(currentUserId, applySelfId, keys[i]);
                             bean.setCanApproval(canApproval);
                             bean.setTdType(4);
                         }
@@ -586,7 +586,7 @@ public class ApplySelfService extends BaseMapper {
                     if (isView) {
                         bean.setTdType(3);
                     } else {
-                        boolean canApproval = canApproval(shiroUser.getId(), applySelfId, 0);
+                        boolean canApproval = canApproval(currentUserId, applySelfId, 0);
                         bean.setCanApproval(canApproval);
                         bean.setTdType(4);
                     }

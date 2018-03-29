@@ -5,7 +5,6 @@ import domain.member.MemberStudent;
 import domain.member.MemberTeacher;
 import domain.sys.HtmlFragment;
 import domain.sys.SysUserView;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -16,7 +15,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
 import sys.CasUtils;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -38,9 +36,8 @@ public class IndexController extends BaseController {
 		String userAgent = RequestUtils.getUserAgent(request);
 		String ip = IpUtils.getRealIp(request);
 
-		ShiroUser shiroUser =(ShiroUser)SecurityUtils.getSubject().getPrincipal();
 		logger.warn(String.format("monitor type=%s, userAgent=%s, ip=%s, username=%s, cas=%s", type,
-				userAgent, ip, (shiroUser!=null)?shiroUser.getUsername():null, CasUtils.getUsername(request)));
+				userAgent, ip, ShiroHelper.getCurrentUsername(), CasUtils.getUsername(request)));
 	}
 
 	@RequestMapping("/faq")

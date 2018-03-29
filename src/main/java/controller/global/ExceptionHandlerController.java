@@ -3,7 +3,6 @@ package controller.global;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import interceptor.SignParamsException;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
-import shiro.ShiroUser;
+import shiro.ShiroHelper;
 import sys.utils.FormUtils;
 import sys.utils.HttpUtils;
 import sys.utils.IpUtils;
@@ -38,9 +37,7 @@ public class ExceptionHandlerController {
     public String getMsg(HttpServletRequest request, Exception ex) {
 
         //ex.printStackTrace();
-
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        String username = (shiroUser != null) ? shiroUser.getUsername() : null;
+        String username = ShiroHelper.getCurrentUsername();
         return MessageFormat.format("{0}, {1}, {2}, {3}, {4}, {5}, {6}",
                 username, ex.getMessage(), request.getRequestURI(),
                 request.getMethod(),

@@ -256,6 +256,16 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUserInfo_au";
     }
 
+    // 预览用户的菜单
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequestMapping("/sysUser_menu")
+    public String sysUser_menu(int userId, ModelMap modelMap) {
+
+        SysUserView uv = sysUserService.findById(userId);
+        modelMap.put("uv", uv);
+        return "sys/sysUser/sysUser_menu";
+    }
+
     @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value = "/sysUser_del", method = RequestMethod.POST)
     @ResponseBody

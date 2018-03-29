@@ -1,12 +1,11 @@
 package controller.global;
 
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import shiro.ShiroUser;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
@@ -30,10 +29,8 @@ public class LoginController {
             ex = ex.substring(ex.lastIndexOf(".")+1);
             error = SystemConstants.loginFailedResultMap(ex).get("msg").toString();
 
-            ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-            String username = (shiroUser!=null)?shiroUser.getUsername():null;
             logger.warn("login failed. {}, {}, {}, {}, {}, {}, {}",
-                    new Object[]{username, ex, request.getRequestURI(),
+                    new Object[]{ShiroHelper.getCurrentUsername(), ex, request.getRequestURI(),
                             request.getMethod(),
                             JSONUtils.toString(request.getParameterMap(), false),
                             RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)});

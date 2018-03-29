@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shiro.ShiroUser;
+import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
@@ -94,8 +94,7 @@ public class MobileLoginController extends AbroadBaseController {
 			successUrl = savedRequest.getRequestUrl();
 		}
 
-		ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-		logger.info(sysLoginLogService.log(shiroUser.getId(), username,
+		logger.info(sysLoginLogService.log(ShiroHelper.getCurrentUserId(), username,
 				SystemConstants.LOGIN_TYPE_MOBILE, true, "登录成功"));
 
 		Map<String, Object> resultMap = success("登入成功");

@@ -15,7 +15,7 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.LoginUserService;
 import service.party.PartyService;
-import shiro.ShiroUser;
+import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -148,10 +148,9 @@ public class MemberTransferService extends BaseMapper {
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         applyApprovalLogService.add(memberTransfer.getId(),
                 memberTransfer.getPartyId(), memberTransfer.getBranchId(), memberTransfer.getUserId(),
-                shiroUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
                 "撤回",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

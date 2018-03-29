@@ -3,7 +3,6 @@ package controller.global;
 import controller.BaseController;
 import domain.sys.SysResource;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
-import shiro.ShiroUser;
+import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
@@ -26,10 +25,15 @@ public class MenuController extends BaseController {
     //private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/menu")
-    public String menu(ModelMap modelMap) {
+    public String menu(String username, ModelMap modelMap) {
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        List<SysResource> userMenus = sysUserService.makeMenus(shiroUser.getPermissions());
+        // 管理员才允许查看他人的菜单
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_ADMIN) || StringUtils.isBlank(username)){
+            username = ShiroHelper.getCurrentUsername();
+        }
+
+        Set<String> permissions = sysUserService.findPermissions(username);
+        List<SysResource> userMenus = sysUserService.makeMenus(permissions);
 
         modelMap.put("menus", userMenus);
         return "menu";

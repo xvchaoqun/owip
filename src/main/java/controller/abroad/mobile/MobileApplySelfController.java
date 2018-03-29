@@ -12,7 +12,6 @@ import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
@@ -142,7 +141,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 		if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) {
 			CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
 			if(cadre.getId().intValue()!=cadreId) {
-				ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+				ShiroUser shiroUser = ShiroHelper.getShiroUser();
 				ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
 				if (approverTypeBean==null || !approverTypeBean.getApprovalCadreIdSet().contains(applySelf.getCadreId()))
 					throw new OpException("您没有权限");

@@ -6,7 +6,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +51,10 @@ public class ShiroHelper extends BaseShiroHelper{
 		return userService.findByUsername(getCurrentUsername());
 	}
 
+	public static ShiroUser getShiroUser(){
+		return (ShiroUser)getSubject().getPrincipal();
+	}
+
 	/*
 	 * 获得当前用户名
 	 * 
@@ -59,23 +62,20 @@ public class ShiroHelper extends BaseShiroHelper{
 	 */
 	public static String getCurrentUsername() {
 
-		Subject subject = getSubject();
-		ShiroUser shiroUser = (ShiroUser)subject.getPrincipal();
+		ShiroUser shiroUser = getShiroUser();
 		return (shiroUser!=null)?shiroUser.getUsername():null;
 	}
 
 	public static Integer getCurrentUserId() {
 
-		Subject subject = getSubject();
-		ShiroUser shiroUser = (ShiroUser)subject.getPrincipal();
+		ShiroUser shiroUser = getShiroUser();
 		return (shiroUser!=null)?shiroUser.getId():null;
 	}
 
 	// 重新加载当前登陆用户权限
 	public static void refreshRoles() {
 
-		Subject subject = getSubject();
-		ShiroUser shiroUser = (ShiroUser)subject.getPrincipal();
+		ShiroUser shiroUser = getShiroUser();
 		shiroUser.setRoles(null);
 	}
 

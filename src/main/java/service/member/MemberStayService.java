@@ -15,12 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import controller.global.OpException;
 import service.LoginUserService;
 import service.party.BranchService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
 import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -195,10 +193,9 @@ public class MemberStayService extends BaseMapper {
         record.setIsBack(false);
         updateByPrimaryKeySelective(record);
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         applyApprovalLogService.add(memberStay.getId(),
                 memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(),
-                shiroUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
                 "撤回",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

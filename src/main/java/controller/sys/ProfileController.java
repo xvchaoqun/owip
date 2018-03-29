@@ -6,7 +6,6 @@ import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import shiro.ShiroUser;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.shiro.SaltPassword;
@@ -108,9 +107,8 @@ public class ProfileController extends BaseController {
     @ResponseBody
     public Map do_profile(MultipartFile _avatar, String realname, String _birth, Byte gender, String email, String mobile) throws IOException {
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        int userId = shiroUser.getId();
-        SysUserView uv = sysUserService.findById(userId);
+        int userId = ShiroHelper.getCurrentUserId();
+        //SysUserView uv = sysUserService.findById(userId);
 
         String avatar = avatarService.uploadAvatar(_avatar);
 

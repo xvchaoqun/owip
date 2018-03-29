@@ -4,7 +4,6 @@ import bean.ApprovalResult;
 import domain.abroad.ApplySelf;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
-import org.apache.shiro.SecurityUtils;
 import persistence.abroad.ApplySelfMapper;
 import service.abroad.ApplySelfService;
 import service.sys.SysUserService;
@@ -28,7 +27,7 @@ public class ApprovalTd extends BodyTagSupport {
         HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
         ApplySelfService applySelfService = CmTag.getBean(ApplySelfService.class);
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        ShiroUser shiroUser = ShiroHelper.getShiroUser();
 
         String btnTd = "<td><button %s class=\"approvalBtn btn %s btn-mini  btn-xs\"\n" +
                 "        data-id=\"%s\" data-approvaltypeid=\"%s\">\n" +

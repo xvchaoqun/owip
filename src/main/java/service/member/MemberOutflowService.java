@@ -6,20 +6,18 @@ import domain.member.MemberOutflow;
 import domain.member.MemberOutflowExample;
 import domain.sys.SysUserView;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import controller.global.OpException;
 import service.LoginUserService;
 import service.party.BranchService;
 import service.party.MemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;
-import shiro.ShiroUser;
+import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -175,10 +173,9 @@ public class MemberOutflowService extends BaseMapper {
         //record.setBranchId(memberOutflow.getBranchId());
         updateByPrimaryKeySelective(record);
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         applyApprovalLogService.add(memberOutflow.getId(),
                 memberOutflow.getPartyId(), memberOutflow.getBranchId(), memberOutflow.getUserId(),
-                shiroUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
                 SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
                 "撤回",
                 SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,

@@ -13,7 +13,6 @@ import domain.member.MemberReturnExample;
 import domain.party.EnterApply;
 import domain.party.EnterApplyExample;
 import domain.sys.SysUserView;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -28,6 +27,7 @@ import service.member.MemberInflowService;
 import service.member.MemberOutService;
 import service.member.MemberReturnService;
 import service.sys.SysUserService;
+import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
@@ -278,7 +278,7 @@ public class EnterApplyService extends BaseMapper{
     @Transactional
     public void applyBack(int userId, String remark, byte status) {
 
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        ShiroUser shiroUser = ShiroHelper.getShiroUser();
 
         byte userType=-1;
         if(status==SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT){

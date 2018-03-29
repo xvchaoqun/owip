@@ -1,6 +1,5 @@
 package service;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import persistence.abroad.ApplicatCadreMapper;
@@ -328,7 +327,7 @@ import persistence.unit.UnitMapper;
 import persistence.unit.UnitTransferMapper;
 import persistence.verify.VerifyAgeMapper;
 import persistence.verify.VerifyWorkTimeMapper;
-import shiro.ShiroUser;
+import shiro.ShiroHelper;
 import sys.tags.CmTag;
 
 import java.io.File;
@@ -1099,9 +1098,8 @@ public class BaseMapper {
     protected <T> VerifyAuth<T> checkVerityAuth(T entity, Integer partyId, Integer branchId) {
 
         VerifyAuth<T> verifyAuth = new VerifyAuth<T>();
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 
-        int loginUserId = shiroUser.getId();
+        int loginUserId = ShiroHelper.getCurrentUserId();
         verifyAuth.entity = entity;
 
         verifyAuth.isBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, partyId, branchId);
@@ -1118,9 +1116,8 @@ public class BaseMapper {
      */
     protected <T> VerifyAuth<T> checkVerityAuth2(T entity, Integer partyId) {
         VerifyAuth<T> verifyAuth = new VerifyAuth<T>();
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
 
-        int loginUserId = shiroUser.getId();
+        int loginUserId = ShiroHelper.getCurrentUserId();
         verifyAuth.entity = entity;
 
         if (!CmTag.isPresentPartyAdmin(loginUserId, partyId)) {
