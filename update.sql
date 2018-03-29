@@ -4,6 +4,8 @@
 sc_letter_reply_item_view
 
 
+
+============更新北化工=========
 2018-3-21
 ALTER TABLE `cet_trainee`
 	ADD COLUMN `is_quit` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否退出培训班' AFTER `trainee_type_id`;
