@@ -333,7 +333,16 @@ public class CadreAdformService extends BaseMapper{
         setNodeText(doc, "XianRenZhiWu", adform.getPost());
         setNodeText(doc, "NiRenZhiWu", adform.getInPost());
         setNodeText(doc, "NiMianZhiWu", adform.getPrePost());
-        setNodeText(doc, "JianLi", html2Paragraphs(adform.getLearnDesc() + adform.getWorkDesc()));
+
+        String jianli = "";
+        if(StringUtils.isNotBlank(adform.getLearnDesc())){
+            jianli += adform.getLearnDesc();
+        }
+        if(StringUtils.isNotBlank(adform.getWorkDesc())){
+            jianli += adform.getWorkDesc();
+        }
+
+        setNodeText(doc, "JianLi", html2Paragraphs(jianli));
         setNodeText(doc, "JiangChengQingKuang", html2Paragraphs(adform.getReward()));
         setNodeText(doc, "NianDuKaoHeJieGuo", adform.getCes());
         setNodeText(doc, "RenMianLiYou", adform.getReason());

@@ -34,8 +34,8 @@ public abstract class Source {
         if (null == conn) {
             try {
                 ApplicationContext ac = new ClassPathXmlApplicationContext(
-                        new String[]{"/bnu-source.xml"});
-                DataSource dataSource = (DataSource) ac.getBean("bnuDS");
+                        new String[]{"/ext-source.xml"});
+                DataSource dataSource = (DataSource) ac.getBean("extDS");
                 conn = dataSource.getConnection();
             } catch (SQLException e) {
                 // TODO Auto-generated catch block

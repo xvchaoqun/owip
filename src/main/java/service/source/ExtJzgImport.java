@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import persistence.ext.ExtJzgMapper;
 import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,8 +22,8 @@ public class ExtJzgImport extends Source {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     public ExtJzgMapper extJzgMapper;
-    public String schema = "ICDC_VIEW";
-    public String tableName = "V_JZG_RS_JZG_JBXX_NEW";
+    public String schema = PropertiesUtils.getString("ext_jzg_schema");
+    public String tableName = PropertiesUtils.getString("ext_jzg_tableName");
 
     public void byCode(String code) {
 

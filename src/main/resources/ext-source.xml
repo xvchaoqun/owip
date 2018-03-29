@@ -8,12 +8,12 @@
         http://www.springframework.org/schema/context/spring-context.xsd" default-autowire="byName">
 
 	<context:property-placeholder location="classpath:spring.properties" ignore-unresolvable="true" order="-2"/>
-	<bean id="bnuDS" class="com.alibaba.druid.pool.DruidDataSource"
+	<bean id="extDS" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close" lazy-init="true">
 		
-		<property name="url" value="${bnu_jdbc_url}" />
-		<property name="username" value="${bnu_jdbc_user}" />
-		<property name="password" value="${bnu_jdbc_password}" />
+		<property name="url" value="${ext_jdbc_url}" />
+		<property name="username" value="${ext_jdbc_user}" />
+		<property name="password" value="${ext_jdbc_password}" />
 
 		 <!-- 配置初始化大小、最小、最大 -->
 		<property name="initialSize" value="1" />

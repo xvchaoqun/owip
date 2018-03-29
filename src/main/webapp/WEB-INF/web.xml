@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
     http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-    <display-name>Archetype Created Web Application</display-name>
+    <display-name>owip</display-name>
 
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>
@@ -23,7 +23,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!--BNU CAS -->
+    <!--CAS -->
     <!--<filter>
         <filter-name>CAS Single Sign Out Filter</filter-name>
         <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
