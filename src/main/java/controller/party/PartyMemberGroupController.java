@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.dispatch.DispatchService;
+import service.dispatch.DispatchUnitService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
@@ -192,17 +194,16 @@ public class PartyMemberGroupController extends BaseController {
             Integer dispatchUnitId = partyMemberGroup.getDispatchUnitId();
             if(dispatchUnitId != null) {
                 DispatchUnit dispatchUnit = dispatchUnitMapper.selectByPrimaryKey(dispatchUnitId);
-                if(dispatchUnit!= null)
+                if(dispatchUnit!= null) {
+                    DispatchService dispatchService = CmTag.getBean(DispatchService.class);
                     modelMap.put("dispatch", dispatchService.findAll().get(dispatchUnit.getDispatchId()));
+                }
             }
         }else{
             if(partyId == null) throw  new IllegalArgumentException("参数错误");
             Party party = partyMap.get(partyId);
             modelMap.put("party", party);
         }
-
-        modelMap.put("dispatchUnitMap", dispatchUnitService.findAll());
-        modelMap.put("dispatchMap", dispatchService.findAll());
 
         return "party/partyMemberGroup/partyMemberGroup_au";
     }
@@ -257,6 +258,7 @@ public class PartyMemberGroupController extends BaseController {
             Integer partyId = record.getPartyId();
 
             String dispatchCode = "";
+            DispatchUnitService dispatchUnitService = CmTag.getBean(DispatchUnitService.class);
             DispatchUnit dispatchUnit = dispatchUnitService.findAll().get(record.getDispatchUnitId());
             if(dispatchUnit!=null) {
                 Dispatch dispatch = dispatchUnit.getDispatch();

@@ -80,8 +80,8 @@
                                         <div class="form-group">
                                             <label>函询编号</label>
                                             <input class="form-control search-query num" name="letterNum" type="text"
-                                                   value="${param.letterNum}"
-                                                   placeholder="请输入函询">
+                                                   value="${param.letterNum}" style="width: 50px"
+                                                   placeholder="请输入函询编号">
                                         </div>
 
                                         <div class="clearfix form-actions center">
@@ -118,20 +118,28 @@
             {label: '年份', name: 'letterYear', width: 80},
             {
                 label: '函询编号', name: 'letterNum', width: 180, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.metaTypeMap[rowObject.letterType].name+"[{0}]{1}号".format(rowObject.letterYear, rowObject.letterNum)
+                var _num = _cMap.metaTypeMap[rowObject.letterType].name+"[{0}]{1}号".format(rowObject.letterYear, rowObject.letterNum)
+                return $.swfPreview(rowObject.letterFilePath, rowObject.letterFileName, _num, _num);
             }, frozen: true
             },
             {label: '函询日期', name: 'letterQueryDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '纪委回复文件编号', name: 'num', width: 180, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.metaTypeMap[rowObject.type].name+"[{0}]{1}号".format(rowObject.letterYear, rowObject.num)
+                var _num = _cMap.metaTypeMap[rowObject.type].name+"[{0}]{1}号".format(rowObject.letterYear, rowObject.num)
+                return $.swfPreview(rowObject.filePath, rowObject.fileName, _num, _num);
             }},
             {label: '纪委回复日期', name: 'replyDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '回复情况', name: '_replyItems', formatter: function (cellvalue, options, rowObject) {
-                return ('<button class="popupBtn btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scLetterReplyItems?replyId={0}">查看</button>')
-                        .format( rowObject.id);
+               /* return ('<button class="popupBtn btn btn-link btn-xs" ' +
+                'data-url="${ctx}/sc/scLetterReplyItems?replyId={0}">查看({1})</button>')
+                        .format( rowObject.id, rowObject.replyItemCount==undefined?0:rowObject.replyItemCount);*/
+
+                return ('<button class="loadPage btn btn-link btn-xs" ' +
+                'data-url="${ctx}/sc/scLetter?cls=2&letterYear={0}&letterNum={1}&replyNum={2}">查看({3})</button>')
+                        .format( rowObject.letterYear, rowObject.letterNum, rowObject.num,
+                        rowObject.replyItemCount==undefined?0:rowObject.replyItemCount);
+
             }},
             {label: '备注', name: 'remark', width: 320}
         ]

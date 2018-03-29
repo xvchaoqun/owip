@@ -1,6 +1,5 @@
 package controller.dispatch;
 
-import controller.BaseController;
 import domain.dispatch.DispatchUnitRelate;
 import domain.dispatch.DispatchUnitRelateExample;
 import domain.dispatch.DispatchUnitRelateExample.Criteria;
@@ -36,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class DispatchUnitRelateController extends BaseController {
+public class DispatchUnitRelateController extends DispatchBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

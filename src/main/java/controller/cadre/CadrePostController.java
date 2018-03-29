@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.dispatch.DispatchCadreRelateService;
+import service.dispatch.DispatchCadreService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -188,7 +191,8 @@ public class CadrePostController extends BaseController {
         Set<Integer> dispatchCadreIdSet = new HashSet<>(); // 已关联的干部任免文件ID
         List<DispatchCadre> relateDispatchCadres = new ArrayList<>(); // 已关联的干部任免文件
 
-        Map<Integer, DispatchCadre> dispatchCadreMap = dispatchCadreService.findAll();
+        DispatchCadreRelateService dispatchCadreRelateService = CmTag.getBean(DispatchCadreRelateService.class);
+        Map<Integer, DispatchCadre> dispatchCadreMap = CmTag.getBean(DispatchCadreService.class).findAll();
         List<DispatchCadreRelate> dispatchCadreRelates =
                 dispatchCadreRelateService.findDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
         for (DispatchCadreRelate dispatchCadreRelate : dispatchCadreRelates) {
@@ -223,6 +227,7 @@ public class CadrePostController extends BaseController {
                                          int id,
                                          @RequestParam(required = false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
+        DispatchCadreRelateService dispatchCadreRelateService = CmTag.getBean(DispatchCadreRelateService.class);
         dispatchCadreRelateService.updateDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST, ids);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "修改现任职务%s-关联发文：%s", id, StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);

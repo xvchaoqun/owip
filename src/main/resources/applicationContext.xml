@@ -79,7 +79,11 @@
                 <value>persistence.pcs.*</value>
                 <value>persistence.oa.*</value>
                 <value>persistence.pmd.*</value>
-                <value>persistence.sc.*</value>
+               <!-- <value>persistence.sc.*</value>-->
+
+                <value>persistence.dispatch.*</value>
+                <value>persistence.verify.*</value>
+                <value>persistence.modify.*</value>
             </list>
         </property>
         <property name="sqlSessionFactoryBeanName" value="mySqlSessionFactory"/>
@@ -110,7 +114,11 @@
         <context:exclude-filter type="regex" expression="service.pcs.*"/>
         <context:exclude-filter type="regex" expression="service.oa.*"/>
         <context:exclude-filter type="regex" expression="service.pmd.*"/>
-        <context:exclude-filter type="regex" expression="service.sc.*"/>
+        <!--<context:exclude-filter type="regex" expression="service.sc.*"/>-->
+
+        <context:exclude-filter type="regex" expression="service.dispatch.*"/>
+        <context:exclude-filter type="regex" expression="service.verify.*"/>
+        <context:exclude-filter type="regex" expression="service.modify.*"/>
     </context:component-scan>
     <!--<context:annotation-config />-->
 

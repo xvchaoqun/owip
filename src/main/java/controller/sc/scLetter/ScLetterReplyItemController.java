@@ -60,6 +60,7 @@ public class ScLetterReplyItemController extends ScLetterBaseController {
                                    Integer letterYear,
                                    Integer letterType,
                                    Integer letterNum,
+                                       Integer replyNum,
                                    @RequestParam(required = false, defaultValue = "0") int export,
                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                    Integer pageSize, Integer pageNo)  throws IOException {
@@ -88,6 +89,10 @@ public class ScLetterReplyItemController extends ScLetterBaseController {
         }
         if (letterNum!=null) {
             criteria.andLetterNumEqualTo(letterNum);
+        }
+
+        if (replyNum!=null) {
+            criteria.andReplyNumEqualTo(replyNum);
         }
 
         long count = scLetterReplyItemViewMapper.countByExample(example);

@@ -13,6 +13,7 @@ public class CadrePost implements Serializable {
 
     public DispatchCadreRelateBean getDispatchCadreRelateBean(){
         List<DispatchCadreRelate> all = CmTag.findDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
+        if(all==null) return null;
         return new DispatchCadreRelateBean(all);
     }
 

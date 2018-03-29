@@ -121,11 +121,6 @@ public class CmTag {
     static MetaTypeService metaTypeService = context.getBean(MetaTypeService.class);
     static MetaClassService metaClassService = context.getBean(MetaClassService.class);
 
-    static DispatchService dispatchService = context.getBean(DispatchService.class);
-    static DispatchCadreService dispatchCadreService = context.getBean(DispatchCadreService.class);
-    static DispatchUnitService dispatchUnitService = context.getBean(DispatchUnitService.class);
-    static DispatchTypeService dispatchTypeService = context.getBean(DispatchTypeService.class);
-
     static UnitService unitService = context.getBean(UnitService.class);
     static PartyService partyService = context.getBean(PartyService.class);
     static PartyMemberService partyMemberService = context.getBean(PartyMemberService.class);
@@ -134,7 +129,6 @@ public class CmTag {
 
     static CadreAdditionalPostService cadreAdditionalPostService = context.getBean(CadreAdditionalPostService.class);
     static CadreEduService cadreEduService = context.getBean(CadreEduService.class);
-    static DispatchCadreRelateService dispatchCadreRelateService = context.getBean(DispatchCadreRelateService.class);
 
     public static <T> T getBean(Class<T> cls){
 
@@ -468,6 +462,7 @@ public class CmTag {
     public static ApproverTypeBean getApproverTypeBean(Integer userId) {
 
         ApplySelfService applySelfService = getBean(ApplySelfService.class);
+        if(applySelfService==null) return null;
 
         return applySelfService.getApproverTypeBean(userId);
     }
@@ -557,29 +552,42 @@ public class CmTag {
     public static RetireApply getRetireApply(Integer userId) {
 
         RetireApplyService retireApplyService = getBean(RetireApplyService.class);
+
         return retireApplyService.get(userId);
     }
 
     public static Dispatch getDispatch(Integer dispatchId) {
 
+        DispatchService dispatchService = getBean(DispatchService.class);
+        if(dispatchService==null) return null;
         return dispatchService.findAll().get(dispatchId);
     }
 
     public static DispatchCadre getDispatchCadre(Integer dispatchCadreId) {
 
+        DispatchCadreService dispatchCadreService = getBean(DispatchCadreService.class);
+        if(dispatchCadreService==null) return null;
         return dispatchCadreService.findAll().get(dispatchCadreId);
     }
 
     public static Integer getDispatchCadreCount(Integer dispatchId, Byte type) {
+
+        DispatchCadreService dispatchCadreService = getBean(DispatchCadreService.class);
+        if(dispatchCadreService==null) return null;
         return dispatchCadreService.count(dispatchId, type);
     }
 
     public static List<DispatchCadreRelate> findDispatchCadreRelates(Integer relateId, Byte relateType) {
 
+        DispatchCadreRelateService dispatchCadreRelateService = getBean(DispatchCadreRelateService.class);
+        if(dispatchCadreRelateService==null) return null;
         return dispatchCadreRelateService.findDispatchCadreRelates(relateId, relateType);
     }
 
     public static DispatchUnit getDispatchUnit(Integer dispatchUnitId) {
+
+        DispatchUnitService dispatchUnitService = getBean(DispatchUnitService.class);
+        if(dispatchUnitService==null) return null;
         return dispatchUnitService.findAll().get(dispatchUnitId);
     }
 
@@ -592,6 +600,7 @@ public class CmTag {
             numStr = NumberUtils.frontCompWithZore(code, 2);
         }
 
+        DispatchTypeService dispatchTypeService = getBean(DispatchTypeService.class);
         Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
         DispatchType dispatchType = dispatchTypeMap.get(dispatchTypeId);
 
@@ -600,6 +609,7 @@ public class CmTag {
 
     public static DispatchType getDispatchType(Integer dispatchTypeId) {
 
+        DispatchTypeService dispatchTypeService = getBean(DispatchTypeService.class);
         Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
         return dispatchTypeMap.get(dispatchTypeId);
     }
@@ -645,6 +655,7 @@ public class CmTag {
     public static ApplySelf getApplySelf(Integer applyId) {
 
         ApplySelfService applySelfService = getBean(ApplySelfService.class);
+        if(applySelfService==null) return null;
         return applySelfService.get(applyId);
     }
 
@@ -665,6 +676,7 @@ public class CmTag {
     public static Map getApprovalTdBeanMap(Integer applySelfId) {
 
         ApplySelfService applySelfService = getBean(ApplySelfService.class);
+        if(applySelfService==null) return null;
         return applySelfService.getApprovalTdBeanMap(applySelfId);
     }
 

@@ -75,7 +75,7 @@ public class SysUserSyncController extends BaseController {
             example.createCriteria().andZghEqualTo(code);
             List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
             if(extJzges.size()==1){
-                sysUserSyncService.syncExtJzg(extJzges.get(0));
+                syncService.syncExtJzg(extJzges.get(0));
                 return success(FormUtils.SUCCESS);
             }
         }
@@ -86,7 +86,7 @@ public class SysUserSyncController extends BaseController {
                 example.createCriteria().andXhEqualTo(code);
                 List<ExtYjs> extYjses = extYjsMapper.selectByExample(example);
                 if(extYjses.size()==1){
-                    sysUserSyncService.sysExtYjs(extYjses.get(0));
+                    syncService.sysExtYjs(extYjses.get(0));
                     return success(FormUtils.SUCCESS);
                 }
         }
@@ -96,7 +96,7 @@ public class SysUserSyncController extends BaseController {
                 example.createCriteria().andXhEqualTo(code);
                 List<ExtBks> extBkses = extBksMapper.selectByExample(example);
                 if(extBkses.size()==1){
-                    sysUserSyncService.syncExtBks(extBkses.get(0));
+                    syncService.syncExtBks(extBkses.get(0));
                     return success(FormUtils.SUCCESS);
                 }
         }
@@ -118,7 +118,7 @@ public class SysUserSyncController extends BaseController {
             ExtJzgExample example = new ExtJzgExample();
             example.createCriteria().andZghEqualTo(code);
             List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
-            if(extJzges.size()==1) sysUserSyncService.syncExtJzg(extJzges.get(0));
+            if(extJzges.size()==1) syncService.syncExtJzg(extJzges.get(0));
         }else {
             if (sysUser.getType() == SystemConstants.USER_TYPE_YJS) {
                 extYjsImport.byCode(code);
@@ -126,14 +126,14 @@ public class SysUserSyncController extends BaseController {
                 ExtYjsExample example = new ExtYjsExample();
                 example.createCriteria().andXhEqualTo(code);
                 List<ExtYjs> extYjses = extYjsMapper.selectByExample(example);
-                if(extYjses.size()==1) sysUserSyncService.sysExtYjs(extYjses.get(0));
+                if(extYjses.size()==1) syncService.sysExtYjs(extYjses.get(0));
             }else {
 
                 extBksImport.byCode(code);
                 ExtBksExample example = new ExtBksExample();
                 example.createCriteria().andXhEqualTo(code);
                 List<ExtBks> extBkses = extBksMapper.selectByExample(example);
-                if(extBkses.size()==1) sysUserSyncService.syncExtBks(extBkses.get(0));
+                if(extBkses.size()==1) syncService.syncExtBks(extBkses.get(0));
             }
         }
         return success(FormUtils.SUCCESS);
@@ -146,22 +146,22 @@ public class SysUserSyncController extends BaseController {
     public Map sync_user_batch(int type) {
         switch (type){
             case SystemConstants.SYNC_TYPE_JZG:
-                sysUserSyncService.syncAllJZG(false);
+                syncService.syncAllJZG(false);
                 break;
             case SystemConstants.SYNC_TYPE_YJS:
-                sysUserSyncService.syncAllYJS(false);
+                syncService.syncAllYJS(false);
                 break;
             case SystemConstants.SYNC_TYPE_BKS:
-                sysUserSyncService.syncAllBks(false);
+                syncService.syncAllBks(false);
                 break;
             case SystemConstants.SYNC_TYPE_ABROAD:
-                sysUserSyncService.syncAllAbroad(false);
+                syncService.syncAllAbroad(false);
                 break;
             case SystemConstants.SYNC_TYPE_RETIRE_SALARY:
-                sysUserSyncService.syncRetireSalary(false);
+                syncService.syncRetireSalary(false);
                 break;
             case SystemConstants.SYNC_TYPE_JZG_SALARY:
-                sysUserSyncService.syncJzgSalary(false);
+                syncService.syncJzgSalary(false);
                 break;
         }
 
@@ -174,10 +174,10 @@ public class SysUserSyncController extends BaseController {
     public Map sync_status() {
 
         Map<String, Object> map = success(FormUtils.SUCCESS);
-        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_JZG, sysUserSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG));
-        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_YJS, sysUserSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_YJS));
-        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_BKS, sysUserSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_BKS));
-        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_ABROAD, sysUserSyncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_ABROAD));
+        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_JZG, syncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_JZG));
+        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_YJS, syncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_YJS));
+        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_BKS, syncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_BKS));
+        map.put("lastSyncIsNotStop-" + SystemConstants.SYNC_TYPE_ABROAD, syncService.lastSyncIsNotStop(SystemConstants.SYNC_TYPE_ABROAD));
         return map;
     }
 
@@ -247,7 +247,7 @@ public class SysUserSyncController extends BaseController {
         record.setIsStop(true);
         record.setEndTime(new Date());
         record.setAutoStop(false);
-        sysUserSyncService.updateByPrimaryKeySelective(record);
+        syncService.updateByPrimaryKeySelective(record);
         logger.info(addLog(SystemConstants.LOG_ADMIN, "结束账号同步：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
@@ -271,7 +271,7 @@ public class SysUserSyncController extends BaseController {
 
         if (id != null) {
 
-            sysUserSyncService.del(id);
+            syncService.del(id);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "删除账号同步日志：%s", id));
         }
         return success(FormUtils.SUCCESS);
@@ -284,7 +284,7 @@ public class SysUserSyncController extends BaseController {
 
 
         if (null != ids && ids.length>0){
-            sysUserSyncService.batchDel(ids);
+            syncService.batchDel(ids);
             logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除账号同步日志：%s", StringUtils.join(ids, ",")));
         }
 

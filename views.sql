@@ -179,12 +179,18 @@ left join sc_letter_reply slr on slr.letter_id=sl.id group by sl.id;
 DROP VIEW IF EXISTS `sc_letter_reply_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_reply_view` AS
 select slr.*, sl.year as letter_year, sl.num as letter_num,
-sl.query_date as letter_query_date, sl.type as letter_type from sc_letter_reply slr
-left join sc_letter sl on sl.id=slr.letter_id ;
+sl.file_path as letter_file_path, sl.file_name as letter_file_name,
+sl.query_date as letter_query_date, sl.type as letter_type
+, count(distinct slri.id) as reply_item_count from sc_letter_reply slr
+left join sc_letter sl on sl.id=slr.letter_id
+left join sc_letter_reply_item slri on slri.reply_id=slr.id group by slr.id;
 
 DROP VIEW IF EXISTS `sc_letter_reply_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_reply_item_view` AS
-select slri.*, slr.letter_id, slr.type as reply_type, slr.reply_date, slr.num as reply_num, sl.year as letter_year, sl.num as letter_num,
+select slri.*, slr.letter_id, slr.type as reply_type, slr.reply_date, slr.num as reply_num,
+slr.file_path as reply_file_path, slr.file_name as reply_file_name,
+sl.year as letter_year, sl.num as letter_num,
+sl.file_path as letter_file_path, sl.file_name as letter_file_name,
 sl.query_date as letter_query_date, sl.type as letter_type, u.realname, u.code from sc_letter_reply_item slri
 left join sys_user_view u on slri.user_id=u.id
 left join sc_letter_reply slr on slr.id=slri.reply_id and slr.is_deleted=0

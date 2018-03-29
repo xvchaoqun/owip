@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.common.IDispatchMapper" >
+<mapper namespace="persistence.dispatch.common.IDispatchMapper" >
   <select id="selectDispatchUnitByCodeList" resultMap="persistence.dispatch.DispatchUnitMapper.BaseResultMap" parameterType="map" >
     select bdu.* from dispatch_unit bdu, dispatch d
     where bdu.unit_id=#{unitId} and bdu.dispatch_id=d.id

@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.dispatch.DispatchService;
+import service.dispatch.DispatchUnitService;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -224,8 +226,10 @@ public class BranchMemberGroupController extends BaseController {
             Integer dispatchUnitId = branchMemberGroup.getDispatchUnitId();
             if(dispatchUnitId != null) {
                 DispatchUnit dispatchUnit = dispatchUnitMapper.selectByPrimaryKey(dispatchUnitId);
-                if(dispatchUnit!= null)
+                if(dispatchUnit!= null) {
+                    DispatchService dispatchService = CmTag.getBean(DispatchService.class);
                     modelMap.put("dispatch", dispatchService.findAll().get(dispatchUnit.getDispatchId()));
+                }
             }
         }else{
             if(branchId == null) throw  new IllegalArgumentException("参数错误");
@@ -285,6 +289,7 @@ public class BranchMemberGroupController extends BaseController {
             BranchMemberGroupView record = records.get(i);
             Dispatch dispatch = null;
             if(record.getDispatchUnitId()!=null) {
+                DispatchUnitService dispatchUnitService = CmTag.getBean(DispatchUnitService.class);
                 DispatchUnit dispatchUnit = dispatchUnitService.findAll().get(record.getDispatchUnitId());
                 if(dispatchUnit!=null)
                     dispatch = dispatchUnit.getDispatch();

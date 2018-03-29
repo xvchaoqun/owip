@@ -1,6 +1,5 @@
 package controller.dispatch;
 
-import controller.BaseController;
 import domain.dispatch.DispatchType;
 import domain.dispatch.DispatchTypeExample;
 import domain.dispatch.DispatchTypeExample.Criteria;
@@ -36,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class DispatchTypeController extends BaseController {
+public class DispatchTypeController extends DispatchBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

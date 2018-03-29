@@ -1,6 +1,5 @@
 package controller.dispatch;
 
-import controller.BaseController;
 import controller.global.OpException;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchExample;
@@ -52,7 +51,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-public class DispatchController extends BaseController {
+public class DispatchController extends DispatchBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

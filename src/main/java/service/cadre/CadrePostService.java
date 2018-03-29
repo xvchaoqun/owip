@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class CadrePostService extends BaseMapper {
 
-    @Autowired
+    @Autowired(required = false)
     private DispatchCadreRelateService dispatchCadreRelateService;
 
     public void insertSelective(CadrePost record) {

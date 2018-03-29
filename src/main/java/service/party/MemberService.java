@@ -27,11 +27,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import controller.global.OpException;
 import service.member.MemberApplyService;
 import service.sys.LogService;
 import service.sys.SysUserService;
-import service.sys.SysUserSyncService;
+import service.source.SyncService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.RoleConstants;
@@ -52,8 +51,8 @@ public class MemberService extends BaseMapper {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SysUserService sysUserService;
-    @Autowired
-    private SysUserSyncService sysUserSyncService;
+    @Autowired(required = false)
+    private SyncService syncService;
     /*@Autowired
     private EnterApplyService enterApplyService;
     @Autowired
@@ -73,10 +72,9 @@ public class MemberService extends BaseMapper {
 
     public Member get(int userId) {
 
+        if(memberMapper==null) return null;
         return memberMapper.selectByPrimaryKey(userId);
     }
-
-
 
     /**
      * 党员出党后重新回来
@@ -116,15 +114,15 @@ public class MemberService extends BaseMapper {
         if (type == SystemConstants.USER_TYPE_JZG) {
 
             // 同步教职工信息到ow_member_teacher表
-            sysUserSyncService.snycTeacherInfo(userId, uv);
+            syncService.snycTeacherInfo(userId, uv);
         } else if (type == SystemConstants.USER_TYPE_BKS) {
 
             // 同步本科生信息到 ow_member_student表
-            sysUserSyncService.snycStudent(userId, uv);
+            syncService.snycStudent(userId, uv);
         } else if (type == SystemConstants.USER_TYPE_YJS) {
 
             // 同步研究生信息到 ow_member_student表
-            sysUserSyncService.snycStudent(userId, uv);
+            syncService.snycStudent(userId, uv);
         } else {
             throw new OpException("添加失败，该账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
         }
@@ -153,17 +151,17 @@ public class MemberService extends BaseMapper {
 
             // 同步教职工信息到ow_member_teacher表
             record.setType(MemberConstants.MEMBER_TYPE_TEACHER); // 教职工党员
-            sysUserSyncService.snycTeacherInfo(userId, uv);
+            syncService.snycTeacherInfo(userId, uv);
         } else if (type == SystemConstants.USER_TYPE_BKS) {
 
             // 同步本科生信息到 ow_member_student表
             record.setType(MemberConstants.MEMBER_TYPE_STUDENT); // 学生党员
-            sysUserSyncService.snycStudent(userId, uv);
+            syncService.snycStudent(userId, uv);
         } else if (type == SystemConstants.USER_TYPE_YJS) {
 
             // 同步研究生信息到 ow_member_student表
             record.setType(MemberConstants.MEMBER_TYPE_STUDENT); // 学生党员
-            sysUserSyncService.snycStudent(userId, uv);
+            syncService.snycStudent(userId, uv);
         } else {
             throw new OpException("添加失败，该账号不是教工或学生。" + uv.getCode() + "," + uv.getRealname());
         }

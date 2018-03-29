@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import persistence.cadre.CadreViewMapper;
-import persistence.common.IDispatchMapper;
+import persistence.dispatch.common.IDispatchMapper;
 import service.cadre.CadreService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
@@ -32,7 +32,6 @@ import sys.utils.ExcelUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

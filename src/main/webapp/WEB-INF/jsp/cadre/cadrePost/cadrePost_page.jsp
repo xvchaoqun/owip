@@ -413,6 +413,7 @@
                 label: '干部任免文件',
                 name: 'dispatchCadreRelateBean.all',
                 formatter: function (cellvalue, options, rowObject) {
+                    if (cellvalue == undefined) return '';
                     var count = cellvalue.length;
                     <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
                     if(count==0) return ''

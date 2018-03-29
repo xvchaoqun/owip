@@ -1,6 +1,5 @@
 package controller.dispatch;
 
-import controller.BaseController;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.dispatch.DispatchWorkFile;
@@ -43,7 +42,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Controller
-public class DispatchWorkFileController extends BaseController {
+public class DispatchWorkFileController extends DispatchBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.dispatch.common;
 
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreView;

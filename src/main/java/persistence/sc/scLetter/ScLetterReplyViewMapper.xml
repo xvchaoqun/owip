@@ -13,8 +13,11 @@
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="letter_year" jdbcType="INTEGER" property="letterYear" />
     <result column="letter_num" jdbcType="INTEGER" property="letterNum" />
+    <result column="letter_file_path" jdbcType="VARCHAR" property="letterFilePath" />
+    <result column="letter_file_name" jdbcType="VARCHAR" property="letterFileName" />
     <result column="letter_query_date" jdbcType="DATE" property="letterQueryDate" />
     <result column="letter_type" jdbcType="INTEGER" property="letterType" />
+    <result column="reply_item_count" jdbcType="BIGINT" property="replyItemCount" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -47,7 +50,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, letter_id, type, num, file_path, file_name, reply_date, remark, is_deleted, letter_year, 
-    letter_num, letter_query_date, letter_type
+    letter_num, letter_file_path, letter_file_name, letter_query_date, letter_type, reply_item_count
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scLetter.ScLetterReplyViewExample" resultMap="BaseResultMap">
     select

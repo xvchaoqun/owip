@@ -196,25 +196,25 @@
         <!--<table tableName="sc_letter_reply" domainObjectName="sc.scLetter.ScLetterReply"
                mapperName="sc.scLetter.ScLetterReplyMapper">
         </table>-->
-        <!--<table tableName="sc_letter_reply_view"
+        <table tableName="sc_letter_reply_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scLetter.ScLetterReplyView"
                mapperName="sc.scLetter.ScLetterReplyViewMapper">
-        </table>-->
+        </table>
         <!--
         <table tableName="sc_letter_reply_item" domainObjectName="sc.scLetter.ScLetterReplyItem"
                mapperName="sc.scLetter.ScLetterReplyItemMapper">
         </table>-->
 
-        <table tableName="sc_letter_reply_item_view"
+        <!--<table tableName="sc_letter_reply_item_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scLetter.ScLetterReplyItemView"
                mapperName="sc.scLetter.ScLetterReplyItemViewMapper">
-        </table>
+        </table>-->
 
         <!--干部选拔-个人有关事项-->
         <!--<table tableName="sc_matter" domainObjectName="sc.scMatter.ScMatter" mapperName="sc.scMatter.ScMatterMapper">

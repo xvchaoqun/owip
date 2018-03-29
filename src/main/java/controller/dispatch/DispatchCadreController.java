@@ -1,6 +1,5 @@
 package controller.dispatch;
 
-import controller.BaseController;
 import domain.cadre.CadreView;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
@@ -41,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class DispatchCadreController extends BaseController {
+public class DispatchCadreController extends DispatchBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

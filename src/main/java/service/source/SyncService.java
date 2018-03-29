@@ -1,4 +1,4 @@
-package service.sys;
+package service.source;
 
 import controller.global.OpException;
 import domain.ext.ExtAbroadExample;
@@ -26,12 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.ext.ExtService;
-import service.source.ExtAbroadImport;
-import service.source.ExtBksImport;
-import service.source.ExtJzgImport;
-import service.source.ExtJzgSalaryImport;
-import service.source.ExtRetireSalaryImport;
-import service.source.ExtYjsImport;
+import service.sys.SysUserService;
 import shiro.PasswordHelper;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
@@ -44,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class SysUserSyncService extends BaseMapper {
+public class SyncService extends BaseMapper {
 
     @Autowired
     private SysUserService sysUserService;

@@ -99,10 +99,10 @@ import persistence.cis.CisInspectorMapper;
 import persistence.cis.CisInspectorViewMapper;
 import persistence.cis.CisObjInspectorMapper;
 import persistence.cis.CisObjUnitMapper;
+import persistence.cis.common.ICisMapper;
 import persistence.common.CommonMapper;
 import persistence.common.ICadreMapper;
 import persistence.common.ICpcMapper;
-import persistence.common.IDispatchMapper;
 import persistence.common.IExtMapper;
 import persistence.common.IModifyMapper;
 import persistence.common.IPartyMapper;
@@ -143,6 +143,7 @@ import persistence.dispatch.DispatchUnitRelateMapper;
 import persistence.dispatch.DispatchViewMapper;
 import persistence.dispatch.DispatchWorkFileAuthMapper;
 import persistence.dispatch.DispatchWorkFileMapper;
+import persistence.dispatch.common.IDispatchMapper;
 import persistence.ext.ExtAbroadMapper;
 import persistence.ext.ExtBksMapper;
 import persistence.ext.ExtJzgMapper;
@@ -818,6 +819,8 @@ public class BaseMapper {
     protected CisObjInspectorMapper cisObjInspectorMapper;
     @Autowired(required = false)
     protected CisObjUnitMapper cisObjUnitMapper;
+    @Autowired(required = false)
+    protected ICisMapper iCisMapper;
 
     @Autowired(required = false)
     protected CrpRecordMapper crpRecordMapper;

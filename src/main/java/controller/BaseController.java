@@ -55,13 +55,8 @@ import service.cadreReserve.CadreReserveExportService;
 import service.cadreReserve.CadreReserveService;
 import service.cpc.CpcAllocationService;
 import service.crp.CrpRecordService;
-import service.dispatch.DispatchCadreRelateService;
-import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
-import service.dispatch.DispatchUnitRelateService;
-import service.dispatch.DispatchUnitService;
-import service.dispatch.DispatchWorkFileService;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
@@ -78,6 +73,7 @@ import service.party.PartyMemberAdminService;
 import service.party.PartyMemberGroupService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
+import service.source.SyncService;
 import service.sys.AttachFileService;
 import service.sys.AvatarService;
 import service.sys.FeedbackService;
@@ -91,7 +87,6 @@ import service.sys.SysResourceService;
 import service.sys.SysRoleService;
 import service.sys.SysUserRegService;
 import service.sys.SysUserService;
-import service.sys.SysUserSyncService;
 import service.sys.TeacherInfoService;
 import service.sys.UserBeanService;
 import service.unit.HistoryUnitService;
@@ -101,8 +96,6 @@ import service.unit.UnitCadreTransferGroupService;
 import service.unit.UnitCadreTransferService;
 import service.unit.UnitService;
 import service.unit.UnitTransferService;
-import service.verify.VerifyAgeService;
-import service.verify.VerifyWorkTimeService;
 import shiro.PasswordHelper;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -151,12 +144,6 @@ public class BaseController extends BaseMapper {
     protected CadrePostService cadrePostService;
     @Autowired
     protected CadreAdminLevelService cadreAdminLevelService;
-    @Autowired
-    protected ExtJzgService extJzgService;
-    @Autowired
-    protected ExtYjsService extYjsService;
-    @Autowired
-    protected ExtBksService extBksService;
     @Autowired
     protected CadreInfoService cadreInfoService;
     @Autowired
@@ -225,33 +212,12 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected CpcAllocationService cpcAllocationService;
 
-
-    @Autowired
-    protected VerifyAgeService verifyAgeService;
-    @Autowired
-    protected VerifyWorkTimeService verifyWorkTimeService;
-
     @Autowired
     protected UnitTransferService unitTransferService;
     @Autowired
     protected UnitCadreTransferService unitCadreTransferService;
     @Autowired
     protected UnitCadreTransferGroupService unitCadreTransferGroupService;
-
-    @Autowired
-    protected DispatchService dispatchService;
-    @Autowired
-    protected DispatchTypeService dispatchTypeService;
-    @Autowired
-    protected DispatchCadreService dispatchCadreService;
-    @Autowired
-    protected DispatchCadreRelateService dispatchCadreRelateService;
-    @Autowired
-    protected DispatchUnitRelateService dispatchUnitRelateService;
-    @Autowired
-    protected DispatchUnitService dispatchUnitService;
-    @Autowired
-    protected DispatchWorkFileService dispatchWorkFileService;
 
     @Autowired
     protected HistoryUnitService historyUnitService;
@@ -276,13 +242,19 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected StudentInfoService studentService;
 
+    @Autowired
+    protected ExtJzgService extJzgService;
+    @Autowired
+    protected ExtYjsService extYjsService;
+    @Autowired
+    protected ExtBksService extBksService;
+    @Autowired
+    protected SyncService syncService;
 
     @Autowired
     protected SysConfigService sysConfigService;
     @Autowired
     protected SysApprovalLogService sysApprovalLogService;
-    @Autowired
-    protected SysUserSyncService sysUserSyncService;
     @Autowired
     protected SysUserService sysUserService;
     @Autowired
@@ -514,13 +486,12 @@ public class BaseController extends BaseMapper {
 
         map.put("politicalStatusMap", metaTypeService.metaTypes("mc_political_status"));
 
-        map.put("dispatchMap", dispatchService.findAll());
+        DispatchService dispatchService = CmTag.getBean(DispatchService.class);
+        if(dispatchService!=null) map.put("dispatchMap", dispatchService.findAll());
+        DispatchTypeService dispatchTypeService = CmTag.getBean(DispatchTypeService.class);
+        if(dispatchTypeService!=null) map.put("dispatchTypeMap", dispatchTypeService.findAll());
 
-        map.put("dispatchCadreMap", dispatchCadreService.findAll());
-        map.put("dispatchUnitMap", dispatchUnitService.findAll());
         map.put("postClassMap", metaTypeService.metaTypes("mc_post_class"));
-
-
         map.put("leaderTypeMap", metaTypeService.metaTypes("mc_leader_type"));
         map.put("leaderUnitTypeMap", metaTypeService.metaTypes("mc_leader_unit"));
 
@@ -534,7 +505,6 @@ public class BaseController extends BaseMapper {
         map.put("democraticPartyMap", metaTypeService.metaTypes("mc_democratic_party"));
         map.put("unitTypeMap", metaTypeService.metaTypes("mc_unit_type"));
 
-        map.put("dispatchTypeMap", dispatchTypeService.findAll());
         map.put("passportTypeMap", metaTypeService.metaTypes("mc_passport_type"));
 
         map.put("dispatchUnitTypeMap", metaTypeService.metaTypes("mc_dispatch_unit"));

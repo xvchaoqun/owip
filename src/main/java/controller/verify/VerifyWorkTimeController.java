@@ -1,6 +1,5 @@
 package controller.verify;
 
-import controller.BaseController;
 import domain.cadre.CadreView;
 import domain.verify.VerifyWorkTime;
 import domain.verify.VerifyWorkTimeExample;
@@ -35,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class VerifyWorkTimeController extends BaseController {
+public class VerifyWorkTimeController extends VerifyBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

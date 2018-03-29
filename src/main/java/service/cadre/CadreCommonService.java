@@ -50,7 +50,7 @@ public class CadreCommonService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private UnitService unitService;
-    @Autowired
+    @Autowired(required = false)
     private DispatchService dispatchService;
     @Autowired
     private CadreAdditionalPostService cadreAdditionalPostService;

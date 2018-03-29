@@ -234,7 +234,7 @@ public class ScAdArchiveController extends ScAdBaseController {
         Integer objId = scAdArchive.getObjId();
         modelMap.put("selectedObjId", objId);
 
-        modelMap.put("cisInspectObjs", iScMapper.selectScAdCisInspectObjs(archiveId, cadreId));
+        modelMap.put("cisInspectObjs", iCisMapper.selectScAdCisInspectObjs(archiveId, cadreId));
 
         return "sc/scAd/scAdArchive/scAdArchive_selectCisInspectObj";
     }

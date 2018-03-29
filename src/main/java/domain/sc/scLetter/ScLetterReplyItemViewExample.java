@@ -622,6 +622,146 @@ public class ScLetterReplyItemViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andReplyFilePathIsNull() {
+            addCriterion("reply_file_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathIsNotNull() {
+            addCriterion("reply_file_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathEqualTo(String value) {
+            addCriterion("reply_file_path =", value, "replyFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathNotEqualTo(String value) {
+            addCriterion("reply_file_path <>", value, "replyFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathGreaterThan(String value) {
+            addCriterion("reply_file_path >", value, "replyFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathGreaterThanOrEqualTo(String value) {
+            addCriterion("reply_file_path >=", value, "replyFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathLessThan(String value) {
+            addCriterion("reply_file_path <", value, "replyFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathLessThanOrEqualTo(String value) {
+            addCriterion("reply_file_path <=", value, "replyFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathLike(String value) {
+            addCriterion("reply_file_path like", value, "replyFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathNotLike(String value) {
+            addCriterion("reply_file_path not like", value, "replyFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathIn(List<String> values) {
+            addCriterion("reply_file_path in", values, "replyFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathNotIn(List<String> values) {
+            addCriterion("reply_file_path not in", values, "replyFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathBetween(String value1, String value2) {
+            addCriterion("reply_file_path between", value1, value2, "replyFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFilePathNotBetween(String value1, String value2) {
+            addCriterion("reply_file_path not between", value1, value2, "replyFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameIsNull() {
+            addCriterion("reply_file_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameIsNotNull() {
+            addCriterion("reply_file_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameEqualTo(String value) {
+            addCriterion("reply_file_name =", value, "replyFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameNotEqualTo(String value) {
+            addCriterion("reply_file_name <>", value, "replyFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameGreaterThan(String value) {
+            addCriterion("reply_file_name >", value, "replyFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameGreaterThanOrEqualTo(String value) {
+            addCriterion("reply_file_name >=", value, "replyFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameLessThan(String value) {
+            addCriterion("reply_file_name <", value, "replyFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameLessThanOrEqualTo(String value) {
+            addCriterion("reply_file_name <=", value, "replyFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameLike(String value) {
+            addCriterion("reply_file_name like", value, "replyFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameNotLike(String value) {
+            addCriterion("reply_file_name not like", value, "replyFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameIn(List<String> values) {
+            addCriterion("reply_file_name in", values, "replyFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameNotIn(List<String> values) {
+            addCriterion("reply_file_name not in", values, "replyFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameBetween(String value1, String value2) {
+            addCriterion("reply_file_name between", value1, value2, "replyFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andReplyFileNameNotBetween(String value1, String value2) {
+            addCriterion("reply_file_name not between", value1, value2, "replyFileName");
+            return (Criteria) this;
+        }
+
         public Criteria andLetterYearIsNull() {
             addCriterion("letter_year is null");
             return (Criteria) this;
@@ -739,6 +879,146 @@ public class ScLetterReplyItemViewExample {
 
         public Criteria andLetterNumNotBetween(Integer value1, Integer value2) {
             addCriterion("letter_num not between", value1, value2, "letterNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathIsNull() {
+            addCriterion("letter_file_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathIsNotNull() {
+            addCriterion("letter_file_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathEqualTo(String value) {
+            addCriterion("letter_file_path =", value, "letterFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathNotEqualTo(String value) {
+            addCriterion("letter_file_path <>", value, "letterFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathGreaterThan(String value) {
+            addCriterion("letter_file_path >", value, "letterFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathGreaterThanOrEqualTo(String value) {
+            addCriterion("letter_file_path >=", value, "letterFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathLessThan(String value) {
+            addCriterion("letter_file_path <", value, "letterFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathLessThanOrEqualTo(String value) {
+            addCriterion("letter_file_path <=", value, "letterFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathLike(String value) {
+            addCriterion("letter_file_path like", value, "letterFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathNotLike(String value) {
+            addCriterion("letter_file_path not like", value, "letterFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathIn(List<String> values) {
+            addCriterion("letter_file_path in", values, "letterFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathNotIn(List<String> values) {
+            addCriterion("letter_file_path not in", values, "letterFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathBetween(String value1, String value2) {
+            addCriterion("letter_file_path between", value1, value2, "letterFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFilePathNotBetween(String value1, String value2) {
+            addCriterion("letter_file_path not between", value1, value2, "letterFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameIsNull() {
+            addCriterion("letter_file_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameIsNotNull() {
+            addCriterion("letter_file_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameEqualTo(String value) {
+            addCriterion("letter_file_name =", value, "letterFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameNotEqualTo(String value) {
+            addCriterion("letter_file_name <>", value, "letterFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameGreaterThan(String value) {
+            addCriterion("letter_file_name >", value, "letterFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameGreaterThanOrEqualTo(String value) {
+            addCriterion("letter_file_name >=", value, "letterFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameLessThan(String value) {
+            addCriterion("letter_file_name <", value, "letterFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameLessThanOrEqualTo(String value) {
+            addCriterion("letter_file_name <=", value, "letterFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameLike(String value) {
+            addCriterion("letter_file_name like", value, "letterFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameNotLike(String value) {
+            addCriterion("letter_file_name not like", value, "letterFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameIn(List<String> values) {
+            addCriterion("letter_file_name in", values, "letterFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameNotIn(List<String> values) {
+            addCriterion("letter_file_name not in", values, "letterFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameBetween(String value1, String value2) {
+            addCriterion("letter_file_name between", value1, value2, "letterFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLetterFileNameNotBetween(String value1, String value2) {
+            addCriterion("letter_file_name not between", value1, value2, "letterFileName");
             return (Criteria) this;
         }
 

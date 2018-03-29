@@ -20,9 +20,17 @@ public class ScLetterReplyItemView implements Serializable {
 
     private Integer replyNum;
 
+    private String replyFilePath;
+
+    private String replyFileName;
+
     private Integer letterYear;
 
     private Integer letterNum;
+
+    private String letterFilePath;
+
+    private String letterFileName;
 
     private Date letterQueryDate;
 
@@ -98,6 +106,22 @@ public class ScLetterReplyItemView implements Serializable {
         this.replyNum = replyNum;
     }
 
+    public String getReplyFilePath() {
+        return replyFilePath;
+    }
+
+    public void setReplyFilePath(String replyFilePath) {
+        this.replyFilePath = replyFilePath == null ? null : replyFilePath.trim();
+    }
+
+    public String getReplyFileName() {
+        return replyFileName;
+    }
+
+    public void setReplyFileName(String replyFileName) {
+        this.replyFileName = replyFileName == null ? null : replyFileName.trim();
+    }
+
     public Integer getLetterYear() {
         return letterYear;
     }
@@ -112,6 +136,22 @@ public class ScLetterReplyItemView implements Serializable {
 
     public void setLetterNum(Integer letterNum) {
         this.letterNum = letterNum;
+    }
+
+    public String getLetterFilePath() {
+        return letterFilePath;
+    }
+
+    public void setLetterFilePath(String letterFilePath) {
+        this.letterFilePath = letterFilePath == null ? null : letterFilePath.trim();
+    }
+
+    public String getLetterFileName() {
+        return letterFileName;
+    }
+
+    public void setLetterFileName(String letterFileName) {
+        this.letterFileName = letterFileName == null ? null : letterFileName.trim();
     }
 
     public Date getLetterQueryDate() {

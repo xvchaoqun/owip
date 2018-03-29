@@ -9,7 +9,8 @@
              data-url-export="${ctx}/sc/scLetterReplyItem_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.userId ||not empty param.letterYear ||not empty param.letterType ||not empty param.letterNum
+                   value="${not empty param.userId ||not empty param.letterYear ||not empty param.letterType
+                   ||not empty param.letterNum ||not empty param.replyNum
                    ||not empty param.replyDate || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <jsp:include page="../scLetter/menu.jsp"/>
@@ -71,10 +72,15 @@
                                         <div class="form-group">
                                             <label>函询编号</label>
                                             <input class="form-control search-query num" name="letterNum" type="text"
-                                                   value="${param.letterNum}"
-                                                   placeholder="请输入函询">
+                                                   value="${param.letterNum}" style="width: 50px"
+                                                   placeholder="请输入函询编号">
                                         </div>
-
+                                        <div class="form-group">
+                                            <label>回复编号</label>
+                                            <input class="form-control search-query num" name="replyNum" type="text"
+                                                   value="${param.replyNum}" style="width: 50px"
+                                                   placeholder="请输入回复编号">
+                                        </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
                                                 查找</a>
@@ -109,18 +115,20 @@
             {label: '年份', name: 'letterYear', width: 80},
             {
                 label: '函询编号', name: 'letterNum', width: 180, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.metaTypeMap[rowObject.letterType].name+"[{0}]{1}号".format(rowObject.letterYear, rowObject.letterNum)
+                var _num = _cMap.metaTypeMap[rowObject.letterType].name+"[{0}]{1}号".format(rowObject.letterYear, rowObject.letterNum)
+                return $.swfPreview(rowObject.letterFilePath, rowObject.letterFileName, _num, _num);
             }, frozen: true
             },
             {label: '函询日期', name: 'letterQueryDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '纪委回复文件编号', name: 'replyNum', width: 180, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.metaTypeMap[rowObject.replyType].name+"[{0}]{1}号".format(rowObject.letterYear, rowObject.replyNum)
+                var _num = _cMap.metaTypeMap[rowObject.replyType].name+"[{0}]{1}号".format(rowObject.letterYear, rowObject.replyNum)
+                return $.swfPreview(rowObject.replyFilePath, rowObject.replyFileName, _num, _num);
             }},
             {label: '纪委回复日期', name: 'replyDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '函询对象工作证号', name: 'code', width: 130},
             {label: '函询对象姓名', name: 'realname', width: 110},
-            {label: '纪委回复情况', name: 'content', width: 200},
+            {label: '纪委回复情况', name: 'content', width: 500},
             {label: '备注', name: 'remark', width: 320}
 
         ]

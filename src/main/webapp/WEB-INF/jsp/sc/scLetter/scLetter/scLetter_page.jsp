@@ -82,8 +82,8 @@
                                         <div class="form-group">
                                             <label>函询编号</label>
                                             <input class="form-control search-query num" name="num" type="text"
-                                                   value="${param.num}"
-                                                   placeholder="请输入函询">
+                                                   value="${param.num}" style="width: 50px"
+                                                   placeholder="请输入函询编号">
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
@@ -117,7 +117,7 @@
             {
                 label: '函询编号', name: 'num', width: 180, formatter: function (cellvalue, options, rowObject) {
                 var _num = _cMap.metaTypeMap[rowObject.type].name+"[{0}]{1}号".format(rowObject.year, rowObject.num)
-                return $.swfPreview(rowObject.checkFile, rowObject.checkFileName, _num, _num);
+                return $.swfPreview(rowObject.filePath, rowObject.fileName, _num, _num);
             }, frozen: true
             },
             {label: '函询日期', name: 'queryDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},

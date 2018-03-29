@@ -2,7 +2,6 @@ package service.dispatch;
 
 import domain.dispatch.DispatchCadreRelate;
 import domain.dispatch.DispatchCadreRelateExample;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -13,9 +12,6 @@ import java.util.Set;
 
 @Service
 public class DispatchCadreRelateService extends BaseMapper {
-
-    @Autowired
-    private DispatchService dispatchService;
 
     // 删除已关联的干部发文
     public int delDispatchCadreRelates(List<Integer> relateIds, byte relateType){

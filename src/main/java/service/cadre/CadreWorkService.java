@@ -26,7 +26,7 @@ import java.util.List;
 @Service
 public class CadreWorkService extends BaseMapper {
 
-    @Autowired
+    @Autowired(required = false)
     private DispatchCadreRelateService dispatchCadreRelateService;
     @Autowired
     private CadreService cadreService;

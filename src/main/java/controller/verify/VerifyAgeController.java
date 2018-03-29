@@ -1,6 +1,5 @@
 package controller.verify;
 
-import controller.BaseController;
 import domain.cadre.CadreView;
 import domain.verify.VerifyAge;
 import domain.verify.VerifyAgeExample;
@@ -35,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class VerifyAgeController extends BaseController {
+public class VerifyAgeController extends VerifyBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

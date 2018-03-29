@@ -1,4 +1,9 @@
 
+2018-3-29
+更新 sc_letter_reply_view
+sc_letter_reply_item_view
+
+
 2018-3-21
 ALTER TABLE `cet_trainee`
 	ADD COLUMN `is_quit` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否退出培训班' AFTER `trainee_type_id`;

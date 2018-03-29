@@ -1,6 +1,5 @@
 package controller.verify;
 
-import controller.BaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Created by fafa on 2017/4/9.
  */
 @Controller
-public class VerifyController extends BaseController {
+public class VerifyController extends VerifyBaseController {
 
 
     @RequiresPermissions("verify:menu")

@@ -10,8 +10,12 @@
     <result column="reply_type" jdbcType="INTEGER" property="replyType" />
     <result column="reply_date" jdbcType="DATE" property="replyDate" />
     <result column="reply_num" jdbcType="INTEGER" property="replyNum" />
+    <result column="reply_file_path" jdbcType="VARCHAR" property="replyFilePath" />
+    <result column="reply_file_name" jdbcType="VARCHAR" property="replyFileName" />
     <result column="letter_year" jdbcType="INTEGER" property="letterYear" />
     <result column="letter_num" jdbcType="INTEGER" property="letterNum" />
+    <result column="letter_file_path" jdbcType="VARCHAR" property="letterFilePath" />
+    <result column="letter_file_name" jdbcType="VARCHAR" property="letterFileName" />
     <result column="letter_query_date" jdbcType="DATE" property="letterQueryDate" />
     <result column="letter_type" jdbcType="INTEGER" property="letterType" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
@@ -47,8 +51,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, reply_id, user_id, content, letter_id, reply_type, reply_date, reply_num, letter_year, 
-    letter_num, letter_query_date, letter_type, realname, code
+    id, reply_id, user_id, content, letter_id, reply_type, reply_date, reply_num, reply_file_path, 
+    reply_file_name, letter_year, letter_num, letter_file_path, letter_file_name, letter_query_date, 
+    letter_type, realname, code
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scLetter.ScLetterReplyItemViewExample" resultMap="BaseResultMap">
     select

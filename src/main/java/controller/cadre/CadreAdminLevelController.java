@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.dispatch.DispatchCadreService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -103,7 +105,7 @@ public class CadreAdminLevelController extends BaseController {
 
         Set<Integer> dispatchCadreIdSet = new HashSet<>(); // 已选择的干部发文ID
         List<DispatchCadre> relateDispatchCadres = new ArrayList<>();
-        Map<Integer, DispatchCadre> dispatchCadreMap = dispatchCadreService.findAll();
+        Map<Integer, DispatchCadre> dispatchCadreMap = CmTag.getBean(DispatchCadreService.class).findAll();
         CadreAdminLevel cadreAdminLevel = cadreAdminLevelMapper.selectByPrimaryKey(id);
         if (StringUtils.equalsIgnoreCase(cls, "start")) {
 

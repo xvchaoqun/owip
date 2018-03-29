@@ -1,7 +1,6 @@
 package persistence.sc;
 
 import domain.cadre.CadreView;
-import domain.cis.CisInspectObjView;
 import domain.sc.scCommittee.ScCommittee;
 import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scMatter.ScMatterAccess;
@@ -61,10 +60,4 @@ public interface IScMapper {
     @Select("select scv.* from sc_committee_vote_view scv where scv.cadre_id = #{cadreId} " +
             "and scv.id not in(select vote_id from sc_ad_archive_vote where archive_id != #{archiveId}) order by scv.id desc")
     public List<ScCommitteeVoteView> selectScAdVotes(@Param("archiveId") int archiveId, @Param("cadreId") int cadreId);
-
-    // 干部任免审批表-待选干部考察报告
-    @ResultMap("persistence.cis.CisInspectObjViewMapper.BaseResultMap")
-    @Select("select cio.* from cis_inspect_obj_view cio where cio.cadre_id=#{cadreId} " +
-            "and cio.id not in(select obj_id from sc_ad_archive where cadre_id=#{cadreId} and id != #{archiveId})")
-    public List<CisInspectObjView>  selectScAdCisInspectObjs(@Param("archiveId") int archiveId, @Param("cadreId") int cadreId);
 }
