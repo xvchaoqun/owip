@@ -8,13 +8,13 @@
 
             <li class="active">
                 <a href="javascript:;" class="loadPage"
-                   data-load-el="#detail-content" data-callback="_menuSelected"
+                   data-load-el="#detail-content" data-callback="$.menu.liSelected"
                    data-url="${ctx}/user/crsPost_apply?postId=${param.postId}&type=detail">
                     <i class="green ace-icon fa fa-bullhorn bigger-120"></i> 应聘材料</a>
             </li>
             <li>
                 <a href="javascript:;" class="loadPage"
-                   data-load-el="#detail-content" data-callback="_menuSelected"
+                   data-load-el="#detail-content" data-callback="$.menu.liSelected"
                    data-url="${ctx}/user/crsPost_apply_notice?postId=${param.postId}">
                     <i class="green ace-icon fa fa-calendar bigger-120"></i> 招聘会通告</a>
             </li>
@@ -25,16 +25,8 @@
             </div>
         </ul>
         <div class="col-xs-12" id="detail-content">
-            <c:import url="${ctx}/user/crsPost_apply?postId=${param.postId}&type=detail"/>
+            <c:import url="${ctx}/user/crsPost_apply"/>
         </div>
         <div style="clear: both"></div>
     </div>
 </div>
-<script>
-    function _menuSelected($aHref){
-
-        var $nav = $aHref.closest(".nav");
-        $("li", $nav).removeClass("active");
-        $aHref.closest("li").addClass("active");
-    }
-</script>

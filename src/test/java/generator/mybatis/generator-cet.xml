@@ -21,6 +21,19 @@
         </javaClientGenerator>
 
         <!--干部教育培训系统-->
+        <!--<table tableName="cet_special" domainObjectName="cet.CetSpecial" mapperName="cet.CetSpecialMapper">
+        </table>
+        <table tableName="cet_special_obj" domainObjectName="cet.CetSpecialObj" mapperName="cet.CetSpecialObjMapper">
+        </table>-->
+       <!-- <table tableName="cet_special_obj_cadre_view" domainObjectName="cet.CetSpecialObjCadreView"
+               mapperName="cet.CetSpecialObjCadreViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>-->
+        <table tableName="cet_special_plan" domainObjectName="cet.CetSpecialPlan" mapperName="cet.CetSpecialPlanMapper">
+        </table>
+
        <!-- <table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
         </table>-->
         <!--<table tableName="cet_course_type" domainObjectName="cet.CetCourseType" mapperName="cet.CetCourseTypeMapper">
@@ -101,11 +114,11 @@
         </table>-->
         <!--<table tableName="cet_train_trainee_type" domainObjectName="cet.CetTrainTraineeType" mapperName="cet.CetTrainTraineeTypeMapper">
         </table>-->
-        <table tableName="cet_column_course_view" domainObjectName="cet.CetColumnCourseView" mapperName="cet.CetColumnCourseViewMapper"
+        <!--<table tableName="cet_column_course_view" domainObjectName="cet.CetColumnCourseView" mapperName="cet.CetColumnCourseViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
+        </table>-->
 
         <!--<table tableName="cet_train_inspector" domainObjectName="cet.CetTrainInspector"
                mapperName="cet.CetTrainInspectorMapper">

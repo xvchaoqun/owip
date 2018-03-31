@@ -18,25 +18,25 @@
                     <ul class="nav nav-tabs" id="detail-ul">
                         <li class="active">
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-content" data-callback="_menuSelected"
+                               data-load-el="#step-content" data-callback="$.menu.liSelected"
                                data-url="${ctx}/crsPost_detail/step?id=${param.id}&step=1">
                                 <i class="green ace-icon fa fa-bullhorn bigger-120"></i> 公告和资格</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-content" data-callback="_menuSelected"
+                               data-load-el="#step-content" data-callback="$.menu.liSelected"
                                data-url="${ctx}/crsPost_detail/step2_time?id=${param.id}">
                                 <i class="green ace-icon fa fa-calendar bigger-120"></i> 报名时间管理</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-content" data-callback="_menuSelected"
+                               data-load-el="#step-content" data-callback="$.menu.liSelected"
                                data-url="${ctx}/crsPost_detail/step?id=${param.id}&step=2">
                                 <i class="green ace-icon fa fa-gears bigger-120"></i> 报名和审核</a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-content" data-callback="_menuSelected"
+                               data-load-el="#step-content" data-callback="$.menu.liSelected"
                                data-url="${ctx}/crsPost_detail/step?id=${param.id}&step=3">
                                 <i class="green ace-icon fa fa-users bigger-120"></i> 招聘会</a>
                         </li>
@@ -46,7 +46,7 @@
             <div class="widget-body">
                 <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
                     <div class="tab-content padding-4" id="step-content">
-                    <c:import url="${ctx}/crsPost_detail/step?id=${param.id}&step=1"/>
+                    <c:import url="${ctx}/crsPost_detail/step"/>
                     </div>
                 </div>
             </div>
@@ -61,13 +61,6 @@
 
     function _stepContentReload(){
         $("#step-content li.active .loadPage").click()
-    }
-
-    function _menuSelected($aHref){
-
-        var $nav = $aHref.closest(".nav");
-        $("li", $nav).removeClass("active");
-        $aHref.closest("li").addClass("active");
     }
 
     $("#upload-file").change(function () {

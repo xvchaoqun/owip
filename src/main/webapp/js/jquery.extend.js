@@ -204,6 +204,14 @@ SysMsg.confirm = function (msg, title, callback) {
 var _modal_width;
 (function ($) {
     $.extend({
+        menu:{
+           liSelected:function($aHref){
+               //console.log($aHref)
+               var $nav = $aHref.closest(".nav");
+               $("li", $nav).removeClass("active");
+               $aHref.closest("li").addClass("active");
+           }
+        },
         /**
          * detect IE
          * returns version of IE or false, if browser is not Internet Explorer
@@ -382,12 +390,14 @@ var _modal_width;
             }
         },
         date: function (str, format) {
+
+            if($.trim(str)=='')return '';
             var date = null;
             //console.log(str + " " + isNaN(str) + " " + $.isIntNum(str))
             if ($.isIntNum(str)) {
                 date = new Date(str);
             } else {
-                date = new Date(Date.parse(str.replace(/-/g, "/")));
+                date = new Date(Date.parse($.trim(str).replace(/-/g, "/")));
             }
             return date.format(format);
         },

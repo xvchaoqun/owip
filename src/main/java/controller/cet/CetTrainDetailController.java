@@ -41,7 +41,7 @@ public class CetTrainDetailController extends CetBaseController {
             CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
             modelMap.put("cetTrain", cetTrain);
         }
-        return "cet/cetTrain/cetTrain_detail";
+        return "cet/cetTrain/cetTrain_detail/menu";
     }
 
     // 开课

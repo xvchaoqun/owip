@@ -54,20 +54,10 @@
 		$("#modal form").validate({
 
 				submitHandler: function (form) {
-					<c:if test="${param.type!=ABROAD_APPROVER_TYPE_UNIT && param.type!=ABROAD_APPROVER_TYPE_LEADER}">
 					var userIds = $.map($("#tree3").dynatree("getSelectedNodes"), function(node){
 						if(!node.data.isFolder)
 						return node.data.key;
 					});
-					</c:if>
-					<c:if test="${param.type==ABROAD_APPROVER_TYPE_UNIT || param.type==ABROAD_APPROVER_TYPE_LEADER}">
-					var userIds = [];
-					$("#tree3").dynatree("getRoot").visit(function(node){
-						if(!node.data.isFolder && !node.data.unselectable && !node.isSelected()) {
-							userIds.push(node.data.key);
-						}
-					});
-					</c:if>
 					$(form).ajaxSubmit({
 						data:{userIds:userIds, trainId:"${param.trainId}", traineeTypeId: "${param.traineeTypeId}"},
 						success:function(data){

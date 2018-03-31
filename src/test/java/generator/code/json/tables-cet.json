@@ -8,6 +8,33 @@
   "resFolder": "cet",
   "tables": [
     {
+      "table": "cet_special",
+      "key": "id",
+      "searchColumns": "year,name",
+      "showColumns": "year,start_date,end_date,name,file_name,pdf_file_path,word_file_path,period,require_period,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_special_obj",
+      "key": "id",
+      "searchColumns": "special_id",
+      "showColumns": "special_id,user_id,type,is_quit,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_special_plan",
+      "key": "id",
+      "searchColumns": "type",
+      "showColumns": "start_date,end_date,type,summary,period,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
       "table": "cet_expert",
       "key": "id",
       "searchColumns": "realname",
@@ -86,7 +113,7 @@
       "showColumns": "train_id,user_id,course_count,remark",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_trainee_course",
@@ -95,7 +122,7 @@
       "showColumns": "trainee_id,train_course_id,is_finished,remark,choose_time,ip",
       "excludeEditColumns": "id,choose_time,ip",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     }
   ]
 }

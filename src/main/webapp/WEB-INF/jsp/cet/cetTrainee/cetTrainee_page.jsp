@@ -49,9 +49,12 @@
             <form class="form-inline search-form" id="searchForm2">
                 <input type="hidden" name="traineeTypeId" value="${traineeTypeId}">
                 <div class="form-group">
-                    <label>可选课人员</label>
-                    <input class="form-control search-query" name="userId" type="text" value="${param.userId}"
-                           placeholder="请输入可选课人员">
+                    <label>姓名</label>
+                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?type=${USER_TYPE_JZG}"
+                            data-width="280"
+                            name="userId" data-placeholder="请输入账号或姓名或教工号">
+                        <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                    </select>
                 </div>
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
@@ -61,7 +64,7 @@
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="resetBtn btn btn-warning btn-sm"
                                 data-target="#detail-item-content"
-                                data-url="${ctx}/cet/cetTrainee?trainId=${trainId.postId}&cls=${param.cls}">
+                                data-url="${ctx}/cet/cetTrainee?trainId=${trainId.postId}&traineeTypeId=${traineeTypeId}&cls=${param.cls}">
                             <i class="fa fa-reply"></i> 重置
                         </button>
                     </c:if>

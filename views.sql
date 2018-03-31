@@ -1,5 +1,13 @@
 
 -- 干部教育培训
+
+DROP VIEW IF EXISTS `cet_special_obj_cadre_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_special_obj_cadre_view` AS
+select cso.*, cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.pro_post,
+cv.lp_work_time, cv.mobile, cv.email, cv.status from cet_special_obj cso
+left join cadre_view cv on cso.user_id=cv.user_id
+group by cso.id order by cv.sort_order desc ;
+
 DROP VIEW IF EXISTS `cet_column_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_column_course_view` AS
 SELECT ccc.*, fcc.id as f_column_id, fcc.name as f_column_name,

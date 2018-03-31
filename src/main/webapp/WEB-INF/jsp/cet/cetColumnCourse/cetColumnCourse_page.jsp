@@ -56,7 +56,6 @@
 
     }
 
-    $('#modalForm [data-rel="select2"]').select2();
     $("#modal button[type=submit]").click(function(){$("#modalForm").submit(); return false;})
     $("#modalForm").validate({
         submitHandler: function (form) {

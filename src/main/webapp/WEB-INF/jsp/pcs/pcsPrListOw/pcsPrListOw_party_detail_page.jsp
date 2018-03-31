@@ -15,28 +15,28 @@
                     <ul class="nav nav-tabs">
                         <li>
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-item-content" data-callback="_menuSelected"
+                               data-load-el="#step-item-content" data-callback="$.menu.liSelected"
                                data-url='${ctx}/pcsPrFile?partyId=${param.partyId}'><i
                                     class="fa fa-th-list"></i> 材料准备情况
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-item-content" data-callback="_menuSelected"
+                               data-load-el="#step-item-content" data-callback="$.menu.liSelected"
                                data-url='${ctx}/pcsPrVote?partyId=${param.partyId}'><i
                                     class="fa fa-hand-paper-o"></i> 选举情况
                             </a>
                         </li>
                         <li class="active">
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-item-content" data-callback="_menuSelected"
+                               data-load-el="#step-item-content" data-callback="$.menu.liSelected"
                                data-url='${ctx}/pcsPrList_page?partyId=${param.partyId}'><i
                                     class="fa fa-envelope-open"></i> 党代表名单
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-item-content" data-callback="_menuSelected"
+                               data-load-el="#step-item-content" data-callback="$.menu.liSelected"
                                data-url='${ctx}/pcsPrList_table_page?partyId=${param.partyId}'><i
                                     class="fa fa-line-chart"></i> 党代表数据统计
                             </a>
@@ -52,11 +52,3 @@
         </div>
     </div>
 </div>
-<script>
-    function _menuSelected($aHref){
-
-        var $nav = $aHref.closest(".nav");
-        $("li", $nav).removeClass("active");
-        $aHref.closest("li").addClass("active");
-    }
-</script>

@@ -38,14 +38,14 @@
                                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                                     <li class="active">
                                         <a href="javascript:;" class="loadPage"
-                                           data-load-el="#inner-item-content" data-callback="_menuSelected"
+                                           data-load-el="#inner-item-content" data-callback="$.menu.liSelected"
                                            data-url='${ctx}/sc/scGroupMember?isCurrent=1'><i
                                                 class="fa fa-bullhorn"></i> 小组会现有成员
                                         </a>
                                     </li>
                                     <li>
                                         <a href="javascript:;" class="loadPage"
-                                           data-load-el="#inner-item-content" data-callback="_menuSelected"
+                                           data-load-el="#inner-item-content" data-callback="$.menu.liSelected"
                                            data-url='${ctx}/sc/scGroupMember?isCurrent=0'><i
                                                 class="fa fa-calendar-o"></i> 小组会过去成员
                                         </a>
@@ -54,7 +54,7 @@
                                 <div class="space-4"></div>
                                 <div class="col-xs-12" id="inner-item-content" <%--style="min-height: 500px;"--%>>
 
-                                    <c:import url="${ctx}/sc/scGroupMember?isCurrent=1"/>
+                                    <c:import url="${ctx}/sc/scGroupMember"/>
                                 </div>
                                 <div style="clear: both"></div>
                             </div>
@@ -66,11 +66,3 @@
         <div id="item-content"></div>
     </div>
 </div>
-<script>
-    function _menuSelected($aHref) {
-
-        var $nav = $aHref.closest(".nav");
-        $("li", $nav).removeClass("active");
-        $aHref.closest("li").addClass("active");
-    }
-</script>

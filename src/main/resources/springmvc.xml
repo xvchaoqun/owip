@@ -34,6 +34,10 @@
 		<context:exclude-filter type="regex" expression="controller.*\.oa\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.pmd\..*"/>
 		<context:exclude-filter type="regex" expression="controller.*\.sc\..*"/>
+
+		<context:exclude-filter type="regex" expression="controller.*\.dispatch\..*"/>
+		<context:exclude-filter type="regex" expression="controller.*\.verify\..*"/>
+		<context:exclude-filter type="regex" expression="controller.*\.modify\..*"/>
 	</context:component-scan>
 
 	<mvc:interceptors>

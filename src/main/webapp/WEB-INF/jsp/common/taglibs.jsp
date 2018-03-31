@@ -180,6 +180,8 @@
 
 <c:set value="<%=ScConstants.SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP%>" var="SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP"/>
 
+<c:set value="<%=CetConstants.CET_SPECIAL_OBJ_TYPE_MAP%>" var="CET_SPECIAL_OBJ_TYPE_MAP"/>
+<c:set value="<%=CetConstants.CET_SPECIAL_PLAN_TYPE_MAP%>" var="CET_SPECIAL_PLAN_TYPE_MAP"/>
 <c:set value="<%=CetConstants.CET_TRAINEE_TYPE_TEMPLATE_MAP%>" var="CET_TRAINEE_TYPE_TEMPLATE_MAP"/>
 
 <c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT%>" var="CET_TRAIN_ENROLL_STATUS_DEFAULT"/>

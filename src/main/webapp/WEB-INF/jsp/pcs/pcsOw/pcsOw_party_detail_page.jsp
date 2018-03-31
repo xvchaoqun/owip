@@ -15,14 +15,14 @@
                     <ul class="nav nav-tabs">
                         <li class="active">
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-item-content" data-callback="_menuSelected"
+                               data-load-el="#step-item-content" data-callback="$.menu.liSelected"
                                data-url='${ctx}/pcsOw_party_branch_page?partyId=${param.partyId}&stage=${param.stage}'><i
                                     class="fa fa-calendar-o"></i> 各支部推荐情况
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-item-content" data-callback="_menuSelected"
+                               data-load-el="#step-item-content" data-callback="$.menu.liSelected"
                                data-url='${ctx}/pcsOw_party_candidate_page?partyId=${param.partyId}&stage=${param.stage}'><i
                                     class="fa fa-calendar-o"></i> 分党委推荐情况汇总
                             </a>
@@ -38,11 +38,3 @@
         </div>
     </div>
 </div>
-<script>
-    function _menuSelected($aHref){
-
-        var $nav = $aHref.closest(".nav");
-        $("li", $nav).removeClass("active");
-        $aHref.closest("li").addClass("active");
-    }
-</script>

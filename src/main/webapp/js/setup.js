@@ -449,28 +449,38 @@ $(document).on("click", ".myTableDiv .batchDelBtn", function () {
 // hashchange
 $(document).on("click", ".hashchange", function () {
 
-    var _this = $(this);
-    $.hashchange(_this.data("querystr"), _this.data("url"))
+    var $this = $(this);
+    $.hashchange($this.data("querystr"), $this.data("url"))
 });
 
 // load page
 $(document).on("click", ".loadPage", function () {
 
-    var _this = $(this);
+    var $this = $(this);
 
-    var queryString = _this.data("querystr");
-    var url = _this.data("url") + (queryString ? ("?" + queryString) : "");
-    var loadEl = _this.data("load-el") || "#page-content";
-    var maskEl = _this.data("mask-el") || loadEl || "#page-content";
-    var fn = _this.data("callback");
+    var queryString = $this.data("querystr");
+    var url = $this.data("url") + (queryString ? ("?" + queryString) : "");
+    var loadEl = $this.data("load-el") || "#page-content";
+    var maskEl = $this.data("mask-el") || loadEl || "#page-content";
+    var fn = $.trim($this.data("callback"));
     //console.log("maskEl="+maskEl)
     $.loadPage({
         url: url, loadEl: loadEl, maskEl: maskEl, callback: function () {
             $("#modal").modal('hide');
             clearJqgridSelected();
-            if (fn) {
-                // console.log(_this)
-                window[fn](_this);
+            if (fn != '') {
+                 //console.log(fn)
+                 //console.log($this)
+                if(typeof window[fn] == "function") {
+                    window[fn]($this);
+                }else{
+                    var evalFn = eval(fn);
+                    if (typeof evalFn != "function"){
+                        console.log(fn + " is not a function");
+                        return false;
+                    }
+                    evalFn($this);
+                }
             }
         }
     })
@@ -549,11 +559,11 @@ $(document).on("click", " .resetBtn", function () {
   */
 $(document).on("click", ".jqEditBtn", function () {
 
-    var _this = $(this);
-    var openBy = _this.data("open-by");
+    var $this = $(this);
+    var openBy = $this.data("open-by");
     var needId = $(this).data("need-id");
     if (needId == undefined) needId = true;
-    var idName = _this.data("id-name") || 'id';
+    var idName = $this.data("id-name") || 'id';
     var grid = $("#jqGrid");
     var id = grid.getGridParam("selrow");
     var ids = grid.getGridParam("selarrrow");
@@ -564,7 +574,7 @@ $(document).on("click", ".jqEditBtn", function () {
 
     if (needId) saveJqgridSelected("#jqGrid");
 
-    var url = $(this).data("url") ||  _this.closest(".myTableDiv").data("url-au");
+    var url = $(this).data("url") ||  $this.closest(".myTableDiv").data("url-au");
     var queryString = $(this).data("querystr");
     if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
     if(id>0) url += (url.indexOf("?") > 0 ? "&" : "?") + idName + "=" + id;
@@ -579,7 +589,7 @@ $(document).on("click", ".jqEditBtn", function () {
             }
         })
     } else {
-        $.loadModal(url, _this.data("width"));
+        $.loadModal(url, $this.data("width"));
     }
 });
 
@@ -759,16 +769,16 @@ $(document).on("click", " .jqSearchBtn", function () {
 // 导出 for jqgrid
 $(document).on("click", ".jqExportBtn", function () {
 
-    var _this = $(this);
-    var gridId = _this.data("grid-id") || "#jqGrid";
+    var $this = $(this);
+    var gridId = $this.data("grid-id") || "#jqGrid";
     var grid = $(gridId);
     var ids = grid.getGridParam("selarrrow");
 
-    var url = _this.data("url") || $(this).closest(".myTableDiv").data("url-export");
-    var queryString = _this.data("querystr");
+    var url = $this.data("url") || $(this).closest(".myTableDiv").data("url-export");
+    var queryString = $this.data("querystr");
     if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
 
-    var searchFormId = _this.data("search-form-id") || "div.myTableDiv #searchForm";
+    var searchFormId = $this.data("search-form-id") || "div.myTableDiv #searchForm";
     location.href = url + (url.indexOf("?") > 0 ? "&" : "?") + "export=1&ids[]=" + ids + "&" + $(searchFormId).serialize();
 });
 
@@ -776,17 +786,17 @@ $(document).on("click", ".jqExportBtn", function () {
 $(document).on("click", ".jqBatchBtn", function (e) {
 
     e.stopPropagation();
-    var _this = $(this);
-    var url = _this.data("url");
-    var queryString = _this.data("querystr");
+    var $this = $(this);
+    var url = $this.data("url");
+    var queryString = $this.data("querystr");
     if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
 
-    var title = _this.data("title");
-    var msg = _this.data("msg");
-    var gridId = _this.data("grid-id") || "#jqGrid";
+    var title = $this.data("title");
+    var msg = $this.data("msg");
+    var gridId = $this.data("grid-id") || "#jqGrid";
     var grid = $(gridId);
     var ids = grid.getGridParam("selarrrow");
-    var callback = $.trim(_this.data("callback"));
+    var callback = $.trim($this.data("callback"));
 
     if (ids.length == 0) {
         SysMsg.warning("请选择行", "提示");
@@ -800,8 +810,8 @@ $(document).on("click", ".jqBatchBtn", function (e) {
         $.post(url, {ids: ids}, function (ret) {
             if (ret.success) {
                 if (callback) {
-                    // console.log(_this)
-                    window[callback](_this);
+                    // console.log($this)
+                    window[callback]($this);
                 } else {
                     grid.trigger("reloadGrid");
                 }
@@ -813,8 +823,8 @@ $(document).on("click", ".jqBatchBtn", function (e) {
 // 操作for jqgrid
 $(document).on("click", ".jqItemBtn", function () {
 
-    var _this = $(this);
-    var gridId = _this.data("grid-id") || "#jqGrid";
+    var $this = $(this);
+    var gridId = $this.data("grid-id") || "#jqGrid";
     var grid = $(gridId);
     var id = grid.getGridParam("selrow");
     var ids = grid.getGridParam("selarrrow");
@@ -822,7 +832,7 @@ $(document).on("click", ".jqItemBtn", function () {
         SysMsg.warning("请选择一行", "提示");
         return;
     }
-    var callback = $.trim(_this.data("callback"));
+    var callback = $.trim($this.data("callback"));
     var idName = $(this).data("id-name") || 'id';
     var url = $(this).data("url");
     var queryString = $(this).data("querystr");
@@ -838,8 +848,8 @@ $(document).on("click", ".jqItemBtn", function () {
         $.post(url, function (ret) {
             if (ret.success) {
                 if (callback) {
-                    // console.log(_this)
-                    window[callback](_this);
+                    // console.log($this)
+                    window[callback]($this);
                 } else {
                     //grid.trigger("reloadGrid");
                     $(window).resize(); // 解决jqgrid显示的问题

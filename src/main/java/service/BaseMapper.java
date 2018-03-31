@@ -72,6 +72,10 @@ import persistence.cet.CetCourseMapper;
 import persistence.cet.CetCourseTypeMapper;
 import persistence.cet.CetExpertMapper;
 import persistence.cet.CetShortMsgMapper;
+import persistence.cet.CetSpecialMapper;
+import persistence.cet.CetSpecialObjCadreViewMapper;
+import persistence.cet.CetSpecialObjMapper;
+import persistence.cet.CetSpecialPlanMapper;
 import persistence.cet.CetTrainCourseMapper;
 import persistence.cet.CetTrainCourseStatViewMapper;
 import persistence.cet.CetTrainCourseViewMapper;
@@ -339,6 +343,14 @@ public class BaseMapper {
      */
     @Autowired(required = false)
     protected ICetMapper iCetMapper;
+    @Autowired(required = false)
+    protected CetSpecialMapper cetSpecialMapper;
+    @Autowired(required = false)
+    protected CetSpecialObjMapper cetSpecialObjMapper;
+    @Autowired(required = false)
+    protected CetSpecialObjCadreViewMapper cetSpecialObjCadreViewMapper;
+    @Autowired(required = false)
+    protected CetSpecialPlanMapper cetSpecialPlanMapper;
     @Autowired(required = false)
     protected CetCourseMapper cetCourseMapper;
     @Autowired(required = false)

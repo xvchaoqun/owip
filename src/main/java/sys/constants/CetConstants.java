@@ -5,6 +5,35 @@ import java.util.Map;
 
 public class CetConstants {
 
+    // 专题培训-培训对象类型
+    public final static byte CET_SPECIAL_OBJ_TYPE_CADRE = 1;
+    public final static byte CET_SPECIAL_OBJ_TYPE_BRANCH_SECRETARY = 2;
+    public final static Map<Byte, String> CET_SPECIAL_OBJ_TYPE_MAP = new LinkedHashMap();
+
+    static {
+        CET_SPECIAL_OBJ_TYPE_MAP.put(CET_SPECIAL_OBJ_TYPE_CADRE, "中层干部");
+        CET_SPECIAL_OBJ_TYPE_MAP.put(CET_SPECIAL_OBJ_TYPE_BRANCH_SECRETARY, "教师党支部书记");
+    }
+    // 专题培训-培训形式，1 线下培训  2 线上培训  3 上级网上专题班  4 分组研讨  5 实践教学  6 自主学习  7 其他单位主办  8 撰写心得体会
+    public final static byte CET_SPECIAL_PLAN_TYPE_OFFLINE = 1;
+    public final static byte CET_SPECIAL_PLAN_TYPE_BRANCH_ONLINE = 2;
+    public final static byte CET_SPECIAL_PLAN_TYPE_BRANCH_ONLINE_SPECIAL = 3;
+    public final static byte CET_SPECIAL_PLAN_TYPE_BRANCH_GROUP = 4;
+    public final static byte CET_SPECIAL_PLAN_TYPE_BRANCH_TEACH = 5;
+    public final static byte CET_SPECIAL_PLAN_TYPE_BRANCH_OWN = 6;
+    public final static byte CET_SPECIAL_PLAN_TYPE_BRANCH_OTHER_UNIT = 7;
+    public final static byte CET_SPECIAL_PLAN_TYPE_BRANCH_WRITE = 8;
+    public final static Map<Byte, String> CET_SPECIAL_PLAN_TYPE_MAP = new LinkedHashMap();
+    static {
+        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_OFFLINE, "线下培训");
+        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_BRANCH_ONLINE, "线上培训");
+        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_BRANCH_ONLINE_SPECIAL, "上级网上专题班");
+        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_BRANCH_GROUP, "分组研讨");
+        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_BRANCH_TEACH, "实践教学");
+        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_BRANCH_OWN, "自主学习");
+        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_BRANCH_OTHER_UNIT, "其他单位主办");
+        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_BRANCH_WRITE, "撰写心得体会");
+    }
     // 参训人员类型模板
     public final static byte CET_TRAINEE_TYPE_TEMPLATE_A = 1;
     public final static byte CET_TRAINEE_TYPE_TEMPLATE_B = 2;

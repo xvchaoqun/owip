@@ -1,4 +1,31 @@
 
+
+2018-3-30
+ALTER TABLE `crs_applicant`
+	ADD CONSTRAINT `FK_crs_applicant_crs_post` FOREIGN KEY (`post_id`) REFERENCES `crs_post` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `crs_applicant_check`
+	ADD CONSTRAINT `FK_crs_applicant_check_crs_applicant` FOREIGN KEY (`applicant_id`) REFERENCES `crs_applicant` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `crs_candidate`
+	ADD CONSTRAINT `FK_crs_candidate_crs_post` FOREIGN KEY (`post_id`) REFERENCES `crs_post` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `crs_post_expert`
+	ADD CONSTRAINT `FK_crs_post_expert_crs_post` FOREIGN KEY (`post_id`) REFERENCES `crs_post` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `crs_post_file`
+	ADD CONSTRAINT `FK_crs_post_file_crs_post` FOREIGN KEY (`post_id`) REFERENCES `crs_post` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `crs_require_rule`
+	ADD CONSTRAINT `FK_crs_require_rule_crs_post_require` FOREIGN KEY (`post_require_id`) REFERENCES `crs_post_require` (`id`);
+
+	ALTER TABLE `crs_rule_item`
+	ADD CONSTRAINT `FK_crs_rule_item_crs_require_rule` FOREIGN KEY (`require_rule_id`) REFERENCES `crs_require_rule` (`id`);
+
+	ALTER TABLE `crs_short_msg`
+	ADD CONSTRAINT `FK_crs_short_msg_crs_post` FOREIGN KEY (`post_id`) REFERENCES `crs_post` (`id`) ON DELETE CASCADE;
+
+
 2018-3-29
 更新 sc_letter_reply_view
 sc_letter_reply_item_view

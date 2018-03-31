@@ -18,8 +18,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-plus"></i> 添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="&{ctx}/${_resFolder}${tableName}_au"
-                       data-grid-id="#jqGrid"
-                       data-querystr="&"><i class="fa fa-edit"></i>
+                       data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="${tableName}:del">

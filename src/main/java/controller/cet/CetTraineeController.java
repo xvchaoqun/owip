@@ -39,7 +39,9 @@ public class CetTraineeController extends CetBaseController {
 
     @RequiresPermissions("cetTrainee:list")
     @RequestMapping("/cetTrainee")
-    public String cetTrainee(int trainId, Integer traineeTypeId, ModelMap modelMap) {
+    public String cetTrainee(int trainId, Integer traineeTypeId,
+                             Integer userId,
+                             ModelMap modelMap) {
 
         List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(trainId);
         modelMap.put("cetTraineeTypes", cetTraineeTypes);
@@ -48,6 +50,9 @@ public class CetTraineeController extends CetBaseController {
             traineeTypeId = cetTraineeTypes.get(0).getId();
         }
         modelMap.put("traineeTypeId", traineeTypeId);
+
+        if(userId!=null)
+        modelMap.put("sysUser", sysUserService.findById(userId));
 
         return "cet/cetTrainee/cetTrainee_page";
     }

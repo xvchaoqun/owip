@@ -130,6 +130,7 @@ pageEncoding="UTF-8"%>
 			$state += ($state != '' ? '-' : '') + state.post;
 		return $state;
 	}
+	$('textarea.limited').inputlimiter();
 	$.register.ajax_select($('[data-rel="select2-ajax"][name=expertId]'),
 			{templateResult: formatExpertSelection, templateSelection:formatExpertSelection, width: '275px'});
 </script>

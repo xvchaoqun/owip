@@ -4,21 +4,21 @@
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li>
         <a href="javascript:;" class="loadPage"
-           data-load-el="#detail-item-content" data-callback="_menuSelected"
+           data-load-el="#detail-item-content" data-callback="$.menu.liSelected"
            data-url='${ctx}/cet/cetTrain_detail/msg?trainId=${param.trainId}'><i
                 class="fa fa-bullhorn"></i> 通知
         </a>
     </li>
     <li class="active">
         <a href="javascript:;" class="loadPage"
-           data-load-el="#detail-item-content" data-callback="_menuSelected"
+           data-load-el="#detail-item-content" data-callback="$.menu.liSelected"
            data-url='${ctx}/cet/cetTrainCourse?trainId=${param.trainId}&cls=2'><i
                 class="fa fa-sign-in"></i> 签到
         </a>
     </li>
     <li>
         <a href="javascript:;" class="loadPage"
-           data-load-el="#detail-item-content" data-callback="_menuSelected"
+           data-load-el="#detail-item-content" data-callback="$.menu.liSelected"
            data-url='${ctx}/cet/cetTrain_detail/stat?trainId=${param.trainId}'><i
                 class="fa fa-bar-chart"></i> 统计
         </a>

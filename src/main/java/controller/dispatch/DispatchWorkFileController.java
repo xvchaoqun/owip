@@ -24,13 +24,11 @@ import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 @Controller
 public class DispatchWorkFileController extends DispatchBaseController {
@@ -171,7 +168,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     public Map do_dispatchWorkFile_au(DispatchWorkFile record,
                                       MultipartFile _pdfFilePath,
                                       MultipartFile _wordFilePath,
-                                      HttpServletRequest request) {
+                                      HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
 
@@ -188,49 +185,10 @@ public class DispatchWorkFileController extends DispatchBaseController {
             }
         }
 
-        if (canUpload && _pdfFilePath != null) {
-            String ext = FileUtils.getExtention(_pdfFilePath.getOriginalFilename());
-            if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
-               return failed("文件格式错误，请上传pdf文件");
-            }
-
-            String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "dispatch_work_file" + FILE_SEPARATOR
-                    + DateUtils.formatDate(new Date(), "yyyyMM") + FILE_SEPARATOR
-                    + fileName;
-            String savePath = realPath + ext;
-            FileUtils.copyFile(_pdfFilePath, new File(springProps.uploadPath + savePath));
-
-            try {
-                String swfPath = realPath + ".swf";
-                pdf2Swf(savePath, swfPath);
-            } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            record.setPdfFilePath(savePath);
-        }
-
-        if (canUpload && _wordFilePath != null) {
-            String ext = FileUtils.getExtention(_wordFilePath.getOriginalFilename());
-            if (!StringUtils.equalsIgnoreCase(ext, ".doc") && !StringUtils.equalsIgnoreCase(ext, ".docx")) {
-               return failed("文件格式错误，请上传word文件");
-            }
-
-            String fileName = UUID.randomUUID().toString();
-            String realPath = FILE_SEPARATOR
-                    + "dispatch_work_file" + FILE_SEPARATOR
-                    + DateUtils.formatDate(new Date(), "yyyyMM") + FILE_SEPARATOR
-                    + fileName;
-            String savePath = realPath + ext;
-            FileUtils.copyFile(_wordFilePath, new File(springProps.uploadPath + savePath));
-
-            record.setWordFilePath(savePath);
-        }
-
-        if (!canUpload){
+        if (canUpload) {
+            record.setPdfFilePath(uploadPdf(_pdfFilePath, "dispatch_work_file"));
+            record.setWordFilePath(upload(_wordFilePath, "dispatch_work_file"));
+        }else{
             record.setPdfFilePath(null);
             record.setWordFilePath(null);
         }
