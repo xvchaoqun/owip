@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--优化spring启动 通过移除bean定义 -->
+    <bean class="sys.spring.CustomBeanFactoryPostProcessor">
+        <!-- 需要从bean定义中移除指定的类类型 正则表达式-->
+        <property name="excludeFilters">
+            <list>
+                <value>(persistence|service|controller)\.member\..*</value>
+                <value>(persistence|service|controller)\.cis\..*</value>
+                <value>(persistence|service|controller)\.crs\..*</value>
+                <!--<value>(persistence|service|controller)\.cet\..*</value>-->
+                <value>(persistence|service|controller)\.abroad\..*</value>
+                <value>(persistence|service|controller)\.pcs\..*</value>
+                <value>(persistence|service|controller)\.oa\..*</value>
+                <value>(persistence|service|controller)\.pmd\..*</value>
+                <value>(persistence|service|controller)\.sc\..*</value>
+                <value>(persistence|service|controller)\.dispatch\..*</value>
+                <value>(persistence|service|controller)\.verify\..*</value>
+                <value>(persistence|service|controller)\.modify\..*</value>
+            </list>
+        </property>
+    </bean>
+</beans>
