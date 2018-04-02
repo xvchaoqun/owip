@@ -8,7 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import java.util.List;
 
 public interface SysRoleMapper {
-    int countByExample(SysRoleExample example);
+    long countByExample(SysRoleExample example);
 
     int deleteByExample(SysRoleExample example);
 

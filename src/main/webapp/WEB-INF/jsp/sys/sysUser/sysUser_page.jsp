@@ -29,7 +29,7 @@
                         </button>
                     </shiro:hasPermission>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                            data-url="${ctx}/sysUser_menu" data-width="550"
+                            data-url="${ctx}/sysUser_menu" data-width="850"
                             data-id-name="userId">
                         <i class="fa fa-search"></i> 菜单预览
                     </button>

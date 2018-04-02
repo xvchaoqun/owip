@@ -49,7 +49,7 @@
 	<function>
 		<name>findPermissions</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>java.util.Set findPermissions(java.lang.String)</function-signature>
+		<function-signature>java.util.Set findPermissions(java.lang.String,java.lang.Boolean)</function-signature>
 	</function>
 
 	<function>
@@ -83,12 +83,12 @@
 	<function>
 		<name>getSysResource</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.sys.SysResource  getSysResource(java.lang.Integer)</function-signature>
+		<function-signature>domain.sys.SysResource getSysResource(java.lang.Integer,java.lang.Boolean)</function-signature>
 	</function>
 	<function>
 		<name>getSysResourcePath</name>
 		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>java.util.List getSysResourcePath(java.lang.Integer)</function-signature>
+		<function-signature>java.util.List getSysResourcePath(java.lang.Integer,java.lang.Boolean)</function-signature>
 	</function>
 	<function>
 		<name>getCurrentSysResource</name>

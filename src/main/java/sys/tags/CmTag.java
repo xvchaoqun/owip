@@ -309,11 +309,11 @@ public class CmTag {
         return stage;
     }
 
-    public static List<SysResource> getSysResourcePath(Integer id) {
+    public static List<SysResource> getSysResourcePath(Integer id, Boolean isMobile) {
 
         List<SysResource> sysResources = new ArrayList<>();
         if (id != null && id > 1) { // 不包含顶级节点
-            Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources();
+            Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources(isMobile);
             SysResource sysResource = resourceMap.get(id);
             String parentIds = sysResource.getParentIds();
             if (StringUtils.isNotBlank(parentIds)) {
@@ -330,9 +330,10 @@ public class CmTag {
         return sysResources;
     }
 
-    public static SysResource getSysResource(Integer id) {
+    // 只用于网站导航
+    public static SysResource getSysResource(Integer id, Boolean isMobile) {
 
-        Map<Integer, SysResource> sortedSysResources = sysResourceService.getSortedSysResources();
+        Map<Integer, SysResource> sortedSysResources = sysResourceService.getSortedSysResources(isMobile);
 
         return sortedSysResources.get(id);
     }
@@ -385,7 +386,7 @@ public class CmTag {
         SysResource sysResource = sysResourceService.getByUrl(_path);
         if (sysResource == null) return parentSet;
 
-        Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources();
+        Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources(sysResource.getIsMobile());
 
         String parentIds = sysResource.getParentIds();
         for (String id : parentIds.split("/")) {
@@ -477,9 +478,9 @@ public class CmTag {
         return (roles!=null && StringUtils.isNotBlank(role))?roles.contains(role):false;
     }
 
-    public static Set<String> findPermissions(String username) {
+    public static Set<String> findPermissions(String username, Boolean isMobile) {
 
-        return sysUserService.findPermissions(username);
+        return sysUserService.findPermissions(username, isMobile);
     }
 
     public static String getUserUnit(Integer userId) {

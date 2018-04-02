@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.LoginUserService;
 import service.abroad.ApplySelfService;
+import service.abroad.ApproverService;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
@@ -37,7 +38,6 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -369,7 +369,7 @@ public class SysUserService extends BaseMapper {
     }
 
     // 根据账号查找所拥有的全部资源
-    private List<SysResource> findResources(String username) {
+    private List<SysResource> findResources(String username, boolean isMobile) {
 
         List<SysResource> resources = new ArrayList<>();
         Set<SysRole> roles = _findRoles(username);
@@ -377,7 +377,7 @@ public class SysUserService extends BaseMapper {
 
         for (SysRole role : roles) {
 
-            String resourceIdsStr = role.getResourceIds();
+            String resourceIdsStr = isMobile?role.getmResourceIds():role.getResourceIds();
 
             if (StringUtils.isBlank(resourceIdsStr)) continue;
 
@@ -392,7 +392,7 @@ public class SysUserService extends BaseMapper {
 
         if (resourceIds.size() == 0) return resources;
 
-        Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources();
+        Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources(isMobile);
         for (Integer resourceId : resourceIds) {
             SysResource resource = resourceMap.get(resourceId);
             if (resource != null)
@@ -402,16 +402,15 @@ public class SysUserService extends BaseMapper {
     }
 
     // 根据拥有的权限，形成菜单栏目
-    public List<SysResource> makeMenus(Set<String> ownPermissions){
+    public List<SysResource> makeMenus(Set<String> ownPermissions, boolean isMobile){
 
         List<SysResource> menus = new ArrayList<>();
-        Map<Integer, SysResource> sortedPermissions = sysResourceService.getSortedSysResources();
-        Collection<SysResource> permissions = sortedPermissions.values();
-        for (SysResource res : permissions) {
+        Map<Integer, SysResource> sortedPermissions = sysResourceService.getSortedSysResources(isMobile);
+        for (SysResource res : sortedPermissions.values()) {
             String type = res.getType();
             String permission = res.getPermission();
-            if((org.apache.commons.lang3.StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_MENU)
-                    || org.apache.commons.lang3.StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_URL))
+            if((StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_MENU)
+                    || StringUtils.equalsIgnoreCase(type, SystemConstants.RESOURCE_TYPE_URL))
                     && ownPermissions.contains(permission)) {
 
                 if(res.getParentId()==null) {
@@ -420,14 +419,14 @@ public class SysUserService extends BaseMapper {
                     SysResource parent = sortedPermissions.get(res.getParentId());
 
                     // id=1是顶级节点，此值必须固定为1
-                    if(parent.getId()==1 ) {
+                    if(parent.getParentId()==null ) {
                         menus.add(res);
                         continue;
                     }
 
                     // 必须拥有全部层级的父目录，才显示
                     List<String> parents = new ArrayList<>();
-                    while (parent!=null && parent.getId()!=1){
+                    while (parent!=null && parent.getParentId()!=null){
                         parents.add(parent.getPermission());
                         if(parent.getParentId()!=null)
                             parent = sortedPermissions.get(parent.getParentId());
@@ -458,11 +457,11 @@ public class SysUserService extends BaseMapper {
         return roles;
     }
 
-    @Cacheable(value = "UserPermissions", key = "#username")
-    public Set<String> findPermissions(String username) {
+    @Cacheable(value = "UserPermissions", key = "#username + ':' + (#isMobile?1:0)")
+    public Set<String> findPermissions(String username, boolean isMobile) {
 
         SysUserView sysUser = findByUsername(username);
-        List<SysResource> resources = findResources(username);
+        List<SysResource> resources = findResources(username, isMobile);
 
         Set<String> permissions = new HashSet<String>();
         for (SysResource resource : resources) {
@@ -470,7 +469,8 @@ public class SysUserService extends BaseMapper {
                 permissions.add(resource.getPermission().trim());
         }
 
-        return filterMenus(sysUser.getId(), findRoles(username), permissions);
+        return isMobile?mFilterMenus(sysUser.getId(), findRoles(username), permissions)
+                :filterMenus(sysUser.getId(), findRoles(username), permissions);
     }
 
     @Transactional
@@ -488,7 +488,7 @@ public class SysUserService extends BaseMapper {
     }
 
     /**
-     * 特殊的用户权限过滤
+     * 特殊的用户权限过滤（网页端）
      */
     public Set<String> filterMenus(int userId, Set<String> userRoles, Set<String> userPermissions) {
 
@@ -587,6 +587,27 @@ public class SysUserService extends BaseMapper {
             if (!userRoles.contains(RoleConstants.ROLE_CADREADMIN) && hasDirectModifyCadreAuth) {
 
                 userPermissions.remove("modifyCadreInfo:menu");
+            }
+        }
+
+        return userPermissions;
+    }
+
+    /**
+     * 特殊的用户权限过滤（手机端）
+     */
+    public Set<String> mFilterMenus(int userId, Set<String> userRoles, Set<String> userPermissions) {
+
+        ApproverService approverService = CmTag.getBean(ApproverService.class);
+
+        // 是干部
+        if(userRoles.contains(RoleConstants.ROLE_CADRE)){
+
+            // 是干部管理员 或 没有因私审批权限
+            if(userRoles.contains(RoleConstants.ROLE_CADREADMIN) ||
+                    !approverService.hasApproveAuth(userId)) {
+
+                userPermissions.remove("m:applySelfList:*");
             }
         }
 

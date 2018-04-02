@@ -67,7 +67,7 @@ public class SysRoleController extends BaseController {
 		if(StringUtils.isNotBlank(searchStr)){
 			example.createCriteria().andRoleLike("%" + searchStr + "%");
 		}
-		int count = sysRoleMapper.countByExample(example);
+		long count = sysRoleMapper.countByExample(example);
 		if((pageNo-1)*pageSize >= count){
 			
 			pageNo = Math.max(1, pageNo-1);
@@ -92,6 +92,7 @@ public class SysRoleController extends BaseController {
 	public Map do_sysRole_au(@CurrentUser SysUserView loginUser,
 			SysRole sysRole, 
 			@RequestParam(value="resIds[]",required=false) Integer[] resIds,
+			@RequestParam(value="m_resIds[]",required=false) Integer[] m_resIds,
 			HttpServletRequest request) {
 
 		String role = StringUtils.trimToNull(StringUtils.lowerCase(sysRole.getRole()));
@@ -107,11 +108,16 @@ public class SysRoleController extends BaseController {
 		else
 			sysRole.setResourceIds(StringUtils.join(resIds, ","));
 
+		if(m_resIds==null || m_resIds.length==0)
+			sysRole.setmResourceIds("-1");
+		else
+			sysRole.setmResourceIds(StringUtils.join(m_resIds, ","));
+
 		if(sysRole.getId() == null){
 			if(role==null){
 				throw new IllegalArgumentException("角色不能为空");
 			}
-			sysRoleService.insert(sysRole);
+			sysRoleService.insertSelective(sysRole);
 			logger.info(addLog(SystemConstants.LOG_ADMIN, "创建角色：%s", JSONUtils.toString(sysRole, MixinUtils.baseMixins(), false)));
 		}else{
 			sysRoleService.updateByPrimaryKeySelective(sysRole);
@@ -125,19 +131,29 @@ public class SysRoleController extends BaseController {
 	@RequestMapping("/sysRole_au")
 	public String sysRole_au(Integer id, ModelMap modelMap) throws IOException {
 
-		Set<Integer> selectIdSet = new HashSet<Integer>();
+
 		modelMap.addAttribute("op", "添加");
-		
+
+		Set<Integer> selectIdSet = new HashSet<Integer>();
+		Set<Integer> mSelectIdSet = new HashSet<Integer>();
 		if(id != null){
-			
+
 			SysRole sysRole = sysRoleMapper.selectByPrimaryKey(id);
 			String resourceIdsStr = sysRole.getResourceIds();
 			if(resourceIdsStr!=null){
 				String[] resourceIds = resourceIdsStr.split(",");
 				for(String resourceId:resourceIds){
 					if(StringUtils.isNotBlank(resourceId)){
-						
 						selectIdSet.add(Integer.parseInt(resourceId));
+					}
+				}
+			}
+			String mResourceIdsStr = sysRole.getmResourceIds();
+			if(mResourceIdsStr!=null){
+				String[] resourceIds = mResourceIdsStr.split(",");
+				for(String resourceId:resourceIds){
+					if(StringUtils.isNotBlank(resourceId)){
+						mSelectIdSet.add(Integer.parseInt(resourceId));
 					}
 				}
 			}
@@ -145,8 +161,11 @@ public class SysRoleController extends BaseController {
 			modelMap.addAttribute("op", "修改");
 		}
 		
-		TreeNode tree = sysResourceService.getTree(selectIdSet);
+		TreeNode tree = sysResourceService.getTree(selectIdSet, false);
 		modelMap.put("tree", JSONUtils.toString(tree));
+
+		TreeNode mTree = sysResourceService.getTree(mSelectIdSet, true);
+		modelMap.put("mTree", JSONUtils.toString(mTree));
 		
 		return "sys/sysRole/sysRole_au";
 	}

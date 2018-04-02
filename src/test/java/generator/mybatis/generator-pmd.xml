@@ -52,6 +52,7 @@
         <table tableName="pmd_norm_value_log" domainObjectName="pmd.PmdNormValueLog" mapperName="pmd.PmdNormValueLogMapper">
         </table>-->
          <!--<table tableName="pmd_member" domainObjectName="pmd.PmdMember" mapperName="pmd.PmdMemberMapper">
+         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
        </table>
         <table tableName="pmd_member_pay" domainObjectName="pmd.PmdMemberPay" mapperName="pmd.PmdMemberPayMapper">

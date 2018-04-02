@@ -247,37 +247,36 @@ public class CacheService extends BaseController{
 
     @Caching(evict = {
             @CacheEvict(value = "UserRoles", key = "#u.username"),
-            @CacheEvict(value = "Menus", key = "#u.username"),
             @CacheEvict(value = "SysUserView", key = "#u.username"),
             @CacheEvict(value = "SysUserView:CODE_", key = "#u.code"),
             @CacheEvict(value = "SysUserView:ID_", key = "#u.id"),
-            @CacheEvict(value = "UserPermissions", key = "#u.username")
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':0'"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':1'")
     })
     public void clearUserCache(SysUser u) {}
 
     @Caching(evict = {
             @CacheEvict(value = "UserRoles", key = "#u.username"),
-            @CacheEvict(value = "Menus", key = "#u.username"),
             @CacheEvict(value = "SysUserView", key = "#u.username"),
             @CacheEvict(value = "SysUserView:CODE_", key = "#u.code"),
             @CacheEvict(value = "SysUserView:ID_", key = "#u.id"),
-            @CacheEvict(value = "UserPermissions", key = "#u.username")
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':0'"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':1'")
     })
     public void clearUserCache(SysUserView u) {}
 
     @Caching(evict = {
             @CacheEvict(value = "UserRoles", key = "#u.username"),
-            @CacheEvict(value = "Menus", key = "#u.username"),
             @CacheEvict(value = "SysUserView", key = "#u.username"),
             @CacheEvict(value = "SysUserView:CODE_", key = "#u.code"),
             @CacheEvict(value = "SysUserView:ID_", key = "#u.id"),
-            @CacheEvict(value = "UserPermissions", key = "#u.username")
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':0'"),
+            @CacheEvict(value = "UserPermissions", key = "#u.username+':1'")
     })
     public void clearUserCache(SysUserReg u) {}
 
     @Caching(evict={
             @CacheEvict(value="UserPermissions", allEntries=true),
-            @CacheEvict(value="Menus", allEntries=true),
             @CacheEvict(value="SysResources", allEntries=true),
             @CacheEvict(value="UserRoles", allEntries=true),
             @CacheEvict(value="SysRoles", allEntries=true)

@@ -388,7 +388,7 @@ public class ApplySelfService extends BaseMapper {
         if (null == pageSize) {
             pageSize = springProps.mPageSize;
         }
-
+        if (null == pageNo) pageNo = 1;
         int count = 0;
         List<ApplySelf> applySelfs = null;
 
@@ -432,7 +432,6 @@ public class ApplySelfService extends BaseMapper {
             if (status == 1)
                 count = iAbroadMapper.countHasApproval(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap, userId);
 
-            if (null == pageNo) pageNo = 1;
             if(pageNo>0){
                 pageNo = Math.max(1, pageNo);
                 if ((pageNo - 1) * pageSize >= count) {

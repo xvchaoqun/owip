@@ -19,8 +19,12 @@ public class ShiroUser implements Serializable {
     private Byte type;
 
     private transient Set<String> roles;
+    // 网站权限
     @JsonIgnore
     private transient Set<String> permissions;
+    // 手机端权限
+    @JsonIgnore
+    private transient Set<String> mPermissions;
 
     @JsonIgnore
     private transient ApproverTypeBean approverTypeBean; // 干部审批权限
@@ -86,7 +90,12 @@ public class ShiroUser implements Serializable {
 
     public Set<String> getPermissions() {
 
-        return CmTag.findPermissions(username);
+        return CmTag.findPermissions(username, false);
+    }
+
+    public Set<String> getmPermissions() {
+
+        return CmTag.findPermissions(username, true);
     }
 
     public ApproverTypeBean getApproverTypeBean() {

@@ -3,8 +3,21 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-
-        <table id="jqGrid" class="jqGrid table-striped"></table>
+        <div class="tabbable">
+            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                <li class="${!isMobile?'active':''}">
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/sysResource?isMobile=0"><i class="fa fa-file-pdf-o ${!isMobile?'fa-1g':''}"></i> 网页端</a>
+                </li>
+                <li class="${isMobile?'active':''}">
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/sysResource?isMobile=1"><i class="fa fa-share-alt ${isMobile?'fa-1g':''}"></i> 手机端</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="home4" class="tab-pane in active">
+                    <table id="jqGrid" class="jqGrid table-striped"></table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
@@ -42,15 +55,14 @@
             },
             {
                 "name": "_del", "label": "删除", "width": 80, formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.parentId == undefined) return "";
-                return '<button href="javascript:;" onclick="_del({0},{1})" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> 删除</button>'
-                        .format(rowObject.id, rowObject.parentId);
+                if (rowObject.parentId > 0)
+                    return '<button href="javascript:;" onclick="_del({0},{1})" class="btn btn-danger btn-xs"><i class="fa fa-times"></i> 删除</button>'
+                            .format(rowObject.id, rowObject.parentId);
+                return "-";
             }
             },
             {"name": "countCacheKeys", "label": "缓存数量", "width": 170},
-            {"name": "countCacheRoles", "label": "缓存数量所属角色", "width": 170},
-
-
+            {"name": "countCacheRoles", "label": "缓存数量所属角色", "width": 170}
         ],
         "hoverrows": false,
         "viewrecords": false,
@@ -75,8 +87,9 @@
         "datatype": "json",
         "pager": false,
         gridComplete: function () {
+            //console.log($("#jqGrid tbody tr[role='row'].jqgrow:first"))
             setTimeout(function () {
-                var $t = $(".treeclick", $("#jqGrid [role='row'][id=" + 1 + "]"))
+                var $t = $(".treeclick", $("#jqGrid tbody tr[role='row'].jqgrow:first"))
                 if ($t.hasClass("tree-plus"))
                     $t.click()
             }, 10);

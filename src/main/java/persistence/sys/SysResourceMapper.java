@@ -2,10 +2,9 @@ package persistence.sys;
 
 import domain.sys.SysResource;
 import domain.sys.SysResourceExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface SysResourceMapper {
     long countByExample(SysResourceExample example);

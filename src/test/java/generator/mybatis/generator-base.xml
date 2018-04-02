@@ -20,151 +20,6 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
-        <!--档案认定-->
-        <!--<table tableName="verify_age" domainObjectName="verify.VerifyAge">
-        </table>
-        <table tableName="verify_work_time" domainObjectName="verify.VerifyWorkTime">
-        </table>-->
-
-        <!--党建工作-->
-        <!--  <table tableName="ow_enter_apply" domainObjectName="member.EnterApply">
-          </table>-->
-        <!-- <table tableName="ow_member_transfer" domainObjectName="member.MemberTransfer">
-          </table>
-           -->
-        <!-- <table tableName="ow_member_in" domainObjectName="member.MemberIn">
-        </table>
-        <table tableName="ow_member_in_modify" domainObjectName="member.MemberInModify">
-        </table>-->
-
-        <!--<table tableName="ow_member_out" domainObjectName="member.MemberOut">
-       </table>-->
-        <!--<table tableName="ow_member_out_view" domainObjectName="member.MemberOutView" mapperName="member.MemberOutViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-         </table>-->
-        <!--<table tableName="ow_member_out_modify" domainObjectName="member.MemberOutModify">
-        </table>-->
-
-
-        <!--  <table tableName="ow_member_inflow" domainObjectName="member.MemberInflow">
-          </table>-->
-        <!--<table tableName="ow_member_outflow" domainObjectName="member.MemberOutflow">
-        </table>
-        <table tableName="ow_member_outflow_view" domainObjectName="member.MemberOutflowView">
-        </table>-->
-        <!--<table tableName="ow_member_return" domainObjectName="member.MemberReturn">
-        </table>-->
-        <!--<table tableName="ow_member_abroad" domainObjectName="member.MemberAbroad">
-        </table>-->
-        <!--<table tableName="ow_member_abroad_view" domainObjectName="member.MemberAbroadView">
-        </table>-->
-        <!--<table tableName="ow_member_stay" domainObjectName="member.MemberStay" mapperName="member.MemberStayMapper">
-        </table>
-        <table tableName="ow_member_stay_view" domainObjectName="member.MemberStayView" mapperName="member.MemberStayViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-        </table>-->
-        <!--<table tableName="ow_member_quit" domainObjectName="member.MemberQuit">
-        </table>-->
-
-        <!--<table tableName="ow_apply_approval_log" domainObjectName="member.ApplyApprovalLog">
-        </table>-->
-
-        <!--<table tableName="ow_retire_apply" domainObjectName="member.RetireApply">
-        </table>-->
-        <!--<table tableName="ow_member_student" domainObjectName="member.MemberStudent" mapperName="member.MemberStudentMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-        </table>-->
-        <!-- <table tableName="ow_member_teacher" domainObjectName="member.MemberTeacher" mapperName="member.MemberTeacherMapper"
-                enableInsert="false" enableUpdateByPrimaryKey="false"
-                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false">
-             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-         </table>-->
-        <!-- <table tableName="ow_member" domainObjectName="member.Member">
-             <ignoreColumn column="update_time"/>
-         </table>-->
-        <!--<table tableName="ow_member_modify" domainObjectName="member.MemberModify">
-        </table>-->
-        <!--<table tableName="ow_apply_log" domainObjectName="member.ApplyLog">
-        </table>-->
-        <!--<table tableName="ow_apply_open_time" domainObjectName="member.ApplyOpenTime">
-        </table>-->
-         <!--<table tableName="ow_member_apply" domainObjectName="member.MemberApply"
-                mapperName="member.MemberApplyMapper">
-             <ignoreColumn column="update_time"/>
-             <columnOverride column="remark" jdbcType="VARCHAR"/>
-         </table>
-        <table tableName="ow_member_apply_view" domainObjectName="member.MemberApplyView"
-               mapperName="member.MemberApplyViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-           <ignoreColumn column="update_time"/>
-            <columnOverride column="remark" jdbcType="VARCHAR"/>
-       </table>-->
-        <!--<table tableName="ow_branch_member" domainObjectName="party.BranchMember">
-        </table>
-        -->
-        <!--<table tableName="ow_party" domainObjectName="party.Party">
-            <ignoreColumn column="update_time"/>
-         </table>
-           <table tableName="ow_party_member_group" domainObjectName="party.PartyMemberGroup">
-           </table>-->
-        <!--<table tableName="ow_party_member_group_view" domainObjectName="party.PartyMemberGroupView"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false"></table>
-         <table tableName="ow_party_member" domainObjectName="party.PartyMember">
-        </table>-->
-        <!--   <table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView" mapperName="party.PartyMemberViewMapper"
-                  enableInsert="false" enableUpdateByPrimaryKey="false"
-                  enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                  enableDeleteByExample="false"></table>-->
-        <!-- <table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
-                enableInsert="false" enableUpdateByPrimaryKey="false"
-                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false">
-               <columnOverride column="branch_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="student_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="teacher_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="positive_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="retire_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-               <columnOverride column="present_group_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-         </table>-->
-        <!--<table tableName="ow_party_static_view" domainObjectName="party.PartyStaticView" mapperName="party.PartyStaticViewMapper"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-        </table>-->
-
-        <!--<table tableName="ow_branch" domainObjectName="party.Branch">
-        <ignoreColumn column="update_time"/>
-        </table>-->
-        <!--<table tableName="ow_branch_member_group" domainObjectName="party.BranchMemberGroup">
-        </table>-->
-
-        <!--<table tableName="ow_branch_transfer_log" domainObjectName="party.BranchTransferLog">
-        </table>-->
-        <!--<table tableName="ow_branch_view" domainObjectName="party.BranchView"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false">
-        </table>-->
-
-        <!-- <table tableName="ow_branch_member_group_view" domainObjectName="party.BranchMemberGroupView">
-        </table>-->
-
-        <!--<table tableName="ow_org_admin" domainObjectName="party.OrgAdmin">
-        </table>-->
-
         <!--<table tableName="base_sitemap" domainObjectName="base.Sitemap">
         </table>-->
         <!-- <table tableName="base_sitemap_role" domainObjectName="base.SitemapRole">
@@ -173,6 +28,7 @@
         <!--<table tableName="base_country" domainObjectName="base.Country">
         </table>-->
         <!--   <table tableName="base_content_tpl" domainObjectName="base.ContentTpl">
+                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
                  <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
                  <ignoreColumn column="update_time"/>
              </table>
@@ -180,8 +36,10 @@
         <!--<table tableName="base_location" domainObjectName="base.Location">
         </table>-->
         <!--   <table tableName="base_meta_class" domainObjectName="base.MetaClass">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>
          <table tableName="base_meta_type" domainObjectName="base.MetaType">
+         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
         <!--<table tableName="base_short_msg" domainObjectName="base.ShortMsg" mapperName="base.ShortMsgMapper">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
@@ -192,103 +50,6 @@
         <!-- <table tableName="base_short_msg_receiver" domainObjectName="base.ShortMsgReceiver">
          </table>-->
 
-        <!--干部库-->
-        <!-- <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
-        </table>-->
-
-         <!-- <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
-          </table>
-
-         <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
-                enableInsert="false" enableUpdateByPrimaryKey="false"
-                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false">
-             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
-         </table>-->
-        <!--  <table tableName="cadre_party" domainObjectName="cadre.CadreParty" mapperName="cadre.CadrePartyMapper">
-          </table>-->
-
-
-        <!--  <table tableName="cadre_stat_history" domainObjectName="cadre.CadreStatHistory">
-          </table>-->
-        <!-- <table tableName="cadre_leader" domainObjectName="cadre.CadreLeader">
-         </table>-->
-         <!--<table tableName="cadre_leader_unit" domainObjectName="cadre.CadreLeaderUnit" mapperName="cadre.CadreLeaderUnitMapper">
-         </table>-->
-        <!-- <table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog" mapperName="cadre.CadreAdLogMapper">
-         </table>-->
-
-        <!--<table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
-        </table>-->
-        <!--     <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView" mapperName="cadreReserve.CadreReserveViewMapper"
-                    enableInsert="false" enableUpdateByPrimaryKey="false"
-                    enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                    enableDeleteByExample="false">
-             </table>
-       -->
-        <!--<table tableName="cadre_inspect" domainObjectName="cadreInspect.CadreInspect">
-        </table>-->
-        <!--  <table tableName="cadre_inspect_view" domainObjectName="cadreInspect.CadreInspectView" mapperName="cadreInspect.CadreInspectViewMapper"
-                 enableInsert="false" enableUpdateByPrimaryKey="false"
-                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                 enableDeleteByExample="false">
-          </table>-->
-        <!--<table tableName="cadre_info_check" domainObjectName="cadre.CadreInfoCheck" mapperName="cadre.CadreInfoCheckMapper">
-        </table>-->
-
-        <!--
-        <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
-            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>
-        <table tableName="cadre_famliy_abroad" domainObjectName="cadre.CadreFamliyAbroad">
-        </table>
-        <table tableName="cadre_famliy" domainObjectName="cadre.CadreFamliy">
-        </table>-->
-        <!--<table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
-        </table>-->
-        <!--<table tableName="cadre_parttime" domainObjectName="cadre.CadreParttime">
-            <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-        </table>
-        <table tableName="cadre_train" domainObjectName="cadre.CadreTrain">
-            <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-        </table>
-        <table tableName="cadre_course" domainObjectName="cadre.CadreCourse">
-        </table>
-        <table tableName="cadre_reward" domainObjectName="cadre.CadreReward">
-          <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
-        <!--<table tableName="cadre_book" domainObjectName="cadre.CadreBook">
-        </table>-->
-        <!--<table tableName="cadre_research" domainObjectName="cadre.CadreResearch">
-        </table>
-        --><!--
-        <table tableName="cadre_paper" domainObjectName="cadre.CadrePaper" mapperName="cadre.CadrePaperMapper">
-        </table>-->
-        <!--<table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
-        </table>-->
-        <!-- <table tableName="cadre_post" domainObjectName="cadre.CadrePost" mapperName="cadre.CadrePostMapper">
-         </table>-->
-        <!-- <table tableName="cadre_work" domainObjectName="cadre.CadreWork">
-         </table>-->
-        <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu">
-        </table>-->
-        <!--<table tableName="cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
-        </table>
-          <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">
-         </table>-->
-
-        <!--<table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro">
-        </table>-->
-
-        <!--<table tableName="cadre_post_admin" domainObjectName="cadre.CadrePostAdmin">
-         </table>
-
-         <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork">
-         </table>-->
-        <!--<table tableName="cadre_report" domainObjectName="cadre.CadreReport">
-        </table>
-        -->
-
         <!--干部职数管理-->
         <!--<table tableName="cpc_allocation" domainObjectName="cpc.CpcAllocation" mapperName="cpc.CpcAllocationMapper">
         </table>-->
@@ -297,64 +58,28 @@
         <!--<table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
         </table>-->
 
-        <!--干部修改申请-->
-        <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">
-        </table>-->
-        <!-- <table tableName="modify_base_apply" domainObjectName="modify.ModifyBaseApply">
-        </table>-->
-        <!-- <table tableName="modify_base_item" domainObjectName="modify.ModifyBaseItem">
-         </table>-->
-        <!-- <table tableName="modify_table_apply" domainObjectName="modify.ModifyTableApply">
-            <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
-
-        <!--发文-->
-        <table tableName="dispatch" domainObjectName="dispatch.Dispatch" mapperName="dispatch.DispatchMapper">
-         </table>
-        <!-- <table tableName="dispatch_type" domainObjectName="dispatch.DispatchType">
-        </table>
-      <table tableName="dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
-      </table>
-        <table tableName="dispatch_cadre_relate" domainObjectName="dispatch.DispatchCadreRelate">
-      </table>
-      <table tableName="dispatch_unit" domainObjectName="dispatch.DispatchUnit">
-      </table>
-      <table tableName="dispatch_unit_relate" domainObjectName="dispatch.DispatchUnitRelate">
-      </table>-->
-        <!-- <table tableName="dispatch_view" domainObjectName="dispatch.DispatchView"
-                enableInsert="false" enableUpdateByPrimaryKey="false"
-                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false">
-         </table>
-         <table tableName="dispatch_cadre_view" domainObjectName="dispatch.DispatchCadreView"
-                enableInsert="false" enableUpdateByPrimaryKey="false"
-                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                enableDeleteByExample="false">
-         </table>-->
-        <!--<table tableName="dispatch_work_file" domainObjectName="dispatch.DispatchWorkFile"
-               mapperName="dispatch.DispatchWorkFileMapper">
-        </table>-->
-        <!--<table tableName="dispatch_work_file_auth" domainObjectName="dispatch.DispatchWorkFileAuth"
-               mapperName="dispatch.DispatchWorkFileAuthMapper">
-        </table>-->
-
         <!-- <table tableName="unit" domainObjectName="unit.Unit">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
              <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
          </table>
          <table tableName="unit_history_unit" domainObjectName="unit.HistoryUnit">
+         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>
          <table tableName="unit_transfer" domainObjectName="unit.UnitTransfer">
+         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
        </table>
          <table tableName="unit_admin_group" domainObjectName="unit.UnitAdminGroup">
+         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>
          <table tableName="unit_admin" domainObjectName="unit.UnitAdmin">
+         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>
          <table tableName="unit_cadre_transfer" domainObjectName="unit.UnitCadreTransfer">
          </table>
          <table tableName="unit_cadre_transfer_group" domainObjectName="unit.UnitCadreTransferGroup">
+         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>
-
          -->
 
         <!--<table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
@@ -368,9 +93,11 @@
             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
         </table>-->
         <!--<table tableName="sys_log" domainObjectName="sys.SysLog">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
         <!-- <table tableName="sys_user" domainObjectName="sys.SysUser">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
         <!-- <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
@@ -390,16 +117,19 @@
         <!--<table tableName="sys_user_reg" domainObjectName="sys.SysUserReg">
         </table>-->
         <!--<table tableName="sys_login_log" domainObjectName="sys.SysLoginLog" mapperName="sys.SysLoginLogMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="agent" jdbcType="VARCHAR"></columnOverride>
         </table>-->
         <!-- <table tableName="sys_online_static" domainObjectName="sys.SysOnlineStatic">
          </table>-->
-        <!-- <table tableName="sys_role" domainObjectName="sys.SysRole">
+         <!--<table tableName="sys_role" domainObjectName="sys.SysRole" mapperName="sys.SysRoleMapper">
+             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
              <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
+             <columnOverride column="m_resource_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-        <!--  <table tableName="sys_resource" domainObjectName="sys.SysResource" mapperName="sys.SysResourceMapper">
-            <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
-          </table>-->
+          <table tableName="sys_resource" domainObjectName="sys.SysResource" mapperName="sys.SysResourceMapper">
+              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
         <!--<table tableName="sys_attach_file" domainObjectName="sys.AttachFile">
         </table>-->
         <!--<table tableName="sys_html_fragment" domainObjectName="sys.HtmlFragment">
@@ -410,6 +140,7 @@
         </table>-->
 
         <!--<table tableName="sys_user_sync" domainObjectName="sys.SysUserSync">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <!--   <table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
            </table>

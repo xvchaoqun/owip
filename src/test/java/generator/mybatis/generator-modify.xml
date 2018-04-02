@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/db_owip?useUnicode=true&amp;characterEncoding=UTF8"
+                        userId="root" password="123"/>
+        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <!--干部修改申请-->
+        <!--<table tableName="modify_cadre_auth" domainObjectName="modify.ModifyCadreAuth">
+        </table>-->
+        <!-- <table tableName="modify_base_apply" domainObjectName="modify.ModifyBaseApply">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+        <!-- <table tableName="modify_base_item" domainObjectName="modify.ModifyBaseItem">
+         </table>-->
+        <!-- <table tableName="modify_table_apply" domainObjectName="modify.ModifyTableApply">
+            <columnOverride column="original_json" jdbcType="VARCHAR"></columnOverride>
+        </table>-->
+    </context>
+</generatorConfiguration>

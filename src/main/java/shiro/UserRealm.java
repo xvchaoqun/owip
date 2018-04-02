@@ -22,6 +22,8 @@ import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
 import sys.shiro.SSOException;
 
+import java.util.Set;
+
 
 public class UserRealm extends AuthorizingRealm {
 
@@ -44,7 +46,10 @@ public class UserRealm extends AuthorizingRealm {
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         authorizationInfo.setRoles(shiroUser.getRoles());
-        authorizationInfo.setStringPermissions(shiroUser.getPermissions());
+
+        Set<String> permissions = shiroUser.getPermissions();
+        permissions.addAll(shiroUser.getmPermissions());
+        authorizationInfo.setStringPermissions(permissions);
 
         return authorizationInfo;
     }

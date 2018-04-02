@@ -22,7 +22,6 @@ import service.sys.SchedulerJobService;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
-import sys.tool.tree.TreeNode;
 import sys.utils.Escape;
 import sys.utils.FormUtils;
 import sys.utils.HtmlEscapeUtils;
@@ -31,10 +30,8 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by lm on 2017/9/17.
@@ -126,7 +123,6 @@ public class SchedulerJobController extends BaseController {
     @RequestMapping("/schedulerJob_au")
     public String schedulerJob_au(Integer id, ModelMap modelMap) throws IOException {
 
-        Set<Integer> selectIdSet = new HashSet<Integer>();
         modelMap.addAttribute("op", "添加");
 
         if(id != null){
@@ -134,9 +130,6 @@ public class SchedulerJobController extends BaseController {
             modelMap.put("schedulerJob", schedulerJob);
             modelMap.addAttribute("op", "修改");
         }
-
-        TreeNode tree = sysResourceService.getTree(selectIdSet);
-        modelMap.put("tree", JSONUtils.toString(tree));
 
         return "sys/schedulerJob/schedulerJob_au";
     }

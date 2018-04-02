@@ -164,6 +164,66 @@ public class SysResourceExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsMobileIsNull() {
+            addCriterion("is_mobile is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMobileIsNotNull() {
+            addCriterion("is_mobile is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMobileEqualTo(Boolean value) {
+            addCriterion("is_mobile =", value, "isMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMobileNotEqualTo(Boolean value) {
+            addCriterion("is_mobile <>", value, "isMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMobileGreaterThan(Boolean value) {
+            addCriterion("is_mobile >", value, "isMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMobileGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_mobile >=", value, "isMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMobileLessThan(Boolean value) {
+            addCriterion("is_mobile <", value, "isMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMobileLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_mobile <=", value, "isMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMobileIn(List<Boolean> values) {
+            addCriterion("is_mobile in", values, "isMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMobileNotIn(List<Boolean> values) {
+            addCriterion("is_mobile not in", values, "isMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMobileBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_mobile between", value1, value2, "isMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsMobileNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_mobile not between", value1, value2, "isMobile");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;

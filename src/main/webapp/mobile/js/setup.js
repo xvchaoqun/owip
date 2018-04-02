@@ -94,6 +94,10 @@ function register_click(selector, fn) {
     });
 }
 
+register_click(".hashchange", function () {
+    location.href = $(this).data("url");
+})
+
 register_click(".ahref", function () {
     location.href = $(this).data("url");
 })

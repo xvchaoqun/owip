@@ -13,7 +13,6 @@ import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +38,7 @@ import java.util.Map;
 public class MobileApplySelfController extends AbroadBaseController {
 
 	@RequiresPermissions("applySelf:list")
-	@RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+	//@RequiresRoles(RoleConstants.ROLE_CADREADMIN)
 	@RequestMapping("/applySelf")
 	public String applySelf(ModelMap modelMap) {
 
@@ -49,11 +48,11 @@ public class MobileApplySelfController extends AbroadBaseController {
 		breadcumbs.add(new Breadcrumb("审批管理"));
 		modelMap.put("breadcumbs", breadcumbs);
 
-		return "abroad/mobile/index";
+		return "mobile/index";
 	}
 
 	@RequiresPermissions("applySelf:list")
-	@RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+	//@RequiresRoles(RoleConstants.ROLE_CADREADMIN)
 	@RequestMapping("/applySelf_page")
 	public String applySelf_page(HttpServletResponse response,
 							   @SortParam(required = false, defaultValue = "create_time", tableName = "abroad_apply_self") String sort,
@@ -92,7 +91,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 	}
 
 
-	@RequiresRoles(RoleConstants.ROLE_CADRE)
+	//@RequiresRoles(RoleConstants.ROLE_CADRE)
 	@RequiresPermissions("applySelf:approvalList")
 	@RequestMapping("/applySelfList")
 	public String applySelfList(ModelMap modelMap) {
@@ -103,10 +102,10 @@ public class MobileApplySelfController extends AbroadBaseController {
 		breadcumbs.add(new Breadcrumb("审批管理"));
 		modelMap.put("breadcumbs", breadcumbs);
 
-		return "abroad/mobile/index";
+		return "mobile/index";
 	}
 
-	@RequiresRoles(RoleConstants.ROLE_CADRE)
+	//@RequiresRoles(RoleConstants.ROLE_CADRE)
 	@RequiresPermissions("applySelf:approvalList")
 	@RequestMapping("/applySelfList_page")
 	public String applySelfList_page(@CurrentUser SysUserView loginUser, HttpServletResponse response,

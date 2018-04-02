@@ -5,6 +5,7 @@ import domain.sys.SysResource;
 import domain.sys.SysResourceExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -43,19 +44,22 @@ public class SysResourceController extends BaseController {
 	}*/
 	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource")
-	public String sysResource(ModelMap modelMap) {
+	public String sysResource(@RequestParam(required = false, defaultValue = "0") boolean isMobile, ModelMap modelMap) {
 
+		modelMap.put("isMobile", isMobile);
 		return "sys/sysResource/sysResource_page";
 	}
 
 	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource_data")
 	@ResponseBody
-	public Map sysResource_data(HttpServletResponse response,
+	public Map sysResource_data(@RequestParam(required = false, defaultValue = "0") boolean isMobile,
+								HttpServletResponse response,
 								 Integer nodeid) throws IOException {
 
 		SysResourceExample example = new SysResourceExample();
-		SysResourceExample.Criteria criteria = example.createCriteria();
+		SysResourceExample.Criteria criteria = example.createCriteria().andIsMobileEqualTo(isMobile)
+				.andAvailableEqualTo(SystemConstants.AVAILABLE);
 		if(nodeid!=null) {
 			criteria.andParentIdEqualTo(nodeid);
 		}else{
@@ -74,27 +78,23 @@ public class SysResourceController extends BaseController {
 	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysResource_au", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysResource_au(
-								 @RequestParam(required = false, value = "countCacheKeys")Byte[] countCacheKeys,
+	public Map do_sysResource_au(@RequestParam(required = false, value = "countCacheKeys")Byte[] countCacheKeys,
 								 SysResource record, HttpServletRequest request) {
 
 		if(countCacheKeys!=null && countCacheKeys.length>0){
 			record.setCountCacheKeys(StringUtils.join(countCacheKeys, ","));
 		}
 
-		SysResourceExample example = new SysResourceExample();
-		example.createCriteria().andNameEqualTo(record.getPermission());
-		List<SysResource> byExample = sysResourceMapper.selectByExample(example);
-		if(byExample!=null && byExample.size()>0){
-			
-			if(record.getId() == null ||
-					byExample.get(0).getId().intValue() != record.getId())
-				return failed(FormUtils.DUPLICATE);
+		if(sysResourceService.idDuplicate(record.getId(), record.getPermission(), record.getUrl())){
+			return failed(FormUtils.DUPLICATE);
 		}
+
+		record.setIsMobile(BooleanUtils.isTrue(record.getIsMobile()));
 
 		Integer parentId = record.getParentId();
 		SysResource parent = sysResourceMapper.selectByPrimaryKey(parentId);
 		record.setParentIds(parent.getParentIds() + parentId + "/");
+		record.setIsMobile(parent.getIsMobile());
 
 		Map<String, Object> resultMap = success(FormUtils.SUCCESS);
 		if(record.getId() == null){
@@ -162,7 +162,8 @@ public class SysResourceController extends BaseController {
 	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource_selects")
 	@ResponseBody
-	public Map sysResource_selects(Integer pageSize, String[] type, Integer pageNo,String searchStr) throws IOException {
+	public Map sysResource_selects(boolean isMobile, String[] type, String searchStr,
+								   Integer pageSize, Integer pageNo) throws IOException {
 
 		if (null == pageSize) {
 			pageSize = springProps.pageSize;
@@ -173,7 +174,8 @@ public class SysResourceController extends BaseController {
 		pageNo = Math.max(1, pageNo);
 
 		SysResourceExample example = new SysResourceExample();
-		SysResourceExample.Criteria criteria = example.createCriteria().andAvailableEqualTo(SystemConstants.AVAILABLE);
+		SysResourceExample.Criteria criteria = example.createCriteria().andIsMobileEqualTo(isMobile)
+				.andAvailableEqualTo(SystemConstants.AVAILABLE);
 		//criteria.andTypeNotEqualTo(SystemConstants.RESOURCE_TYPE_FUNCTION);
 		if(type!=null && type.length>0)
 			criteria.andTypeIn(Arrays.asList(type));
@@ -190,7 +192,7 @@ public class SysResourceController extends BaseController {
 		}
 		List<SysResource> sysResources = sysResourceMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
-		Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources();
+		Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources(isMobile);
 		List<Select2Option> options = new ArrayList<Select2Option>();
 		for(SysResource sysResource:sysResources){
 			String text = "";

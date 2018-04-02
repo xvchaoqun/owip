@@ -11,6 +11,8 @@ public class SysRole implements Serializable {
 
     private String resourceIds;
 
+    private String mResourceIds;
+
     private Byte available;
 
     private Boolean isSysHold;
@@ -51,6 +53,14 @@ public class SysRole implements Serializable {
 
     public void setResourceIds(String resourceIds) {
         this.resourceIds = resourceIds == null ? null : resourceIds.trim();
+    }
+
+    public String getmResourceIds() {
+        return mResourceIds;
+    }
+
+    public void setmResourceIds(String mResourceIds) {
+        this.mResourceIds = mResourceIds == null ? null : mResourceIds.trim();
     }
 
     public Byte getAvailable() {

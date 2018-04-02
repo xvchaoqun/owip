@@ -22,7 +22,7 @@
 				父节点
 			</label>
 			<div class="col-xs-6 ">
-				<select name="parentId"  data-width="275" data-ajax-url="${ctx}/sysResource_selects">
+				<select name="parentId"  data-width="275" data-ajax-url="${ctx}/sysResource_selects?isMobile=${param.isMobile}">
 					<option value="${parent.id}">${parent.name}</option>
 				</select>
 			</div>

@@ -3,6 +3,7 @@
 <mapper namespace="persistence.sys.SysResourceMapper">
   <resultMap id="BaseResultMap" type="domain.sys.SysResource">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="is_mobile" jdbcType="BIT" property="isMobile" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="type" jdbcType="VARCHAR" property="type" />
@@ -76,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, remark, type, menu_css, url, parent_id, parent_ids, is_leaf, permission, 
-    count_cache_keys, count_cache_roles, available, sort_order
+    id, is_mobile, name, remark, type, menu_css, url, parent_id, parent_ids, is_leaf, 
+    permission, count_cache_keys, count_cache_roles, available, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysResourceExample" resultMap="BaseResultMap">
     select
@@ -109,23 +110,29 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.sys.SysResource">
-    insert into sys_resource (id, name, remark, 
+  <insert id="insert" parameterType="domain.sys.SysResource">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_resource (is_mobile, name, remark, 
       type, menu_css, url, 
       parent_id, parent_ids, is_leaf, 
       permission, count_cache_keys, count_cache_roles, 
       available, sort_order)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+    values (#{isMobile,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{menuCss,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
       #{parentId,jdbcType=INTEGER}, #{parentIds,jdbcType=VARCHAR}, #{isLeaf,jdbcType=BIT}, 
       #{permission,jdbcType=VARCHAR}, #{countCacheKeys,jdbcType=VARCHAR}, #{countCacheRoles,jdbcType=VARCHAR}, 
       #{available,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER})
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.sys.SysResource">
+  <insert id="insertSelective" parameterType="domain.sys.SysResource">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into sys_resource
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="isMobile != null">
+        is_mobile,
       </if>
       <if test="name != null">
         name,
@@ -168,8 +175,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="isMobile != null">
+        #{isMobile,jdbcType=BIT},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -224,6 +231,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.isMobile != null">
+        is_mobile = #{record.isMobile,jdbcType=BIT},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
@@ -271,6 +281,7 @@
   <update id="updateByExample" parameterType="map">
     update sys_resource
     set id = #{record.id,jdbcType=INTEGER},
+      is_mobile = #{record.isMobile,jdbcType=BIT},
       name = #{record.name,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
@@ -291,6 +302,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.sys.SysResource">
     update sys_resource
     <set>
+      <if test="isMobile != null">
+        is_mobile = #{isMobile,jdbcType=BIT},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -335,7 +349,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.sys.SysResource">
     update sys_resource
-    set name = #{name,jdbcType=VARCHAR},
+    set is_mobile = #{isMobile,jdbcType=BIT},
+      name = #{name,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       menu_css = #{menuCss,jdbcType=VARCHAR},

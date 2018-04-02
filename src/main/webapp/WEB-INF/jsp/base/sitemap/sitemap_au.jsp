@@ -40,7 +40,7 @@
             </label>
 
             <div class="col-xs-6 ">
-                <select name="resourceId" data-width="275" data-ajax-url="${ctx}/sysResource_selects">
+                <select name="resourceId" data-width="275" data-ajax-url="${ctx}/sysResource_selects?isMobile=0">
                     <option value="${sysResource.id}">${sysResource.name}(${sysResource.permission})</option>
                 </select>
             </div>

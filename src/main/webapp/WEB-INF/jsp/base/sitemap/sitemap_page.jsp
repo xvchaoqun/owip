@@ -27,7 +27,7 @@
                         <td>${sitemap.sortOrder}</td>
                         <td>${sitemap.url}</td>
                         <td>
-                            <c:forEach items="${cm:getSysResourcePath(sitemap.resourceId)}" var="sysResource" varStatus="vs">
+                            <c:forEach items="${cm:getSysResourcePath(sitemap.resourceId, false)}" var="sysResource" varStatus="vs">
                                 ${sysResource.name}
                                 -
                                 ${vs.last?sysResource.permission:""}

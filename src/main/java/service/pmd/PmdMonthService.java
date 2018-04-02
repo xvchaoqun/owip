@@ -209,14 +209,14 @@ public class PmdMonthService extends BaseMapper {
                 //Integer memberCount = members.size();
 
                 // 更新当月直属党支部信息
-                PmdParty record = new PmdParty();
-                record.setId(pmdParty.getId());
+                //PmdParty record = new PmdParty();
+                //record.setId(pmdParty.getId());
                 // 党员总数
                 //record.setMemberCount(memberCount);
                 // 本月应交党费数
                 //record.setDuePay(iPmdMapper.duePay(monthId, partyId, null));
 
-                pmdPartyMapper.updateByPrimaryKeySelective(record);
+                //pmdPartyMapper.updateByPrimaryKeySelective(record);
 
             } else {
 

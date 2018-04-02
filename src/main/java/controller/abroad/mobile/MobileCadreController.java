@@ -4,14 +4,11 @@ import bean.m.Breadcrumb;
 import controller.abroad.AbroadBaseController;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 
 import java.util.ArrayList;
@@ -23,7 +20,6 @@ public class MobileCadreController extends AbroadBaseController {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
 	@RequestMapping("/cadre_base")
 	public String cadre_base(ModelMap modelMap) {
 
@@ -34,7 +30,6 @@ public class MobileCadreController extends AbroadBaseController {
 		return "abroad/mobile/index";
 	}
 
-	@RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
 	@RequestMapping("/cadre_base_page")
 	public String cadre_base_page(@CurrentUser SysUserView loginUser,  ModelMap modelMap) {
 

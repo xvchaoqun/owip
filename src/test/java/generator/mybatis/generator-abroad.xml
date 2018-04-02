@@ -22,10 +22,12 @@
 
         <!--因私出国境-->
         <!-- <table tableName="abroad_applicat_type" domainObjectName="abroad.ApplicatType">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
         <!--<table tableName="abroad_apply_self_file" domainObjectName="Aabroad.pplySelfFile">
         </table>-->
         <!--  <table tableName="abroad_apply_self" domainObjectName="abroad.ApplySelf" mapperName="abroad.ApplySelfMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>-->
         <!-- <table tableName="abroad_apply_self_modify" domainObjectName="abroad.ApplySelfModify">
          </table>-->
@@ -33,26 +35,34 @@
          </table>-->
 
         <!-- <table tableName="abroad_applicat_cadre" domainObjectName="abroad.ApplicatCadre">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
         <!--<table tableName="abroad_approval_order" domainObjectName="abroad.ApprovalOrder">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <!--<table tableName="abroad_approver" domainObjectName="abroad.Approver">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <!-- <table tableName="abroad_approver_black_list" domainObjectName="abroad.ApproverBlackList">
          </table>-->
         <!--<table tableName="abroad_approver_type" domainObjectName="abroad.ApproverType">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <!--<table tableName="abroad_passport_draw" domainObjectName="abroad.PassportDraw" mapperName="abroad.PassportDrawMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <!--
         <table tableName="abroad_passport_draw_file" domainObjectName="abroad.PassportDrawFile">
         </table>-->
         <!-- <table tableName="abroad_passport" domainObjectName="abroad.Passport" mapperName="abroad.PassportMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>
    -->
         <!--<table tableName="abroad_safe_box" domainObjectName="abroad.SafeBox">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <!--<table tableName="abroad_passport_apply" domainObjectName="abroad.PassportApply">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="abroad_passport_apply_view" domainObjectName="abroad.PassportApplyView">
         </table>

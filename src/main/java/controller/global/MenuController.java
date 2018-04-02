@@ -25,15 +25,15 @@ public class MenuController extends BaseController {
     //private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/menu")
-    public String menu(String username, ModelMap modelMap) {
+    public String menu(String username, boolean isMobile, ModelMap modelMap) {
 
         // 管理员才允许查看他人的菜单
         if(ShiroHelper.lackRole(RoleConstants.ROLE_ADMIN) || StringUtils.isBlank(username)){
             username = ShiroHelper.getCurrentUsername();
         }
 
-        Set<String> permissions = sysUserService.findPermissions(username);
-        List<SysResource> userMenus = sysUserService.makeMenus(permissions);
+        Set<String> permissions = sysUserService.findPermissions(username, isMobile);
+        List<SysResource> userMenus = sysUserService.makeMenus(permissions, isMobile);
 
         modelMap.put("menus", userMenus);
         return "menu";
@@ -41,10 +41,11 @@ public class MenuController extends BaseController {
 
     @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/menu_preview")
-    public String menu_preview(@RequestParam(value = "resIds[]", required = false) Integer[] resIds, ModelMap modelMap) {
+    public String menu_preview(boolean isMobile, @RequestParam(value = "resIds[]", required = false) Integer[] resIds,
+                               ModelMap modelMap) {
 
         Set<String> permissions = new HashSet<String>();
-        Map<Integer, SysResource> sysResources = sysResourceService.getSortedSysResources();
+        Map<Integer, SysResource> sysResources = sysResourceService.getSortedSysResources(isMobile);
         if(resIds!=null) {
             for (Integer resId : resIds) {
                 SysResource sysResource = sysResources.get(resId);
@@ -53,18 +54,18 @@ public class MenuController extends BaseController {
                 }
             }
         }
-        List<SysResource> userMenus = sysUserService.makeMenus(permissions);
+        List<SysResource> userMenus = sysUserService.makeMenus(permissions, isMobile);
         modelMap.put("menus", userMenus);
         return "menu";
     }
 
     @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping("/menu_preview_byRoleId")
-    public String menu_preview_byRoleId(Integer roleId, ModelMap modelMap) {
+    public String menu_preview_byRoleId(boolean isMobile, Integer roleId, ModelMap modelMap) {
 
         if (roleId != null) {
-            Set<String> rolePermissions = sysRoleService.getRolePermissions(roleId);
-            List<SysResource> userMenus = sysUserService.makeMenus(rolePermissions);
+            Set<String> rolePermissions = sysRoleService.getRolePermissions(roleId, isMobile);
+            List<SysResource> userMenus = sysUserService.makeMenus(rolePermissions, isMobile);
             modelMap.put("menus", userMenus);
         }
 

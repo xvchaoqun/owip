@@ -1,14 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <shiro:user>
-	<c:redirect url="/m/abroad/index"/>
+	<c:redirect url="/m/index"/>
 </shiro:user>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 	<jsp:include page="/WEB-INF/jsp/common/m_head.jsp"></jsp:include>
 	</head>
-
 	<body class="login-layout blue-login">
 		<div class="main-container">
 			<div class="main-content">
@@ -21,7 +20,6 @@
 								</div>
 								<h1 class="white">
 									${sysConfig.mobilePlantformName}
-									<div style="font-size:smaller">（因私出国境审批）</div>
 								</h1>
 							</div>
 
@@ -76,10 +74,6 @@
 				</div><!-- /.row -->
 			</div><!-- /.main-content -->
 		</div><!-- /.main-container -->
-
-		<!-- basic scripts -->
-
-		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
 			$("#login_btn").click(function(){
 				var $username = $("input[name=username]");
@@ -92,7 +86,7 @@
 					$passwd.focus();
 					return;
 				}
-				$.post("${ctx}/m/abroad/login",{username:$.trim($username.val()), password:$passwd.val()},function(data){
+				$.post("${ctx}/m/login",{username:$.trim($username.val()), password:$passwd.val()},function(data){
 
 					if(data.success){
 						location.href = data.url;

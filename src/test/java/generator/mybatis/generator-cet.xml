@@ -24,6 +24,7 @@
         <!--<table tableName="cet_special" domainObjectName="cet.CetSpecial" mapperName="cet.CetSpecialMapper">
         </table>
         <table tableName="cet_special_obj" domainObjectName="cet.CetSpecialObj" mapperName="cet.CetSpecialObjMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
        <!-- <table tableName="cet_special_obj_cadre_view" domainObjectName="cet.CetSpecialObjCadreView"
                mapperName="cet.CetSpecialObjCadreViewMapper"
@@ -52,6 +53,7 @@
         <!--<table tableName="cet_column_course" domainObjectName="cet.CetColumnCourse" mapperName="cet.CetColumnCourseMapper">
         </table>-->
        <!-- <table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
+       <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="evaNote" jdbcType="VARCHAR"></columnOverride>
         </table>-->
@@ -92,6 +94,7 @@
         <!--<table tableName="cet_short_msg" domainObjectName="cet.CetShortMsg" mapperName="cet.CetShortMsgMapper">
         </table>-->
         <!--<table tableName="cet_trainee" domainObjectName="cet.CetTrainee" mapperName="cet.CetTraineeMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="cet_trainee_cadre_view" domainObjectName="cet.CetTraineeCadreView"
                mapperName="cet.CetTraineeCadreViewMapper"

@@ -156,8 +156,8 @@ public class SitemapService extends BaseMapper{
 	public List<Sitemap> getUserTopSitemap(int userId) {
 
 		SysUserView sysUser = sysUserService.findById(userId);
-		Set<String> permissions = sysUserService.findPermissions(sysUser.getUsername());
-		Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources();
+		Set<String> permissions = sysUserService.findPermissions(sysUser.getUsername(), false);
+		Map<Integer, SysResource> resourceMap = sysResourceService.getSortedSysResources(false);
 
 		List<Sitemap> topSitemap = new ArrayList<>();
 

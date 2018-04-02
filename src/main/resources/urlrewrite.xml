@@ -5,6 +5,12 @@
 	<rule>
 		<note>头像</note>
 		<condition type="method">GET</condition>
+		<from>^/m/avatar</from>
+		<to>/avatar</to>
+	</rule>
+	<rule>
+		<note>头像</note>
+		<condition type="method">GET</condition>
 		<from>^/m/abroad/avatar</from>
 		<to>/avatar</to>
 	</rule>

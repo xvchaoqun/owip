@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import persistence.sys.SysResourceMapper;
 import service.BaseMapper;
 import sys.constants.SystemConstants;
@@ -26,47 +27,80 @@ public class SysResourceService extends BaseMapper{
 	@Autowired
 	private SysResourceMapper sysResourceMapper;
 
-	@Transactional
-	@Caching(evict={
-			@CacheEvict(value="UserPermissions", allEntries=true),
-			@CacheEvict(value="Menus", allEntries=true),
-			@CacheEvict(value="SysResources", allEntries=true)
-	})
-	public void insert(SysResource sysResource){
+	public boolean idDuplicate(Integer id, String permission, String url){
 
-		sysResourceMapper.insert(sysResource);
-		commonMapper.excuteSql("update sys_resource set is_leaf=0 where id=" + sysResource.getParentId());
+		Assert.isTrue(StringUtils.isNotBlank(permission), "权限字符串不能为空");
+
+		{
+			SysResourceExample example = new SysResourceExample();
+			SysResourceExample.Criteria criteria = example.createCriteria().andNameEqualTo(permission);
+			if (id != null) {
+				criteria.andIdNotEqualTo(id);
+			}
+			if (sysResourceMapper.countByExample(example) > 0) {
+				return true;
+			}
+		}
+
+		if(StringUtils.isNotBlank(url)){
+			SysResourceExample example = new SysResourceExample();
+			SysResourceExample.Criteria criteria = example.createCriteria().andUrlEqualTo(url.trim());
+			if (id != null) {
+				criteria.andIdNotEqualTo(id);
+			}
+			if (sysResourceMapper.countByExample(example) > 0) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Transactional
 	@Caching(evict={
 			@CacheEvict(value="UserPermissions", allEntries=true),
-			@CacheEvict(value="Menus", allEntries=true),
+			@CacheEvict(value="SysResources", allEntries=true)
+	})
+	public void insert(SysResource record){
+
+		record.setUrl(StringUtils.trimToNull(record.getUrl()));
+		record.setPermission(StringUtils.trimToNull(record.getPermission()));
+		sysResourceMapper.insert(record);
+		commonMapper.excuteSql("update sys_resource set is_leaf=0 where id=" + record.getParentId());
+	}
+
+	@Transactional
+	@Caching(evict={
+			@CacheEvict(value="UserPermissions", allEntries=true),
 			@CacheEvict(value="SysResources", allEntries=true)
 	})
 	public void updateByPrimaryKeySelective(SysResource record){
 
-		if(StringUtils.isBlank(record.getCountCacheKeys())){
-			commonMapper.excuteSql("update sys_resource set count_cache_keys=null where id="+ record.getId());
-		}
+		commonMapper.excuteSql(String.format("update sys_resource set id=%s %s %s %s where id=%s",
+				record.getId(),
+				StringUtils.isNotBlank(record.getCountCacheKeys()) ? ", count_cache_keys=null" : "",
+				StringUtils.isNotBlank(record.getUrl()) ? ", url=null" : "",
+				StringUtils.isNotBlank(record.getPermission()) ? ", permission=null" : "",
+				record.getId()));
 
 		SysResource sysResource = sysResourceMapper.selectByPrimaryKey(record.getId());
-		if(record.getParentId() !=null &&
-				sysResource.getParentId().intValue() != record.getParentId().intValue()){
 
+		// 改变父节点
+		if(record.getParentId() !=null && sysResource.getParentId().intValue() != record.getParentId().intValue()){
+
+			// 判断原父节点是否成为了叶子节点
 			SysResourceExample example = new SysResourceExample();
 			example.createCriteria().andParentIdEqualTo(sysResource.getParentId()).andAvailableEqualTo(SystemConstants.AVAILABLE);
 			if(sysResourceMapper.countByExample(example)==0){
 				commonMapper.excuteSql("update sys_resource set is_leaf=1 where id=" + sysResource.getParentId());
 			}
-
+			// 把新父节点修改为非叶子节点
 			commonMapper.excuteSql("update sys_resource set is_leaf=0 where id=" + record.getParentId());
 		}
 
+		// 确认一下是否是叶子节点
 		List<SysResource> subSysResourses = getSubSysResourses(record.getId());
-		if(subSysResourses.size()==0){
-			record.setIsLeaf(true);
-		}
+		record.setIsLeaf(subSysResourses.size()==0);
 
 		sysResourceMapper.updateByPrimaryKeySelective(record);
 
@@ -96,15 +130,14 @@ public class SysResourceService extends BaseMapper{
 	@Transactional
 	@Caching(evict={
 			@CacheEvict(value="UserPermissions", allEntries=true),
-			@CacheEvict(value="Menus", allEntries=true),
 			@CacheEvict(value="SysResources", allEntries=true)
 	})
 	public void del(Integer id){
 
-		// 顶级节点不可删除
-		if(id==1) return ;
-
 		SysResource sysResource = sysResourceMapper.selectByPrimaryKey(id);
+		// 顶级节点不可删除
+		if(sysResource.getParentId()==null) return ;
+
 		{
 			SysResourceExample example = new SysResourceExample();
 			example.createCriteria().andParentIdEqualTo(sysResource.getParentId()).andAvailableEqualTo(SystemConstants.AVAILABLE);
@@ -135,10 +168,11 @@ public class SysResourceService extends BaseMapper{
 	}
 
 	// 按层次递归读取资源
-	private void menuLoop(List<SysResource> menuList, Integer parentId){
+	private void menuLoop(List<SysResource> menuList, Integer parentId, boolean isMobile){
 
 		SysResourceExample example = new SysResourceExample();
-		SysResourceExample.Criteria criteria = example.createCriteria().andAvailableEqualTo(SystemConstants.AVAILABLE);
+		SysResourceExample.Criteria criteria = example.createCriteria().andIsMobileEqualTo(isMobile)
+				.andAvailableEqualTo(SystemConstants.AVAILABLE);
 		if(parentId==null){
 			criteria.andParentIdIsNull();
 		}else{
@@ -150,15 +184,15 @@ public class SysResourceService extends BaseMapper{
 		for(SysResource sysResource:list) {
 
 			menuList.add(sysResource);
-			menuLoop(menuList, sysResource.getId());
+			menuLoop(menuList, sysResource.getId(), isMobile);
 		}
 	}
 
-	@Cacheable(value = "SysResources")
-	public Map<Integer, SysResource> getSortedSysResources(){
+	@Cacheable(value = "SysResources", key = "#isMobile")
+	public Map<Integer, SysResource> getSortedSysResources(boolean isMobile){
 
 		List<SysResource> menuList = new ArrayList<SysResource>();
-		menuLoop(menuList, null);
+		menuLoop(menuList, null, isMobile);
 
 		Map<Integer, SysResource> map = new LinkedHashMap<>();
 		for (SysResource sysResource : menuList) {
@@ -182,11 +216,11 @@ public class SysResourceService extends BaseMapper{
         return false;
     }*/
 
-	// 角色权限修改中读取资源树
-	public TreeNode getTree(Set<Integer> selectIdSet){
+	// 读取完整的资源树[用于角色权限修改]
+	public TreeNode getTree(Set<Integer> selectIdSet, boolean isMobile){
 
 		SysResourceExample example = new SysResourceExample();
-		example.createCriteria().andParentIdIsNull();
+		example.createCriteria().andParentIdIsNull().andIsMobileEqualTo(isMobile);
 		example.setOrderByClause("sort_order desc");
 		List<SysResource> sysResources = sysResourceMapper.selectByExample(example);
 		SysResource rootRes = sysResources.get(0);
@@ -196,13 +230,14 @@ public class SysResourceService extends BaseMapper{
 		root.expand = true;
 		root.isFolder = true;
 		root.hideCheckbox = true;
-		root.children =  new ArrayList<TreeNode>();
+		root.children =  new ArrayList<>();
 
 		loopChildNode(rootRes.getId(), root, selectIdSet);
 
 		return root;
 	}
 
+	// 节点下的子资源列表
 	public List<SysResource> getSubSysResourses(int parentId){
 
 		SysResourceExample example = new SysResourceExample();
@@ -211,6 +246,7 @@ public class SysResourceService extends BaseMapper{
 		return sysResourceMapper.selectByExample(example);
 	}
 
+	// 节点下的资源目录树 root
 	public void loopChildNode(int parentId, TreeNode root, Set<Integer> selectIdSet){
 
 		List<SysResource> sysResources = getSubSysResourses(parentId);

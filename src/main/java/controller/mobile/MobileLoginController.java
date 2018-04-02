@@ -1,4 +1,4 @@
-package controller.abroad.mobile;
+package controller.mobile;
 
 import controller.abroad.AbroadBaseController;
 import domain.sys.SysUserView;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
 import sys.shiro.CurrentUser;
@@ -22,10 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
-@RequestMapping("/m/abroad")
+@RequestMapping("/m")
 public class MobileLoginController extends AbroadBaseController {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
@@ -33,7 +31,7 @@ public class MobileLoginController extends AbroadBaseController {
 	@RequestMapping("/login")
 	public String login() {
 
-		return "abroad/mobile/login";
+		return "mobile/login";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -49,46 +47,17 @@ public class MobileLoginController extends AbroadBaseController {
 			return failed("账号或密码错误");
 		}
 
-		Set<String> roles = sysUserService.findRoles(username);
-		// 不是干部，也不是干部管理员
-		if(!roles.contains(RoleConstants.ROLE_CADRE) && !roles.contains(RoleConstants.ROLE_CADREADMIN)){
-
-			logger.info(sysLoginLogService.log(null, username,
-					SystemConstants.LOGIN_TYPE_MOBILE, false, "登录失败，请使用PC端登录网站办理相关业务，谢谢!"));
-
-			return failed("登录失败，请使用PC端登录网站办理相关业务，谢谢!");
-		}
-		// 是干部，但不是干部管理员
-		if(roles.contains(RoleConstants.ROLE_CADRE)
-				&& !roles.contains(RoleConstants.ROLE_CADREADMIN)
-				&& !approverService.hasApproveAuth(sysUser.getId())){
-
-			return failed(sysUser.getRealname() +"老师，您好！您没有因私出国（境）审批权限，无法登陆。请在电脑的浏览器中登录系统办理相关业务。谢谢！");
-		}
-
 		AuthToken token = new AuthToken(username,
 				password.toCharArray(), false, request.getRemoteHost(), null, null);
 		try {
 			SecurityUtils.getSubject().login(token);
 		}catch (Exception e){
 			String message = e.getClass().getSimpleName();
-			/*String userAgent = RequestUtils.getUserAgent(request);
-			logger.info("login  failed. {}, {}, {}, {}", new Object[]{token.getPrincipal(), message, userAgent});
-
-			String msg;
-			SysUserView sysUser = sysUserService.findByUsername(username);
-			if(sysUser==null){
-				msg = "登录失败，用户名不存在";
-			}else{
-				msg = "登录失败，密码错误";
-			}
-			logger.info(sysLoginLogService.log(null, username,
-					SystemConstants.LOGIN_TYPE_MOBILE, false, msg));*/
 
 			return SystemConstants.loginFailedResultMap(message);
 		}
 
-		String successUrl=request.getContextPath() + "/m/abroad/index";
+		String successUrl=request.getContextPath() + "/m/index";
 		SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(request);
 		if(savedRequest != null && savedRequest.getMethod().equalsIgnoreCase("GET")) {
 			successUrl = savedRequest.getRequestUrl();
@@ -103,13 +72,13 @@ public class MobileLoginController extends AbroadBaseController {
 	}
 
 	@RequestMapping("/logout")
-	@ResponseBody
-	public Map logout(@CurrentUser SysUserView loginUser,  HttpSession session) {
+	public String logout(@CurrentUser SysUserView loginUser,  HttpSession session) {
 
 		SecurityUtils.getSubject().logout();
 
 		logger.debug("logout success. {}", (loginUser != null) ? loginUser.getUsername() : "");
-		return success();
+
+		return "redirect:/m/index";
 	}
 
 }

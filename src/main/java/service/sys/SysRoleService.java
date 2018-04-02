@@ -48,10 +48,10 @@ public class SysRoleService extends BaseMapper {
 	}
 
 	@Transactional
-	public void insert(SysRole record){
+	public void insertSelective(SysRole record){
 
 		record.setSortOrder(getNextSortOrder("sys_role", "1=1"));
-		sysRoleMapper.insert(record);
+		sysRoleMapper.insertSelective(record);
 
 		cacheService.clearRoleCache();
 	}
@@ -129,13 +129,14 @@ public class SysRoleService extends BaseMapper {
 	}
 
 	// 获取某个角色下拥有的所有权限
-	public Set<String> getRolePermissions(int roleId){
+	public Set<String> getRolePermissions(int roleId, boolean isMobile){
 
 		Set<String> permissions = new HashSet<String>();
 		SysRole sysRole = sysRoleMapper.selectByPrimaryKey(roleId);
-		String resourceIdsStr = sysRole.getResourceIds();
+		String resourceIdsStr = isMobile?sysRole.getmResourceIds():sysRole.getResourceIds();
+
 		if(resourceIdsStr!=null){
-			Map<Integer, SysResource> sysResources = sysResourceService.getSortedSysResources();
+			Map<Integer, SysResource> sysResources = sysResourceService.getSortedSysResources(isMobile);
 			String[] resourceIds = resourceIdsStr.split(",");
 			for(String resourceId:resourceIds){
 				if(StringUtils.isNotBlank(resourceId)){

@@ -1,19 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set value="${cm:getParentIdSet(_path)}" var="parentIdSet"/>
+<c:set value="${cm:getCurrentSysResource(_path)}" var="currentSysResource"/>
 <!DOCTYPE html>
 <html>
 	<head>
 	<jsp:include page="/WEB-INF/jsp/common/m_head.jsp"></jsp:include>
-	<script>
-		function _logout(){
-			$.post(ctx+"/m/abroad/logout", {},function(data){
-				if(data.success){
-					location.href=ctx+'/m/abroad/index';
-				}
-			})
-		}
-	</script>
 	</head>
 	<body class="no-skin">
 		<!-- #section:basics/navbar.layout -->
@@ -46,20 +39,20 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
-								<img class="nav-user-photo" src="${ctx}/m/abroad/avatar/${_user.username}?m=1" width="90" alt="头像" />
+								<img class="nav-user-photo" src="${ctx}/m/avatar/${_user.username}?m=1" width="90" alt="头像" />
 
 								<i class="ace-icon fa fa-caret-down"></i>
 							</a>
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								<li>
+								<%--<li>
 									<a href="${ctx}/m/abroad/cadre_base">
 										<i class="ace-icon fa fa-cog"></i>
 										个人资料
 									</a>
 								</li>
-								<li class="divider"></li>
+								<li class="divider"></li>--%>
 								<li>
-									<a href="javascript:;" onclick="_logout()">
+									<a href="${ctx}/m/logout">
 										<i class="ace-icon fa fa-power-off"></i>
 										安全退出
 									</a>
@@ -78,19 +71,12 @@
 			</script>
 
 			<!-- #section:basics/sidebar -->
-			<div id="sidebar" class="sidebar                  responsive">
+			<div id="sidebar" class="sidebar responsive">
 				<script type="text/javascript">
 					try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
 				</script>
 
-				<!-- /.sidebar-shortcuts -->
-				<jsp:include page="menu.jsp"/>
-				<!-- /.nav-list -->
-
-				<!-- #section:basics/sidebar.layout.minimize -->
-				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-					<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
-				</div>
+				<c:import url="/menu?isMobile=1"/>
 
 				<!-- /section:basics/sidebar.layout.minimize -->
 				<script type="text/javascript">
@@ -106,21 +92,24 @@
 						</script>
 
 						<ul class="breadcrumb">
-							<li>
-								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="${ctx}/m/abroad/index">首页</a>
-							</li>
-							<c:forEach var="breadcumb" items="${breadcumbs}" varStatus="vs">
-								<li class="${vs.last?'active':''}">
-									<c:if test="${empty breadcumb.url}">
-										${breadcumb.name}
-									</c:if>
-									<c:if test="${not empty breadcumb.url}">
-										<a href="${breadcumb.url}">${breadcumb.name}</a>
-									</c:if>
-								</li>
+							<c:forEach var="parentId" items="${parentIdSet}" varStatus="vs">
+								<c:if test="${parentId==0}">
+									<li>
+										<i class="ace-icon fa fa-home home-icon"></i>
+										<a href="${ctx}/m/index">首页</a>
+									</li>
+								</c:if>
+								<c:set var="sysResource" value="${cm:getSysResource(parentId, true)}"/>
+								<c:if test="${sysResource.parentId>0}">
+									<li>
+										<a href="javascript:;">${sysResource.name}</a>
+									</li>
+								</c:if>
 							</c:forEach>
-						</ul><!-- /.breadcrumb -->
+							<li>
+								<a href="javascript:;">${currentSysResource.name}</a>
+							</li>
+						</ul>
 					</div>
 					<div class="page-content" id="page-content">
 						<c:import url="${_path}_page">
@@ -134,7 +123,7 @@
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
-							${sysConfig.schoolName}党委组织部<span class="blue bolder">&copy;2016</span>
+							${sysConfig.schoolName}党委组织部
 						</span>
 					</div>
 				</div>

@@ -45,6 +45,7 @@
         <!--干部选拔-文件起草签发-->
         <!--<table tableName="sc_dispatch" domainObjectName="sc.scDispatch.ScDispatch"
                mapperName="sc.scDispatch.ScDispatchMapper">
+               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
 
         <table tableName="sc_dispatch_user" domainObjectName="sc.scDispatch.ScDispatchUser"
@@ -57,6 +58,7 @@
         <!--干部选拔-任职公示-->
         <!--<table tableName="sc_public" domainObjectName="sc.scPublic.ScPublic"
                mapperName="sc.scPublic.ScPublicMapper">
+               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="sc_public_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -73,6 +75,7 @@
         <!--干部选拔-党委常委会议题-->
         <!--<table tableName="sc_committee" domainObjectName="sc.scCommittee.ScCommittee"
                mapperName="sc.scCommittee.ScCommitteeMapper">
+               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <!--<table tableName="sc_committee_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -137,6 +140,7 @@
         <!--干部选拔-干部小组会议题-->
         <!--<table tableName="sc_group" domainObjectName="sc.scGroup.ScGroup"
                mapperName="sc.scGroup.ScGroupMapper">
+               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="attend_users" jdbcType="VARCHAR"></columnOverride>
         </table>-->
        <!-- <table tableName="sc_group_file" domainObjectName="sc.scGroup.ScGroupFile"
@@ -157,6 +161,7 @@
         </table>-->
         <!--<table tableName="sc_group_topic" domainObjectName="sc.scGroup.ScGroupTopic"
                mapperName="sc.scGroup.ScGroupTopicMapper">
+               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
         </table>-->
@@ -176,6 +181,7 @@
 
         <!--干部选拔-纪委函询管理-->
         <!--<table tableName="sc_letter" domainObjectName="sc.scLetter.ScLetter" mapperName="sc.scLetter.ScLetterMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <!--<table tableName="sc_letter_item" domainObjectName="sc.scLetter.ScLetterItem" mapperName="sc.scLetter.ScLetterItemMapper">
         </table>-->
@@ -195,6 +201,7 @@
         </table>-->
         <!--<table tableName="sc_letter_reply" domainObjectName="sc.scLetter.ScLetterReply"
                mapperName="sc.scLetter.ScLetterReplyMapper">
+               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <table tableName="sc_letter_reply_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -218,6 +225,7 @@
 
         <!--干部选拔-个人有关事项-->
         <!--<table tableName="sc_matter" domainObjectName="sc.scMatter.ScMatter" mapperName="sc.scMatter.ScMatterMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
         <!--<table tableName="sc_matter_item" domainObjectName="sc.scMatter.ScMatterItem" mapperName="sc.scMatter.ScMatterItemMapper">
         </table>-->
@@ -235,6 +243,7 @@
         </table>-->
 
         <!--<table tableName="sc_matter_access" domainObjectName="sc.scMatter.ScMatterAccess" mapperName="sc.scMatter.ScMatterAccessMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
         <!--<table tableName="sc_matter_access_item" domainObjectName="sc.scMatter.ScMatterAccessItem" mapperName="sc.scMatter.ScMatterAccessItemMapper">
@@ -246,6 +255,7 @@
                domainObjectName="sc.scMatter.ScMatterAccessItemView" mapperName="sc.scMatter.ScMatterAccessItemViewMapper">
         </table>-->
         <!-- <table tableName="sc_matter_check" domainObjectName="sc.scMatter.ScMatterCheck" mapperName="sc.scMatter.ScMatterCheckMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
         <!--<table tableName="sc_matter_check_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"

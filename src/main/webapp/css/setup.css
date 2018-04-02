@@ -1167,18 +1167,18 @@ span.delete {
     cursor: pointer;
 }
 
-#sidebar-review {
+.sidebar-review {
     height: 614px;
     width: 500px;
     float: left;
     border: 1px dotted;
 }
-#sidebar-review .sidebar{
+.sidebar-review .sidebar{
     height: 500px;
     width: 200px;
     overflow-y:auto;
 }
-#sidebar-review .title{
+.sidebar-review .title{
     height: 50px;
     line-height: 50px;
     font-weight: bolder;

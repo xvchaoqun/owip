@@ -134,8 +134,9 @@
                 /mobile/js/** = anon
                 /mobile/css/** = anon
                 /m/cet/** = anon
-                /m/abroad/login = anon
-                /m/abroad/logout = anon
+
+                /m/login = anon
+                /m/logout = anon
 
                 /pmd/pay/** = anon
 

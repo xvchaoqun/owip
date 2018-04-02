@@ -11,6 +11,8 @@ public class SysResource implements Serializable {
 
     private Integer id;
 
+    private Boolean isMobile;
+
     private String name;
 
     private String remark;
@@ -45,6 +47,14 @@ public class SysResource implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Boolean getIsMobile() {
+        return isMobile;
+    }
+
+    public void setIsMobile(Boolean isMobile) {
+        this.isMobile = isMobile;
     }
 
     public String getName() {

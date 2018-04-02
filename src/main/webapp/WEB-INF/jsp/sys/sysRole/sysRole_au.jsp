@@ -51,31 +51,33 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-2 control-label">拥有的资源</label>
-
+                                    <label class="col-xs-2 control-label">网页端资源</label>
                                     <div class="col-xs-9">
-                                        <div id="tree3" style="height: 450px;"></div>
+                                        <div id="tree3" style="height: 250px;"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-2 control-label">手机端资源</label>
+                                    <div class="col-xs-9">
+                                        <div id="m_tree3" style="height: 250px;"></div>
                                     </div>
                                 </div>
 
                             </form>
                         </div>
-                        <div class="col-xs-6" id="sidebar-review">
-                            <div class="title">菜单预览：</div>
-                            <div class="sidebar">
-                                <c:import url="/menu_preview_byRoleId?roleId=${sysRole.id}"/>
+                        <div class="col-xs-6 sidebar-review">
+                            <div id="sidebar-review" style="float: left;margin-right: 20px;">
+                                <div class="title">网页菜单预览：</div>
+                                <div class="sidebar">
+                                    <c:import url="/menu_preview_byRoleId?roleId=${sysRole.id}&isMobile=0"/>
+                                </div>
                             </div>
-                            <script type="text/javascript">
-                                //$("#sidebar-review a").attr("href", "#")
-                                $("#sidebar-review a").removeClass("hashchange").removeAttr("href")
-                                $("#sidebar-review ul.submenu").each(function(){
-                                    if($("li", this).length==0){
-                                        $(this).closest("li").find(".menu-text").css("color", "red");
-                                        $(this).remove();
-                                    }
-                                })
-                            </script>
-
+                            <div id="m-sidebar-review">
+                                <div class="title">手机菜单预览：</div>
+                                <div class="sidebar">
+                                    <c:import url="/menu_preview_byRoleId?roleId=${sysRole.id}&isMobile=1"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -98,9 +100,36 @@
 <script>
     $('#sidebar-review .sidebar').ace_sidebar();
 
+    function _initMenu() {
+
+        $("#sidebar-review a").removeClass("hashchange").removeAttr("href")
+        $("#sidebar-review #sidebar-collapse").removeClass("sidebar-collapse")
+        $("#sidebar-review ul.submenu").each(function () {
+            if ($("li", this).length == 0) {
+                $(this).closest("li").find(".menu-text").css("color", "red");
+                $(this).remove();
+            }
+        })
+        //console.log("-----------------" + $("#sidebar-review #sidebar-collapse").attr("class"))
+    }
+    _initMenu();
+    function _m_initMenu() {
+
+        $("#m-sidebar-review a").removeClass("hashchange").removeAttr("href")
+        $("#m-sidebar-review #sidebar-collapse").removeClass("sidebar-collapse")
+        $("#m-sidebar-review ul.submenu").each(function () {
+            if ($("li", this).length == 0) {
+                $(this).closest("li").find(".menu-text").css("color", "red");
+                $(this).remove();
+            }
+        })
+        //console.log("-----------------" + $("#sidebar-review #sidebar-collapse").attr("class"))
+    }
+    _m_initMenu()
+
+
     var treeData = ${tree};
     treeData.title = "选择资源";
-
     $("#tree3").dynatree({
         checkbox: true,
         selectMode: 2,
@@ -111,16 +140,33 @@
                 //if(!node.data.isFolder)
                 return node.data.key;
             });
-            $('#sidebar-review .sidebar').load("${ctx}/menu_preview",{resIds:resIds},function(){
-                //$('#sidebar-review .sidebar').ace_sidebar();
-                //$("#sidebar-review a").attr("href", "#")
-                $("#sidebar-review a").removeClass("hashchange").removeAttr("href")
-                $("#sidebar-review ul.submenu").each(function(){
-                    if($("li", this).length==0){
-                        $(this).closest("li").find(".menu-text").css("color", "red");
-                        $(this).remove();
-                    }
-                })
+            $('#sidebar-review .sidebar').load("${ctx}/menu_preview?isMobile=0",{resIds:resIds},function(){
+                _initMenu();
+            });
+        },
+        onCustomRender: function (node) {
+            if (node.data.tooltip != null)
+                return "<a href='#' class='dynatree-title' title='{0}'>{1}[{0}]</a>"
+                        .format(node.data.tooltip, node.data.title)
+        },
+        cookieId: "dynatree-Cb3",
+        idPrefix: "dynatree-Cb3-"
+    });
+
+    var m_treeData = ${mTree};
+    m_treeData.title = "选择资源";
+    $("#m_tree3").dynatree({
+        checkbox: true,
+        selectMode: 2,
+        children: m_treeData,
+        onSelect: function (select, node) {
+            //node.expand(node.data.isFolder && node.isSelected());
+            var resIds = $.map($("#m_tree3").dynatree("getSelectedNodes"), function (node) {
+                //if(!node.data.isFolder)
+                return node.data.key;
+            });
+            $('#m-sidebar-review .sidebar').load("${ctx}/menu_preview?isMobile=1",{resIds:resIds},function(){
+                _m_initMenu();
             });
         },
         onCustomRender: function (node) {
@@ -143,9 +189,13 @@
                 //if(!node.data.isFolder)
                 return node.data.key;
             });
+            var m_resIds = $.map($("#m_tree3").dynatree("getSelectedNodes"), function (node) {
+                //if(!node.data.isFolder)
+                return node.data.key;
+            });
 
             $(form).ajaxSubmit({
-                data: {resIds: resIds},
+                data: {resIds: resIds, m_resIds:m_resIds},
                 success: function (data) {
                     if (data.success) {
                         $.hideView();

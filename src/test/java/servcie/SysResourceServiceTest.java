@@ -32,13 +32,13 @@ public class SysResourceServiceTest {
 
     @Test
     public void loop(){
-        TreeNode treeByLoop = sysResourceService.getTree(new HashSet<Integer>());
+        TreeNode treeByLoop = sysResourceService.getTree(new HashSet<Integer>(), false);
 
     }
     @Test
     public void findAll(){
 
-        Map<Integer, SysResource> sortedSysResources = sysResourceService.getSortedSysResources();
+        Map<Integer, SysResource> sortedSysResources = sysResourceService.getSortedSysResources(false);
         Collection<SysResource> sysResources = sortedSysResources.values();
         for (SysResource sysResource : sysResources) {
             System.out.println(sysResource.getPermission());
@@ -55,7 +55,7 @@ public class SysResourceServiceTest {
             System.out.println(permission);
         }*/
 
-        List<SysResource> userMenus = sysUserService.makeMenus(ownPermissions);
+        List<SysResource> userMenus = sysUserService.makeMenus(ownPermissions, false);
         for (SysResource userMenu : userMenus) {
             System.out.println(userMenu.getPermission());
         }

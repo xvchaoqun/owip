@@ -43,8 +43,10 @@
         <!--<table tableName="crs_post_expert" domainObjectName="crs.CrsPostExpert"  mapperName="crs.CrsPostExpertMapper">
         </table>-->
         <!-- <table tableName="crs_post_file" domainObjectName="crs.CrsPostFile"  mapperName="crs.CrsPostFileMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
         <!--<table tableName="crs_applicant" domainObjectName="crs.CrsApplicant"  mapperName="crs.CrsApplicantMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="report" jdbcType="VARCHAR"></columnOverride>
         </table>
         <table tableName="crs_applicant_view" domainObjectName="crs.CrsApplicantView"  mapperName="crs.CrsApplicantViewMapper"

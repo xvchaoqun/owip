@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="${cm:getParentIdSet(_path)}" var="parentIdSet"/>
-<c:set value="${cm:getCurrentSysResource(_path)}" var="currentSysResource"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,7 +91,7 @@
 <div class="main-container" id="main-container">
     <shiro:lacksRole name="reg">
         <div id="sidebar" class="sidebar responsive sidebar-fixed">
-            <c:import url="/menu"/>
+            <c:import url="/menu?isMobile=0"/>
         </div>
     </shiro:lacksRole>
     <div class="main-content">

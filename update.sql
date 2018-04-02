@@ -1,4 +1,45 @@
 
+2018-4-2
+
+ALTER TABLE `sys_log`
+	CHANGE COLUMN `id` `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID' FIRST;
+
+ALTER TABLE `sys_resource`
+	DROP FOREIGN KEY `FK_sys_resource_sys_resource`;
+
+	ALTER TABLE `sys_resource`
+	CHANGE COLUMN `id` `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID' FIRST,
+	CHANGE COLUMN `parent_id` `parent_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '上级资源' AFTER `url`;
+
+	ALTER TABLE `sys_resource`
+	ADD CONSTRAINT `FK_sys_resource_sys_resource` FOREIGN KEY (`parent_id`) REFERENCES `sys_resource` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `sys_resource`
+	CHANGE COLUMN `parent_id` `parent_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '上级资源，null时是顶级节点' AFTER `url`;
+
+ALTER TABLE `sys_role`
+	CHANGE COLUMN `id` `id` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID' FIRST;
+
+ALTER TABLE `sys_resource`
+	ADD COLUMN `is_mobile` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否移动端' AFTER `id`;
+
+	ALTER TABLE `sys_role`
+	CHANGE COLUMN `resource_ids` `resource_ids` TEXT NULL COMMENT '拥有的资源，网页端' AFTER `description`,
+	ADD COLUMN `m_resource_ids` TEXT NULL COMMENT '拥有的资源，移动端' AFTER `resource_ids`;
+
+ALTER TABLE `sys_resource`
+	DROP INDEX `url`;
+
+update sys_resource set url = null where url='';
+
+select url, count(*) from sys_resource group by url having(count(*))>1;
+
+UPDATE sys_resource SET `url`=NULL WHERE  `id`=453;
+
+ALTER TABLE `sys_resource`
+	ADD UNIQUE INDEX `url` (`url`);
+
+UPDATE `db_owip`.`sys_resource` SET `permission`=NULL WHERE  `id`=1;
 
 2018-3-30
 ALTER TABLE `crs_applicant`
