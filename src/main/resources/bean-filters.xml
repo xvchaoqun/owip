@@ -8,14 +8,14 @@
         <!-- 需要从bean定义中移除指定的类类型 正则表达式-->
         <property name="excludeFilters">
             <list>
-                <value>(persistence|service|controller)\.member\..*</value>
+                <!--<value>(persistence|service|controller)\.member\..*</value>-->
                 <value>(persistence|service|controller)\.cis\..*</value>
                 <value>(persistence|service|controller)\.crs\..*</value>
                 <!--<value>(persistence|service|controller)\.cet\..*</value>-->
                 <!--<value>(persistence|service|controller)\.abroad\..*</value>-->
                 <value>(persistence|service|controller)\.pcs\..*</value>
                 <value>(persistence|service|controller)\.oa\..*</value>
-                <value>(persistence|service|controller)\.pmd\..*</value>
+                <!--<value>(persistence|service|controller)\.pmd\..*</value>-->
                 <value>(persistence|service|controller)\.sc\..*</value>
                 <value>(persistence|service|controller)\.dispatch\..*</value>
                 <value>(persistence|service|controller)\.verify\..*</value>
