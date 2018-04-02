@@ -49,6 +49,7 @@
       return ((rowObject.hasReport)?rowObject.branchCount:rowObject.r.branchCount) - ((rowObject.hasReport)?rowObject.hasReportCount:rowObject.r.hasReportCount);
     }},
     { label: '党员总数',name: 'memberCount', formatter: function (cellvalue, options, rowObject) {
+      if(cellvalue==undefined) cellvalue=0;
       if(rowObject.isDirectBranch) return cellvalue
       return (rowObject.hasReport)?cellvalue:rowObject.r.memberCount;
     }},
