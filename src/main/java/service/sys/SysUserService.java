@@ -22,13 +22,13 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import service.LoginUserService;
 import service.abroad.ApplySelfService;
 import service.abroad.ApproverService;
 import service.ext.ExtBksService;
 import service.ext.ExtJzgService;
 import service.ext.ExtYjsService;
 import service.global.CacheService;
+import service.party.PartyMemberAdminService;
 import service.pcs.PcsAdminService;
 import service.pmd.PmdPartyAdminService;
 import shiro.ShiroHelper;
@@ -500,18 +500,19 @@ public class SysUserService extends BaseMapper {
         // 直属党支部管理员不需要“组织机构管理”这个目录
         if(userRoles.contains(RoleConstants.ROLE_PARTYADMIN)){
 
-            LoginUserService loginUserService = CmTag.getBean(LoginUserService.class);
-            List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
-
-            boolean hasAdminParty = false;
-            for (Integer adminPartyId : adminPartyIdList) {
-                if(!CmTag.isDirectBranch(adminPartyId)){
-                    hasAdminParty=true;
-                    break;
+            PartyMemberAdminService partyMemberAdminService = CmTag.getBean(PartyMemberAdminService.class);
+            if(partyMemberAdminService!=null) {
+                List<Integer> adminPartyIdList = partyMemberAdminService.adminPartyIdList(userId);
+                boolean hasAdminParty = false;
+                for (Integer adminPartyId : adminPartyIdList) {
+                    if (!CmTag.isDirectBranch(adminPartyId)) {
+                        hasAdminParty = true;
+                        break;
+                    }
                 }
-            }
-            if(!hasAdminParty){
-                userPermissions.remove("party:menu");
+                if (!hasAdminParty) {
+                    userPermissions.remove("party:menu");
+                }
             }
         }
 

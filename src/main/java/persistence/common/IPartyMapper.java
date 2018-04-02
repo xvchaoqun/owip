@@ -36,9 +36,9 @@ public interface IPartyMapper {
     @Select("select * from ow_org_admin where user_id=#{userId} and party_id=#{partyId}")
     List<OrgAdmin> findPartyAdminOfOrgAdmin(@Param("userId") int userId, @Param("partyId") int partyId);
     // 查询现任分党委的所有管理员
-    @Select("select distinct pm.user_id from ow_party_member_group pmg, ow_party_member pm " +
+    @Select("select distinct user_id from (select pm.user_id from ow_party_member_group pmg, ow_party_member pm " +
             "where pm.is_admin=1 and pmg.is_present=1 and pmg.party_id=#{partyId} and pm.group_id=pmg.id " +
-            "union all select distinct oa.user_id from ow_org_admin oa,ow_party p where oa.party_id=#{partyId} and oa.party_id=p.id and p.is_deleted=0")
+            "union all select oa.user_id from ow_org_admin oa,ow_party p where oa.party_id=#{partyId} and oa.party_id=p.id and p.is_deleted=0) tmp")
     List<Integer> findPartyAdmin(@Param("partyId") int partyId);
 
     // 查询用户管理的支部ID（现任支部管理员）
@@ -64,10 +64,10 @@ public interface IPartyMapper {
     @Select("select * from ow_org_admin where user_id=#{userId} and branch_id=#{branchId}")
     List<OrgAdmin> findBranchAdminOfOrgAdmin(@Param("userId") int userId, @Param("branchId") int branchId);
     // 查询现任支部委员会的所有管理员
-    @Select("select distinct bm.user_id from ow_branch_member_group bmg, ow_branch_member bm " +
+    @Select("select distinct user_id from (select bm.user_id from ow_branch_member_group bmg, ow_branch_member bm " +
             "where bm.is_admin=1 and bmg.is_present=1 and bmg.branch_id=#{branchId} and bm.group_id=bmg.id " +
-            "union all select distinct oa.user_id from ow_org_admin oa, ow_branch b, ow_party p " +
-            "where oa.branch_id=#{branchId} and oa.branch_id=b.id and b.is_deleted=0 and b.party_id=p.id and p.is_deleted=0")
+            "union all select oa.user_id from ow_org_admin oa, ow_branch b, ow_party p " +
+            "where oa.branch_id=#{branchId} and oa.branch_id=b.id and b.is_deleted=0 and b.party_id=p.id and p.is_deleted=0) tmp")
     List<Integer> findBranchAdmin(@Param("branchId") int branchId);
 
     // 根据委员类别查询所有的现任支部委员会委员

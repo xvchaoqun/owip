@@ -9,9 +9,9 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.payMonth || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                     <button class="confirm btn btn-warning btn-sm" data-title="同步管理员"
-                            data-msg="<div class='confirmMsg'>确定重新同步管理员？（此操作将删除原有的书记、组织委员，重新同步最新的书记、组织委员为党费收缴管理员）</div>"
+                            data-msg="<div class='confirmMsg'>确定重新同步管理员？（此操作将删除原有的党建管理员，重新同步最新的党建管理员为党费收缴管理员）</div>"
                             data-callback="_reload"
-                            data-url="${ctx}/pmd/pmdBranchAdmin_sync"><i class="fa fa-refresh"></i> 同步管理员（书记、组织委员）</button>
+                            data-url="${ctx}/pmd/pmdBranchAdmin_sync"><i class="fa fa-refresh"></i> 同步管理员（党建管理员）</button>
             </div>
             <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -58,8 +58,16 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/pmd/pmdPayBranch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '支部名称',name: 'name', width:450, align:'left'},
-            { label: '所属党委',name: 'partyName', width:450, align:'left'},
+
+            { label: '支部名称',  name: 'name',align:'left', width: 250,formatter:function(cellvalue, options, rowObject){
+
+                return $.party(null, rowObject.branchId);
+            }, frozen:true },
+            { label: '所属党委', name: 'partyId',align:'left', width: 400 ,  formatter:function(cellvalue, options, rowObject){
+                return $.party(rowObject.partyId);
+            }},
+            /*{ label: '支部名称',name: 'name', width:450, align:'left'},
+            { label: '所属党委',name: 'partyName', width:450, align:'left'},*/
             { label: '管理员',name: 'adminCount', formatter: function (cellvalue, options, rowObject) {
 
                 return ('<button class="popupBtn btn btn-success btn-xs"' +

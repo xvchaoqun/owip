@@ -89,17 +89,16 @@ public class PmdConstants {
         PMD_PAY_WAY_MAP.put(PMD_PAY_WAY_CAMPUSCARD, "校园卡");
     }
 
-    // 党费收缴管理员类型， 1 书记 2副书记 3 组织委员 4 普通管理员
-    public final static byte PMD_ADMIN_TYPE_SECRETARY = 1;
+    // 党费收缴管理员类型， 1 党建管理员（同步过来的） 4 普通管理员
+    /*public final static byte PMD_ADMIN_TYPE_SECRETARY = 1;
     public final static byte PMD_ADMIN_TYPE_VICE_SECRETARY = 2;
-    public final static byte PMD_ADMIN_TYPE_COMMISSARY = 3;
-    public final static byte PMD_ADMIN_TYPE_NORMAL = 4;
+    public final static byte PMD_ADMIN_TYPE_COMMISSARY = 3;*/
+    public final static byte PMD_ADMIN_TYPE_OW = 1;
+    public final static byte PMD_ADMIN_TYPE_ADD = 4;
     public final static Map<Byte, String> PMD_ADMIN_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        PMD_ADMIN_TYPE_MAP.put(PMD_ADMIN_TYPE_SECRETARY, "书记");
-        PMD_ADMIN_TYPE_MAP.put(PMD_ADMIN_TYPE_VICE_SECRETARY, "副书记");
-        PMD_ADMIN_TYPE_MAP.put(PMD_ADMIN_TYPE_COMMISSARY, "组织委员");
-        PMD_ADMIN_TYPE_MAP.put(PMD_ADMIN_TYPE_NORMAL, "普通管理员");
+        PMD_ADMIN_TYPE_MAP.put(PMD_ADMIN_TYPE_OW, "党建管理员");
+        PMD_ADMIN_TYPE_MAP.put(PMD_ADMIN_TYPE_ADD, "手动添加");
     }
 }

@@ -1,7 +1,5 @@
 package service.pmd;
 
-import domain.base.MetaType;
-import domain.party.BranchMember;
 import domain.pmd.PmdBranchAdmin;
 import domain.pmd.PmdBranchAdminExample;
 import domain.pmd.PmdPayBranch;
@@ -9,14 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.party.BranchMemberService;
 import service.party.PartyService;
 import service.sys.SysUserService;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
-import sys.tags.CmTag;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +28,8 @@ public class PmdBranchAdminService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private PartyService partyService;
+    @Autowired
+    private BranchMemberService branchMemberService;
     @Autowired
     private PmdPartyAdminService pmdPartyAdminService;
     @Autowired
@@ -103,10 +102,45 @@ public class PmdBranchAdminService extends BaseMapper {
         return adminBranchIds;
     }
 
-    // 同步支部书记、组织委员为党费收缴党支部管理员
+    // 同步党建 - 支部管理员
     @Transactional
     public void syncBranchAdmins(List<Integer> partyIds) {
 
+        // 同步支部管理员
+        for (Integer partyId : partyIds) {
+
+            // 先删除
+            PmdBranchAdminExample example = new PmdBranchAdminExample();
+            example.createCriteria().andPartyIdEqualTo(partyId)
+                    .andTypeNotEqualTo(PmdConstants.PMD_ADMIN_TYPE_ADD);
+            List<PmdBranchAdmin> pmdBranchAdmins = pmdBranchAdminMapper.selectByExample(example);
+            for (PmdBranchAdmin pmdBranchAdmin : pmdBranchAdmins) {
+                del(pmdBranchAdmin.getId());
+            }
+
+            Map<Integer, PmdPayBranch> allPayBranchIdSet = pmdPayBranchService.getAllPayBranchIdSet(partyId);
+            for (Integer branchId : allPayBranchIdSet.keySet()) {
+
+                List<Integer> branchAdminIds = iPartyMapper.findBranchAdmin(branchId);
+
+                for (Integer branchAdminId : branchAdminIds) {
+
+                    PmdBranchAdmin record = new PmdBranchAdmin();
+                    record.setPartyId(partyId);
+                    record.setBranchId(branchId);
+                    record.setUserId(branchAdminId);
+                    record.setType(PmdConstants.PMD_ADMIN_TYPE_OW);
+
+                    if(!isBranchAdmin(branchAdminId, partyId, branchId)) {
+                        pmdBranchAdminMapper.insertSelective(record);
+                        sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_BRANCH);
+                    }
+                }
+            }
+        }
+
+        /*
+        // 同步支部书记、组织委员为党费收缴党支部管理员
         MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
         MetaType commissaryType = CmTag.getMetaTypeByCode("mt_branch_commissary");
 
@@ -152,7 +186,7 @@ public class PmdBranchAdminService extends BaseMapper {
                     }
                 }
             }
-        }
+        }*/
     }
 
     @Transactional
@@ -163,11 +197,14 @@ public class PmdBranchAdminService extends BaseMapper {
         record.setBranchId(branchId);
         record.setUserId(userId);
 
+        Byte type = PmdConstants.PMD_ADMIN_TYPE_ADD;
+
+        if(branchMemberService.isPresentAdmin(userId, partyId, branchId)){
+            type = PmdConstants.PMD_ADMIN_TYPE_OW;
+        }
+        /*
         MetaType secretaryType = CmTag.getMetaTypeByCode("mt_branch_secretary");
         MetaType commissaryType = CmTag.getMetaTypeByCode("mt_branch_commissary");
-
-        Byte type = PmdConstants.PMD_ADMIN_TYPE_NORMAL;
-
         // 书记
         BranchMember secretary = iPartyMapper.findBranchMember(secretaryType.getId(), branchId, userId);
         if (secretary != null) {
@@ -178,7 +215,7 @@ public class PmdBranchAdminService extends BaseMapper {
             if (commissary != null) {
                 type = PmdConstants.PMD_ADMIN_TYPE_COMMISSARY;
             }
-        }
+        }*/
 
         record.setType(type);
 

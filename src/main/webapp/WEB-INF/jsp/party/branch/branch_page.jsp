@@ -212,11 +212,11 @@
             { label: '编号',align:'center', name: 'code', frozen:true },
             { label: '名称',  name: 'name',align:'left', width: 250,formatter:function(cellvalue, options, rowObject){
 
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/branch_view?id={0}">{1}</a>'
-                        .format(rowObject.id, cellvalue);
+                return $.party(null, rowObject.id);
             }, frozen:true },
             { label: '所属分党委', name: 'partyId',align:'left', width: 400 ,  formatter:function(cellvalue, options, rowObject){
-                return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
+                return $.party(rowObject.partyId);
+                //return cellvalue==undefined?"":_cMap.partyMap[cellvalue].name;
             }},
             { label:'支部转移记录', name: 'transferCount', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined||cellvalue==0) return '-';

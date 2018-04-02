@@ -1,7 +1,5 @@
 package service.pmd;
 
-import domain.base.MetaType;
-import domain.party.PartyMemberView;
 import domain.pmd.PmdPartyAdmin;
 import domain.pmd.PmdPartyAdminExample;
 import domain.pmd.PmdPayParty;
@@ -13,10 +11,8 @@ import service.party.PartyMemberService;
 import service.sys.SysUserService;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
-import sys.tags.CmTag;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -83,10 +79,36 @@ public class PmdPartyAdminService extends BaseMapper {
         return adminPartyIds;
     }
 
-    // 同步书记、组织委员为党费收缴分党委管理员
+    // 同步党建-分党委管理员
     @Transactional
     public void syncPartyAdmins() {
 
+        PmdPartyAdminExample example = new PmdPartyAdminExample();
+        example.createCriteria().andTypeNotEqualTo(PmdConstants.PMD_ADMIN_TYPE_ADD);
+        List<PmdPartyAdmin> pmdPartyAdmins = pmdPartyAdminMapper.selectByExample(example);
+        for (PmdPartyAdmin pmdPartyAdmin : pmdPartyAdmins) {
+            del(pmdPartyAdmin.getId());
+        }
+
+        Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet();
+        for (Integer partyId : allPayPartyIdSet.keySet()) {
+
+            List<Integer> partyAdminIds = iPartyMapper.findPartyAdmin(partyId);
+            for (Integer partyAdminId : partyAdminIds) {
+                PmdPartyAdmin record = new PmdPartyAdmin();
+                record.setPartyId(partyId);
+                record.setUserId(partyAdminId);
+                record.setType(PmdConstants.PMD_ADMIN_TYPE_OW);
+
+                if(!isPartyAdmin(partyAdminId, partyId)) {
+                    pmdPartyAdminMapper.insertSelective(record);
+                    sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_PARTY);
+                }
+            }
+        }
+
+        /*
+        // 同步书记、组织委员为党费收缴分党委管理员
         {
             // 先删除所有书记、组织委员
             PmdPartyAdminExample example = new PmdPartyAdminExample();
@@ -126,7 +148,7 @@ public class PmdPartyAdminService extends BaseMapper {
                     sysUserService.addRole(record.getUserId(), RoleConstants.ROLE_PMD_PARTY);
                 }
             }
-        }
+        }*/
     }
 
     @Transactional
@@ -136,8 +158,13 @@ public class PmdPartyAdminService extends BaseMapper {
         record.setPartyId(partyId);
         record.setUserId(userId);
 
-        Byte type = PmdConstants.PMD_ADMIN_TYPE_NORMAL;
-        // 书记
+        Byte type = PmdConstants.PMD_ADMIN_TYPE_ADD;
+
+        if(partyMemberService.isPresentAdmin(userId, partyId)){
+            type = PmdConstants.PMD_ADMIN_TYPE_OW;
+        }
+
+       /* // 书记
         MetaType partySecretaryType = CmTag.getMetaTypeByCode("mt_party_secretary");
         PartyMemberView pmv = partyMemberService.getPartyMemberView(partyId, userId);
         if (pmv != null && pmv.getPostId() == partySecretaryType.getId()) {
@@ -149,7 +176,7 @@ public class PmdPartyAdminService extends BaseMapper {
             if (pmv2 != null && pmv2.getPostId() == partySecretaryType.getId()) {
                 type = PmdConstants.PMD_ADMIN_TYPE_COMMISSARY;
             }
-        }
+        }*/
 
         record.setType(type);
 
