@@ -14,7 +14,7 @@
                 </h3>
             </div>
             <div class="collapse in">
-                <div class="panel-body">
+                <div class="panel-body" style="max-height: 480px;overflow-y: auto;">
                     <ul class="list-unstyled spaced2">
                         <c:forEach items="${fn:split(uv.roleIds,',')}" var="id"
                                    varStatus="vs">
