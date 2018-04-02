@@ -173,6 +173,8 @@ public class PmdMemberController extends PmdBaseController {
                 } else {
                     criteria.andPartyIdIsNull();
                 }
+            }else{
+                criteria.andPartyIdEqualTo(partyId);
             }
         } else if (cls == 3) {
             // 分党委（不包含直属党支部）访问党员列表
@@ -186,6 +188,8 @@ public class PmdMemberController extends PmdBaseController {
                 } else {
                     criteria.andPartyIdIsNull();
                 }
+            }else{
+                criteria.andPartyIdEqualTo(partyId).andBranchIdEqualTo(branchId);
             }
         } else if(cls==5){
             SecurityUtils.getSubject().checkPermission("pmdMember:allList");

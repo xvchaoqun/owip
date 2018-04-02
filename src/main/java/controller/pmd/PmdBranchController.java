@@ -115,6 +115,8 @@ public class PmdBranchController extends PmdBaseController {
                 } else {
                     criteria.andPartyIdIsNull();
                 }
+            }else{
+                criteria.andPartyIdEqualTo(partyId);
             }
         } else {
             criteria.andIdIsNull();
