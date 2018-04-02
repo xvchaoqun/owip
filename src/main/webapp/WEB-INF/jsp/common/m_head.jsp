@@ -43,5 +43,5 @@
 <script src="${ctx}/extend/js/bootbox.min.js"></script>
 <script src="${ctx}/js/prototype.js"></script>
 <script src="${ctx}/extend/js/custom.js"></script>
-<script src="${ctx}/mobile/js/jquery.extend.js"></script>
-<script src="${ctx}/mobile/js/setup.js"></script>
+<t:script src="/mobile/js/jquery.extend.js"/>
+<t:script src="/mobile/js/setup.js"/>
