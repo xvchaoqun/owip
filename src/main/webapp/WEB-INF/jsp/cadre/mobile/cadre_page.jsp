@@ -19,7 +19,9 @@
 <script>
 
     $("#result").load("${ctx}/m/cadre_info");
-    var $select = $.register.user_select($('select[name=cadreId]'));
+    var $select = $.register.ajax_select($('select[name=cadreId]'),{allowClear: false,
+        templateResult: $.register.formatState,
+        templateSelection: $.register.templateSelection});
     $select.on("change",function(){
         $("#result").load("${ctx}/m/cadre_info?cadreId="+ $(this).val());
         $('#ace-settings-box').toggleClass('open');

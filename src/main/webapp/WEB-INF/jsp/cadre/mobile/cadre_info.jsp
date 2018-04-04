@@ -60,7 +60,7 @@
             </tr>
             <tr>
               <td colspan="2">
-                ${uv.mobile}
+                <a href='tel:${uv.mobile}'>${uv.mobile}</a>
               </td>
             </tr>
           </table>
