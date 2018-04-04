@@ -15,20 +15,35 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-xs-4 control-label">离退休费</label>
-      <div class="col-xs-6">
-        <input required class="number" data-rule-min="0.01" maxlength="10"
+      <label class="col-xs-4 control-label">离退休费(¥)</label>
+      <div class="col-xs-8">
+        <input required class="number" data-rule-min="0.01" maxlength="10" style="width: 100px;"
                type="text" name="retireSalary" value="${cm:stripTrailingZeros(pmdConfigMember.retireSalary)}">
+        <button type="button" class="btn btn-success" onclick="_syncRetireSalary()"><i class="fa fa-refresh"></i> 同步最新离退休费</button>
       </div>
+    </div>
+    <div class="center" id="msg">
+
     </div>
   </form>
 </div>
 <div class="modal-footer">
   <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-  <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> 确定</button>
+  <button id="submitBtn" type="button" class="btn btn-primary"><i class="fa fa-check"></i> 确定</button>
 </div>
 <script>
+  function _syncRetireSalary(){
 
+    $("#msg").html('<span class="text-primary">数据同步中...</span>');
+    $.getJSON("${ctx}/user/pmd/pmdMember_syncRetireSalary",{pmdMemberId:${param.pmdMemberId}},function(ret){
+        if(ret.exist){
+          $("#modalForm input[name=retireSalary]").val(ret.ltxf);
+          $("#msg").html('<span class="text-success">已读取'+ret.rq+'月份的离退休费</span>')
+        }else{
+          $("#msg").html('<span class="text-danger">还没有该老师的离退休费数据</span>')
+        }
+    });
+  }
   $("#submitBtn").click(function () {
     $("#modalForm").submit();
     return false;

@@ -1,6 +1,8 @@
 package controller.pmd.user;
 
 import controller.pmd.PmdBaseController;
+import domain.ext.ExtRetireSalary;
+import domain.ext.ExtRetireSalaryExample;
 import domain.pmd.PmdConfigMember;
 import domain.pmd.PmdConfigMemberType;
 import domain.pmd.PmdMember;
@@ -8,6 +10,7 @@ import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMemberPayViewExample;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdNorm;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -16,6 +19,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.source.ExtRetireSalaryImport;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
@@ -43,6 +48,9 @@ import java.util.Map;
 @Controller
 @RequestMapping("/user/pmd")
 public class UserPmdMemberController extends PmdBaseController {
+
+    @Autowired
+    private ExtRetireSalaryImport extRetireSalaryImport;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -135,6 +143,35 @@ public class UserPmdMemberController extends PmdBaseController {
         record.setUserId(userId);
         pmdConfigMemberService.setSalary(record, isSelf);
         return success(FormUtils.SUCCESS);
+    }
+
+    // 同步最新月份的离退休费
+    @RequestMapping("/pmdMember_syncRetireSalary")
+    @ResponseBody
+    public Map pmdMember_syncRetireSalary(int pmdMemberId) {
+
+        int userId = checkPayAuth(pmdMemberId, false);
+        SysUserView uv = sysUserService.findById(userId);
+
+        extRetireSalaryImport.byCode(uv.getCode());
+
+        ExtRetireSalaryExample example = new ExtRetireSalaryExample();
+        example.createCriteria().andZghEqualTo(uv.getCode());
+        example.setOrderByClause("rq desc");
+        List<ExtRetireSalary> extRetireSalaries = extRetireSalaryMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        Map resultMap = new HashMap<>();
+        resultMap.put("exist", false);
+        if(extRetireSalaries!=null && extRetireSalaries.size()==1){
+
+            ExtRetireSalary extRetireSalary = extRetireSalaries.get(0);
+            resultMap.put("ltxf", extRetireSalary.getLtxf());
+            resultMap.put("rq", extRetireSalary.getRq());
+
+            resultMap.put("exist", true);
+        }
+
+        return resultMap;
     }
 
     @RequestMapping(value = "/pmdMember_setLtxf", method = RequestMethod.POST)

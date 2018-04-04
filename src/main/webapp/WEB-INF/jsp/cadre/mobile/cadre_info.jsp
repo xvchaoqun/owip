@@ -26,10 +26,10 @@
 
       <div class="profile-user-info profile-user-info-striped" style="border:0px;">
         <div class="profile-info-row">
-          <table class="table table-bordered table-center" style="margin-bottom: 0px;">
+          <table class="table table-bordered table-center avatar" style="margin-bottom: 0px;">
             <tr>
-              <td rowspan="6" style="padding: 0;width:128px;">
-                <img style="width:128px;height: 179px;" src="${ctx}/m/avatar?path=${uv.avatar}&_t=<%=new Date().getTime()%>" class="avatar">
+              <td rowspan="6" class="avatar">
+                <img src="${ctx}/m/avatar?path=${uv.avatar}&_t=<%=new Date().getTime()%>" class="avatar">
               </td>
             </tr>
             <tr>

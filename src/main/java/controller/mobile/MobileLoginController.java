@@ -2,6 +2,7 @@ package controller.mobile;
 
 import controller.abroad.AbroadBaseController;
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
@@ -37,6 +38,7 @@ public class MobileLoginController extends AbroadBaseController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> do_login(String username, String password,
+										Boolean rememberMe,
 										HttpServletRequest request,
 										HttpServletResponse response) throws IOException {
 
@@ -48,7 +50,7 @@ public class MobileLoginController extends AbroadBaseController {
 		}
 
 		AuthToken token = new AuthToken(username,
-				password.toCharArray(), false, request.getRemoteHost(), null, null);
+				password.toCharArray(), BooleanUtils.isTrue(rememberMe), request.getRemoteHost(), null, null);
 		try {
 			SecurityUtils.getSubject().login(token);
 		}catch (Exception e){

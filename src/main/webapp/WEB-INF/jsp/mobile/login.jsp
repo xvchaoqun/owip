@@ -51,8 +51,8 @@
 														</span>
 													</label>
 
+													<input name="rememberMe" type="checkbox" value="true"><span class="txt">下次自动登录</span>
 													<div class="space"></div>
-
 													<div class="center">
 														<button type="button" class="width-35 btn btn-sm btn-primary">
 															<span class="bigger-130" id="login_btn">登录</span>
@@ -67,7 +67,7 @@
 								</div><!-- /.login-box -->
 							</div><!-- /.position-relative -->
 							<div class="center" style="padding-top: 50px">
-								<h4 class="white" id="id-company-text">${sysConfig.schoolName}党委组织部<span class="blue bolder">&copy;2016</span></h4>
+								<h4 class="white" id="id-company-text">${sysConfig.schoolName}党委组织部</h4>
 							</div>
 						</div>
 					</div><!-- /.col -->
@@ -86,7 +86,9 @@
 					$passwd.focus();
 					return;
 				}
-				$.post("${ctx}/m/login",{username:$.trim($username.val()), password:$passwd.val()},function(data){
+				$.post("${ctx}/m/login",{username:$.trim($username.val()),
+					password:$passwd.val(),
+					rememberMe: $("input[name=rememberMe]").val()},function(data){
 
 					if(data.success){
 						location.href = data.url;

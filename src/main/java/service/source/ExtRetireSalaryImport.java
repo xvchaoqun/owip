@@ -14,6 +14,7 @@ import sys.utils.JSONUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,18 @@ public class ExtRetireSalaryImport extends Source {
     public ExtRetireSalaryMapper extRetireSalaryMapper;
     public String schema = "licdc_zg";
     public String tableName = "v_cjc_ltxf";
+
+    public void byCode(String code) {
+
+        String rq = DateUtils.formatDate(new Date(), "yyyyMM");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.MONTH, -1);
+        String lastRq = DateUtils.formatDate(cal.getTime(), "yyyyMM");
+
+        logger.info("同步最新两个月的离退休费信息:" + code);
+        excute(schema, tableName, String.format("where zgh='%s' and (rq='%s' or rq='%s')", code, lastRq, rq));
+    }
 
     public int excute(Integer syncId){
         String rq = DateUtils.formatDate(new Date(), "yyyyMM");

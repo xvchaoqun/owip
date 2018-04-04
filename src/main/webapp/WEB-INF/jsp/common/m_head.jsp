@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <link rel="stylesheet" href="${ctx}/mobile/css/main.css" />
 <link rel="stylesheet" href="${ctx}/mobile/css/extend.css" />
-<link rel="stylesheet" href="${ctx}/mobile/css/setup.css" />
+<t:link href="${ctx}/mobile/css/setup.css"/>
 <script src="${ctx}/assets/js/ace-extra.js"></script>
 <script src='${ctx}/mobile/js/main.js'></script>
 <script type="text/javascript">
