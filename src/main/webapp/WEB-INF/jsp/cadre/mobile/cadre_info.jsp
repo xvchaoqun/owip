@@ -4,14 +4,12 @@
   <ul class="nav nav-tabs" id="myTab3">
     <li class="active">
       <a data-toggle="tab" href="#dropdown1">
-        <span class="hidden-xs">
-        <i class="blue ace-icon fa fa-user"></i> 基本信息
-          </span>
+        <%--<i class="blue ace-icon fa fa-user"></i> --%>基本信息
       </a>
     </li>
     <li>
       <a data-toggle="tab" href="#dropdown2">
-        <i class="blue ace-icon fa fa-user"></i> 人事信息
+        人事信息
       </a>
     </li>
     <li>
