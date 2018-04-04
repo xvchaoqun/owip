@@ -32,7 +32,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title"><span class="text-success bolder"><i
-                    class="fa fa-internet-explorer"></i>   网页菜单</span>
+                    class="fa fa-internet-explorer"></i>   网页端菜单</span>
             </h3>
         </div>
         <div class="collapse in">
@@ -50,7 +50,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title"><span class="text-warning bolder"><i
-                    class="fa fa-mobile"></i>   手机菜单</span>
+                    class="fa fa-mobile"></i>   手机端菜单</span>
             </h3>
         </div>
         <div class="collapse in">

@@ -2,7 +2,6 @@ package controller.abroad.mobile;
 
 import bean.ApprovalResult;
 import bean.ApproverTypeBean;
-import bean.m.Breadcrumb;
 import controller.abroad.AbroadBaseController;
 import controller.global.OpException;
 import domain.abroad.ApplySelf;
@@ -29,7 +28,6 @@ import sys.utils.DateUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,12 +39,6 @@ public class MobileApplySelfController extends AbroadBaseController {
 	//@RequiresRoles(RoleConstants.ROLE_CADREADMIN)
 	@RequestMapping("/applySelf")
 	public String applySelf(ModelMap modelMap) {
-
-		List breadcumbs = new ArrayList();
-		/*breadcumbs.add(new Breadcrumb("/m/abroad/index", "首页"));*/
-		breadcumbs.add(new Breadcrumb("/m/abroad/applySelf", "因私出国境审批"));
-		breadcumbs.add(new Breadcrumb("审批管理"));
-		modelMap.put("breadcumbs", breadcumbs);
 
 		return "mobile/index";
 	}
@@ -87,7 +79,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 			modelMap.put("sysUser", sysUser);
 		}
 
-		return "abroad/mobile/applySelf/applySelf_page";
+		return "abroad/mobile/applySelf_page";
 	}
 
 
@@ -95,12 +87,6 @@ public class MobileApplySelfController extends AbroadBaseController {
 	@RequiresPermissions("applySelf:approvalList")
 	@RequestMapping("/applySelfList")
 	public String applySelfList(ModelMap modelMap) {
-
-		List breadcumbs = new ArrayList();
-		/*breadcumbs.add(new Breadcrumb("/m/abroad/index", "首页"));*/
-		breadcumbs.add(new Breadcrumb("/m/abroad/applySelfList", "因私出国境审批"));
-		breadcumbs.add(new Breadcrumb("审批管理"));
-		modelMap.put("breadcumbs", breadcumbs);
 
 		return "mobile/index";
 	}
@@ -126,7 +112,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 		commonList.setSearchStr(searchStr);
 		modelMap.put("commonList", commonList);
 
-		return "abroad/mobile/applySelf/applySelfList_page";
+		return "abroad/mobile/applySelfList_page";
 	}
 
 	@RequiresPermissions("applySelf:view")
@@ -172,7 +158,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 		List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
 		modelMap.put("applySelfs", applySelfs);
 
-		return "abroad/mobile/applySelf/applySelf_view";
+		return "abroad/mobile/applySelf_view";
 	}
 
 	@RequiresPermissions("applySelf:approval")
@@ -182,7 +168,7 @@ public class MobileApplySelfController extends AbroadBaseController {
 		ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
 		modelMap.put("applySelf", applySelf);
 
-		return "abroad/mobile/applySelf/applySelf_approval";
+		return "abroad/mobile/applySelf_approval";
 	}
 
 	@RequiresPermissions("applySelf:approval")
@@ -194,6 +180,6 @@ public class MobileApplySelfController extends AbroadBaseController {
 		ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
 		modelMap.put("applySelf", applySelf);
 
-		return "abroad/mobile/applySelf/applySelf_detail";
+		return "abroad/mobile/applySelf_detail";
 	}
 }

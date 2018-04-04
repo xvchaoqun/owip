@@ -3,91 +3,92 @@
  *
  * */
 /*========jquery.validate.extend=====start===*/
-jQuery.extend(jQuery.validator.messages, {
-    required: "必填字段",
-    remote: "请修正该字段",
-    email: "请输入正确格式的电子邮件",
-    url: "请输入合法的网址",
-    date: "请输入合法的日期",
-    dateISO: "请输入合法的日期 (ISO).",
-    number: "请输入合法的数字",
-    digits: "只能输入非负整数",
-    creditcard: "请输入合法的信用卡号",
-    equalTo: "请再次输入相同的值",
-    accept: "请输入拥有合法后缀名的字符串",
-    maxlength: jQuery.validator.format("请输入一个 长度最多是 {0} 的字符串"),
-    minlength: jQuery.validator.format("请输入一个 长度最少是 {0} 的字符串"),
-    rangelength: jQuery.validator.format("请输入 一个长度介于 {0} 和 {1} 之间的字符串"),
-    range: jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
-    max: jQuery.validator.format("请输入一个最大为{0} 的值"),
-    min: jQuery.validator.format("请输入一个最小为{0} 的值")
-});
-jQuery.validator.setDefaults({
-    /* errorElement: 'span',
-     errorClass: 'help-block',*/
-    focusInvalid: true,
-    ignore: '',
-    invalidHandler: function (event, validator) { //display error alert on form submit
-    },
-    highlight: function (e) {
-    },
-    success: function (errorElement) {
-    },
-    errorPlacement: function (error, element) {
-        if (error.html() != '') {
-            //$("label:first", element.closest(".form-group")).css("color", "red")
-            //console.log(element.data("container"))
-            $.tip({
-                $form: element.closest("form"), $container: $(element.data("container")),
-                field: element.attr("name"), msg: error.text()
-            })
+if (jQuery.validator) {
+    jQuery.extend(jQuery.validator.messages, {
+        required: "必填字段",
+        remote: "请修正该字段",
+        email: "请输入正确格式的电子邮件",
+        url: "请输入合法的网址",
+        date: "请输入合法的日期",
+        dateISO: "请输入合法的日期 (ISO).",
+        number: "请输入合法的数字",
+        digits: "只能输入非负整数",
+        creditcard: "请输入合法的信用卡号",
+        equalTo: "请再次输入相同的值",
+        accept: "请输入拥有合法后缀名的字符串",
+        maxlength: jQuery.validator.format("请输入一个 长度最多是 {0} 的字符串"),
+        minlength: jQuery.validator.format("请输入一个 长度最少是 {0} 的字符串"),
+        rangelength: jQuery.validator.format("请输入 一个长度介于 {0} 和 {1} 之间的字符串"),
+        range: jQuery.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
+        max: jQuery.validator.format("请输入一个最大为{0} 的值"),
+        min: jQuery.validator.format("请输入一个最小为{0} 的值")
+    });
+    jQuery.validator.setDefaults({
+        /* errorElement: 'span',
+         errorClass: 'help-block',*/
+        focusInvalid: true,
+        ignore: '',
+        invalidHandler: function (event, validator) { //display error alert on form submit
+        },
+        highlight: function (e) {
+        },
+        success: function (errorElement) {
+        },
+        errorPlacement: function (error, element) {
+            if (error.html() != '') {
+                //$("label:first", element.closest(".form-group")).css("color", "red")
+                //console.log(element.data("container"))
+                $.tip({
+                    $form: element.closest("form"), $container: $(element.data("container")),
+                    field: element.attr("name"), msg: error.text()
+                })
+            }
         }
-    }
-})
+    })
 
 //中文字两个字节
-jQuery.validator.addMethod("byteRangeLength", function (value, element, param) {
-    var length = value.length;
-    for (var i = 0; i < value.length; i++) {
-        if (value.charCodeAt(i) > 127) {
-            length++;
+    jQuery.validator.addMethod("byteRangeLength", function (value, element, param) {
+        var length = value.length;
+        for (var i = 0; i < value.length; i++) {
+            if (value.charCodeAt(i) > 127) {
+                length++;
+            }
         }
-    }
-    return this.optional(element) || ( length >= param[0] && length <= param[1] );
-}, $.validator.format("请确保输入的值在{0}-{1}个字符之间(一个中文字算2个字符)"));
+        return this.optional(element) || ( length >= param[0] && length <= param[1] );
+    }, $.validator.format("请确保输入的值在{0}-{1}个字符之间(一个中文字算2个字符)"));
 
 //中文字两个字节
-jQuery.validator.addMethod("byteMaxLength", function (value, element, param) {
-    var length = value.length;
-    for (var i = 0; i < value.length; i++) {
-        if (value.charCodeAt(i) > 127) {
-            length++;
+    jQuery.validator.addMethod("byteMaxLength", function (value, element, param) {
+        var length = value.length;
+        for (var i = 0; i < value.length; i++) {
+            if (value.charCodeAt(i) > 127) {
+                length++;
+            }
         }
-    }
 
-    return this.optional(element) || ( length <= param);
-}, $.validator.format("输入长度最多是{0}的字符串(汉字算2个字符)"));
+        return this.optional(element) || ( length <= param);
+    }, $.validator.format("输入长度最多是{0}的字符串(汉字算2个字符)"));
 
 // 邮政编码验证
-jQuery.validator.addMethod("isZipCode", function (value, element) {
-    var tel = /^[0-9]{6}$/;
-    return this.optional(element) || (tel.test(value));
-}, "请正确填写您的邮政编码");
+    jQuery.validator.addMethod("isZipCode", function (value, element) {
+        var tel = /^[0-9]{6}$/;
+        return this.optional(element) || (tel.test(value));
+    }, "请正确填写您的邮政编码");
 
 // 手机号码验证
-jQuery.validator.addMethod("mobile", function (value, element) {
-    var length = value.length;
-    var mobile = /^1[3|4|5|6|7|8|9]\d{9}$/;
-    return this.optional(element) || (mobile.test(value));
-}, "请正确填写手机号码");
+    jQuery.validator.addMethod("mobile", function (value, element) {
+        var length = value.length;
+        var mobile = /^1[3|4|5|6|7|8|9]\d{9}$/;
+        return this.optional(element) || (mobile.test(value));
+    }, "请正确填写手机号码");
 
-// 课时
-jQuery.validator.addMethod("period", function (value, element) {
-    var period = /^\d*(\.(5|0))?$/;
-    //console.log(value + ":" + period.test(value))
-    return this.optional(element) || (period.test(value));
-}, "请输入正确的课时（最小单位0.5小时）");
-
+    // 课时
+    jQuery.validator.addMethod("period", function (value, element) {
+        var period = /^\d*(\.(5|0))?$/;
+        //console.log(value + ":" + period.test(value))
+        return this.optional(element) || (period.test(value));
+    }, "请输入正确的课时（最小单位0.5小时）");
+}
 /*========jquery.validate.extend=====end===*/
 
 _.templateSettings = {
@@ -204,13 +205,13 @@ SysMsg.confirm = function (msg, title, callback) {
 var _modal_width;
 (function ($) {
     $.extend({
-        menu:{
-           liSelected:function($aHref){
-               //console.log($aHref)
-               var $nav = $aHref.closest(".nav");
-               $("li", $nav).removeClass("active");
-               $aHref.closest("li").addClass("active");
-           }
+        menu: {
+            liSelected: function ($aHref) {
+                //console.log($aHref)
+                var $nav = $aHref.closest(".nav");
+                $("li", $nav).removeClass("active");
+                $aHref.closest("li").addClass("active");
+            }
         },
         /**
          * detect IE
@@ -391,7 +392,7 @@ var _modal_width;
         },
         date: function (str, format) {
 
-            if($.trim(str)=='')return '';
+            if ($.trim(str) == '')return '';
             var date = null;
             //console.log(str + " " + isNaN(str) + " " + $.isIntNum(str))
             if ($.isIntNum(str)) {
@@ -730,7 +731,7 @@ var _modal_width;
 
 })(jQuery);
 
-try {
+if (typeof toastr != 'undefined') {
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -745,22 +746,26 @@ try {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     };
-
-    bootbox.setDefaults({locale: 'zh_CN'});
+}
+bootbox.setDefaults({locale: 'zh_CN'});
+if ($.fn.select2) {
     $.fn.select2.defaults.set("language", "zh-CN");
     $.fn.select2.defaults.set("theme", "classic");
     $.fn.select2.defaults.set("allowClear", true);
     $.fn.select2.defaults.set("width", "200px");
+}
 // 解决IE8下select2在modal里不能搜索的bug
-    $.fn.modal.Constructor.prototype.enforceFocus = function () {
-    };
-
+$.fn.modal.Constructor.prototype.enforceFocus = function () {
+};
+if ($.fn.bootstrapSwitch) {
     $.extend($.fn.bootstrapSwitch.defaults, {
         onText: "是",
         offText: "否",
         onColor: "success",
         offColor: "danger"
     });
+}
+if ($.ui.dynatree) {
     $.extend($.ui.dynatree.prototype.options, {
         checkbox: true,
         selectMode: 3,
@@ -768,6 +773,8 @@ try {
         idPrefix: "dynatree-Cb3-",
         debugLevel: 0
     });
+}
+if ($.jgrid) {
     $.extend($.jgrid.defaults, {
         responsive: true,
         styleUI: "Bootstrap",
@@ -836,393 +843,365 @@ try {
             })
         }
     });
+}
+// 初始化表单控件
+$.register = {};
+$.extend($.register, {
+    formatState: function (state) {
+        if (!state.id) {
+            return state.text;
+        }
+        var $state = $.trim(state.text);
+        if ($.trim(state.code) != '')
+            $state += ($state != '' ? '-' : '') + state.code;
+        if ($.trim(state.unit) != '') {
+            $state += '-' + state.unit;
+        }
+        //console.log($state)
+        return $state;
+    },
+    templateSelection: function (state) {
+        var $state = state.text;
+        if ($.trim(state.code) != '')
+            $state += ($state != '' ? '-' : '') + state.code;
+        return $state;
+    },
+    defaultTemplateResult: function (state) {
+        // 反转义
+        return $('<div/>').html(state.text).text();
+    },
+    // 下拉多选
+    multiselect: function ($select, selected, params) {
+        $select.multiselect($.extend({
+            enableFiltering: true,
+            /*enableHTML: true,*/
+            buttonClass: 'btn btn-default',
+            filterPlaceholder: '查找',
+            nonSelectedText: '请选择',
+            nSelectedText: '已选择',
+            includeSelectAllOption: true,
+            selectAllText: '全选/取消全选',
+            allSelectedText: '全部已选择',
+            maxHeight: 300,
+            buttonWidth: '200px'
+            /* templates: {
+             button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
+             ul: '<ul class="multiselect-container dropdown-menu"></ul>',
+             filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
+             filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
+             li: '<li><a tabindex="0"><label></label></a></li>',
+             divider: '<li class="multiselect-item divider"></li>',
+             liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
+             }*/
+        }, params));
 
-    // 初始化表单控件
-    $.register = {};
-    $.extend($.register, {
-        formatState: function (state) {
-            if (!state.id) {
-                return state.text;
+        if (selected != undefined && selected instanceof Array && selected.length > 0)
+            $select.multiselect('select', selected);
+    },
+    // 图片
+    fancybox: function (afterLoad) {
+
+        $(".various").fancybox({
+            live: true,
+            tpl: {error: '<p class="fancybox-error">该文件不是有效的图片格式，请下载后查看。</p>'},
+            maxWidth: 800,
+            maxHeight: 600,
+            fitToView: false,
+            width: '70%',
+            height: '70%',
+            autoSize: false,
+            closeClick: false,
+            openEffect: 'none',
+            closeEffect: 'none',
+            loop: false,
+
+            arrows: false,
+            prevEffect: 'none',
+            nextEffect: 'none',
+            closeBtn: false,
+            helpers: {
+                overlay: {
+                    closeClick: false,
+                    locked: false
+                },
+                title: {type: 'inside'},
+                buttons: {}
+            },
+            beforeShow: function () {
+                this.wrap.draggable();
+            },
+            afterLoad: afterLoad || function () {
             }
-            var $state = $.trim(state.text);
-            if ($.trim(state.code) != '')
-                $state += ($state != '' ? '-' : '') + state.code;
-            if ($.trim(state.unit) != '') {
-                $state += '-' + state.unit;
+        });
+    },
+    // 根据单位状态 - 选择单位
+    unit_select: function ($unitTypeSelect, $unitSelect, $unitType) {
+        $unitTypeSelect.on("change", function () {
+            $unitSelect.val(null).trigger("change");
+        });
+        $unitSelect.select2({
+            ajax: {
+                dataType: 'json',
+                delay: 300,
+                data: function (params) {
+                    return {
+                        status: $unitTypeSelect.val() | '',
+                        searchStr: params.term,
+                        pageSize: 10,
+                        pageNo: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.options, pagination: {
+                            more: (params.page * 10) < data.totalCount
+                        }
+                    };
+                },
+                cache: true
             }
-            //console.log($state)
-            return $state;
-        },
-        templateSelection: function (state) {
-            var $state = state.text;
-            if ($.trim(state.code) != '')
-                $state += ($state != '' ? '-' : '') + state.code;
-            return $state;
-        },
-        defaultTemplateResult: function (state) {
-            // 反转义
-            return $('<div/>').html(state.text).text();
-        },
-        // 下拉多选
-        multiselect: function ($select, selected, params) {
-            $select.multiselect($.extend({
-                enableFiltering: true,
-                /*enableHTML: true,*/
-                buttonClass: 'btn btn-default',
-                filterPlaceholder: '查找',
-                nonSelectedText: '请选择',
-                nSelectedText: '已选择',
-                includeSelectAllOption: true,
-                selectAllText: '全选/取消全选',
-                allSelectedText: '全部已选择',
-                maxHeight: 300,
-                buttonWidth: '200px'
-                /* templates: {
-                 button: '<button type="button" class="multiselect dropdown-toggle" data-toggle="dropdown"><span class="multiselect-selected-text"></span> &nbsp;<b class="fa fa-caret-down"></b></button>',
-                 ul: '<ul class="multiselect-container dropdown-menu"></ul>',
-                 filter: '<li class="multiselect-item filter"><div class="input-group"><span class="input-group-addon"><i class="fa fa-search"></i></span><input class="form-control multiselect-search" type="text"></div></li>',
-                 filterClearBtn: '<span class="input-group-btn"><button class="btn btn-default btn-white btn-grey multiselect-clear-filter" type="button"><i class="fa fa-times-circle red2"></i></button></span>',
-                 li: '<li><a tabindex="0"><label></label></a></li>',
-                 divider: '<li class="multiselect-item divider"></li>',
-                 liGroup: '<li class="multiselect-item multiselect-group"><label></label></li>'
-                 }*/
-            }, params));
+        }).on("change", function () {
+            var unitType = $(this).select2("data")[0]['type'] || '';
+            $unitType.val(unitType);
+        });
+    },
+    // 日历
+    date: function ($date, params) {
+        return $date.datepicker($.extend({
+            language: "zh-CN",
+            autoclose: true,
+            todayHighlight: true,
+            clearBtn: true
+        }, params))
+    },
+    // 日历时间
+    datetime: function ($date, params) {
+        $date.datetimepicker($.extend({
+            language: "zh-CN",
+            autoclose: true,
+            todayHighlight: true,
+            //todayBtn: true,
+            clearBtn: true
+        }, params))
+    },
 
-            if (selected != undefined && selected instanceof Array && selected.length > 0)
-                $select.multiselect('select', selected);
-        },
-        // 图片
-        fancybox: function (afterLoad) {
-
-            $(".various").fancybox({
-                live: true,
-                tpl: {error: '<p class="fancybox-error">该文件不是有效的图片格式，请下载后查看。</p>'},
-                maxWidth: 800,
-                maxHeight: 600,
-                fitToView: false,
-                width: '70%',
-                height: '70%',
-                autoSize: false,
-                closeClick: false,
-                openEffect: 'none',
-                closeEffect: 'none',
-                loop: false,
-
-                arrows: false,
-                prevEffect: 'none',
-                nextEffect: 'none',
-                closeBtn: false,
-                helpers: {
-                    overlay: {
-                        closeClick: false,
-                        locked: false
-                    },
-                    title: {type: 'inside'},
-                    buttons: {}
+    // 选择发文类型
+    dispatchType_select: function ($select, $year) {
+        $year.on("change", function () {
+            $select.val(null).trigger("change");
+        });
+        var t = $select.select2({
+            language: {
+                noResults: function (term) {
+                    return "请先选择年份";
+                }
+            },
+            templateResult: $.register.formatState,
+            ajax: {
+                dataType: 'json',
+                delay: 300,
+                data: function (params) {
+                    return {
+                        year: $year.val() || -1,
+                        searchStr: params.term,
+                        pageSize: 10,
+                        pageNo: params.page
+                    };
                 },
-                beforeShow: function () {
-                    this.wrap.draggable();
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.options, pagination: {
+                            more: (params.page * 10) < data.totalCount
+                        }
+                    };
                 },
-                afterLoad: afterLoad || function () {
-                }
-            });
-        },
-        // 根据单位状态 - 选择单位
-        unit_select: function ($unitTypeSelect, $unitSelect, $unitType) {
-            $unitTypeSelect.on("change", function () {
-                $unitSelect.val(null).trigger("change");
-            });
-            $unitSelect.select2({
-                ajax: {
-                    dataType: 'json',
-                    delay: 300,
-                    data: function (params) {
-                        return {
-                            status: $unitTypeSelect.val() | '',
-                            searchStr: params.term,
-                            pageSize: 10,
-                            pageNo: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-                        return {
-                            results: data.options, pagination: {
-                                more: (params.page * 10) < data.totalCount
-                            }
-                        };
-                    },
-                    cache: true
-                }
-            }).on("change", function () {
-                var unitType = $(this).select2("data")[0]['type'] || '';
-                $unitType.val(unitType);
-            });
-        },
-        // 日历
-        date: function ($date, params) {
-            return $date.datepicker($.extend({
-                language: "zh-CN",
-                autoclose: true,
-                todayHighlight: true,
-                clearBtn: true
-            }, params))
-        },
-        // 日历时间
-        datetime: function ($date, params) {
-            $date.datetimepicker($.extend({
-                language: "zh-CN",
-                autoclose: true,
-                todayHighlight: true,
-                //todayBtn: true,
-                clearBtn: true
-            }, params))
-        },
-
-        // 选择发文类型
-        dispatchType_select: function ($select, $year) {
-            $year.on("change", function () {
-                $select.val(null).trigger("change");
-            });
-            var t = $select.select2({
-                language: {
-                    noResults: function (term) {
-                        return "请先选择年份";
-                    }
+                cache: true
+            }
+        });
+    },
+    // 年份-发文类型-发文， 选择任免文件
+    dispatch_select: function ($dispatchTypeSelect, $year, $dispatchSelect) {
+        $.register.dispatchType_select($dispatchTypeSelect, $year);
+        $year.on("change", function () {
+            $dispatchTypeSelect.val(null).trigger("change");
+            $dispatchSelect.val(null).trigger("change");
+        });
+        $dispatchTypeSelect.on("change", function () {
+            $dispatchSelect.val(null).trigger("change");
+        });
+        $dispatchSelect.select2({
+            templateResult: $.register.formatState,
+            ajax: {
+                dataType: 'json',
+                delay: 300,
+                data: function (params) {
+                    return {
+                        dispatchTypeId: $dispatchTypeSelect.val() || '',
+                        searchStr: params.term,
+                        pageSize: 10,
+                        pageNo: params.page
+                    };
                 },
-                templateResult: $.register.formatState,
-                ajax: {
-                    dataType: 'json',
-                    delay: 300,
-                    data: function (params) {
-                        return {
-                            year: $year.val() || -1,
-                            searchStr: params.term,
-                            pageSize: 10,
-                            pageNo: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-                        return {
-                            results: data.options, pagination: {
-                                more: (params.page * 10) < data.totalCount
-                            }
-                        };
-                    },
-                    cache: true
-                }
-            });
-        },
-        // 年份-发文类型-发文， 选择任免文件
-        dispatch_select: function ($dispatchTypeSelect, $year, $dispatchSelect) {
-            $.register.dispatchType_select($dispatchTypeSelect, $year);
-            $year.on("change", function () {
-                $dispatchTypeSelect.val(null).trigger("change");
-                $dispatchSelect.val(null).trigger("change");
-            });
-            $dispatchTypeSelect.on("change", function () {
-                $dispatchSelect.val(null).trigger("change");
-            });
-            $dispatchSelect.select2({
-                templateResult: $.register.formatState,
-                ajax: {
-                    dataType: 'json',
-                    delay: 300,
-                    data: function (params) {
-                        return {
-                            dispatchTypeId: $dispatchTypeSelect.val() || '',
-                            searchStr: params.term,
-                            pageSize: 10,
-                            pageNo: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-                        return {
-                            results: data.options, pagination: {
-                                more: (params.page * 10) < data.totalCount
-                            }
-                        };
-                    },
-                    cache: true
-                }
-            }).on("change", function () {
-                var id = $(this).val();
-                if (id > 0) {
-                    $("#item-content").load(ctx + "/dispatch_cadres?dispatchId=" + id);
-                    /*$("#dispatch-file-view").load(ctx + "/swf_preview?way=3&id=" + id + "&type=file");
-                     $("#dispatch-cadres-view").load(ctx + "/dispatch_cadres_admin?dispatchId=" + id);
-
-                     var dispatchType = $(this).select2("data")[0]['type']||'';
-                     var year = $(this).select2("data")[0]['year']||'';
-                     $dispatchTypeSelect.val(dispatchType);
-                     $year.val(year);*/
-                }
-            });
-        },
-        // 分党委、党支部select2联动
-        party_branch_select: function ($container, branchDivId, mt_direct_branch_id,
-                                       init_party_id, init_party_class, partyId, branchId, branchIsNotEmpty) {
-
-            //var $container = $("#modalForm");
-            partyId = partyId || "partyId";
-            branchId = branchId || "branchId";
-            $('select[name=' + partyId + '], select[name=' + branchId + ']', $container).select2({
-                templateResult: function (state) {
-
-                    return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.options, pagination: {
+                            more: (params.page * 10) < data.totalCount
+                        }
+                    };
                 },
-                templateSelection: function (state) {
-                    return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
-                },
-                escapeMarkup: function (markup) {
-                    return markup;
-                },
-                ajax: {
-                    dataType: 'json',
-                    delay: 300,
-                    data: function (params) {
-                        return {
-                            searchStr: params.term,
-                            pageSize: 10,
-                            pageNo: params.page,
-                            partyId: $('select[name=' + partyId + ']', $container).val()
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-                        return {
-                            results: data.options, pagination: {
-                                more: (params.page * 10) < data.totalCount
-                            }
-                        };
-                    },
-                    cache: true
-                }
-            });
-            $('select[name=' + partyId + ']', $container).on("change", function () {
+                cache: true
+            }
+        }).on("change", function () {
+            var id = $(this).val();
+            if (id > 0) {
+                $("#item-content").load(ctx + "/dispatch_cadres?dispatchId=" + id);
+                /*$("#dispatch-file-view").load(ctx + "/swf_preview?way=3&id=" + id + "&type=file");
+                 $("#dispatch-cadres-view").load(ctx + "/dispatch_cadres_admin?dispatchId=" + id);
 
-                $("#" + branchDivId + " select", $container).removeAttr("required");
+                 var dispatchType = $(this).select2("data")[0]['type']||'';
+                 var year = $(this).select2("data")[0]['year']||'';
+                 $dispatchTypeSelect.val(dispatchType);
+                 $year.val(year);*/
+            }
+        });
+    },
+    // 分党委、党支部select2联动
+    party_branch_select: function ($container, branchDivId, mt_direct_branch_id,
+                                   init_party_id, init_party_class, partyId, branchId, branchIsNotEmpty) {
 
-                var $party_class = $(this).select2("data")[0]['class'] || init_party_class;
-                //alert("${party.id}")
-                if ($(this).val() != init_party_id)
-                    $('select[name=' + branchId + ']', $container).val(null).trigger("change");
-                if ($(this).val() > 0 && $party_class != mt_direct_branch_id) {
-                    $("#" + branchDivId, $container).show();
-                    if (branchIsNotEmpty != undefined && branchIsNotEmpty)
-                        $("#" + branchDivId + " select", $container).attr("required", "required");
-                } else {
-                    $('select[name=' + branchId + ']', $container).val(null).trigger("change");
-                    $("#" + branchDivId, $container).hide();
-                }
-            }).change();
-            $('select[name=' + partyId + ']', $container).on("select2:unselect", function () {
+        //var $container = $("#modalForm");
+        partyId = partyId || "partyId";
+        branchId = branchId || "branchId";
+        $('select[name=' + partyId + '], select[name=' + branchId + ']', $container).select2({
+            templateResult: function (state) {
+
+                return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+            },
+            templateSelection: function (state) {
+                return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+            },
+            escapeMarkup: function (markup) {
+                return markup;
+            },
+            ajax: {
+                dataType: 'json',
+                delay: 300,
+                data: function (params) {
+                    return {
+                        searchStr: params.term,
+                        pageSize: 10,
+                        pageNo: params.page,
+                        partyId: $('select[name=' + partyId + ']', $container).val()
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.options, pagination: {
+                            more: (params.page * 10) < data.totalCount
+                        }
+                    };
+                },
+                cache: true
+            }
+        });
+        $('select[name=' + partyId + ']', $container).on("change", function () {
+
+            $("#" + branchDivId + " select", $container).removeAttr("required");
+
+            var $party_class = $(this).select2("data")[0]['class'] || init_party_class;
+            //alert("${party.id}")
+            if ($(this).val() != init_party_id)
+                $('select[name=' + branchId + ']', $container).val(null).trigger("change");
+            if ($(this).val() > 0 && $party_class != mt_direct_branch_id) {
+                $("#" + branchDivId, $container).show();
+                if (branchIsNotEmpty != undefined && branchIsNotEmpty)
+                    $("#" + branchDivId + " select", $container).attr("required", "required");
+            } else {
                 $('select[name=' + branchId + ']', $container).val(null).trigger("change");
                 $("#" + branchDivId, $container).hide();
-            })
-        },
-        // 类型、分党委、党支部 3级联动
-        class_party_branch_select: function ($container, partyDivId, branchDivId,
-                                             mt_direct_branch_id, init_party_id, classId, partyId, branchId, isNotEmpty) {
+            }
+        }).change();
+        $('select[name=' + partyId + ']', $container).on("select2:unselect", function () {
+            $('select[name=' + branchId + ']', $container).val(null).trigger("change");
+            $("#" + branchDivId, $container).hide();
+        })
+    },
+    // 类型、分党委、党支部 3级联动
+    class_party_branch_select: function ($container, partyDivId, branchDivId,
+                                         mt_direct_branch_id, init_party_id, classId, partyId, branchId, isNotEmpty) {
 
-            classId = classId || "classId";
-            partyId = partyId || "partyId";
-            branchId = branchId || "branchId";
+        classId = classId || "classId";
+        partyId = partyId || "partyId";
+        branchId = branchId || "branchId";
 
-            $('select[name=' + classId + ']', $container).select2({width: 200}).on("change", function () {
+        $('select[name=' + classId + ']', $container).select2({width: 200}).on("change", function () {
 
-                $("#" + partyDivId + " select").removeAttr("required");
+            $("#" + partyDivId + " select").removeAttr("required");
 
-                $('select[name=' + partyId + ']', $container).val(null).trigger("change");
+            $('select[name=' + partyId + ']', $container).val(null).trigger("change");
+            $('select[name=' + branchId + ']', $container).val(null).trigger("change");
+            if ($(this).val() > 0) {
+                $("#" + partyDivId, $container).show();
+                if (isNotEmpty != undefined && isNotEmpty)
+                    $("#" + partyDivId + " select").attr("required", "required");
+            } else {
+
+                $("#" + partyDivId + ", #" + branchDivId, $container).hide();
+            }
+        });
+
+        $('select[name=' + partyId + '], select[name=' + branchId + ']', $container).select2({
+            width: 400,
+            ajax: {
+                dataType: 'json',
+                delay: 300,
+                data: function (params) {
+                    return {
+                        searchStr: params.term,
+                        pageSize: 10,
+                        pageNo: params.page,
+                        classId: $('select[name=' + classId + ']', $container).val(),
+                        partyId: $('select[name=' + partyId + ']', $container).val()
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.options, pagination: {
+                            more: (params.page * 10) < data.totalCount
+                        }
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('select[name=' + partyId + ']', $container).on("change", function () {
+
+            $("#" + branchDivId + " select").removeAttr("required");
+
+            if ($(this).val() != init_party_id)
                 $('select[name=' + branchId + ']', $container).val(null).trigger("change");
-                if ($(this).val() > 0) {
-                    $("#" + partyDivId, $container).show();
-                    if (isNotEmpty != undefined && isNotEmpty)
-                        $("#" + partyDivId + " select").attr("required", "required");
-                } else {
 
-                    $("#" + partyDivId + ", #" + branchDivId, $container).hide();
-                }
-            });
-
-            $('select[name=' + partyId + '], select[name=' + branchId + ']', $container).select2({
-                width: 400,
-                ajax: {
-                    dataType: 'json',
-                    delay: 300,
-                    data: function (params) {
-                        return {
-                            searchStr: params.term,
-                            pageSize: 10,
-                            pageNo: params.page,
-                            classId: $('select[name=' + classId + ']', $container).val(),
-                            partyId: $('select[name=' + partyId + ']', $container).val()
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-                        return {
-                            results: data.options, pagination: {
-                                more: (params.page * 10) < data.totalCount
-                            }
-                        };
-                    },
-                    cache: true
-                }
-            });
-
-            $('select[name=' + partyId + ']', $container).on("change", function () {
-
-                $("#" + branchDivId + " select").removeAttr("required");
-
-                if ($(this).val() != init_party_id)
-                    $('select[name=' + branchId + ']', $container).val(null).trigger("change");
-
-                if ($(this).val() > 0 && $('select[name=' + classId + ']', $container).val() != mt_direct_branch_id) {
-                    $("#" + branchDivId, $container).show();
-                    if (isNotEmpty != undefined && isNotEmpty)
-                        $("#" + branchDivId + " select").attr("required", "required");
-                } else {
-                    $('select[name=' + branchId + ']', $container).val(null).trigger("change");
-                    $("#" + branchDivId, $container).hide();
-                }
-            });
-        },
-        ajax_select: function ($select, params) {
-            params = params || {};
-            return $($select).select2($.extend({
-                    templateResult: params.templateResult || $.register.defaultTemplateResult,
-                    templateSelection: params.templateSelection || $.register.defaultTemplateResult,
-                    ajax: {
-                        dataType: 'json',
-                        delay: 300,
-                        data: function (params) {
-                            return {
-                                searchStr: params.term,
-                                pageSize: 10,
-                                pageNo: params.page
-                            };
-                        },
-                        processResults: function (data, params) {
-                            params.page = params.page || 1;
-                            return {
-                                results: data.options, pagination: {
-                                    more: (params.page * 10) < data.totalCount
-                                }
-                            };
-                        },
-                        cache: true
-                    }
-                }, params)
-            );
-        },
-        // 选择账号
-        user_select: function ($select, ts) {
-            return $select.select2({
-                templateResult: $.register.formatState,
-                templateSelection: ts || $.register.templateSelection,
+            if ($(this).val() > 0 && $('select[name=' + classId + ']', $container).val() != mt_direct_branch_id) {
+                $("#" + branchDivId, $container).show();
+                if (isNotEmpty != undefined && isNotEmpty)
+                    $("#" + branchDivId + " select").attr("required", "required");
+            } else {
+                $('select[name=' + branchId + ']', $container).val(null).trigger("change");
+                $("#" + branchDivId, $container).hide();
+            }
+        });
+    },
+    ajax_select: function ($select, params) {
+        params = params || {};
+        return $($select).select2($.extend({
+                templateResult: params.templateResult || $.register.defaultTemplateResult,
+                templateSelection: params.templateSelection || $.register.defaultTemplateResult,
                 ajax: {
                     dataType: 'json',
                     delay: 300,
@@ -1243,45 +1222,70 @@ try {
                     },
                     cache: true
                 }
-            });
-        },
-        // 选择分党委
-        party_select: function ($select, width) {
-            return $select.select2({
-                width: width || 350,
-                templateResult: function (state) {
+            }, params)
+        );
+    },
+    // 选择账号
+    user_select: function ($select, ts) {
+        return $select.select2({
+            templateResult: $.register.formatState,
+            templateSelection: ts || $.register.templateSelection,
+            ajax: {
+                dataType: 'json',
+                delay: 300,
+                data: function (params) {
+                    return {
+                        searchStr: params.term,
+                        pageSize: 10,
+                        pageNo: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.options, pagination: {
+                            more: (params.page * 10) < data.totalCount
+                        }
+                    };
+                },
+                cache: true
+            }
+        });
+    },
+    // 选择分党委
+    party_select: function ($select, width) {
+        return $select.select2({
+            width: width || 350,
+            templateResult: function (state) {
 
-                    return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+            },
+            templateSelection: function (state) {
+                return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+            },
+            escapeMarkup: function (markup) {
+                return markup;
+            },
+            ajax: {
+                dataType: 'json',
+                delay: 300,
+                data: function (params) {
+                    return {
+                        searchStr: params.term,
+                        pageSize: 10,
+                        pageNo: params.page
+                    };
                 },
-                templateSelection: function (state) {
-                    return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.options, pagination: {
+                            more: (params.page * 10) < data.totalCount
+                        }
+                    };
                 },
-                escapeMarkup: function (markup) {
-                    return markup;
-                },
-                ajax: {
-                    dataType: 'json',
-                    delay: 300,
-                    data: function (params) {
-                        return {
-                            searchStr: params.term,
-                            pageSize: 10,
-                            pageNo: params.page
-                        };
-                    },
-                    processResults: function (data, params) {
-                        params.page = params.page || 1;
-                        return {
-                            results: data.options, pagination: {
-                                more: (params.page * 10) < data.totalCount
-                            }
-                        };
-                    },
-                    cache: true
-                }
-            });
-        }
-    });
-} catch (e) {
-    console.log(e)
-}
+                cache: true
+            }
+        });
+    }
+});

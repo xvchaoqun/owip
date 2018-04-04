@@ -405,7 +405,6 @@ public class PmdMemberController extends PmdBaseController {
         return "pmd/pmdMember/pmdMember_add";
     }
 
-
     // 现金支付
    /* @RequiresPermissions("pmdMember:payCash")
     @RequestMapping(value = "/pmdMember_payCash", method = RequestMethod.POST)

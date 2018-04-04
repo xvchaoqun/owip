@@ -83,7 +83,7 @@ table tr td.title{
 	vertical-align: middle;
 	font-weight: bolder;
 	padding-left: 0px;">账号：</td>
-		<td>${inspector.username}</td>
+		<td style="color:${inspector.finishCourseNum>0?(inspector.finishCourseNum==courseNum?'green':'blue'):'auto'}">${inspector.username}</td>
 	</tr>
 	<tr>
 		<td style="

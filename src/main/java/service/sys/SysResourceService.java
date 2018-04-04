@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import persistence.sys.SysResourceMapper;
 import service.BaseMapper;
 import sys.constants.SystemConstants;
@@ -29,9 +28,7 @@ public class SysResourceService extends BaseMapper{
 
 	public boolean idDuplicate(Integer id, String permission, String url){
 
-		Assert.isTrue(StringUtils.isNotBlank(permission), "权限字符串不能为空");
-
-		{
+		if(StringUtils.isNotBlank(permission)){
 			SysResourceExample example = new SysResourceExample();
 			SysResourceExample.Criteria criteria = example.createCriteria().andNameEqualTo(permission);
 			if (id != null) {
@@ -76,15 +73,7 @@ public class SysResourceService extends BaseMapper{
 	})
 	public void updateByPrimaryKeySelective(SysResource record){
 
-		commonMapper.excuteSql(String.format("update sys_resource set id=%s %s %s %s where id=%s",
-				record.getId(),
-				StringUtils.isNotBlank(record.getCountCacheKeys()) ? ", count_cache_keys=null" : "",
-				StringUtils.isNotBlank(record.getUrl()) ? ", url=null" : "",
-				StringUtils.isNotBlank(record.getPermission()) ? ", permission=null" : "",
-				record.getId()));
-
 		SysResource sysResource = sysResourceMapper.selectByPrimaryKey(record.getId());
-
 		// 改变父节点
 		if(record.getParentId() !=null && sysResource.getParentId().intValue() != record.getParentId().intValue()){
 
@@ -103,6 +92,13 @@ public class SysResourceService extends BaseMapper{
 		record.setIsLeaf(subSysResourses.size()==0);
 
 		sysResourceMapper.updateByPrimaryKeySelective(record);
+
+		commonMapper.excuteSql(String.format("update sys_resource set id=%s %s %s %s where id=%s",
+				record.getId(),
+				StringUtils.isBlank(record.getCountCacheKeys()) ? ", count_cache_keys=null" : "",
+				StringUtils.isBlank(record.getUrl()) ? ", url=null" : "",
+				StringUtils.isBlank(record.getPermission()) ? ", permission=null" : "",
+				record.getId()));
 
 		updateAllChildParentIds(record.getId());
 	}
@@ -167,7 +163,7 @@ public class SysResourceService extends BaseMapper{
 		return sysResource;
 	}
 
-	// 按层次递归读取资源
+	// 按层次递归读取资源(非顶级节点只读取permission不为空的)
 	private void menuLoop(List<SysResource> menuList, Integer parentId, boolean isMobile){
 
 		SysResourceExample example = new SysResourceExample();
@@ -182,6 +178,9 @@ public class SysResourceService extends BaseMapper{
 		List<SysResource> list = sysResourceMapper.selectByExample(example);
 
 		for(SysResource sysResource:list) {
+
+			if(sysResource.getParentId()!=null
+					&& StringUtils.isBlank(sysResource.getPermission())) continue;
 
 			menuList.add(sysResource);
 			menuLoop(menuList, sysResource.getId(), isMobile);

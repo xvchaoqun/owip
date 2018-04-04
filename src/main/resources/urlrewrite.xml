@@ -3,16 +3,22 @@
 <!-- Configuration file for UrlRewriteFilter http://www.tuckey.org/urlrewrite/ -->
 <urlrewrite>
 	<rule>
+		<note>字体</note>
+		<condition type="method">GET</condition>
+		<from>^/mobile/fonts</from>
+		<to>/fonts</to>
+	</rule>
+	<rule>
 		<note>头像</note>
 		<condition type="method">GET</condition>
 		<from>^/m/avatar</from>
 		<to>/avatar</to>
 	</rule>
 	<rule>
-		<note>头像</note>
+		<note>干部查询</note>
 		<condition type="method">GET</condition>
-		<from>^/m/abroad/avatar</from>
-		<to>/avatar</to>
+		<from>^/m/cadre_selects</from>
+		<to>/cadre_selects</to>
 	</rule>
 	<rule>
 		<note>因私出访短信通知弹出框</note>

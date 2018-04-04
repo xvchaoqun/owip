@@ -90,6 +90,33 @@ public class PmdConfigMemberService extends BaseMapper {
         return false;
     }
 
+    // 判断是否允许设置离退休费
+    public boolean canSetLtxf(int userId){
+
+        PmdConfigMember pmdConfigMember = getPmdConfigMember(userId);
+        if(pmdConfigMember!=null) {
+
+            if(pmdConfigMember.getConfigMemberType()!=PmdConstants.PMD_MEMBER_TYPE_RETIRE){
+                return false;
+            }
+
+            Integer configMemberTypeId = pmdConfigMember.getConfigMemberTypeId();
+
+            if (configMemberTypeId != null) {
+
+                PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
+                if(pmdConfigMemberType!=null) {
+
+                    PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
+
+                    return (pmdNorm!=null && pmdNorm.getFormulaType() == PmdConstants.PMD_FORMULA_TYPE_RETIRE);
+                }
+            }
+        }
+
+        return false;
+    }
+
     // 计算应缴党费额度
     @Transactional
     @CacheEvict(value = "PmdConfigMember", key = "#record.userId")
@@ -118,28 +145,42 @@ public class PmdConfigMemberService extends BaseMapper {
 
         // 更新当前缴费月份数据（未缴费前）
         updatePmdMemberDuePay(userId, duePay, "修改党费计算工资");
-        /*PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
-        if (currentPmdMonth != null) {
-            PmdMember pmdMember = pmdMemberService.get(currentPmdMonth.getId(), userId);
-            if (pmdMember != null && !pmdMember.getHasPay()) {
-
-                PmdMember _pmdMember = new PmdMember();
-                _pmdMember.setId(pmdMember.getId());
-                _pmdMember.setConfigMemberDuePay(duePay);
-                _pmdMember.setNeedSetSalary(false);
-                _pmdMember.setDuePay(duePay);
-
-                pmdMemberMapper.updateByPrimaryKeySelective(_pmdMember);
-
-                sysApprovalLogService.add(pmdMember.getId(), userId,
-                        SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                        SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
-                        "修改党费计算工资", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                        JSONUtils.toString(pmdConfigMember, false));
-            }
-        }*/
 
         logger.info(logService.log(SystemConstants.LOG_PMD, MessageFormat.format("修改党费计算工资,修改前：{0}，修改后：{1}",
+                JSONUtils.toString(pmdConfigMember, false),
+                JSONUtils.toString(getPmdConfigMember(userId), false))));
+    }
+
+    // 修改离退休费
+    @Transactional
+    @CacheEvict(value = "PmdConfigMember", key = "#userId")
+    public void setLtxf(int userId, BigDecimal retireSalary) {
+
+        if(!canSetLtxf(userId)){
+            throw new OpException("不允许设置离退休费");
+        }
+
+        PmdConfigMember pmdConfigMember = getPmdConfigMember(userId);
+
+        PmdConfigMember record = new PmdConfigMember();
+        record.setUserId(userId);
+        record.setMobile(pmdConfigMember.getMobile());
+        record.setConfigMemberType(pmdConfigMember.getConfigMemberType());
+        record.setConfigMemberTypeId(pmdConfigMember.getConfigMemberTypeId());
+        record.setIsOnlinePay(true);
+        record.setRetireSalary(retireSalary);
+        BigDecimal duePay = pmdExtService.getDuePayFromLtxf(retireSalary);
+        record.setDuePay(duePay);
+        record.setHasReset(true);
+
+        // 覆盖
+        pmdConfigMemberMapper.updateByPrimaryKey(record);
+
+        // 更新当前缴费月份数据（未缴费前）
+        updatePmdMemberDuePay(userId, duePay, MessageFormat.format("修改离退休费,{0}->{1}",
+                pmdConfigMember.getRetireSalary(), retireSalary));
+
+        logger.info(logService.log(SystemConstants.LOG_PMD, MessageFormat.format("修改离退休费, 修改前：{0}，修改后：{1}",
                 JSONUtils.toString(pmdConfigMember, false),
                 JSONUtils.toString(getPmdConfigMember(userId), false))));
     }

@@ -111,6 +111,7 @@
 
 <c:set var="USER_TYPE_MAP" value="<%=SystemConstants.USER_TYPE_MAP%>"/>
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
+<c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
 <c:set var="GENDER_MAP" value="<%=SystemConstants.GENDER_MAP%>"/>
 <c:set var="GENDER_MALE" value="<%=SystemConstants.GENDER_MALE%>"/>
 <c:set var="GENDER_FEMALE" value="<%=SystemConstants.GENDER_FEMALE%>"/>
@@ -238,6 +239,7 @@
 
 <c:set value="<%=PmdConstants.PMD_FORMULA_TYPE_ONJOB%>" var="PMD_FORMULA_TYPE_ONJOB"/>
 <c:set value="<%=PmdConstants.PMD_FORMULA_TYPE_EXTERNAL%>" var="PMD_FORMULA_TYPE_EXTERNAL"/>
+<c:set value="<%=PmdConstants.PMD_FORMULA_TYPE_RETIRE%>" var="PMD_FORMULA_TYPE_RETIRE"/>
 
 <c:set value="<%=OaConstants.OA_TASK_TYPE_MAP%>" var="OA_TASK_TYPE_MAP"/>
 

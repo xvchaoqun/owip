@@ -355,6 +355,7 @@ public class CadreService extends BaseMapper {
 
             CadreParty cadreParty = get(userId, type);
             if(cadreParty!=null){
+                record.setId(cadreParty.getId());
                 cadrePartyMapper.updateByPrimaryKeySelective(record);
             }else{
                 cadrePartyMapper.insertSelective(record);
@@ -380,9 +381,14 @@ public class CadreService extends BaseMapper {
 
         for (Integer id : ids) {
             CadreParty cadreParty = cadrePartyMapper.selectByPrimaryKey(id);
-            // 记录任免日志
-            cadreAdLogService.addLog(id, "删除干部党派：" + JSONUtils.toString(cadreParty, false),
-                    SystemConstants.CADRE_AD_LOG_MODULE_CADRE, id);
+            Integer userId = cadreParty.getUserId();
+            CadreView cadreView = dbFindByUserId(userId);
+            if(cadreView!=null) {
+                Integer cadreId = cadreView.getId();
+                // 记录任免日志
+                cadreAdLogService.addLog(cadreId, "删除干部党派：" + JSONUtils.toString(cadreParty, false),
+                        SystemConstants.CADRE_AD_LOG_MODULE_CADRE, cadreId);
+            }
         }
 
         CadrePartyExample example = new CadrePartyExample();

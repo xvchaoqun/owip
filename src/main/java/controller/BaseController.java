@@ -1,10 +1,18 @@
 package controller;
 
+import domain.cadre.CadrePost;
+import domain.cadre.CadreView;
+import domain.ext.ExtJzg;
+import domain.party.Branch;
+import domain.party.Party;
+import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.multipart.MultipartFile;
 import service.BaseMapper;
 import service.LoginUserService;
@@ -105,6 +113,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -516,5 +525,54 @@ public class BaseController extends BaseMapper {
 
         map.put("roleMap", sysRoleService.findAll());
         return map;
+    }
+
+    public void cadreBase(Integer cadreId, ModelMap modelMap){
+
+        if(cadreId==null) return;
+
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        modelMap.put("cadre", cadre);
+
+        SysUserView uv = sysUserService.findById(cadre.getUserId());
+        modelMap.put("uv", uv);
+
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        modelMap.put("branchMap", branchMap);
+        modelMap.put("partyMap", partyMap);
+        modelMap.put("member", memberService.get(uv.getId()));
+
+        TeacherInfo teacherInfo = teacherService.get(uv.getUserId());
+        modelMap.put("teacherInfo", teacherInfo);
+
+        // 人事信息
+        ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
+        modelMap.put("extJzg", extJzg);
+
+        CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
+        // 主职,现任职务
+        modelMap.put("mainCadrePost", mainCadrePost);
+
+        // 任现职级
+        modelMap.put("cadreAdminLevel", cadreAdminLevelService.getPresentByCadreId(cadreId,
+                mainCadrePost != null ? mainCadrePost.getAdminLevelId() : null));
+
+        // 兼职单位
+        List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(cadreId);
+        if (subCadrePosts.size() >= 1) {
+            modelMap.put("subCadrePost1", subCadrePosts.get(0));
+        }
+        if (subCadrePosts.size() >= 2) {
+            modelMap.put("subCadrePost2", subCadrePosts.get(1));
+        }
+
+        // 最高学历
+        modelMap.put("highEdu", cadreEduService.getHighEdu(cadreId));
+        //最高学位
+        modelMap.put("highDegree", cadreEduService.getHighDegree(cadreId));
+
+        // 是否已认定了参加工作时间，没认定前可修改
+        modelMap.put("hasVerifyWorkTime", cadre.getVerifyWorkTime()!=null);
     }
 }

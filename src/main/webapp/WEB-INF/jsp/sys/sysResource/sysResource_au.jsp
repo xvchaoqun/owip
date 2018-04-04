@@ -22,7 +22,7 @@
 				父节点
 			</label>
 			<div class="col-xs-6 ">
-				<select name="parentId"  data-width="275" data-ajax-url="${ctx}/sysResource_selects?isMobile=${param.isMobile}">
+				<select name="parentId"  data-width="275" data-ajax-url="${ctx}/sysResource_selects?isMobile=${isMobile}">
 					<option value="${parent.id}">${parent.name}</option>
 				</select>
 			</div>
@@ -98,7 +98,7 @@
 				<label class="col-xs-4 control-label">权限字符串</label>
 				<div class="col-xs-6 ">
 					<form:input path="permission"  class="form-control" />
-					<div class="help-inline">由系统开发者维护</div>
+					<div class="help-inline">公共资源的节点才允许为空(由系统开发者维护)</div>
 				</div>
 		</div>
 		<div class="form-group">
@@ -184,9 +184,6 @@
 					},
 					sortOrder: {
 						digits: true
-					},
-					permission:{
-						required: true
 					}
 				},
 				submitHandler: function (form) {

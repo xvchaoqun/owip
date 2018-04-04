@@ -34,11 +34,11 @@ public class AvatarController extends BaseController {
     @RequestMapping("/avatar")
     public void show_avatar(String path, HttpServletResponse response) throws IOException {
 
-        path = springProps.avatarFolder + path;
-        if(!new File(path).exists()){
-            path = springProps.avatarFolder + FILE_SEPARATOR + springProps.defaultAvatar;
+        String _path = springProps.avatarFolder + path;
+        if(StringUtils.isBlank(path) || !new File(_path).exists()){
+            _path = springProps.avatarFolder + FILE_SEPARATOR + springProps.defaultAvatar;
         }
-        ImageUtils.displayImage(FileUtils.getBytes(path), response);
+        ImageUtils.displayImage(FileUtils.getBytes(_path), response);
     }
 
     @RequestMapping("/avatar/{username}")
@@ -46,7 +46,7 @@ public class AvatarController extends BaseController {
                        @RequestParam(defaultValue = "0", required = false)boolean m,// m=1 移动端
                        HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        StringBuffer requestURL = request.getRequestURL();
+        //StringBuffer requestURL = request.getRequestURL();
 
         String filepath = null;
         SysUserView sysUser = sysUserService.findByUsername(username);

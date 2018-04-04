@@ -131,10 +131,10 @@
                 /test/** = anon
                 /jsp/** = anon
 
+                /mobile/fonts/** = anon
                 /mobile/js/** = anon
                 /mobile/css/** = anon
                 /m/cet/** = anon
-
                 /m/login = anon
                 /m/logout = anon
 
@@ -154,6 +154,7 @@
                 /captcha = anon
                 /js/** = anon
                 /css/** = anon
+                /fonts/** = anon
                 /assets/** = anon
                 /extend/** = anon
                 /template/** = anon

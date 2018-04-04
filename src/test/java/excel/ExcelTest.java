@@ -1,5 +1,6 @@
 package excel;
 
+import bean.XlsUpload;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.util.Units;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
@@ -17,6 +18,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lm on 2018/2/10.
@@ -67,5 +70,17 @@ public class ExcelTest {
 
         wb.write(output);
         output.close();
+    }
+    @Test
+    public void t3() throws IOException {
+
+        InputStream is = new FileInputStream(new File("C:\\Users\\lm\\Desktop\\党员信息表-特殊党员库.xlsx"));
+        XSSFWorkbook workbook = new XSSFWorkbook(is);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+        for (Map<Integer, String> xlsRow : xlsRows) {
+            System.out.println(xlsRow);
+        }
     }
 }

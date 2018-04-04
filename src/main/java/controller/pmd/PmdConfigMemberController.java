@@ -5,7 +5,6 @@ import domain.pmd.PmdConfigMemberExample;
 import domain.pmd.PmdConfigMemberExample.Criteria;
 import domain.pmd.PmdConfigMemberType;
 import mixin.MixinUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -112,33 +111,36 @@ public class PmdConfigMemberController extends PmdBaseController {
     }
 
     @RequiresPermissions("pmdConfigMember:edit")
-    @RequestMapping(value = "/pmdConfigMember_au", method = RequestMethod.POST)
+    @RequestMapping(value = "/pmdConfigMember_updateType", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdConfigMember_au(PmdConfigMember record, HttpServletRequest request) {
+    public Map do_pmdConfigMember_updateType(int userId, byte type, HttpServletRequest request) {
 
-        Integer userId = record.getUserId();
+        PmdConfigMember record = new PmdConfigMember();
+        record.setUserId(userId);
+        record.setConfigMemberType(type);
 
-        if (userId == null) {
-            pmdConfigMemberService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PMD, "添加党员缴费分类：%s", record.getUserId()));
-        } else {
-
-            pmdConfigMemberService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PMD, "更新党员缴费分类：%s", record.getUserId()));
-        }
+        pmdConfigMemberService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(SystemConstants.LOG_PMD, "更新缴费党员类别：%s", record.getUserId()));
 
         return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("pmdConfigMember:edit")
-    @RequestMapping("/pmdConfigMember_au")
-    public String pmdConfigMember_au(Integer userId, ModelMap modelMap) {
+    @RequestMapping("/pmdConfigMember_updateType")
+    public String pmdConfigMember_updateType(Integer userId, ModelMap modelMap) {
 
         if (userId != null) {
             PmdConfigMember pmdConfigMember = pmdConfigMemberMapper.selectByPrimaryKey(userId);
             modelMap.put("pmdConfigMember", pmdConfigMember);
         }
-        return "pmd/pmdConfigMember/pmdConfigMember_au";
+
+        Map<Byte, List<PmdConfigMemberType>> typeMap = new HashMap<>();
+        for (Byte pmdMemberType : PmdConstants.PMD_MEMBER_TYPE_MAP.keySet()) {
+            typeMap.put(pmdMemberType, pmdConfigMemberTypeService.list(pmdMemberType));
+        }
+        modelMap.put("typeMap", typeMap);
+
+        return "pmd/pmdConfigMember/pmdConfigMember_updateType";
     }
 
     /*@RequiresPermissions("pmdConfigMember:del")
@@ -154,7 +156,7 @@ public class PmdConfigMemberController extends PmdBaseController {
         return success(FormUtils.SUCCESS);
     }*/
 
-    @RequiresPermissions("pmdConfigMember:del")
+    /*@RequiresPermissions("pmdConfigMember:del")
     @RequestMapping(value = "/pmdConfigMember_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map pmdConfigMember_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] userIds, ModelMap modelMap) {
@@ -165,5 +167,5 @@ public class PmdConfigMemberController extends PmdBaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 }

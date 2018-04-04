@@ -249,7 +249,9 @@ pageEncoding="UTF-8" %>
 
             $("#delBtn").prop("disabled", hasPay);
             $("#helpSetSalaryBtn").prop("disabled",
-                    (rowData.formulaType!=${PMD_FORMULA_TYPE_ONJOB}&&rowData.formulaType!=${PMD_FORMULA_TYPE_EXTERNAL}) ||
+                    (rowData.formulaType!=${PMD_FORMULA_TYPE_ONJOB}
+                    &&rowData.formulaType!=${PMD_FORMULA_TYPE_EXTERNAL}
+                    &&rowData.formulaType!=${PMD_FORMULA_TYPE_RETIRE}) ||
                     rowData.isSelfSetSalary=="1" || hasPay || !isCurrentMonth || isDelay);
 
             $("#orderBtn").prop("disabled", !isOnlinePay);

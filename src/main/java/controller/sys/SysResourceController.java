@@ -116,13 +116,15 @@ public class SysResourceController extends BaseController {
 		
 		return resultMap;
 	}
+
 	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping("/sysResource_au")
-	public String sysResource_au(Integer id, Integer parentId, ModelMap modelMap) {
+	public String sysResource_au(Integer id, Boolean isMobile, Integer parentId, ModelMap modelMap) {
 
 		if(id != null){
 
 			SysResource sysResource = sysResourceMapper.selectByPrimaryKey(id);
+			isMobile = sysResource.getIsMobile();
 			modelMap.put("sysResource", sysResource);
 			modelMap.addAttribute("op", "修改");
 
@@ -142,9 +144,12 @@ public class SysResourceController extends BaseController {
 	        modelMap.addAttribute("sysResource", child);
 	        modelMap.addAttribute("op", "新增子节点");
 		}
-		
+
+		modelMap.addAttribute("isMobile", isMobile);
+
 		return "sys/sysResource/sysResource_au";
 	}
+
 	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysResource_del", method=RequestMethod.POST)
 	@ResponseBody

@@ -12,19 +12,16 @@
             ||not empty param.configMemberTypeId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <%--<shiro:hasPermission name="pmdConfigMember:edit">
-                    <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/pmd/pmdConfigMember_au"><i
-                            class="fa fa-plus"></i> 添加</a>
+
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/pmd/pmdConfigMember_au"
-                       data-grid-id="#jqGrid"
+                       data-url="${ctx}/pmd/pmdConfigMember_updateType"
                        data-querystr="&"><i class="fa fa-edit"></i>
-                        修改</a>
+                        修改党员类别</a>
                 </shiro:hasPermission>--%>
-               <%-- <shiro:hasPermission name="pmdConfigMember:del">
+                <%--<shiro:hasPermission name="pmdConfigMember:del">
                     <button data-url="${ctx}/pmd/pmdConfigMember_batchDel"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid"
+                            data-msg="确定删除这{0}个党员？【提示：已有的缴费记录不会删除】"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>

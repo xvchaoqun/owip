@@ -8,6 +8,9 @@ body{
 .nav-tabs.tab-color-blue > li > a:focus {
     background-color: #337ab7;
 }
+.nav-tabs>li>a{
+    padding: 7px 5px 8px;
+}
 .tags .tag{
     background-color: #1482C5;
 }
@@ -153,6 +156,12 @@ body{
 .message-footer .pagination > li > span {
       padding: 0px;
   }
+
+/** table **/
+.table-center > thead > tr > th, .table-center > tbody > tr > td {
+    text-align: center;
+    vertical-align: middle;
+}
 
 /***detail **/
 .profile-info-name{

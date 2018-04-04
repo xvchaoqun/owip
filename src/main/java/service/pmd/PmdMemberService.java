@@ -61,7 +61,7 @@ public class PmdMemberService extends BaseMapper {
         pmdMemberMapper.insertSelective(record);
     }
 
-    // 删除未缴费记录
+    // 删除未缴费记录（同时删除党员列表中的记录）
     @Transactional
     public void del(Integer id) {
 
@@ -83,6 +83,8 @@ public class PmdMemberService extends BaseMapper {
 
         pmdMemberMapper.deleteByPrimaryKey(id);
         pmdMemberPayMapper.deleteByPrimaryKey(id);
+
+        pmdConfigMemberService.del(pmdMember.getUserId());
     }
 
     @Transactional

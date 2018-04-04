@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 
   <ul class="preview title nav nav-tabs tab-color-blue background-blue"
-      style="padding-right: 20px;margin-bottom: 10px!important;">
+      style="/*padding-right: 20px;*/margin-bottom: 10px!important;">
       <div class="buttons" style="margin-bottom: 8px;margin-left: 10px; ">
         <a href="javascript:;" class="closeView btn btn-xs btn-success">
           <i class="ace-icon fa fa-backward"></i>
@@ -10,10 +10,12 @@
         </a>
         <c:if test="${param.status==0}">
           <c:if test="${param.type!='admin' ||(param.type=='admin' && applySelf.flowNode<=0)}">
+            <div class="pull-right" style="margin-right: 10px;">
         <button id="agree" style="margin-left: 10px; margin-right: 10px;"
            class="btn btn-primary btn-xs"><i class="fa fa-check"></i> 同意申请</button>
         <button id="disagree" class="btn btn-danger btn-xs">
           <i class="fa fa-times"></i>  不同意申请</button>
+            </div>
         </c:if>
 
         <c:if test="${param.type=='admin' && applySelf.flowNode>0}">

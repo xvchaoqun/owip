@@ -6,10 +6,12 @@
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                 <li class="${!isMobile?'active':''}">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/sysResource?isMobile=0"><i class="fa fa-file-pdf-o ${!isMobile?'fa-1g':''}"></i> 网页端</a>
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/sysResource?isMobile=0">
+                        <i class="fa fa-internet-explorer ${!isMobile?'fa-1g':''}"></i> 网页端</a>
                 </li>
                 <li class="${isMobile?'active':''}">
-                    <a href="javascript:;" class="loadPage" data-url="${ctx}/sysResource?isMobile=1"><i class="fa fa-share-alt ${isMobile?'fa-1g':''}"></i> 手机端</a>
+                    <a href="javascript:;" class="loadPage" data-url="${ctx}/sysResource?isMobile=1">
+                        <i class="fa fa-mobile ${isMobile?'fa-1g':''}"></i> 手机端</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -49,8 +51,10 @@
             },
             {
                 "name": "_update", "label": "修改", "width": 80, formatter: function (cellvalue, options, rowObject) {
-                return '<button href="javascript:;" onclick="_update({0})" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> 修改</button>'
+                if (rowObject.parentId > 0)
+                return '<button data-url="${ctx}/sysResource_au?id={0}" class="popupBtn btn btn-primary btn-xs"><i class="fa fa-edit"></i> 修改</button>'
                         .format(rowObject.id);
+                return "-"
             }
             },
             {
@@ -101,11 +105,6 @@
         url = "${ctx}/sysResource_au?parentId=" + parentId;
         $.loadModal(url);
 
-    }
-    function _update(id) {
-
-        url = "${ctx}/sysResource_au?id=" + id;
-        $.loadModal(url);
     }
 
     function _del(id, parentid) {

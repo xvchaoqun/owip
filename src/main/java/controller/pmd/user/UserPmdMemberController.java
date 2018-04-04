@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -92,6 +93,11 @@ public class UserPmdMemberController extends PmdBaseController {
         PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
         modelMap.put("pmdConfigMember", pmdConfigMember);
 
+        if(pmdConfigMember.getConfigMemberType()== PmdConstants.PMD_MEMBER_TYPE_RETIRE){
+
+            return "pmd/user/pmdMember_setLtxf";
+        }
+
         PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(pmdConfigMember.getConfigMemberTypeId());
         PmdNorm pmdNorm = pmdConfigMemberType.getPmdNorm();
 
@@ -128,6 +134,16 @@ public class UserPmdMemberController extends PmdBaseController {
         int userId = checkPayAuth(pmdMemberId, isSelf);
         record.setUserId(userId);
         pmdConfigMemberService.setSalary(record, isSelf);
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequestMapping(value = "/pmdMember_setLtxf", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMember_setLtxf(int pmdMemberId, BigDecimal retireSalary, HttpServletRequest request) {
+
+        int userId = checkPayAuth(pmdMemberId, false);
+
+        pmdConfigMemberService.setLtxf(userId, retireSalary);
         return success(FormUtils.SUCCESS);
     }
 

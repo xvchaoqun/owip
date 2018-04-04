@@ -3,12 +3,14 @@ package bean;
 import controller.global.OpException;
 import domain.base.MetaType;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import sys.tags.CmTag;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -531,7 +533,7 @@ public class XlsUpload {
                 XSSFCell cell = row.getCell(j);
                 String val = null;
                 if(cell!=null){
-                    val = getCell(cell);
+                    val = getCellValue(cell);
                     allIsNull = false;
                 }
 
@@ -612,5 +614,47 @@ public class XlsUpload {
 			return cell.getErrorCellValue() + "";
 		}
 		return "";*/
+    }
+
+    @SuppressWarnings("deprecation")
+    public static String getCellValue(Cell cell) {
+        if (cell == null)
+            return "";
+        if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+            return cell.getStringCellValue();
+        } else if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {
+            return String.valueOf(cell.getBooleanCellValue());
+        } else if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
+            return cell.getCellFormula();
+        } else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+            short format = cell.getCellStyle().getDataFormat();
+            //System.out.println("format:"+format+";;;;;value:"+cell.getNumericCellValue());
+            SimpleDateFormat sdf = null;
+            if (format == 14 || format == 31 || format == 57 || format == 58
+                    || (176<=format && format<=178) || (182<=format && format<=196)
+                    || (210<=format && format<=213) || (208==format ) ) { // 日期
+                sdf = new SimpleDateFormat("yyyy-MM-dd");
+            } else if (format == 20 || format == 32 || format==183 || (200<=format && format<=209) ) { // 时间
+                sdf = new SimpleDateFormat("HH:mm");
+            } else { // 不是日期格式
+                //return String.valueOf(cell.getNumericCellValue());
+                cell.setCellType(CellType.STRING);
+                return cell.getStringCellValue();
+            }
+            double value = cell.getNumericCellValue();
+            Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
+            if(date==null || "".equals(date)){
+                return "";
+            }
+            String result="";
+            try {
+                result = sdf.format(date);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
+            }
+            return result;
+        }
+        return "";
     }
 }

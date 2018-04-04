@@ -44,13 +44,13 @@
 								<i class="ace-icon fa fa-caret-down"></i>
 							</a>
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								<%--<li>
-									<a href="${ctx}/m/abroad/cadre_base">
+								<li>
+									<a href="${ctx}/m/userInfo">
 										<i class="ace-icon fa fa-cog"></i>
-										个人资料
+										账号信息
 									</a>
 								</li>
-								<li class="divider"></li>--%>
+								<li class="divider"></li>
 								<li>
 									<a href="${ctx}/m/logout">
 										<i class="ace-icon fa fa-power-off"></i>
@@ -92,11 +92,18 @@
 						</script>
 
 						<ul class="breadcrumb">
+							<c:if test="${_path eq '/m/index'}">
+								<li>
+									<i class="ace-icon fa fa-home home-icon"></i>
+									首页
+								</li>
+							</c:if>
+							<c:if test="${_path ne '/m/index'}">
 							<c:forEach var="parentId" items="${parentIdSet}" varStatus="vs">
 								<c:if test="${parentId==0}">
 									<li>
 										<i class="ace-icon fa fa-home home-icon"></i>
-										<a href="${ctx}/m/index">首页</a>
+										<a href="${ctx}/m/index">回到首页</a>
 									</li>
 								</c:if>
 								<c:set var="sysResource" value="${cm:getSysResource(parentId, true)}"/>
@@ -107,8 +114,9 @@
 								</c:if>
 							</c:forEach>
 							<li>
-								<a href="javascript:;">${currentSysResource.name}</a>
+								${currentSysResource.name}
 							</li>
+							</c:if>
 						</ul>
 					</div>
 					<div class="page-content" id="page-content">
