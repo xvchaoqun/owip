@@ -1,0 +1,234 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<div class="tabbable">
+  <ul class="nav nav-tabs" id="myTab3">
+    <li class="active">
+      <a data-toggle="tab" href="#dropdown1">
+        <i class="fa fa-paw blue"></i> 基本信息
+      </a>
+    </li>
+    <li>
+      <a data-toggle="tab" href="#dropdown2">
+        <i class="fa fa-star red"></i> 党籍信息
+      </a>
+    </li>
+  </ul>
+  <div class="tab-content" style="padding:16px 0px 0px">
+    <div id="dropdown1" class="tab-pane in active">
+      <div class="profile-user-info profile-user-info-striped" style="border:0px;">
+        <div class="profile-info-row">
+          <table class="table table-bordered table-center avatar" style="margin-bottom: 0px;">
+            <tr>
+              <td rowspan="6" class="avatar">
+                <img src="${ctx}/m/avatar?path=${uv.avatar}&_t=<%=new Date().getTime()%>" class="avatar">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                ${uv.realname}
+              </td>
+              <td>
+                ${GENDER_MAP.get(uv.gender)}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                ${cm:formatDate(uv.birth,'yyyy-MM-dd')}
+              </td>
+              <td>
+                ${uv.nation}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">${uv.code}</td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                ${memberStudent.idcard}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                ${MEMBER_SOURCE_MAP.get(memberStudent.memberSource)}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 籍贯 </div>
+
+          <div class="profile-info-value td">
+            <span class="editable">
+              ${memberStudent.nativePlace}
+            </span>
+          </div>
+        </div>
+
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 学籍状态</div>
+          <div class="profile-info-value td">
+            <span class="editable">
+              ${memberStudent.xjStatus}
+            </span>
+          </div>
+        </div>
+
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 年级</div>
+          <div class="profile-info-value td">
+            <span class="editable">
+              ${memberStudent.grade}
+            </span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 培养类型</div>
+          <div class="profile-info-value td">
+            <span class="editable">
+              ${memberStudent.eduType}
+            </span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 培养层次</div>
+          <div class="profile-info-value td">
+            <span class="editable">
+              ${memberStudent.eduLevel}
+            </span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 培养方式</div>
+          <div class="profile-info-value td">
+            <span class="editable">
+              ${memberStudent.eduWay}
+            </span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 招生年度</div>
+          <div class="profile-info-value td">
+            <span class="editable">
+              ${memberStudent.enrolYear}
+            </span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 学生类别 </div>
+          <div class="profile-info-value td">
+            <span class="editable">
+              ${memberStudent.type}
+            </span>
+          </div>
+        </div>
+
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 教育类别</div>
+          <div class="profile-info-value td">
+            <span class="editable">
+              ${memberStudent.eduCategory}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="profile-user-info profile-user-info-striped">
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 实际入学年月</div>
+          <div class="profile-info-value td">
+            <span class="editable">${cm:formatDate(memberStudent.actualEnrolTime,'yyyy-MM')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 预计毕业年月</div>
+          <div class="profile-info-value td">
+            <span class="editable">${cm:formatDate(memberStudent.expectGraduateTime,'yyyy-MM')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 实际毕业年月</div>
+          <div class="profile-info-value td">
+            <span class="editable">${cm:formatDate(memberStudent.actualGraduateTime,'yyyy-MM')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 延期毕业年限</div>
+          <div class="profile-info-value td">
+            <span class="editable">${memberStudent.delayYear}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="dropdown2" class="tab-pane">
+      <div class="profile-user-info profile-user-info-striped">
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 所属组织机构</div>
+          <div class="profile-info-value">
+            <span class="editable">${cm:displayParty(memberStudent.partyId, memberStudent.branchId)}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 党籍状态</div>
+          <div class="profile-info-value td">
+            <span class="editable">${MEMBER_POLITICAL_STATUS_MAP.get(memberStudent.politicalStatus)}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 状态</div>
+          <div class="profile-info-value td">
+            <span class="editable">${MEMBER_STATUS_MAP.get(memberStudent.status)}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 党内职务</div>
+          <div class="profile-info-value td">
+            <span class="editable">${memberStudent.partyPost}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 入党时间</div>
+          <div class="profile-info-value td">
+            <span class="editable">${cm:formatDate(memberStudent.growTime,'yyyy-MM-dd')}</span>
+          </div>
+        </div>
+
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 转正时间</div>
+          <div class="profile-info-value td">
+            <span class="editable">${cm:formatDate(memberStudent.positiveTime,'yyyy-MM-dd')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 提交书面申请书时间</div>
+          <div class="profile-info-value">
+            <span class="editable">${cm:formatDate(memberStudent.applyTime,'yyyy-MM-dd')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 确定为入党积极分子时间</div>
+          <div class="profile-info-value">
+            <span class="editable">${cm:formatDate(memberStudent.activeTime,'yyyy-MM-dd')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 确定为发展对象时间</div>
+          <div class="profile-info-value">
+            <span class="editable">${cm:formatDate(memberStudent.candidateTime,'yyyy-MM-dd')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 党内奖励</div>
+          <div class="profile-info-value">
+            <span class="editable">${memberStudent.partyReward}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 其他奖励</div>
+          <div class="profile-info-value">
+            <span class="editable"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>

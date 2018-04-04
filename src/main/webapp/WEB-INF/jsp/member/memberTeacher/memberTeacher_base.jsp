@@ -110,12 +110,8 @@
 					<td  class="bg-right">
 						人员分类
 					</td>
-					<td class="bg-left">
+					<td class="bg-left" colspan="3">
 						${memberTeacher.staffType}
-					</td>
-					<td class="bg-right">人员状态</td>
-					<td  class="bg-left">
-						${memberTeacher.staffStatus}
 					</td>
 				</tr>
 				<tr>
@@ -130,16 +126,10 @@
 					<td class="bg-left">
 						${memberTeacher.mainPostLevel}
 					</td>
-					<td  class="bg-right">
-						在岗情况
-					</td>
-					<td class="bg-left">
-						${memberTeacher.onJob}
-					</td>
 					<td class="bg-right">
 						专业技术职务
 					</td>
-					<td class="bg-left">
+					<td class="bg-left" colspan="3">
 						${memberTeacher.proPost}
 					</td>
 				</tr>

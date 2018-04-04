@@ -18,8 +18,8 @@
         </div>
     </div>
     <div class="widget-body">
-        <div class="widget-main">
-            <div class="tab-content">
+        <div class="widget-main" style="padding: 0px 5px">
+            <div class="tab-content" style="padding-bottom: 0px">
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="col-xs-6" style="width: 600px;float: left">
@@ -29,7 +29,7 @@
                                 <div class="form-group">
                                     <label class="col-xs-2 control-label">代码</label>
 
-                                    <div class="col-xs-6">
+                                    <div class="col-xs-9">
                                         <input required class="form-control" ${sysRole.role eq 'admin'?'disabled':''}
                                         type="text" name="role" value="${sysRole.role}">
                                         <span class="help-block small danger">如需修改，请联系系统开发人员</span>
@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <label required class="col-xs-2 control-label">名称</label>
 
-                                    <div class="col-xs-6">
+                                    <div class="col-xs-9">
                                         <input class="form-control" type="text" name="description"
                                                value="${sysRole.description}">
                                     </div>
@@ -46,20 +46,20 @@
                                 <div class="form-group">
                                     <label class="col-xs-2 control-label">备注</label>
 
-                                    <div class="col-xs-6">
+                                    <div class="col-xs-9">
                                         <textarea class="form-control" name="remark">${sysRole.remark}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-2 control-label">网页端资源</label>
+                                    <label class="col-xs-2 control-label" style="height: 203px;line-height: 203px">网页端资源</label>
                                     <div class="col-xs-9">
-                                        <div id="tree3" style="height: 250px;"></div>
+                                        <div id="tree3" style="height: 203px;"></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-2 control-label">手机端资源</label>
+                                    <label class="col-xs-2 control-label" style="height: 203px;line-height: 203px">手机端资源</label>
                                     <div class="col-xs-9">
-                                        <div id="m_tree3" style="height: 250px;"></div>
+                                        <div id="m_tree3" style="height: 203px;"></div>
                                     </div>
                                 </div>
 
@@ -85,7 +85,7 @@
             </div>
         </div>
     </div>
-    <div class=" form-actions center">
+    <div class=" form-actions center" style="margin: 0px;">
         <button id="submitBtn" class="btn btn-info" type="submit">
             <i class="ace-icon fa fa-check bigger-110"></i>
             ${op}

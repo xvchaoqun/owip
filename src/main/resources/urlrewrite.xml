@@ -16,6 +16,12 @@
 		<to>/avatar</to>
 	</rule>
 	<rule>
+		<note>党员信息查询</note>
+		<condition type="method">GET</condition>
+		<from>^/m/member_selects</from>
+		<to>/member_selects</to>
+	</rule>
+	<rule>
 		<note>干部查询</note>
 		<condition type="method">GET</condition>
 		<from>^/m/cadre_selects</from>
