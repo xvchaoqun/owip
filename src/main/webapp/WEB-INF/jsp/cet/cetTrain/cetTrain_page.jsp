@@ -71,7 +71,7 @@
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                         <i class="fa fa-download"></i> 导出</a>
                 </div>
-                <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">
                         <h4 class="widget-title">搜索</h4>
 
@@ -117,7 +117,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div>--%>
                 <div class="space-4"></div>
                 <table id="jqGrid3" class="jqGrid2 table-striped"></table>
                 <div id="jqGridPager3"></div>
@@ -183,7 +183,7 @@
                 'data-url="${ctx}/cet/cetTrain_summary?id={0}"><i class="fa {3}"></i> {1}</button>')
                         .format(rowObject.id, btnStr, btnCss, iCss);
             }, frozen:true},
-            {label: '参训人员类型', name: 'traineeTypes', width:120, align:'left'},
+            {label: '参训人员类型', name: 'traineeTypes', width:220, align:'left'},
             {label: '开课日期', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '结课日期', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '备注', name: 'remark', width:300}, {hidden: true, name: 'pubStatus'},

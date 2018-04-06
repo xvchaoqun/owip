@@ -361,12 +361,14 @@ var _modal_width;
 
             if (cadreId > 0 && $.trim(realname) != '') {
 
-                if(target!=undefined){
-                    return ('<a href="${ctx}/#${ctx}/cadre_view?cadreId={0}" target="{1}">{2}</a>')
-                        .format(cadreId, target, realname);
-                }else {
-                    return '<a href="javascript:;" class="openView" data-url="{2}/cadre_view?cadreId={0}">{1}</a>'
-                        .format(cadreId, realname, ctx);
+                if( $.inArray("cadre:view", _permissions) >= 0 ) {
+                    if (target != undefined) {
+                        return ('<a href="{3}/#{3}/cadre_view?cadreId={0}" target="{1}">{2}</a>')
+                            .format(cadreId, target, realname, ctx);
+                    } else {
+                        return '<a href="javascript:;" class="openView" data-url="{2}/cadre_view?cadreId={0}">{1}</a>'
+                            .format(cadreId, realname, ctx);
+                    }
                 }
             }
 

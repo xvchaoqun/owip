@@ -58,13 +58,13 @@
                 </div>
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
-                       data-target="#detail-body-content-view"
+                       data-target="#detail-content-view"
                        data-form="#searchForm2"
                        data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&cls=${param.cls}"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                data-target="#detail-body-content-view"
-                                data-url="${ctx}/cet/cetTrainee?trainId=${trainId.postId}&traineeTypeId=${traineeTypeId}&cls=${param.cls}">
+                                data-target="#detail-content-view"
+                                data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&traineeTypeId=${traineeTypeId}&cls=${param.cls}">
                             <i class="fa fa-reply"></i> 重置
                         </button>
                     </c:if>

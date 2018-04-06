@@ -56,9 +56,14 @@ pageEncoding="UTF-8" %>
                         </div>
                         </#list>
                             <div class="clearfix form-actions center">
-                                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                <a class="jqSearchBtn btn btn-default btn-sm"
+                                   data-url="&{ctx}/${_resFolder}${tableName}"
+                                   data-target="#page-content"
+                                   data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="&{_query}">&nbsp;
-                                    <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                    <button type="button" class="resetBtn btn btn-warning btn-sm"
+                                            data-url="&{ctx}/${_resFolder}${tableName}"
+                                            data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
                                 </c:if>

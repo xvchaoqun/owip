@@ -30,7 +30,7 @@
             <i class="fa fa-download"></i> 导出
         </button>--%>
     </div>
-    <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+    <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
         <div class="widget-header">
             <h4 class="widget-title">搜索</h4>
 
@@ -59,7 +59,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div>--%>
     <div class="space-4"></div>
     <table id="jqGrid2" class="jqGrid2 table-striped"></table>
     <div id="jqGridPager2"></div>

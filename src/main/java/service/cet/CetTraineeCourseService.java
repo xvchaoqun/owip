@@ -139,7 +139,10 @@ public class CetTraineeCourseService extends BaseMapper {
         CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
         int trainId = cetTrainCourse.getTrainId();
 
-        checkApplyIsOpen(trainId);
+        if(!isAdmin){
+            // 非管理员选课
+            checkApplyIsOpen(trainId);
+        }
 
         CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
         if(cetTrainee==null) return;

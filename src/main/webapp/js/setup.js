@@ -569,7 +569,7 @@ $(document).on("click", ".pirntBtn", function (e) {
 $(document).on("click", " .resetBtn", function () {
 
     var $this = $(this);
-    var querystr = $this.data("querystr");
+    var querystr = $.trim($this.data("querystr"));
     var $div = $this.closest(".myTableDiv");
     //var $target = ($div.data("target")) ? ($($div.data("target")) || $("#page-content")) : $("#page-content");
     var $target = $($this.data("target") || $div.data("target") || "#page-content");
@@ -577,7 +577,7 @@ $(document).on("click", " .resetBtn", function () {
 
     $target.renderUrl({
         url: url,
-        params: "&" + querystr
+        params: querystr==''?null:("&" + querystr)
     });
 });
 

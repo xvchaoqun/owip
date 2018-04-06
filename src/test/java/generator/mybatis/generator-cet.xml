@@ -36,8 +36,9 @@
         </javaClientGenerator>
 
         <!--干部教育培训系统-->
-        <!--<table tableName="cet_project" domainObjectName="cet.CetProject" mapperName="cet.CetProjectMapper">
-        </table>-->
+        <table tableName="cet_project" domainObjectName="cet.CetProject" mapperName="cet.CetProjectMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
         <!--<table tableName="cet_project_view" domainObjectName="cet.CetProjectView"
                mapperName="cet.CetProjectViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -51,12 +52,12 @@
        <!-- <table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-         <table tableName="cet_project_obj_cadre_view" domainObjectName="cet.CetProjectObjCadreView"
+        <!-- <table tableName="cet_project_obj_cadre_view" domainObjectName="cet.CetProjectObjCadreView"
                 mapperName="cet.CetProjectObjCadreViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>
+         </table>-->
         <!--<table tableName="cet_project_plan" domainObjectName="cet.CetProjectPlan" mapperName="cet.CetProjectPlanMapper">
         </table>-->
 

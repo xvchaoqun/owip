@@ -102,13 +102,13 @@
                 </div>
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
-                       data-target="#detail-body-content-view"
+                       data-target="#detail-content-view"
                        data-form="#searchForm2"
                        data-url="${ctx}/cet/cetProjectObj?projectId=${param.projectId}"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                data-target="#detail-body-content-view"
-                                data-url="${ctx}/cet/cetProjectObj?projectId=${trainId.projectId}&type=${type}&cls=${cls}">
+                                data-target="#detail-content-view"
+                                data-url="${ctx}/cet/cetProjectObj?projectId=${param.projectId}&traineeTypeId=${traineeTypeId}&cls=${cls}">
                             <i class="fa fa-reply"></i> 重置
                         </button>
                     </c:if>
@@ -165,8 +165,7 @@
             }, frozen: true},
             {label: '工作证号', name: 'code', width: 100, frozen: true},
             {label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.cadre==undefined) return cellvalue;
-                return $.cadre(rowObject.cadre.id, cellvalue, "_blank");
+                return $.cadre(rowObject.cadreId, cellvalue, "_blank");
 
             }, frozen: true},
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350, frozen: true},

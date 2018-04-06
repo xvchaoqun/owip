@@ -120,6 +120,10 @@ public class CetProjectController extends CetBaseController {
             return failed("培训时间有误。");
         }
 
+        if(traineeTypeIds==null || traineeTypeIds.length==0){
+            return failed("请选择参训人员类型。");
+        }
+
         record.setFileName(_pdfFilePath!=null? FileUtils.getFileName(_pdfFilePath.getOriginalFilename()):null);
         record.setPdfFilePath(uploadPdf(_pdfFilePath, "cet_project"));
         record.setWordFilePath(upload(_wordFilePath, "cet_project"));

@@ -109,16 +109,14 @@
 
     function _del(id, parentid) {
 
-        bootbox.confirm("确定删除该资源吗？", function (result) {
-            if (result) {
-                $.post("${ctx}/sysResource_del", {id: id}, function (ret) {
-                    if (ret.success) {
-                        $("#modal").modal('hide');
-                        $("#jqGrid").jqGrid("delRowData", id);
-                        //SysMsg.success('操作成功。', '成功');
-                    }
-                });
-            }
+        SysMsg.confirm("确定删除该资源吗？", function (result) {
+            $.post("${ctx}/sysResource_del", {id: id}, function (ret) {
+                if (ret.success) {
+                    $("#modal").modal('hide');
+                    $("#jqGrid").jqGrid("delRowData", id);
+                    //SysMsg.success('操作成功。', '成功');
+                }
+            });
         });
     }
 </script>

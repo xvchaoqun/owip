@@ -46,8 +46,10 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>年度</label>
-                            <input class="form-control search-query" name="year" type="text" value="${param.year}"
-                                   placeholder="请输入年度">
+                            <input class="form-control date-picker" placeholder="请选择年份"
+                                   name="year" type="text" style="width: 100px;"
+                                   data-date-format="yyyy" data-date-min-view-mode="2"
+                                   value="${param.year}"/>
                         </div>
                         <div class="form-group">
                             <label>培训班名称</label>
@@ -55,9 +57,14 @@ pageEncoding="UTF-8" %>
                                    placeholder="请输入培训班名称">
                         </div>
                             <div class="clearfix form-actions center">
-                                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
+                                <a class="jqSearchBtn btn btn-default btn-sm"
+                                        data-url="${ctx}/cet/cetProject"
+                                        data-target="#page-content"
+                                        data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
-                                    <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                    <button type="button" class="resetBtn btn btn-warning btn-sm"
+                                            data-url="${ctx}/cet/cetProject"
+                                            data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
                                 </c:if>
@@ -74,6 +81,7 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <script>
+    $.register.date($('.date-picker'));
     $("#jqGrid").jqGrid({
         rownumbers:true,
         url: '${ctx}/cet/cetProject_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

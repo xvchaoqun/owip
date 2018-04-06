@@ -13,13 +13,13 @@
                 </c:if>
                 <li class="<c:if test="${empty param.trainCourseId}">active</c:if>">
                     <a href="javascript:void(0)" class="${cetTrain.isOnCampus?"loadPage":"openView"}"
-                            <c:if test="${cetTrain.isOnCampus}"> data-load-el="#detail-body-content-view"  data-callback="$.menu.liSelected" </c:if>
+                            <c:if test="${cetTrain.isOnCampus}"> data-load-el="#detail-content-view"  data-callback="$.menu.liSelected" </c:if>
                        data-url="${ctx}/cet/cetTrainStat?trainId=${param.trainId}&detail=${param.detail}"><i class="fa fa-signal"></i> 汇总</a>
                 </li>
                 <c:forEach items="${trainCourses}" var="tc">
                     <li class="${param.trainCourseId==tc.id?'active':''}">
                         <a href="javascript:void(0)" class="${empty tc.evaTableId?"red bolder":(cetTrain.isOnCampus?"loadPage":"openView")}"
-                           <c:if test="${cetTrain.isOnCampus}"> data-load-el="#detail-body-content-view"  data-callback="$.menu.liSelected" </c:if>
+                           <c:if test="${cetTrain.isOnCampus}"> data-load-el="#detail-content-view"  data-callback="$.menu.liSelected" </c:if>
                            data-url="${ctx}/cet/cetTrainStat?trainId=${param.trainId}&trainCourseId=${tc.id}&detail=${param.detail}">
                             <i class="fa fa-signal"></i>
                         ${tc.isGlobal?(cetTrain.isOnCampus?tc.cetCourse.name:tc.name)

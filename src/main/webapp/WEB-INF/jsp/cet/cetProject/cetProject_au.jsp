@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">参训人员类型</label>
-				<div class="col-xs-9 label-text">
+				<div class="col-xs-9 label-text" id="traineeTypeDiv">
 					<c:forEach items="${traineeTypeMap}" var="entity">
 						<label>
 							<input name="traineeTypeIds[]" type="checkbox" value="${entity.key}"> ${entity.value.name}&nbsp;
@@ -103,9 +103,23 @@ pageEncoding="UTF-8"%>
 	for(i in traineeTypeIds){
 		$('#modalForm input[name="traineeTypeIds[]"][value="'+ traineeTypeIds[i] +'"]').prop("checked", true);
 	}
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#submitBtn").click(function(){
+		if($('#modalForm input[name="traineeTypeIds[]"]:checked').length==0){
+			$.tip({
+				$target: $("#traineeTypeDiv"),
+				at: 'top center', my: 'bottom center',
+				msg: "请选择参训人员类型。"
+			});
+		}
+		$("#modalForm").submit();return false;
+	});
     $("#modalForm").validate({
         submitHandler: function (form) {
+
+			if($('#modalForm input[name="traineeTypeIds[]"]:checked').length==0){
+				return false;
+			}
+
 			var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
