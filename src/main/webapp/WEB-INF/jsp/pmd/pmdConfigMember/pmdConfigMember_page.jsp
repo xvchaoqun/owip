@@ -15,7 +15,7 @@
 
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/pmd/pmdConfigMember_updateType"
-                       data-querystr="&"><i class="fa fa-edit"></i>
+                       ><i class="fa fa-edit"></i>
                         修改党员类别</a>
                 </shiro:hasPermission>--%>
                 <%--<shiro:hasPermission name="pmdConfigMember:del">
@@ -123,7 +123,7 @@
             <table id="jqGrid" class="jqGrid table-striped"></table>
             <div id="jqGridPager"></div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

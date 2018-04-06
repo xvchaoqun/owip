@@ -3,8 +3,8 @@ package controller.cet.user;
 import controller.cet.CetBaseController;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseExample;
-import domain.cet.CetTraineeCadreView;
 import domain.cet.CetTraineeCourse;
+import domain.cet.CetTraineeView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -102,9 +102,13 @@ public class UserCetTrainController extends CetBaseController {
         modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
 
         int userId = ShiroHelper.getCurrentUserId();
-        CetTraineeCadreView cetTrainee = cetTraineeService.get(userId, trainId);
-        int traineeId = cetTrainee.getId();
-        modelMap.put("cetTrainee", cetTrainee);
+        CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
+        if(cetTrainee!=null) {
+            modelMap.put("cetTrainee", cetTrainee);
+            int traineeId = cetTrainee.getId();
+            List<CetTraineeCourse> selectedCetTraineeCourses = iCetMapper.selectedCetTraineeCourses(traineeId);
+            modelMap.put("selectedCetTraineeCourses", selectedCetTraineeCourses);
+        }
 
         CetTrainCourseExample example = new CetTrainCourseExample();
         example.createCriteria().andTrainIdEqualTo(trainId);
@@ -112,9 +116,6 @@ public class UserCetTrainController extends CetBaseController {
         List<CetTrainCourse> cetTrainCourses = cetTrainCourseMapper.selectByExample(example);
 
         modelMap.put("cetTrainCourses", cetTrainCourses);
-
-        List<CetTraineeCourse> selectedCetTraineeCourses = iCetMapper.selectedCetTraineeCourses(traineeId);
-        modelMap.put("selectedCetTraineeCourses", selectedCetTraineeCourses);
 
         return "cet/user/cetTrain_apply";
     }
@@ -144,7 +145,7 @@ public class UserCetTrainController extends CetBaseController {
 
         int userId = ShiroHelper.getCurrentUserId();
         isApply = BooleanUtils.isTrue(isApply);
-        cetTraineeCourseService.applyItem(userId, trainCourseId, isApply);
+        cetTraineeCourseService.applyItem(userId, trainCourseId, isApply, false, (isApply ? "选课" : "退课"));
 
         logger.info(addLog(SystemConstants.LOG_CET, (isApply ? "选课" : "退课") + "：%s", trainCourseId));
 
@@ -173,7 +174,7 @@ public class UserCetTrainController extends CetBaseController {
         modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
 
         int userId = ShiroHelper.getCurrentUserId();
-        CetTraineeCadreView cetTrainee = cetTraineeService.get(userId, trainId);
+        CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
         modelMap.put("cetTrainee", cetTrainee);
 
         int traineeId = cetTrainee.getId();

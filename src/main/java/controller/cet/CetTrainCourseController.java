@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
+import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -190,6 +191,42 @@ public class CetTrainCourseController extends CetBaseController {
         return;
     }
 
+    // 管理员给培训课程设置必选课的参训人
+    @RequiresPermissions("cetTrainCourse:edit")
+    @RequestMapping("/cetTrainCourse_selectObjs")
+    public String cetTrainCourse_selectObjs(int trainCourseId, ModelMap modelMap) {
+
+        modelMap.put("cetTrainCourse", cetTrainCourseMapper.selectByPrimaryKey(trainCourseId));
+
+        return "cet/cetTrainCourse/cetTrainCourse_selectObjs";
+    }
+
+    @RequiresPermissions("cetTrainCourse:edit")
+    @RequestMapping("/cetTrainCourse_selectObjs_tree")
+    @ResponseBody
+    public Map cetTrainCourse_selectObjs_tree(int trainCourseId) throws IOException {
+
+        TreeNode tree = cetTrainCourseService.selectObjs_tree(trainCourseId);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
+    }
+
+    @RequiresPermissions("cetTrainCourse:edit")
+    @RequestMapping(value = "/cetTrainCourse_selectObjs", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetTrainCourse_selectObjs(int trainCourseId,
+                                                @RequestParam(required = false, value = "userIds[]") Integer[] userIds,
+                                                HttpServletRequest request) {
+
+        cetTrainCourseService.selectObjs(trainCourseId, userIds);
+        logger.info(addLog(SystemConstants.LOG_CET, "设置参训人员：%s, %s",trainCourseId, StringUtils.join(userIds, ",")));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 参训人列表（签到列表）
     @RequiresPermissions("cetTrainCourse:edit")
     @RequestMapping("/cetTrainCourse_trainee")
     public String cetTrainCourse_trainee(int trainCourseId, ModelMap modelMap) {

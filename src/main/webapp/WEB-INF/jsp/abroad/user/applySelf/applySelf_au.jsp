@@ -414,7 +414,7 @@ pageEncoding="UTF-8"%>
 		$("#sidebar a[href='/user/passportDraw']").closest("li").addClass("active");
 		$("#body-content").hide();
 		$.get("${ctx}/user/abroad/passportDraw_self_select",{applyId:applyId},function(html){
-			$("#item-content").hide().html(html).fadeIn("slow");
+			$("#body-content-view").hide().html(html).fadeIn("slow");
 		})
 	}
     $('#applyForm [data-rel="select2"]').select2();

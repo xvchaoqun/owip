@@ -102,6 +102,6 @@ $("#apply").click(function(){
       SysMsg.info("请选择一个行程");
       return;
     }
-    $("#item-content").load("${ctx}/user/abroad/passportDraw_self_select?auth=${param.auth}&cadreId=${param.cadreId}&applyId="+applyId);
+    $("#body-content-view").load("${ctx}/user/abroad/passportDraw_self_select?auth=${param.auth}&cadreId=${param.cadreId}&applyId="+applyId);
 });
 </script>

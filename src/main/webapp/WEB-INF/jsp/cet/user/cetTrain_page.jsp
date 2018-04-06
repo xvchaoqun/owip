@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>
@@ -88,13 +88,6 @@
             }, width: 90, frozen: true},
             </c:if>
             {label: '年度', name: 'year', width:'60', frozen: true},
-            {
-                label: '编号', name: 'num', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.type==undefined || rowObject.type<=0) return ''
-                return _cMap.metaTypeMap[rowObject.type].name + "[" + rowObject.year + "]" + rowObject.num + "号";
-
-            }, width: 200, frozen: true
-            },
             {label: '培训班名称', name: 'name', width:200, align:'left'},
             {label: '内容简介', name: '_summary', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.hasSummary==false) return'-'

@@ -31,7 +31,7 @@
 <script>
 
     $(".backBtn").click(function(){
-        $("#item-content").hide().load("${ctx}/${param.type=='user'?'user/':''}abroad/applySelf_view?id=${applySelf.id}&type=${param.type}&approvalTypeId=${param.approvalTypeId}").fadeIn();
+        $("#body-content-view").hide().load("${ctx}/${param.type=='user'?'user/':''}abroad/applySelf_view?id=${applySelf.id}&type=${param.type}&approvalTypeId=${param.approvalTypeId}").fadeIn();
     });
 
     $("#jqGrid2").jqGrid({

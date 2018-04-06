@@ -5,6 +5,7 @@
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="trainee_id" jdbcType="INTEGER" property="traineeId" />
     <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
+    <result column="can_quit" jdbcType="BIT" property="canQuit" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="sign_time" jdbcType="TIMESTAMP" property="signTime" />
     <result column="sign_type" jdbcType="TINYINT" property="signType" />
@@ -14,6 +15,7 @@
     <result column="train_id" jdbcType="INTEGER" property="trainId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="code" jdbcType="VARCHAR" property="code" />
@@ -58,9 +60,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, trainee_id, train_course_id, is_finished, sign_time, sign_type, remark, choose_time, 
-    ip, train_id, trainee_type_id, user_id, period, year, code, realname, title, type_id, 
-    post_id, cadre_dp_type, pro_post, lp_work_time, mobile, email, status
+    id, trainee_id, train_course_id, can_quit, is_finished, sign_time, sign_type, remark, 
+    choose_time, ip, train_id, trainee_type_id, user_id, course_id, period, year, code, 
+    realname, title, type_id, post_id, cadre_dp_type, pro_post, lp_work_time, mobile, 
+    email, status
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeCourseViewExample" resultMap="BaseResultMap">
     select

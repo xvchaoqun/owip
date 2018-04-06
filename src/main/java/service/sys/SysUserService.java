@@ -600,15 +600,16 @@ public class SysUserService extends BaseMapper {
     public Set<String> mFilterMenus(int userId, Set<String> userRoles, Set<String> userPermissions) {
 
         ApproverService approverService = CmTag.getBean(ApproverService.class);
+        if(approverService!=null) {
+            // 是干部
+            if (userRoles.contains(RoleConstants.ROLE_CADRE)) {
 
-        // 是干部
-        if(userRoles.contains(RoleConstants.ROLE_CADRE)){
+                // 是干部管理员 或 没有因私审批权限
+                if (userRoles.contains(RoleConstants.ROLE_CADREADMIN) ||
+                        !approverService.hasApproveAuth(userId)) {
 
-            // 是干部管理员 或 没有因私审批权限
-            if(userRoles.contains(RoleConstants.ROLE_CADREADMIN) ||
-                    !approverService.hasApproveAuth(userId)) {
-
-                userPermissions.remove("m:applySelfList:*");
+                    userPermissions.remove("m:applySelfList:*");
+                }
             }
         }
 

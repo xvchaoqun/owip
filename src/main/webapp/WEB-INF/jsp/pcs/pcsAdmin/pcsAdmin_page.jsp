@@ -23,7 +23,7 @@
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/pcsAdmin_au"
                        data-grid-id="#jqGrid"
-                       data-querystr="&"><i class="fa fa-edit"></i>
+                       ><i class="fa fa-edit"></i>
                         修改管理员信息</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="pcsAdmin:del">
@@ -89,7 +89,7 @@
             <table id="jqGrid" class="jqGrid table-striped"></table>
             <div id="jqGridPager"></div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

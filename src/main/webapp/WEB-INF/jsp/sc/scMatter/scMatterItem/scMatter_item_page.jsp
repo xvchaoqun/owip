@@ -33,7 +33,7 @@
                        data-url="${ctx}/sc/scMatterItem_au"
                        data-width="400"
                        data-grid-id="#jqGrid2"
-                       data-querystr="&"><i class="fa fa-hand-paper-o"></i>
+                       ><i class="fa fa-hand-paper-o"></i>
                         上交</a>
                     <shiro:hasPermission name="scMatterItem:del">
                         <button data-url="${ctx}/sc/scMatterItem_batchDel"

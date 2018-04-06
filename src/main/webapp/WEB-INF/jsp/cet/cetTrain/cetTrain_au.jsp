@@ -8,21 +8,9 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetTrain_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetTrain.id}">
+        <input type="hidden" name="planId" value="${planId}">
 		<input type="hidden" name="isOnCampus" value="1">
-			<div class="form-group">
-				<label class="col-xs-3 control-label">年度</label>
-				<div class="col-xs-6">
-					<div class="input-group">
-						<input required class="form-control date-picker" placeholder="请选择年份"
-							   name="year"
-							   type="text"
-							   data-date-format="yyyy" data-date-min-view-mode="2"
-							   value="${empty cetTrain.year?_thisYear:cetTrain.year}"/>
-                                            <span class="input-group-addon"> <i
-													class="fa fa-calendar bigger-110"></i></span>
-					</div>
-				</div>
-			</div>
+
 		<div class="form-group">
 			<label class="col-xs-3 control-label">培训班类型</label>
 
@@ -36,13 +24,7 @@ pageEncoding="UTF-8"%>
 				</script>
 			</div>
 		</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">编号</label>
-				<div class="col-xs-6">
-					<input ${empty cetTrain?'':'required'} autocomplete="off" class="form-control num" type="text" name="num" value="${cetTrain.num}">
-					<c:if test="${empty cetTrain}"><span class="label-inline"> * 留空自动生成</span></c:if>
-				</div>
-			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">培训班名称</label>
 				<div class="col-xs-6">
@@ -50,30 +32,6 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 
-			<div class="form-group">
-				<label class="col-xs-3 control-label">参训人员类型模板</label>
-				<div class="col-xs-6">
-					<select required name="templateId" data-rel="select2"
-							data-width="275"
-							data-placeholder="请选择">
-						<option></option>
-						<c:forEach var="template" items="${CET_TRAINEE_TYPE_TEMPLATE_MAP}">
-							<option value="${template.key}">
-									${template.value}
-							</option>
-						</c:forEach>
-					</select>
-					<script>
-						$("#modalForm select[name=templateId]").val("${cetTrain.templateId}");
-					</script>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">参训人员类型</label>
-				<div class="col-xs-6 label-text" id="traineeTypeDiv">
-
-				</div>
-			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">开课日期</label>
 				<div class="col-xs-6">
@@ -114,30 +72,7 @@ pageEncoding="UTF-8"%>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${cetTrain!=null}">确定</c:if><c:if test="${cetTrain==null}">添加</c:if></button>
 </div>
-<script type="text/template" id="traineeType_tpl">
-	{{_.each(traineeTypes, function(t, idx){ }}
-	<label>
-		<input name="traineeTypeIds[]" {{=($.inArray(t.id, traineeTypeIds)>=0?'checked':'')}} type="checkbox" value="{{=t.id}}">{{=t.name}}
-		<span class="lbl"></span>
-	</label>
-	{{});}}
-</script>
 <script>
-
-	var templateMap = ${cm:toJSONObject(templateMap)};
-	var traineeTypeIds = ${cm:toJSONArray(traineeTypeIds)};
-
-	$("#modal select[name=templateId]").change(function(){
-		var html = "";
-		var templateId = $(this).val();
-		if(templateId>0) {
-			var traineeTypes = templateMap[templateId];
-			html = _.template($("#traineeType_tpl").html().NoMultiSpace())({traineeTypes: traineeTypes,
-				traineeTypeIds:traineeTypeIds});
-		}
-
-		$("#traineeTypeDiv").html(html);
-	}).change();
 
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
@@ -146,7 +81,12 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
+						<c:if test="${param.isOnCampus==0}">
                         $("#jqGrid").trigger("reloadGrid");
+						</c:if>
+						<c:if test="${param.isOnCampus!=0}">
+						$("#jqGrid3").trigger("reloadGrid");
+						</c:if>
                     }
                 }
             });

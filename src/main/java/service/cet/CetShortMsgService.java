@@ -3,6 +3,7 @@ package service.cet;
 import bean.ShortMsgBean;
 import domain.base.ContentTpl;
 import domain.cet.CetCourse;
+import domain.cet.CetProjectObj;
 import domain.cet.CetShortMsg;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
@@ -55,6 +56,8 @@ public class CetShortMsgService extends BaseMapper {
 
         CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);
         if (cetTrainee == null) return false;
+        CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(cetTrainee.getObjId());
+        if (cetProjectObj == null) return false;
 
         CetTraineeCourse cetTraineeCourse = cetTraineeCourseService.get(traineeId, trainCourseId);
         if(cetTraineeCourse==null) return false;
@@ -86,7 +89,7 @@ public class CetShortMsgService extends BaseMapper {
         csm.setTrainId(trainId);
         csm.setMsg(msg);
 
-        int userId = cetTrainee.getUserId();
+        int userId = cetProjectObj.getUserId();
         bean.setReceiver(userId);
         String mobile = userBeanService.getMsgMobile(userId);
         bean.setMobile(mobile);
@@ -120,6 +123,8 @@ public class CetShortMsgService extends BaseMapper {
 
         CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);
         if (cetTrainee == null) return false;
+        CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(cetTrainee.getObjId());
+        if (cetProjectObj == null) return false;
 
         CetTrainCourse cetTrainCourse = iCetMapper.getTomorrowFirstCourse(traineeId);
         if(cetTrainCourse==null) return false;
@@ -154,7 +159,7 @@ public class CetShortMsgService extends BaseMapper {
         csm.setTrainId(trainId);
         csm.setMsg(msg);
 
-        int userId = cetTrainee.getUserId();
+        int userId = cetProjectObj.getUserId();
         bean.setReceiver(userId);
         String mobile = userBeanService.getMsgMobile(userId);
         bean.setMobile(mobile);

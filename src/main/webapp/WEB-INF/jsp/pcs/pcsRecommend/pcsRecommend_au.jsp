@@ -7,7 +7,7 @@
             style="position:absolute; top: -50px; left: 550px;">
             <c:if test="${param.admin==1}">
                 <a href="javascript:" style="color: red;font-weight: bolder;line-height: 30px"
-                   data-load-el="#step-item-content"
+                   data-load-el="#step-body-content-view"
                    data-url="${ctx}/pcsOw_party_branch_page?stage=${param.stage}&partyId=${param.partyId}"
                    class="loadPage">
                     <i class="ace-icon fa fa-reply"></i>

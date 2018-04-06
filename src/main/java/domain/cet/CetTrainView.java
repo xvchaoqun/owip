@@ -7,10 +7,6 @@ import java.util.Date;
 
 public class CetTrainView implements Serializable {
 
-    public String getSn() {
-        return BaseCetTrain.getSn(type, year, num);
-    }
-
     public Boolean getAutoSwitch() {
         return enrollStatus == CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT;
     }
@@ -27,11 +23,9 @@ public class CetTrainView implements Serializable {
 
     private Integer id;
 
-    private Integer year;
+    private Integer planId;
 
     private Integer type;
-
-    private Integer num;
 
     private Boolean isOnCampus;
 
@@ -40,8 +34,6 @@ public class CetTrainView implements Serializable {
     private Boolean hasSummary;
 
     private String summary;
-
-    private Integer templateId;
 
     private Date startDate;
 
@@ -71,11 +63,13 @@ public class CetTrainView implements Serializable {
 
     private Date createTime;
 
+    private Integer year;
+
     private Integer courseNum;
 
-    private Integer traineeCount;
+    private Long objCount;
 
-    private Integer selectedCount;
+    private Integer traineeCount;
 
     private String traineeTypes;
 
@@ -91,12 +85,12 @@ public class CetTrainView implements Serializable {
         this.id = id;
     }
 
-    public Integer getYear() {
-        return year;
+    public Integer getPlanId() {
+        return planId;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
     }
 
     public Integer getType() {
@@ -105,14 +99,6 @@ public class CetTrainView implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
-    }
-
-    public Integer getNum() {
-        return num;
-    }
-
-    public void setNum(Integer num) {
-        this.num = num;
     }
 
     public Boolean getIsOnCampus() {
@@ -145,14 +131,6 @@ public class CetTrainView implements Serializable {
 
     public void setSummary(String summary) {
         this.summary = summary == null ? null : summary.trim();
-    }
-
-    public Integer getTemplateId() {
-        return templateId;
-    }
-
-    public void setTemplateId(Integer templateId) {
-        this.templateId = templateId;
     }
 
     public Date getStartDate() {
@@ -267,6 +245,14 @@ public class CetTrainView implements Serializable {
         this.createTime = createTime;
     }
 
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
     public Integer getCourseNum() {
         return courseNum;
     }
@@ -275,20 +261,20 @@ public class CetTrainView implements Serializable {
         this.courseNum = courseNum;
     }
 
+    public Long getObjCount() {
+        return objCount;
+    }
+
+    public void setObjCount(Long objCount) {
+        this.objCount = objCount;
+    }
+
     public Integer getTraineeCount() {
         return traineeCount;
     }
 
     public void setTraineeCount(Integer traineeCount) {
         this.traineeCount = traineeCount;
-    }
-
-    public Integer getSelectedCount() {
-        return selectedCount;
-    }
-
-    public void setSelectedCount(Integer selectedCount) {
-        this.selectedCount = selectedCount;
     }
 
     public String getTraineeTypes() {

@@ -82,14 +82,14 @@
              || not empty param.isDelay || not empty param.isSelfPay}"/>
         <div class="form-group">
             <button type="button" data-url="${ctx}/pmd/pmdMember"
-                    data-target="#item-content" data-form="#searchForm2"
+                    data-target="#body-content-view" data-form="#searchForm2"
                     class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找
             </button>
             <c:if test="${_query}">
                 <button type="button"
                         data-url="${ctx}/pmd/pmdMember"
                         data-querystr="partyId=${param.partyId}&branchId=${param.branchId}&monthId=${param.monthId}"
-                        data-target="#item-content"
+                        data-target="#body-content-view"
                         class="resetBtn btn btn-warning btn-sm">
                     <i class="fa fa-reply"></i> 重置
                 </button>

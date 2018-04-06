@@ -26,7 +26,7 @@
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/cet/cetTrainEvaRank_au"
                        data-grid-id="#jqGrid2"
-                       data-querystr="&"><i class="fa fa-edit"></i>
+                       ><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cetTrainEvaRank:del">

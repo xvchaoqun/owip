@@ -22,7 +22,7 @@ pageEncoding="UTF-8" %>
                        data-url="${ctx}/sc/scCommitteeTopic_au"
                        data-grid-id="#jqGrid"
                        data-width="900"
-                       data-querystr="&"><i class="fa fa-edit"></i>
+                       ><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="scCommitteeTopic:del">
@@ -111,7 +111,7 @@ pageEncoding="UTF-8" %>
         </div>
         </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

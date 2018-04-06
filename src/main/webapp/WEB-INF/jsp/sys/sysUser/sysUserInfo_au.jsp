@@ -186,7 +186,7 @@
     });
     $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/${sysUser.username}'}]);
 
-    $("#item-content button[type=submit]").click(function () {
+    $("#body-content-view button[type=submit]").click(function () {
         $("#modalForm").submit();
         return false;
     });

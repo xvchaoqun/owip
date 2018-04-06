@@ -128,7 +128,7 @@
 </div>
         </div></div></div>
   </div>
-<div id="item-content">
+<div id="body-content-view">
 </div>
 
 <style>
@@ -208,7 +208,7 @@
               }});
         $.get($(this).data("url"), {passportId:$('input[name=passportId]:checked').val()}, function (html) {
           $container.hideLoading().hide();
-          $("#item-content").hide().html(html).fadeIn("slow");
+          $("#body-content-view").hide().html(html).fadeIn("slow");
         })
       }
   })

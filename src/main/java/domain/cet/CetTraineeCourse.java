@@ -22,6 +22,8 @@ public class CetTraineeCourse implements Serializable {
 
     private Integer trainCourseId;
 
+    private Boolean canQuit;
+
     private Boolean isFinished;
 
     private Date signTime;
@@ -58,6 +60,14 @@ public class CetTraineeCourse implements Serializable {
 
     public void setTrainCourseId(Integer trainCourseId) {
         this.trainCourseId = trainCourseId;
+    }
+
+    public Boolean getCanQuit() {
+        return canQuit;
+    }
+
+    public void setCanQuit(Boolean canQuit) {
+        this.canQuit = canQuit;
     }
 
     public Boolean getIsFinished() {

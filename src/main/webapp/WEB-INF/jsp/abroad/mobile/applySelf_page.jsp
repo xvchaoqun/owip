@@ -91,7 +91,7 @@
         </div>
         <!-- /section:pages/inbox -->
         </div>
-        <div id="item-content">
+        <div id="body-content-view">
         </div>
     </div>
     <!-- /.col -->

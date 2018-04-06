@@ -3,14 +3,12 @@
 <mapper namespace="persistence.cet.CetTrainMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetTrain">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="plan_id" jdbcType="INTEGER" property="planId" />
     <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="num" jdbcType="INTEGER" property="num" />
     <result column="is_on_campus" jdbcType="BIT" property="isOnCampus" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="has_summary" jdbcType="BIT" property="hasSummary" />
     <result column="summary" jdbcType="VARCHAR" property="summary" />
-    <result column="template_id" jdbcType="INTEGER" property="templateId" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
@@ -88,9 +86,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, type, num, is_on_campus, name, has_summary, summary, template_id, start_date, 
-    end_date, start_time, end_time, enroll_status, pub_status, eva_count, eva_anonymous, 
-    eva_closed, eva_close_time, remark, is_deleted, is_finished, create_time
+    id, plan_id, type, is_on_campus, name, has_summary, summary, start_date, end_date, 
+    start_time, end_time, enroll_status, pub_status, eva_count, eva_anonymous, eva_closed, 
+    eva_close_time, remark, is_deleted, is_finished, create_time
   </sql>
   <sql id="Blob_Column_List">
     eva_note
@@ -143,19 +141,20 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.cet.CetTrain">
-    insert into cet_train (id, year, type, 
-      num, is_on_campus, name, 
-      has_summary, summary, template_id, 
+  <insert id="insert" parameterType="domain.cet.CetTrain">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cet_train (plan_id, type, is_on_campus, 
+      name, has_summary, summary, 
       start_date, end_date, start_time, 
       end_time, enroll_status, pub_status, 
       eva_count, eva_anonymous, eva_closed, 
       eva_close_time, remark, is_deleted, 
       is_finished, create_time, eva_note
       )
-    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{num,jdbcType=INTEGER}, #{isOnCampus,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, 
-      #{hasSummary,jdbcType=BIT}, #{summary,jdbcType=VARCHAR}, #{templateId,jdbcType=INTEGER}, 
+    values (#{planId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{isOnCampus,jdbcType=BIT}, 
+      #{name,jdbcType=VARCHAR}, #{hasSummary,jdbcType=BIT}, #{summary,jdbcType=VARCHAR}, 
       #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{enrollStatus,jdbcType=TINYINT}, #{pubStatus,jdbcType=TINYINT}, 
       #{evaCount,jdbcType=INTEGER}, #{evaAnonymous,jdbcType=BIT}, #{evaClosed,jdbcType=BIT}, 
@@ -163,20 +162,17 @@
       #{isFinished,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{evaNote,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.cet.CetTrain">
+  <insert id="insertSelective" parameterType="domain.cet.CetTrain">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into cet_train
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="year != null">
-        year,
+      <if test="planId != null">
+        plan_id,
       </if>
       <if test="type != null">
         type,
-      </if>
-      <if test="num != null">
-        num,
       </if>
       <if test="isOnCampus != null">
         is_on_campus,
@@ -189,9 +185,6 @@
       </if>
       <if test="summary != null">
         summary,
-      </if>
-      <if test="templateId != null">
-        template_id,
       </if>
       <if test="startDate != null">
         start_date,
@@ -240,17 +233,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="year != null">
-        #{year,jdbcType=INTEGER},
+      <if test="planId != null">
+        #{planId,jdbcType=INTEGER},
       </if>
       <if test="type != null">
         #{type,jdbcType=INTEGER},
-      </if>
-      <if test="num != null">
-        #{num,jdbcType=INTEGER},
       </if>
       <if test="isOnCampus != null">
         #{isOnCampus,jdbcType=BIT},
@@ -263,9 +250,6 @@
       </if>
       <if test="summary != null">
         #{summary,jdbcType=VARCHAR},
-      </if>
-      <if test="templateId != null">
-        #{templateId,jdbcType=INTEGER},
       </if>
       <if test="startDate != null">
         #{startDate,jdbcType=DATE},
@@ -326,14 +310,11 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.year != null">
-        year = #{record.year,jdbcType=INTEGER},
+      <if test="record.planId != null">
+        plan_id = #{record.planId,jdbcType=INTEGER},
       </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
-      </if>
-      <if test="record.num != null">
-        num = #{record.num,jdbcType=INTEGER},
       </if>
       <if test="record.isOnCampus != null">
         is_on_campus = #{record.isOnCampus,jdbcType=BIT},
@@ -346,9 +327,6 @@
       </if>
       <if test="record.summary != null">
         summary = #{record.summary,jdbcType=VARCHAR},
-      </if>
-      <if test="record.templateId != null">
-        template_id = #{record.templateId,jdbcType=INTEGER},
       </if>
       <if test="record.startDate != null">
         start_date = #{record.startDate,jdbcType=DATE},
@@ -403,14 +381,12 @@
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update cet_train
     set id = #{record.id,jdbcType=INTEGER},
-      year = #{record.year,jdbcType=INTEGER},
+      plan_id = #{record.planId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=INTEGER},
-      num = #{record.num,jdbcType=INTEGER},
       is_on_campus = #{record.isOnCampus,jdbcType=BIT},
       name = #{record.name,jdbcType=VARCHAR},
       has_summary = #{record.hasSummary,jdbcType=BIT},
       summary = #{record.summary,jdbcType=VARCHAR},
-      template_id = #{record.templateId,jdbcType=INTEGER},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
@@ -433,14 +409,12 @@
   <update id="updateByExample" parameterType="map">
     update cet_train
     set id = #{record.id,jdbcType=INTEGER},
-      year = #{record.year,jdbcType=INTEGER},
+      plan_id = #{record.planId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=INTEGER},
-      num = #{record.num,jdbcType=INTEGER},
       is_on_campus = #{record.isOnCampus,jdbcType=BIT},
       name = #{record.name,jdbcType=VARCHAR},
       has_summary = #{record.hasSummary,jdbcType=BIT},
       summary = #{record.summary,jdbcType=VARCHAR},
-      template_id = #{record.templateId,jdbcType=INTEGER},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
@@ -462,14 +436,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetTrain">
     update cet_train
     <set>
-      <if test="year != null">
-        year = #{year,jdbcType=INTEGER},
+      <if test="planId != null">
+        plan_id = #{planId,jdbcType=INTEGER},
       </if>
       <if test="type != null">
         type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="num != null">
-        num = #{num,jdbcType=INTEGER},
       </if>
       <if test="isOnCampus != null">
         is_on_campus = #{isOnCampus,jdbcType=BIT},
@@ -482,9 +453,6 @@
       </if>
       <if test="summary != null">
         summary = #{summary,jdbcType=VARCHAR},
-      </if>
-      <if test="templateId != null">
-        template_id = #{templateId,jdbcType=INTEGER},
       </if>
       <if test="startDate != null">
         start_date = #{startDate,jdbcType=DATE},
@@ -536,14 +504,12 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.cet.CetTrain">
     update cet_train
-    set year = #{year,jdbcType=INTEGER},
+    set plan_id = #{planId,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
-      num = #{num,jdbcType=INTEGER},
       is_on_campus = #{isOnCampus,jdbcType=BIT},
       name = #{name,jdbcType=VARCHAR},
       has_summary = #{hasSummary,jdbcType=BIT},
       summary = #{summary,jdbcType=VARCHAR},
-      template_id = #{templateId,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
       start_time = #{startTime,jdbcType=TIMESTAMP},
@@ -563,14 +529,12 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetTrain">
     update cet_train
-    set year = #{year,jdbcType=INTEGER},
+    set plan_id = #{planId,jdbcType=INTEGER},
       type = #{type,jdbcType=INTEGER},
-      num = #{num,jdbcType=INTEGER},
       is_on_campus = #{isOnCampus,jdbcType=BIT},
       name = #{name,jdbcType=VARCHAR},
       has_summary = #{hasSummary,jdbcType=BIT},
       summary = #{summary,jdbcType=VARCHAR},
-      template_id = #{templateId,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
       start_time = #{startTime,jdbcType=TIMESTAMP},

@@ -21,12 +21,12 @@
                                    data-url="${ctx}/sc/scMatterCheckItem_au"
                                    data-grid-id="#jqGrid"
                                    data-open-by="page"
-                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                   ><i class="fa fa-edit"></i>
                                     编辑核查结果</a>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/sc/scMatterCheckItem_ow"
                                    data-grid-id="#jqGrid"
-                                   data-querystr="&"><i class="fa fa-gear"></i>
+                                   ><i class="fa fa-gear"></i>
                                     组织处理</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="scMatterCheckItem:del">
@@ -128,7 +128,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

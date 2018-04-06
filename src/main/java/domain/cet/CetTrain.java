@@ -8,10 +8,6 @@ import java.util.Date;
 
 public class CetTrain implements Serializable {
 
-    public String getSn() {
-        return BaseCetTrain.getSn(type, year, num);
-    }
-
     public Boolean getAutoSwitch() {
         return enrollStatus == CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT;
     }
@@ -28,11 +24,9 @@ public class CetTrain implements Serializable {
 
     private Integer id;
 
-    private Integer year;
+    private Integer planId;
 
     private Integer type;
-
-    private Integer num;
 
     private Boolean isOnCampus;
 
@@ -41,8 +35,6 @@ public class CetTrain implements Serializable {
     private Boolean hasSummary;
 
     private String summary;
-
-    private Integer templateId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
@@ -86,12 +78,12 @@ public class CetTrain implements Serializable {
         this.id = id;
     }
 
-    public Integer getYear() {
-        return year;
+    public Integer getPlanId() {
+        return planId;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
     }
 
     public Integer getType() {
@@ -100,14 +92,6 @@ public class CetTrain implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
-    }
-
-    public Integer getNum() {
-        return num;
-    }
-
-    public void setNum(Integer num) {
-        this.num = num;
     }
 
     public Boolean getIsOnCampus() {
@@ -140,14 +124,6 @@ public class CetTrain implements Serializable {
 
     public void setSummary(String summary) {
         this.summary = summary == null ? null : summary.trim();
-    }
-
-    public Integer getTemplateId() {
-        return templateId;
-    }
-
-    public void setTemplateId(Integer templateId) {
-        this.templateId = templateId;
     }
 
     public Date getStartDate() {

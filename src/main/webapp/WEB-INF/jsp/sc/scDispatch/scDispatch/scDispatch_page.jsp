@@ -22,7 +22,7 @@
                                    data-url="${ctx}/sc/scDispatch_au"
                                    data-grid-id="#jqGrid"
                                    data-open-by="page"
-                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                   ><i class="fa fa-edit"></i>
                                     修改信息</a>
                             </shiro:hasPermission>
                             <button class="jqLinkItemBtn btn btn-success btn-sm" type="button"
@@ -107,7 +107,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <jsp:include page="scDispatch_colModel.jsp?type=admin"/>

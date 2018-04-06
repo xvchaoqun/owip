@@ -46,7 +46,7 @@ pageEncoding="UTF-8" %>
                        data-url="${ctx}/pcsProposal_au"
                        data-grid-id="#jqGrid"
                        data-open-by="page"
-                       data-querystr="&"><i class="fa fa-edit"></i>
+                       ><i class="fa fa-edit"></i>
                         修改</button>
                     <button id="delBtn" data-url="${ctx}/pcsProposal_batchDel"
                             data-title="删除"
@@ -156,7 +156,7 @@ pageEncoding="UTF-8" %>
             <div id="jqGridPager"></div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
         </c:if>
     </div>
 </div>

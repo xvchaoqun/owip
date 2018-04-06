@@ -22,7 +22,7 @@
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
                                    data-url="${ctx}/sc/scAdArchive_archive"
                                    data-grid-id="#jqGrid"
-                                   data-querystr="&"><i class="fa fa-edit"></i> 正式归档</a>
+                                   ><i class="fa fa-edit"></i> 正式归档</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="scAdArchive:del">
                                 <button data-url="${ctx}/sc/scAdArchive_batchDel"
@@ -82,7 +82,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

@@ -46,7 +46,7 @@
 </style>
 <script>
     $(".orderCheckbox").click(function(){
-        $("#step-item-content").loadPage({url:"${ctx}/pcsVoteMember?type=${param.type}&orderType="+$(this).val()})
+        $("#step-body-content-view").loadPage({url:"${ctx}/pcsVoteMember?type=${param.type}&orderType="+$(this).val()})
     })
 
     $("#jqGrid2").jqGrid({

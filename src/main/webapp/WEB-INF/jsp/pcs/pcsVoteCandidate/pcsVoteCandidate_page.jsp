@@ -17,7 +17,7 @@
             导出汇总单</a>
         <a class="linkBtn btn btn-primary btn-sm"
            data-url="${ctx}/pcsVoteCandidate_export?cls=2&type=${type}"
-           data-querystr="&"><i class="fa fa-download"></i>
+           ><i class="fa fa-download"></i>
             导出汇总单（报总监票人）</a>
 
         <button data-url="${ctx}/pcsVoteCandidate_choose"

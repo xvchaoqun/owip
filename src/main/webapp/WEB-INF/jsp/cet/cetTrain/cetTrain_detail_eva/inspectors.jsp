@@ -7,7 +7,7 @@
       <button class="confirm btn btn-info btn-sm"
          data-msg="确定根据选课人员生成评课账号？"
          data-title="生成评课账号"
-         data-callback="_callback2"
+         data-callback="_callback4"
          data-url="${ctx}/cet/cetTrainInspector_gen_oncampus?trainId=${cetTrain.id}">
         <i class="fa fa-plus"></i> 生成评课账号</button>
 
@@ -52,13 +52,13 @@
         </div>
         <div class="clearfix form-actions center">
           <a class="jqSearchBtn btn btn-default btn-sm"
-             data-target="#detail-item-content"
+             data-target="#detail-body-content-view"
              data-form="#searchForm2"
              data-url="${ctx}/cet/cetTrain_detail_eva/inspectors?trainId=${param.trainId}">
               <i class="fa fa-search"></i> 查找</a>
           <c:if test="${_query}">&nbsp;
             <button type="button" class="resetBtn btn btn-warning btn-sm"
-                    data-target="#detail-item-content"
+                    data-target="#detail-body-content-view"
                     data-url="${ctx}/cet/cetTrain_detail_eva/inspectors?trainId=${param.trainId}">
               <i class="fa fa-reply"></i> 重置
             </button>
@@ -70,18 +70,18 @@
 </div>
 <div class="rownumbers">
 <div class="space-4"></div>
-<table id="jqGrid2" class="jqGrid2 table-striped"></table>
-<div id="jqGridPager2"></div>
+<table id="jqGrid4" class="jqGrid2 table-striped"></table>
+<div id="jqGridPager4"></div>
 </div>
 <script>
-  function _callback2(target) {
+  function _callback4(target) {
 
-    $("#jqGrid2").trigger("reloadGrid");
+    $("#jqGrid4").trigger("reloadGrid");
   }
   $('#searchForm2 [data-rel="select2"]').select2();
   $.register.date($('.date-picker'));
-  $("#jqGrid2").jqGrid({
-    pager: "jqGridPager2",
+  $("#jqGrid4").jqGrid({
+    pager: "jqGridPager4",
     rownumbers:true,
     url: '${ctx}/cet/cetTrainInspector_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
     colModel: [
@@ -107,5 +107,5 @@
     ]
   }).jqGrid("setFrozenColumns");
   $(window).triggerHandler('resize.jqGrid2');
-  $.initNavGrid("jqGrid2", "jqGridPager2");
+  $.initNavGrid("jqGrid4", "jqGridPager4");
 </script>

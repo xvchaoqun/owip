@@ -368,7 +368,7 @@
 
 <script>
 	function _reload(){
-		$("#item-content #view-box .nav-tabs li.active a").click();
+		$("#body-content-view #view-box .nav-tabs li.active a").click();
 	}
 
 	function sync_user(userId, btn){

@@ -57,11 +57,11 @@
             $("#useLogForm input[name=year]").focus();
             return;
         }
-        $("#item-content").load("${ctx}/${param.type=='user'?'user/':''}abroad/passport_useLogs?type=${param.type}"+
+        $("#body-content-view").load("${ctx}/${param.type=='user'?'user/':''}abroad/passport_useLogs?type=${param.type}"+
         "&id=${passport.id}&year="+year);
     });
     $("#useLogForm .resetBtn").click(function(){
-        $("#item-content").load("${ctx}/${param.type=='user'?'user/':''}abroad/passport_useLogs?type=${param.type}"+
+        $("#body-content-view").load("${ctx}/${param.type=='user'?'user/':''}abroad/passport_useLogs?type=${param.type}"+
         "&id=${passport.id}");
     });
     $("#useLogForm .exportBtn").click(function(){

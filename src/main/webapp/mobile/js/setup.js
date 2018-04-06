@@ -121,16 +121,16 @@ register_click("#body-content .openView", function () {
         })
         $.get(url, {}, function (html) {
             $container.hideLoading().hide();
-            $("#item-content").hide().html(html).fadeIn("slow");
+            $("#body-content-view").hide().html(html).fadeIn("slow");
         })
     } else {
         loadModal(url, $(this).data("width"));
     }
 });
 
-register_click("#item-content .closeView", function () {
+register_click("#body-content-view .closeView", function () {
     var $this = $(this);
-    $("#item-content").fadeOut("fast", function () {
+    $("#body-content-view").fadeOut("fast", function () {
 
         if ($this.hasClass("reload")) {
             page_reload(function () {

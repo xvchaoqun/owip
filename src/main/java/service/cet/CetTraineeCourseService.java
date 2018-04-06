@@ -1,12 +1,13 @@
 package service.cet;
 
 import controller.global.OpException;
+import domain.cet.CetProjectObj;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainee;
-import domain.cet.CetTraineeCadreView;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseExample;
+import domain.cet.CetTraineeView;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -90,10 +91,25 @@ public class CetTraineeCourseService extends BaseMapper {
         if(trainCourseIds==null || trainCourseIds.length==0) return;
 
         checkApplyIsOpen(trainId);
+        int traineeId;
+        CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
 
-        CetTraineeCadreView cetTrainee = cetTraineeService.get(userId, trainId);
-        if(cetTrainee==null) return;
-        int traineeId = cetTrainee.getId();
+        if(cetTrainee!=null) {
+
+            traineeId = cetTrainee.getId();
+        }else{
+
+            CetProjectObj cetProjectObj = iCetMapper.getCetProjectObj(userId, trainId);
+            int objId = cetProjectObj.getId();
+
+            CetTrainee record = new CetTrainee();
+            record.setObjId(objId);
+            record.setIsQuit(false);
+            record.setTrainId(trainId);
+            cetTraineeMapper.insertSelective(record);
+            traineeId = record.getId();
+        }
+
         Date now = new Date();
         String ip = ContextHelper.getRealIp();
 
@@ -118,14 +134,14 @@ public class CetTraineeCourseService extends BaseMapper {
 
     // 选课/退课
     @Transactional
-    public void applyItem(int userId, int trainCourseId, boolean isApply) {
+    public void applyItem(int userId, int trainCourseId, boolean isApply, boolean isAdmin, String remark) {
 
         CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
         int trainId = cetTrainCourse.getTrainId();
 
         checkApplyIsOpen(trainId);
 
-        CetTraineeCadreView cetTrainee = cetTraineeService.get(userId, trainId);
+        CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
         if(cetTrainee==null) return;
         int traineeId = cetTrainee.getId();
         Date now = new Date();
@@ -143,6 +159,7 @@ public class CetTraineeCourseService extends BaseMapper {
             record.setTraineeId(traineeId);
             record.setTrainCourseId(trainCourseId);
             record.setIsFinished(false);
+            record.setCanQuit(!isAdmin);
             record.setChooseTime(now);
             record.setIp(ip);
 
@@ -156,9 +173,10 @@ public class CetTraineeCourseService extends BaseMapper {
             }
 
             sysApprovalLogService.add(traineeId, userId,
-                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
+                    isAdmin?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN
+                            :SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
-                    "选课", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    remark, SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     cetTrainCourse.getCetCourse().getName());
         }else{
 
@@ -166,8 +184,13 @@ public class CetTraineeCourseService extends BaseMapper {
                 throw new OpException("课程不存在。");
             }
 
+            String courseName = cetTrainCourse.getCetCourse().getName();
             if(cetTraineeCourse.getIsFinished()){
-                throw new OpException("课程已完成，不可退课。");
+                throw new OpException("[{0}]已完成，不可退课。", courseName);
+            }
+
+            if(!isAdmin && !cetTraineeCourse.getCanQuit()){
+                throw new OpException("[{0}]是必选课程，不可退课。", courseName);
             }
 
             cetTraineeCourseMapper.deleteByPrimaryKey(cetTraineeCourse.getId());
@@ -181,9 +204,10 @@ public class CetTraineeCourseService extends BaseMapper {
                 cetTraineeMapper.updateByPrimaryKeySelective(record);
             }
             sysApprovalLogService.add(traineeId, userId,
-                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
+                    isAdmin?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN
+                            :SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
-                    "退课", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    remark, SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     cetTrainCourse.getCetCourse().getName());
         }
     }
@@ -193,7 +217,8 @@ public class CetTraineeCourseService extends BaseMapper {
     public void quit(int userId, int traineeId) {
 
         CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);
-        if(cetTrainee.getUserId() != userId){
+        CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(cetTrainee.getObjId());
+        if(cetProjectObj.getUserId() != userId){
             throw new UnauthorizedException();
         }
 
@@ -204,11 +229,14 @@ public class CetTraineeCourseService extends BaseMapper {
         for (CetTraineeCourse tc : selectedCetTraineeCourses) {
 
             if(tc.getIsFinished()){
-                throw new OpException("您已经完成培训课程[{0}]，不可退出培训班。");
+                throw new OpException("您已经完成培训课程[{0}]，不可退出培训班。", tc.getCetTrainCourse().getCetCourse().getName());
+            }
+            if(!tc.getCanQuit()){
+                throw new OpException("培训课程[{0}]是必选课程，不可退出培训班。", tc.getCetTrainCourse().getCetCourse().getName());
             }
 
             //退课
-            applyItem(userId, tc.getTrainCourseId(), false);
+            applyItem(userId, tc.getTrainCourseId(), false, false, "退课");
         }
 
         sysApprovalLogService.add(traineeId, userId,
@@ -227,7 +255,8 @@ public class CetTraineeCourseService extends BaseMapper {
             CetTraineeCourse cetTraineeCourse = cetTraineeCourseMapper.selectByPrimaryKey(traineeCourseId);
             int traineeId = cetTraineeCourse.getTraineeId();
             CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);
-            int userId = cetTrainee.getUserId();
+            CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(cetTrainee.getObjId());
+            int userId = cetProjectObj.getUserId();
             String courseName = cetTraineeCourse.getCetTrainCourse().getCetCourse().getName();
 
             CetTraineeCourse record = new CetTraineeCourse();
@@ -267,7 +296,7 @@ public class CetTraineeCourseService extends BaseMapper {
             SysUserView uv = sysUserService.findByCode(code);
             if(uv==null) continue;
             int userId = uv.getId();
-            CetTraineeCadreView cetTrainee = cetTraineeService.get(userId, trainId);
+            CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
             if(cetTrainee==null) continue;
             int traineeId = cetTrainee.getId();
 

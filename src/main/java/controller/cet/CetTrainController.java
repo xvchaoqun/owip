@@ -5,7 +5,6 @@ import domain.cet.CetTrainExample;
 import domain.cet.CetTrainExample.Criteria;
 import domain.cet.CetTrainView;
 import domain.cet.CetTrainViewExample;
-import domain.cet.CetTraineeType;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -59,8 +58,7 @@ public class CetTrainController extends CetBaseController {
     public void cetTrain_data(HttpServletResponse response,
                                     @RequestParam(defaultValue = "1") Integer cls,
                                     @RequestParam(defaultValue = "1")Boolean isOnCampus,
-                                    Integer year,
-                                    Integer num,
+                                    Integer planId,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -77,7 +75,9 @@ public class CetTrainController extends CetBaseController {
         CetTrainViewExample example = new CetTrainViewExample();
         CetTrainViewExample.Criteria criteria = example.createCriteria()
                 .andIsOnCampusEqualTo(isOnCampus);
-
+        if(planId!=null){
+            criteria.andPlanIdEqualTo(planId);
+        }
         if(cls==1){
             criteria.andIsDeletedEqualTo(false).andIsFinishedEqualTo(false);
         }else if(cls==2){
@@ -88,12 +88,6 @@ public class CetTrainController extends CetBaseController {
 
         example.setOrderByClause("create_time desc");
 
-        if (year!=null) {
-            criteria.andYearEqualTo(year);
-        }
-        if (num!=null) {
-            criteria.andNumEqualTo(num);
-        }
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
         }
@@ -129,23 +123,18 @@ public class CetTrainController extends CetBaseController {
     @RequestMapping(value = "/cetTrain_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetTrain_au(CetTrain record,
-                              @RequestParam(value = "traineeTypeIds[]", required = false) Integer[] traineeTypeIds,
                               HttpServletRequest request) {
 
         Integer id = record.getId();
         record.setIsOnCampus(BooleanUtils.isTrue(record.getIsOnCampus()));
 
         if (id == null) {
-            if (record.getIsOnCampus() && record.getNum() == null)
-                record.setNum(cetTrainService.genNum(record.getType(), record.getYear()));
-            cetTrainService.insertSelective(record, traineeTypeIds);
+
+            cetTrainService.insertSelective(record);
             logger.info(addLog( SystemConstants.LOG_CET, "添加培训班：%s", record.getId()));
         } else {
-            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(id);
-            if (record.getIsOnCampus() && cetTrain.getType().intValue() != record.getType()) { // 修改了类型，要修改发文号
-                record.setNum(cetTrainService.genNum(record.getType(), record.getYear()));
-            }
-            cetTrainService.updateWithTraineeTypes(record, traineeTypeIds);
+
+            cetTrainService.updateBase(record);
             logger.info(addLog( SystemConstants.LOG_CET, "更新培训班：%s", record.getId()));
         }
 
@@ -155,33 +144,17 @@ public class CetTrainController extends CetBaseController {
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_au")
     public String cetTrain_au(Integer id,
+                              Integer planId,
                               @RequestParam(defaultValue = "1")Boolean isOnCampus,
                               ModelMap modelMap) {
         if (id != null) {
             CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(id);
             modelMap.put("cetTrain", cetTrain);
+            planId = cetTrain.getPlanId();
         }
 
+        modelMap.put("planId", planId);
         if(isOnCampus) {
-            if (id != null) {
-
-                List<Integer> traineeTypeIds = cetTrainService.findTraineeTypeIds(id);
-                modelMap.put("traineeTypeIds", traineeTypeIds);
-            }
-
-            Map<Integer, List<CetTraineeType>> templateMap = new HashMap<>();
-            Map<Integer, CetTraineeType> traineeTypeMap = cetTraineeTypeService.findAll();
-            for (CetTraineeType cetTraineeType : traineeTypeMap.values()) {
-                int templateId = cetTraineeType.getTemplateId();
-                List<CetTraineeType> cetTraineeTypes = templateMap.get(templateId);
-                if (cetTraineeTypes == null) {
-                    cetTraineeTypes = new ArrayList<>();
-                    templateMap.put(templateId, cetTraineeTypes);
-                }
-                cetTraineeTypes.add(cetTraineeType);
-            }
-            modelMap.put("templateMap", templateMap);
-
             return "cet/cetTrain/cetTrain_au";
         }
 
@@ -430,7 +403,7 @@ public class CetTrainController extends CetBaseController {
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", cetTrain.getName());
                 option.put("id", cetTrain.getId());
-                option.put("sn", cetTrain.getSn());
+                option.put("sn", null);
 
                 options.add(option);
             }

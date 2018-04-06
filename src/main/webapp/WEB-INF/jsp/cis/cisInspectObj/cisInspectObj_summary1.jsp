@@ -91,7 +91,7 @@
             });
         });
 
-        $("#item-content button[type=submit]").click(function () {
+        $("#body-content-view button[type=submit]").click(function () {
             $("#modalForm").submit();
             return false;
         });

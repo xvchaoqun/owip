@@ -22,7 +22,7 @@
                                    data-url="${ctx}/sc/scLetter_au"
                                    data-grid-id="#jqGrid"
                                    data-open-by="page"
-                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                   ><i class="fa fa-edit"></i>
                                     修改</a>
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
                                    data-url="${ctx}/sc/scLetterReply_au"
@@ -106,7 +106,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

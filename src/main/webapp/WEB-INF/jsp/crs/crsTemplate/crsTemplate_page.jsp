@@ -16,7 +16,7 @@ pageEncoding="UTF-8" %>
                        data-url="${ctx}/crsTemplate_au"
                        data-grid-id="#jqGrid"
                        data-width="750"
-                       data-querystr="&"><i class="fa fa-edit"></i>
+                       ><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="crsTemplate:del">
@@ -64,7 +64,7 @@ pageEncoding="UTF-8" %>
             <table id="jqGrid" class="jqGrid table-striped"></table>
             <div id="jqGridPager"></div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

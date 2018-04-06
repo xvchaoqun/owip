@@ -194,7 +194,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content">
+        <div id="body-content-view">
         </div>
     </div>
 </div>
@@ -241,7 +241,7 @@
         $container.mask()
         $.get(url, {}, function (html) {
             $container.unmask().hide();
-            $("#item-content").hide().html(html).fadeIn("slow");
+            $("#body-content-view").hide().html(html).fadeIn("slow");
         })
 
     });

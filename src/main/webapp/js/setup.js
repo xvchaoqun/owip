@@ -111,7 +111,7 @@ $(window).on('resize.jqGrid', function () {
         .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
 });
 $(window).on('resize.jqGrid2', function () {
-    /*if( $("#item-content").is(":hidden")){
+    /*if( $("#body-content-view").is(":hidden")){
      return;
      }*/
     var gridWidth = $(window).width() - 70;
@@ -127,13 +127,13 @@ $(window).on('resize.jqGrid2', function () {
 
         $jqgrid.jqGrid('setGridWidth', gridWidth);
         var height = 0;
-        $("#item-content .jqgrid-vertical-offset").each(function () {
+        $("#body-content-view .jqgrid-vertical-offset").each(function () {
             height += $(this).height();
-            //console.log("---"+$("#item-content").is(":visible"))
+            //console.log("---"+$("#body-content-view").is(":visible"))
             //console.log("---"+height)
         });
 
-        var navHeight = $(".nav.nav-tabs", "#item-content").height();
+        var navHeight = $(".nav.nav-tabs", "#body-content-view").height();
         navHeight = navHeight > 0 ? (navHeight + 10) : navHeight;
         if (navHeight == null) navHeight = 0;
         //console.log("navHeight---"+navHeight)
@@ -498,6 +498,35 @@ $(document).on("click", ".hideView", function () {
 
     $.hideView($(this).data("url"))
 });
+// 显示内页
+$(document).on("click", ".openView2", function () {
+    var $this = $(this);
+    $this.attr("disabled", "disabled");
+    var maskEl = $.trim($this.data("maskEl"));
+    $.loadView2($this.data("url"), $(maskEl||"#body-content-view"), function () {
+        $this.removeAttr("disabled");
+    });
+});
+// 隐藏内页
+$(document).on("click", ".hideView2", function () {
+
+    $.hideView2($(this).data("url"))
+});
+
+// 显示内页
+$(document).on("click", ".openView3", function () {
+    var $this = $(this);
+    $this.attr("disabled", "disabled");
+    var maskEl = $.trim($this.data("maskEl"));
+    $.loadView3($this.data("url"), $(maskEl||"#body-content-view2"), function () {
+        $this.removeAttr("disabled");
+    });
+});
+// 隐藏内页
+$(document).on("click", ".hideView3", function () {
+
+    $.hideView3($(this).data("url"))
+});
 
 // 打开弹出框modal
 $(document).on("click", ".popupBtn", function (e) {
@@ -585,7 +614,7 @@ $(document).on("click", ".jqEditBtn", function () {
         $.get(url, {}, function (html) {
             $container.unmask().hide();
             if (!html.startWith("{")) {
-                $("#item-content").hide().html(html).fadeIn("slow");
+                $("#body-content-view").hide().html(html).fadeIn("slow");
             }
         })
     } else {
@@ -630,7 +659,7 @@ $(document).on("click", ".jqOpenViewBtn", function (e) {
         $maskEl.mask();
         $.get(url, {}, function (html) {
             $maskEl.unmask().hide();
-            $(loadEl || "#item-content").hide().html(html).fadeIn("slow");
+            $(loadEl || "#body-content-view").hide().html(html).fadeIn("slow");
         })
     } else {
         $.loadModal(url, $(this).data("width"));
@@ -669,7 +698,7 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
         $container.mask()
         $.get(url, {}, function (html) {
             $container.unmask().hide();
-            $("#item-content").hide().html(html).fadeIn("slow");
+            $("#body-content-view").hide().html(html).fadeIn("slow");
         })
     } else {
         $.loadModal(url, $(this).data("width"));

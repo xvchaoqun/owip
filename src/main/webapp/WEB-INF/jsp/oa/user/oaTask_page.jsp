@@ -28,13 +28,13 @@
                                    data-url="${ctx}/user/oa/oaTaskUser_assign"
                                    data-grid-id="#jqGrid"
                                    data-id-name="taskId"
-                                   data-querystr="&"><i class="fa fa-user"></i>
+                                   ><i class="fa fa-user"></i>
                                     指定负责人</button>
                                 <button id="assinMsgBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                                    data-url="${ctx}/user/oa/oaTaskUser_assignMsg"
                                    data-grid-id="#jqGrid"
                                    data-id-name="taskId"
-                                   data-querystr="&"><i class="fa fa-send"></i>
+                                   ><i class="fa fa-send"></i>
                                     短信通知指定负责人</button>
                             </div>
                         </c:if>
@@ -93,7 +93,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

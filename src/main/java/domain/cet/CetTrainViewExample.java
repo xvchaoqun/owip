@@ -192,63 +192,63 @@ public class CetTrainViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andYearIsNull() {
-            addCriterion("year is null");
+        public Criteria andPlanIdIsNull() {
+            addCriterion("plan_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andYearIsNotNull() {
-            addCriterion("year is not null");
+        public Criteria andPlanIdIsNotNull() {
+            addCriterion("plan_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andYearEqualTo(Integer value) {
-            addCriterion("year =", value, "year");
+        public Criteria andPlanIdEqualTo(Integer value) {
+            addCriterion("plan_id =", value, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andYearNotEqualTo(Integer value) {
-            addCriterion("year <>", value, "year");
+        public Criteria andPlanIdNotEqualTo(Integer value) {
+            addCriterion("plan_id <>", value, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andYearGreaterThan(Integer value) {
-            addCriterion("year >", value, "year");
+        public Criteria andPlanIdGreaterThan(Integer value) {
+            addCriterion("plan_id >", value, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andYearGreaterThanOrEqualTo(Integer value) {
-            addCriterion("year >=", value, "year");
+        public Criteria andPlanIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("plan_id >=", value, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andYearLessThan(Integer value) {
-            addCriterion("year <", value, "year");
+        public Criteria andPlanIdLessThan(Integer value) {
+            addCriterion("plan_id <", value, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andYearLessThanOrEqualTo(Integer value) {
-            addCriterion("year <=", value, "year");
+        public Criteria andPlanIdLessThanOrEqualTo(Integer value) {
+            addCriterion("plan_id <=", value, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andYearIn(List<Integer> values) {
-            addCriterion("year in", values, "year");
+        public Criteria andPlanIdIn(List<Integer> values) {
+            addCriterion("plan_id in", values, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andYearNotIn(List<Integer> values) {
-            addCriterion("year not in", values, "year");
+        public Criteria andPlanIdNotIn(List<Integer> values) {
+            addCriterion("plan_id not in", values, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andYearBetween(Integer value1, Integer value2) {
-            addCriterion("year between", value1, value2, "year");
+        public Criteria andPlanIdBetween(Integer value1, Integer value2) {
+            addCriterion("plan_id between", value1, value2, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andYearNotBetween(Integer value1, Integer value2) {
-            addCriterion("year not between", value1, value2, "year");
+        public Criteria andPlanIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("plan_id not between", value1, value2, "planId");
             return (Criteria) this;
         }
 
@@ -309,66 +309,6 @@ public class CetTrainViewExample {
 
         public Criteria andTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("type not between", value1, value2, "type");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumIsNull() {
-            addCriterion("num is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumIsNotNull() {
-            addCriterion("num is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumEqualTo(Integer value) {
-            addCriterion("num =", value, "num");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumNotEqualTo(Integer value) {
-            addCriterion("num <>", value, "num");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumGreaterThan(Integer value) {
-            addCriterion("num >", value, "num");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumGreaterThanOrEqualTo(Integer value) {
-            addCriterion("num >=", value, "num");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumLessThan(Integer value) {
-            addCriterion("num <", value, "num");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumLessThanOrEqualTo(Integer value) {
-            addCriterion("num <=", value, "num");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumIn(List<Integer> values) {
-            addCriterion("num in", values, "num");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumNotIn(List<Integer> values) {
-            addCriterion("num not in", values, "num");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumBetween(Integer value1, Integer value2) {
-            addCriterion("num between", value1, value2, "num");
-            return (Criteria) this;
-        }
-
-        public Criteria andNumNotBetween(Integer value1, Integer value2) {
-            addCriterion("num not between", value1, value2, "num");
             return (Criteria) this;
         }
 
@@ -629,66 +569,6 @@ public class CetTrainViewExample {
 
         public Criteria andSummaryNotBetween(String value1, String value2) {
             addCriterion("summary not between", value1, value2, "summary");
-            return (Criteria) this;
-        }
-
-        public Criteria andTemplateIdIsNull() {
-            addCriterion("template_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTemplateIdIsNotNull() {
-            addCriterion("template_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTemplateIdEqualTo(Integer value) {
-            addCriterion("template_id =", value, "templateId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTemplateIdNotEqualTo(Integer value) {
-            addCriterion("template_id <>", value, "templateId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTemplateIdGreaterThan(Integer value) {
-            addCriterion("template_id >", value, "templateId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTemplateIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("template_id >=", value, "templateId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTemplateIdLessThan(Integer value) {
-            addCriterion("template_id <", value, "templateId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTemplateIdLessThanOrEqualTo(Integer value) {
-            addCriterion("template_id <=", value, "templateId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTemplateIdIn(List<Integer> values) {
-            addCriterion("template_id in", values, "templateId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTemplateIdNotIn(List<Integer> values) {
-            addCriterion("template_id not in", values, "templateId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTemplateIdBetween(Integer value1, Integer value2) {
-            addCriterion("template_id between", value1, value2, "templateId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTemplateIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("template_id not between", value1, value2, "templateId");
             return (Criteria) this;
         }
 
@@ -1542,6 +1422,66 @@ public class CetTrainViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andYearIsNull() {
+            addCriterion("year is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearIsNotNull() {
+            addCriterion("year is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearEqualTo(Integer value) {
+            addCriterion("year =", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotEqualTo(Integer value) {
+            addCriterion("year <>", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearGreaterThan(Integer value) {
+            addCriterion("year >", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearGreaterThanOrEqualTo(Integer value) {
+            addCriterion("year >=", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearLessThan(Integer value) {
+            addCriterion("year <", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearLessThanOrEqualTo(Integer value) {
+            addCriterion("year <=", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearIn(List<Integer> values) {
+            addCriterion("year in", values, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotIn(List<Integer> values) {
+            addCriterion("year not in", values, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearBetween(Integer value1, Integer value2) {
+            addCriterion("year between", value1, value2, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotBetween(Integer value1, Integer value2) {
+            addCriterion("year not between", value1, value2, "year");
+            return (Criteria) this;
+        }
+
         public Criteria andCourseNumIsNull() {
             addCriterion("course_num is null");
             return (Criteria) this;
@@ -1602,6 +1542,66 @@ public class CetTrainViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andObjCountIsNull() {
+            addCriterion("obj_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountIsNotNull() {
+            addCriterion("obj_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountEqualTo(Long value) {
+            addCriterion("obj_count =", value, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountNotEqualTo(Long value) {
+            addCriterion("obj_count <>", value, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountGreaterThan(Long value) {
+            addCriterion("obj_count >", value, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountGreaterThanOrEqualTo(Long value) {
+            addCriterion("obj_count >=", value, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountLessThan(Long value) {
+            addCriterion("obj_count <", value, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountLessThanOrEqualTo(Long value) {
+            addCriterion("obj_count <=", value, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountIn(List<Long> values) {
+            addCriterion("obj_count in", values, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountNotIn(List<Long> values) {
+            addCriterion("obj_count not in", values, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountBetween(Long value1, Long value2) {
+            addCriterion("obj_count between", value1, value2, "objCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andObjCountNotBetween(Long value1, Long value2) {
+            addCriterion("obj_count not between", value1, value2, "objCount");
+            return (Criteria) this;
+        }
+
         public Criteria andTraineeCountIsNull() {
             addCriterion("trainee_count is null");
             return (Criteria) this;
@@ -1659,66 +1659,6 @@ public class CetTrainViewExample {
 
         public Criteria andTraineeCountNotBetween(Integer value1, Integer value2) {
             addCriterion("trainee_count not between", value1, value2, "traineeCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectedCountIsNull() {
-            addCriterion("selected_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectedCountIsNotNull() {
-            addCriterion("selected_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectedCountEqualTo(Integer value) {
-            addCriterion("selected_count =", value, "selectedCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectedCountNotEqualTo(Integer value) {
-            addCriterion("selected_count <>", value, "selectedCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectedCountGreaterThan(Integer value) {
-            addCriterion("selected_count >", value, "selectedCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectedCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("selected_count >=", value, "selectedCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectedCountLessThan(Integer value) {
-            addCriterion("selected_count <", value, "selectedCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectedCountLessThanOrEqualTo(Integer value) {
-            addCriterion("selected_count <=", value, "selectedCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectedCountIn(List<Integer> values) {
-            addCriterion("selected_count in", values, "selectedCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectedCountNotIn(List<Integer> values) {
-            addCriterion("selected_count not in", values, "selectedCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectedCountBetween(Integer value1, Integer value2) {
-            addCriterion("selected_count between", value1, value2, "selectedCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectedCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("selected_count not between", value1, value2, "selectedCount");
             return (Criteria) this;
         }
 

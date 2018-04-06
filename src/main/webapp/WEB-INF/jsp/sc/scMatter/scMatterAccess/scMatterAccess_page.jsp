@@ -21,19 +21,19 @@
                                    data-url="${ctx}/sc/scMatterAccess_au"
                                    data-grid-id="#jqGrid"
                                    data-open-by="page"
-                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                   ><i class="fa fa-edit"></i>
                                     修改</a>
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"
                                    data-url="${ctx}/sc/scMatterAccess_query"
                                    data-grid-id="#jqGrid"
                                    data-open-by="page"
-                                   data-querystr="&"><i class="fa fa-search"></i>
+                                   ><i class="fa fa-search"></i>
                                     办理调阅</a>
                                 <button id="backBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
                                         data-url="${ctx}/sc/scMatterAccess_back"
                                         data-grid-id="#jqGrid"
                                         data-width="400"
-                                        data-querystr="&"><i class="fa fa-reply"></i>
+                                        ><i class="fa fa-reply"></i>
                                     归还
                                 </button>
                             </shiro:hasPermission>
@@ -100,7 +100,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <jsp:include page="scMatterAccess_colModel.jsp?cls=${param.cls}"/>

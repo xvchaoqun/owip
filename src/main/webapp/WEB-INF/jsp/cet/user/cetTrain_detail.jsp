@@ -63,7 +63,7 @@
             {
                 label: '退课', name: '_unApply', width: 90, formatter: function (cellvalue, options, rowObject) {
                 //console.log(options)
-                if(rowObject.isFinished) return '-'
+                if(rowObject.isFinished || !rowObject.canQuit) return '-'
                 return ('<button class="confirm btn btn-danger btn-xs" ' +
                 'data-url="${ctx}/user/cet/cetTrain_apply_item?isApply=0&trainCourseId={0}" '
                         +'data-msg="确定退课？（{1}）" data-apply="false" data-callback="_applyReload"><i class="fa fa-minus-circle"></i> 退课</button>')

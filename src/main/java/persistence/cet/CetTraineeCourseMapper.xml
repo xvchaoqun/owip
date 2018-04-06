@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="trainee_id" jdbcType="INTEGER" property="traineeId" />
     <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
+    <result column="can_quit" jdbcType="BIT" property="canQuit" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="sign_time" jdbcType="TIMESTAMP" property="signTime" />
     <result column="sign_type" jdbcType="TINYINT" property="signType" />
@@ -71,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, trainee_id, train_course_id, is_finished, sign_time, sign_type, remark, choose_time, 
-    ip
+    id, trainee_id, train_course_id, can_quit, is_finished, sign_time, sign_type, remark, 
+    choose_time, ip
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeCourseExample" resultMap="BaseResultMap">
     select
@@ -106,13 +107,13 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetTraineeCourse">
     insert into cet_trainee_course (id, trainee_id, train_course_id, 
-      is_finished, sign_time, sign_type, 
-      remark, choose_time, ip
-      )
+      can_quit, is_finished, sign_time, 
+      sign_type, remark, choose_time, 
+      ip)
     values (#{id,jdbcType=INTEGER}, #{traineeId,jdbcType=INTEGER}, #{trainCourseId,jdbcType=INTEGER}, 
-      #{isFinished,jdbcType=BIT}, #{signTime,jdbcType=TIMESTAMP}, #{signType,jdbcType=TINYINT}, 
-      #{remark,jdbcType=VARCHAR}, #{chooseTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
-      )
+      #{canQuit,jdbcType=BIT}, #{isFinished,jdbcType=BIT}, #{signTime,jdbcType=TIMESTAMP}, 
+      #{signType,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{chooseTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetTraineeCourse">
     insert into cet_trainee_course
@@ -125,6 +126,9 @@
       </if>
       <if test="trainCourseId != null">
         train_course_id,
+      </if>
+      <if test="canQuit != null">
+        can_quit,
       </if>
       <if test="isFinished != null">
         is_finished,
@@ -154,6 +158,9 @@
       </if>
       <if test="trainCourseId != null">
         #{trainCourseId,jdbcType=INTEGER},
+      </if>
+      <if test="canQuit != null">
+        #{canQuit,jdbcType=BIT},
       </if>
       <if test="isFinished != null">
         #{isFinished,jdbcType=BIT},
@@ -193,6 +200,9 @@
       <if test="record.trainCourseId != null">
         train_course_id = #{record.trainCourseId,jdbcType=INTEGER},
       </if>
+      <if test="record.canQuit != null">
+        can_quit = #{record.canQuit,jdbcType=BIT},
+      </if>
       <if test="record.isFinished != null">
         is_finished = #{record.isFinished,jdbcType=BIT},
       </if>
@@ -221,6 +231,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       trainee_id = #{record.traineeId,jdbcType=INTEGER},
       train_course_id = #{record.trainCourseId,jdbcType=INTEGER},
+      can_quit = #{record.canQuit,jdbcType=BIT},
       is_finished = #{record.isFinished,jdbcType=BIT},
       sign_time = #{record.signTime,jdbcType=TIMESTAMP},
       sign_type = #{record.signType,jdbcType=TINYINT},
@@ -239,6 +250,9 @@
       </if>
       <if test="trainCourseId != null">
         train_course_id = #{trainCourseId,jdbcType=INTEGER},
+      </if>
+      <if test="canQuit != null">
+        can_quit = #{canQuit,jdbcType=BIT},
       </if>
       <if test="isFinished != null">
         is_finished = #{isFinished,jdbcType=BIT},
@@ -265,6 +279,7 @@
     update cet_trainee_course
     set trainee_id = #{traineeId,jdbcType=INTEGER},
       train_course_id = #{trainCourseId,jdbcType=INTEGER},
+      can_quit = #{canQuit,jdbcType=BIT},
       is_finished = #{isFinished,jdbcType=BIT},
       sign_time = #{signTime,jdbcType=TIMESTAMP},
       sign_type = #{signType,jdbcType=TINYINT},

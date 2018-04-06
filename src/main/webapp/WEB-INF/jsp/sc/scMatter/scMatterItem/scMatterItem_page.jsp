@@ -17,12 +17,12 @@
                             <a class="jqOpenViewBtn btn btn-warning btn-sm"
                                data-url="${ctx}/sc/scMatter_au"
                                data-grid-id="#jqGrid"
-                               data-querystr="&"><i class="fa fa-send"></i>
+                               ><i class="fa fa-send"></i>
                                 通知填报</a>
                             <a class="jqOpenViewBtn btn btn-warning btn-sm"
                                data-url="${ctx}/sc/scMatter_au"
                                data-grid-id="#jqGrid"
-                               data-querystr="&"><i class="fa fa-send"></i>
+                               ><i class="fa fa-send"></i>
                                 催交短信</a>
                             <a class="jqOpenViewBtn btn btn-success btn-sm"
                                data-url="${ctx}/sc/scMatterAccess"
@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <jsp:include page="scMatterItem_colModel.jsp?type=admin"/>

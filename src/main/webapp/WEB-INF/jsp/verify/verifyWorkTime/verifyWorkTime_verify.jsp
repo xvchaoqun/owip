@@ -132,7 +132,7 @@
     $.register.date($('.date-picker'))
     $.register.user_select($('[data-rel="select2-ajax"]'));
     $('textarea.limited').inputlimiter();
-    $("#item-content button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
+    $("#body-content-view button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

@@ -15,7 +15,7 @@ pageEncoding="UTF-8" %>
                     <button id="editBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/abroad/taiwanRecord_au"
                        data-grid-id="#jqGrid"
-                       data-querystr="&"><i class="fa fa-edit"></i>
+                       ><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
                 <button id="handleBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
@@ -85,7 +85,7 @@ pageEncoding="UTF-8" %>
             <table id="jqGrid" class="jqGrid table-striped"></table>
             <div id="jqGridPager"></div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

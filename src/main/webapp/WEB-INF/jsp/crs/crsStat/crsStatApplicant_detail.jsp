@@ -61,7 +61,7 @@
                 } else {
                     return "个人报名";
                 }
-                return '<a href="javascript:void(0)" class="loadPage" data-load-el="#step-item-content" ' +
+                return '<a href="javascript:void(0)" class="loadPage" data-load-el="#step-body-content-view" ' +
                         'data-url="${ctx}/crsApplicant_recommend?id={0}&cls=${param.cls}">推荐/自荐</a>'.format(rowObject.id);
             }},
             {label: '应聘情况', name: '_applyStatus', width: 150, formatter: function (cellvalue, options, rowObject) {

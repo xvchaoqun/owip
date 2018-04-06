@@ -54,7 +54,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $("#jqGrid2").trigger("reloadGrid");
+						$("#"+"${param.grid}").trigger("reloadGrid");
                     }
                 }
             });

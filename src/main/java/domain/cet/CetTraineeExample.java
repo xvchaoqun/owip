@@ -224,123 +224,63 @@ public class CetTraineeExample {
             return (Criteria) this;
         }
 
-        public Criteria andUserIdIsNull() {
-            addCriterion("user_id is null");
+        public Criteria andObjIdIsNull() {
+            addCriterion("obj_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdIsNotNull() {
-            addCriterion("user_id is not null");
+        public Criteria andObjIdIsNotNull() {
+            addCriterion("obj_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdEqualTo(Integer value) {
-            addCriterion("user_id =", value, "userId");
+        public Criteria andObjIdEqualTo(Integer value) {
+            addCriterion("obj_id =", value, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdNotEqualTo(Integer value) {
-            addCriterion("user_id <>", value, "userId");
+        public Criteria andObjIdNotEqualTo(Integer value) {
+            addCriterion("obj_id <>", value, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdGreaterThan(Integer value) {
-            addCriterion("user_id >", value, "userId");
+        public Criteria andObjIdGreaterThan(Integer value) {
+            addCriterion("obj_id >", value, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("user_id >=", value, "userId");
+        public Criteria andObjIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("obj_id >=", value, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdLessThan(Integer value) {
-            addCriterion("user_id <", value, "userId");
+        public Criteria andObjIdLessThan(Integer value) {
+            addCriterion("obj_id <", value, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdLessThanOrEqualTo(Integer value) {
-            addCriterion("user_id <=", value, "userId");
+        public Criteria andObjIdLessThanOrEqualTo(Integer value) {
+            addCriterion("obj_id <=", value, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdIn(List<Integer> values) {
-            addCriterion("user_id in", values, "userId");
+        public Criteria andObjIdIn(List<Integer> values) {
+            addCriterion("obj_id in", values, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdNotIn(List<Integer> values) {
-            addCriterion("user_id not in", values, "userId");
+        public Criteria andObjIdNotIn(List<Integer> values) {
+            addCriterion("obj_id not in", values, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdBetween(Integer value1, Integer value2) {
-            addCriterion("user_id between", value1, value2, "userId");
+        public Criteria andObjIdBetween(Integer value1, Integer value2) {
+            addCriterion("obj_id between", value1, value2, "objId");
             return (Criteria) this;
         }
 
-        public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("user_id not between", value1, value2, "userId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypeIdIsNull() {
-            addCriterion("trainee_type_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypeIdIsNotNull() {
-            addCriterion("trainee_type_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypeIdEqualTo(Integer value) {
-            addCriterion("trainee_type_id =", value, "traineeTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypeIdNotEqualTo(Integer value) {
-            addCriterion("trainee_type_id <>", value, "traineeTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypeIdGreaterThan(Integer value) {
-            addCriterion("trainee_type_id >", value, "traineeTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypeIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("trainee_type_id >=", value, "traineeTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypeIdLessThan(Integer value) {
-            addCriterion("trainee_type_id <", value, "traineeTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypeIdLessThanOrEqualTo(Integer value) {
-            addCriterion("trainee_type_id <=", value, "traineeTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypeIdIn(List<Integer> values) {
-            addCriterion("trainee_type_id in", values, "traineeTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypeIdNotIn(List<Integer> values) {
-            addCriterion("trainee_type_id not in", values, "traineeTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypeIdBetween(Integer value1, Integer value2) {
-            addCriterion("trainee_type_id between", value1, value2, "traineeTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andTraineeTypeIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("trainee_type_id not between", value1, value2, "traineeTypeId");
+        public Criteria andObjIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("obj_id not between", value1, value2, "objId");
             return (Criteria) this;
         }
 

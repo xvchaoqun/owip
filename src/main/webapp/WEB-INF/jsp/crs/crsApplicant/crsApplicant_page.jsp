@@ -18,7 +18,7 @@
     </c:if>
     <a href="javascript:void(0)" class="jqOpenViewBtn btn btn-success btn-sm"
        data-open-by="page"
-       data-load-el="#step-item-content"
+       data-load-el="#step-body-content-view"
        data-grid-id="#jqGrid2"
        data-querystr="&cls=${param.cls}"
        data-url="${ctx}/crsApplicant_recommend"><i class="fa fa-thumbs-o-up"></i> 推荐/自荐</a>
@@ -36,7 +36,7 @@
     <c:if test="${param.cls==3}">
         <a href="javascript:void(0)" class="jqOpenViewBtn btn btn-warning btn-sm"
            data-open-by="page"
-           data-load-el="#step-item-content"
+           data-load-el="#step-body-content-view"
            data-grid-id="#jqGrid2"
            data-querystr="&cls=${param.cls}"
            data-url="${ctx}/crsApplicant_special"><i class="fa fa-star"></i> 破格</a>
@@ -143,13 +143,13 @@
                 </div>
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
-                       data-target="#step-item-content"
+                       data-target="#step-body-content-view"
                        data-form="#searchForm2"
                        data-url="${ctx}/crsApplicant?postId=${param.postId}&cls=${param.cls}"><i class="fa fa-search"></i> 查找</a>
 
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                data-target="#step-item-content"
+                                data-target="#step-body-content-view"
                                 data-url="${ctx}/crsApplicant?postId=${param.postId}&cls=${param.cls}">
                             <i class="fa fa-reply"></i> 重置
                         </button>
@@ -183,7 +183,7 @@
             {label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
 
                 if(rowObject.cadre==undefined) return cellvalue;
-                return ('<a href="${ctx}/#${ctx}/cadre_view?cadreId={1}" target="_blank">{0}</a>').format(cellvalue, rowObject.cadre.id);
+                return $.cadre(rowObject.cadre.id, cellvalue, "_blank");
 
             }, frozen: true},
             {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 200, frozen: true},
@@ -271,7 +271,7 @@
                 } else {
                     return "个人报名";
                 }
-                return '<a href="javascript:void(0)" class="loadPage" data-load-el="#step-item-content" ' +
+                return '<a href="javascript:void(0)" class="loadPage" data-load-el="#step-body-content-view" ' +
                         'data-url="${ctx}/crsApplicant_recommend?id={0}&cls=${param.cls}">推荐/自荐</a>'.format(rowObject.id);
             }
             }

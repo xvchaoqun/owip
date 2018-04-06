@@ -70,7 +70,7 @@ public class CetTrainInspectorController extends CetBaseController {
                 return "cet/cetTrainInspector/cetTrainInspector_print";
             }else{
 
-                return "cet/cetTrain/cetTrain_print";
+                return "cet/cetTrainInspector/cetTrainInspector_print_qr";
             }
         }
 

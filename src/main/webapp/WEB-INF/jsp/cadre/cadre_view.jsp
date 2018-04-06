@@ -16,7 +16,7 @@
     </h4>
 </c:if>
 <c:if test="${param._auth=='self'}">
-    <div id="item-content">
+    <div id="body-content-view">
 </c:if>
 <!-- PAGE CONTENT BEGINS -->
 <div class="widget-box transparent" id="view-box">

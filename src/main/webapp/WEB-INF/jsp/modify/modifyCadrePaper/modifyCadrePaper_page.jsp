@@ -32,7 +32,7 @@
                 <div id="jqGridPager_cadrePaper"></div>
             </div>
         </div>
-        <div id="item-content">
+        <div id="body-content-view">
         </div>
     </div>
 </div>

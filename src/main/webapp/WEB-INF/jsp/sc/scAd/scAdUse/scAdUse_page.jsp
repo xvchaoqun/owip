@@ -21,13 +21,13 @@
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/sc/scAdUse_au"
                                    data-grid-id="#jqGrid"
-                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                   ><i class="fa fa-edit"></i>
                                     修改</a>
                             </shiro:hasPermission>
                             <a class="jqOpenViewBtn btn btn-success btn-sm"
                                data-url="${ctx}/sc/scAdUse_archive"
                                data-grid-id="#jqGrid"
-                               data-querystr="&"><i class="fa fa-edit"></i> 正式归档</a>
+                               ><i class="fa fa-edit"></i> 正式归档</a>
                             <shiro:hasPermission name="scAdUse:del">
                                 <button data-url="${ctx}/sc/scAdUse_batchDel"
                                         data-title="删除"
@@ -86,7 +86,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

@@ -16,7 +16,7 @@
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/pcsVoteGroup_au"
                        data-grid-id="#jqGrid2"
-                       data-querystr="&"><i class="fa fa-edit"></i>
+                       ><i class="fa fa-edit"></i>
                         修改</a>
                     <button data-url="${ctx}/pcsVoteGroup_batchDel"
                             data-title="删除"

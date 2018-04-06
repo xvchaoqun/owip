@@ -7,9 +7,7 @@ public class CetTrainee implements Serializable {
 
     private Integer trainId;
 
-    private Integer userId;
-
-    private Integer traineeTypeId;
+    private Integer objId;
 
     private Boolean isQuit;
 
@@ -33,20 +31,12 @@ public class CetTrainee implements Serializable {
         this.trainId = trainId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getObjId() {
+        return objId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getTraineeTypeId() {
-        return traineeTypeId;
-    }
-
-    public void setTraineeTypeId(Integer traineeTypeId) {
-        this.traineeTypeId = traineeTypeId;
+    public void setObjId(Integer objId) {
+        this.objId = objId;
     }
 
     public Boolean getIsQuit() {

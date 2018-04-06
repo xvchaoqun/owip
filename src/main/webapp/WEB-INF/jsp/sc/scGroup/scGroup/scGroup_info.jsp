@@ -38,21 +38,21 @@
                                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                                     <li class="active">
                                         <a href="javascript:;" class="loadPage"
-                                           data-load-el="#inner-item-content" data-callback="$.menu.liSelected"
+                                           data-load-el="#inner-body-content-view" data-callback="$.menu.liSelected"
                                            data-url='${ctx}/sc/scGroupMember?isCurrent=1'><i
                                                 class="fa fa-bullhorn"></i> 小组会现有成员
                                         </a>
                                     </li>
                                     <li>
                                         <a href="javascript:;" class="loadPage"
-                                           data-load-el="#inner-item-content" data-callback="$.menu.liSelected"
+                                           data-load-el="#inner-body-content-view" data-callback="$.menu.liSelected"
                                            data-url='${ctx}/sc/scGroupMember?isCurrent=0'><i
                                                 class="fa fa-calendar-o"></i> 小组会过去成员
                                         </a>
                                     </li>
                                 </ul>
                                 <div class="space-4"></div>
-                                <div class="col-xs-12" id="inner-item-content" <%--style="min-height: 500px;"--%>>
+                                <div class="col-xs-12" id="inner-body-content-view" <%--style="min-height: 500px;"--%>>
 
                                     <c:import url="${ctx}/sc/scGroupMember"/>
                                 </div>
@@ -63,6 +63,6 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>

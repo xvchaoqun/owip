@@ -103,7 +103,7 @@
         });
     });
 
-    $("#item-content button[type=submit]").click(function(){$("#batchForm").submit(); return false;});
+    $("#body-content-view button[type=submit]").click(function(){$("#batchForm").submit(); return false;});
     $("#batchForm").validate({
         submitHandler: function (form) {
 

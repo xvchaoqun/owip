@@ -71,11 +71,13 @@ import persistence.cet.CetColumnViewMapper;
 import persistence.cet.CetCourseMapper;
 import persistence.cet.CetCourseTypeMapper;
 import persistence.cet.CetExpertMapper;
+import persistence.cet.CetProjectMapper;
+import persistence.cet.CetProjectObjCadreViewMapper;
+import persistence.cet.CetProjectObjMapper;
+import persistence.cet.CetProjectPlanMapper;
+import persistence.cet.CetProjectTraineeTypeMapper;
+import persistence.cet.CetProjectViewMapper;
 import persistence.cet.CetShortMsgMapper;
-import persistence.cet.CetSpecialMapper;
-import persistence.cet.CetSpecialObjCadreViewMapper;
-import persistence.cet.CetSpecialObjMapper;
-import persistence.cet.CetSpecialPlanMapper;
 import persistence.cet.CetTrainCourseMapper;
 import persistence.cet.CetTrainCourseStatViewMapper;
 import persistence.cet.CetTrainCourseViewMapper;
@@ -87,13 +89,13 @@ import persistence.cet.CetTrainInspectorCourseMapper;
 import persistence.cet.CetTrainInspectorMapper;
 import persistence.cet.CetTrainInspectorViewMapper;
 import persistence.cet.CetTrainMapper;
-import persistence.cet.CetTrainTraineeTypeMapper;
 import persistence.cet.CetTrainViewMapper;
 import persistence.cet.CetTraineeCadreViewMapper;
 import persistence.cet.CetTraineeCourseMapper;
 import persistence.cet.CetTraineeCourseViewMapper;
 import persistence.cet.CetTraineeMapper;
 import persistence.cet.CetTraineeTypeMapper;
+import persistence.cet.CetTraineeViewMapper;
 import persistence.cet.common.ICetMapper;
 import persistence.cis.CisEvaluateMapper;
 import persistence.cis.CisInspectObjMapper;
@@ -344,13 +346,15 @@ public class BaseMapper {
     @Autowired(required = false)
     protected ICetMapper iCetMapper;
     @Autowired(required = false)
-    protected CetSpecialMapper cetSpecialMapper;
+    protected CetProjectMapper cetProjectMapper;
     @Autowired(required = false)
-    protected CetSpecialObjMapper cetSpecialObjMapper;
+    protected CetProjectViewMapper cetProjectViewMapper;
     @Autowired(required = false)
-    protected CetSpecialObjCadreViewMapper cetSpecialObjCadreViewMapper;
+    protected CetProjectObjMapper cetProjectObjMapper;
     @Autowired(required = false)
-    protected CetSpecialPlanMapper cetSpecialPlanMapper;
+    protected CetProjectObjCadreViewMapper cetProjectObjCadreViewMapper;
+    @Autowired(required = false)
+    protected CetProjectPlanMapper cetProjectPlanMapper;
     @Autowired(required = false)
     protected CetCourseMapper cetCourseMapper;
     @Autowired(required = false)
@@ -378,6 +382,8 @@ public class BaseMapper {
     @Autowired(required = false)
     protected CetTraineeMapper cetTraineeMapper;
     @Autowired(required = false)
+    protected CetTraineeViewMapper cetTraineeViewMapper;
+    @Autowired(required = false)
     protected CetTraineeCadreViewMapper cetTraineeCadreViewMapper;
     @Autowired(required = false)
     protected CetTraineeCourseViewMapper cetTraineeCourseViewMapper;
@@ -386,7 +392,7 @@ public class BaseMapper {
     @Autowired(required = false)
     protected CetTraineeTypeMapper cetTraineeTypeMapper;
     @Autowired(required = false)
-    protected CetTrainTraineeTypeMapper cetTrainTraineeTypeMapper;
+    protected CetProjectTraineeTypeMapper cetProjectTraineeTypeMapper;
     @Autowired(required = false)
     protected CetShortMsgMapper cetShortMsgMapper;
     @Autowired(required = false)

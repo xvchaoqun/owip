@@ -41,7 +41,7 @@ public class CetExportService extends BaseMapper {
         row = sheet.getRow(2);
         cell = row.getCell(2);
         str = cell.getStringCellValue()
-                .replace("sn", cetTrain.getSn());
+                .replace("sn", /*cetTrain.getSn()*/ "");
         cell.setCellValue(str);
 
         row = sheet.getRow(3);

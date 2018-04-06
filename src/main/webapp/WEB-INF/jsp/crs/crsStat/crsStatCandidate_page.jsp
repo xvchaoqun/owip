@@ -107,7 +107,7 @@
         </div>
       </div>
     </div>
-    <div id="item-content"></div>
+    <div id="body-content-view"></div>
   </div>
 </div>
 <script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
@@ -201,7 +201,7 @@
             } else {
                 return "个人报名";
             }
-            return '<a href="javascript:void(0)" class="loadPage" data-load-el="#step-item-content" ' +
+            return '<a href="javascript:void(0)" class="loadPage" data-load-el="#step-body-content-view" ' +
                     'data-url="${ctx}/crsApplicant_recommend?id={0}&cls=${param.cls}">推荐/自荐</a>'.format(rowObject.applicantId);
         }},
         {label: '应聘报名表', name: '_table', formatter: function (cellvalue, options, rowObject) {

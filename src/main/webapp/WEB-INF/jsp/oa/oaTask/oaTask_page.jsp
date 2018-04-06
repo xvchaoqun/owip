@@ -38,14 +38,14 @@
                                    data-width="750"
                                    data-url="${ctx}/oa/oaTask_au"
                                    data-grid-id="#jqGrid"
-                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                   ><i class="fa fa-edit"></i>
                                     修改</a>
                                 <a class="jqBatchBtn btn btn-danger btn-sm"
                                    data-title="作废"
                                    data-msg="确定作废这{0}个任务？"
                                    data-url="${ctx}/oa/oaTask_abolish"
                                    data-grid-id="#jqGrid"
-                                   data-querystr="&"><i class="fa fa-times"></i>
+                                   ><i class="fa fa-times"></i>
                                     作废</a>
                                 <a class="jqOpenViewBtn btn btn-info btn-sm"
                                    data-url="${ctx}/oa/oaTaskUser_infoMsg"
@@ -125,7 +125,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

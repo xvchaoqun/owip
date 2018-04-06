@@ -199,7 +199,7 @@ pageEncoding="UTF-8"%>
 	$("#modalForm :checkbox").bootstrapSwitch();
 	$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'));
-	$("#item-content input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
+	$("#body-content-view input[type=submit]").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

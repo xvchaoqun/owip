@@ -190,7 +190,7 @@ pageEncoding="UTF-8"%>
 	jgrid_top = $("#jqGrid").closest(".ui-jqgrid-bdiv").scrollTop();
 	$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'), {endDate:'${today}'});
-	$("#item-content button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
+	$("#body-content-view button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
 	$("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

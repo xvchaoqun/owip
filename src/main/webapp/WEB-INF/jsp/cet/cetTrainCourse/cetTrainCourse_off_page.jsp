@@ -22,16 +22,17 @@
         <div class="widget-main padding-4">
             <div class="tab-content padding-8">
                 <shiro:hasPermission name="cetTrainCourse:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/cet/cetTrainCourse_au?trainId=${cetTrain.id}"><i class="fa fa-plus"></i> 添加</a>
+                    <a class="popupBtn btn btn-info btn-sm"
+                       data-url="${ctx}/cet/cetTrainCourse_au?trainId=${cetTrain.id}"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/cet/cetTrainCourse_au"
                        data-grid-id="#jqGrid2"
-                       data-querystr="&"><i class="fa fa-edit"></i>
+                       ><i class="fa fa-edit"></i>
                         修改</a>
                     <a class="jqOpenViewBatchBtn btn btn-warning btn-sm"
                        data-url="${ctx}/cet/cetTrainCourse_evaTable"
                        data-grid-id="#jqGrid2"
-                       data-querystr="trainId=${cetTrain.id}"><i class="fa fa-table"></i>
+                       data-querystr="trainId=${cetTrain.id}&grid=jqGrid2"><i class="fa fa-table"></i>
                         设置评估表</a>
 
                 </shiro:hasPermission>
@@ -49,7 +50,7 @@
                        data-url="${ctx}/cet/cetTrainCourse_import?trainId=${cetTrain.id}"
                        data-rel="tooltip" data-placement="top" title="从Excel导入"><i class="fa fa-upload"></i> 从Excel导入</button>
                     <button class="popupBtn btn btn-info btn-sm tooltip-success"
-                       data-url="${ctx}/cet/cetTrainCourse_selectCourses?trainId=${cetTrain.id}" data-width="1200"
+                       data-url="${ctx}/cet/cetTrainCourse_selectCourses?trainId=${cetTrain.id}&grid=jqGrid2" data-width="1200"
                        data-rel="tooltip" data-placement="top" title="从课程中心导入"><i class="fa fa-search-plus"></i> 从课程中心导入</button>
                 </shiro:hasPermission>
                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"

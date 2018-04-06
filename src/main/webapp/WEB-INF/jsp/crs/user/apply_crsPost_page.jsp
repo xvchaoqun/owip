@@ -34,7 +34,7 @@
                                     data-url="${ctx}/user/applicant_log"
                                     data-id-name="postId"
                                     data-width="650"
-                                    data-querystr="&">
+                                    >
                                 <i class="fa fa-history"></i> 操作记录
                             </button>
                             </c:if>
@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

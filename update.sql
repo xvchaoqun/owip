@@ -1,4 +1,92 @@
 
+2018-4-6
+ALTER TABLE `cet_special`
+	COMMENT='培训计划，包含专题培训和年度培训',
+	ADD COLUMN `type` TINYINT UNSIGNED NOT NULL DEFAULT '1' COMMENT '培训类型， 1 专题培训 2 年度培训' AFTER `id`;
+
+RENAME TABLE `cet_special` TO `cet_project`;
+
+RENAME TABLE `cet_special_plan` TO `cet_project_plan`;
+
+ALTER TABLE `cet_project_plan`
+	DROP FOREIGN KEY `FK_cet_special_plan_cet_special`;
+
+	ALTER TABLE `cet_project_plan`
+	DROP INDEX `FK_cet_special_plan_cet_special`;
+
+	ALTER TABLE `cet_project_plan`
+	CHANGE COLUMN `special_id` `project_id` INT(10) UNSIGNED NOT NULL COMMENT '所属培训计划' AFTER `id`;
+
+	ALTER TABLE `cet_project_plan`
+	ADD CONSTRAINT `FK_cet_project_plan_cet_project` FOREIGN KEY (`project_id`) REFERENCES `cet_project` (`id`) ON DELETE CASCADE;
+
+delete from cet_train_trainee_type;
+
+ALTER TABLE `cet_train_trainee_type`
+	COMMENT='培训计划包含的参训人员类型';
+RENAME TABLE `cet_train_trainee_type` TO `cet_project_trainee_type`;
+
+ALTER TABLE `cet_project_trainee_type`
+	DROP INDEX `FK_cet_train_trainee_type_cet_train`,
+	DROP FOREIGN KEY `FK_cet_train_trainee_type_cet_train`;
+
+	ALTER TABLE `cet_project_trainee_type`
+	CHANGE COLUMN `train_id` `project_id` INT(10) UNSIGNED NOT NULL COMMENT '培训计划' AFTER `id`,
+	ADD CONSTRAINT `FK_cet_project_trainee_type_cet_project` FOREIGN KEY (`project_id`) REFERENCES `cet_project` (`id`) ON DELETE CASCADE;
+
+drop view cet_special_view;
+drop view cet_special_obj_cadre_view;
+drop table cet_special_obj;
+
+
+
+ALTER TABLE `cet_train`
+	DROP COLUMN `year`,
+	DROP COLUMN `num`,
+	DROP INDEX `year_type_num`;
+
+	ALTER TABLE `cet_train`
+	ADD COLUMN `project_id` INT(10) UNSIGNED NULL COMMENT '所属培训计划，针对校内培训' AFTER `id`,
+	DROP COLUMN `template_id`,
+	ADD CONSTRAINT `FK_cet_train_cet_project` FOREIGN KEY (`project_id`) REFERENCES `cet_project` (`id`) ON DELETE CASCADE;
+
+
+
+创建 cet_project_obj
+cet_project_obj_cadre_view
+
+在网页上删除所有的可选课人员
+-- delete from cet_trainee;
+
+ALTER TABLE `cet_trainee`
+	COMMENT='已选课人员';
+
+ALTER TABLE `cet_trainee`
+	CHANGE COLUMN `user_id` `obj_id` INT(10) UNSIGNED NOT NULL COMMENT '培训对象' AFTER `train_id`,
+	DROP COLUMN `trainee_type_id`,
+	DROP INDEX `train_id_user_id`,
+	ADD UNIQUE INDEX `train_id_obj_id` (`train_id`, `obj_id`),
+	ADD CONSTRAINT `FK_cet_trainee_cet_project_obj` FOREIGN KEY (`obj_id`) REFERENCES `cet_project_obj` (`id`) ON DELETE CASCADE;
+
+	更新 cet_trainee_cadre_view
+
+
+
+更新 cet_project_view
+
+ALTER TABLE `cet_train`
+	CHANGE COLUMN `project_id` `plan_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属培训方案，针对校内培训' AFTER `id`,
+	DROP INDEX `FK_cet_train_cet_project`,
+	DROP FOREIGN KEY `FK_cet_train_cet_project`,
+	ADD CONSTRAINT `FK_cet_train_cet_project_plan` FOREIGN KEY (`plan_id`) REFERENCES `cet_project_plan` (`id`) ON DELETE CASCADE;
+
+	更新 cet_train_view
+
+ALTER TABLE `cet_trainee_course`
+	ADD COLUMN `can_quit` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '是否允许退课，由管理员设置的必选课程，不允许退课' AFTER `train_course_id`;
+
+	更新 cet_trainee_course_view
+
 2018-4-2
 
 ALTER TABLE `sys_log`

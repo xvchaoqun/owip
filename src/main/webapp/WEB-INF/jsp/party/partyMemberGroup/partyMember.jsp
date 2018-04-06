@@ -100,7 +100,7 @@
             </div>
         </div>
                 </div></div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
@@ -125,9 +125,9 @@
             },
             {label: '管理员', name: 'isAdmin', width: 100,align:'left',formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)
-                    return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定删除该管理员？" data-loading="#item-content" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs">删除管理员</button>'.format(rowObject.id);
+                    return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定删除该管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs">删除管理员</button>'.format(rowObject.id);
                 else
-                    return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#item-content" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
+                    return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
             }},
             {label: '所在单位', name: 'unitId', width: 350,align:'left',formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';

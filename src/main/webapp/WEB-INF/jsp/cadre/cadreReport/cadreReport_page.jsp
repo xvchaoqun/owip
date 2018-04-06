@@ -18,7 +18,7 @@
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/cadreReport_au"
                                    data-grid-id="#jqGrid"
-                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                   ><i class="fa fa-edit"></i>
                                     修改</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="cadreReport:del">
@@ -76,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>

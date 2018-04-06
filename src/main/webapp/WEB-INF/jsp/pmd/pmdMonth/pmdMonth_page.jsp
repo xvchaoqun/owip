@@ -27,13 +27,13 @@
                                    data-url="${ctx}/pmd/pmdMonth_au"
                                    data-grid-id="#jqGrid"
                                         data-width="400"
-                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                   ><i class="fa fa-edit"></i>
                                     修改</button>
                                 <button id="selectPartiesBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/pmd/pmdMonth_selectParties"
                                         data-id-name="monthId"
                                         data-grid-id="#jqGrid"
-                                        data-querystr="&"><i class="fa fa-edit"></i> 编辑缴费党委
+                                        ><i class="fa fa-edit"></i> 编辑缴费党委
                                 </button>
 
                                 <button class="popupBtn btn btn-warning btn-sm"
@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 

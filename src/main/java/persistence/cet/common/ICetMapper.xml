@@ -10,7 +10,8 @@
         <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod"/>
     </resultMap>
     <sql id="searchTrains">
-        where ctee.train_id=ct.id and ctee.user_id=#{userId} and ct.is_deleted=0 and ct.pub_status=1
+        where ct.plan_id=cpp.id and cpp.project_id=cpo.project_id and cpo.is_quit=0
+        and cpo.user_id=#{userId} and ct.is_deleted=0 and ct.pub_status=1
         <if test="hasSelected!=null">
             <if test="hasSelected">
                 and ctee.course_count > 0
@@ -24,11 +25,12 @@
         </if>
     </sql>
     <select id="findUserCetTrains" resultMap="TrainBaseResultMap" parameterType="map">
-        select ct.*, ctee.id as trainee_id, ctee.course_count
+        select ct.*, cpo.id as obj_id, ctee.id as trainee_id, ctee.course_count
         <if test="hasSelected">
         , tmp.total_period, tmp.finish_period
         </if>
-        from cet_train_view ct, cet_trainee_cadre_view ctee
+        from cet_train_view ct, cet_project_plan cpp, cet_project_obj cpo
+        left join cet_trainee_cadre_view ctee on ctee.obj_id=cpo.id
         <if test="hasSelected">
         , (
         select cteec.trainee_id, sum(cc.period) total_period, sum(if(cteec.is_finished, cc.period, 0)) as finish_period
@@ -44,7 +46,8 @@
         order by ct.create_time desc
     </select>
     <select id="countUserCetTrains" parameterType="map" resultType="java.lang.Integer">
-        select count(ct.id) from cet_train_view ct, cet_trainee_cadre_view ctee
+        select count(ct.id) from cet_train_view ct, cet_project_plan cpp, cet_project_obj cpo
+        left join cet_trainee_cadre_view ctee on ctee.obj_id=cpo.id
         <include refid="searchTrains"/>
     </select>
 

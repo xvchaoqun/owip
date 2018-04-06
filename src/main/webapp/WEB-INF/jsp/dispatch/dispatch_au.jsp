@@ -247,7 +247,7 @@
                             message: '是否继续添加干部任免信息？',
                             callback: function(result) {
                                 if (result) {
-                                    $("#item-content").load("${ctx}/dispatch_cadres?dispatchId=" + ret.id);
+                                    $("#body-content-view").load("${ctx}/dispatch_cadres?dispatchId=" + ret.id);
                                 } else {
                                     $.hideView();
                                 }

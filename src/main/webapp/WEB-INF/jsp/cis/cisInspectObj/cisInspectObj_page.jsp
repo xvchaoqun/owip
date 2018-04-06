@@ -20,12 +20,12 @@
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/cisInspectObj_au"
                                    data-grid-id="#jqGrid"
-                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                   ><i class="fa fa-edit"></i>
                                     修改</a>
                                 <button id="inspectorEditBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                                    data-url="${ctx}/cisObjInspectors"
                                    data-grid-id="#jqGrid"
-                                   data-querystr="&"
+
                                    data-id-name="objId"><i class="fa fa-edit"></i>
                                     编辑考察组成员</button>
                             </shiro:hasPermission>
@@ -135,7 +135,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>

@@ -33,13 +33,13 @@
                         </div>
                         <div class="clearfix form-actions center">
                             <a class="jqSearchBtn btn btn-default btn-sm"
-                               data-target="#step-item-content"
+                               data-target="#step-body-content-view"
                                data-form="#searchForm2"
                                     ><i class="fa fa-search"></i> 查找</a>
 
                             <c:if test="${_query}">&nbsp;
                                 <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                        data-target="#step-item-content"
+                                        data-target="#step-body-content-view"
                                         data-querystr="stage=${param.stage}&partyId=${partyId}">
                                     <i class="fa fa-reply"></i> 重置
                                 </button>
@@ -76,7 +76,7 @@
             {
                 label: '推荐情况', name: 'isFinished', formatter: function (cellvalue, options, rowObject) {
                 var isFinished = (cellvalue == undefined) ? false : cellvalue;
-                return ('<button class="loadPage btn {3} btn-xs" data-load-el="#step-item-content" ' +
+                return ('<button class="loadPage btn {3} btn-xs" data-load-el="#step-body-content-view" ' +
                 'data-url="${ctx}/pcsOw_party_branch_detail?admin=1&stage=${param.stage}&partyId={0}&branchId={1}"><i class="fa {4}"></i> {2}</button>')
                         .format(rowObject.partyId,
                         $.trim(rowObject.branchId),

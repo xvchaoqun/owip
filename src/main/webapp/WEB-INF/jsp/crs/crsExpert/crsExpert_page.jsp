@@ -41,7 +41,7 @@
                                <%-- <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/crsExpert_au"
                                    data-grid-id="#jqGrid"
-                                   data-querystr="&"
+
                                    data-width="900"><i class="fa fa-edit"></i>
                                     修改</a>--%>
                             </shiro:hasPermission>
@@ -124,7 +124,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>

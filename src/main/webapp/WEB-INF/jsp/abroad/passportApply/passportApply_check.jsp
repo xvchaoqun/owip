@@ -126,7 +126,7 @@ pageEncoding="UTF-8"%>
             if(ret.success){
                 //SysMsg.success('审批成功', '提示', function(){
 
-                    $("#item-content").load("${ctx}/abroad/passportApply_check?id=${param.id}&_="+new Date().getTime());
+                    $("#body-content-view").load("${ctx}/abroad/passportApply_check?id=${param.id}&_="+new Date().getTime());
                 //});
                 //$("#agree_msg").show().click();
 
@@ -145,7 +145,7 @@ pageEncoding="UTF-8"%>
         $.post("${ctx}/abroad/passportApply_disagree",{id:"${param.id}", remark:remark },function(ret){
             if(ret.success){
                 //SysMsg.success('提交成功', '提示', function(){
-                    //$("#item-content").load("${ctx}/abroad/passportApply_check?id=${param.id}&_="+new Date().getTime());
+                    //$("#body-content-view").load("${ctx}/abroad/passportApply_check?id=${param.id}&_="+new Date().getTime());
                     $.hashchange("status=2", "#${ctx}/abroad/passportApply");
                 //});
             }

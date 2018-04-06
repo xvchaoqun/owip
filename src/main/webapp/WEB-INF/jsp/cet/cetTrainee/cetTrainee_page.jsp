@@ -11,7 +11,7 @@
         </span>
         </c:forEach>
     </div>
-    <c:if test="${param.cls==1}">
+    <%--<c:if test="${param.cls==1}">
         <button class="popupBtn btn btn-success btn-sm" data-width="700"
            data-url="${ctx}/cet/cetTrainee_add?trainId=${param.trainId}&traineeTypeId=${traineeTypeId}">
             <i class="fa fa-plus"></i> 选择可选课人员</button>
@@ -19,15 +19,15 @@
         <button data-url="${ctx}/cet/cetTrainee_batchDel"
                 data-title="删除"
                 data-msg="确定删除这{0}个人员？"
-                data-grid-id="#jqGrid2"
+                data-grid-id="#jqGrid4"
                 data-callback="_detailReload"
                 class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-trash"></i> 删除
         </button>
-    </c:if>
+    </c:if>--%>
 
     <button class="jqOpenViewBtn btn btn-info btn-sm"
-            data-grid-id="#jqGrid2"
+            data-grid-id="#jqGrid4"
             data-url="${ctx}/sysApprovalLog"
             data-width="850"
             data-querystr="&displayType=1&hideStatus=1&type=${SYS_APPROVAL_LOG_TYPE_CET_TRAINEE}">
@@ -58,12 +58,12 @@
                 </div>
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
-                       data-target="#detail-item-content"
+                       data-target="#detail-body-content-view"
                        data-form="#searchForm2"
                        data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&cls=${param.cls}"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                data-target="#detail-item-content"
+                                data-target="#detail-body-content-view"
                                 data-url="${ctx}/cet/cetTrainee?trainId=${trainId.postId}&traineeTypeId=${traineeTypeId}&cls=${param.cls}">
                             <i class="fa fa-reply"></i> 重置
                         </button>
@@ -75,8 +75,8 @@
 </div>
 <div class="space-4"></div>
 <div class="rownumbers">
-    <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="40"></table>
-    <div id="jqGridPager2"></div>
+    <table id="jqGrid4" class="jqGrid2 table-striped" data-height-reduce="40"></table>
+    <div id="jqGridPager4"></div>
 </div>
 <style>
     .type-select {
@@ -109,14 +109,14 @@
 
     $.register.user_select($("#searchForm2 select[name=userId]"));
 
-    $("#jqGrid2").jqGrid({
-        pager: "#jqGridPager2",
+    $("#jqGrid4").jqGrid({
+        pager: "#jqGridPager4",
         rownumbers: true,
         url: '${ctx}/cet/cetTrainee_data?callback=?&traineeTypeId=${traineeTypeId}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: colModel
     }).jqGrid("setFrozenColumns")
     $(window).triggerHandler('resize.jqGrid2');
-    $.initNavGrid("jqGrid2", "jqGridPager2");
+    $.initNavGrid("jqGrid4", "jqGridPager4");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>

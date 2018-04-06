@@ -3,14 +3,12 @@
 <mapper namespace="persistence.cet.CetTrainViewMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetTrainView">
     <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="plan_id" jdbcType="INTEGER" property="planId" />
     <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="num" jdbcType="INTEGER" property="num" />
     <result column="is_on_campus" jdbcType="BIT" property="isOnCampus" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="has_summary" jdbcType="BIT" property="hasSummary" />
     <result column="summary" jdbcType="VARCHAR" property="summary" />
-    <result column="template_id" jdbcType="INTEGER" property="templateId" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
@@ -25,9 +23,10 @@
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="year" jdbcType="INTEGER" property="year" />
     <result column="course_num" jdbcType="INTEGER" property="courseNum" />
+    <result column="obj_count" jdbcType="BIGINT" property="objCount" />
     <result column="trainee_count" jdbcType="INTEGER" property="traineeCount" />
-    <result column="selected_count" jdbcType="INTEGER" property="selectedCount" />
     <result column="trainee_types" jdbcType="VARCHAR" property="traineeTypes" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetTrainView">
@@ -63,10 +62,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, type, num, is_on_campus, name, has_summary, summary, template_id, start_date, 
-    end_date, start_time, end_time, enroll_status, pub_status, eva_count, eva_anonymous, 
-    eva_closed, eva_close_time, remark, is_deleted, is_finished, create_time, course_num, 
-    trainee_count, selected_count, trainee_types
+    id, plan_id, type, is_on_campus, name, has_summary, summary, start_date, end_date, 
+    start_time, end_time, enroll_status, pub_status, eva_count, eva_anonymous, eva_closed, 
+    eva_close_time, remark, is_deleted, is_finished, create_time, year, course_num, obj_count, 
+    trainee_count, trainee_types
   </sql>
   <sql id="Blob_Column_List">
     eva_note

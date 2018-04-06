@@ -200,7 +200,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-	$("#item-content button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
+	$("#body-content-view button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

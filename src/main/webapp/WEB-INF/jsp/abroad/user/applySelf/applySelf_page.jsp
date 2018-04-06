@@ -103,7 +103,7 @@
                         <table id="jqGrid" class="jqGrid"> </table>
                         <div id="jqGridPager"> </div>
         </div>
-        <div id="item-content">
+        <div id="body-content-view">
         </div>
     </div>
 </div>

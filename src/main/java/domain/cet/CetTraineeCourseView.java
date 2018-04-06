@@ -11,6 +11,8 @@ public class CetTraineeCourseView implements Serializable {
 
     private Integer trainCourseId;
 
+    private Boolean canQuit;
+
     private Boolean isFinished;
 
     private Date signTime;
@@ -28,6 +30,8 @@ public class CetTraineeCourseView implements Serializable {
     private Integer traineeTypeId;
 
     private Integer userId;
+
+    private Integer courseId;
 
     private BigDecimal period;
 
@@ -79,6 +83,14 @@ public class CetTraineeCourseView implements Serializable {
 
     public void setTrainCourseId(Integer trainCourseId) {
         this.trainCourseId = trainCourseId;
+    }
+
+    public Boolean getCanQuit() {
+        return canQuit;
+    }
+
+    public void setCanQuit(Boolean canQuit) {
+        this.canQuit = canQuit;
     }
 
     public Boolean getIsFinished() {
@@ -151,6 +163,14 @@ public class CetTraineeCourseView implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
     }
 
     public BigDecimal getPeriod() {

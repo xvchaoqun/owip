@@ -9,9 +9,7 @@ public class CetTraineeCadreView implements Serializable {
 
     private Integer trainId;
 
-    private Integer userId;
-
-    private Integer traineeTypeId;
+    private Integer objId;
 
     private Boolean isQuit;
 
@@ -24,6 +22,10 @@ public class CetTraineeCadreView implements Serializable {
     private Integer courseCount;
 
     private Integer finishCount;
+
+    private Integer cadreId;
+
+    private Integer userId;
 
     private String code;
 
@@ -65,20 +67,12 @@ public class CetTraineeCadreView implements Serializable {
         this.trainId = trainId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getObjId() {
+        return objId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getTraineeTypeId() {
-        return traineeTypeId;
-    }
-
-    public void setTraineeTypeId(Integer traineeTypeId) {
-        this.traineeTypeId = traineeTypeId;
+    public void setObjId(Integer objId) {
+        this.objId = objId;
     }
 
     public Boolean getIsQuit() {
@@ -127,6 +121,22 @@ public class CetTraineeCadreView implements Serializable {
 
     public void setFinishCount(Integer finishCount) {
         this.finishCount = finishCount;
+    }
+
+    public Integer getCadreId() {
+        return cadreId;
+    }
+
+    public void setCadreId(Integer cadreId) {
+        this.cadreId = cadreId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getCode() {

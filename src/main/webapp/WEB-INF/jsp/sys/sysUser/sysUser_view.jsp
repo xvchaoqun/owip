@@ -170,11 +170,11 @@
 <script>
 
     function _reload(){
-        $("#item-content").load("${ctx}/sysUser_view?userId=${sysUser.id}&_="+new Date().getTime());
+        $("#body-content-view").load("${ctx}/sysUser_view?userId=${sysUser.id}&_="+new Date().getTime());
     }
     function sync_user(userId, btn){
         var $btn = $(btn).button('loading')
-        var $container = $("#item-content");
+        var $container = $("#body-content-view");
         $container.showLoading({'afterShow':
                 function() {
                     setTimeout( function(){

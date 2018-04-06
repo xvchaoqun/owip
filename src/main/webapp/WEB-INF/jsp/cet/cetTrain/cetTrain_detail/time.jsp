@@ -88,28 +88,28 @@
                 <div class="widget-main">
                     <button class="confirm btn btn-success btn-block"
                             ${!cetTrain.autoSwitch && isOpen?'disabled':''}
-                            data-msg="确定强制开启选课？" data-callback="_detailReload"
+                            data-msg="确定强制开启选课？" data-callback="_detailReload2"
                             data-url="${ctx}/cet/cetTrain_detail/enrollStatus?trainId=${cetTrain.id}
                             &enrollStatus=${CET_TRAIN_ENROLL_STATUS_OPEN}">
                         <i class="fa fa-check"></i> 开启选课</button>
                     <br/>
                     <button class="confirm btn btn-danger btn-block"
                     ${!cetTrain.autoSwitch && isClosed?'disabled':''}
-                            data-msg="确定强制关闭选课？" data-callback="_detailReload"
+                            data-msg="确定强制关闭选课？" data-callback="_detailReload2"
                             data-url="${ctx}/cet/cetTrain_detail/enrollStatus?trainId=${cetTrain.id}
                             &enrollStatus=${CET_TRAIN_ENROLL_STATUS_CLOSED}">
                         <i class="fa fa-times"></i> 关闭选课</button>
                     <br/>
                     <button class="confirm btn btn-warning btn-block"
                     ${!cetTrain.autoSwitch && isPause?'disabled':''}
-                            data-msg="确定强制暂停选课？" data-callback="_detailReload"
+                            data-msg="确定强制暂停选课？" data-callback="_detailReload2"
                             data-url="${ctx}/cet/cetTrain_detail/enrollStatus?trainId=${cetTrain.id}
                             &enrollStatus=${CET_TRAIN_ENROLL_STATUS_PAUSE}">
                         <i class="fa fa-exclamation-triangle"></i> 暂停选课</button>
                     <br/>
                     <button class="confirm btn btn-primary btn-block"
                     ${cetTrain.autoSwitch?'disabled':''}
-                            data-msg="确定由系统自动判断选课开关？" data-callback="_detailReload"
+                            data-msg="确定由系统自动判断选课开关？" data-callback="_detailReload2"
                             data-url="${ctx}/cet/cetTrain_detail/enrollStatus?trainId=${cetTrain.id}
                             &enrollStatus=${CET_TRAIN_ENROLL_STATUS_DEFAULT}">
                         <i class="fa fa-reply"></i> 恢复自动</button>
@@ -128,7 +128,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         //$("#modal").modal('hide');
-                        _detailReload()
+                        _detailReload2()
                     }
                 }
             });

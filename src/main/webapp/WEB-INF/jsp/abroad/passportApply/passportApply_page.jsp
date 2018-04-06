@@ -65,8 +65,7 @@ pageEncoding="UTF-8" %>
                                 </a>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/abroad/passportApply_update_expectDate"
-                                   data-grid-id="#jqGrid"
-                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                   data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                     修改应交日期</a>
                             </c:if>
                             <c:if test="${status!=ABROAD_PASSPORT_APPLY_STATUS_INIT && status!=-1}">
@@ -154,7 +153,7 @@ pageEncoding="UTF-8" %>
                         <div id="jqGridPager"> </div>
         </div>
                 </div></div></div>
-        <div id="item-content">
+        <div id="body-content-view">
         </div>
     </div>
 </div>

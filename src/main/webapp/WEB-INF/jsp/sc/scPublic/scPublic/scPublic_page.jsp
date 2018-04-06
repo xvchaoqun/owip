@@ -24,7 +24,7 @@
                                    data-url="${ctx}/sc/scPublic_au"
                                    data-grid-id="#jqGrid"
                                    data-open-by="page"
-                                   data-querystr="&"><i class="fa fa-edit"></i>
+                                   ><i class="fa fa-edit"></i>
                                     修改</a>
                             </shiro:hasPermission>
                             <c:if test="${cls==1}">
@@ -97,7 +97,7 @@
                 </div>
             </div>
         </div>
-        <div id="item-content"></div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script>

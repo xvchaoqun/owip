@@ -313,6 +313,66 @@ public class CetTraineeCourseViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andCanQuitIsNull() {
+            addCriterion("can_quit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitIsNotNull() {
+            addCriterion("can_quit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitEqualTo(Boolean value) {
+            addCriterion("can_quit =", value, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitNotEqualTo(Boolean value) {
+            addCriterion("can_quit <>", value, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitGreaterThan(Boolean value) {
+            addCriterion("can_quit >", value, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("can_quit >=", value, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitLessThan(Boolean value) {
+            addCriterion("can_quit <", value, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitLessThanOrEqualTo(Boolean value) {
+            addCriterion("can_quit <=", value, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitIn(List<Boolean> values) {
+            addCriterion("can_quit in", values, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitNotIn(List<Boolean> values) {
+            addCriterion("can_quit not in", values, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitBetween(Boolean value1, Boolean value2) {
+            addCriterion("can_quit between", value1, value2, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("can_quit not between", value1, value2, "canQuit");
+            return (Criteria) this;
+        }
+
         public Criteria andIsFinishedIsNull() {
             addCriterion("is_finished is null");
             return (Criteria) this;
@@ -870,6 +930,66 @@ public class CetTraineeCourseViewExample {
 
         public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
             addCriterion("user_id not between", value1, value2, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIdIsNull() {
+            addCriterion("course_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIdIsNotNull() {
+            addCriterion("course_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIdEqualTo(Integer value) {
+            addCriterion("course_id =", value, "courseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIdNotEqualTo(Integer value) {
+            addCriterion("course_id <>", value, "courseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIdGreaterThan(Integer value) {
+            addCriterion("course_id >", value, "courseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("course_id >=", value, "courseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIdLessThan(Integer value) {
+            addCriterion("course_id <", value, "courseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIdLessThanOrEqualTo(Integer value) {
+            addCriterion("course_id <=", value, "courseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIdIn(List<Integer> values) {
+            addCriterion("course_id in", values, "courseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIdNotIn(List<Integer> values) {
+            addCriterion("course_id not in", values, "courseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIdBetween(Integer value1, Integer value2) {
+            addCriterion("course_id between", value1, value2, "courseId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("course_id not between", value1, value2, "courseId");
             return (Criteria) this;
         }
 

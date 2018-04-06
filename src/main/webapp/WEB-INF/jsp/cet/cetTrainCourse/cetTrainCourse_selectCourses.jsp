@@ -73,7 +73,7 @@
         $.post("${ctx}/cet/cetTrainCourse_selectCourses", {trainId:${cetTrain.id} ,courseIds:courseIds},function(ret){
             if(ret.success){
                 $("#modal").modal('hide');
-                $("#jqGrid2").trigger("reloadGrid");
+                $("#"+"${param.grid}").trigger("reloadGrid");
                 SysMsg.success("课程添加成功。");
             }
         });

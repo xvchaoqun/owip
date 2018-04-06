@@ -357,11 +357,18 @@ var _modal_width;
             }
             return '';
         },
-        cadre: function (cadreId, realname) {
+        cadre: function (cadreId, realname, target) {
 
-            if (cadreId > 0 && $.trim(realname) != '')
-                return '<a href="javascript:;" class="openView" data-url="{2}/cadre_view?cadreId={0}">{1}</a>'
-                    .format(cadreId, realname, ctx);
+            if (cadreId > 0 && $.trim(realname) != '') {
+
+                if(target!=undefined){
+                    return ('<a href="${ctx}/#${ctx}/cadre_view?cadreId={0}" target="{1}">{2}</a>')
+                        .format(cadreId, target, realname);
+                }else {
+                    return '<a href="javascript:;" class="openView" data-url="{2}/cadre_view?cadreId={0}">{1}</a>'
+                        .format(cadreId, realname, ctx);
+                }
+            }
 
             return $.trim(realname);
         },
@@ -588,18 +595,80 @@ var _modal_width;
             $.get(url, {}, function (html) {
                 $maskEl.unmask();
                 $("#body-content").hide();
-                $("#item-content").hide().fadeIn("slow").html(html);
+                $("#body-content-view").hide().fadeIn("slow").html(html);
                 if (typeof fn == 'function') fn();
                 NProgress.done();
             })
         },
         // 关闭副区域，如果传入了url，则刷新主区域
         hideView: function (pageUrl) {
-            $("#item-content").fadeOut("fast", function () {
+            $("#body-content-view").fadeOut("fast", function () {
                 if ($.trim(pageUrl) != '') {
                     $.hashchange('', pageUrl);
                 } else {
                     $("#body-content").show(0, function () {
+                        $(window).resize(); // 解决jqgrid不显示的问题
+                    });
+                }
+            });
+        },
+        // 载入副区域
+        loadView2: function (url, $maskEl, fn) {
+
+            NProgress.start();
+            /*if ($maskEl == undefined || typeof $maskEl == 'function') {
+                fn = $maskEl;
+                $maskEl = $("#body-content-view");
+            }*/
+            // 关闭modal
+            $("#modal").removeClass("fade").modal('hide').addClass("fade");
+            $maskEl.mask();
+            $.get(url, {}, function (html) {
+                $maskEl.unmask();
+                $("#body-content2").hide();
+                $("#body-content-view2").hide().fadeIn("slow").html(html);
+                if (typeof fn == 'function') fn();
+                NProgress.done();
+            })
+        },
+        // 关闭副区域，如果传入了url，则刷新主区域
+        hideView2: function (pageUrl) {
+            $("#body-content-view2").fadeOut("fast", function () {
+                if ($.trim(pageUrl) != '') {
+                    $.hashchange('', pageUrl);
+                } else {
+                    $("#body-content2").show(0, function () {
+                        $(window).resize(); // 解决jqgrid不显示的问题
+                    });
+                }
+            });
+        },
+        // 载入副区域
+        loadView3: function (url, $maskEl, fn) {
+
+            NProgress.start();
+            /*if ($maskEl == undefined || typeof $maskEl == 'function') {
+                fn = $maskEl;
+                $maskEl = $("#body-content-view2");
+            }*/
+            // 关闭modal
+            $("#modal").removeClass("fade").modal('hide').addClass("fade");
+            $maskEl.mask();
+            $.get(url, {}, function (html) {
+                $maskEl.unmask();
+                $("#body-content3").hide();
+                $("#body-content-view3").hide().fadeIn("slow").html(html);
+                if (typeof fn == 'function') fn();
+                NProgress.done();
+            })
+        },
+        // 关闭副区域，如果传入了url，则刷新主区域
+        hideView3: function (pageUrl) {
+            $("#body-content-view3").fadeOut("fast", function () {
+                if ($.trim(pageUrl) != '') {
+                    $.hashchange('', pageUrl);
+                } else {
+                    $("#body-content3").show(0, function () {
                         $(window).resize(); // 解决jqgrid不显示的问题
                     });
                 }
@@ -1057,7 +1126,7 @@ $.extend($.register, {
         }).on("change", function () {
             var id = $(this).val();
             if (id > 0) {
-                $("#item-content").load(ctx + "/dispatch_cadres?dispatchId=" + id);
+                $("#body-content-view").load(ctx + "/dispatch_cadres?dispatchId=" + id);
                 /*$("#dispatch-file-view").load(ctx + "/swf_preview?way=3&id=" + id + "&type=file");
                  $("#dispatch-cadres-view").load(ctx + "/dispatch_cadres_admin?dispatchId=" + id);
 

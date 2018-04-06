@@ -2,6 +2,8 @@ package persistence.cet.common;
 
 import bean.analysis.StatTrainBean;
 import domain.cet.CetCourse;
+import domain.cet.CetProject;
+import domain.cet.CetProjectObj;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeType;
@@ -20,11 +22,11 @@ import java.util.Map;
  */
 public interface ICetMapper {
 
-    // 培训班的参训人类型
+    // 培训计划的参训人类型
     @ResultMap("persistence.cet.CetTraineeTypeMapper.BaseResultMap")
-    @Select("select  ctt.* from cet_train_trainee_type cttt, cet_trainee_type ctt where cttt.train_id=#{trainId}" +
-            " and cttt.trainee_type_id = ctt.id order by ctt.sort_order asc")
-    public List<CetTraineeType> getCetTraineeTypes(@Param("trainId") Integer trainId);
+    @Select("select  ctt.* from cet_project_trainee_type cptt, cet_trainee_type ctt where cptt.project_id=#{projectId}" +
+            " and cptt.trainee_type_id = ctt.id order by ctt.sort_order asc")
+    public List<CetTraineeType> getCetTraineeTypes(@Param("projectId") Integer projectId);
 
     // 参训人的培训班列表
     public List<ICetTrain> findUserCetTrains(@Param("userId") Integer userId,
@@ -65,11 +67,25 @@ public interface ICetMapper {
             "order by ctc.start_time asc limit 1")
     public CetTrainCourse getTomorrowFirstCourse(@Param("traineeId") int traineeId);
 
+    // 获取培训班所在的培训计划
+    @ResultMap("persistence.cet.CetProjectMapper.BaseResultMap")
+    @Select("select cp.* from cet_project cp, cet_project_plan cpp, cet_train ct " +
+            "where ct.id=#{trainId} and ct.plan_id=cpp.id and cpp.project_id=cp.id ")
+    public CetProject getCetProject( @Param("trainId") int trainId);
+
+    // 获取培训对象
+    @ResultMap("persistence.cet.CetProjectObjMapper.BaseResultMap")
+    @Select("select cpo.* from cet_project_obj cpo, cet_project_plan cpp, cet_train ct " +
+            "where ct.id=#{trainId} and ct.plan_id=cpp.id and cpp.project_id=cpo.project_id " +
+            " and cpo.user_id=#{userId}")
+    public CetProjectObj getCetProjectObj(@Param("userId") int userId, @Param("trainId") int trainId);
+
     // 获取某个培训班下面，每个参训人员的年度参加培训情况（年度参加培训的总学时数）
     @ResultType(java.util.HashMap.class)
-    @Select("select cteecv.user_id as userId, sum(cteecv.period) as yearPeriod from cet_trainee ctee, cet_train ct, cet_trainee_course_view cteecv " +
-            "where ctee.train_id=#{trainId} and ct.id=ctee.train_id " +
-            "and cteecv.is_finished=1 and cteecv.user_id=ctee.user_id and cteecv.year=ct.year " +
+    @Select("select cteecv.user_id as userId, sum(cteecv.period) as yearPeriod from cet_trainee ctee, cet_project_obj cpo, " +
+            "cet_train ct, cet_project_plan cpp, cet_project cp, cet_trainee_course_view cteecv " +
+            "where ctee.train_id=#{trainId} and ct.plan_id=cpp.id and cpp.project_id=cp.id and ctee.obj_id=cpo.id " +
+            "and cteecv.is_finished=1 and cteecv.user_id=cpo.user_id and cteecv.year=cp.year " +
             "group by cteecv.user_id")
     public List<Map> listTraineeYearPeriod(@Param("trainId") int trainId);
 

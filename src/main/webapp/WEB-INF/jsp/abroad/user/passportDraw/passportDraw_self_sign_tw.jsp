@@ -57,7 +57,7 @@
             $("#next").val('上一步').hide();
             $("#submit").show();
 
-            $("#item-content").fadeOut("fast", function () {
+            $("#body-content-view").fadeOut("fast", function () {
                 $("#body-content").show();
             });
         });
@@ -73,7 +73,7 @@
             $("#next").val('上一步');
             $("#submit").show();
 
-            $("#item-content").fadeOut("fast", function () {
+            $("#body-content-view").fadeOut("fast", function () {
                 $("#body-content").show();
             });
         });

@@ -15,14 +15,14 @@
                     <ul class="nav nav-tabs">
                         <li class="active">
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-item-content" data-callback="$.menu.liSelected"
+                               data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
                                data-url='${ctx}/pcsOw_party_branch_page?partyId=${param.partyId}&stage=${param.stage}'><i
                                     class="fa fa-calendar-o"></i> 各支部推荐情况
                             </a>
                         </li>
                         <li>
                             <a href="javascript:;" class="loadPage"
-                               data-load-el="#step-item-content" data-callback="$.menu.liSelected"
+                               data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
                                data-url='${ctx}/pcsOw_party_candidate_page?partyId=${param.partyId}&stage=${param.stage}'><i
                                     class="fa fa-calendar-o"></i> 分党委推荐情况汇总
                             </a>
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="widget-body">
-                <div class="widget-main padding-4" id="step-item-content">
+                <div class="widget-main padding-4" id="step-body-content-view">
                     <c:import url="${ctx}/pcsOw_party_branch_page"/>
                 </div>
             </div>

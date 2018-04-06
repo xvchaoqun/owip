@@ -1,6 +1,6 @@
 package controller.cet;
 
-import domain.cet.CetTrain;
+import domain.cet.CetProject;
 import domain.cet.CetTraineeCadreViewExample;
 import domain.cet.CetTraineeType;
 import mixin.MixinUtils;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -25,11 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/cet")
@@ -43,7 +39,9 @@ public class CetTraineeController extends CetBaseController {
                              Integer userId,
                              ModelMap modelMap) {
 
-        List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(trainId);
+        CetProject cetProject = iCetMapper.getCetProject(trainId);
+        Integer projectId = cetProject.getId();
+        List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
         modelMap.put("cetTraineeTypes", cetTraineeTypes);
 
         if (traineeTypeId == null) {
@@ -86,13 +84,12 @@ public class CetTraineeController extends CetBaseController {
             case "t_cadre":
             case "t_reserve":
                 CetTraineeCadreViewExample example = new CetTraineeCadreViewExample();
-                CetTraineeCadreViewExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId)
-                        .andTraineeTypeIdEqualTo(traineeTypeId);
+                CetTraineeCadreViewExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId);
                 switch (cls){
-                    case 2: // 已选课人员
+                    case 1: // 已选课人员
                         criteria.andCourseCountGreaterThan(0);
                         break;
-                    case 3: // 退班人员
+                    case 2: // 退班人员
                         criteria.andCourseCountEqualTo(0).andIsQuitEqualTo(true);
                         break;
                 }
@@ -126,7 +123,7 @@ public class CetTraineeController extends CetBaseController {
         return;
     }
 
-    @RequiresPermissions("cetTrainee:edit")
+    /*@RequiresPermissions("cetTrainee:edit")
     @RequestMapping(value = "/cetTrainee_add", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetTrainee_add(int trainId, int traineeTypeId,
@@ -172,7 +169,7 @@ public class CetTraineeController extends CetBaseController {
         Map<String, Object> resultMap = success();
         resultMap.put("tree", tree);
         return resultMap;
-    }
+    }*/
 
     @RequiresPermissions("cetTrainee:del")
     @RequestMapping(value = "/cetTrainee_del", method = RequestMethod.POST)

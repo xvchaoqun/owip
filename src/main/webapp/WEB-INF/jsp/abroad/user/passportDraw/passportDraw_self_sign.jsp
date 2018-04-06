@@ -65,7 +65,7 @@
             return false;
         }
 
-        $("#item-content").load("${ctx}/user/abroad/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId=${passport.id}&sign=0");
+        $("#body-content-view").load("${ctx}/user/abroad/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId=${passport.id}&sign=0");
     });
     $("#needSign").click(function(){
         if($("#agree").is(":checked") == false){
@@ -73,7 +73,7 @@
             return false;
         }
 
-        $("#item-content").load("${ctx}/user/abroad/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId=${passport.id}&sign=1");
+        $("#body-content-view").load("${ctx}/user/abroad/passportDraw_self_confirm?auth=${param.auth}&cadreId=${param.cadreId}&applyId=${param.applyId}&passportId=${passport.id}&sign=1");
     });
 </c:if>
 <c:if test="${param.type=='view'}">

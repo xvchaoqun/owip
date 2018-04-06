@@ -285,6 +285,66 @@ public class CetTraineeCourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andCanQuitIsNull() {
+            addCriterion("can_quit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitIsNotNull() {
+            addCriterion("can_quit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitEqualTo(Boolean value) {
+            addCriterion("can_quit =", value, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitNotEqualTo(Boolean value) {
+            addCriterion("can_quit <>", value, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitGreaterThan(Boolean value) {
+            addCriterion("can_quit >", value, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("can_quit >=", value, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitLessThan(Boolean value) {
+            addCriterion("can_quit <", value, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitLessThanOrEqualTo(Boolean value) {
+            addCriterion("can_quit <=", value, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitIn(List<Boolean> values) {
+            addCriterion("can_quit in", values, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitNotIn(List<Boolean> values) {
+            addCriterion("can_quit not in", values, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitBetween(Boolean value1, Boolean value2) {
+            addCriterion("can_quit between", value1, value2, "canQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andCanQuitNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("can_quit not between", value1, value2, "canQuit");
+            return (Criteria) this;
+        }
+
         public Criteria andIsFinishedIsNull() {
             addCriterion("is_finished is null");
             return (Criteria) this;

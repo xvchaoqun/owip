@@ -43,7 +43,7 @@ pageEncoding="UTF-8"%>
                         $("#modal").modal('hide');
                         //SysMsg.success('提交成功。', '成功',function(){
 
-                            $("#item-content").load("${ctx}/abroad/passport_lost_view?id=${passport.id}")
+                            $("#body-content-view").load("${ctx}/abroad/passport_lost_view?id=${passport.id}")
                         //});
                     }
                 }

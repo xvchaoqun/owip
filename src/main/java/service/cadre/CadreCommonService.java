@@ -211,7 +211,7 @@ public class CadreCommonService extends BaseMapper {
                 int userId = cadre.getUserId();
                 String title = cadre.getTitle();
                 TreeNode node = new TreeNode();
-                SysUserView uv = sysUserService.findById(cadre.getUserId());
+                SysUserView uv = sysUserService.findById(userId);
                 node.title = uv.getRealname() + (title != null ? ("-" + title) : "");
                 int key = useCadreId?cadreId:userId;
                 node.key =  key + "";
