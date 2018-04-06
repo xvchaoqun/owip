@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CetTraineeCourseView implements Serializable {
+public class CetTraineeCourseCadreView implements Serializable {
     private Integer id;
 
     private Integer traineeId;
@@ -38,6 +38,30 @@ public class CetTraineeCourseView implements Serializable {
     private Integer year;
 
     private Integer projectId;
+
+    private String code;
+
+    private String realname;
+
+    private String title;
+
+    private Integer typeId;
+
+    private Integer postId;
+
+    private Long cadreDpType;
+
+    private String proPost;
+
+    private Date lpWorkTime;
+
+    private String mobile;
+
+    private String email;
+
+    private Byte status;
+
+    private Integer cadreSortOrder;
 
     private static final long serialVersionUID = 1L;
 
@@ -175,5 +199,101 @@ public class CetTraineeCourseView implements Serializable {
 
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
+
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
+    }
+
+    public Integer getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Integer postId) {
+        this.postId = postId;
+    }
+
+    public Long getCadreDpType() {
+        return cadreDpType;
+    }
+
+    public void setCadreDpType(Long cadreDpType) {
+        this.cadreDpType = cadreDpType;
+    }
+
+    public String getProPost() {
+        return proPost;
+    }
+
+    public void setProPost(String proPost) {
+        this.proPost = proPost == null ? null : proPost.trim();
+    }
+
+    public Date getLpWorkTime() {
+        return lpWorkTime;
+    }
+
+    public void setLpWorkTime(Date lpWorkTime) {
+        this.lpWorkTime = lpWorkTime;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public Integer getCadreSortOrder() {
+        return cadreSortOrder;
+    }
+
+    public void setCadreSortOrder(Integer cadreSortOrder) {
+        this.cadreSortOrder = cadreSortOrder;
     }
 }

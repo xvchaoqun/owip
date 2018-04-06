@@ -54,6 +54,9 @@ public class CetProjectObjController extends CetBaseController {
         List<CetTraineeType> cetTraineeTypes = iCetMapper.getCetTraineeTypes(projectId);
         modelMap.put("cetTraineeTypes", cetTraineeTypes);
 
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+        modelMap.put("cetProject", cetProject);
+
         if (traineeTypeId == null) {
             traineeTypeId = cetTraineeTypes.get(0).getId();
         }

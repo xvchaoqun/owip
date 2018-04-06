@@ -51,7 +51,7 @@
           formatoptions: {newformat: 'Y-m-d'}
       },
       {label: '联系方式', name: 'mobile', width: 120},
-      {label: '电子邮箱', name: 'email', width: 150},
+      {label: '电子邮箱', name: 'email', width: 250},
       <c:if test="${param.type=='admin'}">
         { label: '本年度参加培训情况',name: 'courseCount', width: 150, formatter: function (cellvalue, options, rowObject) {
 

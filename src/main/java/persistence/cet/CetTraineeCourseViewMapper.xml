@@ -18,17 +18,7 @@
     <result column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="year" jdbcType="INTEGER" property="year" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
-    <result column="realname" jdbcType="VARCHAR" property="realname" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="cadre_dp_type" jdbcType="DECIMAL" property="cadreDpType" />
-    <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
-    <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -61,9 +51,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, trainee_id, train_course_id, can_quit, is_finished, sign_time, sign_type, remark, 
-    choose_time, ip, train_id, trainee_type_id, user_id, course_id, period, year, code, 
-    realname, title, type_id, post_id, cadre_dp_type, pro_post, lp_work_time, mobile, 
-    email, status
+    choose_time, ip, train_id, trainee_type_id, user_id, course_id, period, year, project_id
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeCourseViewExample" resultMap="BaseResultMap">
     select

@@ -16,6 +16,7 @@
                 <value>(persistence|service|controller)\.abroad\..*</value>
                 <value>(persistence|service|controller)\.pcs\..*</value>
                 <value>(persistence|service|controller)\.oa\..*</value>
+                <!--关联member模块-->
                 <value>(persistence|service|controller)\.pmd\..*</value>
                 <value>(persistence|service|controller)\.sc\..*</value>
                 <value>(persistence|service|controller)\.dispatch\..*</value>

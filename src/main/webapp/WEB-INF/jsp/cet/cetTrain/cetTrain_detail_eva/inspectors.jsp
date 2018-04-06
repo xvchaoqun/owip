@@ -5,7 +5,7 @@
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">
       <button class="confirm btn btn-info btn-sm"
-         data-msg="确定根据选课人员生成评课账号？"
+         data-msg="确定根据选课人员生成评课账号？（生成评课账号之前，请务必设定所有课程的评估表，没有设置评估表的课程将无法评课。）"
          data-title="生成评课账号"
          data-callback="_callback4"
          data-url="${ctx}/cet/cetTrainInspector_gen_oncampus?trainId=${cetTrain.id}">

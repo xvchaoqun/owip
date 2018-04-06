@@ -15,6 +15,14 @@ public class CetTraineeCadreView implements Serializable {
 
     private String remark;
 
+    private Integer userId;
+
+    private Integer traineeTypeId;
+
+    private Integer projectId;
+
+    private Boolean objIsQuit;
+
     private BigDecimal totalPeriod;
 
     private BigDecimal finishPeriod;
@@ -24,8 +32,6 @@ public class CetTraineeCadreView implements Serializable {
     private Integer finishCount;
 
     private Integer cadreId;
-
-    private Integer userId;
 
     private String code;
 
@@ -48,6 +54,8 @@ public class CetTraineeCadreView implements Serializable {
     private String email;
 
     private Byte status;
+
+    private Integer cadreSortOrder;
 
     private static final long serialVersionUID = 1L;
 
@@ -91,6 +99,38 @@ public class CetTraineeCadreView implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getTraineeTypeId() {
+        return traineeTypeId;
+    }
+
+    public void setTraineeTypeId(Integer traineeTypeId) {
+        this.traineeTypeId = traineeTypeId;
+    }
+
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
+
+    public Boolean getObjIsQuit() {
+        return objIsQuit;
+    }
+
+    public void setObjIsQuit(Boolean objIsQuit) {
+        this.objIsQuit = objIsQuit;
+    }
+
     public BigDecimal getTotalPeriod() {
         return totalPeriod;
     }
@@ -129,14 +169,6 @@ public class CetTraineeCadreView implements Serializable {
 
     public void setCadreId(Integer cadreId) {
         this.cadreId = cadreId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getCode() {
@@ -225,5 +257,13 @@ public class CetTraineeCadreView implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Integer getCadreSortOrder() {
+        return cadreSortOrder;
+    }
+
+    public void setCadreSortOrder(Integer cadreSortOrder) {
+        this.cadreSortOrder = cadreSortOrder;
     }
 }

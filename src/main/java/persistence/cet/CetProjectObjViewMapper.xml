@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.cet.CetProjectObjCadreViewMapper">
-  <resultMap id="BaseResultMap" type="domain.cet.CetProjectObjCadreView">
+<mapper namespace="persistence.cet.CetProjectObjViewMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetProjectObjView">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
@@ -9,20 +9,6 @@
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod" />
-    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
-    <result column="realname" jdbcType="VARCHAR" property="realname" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="type_id" jdbcType="INTEGER" property="typeId" />
-    <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="cadre_dp_type" jdbcType="DECIMAL" property="cadreDpType" />
-    <result column="dp_type_id" jdbcType="INTEGER" property="dpTypeId" />
-    <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
-    <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="cadre_status" jdbcType="TINYINT" property="cadreStatus" />
-    <result column="cadre_sort_order" jdbcType="INTEGER" property="cadreSortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -54,17 +40,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, user_id, trainee_type_id, is_quit, remark, finish_period, cadre_id, 
-    code, realname, title, type_id, post_id, cadre_dp_type, dp_type_id, pro_post, lp_work_time, 
-    mobile, email, cadre_status, cadre_sort_order
+    id, project_id, user_id, trainee_type_id, is_quit, remark, finish_period
   </sql>
-  <select id="selectByExample" parameterType="domain.cet.CetProjectObjCadreViewExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.cet.CetProjectObjViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_project_obj_cadre_view
+    from cet_project_obj_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -72,19 +56,19 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="countByExample" parameterType="domain.cet.CetProjectObjCadreViewExample" resultType="java.lang.Long">
-    select count(*) from cet_project_obj_cadre_view
+  <select id="countByExample" parameterType="domain.cet.CetProjectObjViewExample" resultType="java.lang.Long">
+    select count(*) from cet_project_obj_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetProjectObjCadreViewExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetProjectObjViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_project_obj_cadre_view
+    from cet_project_obj_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

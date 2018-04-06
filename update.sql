@@ -1,4 +1,5 @@
 
+
 2018-4-6
 ALTER TABLE `cet_special`
 	COMMENT='培训计划，包含专题培训和年度培训',
@@ -86,6 +87,18 @@ ALTER TABLE `cet_trainee_course`
 	ADD COLUMN `can_quit` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '是否允许退课，由管理员设置的必选课程，不允许退课' AFTER `train_course_id`;
 
 	更新 cet_trainee_course_view
+
+
+更新 cet_trainee_cadre_view
+
+     cet_trainee_course_view
+
+
+新建 cet_trainee_course_cadre_view
+cet_project_obj_view
+
+更新
+cet_project_obj_cadre_view
 
 2018-4-2
 

@@ -1,6 +1,7 @@
 package domain.cet;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetProjectObjCadreView implements Serializable {
@@ -15,6 +16,8 @@ public class CetProjectObjCadreView implements Serializable {
     private Boolean isQuit;
 
     private String remark;
+
+    private BigDecimal finishPeriod;
 
     private Integer cadreId;
 
@@ -92,6 +95,14 @@ public class CetProjectObjCadreView implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public BigDecimal getFinishPeriod() {
+        return finishPeriod;
+    }
+
+    public void setFinishPeriod(BigDecimal finishPeriod) {
+        this.finishPeriod = finishPeriod;
     }
 
     public Integer getCadreId() {

@@ -58,6 +58,15 @@ String.prototype.htmldecode = function(){
     return div.innerText || div.textContent;
 }
 
+Math.formatFloat = function (f, digit) {
+    return parseFloat(f).toFixed(digit);
+    /*var m = Math.pow(10, digit);
+     return parseInt(f * m, 10) / m;*/
+}
+Math.trimToZero = function (n) {
+    return ($.trim(n) == '') ? 0 : n;
+}
+
 /*Array.prototype.indexOf = function(val) {
     for (var i = 0; i < this.length; i++) {
         if (this[i] == val) return i;

@@ -354,7 +354,8 @@ public class CetTrainCourseService extends BaseMapper {
                 continue;
             }else{
                 if(ctc.getIsFinished()){
-                    throw new OpException("参训人{0}已上课签到，不可删除。", ctc.getRealname());
+                    SysUserView uv = sysUserService.findById(userId);
+                    throw new OpException("参训人{0}已上课签到，不可删除。", uv.getRealname());
                 }
                 // 退课
                 cetTraineeCourseService.applyItem(userId, trainCourseId, false, true, "退课");

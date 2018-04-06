@@ -7,12 +7,15 @@
     <result column="obj_id" jdbcType="INTEGER" property="objId" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="obj_is_quit" jdbcType="BIT" property="objIsQuit" />
     <result column="total_period" jdbcType="DECIMAL" property="totalPeriod" />
     <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod" />
     <result column="course_count" jdbcType="INTEGER" property="courseCount" />
     <result column="finish_count" jdbcType="INTEGER" property="finishCount" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="title" jdbcType="VARCHAR" property="title" />
@@ -24,6 +27,7 @@
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="cadre_sort_order" jdbcType="INTEGER" property="cadreSortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -55,9 +59,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_id, obj_id, is_quit, remark, total_period, finish_period, course_count, 
-    finish_count, cadre_id, user_id, code, realname, title, type_id, post_id, cadre_dp_type, 
-    pro_post, lp_work_time, mobile, email, status
+    id, train_id, obj_id, is_quit, remark, user_id, trainee_type_id, project_id, obj_is_quit, 
+    total_period, finish_period, course_count, finish_count, cadre_id, code, realname, 
+    title, type_id, post_id, cadre_dp_type, pro_post, lp_work_time, mobile, email, status, 
+    cadre_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeCadreViewExample" resultMap="BaseResultMap">
     select

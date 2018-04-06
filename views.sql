@@ -5,12 +5,18 @@ CREATE ALGORITHM = UNDEFINED VIEW `cet_project_view` AS
 select cp.*, count(cpo.id) as obj_count from cet_project cp
 left join cet_project_obj cpo on cpo.project_id=cp.id ;
 
+DROP VIEW IF EXISTS `cet_project_obj_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_project_obj_view` AS
+select cpo.*, sum(if(ctcv.is_finished, ctcv.period, 0)) as finish_period from cet_project_obj cpo
+left join cet_trainee_course_view ctcv on ctcv.project_id = cpo.project_id and ctcv.user_id=cpo.user_id
+group by cpo.id;
+
 DROP VIEW IF EXISTS `cet_project_obj_cadre_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_project_obj_cadre_view` AS
-select cpo.*, cv.id as cadre_id, cv.code, cv.realname,
+select cpov.*, cv.id as cadre_id, cv.code, cv.realname,
  cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.dp_type_id, cv.pro_post,
-cv.lp_work_time, cv.mobile, cv.email, cv.status as cadre_status,cv.sort_order as cadre_sort_order from cet_project_obj cpo
-left join cadre_view cv on cpo.user_id=cv.user_id;
+cv.lp_work_time, cv.mobile, cv.email, cv.status as cadre_status,cv.sort_order as cadre_sort_order from cet_project_obj_view cpov
+left join cadre_view cv on cpov.user_id=cv.user_id;
 
 DROP VIEW IF EXISTS `cet_column_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_column_course_view` AS
@@ -60,16 +66,11 @@ left join cet_course cc on cc.id=ctc.course_id group by ctee.id;
 
 DROP VIEW IF EXISTS `cet_trainee_cadre_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_cadre_view` AS
-select ctee.*, sum(cc.period) as total_period, sum(if(cteec.is_finished, cc.period, 0)) finish_period,
-count(cc.id) course_count, sum(if(cteec.is_finished, 1,0)) finish_count, cv.id as cadre_id,
-cv.user_id, cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.pro_post,
-cv.lp_work_time, cv.mobile, cv.email, cv.status from cet_trainee ctee
-left join cet_project_obj cpo on cpo.id=ctee.obj_id
-left join cadre_view cv on cpo.user_id=cv.user_id
-left join cet_trainee_course cteec on cteec.trainee_id=ctee.id
-left join cet_train_course ctc on ctc.id=cteec.train_course_id
-left join cet_course cc on cc.id=ctc.course_id
-group by ctee.id order by cv.sort_order desc ;
+select cteev.*,
+cv.id as cadre_id, cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.pro_post,
+cv.lp_work_time, cv.mobile, cv.email, cv.status, cv.sort_order as cadre_sort_order from cet_trainee_view cteev
+left join cadre_view cv on cv.user_id=cteev.user_id
+group by cteev.id;
 
 DROP VIEW IF EXISTS `cet_train_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_course_view` AS
@@ -88,17 +89,21 @@ left join (select train_course_id, count(id) as eva_finish_count from cet_train_
 
 DROP VIEW IF EXISTS `cet_trainee_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_view` AS
-select cteec.*, ctee.train_id, cpo.trainee_type_id, cpo.user_id, ctc.course_id, cc.period, cp.year,
-cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.pro_post,
-cv.lp_work_time, cv.mobile, cv.email, cv.status from cet_trainee_course cteec
+select cteec.*, ctee.train_id, cpo.trainee_type_id, cpo.user_id, ctc.course_id, cc.period, cp.year, cpo.project_id
+ from cet_trainee_course cteec
 left join cet_trainee ctee on cteec.trainee_id=ctee.id
 left join cet_project_obj cpo on cpo.id=ctee.obj_id
 left join cet_project cp on cp.id=cpo.project_id
 left join cet_train ct on ct.id=ctee.train_id
 left join cet_train_course ctc on ctc.id=cteec.train_course_id
-left join cet_course cc on cc.id=ctc.course_id
-left join cadre_view cv on cpo.user_id=cv.user_id
-order by cv.sort_order desc;
+left join cet_course cc on cc.id=ctc.course_id;
+
+DROP VIEW IF EXISTS `cet_trainee_course_cadre_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_cadre_view` AS
+select cteecv.*,
+cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.pro_post,
+cv.lp_work_time, cv.mobile, cv.email, cv.status, cv.sort_order as cadre_sort_order from cet_trainee_course_view cteecv
+left join cadre_view cv on cteecv.user_id=cv.user_id;
 
 DROP VIEW IF EXISTS `cet_train_inspector_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_inspector_view` AS

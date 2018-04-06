@@ -153,6 +153,11 @@
         $("#searchForm2 .jqSearchBtn").click();
     })
 
+    var period = parseFloat('${cetProject.period}');
+    var requirePeriod = parseFloat('${cetProject.requirePeriod}');
+    console.log("period=" + period)
+    console.log("requirePeriod=" + requirePeriod)
+
     $.register.user_select($("#searchForm2 select[name=userId]"));
     $("#jqGrid2").jqGrid({
         pager: "jqGridPager2",
@@ -198,9 +203,18 @@
             },
             {label: '联系方式', name: 'mobile', width: 120},
             {label: '电子邮箱', name: 'email', width: 150},
-            {label: '完成学时数', name: '_finishPeriod'},
-            {label: '完成百分比', name: '_finishPercent', width: 110},
-            {label: '是否达到结业要求', name: '_enough', width: 150}
+            {label: '完成学时数', name: 'finishPeriod'},
+            {label: '完成百分比', name: '_finishPercent', width: 110, formatter: function (cellvalue, options, rowObject) {
+
+                if(isNaN(period) || period<=0) return '-';
+                return Math.formatFloat(rowObject.finishPeriod*100/period, 2) + "%";
+            }},
+            {label: '是否达到结业要求', name: '_enough', width: 150, formatter: function (cellvalue, options, rowObject) {
+
+                if(isNaN(requirePeriod) || requirePeriod<=0) return '-';
+                return rowObject.finishPeriod/requirePeriod >= 0.9?"<span class='text-success'>达到</span>"
+                        :"<span class='text-danger'>未达到</span>";
+            }}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

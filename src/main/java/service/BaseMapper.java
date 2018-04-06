@@ -91,6 +91,7 @@ import persistence.cet.CetTrainInspectorViewMapper;
 import persistence.cet.CetTrainMapper;
 import persistence.cet.CetTrainViewMapper;
 import persistence.cet.CetTraineeCadreViewMapper;
+import persistence.cet.CetTraineeCourseCadreViewMapper;
 import persistence.cet.CetTraineeCourseMapper;
 import persistence.cet.CetTraineeCourseViewMapper;
 import persistence.cet.CetTraineeMapper;
@@ -387,6 +388,8 @@ public class BaseMapper {
     protected CetTraineeCadreViewMapper cetTraineeCadreViewMapper;
     @Autowired(required = false)
     protected CetTraineeCourseViewMapper cetTraineeCourseViewMapper;
+    @Autowired(required = false)
+    protected CetTraineeCourseCadreViewMapper cetTraineeCourseCadreViewMapper;
     @Autowired(required = false)
     protected CetTraineeCourseMapper cetTraineeCourseMapper;
     @Autowired(required = false)

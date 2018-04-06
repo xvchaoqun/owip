@@ -10,8 +10,8 @@ import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseView;
 import domain.cet.CetTrainCourseViewExample;
 import domain.cet.CetTrainEvaTable;
-import domain.cet.CetTraineeCourseView;
-import domain.cet.CetTraineeCourseViewExample;
+import domain.cet.CetTraineeCourseCadreView;
+import domain.cet.CetTraineeCourseCadreViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -250,21 +250,21 @@ public class CetTrainCourseController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetTraineeCourseViewExample example = new CetTraineeCourseViewExample();
-        CetTraineeCourseViewExample.Criteria criteria = example.createCriteria()
+        CetTraineeCourseCadreViewExample example = new CetTraineeCourseCadreViewExample();
+        CetTraineeCourseCadreViewExample.Criteria criteria = example.createCriteria()
                 .andTrainCourseIdEqualTo(trainCourseId);
 
         if(StringUtils.isNotBlank(realname)){
             criteria.andRealnameLike("%" + realname + "%");
         }
 
-        long count = cetTraineeCourseViewMapper.countByExample(example);
+        long count = cetTraineeCourseCadreViewMapper.countByExample(example);
 
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetTraineeCourseView> records= cetTraineeCourseViewMapper.selectByExampleWithRowbounds(example,
+        List<CetTraineeCourseCadreView> records= cetTraineeCourseCadreViewMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
