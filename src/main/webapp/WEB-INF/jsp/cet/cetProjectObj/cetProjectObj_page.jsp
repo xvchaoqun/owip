@@ -202,7 +202,7 @@
                 formatoptions: {newformat: 'Y-m-d'}
             },
             {label: '联系方式', name: 'mobile', width: 120},
-            {label: '电子邮箱', name: 'email', width: 150},
+            {label: '电子邮箱', name: 'email', width: 250},
             {label: '完成学时数', name: 'finishPeriod'},
             {label: '完成百分比', name: '_finishPercent', width: 110, formatter: function (cellvalue, options, rowObject) {
 
