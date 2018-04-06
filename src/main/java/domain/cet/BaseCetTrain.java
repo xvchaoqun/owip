@@ -56,7 +56,7 @@ public class BaseCetTrain {
         Date now = new Date();
         if(autoSwitch){
             if(startTime==null && endTime==null){
-                return "-";
+                return "未启动选课";
             }else{
                 if(startTime!=null && startTime.after(now)){
                     return "未启动选课";
