@@ -164,8 +164,8 @@
                         .format(rowObject.id);
             }, frozen: true
             },
-            {label: '培训班类型', name: 'type', width: 200, formatter: $.jgrid.formatter.MetaType, frozen: true},
-            {label: '培训班名称', name: 'name', width: 200, align: 'left', frozen: true},
+            {label: '培训班类型', name: 'type', width: 250, formatter: $.jgrid.formatter.MetaType, frozen: true},
+            {label: '培训班名称', name: 'name', width: 300, align: 'left', frozen: true},
             {label: '可选课人数', name: 'objCount', width: 90},
             {
                 label: '选课情况', name: 'switchStatusText', formatter: function (cellvalue, options, rowObject) {
