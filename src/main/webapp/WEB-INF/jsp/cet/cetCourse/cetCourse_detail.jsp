@@ -65,7 +65,7 @@
         rownumbers: true,
         url: '${ctx}/cet/cetTrainCourseStat_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '被使用的培训班', name: 'name', width:300},
+            {label: '被使用的培训班', name: 'trainName', width:300},
             {label: '选课人数', name: 'selectedCount'},
             {label: '签到人数', name: 'finishCount'},
             {label: '测评人数', name: 'evaFinishCount'},

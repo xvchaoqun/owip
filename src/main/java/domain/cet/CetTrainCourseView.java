@@ -1,12 +1,27 @@
 package domain.cet;
 
 import service.cet.CetCourseService;
+import service.cet.CetTraineeCourseService;
 import sys.tags.CmTag;
+import sys.utils.ContextHelper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Date;
 
 public class CetTrainCourseView implements Serializable {
+
+
+    public CetTraineeCourseView getCetTraineeCourseView(){
+
+        HttpServletRequest request = ContextHelper.getRequest();
+        if(request==null) return null;
+        Integer userId = (Integer) request.getAttribute("userId");
+        if(userId==null) return null;
+
+        CetTraineeCourseService cetTraineeCourseService = CmTag.getBean(CetTraineeCourseService.class);
+        return cetTraineeCourseService.getCetTraineeCourseView(userId, id);
+    }
 
     public CetCourse getCetCourse(){
 

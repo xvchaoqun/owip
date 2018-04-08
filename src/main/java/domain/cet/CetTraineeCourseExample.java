@@ -655,6 +655,66 @@ public class CetTraineeCourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andChooseUserIdIsNull() {
+            addCriterion("choose_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdIsNotNull() {
+            addCriterion("choose_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdEqualTo(Integer value) {
+            addCriterion("choose_user_id =", value, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdNotEqualTo(Integer value) {
+            addCriterion("choose_user_id <>", value, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdGreaterThan(Integer value) {
+            addCriterion("choose_user_id >", value, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("choose_user_id >=", value, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdLessThan(Integer value) {
+            addCriterion("choose_user_id <", value, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("choose_user_id <=", value, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdIn(List<Integer> values) {
+            addCriterion("choose_user_id in", values, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdNotIn(List<Integer> values) {
+            addCriterion("choose_user_id not in", values, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("choose_user_id between", value1, value2, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("choose_user_id not between", value1, value2, "chooseUserId");
+            return (Criteria) this;
+        }
+
         public Criteria andIpIsNull() {
             addCriterion("ip is null");
             return (Criteria) this;

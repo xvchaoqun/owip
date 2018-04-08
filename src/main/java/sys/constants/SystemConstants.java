@@ -871,7 +871,7 @@ public class SystemConstants {
     public final static byte SYS_APPROVAL_LOG_TYPE_APPLYSELF = 1; // 因私出国
     public final static byte SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT = 2; // 干部招聘-报名审核
     public final static byte SYS_APPROVAL_LOG_TYPE_PMD_MEMBER = 3; // 党费收缴
-    public final static byte SYS_APPROVAL_LOG_TYPE_CET_TRAINEE = 4; // 干部教育培训-可选课人员
+    public final static byte SYS_APPROVAL_LOG_TYPE_CET_TRAINEE = 4; // 干部教育培训-参训人
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ = 5; // 干部教育培训-培训对象
 
     public final static Map<Byte, String> SYS_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
@@ -880,8 +880,8 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_APPLYSELF, "因私出国");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT, "干部招聘");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_PMD_MEMBER, "党费收缴");
-        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_TRAINEE, "参训人员操作记录(干部教育培训)");
-        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ, "培训对象操作记录(干部教育培训)");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_TRAINEE, "参训人");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ, "培训对象");
     }
 
     // 操作人类别, 0本人 1 干部管理员 2 因私审批人员

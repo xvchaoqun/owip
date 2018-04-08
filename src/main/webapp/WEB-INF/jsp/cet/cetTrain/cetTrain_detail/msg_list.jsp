@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${CONTENT_TPL_CRS_MSG_MAP.get(param.tplKey)}</h3>
+    <h3>${CONTENT_TPL_CET_MSG_MAP.get(param.tplKey)}</h3>
 </div>
 <div class="modal-body">
     <c:if test="${commonList.recNum>0}">
@@ -18,21 +18,21 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${crsShortMsgs}" var="crsShortMsg" varStatus="st">
-                <c:set var="user" value="${cm:getUserById(crsShortMsg.userId)}"/>
+            <c:forEach items="${cetShortMsgs}" var="cetShortMsg" varStatus="st">
+                <c:set var="user" value="${cm:getUserById(cetShortMsg.userId)}"/>
                 <tr>
                     <td>${user.realname}</td>
                     <td>${user.code}</td>
                     <td>${user.mobile}</td>
-                    <td title="${crsShortMsg.msg}">${cm:substr(crsShortMsg.msg, 0, 15, '...')}</td>
-                    <td class="${crsShortMsg.success?"text-success":"text-danger"}">${crsShortMsg.success?"发送成功":"发送失败"}</td>
+                    <td title="${cetShortMsg.msg}">${cm:substr(cetShortMsg.msg, 0, 15, '...')}</td>
+                    <td class="${cetShortMsg.success?"text-success":"text-danger"}">${cetShortMsg.success?"发送成功":"发送失败"}</td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
         <c:if test="${!empty commonList && commonList.pageNum>1 }">
             <wo:page commonList="${commonList}"
-                     uri="${ctx}/crsPost_detail/step3_shortMsg_list?postId=${param.postId}&tplKey=${param.tplKey}"
+                     uri="${ctx}/cet/cetTrain_detail/msg_list?trainId=${param.trainId}&tplKey=${param.tplKey}"
                      target="#modal .modal-content"
                      pageNum="5"
                      model="3"/>

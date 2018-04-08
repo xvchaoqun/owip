@@ -65,6 +65,8 @@ public class CetTrainView implements Serializable {
 
     private Integer year;
 
+    private Integer projectId;
+
     private Integer courseNum;
 
     private Long objCount;
@@ -251,6 +253,14 @@ public class CetTrainView implements Serializable {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
     }
 
     public Integer getCourseNum() {

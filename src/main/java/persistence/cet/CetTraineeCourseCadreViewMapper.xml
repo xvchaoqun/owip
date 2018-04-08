@@ -11,6 +11,7 @@
     <result column="sign_type" jdbcType="TINYINT" property="signType" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="choose_time" jdbcType="TIMESTAMP" property="chooseTime" />
+    <result column="choose_user_id" jdbcType="INTEGER" property="chooseUserId" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="train_id" jdbcType="INTEGER" property="trainId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
@@ -19,12 +20,14 @@
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="choose_user_name" jdbcType="VARCHAR" property="chooseUserName" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
     <result column="cadre_dp_type" jdbcType="DECIMAL" property="cadreDpType" />
+    <result column="dp_type_id" jdbcType="INTEGER" property="dpTypeId" />
     <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
     <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
@@ -63,9 +66,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, trainee_id, train_course_id, can_quit, is_finished, sign_time, sign_type, remark, 
-    choose_time, ip, train_id, trainee_type_id, user_id, course_id, period, year, project_id, 
-    code, realname, title, type_id, post_id, cadre_dp_type, pro_post, lp_work_time, mobile, 
-    email, status, cadre_sort_order
+    choose_time, choose_user_id, ip, train_id, trainee_type_id, user_id, course_id, period, 
+    year, project_id, choose_user_name, code, realname, title, type_id, post_id, cadre_dp_type, 
+    dp_type_id, pro_post, lp_work_time, mobile, email, status, cadre_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeCourseCadreViewExample" resultMap="BaseResultMap">
     select

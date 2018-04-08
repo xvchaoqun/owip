@@ -2,14 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="persistence.cet.CetTrainCourseStatViewMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetTrainCourseStatView">
-    <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
-    <result column="course_id" jdbcType="INTEGER" property="courseId" />
-    <result column="score" jdbcType="DECIMAL" property="score" />
+    <result column="id" jdbcType="INTEGER" property="id" />
     <result column="train_id" jdbcType="INTEGER" property="trainId" />
+    <result column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="teacher" jdbcType="VARCHAR" property="teacher" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="is_global" jdbcType="BIT" property="isGlobal" />
+    <result column="eva_table_id" jdbcType="INTEGER" property="evaTableId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="selected_count" jdbcType="INTEGER" property="selectedCount" />
     <result column="finish_count" jdbcType="INTEGER" property="finishCount" />
     <result column="eva_finish_count" jdbcType="INTEGER" property="evaFinishCount" />
+    <result column="train_name" jdbcType="VARCHAR" property="trainName" />
+    <result column="score" jdbcType="DECIMAL" property="score" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -41,8 +49,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    train_course_id, course_id, score, train_id, name, selected_count, finish_count, 
-    eva_finish_count
+    id, train_id, course_id, name, teacher, start_time, end_time, is_global, eva_table_id, 
+    address, sort_order, selected_count, finish_count, eva_finish_count, train_name, 
+    score
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainCourseStatViewExample" resultMap="BaseResultMap">
     select

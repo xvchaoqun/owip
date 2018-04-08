@@ -78,6 +78,7 @@ pageEncoding="UTF-8" %>
             <div id="jqGridPager"></div>
         </div>
         <div id="body-content-view"></div>
+
     </div>
 </div>
 <script>

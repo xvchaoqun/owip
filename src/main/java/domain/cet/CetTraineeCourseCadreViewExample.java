@@ -683,6 +683,66 @@ public class CetTraineeCourseCadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andChooseUserIdIsNull() {
+            addCriterion("choose_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdIsNotNull() {
+            addCriterion("choose_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdEqualTo(Integer value) {
+            addCriterion("choose_user_id =", value, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdNotEqualTo(Integer value) {
+            addCriterion("choose_user_id <>", value, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdGreaterThan(Integer value) {
+            addCriterion("choose_user_id >", value, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("choose_user_id >=", value, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdLessThan(Integer value) {
+            addCriterion("choose_user_id <", value, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("choose_user_id <=", value, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdIn(List<Integer> values) {
+            addCriterion("choose_user_id in", values, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdNotIn(List<Integer> values) {
+            addCriterion("choose_user_id not in", values, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("choose_user_id between", value1, value2, "chooseUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("choose_user_id not between", value1, value2, "chooseUserId");
+            return (Criteria) this;
+        }
+
         public Criteria andIpIsNull() {
             addCriterion("ip is null");
             return (Criteria) this;
@@ -1173,6 +1233,76 @@ public class CetTraineeCourseCadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andChooseUserNameIsNull() {
+            addCriterion("choose_user_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameIsNotNull() {
+            addCriterion("choose_user_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameEqualTo(String value) {
+            addCriterion("choose_user_name =", value, "chooseUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameNotEqualTo(String value) {
+            addCriterion("choose_user_name <>", value, "chooseUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameGreaterThan(String value) {
+            addCriterion("choose_user_name >", value, "chooseUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameGreaterThanOrEqualTo(String value) {
+            addCriterion("choose_user_name >=", value, "chooseUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameLessThan(String value) {
+            addCriterion("choose_user_name <", value, "chooseUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameLessThanOrEqualTo(String value) {
+            addCriterion("choose_user_name <=", value, "chooseUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameLike(String value) {
+            addCriterion("choose_user_name like", value, "chooseUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameNotLike(String value) {
+            addCriterion("choose_user_name not like", value, "chooseUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameIn(List<String> values) {
+            addCriterion("choose_user_name in", values, "chooseUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameNotIn(List<String> values) {
+            addCriterion("choose_user_name not in", values, "chooseUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameBetween(String value1, String value2) {
+            addCriterion("choose_user_name between", value1, value2, "chooseUserName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChooseUserNameNotBetween(String value1, String value2) {
+            addCriterion("choose_user_name not between", value1, value2, "chooseUserName");
+            return (Criteria) this;
+        }
+
         public Criteria andCodeIsNull() {
             addCriterion("code is null");
             return (Criteria) this;
@@ -1560,6 +1690,66 @@ public class CetTraineeCourseCadreViewExample {
 
         public Criteria andCadreDpTypeNotBetween(Long value1, Long value2) {
             addCriterion("cadre_dp_type not between", value1, value2, "cadreDpType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdIsNull() {
+            addCriterion("dp_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdIsNotNull() {
+            addCriterion("dp_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdEqualTo(Integer value) {
+            addCriterion("dp_type_id =", value, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdNotEqualTo(Integer value) {
+            addCriterion("dp_type_id <>", value, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdGreaterThan(Integer value) {
+            addCriterion("dp_type_id >", value, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dp_type_id >=", value, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdLessThan(Integer value) {
+            addCriterion("dp_type_id <", value, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("dp_type_id <=", value, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdIn(List<Integer> values) {
+            addCriterion("dp_type_id in", values, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdNotIn(List<Integer> values) {
+            addCriterion("dp_type_id not in", values, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("dp_type_id between", value1, value2, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("dp_type_id not between", value1, value2, "dpTypeId");
             return (Criteria) this;
         }
 

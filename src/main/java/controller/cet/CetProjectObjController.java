@@ -43,11 +43,12 @@ public class CetProjectObjController extends CetBaseController {
     public String cetProjectObj(
             Integer userId,
             int projectId,
+            Integer traineeTypeId,
             @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
             @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
             @RequestParam(required = false, value = "postIds") Integer[] postIds,
             @RequestParam(defaultValue = "1") Integer cls,
-            Integer traineeTypeId, ModelMap modelMap) {
+            ModelMap modelMap) {
 
         modelMap.put("cls", cls);
 
@@ -84,6 +85,7 @@ public class CetProjectObjController extends CetBaseController {
     public void cetProjectObj_data(HttpServletResponse response,
                                    @RequestParam(defaultValue = "1") Integer cls,
                                    int projectId,
+                                   Integer trainCourseId, // 选课页面时传入
                                    Integer userId,
                                    @RequestParam(required = false, value = "dpTypes") Long[] dpTypes,
                                    @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
@@ -91,6 +93,7 @@ public class CetProjectObjController extends CetBaseController {
                                    int traineeTypeId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                   HttpServletRequest request,
                                  Integer pageSize, Integer pageNo)  throws IOException {
 
         if (null == pageSize) {
@@ -115,7 +118,7 @@ public class CetProjectObjController extends CetBaseController {
                         .andTraineeTypeIdEqualTo(traineeTypeId);
                 example.setOrderByClause("id asc");
 
-                criteria.andIsQuitEqualTo(cls==2);
+                criteria.andIsQuitEqualTo(cls == 2);
                 if (dpTypes != null) {
                     criteria.andCadreDpTypeIn(Arrays.asList(dpTypes));
                 }
@@ -143,6 +146,8 @@ public class CetProjectObjController extends CetBaseController {
                 break;
         }
 
+        request.setAttribute("trainCourseId", trainCourseId);
+
         Map resultMap = new HashMap();
         resultMap.put("rows", records);
         resultMap.put("records", count);
@@ -166,6 +171,21 @@ public class CetProjectObjController extends CetBaseController {
         cetProjectObjService.quit(isQuit, ids);
         logger.info(addLog(SystemConstants.LOG_CET, "培训对象： %s, %s", isQuit?"退出":"重新学习",
                 StringUtils.join(ids, ",")));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 设置为必选学员/取消必选
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping(value = "/cetProjectObj_canQuit", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProjectObj_canQuit(boolean canQuit, int trainCourseId,
+                                 @RequestParam(value = "ids[]", required = false) Integer[] ids ,
+                                 HttpServletRequest request) {
+
+        cetProjectObjService.canQuit(ids, canQuit, trainCourseId);
+        logger.info(addLog(SystemConstants.LOG_CET, "设置为必选学员/取消必选： %s, %s, %s",
+                StringUtils.join(ids, ","), canQuit, trainCourseId));
 
         return success(FormUtils.SUCCESS);
     }

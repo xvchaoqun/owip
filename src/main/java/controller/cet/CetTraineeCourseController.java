@@ -43,7 +43,10 @@ public class CetTraineeCourseController extends CetBaseController {
 
     @RequiresPermissions("cetTraineeCourse:list")
     @RequestMapping("/cetTraineeCourse")
-    public String cetTraineeCourse() {
+    public String cetTraineeCourse(Integer userId, ModelMap modelMap) {
+
+        if(userId!=null)
+            modelMap.put("sysUser", sysUserService.findById(userId));
 
         return "cet/cetTraineeCourse/cetTraineeCourse_page";
     }

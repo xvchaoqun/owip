@@ -12,6 +12,7 @@
         </span>
         </c:forEach>
     </div>
+<c:if test="${empty param.trainCourseId}">
     <c:if test="${cls==1}">
     <shiro:hasPermission name="cetProjectObj:edit">
         <button class="popupBtn btn btn-info btn-sm"
@@ -49,6 +50,32 @@
             <i class="fa fa-trash"></i> 删除
         </button>
     </shiro:hasPermission>
+    </c:if>
+    <c:if test="${not empty param.trainCourseId}">
+    <button data-url="${ctx}/cet/cetProjectObj_canQuit?canQuit=0&trainCourseId=${param.trainCourseId}"
+            data-title="退出"
+            data-msg="确定将这{0}个学员设置为必选学员？"
+            data-grid-id="#jqGrid2"
+            data-callback="_callback2"
+            class="jqBatchBtn btn btn-primary btn-sm">
+        <i class="fa fa-check"></i> 设置为必选学员
+    </button>
+    <button data-url="${ctx}/cet/cetProjectObj_canQuit?canQuit=1&trainCourseId=${param.trainCourseId}"
+            data-title="退出"
+            data-msg="确定将这{0}个学员取消必选？"
+            data-grid-id="#jqGrid2"
+            data-callback="_callback2"
+            class="jqBatchBtn btn btn-danger btn-sm">
+        <i class="fa fa-times"></i> 取消必选
+    </button>
+        <button id="logBtn" class="jqOpenViewBtn btn btn-info btn-sm"
+                data-grid-id="#jqGrid2"
+                data-url="${ctx}/sysApprovalLog"
+                data-width="850"
+                data-id-name="objId">
+            <i class="fa fa-history"></i> 操作记录
+        </button>
+    </c:if>
 </div>
 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
     <div class="widget-header">
@@ -102,13 +129,13 @@
                 </div>
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
-                       data-target="#detail-content-view"
+                       data-target="#obj-content-view"
                        data-form="#searchForm2"
-                       data-url="${ctx}/cet/cetProjectObj?projectId=${param.projectId}"><i class="fa fa-search"></i> 查找</a>
+                       data-url="${ctx}/cet/cetProjectObj?projectId=${param.projectId}&trainCourseId=${param.trainCourseId}"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                data-target="#detail-content-view"
-                                data-url="${ctx}/cet/cetProjectObj?projectId=${param.projectId}&traineeTypeId=${traineeTypeId}&cls=${cls}">
+                                data-target="#obj-content-view"
+                                data-url="${ctx}/cet/cetProjectObj?projectId=${param.projectId}&traineeTypeId=${traineeTypeId}&cls=${cls}&trainCourseId=${param.trainCourseId}">
                             <i class="fa fa-reply"></i> 重置
                         </button>
                     </c:if>
@@ -118,11 +145,11 @@
     </div>
 </div>
 <div class="space-4"></div>
-<table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="20"></table>
+<table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="${not empty param.trainCourseId?0:20}"></table>
 <div id="jqGridPager2"></div>
 <style>
     .type-select {
-        float:left;
+        float:right;
         padding: 5px 20px 0 5px;
     }
 
@@ -143,6 +170,9 @@
 <script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css"/>
 <script>
+    function _callback2(){
+        $("#jqGrid2").trigger("reloadGrid");
+    }
     $.register.multiselect($('#searchForm2 select[name=dpTypes]'), ${cm:toJSONArray(selectDpTypes)});
     $.register.multiselect($('#searchForm2 select[name=adminLevels]'), ${cm:toJSONArray(selectAdminLevels)});
     $.register.multiselect($('#searchForm2 select[name=postIds]'), ${cm:toJSONArray(selectPostIds)});
@@ -155,8 +185,8 @@
 
     var period = parseFloat('${cetProject.period}');
     var requirePeriod = parseFloat('${cetProject.requirePeriod}');
-    console.log("period=" + period)
-    console.log("requirePeriod=" + requirePeriod)
+    //console.log("period=" + period)
+    //console.log("requirePeriod=" + requirePeriod)
 
     $.register.user_select($("#searchForm2 select[name=userId]"));
     $("#jqGrid2").jqGrid({
@@ -164,16 +194,31 @@
         rownumbers:true,
         url: '${ctx}/cet/cetProjectObj_data?callback=?&traineeTypeId=${traineeTypeId}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel:[
-
+            <c:if test="${empty param.trainCourseId}">
             { label: '学习情况',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return ''
             }, frozen: true},
+            </c:if>
+            <c:if test="${not empty param.trainCourseId}">
+            { label: '选课方式',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return rowObject.cetTraineeCourseView.canQuit?("<span class='{0}'>可选</span>").format(rowObject.cetTraineeCourseView.isFinished?"text-success bolder":"text-default"):
+                        ("<span class='{0} bolder'>必选</span>").format(rowObject.cetTraineeCourseView.isFinished?"text-success":"text-danger");
+            }, frozen: true},
+            { label: '选课时间',name: 'cetTraineeCourseView.chooseTime', width: 160, frozen: true},
+            { label: '选课操作人',name: 'cetTraineeCourseView.chooseUserId', formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return '-'
+                return cellvalue==rowObject.userId?'本人':rowObject.cetTraineeCourseView.chooseUserName;
+            }, frozen: true},
+            { name: 'traineeId', hidden:true, formatter: function (cellvalue, options, rowObject) {
+                return rowObject.cetTraineeCourseView.traineeId;;
+            }},
+            </c:if>
             {label: '工作证号', name: 'code', width: 100, frozen: true},
             {label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadreId, cellvalue, "_blank");
 
             }, frozen: true},
-            {label: '所在单位及职务', name: 'title', align: 'left', width: 350, frozen: true},
+            {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
             {
                 label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
@@ -203,6 +248,7 @@
             },
             {label: '联系方式', name: 'mobile', width: 120},
             {label: '电子邮箱', name: 'email', width: 250},
+
             {label: '完成学时数', name: 'finishPeriod'},
             {label: '完成百分比', name: '_finishPercent', width: 110, formatter: function (cellvalue, options, rowObject) {
 
@@ -215,8 +261,30 @@
                 return rowObject.finishPeriod/requirePeriod >= 0.9?"<span class='text-success'>达到</span>"
                         :"<span class='text-danger'>未达到</span>";
             }}
-        ]
+        ],
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
+        }
     }).jqGrid("setFrozenColumns");
+
+    function _onSelectRow(grid) {
+        var ids = $(grid).getGridParam("selarrrow");
+        if (ids.length > 1) {
+            $("#logBtn").prop("disabled", true);
+            return;
+        }
+        var rowData = $(grid).getRowData(ids[0]);
+        var traineeId = rowData.traineeId;
+        $("#logBtn").prop("disabled", $.trim(traineeId)=='');
+
+        var querystr = "&displayType=1&hideStatus=1&type=${SYS_APPROVAL_LOG_TYPE_CET_TRAINEE}&id="+traineeId;
+        $("#logBtn").data("querystr", querystr);
+    }
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
     $('#searchForm2 [data-rel="select2"]').select2();

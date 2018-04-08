@@ -23,6 +23,8 @@ public class CetTraineeCourseCadreView implements Serializable {
 
     private Date chooseTime;
 
+    private Integer chooseUserId;
+
     private String ip;
 
     private Integer trainId;
@@ -39,6 +41,8 @@ public class CetTraineeCourseCadreView implements Serializable {
 
     private Integer projectId;
 
+    private String chooseUserName;
+
     private String code;
 
     private String realname;
@@ -50,6 +54,8 @@ public class CetTraineeCourseCadreView implements Serializable {
     private Integer postId;
 
     private Long cadreDpType;
+
+    private Integer dpTypeId;
 
     private String proPost;
 
@@ -137,6 +143,14 @@ public class CetTraineeCourseCadreView implements Serializable {
         this.chooseTime = chooseTime;
     }
 
+    public Integer getChooseUserId() {
+        return chooseUserId;
+    }
+
+    public void setChooseUserId(Integer chooseUserId) {
+        this.chooseUserId = chooseUserId;
+    }
+
     public String getIp() {
         return ip;
     }
@@ -201,6 +215,14 @@ public class CetTraineeCourseCadreView implements Serializable {
         this.projectId = projectId;
     }
 
+    public String getChooseUserName() {
+        return chooseUserName;
+    }
+
+    public void setChooseUserName(String chooseUserName) {
+        this.chooseUserName = chooseUserName == null ? null : chooseUserName.trim();
+    }
+
     public String getCode() {
         return code;
     }
@@ -247,6 +269,14 @@ public class CetTraineeCourseCadreView implements Serializable {
 
     public void setCadreDpType(Long cadreDpType) {
         this.cadreDpType = cadreDpType;
+    }
+
+    public Integer getDpTypeId() {
+        return dpTypeId;
+    }
+
+    public void setDpTypeId(Integer dpTypeId) {
+        this.dpTypeId = dpTypeId;
     }
 
     public String getProPost() {

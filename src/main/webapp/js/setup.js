@@ -489,43 +489,14 @@ $(document).on("click", ".loadPage", function () {
 $(document).on("click", ".openView", function () {
     var $this = $(this);
     $this.attr("disabled", "disabled");
-    $.loadView($this.data("url"), function () {
+    $.loadView({url:$this.data("url"), callback:function () {
         $this.removeAttr("disabled");
-    });
+    }});
 });
 // 隐藏内页
 $(document).on("click", ".hideView", function () {
 
     $.hideView($(this).data("url"))
-});
-// 显示内页
-$(document).on("click", ".openView2", function () {
-    var $this = $(this);
-    $this.attr("disabled", "disabled");
-    var maskEl = $.trim($this.data("maskEl"));
-    $.loadView2($this.data("url"), $(maskEl||"#body-content-view"), function () {
-        $this.removeAttr("disabled");
-    });
-});
-// 隐藏内页
-$(document).on("click", ".hideView2", function () {
-
-    $.hideView2($(this).data("url"))
-});
-
-// 显示内页
-$(document).on("click", ".openView3", function () {
-    var $this = $(this);
-    $this.attr("disabled", "disabled");
-    var maskEl = $.trim($this.data("maskEl"));
-    $.loadView3($this.data("url"), $(maskEl||"#body-content-view2"), function () {
-        $this.removeAttr("disabled");
-    });
-});
-// 隐藏内页
-$(document).on("click", ".hideView3", function () {
-
-    $.hideView3($(this).data("url"))
 });
 
 // 打开弹出框modal

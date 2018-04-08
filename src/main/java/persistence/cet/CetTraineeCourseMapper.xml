@@ -11,6 +11,7 @@
     <result column="sign_type" jdbcType="TINYINT" property="signType" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="choose_time" jdbcType="TIMESTAMP" property="chooseTime" />
+    <result column="choose_user_id" jdbcType="INTEGER" property="chooseUserId" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, trainee_id, train_course_id, can_quit, is_finished, sign_time, sign_type, remark, 
-    choose_time, ip
+    choose_time, choose_user_id, ip
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeCourseExample" resultMap="BaseResultMap">
     select
@@ -109,11 +110,11 @@
     insert into cet_trainee_course (id, trainee_id, train_course_id, 
       can_quit, is_finished, sign_time, 
       sign_type, remark, choose_time, 
-      ip)
+      choose_user_id, ip)
     values (#{id,jdbcType=INTEGER}, #{traineeId,jdbcType=INTEGER}, #{trainCourseId,jdbcType=INTEGER}, 
       #{canQuit,jdbcType=BIT}, #{isFinished,jdbcType=BIT}, #{signTime,jdbcType=TIMESTAMP}, 
       #{signType,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{chooseTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR})
+      #{chooseUserId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetTraineeCourse">
     insert into cet_trainee_course
@@ -144,6 +145,9 @@
       </if>
       <if test="chooseTime != null">
         choose_time,
+      </if>
+      <if test="chooseUserId != null">
+        choose_user_id,
       </if>
       <if test="ip != null">
         ip,
@@ -176,6 +180,9 @@
       </if>
       <if test="chooseTime != null">
         #{chooseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chooseUserId != null">
+        #{chooseUserId,jdbcType=INTEGER},
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
@@ -218,6 +225,9 @@
       <if test="record.chooseTime != null">
         choose_time = #{record.chooseTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.chooseUserId != null">
+        choose_user_id = #{record.chooseUserId,jdbcType=INTEGER},
+      </if>
       <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
@@ -237,6 +247,7 @@
       sign_type = #{record.signType,jdbcType=TINYINT},
       remark = #{record.remark,jdbcType=VARCHAR},
       choose_time = #{record.chooseTime,jdbcType=TIMESTAMP},
+      choose_user_id = #{record.chooseUserId,jdbcType=INTEGER},
       ip = #{record.ip,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -269,6 +280,9 @@
       <if test="chooseTime != null">
         choose_time = #{chooseTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="chooseUserId != null">
+        choose_user_id = #{chooseUserId,jdbcType=INTEGER},
+      </if>
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
       </if>
@@ -285,6 +299,7 @@
       sign_type = #{signType,jdbcType=TINYINT},
       remark = #{remark,jdbcType=VARCHAR},
       choose_time = #{chooseTime,jdbcType=TIMESTAMP},
+      choose_user_id = #{chooseUserId,jdbcType=INTEGER},
       ip = #{ip,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

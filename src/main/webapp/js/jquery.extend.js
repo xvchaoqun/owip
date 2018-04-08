@@ -583,22 +583,31 @@ var _modal_width;
                 }
             })
         },
-        // 载入副区域
-        loadView: function (url, $maskEl, fn) {
+        // 载入副区域, params是 url地址 或 {url：url, $mask: $mask, $show:$show, $hide:$hide, callback: callback} 对象
+        loadView: function (params) {
 
             NProgress.start();
-            if ($maskEl == undefined || typeof $maskEl == 'function') {
-                fn = $maskEl;
-                $maskEl = $("#page-content");
+
+            var _params = {};
+            if(!$.isJson(params)){
+                _params.url= params;
+            }else{
+                _params = $.extend({}, params);
             }
+            var url = _params.url;
+            var $mask = _params.$mask || $("#page-content");
+            var callback = _params.callback;
+            var $hide = _params.$hide || $("#body-content");
+            var $show = _params.$show || $("#body-content-view");
+
             // 关闭modal
             $("#modal").removeClass("fade").modal('hide').addClass("fade");
-            $maskEl.mask();
+            $mask.mask();
             $.get(url, {}, function (html) {
-                $maskEl.unmask();
-                $("#body-content").hide();
-                $("#body-content-view").hide().fadeIn("slow").html(html);
-                if (typeof fn == 'function') fn();
+                $mask.unmask();
+                $hide.hide();
+                $show.hide().fadeIn("slow").html(html);
+                if (typeof callback == 'function') callback();
                 NProgress.done();
             })
         },
@@ -609,68 +618,6 @@ var _modal_width;
                     $.hashchange('', pageUrl);
                 } else {
                     $("#body-content").show(0, function () {
-                        $(window).resize(); // 解决jqgrid不显示的问题
-                    });
-                }
-            });
-        },
-        // 载入副区域
-        loadView2: function (url, $maskEl, fn) {
-
-            NProgress.start();
-            /*if ($maskEl == undefined || typeof $maskEl == 'function') {
-                fn = $maskEl;
-                $maskEl = $("#body-content-view");
-            }*/
-            // 关闭modal
-            $("#modal").removeClass("fade").modal('hide').addClass("fade");
-            $maskEl.mask();
-            $.get(url, {}, function (html) {
-                $maskEl.unmask();
-                $("#body-content2").hide();
-                $("#body-content-view2").hide().fadeIn("slow").html(html);
-                if (typeof fn == 'function') fn();
-                NProgress.done();
-            })
-        },
-        // 关闭副区域，如果传入了url，则刷新主区域
-        hideView2: function (pageUrl) {
-            $("#body-content-view2").fadeOut("fast", function () {
-                if ($.trim(pageUrl) != '') {
-                    $.hashchange('', pageUrl);
-                } else {
-                    $("#body-content2").show(0, function () {
-                        $(window).resize(); // 解决jqgrid不显示的问题
-                    });
-                }
-            });
-        },
-        // 载入副区域
-        loadView3: function (url, $maskEl, fn) {
-
-            NProgress.start();
-            /*if ($maskEl == undefined || typeof $maskEl == 'function') {
-                fn = $maskEl;
-                $maskEl = $("#body-content-view2");
-            }*/
-            // 关闭modal
-            $("#modal").removeClass("fade").modal('hide').addClass("fade");
-            $maskEl.mask();
-            $.get(url, {}, function (html) {
-                $maskEl.unmask();
-                $("#body-content3").hide();
-                $("#body-content-view3").hide().fadeIn("slow").html(html);
-                if (typeof fn == 'function') fn();
-                NProgress.done();
-            })
-        },
-        // 关闭副区域，如果传入了url，则刷新主区域
-        hideView3: function (pageUrl) {
-            $("#body-content-view3").fadeOut("fast", function () {
-                if ($.trim(pageUrl) != '') {
-                    $.hashchange('', pageUrl);
-                } else {
-                    $("#body-content3").show(0, function () {
                         $(window).resize(); // 解决jqgrid不显示的问题
                     });
                 }

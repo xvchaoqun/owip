@@ -36,7 +36,7 @@ group by cc.id ;
 
 DROP VIEW IF EXISTS `cet_train_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_view` AS
-select ct.*, cp.year,
+select ct.*, cp.year, cpo.project_id,
 -- 课程数量
 count(distinct ctc.id) as course_num,
 -- 可选课人数
@@ -89,20 +89,22 @@ left join (select train_course_id, count(id) as eva_finish_count from cet_train_
 
 DROP VIEW IF EXISTS `cet_trainee_course_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_view` AS
-select cteec.*, ctee.train_id, cpo.trainee_type_id, cpo.user_id, ctc.course_id, cc.period, cp.year, cpo.project_id
- from cet_trainee_course cteec
+select cteec.*, ctee.train_id, cpo.trainee_type_id, cpo.user_id, ctc.course_id, cc.period, cp.year, cpo.project_id,
+uv.code, uv.realname as choose_user_name from cet_trainee_course cteec
 left join cet_trainee ctee on cteec.trainee_id=ctee.id
 left join cet_project_obj cpo on cpo.id=ctee.obj_id
 left join cet_project cp on cp.id=cpo.project_id
 left join cet_train ct on ct.id=ctee.train_id
 left join cet_train_course ctc on ctc.id=cteec.train_course_id
-left join cet_course cc on cc.id=ctc.course_id;
+left join cet_course cc on cc.id=ctc.course_id
+left join sys_user_view uv on uv.id = cteec.choose_user_id;
 
 DROP VIEW IF EXISTS `cet_trainee_course_cadre_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_cadre_view` AS
 select cteecv.*,
-cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.pro_post,
-cv.lp_work_time, cv.mobile, cv.email, cv.status, cv.sort_order as cadre_sort_order from cet_trainee_course_view cteecv
+cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.dp_type_id, cv.pro_post,
+cv.lp_work_time, cv.mobile, cv.email, cv.status, cv.sort_order as cadre_sort_order
+from cet_trainee_course_view cteecv
 left join cadre_view cv on cteecv.user_id=cv.user_id;
 
 DROP VIEW IF EXISTS `cet_train_inspector_view`;
@@ -119,18 +121,17 @@ group by cti.id ;
 -- 培训班下的每个课程的统计结果（课程得分、已选人数、完成人数、完成测评人数）
 DROP VIEW IF EXISTS `cet_train_course_stat_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_course_stat_view` AS
-select tmp.train_course_id, tmp.course_id, round(sum(tmp.total_score)/count(*),1) as score, tmp.train_id, ct.name,
- ctcv.selected_count, ctcv.finish_count, ctcv.eva_finish_count from (
+select ctc.*, ct.name as train_name,  round(sum(tmp.total_score)/count(tmp.inspector_id),1) as score from cet_train_course_view ctc
+left join cet_train ct on ct.id=ctc.train_id
+ left join (
  -- 培训班内，每个测评账号对每个课程打分情况
 select result.inspector_id, ic.train_course_id, ctc.train_id,  ctc.course_id, sum(rank.score) as total_score
 from cet_train_eva_result result, cet_train_eva_rank rank, cet_train_inspector_course ic,
 cet_train_course ctc where rank.id=result.rank_id and
 ic.train_course_id=result.train_course_id and ic.train_course_id=ctc.id and
 ic.inspector_id=result.inspector_id group by result.inspector_id, result.train_course_id
-) tmp
-left join cet_train_course_view ctcv on ctcv.id=tmp.train_course_id
-left join cet_train ct on ct.id = tmp.train_id
-  group by train_course_id ;
+) tmp on tmp.train_course_id=ctc.id
+group by ctc.id;
 
 -- 干部任免审批表归档
 DROP VIEW IF EXISTS `sc_ad_archive_view`;

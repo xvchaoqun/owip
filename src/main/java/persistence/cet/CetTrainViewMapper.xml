@@ -24,6 +24,7 @@
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="course_num" jdbcType="INTEGER" property="courseNum" />
     <result column="obj_count" jdbcType="BIGINT" property="objCount" />
     <result column="trainee_count" jdbcType="INTEGER" property="traineeCount" />
@@ -64,8 +65,8 @@
   <sql id="Base_Column_List">
     id, plan_id, type, is_on_campus, name, has_summary, summary, start_date, end_date, 
     start_time, end_time, enroll_status, pub_status, eva_count, eva_anonymous, eva_closed, 
-    eva_close_time, remark, is_deleted, is_finished, create_time, year, course_num, obj_count, 
-    trainee_count, trainee_types
+    eva_close_time, remark, is_deleted, is_finished, create_time, year, project_id, course_num, 
+    obj_count, trainee_count, trainee_types
   </sql>
   <sql id="Blob_Column_List">
     eva_note

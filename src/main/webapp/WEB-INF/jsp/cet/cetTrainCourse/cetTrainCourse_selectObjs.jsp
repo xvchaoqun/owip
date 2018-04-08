@@ -67,7 +67,7 @@
           success:function(data){
             if(data.success){
               $("#modal").modal('hide');
-              $("#jqGrid4").trigger("reloadGrid");
+              $("#jqGrid2").trigger("reloadGrid");
               //SysMsg.success('操作成功。', '成功');
             }
           }

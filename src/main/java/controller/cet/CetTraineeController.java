@@ -1,6 +1,8 @@
 package controller.cet;
 
 import domain.cet.CetProject;
+import domain.cet.CetTrain;
+import domain.cet.CetTrainCourseExample;
 import domain.cet.CetTraineeCadreViewExample;
 import domain.cet.CetTraineeType;
 import mixin.MixinUtils;
@@ -34,6 +36,15 @@ public class CetTraineeController extends CetBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("cetTrainee:list")
+    @RequestMapping("/cetTrainee_detail")
+    public String cetTrainee_detail(int userId, ModelMap modelMap) {
+
+        modelMap.put("sysUser", sysUserService.findById(userId));
+
+        return "cet/cetTrainee/cetTrainee_detail";
+    }
+
+    @RequiresPermissions("cetTrainee:list")
     @RequestMapping("/cetTrainee")
     public String cetTrainee(int trainId, Integer traineeTypeId,
                              Integer userId,
@@ -49,8 +60,20 @@ public class CetTraineeController extends CetBaseController {
         }
         modelMap.put("traineeTypeId", traineeTypeId);
 
-        if(userId!=null)
-        modelMap.put("sysUser", sysUserService.findById(userId));
+        if(userId!=null) {
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
+
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+        modelMap.put("cetTrain", cetTrain);
+
+        Map<Integer, Object> yearPeriodMap = cetTrainService.traineeYearPeriodMap(trainId);
+        modelMap.put("yearPeriodMap", yearPeriodMap);
+
+        // 培训班下的课程总数
+        CetTrainCourseExample example = new CetTrainCourseExample();
+        example.createCriteria().andTrainIdEqualTo(trainId);
+        modelMap.put("courseCount", cetTrainCourseMapper.countByExample(example));
 
         return "cet/cetTrainee/cetTrainee_page";
     }
@@ -58,7 +81,6 @@ public class CetTraineeController extends CetBaseController {
     @RequiresPermissions("cetTrainee:list")
     @RequestMapping("/cetTrainee_data")
     public void cetTrainee_data(HttpServletResponse response,
-                                @RequestParam(defaultValue = "1") Integer cls,
                                 int trainId,
                                 int traineeTypeId,
                                 Integer userId,
@@ -85,14 +107,15 @@ public class CetTraineeController extends CetBaseController {
             case "t_reserve":
                 CetTraineeCadreViewExample example = new CetTraineeCadreViewExample();
                 CetTraineeCadreViewExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId);
-                switch (cls){
+                example.setOrderByClause("id asc");
+                /*switch (cls){
                     case 1: // 已选课人员
                         criteria.andCourseCountGreaterThan(0);
                         break;
                     case 2: // 退班人员
                         criteria.andCourseCountEqualTo(0).andIsQuitEqualTo(true);
                         break;
-                }
+                }*/
 
                 if (userId != null) {
                     criteria.andUserIdEqualTo(userId);

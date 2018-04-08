@@ -7,26 +7,8 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <div class="alert alert-info">
-        ${msg}
+        ${contentTpl.content}
     </div>
-   <table class="table table-bordered table-striped">
-       <thead>
-       <tr>
-           <td>姓名</td>
-           <td>教工号</td>
-           <td>手机</td>
-       </tr>
-       </thead>
-       <tbody>
-       <c:forEach items="${applicants}" var="applicant" varStatus="vs">
-       <tr>
-           <td>${applicant.user.realname}</td>
-           <td>${applicant.user.code}</td>
-           <td>${applicant.user.mobile}</td>
-       </tr>
-       </c:forEach>
-       </tbody>
-   </table>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
@@ -35,9 +17,10 @@ pageEncoding="UTF-8"%>
 
 <script>
     $("#sendBtn").click(function(){
-        $.post("${ctx}/crsPost_detail/step3_shortMsg_send",{postId:'${param.postId}', tplKey:'${param.tplKey}'},function(ret){
+        $.post("${ctx}/cet/cetTrain_detail/msg_send", {trainId:'${param.trainId}', tplKey:'${param.tplKey}'},function(ret){
+
           if(ret.success){
-              SysMsg.info("已发送${fn:length(applicants)}条短信，其中发送成功{0}条。".format(ret.successCount) );
+              SysMsg.info("成功发送${fn:length(applicants)}条短信。".format(ret.successCount) );
               $("#modal").modal('hide');
           }
         })

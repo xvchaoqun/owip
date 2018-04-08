@@ -10,11 +10,13 @@
         <input type="hidden" name="trainCourseId" value="${cetTrainCourse.id}">
         <div class="form-group">
             <label>姓名</label>
-            <input class="form-control search-query" name="realname" type="text" value="${param.realname}"
-                   placeholder="请输入参训人员姓名">
+            <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?type=${USER_TYPE_JZG}"
+                    name="userId" data-placeholder="请输入账号或姓名或教工号">
+                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+            </select>
         </div>
         <div class="form-group">
-            <c:set var="_query" value="${not empty param.realname}"/>
+            <c:set var="_query" value="${not empty param.userId}"/>
             <button type="button" data-url="${ctx}/cet/cetTrainCourse_trainee"
                     data-target="#modal .modal-content" data-form="#popup_searchForm"
                     class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找
@@ -67,15 +69,16 @@
     <table id="jqGrid_popup" class="table-striped"></table>
     <div id="jqGridPager_popup"></div>
 </div>
-<jsp:include page="../cetTrainee/cetTrainee_colModel.jsp?type=popup"/>
+<jsp:include page="../cetTrainee/cetTrainee_colModel.jsp?type=sign"/>
 <script>
     function _popupReload(){
         $("#jqGrid_popup").trigger("reloadGrid");
         $("#jqGrid2").trigger("reloadGrid");
     }
+    $.register.user_select($("#popup_searchForm select[name=userId]"));
     $("#jqGrid_popup").jqGrid({
         height: 390,
-        width: 1160,
+        width: 950,
         rowNum: 10,
         ondblClickRow: function () {
         },

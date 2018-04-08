@@ -3,19 +3,12 @@ package service.cet;
 import bean.XlsTrainCourse;
 import controller.global.OpException;
 import domain.cet.CetCourse;
-import domain.cet.CetProject;
-import domain.cet.CetProjectObj;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseExample;
 import domain.cet.CetTrainEvaResultExample;
-import domain.cet.CetTrainee;
-import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseView;
 import domain.cet.CetTraineeCourseViewExample;
-import domain.cet.CetTraineeType;
-import domain.cet.CetTraineeView;
-import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
-import sys.tool.tree.TreeNode;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Service
 public class CetTrainCourseService extends BaseMapper {
@@ -252,7 +241,7 @@ public class CetTrainCourseService extends BaseMapper {
         return success;
     }
 
-    // 获取课程参训人 <userId, CetTraineeCourseView>
+    // 获取课程参训人（已选课学员） <userId, CetTraineeCourseView>
     public Map<Integer, CetTraineeCourseView> findTrainees(int trainCourseId) {
 
         CetTraineeCourseViewExample example = new CetTraineeCourseViewExample();
@@ -269,7 +258,7 @@ public class CetTrainCourseService extends BaseMapper {
     }
 
     // key: userId
-    public TreeNode selectObjs_tree(int trainCourseId) {
+    /*public TreeNode selectObjs_tree(int trainCourseId) {
 
         // 已选课参训人员（包含本人选课的）
         Map<Integer, CetTraineeCourseView> trainees = findTrainees(trainCourseId);
@@ -409,5 +398,5 @@ public class CetTrainCourseService extends BaseMapper {
 
             }
         }
-    }
+    }*/
 }

@@ -1,10 +1,17 @@
 package domain.cet;
 
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetTraineeCourseView implements Serializable {
+
+    public SysUserView getUser(){
+        return CmTag.getUserById(userId);
+    }
     private Integer id;
 
     private Integer traineeId;
@@ -23,6 +30,8 @@ public class CetTraineeCourseView implements Serializable {
 
     private Date chooseTime;
 
+    private Integer chooseUserId;
+
     private String ip;
 
     private Integer trainId;
@@ -38,6 +47,8 @@ public class CetTraineeCourseView implements Serializable {
     private Integer year;
 
     private Integer projectId;
+
+    private String chooseUserName;
 
     private static final long serialVersionUID = 1L;
 
@@ -113,6 +124,14 @@ public class CetTraineeCourseView implements Serializable {
         this.chooseTime = chooseTime;
     }
 
+    public Integer getChooseUserId() {
+        return chooseUserId;
+    }
+
+    public void setChooseUserId(Integer chooseUserId) {
+        this.chooseUserId = chooseUserId;
+    }
+
     public String getIp() {
         return ip;
     }
@@ -175,5 +194,13 @@ public class CetTraineeCourseView implements Serializable {
 
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
+    }
+
+    public String getChooseUserName() {
+        return chooseUserName;
+    }
+
+    public void setChooseUserName(String chooseUserName) {
+        this.chooseUserName = chooseUserName == null ? null : chooseUserName.trim();
     }
 }

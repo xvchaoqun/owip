@@ -2,7 +2,10 @@ package service.cet;
 
 import domain.cet.CetTrain;
 import domain.cet.CetTrainExample;
+import domain.cet.CetTrainView;
+import domain.cet.CetTrainViewExample;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -16,6 +19,15 @@ import java.util.Map;
 
 @Service
 public class CetTrainService extends BaseMapper {
+
+    public CetTrainView getView(int trainId){
+
+        CetTrainViewExample example = new CetTrainViewExample();
+        example.createCriteria().andIdEqualTo(trainId);
+        List<CetTrainView> cetTrainViews = cetTrainViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return cetTrainViews.size()==1?cetTrainViews.get(0):null;
+    }
 
     @Transactional
     public void insertSelective(CetTrain record){

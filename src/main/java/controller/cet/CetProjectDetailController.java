@@ -1,6 +1,7 @@
 package controller.cet;
 
 import domain.cet.CetProject;
+import domain.cet.CetTrainCourse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,10 +35,15 @@ public class CetProjectDetailController extends CetBaseController {
 
     @RequiresPermissions("cetProject:edit")
     @RequestMapping("/cetProject_detail/obj")
-    public String projectee(int projectId, ModelMap modelMap) {
+    public String projectee(int projectId, Integer trainCourseId, ModelMap modelMap) {
 
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
         modelMap.put("cetProject", cetProject);
+
+        if(trainCourseId!=null){
+            CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
+            modelMap.put("cetTrainCourse", cetTrainCourse);
+        }
 
         return "cet/cetProject/cetProject_detail/obj";
     }

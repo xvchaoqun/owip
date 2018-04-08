@@ -67,6 +67,21 @@ public interface ICetMapper {
             "order by ctc.start_time asc limit 1")
     public CetTrainCourse getTomorrowFirstCourse(@Param("traineeId") int traineeId);
 
+    // 获取参训人员当天还未开课的第一堂课
+    @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
+    @Select("select ctc.* from cet_train_course ctc, cet_trainee_course cteec " +
+            "where ctc.id = cteec.train_course_id and cteec.trainee_id=#{traineeId} and " +
+            "left(ctc.start_time, 10) = curdate() and ctc.start_time > now() " +
+            "order by ctc.start_time asc limit 1")
+    public CetTrainCourse getTodayFirstCourse(@Param("traineeId") int traineeId);
+
+    // 获取当天还未开课课程
+    @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
+    @Select("<script>" + "select * from cet_train_course " +
+            "where <if test='trainId!=null'> train_id=#{trainId} and</if> left(start_time, 10) = curdate() and start_time > now() " +
+            "order by start_time asc"+ "</script>")
+    public List<CetTrainCourse> getTodayTrainCourseList(@Param("trainId") Integer trainId);
+
     // 获取培训班所在的培训计划
     @ResultMap("persistence.cet.CetProjectMapper.BaseResultMap")
     @Select("select cp.* from cet_project cp, cet_project_plan cpp, cet_train ct " +

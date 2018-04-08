@@ -1,10 +1,49 @@
 package domain.cet;
 
+import persistence.cet.CetTrainCourseMapper;
+import service.cet.CetTraineeCourseService;
+import service.cet.CetTraineeService;
+import sys.tags.CmTag;
+import sys.utils.ContextHelper;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CetProjectObjCadreView implements Serializable {
+
+    public Map getCetTraineeCourseView(){
+
+        HttpServletRequest request = ContextHelper.getRequest();
+        if(request==null) return null;
+        Integer trainCourseId = (Integer) request.getAttribute("trainCourseId");
+        if(trainCourseId==null) return null;
+
+        CetTraineeCourseService cetTraineeCourseService = CmTag.getBean(CetTraineeCourseService.class);
+        CetTraineeCourseView ctc = cetTraineeCourseService.getCetTraineeCourseView(userId, trainCourseId);
+        Map<String, Object> resultMap = new HashMap<>();
+        if(ctc!=null){
+            resultMap.put("canQuit", ctc.getCanQuit());
+            resultMap.put("traineeId", ctc.getTraineeId());
+            resultMap.put("isFinished", ctc.getIsFinished());
+            resultMap.put("chooseTime", ctc.getChooseTime());
+            resultMap.put("chooseUserId", ctc.getChooseUserId());
+            resultMap.put("chooseUserName", ctc.getChooseUserName());
+        }else{
+            resultMap.put("canQuit", true);
+            CetTrainCourseMapper cetTrainCourseMapper = CmTag.getBean(CetTrainCourseMapper.class);
+            CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
+            CetTraineeService cetTraineeService = CmTag.getBean(CetTraineeService.class);
+            CetTraineeView cetTraineeView = cetTraineeService.get(userId, cetTrainCourse.getTrainId());
+            resultMap.put("traineeId", cetTraineeView.getId());
+        }
+
+        return resultMap;
+    }
+
     private Integer id;
 
     private Integer projectId;

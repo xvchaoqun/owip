@@ -7,6 +7,8 @@ import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainee;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseExample;
+import domain.cet.CetTraineeCourseView;
+import domain.cet.CetTraineeCourseViewExample;
 import domain.cet.CetTraineeView;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
+import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
@@ -43,6 +46,15 @@ public class CetTraineeCourseService extends BaseMapper {
         CetTraineeCourseExample example = new CetTraineeCourseExample();
         example.createCriteria().andTraineeIdEqualTo(traineeId).andTrainCourseIdEqualTo(trainCourseId);
         List<CetTraineeCourse> cetTraineeCourses = cetTraineeCourseMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return cetTraineeCourses.size()>0?cetTraineeCourses.get(0):null;
+    }
+
+    public CetTraineeCourseView getCetTraineeCourseView(int userId, int trainCourseId){
+
+        CetTraineeCourseViewExample example = new CetTraineeCourseViewExample();
+        example.createCriteria().andUserIdEqualTo(userId).andTrainCourseIdEqualTo(trainCourseId);
+        List<CetTraineeCourseView> cetTraineeCourses = cetTraineeCourseViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
         return cetTraineeCourses.size()>0?cetTraineeCourses.get(0):null;
     }
@@ -164,6 +176,7 @@ public class CetTraineeCourseService extends BaseMapper {
             record.setIsFinished(false);
             record.setCanQuit(!isAdmin);
             record.setChooseTime(now);
+            record.setChooseUserId(ShiroHelper.getCurrentUserId());
             record.setIp(ip);
 
             cetTraineeCourseMapper.insertSelective(record);

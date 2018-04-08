@@ -24,13 +24,13 @@
                   编辑
                 </button>
                 <button type="button"
-                        data-url="${ctx}/cet/cetTrain_detail/msg_send?postId=${crsPost.id}&tplKey=${tpl.code}"
+                        data-url="${ctx}/cet/cetTrain_detail/msg_send?trainId=${cetTrain.id}&tplKey=${tpl.code}"
                         class="popupBtn btn btn-xs btn-warning">
                   <i class="ace-icon fa fa-send"></i>
                   发送
                 </button>
                 <button type="button"
-                        data-url="${ctx}/cet/cetTrain_detail/msg_list?postId=${crsPost.id}&tplKey=${tpl.code}"
+                        data-url="${ctx}/cet/cetTrain_detail/msg_list?trainId=${cetTrain.id}&tplKey=${tpl.code}"
                         class="popupBtn btn btn-xs btn-info">
                   <i class="ace-icon fa fa-history"></i>
                   记录

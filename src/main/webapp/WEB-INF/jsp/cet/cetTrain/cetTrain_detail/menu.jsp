@@ -4,9 +4,10 @@
 <div class="widget-box transparent">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
-            <a href="javascript:" class="hideView3 btn btn-sm btn-success">
+            <a href="javascript:" class="openView btn btn-xs btn-success"
+                    data-url="${ctx}/cet/cetProjectPlan_detail?planId=${cetTrain.planId}">
                 <i class="ace-icon fa fa-reply"></i>
-                返回培训班列表</a>
+                返回</a>
         </h4>
                 <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
                     培训班：${cetTrain.name}
@@ -17,7 +18,7 @@
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content2" data-callback="$.menu.liSelected"
                        data-url="${ctx}/cet/cetTrainCourse?trainId=${param.trainId}">
-                        <i class="green ace-icon fa fa-list bigger-120"></i> 培训课程</a>
+                        <i class="green ace-icon fa fa-list bigger-120"></i> 课程及选课和学习情况</a>
                 </li>
                 <li>
                     <a href="javascript:;" class="loadPage"
@@ -28,14 +29,14 @@
                 <li>
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content2" data-callback="$.menu.liSelected"
-                       data-url="${ctx}/cet/cetTrain_detail/trainee?trainId=${param.trainId}">
-                        <i class="green ace-icon fa fa-users bigger-120"></i> 选课情况</a>
+                       data-url="${ctx}/cet/cetTrain_detail/msg?trainId=${param.trainId}">
+                        <i class="green ace-icon fa fa-calendar bigger-120"></i> 开课通知</a>
                 </li>
                 <li>
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content2" data-callback="$.menu.liSelected"
-                       data-url="${ctx}/cet/cetTrain_detail/begin?trainId=${param.trainId}">
-                        <i class="green ace-icon fa fa-calendar bigger-120"></i> 开课</a>
+                       data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}">
+                        <i class="green ace-icon fa fa-users bigger-120"></i> 学员学习情况汇总</a>
                 </li>
                 <li>
                     <a href="javascript:;" class="loadPage"

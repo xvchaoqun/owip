@@ -10,8 +10,8 @@ import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseView;
 import domain.cet.CetTrainCourseViewExample;
 import domain.cet.CetTrainEvaTable;
-import domain.cet.CetTraineeCourseCadreView;
-import domain.cet.CetTraineeCourseCadreViewExample;
+import domain.cet.CetTraineeCourseView;
+import domain.cet.CetTraineeCourseViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +33,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -61,7 +60,7 @@ public class CetTrainCourseController extends CetBaseController {
                                  @RequestParam(defaultValue = "1")Boolean isOnCampus,
                                  int trainId, ModelMap modelMap) {
 
-        modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
+        modelMap.put("cetTrain", cetTrainService.getView(trainId));
         if(isOnCampus) {
 
             modelMap.put("cls", cls);
@@ -76,10 +75,11 @@ public class CetTrainCourseController extends CetBaseController {
     @RequestMapping("/cetTrainCourse_data")
     public void cetTrainCourse_data(HttpServletResponse response,
                                     @RequestParam(defaultValue = "1")Boolean isOnCampus,
-                                 int trainId,
-                                    String name,
+                                 int trainId, String name,
+                                    Integer userId, // 学习详情 页面
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    HttpServletRequest request,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
@@ -116,6 +116,8 @@ public class CetTrainCourseController extends CetBaseController {
         }
         List<CetTrainCourseView> records = cetTrainCourseViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        request.setAttribute("userId", userId);
 
         Map resultMap = new HashMap();
         resultMap.put("rows", records);
@@ -201,7 +203,7 @@ public class CetTrainCourseController extends CetBaseController {
         return "cet/cetTrainCourse/cetTrainCourse_selectObjs";
     }
 
-    @RequiresPermissions("cetTrainCourse:edit")
+    /*@RequiresPermissions("cetTrainCourse:edit")
     @RequestMapping("/cetTrainCourse_selectObjs_tree")
     @ResponseBody
     public Map cetTrainCourse_selectObjs_tree(int trainCourseId) throws IOException {
@@ -224,7 +226,7 @@ public class CetTrainCourseController extends CetBaseController {
         logger.info(addLog(SystemConstants.LOG_CET, "设置参训人员：%s, %s",trainCourseId, StringUtils.join(userIds, ",")));
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     // 参训人列表（签到列表）
     @RequiresPermissions("cetTrainCourse:edit")
@@ -232,6 +234,7 @@ public class CetTrainCourseController extends CetBaseController {
     public String cetTrainCourse_trainee(int trainCourseId, ModelMap modelMap) {
 
         modelMap.put("cetTrainCourse", cetTrainCourseMapper.selectByPrimaryKey(trainCourseId));
+        modelMap.put("cetTraineeTypeMap", cetTraineeTypeService.findAll());
 
         return "cet/cetTrainCourse/cetTrainCourse_trainee_page";
     }
@@ -239,7 +242,7 @@ public class CetTrainCourseController extends CetBaseController {
     @RequiresPermissions("cetCourse:list")
     @RequestMapping("/cetTrainCourse_trainee_data")
     public void cetTrainCourse_trainee_data(HttpServletResponse response,
-                                                  int trainCourseId, String realname,
+                                                  int trainCourseId, Integer userId,
                                                   Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -250,21 +253,21 @@ public class CetTrainCourseController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetTraineeCourseCadreViewExample example = new CetTraineeCourseCadreViewExample();
-        CetTraineeCourseCadreViewExample.Criteria criteria = example.createCriteria()
+        CetTraineeCourseViewExample example = new CetTraineeCourseViewExample();
+        CetTraineeCourseViewExample.Criteria criteria = example.createCriteria()
                 .andTrainCourseIdEqualTo(trainCourseId);
 
-        if(StringUtils.isNotBlank(realname)){
-            criteria.andRealnameLike("%" + realname + "%");
+        if(userId!=null){
+            criteria.andUserIdEqualTo(userId);
         }
 
-        long count = cetTraineeCourseCadreViewMapper.countByExample(example);
+        long count = cetTraineeCourseViewMapper.countByExample(example);
 
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetTraineeCourseCadreView> records= cetTraineeCourseCadreViewMapper.selectByExampleWithRowbounds(example,
+        List<CetTraineeCourseView> records= cetTraineeCourseViewMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

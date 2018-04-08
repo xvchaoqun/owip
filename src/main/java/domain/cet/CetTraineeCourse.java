@@ -34,6 +34,8 @@ public class CetTraineeCourse implements Serializable {
 
     private Date chooseTime;
 
+    private Integer chooseUserId;
+
     private String ip;
 
     private static final long serialVersionUID = 1L;
@@ -108,6 +110,14 @@ public class CetTraineeCourse implements Serializable {
 
     public void setChooseTime(Date chooseTime) {
         this.chooseTime = chooseTime;
+    }
+
+    public Integer getChooseUserId() {
+        return chooseUserId;
+    }
+
+    public void setChooseUserId(Integer chooseUserId) {
+        this.chooseUserId = chooseUserId;
     }
 
     public String getIp() {

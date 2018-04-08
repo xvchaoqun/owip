@@ -5,7 +5,7 @@
     <li>
         <a href="javascript:;" class="loadPage"
            data-load-el="#detail-content-view" data-callback="$.menu.liSelected"
-           data-url='${ctx}/cet/cetTrainCourse?trainId=${param.trainId}&cls=3'><i
+           data-url='${ctx}/cet/cetTrainCourse?trainId=${param.trainId}&cls=2'><i
                 class="fa fa-table"></i> 评估表
         </a>
     </li>
@@ -38,6 +38,7 @@
         </a>
     </li>
 </ul>
+<div class="space-4"></div>
 <div class="col-xs-12" id="detail-content-view">
     <c:import url="${ctx}/cet/cetTrain_detail_eva/inspectors?trainId=${param.trainId}"/>
 </div>

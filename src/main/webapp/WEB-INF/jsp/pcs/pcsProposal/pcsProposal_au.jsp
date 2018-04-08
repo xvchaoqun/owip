@@ -281,13 +281,13 @@
                         $("#saveBtn").button("reset");
                         //$("#modalForm input[name=id]").val(ret.id);
                         //$('input[type=file]').ace_file_input('reset_input');
-                        $.loadView("${ctx}/pcsProposal_au?id=" + ret.id, function(){
+                        $.loadView({url:"${ctx}/pcsProposal_au?id=" + ret.id, callback:function(){
                             $.tip({
                                 $target: $("#saveBtn"),
                                 at: 'top center', my: 'bottom center', type: 'success',
                                 msg: "填写内容已暂存，请及时填写完整并提交。"
                             });
-                        });
+                        }});
                     } else if(status == "${PCS_PROPOSAL_STATUS_INIT}"){
 
                         $("#jqGrid").trigger("reloadGrid");

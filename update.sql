@@ -1,4 +1,17 @@
 
+2018-4-8
+更新 cet_train_view
+
+ALTER TABLE `cet_trainee_course`
+	ADD COLUMN `choose_user_id` INT NULL DEFAULT NULL COMMENT '选课操作人， 如果是管理员选的， 那么显示管理员姓名； 如果是本人选的， 那么显示“本人”字样。' AFTER `choose_time`;
+
+更新 cet_trainee_course_view
+cet_trainee_course_cadre_view
+
+cet_train_inspector_view
+
+cet_train_course_stat_view
+
 
 2018-4-6
 ALTER TABLE `cet_special`
