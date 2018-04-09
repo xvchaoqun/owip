@@ -5,7 +5,6 @@ import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainInspector;
 import domain.cet.CetTrainInspectorCourse;
-import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeView;
 import domain.sys.SysUserView;
 import org.slf4j.Logger;
@@ -54,9 +53,8 @@ public class MobileTrainIndexController extends CetBaseController {
 			int userId = uv.getUserId();
 			CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
 			int traineeId = cetTrainee.getId();
-			List<CetTraineeCourse> selectedCetTraineeCourses = iCetMapper.selectedCetTraineeCourses(traineeId);
-			for (CetTraineeCourse cetTraineeCourse : selectedCetTraineeCourses) {
-				CetTrainCourse cetTrainCourse = cetTraineeCourse.getCetTrainCourse();
+			List<CetTrainCourse> cetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
+			for (CetTrainCourse cetTrainCourse : cetTrainCourses) {
 				trainCourseMap.put(cetTrainCourse.getId(), cetTrainCourse);
 			}
 

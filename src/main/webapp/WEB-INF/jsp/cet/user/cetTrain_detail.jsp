@@ -48,16 +48,17 @@
         </div>
     </div>
 </div>
+<jsp:include page="cetTrainCourse_colModel.jsp?planType=${cetProjectPlan.type}"/>
 <script>
 
-    var selectedCetTraineeCourses = ${cm:toJSONArray(selectedCetTraineeCourses)};
+    var selectedCetTrainCourses = ${cm:toJSONArray(selectedCetTrainCourses)};
     $("#jqGrid2").jqGrid({
         pager: null,
         multiboxonly: true,
         multiselect:false,
         height:200,
         datatype: "local",
-        data: selectedCetTraineeCourses,
+        data: selectedCetTrainCourses,
         colModel: [
            <c:if test="${!cetTrain.isFinished}">
             {
@@ -67,30 +68,10 @@
                 return ('<button class="confirm btn btn-danger btn-xs" ' +
                 'data-url="${ctx}/user/cet/cetTrain_apply_item?isApply=0&trainCourseId={0}" '
                         +'data-msg="确定退课？（{1}）" data-apply="false" data-callback="_applyReload"><i class="fa fa-minus-circle"></i> 退课</button>')
-                        .format(rowObject.cetTrainCourse.id, rowObject.cetTrainCourse.cetCourse.name)
+                        .format(rowObject.id, rowObject.cetCourse.name)
             }, frozen:true},
             </c:if>
-            {label: '课程编号', name: 'cetTrainCourse.cetCourse.sn', frozen:true},
-            {label: '课程名称', name: 'cetTrainCourse.cetCourse.name', width: 300, align: 'left', frozen:true},
-            {label: '主讲人', name: 'cetTrainCourse.cetCourse.cetExpert.realname'},
-            {label: '所在单位', name: 'cetTrainCourse.cetCourse.cetExpert.unit', width: 300, align: 'left'},
-            {label: '职务和职称', name: 'cetTrainCourse.cetCourse.cetExpert.post', width: 120, align: 'left'},
-            {
-                label: '开始时间',
-                name: 'cetTrainCourse.startTime',
-                width: 130,
-                formatter: 'date',
-                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
-            },
-            {
-                label: '结束时间',
-                name: 'cetTrainCourse.endTime',
-                width: 130,
-                formatter: 'date',
-                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
-            },
-            {label: '上课地点', name: 'cetTrainCourse.address', width: 300}
-        ]
+            ].concat(colModel)
     }).jqGrid("setFrozenColumns");
 
     var unSelectedCetTrainCourses = ${cm:toJSONArray(unSelectedCetTrainCourses)};
@@ -112,35 +93,14 @@
                 +'data-msg="确定选课？（{1}）" data-apply="true" data-callback="_applyReload"><i class="fa fa-plus-circle"></i> 选课</button>')
                         .format(rowObject.id, rowObject.cetCourse.name)
             }, frozen:true},
-            </c:if>
-            {label: '课程编号', name: 'cetCourse.sn'},
-            {label: '课程名称', name: 'cetCourse.name', width: 300, align: 'left', frozen:true},
-            {label: '主讲人', name: 'cetCourse.cetExpert.realname'},
-            {label: '所在单位', name: 'cetCourse.cetExpert.unit', width: 300, align: 'left'},
-            {label: '职务和职称', name: 'cetCourse.cetExpert.post', width: 120, align: 'left'},
-            {
-                label: '开始时间',
-                name: 'startTime',
-                width: 130,
-                formatter: 'date',
-                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
-            },
-            {
-                label: '结束时间',
-                name: 'endTime',
-                width: 130,
-                formatter: 'date',
-                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
-            },
-            {label: '上课地点', name: 'address', width: 300}
-        ]
+            </c:if>].concat(colModel)
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid4');
 
     function _applyReload(btn){
 
         var isApply = $(btn).data("apply");
-        var courseCount = selectedCetTraineeCourses.length;
+        var courseCount = selectedCetTrainCourses.length;
         if(!isApply && courseCount==1){
             SysMsg.info("您已将所选课程全部退出，不再参加此次培训。如果需要重新选课，请在“培训班次”菜单中选课。",function(){
                 $.hideView();

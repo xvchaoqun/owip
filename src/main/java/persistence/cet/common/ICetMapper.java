@@ -5,7 +5,6 @@ import domain.cet.CetCourse;
 import domain.cet.CetProject;
 import domain.cet.CetProjectObj;
 import domain.cet.CetTrainCourse;
-import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeType;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
@@ -37,12 +36,11 @@ public interface ICetMapper {
                                   @Param("hasSelected")Boolean hasSelected,
                                   @Param("isFinished")Byte isFinished);
 
-
     // 参训人已选课程
-    @ResultMap("persistence.cet.CetTraineeCourseMapper.BaseResultMap")
-    @Select("select cteec.* from cet_trainee_course cteec, cet_train_course ctc " +
+    @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
+    @Select("select ctc.* from cet_trainee_course cteec, cet_train_course ctc " +
             "where cteec.trainee_id=#{traineeId} and cteec.train_course_id=ctc.id order by ctc.sort_order asc")
-    public List<CetTraineeCourse> selectedCetTraineeCourses(@Param("traineeId") Integer traineeId);
+    public List<CetTrainCourse> selectedCetTrainCourses(@Param("traineeId") Integer traineeId);
 
     // 参训人未选课程
     @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
@@ -51,13 +49,16 @@ public interface ICetMapper {
     public List<CetTrainCourse> unSelectedCetTrainCourses(@Param("trainId") Integer trainId,
                                                              @Param("traineeId") Integer traineeId);
 
-    // 培训班 选择 课程
+    // 培训班 选择 线上或线下课程
     List<CetCourse> cetTrainCourse_selectCourses(@Param("trainId") int trainId,
                                                  @Param("expertId") Integer expertId,
-                                                 @Param("name") String name, RowBounds rowBounds);
+                                                 @Param("name") String name,
+                                                 @Param("courseTypes") Byte[] courseTypes,
+                                                 RowBounds rowBounds);
     int cetTrainCourse_countCourses(@Param("trainId") int trainId,
                                     @Param("expertId") Integer expertId,
-                                    @Param("name") String name);
+                                    @Param("name") String name,
+                                    @Param("courseTypes") Byte[] courseTypes);
 
     // 获取参训人员第二天的第一堂课
     @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")

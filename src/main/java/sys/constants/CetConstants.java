@@ -6,24 +6,24 @@ import java.util.Map;
 public class CetConstants {
 
     // 专题培训-培训形式，1 线下培训  2 线上培训  3 上级网上专题班  4 分组研讨  5 实践教学  6 自主学习  7 其他单位主办  8 撰写心得体会
-    public final static byte CET_SPECIAL_PLAN_TYPE_OFFLINE = 1;
-    public final static byte CET_SPECIAL_PLAN_TYPE_ONLINE = 2;
-    public final static byte CET_SPECIAL_PLAN_TYPE_ONLINE_SPECIAL = 3;
-    public final static byte CET_SPECIAL_PLAN_TYPE_GROUP = 4;
-    public final static byte CET_SPECIAL_PLAN_TYPE_TEACH = 5;
-    public final static byte CET_SPECIAL_PLAN_TYPE_OWN = 6;
-    public final static byte CET_SPECIAL_PLAN_TYPE_OTHER_UNIT = 7;
-    public final static byte CET_SPECIAL_PLAN_TYPE_WRITE = 8;
-    public final static Map<Byte, String> CET_SPECIAL_PLAN_TYPE_MAP = new LinkedHashMap();
+    public final static byte CET_PROJECT_PLAN_TYPE_OFFLINE = 1;
+    public final static byte CET_PROJECT_PLAN_TYPE_ONLINE = 2;
+    public final static byte CET_PROJECT_PLAN_TYPE_ONLINE_SPECIAL = 3;
+    public final static byte CET_PROJECT_PLAN_TYPE_GROUP = 4;
+    public final static byte CET_PROJECT_PLAN_TYPE_PRACTICE = 5;
+    public final static byte CET_PROJECT_PLAN_TYPE_OWN = 6;
+    public final static byte CET_PROJECT_PLAN_TYPE_OTHER_UNIT = 7;
+    public final static byte CET_PROJECT_PLAN_TYPE_WRITE = 8;
+    public final static Map<Byte, String> CET_PROJECT_PLAN_TYPE_MAP = new LinkedHashMap();
     static {
-        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_OFFLINE, "线下培训");
-        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_ONLINE, "线上培训");
-        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_ONLINE_SPECIAL, "上级网上专题班");
-        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_GROUP, "分组研讨");
-        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_TEACH, "实践教学");
-        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_OWN, "自主学习");
-        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_OTHER_UNIT, "其他单位主办");
-        CET_SPECIAL_PLAN_TYPE_MAP.put(CET_SPECIAL_PLAN_TYPE_WRITE, "撰写心得体会");
+        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_OFFLINE, "线下培训");
+        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_ONLINE, "线上培训");
+        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_ONLINE_SPECIAL, "上级网上专题班");
+        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_GROUP, "分组研讨");
+        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_PRACTICE, "实践教学");
+        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_OWN, "自主学习");
+        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_OTHER_UNIT, "其他单位主办");
+        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_WRITE, "撰写心得体会");
     }
     // 参训人员类型模板
     public final static byte CET_TRAINEE_TYPE_TEMPLATE_A = 1;
@@ -35,6 +35,49 @@ public class CetConstants {
         CET_TRAINEE_TYPE_TEMPLATE_MAP.put(CET_TRAINEE_TYPE_TEMPLATE_A, "模板A（中层干部、后备干部）");
         CET_TRAINEE_TYPE_TEMPLATE_MAP.put(CET_TRAINEE_TYPE_TEMPLATE_B, "模板B（分党委班子成员、党支部班子成员、组织员）");
         CET_TRAINEE_TYPE_TEMPLATE_MAP.put(CET_TRAINEE_TYPE_TEMPLATE_C, "模板C（入党积极分子）：待定");
+    }
+
+    // 课程中心 类型，0 线下课程 1 线上课程 2 自主学习 3 实践教学 4 网上专题培训班
+    public final static byte CET_COURSE_TYPE_OFFLINE = 0;
+    public final static byte CET_COURSE_TYPE_ONLINE = 1;
+    public final static byte CET_COURSE_TYPE_SELF = 2;
+    public final static byte CET_COURSE_TYPE_PRACTICE = 3;
+    public final static byte CET_COURSE_TYPE_SPECIAL = 4;
+    public static Map<Byte, String> CET_COURSE_TYPE_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+
+        CET_COURSE_TYPE_MAP.put(CET_COURSE_TYPE_OFFLINE, "线下课程");
+        CET_COURSE_TYPE_MAP.put(CET_COURSE_TYPE_ONLINE, "线上课程");
+        CET_COURSE_TYPE_MAP.put(CET_COURSE_TYPE_SELF, "自主学习");
+        CET_COURSE_TYPE_MAP.put(CET_COURSE_TYPE_PRACTICE, "实践教学");
+        CET_COURSE_TYPE_MAP.put(CET_COURSE_TYPE_SPECIAL, "网上专题培训班");
+    }
+
+    // 培训计划 状态，0 未启动、 1 正在进行、 2 已结束
+    public final static byte CET_PROJECT_STATUS_INIT = 0;
+    public final static byte CET_PROJECT_STATUS_START = 1;
+    public final static byte CET_PROJECT_STATUS_FINISH = 2;
+    public static Map<Byte, String> CET_PROJECT_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+
+        CET_PROJECT_STATUS_MAP.put(CET_PROJECT_STATUS_INIT, "未启动");
+        CET_PROJECT_STATUS_MAP.put(CET_PROJECT_STATUS_START, "正在进行");
+        CET_PROJECT_STATUS_MAP.put(CET_PROJECT_STATUS_FINISH, "已结束");
+    }
+
+    // 培训计划 发布状态，0 未发布 1 已发布  2 取消发布
+    public final static byte CET_PROJECT_PUB_STATUS_UNPUBLISHED = 0;
+    public final static byte CET_PROJECT_PUB_STATUS_PUBLISHED = 1;
+    public final static byte CET_PROJECT_PUB_STATUS_CANCEL = 2;
+    public static Map<Byte, String> CET_PROJECT_PUB_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+
+        CET_PROJECT_PUB_STATUS_MAP.put(CET_PROJECT_PUB_STATUS_UNPUBLISHED, "未发布");
+        CET_PROJECT_PUB_STATUS_MAP.put(CET_PROJECT_PUB_STATUS_PUBLISHED, "已发布");
+        CET_PROJECT_PUB_STATUS_MAP.put(CET_PROJECT_PUB_STATUS_CANCEL, "取消发布");
     }
 
     // 培训班 发布状态，0 未发布 1 已发布  2 取消发布

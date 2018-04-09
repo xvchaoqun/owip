@@ -3,7 +3,6 @@ package service.cet;
 import controller.global.OpException;
 import domain.cet.CetCourse;
 import domain.cet.CetCourseExample;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import sys.constants.CetConstants;
 import sys.utils.DateUtils;
 
 import java.util.Arrays;
@@ -19,22 +19,22 @@ import java.util.List;
 @Service
 public class CetCourseService extends BaseMapper {
 
-    public boolean idDuplicate(Integer id, int year, boolean isOnline, int num){
+    public boolean idDuplicate(Integer id, int year, byte type, int num){
 
         CetCourseExample example = new CetCourseExample();
         CetCourseExample.Criteria criteria = example.createCriteria()
-                .andYearEqualTo(year).andIsOnlineEqualTo(isOnline).andNumEqualTo(num);
+                .andYearEqualTo(year).andTypeEqualTo(type).andNumEqualTo(num);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return cetCourseMapper.countByExample(example) > 0;
     }
 
     // C20181001
-    public int genNum(int year, boolean isOnline){
+    public int genNum(int year, byte type){
 
         int num ;
         CetCourseExample example = new CetCourseExample();
-        example.createCriteria().andYearEqualTo(year).andIsOnlineEqualTo(isOnline);
+        example.createCriteria().andYearEqualTo(year).andTypeEqualTo(type);
         example.setOrderByClause("num desc");
         List<CetCourse> records = cetCourseMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
         if(records.size()>0){
@@ -56,26 +56,20 @@ public class CetCourseService extends BaseMapper {
     @CacheEvict(value="CetCourse", key = "#record.id")
     public void insertSelective(CetCourse record){
 
-        Assert.isTrue(record.getFoundDate()!=null, "null");
-        record.setIsOnline(BooleanUtils.isTrue(record.getIsOnline()));
+        Assert.isTrue(record.getFoundDate()!=null
+                && CetConstants.CET_COURSE_TYPE_MAP.containsKey(record.getType()), "null");
+
         record.setYear(DateUtils.getYear(record.getFoundDate()));
         if(record.getNum()==null){
-            record.setNum(genNum(record.getYear(), record.getIsOnline()));
+            record.setNum(genNum(record.getYear(), record.getType()));
         }
 
-        if(idDuplicate(null, record.getYear(), record.getIsOnline(), record.getNum())){
+        if(idDuplicate(null, record.getYear(), record.getType(), record.getNum())){
             throw new OpException("编号重复。");
         }
 
-        record.setSortOrder(getNextSortOrder("cet_course", "1=1"));
+        record.setSortOrder(getNextSortOrder("cet_course", "type="+ record.getType()));
         cetCourseMapper.insertSelective(record);
-    }
-
-    @Transactional
-    @CacheEvict(value="CetCourse", key = "#id")
-    public void del(Integer id){
-
-        cetCourseMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
@@ -86,20 +80,24 @@ public class CetCourseService extends BaseMapper {
 
         CetCourseExample example = new CetCourseExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        cetCourseMapper.deleteByExample(example);
+        CetCourse record = new CetCourse();
+        record.setIsDeleted(true);
+
+        cetCourseMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional
     @CacheEvict(value="CetCourse", key = "#record.id")
     public int updateByPrimaryKeySelectiveWithNum(CetCourse record){
 
-        Assert.isTrue(record.getFoundDate()!=null, "null");
-        record.setIsOnline(BooleanUtils.isTrue(record.getIsOnline()));
+        Assert.isTrue(record.getFoundDate()!=null
+                && CetConstants.CET_COURSE_TYPE_MAP.containsKey(record.getType()), "null");
+
         record.setYear(DateUtils.getYear(record.getFoundDate()));
         if(record.getNum()==null){
-            record.setNum(genNum(record.getYear(), record.getIsOnline()));
+            record.setNum(genNum(record.getYear(), record.getType()));
         }
-        if (idDuplicate(record.getId(), record.getYear(), record.getIsOnline(), record.getNum())) {
+        if (idDuplicate(record.getId(), record.getYear(), record.getType(), record.getNum())) {
             throw new OpException("编号重复。");
         }
 
@@ -112,7 +110,7 @@ public class CetCourseService extends BaseMapper {
     public int updateByPrimaryKeySelectiveWithoutNum(CetCourse record){
 
         record.setYear(null);
-        record.setIsOnline(null);
+        record.setType(null);
         record.setNum(null);
 
         return cetCourseMapper.updateByPrimaryKeySelective(record);
@@ -149,9 +147,9 @@ public class CetCourseService extends BaseMapper {
             CetCourse targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("cet_course", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cet_course", "type="+ entity.getType(), baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cet_course", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cet_course", "type="+ entity.getType(), baseSortOrder, targetEntity.getSortOrder());
 
             CetCourse record = new CetCourse();
             record.setId(id);

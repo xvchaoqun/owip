@@ -181,7 +181,23 @@
 
 <c:set value="<%=ScConstants.SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP%>" var="SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP"/>
 
-<c:set value="<%=CetConstants.CET_SPECIAL_PLAN_TYPE_MAP%>" var="CET_SPECIAL_PLAN_TYPE_MAP"/>
+<c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE%>" var="CET_PROJECT_PLAN_TYPE_OFFLINE"/>
+<c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE%>" var="CET_PROJECT_PLAN_TYPE_PRACTICE"/>
+<c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_MAP%>" var="CET_PROJECT_PLAN_TYPE_MAP"/>
+
+<c:set value="<%=CetConstants.CET_COURSE_TYPE_OFFLINE%>" var="CET_COURSE_TYPE_OFFLINE"/>
+<c:set value="<%=CetConstants.CET_COURSE_TYPE_ONLINE%>" var="CET_COURSE_TYPE_ONLINE"/>
+<c:set value="<%=CetConstants.CET_COURSE_TYPE_SELF%>" var="CET_COURSE_TYPE_SELF"/>
+<c:set value="<%=CetConstants.CET_COURSE_TYPE_PRACTICE%>" var="CET_COURSE_TYPE_PRACTICE"/>
+<c:set value="<%=CetConstants.CET_COURSE_TYPE_SPECIAL%>" var="CET_COURSE_TYPE_SPECIAL"/>
+<c:set value="<%=CetConstants.CET_COURSE_TYPE_MAP%>" var="CET_COURSE_TYPE_MAP"/>
+
+<c:set value="<%=CetConstants.CET_PROJECT_STATUS_INIT%>" var="CET_PROJECT_STATUS_INIT"/>
+<c:set value="<%=CetConstants.CET_PROJECT_STATUS_START%>" var="CET_PROJECT_STATUS_START"/>
+<c:set value="<%=CetConstants.CET_PROJECT_STATUS_FINISH%>" var="CET_PROJECT_STATUS_FINISH"/>
+
+<c:set value="<%=CetConstants.CET_PROJECT_PUB_STATUS_PUBLISHED%>" var="CET_PROJECT_PUB_STATUS_PUBLISHED"/>
+
 <c:set value="<%=CetConstants.CET_TRAINEE_TYPE_TEMPLATE_MAP%>" var="CET_TRAINEE_TYPE_TEMPLATE_MAP"/>
 
 <c:set value="<%=CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT%>" var="CET_TRAIN_ENROLL_STATUS_DEFAULT"/>

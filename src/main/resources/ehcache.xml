@@ -11,6 +11,23 @@
                       propertySeparator="," />
        </defaultCache>
 
+       <cache name="CetCourseFiles"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+       <cache name="CetCourseItems"
+           eternal="false"
+           maxElementsInMemory="2000"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+
        <cache name="CetCourse"
            eternal="false"
            maxElementsInMemory="2000"

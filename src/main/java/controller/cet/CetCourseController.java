@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CetConstants;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -24,6 +25,7 @@ import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.NumberUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,13 +45,13 @@ public class CetCourseController extends CetBaseController {
 
     @RequiresPermissions("cetCourse:list")
     @RequestMapping("/cetCourse")
-    public String cetCourse(@RequestParam(defaultValue = "1") Integer cls, Byte isOnline, ModelMap modelMap) {
+    public String cetCourse(@RequestParam(defaultValue = "1") Integer cls, byte type, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         if (cls == 2) {
-            return "forward:/cet/cetColumn?type=1&isOnline="+ isOnline;
+            return "forward:/cet/cetColumn?columnType=1&isOnline="+ (type== CetConstants.CET_COURSE_TYPE_ONLINE?1:0);
         }else if (cls == 3) {
-            return "forward:/cet/cetColumn?type=2&isOnline="+ isOnline;
+            return "forward:/cet/cetColumn?columnType=2&isOnline="+ (type== CetConstants.CET_COURSE_TYPE_ONLINE?1:0);
         }
 
         Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
@@ -61,7 +63,7 @@ public class CetCourseController extends CetBaseController {
     @RequiresPermissions("cetCourse:list")
     @RequestMapping("/cetCourse_data")
     public void cetCourse_data(HttpServletResponse response,
-                                    boolean isOnline,
+                                    byte type,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -76,7 +78,7 @@ public class CetCourseController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetCourseExample example = new CetCourseExample();
-        Criteria criteria = example.createCriteria().andIsOnlineEqualTo(isOnline);
+        Criteria criteria = example.createCriteria().andTypeEqualTo(type);
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(name)) {
@@ -131,22 +133,36 @@ public class CetCourseController extends CetBaseController {
 
     @RequiresPermissions("cetCourse:edit")
     @RequestMapping("/cetCourse_au")
-    public String cetCourse_au(Integer id, Boolean isOnline, ModelMap modelMap) {
+    public String cetCourse_au(Integer id, Byte type, ModelMap modelMap) {
 
         if (id != null) {
             CetCourse cetCourse = cetCourseService.get(id);
             modelMap.put("cetCourse", cetCourse);
             if(cetCourse!=null){
-                isOnline = cetCourse.getIsOnline();
+                type = cetCourse.getType();
             }
         }
+        modelMap.put("type", type);
 
-        modelMap.put("isOnline", isOnline);
+        // 线下、线上课程
+        if(NumberUtils.contains(type, CetConstants.CET_COURSE_TYPE_ONLINE,
+                CetConstants.CET_COURSE_TYPE_OFFLINE)) {
+            Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
+            modelMap.put("courseTypes", courseTypeMap.values());
 
-        Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
-        modelMap.put("courseTypes", courseTypeMap.values());
+            return "cet/cetCourse/cetCourse_au";
+        }else if(type==CetConstants.CET_COURSE_TYPE_SELF){
 
-        return "cet/cetCourse/cetCourse_au";
+            return "cet/cetCourse/cetCourse_au_self";
+        }else if(type==CetConstants.CET_COURSE_TYPE_PRACTICE){
+
+            return "cet/cetCourse/cetCourse_au_practice";
+        }else if(type==CetConstants.CET_COURSE_TYPE_SPECIAL){
+
+            return "cet/cetCourse/cetCourse_au_special";
+        }
+
+        return null;
     }
 
     @RequiresPermissions("cetCourse:edit")
@@ -194,19 +210,6 @@ public class CetCourseController extends CetBaseController {
         cetCourseService.updateByPrimaryKeySelectiveWithoutNum(record);
         logger.info(addLog(SystemConstants.LOG_CET, "更新课程要点：%s", id));
 
-        return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetCourse:del")
-    @RequestMapping(value = "/cetCourse_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_cetCourse_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            cetCourseService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除课程中心：%s", id));
-        }
         return success(FormUtils.SUCCESS);
     }
 
@@ -259,7 +262,7 @@ public class CetCourseController extends CetBaseController {
 
     @RequestMapping("/cetCourse_selects")
     @ResponseBody
-    public Map cetCourse_selects(Integer pageSize, Integer pageNo, Boolean isOnline, String searchStr) throws IOException {
+    public Map cetCourse_selects(Integer pageSize, Integer pageNo, Byte type, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -273,8 +276,8 @@ public class CetCourseController extends CetBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
-        if(isOnline!=null){
-            criteria.andIsOnlineEqualTo(isOnline);
+        if(type!=null){
+            criteria.andTypeEqualTo(type);
         }
 
         if(StringUtils.isNotBlank(searchStr)){

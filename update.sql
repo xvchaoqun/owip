@@ -1,4 +1,59 @@
 
+
+
+
+
+2018-4-10
+
+更新 cet_train_course_stat_view
+
+新建 cet_expert_view
+
+更新 cet_train_inspector_view
+
+
+ALTER TABLE `cet_project`
+	ADD COLUMN `status` TINYINT NOT NULL DEFAULT '0' COMMENT '状态，0 未启动、 1 正在进行、 2 已结束' AFTER `remark`;
+
+ALTER TABLE `cet_project`
+	CHANGE COLUMN `status` `status` TINYINT(3) NOT NULL DEFAULT '0' COMMENT '状态，0 未启动、 1 正在进行、 2 已结束' AFTER `remark`,
+	ADD COLUMN `pub_status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '发布状态，0 未发布 1 已发布  2 取消发布' AFTER `status`;
+
+更新 cet_project_view
+
+
+ALTER TABLE `cet_course`
+	CHANGE COLUMN `is_online` `type` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '类型，0 线下课程 1 线上课程 2 自主学习 3 实践教学 4 网上专题培训班' AFTER `year`,
+	CHANGE COLUMN `name` `name` VARCHAR(200) NOT NULL COMMENT '课程名称，或自主学习名称、实践教学名称、 网上专题培训班名称' AFTER `found_date`,
+	ADD COLUMN `address` VARCHAR(200) NULL COMMENT '实践教学地点，或上级单位名称（网上专题）' AFTER `name`,
+	CHANGE COLUMN `has_summary` `has_summary` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否提交了课程要点，针对线下和线上课程' AFTER `address`,
+	CHANGE COLUMN `summary` `summary` TEXT NULL COMMENT '课程要点，针对线下和线上课程' AFTER `has_summary`,
+	CHANGE COLUMN `expert_id` `expert_id` INT(10) UNSIGNED NULL COMMENT '主讲人，针对线下和线上课程' AFTER `summary`,
+	CHANGE COLUMN `teach_method` `teach_method` INT(10) UNSIGNED NULL COMMENT '授课方式，关联元数据，针对线下和线上课程' AFTER `expert_id`,
+	CHANGE COLUMN `period` `period` DECIMAL(10,1) NOT NULL COMMENT '学时，上级网上专题班时设置为0' AFTER `teach_method`,
+	CHANGE COLUMN `duration` `duration` DECIMAL(10,1) NULL DEFAULT NULL COMMENT '时长，针对线上课程' AFTER `period`,
+	CHANGE COLUMN `course_type_id` `course_type_id` INT(10) UNSIGNED NULL COMMENT '专题分类，针对线下和线上课程' AFTER `duration`,
+	CHANGE COLUMN `sort_order` `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序，每种类型内部的排序' AFTER `course_type_id`;
+
+ALTER TABLE `cet_course`
+	DROP INDEX `year_is_online_num`,
+	ADD UNIQUE INDEX `year_type_num` (`year`, `type`, `num`);
+
+	ALTER TABLE `cet_train_course`
+	COMMENT='培训班课程',
+	CHANGE COLUMN `course_id` `course_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属课程，允许为空（不从课程中心关联，直接创建课程）' AFTER `train_id`,
+	CHANGE COLUMN `name` `name` VARCHAR(50) NULL DEFAULT NULL COMMENT '名称，直接创建的课程名称（包括专题班测评名称）' AFTER `course_id`,
+	CHANGE COLUMN `teacher` `teacher` VARCHAR(50) NULL DEFAULT NULL COMMENT '教师名称，直接创建课程时设置的教师名称' AFTER `name`;
+
+新建 cet_course_file
+cet_course_item
+-- cet_train_course_obj
+-- cet_train_course_obj_item
+
+cet_train_course_file
+
+
+
 2018-4-8
 更新 cet_train_view
 

@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set value="${param.type==1?'重点专题':'特色栏目'}" var="typeName"/>
-<c:set value="${param.type==1?'重点子专题':'特色子栏目'}" var="subTypeName"/>
+<c:set value="${columnType==1?'重点专题':'特色栏目'}" var="typeName"/>
+<c:set value="${columnType==1?'重点子专题':'特色子栏目'}" var="subTypeName"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${cetColumn!=null}">编辑</c:if><c:if test="${cetColumn==null}">添加</c:if>${param.fid>0?subTypeName:typeName}</h3>
@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="id" value="${cetColumn.id}">
         <input type="hidden" name="isOnline" value="${isOnline}">
         <input type="hidden" name="fid" value="${fid}">
-        <input type="hidden" name="type" value="${type}">
+        <input type="hidden" name="type" value="${columnType}">
 
 		<div class="form-group">
 			<label class="col-xs-3 control-label">名称</label>

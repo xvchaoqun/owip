@@ -30,7 +30,7 @@ pageEncoding="UTF-8"%>
 							data-width="275"
 							data-placeholder="请选择">
 						<option></option>
-						<c:forEach var="_type" items="${CET_SPECIAL_PLAN_TYPE_MAP}">
+						<c:forEach var="_type" items="${CET_PROJECT_PLAN_TYPE_MAP}">
 							<option value="${_type.key}">
 									${_type.value}
 							</option>

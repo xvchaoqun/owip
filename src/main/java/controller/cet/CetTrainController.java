@@ -44,11 +44,8 @@ public class CetTrainController extends CetBaseController {
 
     @RequiresPermissions("cetTrain:list")
     @RequestMapping("/cetTrain")
-    public String cetTrain(@RequestParam(defaultValue = "1") Integer cls,
-                           @RequestParam(defaultValue = "1")Boolean isOnCampus,
+    public String cetTrain(@RequestParam(defaultValue = "1")Boolean isOnCampus,
                            ModelMap modelMap) {
-
-        modelMap.put("cls", cls);
 
         return isOnCampus?"cet/cetTrain/cetTrain_page":"cet/cetTrain/cetTrain_off_page";
     }
@@ -56,7 +53,6 @@ public class CetTrainController extends CetBaseController {
     @RequiresPermissions("cetTrain:list")
     @RequestMapping("/cetTrain_data")
     public void cetTrain_data(HttpServletResponse response,
-                                    @RequestParam(defaultValue = "1") Integer cls,
                                     @RequestParam(defaultValue = "1")Boolean isOnCampus,
                                     Integer planId,
                                     String name,
@@ -77,13 +73,6 @@ public class CetTrainController extends CetBaseController {
                 .andIsOnCampusEqualTo(isOnCampus);
         if(planId!=null){
             criteria.andPlanIdEqualTo(planId);
-        }
-        if(cls==1){
-            criteria.andIsDeletedEqualTo(false).andIsFinishedEqualTo(false);
-        }else if(cls==2){
-            criteria.andIsDeletedEqualTo(false).andIsFinishedEqualTo(true);
-        }else if(cls==3){
-            criteria.andIsDeletedEqualTo(true);
         }
 
         example.setOrderByClause("create_time desc");
@@ -294,7 +283,7 @@ public class CetTrainController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetTrain:del")
+    /*@RequiresPermissions("cetTrain:del")
     @RequestMapping(value = "/cetTrain_fakeDel", method = RequestMethod.POST)
     @ResponseBody
     public Map cetTrain_fakeDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -306,7 +295,7 @@ public class CetTrainController extends CetBaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     @RequiresPermissions("cetTrain:del")
     @RequestMapping(value = "/cetTrain_batchDel", method = RequestMethod.POST)
@@ -381,7 +370,7 @@ public class CetTrainController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetTrainExample example = new CetTrainExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
         example.setOrderByClause("create_time desc");
 
         if(StringUtils.isNotBlank(searchStr)){

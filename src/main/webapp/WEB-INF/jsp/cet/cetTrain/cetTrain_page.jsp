@@ -7,7 +7,6 @@
             <a href="javascript:" class="openView btn btn-xs btn-success"
                data-url="${ctx}/cet/cetProject_detail?projectId=${cetProjectPlan.projectId}">
                 <i class="ace-icon fa fa-backward"></i> 返回</a>
-
         </h4>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" id="detail-ul">
@@ -19,133 +18,109 @@
     </div>
     <div class="widget-body">
         <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
-            <div class="tab-content padding-4 rownumbers">
-                <!-- PAGE CONTENT BEGINS -->
-                <c:set var="_query"
-                       value="${not empty param.year ||not empty param.num ||not empty param.name || not empty param.code || not empty param.sort}"/>
-                <div class="tabbable">
-                    <jsp:include page="menu.jsp"/>
-                    <div class="tab-content">
-                        <div id="home4" class="tab-pane in active">
-                            <div class="jqgrid-vertical-offset buttons">
-                                <c:if test="${cls==1}">
-                                    <shiro:hasPermission name="cetTrain:edit">
-                                        <button class="popupBtn btn btn-info btn-sm"
-                                                data-url="${ctx}/cet/cetTrain_au?planId=${param.planId}"><i
-                                                class="fa fa-plus"></i> 创建培训班
-                                        </button>
-                                        <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                                                data-url="${ctx}/cet/cetTrain_au"
-                                                data-grid-id="#jqGrid3"><i class="fa fa-edit"></i>
-                                            修改
-                                        </button>
-                                        <button id="pubBtn" class="jqItemBtn btn btn-success btn-sm"
-                                                data-url="${ctx}/cet/cetTrain_pub"
-                                                data-title="发布"
-                                                data-msg="确定发布该培训班？"
-                                                data-callback="_reload3"
-                                                data-grid-id="#jqGrid3"
-                                                data-querystr="pubStatus=1"><i class="fa fa-check"></i>
-                                            发布
-                                        </button>
-                                        <button id="unPubBtn" class="jqItemBtn btn btn-warning btn-sm"
-                                                data-url="${ctx}/cet/cetTrain_pub"
-                                                data-title="取消发布"
-                                                data-msg="确定取消发布该培训班？"
-                                                data-callback="_reload3"
-                                                data-grid-id="#jqGrid3"
-                                                data-querystr="pubStatus=2"><i class="fa fa-times"></i>
-                                            取消发布
-                                        </button>
-                                        <button id="finishBtn" class="jqItemBtn btn btn-primary btn-sm"
-                                                data-url="${ctx}/cet/cetTrain_finish"
-                                                data-title="结课"
-                                                data-msg="确定培训班结课？"
-                                                data-callback="_reload3"
-                                                data-grid-id="#jqGrid3"
-                                                ><i class="fa fa-dot-circle-o"></i>
-                                            结课
-                                        </button>
-                                    </shiro:hasPermission>
-                                </c:if>
-                                <c:if test="${cls==1||cls==2}">
-                                    <shiro:hasPermission name="cetTrain:del">
-                                        <button data-url="${ctx}/cet/cetTrain_fakeDel"
-                                                data-title="删除"
-                                                data-msg="确定删除这{0}条数据？"
-                                                data-grid-id="#jqGrid3"
-                                                class="jqBatchBtn btn btn-danger btn-sm">
-                                            <i class="fa fa-trash"></i> 删除
-                                        </button>
-                                    </shiro:hasPermission>
-                                </c:if>
-                                <c:if test="${cls==3}">
-                                    <button data-url="${ctx}/cet/cetTrain_batchDel"
-                                            data-title="彻底删除"
-                                            data-msg="确定彻底删除这{0}条数据？（该培训班下的所有数据均将彻底删除，请谨慎操作！）"
-                                            data-grid-id="#jqGrid3"
-                                            class="jqBatchBtn btn btn-danger btn-sm">
-                                        <i class="fa fa-trash"></i> 彻底删除
-                                    </button>
-                                </c:if>
-                                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                                    <i class="fa fa-download"></i> 导出</a>
-                            </div>
-                            <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
-                                <div class="widget-header">
-                                    <h4 class="widget-title">搜索</h4>
+            <c:set var="_query"
+                   value="${not empty param.year ||not empty param.num ||not empty param.name || not empty param.code || not empty param.sort}"/>
+            <div class="jqgrid-vertical-offset buttons">
+                <shiro:hasPermission name="cetTrain:edit">
+                    <button class="popupBtn btn btn-info btn-sm"
+                            data-url="${ctx}/cet/cetTrain_au?planId=${param.planId}"><i
+                            class="fa fa-plus"></i> 创建培训班
+                    </button>
+                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
+                            data-url="${ctx}/cet/cetTrain_au"
+                            data-grid-id="#jqGrid3"><i class="fa fa-edit"></i>
+                        修改
+                    </button>
+                    <button id="pubBtn" class="jqItemBtn btn btn-success btn-sm"
+                            data-url="${ctx}/cet/cetTrain_pub"
+                            data-title="发布"
+                            data-msg="确定发布该培训班？"
+                            data-callback="_reload3"
+                            data-grid-id="#jqGrid3"
+                            data-querystr="pubStatus=1"><i class="fa fa-check"></i>
+                        发布
+                    </button>
+                    <button id="unPubBtn" class="jqItemBtn btn btn-warning btn-sm"
+                            data-url="${ctx}/cet/cetTrain_pub"
+                            data-title="取消发布"
+                            data-msg="确定取消发布该培训班？"
+                            data-callback="_reload3"
+                            data-grid-id="#jqGrid3"
+                            data-querystr="pubStatus=2"><i class="fa fa-times"></i>
+                        取消发布
+                    </button>
+                    <button id="finishBtn" class="jqItemBtn btn btn-primary btn-sm"
+                            data-url="${ctx}/cet/cetTrain_finish"
+                            data-title="结课"
+                            data-msg="确定培训班结课？"
+                            data-callback="_reload3"
+                            data-grid-id="#jqGrid3"
+                            ><i class="fa fa-dot-circle-o"></i>
+                        结课
+                    </button>
+                </shiro:hasPermission>
 
-                                    <div class="widget-toolbar">
-                                        <a href="#" data-action="collapse">
-                                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="widget-body">
-                                    <div class="widget-main no-padding">
-                                        <form class="form-inline search-form" id="searchForm">
-                                            <input type="hidden" name="cls" value="${cls}">
-                                            <div class="form-group">
-                                                <label>年度</label>
-                                                <input class="form-control search-query" name="year" type="text"
-                                                       value="${param.year}"
-                                                       placeholder="请输入年度">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>编号</label>
-                                                <input class="form-control search-query" name="num" type="text"
-                                                       value="${param.num}"
-                                                       placeholder="请输入编号">
-                                            </div>
-                                            <div class="form-group">
-                                                <label>培训班名称</label>
-                                                <input class="form-control search-query" name="name" type="text"
-                                                       value="${param.name}"
-                                                       placeholder="请输入培训班名称">
-                                            </div>
-                                            <div class="clearfix form-actions center">
-                                                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
-                                                    查找</a>
+                <button data-url="${ctx}/cet/cetTrain_batchDel"
+                        data-title="彻底删除"
+                        data-msg="确定彻底删除这{0}条数据？（该培训班下的所有数据均将彻底删除，删除后无法恢复，请谨慎操作！）"
+                        data-grid-id="#jqGrid3"
+                        class="jqBatchBtn btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i> 彻底删除
+                </button>
+                <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+                    <i class="fa fa-download"></i> 导出</a>
+            </div>
+            <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                <div class="widget-header">
+                    <h4 class="widget-title">搜索</h4>
 
-                                                <c:if test="${_query}">&nbsp;
-                                                    <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                                            data-querystr="cls=${cls}">
-                                                        <i class="fa fa-reply"></i> 重置
-                                                    </button>
-                                                </c:if>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>--%>
-                            <div class="space-4"></div>
-                            <table id="jqGrid3" class="jqGrid2 table-striped"></table>
-                            <div id="jqGridPager3"></div>
-                        </div>
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                        </a>
                     </div>
                 </div>
-            </div>
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <form class="form-inline search-form" id="searchForm">
+                            <input type="hidden" name="cls" value="${cls}">
+                            <div class="form-group">
+                                <label>年度</label>
+                                <input class="form-control search-query" name="year" type="text"
+                                       value="${param.year}"
+                                       placeholder="请输入年度">
+                            </div>
+                            <div class="form-group">
+                                <label>编号</label>
+                                <input class="form-control search-query" name="num" type="text"
+                                       value="${param.num}"
+                                       placeholder="请输入编号">
+                            </div>
+                            <div class="form-group">
+                                <label>培训班名称</label>
+                                <input class="form-control search-query" name="name" type="text"
+                                       value="${param.name}"
+                                       placeholder="请输入培训班名称">
+                            </div>
+                            <div class="clearfix form-actions center">
+                                <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
+                                    查找</a>
+
+                                <c:if test="${_query}">&nbsp;
+                                    <button type="button" class="resetBtn btn btn-warning btn-sm"
+                                            data-querystr="cls=${cls}">
+                                        <i class="fa fa-reply"></i> 重置
+                                    </button>
+                                </c:if>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>--%>
+            <div class="space-4"></div>
+            <table id="jqGrid3" class="jqGrid2 table-striped"></table>
+            <div id="jqGridPager3"></div>
         </div>
     </div>
 </div>
@@ -164,40 +139,34 @@
                         .format(rowObject.id);
             }, frozen: true
             },
-            {label: '培训班类型', name: 'type', width: 250, formatter: $.jgrid.formatter.MetaType, frozen: true},
-            {label: '培训班名称', name: 'name', width: 300, align: 'left', frozen: true},
-            {label: '可选课人数', name: 'objCount', width: 90},
             {
-                label: '选课情况', name: 'switchStatusText', formatter: function (cellvalue, options, rowObject) {
-                var isOpen = (rowObject.switchStatus ==${CET_TRAIN_ENROLL_STATUS_OPEN});
-                var str = cellvalue;
-                if (isOpen || rowObject.traineeCount > 0) {
-                    str += "(" + rowObject.traineeCount + ")"
-                    if (isOpen) str = '<span class="text-success bolder">' + str + '</span>'
-                }
-                return (str == undefined) ? '-' : str;
-            }
-            },
-            {
-                label: '发布状态', name: '_pubStatus', formatter: function (cellvalue, options, rowObject) {
+                label: '发布状态', name: '_pubStatus', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.pubStatus == undefined) return '-';
                 return ('<span class="{0}">' + _cMap.CET_TRAIN_PUB_STATUS_MAP[rowObject.pubStatus] + '</span>')
                         .format(rowObject.pubStatus !=${CET_TRAIN_PUB_STATUS_PUBLISHED} ? 'text-danger bolder' : 'text-success');
 
-            }
-            },
-
-            <c:if test="${cls==3||cls==4}">
+            }, frozen: true},
             {
-                label: '状态', name: '_isFinished', width: 110, formatter: function (cellvalue, options, rowObject) {
-                var str = rowObject.isFinished ? '已结课' : '未结课';
-                <c:if test="${cls==4}">
-                str += rowObject.isDeleted ? '(已删除)' : '';
-                </c:if>
-                return str;
-            }
+                label: '结课状态', name: '_isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return rowObject.isFinished ? '已结课' : '未结课';
+            }, frozen: true},
+            {label: '培训班类型', name: 'type', width: 250, formatter: $.jgrid.formatter.MetaType, frozen: true},
+            {label: '培训班名称', name: 'name', width: 300, align: 'left', frozen: true},
+            {label: '可选课人数', name: 'objCount', width: 90},
+            {
+                label: '选课情况',
+                name: 'switchStatusText',
+                width: 120,
+                formatter: function (cellvalue, options, rowObject) {
+                    var isOpen = (rowObject.switchStatus ==${CET_TRAIN_ENROLL_STATUS_OPEN});
+                    var str = cellvalue;
+                    if (isOpen || rowObject.traineeCount > 0) {
+                        str += "(" + rowObject.traineeCount + ")"
+                        if (isOpen) str = '<span class="text-success bolder">' + str + '</span>'
+                    }
+                    return (str == undefined) ? '-' : str;
+                }
             },
-            </c:if>
 
             {
                 label: '内容简介', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {

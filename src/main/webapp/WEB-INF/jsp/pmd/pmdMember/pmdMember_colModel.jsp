@@ -26,7 +26,7 @@
       if(!rowObject.isOnlinePay) return '-'
       return (rowObject.hasPay)?"按时缴费":"-";
     }, frozen: true},
-    { label: '工作证号',name: 'user.code', width: 120/*, formatter:function(cellvalue, options, rowObject){
+    { label: '学工号',name: 'user.code', width: 120/*, formatter:function(cellvalue, options, rowObject){
       return (rowObject.configMemberTypeId==undefined)?'<span class="text-danger">'+cellvalue+'</span>':cellvalue;
     }*/,frozen: true},
     { label: '姓名',name: 'user.realname', frozen: true},

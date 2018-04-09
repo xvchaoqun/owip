@@ -9,14 +9,16 @@
              data-url-export="${ctx}/cet/cetCourse_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
+            <c:if test="${param.type==CET_COURSE_TYPE_OFFLINE||param.type==CET_COURSE_TYPE_ONLINE}">
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
                 <div class="tab-content">
                     <div id="home4" class="tab-pane in active">
+             </c:if>
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="cetCourse:edit">
                                 <a class="popupBtn btn btn-info btn-sm"
-                                   data-url="${ctx}/cet/cetCourse_au?isOnline=${param.isOnline}"><i
+                                   data-url="${ctx}/cet/cetCourse_au?type=${param.type}"><i
                                         class="fa fa-plus"></i> 添加</a>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/cet/cetCourse_au"
@@ -34,10 +36,13 @@
                                 </button>
                             </shiro:hasPermission>
 
-                            <button class="jqOpenViewBatchBtn btn btn-info btn-sm"
-                               data-url="${ctx}/cet/cetCourse_addToTrain"
-                               data-grid-id="#jqGrid"><i class="fa fa-plus-circle"></i>
-                                添加到培训班</button>
+                            <c:if test="${param.type==CET_COURSE_TYPE_OFFLINE||param.type==CET_COURSE_TYPE_ONLINE}">
+                                <button class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/cet/cetCourse_addToTrain"
+                                        data-grid-id="#jqGrid"><i class="fa fa-plus-circle"></i>
+                                    添加到培训班</button>
+                            </c:if>
+
                             <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>--%>
@@ -56,12 +61,12 @@
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="cls" value="${cls}">
-
+                                        <input type="hidden" name="type" value="${param.type}">
                                         <div class="form-group">
-                                            <label>课程名称</label>
+                                            <label>名称</label>
                                             <input class="form-control search-query" name="name" type="text"
-                                                   value="${param.name}"
-                                                   placeholder="请输入课程名称">
+                                                   value="${param.name}" style="width: 200px;"
+                                                   placeholder="请输入${CET_COURSE_TYPE_MAP.get(cm:toByte(param.type))}名称">
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>
@@ -69,7 +74,7 @@
 
                                             <c:if test="${_query}">&nbsp;
                                                 <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                                        data-querystr="cls=${cls}">
+                                                        data-querystr="cls=${cls}&type=${param.type}">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>
@@ -82,13 +87,15 @@
                         <table id="jqGrid" class="jqGrid table-striped"></table>
                         <div id="jqGridPager"></div>
                     </div>
+        <c:if test="${param.type==CET_COURSE_TYPE_OFFLINE||param.type==CET_COURSE_TYPE_ONLINE}">
                 </div>
             </div>
         </div>
+        </c:if>
         <div id="body-content-view"></div>
     </div>
 </div>
-<jsp:include page="cetCourse_colModel.jsp?type=admin"/>
+<jsp:include page="cetCourse_colModel.jsp?list=admin&type=${param.type}"/>
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/cet/cetCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

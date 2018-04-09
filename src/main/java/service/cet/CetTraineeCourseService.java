@@ -103,24 +103,8 @@ public class CetTraineeCourseService extends BaseMapper {
         if(trainCourseIds==null || trainCourseIds.length==0) return;
 
         checkApplyIsOpen(trainId);
-        int traineeId;
-        CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
-
-        if(cetTrainee!=null) {
-
-            traineeId = cetTrainee.getId();
-        }else{
-
-            CetProjectObj cetProjectObj = iCetMapper.getCetProjectObj(userId, trainId);
-            int objId = cetProjectObj.getId();
-
-            CetTrainee record = new CetTrainee();
-            record.setObjId(objId);
-            record.setIsQuit(false);
-            record.setTrainId(trainId);
-            cetTraineeMapper.insertSelective(record);
-            traineeId = record.getId();
-        }
+        CetTraineeView cetTrainee = cetTraineeService.createIfNotExist(userId, trainId);
+        int traineeId = cetTrainee.getId();
 
         Date now = new Date();
         String ip = ContextHelper.getRealIp();
@@ -211,8 +195,8 @@ public class CetTraineeCourseService extends BaseMapper {
 
             cetTraineeCourseMapper.deleteByPrimaryKey(cetTraineeCourse.getId());
 
-            List<CetTraineeCourse> selectedCetTraineeCourses = iCetMapper.selectedCetTraineeCourses(traineeId);
-            if(selectedCetTraineeCourses.size()==0){
+            List<CetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
+            if(selectedCetTrainCourses.size()==0){
                 // 退出培训班
                 CetTrainee record = new CetTrainee();
                 record.setId(traineeId);
@@ -240,19 +224,22 @@ public class CetTraineeCourseService extends BaseMapper {
 
         checkApplyIsOpen(cetTrainee.getTrainId());
 
-        List<CetTraineeCourse> selectedCetTraineeCourses = iCetMapper.selectedCetTraineeCourses(traineeId);
+        List<CetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
 
-        for (CetTraineeCourse tc : selectedCetTraineeCourses) {
+        for (CetTrainCourse tc : selectedCetTrainCourses) {
 
-            if(tc.getIsFinished()){
-                throw new OpException("您已经完成培训课程[{0}]，不可退出培训班。", tc.getCetTrainCourse().getCetCourse().getName());
+            int trainCourseId = tc.getId();
+            CetTraineeCourse ctee = get(traineeId, trainCourseId);
+
+            if(ctee.getIsFinished()){
+                throw new OpException("您已经完成培训课程[{0}]，不可退出培训班。", tc.getCetCourse().getName());
             }
-            if(!tc.getCanQuit()){
-                throw new OpException("培训课程[{0}]是必选课程，不可退出培训班。", tc.getCetTrainCourse().getCetCourse().getName());
+            if(!ctee.getCanQuit()){
+                throw new OpException("培训课程[{0}]是必选课程，不可退出培训班。", tc.getCetCourse().getName());
             }
 
             //退课
-            applyItem(userId, tc.getTrainCourseId(), false, false, "退课");
+            applyItem(userId, trainCourseId, false, false, "退课");
         }
 
         sysApprovalLogService.add(traineeId, userId,

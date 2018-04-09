@@ -154,7 +154,12 @@ public class CrsExportService extends BaseMapper{
             // 专业技术职务评定时间
             String proPostTime = DateUtils.formatDate(cv.getProPostTime(), "yyyy.MM");
             if(cv.getProPostLevelTime()!=null){
-                proPostTime += "\r\n" + DateUtils.formatDate(cv.getProPostLevelTime(), "yyyy.MM");
+                if(proPostTime!=null){
+                    proPostTime += "\r\n";
+                }else{
+                    proPostTime="";
+                }
+                proPostTime += DateUtils.formatDate(cv.getProPostLevelTime(), "yyyy.MM");
             }
             cell = row.getCell(column++);
             cell.setCellValue(proPostTime);

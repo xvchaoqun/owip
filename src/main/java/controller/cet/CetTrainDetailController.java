@@ -1,6 +1,7 @@
 package controller.cet;
 
 import domain.base.ContentTpl;
+import domain.cet.CetProjectPlan;
 import domain.cet.CetShortMsg;
 import domain.cet.CetShortMsgExample;
 import domain.cet.CetTrain;
@@ -41,7 +42,14 @@ public class CetTrainDetailController extends CetBaseController {
         if (trainId != null) {
             CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
             modelMap.put("cetTrain", cetTrain);
+
+            Integer planId = cetTrain.getPlanId();
+            if(planId!=null) {
+                CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+                modelMap.put("cetProjectPlan", cetProjectPlan);
+            }
         }
+
         return "cet/cetTrain/cetTrain_detail/menu";
     }
 

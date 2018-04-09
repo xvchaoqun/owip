@@ -8,6 +8,7 @@
 <div class="modal-body popup-jqgrid" style="padding-top: 0">
     <form class="form-inline search-form" id="searchForm_popup" style="padding-bottom: 0">
         <input type="hidden" name="trainId" value="${cetTrain.id}">
+<c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
         <div class="form-group">
             <label>主讲人</label>
             <select data-rel="select2-ajax"
@@ -16,6 +17,7 @@
                 <option value="${cetExpert.id}">${cetExpert.realname}-${cetExpert.unit}</option>
             </select>
         </div>
+    </c:if>
         <div class="form-group">
             <label>课程名称</label>
             <input class="form-control search-query" name="name" type="text" value="${param.name}"
@@ -46,9 +48,15 @@
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input id="selectBtn" type="button" class="btn btn-primary" value="添加"/>
 </div>
-<jsp:include page="../cetCourse/cetCourse_colModel.jsp"/>
-<script>
 
+<c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
+    <c:set var="courseType" value="${CET_COURSE_TYPE_OFFLINE}"/>
+</c:if>
+<c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_PRACTICE}">
+    <c:set var="courseType" value="${CET_COURSE_TYPE_PRACTICE}"/>
+</c:if>
+<jsp:include page="../cetCourse/cetCourse_colModel.jsp?type=${courseType}"/>
+<script>
     $.register.user_select($('#searchForm_popup select[name=expertId]'));
     $("#jqGrid_popup").jqGrid({
         height: 390,
@@ -57,7 +65,7 @@
         ondblClickRow: function () {
         },
         pager: "jqGridPager_popup",
-        url: "${ctx}/cet/cetTrainCourse_selectCourses_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}",
+        url: "${ctx}/cet/cetTrainCourse_selectCourses_data?callback=?&planType=${cetProjectPlan.type}&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel: colModel
     }).jqGrid("setFrozenColumns");
     $.initNavGrid("jqGrid_popup", "jqGridPager_popup");

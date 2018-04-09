@@ -4,10 +4,11 @@
   <resultMap id="BaseResultMap" type="domain.cet.CetCourse">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="year" jdbcType="INTEGER" property="year" />
-    <result column="is_online" jdbcType="BIT" property="isOnline" />
+    <result column="type" jdbcType="TINYINT" property="type" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="found_date" jdbcType="DATE" property="foundDate" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="has_summary" jdbcType="BIT" property="hasSummary" />
     <result column="expert_id" jdbcType="INTEGER" property="expertId" />
     <result column="teach_method" jdbcType="INTEGER" property="teachMethod" />
@@ -80,7 +81,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, is_online, num, found_date, name, has_summary, expert_id, teach_method, 
+    id, year, type, num, found_date, name, address, has_summary, expert_id, teach_method, 
     period, duration, course_type_id, sort_order, remark, is_deleted
   </sql>
   <sql id="Blob_Column_List">
@@ -135,18 +136,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cet.CetCourse">
-    insert into cet_course (id, year, is_online, 
+    insert into cet_course (id, year, type, 
       num, found_date, name, 
-      has_summary, expert_id, teach_method, 
-      period, duration, course_type_id, 
-      sort_order, remark, is_deleted, 
-      summary)
-    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{isOnline,jdbcType=BIT}, 
+      address, has_summary, expert_id, 
+      teach_method, period, duration, 
+      course_type_id, sort_order, remark, 
+      is_deleted, summary)
+    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{num,jdbcType=INTEGER}, #{foundDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, 
-      #{hasSummary,jdbcType=BIT}, #{expertId,jdbcType=INTEGER}, #{teachMethod,jdbcType=INTEGER}, 
-      #{period,jdbcType=DECIMAL}, #{duration,jdbcType=DECIMAL}, #{courseTypeId,jdbcType=INTEGER}, 
-      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
-      #{summary,jdbcType=LONGVARCHAR})
+      #{address,jdbcType=VARCHAR}, #{hasSummary,jdbcType=BIT}, #{expertId,jdbcType=INTEGER}, 
+      #{teachMethod,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, #{duration,jdbcType=DECIMAL}, 
+      #{courseTypeId,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=BIT}, #{summary,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetCourse">
     insert into cet_course
@@ -157,8 +158,8 @@
       <if test="year != null">
         year,
       </if>
-      <if test="isOnline != null">
-        is_online,
+      <if test="type != null">
+        type,
       </if>
       <if test="num != null">
         num,
@@ -168,6 +169,9 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="address != null">
+        address,
       </if>
       <if test="hasSummary != null">
         has_summary,
@@ -207,8 +211,8 @@
       <if test="year != null">
         #{year,jdbcType=INTEGER},
       </if>
-      <if test="isOnline != null">
-        #{isOnline,jdbcType=BIT},
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="num != null">
         #{num,jdbcType=INTEGER},
@@ -218,6 +222,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
       </if>
       <if test="hasSummary != null">
         #{hasSummary,jdbcType=BIT},
@@ -266,8 +273,8 @@
       <if test="record.year != null">
         year = #{record.year,jdbcType=INTEGER},
       </if>
-      <if test="record.isOnline != null">
-        is_online = #{record.isOnline,jdbcType=BIT},
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
       </if>
       <if test="record.num != null">
         num = #{record.num,jdbcType=INTEGER},
@@ -277,6 +284,9 @@
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
       </if>
       <if test="record.hasSummary != null">
         has_summary = #{record.hasSummary,jdbcType=BIT},
@@ -317,10 +327,11 @@
     update cet_course
     set id = #{record.id,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
-      is_online = #{record.isOnline,jdbcType=BIT},
+      type = #{record.type,jdbcType=TINYINT},
       num = #{record.num,jdbcType=INTEGER},
       found_date = #{record.foundDate,jdbcType=DATE},
       name = #{record.name,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
       has_summary = #{record.hasSummary,jdbcType=BIT},
       expert_id = #{record.expertId,jdbcType=INTEGER},
       teach_method = #{record.teachMethod,jdbcType=INTEGER},
@@ -339,10 +350,11 @@
     update cet_course
     set id = #{record.id,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
-      is_online = #{record.isOnline,jdbcType=BIT},
+      type = #{record.type,jdbcType=TINYINT},
       num = #{record.num,jdbcType=INTEGER},
       found_date = #{record.foundDate,jdbcType=DATE},
       name = #{record.name,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
       has_summary = #{record.hasSummary,jdbcType=BIT},
       expert_id = #{record.expertId,jdbcType=INTEGER},
       teach_method = #{record.teachMethod,jdbcType=INTEGER},
@@ -362,8 +374,8 @@
       <if test="year != null">
         year = #{year,jdbcType=INTEGER},
       </if>
-      <if test="isOnline != null">
-        is_online = #{isOnline,jdbcType=BIT},
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="num != null">
         num = #{num,jdbcType=INTEGER},
@@ -373,6 +385,9 @@
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
       </if>
       <if test="hasSummary != null">
         has_summary = #{hasSummary,jdbcType=BIT},
@@ -410,10 +425,11 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.cet.CetCourse">
     update cet_course
     set year = #{year,jdbcType=INTEGER},
-      is_online = #{isOnline,jdbcType=BIT},
+      type = #{type,jdbcType=TINYINT},
       num = #{num,jdbcType=INTEGER},
       found_date = #{foundDate,jdbcType=DATE},
       name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
       has_summary = #{hasSummary,jdbcType=BIT},
       expert_id = #{expertId,jdbcType=INTEGER},
       teach_method = #{teachMethod,jdbcType=INTEGER},
@@ -429,10 +445,11 @@
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetCourse">
     update cet_course
     set year = #{year,jdbcType=INTEGER},
-      is_online = #{isOnline,jdbcType=BIT},
+      type = #{type,jdbcType=TINYINT},
       num = #{num,jdbcType=INTEGER},
       found_date = #{foundDate,jdbcType=DATE},
       name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
       has_summary = #{hasSummary,jdbcType=BIT},
       expert_id = #{expertId,jdbcType=INTEGER},
       teach_method = #{teachMethod,jdbcType=INTEGER},

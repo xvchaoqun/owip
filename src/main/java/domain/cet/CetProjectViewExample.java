@@ -903,6 +903,126 @@ public class CetProjectViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusEqualTo(Byte value) {
+            addCriterion("status =", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotEqualTo(Byte value) {
+            addCriterion("status <>", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThan(Byte value) {
+            addCriterion("status >", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("status >=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThan(Byte value) {
+            addCriterion("status <", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("status <=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIn(List<Byte> values) {
+            addCriterion("status in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotIn(List<Byte> values) {
+            addCriterion("status not in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusBetween(Byte value1, Byte value2) {
+            addCriterion("status between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("status not between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andPubStatusIsNull() {
+            addCriterion("pub_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPubStatusIsNotNull() {
+            addCriterion("pub_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPubStatusEqualTo(Byte value) {
+            addCriterion("pub_status =", value, "pubStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPubStatusNotEqualTo(Byte value) {
+            addCriterion("pub_status <>", value, "pubStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPubStatusGreaterThan(Byte value) {
+            addCriterion("pub_status >", value, "pubStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPubStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("pub_status >=", value, "pubStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPubStatusLessThan(Byte value) {
+            addCriterion("pub_status <", value, "pubStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPubStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("pub_status <=", value, "pubStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPubStatusIn(List<Byte> values) {
+            addCriterion("pub_status in", values, "pubStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPubStatusNotIn(List<Byte> values) {
+            addCriterion("pub_status not in", values, "pubStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPubStatusBetween(Byte value1, Byte value2) {
+            addCriterion("pub_status between", value1, value2, "pubStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPubStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("pub_status not between", value1, value2, "pubStatus");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -973,52 +1093,52 @@ public class CetProjectViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andObjCountEqualTo(Long value) {
+        public Criteria andObjCountEqualTo(Integer value) {
             addCriterion("obj_count =", value, "objCount");
             return (Criteria) this;
         }
 
-        public Criteria andObjCountNotEqualTo(Long value) {
+        public Criteria andObjCountNotEqualTo(Integer value) {
             addCriterion("obj_count <>", value, "objCount");
             return (Criteria) this;
         }
 
-        public Criteria andObjCountGreaterThan(Long value) {
+        public Criteria andObjCountGreaterThan(Integer value) {
             addCriterion("obj_count >", value, "objCount");
             return (Criteria) this;
         }
 
-        public Criteria andObjCountGreaterThanOrEqualTo(Long value) {
+        public Criteria andObjCountGreaterThanOrEqualTo(Integer value) {
             addCriterion("obj_count >=", value, "objCount");
             return (Criteria) this;
         }
 
-        public Criteria andObjCountLessThan(Long value) {
+        public Criteria andObjCountLessThan(Integer value) {
             addCriterion("obj_count <", value, "objCount");
             return (Criteria) this;
         }
 
-        public Criteria andObjCountLessThanOrEqualTo(Long value) {
+        public Criteria andObjCountLessThanOrEqualTo(Integer value) {
             addCriterion("obj_count <=", value, "objCount");
             return (Criteria) this;
         }
 
-        public Criteria andObjCountIn(List<Long> values) {
+        public Criteria andObjCountIn(List<Integer> values) {
             addCriterion("obj_count in", values, "objCount");
             return (Criteria) this;
         }
 
-        public Criteria andObjCountNotIn(List<Long> values) {
+        public Criteria andObjCountNotIn(List<Integer> values) {
             addCriterion("obj_count not in", values, "objCount");
             return (Criteria) this;
         }
 
-        public Criteria andObjCountBetween(Long value1, Long value2) {
+        public Criteria andObjCountBetween(Integer value1, Integer value2) {
             addCriterion("obj_count between", value1, value2, "objCount");
             return (Criteria) this;
         }
 
-        public Criteria andObjCountNotBetween(Long value1, Long value2) {
+        public Criteria andObjCountNotBetween(Integer value1, Integer value2) {
             addCriterion("obj_count not between", value1, value2, "objCount");
             return (Criteria) this;
         }

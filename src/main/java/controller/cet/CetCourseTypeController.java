@@ -3,6 +3,8 @@ package controller.cet;
 import domain.cet.CetCourseType;
 import domain.cet.CetCourseTypeExample;
 import domain.cet.CetCourseTypeExample.Criteria;
+import domain.cet.CetCourseTypeView;
+import domain.cet.CetCourseTypeViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -62,8 +64,8 @@ public class CetCourseTypeController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetCourseTypeExample example = new CetCourseTypeExample();
-        Criteria criteria = example.createCriteria();
+        CetCourseTypeViewExample example = new CetCourseTypeViewExample();
+        CetCourseTypeViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order asc");
 
         if (StringUtils.isNotBlank(name)) {
@@ -77,12 +79,12 @@ public class CetCourseTypeController extends CetBaseController {
             return;
         }
 
-        long count = cetCourseTypeMapper.countByExample(example);
+        long count = cetCourseTypeViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetCourseType> records= cetCourseTypeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetCourseTypeView> records= cetCourseTypeViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -151,14 +153,14 @@ public class CetCourseTypeController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cetCourseType_export(CetCourseTypeExample example, HttpServletResponse response) {
+    public void cetCourseType_export(CetCourseTypeViewExample example, HttpServletResponse response) {
 
-        List<CetCourseType> records = cetCourseTypeMapper.selectByExample(example);
+        List<CetCourseTypeView> records = cetCourseTypeViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"名称|100","排序|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetCourseType record = records.get(i);
+            CetCourseTypeView record = records.get(i);
             String[] values = {
                 record.getName(),
                             record.getSortOrder()+"",

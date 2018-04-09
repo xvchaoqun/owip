@@ -2,17 +2,30 @@ package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import persistence.cet.CetExpertMapper;
+import service.cet.CetCourseItemService;
+import sys.constants.CetConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
 public class CetCourse implements Serializable {
 
     public String getSn(){
 
-        return String.format("C%4d%1d%03d", year, isOnline?2:1, num);
+        String prefix = "C";
+        switch (type){
+            case CetConstants.CET_COURSE_TYPE_SELF:
+                prefix = "ZZ"; break;
+            case CetConstants.CET_COURSE_TYPE_PRACTICE:
+                prefix = "SJ"; break;
+            case CetConstants.CET_COURSE_TYPE_SPECIAL:
+                prefix = "ZT"; break;
+        }
+
+        return String.format("%s%4d%04d", prefix, year, num);
     }
 
     public CetExpert getCetExpert(){
@@ -22,11 +35,27 @@ public class CetCourse implements Serializable {
         return cetExpertMapper.selectByPrimaryKey(expertId);
     }
 
+    public BigDecimal getTotalPeriod(){
+
+        if(type==CetConstants.CET_COURSE_TYPE_SPECIAL){
+            BigDecimal totalPeriod = BigDecimal.valueOf(0);
+            CetCourseItemService cetCourseItemService = CmTag.getBean(CetCourseItemService.class);
+            Map<Integer, CetCourseItem> cetCourseItemMap = cetCourseItemService.findAll(id);
+            for (CetCourseItem cetCourseItem : cetCourseItemMap.values()) {
+
+                totalPeriod.add(cetCourseItem.getPeriod());
+            }
+
+            return totalPeriod;
+        }
+        return null;
+    }
+
     private Integer id;
 
     private Integer year;
 
-    private Boolean isOnline;
+    private Byte type;
 
     private Integer num;
 
@@ -34,6 +63,8 @@ public class CetCourse implements Serializable {
     private Date foundDate;
 
     private String name;
+
+    private String address;
 
     private Boolean hasSummary;
 
@@ -73,12 +104,12 @@ public class CetCourse implements Serializable {
         this.year = year;
     }
 
-    public Boolean getIsOnline() {
-        return isOnline;
+    public Byte getType() {
+        return type;
     }
 
-    public void setIsOnline(Boolean isOnline) {
-        this.isOnline = isOnline;
+    public void setType(Byte type) {
+        this.type = type;
     }
 
     public Integer getNum() {
@@ -103,6 +134,14 @@ public class CetCourse implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
     }
 
     public Boolean getHasSummary() {

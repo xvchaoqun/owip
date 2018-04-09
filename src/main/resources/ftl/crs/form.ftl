@@ -2377,9 +2377,9 @@
 											<v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
 											<o:lock v:ext="edit" aspectratio="t"/>
 										</v:shapetype>
-										<w:binData w:name="wordml://02000001.jpg" xml:space="preserve">${bean.avatar!}</w:binData>
+										<w:binData w:name="wordml://${bean_index}.jpg" xml:space="preserve">${bean.avatar!}</w:binData>
 										<v:shape id="_x0000_i1051" type="#_x0000_t75" style="width:81pt;height:108pt">
-											<v:imagedata src="wordml://02000001.jpg" o:title="1"/>
+											<v:imagedata src="wordml://${bean_index}.jpg" o:title="1"/>
 										</v:shape>
 									</w:pict>
 								</w:r>

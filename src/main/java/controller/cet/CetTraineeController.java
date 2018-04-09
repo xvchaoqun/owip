@@ -106,7 +106,9 @@ public class CetTraineeController extends CetBaseController {
             case "t_cadre":
             case "t_reserve":
                 CetTraineeCadreViewExample example = new CetTraineeCadreViewExample();
-                CetTraineeCadreViewExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId);
+                CetTraineeCadreViewExample.Criteria criteria =
+                        example.createCriteria().andTrainIdEqualTo(trainId)
+                                .andTraineeTypeIdEqualTo(traineeTypeId);
                 example.setOrderByClause("id asc");
                 /*switch (cls){
                     case 1: // 已选课人员

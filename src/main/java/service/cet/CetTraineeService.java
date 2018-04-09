@@ -1,5 +1,6 @@
 package service.cet;
 
+import domain.cet.CetProjectObj;
 import domain.cet.CetTrainee;
 import domain.cet.CetTraineeExample;
 import domain.cet.CetTraineeView;
@@ -22,6 +23,25 @@ public class CetTraineeService extends BaseMapper {
         List<CetTraineeView> cetTrainees = cetTraineeViewMapper.selectByExample(example);
 
         return cetTrainees.size()>0?cetTrainees.get(0):null;
+    }
+
+    public CetTraineeView createIfNotExist(int userId, int trainId){
+
+        CetTraineeView cetTrainee = get(userId, trainId);
+        if(cetTrainee!=null) {
+            return cetTrainee;
+        }
+
+        CetProjectObj cetProjectObj = iCetMapper.getCetProjectObj(userId, trainId);
+        int objId = cetProjectObj.getId();
+
+        CetTrainee record = new CetTrainee();
+        record.setObjId(objId);
+        record.setIsQuit(false);
+        record.setTrainId(trainId);
+        cetTraineeMapper.insertSelective(record);
+
+        return get(userId, trainId);
     }
 
     @Transactional

@@ -39,7 +39,7 @@ public class CetTrainService extends BaseMapper {
         cetTrainMapper.insertSelective(record);
     }
 
-    @Transactional
+    /*@Transactional
     public void fakeDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -51,7 +51,7 @@ public class CetTrainService extends BaseMapper {
         record.setIsDeleted(true);
 
         cetTrainMapper.updateByExampleSelective(record, example);
-    }
+    }*/
 
     // 彻底删除
     @Transactional

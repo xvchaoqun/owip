@@ -81,8 +81,8 @@ pageEncoding="UTF-8" %>
             { label: '所在单位',name: 'unit', width:300, align:'left'},
             { label: '职务和职称',name: 'post', width:150, align:'left'},
             { label: '联系方式',name: 'contact', width:150},
-            { label: '主讲课程',name: '_course'},
-            { label: '选课人次',name: '_count'},
+            { label: '主讲课程',name: 'courseNum'},
+            { label: '选课人次',name: 'traineeCount'},
             { label: '学员评价',name: '_eva'},
             { label: '备注',name: 'remark', width:300}
         ]

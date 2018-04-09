@@ -20,7 +20,7 @@
                             <label class="col-xs-3 control-label">包含课程</label>
                             <div class="col-xs-6">
                                 <select required data-rel="select2-ajax"
-                                        data-ajax-url="${ctx}/cet/cetCourse_selects?isOnline=${cetColumn.isOnline?1:0}"
+                                        data-ajax-url="${ctx}/cet/cetCourse_selects?type=${cetColumn.isOnline?CET_COURSE_TYPE_ONLINE:CET_COURSE_TYPE_OFFLINE}"
                                         name="courseId" data-placeholder="请输入课程名称">
                                     <option></option>
                                 </select></div>

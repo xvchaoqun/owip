@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <c:if test="${cetTrainCourse.cetCourse.isOnline==false}">
+        <c:if test="${cetTrainCourse.cetCourse.type==CET_COURSE_TYPE_OFFLINE}">
         <div class="form-group" id="_name">
             <label class="col-xs-3 control-label">上课地点</label>
             <div class="col-xs-6">

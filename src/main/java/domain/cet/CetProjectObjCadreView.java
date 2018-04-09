@@ -37,7 +37,7 @@ public class CetProjectObjCadreView implements Serializable {
             CetTrainCourseMapper cetTrainCourseMapper = CmTag.getBean(CetTrainCourseMapper.class);
             CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
             CetTraineeService cetTraineeService = CmTag.getBean(CetTraineeService.class);
-            CetTraineeView cetTraineeView = cetTraineeService.get(userId, cetTrainCourse.getTrainId());
+            CetTraineeView cetTraineeView = cetTraineeService.createIfNotExist(userId, cetTrainCourse.getTrainId());
             resultMap.put("traineeId", cetTraineeView.getId());
         }
 

@@ -34,6 +34,7 @@
         </div>
     </div>
 </div>
+<jsp:include page="cetTrainCourse_colModel.jsp?planType=${cetProjectPlan.type}"/>
 <script>
 
     $("#selectBtn").click(function(){
@@ -58,8 +59,8 @@
     })
 
     var cetTrainCourses = ${cm:toJSONArray(cetTrainCourses)};
-    var selectedTrainCourseIds = $.map(${cm:toJSONArray(selectedCetTraineeCourses)}, function(ctc){
-        return ctc.trainCourseId;
+    var selectedTrainCourseIds = $.map(${cm:toJSONArray(selectedCetTrainCourses)}, function(ctc){
+        return ctc.id;
     })
     //console.log(selectedTrainCourseIds)
     $("#jqGrid2").jqGrid({
@@ -69,33 +70,7 @@
         multiboxonly: false,
         datatype: "local",
         data: cetTrainCourses,
-        colModel: [
-            {label: '课程编号', name: 'cetCourse.sn'},
-            {
-                label: '课程名称',
-                name: 'cetCourse.name',
-                width: 300,
-                align: 'left'
-            },
-            {label: '主讲人', name: 'cetCourse.cetExpert.realname'},
-            {label: '所在单位', name: 'cetCourse.cetExpert.unit', width: 300, align: 'left'},
-            {label: '职务和职称', name: 'cetCourse.cetExpert.post', width: 120, align: 'left'},
-            {
-                label: '开始时间',
-                name: 'startTime',
-                width: 130,
-                formatter: 'date',
-                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
-            },
-            {
-                label: '结束时间',
-                name: 'endTime',
-                width: 130,
-                formatter: 'date',
-                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
-            },
-            {label: '上课地点', name: 'address', width: 300}
-        ],
+        colModel: colModel,
         rowattr: function(rowData, currentObj, rowId){
             //console.log(rowId + " " + $.inArray(rowId, selectedTrainCourseIds));
             if($.inArray(parseInt(rowId), selectedTrainCourseIds)>=0) {

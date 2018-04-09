@@ -78,8 +78,8 @@ pageEncoding="UTF-8" %>
                 label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url: "${ctx}/cet/cetCourseType_changeOrder"}
             },
-            { label: '课程',name: '_courses'},
-            { label: '选课人次',name: '_count'},
+            { label: '课程',name: 'courseNum'},
+            { label: '选课人次',name: 'traineeCount'},
             { label: '备注',name: 'remark', width:300}
         ]
     }).jqGrid("setFrozenColumns");

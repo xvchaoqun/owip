@@ -5,11 +5,13 @@ import bean.XlsUpload;
 import domain.cet.CetCourse;
 import domain.cet.CetCourseType;
 import domain.cet.CetExpert;
+import domain.cet.CetProjectPlan;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseView;
 import domain.cet.CetTrainCourseViewExample;
 import domain.cet.CetTrainEvaTable;
+import domain.cet.CetTrainView;
 import domain.cet.CetTraineeCourseView;
 import domain.cet.CetTraineeCourseViewExample;
 import mixin.MixinUtils;
@@ -31,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import sys.constants.CetConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -60,7 +63,14 @@ public class CetTrainCourseController extends CetBaseController {
                                  @RequestParam(defaultValue = "1")Boolean isOnCampus,
                                  int trainId, ModelMap modelMap) {
 
-        modelMap.put("cetTrain", cetTrainService.getView(trainId));
+        CetTrainView cetTrain = cetTrainService.getView(trainId);
+        modelMap.put("cetTrain", cetTrain);
+        Integer planId = cetTrain.getPlanId();
+        if(planId!=null) {
+            CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+            modelMap.put("cetProjectPlan", cetProjectPlan);
+        }
+
         if(isOnCampus) {
 
             modelMap.put("cls", cls);
@@ -148,9 +158,17 @@ public class CetTrainCourseController extends CetBaseController {
     @RequestMapping("/cetTrainCourse_selectCourses")
     public String cetTrainCourse_selectCourses(int trainId, Integer expertId, ModelMap modelMap) {
 
-        modelMap.put("cetTrain", cetTrainMapper.selectByPrimaryKey(trainId));
-        if(expertId!=null)
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+        modelMap.put("cetTrain", cetTrain);
+        Integer planId = cetTrain.getPlanId();
+        if(planId!=null) {
+            CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+            modelMap.put("cetProjectPlan", cetProjectPlan);
+        }
+
+        if(expertId!=null) {
             modelMap.put("cetExpert", cetExpertMapper.selectByPrimaryKey(expertId));
+        }
 
         Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
         modelMap.put("courseTypeMap", courseTypeMap);
@@ -161,7 +179,8 @@ public class CetTrainCourseController extends CetBaseController {
     @RequiresPermissions("cetCourse:list")
     @RequestMapping("/cetTrainCourse_selectCourses_data")
     public void cetTrainCourse_selectCourses_data(HttpServletResponse response,
-                                                  int trainId, Integer expertId, String name,
+                                                  int trainId, byte planType,
+                                                  Integer expertId, String name,
                                                   Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -172,12 +191,20 @@ public class CetTrainCourseController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = iCetMapper.cetTrainCourse_countCourses(trainId, expertId, name);
+        Byte[] courseTypes = null;
+        if(planType== CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE){
+            courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_OFFLINE,
+                    CetConstants.CET_COURSE_TYPE_ONLINE};
+        }else if(planType== CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE){
+            courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_PRACTICE};
+        }
+
+        int count = iCetMapper.cetTrainCourse_countCourses(trainId, expertId, name, courseTypes);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetCourse> records= iCetMapper.cetTrainCourse_selectCourses(trainId, expertId, name,
+        List<CetCourse> records= iCetMapper.cetTrainCourse_selectCourses(trainId, expertId, name, courseTypes,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

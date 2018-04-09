@@ -16,11 +16,11 @@
     </shiro:hasPermission>
     <shiro:hasPermission name="cetProjectPlan:del">
         <button data-url="${ctx}/cet/cetProjectPlan_batchDel"
-                data-title="删除"
-                data-msg="确定删除这{0}条数据？"
+                data-title="彻底删除"
+                data-msg="确定彻底删除这{0}条数据？（该培训方案下的所有数据均将彻底删除，删除后无法恢复，请谨慎操作！）"
                 data-grid-id="#jqGrid2"
                 class="jqBatchBtn btn btn-danger btn-sm">
-            <i class="fa fa-trash"></i> 删除
+            <i class="fa fa-trash"></i> 彻底删除
         </button>
     </shiro:hasPermission>
     <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
@@ -77,7 +77,7 @@
                 return '{0} ~ {1}'.format($.date(rowObject.startDate, "yyyy-MM-dd"), $.date(rowObject.endDate, "yyyy-MM-dd"))
             }, frozen: true},
             {label: '培训形式', name: 'type', width: 180, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.CET_SPECIAL_PLAN_TYPE_MAP[cellvalue];
+                return _cMap.CET_PROJECT_PLAN_TYPE_MAP[cellvalue];
             }, frozen: true},
             {label: '培训内容', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
                 var btnStr = "添加";

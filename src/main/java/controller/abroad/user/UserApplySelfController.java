@@ -277,7 +277,7 @@ public class UserApplySelfController extends AbroadBaseController {
             record.setFlowNode(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST);
 
             applySelfService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
+            logger.info(addLog(SystemConstants.LOG_ABROAD, "提交因私出国申请：%s", record.getId()));
 
             // 给干部管理员发短信提醒
             shortMsgService.sendApplySelfSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
@@ -285,7 +285,7 @@ public class UserApplySelfController extends AbroadBaseController {
             sysApprovalLogService.add(record.getId(), cadre.getUserId(),
                     self?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF,
-                    "添加因私出国申请", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    "提交因私出国申请", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     JSONUtils.toString(record, MixinUtils.baseMixins(), false));
         }else{
 

@@ -10,7 +10,8 @@
         <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod"/>
     </resultMap>
     <sql id="searchTrains">
-        where ct.plan_id=cpp.id and cpp.project_id=cpo.project_id and cpo.is_quit=0
+        where ct.plan_id=cpp.id and cpp.project_id=cpo.project_id
+        and ctee.train_id = ct.id and cpo.is_quit=0
         and cpo.user_id=#{userId} and ct.is_deleted=0 and ct.pub_status=1
         <if test="hasSelected!=null">
             <if test="hasSelected">
@@ -24,6 +25,7 @@
             and ct.is_finished = #{isFinished}
         </if>
     </sql>
+    <!-- 查询参训人的培训班列表 -->
     <select id="findUserCetTrains" resultMap="TrainBaseResultMap" parameterType="map">
         select ct.*, cpo.id as obj_id, ctee.id as trainee_id, ctee.course_count
         <if test="hasSelected">
@@ -54,6 +56,14 @@
 
     <sql id="searchCourses">
         <where>
+            <!-- 线下培训从线上或线下课程中选择， 实践教学从实践教学课程中选择-->
+            <if test="courseTypes != null and courseTypes.length>0">
+                cc.type in
+                <foreach collection="courseTypes" item="courseType" separator="," open="(" close=")">
+                    #{courseType}
+                </foreach>
+            </if>
+            and cc.is_deleted=0
         <if test="name!=null">
             and cc.name like '%${name}%'
         </if>
@@ -63,6 +73,7 @@
           and cc.id not in(select course_id from cet_train_course where train_id=#{trainId} and course_id is not null)
         </where>
     </sql>
+    <!--培训班 选择 课程-->
     <select id="cetTrainCourse_selectCourses" resultMap="persistence.cet.CetCourseMapper.BaseResultMap" parameterType="map">
         select cc.* from cet_course cc
         <include refid="searchCourses"/>

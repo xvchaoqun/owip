@@ -4,7 +4,6 @@ import controller.global.OpException;
 import domain.cet.CetProjectObj;
 import domain.cet.CetProjectObjExample;
 import domain.cet.CetTrainCourse;
-import domain.cet.CetTrainee;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseView;
 import domain.cet.CetTraineeView;
@@ -183,19 +182,8 @@ public class CetProjectObjService extends BaseMapper {
             int userId = cetProjectObj.getUserId();
 
             // 如果还没选过课，则先创建参训人
-            int traineeId;
-            CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
-            if (cetTrainee != null) {
-                traineeId = cetTrainee.getId();
-            } else {
-
-                CetTrainee record = new CetTrainee();
-                record.setObjId(cetProjectObj.getId());
-                record.setIsQuit(false);
-                record.setTrainId(trainId);
-                cetTraineeMapper.insertSelective(record);
-                traineeId = record.getId();
-            }
+            CetTraineeView cetTrainee = cetTraineeService.createIfNotExist(userId, trainId);
+            int traineeId = cetTrainee.getId();
 
             CetTraineeCourseView ctc = trainees.get(userId);
             if(ctc==null){

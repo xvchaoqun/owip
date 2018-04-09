@@ -3,18 +3,10 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cls==1}">
-    <shiro:hasPermission name="cetTrainCourse:edit">
         <a class="popupBtn btn btn-info btn-sm"
            data-width="1200"
-           data-url="${ctx}/cet/cetTrainCourse_selectCourses?trainId=${cetTrain.id}&grid=jqGrid2"><i
+           data-url="${ctx}/cet/cetTrainCourse_selectCourses?trainId=${cetTrain.id}"><i
                 class="fa fa-plus"></i> 添加课程</a>
-        <a class="jqOpenViewBtn btn btn-primary btn-sm"
-           data-url="${ctx}/cet/cetTrainCourse_info"
-           data-grid-id="#jqGrid2"
-           data-id-name="trainCourseId"><i class="fa fa-edit"></i>
-            编辑课程信息</a>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="cetTrainCourse:del">
         <button data-url="${ctx}/cet/cetTrainCourse_batchDel"
                 data-title="删除"
                 data-msg="确定删除这{0}门课程？（课程下的所有选课数据均将彻底删除，请谨慎操作！）"
@@ -22,13 +14,19 @@
                 class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-trash"></i> 删除
         </button>
-    </shiro:hasPermission>
-    <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+        <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
+        <a class="jqOpenViewBtn btn btn-primary btn-sm"
+           data-url="${ctx}/cet/cetTrainCourse_info"
+           data-grid-id="#jqGrid2"
+           data-id-name="trainCourseId"><i class="fa fa-edit"></i>
+            编辑课程信息</a>
+        </c:if>
+    <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
        data-url="${ctx}/cet/cetTrainCourse_data"
        data-querystr="trainId=${cetTrain.id}"
        data-grid-id="#jqGrid2"
        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-        <i class="fa fa-download"></i> 导出课程</a>
+        <i class="fa fa-download"></i> 导出课程</a>--%>
 
         <%--<a class="jqOpenViewBtn btn btn-warning btn-sm"
            data-url="${ctx}/cet/cetTrainCourse_selectObjs"
@@ -58,19 +56,21 @@
         pager: "jqGridPager2",
         url: '${ctx}/cet/cetTrainCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
             <c:if test="${cls==1}">
             {
                 label: '选课情况', name: 'selectedCount', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return '-';
+                if(cellvalue==undefined) cellvalue=0;
                 return ('<button class="openView btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/cet/cetProject_detail/obj?projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
             }, frozen:true},
             {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.finishCount==undefined) return '-'
+                var finishCount = (rowObject.finishCount==undefined)?0:rowObject.finishCount;
+                var selectedCount = (rowObject.selectedCount==undefined)?0:rowObject.selectedCount;
                 return ('<button class="popupBtn btn btn-success btn-xs" data-width="1000" ' +
                 'data-url="${ctx}/cet/cetTrainCourse_trainee?trainCourseId={0}">已签到({1}/{2})</button>')
-                        .format(rowObject.id, rowObject.finishCount, rowObject.selectedCount);
+                        .format(rowObject.id, finishCount, selectedCount);
             }},
             {label: '课程编号', name: 'cetCourse.sn', frozen:true},
             </c:if>
@@ -128,7 +128,7 @@
 
             <c:if test="${cls==1}">
             {label: '上课地点', name: 'address', align: 'left', width: 250, formatter: function (cellvalue, options, rowObject) {
-                return (rowObject.cetCourse.isOnline==false)? $.trim(cellvalue):'-'
+                return (rowObject.cetCourse.type==${CET_COURSE_TYPE_OFFLINE})? $.trim(cellvalue):'-'
             }},
             </c:if>
             <c:if test="${cls==2}">
@@ -142,6 +142,46 @@
                 if('${cetTrain.evaCount}'=='') return '-'
                 return '{0}/${cetTrain.evaCount}'.format(rowObject.evaFinishCount==undefined?0:rowObject.evaFinishCount);
             }}
+            </c:if>
+            </c:if>
+            <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_PRACTICE}">
+            {
+                label: '选课情况', name: 'selectedCount', formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) cellvalue=0;
+                return ('<button class="openView btn btn-primary btn-xs" ' +
+                'data-url="${ctx}/cet/cetProject_detail/obj?projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
+                        .format(projectId, rowObject.id, cellvalue, objCount);
+            }, frozen:true},
+            {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {
+                var finishCount = (rowObject.finishCount==undefined)?0:rowObject.finishCount;
+                var selectedCount = (rowObject.selectedCount==undefined)?0:rowObject.selectedCount;
+                return ('<button class="popupBtn btn btn-success btn-xs" data-width="1000" ' +
+                'data-url="${ctx}/cet/cetTrainCourse_trainee?trainCourseId={0}">已签到({1}/{2})</button>')
+                        .format(rowObject.id, finishCount, selectedCount);
+            }},
+            {label: '编号', name: 'cetCourse.sn', frozen:true},
+            {
+                label: '实践教学名称',
+                name: 'cetCourse.name',
+                width: 300,
+                align: 'left', frozen:true
+            },
+            {
+                label: '实践教学地点',
+                name: 'cetCourse.name',
+                width: 300,
+                align: 'left', frozen:true
+            },
+            {
+                label: '排序', width: 80, align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                formatoptions: {url: "${ctx}/cet/cetTrainCourse_changeOrder", grid:'#jqGrid2'}, frozen:true
+            },
+            {label: '学时', name: 'cetCourse.period', width: 70},
+            {label: '教学照片', name: '_images', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return ('<button type="button" data-url="${ctx}/cet/cetTrainCourseFile?trainCourseId={0}" ' +
+                'class="popupBtn btn btn-xs btn-success"><i class="ace-icon fa fa-search"></i> 详情</button>')
+                        .format(rowObject.id)
+            }},
             </c:if>
         ]
     }).jqGrid("setFrozenColumns");

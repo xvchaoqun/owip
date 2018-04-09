@@ -126,6 +126,7 @@ public class CetTrainStatService extends BaseMapper {
     public void createCourseSheet(XSSFWorkbook wb, CetTrainCourse cetTrainCourse) {
 
         Map<String, Object> statCourseMap = statCourse(cetTrainCourse.getId());
+        if(statCourseMap==null || statCourseMap.size()==0) return ;
 
         Map<Integer, Double> inspectorTotalScoreMap = (Map<Integer, Double>) statCourseMap.get("inspectorTotalScoreMap");
         CetTrainEvaTable cetTrainEvaTable = (CetTrainEvaTable) statCourseMap.get("trainEvaTable");
@@ -147,6 +148,15 @@ public class CetTrainStatService extends BaseMapper {
         }else{
             sheetName = cetTrainCourse.getIsGlobal() ? cetTrainCourse.getName() : cetTrainCourse.getTeacher();
         }
+
+        // excel sheetName 不能相同
+        int numberOfSheets = wb.getNumberOfSheets();
+        for (int i = 0; i < numberOfSheets; i++) {
+            if(StringUtils.equals(sheetName, wb.getSheetName(i))){
+                sheetName = sheetName + "-" + numberOfSheets;
+            }
+        }
+
         Sheet sheet = wb.createSheet(sheetName);
         //sheet.setDefaultColumnWidth(10*256);
 
@@ -316,6 +326,7 @@ public class CetTrainStatService extends BaseMapper {
                 if (minInspectorTotalScore > inspectorTotalScore)
                     minInspectorTotalScore = inspectorTotalScore;
             }
+            if(minInspectorTotalScore==Double.MAX_VALUE) minInspectorTotalScore=null;
 
             XSSFCellStyle thStyle = getThStyle(wb);
             thStyle.getFont().setColor(IndexedColors.RED.index);
@@ -468,6 +479,8 @@ public class CetTrainStatService extends BaseMapper {
         CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
         Integer evaTableId = cetTrainCourse.getEvaTableId();
         CetTrainEvaTable cetTrainEvaTable = cetTrainEvaTableMapper.selectByPrimaryKey(evaTableId);
+        // 未设置课程评估表
+        if(cetTrainEvaTable==null) return resultMap;
         List<CetTrainEvaNorm> normList = cetTrainEvaTable.getNormList();
 
         Map<Integer, CetTrainEvaRank> cetTrainEvaRankMap = cetTrainEvaRankService.findAll(evaTableId);

@@ -144,9 +144,10 @@ public class CetProjectPlanController extends CetBaseController {
         modelMap.put("cetProjectPlan", cetProjectPlan);
 
         byte type = cetProjectPlan.getType();
-        if(type== CetConstants.CET_SPECIAL_PLAN_TYPE_OFFLINE){
-
-            return "forward:/cet/cetTrain";
+        switch (type){
+            case CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE: // 线下培训
+            case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
+                return "forward:/cet/cetTrain";
         }
 
         return "cet/cetProjectPlan/cetProjectPlan_detail";

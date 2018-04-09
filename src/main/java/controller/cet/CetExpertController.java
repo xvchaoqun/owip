@@ -3,6 +3,8 @@ package controller.cet;
 import domain.cet.CetExpert;
 import domain.cet.CetExpertExample;
 import domain.cet.CetExpertExample.Criteria;
+import domain.cet.CetExpertView;
+import domain.cet.CetExpertViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -61,8 +63,8 @@ public class CetExpertController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetExpertExample example = new CetExpertExample();
-        Criteria criteria = example.createCriteria();
+        CetExpertViewExample example = new CetExpertViewExample();
+        CetExpertViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(realname)) {
@@ -76,12 +78,12 @@ public class CetExpertController extends CetBaseController {
             return;
         }
 
-        long count = cetExpertMapper.countByExample(example);
+        long count = cetExpertViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetExpert> records= cetExpertMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetExpertView> records= cetExpertViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -163,14 +165,14 @@ public class CetExpertController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cetExpert_export(CetExpertExample example, HttpServletResponse response) {
+    public void cetExpert_export(CetExpertViewExample example, HttpServletResponse response) {
 
-        List<CetExpert> records = cetExpertMapper.selectByExample(example);
+        List<CetExpertView> records = cetExpertViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"姓名|100","所在单位|100","职务和职称|100","联系方式|100","排序|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetExpert record = records.get(i);
+            CetExpertView record = records.get(i);
             String[] values = {
                 record.getRealname(),
                             record.getUnit(),

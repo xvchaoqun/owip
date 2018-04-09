@@ -50,7 +50,7 @@
                        data-url="${ctx}/cet/cetTrainCourse_import?trainId=${cetTrain.id}"
                        data-rel="tooltip" data-placement="top" title="从Excel导入"><i class="fa fa-upload"></i> 从Excel导入</button>
                     <button class="popupBtn btn btn-info btn-sm tooltip-success"
-                       data-url="${ctx}/cet/cetTrainCourse_selectCourses?trainId=${cetTrain.id}&grid=jqGrid2" data-width="1200"
+                       data-url="${ctx}/cet/cetTrainCourse_selectCourses?trainId=${cetTrain.id}" data-width="1200"
                        data-rel="tooltip" data-placement="top" title="从课程中心导入"><i class="fa fa-search-plus"></i> 从课程中心导入</button>
                 </shiro:hasPermission>
                 <a class="jqExportBtn btn btn-success btn-sm tooltip-success"

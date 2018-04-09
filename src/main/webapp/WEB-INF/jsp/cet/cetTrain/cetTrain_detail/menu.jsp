@@ -32,6 +32,7 @@
                        data-url="${ctx}/cet/cetTrain_detail/msg?trainId=${param.trainId}">
                         <i class="green ace-icon fa fa-calendar bigger-120"></i> 开课通知</a>
                 </li>
+                <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
                 <li>
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content2" data-callback="$.menu.liSelected"
@@ -44,6 +45,7 @@
                        data-url="${ctx}/cet/cetTrain_detail_eva?trainId=${param.trainId}">
                         <i class="green ace-icon fa fa-pencil-square-o bigger-120"></i> 评课</a>
                 </li>
+                </c:if>
             </ul>
         </div>
     </div>

@@ -8,31 +8,31 @@
   "resFolder": "cet",
   "tables": [
     {
-      "table": "cet_special",
+      "table": "cet_project",
       "key": "id",
       "searchColumns": "year,name",
       "showColumns": "year,start_date,end_date,name,file_name,pdf_file_path,word_file_path,period,require_period,remark",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
-      "table": "cet_special_obj",
+      "table": "cet_project_obj",
       "key": "id",
-      "searchColumns": "special_id",
-      "showColumns": "special_id,user_id,type,is_quit,remark",
+      "searchColumns": "project_id",
+      "showColumns": "project_id,user_id,type,is_quit,remark",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
-      "table": "cet_special_plan",
+      "table": "cet_project_plan",
       "key": "id",
       "searchColumns": "type",
       "showColumns": "start_date,end_date,type,summary,period,remark",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_expert",
@@ -62,6 +62,24 @@
       "ignore": true
     },
     {
+      "table": "cet_course_file",
+      "key": "id",
+      "searchColumns": "course_id",
+      "showColumns": "course_id,file_name,file_path,sort_order",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_course_item",
+      "key": "id",
+      "searchColumns": "course_id",
+      "showColumns": "course_id,name,period,sort_order",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
       "table": "cet_column",
       "key": "id",
       "searchColumns": "is_online",
@@ -87,6 +105,24 @@
       "excludeEditColumns": "id,is_deleted,create_time",
       "logType":"SystemConstants.LOG_CET",
       "ignore": true
+    },
+    {
+      "table": "cet_train_course_obj",
+      "key": "id",
+      "searchColumns": "train_course_id",
+      "showColumns": "train_course_id,obj_id,num,is_finished",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_train_course_obj_result",
+      "key": "id",
+      "searchColumns": "train_course_obj_id",
+      "showColumns": "train_course_obj_id,course_item_id,course_num,period",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
     },
     {
       "table": "cet_trainee_type",

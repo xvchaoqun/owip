@@ -33,6 +33,10 @@ public class CetProject implements Serializable {
 
     private String remark;
 
+    private Byte status;
+
+    private Byte pubStatus;
+
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
@@ -131,6 +135,22 @@ public class CetProject implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
+    }
+
+    public Byte getPubStatus() {
+        return pubStatus;
+    }
+
+    public void setPubStatus(Byte pubStatus) {
+        this.pubStatus = pubStatus;
     }
 
     public Date getCreateTime() {

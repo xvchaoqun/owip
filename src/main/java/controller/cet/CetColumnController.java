@@ -43,14 +43,16 @@ public class CetColumnController extends CetBaseController {
 
     @RequiresPermissions("cetColumn:list")
     @RequestMapping("/cetColumn")
-    public String cetColumn() {
+    public String cetColumn(@RequestParam(defaultValue = "1") Integer cls, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
         return "cet/cetColumn/cetColumn_page";
     }
 
     @RequiresPermissions("cetColumn:list")
     @RequestMapping("/cetColumn_data")
     public void cetColumn_data(HttpServletResponse response,
-                                    byte type,
+                                    byte columnType,
                                      boolean isOnline,
                                     Integer fid,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -66,7 +68,7 @@ public class CetColumnController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetColumnViewExample example = new CetColumnViewExample();
-        CetColumnViewExample.Criteria criteria = example.createCriteria().andIsOnlineEqualTo(isOnline).andTypeEqualTo(type);
+        CetColumnViewExample.Criteria criteria = example.createCriteria().andIsOnlineEqualTo(isOnline).andTypeEqualTo(columnType);
         example.setOrderByClause("sort_order desc");
 
         if(fid!=null){
@@ -126,7 +128,7 @@ public class CetColumnController extends CetBaseController {
     public String cetColumn_au(Integer id,
                                Boolean isOnline,
                                Integer fid,
-                               Byte type,
+                               Byte columnType,
                                ModelMap modelMap) {
 
         if (id != null) {
@@ -135,12 +137,12 @@ public class CetColumnController extends CetBaseController {
             if(cetColumn!=null){
                 isOnline = cetColumn.getIsOnline();
                 fid = cetColumn.getFid();
-                type = cetColumn.getType();
+                columnType = cetColumn.getType();
             }
         }
         modelMap.put("isOnline", isOnline);
         modelMap.put("fid", fid);
-        modelMap.put("type", type);
+        modelMap.put("columnType", columnType);
 
         return "cet/cetColumn/cetColumn_au";
     }

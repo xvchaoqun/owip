@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="${param.type==1?'重点专题':'特色栏目'}" var="typeName"/>
-<c:set value="${param.type==1?'重点子专题':'特色子栏目'}" var="subTypeName"/>
+<c:set value="${param.columnType==1?'重点专题':'特色栏目'}" var="typeName"/>
+<c:set value="${param.columnType==1?'重点子专题':'特色子栏目'}" var="subTypeName"/>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -18,13 +18,13 @@
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="cetColumn:edit">
                                 <a class="popupBtn btn btn-success btn-sm"
-                                   data-url="${ctx}/cet/cetColumn_au?isOnline=${param.isOnline}&type=${param.type}">
+                                   data-url="${ctx}/cet/cetColumn_au?isOnline=${param.isOnline}&columnType=${param.columnType}">
                                     <i class="fa fa-plus"></i> 添加</a>
                                 <a class="jqOpenViewBtn btn btn-info btn-sm"
                                    data-grid-id="#jqGrid"
                                    data-url="${ctx}/cet/cetColumn_au"
                                    data-id-name="fid"
-                                   data-querystr="&isOnline=${param.isOnline}&type=${param.type}"><i class="fa fa-plus"></i>
+                                   data-querystr="&isOnline=${param.isOnline}&columnType=${param.columnType}"><i class="fa fa-plus"></i>
                                     添加${subTypeName}</a>
 
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -57,8 +57,9 @@
                             <div class="widget-body">
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
-                                        <input type="hidden" name="cls" value="${cls}">
-
+                                        <input type="hidden" name="cls" value="${param.cls}">
+                                        <input type="hidden" name="columnType" value="${param.columnType}">
+                                        <input type="hidden" name="type" value="${param.type}">
                                         <div class="form-group">
                                             <label>名称</label>
                                             <input class="form-control search-query" name="name" type="text"
@@ -71,7 +72,7 @@
 
                                             <c:if test="${_query}">&nbsp;
                                                 <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                                        data-querystr="cls=${cls}">
+                                                        data-querystr="cls=${param.cls}&type=${param.type}&columnType=${param.columnType}">
                                                     <i class="fa fa-reply"></i> 重置
                                                 </button>
                                             </c:if>

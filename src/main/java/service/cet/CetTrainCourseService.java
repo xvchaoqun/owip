@@ -6,6 +6,7 @@ import domain.cet.CetCourse;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseExample;
+import domain.cet.CetTrainCourseFile;
 import domain.cet.CetTrainEvaResultExample;
 import domain.cet.CetTraineeCourseView;
 import domain.cet.CetTraineeCourseViewExample;
@@ -96,6 +97,22 @@ public class CetTrainCourseService extends BaseMapper {
 
         return map;
     }
+
+    @Transactional
+    public void batchAddFile(List<CetTrainCourseFile> records) {
+
+        for (CetTrainCourseFile record : records) {
+            //record.setSortOrder(getNextSortOrder("sc_group_file", "1=1"));
+            cetTrainCourseFileMapper.insertSelective(record);
+        }
+    }
+
+    @Transactional
+    public void delFile(Integer fileId) {
+
+        cetTrainCourseFileMapper.deleteByPrimaryKey(fileId);
+    }
+
 
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序

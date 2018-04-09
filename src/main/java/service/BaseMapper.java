@@ -68,9 +68,13 @@ import persistence.cet.CetColumnCourseMapper;
 import persistence.cet.CetColumnCourseViewMapper;
 import persistence.cet.CetColumnMapper;
 import persistence.cet.CetColumnViewMapper;
+import persistence.cet.CetCourseFileMapper;
+import persistence.cet.CetCourseItemMapper;
 import persistence.cet.CetCourseMapper;
 import persistence.cet.CetCourseTypeMapper;
+import persistence.cet.CetCourseTypeViewMapper;
 import persistence.cet.CetExpertMapper;
+import persistence.cet.CetExpertViewMapper;
 import persistence.cet.CetProjectMapper;
 import persistence.cet.CetProjectObjCadreViewMapper;
 import persistence.cet.CetProjectObjMapper;
@@ -78,7 +82,10 @@ import persistence.cet.CetProjectPlanMapper;
 import persistence.cet.CetProjectTraineeTypeMapper;
 import persistence.cet.CetProjectViewMapper;
 import persistence.cet.CetShortMsgMapper;
+import persistence.cet.CetTrainCourseFileMapper;
 import persistence.cet.CetTrainCourseMapper;
+import persistence.cet.CetTrainCourseObjMapper;
+import persistence.cet.CetTrainCourseObjResultMapper;
 import persistence.cet.CetTrainCourseStatViewMapper;
 import persistence.cet.CetTrainCourseViewMapper;
 import persistence.cet.CetTrainEvaNormMapper;
@@ -359,9 +366,17 @@ public class BaseMapper {
     @Autowired(required = false)
     protected CetCourseMapper cetCourseMapper;
     @Autowired(required = false)
+    protected CetCourseFileMapper cetCourseFileMapper;
+    @Autowired(required = false)
+    protected CetCourseItemMapper cetCourseItemMapper;
+    @Autowired(required = false)
     protected CetCourseTypeMapper cetCourseTypeMapper;
     @Autowired(required = false)
+    protected CetCourseTypeViewMapper cetCourseTypeViewMapper;
+    @Autowired(required = false)
     protected CetExpertMapper cetExpertMapper;
+    @Autowired(required = false)
+    protected CetExpertViewMapper cetExpertViewMapper;
     @Autowired(required = false)
     protected CetColumnMapper cetColumnMapper;
     @Autowired(required = false)
@@ -376,6 +391,12 @@ public class BaseMapper {
     protected CetTrainViewMapper cetTrainViewMapper;
     @Autowired(required = false)
     protected CetTrainCourseMapper cetTrainCourseMapper;
+    @Autowired(required = false)
+    protected CetTrainCourseFileMapper cetTrainCourseFileMapper;
+    @Autowired(required = false)
+    protected CetTrainCourseObjMapper cetTrainCourseObjMapper;
+    @Autowired(required = false)
+    protected CetTrainCourseObjResultMapper cetTrainCourseObjResultMapper;
     @Autowired(required = false)
     protected CetTrainCourseViewMapper cetTrainCourseViewMapper;
     @Autowired(required = false)

@@ -8,7 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetCourse_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetCourse.id}">
-        <input type="hidden" name="isOnline" value="${isOnline}">
+        <input type="hidden" name="type" value="${type}">
 
 			<div class="form-group">
 				<label class="col-xs-3 control-label">设立时间</label>
@@ -64,7 +64,7 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control period" type="text" name="period" value="${cetCourse.period}">
 				</div>
 			</div>
-		<c:if test="${isOnline}">
+		<c:if test="${type==CET_COURSE_TYPE_ONLINE}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">时长</label>
 				<div class="col-xs-6">
