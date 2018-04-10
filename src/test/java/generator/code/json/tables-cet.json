@@ -35,6 +35,33 @@
       "ignore": true
     },
     {
+      "table": "cet_plan_course",
+      "key": "id",
+      "searchColumns": "plan_id",
+      "showColumns": "plan_id,course_id,num,is_finished",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_plan_course_obj",
+      "key": "id",
+      "searchColumns": "plan_course_id",
+      "showColumns": "plan_course_id,obj_id,num,is_finished",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": true
+    },
+    {
+      "table": "cet_plan_course_obj_result",
+      "key": "id",
+      "searchColumns": "plan_course_obj_id",
+      "showColumns": "plan_course_obj_id,course_item_id,course_num,period",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": true
+    },
+    {
       "table": "cet_expert",
       "key": "id",
       "searchColumns": "realname",
@@ -68,7 +95,7 @@
       "showColumns": "course_id,file_name,file_path,sort_order",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_course_item",
@@ -77,7 +104,7 @@
       "showColumns": "course_id,name,period,sort_order",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_column",
@@ -105,24 +132,6 @@
       "excludeEditColumns": "id,is_deleted,create_time",
       "logType":"SystemConstants.LOG_CET",
       "ignore": true
-    },
-    {
-      "table": "cet_train_course_obj",
-      "key": "id",
-      "searchColumns": "train_course_id",
-      "showColumns": "train_course_id,obj_id,num,is_finished",
-      "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
-      "ignore": false
-    },
-    {
-      "table": "cet_train_course_obj_result",
-      "key": "id",
-      "searchColumns": "train_course_obj_id",
-      "showColumns": "train_course_obj_id,course_item_id,course_num,period",
-      "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
-      "ignore": false
     },
     {
       "table": "cet_trainee_type",

@@ -1,8 +1,8 @@
 package controller.cet;
 
-import domain.cet.CetTrainCourseObj;
-import domain.cet.CetTrainCourseObjExample;
-import domain.cet.CetTrainCourseObjExample.Criteria;
+import domain.cet.CetPlanCourseObj;
+import domain.cet.CetPlanCourseObjExample;
+import domain.cet.CetPlanCourseObjExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -33,21 +33,21 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/cet")
-public class CetTrainCourseObjController extends CetBaseController {
+public class CetPlanCourseObjController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cetTrainCourseObj:list")
-    @RequestMapping("/cetTrainCourseObj")
-    public String cetTrainCourseObj() {
+    @RequiresPermissions("cetProjectPlan:list")
+    @RequestMapping("/cetPlanCourseObj")
+    public String cetPlanCourseObj() {
 
-        return "cet/cetTrainCourseObj/cetTrainCourseObj_page";
+        return "cet/cetPlanCourseObj/cetPlanCourseObj_page";
     }
 
-    @RequiresPermissions("cetTrainCourseObj:list")
-    @RequestMapping("/cetTrainCourseObj_data")
-    public void cetTrainCourseObj_data(HttpServletResponse response,
-                                    Integer trainCourseId,
+    @RequiresPermissions("cetProjectPlan:list")
+    @RequestMapping("/cetPlanCourseObj_data")
+    public void cetPlanCourseObj_data(HttpServletResponse response,
+                                    Integer planCourseId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -60,27 +60,27 @@ public class CetTrainCourseObjController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetTrainCourseObjExample example = new CetTrainCourseObjExample();
+        CetPlanCourseObjExample example = new CetPlanCourseObjExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("id asc");
 
-        if (trainCourseId!=null) {
-            criteria.andTrainCourseIdEqualTo(trainCourseId);
+        if (planCourseId!=null) {
+            criteria.andPlanCourseIdEqualTo(planCourseId);
         }
 
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cetTrainCourseObj_export(example, response);
+            cetPlanCourseObj_export(example, response);
             return;
         }
 
-        long count = cetTrainCourseObjMapper.countByExample(example);
+        long count = cetPlanCourseObjMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetTrainCourseObj> records= cetTrainCourseObjMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetPlanCourseObj> records= cetPlanCourseObjMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -90,67 +90,67 @@ public class CetTrainCourseObjController extends CetBaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(cetTrainCourseObj.class, cetTrainCourseObjMixin.class);
+        //baseMixins.put(cetPlanCourseObj.class, cetPlanCourseObjMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 
-    @RequiresPermissions("cetTrainCourseObj:edit")
-    @RequestMapping(value = "/cetTrainCourseObj_au", method = RequestMethod.POST)
+    @RequiresPermissions("cetProjectPlan:edit")
+    @RequestMapping(value = "/cetPlanCourseObj_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrainCourseObj_au(CetTrainCourseObj record, HttpServletRequest request) {
+    public Map do_cetPlanCourseObj_au(CetPlanCourseObj record, HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        if (cetTrainCourseObjService.idDuplicate(id, record.getTrainCourseId(), record.getObjId())) {
+        if (cetPlanCourseObjService.idDuplicate(id, record.getPlanCourseId(), record.getObjId())) {
             return failed("添加重复");
         }
         if (id == null) {
-            cetTrainCourseObjService.insertSelective(record);
+            cetPlanCourseObjService.insertSelective(record);
             logger.info(addLog( SystemConstants.LOG_CET, "添加选课学员：%s", record.getId()));
         } else {
 
-            cetTrainCourseObjService.updateByPrimaryKeySelective(record);
+            cetPlanCourseObjService.updateByPrimaryKeySelective(record);
             logger.info(addLog( SystemConstants.LOG_CET, "更新选课学员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetTrainCourseObj:edit")
-    @RequestMapping("/cetTrainCourseObj_au")
-    public String cetTrainCourseObj_au(Integer id, ModelMap modelMap) {
+    @RequiresPermissions("cetProjectPlan:edit")
+    @RequestMapping("/cetPlanCourseObj_au")
+    public String cetPlanCourseObj_au(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-            CetTrainCourseObj cetTrainCourseObj = cetTrainCourseObjMapper.selectByPrimaryKey(id);
-            modelMap.put("cetTrainCourseObj", cetTrainCourseObj);
+            CetPlanCourseObj cetPlanCourseObj = cetPlanCourseObjMapper.selectByPrimaryKey(id);
+            modelMap.put("cetPlanCourseObj", cetPlanCourseObj);
         }
-        return "cet/cetTrainCourseObj/cetTrainCourseObj_au";
+        return "cet/cetPlanCourseObj/cetPlanCourseObj_au";
     }
 
-    @RequiresPermissions("cetTrainCourseObj:del")
-    @RequestMapping(value = "/cetTrainCourseObj_del", method = RequestMethod.POST)
+    @RequiresPermissions("cetProjectPlan:del")
+    @RequestMapping(value = "/cetPlanCourseObj_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrainCourseObj_del(HttpServletRequest request, Integer id) {
+    public Map do_cetPlanCourseObj_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
-            cetTrainCourseObjService.del(id);
+            cetPlanCourseObjService.del(id);
             logger.info(addLog( SystemConstants.LOG_CET, "删除选课学员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
 
-    public void cetTrainCourseObj_export(CetTrainCourseObjExample example, HttpServletResponse response) {
+    public void cetPlanCourseObj_export(CetPlanCourseObjExample example, HttpServletResponse response) {
 
-        List<CetTrainCourseObj> records = cetTrainCourseObjMapper.selectByExample(example);
+        List<CetPlanCourseObj> records = cetPlanCourseObjMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"所属培训课程|100","培训对象|100","提交学习心得数|100","是否结业|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetTrainCourseObj record = records.get(i);
+            CetPlanCourseObj record = records.get(i);
             String[] values = {
-                record.getTrainCourseId()+"",
+                record.getPlanCourseId()+"",
                             record.getObjId()+"",
                             record.getNum()+"",
                             record.getIsFinished() +""

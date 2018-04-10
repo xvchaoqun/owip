@@ -13,6 +13,10 @@ public class CetProjectObj implements Serializable {
 
     private Boolean isQuit;
 
+    private String wordWrite;
+
+    private String pdfWrite;
+
     private String remark;
 
     private static final long serialVersionUID = 1L;
@@ -55,6 +59,22 @@ public class CetProjectObj implements Serializable {
 
     public void setIsQuit(Boolean isQuit) {
         this.isQuit = isQuit;
+    }
+
+    public String getWordWrite() {
+        return wordWrite;
+    }
+
+    public void setWordWrite(String wordWrite) {
+        this.wordWrite = wordWrite == null ? null : wordWrite.trim();
+    }
+
+    public String getPdfWrite() {
+        return pdfWrite;
+    }
+
+    public void setPdfWrite(String pdfWrite) {
+        this.pdfWrite = pdfWrite == null ? null : pdfWrite.trim();
     }
 
     public String getRemark() {

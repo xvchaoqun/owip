@@ -17,7 +17,7 @@
                 <li>
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"
-                       data-url="${ctx}/cet/cetProject_detail/obj?projectId=${param.projectId}">
+                       data-url="${ctx}/cet/cetProject_detail/obj?cls=1&projectId=${param.projectId}">
                         <i class="green ace-icon fa fa-pencil-square-o bigger-120"></i> 培训对象及学习情况</a>
                 </li>
                 <li class="active">

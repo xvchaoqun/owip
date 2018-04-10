@@ -1,6 +1,8 @@
 package domain.cet;
 
+import domain.sys.SysUserView;
 import persistence.cet.CetTrainCourseMapper;
+import service.cet.CetPlanCourseObjService;
 import service.cet.CetTraineeCourseService;
 import service.cet.CetTraineeService;
 import sys.tags.CmTag;
@@ -11,34 +13,67 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CetProjectObjCadreView implements Serializable {
 
-    public Map getCetTraineeCourseView(){
+    public Map getObjCourseView() {
 
         HttpServletRequest request = ContextHelper.getRequest();
-        if(request==null) return null;
-        Integer trainCourseId = (Integer) request.getAttribute("trainCourseId");
-        if(trainCourseId==null) return null;
+        if (request == null) return null;
 
-        CetTraineeCourseService cetTraineeCourseService = CmTag.getBean(CetTraineeCourseService.class);
-        CetTraineeCourseView ctc = cetTraineeCourseService.getCetTraineeCourseView(userId, trainCourseId);
         Map<String, Object> resultMap = new HashMap<>();
-        if(ctc!=null){
-            resultMap.put("canQuit", ctc.getCanQuit());
-            resultMap.put("traineeId", ctc.getTraineeId());
-            resultMap.put("isFinished", ctc.getIsFinished());
-            resultMap.put("chooseTime", ctc.getChooseTime());
-            resultMap.put("chooseUserId", ctc.getChooseUserId());
-            resultMap.put("chooseUserName", ctc.getChooseUserName());
-        }else{
-            resultMap.put("canQuit", true);
-            CetTrainCourseMapper cetTrainCourseMapper = CmTag.getBean(CetTrainCourseMapper.class);
-            CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
-            CetTraineeService cetTraineeService = CmTag.getBean(CetTraineeService.class);
-            CetTraineeView cetTraineeView = cetTraineeService.createIfNotExist(userId, cetTrainCourse.getTrainId());
-            resultMap.put("traineeId", cetTraineeView.getId());
+
+        Integer trainCourseId = (Integer) request.getAttribute("trainCourseId");
+        Integer planCourseId = (Integer) request.getAttribute("planCourseId");
+        if (trainCourseId == null && planCourseId == null) return null;
+
+        if (trainCourseId != null) {
+            // 培训班选课页面
+            CetTraineeCourseService cetTraineeCourseService = CmTag.getBean(CetTraineeCourseService.class);
+            CetTraineeCourseView ctc = cetTraineeCourseService.getCetTraineeCourseView(userId, trainCourseId);
+
+            if (ctc != null) {
+                resultMap.put("canQuit", ctc.getCanQuit());
+                resultMap.put("traineeId", ctc.getTraineeId());
+                resultMap.put("isFinished", ctc.getIsFinished());
+                resultMap.put("chooseTime", ctc.getChooseTime());
+                resultMap.put("chooseUserId", ctc.getChooseUserId());
+                resultMap.put("chooseUserName", ctc.getChooseUserName());
+            } else {
+                resultMap.put("canQuit", true);
+                CetTrainCourseMapper cetTrainCourseMapper = CmTag.getBean(CetTrainCourseMapper.class);
+                CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
+                CetTraineeService cetTraineeService = CmTag.getBean(CetTraineeService.class);
+                CetTraineeView cetTraineeView = cetTraineeService.createIfNotExist(userId, cetTrainCourse.getTrainId());
+                resultMap.put("traineeId", cetTraineeView.getId());
+            }
+        } else if (planCourseId != null) {
+            // 培训方案选课页面
+            CetPlanCourseObjService cetPlanCourseObjService = CmTag.getBean(CetPlanCourseObjService.class);
+            CetPlanCourseObj cpo = cetPlanCourseObjService.getByUserId(userId, planCourseId);
+            if (cpo != null) {
+                resultMap.put("planCourseObjId", cpo.getId());
+                BigDecimal period = BigDecimal.ZERO;
+                int planCourseObjId = cpo.getId();
+                List<CetPlanCourseObjResult> results = cetPlanCourseObjService.getResults(planCourseObjId);
+                for (CetPlanCourseObjResult result : results) {
+                    if (result.getPeriod() == null) continue;
+                    period = period.add(result.getPeriod());
+                }
+
+                resultMap.put("period", period);
+
+                resultMap.put("chooseTime", cpo.getChooseTime());
+                if (cpo.getChooseUserId() != null) {
+
+                    resultMap.put("isFinished", cpo.getIsFinished());
+                    resultMap.put("chooseUserId", cpo.getChooseUserId());
+                    SysUserView uv = CmTag.getUserById(cpo.getChooseUserId());
+                    resultMap.put("chooseUserName", uv == null ? null : uv.getRealname());
+                }
+            }
         }
 
         return resultMap;
@@ -53,6 +88,10 @@ public class CetProjectObjCadreView implements Serializable {
     private Integer traineeTypeId;
 
     private Boolean isQuit;
+
+    private String wordWrite;
+
+    private String pdfWrite;
 
     private String remark;
 
@@ -126,6 +165,22 @@ public class CetProjectObjCadreView implements Serializable {
 
     public void setIsQuit(Boolean isQuit) {
         this.isQuit = isQuit;
+    }
+
+    public String getWordWrite() {
+        return wordWrite;
+    }
+
+    public void setWordWrite(String wordWrite) {
+        this.wordWrite = wordWrite == null ? null : wordWrite.trim();
+    }
+
+    public String getPdfWrite() {
+        return pdfWrite;
+    }
+
+    public void setPdfWrite(String pdfWrite) {
+        this.pdfWrite = pdfWrite == null ? null : pdfWrite.trim();
     }
 
     public String getRemark() {

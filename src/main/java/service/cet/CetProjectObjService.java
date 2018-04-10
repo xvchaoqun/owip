@@ -61,6 +61,14 @@ public class CetProjectObjService extends BaseMapper {
         cetProjectObjMapper.deleteByPrimaryKey(id);
     }
 
+    // 删除心得体会
+    @Transactional
+    public void clearWrite(Integer[] ids) {
+        for (Integer id : ids) {
+            commonMapper.excuteSql("update cet_project_obj set word_write=null, pdf_write=null where id=" + id);
+        }
+    }
+
     @Transactional
     public void batchDel(Integer[] ids){
 
@@ -166,10 +174,10 @@ public class CetProjectObjService extends BaseMapper {
     }
 
     // 设置为必选学员/取消必选
-    public void canQuit(Integer[] ids, boolean canQuit, int trainCourseId) {
+    public void canQuit(Integer[] objIds, boolean canQuit, int trainCourseId) {
 
         CetProjectObjExample example = new CetProjectObjExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
+        example.createCriteria().andIdIn(Arrays.asList(objIds));
         List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
 
         CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
@@ -225,4 +233,6 @@ public class CetProjectObjService extends BaseMapper {
             }
         }
     }
+
+
 }

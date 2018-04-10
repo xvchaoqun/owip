@@ -537,7 +537,7 @@ public class XlsUpload {
                     allIsNull = false;
                 }
 
-                xlsRow.put(j, val);
+                xlsRow.put(j, StringUtils.trimToNull(val));
             }
             // 如果所有的列都是空的，不处理
             if(!allIsNull) xlsRows.add(xlsRow);

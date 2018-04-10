@@ -49,7 +49,7 @@ public interface ICetMapper {
     public List<CetTrainCourse> unSelectedCetTrainCourses(@Param("trainId") Integer trainId,
                                                              @Param("traineeId") Integer traineeId);
 
-    // 培训班 选择 线上或线下课程
+    // 培训班 选择 课程
     List<CetCourse> cetTrainCourse_selectCourses(@Param("trainId") int trainId,
                                                  @Param("expertId") Integer expertId,
                                                  @Param("name") String name,
@@ -57,6 +57,14 @@ public interface ICetMapper {
                                                  RowBounds rowBounds);
     int cetTrainCourse_countCourses(@Param("trainId") int trainId,
                                     @Param("expertId") Integer expertId,
+                                    @Param("name") String name,
+                                    @Param("courseTypes") Byte[] courseTypes);
+    // 培训方案 选择 课程
+    List<CetCourse> cetPlanCourse_selectCourses(@Param("planId") int planId,
+                                                 @Param("name") String name,
+                                                 @Param("courseTypes") Byte[] courseTypes,
+                                                 RowBounds rowBounds);
+    int cetPlanCourse_countCourses(@Param("planId") int planId,
                                     @Param("name") String name,
                                     @Param("courseTypes") Byte[] courseTypes);
 
@@ -96,13 +104,21 @@ public interface ICetMapper {
             " and cpo.user_id=#{userId}")
     public CetProjectObj getCetProjectObj(@Param("userId") int userId, @Param("trainId") int trainId);
 
+    /**
+     select user_id, sum(period) as yearPeriod from cet_trainee_course_view cteecv
+     where is_finished=1 and year=(select cp.year from cet_project cp, cet_project_plan cpp, cet_train ct
+     where ct.id=25 and ct.plan_id=cpp.id and cpp.project_id=cp.id)
+     and user_id in (select cpo.user_id from  cet_trainee ctee, cet_project_obj cpo
+     where ctee.train_id=25 and ctee.obj_id=cpo.id)
+     group by user_id;
+     */
     // 获取某个培训班下面，每个参训人员的年度参加培训情况（年度参加培训的总学时数）
     @ResultType(java.util.HashMap.class)
-    @Select("select cteecv.user_id as userId, sum(cteecv.period) as yearPeriod from cet_trainee ctee, cet_project_obj cpo, " +
-            "cet_train ct, cet_project_plan cpp, cet_project cp, cet_trainee_course_view cteecv " +
-            "where ctee.train_id=#{trainId} and ct.plan_id=cpp.id and cpp.project_id=cp.id and ctee.obj_id=cpo.id " +
-            "and cteecv.is_finished=1 and cteecv.user_id=cpo.user_id and cteecv.year=cp.year " +
-            "group by cteecv.user_id")
+    @Select("select user_id as userId, sum(period) as yearPeriod from cet_trainee_course_view cteecv  " +
+            "where is_finished=1 and year=(select cp.year from cet_project cp, cet_project_plan cpp, cet_train ct " +
+            "where ct.id=#{trainId} and ct.plan_id=cpp.id and cpp.project_id=cp.id) " +
+            "and user_id in (select cpo.user_id from  cet_trainee ctee, cet_project_obj cpo " +
+            "where ctee.train_id=#{trainId} and ctee.obj_id=cpo.id) group by user_id")
     public List<Map> listTraineeYearPeriod(@Param("trainId") int trainId);
 
     // 一个培训班内，每个参训人对每个课程的评价情况

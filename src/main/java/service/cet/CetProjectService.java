@@ -7,8 +7,11 @@ import domain.cet.CetProjectObj;
 import domain.cet.CetProjectObjExample;
 import domain.cet.CetProjectTraineeType;
 import domain.cet.CetProjectTraineeTypeExample;
+import domain.cet.CetProjectView;
+import domain.cet.CetProjectViewExample;
 import domain.cet.CetTraineeType;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +32,15 @@ public class CetProjectService extends BaseMapper {
     private CetProjectObjService cetProjectObjService;
     @Autowired
     private CetTraineeTypeService cetTraineeTypeService;
+
+    public CetProjectView getView(int projectId){
+
+        CetProjectViewExample example = new CetProjectViewExample();
+        example.createCriteria().andIdEqualTo(projectId);
+        List<CetProjectView> cetProjectViews = cetProjectViewMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
+
+        return cetProjectViews.size()==1?cetProjectViews.get(0):null;
+    }
 
     @Transactional
     public void insertSelective(CetProject record, Integer[] traineeTypeIds){
@@ -126,4 +138,6 @@ public class CetProjectService extends BaseMapper {
             cetProjectTraineeTypeMapper.insertSelective(record);
         }
     }
+
+
 }

@@ -1,5 +1,6 @@
 package controller.cet;
 
+import domain.cet.CetPlanCourse;
 import domain.cet.CetProject;
 import domain.cet.CetTrainCourse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
@@ -35,7 +37,11 @@ public class CetProjectDetailController extends CetBaseController {
 
     @RequiresPermissions("cetProject:edit")
     @RequestMapping("/cetProject_detail/obj")
-    public String projectee(int projectId, Integer trainCourseId, ModelMap modelMap) {
+    public String projectee(int projectId,
+                            @RequestParam(defaultValue = "1") Integer cls, // 同/cetProjectObj的cls
+                            Integer trainCourseId, // 培训班选课
+                            Integer planCourseId,  // 培训方案选课
+                            ModelMap modelMap) {
 
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
         modelMap.put("cetProject", cetProject);
@@ -43,7 +49,13 @@ public class CetProjectDetailController extends CetBaseController {
         if(trainCourseId!=null){
             CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
             modelMap.put("cetTrainCourse", cetTrainCourse);
+        }else if(planCourseId!=null){
+
+            CetPlanCourse cetPlanCourse = cetPlanCourseMapper.selectByPrimaryKey(planCourseId);
+            modelMap.put("cetPlanCourse", cetPlanCourse);
         }
+
+        modelMap.put("cls", cls);
 
         return "cet/cetProject/cetProject_detail/obj";
     }

@@ -7,17 +7,17 @@ pageEncoding="UTF-8" %>
         <div id="body-content" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.trainCourseObjId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="cetTrainCourseObjResult:edit">
+                <shiro:hasPermission name="cetPlanCourseObjResult:edit">
                     <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/cet/cetTrainCourseObjResult_au">
+                            data-url="${ctx}/cet/cetPlanCourseObjResult_au">
                         <i class="fa fa-plus"></i> 添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cet/cetTrainCourseObjResult_au"
+                       data-url="${ctx}/cet/cetPlanCourseObjResult_au"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cetTrainCourseObjResult:del">
-                    <button data-url="${ctx}/cet/cetTrainCourseObjResult_batchDel"
+                <shiro:hasPermission name="cetPlanCourseObjResult:del">
+                    <button data-url="${ctx}/cet/cetPlanCourseObjResult_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -26,7 +26,7 @@ pageEncoding="UTF-8" %>
                     </button>
                 </shiro:hasPermission>
                 <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/cet/cetTrainCourseObjResult_data"
+                   data-url="${ctx}/cet/cetPlanCourseObjResult_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
             </div>
@@ -50,12 +50,12 @@ pageEncoding="UTF-8" %>
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/cet/cetTrainCourseObjResult"
+                                   data-url="${ctx}/cet/cetPlanCourseObjResult"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/cet/cetTrainCourseObjResult"
+                                            data-url="${ctx}/cet/cetPlanCourseObjResult"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
@@ -74,7 +74,7 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/cet/cetTrainCourseObjResult_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cet/cetPlanCourseObjResult_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '所属培训课程',name: 'trainCourseObjId'},
             { label: '所属课程专题班',name: 'courseItemId'},

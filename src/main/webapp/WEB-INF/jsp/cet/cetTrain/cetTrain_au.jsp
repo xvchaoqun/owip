@@ -85,7 +85,7 @@ pageEncoding="UTF-8"%>
                         $("#jqGrid").trigger("reloadGrid");
 						</c:if>
 						<c:if test="${param.isOnCampus!=0}">
-						$("#jqGrid3").trigger("reloadGrid");
+						$("#jqGrid2").trigger("reloadGrid");
 						</c:if>
                     }
                 }

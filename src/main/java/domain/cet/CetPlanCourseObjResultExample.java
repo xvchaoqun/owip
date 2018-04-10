@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CetTrainCourseObjResultExample {
+public class CetPlanCourseObjResultExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CetTrainCourseObjResultExample() {
+    public CetPlanCourseObjResultExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -165,63 +165,63 @@ public class CetTrainCourseObjResultExample {
             return (Criteria) this;
         }
 
-        public Criteria andTrainCourseObjIdIsNull() {
-            addCriterion("train_course_obj_id is null");
+        public Criteria andPlanCourseObjIdIsNull() {
+            addCriterion("plan_course_obj_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTrainCourseObjIdIsNotNull() {
-            addCriterion("train_course_obj_id is not null");
+        public Criteria andPlanCourseObjIdIsNotNull() {
+            addCriterion("plan_course_obj_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTrainCourseObjIdEqualTo(Integer value) {
-            addCriterion("train_course_obj_id =", value, "trainCourseObjId");
+        public Criteria andPlanCourseObjIdEqualTo(Integer value) {
+            addCriterion("plan_course_obj_id =", value, "planCourseObjId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainCourseObjIdNotEqualTo(Integer value) {
-            addCriterion("train_course_obj_id <>", value, "trainCourseObjId");
+        public Criteria andPlanCourseObjIdNotEqualTo(Integer value) {
+            addCriterion("plan_course_obj_id <>", value, "planCourseObjId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainCourseObjIdGreaterThan(Integer value) {
-            addCriterion("train_course_obj_id >", value, "trainCourseObjId");
+        public Criteria andPlanCourseObjIdGreaterThan(Integer value) {
+            addCriterion("plan_course_obj_id >", value, "planCourseObjId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainCourseObjIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("train_course_obj_id >=", value, "trainCourseObjId");
+        public Criteria andPlanCourseObjIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("plan_course_obj_id >=", value, "planCourseObjId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainCourseObjIdLessThan(Integer value) {
-            addCriterion("train_course_obj_id <", value, "trainCourseObjId");
+        public Criteria andPlanCourseObjIdLessThan(Integer value) {
+            addCriterion("plan_course_obj_id <", value, "planCourseObjId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainCourseObjIdLessThanOrEqualTo(Integer value) {
-            addCriterion("train_course_obj_id <=", value, "trainCourseObjId");
+        public Criteria andPlanCourseObjIdLessThanOrEqualTo(Integer value) {
+            addCriterion("plan_course_obj_id <=", value, "planCourseObjId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainCourseObjIdIn(List<Integer> values) {
-            addCriterion("train_course_obj_id in", values, "trainCourseObjId");
+        public Criteria andPlanCourseObjIdIn(List<Integer> values) {
+            addCriterion("plan_course_obj_id in", values, "planCourseObjId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainCourseObjIdNotIn(List<Integer> values) {
-            addCriterion("train_course_obj_id not in", values, "trainCourseObjId");
+        public Criteria andPlanCourseObjIdNotIn(List<Integer> values) {
+            addCriterion("plan_course_obj_id not in", values, "planCourseObjId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainCourseObjIdBetween(Integer value1, Integer value2) {
-            addCriterion("train_course_obj_id between", value1, value2, "trainCourseObjId");
+        public Criteria andPlanCourseObjIdBetween(Integer value1, Integer value2) {
+            addCriterion("plan_course_obj_id between", value1, value2, "planCourseObjId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainCourseObjIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("train_course_obj_id not between", value1, value2, "trainCourseObjId");
+        public Criteria andPlanCourseObjIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("plan_course_obj_id not between", value1, value2, "planCourseObjId");
             return (Criteria) this;
         }
 

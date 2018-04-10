@@ -8,6 +8,10 @@
                data-url="${ctx}/cet/cetProject_detail?projectId=${cetProjectPlan.projectId}">
                 <i class="ace-icon fa fa-backward"></i> 返回</a>
         </h4>
+        <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
+                    培训方案：${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}
+                    （${cm:formatDate(cetProjectPlan.startDate, "yyyy-MM-dd")} ~ ${cm:formatDate(cetProjectPlan.endDate, "yyyy-MM-dd")}）
+        </span>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" id="detail-ul">
                 <li class="active">
@@ -28,7 +32,7 @@
                     </button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                             data-url="${ctx}/cet/cetTrain_au"
-                            data-grid-id="#jqGrid3"><i class="fa fa-edit"></i>
+                            data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                         修改
                     </button>
                     <button id="pubBtn" class="jqItemBtn btn btn-success btn-sm"
@@ -36,7 +40,7 @@
                             data-title="发布"
                             data-msg="确定发布该培训班？"
                             data-callback="_reload3"
-                            data-grid-id="#jqGrid3"
+                            data-grid-id="#jqGrid2"
                             data-querystr="pubStatus=1"><i class="fa fa-check"></i>
                         发布
                     </button>
@@ -45,7 +49,7 @@
                             data-title="取消发布"
                             data-msg="确定取消发布该培训班？"
                             data-callback="_reload3"
-                            data-grid-id="#jqGrid3"
+                            data-grid-id="#jqGrid2"
                             data-querystr="pubStatus=2"><i class="fa fa-times"></i>
                         取消发布
                     </button>
@@ -54,7 +58,7 @@
                             data-title="结课"
                             data-msg="确定培训班结课？"
                             data-callback="_reload3"
-                            data-grid-id="#jqGrid3"
+                            data-grid-id="#jqGrid2"
                             ><i class="fa fa-dot-circle-o"></i>
                         结课
                     </button>
@@ -63,7 +67,7 @@
                 <button data-url="${ctx}/cet/cetTrain_batchDel"
                         data-title="彻底删除"
                         data-msg="确定彻底删除这{0}条数据？（该培训班下的所有数据均将彻底删除，删除后无法恢复，请谨慎操作！）"
-                        data-grid-id="#jqGrid3"
+                        data-grid-id="#jqGrid2"
                         class="jqBatchBtn btn btn-danger btn-sm">
                     <i class="fa fa-trash"></i> 彻底删除
                 </button>
@@ -119,17 +123,17 @@
                 </div>
             </div>--%>
             <div class="space-4"></div>
-            <table id="jqGrid3" class="jqGrid2 table-striped"></table>
-            <div id="jqGridPager3"></div>
+            <table id="jqGrid2" class="jqGrid2 table-striped"></table>
+            <div id="jqGridPager2"></div>
         </div>
     </div>
 </div>
 <script>
     function _reload3() {
-        $("#jqGrid3").trigger("reloadGrid");
+        $("#jqGrid2").trigger("reloadGrid");
     }
-    $("#jqGrid3").jqGrid({
-        pager: "jqGridPager3",
+    $("#jqGrid2").jqGrid({
+        pager: "jqGridPager2",
         url: '${ctx}/cet/cetTrain_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
@@ -200,7 +204,7 @@
         }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
-    $.initNavGrid("jqGrid3", "jqGridPager3");
+    $.initNavGrid("jqGrid2", "jqGridPager2");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 

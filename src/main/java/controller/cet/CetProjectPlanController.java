@@ -148,9 +148,17 @@ public class CetProjectPlanController extends CetBaseController {
             case CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE: // 线下培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
                 return "forward:/cet/cetTrain";
+
+            case CetConstants.CET_PROJECT_PLAN_TYPE_SELF: // 自主学习
+            case CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL: // 上级网上专题班
+                return "forward:/cet/cetPlanCourse";
+
+            case CetConstants.CET_PROJECT_PLAN_TYPE_WRITE:
+                Integer projectId = cetProjectPlan.getProjectId();
+                return "forward:/cet/cetProject_detail/obj?cls=4&projectId="+projectId + "&planId="+planId;
         }
 
-        return "cet/cetProjectPlan/cetProjectPlan_detail";
+        return null;
     }
 
     @RequestMapping("/cetProjectPlan_summary")

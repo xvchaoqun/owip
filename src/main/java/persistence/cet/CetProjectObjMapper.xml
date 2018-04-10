@@ -7,6 +7,8 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
+    <result column="word_write" jdbcType="VARCHAR" property="wordWrite" />
+    <result column="pdf_write" jdbcType="VARCHAR" property="pdfWrite" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -68,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, user_id, trainee_type_id, is_quit, remark
+    id, project_id, user_id, trainee_type_id, is_quit, word_write, pdf_write, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectObjExample" resultMap="BaseResultMap">
     select
@@ -105,9 +107,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cet_project_obj (project_id, user_id, trainee_type_id, 
-      is_quit, remark)
+      is_quit, word_write, pdf_write, 
+      remark)
     values (#{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
-      #{isQuit,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
+      #{isQuit,jdbcType=BIT}, #{wordWrite,jdbcType=VARCHAR}, #{pdfWrite,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProjectObj">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -127,6 +131,12 @@
       <if test="isQuit != null">
         is_quit,
       </if>
+      <if test="wordWrite != null">
+        word_write,
+      </if>
+      <if test="pdfWrite != null">
+        pdf_write,
+      </if>
       <if test="remark != null">
         remark,
       </if>
@@ -143,6 +153,12 @@
       </if>
       <if test="isQuit != null">
         #{isQuit,jdbcType=BIT},
+      </if>
+      <if test="wordWrite != null">
+        #{wordWrite,jdbcType=VARCHAR},
+      </if>
+      <if test="pdfWrite != null">
+        #{pdfWrite,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -173,6 +189,12 @@
       <if test="record.isQuit != null">
         is_quit = #{record.isQuit,jdbcType=BIT},
       </if>
+      <if test="record.wordWrite != null">
+        word_write = #{record.wordWrite,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pdfWrite != null">
+        pdf_write = #{record.pdfWrite,jdbcType=VARCHAR},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -188,6 +210,8 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       trainee_type_id = #{record.traineeTypeId,jdbcType=INTEGER},
       is_quit = #{record.isQuit,jdbcType=BIT},
+      word_write = #{record.wordWrite,jdbcType=VARCHAR},
+      pdf_write = #{record.pdfWrite,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -208,6 +232,12 @@
       <if test="isQuit != null">
         is_quit = #{isQuit,jdbcType=BIT},
       </if>
+      <if test="wordWrite != null">
+        word_write = #{wordWrite,jdbcType=VARCHAR},
+      </if>
+      <if test="pdfWrite != null">
+        pdf_write = #{pdfWrite,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -220,6 +250,8 @@
       user_id = #{userId,jdbcType=INTEGER},
       trainee_type_id = #{traineeTypeId,jdbcType=INTEGER},
       is_quit = #{isQuit,jdbcType=BIT},
+      word_write = #{wordWrite,jdbcType=VARCHAR},
+      pdf_write = #{pdfWrite,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

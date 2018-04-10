@@ -52,10 +52,10 @@
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="pub_status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
         </table>-->
-       <!-- <table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
+        <table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-         <!--<table tableName="cet_project_obj_view" domainObjectName="cet.CetProjectObjView"
+        </table>
+         <table tableName="cet_project_obj_view" domainObjectName="cet.CetProjectObjView"
                 mapperName="cet.CetProjectObjViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -66,9 +66,8 @@
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>-->
-        <!--<table tableName="cet_project_plan" domainObjectName="cet.CetProjectPlan" mapperName="cet.CetProjectPlanMapper">
-        </table>-->
+         </table>
+
 
         <!--<table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
         </table>-->
@@ -107,6 +106,17 @@
         </table>-->
         <!--<table tableName="cet_column_course" domainObjectName="cet.CetColumnCourse" mapperName="cet.CetColumnCourseMapper">
         </table>-->
+
+        <!--<table tableName="cet_project_plan" domainObjectName="cet.CetProjectPlan" mapperName="cet.CetProjectPlanMapper">
+        </table>-->
+        <!--<table tableName="cet_plan_course" domainObjectName="cet.CetPlanCourse" mapperName="cet.CetPlanCourseMapper">
+        </table>-->
+        <!--<table tableName="cet_plan_course_obj" domainObjectName="cet.CetPlanCourseObj" mapperName="cet.CetPlanCourseObjMapper">
+        </table>-->
+        <!--<table tableName="cet_plan_course_obj_result" domainObjectName="cet.CetPlanCourseObjResult"
+               mapperName="cet.CetPlanCourseObjResultMapper">
+        </table>-->
+
         <!--<table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
@@ -126,8 +136,8 @@
 
         <!--<table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
         </table>-->
-        <table tableName="cet_train_course_file" domainObjectName="cet.CetTrainCourseFile" mapperName="cet.CetTrainCourseFileMapper">
-        </table>
+        <!--<table tableName="cet_train_course_file" domainObjectName="cet.CetTrainCourseFile" mapperName="cet.CetTrainCourseFileMapper">
+        </table>-->
         <!--<table tableName="cet_train_course_view" domainObjectName="cet.CetTrainCourseView" mapperName="cet.CetTrainCourseViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -138,10 +148,6 @@
             <columnOverride column="selected_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="eva_finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>-->
-        <!--<table tableName="cet_train_course_obj" domainObjectName="cet.CetTrainCourseObj" mapperName="cet.CetTrainCourseObjMapper">
-        </table>
-        <table tableName="cet_train_course_obj_result" domainObjectName="cet.CetTrainCourseObjResult" mapperName="cet.CetTrainCourseObjResultMapper">
         </table>-->
 
         <!--<table tableName="cet_train_course_stat_view" domainObjectName="cet.CetTrainCourseStatView"

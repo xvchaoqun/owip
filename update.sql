@@ -1,6 +1,24 @@
 
 
+2018-4-10
 
+新建 cet_plan_course
+cet_plan_course_obj
+cet_plan_course_obj_result
+
+ALTER TABLE `cet_course_item`
+	COMMENT='课程包含的专题班，针对上级网上专题班';
+
+ALTER TABLE `cet_trainee_course`
+	CHANGE COLUMN `choose_user_id` `choose_user_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '选课操作人， 如果是管理员选的， 那么显示管理员姓名； 如果是本人选的， 那么显示“本人”字样。' AFTER `choose_time`;
+
+ALTER TABLE `cet_project_obj`
+	ADD COLUMN `word_write` VARCHAR(200) NULL COMMENT '心得体会，WORD版' AFTER `is_quit`,
+	ADD COLUMN `pdf_write` VARCHAR(200) NULL COMMENT '心得体会，PDF版' AFTER `word_write`;
+
+	更新
+	cet_project_obj_view
+	cet_project_obj_cadre_view
 
 
 2018-4-10
@@ -47,8 +65,6 @@ ALTER TABLE `cet_course`
 
 新建 cet_course_file
 cet_course_item
--- cet_train_course_obj
--- cet_train_course_obj_item
 
 cet_train_course_file
 

@@ -3,10 +3,10 @@ package domain.cet;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class CetTrainCourseObjResult implements Serializable {
+public class CetPlanCourseObjResult implements Serializable {
     private Integer id;
 
-    private Integer trainCourseObjId;
+    private Integer planCourseObjId;
 
     private Integer courseItemId;
 
@@ -24,12 +24,12 @@ public class CetTrainCourseObjResult implements Serializable {
         this.id = id;
     }
 
-    public Integer getTrainCourseObjId() {
-        return trainCourseObjId;
+    public Integer getPlanCourseObjId() {
+        return planCourseObjId;
     }
 
-    public void setTrainCourseObjId(Integer trainCourseObjId) {
-        this.trainCourseObjId = trainCourseObjId;
+    public void setPlanCourseObjId(Integer planCourseObjId) {
+        this.planCourseObjId = planCourseObjId;
     }
 
     public Integer getCourseItemId() {

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.cet.CetTrainCourseObjMapper">
-  <resultMap id="BaseResultMap" type="domain.cet.CetTrainCourseObj">
+<mapper namespace="persistence.cet.CetPlanCourseObjResultMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetPlanCourseObjResult">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="train_course_id" jdbcType="INTEGER" property="trainCourseId" />
-    <result column="obj_id" jdbcType="INTEGER" property="objId" />
-    <result column="num" jdbcType="INTEGER" property="num" />
-    <result column="is_finished" jdbcType="BIT" property="isFinished" />
+    <result column="plan_course_obj_id" jdbcType="INTEGER" property="planCourseObjId" />
+    <result column="course_item_id" jdbcType="INTEGER" property="courseItemId" />
+    <result column="course_num" jdbcType="INTEGER" property="courseNum" />
+    <result column="period" jdbcType="DECIMAL" property="period" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_course_id, obj_id, num, is_finished
+    id, plan_course_obj_id, course_item_id, course_num, period
   </sql>
-  <select id="selectByExample" parameterType="domain.cet.CetTrainCourseObjExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.cet.CetPlanCourseObjResultExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_train_course_obj
+    from cet_plan_course_obj_result
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,85 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from cet_train_course_obj
+    from cet_plan_course_obj_result
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from cet_train_course_obj
+    delete from cet_plan_course_obj_result
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cet.CetTrainCourseObjExample">
-    delete from cet_train_course_obj
+  <delete id="deleteByExample" parameterType="domain.cet.CetPlanCourseObjResultExample">
+    delete from cet_plan_course_obj_result
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cet.CetTrainCourseObj">
-    insert into cet_train_course_obj (id, train_course_id, obj_id, 
-      num, is_finished)
-    values (#{id,jdbcType=INTEGER}, #{trainCourseId,jdbcType=INTEGER}, #{objId,jdbcType=INTEGER}, 
-      #{num,jdbcType=INTEGER}, #{isFinished,jdbcType=BIT})
+  <insert id="insert" parameterType="domain.cet.CetPlanCourseObjResult">
+    insert into cet_plan_course_obj_result (id, plan_course_obj_id, course_item_id, 
+      course_num, period)
+    values (#{id,jdbcType=INTEGER}, #{planCourseObjId,jdbcType=INTEGER}, #{courseItemId,jdbcType=INTEGER}, 
+      #{courseNum,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL})
   </insert>
-  <insert id="insertSelective" parameterType="domain.cet.CetTrainCourseObj">
-    insert into cet_train_course_obj
+  <insert id="insertSelective" parameterType="domain.cet.CetPlanCourseObjResult">
+    insert into cet_plan_course_obj_result
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="trainCourseId != null">
-        train_course_id,
+      <if test="planCourseObjId != null">
+        plan_course_obj_id,
       </if>
-      <if test="objId != null">
-        obj_id,
+      <if test="courseItemId != null">
+        course_item_id,
       </if>
-      <if test="num != null">
-        num,
+      <if test="courseNum != null">
+        course_num,
       </if>
-      <if test="isFinished != null">
-        is_finished,
+      <if test="period != null">
+        period,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="trainCourseId != null">
-        #{trainCourseId,jdbcType=INTEGER},
+      <if test="planCourseObjId != null">
+        #{planCourseObjId,jdbcType=INTEGER},
       </if>
-      <if test="objId != null">
-        #{objId,jdbcType=INTEGER},
+      <if test="courseItemId != null">
+        #{courseItemId,jdbcType=INTEGER},
       </if>
-      <if test="num != null">
-        #{num,jdbcType=INTEGER},
+      <if test="courseNum != null">
+        #{courseNum,jdbcType=INTEGER},
       </if>
-      <if test="isFinished != null">
-        #{isFinished,jdbcType=BIT},
+      <if test="period != null">
+        #{period,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cet.CetTrainCourseObjExample" resultType="java.lang.Long">
-    select count(*) from cet_train_course_obj
+  <select id="countByExample" parameterType="domain.cet.CetPlanCourseObjResultExample" resultType="java.lang.Long">
+    select count(*) from cet_plan_course_obj_result
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update cet_train_course_obj
+    update cet_plan_course_obj_result
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.trainCourseId != null">
-        train_course_id = #{record.trainCourseId,jdbcType=INTEGER},
+      <if test="record.planCourseObjId != null">
+        plan_course_obj_id = #{record.planCourseObjId,jdbcType=INTEGER},
       </if>
-      <if test="record.objId != null">
-        obj_id = #{record.objId,jdbcType=INTEGER},
+      <if test="record.courseItemId != null">
+        course_item_id = #{record.courseItemId,jdbcType=INTEGER},
       </if>
-      <if test="record.num != null">
-        num = #{record.num,jdbcType=INTEGER},
+      <if test="record.courseNum != null">
+        course_num = #{record.courseNum,jdbcType=INTEGER},
       </if>
-      <if test="record.isFinished != null">
-        is_finished = #{record.isFinished,jdbcType=BIT},
+      <if test="record.period != null">
+        period = #{record.period,jdbcType=DECIMAL},
       </if>
     </set>
     <if test="_parameter != null">
@@ -172,49 +172,49 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update cet_train_course_obj
+    update cet_plan_course_obj_result
     set id = #{record.id,jdbcType=INTEGER},
-      train_course_id = #{record.trainCourseId,jdbcType=INTEGER},
-      obj_id = #{record.objId,jdbcType=INTEGER},
-      num = #{record.num,jdbcType=INTEGER},
-      is_finished = #{record.isFinished,jdbcType=BIT}
+      plan_course_obj_id = #{record.planCourseObjId,jdbcType=INTEGER},
+      course_item_id = #{record.courseItemId,jdbcType=INTEGER},
+      course_num = #{record.courseNum,jdbcType=INTEGER},
+      period = #{record.period,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetTrainCourseObj">
-    update cet_train_course_obj
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetPlanCourseObjResult">
+    update cet_plan_course_obj_result
     <set>
-      <if test="trainCourseId != null">
-        train_course_id = #{trainCourseId,jdbcType=INTEGER},
+      <if test="planCourseObjId != null">
+        plan_course_obj_id = #{planCourseObjId,jdbcType=INTEGER},
       </if>
-      <if test="objId != null">
-        obj_id = #{objId,jdbcType=INTEGER},
+      <if test="courseItemId != null">
+        course_item_id = #{courseItemId,jdbcType=INTEGER},
       </if>
-      <if test="num != null">
-        num = #{num,jdbcType=INTEGER},
+      <if test="courseNum != null">
+        course_num = #{courseNum,jdbcType=INTEGER},
       </if>
-      <if test="isFinished != null">
-        is_finished = #{isFinished,jdbcType=BIT},
+      <if test="period != null">
+        period = #{period,jdbcType=DECIMAL},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cet.CetTrainCourseObj">
-    update cet_train_course_obj
-    set train_course_id = #{trainCourseId,jdbcType=INTEGER},
-      obj_id = #{objId,jdbcType=INTEGER},
-      num = #{num,jdbcType=INTEGER},
-      is_finished = #{isFinished,jdbcType=BIT}
+  <update id="updateByPrimaryKey" parameterType="domain.cet.CetPlanCourseObjResult">
+    update cet_plan_course_obj_result
+    set plan_course_obj_id = #{planCourseObjId,jdbcType=INTEGER},
+      course_item_id = #{courseItemId,jdbcType=INTEGER},
+      course_num = #{courseNum,jdbcType=INTEGER},
+      period = #{period,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetTrainCourseObjExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetPlanCourseObjResultExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_train_course_obj
+    from cet_plan_course_obj_result
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

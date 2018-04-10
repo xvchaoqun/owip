@@ -8,20 +8,20 @@ public class CetConstants {
     // 专题培训-培训形式，1 线下培训  2 线上培训  3 上级网上专题班  4 分组研讨  5 实践教学  6 自主学习  7 其他单位主办  8 撰写心得体会
     public final static byte CET_PROJECT_PLAN_TYPE_OFFLINE = 1;
     public final static byte CET_PROJECT_PLAN_TYPE_ONLINE = 2;
-    public final static byte CET_PROJECT_PLAN_TYPE_ONLINE_SPECIAL = 3;
+    public final static byte CET_PROJECT_PLAN_TYPE_SPECIAL = 3;
     public final static byte CET_PROJECT_PLAN_TYPE_GROUP = 4;
     public final static byte CET_PROJECT_PLAN_TYPE_PRACTICE = 5;
-    public final static byte CET_PROJECT_PLAN_TYPE_OWN = 6;
+    public final static byte CET_PROJECT_PLAN_TYPE_SELF = 6;
     public final static byte CET_PROJECT_PLAN_TYPE_OTHER_UNIT = 7;
     public final static byte CET_PROJECT_PLAN_TYPE_WRITE = 8;
     public final static Map<Byte, String> CET_PROJECT_PLAN_TYPE_MAP = new LinkedHashMap();
     static {
         CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_OFFLINE, "线下培训");
         CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_ONLINE, "线上培训");
-        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_ONLINE_SPECIAL, "上级网上专题班");
+        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_SPECIAL, "上级网上专题班");
         CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_GROUP, "分组研讨");
         CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_PRACTICE, "实践教学");
-        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_OWN, "自主学习");
+        CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_SELF, "自主学习");
         CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_OTHER_UNIT, "其他单位主办");
         CET_PROJECT_PLAN_TYPE_MAP.put(CET_PROJECT_PLAN_TYPE_WRITE, "撰写心得体会");
     }

@@ -36,7 +36,7 @@
       </c:if>
       <c:if test="${!nd}">
       <a href="${ctx}/attach/download?path=${cm:encodeURI(path)}&filename=${filename}"
-      class="btn btn-success" target="_blank"><i class="fa fa-download"></i> 下载</a>
+      class="btn btn-success"><i class="fa fa-download"></i> 下载</a>
       </c:if>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default"><i class="fa fa-times"></i> 关闭</a>
   </div>

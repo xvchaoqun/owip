@@ -40,7 +40,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $("#jqGrid3").trigger("reloadGrid");
+                        $("#jqGrid2").trigger("reloadGrid");
                     }
                 }
             });

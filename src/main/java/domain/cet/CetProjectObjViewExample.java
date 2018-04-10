@@ -405,6 +405,146 @@ public class CetProjectObjViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andWordWriteIsNull() {
+            addCriterion("word_write is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteIsNotNull() {
+            addCriterion("word_write is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteEqualTo(String value) {
+            addCriterion("word_write =", value, "wordWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteNotEqualTo(String value) {
+            addCriterion("word_write <>", value, "wordWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteGreaterThan(String value) {
+            addCriterion("word_write >", value, "wordWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteGreaterThanOrEqualTo(String value) {
+            addCriterion("word_write >=", value, "wordWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteLessThan(String value) {
+            addCriterion("word_write <", value, "wordWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteLessThanOrEqualTo(String value) {
+            addCriterion("word_write <=", value, "wordWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteLike(String value) {
+            addCriterion("word_write like", value, "wordWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteNotLike(String value) {
+            addCriterion("word_write not like", value, "wordWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteIn(List<String> values) {
+            addCriterion("word_write in", values, "wordWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteNotIn(List<String> values) {
+            addCriterion("word_write not in", values, "wordWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteBetween(String value1, String value2) {
+            addCriterion("word_write between", value1, value2, "wordWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordWriteNotBetween(String value1, String value2) {
+            addCriterion("word_write not between", value1, value2, "wordWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteIsNull() {
+            addCriterion("pdf_write is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteIsNotNull() {
+            addCriterion("pdf_write is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteEqualTo(String value) {
+            addCriterion("pdf_write =", value, "pdfWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteNotEqualTo(String value) {
+            addCriterion("pdf_write <>", value, "pdfWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteGreaterThan(String value) {
+            addCriterion("pdf_write >", value, "pdfWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteGreaterThanOrEqualTo(String value) {
+            addCriterion("pdf_write >=", value, "pdfWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteLessThan(String value) {
+            addCriterion("pdf_write <", value, "pdfWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteLessThanOrEqualTo(String value) {
+            addCriterion("pdf_write <=", value, "pdfWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteLike(String value) {
+            addCriterion("pdf_write like", value, "pdfWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteNotLike(String value) {
+            addCriterion("pdf_write not like", value, "pdfWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteIn(List<String> values) {
+            addCriterion("pdf_write in", values, "pdfWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteNotIn(List<String> values) {
+            addCriterion("pdf_write not in", values, "pdfWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteBetween(String value1, String value2) {
+            addCriterion("pdf_write between", value1, value2, "pdfWrite");
+            return (Criteria) this;
+        }
+
+        public Criteria andPdfWriteNotBetween(String value1, String value2) {
+            addCriterion("pdf_write not between", value1, value2, "pdfWrite");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

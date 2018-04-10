@@ -43,7 +43,7 @@ public class CetCourse implements Serializable {
             Map<Integer, CetCourseItem> cetCourseItemMap = cetCourseItemService.findAll(id);
             for (CetCourseItem cetCourseItem : cetCourseItemMap.values()) {
 
-                totalPeriod.add(cetCourseItem.getPeriod());
+                totalPeriod = totalPeriod.add(cetCourseItem.getPeriod());
             }
 
             return totalPeriod;

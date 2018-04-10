@@ -75,6 +75,9 @@ import persistence.cet.CetCourseTypeMapper;
 import persistence.cet.CetCourseTypeViewMapper;
 import persistence.cet.CetExpertMapper;
 import persistence.cet.CetExpertViewMapper;
+import persistence.cet.CetPlanCourseMapper;
+import persistence.cet.CetPlanCourseObjMapper;
+import persistence.cet.CetPlanCourseObjResultMapper;
 import persistence.cet.CetProjectMapper;
 import persistence.cet.CetProjectObjCadreViewMapper;
 import persistence.cet.CetProjectObjMapper;
@@ -84,8 +87,6 @@ import persistence.cet.CetProjectViewMapper;
 import persistence.cet.CetShortMsgMapper;
 import persistence.cet.CetTrainCourseFileMapper;
 import persistence.cet.CetTrainCourseMapper;
-import persistence.cet.CetTrainCourseObjMapper;
-import persistence.cet.CetTrainCourseObjResultMapper;
 import persistence.cet.CetTrainCourseStatViewMapper;
 import persistence.cet.CetTrainCourseViewMapper;
 import persistence.cet.CetTrainEvaNormMapper;
@@ -364,6 +365,12 @@ public class BaseMapper {
     @Autowired(required = false)
     protected CetProjectPlanMapper cetProjectPlanMapper;
     @Autowired(required = false)
+    protected CetPlanCourseMapper cetPlanCourseMapper;
+    @Autowired(required = false)
+    protected CetPlanCourseObjMapper cetPlanCourseObjMapper;
+    @Autowired(required = false)
+    protected CetPlanCourseObjResultMapper cetPlanCourseObjResultMapper;
+    @Autowired(required = false)
     protected CetCourseMapper cetCourseMapper;
     @Autowired(required = false)
     protected CetCourseFileMapper cetCourseFileMapper;
@@ -393,10 +400,6 @@ public class BaseMapper {
     protected CetTrainCourseMapper cetTrainCourseMapper;
     @Autowired(required = false)
     protected CetTrainCourseFileMapper cetTrainCourseFileMapper;
-    @Autowired(required = false)
-    protected CetTrainCourseObjMapper cetTrainCourseObjMapper;
-    @Autowired(required = false)
-    protected CetTrainCourseObjResultMapper cetTrainCourseObjResultMapper;
     @Autowired(required = false)
     protected CetTrainCourseViewMapper cetTrainCourseViewMapper;
     @Autowired(required = false)

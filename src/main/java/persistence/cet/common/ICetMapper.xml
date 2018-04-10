@@ -54,7 +54,7 @@
     </select>
 
 
-    <sql id="searchCourses">
+    <sql id="searchTrainCourses">
         <where>
             <!-- 线下培训从线上或线下课程中选择， 实践教学从实践教学课程中选择-->
             <if test="courseTypes != null and courseTypes.length>0">
@@ -76,11 +76,39 @@
     <!--培训班 选择 课程-->
     <select id="cetTrainCourse_selectCourses" resultMap="persistence.cet.CetCourseMapper.BaseResultMap" parameterType="map">
         select cc.* from cet_course cc
-        <include refid="searchCourses"/>
+        <include refid="searchTrainCourses"/>
         order by sort_order desc
     </select>
     <select id="cetTrainCourse_countCourses" parameterType="map" resultType="java.lang.Integer">
         select count(cc.id) from cet_course cc
-        <include refid="searchCourses"/>
+        <include refid="searchTrainCourses"/>
+    </select>
+
+    <sql id="searchPlanCourses">
+        <where>
+            <!-- 自主学习从自主学习课程中选择， 网上专题从网上专题课程中选择-->
+            <if test="courseTypes != null and courseTypes.length>0">
+                cc.type in
+                <foreach collection="courseTypes" item="courseType" separator="," open="(" close=")">
+                    #{courseType}
+                </foreach>
+            </if>
+            and cc.is_deleted=0
+        <if test="name!=null">
+            and cc.name like '%${name}%'
+        </if>
+
+          and cc.id not in(select course_id from cet_plan_course where plan_id=#{planId} and course_id is not null)
+        </where>
+    </sql>
+    <!--培训方案 选择 课程-->
+    <select id="cetPlanCourse_selectCourses" resultMap="persistence.cet.CetCourseMapper.BaseResultMap" parameterType="map">
+        select cc.* from cet_course cc
+        <include refid="searchPlanCourses"/>
+        order by sort_order desc
+    </select>
+    <select id="cetPlanCourse_countCourses" parameterType="map" resultType="java.lang.Integer">
+        select count(cc.id) from cet_course cc
+        <include refid="searchPlanCourses"/>
     </select>
 </mapper>

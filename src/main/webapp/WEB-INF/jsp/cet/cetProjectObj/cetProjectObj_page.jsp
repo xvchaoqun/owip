@@ -12,11 +12,11 @@
         </span>
         </c:forEach>
     </div>
-<c:if test="${empty param.trainCourseId}">
-    <c:if test="${cls==1}">
+<c:if test="${cls==1}">
+    <c:if test="${!isQuit}">
     <shiro:hasPermission name="cetProjectObj:edit">
         <button class="popupBtn btn btn-info btn-sm"
-                data-url="${ctx}/cet/cetProjectObj_add?projectId=${param.projectId}&traineeTypeId=${traineeTypeId}">
+                data-url="${ctx}/cet/cetProjectObj_add?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}">
             <i class="fa fa-plus"></i> 添加
         </button>
         <button data-url="${ctx}/cet/cetProjectObj_quit?isQuit=1"
@@ -29,7 +29,7 @@
         </button>
     </shiro:hasPermission>
     </c:if>
-    <c:if test="${cls==2}">
+    <c:if test="${isQuit}">
     <shiro:hasPermission name="cetProjectObj:edit">
         <button data-url="${ctx}/cet/cetProjectObj_quit?isQuit=0"
                 data-title="重新学习"
@@ -51,9 +51,9 @@
         </button>
     </shiro:hasPermission>
     </c:if>
-    <c:if test="${not empty param.trainCourseId}">
+    <c:if test="${cls==2}">
     <button data-url="${ctx}/cet/cetProjectObj_canQuit?canQuit=0&trainCourseId=${param.trainCourseId}"
-            data-title="退出"
+            data-title="设置为必选学员"
             data-msg="确定将这{0}个学员设置为必选学员？"
             data-grid-id="#jqGrid2"
             data-callback="_callback2"
@@ -76,6 +76,56 @@
             <i class="fa fa-history"></i> 操作记录
         </button>
     </c:if>
+    <c:if test="${cls==3}">
+    <button data-url="${ctx}/cet/cetPlanCourse_selectObjs?select=1&planCourseId=${param.planCourseId}"
+            data-title="选择学员"
+            data-msg="确定将这{0}个学员设置为学员？"
+            data-grid-id="#jqGrid2"
+            data-callback="_callback2"
+            class="jqBatchBtn btn btn-primary btn-sm">
+        <i class="fa fa-check"></i> 选择学员
+    </button>
+    <button data-url="${ctx}/cet/cetPlanCourse_selectObjs?select=0&planCourseId=${param.planCourseId}"
+            data-title="取消选择"
+            data-msg="确定将这{0}个学员取消选择？"
+            data-grid-id="#jqGrid2"
+            data-callback="_callback2"
+            class="jqBatchBtn btn btn-danger btn-sm">
+        <i class="fa fa-times"></i> 取消选择
+    </button>
+    <button class="popupBtn btn btn-primary btn-sm tooltip-success"
+                data-url="${ctx}/cet/cetPlanCourseObjResult_import?planCourseId=${param.planCourseId}"
+                data-rel="tooltip" data-placement="top"
+            title="从Excel中导入上传学习情况"><i class="fa fa-upload"></i> 上传学习情况</button>
+    <button id="resultEditBtn" class="jqOpenViewBtn btn btn-info btn-sm"
+                data-grid-id="#jqGrid2"
+                data-id-name="objId"
+                data-url="${ctx}/cet/cetPlanCourseObjResult_au?planCourseId=${param.planCourseId}">
+            <i class="fa fa-edit"></i> 编辑学习情况</button>
+        <button data-url="${ctx}/cet/cetPlanCourseObjResult_clear?planCourseId=${param.planCourseId}"
+                data-title="清除学习情况"
+                data-msg="确定清除这{0}个学员的学习情况？"
+                data-grid-id="#jqGrid2"
+                data-callback="_callback2"
+                class="jqBatchBtn btn btn-warning btn-sm">
+            <i class="fa fa-eraser"></i> 清除学习情况
+        </button>
+    </c:if>
+    <c:if test="${cls==4}">
+    <button class="jqOpenViewBtn btn btn-primary btn-sm tooltip-success"
+                data-url="${ctx}/cet/cetProjectObj_uploadWrite"
+                data-grid-id="#jqGrid2"
+                data-rel="tooltip" data-placement="top"
+            title="上传"><i class="fa fa-upload"></i> 上传心得体会</button>
+        <button data-url="${ctx}/cet/cetProjectObj_clearWrite"
+                data-title="删除心得体会"
+                data-msg="确定删除这{0}个学员的心得体会？"
+                data-grid-id="#jqGrid2"
+                data-callback="_callback2"
+                class="jqBatchBtn btn btn-warning btn-sm">
+            <i class="fa fa-eraser"></i> 删除心得体会
+        </button>
+    </c:if>
 </div>
 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
     <div class="widget-header">
@@ -91,6 +141,7 @@
         <div class="widget-main no-padding">
             <form class="form-inline search-form" id="searchForm2">
                 <input type="hidden" name="traineeTypeId" value="${traineeTypeId}">
+                <input type="hidden" name="isQuit" value="${isQuit}">
                 <input type="hidden" name="cls" value="${cls}">
                 <div class="form-group">
                     <label>姓名</label>
@@ -131,11 +182,11 @@
                     <a class="jqSearchBtn btn btn-default btn-sm"
                        data-target="#obj-content-view"
                        data-form="#searchForm2"
-                       data-url="${ctx}/cet/cetProjectObj?projectId=${param.projectId}&trainCourseId=${param.trainCourseId}"><i class="fa fa-search"></i> 查找</a>
+                       data-url="${ctx}/cet/cetProjectObj?projectId=${cetProject.id}&trainCourseId=${param.trainCourseId}&planCourseId=${param.planCourseId}"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="resetBtn btn btn-warning btn-sm"
                                 data-target="#obj-content-view"
-                                data-url="${ctx}/cet/cetProjectObj?projectId=${param.projectId}&traineeTypeId=${traineeTypeId}&cls=${cls}&trainCourseId=${param.trainCourseId}">
+                                data-url="${ctx}/cet/cetProjectObj?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}&cls=${cls}&isQuit=${isQuit}&trainCourseId=${param.trainCourseId}&planCourseId=${param.planCourseId}">
                             <i class="fa fa-reply"></i> 重置
                         </button>
                     </c:if>
@@ -145,7 +196,7 @@
     </div>
 </div>
 <div class="space-4"></div>
-<table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="${not empty param.trainCourseId?0:20}"></table>
+<table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="${(cls==2||cls==3)?0:20}"></table>
 <div id="jqGridPager2"></div>
 <style>
     .type-select {
@@ -194,24 +245,80 @@
         rownumbers:true,
         url: '${ctx}/cet/cetProjectObj_data?callback=?&traineeTypeId=${traineeTypeId}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel:[
-            <c:if test="${empty param.trainCourseId}">
+            <c:if test="${cls==1}">
             { label: '学习情况',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return ''
             }, frozen: true},
             </c:if>
-            <c:if test="${not empty param.trainCourseId}">
+            <c:if test="${cls==2}">
             { label: '选课方式',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.cetTraineeCourseView.canQuit?("<span class='{0}'>可选</span>").format(rowObject.cetTraineeCourseView.isFinished?"text-success bolder":"text-default"):
-                        ("<span class='{0} bolder'>必选</span>").format(rowObject.cetTraineeCourseView.isFinished?"text-success":"text-danger");
+                return rowObject.objCourseView.canQuit?("<span class='{0}'>可选</span>").format(rowObject.objCourseView.isFinished?"text-success bolder":"text-default"):
+                        ("<span class='{0} bolder'>必选</span>").format(rowObject.objCourseView.isFinished?"text-success":"text-danger");
             }, frozen: true},
-            { label: '选课时间',name: 'cetTraineeCourseView.chooseTime', width: 160, frozen: true},
-            { label: '选课操作人',name: 'cetTraineeCourseView.chooseUserId', formatter: function (cellvalue, options, rowObject) {
+            { label: '选课时间',name: 'objCourseView.chooseTime', width: 160, frozen: true},
+            { label: '选课操作人',name: 'objCourseView.chooseUserId', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
-                return cellvalue==rowObject.userId?'本人':rowObject.cetTraineeCourseView.chooseUserName;
+                return cellvalue==rowObject.userId?'本人':rowObject.objCourseView.chooseUserName;
             }, frozen: true},
             { name: 'traineeId', hidden:true, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.cetTraineeCourseView.traineeId;;
+                return rowObject.objCourseView.traineeId;;
             }},
+            </c:if>
+            <c:if test="${cls==3}">
+            { label: '是否结业',name: 'objCourseView.isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
+                if($.trim(rowObject.objCourseView.planCourseObjId)=='') return '-'
+                return cellvalue?"是":"否"
+            },frozen: true},
+            { label: '完成学时情况',name: '_finish', width: 120, formatter: function (cellvalue, options, rowObject) {
+                if($.trim(rowObject.objCourseView.planCourseObjId)=='') return '-'
+                return "{0}/{1}".format(Math.trimToZero(rowObject.objCourseView.period), '${cm:stripTrailingZeros(cetProjectPlan.period)}')
+            }, frozen: true},
+            { label: '学习详情',name: '_detail', width: 80, formatter: function (cellvalue, options, rowObject) {
+                if($.trim(rowObject.objCourseView.planCourseObjId)=='') return '-'
+                return ('<button class="popupBtn btn btn-success btn-xs" ' +
+                'data-url="${ctx}/cet/cetPlanCourseObjResult_au?view=1&objId={0}&planCourseId={1}"><i class="fa fa-search"></i> 详情</button>')
+                        .format(rowObject.id, '${param.planCourseId}');
+            }, frozen: true},
+            { label: '选课时间',name: 'objCourseView.chooseTime', width: 160, formatter: function (cellvalue, options, rowObject) {
+                if($.trim(rowObject.objCourseView.planCourseObjId)=='') return '-'
+                return cellvalue;
+            }, frozen: true},
+            { label: '选课操作人',name: 'objCourseView.chooseUserId', formatter: function (cellvalue, options, rowObject) {
+                if($.trim(rowObject.objCourseView.planCourseObjId)=='') return '-'
+                return cellvalue==rowObject.userId?'本人':rowObject.objCourseView.chooseUserName;
+            }, frozen: true},
+            {name:'planCourseObjId', hidden:true, formatter: function (cellvalue, options, rowObject){
+                return $.trim(rowObject.objCourseView.planCourseObjId)
+            }},
+            </c:if>
+            <c:if test="${cls==4}">
+            {
+                label: '心得体会', width: 200, formatter: function (cellvalue, options, rowObject) {
+
+                var ret = "";
+                var fileName = "心得体会({0})".format(rowObject.realname);
+                var pdfFilePath = rowObject.pdfWrite;
+                if ($.trim(pdfFilePath) != '') {
+                    //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
+                    ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+                                    .format(encodeURI(pdfFilePath), encodeURI(fileName))
+                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                                    .format(encodeURI(pdfFilePath), encodeURI(fileName));
+                }
+                var wordFilePath = rowObject.wordWrite;
+                if ($.trim(wordFilePath) != '') {
+
+                    ret += '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="linkBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
+                            .format(encodeURI(wordFilePath), encodeURI(fileName));
+                }
+                return ret==""?"未上传":ret;
+            }, frozen: true},
+            { label: '学时',name: '_period', width: 80, formatter: function (cellvalue, options, rowObject) {
+                if ($.trim(rowObject.pdfWrite) == '' && $.trim(rowObject.wordWrite) == '') {
+                    return 0;
+                }
+                return '${cm:stripTrailingZeros(cetProjectPlan.period)}'
+            }, frozen: true},
             </c:if>
             {label: '工作证号', name: 'code', width: 100, frozen: true},
             {label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
@@ -275,15 +382,20 @@
     function _onSelectRow(grid) {
         var ids = $(grid).getGridParam("selarrrow");
         if (ids.length > 1) {
-            $("#logBtn").prop("disabled", true);
+            $("#logBtn,#resultEditBtn").prop("disabled", true);
             return;
         }
         var rowData = $(grid).getRowData(ids[0]);
         var traineeId = rowData.traineeId;
         $("#logBtn").prop("disabled", $.trim(traineeId)=='');
+        var planCourseObjId = rowData.planCourseObjId;
+        //console.log("planCourseObjId="+ $.trim(planCourseObjId))
+        $("#resultEditBtn").prop("disabled", $.trim(planCourseObjId)=='');
 
         var querystr = "&displayType=1&hideStatus=1&type=${SYS_APPROVAL_LOG_TYPE_CET_TRAINEE}&id="+traineeId;
         $("#logBtn").data("querystr", querystr);
+
+
     }
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");

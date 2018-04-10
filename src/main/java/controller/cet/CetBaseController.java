@@ -10,13 +10,14 @@ import service.cet.CetCourseService;
 import service.cet.CetCourseTypeService;
 import service.cet.CetExpertService;
 import service.cet.CetExportService;
+import service.cet.CetPlanCourseObjResultService;
+import service.cet.CetPlanCourseObjService;
+import service.cet.CetPlanCourseService;
 import service.cet.CetProjectObjService;
 import service.cet.CetProjectPlanService;
 import service.cet.CetProjectService;
 import service.cet.CetProjectTraineeTypeService;
 import service.cet.CetShortMsgService;
-import service.cet.CetTrainCourseObjResultService;
-import service.cet.CetTrainCourseObjService;
 import service.cet.CetTrainCourseService;
 import service.cet.CetTrainEvaNormService;
 import service.cet.CetTrainEvaRankService;
@@ -38,6 +39,12 @@ public class CetBaseController extends BaseController {
     @Autowired
     protected CetProjectPlanService cetProjectPlanService;
     @Autowired
+    protected CetPlanCourseService cetPlanCourseService;
+    @Autowired
+    protected CetPlanCourseObjService cetPlanCourseObjService;
+    @Autowired
+    protected CetPlanCourseObjResultService cetPlanCourseObjResultService;
+    @Autowired
     protected CetCourseService cetCourseService;
     @Autowired
     protected CetCourseFileService cetCourseFileService;
@@ -55,10 +62,6 @@ public class CetBaseController extends BaseController {
     protected CetTrainService cetTrainService;
     @Autowired
     protected CetTrainCourseService cetTrainCourseService;
-    @Autowired
-    protected CetTrainCourseObjService cetTrainCourseObjService;
-    @Autowired
-    protected CetTrainCourseObjResultService cetTrainCourseObjResultService;
     @Autowired
     protected CetTraineeService cetTraineeService;
     @Autowired

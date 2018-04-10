@@ -3,10 +3,10 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="jqgrid-vertical-offset buttons">
     <c:if test="${cls==1}">
-        <a class="popupBtn btn btn-info btn-sm"
+        <button class="popupBtn btn btn-info btn-sm"
            data-width="1200"
            data-url="${ctx}/cet/cetTrainCourse_selectCourses?trainId=${cetTrain.id}"><i
-                class="fa fa-plus"></i> 添加课程</a>
+                class="fa fa-plus"></i> 添加课程</button>
         <button data-url="${ctx}/cet/cetTrainCourse_batchDel"
                 data-title="删除"
                 data-msg="确定删除这{0}门课程？（课程下的所有选课数据均将彻底删除，请谨慎操作！）"
@@ -15,11 +15,11 @@
             <i class="fa fa-trash"></i> 删除
         </button>
         <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
-        <a class="jqOpenViewBtn btn btn-primary btn-sm"
+        <button class="jqOpenViewBtn btn btn-primary btn-sm"
            data-url="${ctx}/cet/cetTrainCourse_info"
            data-grid-id="#jqGrid2"
            data-id-name="trainCourseId"><i class="fa fa-edit"></i>
-            编辑课程信息</a>
+            编辑课程信息</button>
         </c:if>
     <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
        data-url="${ctx}/cet/cetTrainCourse_data"
@@ -62,7 +62,7 @@
                 label: '选课情况', name: 'selectedCount', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) cellvalue=0;
                 return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/cet/cetProject_detail/obj?projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
+                'data-url="${ctx}/cet/cetProject_detail/obj?cls=2&projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
             }, frozen:true},
             {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {
@@ -149,7 +149,7 @@
                 label: '选课情况', name: 'selectedCount', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) cellvalue=0;
                 return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/cet/cetProject_detail/obj?projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
+                'data-url="${ctx}/cet/cetProject_detail/obj?cls=2&projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
             }, frozen:true},
             {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {

@@ -7,6 +7,8 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
+    <result column="word_write" jdbcType="VARCHAR" property="wordWrite" />
+    <result column="pdf_write" jdbcType="VARCHAR" property="pdfWrite" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod" />
   </resultMap>
@@ -40,7 +42,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, user_id, trainee_type_id, is_quit, remark, finish_period
+    id, project_id, user_id, trainee_type_id, is_quit, word_write, pdf_write, remark, 
+    finish_period
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectObjViewExample" resultMap="BaseResultMap">
     select
