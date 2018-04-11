@@ -1,6 +1,6 @@
 package domain.pmd;
 
-import persistence.common.bean.PmdReportBean;
+import persistence.pmd.common.PmdReportBean;
 import persistence.pmd.common.IPmdMapper;
 import service.pmd.PmdMonthService;
 import sys.constants.PmdConstants;

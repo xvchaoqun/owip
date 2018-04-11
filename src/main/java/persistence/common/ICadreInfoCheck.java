@@ -1,4 +1,4 @@
-package persistence.common.bean;
+package persistence.common;
 
 /**
  * Created by lm on 2017/10/3.

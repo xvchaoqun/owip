@@ -62,7 +62,7 @@
     </select>
 
     <!--（党代表）分党委推荐汇总情况（统计已上报数据）-->
-    <resultMap id="PrPartyBaseResultMap" type="persistence.common.bean.PcsPrPartyBean"
+    <resultMap id="PrPartyBaseResultMap" type="persistence.pcs.common.PcsPrPartyBean"
                extends="persistence.party.PartyViewMapper.BaseResultMap">
         <result column="stage" jdbcType="TINYINT" property="stage"/>
         <result column="config_id" jdbcType="INTEGER" property="configId"/>
@@ -107,7 +107,7 @@
     </select>
 
     <!--党代表分配方案-->
-    <resultMap id="PcsPrAllocateBaseResultMap" type="persistence.common.bean.PcsPrAllocateBean"
+    <resultMap id="PcsPrAllocateBaseResultMap" type="persistence.pcs.common.PcsPrAllocateBean"
                extends="persistence.pcs.PcsPrAllocateMapper.BaseResultMap">
         <result column="party_id" jdbcType="INTEGER" property="partyId"/>
         <result column="party_name" jdbcType="VARCHAR" property="partyName"/>
@@ -135,7 +135,7 @@
     </select>
 
     <!--分党委推荐汇总情况（统计已上报数据）-->
-    <resultMap id="PartyBaseResultMap" type="persistence.common.bean.PcsPartyBean"
+    <resultMap id="PartyBaseResultMap" type="persistence.pcs.common.PcsPartyBean"
                extends="persistence.party.PartyViewMapper.BaseResultMap">
         <result column="stage" jdbcType="TINYINT" property="stage"/>
         <result column="config_id" jdbcType="INTEGER" property="configId"/>
@@ -181,7 +181,7 @@
     </select>
 
     <!--党支部推荐汇总情况-->
-    <resultMap id="BranchBaseResultMap" type="persistence.common.bean.PcsBranchBean">
+    <resultMap id="BranchBaseResultMap" type="persistence.pcs.common.PcsBranchBean">
         <result column="id" jdbcType="INTEGER" property="id"/>
         <result column="party_id" jdbcType="INTEGER" property="partyId"/>
         <result column="branch_id" jdbcType="INTEGER" property="branchId"/>
@@ -225,7 +225,7 @@
         <include refid="searchPcsBranchBeans"/>
     </select>
 
-    <resultMap id="CandidateBaseResultMap" type="persistence.common.bean.IPcsCandidateView"
+    <resultMap id="CandidateBaseResultMap" type="persistence.pcs.common.IPcsCandidateView"
                extends="persistence.pcs.PcsCandidateViewMapper.BaseResultMap">
         <result column="party_ids" jdbcType="VARCHAR" property="partyIds"/>
         <result column="branch_ids" jdbcType="VARCHAR" property="branchIds"/>

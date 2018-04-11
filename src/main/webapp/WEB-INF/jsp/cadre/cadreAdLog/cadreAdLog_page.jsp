@@ -1,15 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<!-- PAGE CONTENT BEGINS -->
-<div class="widget-box transparent" id="useLogs">
+<div class="widget-box transparent">
   <div class="widget-header">
     <h4 class="widget-title lighter smaller">
       <a href="javascript:;" class="hideView btn btn-xs btn-success">
         <i class="ace-icon fa fa-backward"></i>
         返回</a>
     </h4>
-
     <div class="widget-toolbar no-border">
       <ul class="nav nav-tabs">
         <li class="active">
@@ -22,7 +20,7 @@
     <div class="widget-main padding-4">
       <div class="tab-content padding-8">
         <div class="space-4"></div>
-        <table id="jqGrid2" class="jqGrid2 table-striped"> </table>
+        <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="40"> </table>
         <div id="jqGridPager2"> </div>
       </div>
     </div><!-- /.widget-main -->
@@ -59,18 +57,11 @@
         label: '职务属性', name: 'postId', width: 150, formatter: function (cellvalue, options, rowObject) {
         if (cellvalue == undefined) return '';
         return _cMap.postMap[cellvalue].name;
-      }
-      }
-    ],
-    rowattr: function(rowData, currentObj, rowId)
-    {
-      /*if(rowData.status=='${APPLY_APPROVAL_LOG_STATUS_BACK}') {
-        //console.log(rowData)
-        return {'class':'danger'}
-      }*/
-    },
-    gridComplete:function(){
-      $(window).triggerHandler('resize.jqGrid2');
+      }}
+    ],gridComplete:function(){
+      $(this).jqGrid("setFrozenColumns");
     }
-  }).jqGrid("setFrozenColumns");
+  })
+  $(window).triggerHandler('resize.jqGrid2');
+  $.initNavGrid("jqGrid2", "jqGridPager2");
 </script>

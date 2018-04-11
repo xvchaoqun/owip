@@ -7,7 +7,7 @@
         <result column="can_quit" jdbcType="BIT" property="canQuit" />
     </resultMap>
 
-    <resultMap id="TrainBaseResultMap" type="persistence.common.bean.ICetTrain"
+    <resultMap id="TrainBaseResultMap" type="persistence.cet.common.ICetTrain"
                extends="persistence.cet.CetTrainViewMapper.BaseResultMap">
         <result column="trainee_id" jdbcType="INTEGER" property="traineeId"/>
         <result column="course_count" jdbcType="INTEGER" property="courseCount"/>

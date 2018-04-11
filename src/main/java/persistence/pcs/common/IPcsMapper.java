@@ -10,11 +10,6 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
-import persistence.common.bean.IPcsCandidateView;
-import persistence.common.bean.PcsBranchBean;
-import persistence.common.bean.PcsPartyBean;
-import persistence.common.bean.PcsPrAllocateBean;
-import persistence.common.bean.PcsPrPartyBean;
 
 import java.math.BigDecimal;
 import java.util.List;

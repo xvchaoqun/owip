@@ -1,4 +1,4 @@
-package persistence.common.bean;
+package persistence.common;
 
 import domain.cadre.CadreView;
 import domain.cadre.CadreWork;

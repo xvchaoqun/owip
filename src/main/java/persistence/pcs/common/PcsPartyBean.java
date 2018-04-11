@@ -1,4 +1,4 @@
-package persistence.common.bean;
+package persistence.pcs.common;
 
 import domain.party.PartyView;
 

@@ -1,4 +1,4 @@
-package persistence.common.bean;
+package persistence.pmd.common;
 
 import java.math.BigDecimal;
 

@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.abroad.common;
 
 /**
  * Created by fafa on 2016/11/8.

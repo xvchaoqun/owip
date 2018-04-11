@@ -105,7 +105,7 @@
     </select>-->
 
     <!-- 实时数据汇总 -->
-    <resultMap id="pmdReportBeanMap" type="persistence.common.bean.PmdReportBean">
+    <resultMap id="pmdReportBeanMap" type="persistence.pmd.common.PmdReportBean">
         <result column="branch_count" jdbcType="INTEGER" property="branchCount"/>
         <result column="has_report_count" jdbcType="INTEGER" property="hasReportCount"/>
         <result column="member_count" jdbcType="INTEGER" property="memberCount"/>
@@ -281,7 +281,7 @@
     </select>
 
     <!--分党委报表-->
-    <select id="getPmdExcelReportBean" resultType="persistence.common.bean.PmdExcelReportBean" parameterType="map">
+    <select id="getPmdExcelReportBean" resultType="persistence.pmd.common.PmdExcelReportBean" parameterType="map">
         select count(*) as total,
         <![CDATA[
         sum(if(type=1 and authorized_type='事业编' and post_class='专业技术岗位', 1, 0)) as zj,

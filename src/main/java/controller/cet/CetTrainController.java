@@ -54,7 +54,7 @@ public class CetTrainController extends CetBaseController {
     @RequestMapping("/cetTrain_data")
     public void cetTrain_data(HttpServletResponse response,
                                     @RequestParam(defaultValue = "1")Boolean isOnCampus,
-                                    int planId,
+                                    Integer planId, // 对外培训为空
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -69,10 +69,13 @@ public class CetTrainController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetTrainViewExample example = new CetTrainViewExample();
-        CetTrainViewExample.Criteria criteria = example.createCriteria().andPlanIdEqualTo(planId)
+        CetTrainViewExample.Criteria criteria = example.createCriteria()
                 .andIsOnCampusEqualTo(isOnCampus);
-
         example.setOrderByClause("create_time desc");
+
+        if(planId!=null){
+            criteria.andPlanIdEqualTo(planId);
+        }
 
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");

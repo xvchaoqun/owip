@@ -1,8 +1,7 @@
-package persistence.common.bean;
+package persistence.cet.common;
 
 import domain.cet.CetProject;
 import domain.cet.CetTrainView;
-import persistence.cet.common.ICetMapper;
 import sys.tags.CmTag;
 
 import java.math.BigDecimal;

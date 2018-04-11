@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.common.bean.ICrsPost;
+import persistence.crs.common.ICrsPost;
 import shiro.ShiroHelper;
 import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;

@@ -15,7 +15,6 @@ import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
-import persistence.common.PassportSearchBean;
 import sys.constants.AbroadConstants;
 
 import java.util.List;

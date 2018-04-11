@@ -12,7 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.common.bean.PcsPrAllocateBean;
+import persistence.pcs.common.PcsPrAllocateBean;
 import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
 import sys.utils.FormUtils;

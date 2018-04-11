@@ -116,7 +116,7 @@ import persistence.cis.CisObjUnitMapper;
 import persistence.cis.common.ICisMapper;
 import persistence.common.CommonMapper;
 import persistence.common.ICadreMapper;
-import persistence.common.ICpcMapper;
+import persistence.cpc.common.ICpcMapper;
 import persistence.common.IExtMapper;
 import persistence.common.IModifyMapper;
 import persistence.common.IPartyMapper;

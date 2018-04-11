@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import persistence.common.PassportSearchBean;
+import persistence.abroad.common.PassportSearchBean;
 import service.BaseMapper;
 import service.cadre.CadreService;
 import service.sys.SysUserService;

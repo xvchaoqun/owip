@@ -7,8 +7,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
-import persistence.common.bean.PmdExcelReportBean;
-import persistence.common.bean.PmdReportBean;
 
 import java.math.BigDecimal;
 import java.util.List;

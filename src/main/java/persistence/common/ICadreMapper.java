@@ -13,9 +13,6 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
-import persistence.common.bean.ICadreEdu;
-import persistence.common.bean.ICadreWork;
-import persistence.common.bean.ICarde;
 import sys.constants.SystemConstants;
 
 import java.util.List;

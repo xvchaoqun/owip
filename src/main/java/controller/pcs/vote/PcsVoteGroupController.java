@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.common.bean.IPcsCandidateView;
+import persistence.pcs.common.IPcsCandidateView;
 import shiro.ShiroHelper;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;

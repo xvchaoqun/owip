@@ -1,4 +1,4 @@
-package persistence.common.bean;
+package persistence.crs.common;
 
 import domain.crs.CrsPost;
 

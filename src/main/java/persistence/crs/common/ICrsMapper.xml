@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.crs.common.ICrsMapper">
 
-    <resultMap id="ExpertBaseResultMap" type="persistence.common.bean.ICrsExpert"
+    <resultMap id="ExpertBaseResultMap" type="persistence.crs.common.ICrsExpert"
                extends="persistence.crs.CrsExpertViewMapper.BaseResultMap">
         <result column="post_count" jdbcType="INTEGER" property="postCount"/>
     </resultMap>
 
-    <resultMap id="PostBaseResultMap" type="persistence.common.bean.ICrsPost"
+    <resultMap id="PostBaseResultMap" type="persistence.crs.common.ICrsPost"
                extends="persistence.crs.CrsPostMapper.BaseResultMap">
         <result column="applicant_id" jdbcType="INTEGER" property="applicantId"/>
         <result column="applicant_is_quit" jdbcType="BIT" property="applicantIsQuit"/>
@@ -16,7 +16,7 @@
         <result column="is_require_check_pass" jdbcType="BIT" property="isRequireCheckPass"/>
     </resultMap>
 
-    <resultMap id="statApplicantResultMap" type="persistence.common.bean.CrsStatApplicantBean">
+    <resultMap id="statApplicantResultMap" type="persistence.crs.common.CrsStatApplicantBean">
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="realname" jdbcType="VARCHAR" property="realname"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>

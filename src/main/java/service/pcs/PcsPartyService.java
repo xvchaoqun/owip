@@ -8,7 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.common.bean.PcsBranchBean;
+import persistence.pcs.common.PcsBranchBean;
 import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.utils.ContextHelper;

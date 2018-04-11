@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import persistence.common.bean.ICadreInfoCheck;
 
 import java.util.List;
 

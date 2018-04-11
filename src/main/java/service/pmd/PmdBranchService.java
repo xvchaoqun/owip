@@ -10,7 +10,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.common.bean.PmdReportBean;
+import persistence.pmd.common.PmdReportBean;
 import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;

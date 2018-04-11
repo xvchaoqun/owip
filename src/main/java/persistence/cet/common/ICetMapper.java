@@ -12,7 +12,6 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
-import persistence.common.bean.ICetTrain;
 
 import java.util.List;
 import java.util.Map;

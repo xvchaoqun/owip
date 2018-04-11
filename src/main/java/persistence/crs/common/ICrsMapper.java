@@ -5,9 +5,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
-import persistence.common.bean.CrsStatApplicantBean;
-import persistence.common.bean.ICrsExpert;
-import persistence.common.bean.ICrsPost;
 
 import java.util.Date;
 import java.util.List;

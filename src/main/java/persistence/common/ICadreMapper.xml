@@ -51,7 +51,7 @@
     </select>
 
     <!--6、具有人才/荣誉称号的干部-->
-    <select id="selectTalentCadreList" resultType="persistence.common.bean.ICarde" parameterType="map">
+    <select id="selectTalentCadreList" resultType="persistence.common.ICarde" parameterType="map">
         select c.id from cadre_view c where <include refid="statCadreSearchSql" />
     </select>
     <select id="countTalentCadreList" parameterType="map" resultType="java.lang.Integer">

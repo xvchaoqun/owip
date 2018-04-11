@@ -4,8 +4,7 @@
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-        <div id="body-content">
-            <div class="myTableDiv"
+        <div id="body-content" class="myTableDiv"
                  data-url-page="${ctx}/cadreReserve"
                  data-url-bd="${ctx}/cadreReserve_batchDel"
                  data-url-co="${ctx}/cadreReserve_changeOrder"
@@ -13,25 +12,8 @@
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.cadreId ||not empty param.typeId
             ||not empty param.postId ||not empty param.title || not empty param.code }"/>
-
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <%--<li class="dropdown ${status==CADRE_RESERVE_STATUS_NORMAL?'active':''}">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">
-                                <i class="fa fa-flag"></i> ${empty reserveType?CADRE_RESERVE_TYPE_MAP.get(CADRE_RESERVE_TYPE_SCHOOL)
-                                :CADRE_RESERVE_TYPE_MAP.get(reserveType)}&nbsp;
-                                <i class="ace-icon fa fa-caret-down bigger-110 width-auto"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-info" style="min-width: 100px">
-                                <c:forEach var="_type" items="${CADRE_RESERVE_TYPE_MAP}">
-                                    <li>
-                                        <a href="?reserveType=${_type.key}">
-                                            <i class="fa fa-arrow-right" style="visibility:${_type.key!=reserveType?'hidden':'visible'}"></i>
-                                            ${_type.value}</a>
-                                    </li>
-                                </c:forEach>
-                            </ul>
-                        </li>--%>
                         <c:forEach var="_type" items="${CADRE_RESERVE_TYPE_MAP}">
                             <c:if test="${!cm:hasRole(ROLE_ONLY_CADRE_VIEW) || _type.key!=CADRE_RESERVE_TYPE_SCHOOL}">
                             <li class="${status==CADRE_RESERVE_STATUS_NORMAL&&_type.key==reserveType?'active':''}">
@@ -192,10 +174,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="body-content-view">
-
-        </div>
+        <div id="body-content-view"></div>
     </div>
 </div>
 <script type="text/template" id="sort_tpl">
@@ -409,7 +388,6 @@
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $('[data-rel="tooltip"]').tooltip();
     });
-
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="select2"]').select2();

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.common.bean.ICrsExpert;
+import persistence.crs.common.ICrsExpert;
 import sys.constants.CisConstants;
 import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;

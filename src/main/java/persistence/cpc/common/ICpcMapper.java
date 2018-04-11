@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.cpc.common;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;

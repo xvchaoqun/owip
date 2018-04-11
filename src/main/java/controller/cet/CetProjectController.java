@@ -73,7 +73,7 @@ public class CetProjectController extends CetBaseController {
 
         CetProjectViewExample example = new CetProjectViewExample();
         CetProjectViewExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
-        //example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("year desc, id desc");
 
         if (year!=null) {
             criteria.andYearEqualTo(year);

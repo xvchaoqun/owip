@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import persistence.common.PassportSearchBean;
+import persistence.abroad.common.PassportSearchBean;
 import sys.constants.AbroadConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;

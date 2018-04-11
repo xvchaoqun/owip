@@ -35,7 +35,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import persistence.common.bean.PmdReportBean;
+import persistence.pmd.common.PmdReportBean;
 import service.BaseMapper;
 import service.party.MemberService;
 import service.party.MemberTeacherService;
