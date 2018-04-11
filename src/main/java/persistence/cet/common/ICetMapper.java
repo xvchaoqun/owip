@@ -4,6 +4,7 @@ import bean.analysis.StatTrainBean;
 import domain.cet.CetCourse;
 import domain.cet.CetProject;
 import domain.cet.CetProjectObj;
+import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTraineeType;
 import org.apache.ibatis.annotations.Param;
@@ -27,22 +28,33 @@ public interface ICetMapper {
             " and cptt.trainee_type_id = ctt.id order by ctt.sort_order asc")
     public List<CetTraineeType> getCetTraineeTypes(@Param("projectId") Integer projectId);
 
-    // 参训人的培训班列表
-    public List<ICetTrain> findUserCetTrains(@Param("userId") Integer userId,
-                                             @Param("hasSelected")Boolean hasSelected,
-                                             @Param("isFinished")Byte isFinished,
-                                             RowBounds rowBounds);
-    public int countUserCetTrains(@Param("userId") Integer userId,
-                                  @Param("hasSelected")Boolean hasSelected,
-                                  @Param("isFinished")Byte isFinished);
+    // 学员的培训列表
+    public List<CetProject> selectUserCetProjectList( @Param("userId") Integer userId,
+                                                      @Param("projectType") byte projectType,
+                                                      @Param("year") Integer year,
+                                                      @Param("name") String name, RowBounds rowBounds);
+    public int countUserCetProjectList(@Param("userId") Integer userId,
+                                       @Param("projectType") byte projectType,
+                                       @Param("year") Integer year,
+                                       @Param("name") String name);
 
-    // 参训人已选课程
-    @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
-    @Select("select ctc.* from cet_trainee_course cteec, cet_train_course ctc " +
+
+    // 学员的培训班列表
+    public List<ICetTrain> selectUserCetTrainList(@Param("userId") Integer userId,
+                                                  @Param("hasSelected") Boolean hasSelected,
+                                                  @Param("isFinished") Byte isFinished,
+                                                  RowBounds rowBounds);
+    public int countUserCetTrainList(@Param("userId") Integer userId,
+                                     @Param("hasSelected") Boolean hasSelected,
+                                     @Param("isFinished") Byte isFinished);
+
+    // 学员已选课程
+    @ResultMap("persistence.cet.common.ICetMapper.ICetTrainCourseBaseResultMap")
+    @Select("select ctc.*, cteec.can_quit from cet_trainee_course cteec, cet_train_course ctc " +
             "where cteec.trainee_id=#{traineeId} and cteec.train_course_id=ctc.id order by ctc.sort_order asc")
-    public List<CetTrainCourse> selectedCetTrainCourses(@Param("traineeId") Integer traineeId);
+    public List<ICetTrainCourse> selectedCetTrainCourses(@Param("traineeId") Integer traineeId);
 
-    // 参训人未选课程
+    // 学员未选课程
     @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
     @Select("select * from cet_train_course where train_id=#{trainId} and " +
             "id not in(select train_course_id from cet_trainee_course where  trainee_id=#{traineeId}) order by sort_order asc")
@@ -50,23 +62,23 @@ public interface ICetMapper {
                                                              @Param("traineeId") Integer traineeId);
 
     // 培训班 选择 课程
-    List<CetCourse> cetTrainCourse_selectCourses(@Param("trainId") int trainId,
-                                                 @Param("expertId") Integer expertId,
-                                                 @Param("name") String name,
-                                                 @Param("courseTypes") Byte[] courseTypes,
-                                                 RowBounds rowBounds);
-    int cetTrainCourse_countCourses(@Param("trainId") int trainId,
-                                    @Param("expertId") Integer expertId,
-                                    @Param("name") String name,
-                                    @Param("courseTypes") Byte[] courseTypes);
+    List<CetCourse> selectCetTrainCourseList(@Param("trainId") int trainId,
+                                             @Param("expertId") Integer expertId,
+                                             @Param("name") String name,
+                                             @Param("courseTypes") Byte[] courseTypes,
+                                             RowBounds rowBounds);
+    int countCetTrainCourseList(@Param("trainId") int trainId,
+                                @Param("expertId") Integer expertId,
+                                @Param("name") String name,
+                                @Param("courseTypes") Byte[] courseTypes);
     // 培训方案 选择 课程
-    List<CetCourse> cetPlanCourse_selectCourses(@Param("planId") int planId,
-                                                 @Param("name") String name,
-                                                 @Param("courseTypes") Byte[] courseTypes,
-                                                 RowBounds rowBounds);
-    int cetPlanCourse_countCourses(@Param("planId") int planId,
-                                    @Param("name") String name,
-                                    @Param("courseTypes") Byte[] courseTypes);
+    List<CetCourse> selectCetPlanCourseList(@Param("planId") int planId,
+                                            @Param("name") String name,
+                                            @Param("courseTypes") Byte[] courseTypes,
+                                            RowBounds rowBounds);
+    int countCetPlanCourseList(@Param("planId") int planId,
+                               @Param("name") String name,
+                               @Param("courseTypes") Byte[] courseTypes);
 
     // 获取参训人员第二天的第一堂课
     @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
@@ -90,6 +102,11 @@ public interface ICetMapper {
             "where <if test='trainId!=null'> train_id=#{trainId} and</if> left(start_time, 10) = curdate() and start_time > now() " +
             "order by start_time asc"+ "</script>")
     public List<CetTrainCourse> getTodayTrainCourseList(@Param("trainId") Integer trainId);
+
+    // 获取培训所包含的培训班（在培训方案下面的培训班，针对线下培训、实践教学）
+    @ResultMap("persistence.cet.CetTrainMapper.BaseResultMap")
+    @Select("select ct.* from cet_train ct, cet_project_plan cpp where  cpp.project_id=#{projectId} and ct.plan_id=cpp.id ")
+    public List<CetTrain> getCetTrain( @Param("projectId") int projectId);
 
     // 获取培训班所在的培训计划
     @ResultMap("persistence.cet.CetProjectMapper.BaseResultMap")

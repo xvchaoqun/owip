@@ -12,8 +12,15 @@
                 返回</a>
         </h4>
          <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
-            课程名称：${cetTrainCourse.cetCourse.name}（${cetProject.name}）
+           ${cetTrainCourse.cetCourse.name}（${cetTrain.name}，${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}，${cetProject.name}）
         </span>
+        <div class="widget-toolbar no-border">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="javascript:;">学员选课</a>
+                </li>
+            </ul>
+        </div>
         </c:if>
         <c:if test="${cls==3}">
         <h4 class="widget-title lighter smaller">
@@ -23,8 +30,15 @@
                 返回</a>
         </h4>
          <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
-            课程名称：${cetPlanCourse.cetCourse.name}（${cetProject.name}）
+            ${cetPlanCourse.cetCourse.name}（${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}，${cetProject.name}）
         </span>
+        <div class="widget-toolbar no-border">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="javascript:;">选择学员</a>
+                </li>
+            </ul>
+        </div>
         </c:if>
         <c:if test="${cls==4}">
         <h4 class="widget-title lighter smaller">
@@ -34,9 +48,8 @@
                 返回</a>
         </h4>
          <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
-            撰写心得体会（${cetProject.name}）
+            撰写心得体会（${cm:formatDate(cetProjectPlan.startDate, "yyyy-MM-dd")} ~ ${cm:formatDate(cetProjectPlan.endDate, "yyyy-MM-dd")}，${cetProject.name}）
         </span>
-        </c:if>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">
                 <li class="active">
@@ -44,6 +57,7 @@
                 </li>
             </ul>
         </div>
+        </c:if>
     </div>
     <div class="widget-body">
     <div class="widget-main padding-4">

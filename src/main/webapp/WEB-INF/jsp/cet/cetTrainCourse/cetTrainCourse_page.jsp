@@ -14,13 +14,13 @@
                 class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-trash"></i> 删除
         </button>
-        <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
+
         <button class="jqOpenViewBtn btn btn-primary btn-sm"
            data-url="${ctx}/cet/cetTrainCourse_info"
            data-grid-id="#jqGrid2"
            data-id-name="trainCourseId"><i class="fa fa-edit"></i>
             编辑课程信息</button>
-        </c:if>
+
     <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
        data-url="${ctx}/cet/cetTrainCourse_data"
        data-querystr="trainId=${cetTrain.id}"
@@ -114,14 +114,14 @@
             {
                 label: '开始时间',
                 name: 'startTime',
-                width: 130,
+                width: 150,
                 formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
             },
             {
                 label: '结束时间',
                 name: 'endTime',
-                width: 130,
+                width: 150,
                 formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
             },
@@ -177,6 +177,20 @@
                 formatoptions: {url: "${ctx}/cet/cetTrainCourse_changeOrder", grid:'#jqGrid2'}, frozen:true
             },
             {label: '学时', name: 'cetCourse.period', width: 70},
+            {
+                label: '开始时间',
+                name: 'startTime',
+                width: 150,
+                formatter: 'date',
+                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}
+            },
+            {
+                label: '结束时间',
+                name: 'endTime',
+                width: 150,
+                formatter: 'date',
+                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
+            },
             {label: '教学照片', name: '_images', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return ('<button type="button" data-url="${ctx}/cet/cetTrainCourseFile?trainCourseId={0}" ' +
                 'class="popupBtn btn btn-xs btn-success"><i class="ace-icon fa fa-search"></i> 详情</button>')

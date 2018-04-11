@@ -10,7 +10,7 @@
 
         </h4>
         <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
-            专题培训：${cetProject.name}
+            ${cetProject.name}（${cm:formatDate(cetProject.startDate, "yyyy-MM-dd")} ~ ${cm:formatDate(cetProject.endDate, "yyyy-MM-dd")}）
         </span>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" id="detail-ul">

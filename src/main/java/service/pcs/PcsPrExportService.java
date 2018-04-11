@@ -97,7 +97,7 @@ public class PcsPrExportService extends BaseMapper {
 
         Map<Integer, PcsPartyBean> partyMemberCountMap = getPartyMemberCountMap(configId, stage);
 
-        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, null, null, null, new RowBounds());
+        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeanList(configId, stage, null, null, null, new RowBounds());
         int startRow = 3;
         int rowCount = records.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
@@ -374,7 +374,7 @@ public class PcsPrExportService extends BaseMapper {
 
         // 获得完成推荐的支部（排除之后的新建支部）（与两委统计数据保持一致）
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
 
         for (PcsBranchBean bean : pcsBranchBeans) {
 
@@ -407,7 +407,7 @@ public class PcsPrExportService extends BaseMapper {
 
         // 获得完成推荐的支部（排除之后的新建支部）（与两委统计数据保持一致）
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
 
         int memberCount = 0;
         int studentMemberCount = 0;
@@ -1301,7 +1301,7 @@ public class PcsPrExportService extends BaseMapper {
         int expectPositiveMemberCount = 0;
         int actualPositiveMemberCount = 0;
 
-        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, PcsConstants.PCS_STAGE_THIRD,
+        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeanList(configId, PcsConstants.PCS_STAGE_THIRD,
                 null, null, null, new RowBounds());
         int startRow = 2;
         int rowCount = records.size();

@@ -58,7 +58,7 @@ public class CetExportService extends BaseMapper {
         cell.setCellValue(str);
 
 
-        /*List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, null, null, null, new RowBounds());
+        /*List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeanList(configId, stage, null, null, null, new RowBounds());
         int startRow = 10;
         int rowCount = records.size();
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);

@@ -3,6 +3,7 @@ package service.cet;
 import controller.global.OpException;
 import domain.cet.CetProjectObj;
 import domain.cet.CetProjectObjExample;
+import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseView;
@@ -121,6 +122,8 @@ public class CetProjectObjService extends BaseMapper {
         Set<Integer> specialeeUserIdSet = new HashSet<>();
         specialeeUserIdSet.addAll(Arrays.asList(userIds));
 
+        List<CetTrain> cetTrains = iCetMapper.getCetTrain(projectId);
+
         for (Integer userId : userIds) {
 
             if(selectedProjectObjUserIdSet.contains(userId)) continue;
@@ -132,6 +135,11 @@ public class CetProjectObjService extends BaseMapper {
             cetProjectObjMapper.insertSelective(record);
 
             sysUserService.addRole(userId, RoleConstants.ROLE_CET_TRAINEE);
+
+            // 同步至每个培训班的学员列表
+            for (CetTrain cetTrain : cetTrains) {
+                cetTraineeService.createIfNotExist(userId, cetTrain.getId());
+            }
 
             sysApprovalLogService.add(record.getId(), record.getUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
@@ -152,6 +160,7 @@ public class CetProjectObjService extends BaseMapper {
 
     }
 
+    // 退出
     @Transactional
     public void quit(boolean isQuit, Integer[] ids) {
 

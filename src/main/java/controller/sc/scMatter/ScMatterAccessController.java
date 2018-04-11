@@ -85,7 +85,7 @@ public class ScMatterAccessController extends ScMatterBaseController {
         long count = 0 ;
         List<ScMatterAccess> records = null;
         if(matterItemId!=null){
-            count = iScMapper.countScMatterAccess(matterItemId);
+            count = iScMapper.countScMatterAccessList(matterItemId);
             if ((pageNo - 1) * pageSize >= count) {
                 pageNo = Math.max(1, pageNo - 1);
             }

@@ -80,13 +80,13 @@ public class PcsRecommendController extends PcsBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = iPcsMapper.countPcsBranchBeans(configId, stage, partyId, branchId, null);
+        int count = iPcsMapper.countPcsBranchBeanList(configId, stage, partyId, branchId, null);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<PcsBranchBean> records =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, branchId, null,
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, branchId, null,
                         new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -202,7 +202,7 @@ public class PcsRecommendController extends PcsBaseController {
         PcsAdmin pcsAdmin = pcsAdminService.getAdmin(ShiroHelper.getCurrentUserId());
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         List<IPcsCandidateView> candidates =
-                iPcsMapper.selectPartyCandidates(null, true, configId, stage, type, new RowBounds());
+                iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());
 
         modelMap.put("candidates", candidates);
         return "pcs/pcsRecommend/pcsRecommend_candidates";

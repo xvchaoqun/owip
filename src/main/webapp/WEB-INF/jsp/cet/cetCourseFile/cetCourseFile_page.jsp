@@ -31,8 +31,8 @@
                         </div>
                         <div class="clearfix form-actions">
                             <div class="col-md-offset-3 col-md-9">
-                                <button id="submitBtn" class="btn btn-info btn-sm"
-                                        type="submit"  data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+                                <button id="submitBtn" class="btn btn-info btn-sm" type="submit"
+                                        data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
                                     <i class="ace-icon fa fa-check "></i>
                                     确定
                                 </button>

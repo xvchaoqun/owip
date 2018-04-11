@@ -3,7 +3,7 @@
 DROP VIEW IF EXISTS `cet_project_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_project_view` AS
 select cp.*, count(cpo.id) as obj_count from cet_project cp
-left join cet_project_obj cpo on cpo.project_id=cp.id ;
+left join cet_project_obj cpo on cpo.project_id=cp.id group by cp.id;
 
 DROP VIEW IF EXISTS `cet_project_obj_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_project_obj_view` AS

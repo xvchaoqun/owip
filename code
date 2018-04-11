@@ -82,7 +82,7 @@ ${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}
 
 {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
 
-new Date().format('yyyy-MM-dd')
+$.date(rowObject.startTime, "yyyy-MM-dd hh:mm")
 
 $.jgrid.formatter.MetaType
 

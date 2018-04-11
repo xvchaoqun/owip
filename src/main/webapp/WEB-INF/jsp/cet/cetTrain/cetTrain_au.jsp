@@ -70,13 +70,16 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${cetTrain!=null}">确定</c:if><c:if test="${cetTrain==null}">添加</c:if></button>
+    <button id="submitBtn" class="btn btn-primary"
+			data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+		<i class="fa fa-check"></i> <c:if test="${cetTrain!=null}">确定</c:if><c:if test="${cetTrain==null}">添加</c:if></button>
 </div>
 <script>
 
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
+			var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
@@ -88,6 +91,7 @@ pageEncoding="UTF-8"%>
 						$("#jqGrid2").trigger("reloadGrid");
 						</c:if>
                     }
+					$btn.button('reset');
                 }
             });
         }

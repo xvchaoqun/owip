@@ -116,7 +116,7 @@ public class PcsPartyController extends PcsBaseController {
         int partyId = pcsAdmin.getPartyId();
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
 
-        List<PcsBranchBean> records = iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, null, null, new RowBounds());
+        List<PcsBranchBean> records = iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null, new RowBounds());
         modelMap.put("records", records);
 
         return "pcs/pcsParty/pcsParty_branch_table_page";
@@ -214,13 +214,13 @@ public class PcsPartyController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        int count = iPcsMapper.countBranchCandidates(userId, configId, stage, type, partyId);
+        int count = iPcsMapper.countBranchCandidateList(userId, configId, stage, type, partyId);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<IPcsCandidateView> records = iPcsMapper.selectBranchCandidates(userId, configId, stage, type, partyId,
+        List<IPcsCandidateView> records = iPcsMapper.selectBranchCandidateList(userId, configId, stage, type, partyId,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

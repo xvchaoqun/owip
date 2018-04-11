@@ -25,13 +25,13 @@
         <result column="pass_count" jdbcType="TINYINT" property="passCount"/>
     </resultMap>
 
-    <select id="statApplicantList" resultMap="statApplicantResultMap" parameterType="map">
+    <select id="selectStatApplicantList" resultMap="statApplicantResultMap" parameterType="map">
         select ca.user_id, cv.realname, cv.code, cv.title, count(*) as total_count, sum(if(ca.is_require_check_pass, 1, 0)) as pass_count from crs_applicant_view ca
             left join crs_post cp on cp.id = ca.post_id
             left join cadre_view cv on cv.user_id=ca.user_id
             where ca.status=#{applicantStatus} and cp.status=#{postStatus} group by ca.user_id order by ca.id asc
     </select>
-    <select id="countStatApplicants" parameterType="map" resultType="java.lang.Integer">
+    <select id="countStatApplicantList" parameterType="map" resultType="java.lang.Integer">
         select count(DISTINCT  ca.user_id) from crs_applicant_view ca
             left join crs_post cp on cp.id = ca.post_id
             where ca.status=#{applicantStatus} and cp.status=#{postStatus}
@@ -75,7 +75,7 @@
             </if>
         </where>
     </sql>
-    <select id="findExperts" resultMap="ExpertBaseResultMap" parameterType="map">
+    <select id="selectExpertList" resultMap="ExpertBaseResultMap" parameterType="map">
         select ce.*, if(isnull(p.post_count), 0, p.post_count) as post_count
         <include refid="searchExperts"/>
         <if test="orderType==null || orderType==0">
@@ -85,7 +85,7 @@
             order by post_count desc, ce.cadre_status desc, ce.cadre_sort_order desc
         </if>
     </select>
-    <select id="countExperts" parameterType="map" resultType="java.lang.Integer">
+    <select id="countExpertList" parameterType="map" resultType="java.lang.Integer">
         select count(DISTINCT ce.id)
         <include refid="searchExperts"/>
     </select>
@@ -105,12 +105,12 @@
             </foreach>
         </if>
     </sql>
-    <select id="findUserApplyCrsPosts" resultMap="PostBaseResultMap" parameterType="map">
+    <select id="selectUserApplyCrsPostList" resultMap="PostBaseResultMap" parameterType="map">
         select cp.*, ca.id as applicant_id, ca.is_quit as applicant_is_quit, ca.is_require_check_pass
         <include refid="searchPosts"/>
         order by cp.create_time desc
     </select>
-    <select id="countUserApplyCrsPosts" parameterType="map" resultType="java.lang.Integer">
+    <select id="countUserApplyCrsPostList" parameterType="map" resultType="java.lang.Integer">
         select count(cp.id)
         <include refid="searchPosts"/>
     </select>

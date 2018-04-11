@@ -21,40 +21,40 @@
         </if>
     </sql>
     <!--1、查找干部的（境外）学习经历 -->
-    <select id="findCadreEdus" resultMap="persistence.cadre.CadreEduMapper.IBaseResultMap" parameterType="map">
+    <select id="selectCadreEduList" resultMap="persistence.cadre.CadreEduMapper.IBaseResultMap" parameterType="map">
         select ce.* from cadre_edu ce , cadre c where
         <include refid="statCadreSearchSql" />
         and ce.cadre_id=c.id and ce.school_type =#{schoolType}
     </select>
-    <select id="countCadreEdus" parameterType="map" resultType="java.lang.Integer">
+    <select id="countCadreEduList" parameterType="map" resultType="java.lang.Integer">
         select count(distinct ce.id) from cadre_edu ce , cadre c where
         <include refid="statCadreSearchSql" />
         and ce.cadre_id=c.id and ce.school_type =#{schoolType}
     </select>
     <!--2、查找干部的工作经历 3、查找（机关）干部的（院系）工作经历 4、查找（院系）干部的（机关）工作经历-->
-    <select id="findCadreWroks" resultMap="persistence.cadre.CadreWorkMapper.IBaseResultMap" parameterType="map">
+    <select id="selectCadreWorkList" resultMap="persistence.cadre.CadreWorkMapper.IBaseResultMap" parameterType="map">
         select cw.* from cadre_work cw , cadre_view c where <include refid="statCadreSearchSql" />
         and cw.cadre_id=c.id and cw.work_type =#{workType}
     </select>
-    <select id="countCadreWroks" parameterType="map" resultType="java.lang.Integer">
+    <select id="countCadreWorkList" parameterType="map" resultType="java.lang.Integer">
         select count(distinct cw.id) from cadre_work cw , cadre_view c where <include refid="statCadreSearchSql" />
         and cw.cadre_id=c.id and cw.work_type =#{workType}
     </select>
     <!--5、有校外挂职经历的干部-->
-    <select id="findCrpRecords" resultMap="persistence.crp.CrpRecordMapper.BaseResultMap" parameterType="map">
+    <select id="selectCrpRecordList" resultMap="persistence.crp.CrpRecordMapper.BaseResultMap" parameterType="map">
         select cr.* from crp_record cr , cadre c where <include refid="statCadreSearchSql" />
         and cr.user_id=c.user_id and cr.type =#{type}
     </select>
-    <select id="countCrpRecords" parameterType="map" resultType="java.lang.Integer">
+    <select id="countCrpRecordList" parameterType="map" resultType="java.lang.Integer">
         select count(distinct cr.id) from crp_record cr , cadre c where <include refid="statCadreSearchSql" />
         and cr.user_id=c.user_id and cr.type =#{type}
     </select>
 
     <!--6、具有人才/荣誉称号的干部-->
-    <select id="findCadres" resultType="persistence.common.bean.ICarde" parameterType="map">
+    <select id="selectTalentCadreList" resultType="persistence.common.bean.ICarde" parameterType="map">
         select c.id from cadre_view c where <include refid="statCadreSearchSql" />
     </select>
-    <select id="countCadres" parameterType="map" resultType="java.lang.Integer">
+    <select id="countTalentCadreList" parameterType="map" resultType="java.lang.Integer">
         select count(distinct c.id) from cadre_view c where <include refid="statCadreSearchSql" />
     </select>
 
@@ -78,7 +78,7 @@
         <include refid="cadreSearchSql" />
         order by c.sort_order desc
     </select>
-    <select id="countCadre" parameterType="map" resultType="java.lang.Integer">
+    <select id="countCadreList" parameterType="map" resultType="java.lang.Integer">
         select count(c.id) from cadre c, sys_user_view u where c.user_id= u.id
         <include refid="cadreSearchSql" />
     </select>
@@ -134,7 +134,7 @@
      </if>
      order by c.sort_order desc
    </select>
-   <select id="countCadreByUnitId" parameterType="map" resultType="java.lang.Integer" >
+   <select id="countCadreByUnitIdList" parameterType="map" resultType="java.lang.Integer" >
      select count(c.id) from cadre c, sys_user_view user where user.id in(
      select c.user_id from cadre_main_work cmw, cadre c where cmw.unit_id=#{unitId} and cmw.cadre_id = c.id
      union all

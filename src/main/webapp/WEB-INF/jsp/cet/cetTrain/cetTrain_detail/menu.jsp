@@ -10,7 +10,7 @@
                 返回</a>
         </h4>
                 <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
-                    培训班：${cetTrain.name}
+                    ${cetTrain.name}（${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}，${cetProject.name}）
                 </span>
         <div class="jqgrid-vertical-offset widget-toolbar no-border">
             <ul class="nav nav-tabs" id="detail-ul2">

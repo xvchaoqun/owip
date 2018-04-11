@@ -39,27 +39,32 @@ public interface ICadreMapper {
                               @Param("isChecked") Boolean isChecked );
 
 
-    List<ICadreEdu> findCadreEdus(@Param("schoolType") byte schoolType, @Param("searchBean")CadreCategorySearchBean searchBean, RowBounds rowBounds);
-    int countCadreEdus(@Param("schoolType") byte schoolType, @Param("searchBean")CadreCategorySearchBean searchBean);
+    List<ICadreEdu> selectCadreEduList(@Param("schoolType") byte schoolType,
+                                       @Param("searchBean") CadreCategorySearchBean searchBean, RowBounds rowBounds);
+    int countCadreEduList(@Param("schoolType") byte schoolType,
+                          @Param("searchBean") CadreCategorySearchBean searchBean);
 
-    List<ICadreWork> findCadreWroks(@Param("workType") int workType, @Param("searchBean")CadreCategorySearchBean searchBean, RowBounds rowBounds);
-    int countCadreWroks(@Param("workType") int workType, @Param("searchBean")CadreCategorySearchBean searchBean);
+    List<ICadreWork> selectCadreWorkList(@Param("workType") int workType,
+                                         @Param("searchBean") CadreCategorySearchBean searchBean, RowBounds rowBounds);
+    int countCadreWorkList(@Param("workType") int workType,
+                           @Param("searchBean") CadreCategorySearchBean searchBean);
 
-    List<CrpRecord> findCrpRecords(@Param("type") byte type, @Param("searchBean")CadreCategorySearchBean searchBean, RowBounds rowBounds);
-    int countCrpRecords(@Param("type") byte type, @Param("searchBean")CadreCategorySearchBean searchBean);
+    List<CrpRecord> selectCrpRecordList(@Param("type") byte type,
+                                        @Param("searchBean") CadreCategorySearchBean searchBean, RowBounds rowBounds);
+    int countCrpRecordList(@Param("type") byte type,
+                           @Param("searchBean") CadreCategorySearchBean searchBean);
+    // 6、具有人才/荣誉称号的干部
+    List<ICarde> selectTalentCadreList(@Param("searchBean") CadreCategorySearchBean searchBean, RowBounds rowBounds);
+    int countTalentCadreList(@Param("searchBean") CadreCategorySearchBean searchBean);
 
-    List<ICarde> findCadres(@Param("searchBean")CadreCategorySearchBean searchBean, RowBounds rowBounds);
-    int countCadres(@Param("searchBean")CadreCategorySearchBean searchBean);
-
-
-
+    
     // 根据账号、姓名、学工号查找干部
     List<Cadre> selectCadreList(@Param("search") String search,
                                 @Param("cadreStatusList")Set<Byte> cadreStatusList,
                                 @Param("isCommitteeMember") Boolean isCommitteeMember, RowBounds rowBounds);
-    int countCadre(@Param("search") String search,
-                   @Param("cadreStatusList")Set<Byte> cadreStatusList,
-                   @Param("isCommitteeMember") Boolean isCommitteeMember);
+    int countCadreList(@Param("search") String search,
+                       @Param("cadreStatusList") Set<Byte> cadreStatusList,
+                       @Param("isCommitteeMember") Boolean isCommitteeMember);
 
     // 根据账号、姓名、学工号查找 不是 干部的用户
     List<SysUserView> selectNotCadreList(@Param("search") String search,
@@ -72,9 +77,11 @@ public interface ICadreMapper {
 
       /* // 根据账号、姓名、学工号 查找所在单位和兼职单位 都关联该单位的干部
     List<Cadre> selectCadreByUnitIdList(@Param("search") String search,
-                                        @Param("cadreStatusList")List<Byte> cadreStatusList, @Param("unitId")int unitId, RowBounds rowBounds);
-    int countCadreByUnitId(@Param("search") String search,
-                           @Param("cadreStatusList")List<Byte> cadreStatusList, @Param("unitId")int unitId);*/
+                                        @Param("cadreStatusList")List<Byte> cadreStatusList,
+                                        @Param("unitId")int unitId, RowBounds rowBounds);
+    int countCadreByUnitIdList(@Param("search") String search,
+                           @Param("cadreStatusList")List<Byte> cadreStatusList,
+                           @Param("unitId")int unitId);*/
 
     // 获取主职、兼职在某单位的现任干部
     @ResultMap("persistence.cadre.CadrePostMapper.BaseResultMap")

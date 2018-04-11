@@ -122,10 +122,10 @@ public class PcsPrOwController extends PcsBaseController {
         }
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-        int hasReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true, null);
-        int passCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true,
+        int hasReportCount = iPcsMapper.countPcsPrPartyBeanList(configId, stage, null, true, null);
+        int passCount = iPcsMapper.countPcsPrPartyBeanList(configId, stage, null, true,
                 PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS);
-        int hasNotReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, false, null);
+        int hasNotReportCount = iPcsMapper.countPcsPrPartyBeanList(configId, stage, null, false, null);
         modelMap.put("hasReportCount", NumberUtils.trimToZero(hasReportCount));
         modelMap.put("hasNotReportCount", NumberUtils.trimToZero(hasNotReportCount));
         modelMap.put("passCount", NumberUtils.trimToZero(passCount));
@@ -143,7 +143,7 @@ public class PcsPrOwController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, null,
+        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeanList(configId, stage, null,
                 null, null, new RowBounds());
 
         // 这里读取两委已报送的支部的所在分党委进行统计的党员数和正式党员数，用于和两委数据保持一致
@@ -306,13 +306,13 @@ public class PcsPrOwController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        int count = iPcsMapper.countPcsPrPartyBeans(configId, stage, partyId, hasReport, recommendStatus);
+        int count = iPcsMapper.countPcsPrPartyBeanList(configId, stage, partyId, hasReport, recommendStatus);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, partyId, hasReport, recommendStatus,
+        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeanList(configId, stage, partyId, hasReport, recommendStatus,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

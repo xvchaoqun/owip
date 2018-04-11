@@ -132,13 +132,13 @@ public class CrsExpertController extends CrsBaseController {
             return;
         }*/
 
-        int count = iCrsMapper.countExperts(userId, status, meetingTime.getStart(), meetingTime.getEnd());
+        int count = iCrsMapper.countExpertList(userId, status, meetingTime.getStart(), meetingTime.getEnd());
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<ICrsExpert> records = iCrsMapper.findExperts(userId, status, meetingTime.getStart(),
+        List<ICrsExpert> records = iCrsMapper.selectExpertList(userId, status, meetingTime.getStart(),
                 meetingTime.getEnd(), orderType, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

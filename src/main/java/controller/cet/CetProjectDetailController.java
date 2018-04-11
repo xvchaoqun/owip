@@ -2,6 +2,8 @@ package controller.cet;
 
 import domain.cet.CetPlanCourse;
 import domain.cet.CetProject;
+import domain.cet.CetProjectPlan;
+import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -49,10 +51,24 @@ public class CetProjectDetailController extends CetBaseController {
         if(trainCourseId!=null){
             CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
             modelMap.put("cetTrainCourse", cetTrainCourse);
+            Integer trainId = cetTrainCourse.getTrainId();
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+            modelMap.put("cetTrain", cetTrain);
+            Integer planId = cetTrain.getPlanId();
+            if(planId!=null){
+                CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+                modelMap.put("cetProjectPlan", cetProjectPlan);
+            }
+
         }else if(planCourseId!=null){
 
             CetPlanCourse cetPlanCourse = cetPlanCourseMapper.selectByPrimaryKey(planCourseId);
             modelMap.put("cetPlanCourse", cetPlanCourse);
+            Integer planId = cetPlanCourse.getPlanId();
+            if(planId!=null){
+                CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+                modelMap.put("cetProjectPlan", cetProjectPlan);
+            }
         }
 
         modelMap.put("cls", cls);

@@ -34,7 +34,7 @@ public class ICadreMapperTest {
 		List<Cadre> cadres = iCadreMapper.selectCadreList("%sd%", SystemConstants.CADRE_STATUS_SET, null, new RowBounds(0, 2));
 		System.out.println("================" + cadres.size());
 
-		int sd = iCadreMapper.countCadre("sd", SystemConstants.CADRE_STATUS_SET, null);
+		int sd = iCadreMapper.countCadreList("sd", SystemConstants.CADRE_STATUS_SET, null);
 		System.out.println(sd);
 	}
 }

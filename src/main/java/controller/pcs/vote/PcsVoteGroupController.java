@@ -206,7 +206,7 @@ public class PcsVoteGroupController extends PcsBaseController {
                 PcsVoteCandidate candidate = new PcsVoteCandidate();
                 candidate.setUserId(uv.getUserId());
                 candidate.setRealname(uv.getRealname());
-                candidate.setIsFromStage(iPcsMapper.countPartyCandidates(userId, true, configId,
+                candidate.setIsFromStage(iPcsMapper.countPartyCandidateList(userId, true, configId,
                         PcsConstants.PCS_STAGE_THIRD, type)>0);
 
                 candidates.add(candidate);
@@ -224,7 +224,7 @@ public class PcsVoteGroupController extends PcsBaseController {
 
         int configId = pcsConfigService.getCurrentPcsConfig().getId();
         List<IPcsCandidateView> candidates =
-                iPcsMapper.selectPartyCandidates(null, true, configId, PcsConstants.PCS_STAGE_THIRD, type, new RowBounds());
+                iPcsMapper.selectPartyCandidateList(null, true, configId, PcsConstants.PCS_STAGE_THIRD, type, new RowBounds());
 
         modelMap.put("candidates", candidates);
 

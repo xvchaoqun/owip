@@ -313,19 +313,19 @@ public class PmdMemberController extends PmdBaseController {
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if(currentPmdMonth!=null && monthId == currentPmdMonth.getId()) {
             // 访问当月补缴列表
-            count = iPmdMapper.historyDelayMemberListCount(monthId, partyId, branchId, userId, hasPay);
+            count = iPmdMapper.countHistoryDelayMemberList(monthId, partyId, branchId, userId, hasPay);
             if ((pageNo - 1) * pageSize >= count) {
                 pageNo = Math.max(1, pageNo - 1);
             }
-            pmdMemberPayViews = iPmdMapper.historyDelayMemberList(monthId, partyId, branchId, userId, hasPay,
-                            new RowBounds((pageNo - 1) * pageSize, pageSize));
+            pmdMemberPayViews = iPmdMapper.selectHistoryDelayMemberList(monthId, partyId, branchId, userId, hasPay,
+                    new RowBounds((pageNo - 1) * pageSize, pageSize));
         }else{
             // 访问往月已补缴列表
-            count = iPmdMapper.historyDelayMemberListCount2(monthId, partyId, branchId, userId);
+            count = iPmdMapper.countHasPayHistoryDelayMemberList(monthId, partyId, branchId, userId);
             if ((pageNo - 1) * pageSize >= count) {
                 pageNo = Math.max(1, pageNo - 1);
             }
-            pmdMemberPayViews = iPmdMapper.historyDelayMemberList2(monthId, partyId, branchId, userId,
+            pmdMemberPayViews = iPmdMapper.selectHasPayHistoryDelayMemberList(monthId, partyId, branchId, userId,
                     new RowBounds((pageNo - 1) * pageSize, pageSize));
         }
 

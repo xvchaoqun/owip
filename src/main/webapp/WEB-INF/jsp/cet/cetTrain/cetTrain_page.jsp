@@ -9,13 +9,13 @@
                 <i class="ace-icon fa fa-backward"></i> 返回</a>
         </h4>
         <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
-                    培训方案：${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}
-                    （${cm:formatDate(cetProjectPlan.startDate, "yyyy-MM-dd")} ~ ${cm:formatDate(cetProjectPlan.endDate, "yyyy-MM-dd")}）
+                    ${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}
+                    （${cm:formatDate(cetProjectPlan.startDate, "yyyy-MM-dd")} ~ ${cm:formatDate(cetProjectPlan.endDate, "yyyy-MM-dd")}，${cetProject.name}）
         </span>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs" id="detail-ul">
                 <li class="active">
-                    <a href="javascript:;">培训方案详情</a>
+                    <a href="javascript:;">培训班列表</a>
                 </li>
             </ul>
         </div>

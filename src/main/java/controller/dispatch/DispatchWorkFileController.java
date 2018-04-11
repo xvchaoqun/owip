@@ -104,14 +104,14 @@ public class DispatchWorkFileController extends DispatchBaseController {
             if(cadreView!=null) postIds.add(cadreView.getPostId());
         }
 
-        long count = iDispatchMapper.countDispatchWorkFiles(isAdmin, postIds, type, status,
-                unitTypes, startYear, endYear,  workTypes, privacyTypes);
+        long count = iDispatchMapper.countDispatchWorkFileList(isAdmin, postIds, type, status,
+                unitTypes, startYear, endYear, workTypes, privacyTypes);
 
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DispatchWorkFile> records = iDispatchMapper.findDispatchWorkFiles(isAdmin, postIds, type, status,
+        List<DispatchWorkFile> records = iDispatchMapper.selectDispatchWorkFileList(isAdmin, postIds, type, status,
                 unitTypes, startYear, endYear, workTypes, privacyTypes, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);

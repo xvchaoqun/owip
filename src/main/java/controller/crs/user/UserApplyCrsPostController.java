@@ -79,12 +79,12 @@ public class UserApplyCrsPostController extends CrsBaseController {
             postStatusList.add(CrsConstants.CRS_POST_STATUS_FINISH);
         }
 
-        long count = iCrsMapper.countUserApplyCrsPosts(userId, isQuit, postStatusList);
+        long count = iCrsMapper.countUserApplyCrsPostList(userId, isQuit, postStatusList);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ICrsPost> records = iCrsMapper.findUserApplyCrsPosts(userId, isQuit, postStatusList,
+        List<ICrsPost> records = iCrsMapper.selectUserApplyCrsPostList(userId, isQuit, postStatusList,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

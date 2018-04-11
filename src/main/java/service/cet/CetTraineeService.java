@@ -1,10 +1,13 @@
 package service.cet;
 
+import controller.global.OpException;
 import domain.cet.CetProjectObj;
 import domain.cet.CetTrainee;
 import domain.cet.CetTraineeExample;
 import domain.cet.CetTraineeView;
 import domain.cet.CetTraineeViewExample;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -15,7 +18,7 @@ import java.util.List;
 @Service
 public class CetTraineeService extends BaseMapper {
 
-
+    private Logger logger = LoggerFactory.getLogger(getClass());
     public CetTraineeView get(int userId, int trainId){
 
         CetTraineeViewExample example = new CetTraineeViewExample();
@@ -33,6 +36,10 @@ public class CetTraineeService extends BaseMapper {
         }
 
         CetProjectObj cetProjectObj = iCetMapper.getCetProjectObj(userId, trainId);
+        if(cetProjectObj==null){
+            logger.error("培训学员不存在, userId={}, trainId={}", userId, trainId);
+            throw new OpException("培训学员不存在");
+        }
         int objId = cetProjectObj.getId();
 
         CetTrainee record = new CetTrainee();

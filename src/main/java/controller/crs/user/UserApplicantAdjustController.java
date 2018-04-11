@@ -20,7 +20,7 @@ public class UserApplicantAdjustController extends CrsBaseController {
         // 已报名岗位
         Map<Integer, ICrsPost> applyPostMap = new HashMap<>();
         {
-            List<ICrsPost> applyPosts = iCrsMapper.findUserApplyCrsPosts(userId,
+            List<ICrsPost> applyPosts = iCrsMapper.selectUserApplyCrsPostList(userId,
                     CrsConstants.CRS_POST_STATUS_NORMAL, new RowBounds());
             modelMap.put("applyPosts", applyPosts);
 

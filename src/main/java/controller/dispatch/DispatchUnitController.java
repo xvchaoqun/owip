@@ -259,7 +259,7 @@ public class DispatchUnitController extends DispatchBaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if(searchStr!= null) searchStr = "%"+searchStr+"%";
 
-        int count = iDispatchMapper.countDispatchByCodeUnit(searchStr, unitId);
+        int count = iDispatchMapper.countDispatchByCodeUnitList(searchStr, unitId);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);

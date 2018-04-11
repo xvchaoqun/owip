@@ -56,6 +56,7 @@ public class CetProjectController extends CetBaseController {
     @RequiresPermissions("cetProject:list")
     @RequestMapping("/cetProject_data")
     public void cetProject_data(HttpServletResponse response,
+                                    byte type,
                                     Integer year,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -71,7 +72,7 @@ public class CetProjectController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetProjectViewExample example = new CetProjectViewExample();
-        CetProjectViewExample.Criteria criteria = example.createCriteria();
+        CetProjectViewExample.Criteria criteria = example.createCriteria().andTypeEqualTo(type);
         //example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (year!=null) {
@@ -136,7 +137,8 @@ public class CetProjectController extends CetBaseController {
             cetProjectService.insertSelective(record, traineeTypeIds);
             logger.info(addLog( SystemConstants.LOG_CET, "添加专题培训：%s", record.getId()));
         } else {
-
+            // 不改变培训类型
+            record.setType(null);
             cetProjectService.updateWithTraineeTypes(record, traineeTypeIds);
             logger.info(addLog( SystemConstants.LOG_CET, "更新专题培训：%s", record.getId()));
         }
@@ -146,14 +148,20 @@ public class CetProjectController extends CetBaseController {
 
     @RequiresPermissions("cetProject:edit")
     @RequestMapping("/cetProject_au")
-    public String cetProject_au(Integer id, ModelMap modelMap) {
+    public String cetProject_au(Integer id,
+                                Byte type,
+                                ModelMap modelMap) {
 
         if (id != null) {
             CetProject cetProject = cetProjectMapper.selectByPrimaryKey(id);
             modelMap.put("cetProject", cetProject);
+            if(cetProject!=null){
+                type = cetProject.getType();
+            }
             Set<Integer> traineeTypeIdSet = cetProjectService.findTraineeTypeIdSet(id);
             modelMap.put("traineeTypeIds", new ArrayList<>(traineeTypeIdSet));
         }
+        modelMap.put("type", type);
 
         Map<Integer, CetTraineeType> traineeTypeMap = cetTraineeTypeService.findAll();
         modelMap.put("traineeTypeMap", traineeTypeMap);

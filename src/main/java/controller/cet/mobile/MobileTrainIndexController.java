@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import persistence.cet.common.ICetTrainCourse;
 import sys.SessionUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +54,7 @@ public class MobileTrainIndexController extends CetBaseController {
 			int userId = uv.getUserId();
 			CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
 			int traineeId = cetTrainee.getId();
-			List<CetTrainCourse> cetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
+			List<ICetTrainCourse> cetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
 			for (CetTrainCourse cetTrainCourse : cetTrainCourses) {
 				trainCourseMap.put(cetTrainCourse.getId(), cetTrainCourse);
 			}

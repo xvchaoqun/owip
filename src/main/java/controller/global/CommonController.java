@@ -172,7 +172,7 @@ public class CommonController extends BaseController {
             }
         }
 
-        int count = iCadreMapper.countCadre(searchStr, cadreStatusSet, isCommitteeMember);
+        int count = iCadreMapper.countCadreList(searchStr, cadreStatusSet, isCommitteeMember);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -296,7 +296,7 @@ public class CommonController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if (searchStr != null) searchStr = "%" + searchStr + "%";
 
-        int count = iCadreMapper.countCadre(searchStr, SystemConstants.CADRE_STATUS_SET, null);
+        int count = iCadreMapper.countCadreList(searchStr, SystemConstants.CADRE_STATUS_SET, null);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -470,7 +470,7 @@ public class CommonController extends BaseController {
         if(status!=null && status.length>0){
             statusList = Arrays.asList(status);
         }
-        int count = iMemberMapper.countMember(partyId, branchId, type, isRetire, politicalStatus, statusList,
+        int count = iMemberMapper.countMemberList(partyId, branchId, type, isRetire, politicalStatus, statusList,
                 searchStr, addPermits, adminPartyIdList, adminBranchIdList);
         if ((pageNo - 1) * pageSize >= count) {
 
@@ -542,7 +542,7 @@ public class CommonController extends BaseController {
         List<Integer> adminPartyIdList = loginUserService.adminPartyIdList();
         List<Integer> adminBranchIdList = loginUserService.adminBranchIdList();
 
-        int count = iMemberMapper.countMemberInflow(type, status, hasOutApply, searchStr, addPermits, adminPartyIdList, adminBranchIdList);
+        int count = iMemberMapper.countMemberInflowList(type, status, hasOutApply, searchStr, addPermits, adminPartyIdList, adminBranchIdList);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -607,7 +607,7 @@ public class CommonController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if (searchStr != null) searchStr = "%" + searchStr + "%";
 
-        int count = iMemberMapper.countNotMember(searchStr, sysUserService.buildRoleIds(RoleConstants.ROLE_REG));
+        int count = iMemberMapper.countNotMemberList(searchStr, sysUserService.buildRoleIds(RoleConstants.ROLE_REG));
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

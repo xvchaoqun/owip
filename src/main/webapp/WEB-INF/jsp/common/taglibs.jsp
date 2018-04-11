@@ -181,6 +181,8 @@
 
 <c:set value="<%=ScConstants.SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP%>" var="SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP"/>
 
+<c:set value="<%=CetConstants.CET_PROJECT_TYPE_MAP%>" var="CET_PROJECT_TYPE_MAP"/>
+
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE%>" var="CET_PROJECT_PLAN_TYPE_OFFLINE"/>
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_SELF%>" var="CET_PROJECT_PLAN_TYPE_SELF"/>
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL%>" var="CET_PROJECT_PLAN_TYPE_SPECIAL"/>

@@ -169,12 +169,12 @@ public class CetPlanCourseController extends CetBaseController {
             courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_SPECIAL};
         }
 
-        int count = iCetMapper.cetPlanCourse_countCourses(planId, name, courseTypes);
+        int count = iCetMapper.countCetPlanCourseList(planId, name, courseTypes);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetCourse> records= iCetMapper.cetPlanCourse_selectCourses(planId, name, courseTypes,
+        List<CetCourse> records= iCetMapper.selectCetPlanCourseList(planId, name, courseTypes,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

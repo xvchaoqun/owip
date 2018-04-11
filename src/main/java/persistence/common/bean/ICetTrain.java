@@ -1,6 +1,9 @@
 package persistence.common.bean;
 
+import domain.cet.CetProject;
 import domain.cet.CetTrainView;
+import persistence.cet.common.ICetMapper;
+import sys.tags.CmTag;
 
 import java.math.BigDecimal;
 
@@ -8,6 +11,11 @@ import java.math.BigDecimal;
  * Created by lm on 2018/3/14.
  */
 public class ICetTrain extends CetTrainView {
+
+    public CetProject getCetProject(){
+        ICetMapper iCetMapper = CmTag.getBean(ICetMapper.class);
+        return iCetMapper.getCetProject(getId());
+    }
 
     private Integer traineeId;
 

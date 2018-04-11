@@ -39,8 +39,8 @@ public interface IPcsMapper {
     List<PcsPrCandidateView> selectPrList( @Param("configId") int configId,
                                            @Param("stage") byte stage,
                                            @Param("search") String search, RowBounds rowBounds);
-    int countPr(@Param("configId") int configId,
-                @Param("stage") byte stage, @Param("search") String search);
+    int countPrList(@Param("configId") int configId,
+                    @Param("stage") byte stage, @Param("search") String search);
 
     // 还未报送党代表数据的分党委管理员
     @ResultMap("persistence.pcs.PcsAdminMapper.BaseResultMap")
@@ -51,7 +51,7 @@ public interface IPcsMapper {
                                                   @Param("adminType") byte adminType);
 
     //  （党代表）分党委推荐汇总情况，configId和stage非搜索字段，仅用于创建视图数据
-    public List<PcsPrPartyBean> selectPcsPrPartyBeans(
+    public List<PcsPrPartyBean> selectPcsPrPartyBeanList(
             @Param("configId") int configId,
             @Param("stage") byte stage,
             @Param("partyId") Integer partyId,
@@ -59,7 +59,7 @@ public interface IPcsMapper {
             @Param("recommendStatus") Byte recommendStatus,
             RowBounds rowBounds);
 
-    public int countPcsPrPartyBeans(
+    public int countPcsPrPartyBeanList(
             @Param("configId") int configId,
             @Param("stage") byte stage,
             @Param("partyId") Integer partyId,
@@ -76,22 +76,21 @@ public interface IPcsMapper {
                                                @Param("isChosen") Boolean isChosen);
 
     // 党代表分配方案，configId是非搜索字段，仅用于创建视图数据
-    public List<PcsPrAllocateBean> selectPcsPrAllocateBeans(
+    public List<PcsPrAllocateBean> selectPcsPrAllocateBeanList(
             @Param("configId") int configId,
             @Param("partyId") Integer partyId,
             RowBounds rowBounds);
-
-    public int countPcsPrAllocateBeans(@Param("configId") int configId,
-                                       @Param("partyId") Integer partyId);
+    public int countPcsPrAllocateBeanList(@Param("configId") int configId,
+                                          @Param("partyId") Integer partyId);
 /*
     // 党代表候选人初步人选名单（分党委）
-    public List<IPcsCandidateView> selectPcsPrPartyCandidates(@Param("userId") Integer userId,
+    public List<IPcsCandidateView> selectPcsPrPartyCandidateList(@Param("userId") Integer userId,
                                                           @Param("configId") int configId,
                                                           @Param("stage") byte stage,
                                                           @Param("partyId") int partyId,
                                                           RowBounds rowBounds);
 
-    public int countPcsPrPartyCandidates(@Param("userId") Integer userId,
+    public int countPcsPrPartyCandidateList(@Param("userId") Integer userId,
                                      @Param("configId") int configId,
                                      @Param("stage") byte stage,
                                      @Param("partyId") int partyId);*/
@@ -113,14 +112,13 @@ public interface IPcsMapper {
                                                      @Param("stage") byte stage);
 
     //  分党委推荐汇总情况，configId和stage非搜索字段，仅用于创建视图数据
-    public List<PcsPartyBean> selectPcsPartyBeans(
+    public List<PcsPartyBean> selectPcsPartyBeanList(
             @Param("configId") int configId,
             @Param("stage") byte stage,
             @Param("partyId") Integer partyId,
             @Param("hasReport") Boolean hasReport,
             RowBounds rowBounds);
-
-    public int countPcsPartyBeans(
+    public int countPcsPartyBeanList(
             @Param("configId") int configId,
             @Param("stage") byte stage,
             @Param("partyId") Integer partyId,
@@ -128,20 +126,19 @@ public interface IPcsMapper {
 
 
     // 党支部推荐汇总情况，configId和stage非搜索字段，仅用于创建视图数据
-    public List<PcsBranchBean> selectPcsBranchBeans(
+    public List<PcsBranchBean> selectPcsBranchBeanList(
             @Param("configId") int configId,
             @Param("stage") byte stage,
             @Param("partyId") Integer partyId,
             @Param("branchId") Integer branchId,
             @Param("isFinished") Boolean isFinished,
             RowBounds rowBounds);
-
-    public int countPcsBranchBeans(
-                @Param("configId") int configId,
-                @Param("stage") byte stage,
-                @Param("partyId") Integer partyId,
-                                   @Param("branchId") Integer branchId,
-                                   @Param("isFinished") Boolean isFinished);
+    public int countPcsBranchBeanList(
+            @Param("configId") int configId,
+            @Param("stage") byte stage,
+            @Param("partyId") Integer partyId,
+            @Param("branchId") Integer branchId,
+            @Param("isFinished") Boolean isFinished);
 
     // 获取被推荐人都有哪些支部推荐了（除直属党支部）
     List<Integer> selectCandidateBranchIds(@Param("userId") int userId,
@@ -149,30 +146,30 @@ public interface IPcsMapper {
                              @Param("stage") byte stage,
                              @Param("candidateType") int candidateType);
     // 分党委两委委员推荐提名情况
-    public List<IPcsCandidateView> selectPartyCandidates(@Param("userId") Integer userId,
-                                                         @Param("isChosen") Boolean isChosen,
-                                                         @Param("configId") int configId,
-                                                         @Param("stage") byte stage,
-                                                         @Param("candidateType") int candidateType,
-                                                         RowBounds rowBounds);
+    public List<IPcsCandidateView> selectPartyCandidateList(@Param("userId") Integer userId,
+                                                            @Param("isChosen") Boolean isChosen,
+                                                            @Param("configId") int configId,
+                                                            @Param("stage") byte stage,
+                                                            @Param("candidateType") int candidateType,
+                                                            RowBounds rowBounds);
 
-    public int countPartyCandidates(@Param("userId") Integer userId,
-                                    @Param("isChosen") Boolean isChosen,
-                                    @Param("configId") int configId,
-                                    @Param("stage") byte stage,
-                                    @Param("candidateType") int candidateType);
+    public int countPartyCandidateList(@Param("userId") Integer userId,
+                                       @Param("isChosen") Boolean isChosen,
+                                       @Param("configId") int configId,
+                                       @Param("stage") byte stage,
+                                       @Param("candidateType") int candidateType);
 
     // 党支部两委委员推荐提名情况
-    public List<IPcsCandidateView> selectBranchCandidates(@Param("userId") Integer userId,
-                                                          @Param("configId") int configId,
-                                                          @Param("stage") byte stage,
-                                                          @Param("candidateType") int candidateType,
-                                                          @Param("partyId") int partyId,
-                                                          RowBounds rowBounds);
+    public List<IPcsCandidateView> selectBranchCandidateList(@Param("userId") Integer userId,
+                                                             @Param("configId") int configId,
+                                                             @Param("stage") byte stage,
+                                                             @Param("candidateType") int candidateType,
+                                                             @Param("partyId") int partyId,
+                                                             RowBounds rowBounds);
 
-    public int countBranchCandidates(@Param("userId") Integer userId,
-                                     @Param("configId") int configId,
-                                     @Param("stage") byte stage,
-                                     @Param("candidateType") int candidateType,
-                                     @Param("partyId") int partyId);
+    public int countBranchCandidateList(@Param("userId") Integer userId,
+                                        @Param("configId") int configId,
+                                        @Param("stage") byte stage,
+                                        @Param("candidateType") int candidateType,
+                                        @Param("partyId") int partyId);
 }

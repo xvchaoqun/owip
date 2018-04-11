@@ -19,27 +19,27 @@ import java.util.Map;
 public interface ICrsMapper {
 
     // 应聘人报名次数统计
-    public List<CrsStatApplicantBean> statApplicantList(@Param("applicantStatus") Byte applicantStatus,
-                                                    @Param("postStatus") Byte postStatus,
-                                                    RowBounds rowBounds);
-    public int countStatApplicants(@Param("applicantStatus") Byte applicantStatus,
-                                   @Param("postStatus") Byte postStatus);
+    public List<CrsStatApplicantBean> selectStatApplicantList(@Param("applicantStatus") Byte applicantStatus,
+                                                              @Param("postStatus") Byte postStatus,
+                                                              RowBounds rowBounds);
+    public int countStatApplicantList(@Param("applicantStatus") Byte applicantStatus,
+                                      @Param("postStatus") Byte postStatus);
 
     // 推荐/自荐
     public int recommend(@Param("record") CrsApplicant record);
 
     // 获取专家列表，增加专家参与岗位数量、排序
-    public List<ICrsExpert> findExperts(@Param("userId") Integer userId,
-                                        @Param("status") Byte status,
-                                        @Param("meetingTimeStart") Date meetingTimeStart,
-                                        @Param("meetingTimeEnd") Date meetingTimeEnd,
-                                        @Param("orderType") Byte orderType,
-                                        RowBounds rowBounds);
+    public List<ICrsExpert> selectExpertList(@Param("userId") Integer userId,
+                                             @Param("status") Byte status,
+                                             @Param("meetingTimeStart") Date meetingTimeStart,
+                                             @Param("meetingTimeEnd") Date meetingTimeEnd,
+                                             @Param("orderType") Byte orderType,
+                                             RowBounds rowBounds);
 
-    public int countExperts(@Param("userId") Integer userId,
-                            @Param("status") Byte status,
-                            @Param("meetingTimeStart") Date meetingTimeStart,
-                            @Param("meetingTimeEnd") Date meetingTimeEnd);
+    public int countExpertList(@Param("userId") Integer userId,
+                               @Param("status") Byte status,
+                               @Param("meetingTimeStart") Date meetingTimeStart,
+                               @Param("meetingTimeEnd") Date meetingTimeEnd);
 
     // 岗位报名分类统计
     @ResultType(java.util.HashMap.class)
@@ -49,12 +49,12 @@ public interface ICrsMapper {
     public List<Map> applicantStatic(@Param("postId") Integer postId, @Param("status") Byte status);
 
     // 获取干部申请的岗位（crs_applicant.status=1）
-    public List<ICrsPost> findUserApplyCrsPosts(@Param("userId") Integer userId,
-                                                @Param("isQuit") Boolean isQuit,
-                                                @Param("postStatusList") List<Byte> postStatusList,
-                                                RowBounds rowBounds);
+    public List<ICrsPost> selectUserApplyCrsPostList(@Param("userId") Integer userId,
+                                                     @Param("isQuit") Boolean isQuit,
+                                                     @Param("postStatusList") List<Byte> postStatusList,
+                                                     RowBounds rowBounds);
 
-    public int countUserApplyCrsPosts(@Param("userId") Integer userId,
-                                      @Param("isQuit") Boolean isQuit,
-                                      @Param("postStatusList") List<Byte> postStatusList);
+    public int countUserApplyCrsPostList(@Param("userId") Integer userId,
+                                         @Param("isQuit") Boolean isQuit,
+                                         @Param("postStatusList") List<Byte> postStatusList);
 }

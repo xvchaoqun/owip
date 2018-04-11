@@ -17,6 +17,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.cet.common.ICetTrainCourse;
 import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
@@ -195,7 +196,7 @@ public class CetTraineeCourseService extends BaseMapper {
 
             cetTraineeCourseMapper.deleteByPrimaryKey(cetTraineeCourse.getId());
 
-            List<CetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
+            List<ICetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
             if(selectedCetTrainCourses.size()==0){
                 // 退出培训班
                 CetTrainee record = new CetTrainee();
@@ -224,7 +225,7 @@ public class CetTraineeCourseService extends BaseMapper {
 
         checkApplyIsOpen(cetTrainee.getTrainId());
 
-        List<CetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
+        List<ICetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
 
         for (CetTrainCourse tc : selectedCetTrainCourses) {
 

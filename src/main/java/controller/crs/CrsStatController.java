@@ -145,12 +145,12 @@ public class CrsStatController extends CrsBaseController {
         pageNo = Math.max(1, pageNo);
         Byte applicantStatus = CrsConstants.CRS_APPLICANT_STATUS_SUBMIT;
         Byte postStatus = CrsConstants.CRS_POST_STATUS_FINISH;
-        long count = iCrsMapper.countStatApplicants(applicantStatus, postStatus);
+        long count = iCrsMapper.countStatApplicantList(applicantStatus, postStatus);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CrsStatApplicantBean> records = iCrsMapper.statApplicantList(applicantStatus, postStatus, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CrsStatApplicantBean> records = iCrsMapper.selectStatApplicantList(applicantStatus, postStatus, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();

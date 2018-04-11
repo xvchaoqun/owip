@@ -37,7 +37,7 @@ public class PcsRecommendService extends BaseMapper {
     // 获取一个已经推荐的票
     public PcsBranchBean get(int partyId, Integer branchId, int configId, byte stage) {
 
-        List<PcsBranchBean> pcsRecommends = iPcsMapper.selectPcsBranchBeans(configId, stage,
+        List<PcsBranchBean> pcsRecommends = iPcsMapper.selectPcsBranchBeanList(configId, stage,
                 partyId, branchId, null, new RowBounds());
 
         return (pcsRecommends.size()>0)?pcsRecommends.get(0):null;
@@ -101,13 +101,13 @@ public class PcsRecommendService extends BaseMapper {
             byte _stage = (stage == PcsConstants.PCS_STAGE_SECOND)?
                     PcsConstants.PCS_STAGE_FIRST: PcsConstants.PCS_STAGE_SECOND;
             List<IPcsCandidateView> dwCandidates =
-                    iPcsMapper.selectPartyCandidates(null, true, configId,
+                    iPcsMapper.selectPartyCandidateList(null, true, configId,
                             _stage, PcsConstants.PCS_USER_TYPE_DW, new RowBounds());
             for (IPcsCandidateView dwCandidate : dwCandidates) {
                 dwIssueUserIdSet.add(dwCandidate.getUserId());
             }
             List<IPcsCandidateView> jwCandidates =
-                    iPcsMapper.selectPartyCandidates(null, true, configId,
+                    iPcsMapper.selectPartyCandidateList(null, true, configId,
                             _stage, PcsConstants.PCS_USER_TYPE_JW, new RowBounds());
             for (IPcsCandidateView jwCandidate : jwCandidates) {
                 jwIssueUserIdSet.add(jwCandidate.getUserId());

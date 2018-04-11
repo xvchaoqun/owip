@@ -1,5 +1,6 @@
 package controller.cet;
 
+import domain.cet.CetProject;
 import domain.cet.CetProjectPlan;
 import domain.cet.CetProjectPlanExample;
 import domain.cet.CetProjectPlanExample.Criteria;
@@ -50,6 +51,7 @@ public class CetProjectPlanController extends CetBaseController {
     @RequiresPermissions("cetProjectPlan:list")
     @RequestMapping("/cetProjectPlan_data")
     public void cetProjectPlan_data(HttpServletResponse response,
+                                    int projectId,
                                     Byte type,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -64,7 +66,7 @@ public class CetProjectPlanController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetProjectPlanExample example = new CetProjectPlanExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId);
         example.setOrderByClause("sort_order desc");
 
         if (type!=null) {
@@ -137,11 +139,14 @@ public class CetProjectPlanController extends CetBaseController {
         return "cet/cetProjectPlan/cetProjectPlan_au";
     }
 
+    @RequiresPermissions("cetProjectPlan:edit")
     @RequestMapping("/cetProjectPlan_detail")
     public String cetProjectPlan_detail(int planId, ModelMap modelMap) {
 
         CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
         modelMap.put("cetProjectPlan", cetProjectPlan);
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(cetProjectPlan.getProjectId());
+        modelMap.put("cetProject", cetProject);
 
         byte type = cetProjectPlan.getType();
         switch (type){
@@ -167,6 +172,8 @@ public class CetProjectPlanController extends CetBaseController {
         if (id != null) {
             CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(id);
             modelMap.put("cetProjectPlan", cetProjectPlan);
+            CetProject cetProject = cetProjectMapper.selectByPrimaryKey(cetProjectPlan.getProjectId());
+            modelMap.put("cetProject", cetProject);
         }
 
         if(BooleanUtils.isTrue(view))

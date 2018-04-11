@@ -60,7 +60,7 @@ public class PcsExportService extends BaseMapper {
     public XSSFWorkbook exportPartyCandidates2(int configId, byte stage, byte type) throws IOException {
 
         List<IPcsCandidateView> candidates =
-                iPcsMapper.selectPartyCandidates(null, null, configId, stage, type, new RowBounds());
+                iPcsMapper.selectPartyCandidateList(null, null, configId, stage, type, new RowBounds());
 
         String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
         if (type == PcsConstants.PCS_USER_TYPE_JW) {
@@ -128,7 +128,7 @@ public class PcsExportService extends BaseMapper {
                                               byte type) throws IOException {
 
         List<IPcsCandidateView> candidates =
-                iPcsMapper.selectPartyCandidates(null, isChosen, configId, stage, type, new RowBounds());
+                iPcsMapper.selectPartyCandidateList(null, isChosen, configId, stage, type, new RowBounds());
 
         String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
         if (type == PcsConstants.PCS_USER_TYPE_JW) {
@@ -166,7 +166,7 @@ public class PcsExportService extends BaseMapper {
 
         // 获得完成推荐的支部（排除之后的新建支部）
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
 
         int branchCount = pcsBranchBeans.size();
         int memberCount = 0;
@@ -275,7 +275,7 @@ public class PcsExportService extends BaseMapper {
 
         Party party = partyService.findAll().get(partyId);
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, null, null, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null, new RowBounds());
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/re-3_5.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
@@ -362,7 +362,7 @@ public class PcsExportService extends BaseMapper {
      */
     public XSSFWorkbook exportRecommends_6(int configId, byte stage) throws IOException {
 
-        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, null, null, new RowBounds());
+        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeanList(configId, stage, null, null, new RowBounds());
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/pcs/re-6_3.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
@@ -377,7 +377,7 @@ public class PcsExportService extends BaseMapper {
         Map<Integer, Integer> partyMemberCountMap = new HashMap<>();
         // 获得完成推荐的支部（排除之后的新建支部）
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
         for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
 
             Integer partyId = pcsBranchBean.getPartyId();
@@ -462,7 +462,7 @@ public class PcsExportService extends BaseMapper {
 
         Party party = partyService.findAll().get(partyId);
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, null, null, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, null, null, new RowBounds());
         int branchCount = pcsBranchBeans.size();
         int memberCount = 0;
         int expectMemberCount = 0;
@@ -474,7 +474,7 @@ public class PcsExportService extends BaseMapper {
         }
 
         List<IPcsCandidateView> candidates =
-                iPcsMapper.selectBranchCandidates(null, configId, stage, type, partyId, new RowBounds());
+                iPcsMapper.selectBranchCandidateList(null, configId, stage, type, partyId, new RowBounds());
 
 
         String deadline = "";
@@ -614,7 +614,7 @@ public class PcsExportService extends BaseMapper {
     public XSSFWorkbook exportIssueCandidates(int configId, byte stage, byte type) throws IOException {
 
         List<IPcsCandidateView> candidates =
-                iPcsMapper.selectPartyCandidates(null, true, configId, stage, type, new RowBounds());
+                iPcsMapper.selectPartyCandidateList(null, true, configId, stage, type, new RowBounds());
 
         String title = "中国共产党"+getSchoolName()+"第十三届委员会委员";
         if (type == PcsConstants.PCS_USER_TYPE_JW) {

@@ -79,10 +79,10 @@ public class PcsPrListOwController extends PcsBaseController {
         byte stage = PcsConstants.PCS_STAGE_THIRD;
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-        int hasReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true, null);
-        int passCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, true,
+        int hasReportCount = iPcsMapper.countPcsPrPartyBeanList(configId, stage, null, true, null);
+        int passCount = iPcsMapper.countPcsPrPartyBeanList(configId, stage, null, true,
                 PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS);
-        int hasNotReportCount = iPcsMapper.countPcsPrPartyBeans(configId, stage, null, false, null);
+        int hasNotReportCount = iPcsMapper.countPcsPrPartyBeanList(configId, stage, null, false, null);
         modelMap.put("hasReportCount", NumberUtils.trimToZero(hasReportCount));
         modelMap.put("hasNotReportCount", NumberUtils.trimToZero(hasNotReportCount));
         modelMap.put("passCount", NumberUtils.trimToZero(passCount));
@@ -111,13 +111,13 @@ public class PcsPrListOwController extends PcsBaseController {
 
         byte stage = PcsConstants.PCS_STAGE_THIRD;
 
-        int count = iPcsMapper.countPcsPrPartyBeans(configId, stage, partyId, hasReport, recommendStatus);
+        int count = iPcsMapper.countPcsPrPartyBeanList(configId, stage, partyId, hasReport, recommendStatus);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, stage, partyId, hasReport, recommendStatus,
+        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeanList(configId, stage, partyId, hasReport, recommendStatus,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -201,7 +201,7 @@ public class PcsPrListOwController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeans(configId, PcsConstants.PCS_STAGE_THIRD, null,
+        List<PcsPrPartyBean> records = iPcsMapper.selectPcsPrPartyBeanList(configId, PcsConstants.PCS_STAGE_THIRD, null,
                 null, null, new RowBounds());
         modelMap.put("records", records);
 

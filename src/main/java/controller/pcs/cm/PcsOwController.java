@@ -122,8 +122,8 @@ public class PcsOwController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        int hasReportCount = iPcsMapper.countPcsPartyBeans(configId, stage, null, true);
-        int hasNotReportCount = iPcsMapper.countPcsPartyBeans(configId, stage, null, false);
+        int hasReportCount = iPcsMapper.countPcsPartyBeanList(configId, stage, null, true);
+        int hasNotReportCount = iPcsMapper.countPcsPartyBeanList(configId, stage, null, false);
         modelMap.put("hasReportCount", NumberUtils.trimToZero(hasReportCount));
         modelMap.put("hasNotReportCount", NumberUtils.trimToZero(hasNotReportCount));
 
@@ -158,13 +158,13 @@ public class PcsOwController extends PcsBaseController {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, null, null, new RowBounds());
+        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeanList(configId, stage, null, null, new RowBounds());
         modelMap.put("records", records);
 
         Map<Integer, Integer> partyMemberCountMap = new HashMap<>();
         // 获得完成推荐的支部（排除之后的新建支部）
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
         for (PcsBranchBean pcsBranchBean : pcsBranchBeans) {
 
             Integer partyId = pcsBranchBean.getPartyId();
@@ -276,7 +276,7 @@ public class PcsOwController extends PcsBaseController {
 
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
-        List<IPcsCandidateView> records = iPcsMapper.selectPartyCandidates(userId, null, configId, stage, type,
+        List<IPcsCandidateView> records = iPcsMapper.selectPartyCandidateList(userId, null, configId, stage, type,
                 new RowBounds());
 
         IPcsCandidateView candidate = records.get(0);
@@ -284,7 +284,7 @@ public class PcsOwController extends PcsBaseController {
 
         // 获得完成推荐的支部（排除之后的新建支部）
         List<PcsBranchBean> pcsBranchBeans =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, null, null, true, new RowBounds());
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, null, null, true, new RowBounds());
         Map<Integer, Set<Integer>> recommendPartyIdMap = new HashMap<>();
         Set<Integer> recommendDirectPartyIdSet = new HashSet<>();
         for (PcsBranchBean b : pcsBranchBeans) {
@@ -319,7 +319,7 @@ public class PcsOwController extends PcsBaseController {
 
         List<PcsOwBranchBean> beans = new ArrayList<>();
 
-        List<PcsPartyBean> pcsPartyBeans = iPcsMapper.selectPcsPartyBeans(configId, stage, null, true, new RowBounds());
+        List<PcsPartyBean> pcsPartyBeans = iPcsMapper.selectPcsPartyBeanList(configId, stage, null, true, new RowBounds());
         for (PcsPartyBean pcsPartyBean : pcsPartyBeans) {
 
             //if(pcsPartyBean.getIsDeleted()) continue;
@@ -411,13 +411,13 @@ public class PcsOwController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        int count = iPcsMapper.countPartyCandidates(userId, isChosen, configId, stage, type);
+        int count = iPcsMapper.countPartyCandidateList(userId, isChosen, configId, stage, type);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<IPcsCandidateView> records = iPcsMapper.selectPartyCandidates(userId, isChosen, configId, stage, type,
+        List<IPcsCandidateView> records = iPcsMapper.selectPartyCandidateList(userId, isChosen, configId, stage, type,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -453,13 +453,13 @@ public class PcsOwController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        int count = iPcsMapper.countBranchCandidates(userId, configId, stage, type, partyId);
+        int count = iPcsMapper.countBranchCandidateList(userId, configId, stage, type, partyId);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<IPcsCandidateView> records = iPcsMapper.selectBranchCandidates(userId, configId, stage, type, partyId,
+        List<IPcsCandidateView> records = iPcsMapper.selectBranchCandidateList(userId, configId, stage, type, partyId,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -493,13 +493,13 @@ public class PcsOwController extends PcsBaseController {
         PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
         int configId = currentPcsConfig.getId();
 
-        int count = iPcsMapper.countPcsPartyBeans(configId, stage, partyId, hasReport);
+        int count = iPcsMapper.countPcsPartyBeanList(configId, stage, partyId, hasReport);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
 
-        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeans(configId, stage, partyId, hasReport,
+        List<PcsPartyBean> records = iPcsMapper.selectPcsPartyBeanList(configId, stage, partyId, hasReport,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
@@ -548,13 +548,13 @@ public class PcsOwController extends PcsBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        int count = iPcsMapper.countPcsBranchBeans(configId, stage, partyId, branchId, null);
+        int count = iPcsMapper.countPcsBranchBeanList(configId, stage, partyId, branchId, null);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
         List<PcsBranchBean> records =
-                iPcsMapper.selectPcsBranchBeans(configId, stage, partyId, branchId, null,
+                iPcsMapper.selectPcsBranchBeanList(configId, stage, partyId, branchId, null,
                         new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 

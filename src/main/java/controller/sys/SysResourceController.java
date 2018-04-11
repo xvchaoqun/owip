@@ -136,6 +136,7 @@ public class SysResourceController extends BaseController {
 		}else if(parentId!=null){
 
 			SysResource parent = sysResourceMapper.selectByPrimaryKey(parentId);
+			isMobile = parent.getIsMobile();
 			modelMap.addAttribute("parent", parent);
 			SysResource child = new SysResource();
 	        child.setParentId(parentId);

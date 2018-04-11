@@ -92,7 +92,7 @@ public class SafeBoxController extends AbroadBaseController {
         }
         List<SafeBox> safeBoxs = safeBoxMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));*/
 
-        List<SafeBoxBean> safeBoxBeans = iAbroadMapper.listSafeBoxs(new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<SafeBoxBean> safeBoxBeans = iAbroadMapper.selectSafeBoxList(new RowBounds((pageNo - 1) * pageSize, pageSize));
         int count = safeBoxMapper.countByExample(new SafeBoxExample());
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);

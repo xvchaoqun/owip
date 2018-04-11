@@ -97,7 +97,7 @@ public interface IAbroadMapper {
             @Param("approverTypePostIdListMap") Map<Integer, List<Integer>> approverTypePostIdListMap,
             @Param("flowUserId") Integer flowUserId);
 
-    List<SafeBoxBean> listSafeBoxs(RowBounds rowBounds);
+    List<SafeBoxBean> selectSafeBoxList(RowBounds rowBounds);
 
     int passportCount();
 

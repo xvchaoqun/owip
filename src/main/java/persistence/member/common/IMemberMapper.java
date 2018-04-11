@@ -26,11 +26,13 @@ public interface IMemberMapper {
     String getMemberStayMaxCode(@Param("year") int year);
 
     // 根据账号、姓名、学工号查找 不是 党员的用户
-    List<SysUserView> selectNotMemberList(@Param("search") String search, @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
-    int countNotMember(@Param("search") String search, @Param("regRoleStr") String regRoleStr);
+    List<SysUserView> selectNotMemberList(@Param("search") String search,
+                                          @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
+    int countNotMemberList(@Param("search") String search, @Param("regRoleStr") String regRoleStr);
 
-
-    List<MemberApplyCount> selectMemberApplyCount(@Param("addPermits")Boolean addPermits, @Param("adminPartyIdList")List<Integer> adminPartyIdList,
+    // 入党申请数量分阶段统计
+    List<MemberApplyCount> selectMemberApplyCount(@Param("addPermits")Boolean addPermits,
+                                                  @Param("adminPartyIdList")List<Integer> adminPartyIdList,
                                                   @Param("adminBranchIdList")List<Integer> adminBranchIdList);
 
     // 根据类别、状态、账号、姓名、学工号查找党员
@@ -43,15 +45,15 @@ public interface IMemberMapper {
                                   @Param("addPermits")Boolean addPermits,
                                   @Param("adminPartyIdList")List<Integer> adminPartyIdList,
                                   @Param("adminBranchIdList")List<Integer> adminBranchIdList, RowBounds rowBounds);
-    int countMember(@Param("partyId")Integer partyId,
-                    @Param("branchId")Integer branchId,
-                    @Param("type")Byte type,
-                    @Param("isRetire")Boolean isRetire,
-                    @Param("politicalStatus")Byte politicalStatus,
-                    @Param("statusList")List<Byte> statusList, @Param("search") String search,
-                    @Param("addPermits")Boolean addPermits,
-                    @Param("adminPartyIdList")List<Integer> adminPartyIdList,
-                    @Param("adminBranchIdList")List<Integer> adminBranchIdList);
+    int countMemberList(@Param("partyId") Integer partyId,
+                        @Param("branchId") Integer branchId,
+                        @Param("type") Byte type,
+                        @Param("isRetire") Boolean isRetire,
+                        @Param("politicalStatus") Byte politicalStatus,
+                        @Param("statusList") List<Byte> statusList, @Param("search") String search,
+                        @Param("addPermits") Boolean addPermits,
+                        @Param("adminPartyIdList") List<Integer> adminPartyIdList,
+                        @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 
     // 根据类别、状态、账号、姓名、学工号查找流入党员
     List<MemberInflow> selectMemberInflowList(@Param("type")Byte type,
@@ -61,13 +63,13 @@ public interface IMemberMapper {
                                               @Param("addPermits")Boolean addPermits,
                                               @Param("adminPartyIdList")List<Integer> adminPartyIdList,
                                               @Param("adminBranchIdList")List<Integer> adminBranchIdList, RowBounds rowBounds);
-    int countMemberInflow(@Param("type")Byte type,
-                          @Param("inflowStatus")Byte inflowStatus,
-                          @Param("hasOutApply")Boolean hasOutApply,
-                          @Param("search") String search,
-                          @Param("addPermits")Boolean addPermits,
-                          @Param("adminPartyIdList")List<Integer> adminPartyIdList,
-                          @Param("adminBranchIdList")List<Integer> adminBranchIdList);
+    int countMemberInflowList(@Param("type") Byte type,
+                              @Param("inflowStatus") Byte inflowStatus,
+                              @Param("hasOutApply") Boolean hasOutApply,
+                              @Param("search") String search,
+                              @Param("addPermits") Boolean addPermits,
+                              @Param("adminPartyIdList") List<Integer> adminPartyIdList,
+                              @Param("adminBranchIdList") List<Integer> adminBranchIdList);
 
     // 入党申请打回至状态
     //====================start
@@ -126,10 +128,12 @@ public interface IMemberMapper {
                              @Param("id") int id, @Param("partyId") int partyId);
 
     // 支部整建转移之后，需要修改关联表的支部所属分党委id
-    @Update("update ${tableName} tmp, ow_branch ob set tmp.party_id=ob.party_id where ob.id in (${brachIds}) and tmp.branch_id=ob.id")
+    @Update("update ${tableName} tmp, ow_branch ob set tmp.party_id=ob.party_id where " +
+            "ob.id in (${brachIds}) and tmp.branch_id=ob.id")
     void batchTransfer(@Param("tableName") String tableName, @Param("brachIds") String brachIds);
     // 单独用于校内转接
-    @Update("update ow_member_transfer tmp, ow_branch ob set tmp.to_party_id=ob.party_id where ob.id in (${brachIds}) and tmp.to_branch_id=ob.id")
+    @Update("update ow_member_transfer tmp, ow_branch ob set tmp.to_party_id=ob.party_id where " +
+            "ob.id in (${brachIds}) and tmp.to_branch_id=ob.id")
     void batchTransfer2(@Param("brachIds") String brachIds);
 
     // 入党申请打回至状态

@@ -62,7 +62,7 @@ public class StatCadreController extends BaseController {
 
         /*switch (type){
             case 1:
-                List<CadreEdu> cadreEdus = iCadreMapper.findCadreEdus(SystemConstants.CADRE_SCHOOL_TYPE_ABROAD);
+                List<CadreEdu> cadreEdus = iCadreMapper.selectCadreEduList(SystemConstants.CADRE_SCHOOL_TYPE_ABROAD);
                 break;
         }
         */
@@ -93,38 +93,38 @@ public class StatCadreController extends BaseController {
         searchBean.setCadreStatus(SystemConstants.CADRE_STATUS_MIDDLE); // 统计现任中层干部
         switch (type) {
             case 1: // 查找干部的（境外）学习经历
-                count = iCadreMapper.countCadreEdus(SystemConstants.CADRE_SCHOOL_TYPE_ABROAD, searchBean);
-                records = iCadreMapper.findCadreEdus(SystemConstants.CADRE_SCHOOL_TYPE_ABROAD, searchBean, rowBounds);
+                count = iCadreMapper.countCadreEduList(SystemConstants.CADRE_SCHOOL_TYPE_ABROAD, searchBean);
+                records = iCadreMapper.selectCadreEduList(SystemConstants.CADRE_SCHOOL_TYPE_ABROAD, searchBean, rowBounds);
                 break;
             case 2: // 查找干部的（境外）工作经历
                 MetaType abroadMetaType = metaTypeService.codeKeyMap().get("mt_cadre_work_type_abroad");
-                count = iCadreMapper.countCadreWroks(abroadMetaType.getId(), searchBean);
-                records = iCadreMapper.findCadreWroks(abroadMetaType.getId(), searchBean, rowBounds);
+                count = iCadreMapper.countCadreWorkList(abroadMetaType.getId(), searchBean);
+                records = iCadreMapper.selectCadreWorkList(abroadMetaType.getId(), searchBean, rowBounds);
                 break;
             case 3: // 查找（机关）干部的（院系）工作经历
                 MetaType xyMetaType = metaTypeService.codeKeyMap().get("mt_cadre_work_type_xy");
                 int unitTypeId = xyUnitMetaType.getId();
                 int workType = xyMetaType.getId();
                 searchBean.setNotUnitTypeId(unitTypeId);
-                count = iCadreMapper.countCadreWroks(workType, searchBean);
-                records = iCadreMapper.findCadreWroks(workType, searchBean, rowBounds);
+                count = iCadreMapper.countCadreWorkList(workType, searchBean);
+                records = iCadreMapper.selectCadreWorkList(workType, searchBean, rowBounds);
                 break;
             case 4: // 查找（院系）干部的（机关）工作经历
                 MetaType jgMetaType = metaTypeService.codeKeyMap().get("mt_cadre_work_type_jg");
                 unitTypeId = xyUnitMetaType.getId();
                 workType = jgMetaType.getId();
                 searchBean.setUnitTypeId(unitTypeId);
-                count = iCadreMapper.countCadreWroks(workType, searchBean);
-                records = iCadreMapper.findCadreWroks(workType, searchBean, rowBounds);
+                count = iCadreMapper.countCadreWorkList(workType, searchBean);
+                records = iCadreMapper.selectCadreWorkList(workType, searchBean, rowBounds);
                 break;
             case 5: // 有校外挂职经历的干部
-                count = iCadreMapper.countCrpRecords(SystemConstants.CRP_RECORD_TYPE_OUT, searchBean);
-                records = iCadreMapper.findCrpRecords(SystemConstants.CRP_RECORD_TYPE_OUT, searchBean, rowBounds);
+                count = iCadreMapper.countCrpRecordList(SystemConstants.CRP_RECORD_TYPE_OUT, searchBean);
+                records = iCadreMapper.selectCrpRecordList(SystemConstants.CRP_RECORD_TYPE_OUT, searchBean, rowBounds);
                 break;
             case 6: // 具有人才/荣誉称号的干部
                 searchBean.setHasTalentTitle(true);
-                count = iCadreMapper.countCadres(searchBean);
-                records = iCadreMapper.findCadres(searchBean, rowBounds);
+                count = iCadreMapper.countTalentCadreList(searchBean);
+                records = iCadreMapper.selectTalentCadreList(searchBean, rowBounds);
                 break;
         }
 

@@ -54,13 +54,13 @@
         </if>
         <![CDATA[ and pmpv.month_id < #{currentMonthId} ]]>
     </sql>
-    <select id="historyDelayMemberList" parameterType="map"
+    <select id="selectHistoryDelayMemberList" parameterType="map"
             resultMap="persistence.pmd.PmdMemberPayViewMapper.BaseResultMap">
         select pmpv.*
         <include refid="historyDelayMemberList_where"/>
         order by pmpv.member_id asc
     </select>
-    <select id="historyDelayMemberListCount" parameterType="map" resultType="java.lang.Integer">
+    <select id="countHistoryDelayMemberList" parameterType="map" resultType="java.lang.Integer">
         select count(*)
         <include refid="historyDelayMemberList_where"/>
     </select>
@@ -81,13 +81,13 @@
         </if>
         and pmpv.pay_month_id = #{monthId}
     </sql>
-    <select id="historyDelayMemberList2" parameterType="map"
+    <select id="selectHasPayHistoryDelayMemberList" parameterType="map"
             resultMap="persistence.pmd.PmdMemberPayViewMapper.BaseResultMap">
         select pmpv.*
         <include refid="historyDelayMemberList2_where"/>
         order by pmpv.member_id asc
     </select>
-    <select id="historyDelayMemberListCount2" parameterType="map" resultType="java.lang.Integer">
+    <select id="countHasPayHistoryDelayMemberList" parameterType="map" resultType="java.lang.Integer">
         select count(*)
         <include refid="historyDelayMemberList2_where"/>
     </select>

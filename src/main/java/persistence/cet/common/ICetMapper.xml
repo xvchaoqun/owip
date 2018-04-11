@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.cet.common.ICetMapper">
 
+    <resultMap id="ICetTrainCourseBaseResultMap" type="persistence.cet.common.ICetTrainCourse"
+               extends="persistence.cet.CetTrainCourseMapper.BaseResultMap">
+        <result column="can_quit" jdbcType="BIT" property="canQuit" />
+    </resultMap>
+
     <resultMap id="TrainBaseResultMap" type="persistence.common.bean.ICetTrain"
                extends="persistence.cet.CetTrainViewMapper.BaseResultMap">
         <result column="trainee_id" jdbcType="INTEGER" property="traineeId"/>
@@ -26,7 +31,7 @@
         </if>
     </sql>
     <!-- 查询参训人的培训班列表 -->
-    <select id="findUserCetTrains" resultMap="TrainBaseResultMap" parameterType="map">
+    <select id="selectUserCetTrainList" resultMap="TrainBaseResultMap" parameterType="map">
         select ct.*, cpo.id as obj_id, ctee.id as trainee_id, ctee.course_count
         <if test="hasSelected">
         , tmp.total_period, tmp.finish_period
@@ -47,12 +52,33 @@
         </if>
         order by ct.create_time desc
     </select>
-    <select id="countUserCetTrains" parameterType="map" resultType="java.lang.Integer">
+    <select id="countUserCetTrainList" parameterType="map" resultType="java.lang.Integer">
         select count(ct.id) from cet_train_view ct, cet_project_plan cpp, cet_project_obj cpo
         left join cet_trainee_cadre_view ctee on ctee.obj_id=cpo.id
         <include refid="searchTrains"/>
     </select>
 
+    <!--学员的培训列表 -->
+    <sql id="searchUserCetProject">
+        <where>
+            cpo.user_id=#{userId} and cp.id=cpo.project_id and cp.type=#{projectType}
+            <if test="year!=null">
+                and cp.year = #{year}
+            </if>
+            <if test="name!=null">
+                and cp.name like '%${name}%'
+            </if>
+        </where>
+    </sql>
+    <select id="selectUserCetProjectList" resultMap="persistence.cet.CetProjectMapper.BaseResultMap" parameterType="map">
+        select cp.* from cet_project cp, cet_project_obj cpo
+        <include refid="searchUserCetProject"/>
+        order by cp.year desc, cp.id desc
+    </select>
+    <select id="countUserCetProjectList" parameterType="map" resultType="java.lang.Integer">
+        select count(cp.id) from cet_project cp, cet_project_obj cpo
+        <include refid="searchUserCetProject"/>
+    </select>
 
     <sql id="searchTrainCourses">
         <where>
@@ -74,12 +100,12 @@
         </where>
     </sql>
     <!--培训班 选择 课程-->
-    <select id="cetTrainCourse_selectCourses" resultMap="persistence.cet.CetCourseMapper.BaseResultMap" parameterType="map">
+    <select id="selectCetTrainCourseList" resultMap="persistence.cet.CetCourseMapper.BaseResultMap" parameterType="map">
         select cc.* from cet_course cc
         <include refid="searchTrainCourses"/>
         order by sort_order desc
     </select>
-    <select id="cetTrainCourse_countCourses" parameterType="map" resultType="java.lang.Integer">
+    <select id="countCetTrainCourseList" parameterType="map" resultType="java.lang.Integer">
         select count(cc.id) from cet_course cc
         <include refid="searchTrainCourses"/>
     </select>
@@ -102,12 +128,12 @@
         </where>
     </sql>
     <!--培训方案 选择 课程-->
-    <select id="cetPlanCourse_selectCourses" resultMap="persistence.cet.CetCourseMapper.BaseResultMap" parameterType="map">
+    <select id="selectCetPlanCourseList" resultMap="persistence.cet.CetCourseMapper.BaseResultMap" parameterType="map">
         select cc.* from cet_course cc
         <include refid="searchPlanCourses"/>
         order by sort_order desc
     </select>
-    <select id="cetPlanCourse_countCourses" parameterType="map" resultType="java.lang.Integer">
+    <select id="countCetPlanCourseList" parameterType="map" resultType="java.lang.Integer">
         select count(cc.id) from cet_course cc
         <include refid="searchPlanCourses"/>
     </select>

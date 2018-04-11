@@ -9,7 +9,7 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cetProject:edit">
                     <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/cet/cetProject_au">
+                            data-url="${ctx}/cet/cetProject_au?type=${param.type}">
                         <i class="fa fa-plus"></i> 添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/cet/cetProject_au"
@@ -101,7 +101,7 @@ pageEncoding="UTF-8" %>
 <script  type="text/template" id="publish_tpl">
     <button {{=(status!=${CET_PROJECT_STATUS_START})?'disabled':''}} class="confirm btn btn-{{=isPublish?'danger':'success'}} btn-xs"
             data-msg="{{=isPublish?'确定取消发布？':'确定发布？'}}" data-callback="_reload"
-            data-url="${ctx}/cetProject_publish?id={{=id}}&publish={{=isPublish?0:1}}">
+            data-url="${ctx}/cet/cetProject_publish?id={{=id}}&publish={{=isPublish?0:1}}">
         <i class="fa fa-{{=isPublish?'times':'check'}}"></i> {{=isPublish?'取消发布':'发布'}}</button>
 </script>
 <script>
@@ -124,7 +124,7 @@ pageEncoding="UTF-8" %>
             }},
             { label: '年度',name: 'year', frozen: true},
             { label: '培训时间',name: 'startDate', width: 200, formatter: function (cellvalue, options, rowObject) {
-                return '{0}-{1}'.format($.date(rowObject.startDate, "yyyy-MM-dd"), $.date(rowObject.endDate, "yyyy-MM-dd"))
+                return '{0} ~ {1}'.format($.date(rowObject.startDate, "yyyy-MM-dd"), $.date(rowObject.endDate, "yyyy-MM-dd"))
             }, frozen: true},
             { label: '培训班名称',name: 'name', width: 300, frozen: true},
             {

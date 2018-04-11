@@ -5,6 +5,15 @@ import java.util.Map;
 
 public class CetConstants {
 
+    // 培训类型， 1 专题培训 2 年度培训
+    public final static byte CET_PROJECT_TYPE_ZT = 1;
+    public final static byte CET_PROJECT_TYPE_ND = 2;
+    public static Map<Byte, String> CET_PROJECT_TYPE_MAP = new LinkedHashMap<Byte, String>();
+    static {
+        CET_PROJECT_TYPE_MAP.put(CET_PROJECT_TYPE_ZT, "专题培训");
+        CET_PROJECT_TYPE_MAP.put(CET_PROJECT_TYPE_ND, "年度培训");
+    }
+
     // 专题培训-培训形式，1 线下培训  2 线上培训  3 上级网上专题班  4 分组研讨  5 实践教学  6 自主学习  7 其他单位主办  8 撰写心得体会
     public final static byte CET_PROJECT_PLAN_TYPE_OFFLINE = 1;
     public final static byte CET_PROJECT_PLAN_TYPE_ONLINE = 2;

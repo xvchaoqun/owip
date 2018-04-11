@@ -502,7 +502,7 @@ public class PcsProposalController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
         byte stage = PcsConstants.PCS_STAGE_SECOND;
 
-        int count = iPcsMapper.countPr(configId, stage, searchStr);
+        int count = iPcsMapper.countPrList(configId, stage, searchStr);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

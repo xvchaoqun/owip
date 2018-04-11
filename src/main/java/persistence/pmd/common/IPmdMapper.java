@@ -57,30 +57,28 @@ public interface IPmdMapper {
                                       @Param("branchId") Integer branchId);
 
     // 补缴党员列列表
-    public List<PmdMemberPayView> historyDelayMemberList(@Param("currentMonthId") int currentMonthId,
-                                                         @Param("partyId") Integer partyId,
-                                                         @Param("branchId") Integer branchId,
-                                                         @Param("userId") Integer userId,
-                                                         @Param("hasPay") Boolean hasPay,
-                                                         RowBounds rowBounds);
-
-    public int historyDelayMemberListCount(@Param("currentMonthId") int currentMonthId,
+    public List<PmdMemberPayView> selectHistoryDelayMemberList(@Param("currentMonthId") int currentMonthId,
+                                                               @Param("partyId") Integer partyId,
+                                                               @Param("branchId") Integer branchId,
+                                                               @Param("userId") Integer userId,
+                                                               @Param("hasPay") Boolean hasPay,
+                                                               RowBounds rowBounds);
+    public int countHistoryDelayMemberList(@Param("currentMonthId") int currentMonthId,
                                            @Param("partyId") Integer partyId,
                                            @Param("branchId") Integer branchId,
                                            @Param("userId") Integer userId,
                                            @Param("hasPay") Boolean hasPay);
 
     // 已补缴党员列列表
-    public List<PmdMemberPayView> historyDelayMemberList2(@Param("monthId") int monthId,
-                                                          @Param("partyId") Integer partyId,
-                                                          @Param("branchId") Integer branchId,
-                                                          @Param("userId") Integer userId,
-                                                          RowBounds rowBounds);
-
-    public int historyDelayMemberListCount2(@Param("monthId") int monthId,
-                                            @Param("partyId") Integer partyId,
-                                            @Param("branchId") Integer branchId,
-                                            @Param("userId") Integer userId);
+    public List<PmdMemberPayView> selectHasPayHistoryDelayMemberList(@Param("monthId") int monthId,
+                                                                     @Param("partyId") Integer partyId,
+                                                                     @Param("branchId") Integer branchId,
+                                                                     @Param("userId") Integer userId,
+                                                                     RowBounds rowBounds);
+    public int countHasPayHistoryDelayMemberList(@Param("monthId") int monthId,
+                                                 @Param("partyId") Integer partyId,
+                                                 @Param("branchId") Integer branchId,
+                                                 @Param("userId") Integer userId);
 
     // 本月应交党费数
    /* public BigDecimal duePay(@Param("monthId") int monthId,
