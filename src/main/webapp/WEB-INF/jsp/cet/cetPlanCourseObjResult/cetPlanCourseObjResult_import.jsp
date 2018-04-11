@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>         
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>批量导入课程</h3>
+    <h3>上传学习情况</h3>
   </div>
   <div class="modal-body">
     <form class="form-horizontal" id="modalForm" enctype="multipart/form-data" action="${ctx}/cet/cetPlanCourseObjResult_import" method="post">
