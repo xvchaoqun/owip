@@ -132,7 +132,7 @@
 <script src="${ctx}/js/extra.js"></script>
 <jsp:include page="/WEB-INF/jsp/common/scripts.jsp"></jsp:include>
 <script type="text/javascript">
-    /* try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}*/
+     try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
     window.onload = function () {
         $(".sidebar ul.submenu").each(function () {
             if ($("li", this).length == 0) $(this).remove();

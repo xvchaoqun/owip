@@ -15,6 +15,8 @@
     font-size: 13px;
     color: #393939;
     line-height: 1.5;
+    position: fixed;
+    z-index: 9999;
 }
 
 #navbar-container {
@@ -28,7 +30,7 @@
 }
 
 .navbar-buttons {
-    padding-top: 50px;
+    padding-top: 30px;
     padding-right: 20px;
     color: #fff;
     font-size: 16pt;

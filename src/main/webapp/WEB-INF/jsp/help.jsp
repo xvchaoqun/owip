@@ -11,8 +11,14 @@
   <title>${_plantform_name}</title>
   <link rel="stylesheet" href="${ctx}/assets/css/bootstrap.css" />
   <link href="${ctx}/extend/css/docs.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="${ctx}/extend/css/navbar.css" />
+  <link rel="stylesheet" href="${ctx}/extend/css/navbar.css?t=20180411" />
   <link href="${ctx}/css/doc.css" rel="stylesheet">
+  <style>
+    h1[id],h2[id]{
+      padding-top:95px;
+      margin-top:-95px;
+    }
+  </style>
 </head>
 <body>
 <div id="navbar" class="navbar navbar-default" id="top">
@@ -46,7 +52,7 @@
     </ul>
   </div>
 </div>
-<div class="container bs-docs-container">
+<div class="container bs-docs-container" style="padding-top: 91px;">
   <div class="row">
     <div class="col-md-9" role="main">
       <div class="bs-callout bs-callout-info" id="migration">
@@ -90,7 +96,7 @@
 
     </div>
     <div class="col-md-3">
-      <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm" role="complementary">
+      <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm" role="complementary" style="top: 110px;position: fixed;">
         <ul class="nav bs-docs-sidenav">
 
           <li>
@@ -150,7 +156,7 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="${ctx}/assets/js/jquery.js"></script>
 <script src="${ctx}/assets/js/bootstrap.js"></script>
-<script src="${ctx}/extend/js/docs.min.js"></script>
+<script src="${ctx}/extend/js/docs.min.js?t=20180411"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="${ctx}/extend/js/ie10-viewport-bug-workaround.js"></script>
 

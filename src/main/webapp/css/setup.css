@@ -63,7 +63,7 @@
 }
 
 .navbar-fixed-top + .main-container {
-    padding-top: 101px;
+    padding-top: 91px;
 }
 @media (max-width: 479px) {
     .navbar-fixed-top + .main-container {
@@ -87,7 +87,7 @@ body {
     padding-bottom: 8px;
 }
 .navbar-buttons{
-    padding-top: 42px !important;
+    padding-top: 32px !important;
 }
 .navbar .nav .dropdown-menu{
     left: -80px;
