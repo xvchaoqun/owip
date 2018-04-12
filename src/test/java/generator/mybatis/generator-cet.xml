@@ -36,6 +36,13 @@
         </javaClientGenerator>
 
         <!--干部教育培训系统-->
+       <!-- <table tableName="cet_unit" domainObjectName="cet.CetUnit" mapperName="cet.CetUnitMapper">
+        </table>
+        <table tableName="cet_party" domainObjectName="cet.CetParty" mapperName="cet.CetPartyMapper">
+        </table>
+        <table tableName="cet_party_school" domainObjectName="cet.CetPartySchool" mapperName="cet.CetPartySchoolMapper">
+        </table>-->
+
         <!--<table tableName="cet_project" domainObjectName="cet.CetProject" mapperName="cet.CetProjectMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -52,7 +59,7 @@
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="pub_status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
         </table>-->
-        <table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
+        <!--<table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
          <table tableName="cet_project_obj_view" domainObjectName="cet.CetProjectObjView"
@@ -66,8 +73,7 @@
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>
-
+         </table>-->
 
         <!--<table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
         </table>-->
@@ -115,6 +121,13 @@
         </table>-->
         <!--<table tableName="cet_plan_course_obj_result" domainObjectName="cet.CetPlanCourseObjResult"
                mapperName="cet.CetPlanCourseObjResultMapper">
+        </table>-->
+
+        <!--<table tableName="cet_discuss" domainObjectName="cet.CetDiscuss" mapperName="cet.CetDiscussMapper">
+        </table>
+        <table tableName="cet_discuss_group" domainObjectName="cet.CetDiscussGroup" mapperName="cet.CetDiscussGroupMapper">
+        </table>-->
+        <!--<table tableName="cet_discuss_group_obj" domainObjectName="cet.CetDiscussGroupObj" mapperName="cet.CetDiscussGroupObjMapper">
         </table>-->
 
         <!--<table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">

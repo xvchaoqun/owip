@@ -81,6 +81,7 @@ import service.party.PartyMemberAdminService;
 import service.party.PartyMemberGroupService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
+import service.partySchool.PartySchoolService;
 import service.source.SyncService;
 import service.sys.AttachFileService;
 import service.sys.AvatarService;
@@ -232,6 +233,8 @@ public class BaseController extends BaseMapper {
     protected HistoryUnitService historyUnitService;
     @Autowired
     protected UnitService unitService;
+    @Autowired
+    protected PartySchoolService partySchoolService;
     @Autowired
     protected MetaClassService metaClassService;
     @Autowired

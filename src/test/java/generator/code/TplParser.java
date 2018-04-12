@@ -46,6 +46,7 @@ public class TplParser {
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-crp.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cpc.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-train.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-partySchool.json";
 		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cet.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-crs.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-oa.json";

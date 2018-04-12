@@ -8,6 +8,34 @@
   "resFolder": "cet",
   "tables": [
     {
+      "table": "cet_unit",
+      "key": "id",
+      "searchColumns": "unit_id",
+      "showColumns": "unit_id,user_id",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_party",
+      "key": "id",
+      "searchColumns": "party_id",
+      "showColumns": "party_id,user_id",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_party_school",
+      "key": "id",
+      "searchColumns": "party_school_id",
+      "showColumns": "party_school_id,user_id",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+
+    {
       "table": "cet_project",
       "key": "id",
       "searchColumns": "year,name",
@@ -26,6 +54,33 @@
       "ignore": true
     },
     {
+      "table": "cet_discuss",
+      "key": "id",
+      "searchColumns": "plan_id,name",
+      "showColumns": "plan_id,start_date,end_date,name,unit_type,period,sort_order,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_discuss_group",
+      "key": "id",
+      "searchColumns": "discuss_id,subject",
+      "showColumns": "discuss_id,hold_user_id,subject,subject_can_modify,discuss_time,discuss_address,unti_id,admin_user_id,sort_order,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
+      "table": "cet_discuss_group_obj",
+      "key": "id",
+      "searchColumns": "discuss_id,discuss_group_id",
+      "showColumns": "discuss_id,discuss_group_id,obj_id,is_finished,remark",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_CET",
+      "ignore": false
+    },
+    {
       "table": "cet_project_plan",
       "key": "id",
       "searchColumns": "type",
@@ -41,7 +96,7 @@
       "showColumns": "plan_id,course_id,num,is_finished",
       "excludeEditColumns": "id",
       "logType":"SystemConstants.LOG_CET",
-      "ignore": false
+      "ignore": true
     },
     {
       "table": "cet_plan_course_obj",

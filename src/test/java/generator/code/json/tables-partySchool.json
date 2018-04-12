@@ -1,0 +1,20 @@
+{
+  "schema": "db_owip",
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "partySchool",
+  "resFolder": "",
+  "tables": [
+    {
+      "table": "party_school",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "name,found_date",
+      "excludeEditColumns": "id",
+      "logType":"SystemConstants.LOG_ADMIN",
+      "ignore": false
+    }
+  ]
+}

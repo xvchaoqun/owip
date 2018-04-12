@@ -73,8 +73,13 @@ import persistence.cet.CetCourseItemMapper;
 import persistence.cet.CetCourseMapper;
 import persistence.cet.CetCourseTypeMapper;
 import persistence.cet.CetCourseTypeViewMapper;
+import persistence.cet.CetDiscussGroupMapper;
+import persistence.cet.CetDiscussGroupObjMapper;
+import persistence.cet.CetDiscussMapper;
 import persistence.cet.CetExpertMapper;
 import persistence.cet.CetExpertViewMapper;
+import persistence.cet.CetPartyMapper;
+import persistence.cet.CetPartySchoolMapper;
 import persistence.cet.CetPlanCourseMapper;
 import persistence.cet.CetPlanCourseObjMapper;
 import persistence.cet.CetPlanCourseObjResultMapper;
@@ -105,6 +110,7 @@ import persistence.cet.CetTraineeCourseViewMapper;
 import persistence.cet.CetTraineeMapper;
 import persistence.cet.CetTraineeTypeMapper;
 import persistence.cet.CetTraineeViewMapper;
+import persistence.cet.CetUnitMapper;
 import persistence.cet.common.ICetMapper;
 import persistence.cis.CisEvaluateMapper;
 import persistence.cis.CisInspectObjMapper;
@@ -116,7 +122,6 @@ import persistence.cis.CisObjUnitMapper;
 import persistence.cis.common.ICisMapper;
 import persistence.common.CommonMapper;
 import persistence.common.ICadreMapper;
-import persistence.cpc.common.ICpcMapper;
 import persistence.common.IExtMapper;
 import persistence.common.IModifyMapper;
 import persistence.common.IPartyMapper;
@@ -126,6 +131,7 @@ import persistence.common.IUnitMapper;
 import persistence.common.StatCadreMapper;
 import persistence.common.StatMemberMapper;
 import persistence.cpc.CpcAllocationMapper;
+import persistence.cpc.common.ICpcMapper;
 import persistence.crp.CrpRecordMapper;
 import persistence.crs.CrsApplicantAdjustMapper;
 import persistence.crs.CrsApplicantAdjustViewMapper;
@@ -215,6 +221,7 @@ import persistence.party.PartyMemberMapper;
 import persistence.party.PartyMemberViewMapper;
 import persistence.party.PartyViewMapper;
 import persistence.party.RetireApplyMapper;
+import persistence.partySchool.PartySchoolMapper;
 import persistence.pcs.PcsAdminMapper;
 import persistence.pcs.PcsAdminReportMapper;
 import persistence.pcs.PcsCandidateChosenMapper;
@@ -355,6 +362,12 @@ public class BaseMapper {
     @Autowired(required = false)
     protected ICetMapper iCetMapper;
     @Autowired(required = false)
+    protected CetUnitMapper cetUnitMapper;
+    @Autowired(required = false)
+    protected CetPartyMapper cetPartyMapper;
+    @Autowired(required = false)
+    protected CetPartySchoolMapper cetPartySchoolMapper;
+    @Autowired(required = false)
     protected CetProjectMapper cetProjectMapper;
     @Autowired(required = false)
     protected CetProjectViewMapper cetProjectViewMapper;
@@ -362,6 +375,12 @@ public class BaseMapper {
     protected CetProjectObjMapper cetProjectObjMapper;
     @Autowired(required = false)
     protected CetProjectObjCadreViewMapper cetProjectObjCadreViewMapper;
+    @Autowired(required = false)
+    protected CetDiscussMapper cetDiscussMapper;
+    @Autowired(required = false)
+    protected CetDiscussGroupMapper cetDiscussGroupMapper;
+    @Autowired(required = false)
+    protected CetDiscussGroupObjMapper cetDiscussGroupObjMapper;
     @Autowired(required = false)
     protected CetProjectPlanMapper cetProjectPlanMapper;
     @Autowired(required = false)
@@ -1017,6 +1036,8 @@ public class BaseMapper {
     protected HistoryUnitMapper historyUnitMapper;
     @Autowired(required = false)
     protected UnitMapper unitMapper;
+    @Autowired(required = false)
+    protected PartySchoolMapper partySchoolMapper;
 
     /**
      * 干部信息修改申请

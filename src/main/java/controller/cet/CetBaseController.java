@@ -8,8 +8,13 @@ import service.cet.CetCourseFileService;
 import service.cet.CetCourseItemService;
 import service.cet.CetCourseService;
 import service.cet.CetCourseTypeService;
+import service.cet.CetDiscussGroupObjService;
+import service.cet.CetDiscussGroupService;
+import service.cet.CetDiscussService;
 import service.cet.CetExpertService;
 import service.cet.CetExportService;
+import service.cet.CetPartySchoolService;
+import service.cet.CetPartyService;
 import service.cet.CetPlanCourseObjResultService;
 import service.cet.CetPlanCourseObjService;
 import service.cet.CetPlanCourseService;
@@ -29,13 +34,26 @@ import service.cet.CetTrainStatService;
 import service.cet.CetTraineeCourseService;
 import service.cet.CetTraineeService;
 import service.cet.CetTraineeTypeService;
+import service.cet.CetUnitService;
 
 public class CetBaseController extends BaseController {
 
     @Autowired
+    protected CetUnitService cetUnitService;
+    @Autowired
+    protected CetPartyService cetPartyService;
+    @Autowired
+    protected CetPartySchoolService cetPartySchoolService;
+    @Autowired
     protected CetProjectService cetProjectService;
     @Autowired
     protected CetProjectObjService cetProjectObjService;
+    @Autowired
+    protected CetDiscussService cetDiscussService;
+    @Autowired
+    protected CetDiscussGroupService cetDiscussGroupService;
+    @Autowired
+    protected CetDiscussGroupObjService cetDiscussGroupObjService;
     @Autowired
     protected CetProjectPlanService cetProjectPlanService;
     @Autowired

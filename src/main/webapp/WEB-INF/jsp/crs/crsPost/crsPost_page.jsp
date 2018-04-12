@@ -206,6 +206,13 @@
                 }
                 return _cMap.CRS_POST_ENROLL_STATUS_MAP[cellvalue];
             }},
+            {label: '报名截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return '-'
+                if(rowObject.enrollStatus==${CRS_POST_ENROLL_STATUS_OPEN}){
+                    return $.date(cellvalue, "yyyy-MM-dd hh:mm");
+                }
+                return '-'
+            }},
             {label: '招聘会情况', name: 'meetingStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
                 return cellvalue ? "已召开" : "未召开";

@@ -81,6 +81,11 @@
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>
          -->
+        <!--二级党校-->
+        <table tableName="party_school" domainObjectName="partySchool.PartySchool"
+               mapperName="partySchool.PartySchoolMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
 
         <!--<table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
             <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
@@ -127,9 +132,9 @@
              <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="m_resource_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-          <table tableName="sys_resource" domainObjectName="sys.SysResource" mapperName="sys.SysResourceMapper">
+          <!--<table tableName="sys_resource" domainObjectName="sys.SysResource" mapperName="sys.SysResourceMapper">
               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-          </table>
+          </table>-->
         <!--<table tableName="sys_attach_file" domainObjectName="sys.AttachFile">
         </table>-->
         <!--<table tableName="sys_html_fragment" domainObjectName="sys.HtmlFragment">

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.cet.CetDiscussGroupObjMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetDiscussGroupObj">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="discuss_id" jdbcType="INTEGER" property="discussId" />
+    <result column="discuss_group_id" jdbcType="INTEGER" property="discussGroupId" />
+    <result column="obj_id" jdbcType="INTEGER" property="objId" />
+    <result column="is_finished" jdbcType="BIT" property="isFinished" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, discuss_id, discuss_group_id, obj_id, is_finished, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.cet.CetDiscussGroupObjExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cet_discuss_group_obj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cet_discuss_group_obj
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cet_discuss_group_obj
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.cet.CetDiscussGroupObjExample">
+    delete from cet_discuss_group_obj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.cet.CetDiscussGroupObj">
+    insert into cet_discuss_group_obj (id, discuss_id, discuss_group_id, 
+      obj_id, is_finished, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{discussId,jdbcType=INTEGER}, #{discussGroupId,jdbcType=INTEGER}, 
+      #{objId,jdbcType=INTEGER}, #{isFinished,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.cet.CetDiscussGroupObj">
+    insert into cet_discuss_group_obj
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="discussId != null">
+        discuss_id,
+      </if>
+      <if test="discussGroupId != null">
+        discuss_group_id,
+      </if>
+      <if test="objId != null">
+        obj_id,
+      </if>
+      <if test="isFinished != null">
+        is_finished,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="discussId != null">
+        #{discussId,jdbcType=INTEGER},
+      </if>
+      <if test="discussGroupId != null">
+        #{discussGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="objId != null">
+        #{objId,jdbcType=INTEGER},
+      </if>
+      <if test="isFinished != null">
+        #{isFinished,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.cet.CetDiscussGroupObjExample" resultType="java.lang.Long">
+    select count(*) from cet_discuss_group_obj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cet_discuss_group_obj
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.discussId != null">
+        discuss_id = #{record.discussId,jdbcType=INTEGER},
+      </if>
+      <if test="record.discussGroupId != null">
+        discuss_group_id = #{record.discussGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.objId != null">
+        obj_id = #{record.objId,jdbcType=INTEGER},
+      </if>
+      <if test="record.isFinished != null">
+        is_finished = #{record.isFinished,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cet_discuss_group_obj
+    set id = #{record.id,jdbcType=INTEGER},
+      discuss_id = #{record.discussId,jdbcType=INTEGER},
+      discuss_group_id = #{record.discussGroupId,jdbcType=INTEGER},
+      obj_id = #{record.objId,jdbcType=INTEGER},
+      is_finished = #{record.isFinished,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetDiscussGroupObj">
+    update cet_discuss_group_obj
+    <set>
+      <if test="discussId != null">
+        discuss_id = #{discussId,jdbcType=INTEGER},
+      </if>
+      <if test="discussGroupId != null">
+        discuss_group_id = #{discussGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="objId != null">
+        obj_id = #{objId,jdbcType=INTEGER},
+      </if>
+      <if test="isFinished != null">
+        is_finished = #{isFinished,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.cet.CetDiscussGroupObj">
+    update cet_discuss_group_obj
+    set discuss_id = #{discussId,jdbcType=INTEGER},
+      discuss_group_id = #{discussGroupId,jdbcType=INTEGER},
+      obj_id = #{objId,jdbcType=INTEGER},
+      is_finished = #{isFinished,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetDiscussGroupObjExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cet_discuss_group_obj
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

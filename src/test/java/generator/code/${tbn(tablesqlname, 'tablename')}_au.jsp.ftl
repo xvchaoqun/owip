@@ -1,6 +1,7 @@
 <#assign TableName=tbn(tablesqlname, "TableName")>
 <#assign tableName=tbn(tablesqlname, "tableName")>
 <#assign tablename=tbn(tablesqlname, "tablename")>
+<#assign _resFolder="">
 <#if resFolder?? && resFolder?trim!=''><#assign _resFolder="${resFolder?trim}/"></#if>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
