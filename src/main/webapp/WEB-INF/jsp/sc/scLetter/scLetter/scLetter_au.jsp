@@ -118,7 +118,7 @@
                                                 class="fa fa-plus"></i> 选择
                                         </button>
                                         <div style="padding-top: 10px;">
-                                            <div id="itemList">
+                                            <div id="itemList" style="height: 382px;overflow-y: auto;">
 
                                             </div>
                                         </div>
@@ -147,15 +147,15 @@
     </div>
 </div>
 <script type="text/template" id="itemListTpl">
-    <table class="table table-striped table-bordered table-condensed table-unhover2">
+    <table class="table table-striped table-bordered table-condensed table-unhover2 table-center">
         <thead>
         <tr>
-            <td colspan="3">已选择的函询对象</td>
+            <th colspan="3">已选择的函询对象</th>
         </tr>
         <tr>
-            <td>姓名</td>
-            <td>工号</td>
-            <td></td>
+            <th>姓名</th>
+            <th>工号</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>

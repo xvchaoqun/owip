@@ -69,7 +69,8 @@
                 <c:forEach items="${cetCourseItems}" var="cetCourseItem" varStatus="st">
                     <tr>
                         <td nowrap>专题班${st.count}</td>
-                        <td nowrap style="text-align: left">${cetCourseItem.name}</td>
+                        <td nowrap style="text-align: left" title="${cetCourseItem.name}">
+                        ${cm:cnsubstr(cetCourseItem.name, 30, "...")}</td>
                         <td nowrap>${cetCourseItem.period}</td>
                         <c:if test="${!_query && commonList.recNum>1}">
                             <td nowrap>

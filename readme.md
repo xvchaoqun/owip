@@ -25,6 +25,14 @@ flush privileges;
 set @applyId=419;
 delete from abroad_approval_log where apply_id=@applyId;
 update abroad_apply_self set is_finish=0, flow_node=-1, flow_nodes=null where id=@applyId;
+
+## 因私审批误操作为不同意，更新为同意
+select id, status,approval_remark,is_finish,flow_node,flow_nodes,flow_users,is_agreed from abroad_apply_self where id=498;
+select id, user_id, type_id, od_type,status from abroad_approval_log where apply_id=498;
+update abroad_approval_log set status=1 where id=1152;
+select id, record_id, apply_user_id, type,stage, status from sys_approval_log where type=1 and record_id=498;
+update sys_approval_log set status=1 where id=58493;
+
 # 更换领取证件证件号码（更换的证件应该是未借出状态；如果原来关联的证件是借出状态，可能需要修改为未借出状态）
 select ap.is_lent from abroad_passport_draw apd, abroad_passport ap where apd.id=196 and ap.id=apd.passport_id;
 update abroad_passport_draw apd, abroad_passport ap 

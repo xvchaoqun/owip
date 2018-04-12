@@ -27,12 +27,12 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">培训时间</label>
 				<div class="col-xs-6">
 					<input required class="form-control date-picker" name="startDate"
-						   type="text" style="width: 121px;float: left"
+						   type="text" style="width: 124px;float: left"
 						   data-date-format="yyyy-mm-dd"
 						   value="${cm:formatDate(cetProject.startDate,'yyyy-MM-dd')}"/>
 					<div style="float: left;margin: 5px 5px 0 5px;"> 至 </div>
 					<input required class="form-control date-picker" name="endDate"
-						   type="text" style="width: 121px;float: left"
+						   type="text" style="width: 124px;float: left"
 						   data-date-format="yyyy-mm-dd"
 						   value="${cm:formatDate(cetProject.endDate,'yyyy-MM-dd')}"/>
 				</div>

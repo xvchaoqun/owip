@@ -98,7 +98,7 @@
                                 <div class="form-group">
                                     <div class="col-xs-12">
                                         <div style="padding: 10px;">
-                                            <div id="itemList">
+                                            <div id="itemList" style="height: 407px;overflow-y: auto;">
 
                                             </div>
                                         </div>
@@ -130,10 +130,10 @@
     <table class="table table-striped table-bordered table-condensed table-unhover2 table-center">
         <thead>
         <tr>
-            <td width="120">函询对象姓名</td>
-            <td width="150">函询对象工作证号</td>
-            <td width="200">纪委回复情况</td>
-            <td></td>
+            <th width="80">姓名</th>
+            <th width="80">工作证号</th>
+            <th width="250">纪委回复情况</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -155,6 +155,10 @@
         </tbody>
     </table>
 </script>
+<style>
+    .select2-hidden-accessible {
+        position: relative !important;}
+</style>
 <script>
     $(document).on('change', 'select.content', function(){
         var content = $(this).find("option:selected").text();
