@@ -1,6 +1,6 @@
 package controller.mobile;
 
-import controller.abroad.AbroadBaseController;
+import controller.BaseController;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.SecurityUtils;
@@ -25,7 +25,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/m")
-public class MobileLoginController extends AbroadBaseController {
+public class MobileLoginController extends BaseController {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 

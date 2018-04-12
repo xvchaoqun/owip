@@ -22,8 +22,9 @@ flush privileges;
 
 ############
 # 重置因私申请审批状态
-delete from abroad_approval_log where apply_id=203;
-update abroad_apply_self set flow_node=-1, flow_nodes=null where id=203;
+set @applyId=419;
+delete from abroad_approval_log where apply_id=@applyId;
+update abroad_apply_self set is_finish=0, flow_node=-1, flow_nodes=null where id=@applyId;
 # 更换领取证件证件号码（更换的证件应该是未借出状态；如果原来关联的证件是借出状态，可能需要修改为未借出状态）
 select ap.is_lent from abroad_passport_draw apd, abroad_passport ap where apd.id=196 and ap.id=apd.passport_id;
 update abroad_passport_draw apd, abroad_passport ap 

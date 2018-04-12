@@ -116,14 +116,16 @@
                 <div class="profile-info-name td"> 联系电话 </div>
 
                 <div class="profile-info-value td">
-                  <span class="editable">${sysUser.mobile}</span>
+                  <span class="editable">
+                  <a href='tel:${sysUser.mobile}'>${sysUser.mobile}</a>
+                  </span>
                 </div>
               </div>
 
               <div class="profile-info-row">
-                <div class="profile-info-name td"> 工作单位及职务 </div>
+                <div class="profile-info-name"> 工作单位及职务</div>
 
-                <div class="profile-info-value td">
+                <div class="profile-info-value">
                   <span class="editable">${cadre.title}</span>
                 </div>
               </div>
@@ -302,10 +304,10 @@
 <script>
   <c:if test="${param.status==0}">
   $("#agree").click(function(){
-    $.loadModal("${ctx}/m/abroad/applySelf_approval?id=${applySelf.id}&status=1&type=${param.type}");
+    $.loadModal("${ctx}/m/abroad/applySelf_approval?id=${applySelf.id}&pass=1&type=${param.type}");
   });
   $("#disagree").click(function(){
-    $.loadModal("${ctx}/m/abroad/applySelf_approval?id=${applySelf.id}&status=0&type=${param.type}");
+    $.loadModal("${ctx}/m/abroad/applySelf_approval?id=${applySelf.id}&pass=0&type=${param.type}");
   });
 </c:if>
 <c:if test="${param.status==1}">

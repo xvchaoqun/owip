@@ -69,7 +69,11 @@
           <div class="profile-info-name"> 办公电话&邮箱</div>
 
           <div class="profile-info-value">
-            <span class="editable">${uv.phone} ${uv.email}</span>
+            <span class="editable">
+              <a href='tel:${uv.phone}'>${uv.phone}</a>
+              <c:if test="${not empty uv.phone && not empty uv.email}"> ， </c:if>
+              <a href='mailto:${uv.email}'>${uv.email}</a>
+            </span>
           </div>
         </div>
         <div class="profile-info-row">

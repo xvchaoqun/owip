@@ -80,8 +80,9 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
             cache.put(username, deque);
         }
 
+        Boolean kickout = (Boolean) session.getAttribute("kickout");
         //如果队列里没有此sessionId，且用户没有被踢出；放入队列
-        if (!deque.contains(sessionId) && session.getAttribute("kickout") == null) {
+        if (!deque.contains(sessionId) && kickout == null) {
             deque.push(sessionId);
 
             if (!subject.isAuthenticated() && subject.isRemembered()) { // 如果是remeberMe 登录
@@ -113,7 +114,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         }
 
         //如果被踢出了，直接退出，重定向到踢出后的地址
-        if (session.getAttribute("kickout") != null) {
+        if (kickout != null) {
             //会话被踢出了
             try {
                 logger.info("用户{}-{}被踢出", shiroUser.getRealname(), username);

@@ -1,13 +1,13 @@
 package controller.mobile;
 
-import controller.abroad.AbroadBaseController;
+import controller.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/m")
-public class MobileUserController extends AbroadBaseController {
+public class MobileUserController extends BaseController {
 
 	@RequestMapping("/userInfo")
 	public String userInfo(ModelMap modelMap) {
