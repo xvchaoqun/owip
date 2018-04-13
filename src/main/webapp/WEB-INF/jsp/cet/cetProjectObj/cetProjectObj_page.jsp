@@ -379,7 +379,7 @@
                 }
                 return '-'
             }, frozen: true},
-            { label: '完成学时数',name: 'objInfo.isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
+            { label: '完成学时数',name: 'objInfo.isFinished', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.objInfo.isFinished==undefined) return '-'
                 return rowObject.objInfo.isFinished?${cetDiscuss.period}:0
             }, frozen: true},

@@ -74,11 +74,11 @@
                 return ('<button class="openView btn btn-success btn-xs" ' +
                 'data-url="${ctx}/cet/cetProject_detail_obj?cls=5&projectId=${cetProject.id}&discussGroupId={0}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.id);
-            }},
+            }, frozen: true},
             {label: '状态', name: '_status', formatter: function (cellvalue, options, rowObject) {
                 return '未召开'
             }, frozen: true},
-            {label: '组别', name: 'name',width: 150, frozen: true},
+            {label: '组别', name: 'name', frozen: true},
             {
                 label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {grid:'#jqGrid2', url: "${ctx}/cet/cetDiscussGroup_changeOrder"}, frozen: true
