@@ -62,9 +62,8 @@ public class ApiAbroadController extends BaseController {
                 return;
             }
 
-            int cadreId = cv.getId();
             ApplySelfService applySelfService = CmTag.getBean(ApplySelfService.class);
-            Map map = applySelfService.findApplySelfList(userId, cadreId, null,
+            Map map = applySelfService.findApplySelfList(userId, null, null,
                     null, 0, -1, null);
             CommonList commonList = (CommonList) map.get("commonList");
             int recNum = commonList.getRecNum();

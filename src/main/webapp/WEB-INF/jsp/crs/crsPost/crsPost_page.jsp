@@ -27,7 +27,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active rownumbers">
+                    <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==CRS_POST_STATUS_NORMAL}">
                             <shiro:hasPermission name="crsPost:edit">
@@ -171,10 +171,10 @@
 
             }, width: 180, frozen: true
             },
-            {label: '招聘岗位', name: 'name', width:'300', frozen: true, formatter: function (cellvalue, options, rowObject) {
+            {label: '招聘岗位', name: 'name', align:'left', width:'300', formatter: function (cellvalue, options, rowObject) {
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/crsPost_detail?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
-            }},
+            }, frozen: true},
             {label: '分管工作', name: 'job', width:'300', formatter: $.jgrid.formatter.NoMultiSpace},
             {
                 label: '行政级别', name: 'adminLevel', formatter: function (cellvalue, options, rowObject) {
@@ -208,10 +208,7 @@
             }},
             {label: '报名截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
-                if(rowObject.enrollStatus==${CRS_POST_ENROLL_STATUS_OPEN}){
-                    return $.date(cellvalue, "yyyy-MM-dd hh:mm");
-                }
-                return '-'
+                return $.date(cellvalue, "yyyy-MM-dd hh:mm");
             }},
             {label: '招聘会情况', name: 'meetingStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';

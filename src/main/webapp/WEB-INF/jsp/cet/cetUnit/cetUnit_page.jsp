@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
-        <div id="body-content" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+        <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.unitId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cetUnit:edit">
@@ -16,6 +16,10 @@ pageEncoding="UTF-8" %>
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
+                <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                        data-url="${ctx}/cet/cetUnit_setAdmin"
+                        data-grid-id="#jqGrid"><i class="fa fa-user"></i>
+                    设置管理员</button>
                 <shiro:hasPermission name="cetUnit:del">
                     <button data-url="${ctx}/cet/cetUnit_batchDel"
                             data-title="删除"
@@ -25,10 +29,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/cet/cetUnit_data"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>
+
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -45,8 +46,13 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>所属内设机构</label>
-                            <input class="form-control search-query" name="unitId" type="text" value="${param.unitId}"
-                                   placeholder="请输入所属内设机构">
+                            <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+                                    data-placeholder="请选择所属内设机构">
+                                <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                            </select>
+                            <script>
+                                $.register.del_select($("#searchForm select[name=unitId]"), 350)
+                            </script>
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -74,10 +80,14 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $("#jqGrid").jqGrid({
+        rownumbers:true,
         url: '${ctx}/cet/cetUnit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '所属内设机构',name: 'unitId'},
-            { label: '管理员',name: 'userId'}
+            {label: '内设机构名称', name: 'unitName', width:300, formatter: function (cellvalue, options, rowObject) {
+                return $.del(cellvalue, rowObject.unitStatus==${UNIT_STATUS_HISTORY})
+            }, align:'left'},
+            { label: '管理员',name: 'user.realname'},
+            { label: '管理员学工号',name: 'user.code', width:120}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

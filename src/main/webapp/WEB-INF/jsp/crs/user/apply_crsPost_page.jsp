@@ -18,7 +18,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active rownumbers">
+                    <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${cls==1}">
                             <button data-url="${ctx}/user/crsPost_quit"

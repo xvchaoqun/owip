@@ -301,7 +301,7 @@ public class UnitController extends BaseController {
         UnitExample example = new UnitExample();
         Criteria criteria = example.createCriteria();
         if(status!=null) criteria.andStatusEqualTo(status);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("status asc, sort_order desc");
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");
@@ -320,6 +320,7 @@ public class UnitController extends BaseController {
             for(Unit unit:units){
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", unit.getName());
+                option.put("del", unit.getStatus()==SystemConstants.UNIT_STATUS_HISTORY);
                 option.put("id", unit.getId());
                 option.put("type", unitTypeMap.get(unit.getTypeId()).getName());
                 options.add(option);

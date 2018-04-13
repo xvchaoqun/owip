@@ -1,5 +1,6 @@
 package service.cet;
 
+import domain.cet.CetDiscuss;
 import domain.cet.CetDiscussGroup;
 import domain.cet.CetDiscussGroupExample;
 import org.apache.ibatis.session.RowBounds;
@@ -7,6 +8,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import shiro.ShiroHelper;
+import sys.constants.CetConstants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +19,12 @@ public class CetDiscussGroupService extends BaseMapper {
 
     @Transactional
     public void insertSelective(CetDiscussGroup record){
+
+        Integer discussId = record.getDiscussId();
+        CetDiscuss cetDiscuss = cetDiscussMapper.selectByPrimaryKey(discussId);
+        if(cetDiscuss.getUnitType()== CetConstants.CET_DISCUSS_UNIT_TYPE_OW){
+            record.setAdminUserId(ShiroHelper.getCurrentUserId());
+        }
 
         record.setSortOrder(getNextSortOrder("cet_discuss_group", "discuss_id="+record.getDiscussId()));
         cetDiscussGroupMapper.insertSelective(record);

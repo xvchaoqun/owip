@@ -19,7 +19,7 @@
     </ul>
 
     <div class="tab-content">
-        <div id="home4" class="tab-pane in active">
+        <div class="tab-pane in active">
             丢失日期：${cm:formatDate(passport.lostTime, "yyyy-MM-dd")}
             <div style="margin: 30px 0 30px 0;border: 1px dashed #aaaaaa;padding: 20px;width: 595px">
                 <img src="${ctx}/pic?path=${cm:encodeURI(passport.lostProof)}" style="max-width: 595px"/>

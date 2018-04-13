@@ -99,5 +99,5 @@ pageEncoding="UTF-8" %>
         $(window).triggerHandler('resize.jqGrid');
     })
     $.initNavGrid("jqGrid", "jqGridPager");
-    $.register.party_select($('#searchForm select[name=partyId]'));
+    $.register.del_select($('#searchForm select[name=partyId]'));
 </script>

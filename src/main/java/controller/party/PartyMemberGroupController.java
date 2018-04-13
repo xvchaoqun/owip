@@ -63,10 +63,16 @@ public class PartyMemberGroupController extends BaseController {
     @RequiresPermissions("partyMemberGroup:list")
     @RequestMapping("/partyMemberGroup")
     public String partyMemberGroup(@RequestParam(required = false, defaultValue = "1")Byte status,
+                                   Integer partyId,
                                         @RequestParam(required = false, value = "typeIds")Integer[] typeIds,
                                         ModelMap modelMap) {
 
         modelMap.put("status", status);
+
+        if (partyId != null) {
+            modelMap.put("party", partyService.findAll().get(partyId));
+        }
+
         if(status==2){
             if (typeIds!=null) {
                 List<Integer> _typeIds = Arrays.asList(typeIds);

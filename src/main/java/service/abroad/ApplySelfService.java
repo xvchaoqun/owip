@@ -403,8 +403,14 @@ public class ApplySelfService extends BaseMapper {
             ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
             ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
 
+            ApproverTypeBean approverTypeBean = null;
             ShiroUser shiroUser = ShiroHelper.getShiroUser();
-            ApproverTypeBean approverTypeBean = shiroUser.getApproverTypeBean();
+            if(shiroUser!=null) {
+                approverTypeBean = shiroUser.getApproverTypeBean();
+            }else {
+                // 用于 api 接口调用
+                approverTypeBean = getApproverTypeBean(userId);
+            }
 
             if (approverTypeBean != null) {
                 if (approverTypeBean.getMainPostUnitIds().size()>0) {

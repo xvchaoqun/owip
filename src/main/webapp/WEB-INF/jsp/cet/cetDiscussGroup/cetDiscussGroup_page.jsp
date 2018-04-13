@@ -1,100 +1,100 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row">
-    <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
-        <div id="body-content" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.discussId ||not empty param.subject || not empty param.code || not empty param.sort}"/>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter smaller">
+            <a href="javascript:" class="openView btn btn-xs btn-success"
+               data-url="${ctx}/cet/cetProjectPlan_detail?planId=${cetProjectPlan.id}">
+                <i class="ace-icon fa fa-backward"></i> 返回</a>
+        </h4>
+        <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
+                    ${cetDiscuss.name}
+                    （${cm:formatDate(cetDiscuss.startDate, "yyyy-MM-dd")} ~ ${cm:formatDate(cetDiscuss.endDate, "yyyy-MM-dd")}，${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}, ${cetProject.name}）
+        </span>
+        <div class="widget-toolbar no-border">
+            <ul class="nav nav-tabs" id="detail-ul">
+                <li class="active">
+                    <a href="javascript:;">讨论小组列表</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cetDiscussGroup:edit">
                     <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/cet/cetDiscussGroup_au">
-                        <i class="fa fa-plus"></i> 添加</button>
+                            data-url="${ctx}/cet/cetDiscussGroup_au?discussId=${param.discussId}">
+                        <i class="fa fa-plus"></i> 添加
+                    </button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cet/cetDiscussGroup_au"
-                       data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                        修改</button>
+                            data-url="${ctx}/cet/cetDiscussGroup_au"
+                            data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
+                        修改
+                    </button>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cetDiscussGroup:del">
                     <button data-url="${ctx}/cet/cetDiscussGroup_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid"
+                            data-grid-id="#jqGrid2"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/cet/cetDiscussGroup_data"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>
-            </div>
-            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
-                <div class="widget-header">
-                    <h4 class="widget-title">搜索</h4>
-
-                    <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
-                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="widget-body">
-                    <div class="widget-main no-padding">
-                        <form class="form-inline search-form" id="searchForm">
-                        <div class="form-group">
-                            <label>分组讨论</label>
-                            <input class="form-control search-query" name="discussId" type="text" value="${param.discussId}"
-                                   placeholder="请输入分组讨论">
-                        </div>
-                        <div class="form-group">
-                            <label>研讨主题</label>
-                            <input class="form-control search-query" name="subject" type="text" value="${param.subject}"
-                                   placeholder="请输入研讨主题">
-                        </div>
-                            <div class="clearfix form-actions center">
-                                <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/cet/cetDiscussGroup"
-                                   data-target="#page-content"
-                                   data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
-                                <c:if test="${_query}">&nbsp;
-                                    <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/cet/cetDiscussGroup"
-                                            data-target="#page-content">
-                                        <i class="fa fa-reply"></i> 重置
-                                    </button>
-                                </c:if>
-                            </div>
-                        </form>
-                    </div>
-                </div>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid" class="jqGrid table-striped"></table>
-            <div id="jqGridPager"></div>
+            <table id="jqGrid2" class="jqGrid2 table-striped"></table>
+            <div id="jqGridPager2"></div>
         </div>
         <div id="body-content-view"></div>
     </div>
 </div>
 <script>
-    $("#jqGrid").jqGrid({
+    var unitType = ${cetDiscuss.unitType};
+    $("#jqGrid2").jqGrid({
+        rownumbers:true,
+        pager: "jqGridPager2",
         url: '${ctx}/cet/cetDiscussGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '分组讨论',name: 'discussId'},
-            { label: '召集人',name: 'holdUserId'},
-            { label: '研讨主题',name: 'subject'},
-            { label: '是否允许修改研讨主题',name: 'subjectCanModify'},
-            { label: '召开时间',name: 'discussTime'},
-            { label: '召开地点',name: 'discussAddress'},
-            { label: '负责单位',name: 'untiId'},
-            { label: '负责单位管理员',name: 'adminUserId'},
-            { label: '排序',name: 'sortOrder'},
-            { label: '备注',name: 'remark'}
+            {label: '状态', name: '_status', formatter: function (cellvalue, options, rowObject) {
+                return '未召开'
+            }, frozen: true},
+            {label: '组别', name: 'name',width: 150, frozen: true},
+            {
+                label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
+                formatoptions: {grid:'#jqGrid2', url: "${ctx}/cet/cetDiscussGroup_changeOrder"}, frozen: true
+            },
+            {label: '召集人', name: 'holdUser.realname', frozen: true},
+            {label: '研讨主题', name: 'subject',width: 250, align:'left', frozen: true},
+            <c:if test="${cetDiscuss.unitType!=CET_DISCUSS_UNIT_TYPE_OW}">
+            {label: '是否允许修改主题', name: 'subjectCanModify',width: 150, formatter: $.jgrid.formatter.TRUEFALSE},
+            </c:if>
+            {label: '召开时间', name: 'discussTime',width: 150, formatter: 'date',
+                formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},
+            {label: '召开地点', name: 'discussAddress',width: 250, align:'left'},
+            <c:if test="${cetDiscuss.unitType!=CET_DISCUSS_UNIT_TYPE_OW}">
+            {label: '负责单位', name: 'unitId',width: 250, formatter: function (cellvalue, options, rowObject) {
+                if(unitType==${CET_DISCUSS_UNIT_TYPE_OW}) return '-'
+                if(unitType==${CET_DISCUSS_UNIT_TYPE_PARTY})
+                    return rowObject.cetParty==undefined?'':rowObject.cetParty.partyName;
+                if(unitType==${CET_DISCUSS_UNIT_TYPE_UNIT})
+                    return rowObject.cetUnit==undefined?'':rowObject.cetUnit.unitName;
+                if(unitType==${CET_DISCUSS_UNIT_TYPE_PARTY_SCHOOL})
+                    return rowObject.cetPartySchool==undefined?'':rowObject.cetPartySchool.partySchoolName;
+
+            } },
+            {label: '负责单位管理员', name: 'adminUser.realname',width: 150},
+            </c:if>
+            <c:if test="${cetDiscuss.unitType==CET_DISCUSS_UNIT_TYPE_OW}">
+            {label: '管理员', name: 'adminUser.realname',width: 150},
+            </c:if>
+            {label: '备注', name: 'remark',width: 350}
         ]
     }).jqGrid("setFrozenColumns");
-    $(window).triggerHandler('resize.jqGrid');
-    $.initNavGrid("jqGrid", "jqGridPager");
-    $('#searchForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
+    $(window).triggerHandler('resize.jqGrid2');
+    $.initNavGrid("jqGrid2", "jqGridPager2");
+    //$('#searchForm [data-rel="select2"]').select2();
+    //$('[data-rel="tooltip"]').tooltip();
 </script>

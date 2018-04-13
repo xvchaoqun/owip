@@ -1,5 +1,7 @@
 package domain.partySchool;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,13 +10,14 @@ public class PartySchool implements Serializable {
 
     private String name;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date foundDate;
 
     private Integer sortOrder;
 
     private String remark;
 
-    private Boolean status;
+    private Boolean isHistory;
 
     private static final long serialVersionUID = 1L;
 
@@ -58,11 +61,11 @@ public class PartySchool implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public Boolean getStatus() {
-        return status;
+    public Boolean getIsHistory() {
+        return isHistory;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setIsHistory(Boolean isHistory) {
+        this.isHistory = isHistory;
     }
 }

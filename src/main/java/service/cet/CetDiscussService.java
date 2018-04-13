@@ -52,7 +52,7 @@ public class CetDiscussService extends BaseMapper {
 
         if(addNum == 0) return ;
 
-        byte orderBy = ORDER_BY_DESC;
+        byte orderBy = ORDER_BY_ASC;
 
         CetDiscuss entity = cetDiscussMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();

@@ -38,14 +38,14 @@ public class CetDiscussController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cetDiscuss:list")
+    @RequiresPermissions("cetProjectPlan:list")
     @RequestMapping("/cetDiscuss")
     public String cetDiscuss() {
 
         return "cet/cetDiscuss/cetDiscuss_page";
     }
 
-    @RequiresPermissions("cetDiscuss:list")
+    @RequiresPermissions("cetProjectPlan:list")
     @RequestMapping("/cetDiscuss_data")
     public void cetDiscuss_data(HttpServletResponse response,
                                     Integer planId,
@@ -64,7 +64,7 @@ public class CetDiscussController extends CetBaseController {
 
         CetDiscussExample example = new CetDiscussExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
 
         if (planId!=null) {
             criteria.andPlanIdEqualTo(planId);
@@ -100,7 +100,7 @@ public class CetDiscussController extends CetBaseController {
         return;
     }
 
-    @RequiresPermissions("cetDiscuss:edit")
+    @RequiresPermissions("cetProjectPlan:edit")
     @RequestMapping(value = "/cetDiscuss_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetDiscuss_au(CetDiscuss record, HttpServletRequest request) {
@@ -119,18 +119,21 @@ public class CetDiscussController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetDiscuss:edit")
+    @RequiresPermissions("cetProjectPlan:edit")
     @RequestMapping("/cetDiscuss_au")
-    public String cetDiscuss_au(Integer id, ModelMap modelMap) {
+    public String cetDiscuss_au(Integer id, Integer planId, ModelMap modelMap) {
 
         if (id != null) {
             CetDiscuss cetDiscuss = cetDiscussMapper.selectByPrimaryKey(id);
             modelMap.put("cetDiscuss", cetDiscuss);
+            planId = cetDiscuss.getPlanId();
         }
+
+        modelMap.put("planId", planId);
         return "cet/cetDiscuss/cetDiscuss_au";
     }
 
-    @RequiresPermissions("cetDiscuss:del")
+    @RequiresPermissions("cetProjectPlan:del")
     @RequestMapping(value = "/cetDiscuss_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetDiscuss_del(HttpServletRequest request, Integer id) {
@@ -143,7 +146,7 @@ public class CetDiscussController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetDiscuss:del")
+    @RequiresPermissions("cetProjectPlan:del")
     @RequestMapping(value = "/cetDiscuss_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map cetDiscuss_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
@@ -157,7 +160,7 @@ public class CetDiscussController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetDiscuss:changeOrder")
+    @RequiresPermissions("cetProjectPlan:changeOrder")
     @RequestMapping(value = "/cetDiscuss_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetDiscuss_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
@@ -221,11 +224,11 @@ public class CetDiscussController extends CetBaseController {
         List options = new ArrayList<>();
         if(null != cetDiscusss && cetDiscusss.size()>0){
 
-            for(CetDiscuss cetDiscuss:cetDiscusss){
+            for(CetDiscuss record:cetDiscusss){
 
                 Map<String, Object> option = new HashMap<>();
-                option.put("text", cetDiscuss.getName());
-                option.put("id", cetDiscuss.getId() + "");
+                option.put("text", record.getName());
+                option.put("id", record.getId() + "");
 
                 options.add(option);
             }

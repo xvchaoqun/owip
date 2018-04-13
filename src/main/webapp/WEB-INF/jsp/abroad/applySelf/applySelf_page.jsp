@@ -39,7 +39,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==0}">
                                 <button data-url="${ctx}/abroad/applySelf_au"

@@ -13,7 +13,7 @@
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="scGroup:edit">
                                 <a class="openView btn btn-info btn-sm" data-url="${ctx}/sc/scGroup_au"><i

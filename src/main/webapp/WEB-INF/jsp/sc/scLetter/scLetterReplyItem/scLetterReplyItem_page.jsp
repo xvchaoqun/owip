@@ -15,7 +15,7 @@
             <div class="tabbable">
                 <jsp:include page="../scLetter/menu.jsp"/>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
 
                             <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"

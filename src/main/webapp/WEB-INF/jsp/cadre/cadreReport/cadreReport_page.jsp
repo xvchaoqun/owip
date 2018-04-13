@@ -10,7 +10,7 @@
             <c:set var="_query" value="${ not empty param.cadreId || not empty param.sort}"/>
             <div class="tabbable">
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active rownumbers">
+                    <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="cadreReport:edit">
                                 <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/cadreReport_au"><i

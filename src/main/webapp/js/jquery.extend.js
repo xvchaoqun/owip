@@ -357,6 +357,12 @@ var _modal_width;
             }
             return '';
         },
+        del: function (str, del) { // 显示名称，del：是否带删除线
+
+            if($.trim(str)=='') return str;
+            return '<span class="{0}">{1}</span>'
+                .format(del ? "delete" : "", str);
+        },
         cadre: function (cadreId, realname, target) {
 
             if (cadreId > 0 && $.trim(realname) != '') {
@@ -1270,8 +1276,8 @@ $.extend($.register, {
             }
         });
     },
-    // 选择分党委
-    party_select: function ($select, width) {
+    // select2-ajax选择框，option包含属性del=true时，带删除线
+    del_select: function ($select, width) {
         return $select.select2({
             width: width || 350,
             templateResult: function (state) {

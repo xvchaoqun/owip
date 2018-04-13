@@ -452,63 +452,63 @@ public class PartySchoolExample {
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNull() {
-            addCriterion("status is null");
+        public Criteria andIsHistoryIsNull() {
+            addCriterion("is_history is null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
+        public Criteria andIsHistoryIsNotNull() {
+            addCriterion("is_history is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStatusEqualTo(Boolean value) {
-            addCriterion("status =", value, "status");
+        public Criteria andIsHistoryEqualTo(Boolean value) {
+            addCriterion("is_history =", value, "isHistory");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotEqualTo(Boolean value) {
-            addCriterion("status <>", value, "status");
+        public Criteria andIsHistoryNotEqualTo(Boolean value) {
+            addCriterion("is_history <>", value, "isHistory");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThan(Boolean value) {
-            addCriterion("status >", value, "status");
+        public Criteria andIsHistoryGreaterThan(Boolean value) {
+            addCriterion("is_history >", value, "isHistory");
             return (Criteria) this;
         }
 
-        public Criteria andStatusGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("status >=", value, "status");
+        public Criteria andIsHistoryGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_history >=", value, "isHistory");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThan(Boolean value) {
-            addCriterion("status <", value, "status");
+        public Criteria andIsHistoryLessThan(Boolean value) {
+            addCriterion("is_history <", value, "isHistory");
             return (Criteria) this;
         }
 
-        public Criteria andStatusLessThanOrEqualTo(Boolean value) {
-            addCriterion("status <=", value, "status");
+        public Criteria andIsHistoryLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_history <=", value, "isHistory");
             return (Criteria) this;
         }
 
-        public Criteria andStatusIn(List<Boolean> values) {
-            addCriterion("status in", values, "status");
+        public Criteria andIsHistoryIn(List<Boolean> values) {
+            addCriterion("is_history in", values, "isHistory");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotIn(List<Boolean> values) {
-            addCriterion("status not in", values, "status");
+        public Criteria andIsHistoryNotIn(List<Boolean> values) {
+            addCriterion("is_history not in", values, "isHistory");
             return (Criteria) this;
         }
 
-        public Criteria andStatusBetween(Boolean value1, Boolean value2) {
-            addCriterion("status between", value1, value2, "status");
+        public Criteria andIsHistoryBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_history between", value1, value2, "isHistory");
             return (Criteria) this;
         }
 
-        public Criteria andStatusNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("status not between", value1, value2, "status");
+        public Criteria andIsHistoryNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_history not between", value1, value2, "isHistory");
             return (Criteria) this;
         }
     }

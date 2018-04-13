@@ -17,11 +17,14 @@
     <result column="site_name" jdbcType="VARCHAR" property="siteName" />
     <result column="site_short_name" jdbcType="VARCHAR" property="siteShortName" />
     <result column="mobile_plantform_name" jdbcType="VARCHAR" property="mobilePlantformName" />
+    <result column="mobile_title" jdbcType="VARCHAR" property="mobileTitle" />
     <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="logo_white" jdbcType="VARCHAR" property="logoWhite" />
     <result column="login_bg" jdbcType="VARCHAR" property="loginBg" />
     <result column="login_top" jdbcType="VARCHAR" property="loginTop" />
     <result column="login_top_bg_color" jdbcType="VARCHAR" property="loginTopBgColor" />
+    <result column="apple_icon" jdbcType="VARCHAR" property="appleIcon" />
+    <result column="screen_icon" jdbcType="VARCHAR" property="screenIcon" />
     <result column="login_msg" jdbcType="VARCHAR" property="loginMsg" />
     <result column="display_login_msg" jdbcType="BIT" property="displayLoginMsg" />
   </resultMap>
@@ -86,8 +89,8 @@
   <sql id="Base_Column_List">
     id, xss_ignore_uri, upload_max_size, short_msg_url, school_name, school_short_name, 
     school_login_url, school_email, site_copyright, site_home, site_keywords, site_description, 
-    site_name, site_short_name, mobile_plantform_name, logo, logo_white, login_bg, login_top, 
-    login_top_bg_color, login_msg, display_login_msg
+    site_name, site_short_name, mobile_plantform_name, mobile_title, logo, logo_white, 
+    login_bg, login_top, login_top_bg_color, apple_icon, screen_icon, login_msg, display_login_msg
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">
     select
@@ -125,16 +128,18 @@
       school_login_url, school_email, site_copyright, 
       site_home, site_keywords, site_description, 
       site_name, site_short_name, mobile_plantform_name, 
-      logo, logo_white, login_bg, 
-      login_top, login_top_bg_color, login_msg, 
+      mobile_title, logo, logo_white, 
+      login_bg, login_top, login_top_bg_color, 
+      apple_icon, screen_icon, login_msg, 
       display_login_msg)
     values (#{id,jdbcType=INTEGER}, #{xssIgnoreUri,jdbcType=VARCHAR}, #{uploadMaxSize,jdbcType=INTEGER}, 
       #{shortMsgUrl,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{schoolShortName,jdbcType=VARCHAR}, 
       #{schoolLoginUrl,jdbcType=VARCHAR}, #{schoolEmail,jdbcType=VARCHAR}, #{siteCopyright,jdbcType=VARCHAR}, 
       #{siteHome,jdbcType=VARCHAR}, #{siteKeywords,jdbcType=VARCHAR}, #{siteDescription,jdbcType=VARCHAR}, 
       #{siteName,jdbcType=VARCHAR}, #{siteShortName,jdbcType=VARCHAR}, #{mobilePlantformName,jdbcType=VARCHAR}, 
-      #{logo,jdbcType=VARCHAR}, #{logoWhite,jdbcType=VARCHAR}, #{loginBg,jdbcType=VARCHAR}, 
-      #{loginTop,jdbcType=VARCHAR}, #{loginTopBgColor,jdbcType=VARCHAR}, #{loginMsg,jdbcType=VARCHAR}, 
+      #{mobileTitle,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{logoWhite,jdbcType=VARCHAR}, 
+      #{loginBg,jdbcType=VARCHAR}, #{loginTop,jdbcType=VARCHAR}, #{loginTopBgColor,jdbcType=VARCHAR}, 
+      #{appleIcon,jdbcType=VARCHAR}, #{screenIcon,jdbcType=VARCHAR}, #{loginMsg,jdbcType=VARCHAR}, 
       #{displayLoginMsg,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysConfig">
@@ -185,6 +190,9 @@
       <if test="mobilePlantformName != null">
         mobile_plantform_name,
       </if>
+      <if test="mobileTitle != null">
+        mobile_title,
+      </if>
       <if test="logo != null">
         logo,
       </if>
@@ -199,6 +207,12 @@
       </if>
       <if test="loginTopBgColor != null">
         login_top_bg_color,
+      </if>
+      <if test="appleIcon != null">
+        apple_icon,
+      </if>
+      <if test="screenIcon != null">
+        screen_icon,
       </if>
       <if test="loginMsg != null">
         login_msg,
@@ -253,6 +267,9 @@
       <if test="mobilePlantformName != null">
         #{mobilePlantformName,jdbcType=VARCHAR},
       </if>
+      <if test="mobileTitle != null">
+        #{mobileTitle,jdbcType=VARCHAR},
+      </if>
       <if test="logo != null">
         #{logo,jdbcType=VARCHAR},
       </if>
@@ -267,6 +284,12 @@
       </if>
       <if test="loginTopBgColor != null">
         #{loginTopBgColor,jdbcType=VARCHAR},
+      </if>
+      <if test="appleIcon != null">
+        #{appleIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="screenIcon != null">
+        #{screenIcon,jdbcType=VARCHAR},
       </if>
       <if test="loginMsg != null">
         #{loginMsg,jdbcType=VARCHAR},
@@ -330,6 +353,9 @@
       <if test="record.mobilePlantformName != null">
         mobile_plantform_name = #{record.mobilePlantformName,jdbcType=VARCHAR},
       </if>
+      <if test="record.mobileTitle != null">
+        mobile_title = #{record.mobileTitle,jdbcType=VARCHAR},
+      </if>
       <if test="record.logo != null">
         logo = #{record.logo,jdbcType=VARCHAR},
       </if>
@@ -344,6 +370,12 @@
       </if>
       <if test="record.loginTopBgColor != null">
         login_top_bg_color = #{record.loginTopBgColor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appleIcon != null">
+        apple_icon = #{record.appleIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.screenIcon != null">
+        screen_icon = #{record.screenIcon,jdbcType=VARCHAR},
       </if>
       <if test="record.loginMsg != null">
         login_msg = #{record.loginMsg,jdbcType=VARCHAR},
@@ -373,11 +405,14 @@
       site_name = #{record.siteName,jdbcType=VARCHAR},
       site_short_name = #{record.siteShortName,jdbcType=VARCHAR},
       mobile_plantform_name = #{record.mobilePlantformName,jdbcType=VARCHAR},
+      mobile_title = #{record.mobileTitle,jdbcType=VARCHAR},
       logo = #{record.logo,jdbcType=VARCHAR},
       logo_white = #{record.logoWhite,jdbcType=VARCHAR},
       login_bg = #{record.loginBg,jdbcType=VARCHAR},
       login_top = #{record.loginTop,jdbcType=VARCHAR},
       login_top_bg_color = #{record.loginTopBgColor,jdbcType=VARCHAR},
+      apple_icon = #{record.appleIcon,jdbcType=VARCHAR},
+      screen_icon = #{record.screenIcon,jdbcType=VARCHAR},
       login_msg = #{record.loginMsg,jdbcType=VARCHAR},
       display_login_msg = #{record.displayLoginMsg,jdbcType=BIT}
     <if test="_parameter != null">
@@ -429,6 +464,9 @@
       <if test="mobilePlantformName != null">
         mobile_plantform_name = #{mobilePlantformName,jdbcType=VARCHAR},
       </if>
+      <if test="mobileTitle != null">
+        mobile_title = #{mobileTitle,jdbcType=VARCHAR},
+      </if>
       <if test="logo != null">
         logo = #{logo,jdbcType=VARCHAR},
       </if>
@@ -443,6 +481,12 @@
       </if>
       <if test="loginTopBgColor != null">
         login_top_bg_color = #{loginTopBgColor,jdbcType=VARCHAR},
+      </if>
+      <if test="appleIcon != null">
+        apple_icon = #{appleIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="screenIcon != null">
+        screen_icon = #{screenIcon,jdbcType=VARCHAR},
       </if>
       <if test="loginMsg != null">
         login_msg = #{loginMsg,jdbcType=VARCHAR},
@@ -469,11 +513,14 @@
       site_name = #{siteName,jdbcType=VARCHAR},
       site_short_name = #{siteShortName,jdbcType=VARCHAR},
       mobile_plantform_name = #{mobilePlantformName,jdbcType=VARCHAR},
+      mobile_title = #{mobileTitle,jdbcType=VARCHAR},
       logo = #{logo,jdbcType=VARCHAR},
       logo_white = #{logoWhite,jdbcType=VARCHAR},
       login_bg = #{loginBg,jdbcType=VARCHAR},
       login_top = #{loginTop,jdbcType=VARCHAR},
       login_top_bg_color = #{loginTopBgColor,jdbcType=VARCHAR},
+      apple_icon = #{appleIcon,jdbcType=VARCHAR},
+      screen_icon = #{screenIcon,jdbcType=VARCHAR},
       login_msg = #{loginMsg,jdbcType=VARCHAR},
       display_login_msg = #{displayLoginMsg,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}

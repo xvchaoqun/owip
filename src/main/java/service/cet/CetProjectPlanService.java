@@ -64,7 +64,7 @@ public class CetProjectPlanService extends BaseMapper {
 
         if(addNum == 0) return ;
 
-        byte orderBy = ORDER_BY_DESC;
+        byte orderBy = ORDER_BY_ASC;
 
         CetProjectPlan entity = cetProjectPlanMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();

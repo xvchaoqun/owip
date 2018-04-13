@@ -37,6 +37,8 @@ public class SysConfigController extends BaseController {
     @RequestMapping(value = "/sysConfig_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysConfig_au(SysConfig record,
+                               MultipartFile _appleIcon,
+                               MultipartFile _screenIcon,
                                MultipartFile _logo,
                                MultipartFile _logoWhite,
                                MultipartFile _loginTop,
@@ -51,6 +53,9 @@ public class SysConfigController extends BaseController {
         record.setLogoWhite(logoWhite);
         record.setLoginTop(loginTop);
         record.setLoginBg(loginBg);
+
+        record.setAppleIcon(upload(_appleIcon, folder));
+        record.setScreenIcon(upload(_screenIcon, folder));
 
         record.setDisplayLoginMsg(BooleanUtils.isTrue(record.getDisplayLoginMsg()));
         sysConfigService.insertOrUpdate(record);

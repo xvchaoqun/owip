@@ -97,7 +97,7 @@
                 label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid2',url: "${ctx}/cet/cetProjectPlan_changeOrder"}
             },
-            {label: '备注', name: 'remark', width: 200}
+            {label: '备注', name: 'remark', width: 400}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

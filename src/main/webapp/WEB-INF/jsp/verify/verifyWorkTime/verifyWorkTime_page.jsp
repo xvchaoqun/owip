@@ -12,7 +12,7 @@
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/verify/verify_menu.jsp"/>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="verifyWorkTime:edit">
                                 <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/verifyWorkTime_au"><i

@@ -34,7 +34,7 @@ pageEncoding="UTF-8" %>
             </ul>
 
             <div class="tab-content">
-                <div id="home4" class="tab-pane in active rownumbers">
+                <div class="tab-pane in active rownumbers">
                     <div class="jqgrid-vertical-offset buttons">
                         <c:if test="${status==CADRE_INSPECT_STATUS_NORMAL}">
                         <shiro:hasPermission name="cadreInspect:edit">

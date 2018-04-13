@@ -9,7 +9,7 @@
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/pmd/pmdMonth/menu.jsp"/>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         开发中...
                     </div>
                 </div>

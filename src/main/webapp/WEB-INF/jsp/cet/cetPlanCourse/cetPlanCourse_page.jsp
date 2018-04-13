@@ -54,6 +54,7 @@
     var objCount = ${cetProject.objCount};
     var projectId = ${cetProject.id};
     $("#jqGrid2").jqGrid({
+        rownumbers:true,
         pager: "jqGridPager2",
         url: '${ctx}/cet/cetPlanCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
@@ -90,14 +91,14 @@
                 return ('<button class="openView btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/cet/cetProject_detail/obj?cls=3&projectId={0}&planCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
-            }},
-            {label: '编号', name: 'cetCourse.sn'},
-            {label: '网上专题培训班名称', name: 'cetCourse.name', width: 300, align: 'left'},
-            {label: '上级单位名称', name: 'cetCourse.address', width: 300, align: 'left'},
+            }, frozen: true},
+            {label: '编号', name: 'cetCourse.sn', frozen: true},
+            {label: '网上专题培训班名称', name: 'cetCourse.name', width: 300, align: 'left', frozen: true},
             {
                 label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
-                formatoptions: {url: "${ctx}/cet/cetPlanCourse_changeOrder"}
+                formatoptions: {url: "${ctx}/cet/cetPlanCourse_changeOrder"}, frozen: true
             },
+            {label: '上级单位名称', name: 'cetCourse.address', width: 300, align: 'left'},
             {label: '总学时', name: 'cetCourse.totalPeriod', width: 70},
             {label: '专题班', name: '_items', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return ('<button type="button" data-url="${ctx}/cet/cetCourseItem?courseId={0}" ' +

@@ -7,7 +7,7 @@
     <result column="found_date" jdbcType="DATE" property="foundDate" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="status" jdbcType="BIT" property="status" />
+    <result column="is_history" jdbcType="BIT" property="isHistory" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, found_date, sort_order, remark, status
+    id, name, found_date, sort_order, remark, is_history
   </sql>
   <select id="selectByExample" parameterType="domain.partySchool.PartySchoolExample" resultMap="BaseResultMap">
     select
@@ -105,9 +105,9 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into party_school (name, found_date, sort_order, 
-      remark, status)
+      remark, is_history)
     values (#{name,jdbcType=VARCHAR}, #{foundDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=BIT})
+      #{remark,jdbcType=VARCHAR}, #{isHistory,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.partySchool.PartySchool">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -127,8 +127,8 @@
       <if test="remark != null">
         remark,
       </if>
-      <if test="status != null">
-        status,
+      <if test="isHistory != null">
+        is_history,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -144,8 +144,8 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        #{status,jdbcType=BIT},
+      <if test="isHistory != null">
+        #{isHistory,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -173,8 +173,8 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=BIT},
+      <if test="record.isHistory != null">
+        is_history = #{record.isHistory,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -188,7 +188,7 @@
       found_date = #{record.foundDate,jdbcType=DATE},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=BIT}
+      is_history = #{record.isHistory,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -208,8 +208,8 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        status = #{status,jdbcType=BIT},
+      <if test="isHistory != null">
+        is_history = #{isHistory,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -220,7 +220,7 @@
       found_date = #{foundDate,jdbcType=DATE},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
-      status = #{status,jdbcType=BIT}
+      is_history = #{isHistory,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.partySchool.PartySchoolExample" resultMap="BaseResultMap">

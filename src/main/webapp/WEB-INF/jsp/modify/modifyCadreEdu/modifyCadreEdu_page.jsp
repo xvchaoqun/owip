@@ -8,7 +8,7 @@
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/modify/modifyTableApply/menu.jsp"/>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <a class="popupBtn btn btn-success btn-sm"
                                data-url="${ctx}/cadreEdu_au?toApply=1&cadreId=${cadre.id}"

@@ -1,8 +1,11 @@
 package controller.cet;
 
+import domain.cet.CetDiscuss;
 import domain.cet.CetDiscussGroup;
 import domain.cet.CetDiscussGroupExample;
 import domain.cet.CetDiscussGroupExample.Criteria;
+import domain.cet.CetProject;
+import domain.cet.CetProjectPlan;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -40,7 +43,16 @@ public class CetDiscussGroupController extends CetBaseController {
 
     @RequiresPermissions("cetDiscussGroup:list")
     @RequestMapping("/cetDiscussGroup")
-    public String cetDiscussGroup() {
+    public String cetDiscussGroup(int discussId, ModelMap modelMap) {
+
+        CetDiscuss cetDiscuss = cetDiscussMapper.selectByPrimaryKey(discussId);
+        modelMap.put("cetDiscuss", cetDiscuss);
+
+        CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(cetDiscuss.getPlanId());
+        modelMap.put("cetProjectPlan", cetProjectPlan);
+
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(cetProjectPlan.getProjectId());
+        modelMap.put("cetProject", cetProject);
 
         return "cet/cetDiscussGroup/cetDiscussGroup_page";
     }
@@ -48,7 +60,7 @@ public class CetDiscussGroupController extends CetBaseController {
     @RequiresPermissions("cetDiscussGroup:list")
     @RequestMapping("/cetDiscussGroup_data")
     public void cetDiscussGroup_data(HttpServletResponse response,
-                                    Integer discussId,
+                                    int discussId,
                                     String subject,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -63,12 +75,9 @@ public class CetDiscussGroupController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetDiscussGroupExample example = new CetDiscussGroupExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andDiscussIdEqualTo(discussId);
         example.setOrderByClause("sort_order desc");
 
-        if (discussId!=null) {
-            criteria.andDiscussIdEqualTo(discussId);
-        }
         if (StringUtils.isNotBlank(subject)) {
             criteria.andSubjectLike("%" + subject + "%");
         }
@@ -122,12 +131,19 @@ public class CetDiscussGroupController extends CetBaseController {
 
     @RequiresPermissions("cetDiscussGroup:edit")
     @RequestMapping("/cetDiscussGroup_au")
-    public String cetDiscussGroup_au(Integer id, ModelMap modelMap) {
+    public String cetDiscussGroup_au(Integer id,
+                                     Integer discussId,
+                                     ModelMap modelMap) {
 
         if (id != null) {
             CetDiscussGroup cetDiscussGroup = cetDiscussGroupMapper.selectByPrimaryKey(id);
             modelMap.put("cetDiscussGroup", cetDiscussGroup);
+            discussId = cetDiscussGroup.getDiscussId();
         }
+
+        CetDiscuss cetDiscuss = cetDiscussMapper.selectByPrimaryKey(discussId);
+        modelMap.put("cetDiscuss", cetDiscuss);
+
         return "cet/cetDiscussGroup/cetDiscussGroup_au";
     }
 
@@ -183,7 +199,7 @@ public class CetDiscussGroupController extends CetBaseController {
                             record.getSubjectCanModify()+"",
                             DateUtils.formatDate(record.getDiscussTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
                             record.getDiscussAddress(),
-                            record.getUntiId()+"",
+                            record.getUnitId()+"",
                             record.getAdminUserId()+"",
                             record.getSortOrder()+"",
                             record.getRemark()

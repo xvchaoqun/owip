@@ -11,7 +11,7 @@ pageEncoding="UTF-8" %>
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
 
                         <div class="space-4"></div>
                             <div style="float: left;width: 650px" class="jqgrid-vertical-offset">

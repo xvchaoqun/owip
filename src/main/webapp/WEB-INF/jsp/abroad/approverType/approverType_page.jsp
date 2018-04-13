@@ -9,7 +9,7 @@ pageEncoding="UTF-8" %>
                 <jsp:include page="/WEB-INF/jsp/abroad/approvalAuth/approvalAuth_menu.jsp"/>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
         <div class="myTableDiv"
              data-url-au="${ctx}/abroad/approverType_au"
              data-url-page="${ctx}/abroad/approverType"

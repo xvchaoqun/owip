@@ -26,7 +26,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
 <c:if test="${status>=0}">
                 <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
@@ -258,5 +258,5 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $.register.party_select($('#searchForm select[name=partyId]'));
+    $.register.del_select($('#searchForm select[name=partyId]'));
 </script>

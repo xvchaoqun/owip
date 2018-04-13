@@ -1,8 +1,9 @@
 package controller.cet;
 
 import domain.cet.CetPartySchool;
-import domain.cet.CetPartySchoolExample;
-import domain.cet.CetPartySchoolExample.Criteria;
+import domain.cet.CetPartySchoolView;
+import domain.cet.CetPartySchoolViewExample;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -40,8 +41,11 @@ public class CetPartySchoolController extends CetBaseController {
 
     @RequiresPermissions("cetPartySchool:list")
     @RequestMapping("/cetPartySchool")
-    public String cetPartySchool() {
+    public String cetPartySchool(Integer partySchoolId, ModelMap modelMap) {
 
+        if(partySchoolId!=null){
+            modelMap.put("partySchool", partySchoolService.findAll().get(partySchoolId));
+        }
         return "cet/cetPartySchool/cetPartySchool_page";
     }
 
@@ -61,9 +65,9 @@ public class CetPartySchoolController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetPartySchoolExample example = new CetPartySchoolExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
+        CetPartySchoolViewExample example = new CetPartySchoolViewExample();
+        CetPartySchoolViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("sort_order desc");
 
         if (partySchoolId!=null) {
             criteria.andPartySchoolIdEqualTo(partySchoolId);
@@ -76,12 +80,12 @@ public class CetPartySchoolController extends CetBaseController {
             return;
         }
 
-        long count = cetPartySchoolMapper.countByExample(example);
+        long count = cetPartySchoolViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetPartySchool> records= cetPartySchoolMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetPartySchoolView> records= cetPartySchoolViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -117,26 +121,57 @@ public class CetPartySchoolController extends CetBaseController {
 
     @RequiresPermissions("cetPartySchool:edit")
     @RequestMapping("/cetPartySchool_au")
-    public String cetPartySchool_au(Integer id, ModelMap modelMap) {
+    public String cetPartySchool_au(Integer id,
+                                    Integer partySchoolId,
+                                    //Integer userId,
+                                    ModelMap modelMap) {
 
         if (id != null) {
             CetPartySchool cetPartySchool = cetPartySchoolMapper.selectByPrimaryKey(id);
             modelMap.put("cetPartySchool", cetPartySchool);
+
+            partySchoolId = cetPartySchool.getPartySchoolId();
+            //userId = cetPartySchool.getUserId();
         }
+
+        if(partySchoolId!=null){
+
+            modelMap.put("partySchool", partySchoolService.findAll().get(partySchoolId));
+        }
+
+        /*if(userId!=null){
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }*/
+
         return "cet/cetPartySchool/cetPartySchool_au";
     }
 
-    @RequiresPermissions("cetPartySchool:del")
-    @RequestMapping(value = "/cetPartySchool_del", method = RequestMethod.POST)
+    @RequiresPermissions("cetPartySchool:setAdmin")
+    @RequestMapping(value = "/cetPartySchool_setAdmin", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetPartySchool_del(HttpServletRequest request, Integer id) {
+    public Map do_cetPartySchool_setAdmin(int id,
+                                          Integer userId,
+                                          HttpServletRequest request) {
 
-        if (id != null) {
+        cetPartySchoolService.setAdmin(id, userId);
+        logger.info(addLog( SystemConstants.LOG_CET, "更新二级党校管理员：%s, %s", id ,userId));
 
-            cetPartySchoolService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除二级党校：%s", id));
-        }
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetPartySchool:setAdmin")
+    @RequestMapping("/cetPartySchool_setAdmin")
+    public String cetPartySchool_setAdmin(int id,
+                                    ModelMap modelMap) {
+
+        CetPartySchoolView cetPartySchool = cetPartySchoolService.getView(id);
+        modelMap.put("cetPartySchool", cetPartySchool);
+
+        Integer userId = cetPartySchool.getUserId();
+        if(userId!=null)
+            modelMap.put("sysUser", sysUserService.findById(userId));
+
+        return "cet/cetPartySchool/cetPartySchool_setAdmin";
     }
 
     @RequiresPermissions("cetPartySchool:del")
@@ -153,14 +188,14 @@ public class CetPartySchoolController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cetPartySchool_export(CetPartySchoolExample example, HttpServletResponse response) {
+    public void cetPartySchool_export(CetPartySchoolViewExample example, HttpServletResponse response) {
 
-        List<CetPartySchool> records = cetPartySchoolMapper.selectByExample(example);
+        List<CetPartySchoolView> records = cetPartySchoolViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"所属二级党校|100","管理员|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetPartySchool record = records.get(i);
+            CetPartySchoolView record = records.get(i);
             String[] values = {
                 record.getPartySchoolId()+"",
                             record.getUserId()+""
@@ -169,5 +204,59 @@ public class CetPartySchoolController extends CetBaseController {
         }
         String fileName = "二级党校_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequestMapping("/cetPartySchool_selects")
+    @ResponseBody
+    public Map cetPartySchool_selects(Integer pageSize,
+                                   Integer pageNo,String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CetPartySchoolViewExample example = new CetPartySchoolViewExample();
+        CetPartySchoolViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("party_school_is_history asc, sort_order desc");
+
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.andPartySchoolNameLike("%" + searchStr + "%");
+        }
+
+        long count = cetPartySchoolViewMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<CetPartySchoolView> records = cetPartySchoolViewMapper.selectByExampleWithRowbounds(example,
+                new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List options = new ArrayList<>();
+        if(null != records && records.size()>0){
+
+            for(CetPartySchoolView record:records){
+
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", record.getPartySchoolName());
+                option.put("id", record.getId() + "");
+                if(record.getUserId()!=null) {
+                    SysUserView uv = sysUserService.findById(record.getUserId());
+                    option.put("userId", uv.getId());
+                    option.put("realname", uv.getRealname());
+                    option.put("code", uv.getCode());
+                }
+                option.put("del", record.getPartySchoolIsHistory());
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
     }
 }

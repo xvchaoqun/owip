@@ -33,6 +33,8 @@ public class SysConfig implements Serializable {
 
     private String mobilePlantformName;
 
+    private String mobileTitle;
+
     private String logo;
 
     private String logoWhite;
@@ -42,6 +44,10 @@ public class SysConfig implements Serializable {
     private String loginTop;
 
     private String loginTopBgColor;
+
+    private String appleIcon;
+
+    private String screenIcon;
 
     private String loginMsg;
 
@@ -169,6 +175,14 @@ public class SysConfig implements Serializable {
         this.mobilePlantformName = mobilePlantformName == null ? null : mobilePlantformName.trim();
     }
 
+    public String getMobileTitle() {
+        return mobileTitle;
+    }
+
+    public void setMobileTitle(String mobileTitle) {
+        this.mobileTitle = mobileTitle == null ? null : mobileTitle.trim();
+    }
+
     public String getLogo() {
         return logo;
     }
@@ -207,6 +221,22 @@ public class SysConfig implements Serializable {
 
     public void setLoginTopBgColor(String loginTopBgColor) {
         this.loginTopBgColor = loginTopBgColor == null ? null : loginTopBgColor.trim();
+    }
+
+    public String getAppleIcon() {
+        return appleIcon;
+    }
+
+    public void setAppleIcon(String appleIcon) {
+        this.appleIcon = appleIcon == null ? null : appleIcon.trim();
+    }
+
+    public String getScreenIcon() {
+        return screenIcon;
+    }
+
+    public void setScreenIcon(String screenIcon) {
+        this.screenIcon = screenIcon == null ? null : screenIcon.trim();
     }
 
     public String getLoginMsg() {

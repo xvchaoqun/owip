@@ -23,7 +23,7 @@ public class RoleConstants {
     // 三大管理员
     public static final String ROLE_ODADMIN = "odAdmin";
     public static final String ROLE_CADREADMIN = "cadreAdmin";
-    public static final String ROLE_CET_ADMIN = "cet_admin";
+    public static final String ROLE_CET_ADMIN = "cet_admin"; // 干部培训管理员
 
     public static final String ROLE_TEACHER = "role_teacher"; // 教职工
     public static final String ROLE_PCS_ADMIN = "role_pcs_admin"; // 党代会-分党委管理员
@@ -39,6 +39,9 @@ public class RoleConstants {
     public static final String ROLE_PMD_BRANCH = "role_pmd_branch"; // 党费收缴-支部管理员
 
     public static final String ROLE_CET_TRAINEE = "cet_trainee"; // 参训人员-干部教育培训
+    public static final String ROLE_CET_ADMIN_UNIT = "cet_admin_unit"; // 内设机构管理员-干部教育培训
+    public static final String ROLE_CET_ADMIN_PARTY = "cet_admin_party"; // 院系级党委管理员-干部教育培训
+    public static final String ROLE_CET_ADMIN_PS = "cet_admin_ps"; // 二级党校管理员-干部教育培训
 
     public final static Map<String, String> ROLE_MAP = new LinkedHashMap<>();
 

@@ -131,6 +131,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-3 control-label">移动端平台Title</label>
+                <div class="col-xs-6">
+                    <input class="form-control" type="text" name="mobileTitle"
+                           value="${sysConfig.mobileTitle}">
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-3 control-label">登录页LOGO（分辨率269*58，PNG格式）</label>
 
                 <div class="col-xs-6 logo">
@@ -166,6 +173,20 @@
                     <input type="file" name="_loginBg" id="_loginBg"/>
                 </div>
             </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">iphone桌面图标, ICO格式</label>
+
+                    <div class="col-xs-6 logoWhite">
+                        <input type="file" name="_appleIcon" id="_appleIcon"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">iphone桌面图标，PNG格式</label>
+
+                    <div class="col-xs-6 logoWhite">
+                        <input type="file" name="_screenIcon" id="_screenIcon"/>
+                    </div>
+                </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">登录页公告</label>
 
@@ -337,6 +358,56 @@
     $("#_loginBg").ace_file_input('show_file_list', [{
         type: 'image',
         name: '${ctx}/pic?path=${cm:encodeURI(cm:getShortPic(sysConfig.loginBg))}&_=<%=new Date().getTime()%>'
+    }]);
+    </c:if>
+    $.fileInput($("#_appleIcon"), {
+        style: 'well',
+        btn_choose: 'iphone桌面图标, ICO格式',
+        btn_change: null,
+        no_icon: 'ace-icon fa fa-picture-o',
+        thumbnail: 'large',
+        droppable: true,
+        previewWidth: 64,
+        previewHeight: 64,
+        allowExt: ['ico'],
+        allowMime: ['image/x-icon']
+    });
+    <c:if test="${not empty sysConfig.appleIcon}">
+    $("#_appleIcon").find('button[type=reset]').on(ace.click_event, function () {
+        //$('#user-profile input[type=file]').ace_file_input('reset_input');
+        $("#_appleIcon").ace_file_input('show_file_list', [{
+            type: 'image',
+            name: '${ctx}/img/favicon64.ico?_=<%=new Date().getTime()%>'
+        }]);
+    });
+    $("#_appleIcon").ace_file_input('show_file_list', [{
+        type: 'image',
+        name: '${ctx}/img/screen_icon_new.png?_=<%=new Date().getTime()%>'
+    }]);
+    </c:if>
+    $.fileInput($("#_screenIcon"), {
+        style: 'well',
+        btn_choose: 'iphone桌面图标, PNG格式',
+        btn_change: null,
+        no_icon: 'ace-icon fa fa-picture-o',
+        thumbnail: 'large',
+        droppable: true,
+        previewWidth: 64,
+        previewHeight: 64,
+        allowExt: ['png'],
+        allowMime: ['image/png']
+    });
+    <c:if test="${not empty sysConfig.screenIcon}">
+    $("#_screenIcon").find('button[type=reset]').on(ace.click_event, function () {
+        //$('#user-profile input[type=file]').ace_file_input('reset_input');
+        $("#_appleIcon").ace_file_input('show_file_list', [{
+            type: 'image',
+            name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.screenIcon)}&_=<%=new Date().getTime()%>'
+        }]);
+    });
+    $("#_screenIcon").ace_file_input('show_file_list', [{
+        type: 'image',
+        name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.screenIcon)}&_=<%=new Date().getTime()%>'
     }]);
     </c:if>
 

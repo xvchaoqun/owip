@@ -12,7 +12,7 @@
                    ||not empty param.seq || not empty param.inspectorId}"/>
             <div class="tabbable">
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active rownumbers">
+                    <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="cisInspectObj:edit">
                                 <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/cisInspectObj_au"><i

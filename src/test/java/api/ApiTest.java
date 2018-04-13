@@ -26,7 +26,7 @@ public class ApiTest {
         String url = "http://localhost:8080/api/abroad/approve_count";
         String app = "oa";
         String key = "b887e286bf5d82b7b9712ed03d3e6e0e";
-        String code = "11112013069";
+        String code = "11112016098";
         //String code = "zzbgz";
         String _signStr = String.format("app=%s&code=%s&key=%s", app, code, key);
         String sign = MD5Util.md5Hex(_signStr, "utf-8");

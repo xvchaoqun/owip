@@ -96,6 +96,9 @@
 
 <c:set var="LOGIN_TYPE_MAP" value="<%=SystemConstants.LOGIN_TYPE_MAP%>"/>
 
+<c:set var="UNIT_STATUS_RUN" value="<%=SystemConstants.UNIT_STATUS_RUN%>"/>
+<c:set var="UNIT_STATUS_HISTORY" value="<%=SystemConstants.UNIT_STATUS_HISTORY%>"/>
+
 <c:set var="UNIT_TYPE_ATTR_XY" value="<%=SystemConstants.UNIT_TYPE_ATTR_XY%>"/>
 <c:set var="UNIT_TYPE_ATTR_JG" value="<%=SystemConstants.UNIT_TYPE_ATTR_JG%>"/>
 <c:set var="UNIT_TYPE_ATTR_FS" value="<%=SystemConstants.UNIT_TYPE_ATTR_FS%>"/>
@@ -182,6 +185,12 @@
 <c:set value="<%=ScConstants.SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP%>" var="SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP"/>
 
 <c:set value="<%=CetConstants.CET_PROJECT_TYPE_MAP%>" var="CET_PROJECT_TYPE_MAP"/>
+
+<c:set value="<%=CetConstants.CET_DISCUSS_UNIT_TYPE_OW%>" var="CET_DISCUSS_UNIT_TYPE_OW"/>
+<c:set value="<%=CetConstants.CET_DISCUSS_UNIT_TYPE_UNIT%>" var="CET_DISCUSS_UNIT_TYPE_UNIT"/>
+<c:set value="<%=CetConstants.CET_DISCUSS_UNIT_TYPE_PARTY%>" var="CET_DISCUSS_UNIT_TYPE_PARTY"/>
+<c:set value="<%=CetConstants.CET_DISCUSS_UNIT_TYPE_PARTY_SCHOOL%>" var="CET_DISCUSS_UNIT_TYPE_PARTY_SCHOOL"/>
+<c:set value="<%=CetConstants.CET_DISCUSS_UNIT_TYPE_MAP%>" var="CET_DISCUSS_UNIT_TYPE_MAP"/>
 
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE%>" var="CET_PROJECT_PLAN_TYPE_OFFLINE"/>
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_SELF%>" var="CET_PROJECT_PLAN_TYPE_SELF"/>

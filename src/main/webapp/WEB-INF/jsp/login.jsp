@@ -79,7 +79,9 @@
                 <select name="party">
                     <option value="">请选择所属分党委</option>
                     <c:forEach var="entity" items="${partyMap}">
+                        <c:if test="${!entity.value.isDeleted}">
                         <option value="${entity.key}">${entity.value.name}</option>
+                        </c:if>
                     </c:forEach>
                 </select>
                 </div></dd>
@@ -88,11 +90,8 @@
                 <dt></dt><dd><a href="javascript:" class="submit_btn" id="reg_btn"></a></dd>
                 <dt></dt><dd><a href="" class="to_login_btn" data-target="#login">返回登录</a></dd>
             </form>
-
         </div>
-
     </div>
-
 </div>
 <!--[if !IE]> -->
 <script type="text/javascript">

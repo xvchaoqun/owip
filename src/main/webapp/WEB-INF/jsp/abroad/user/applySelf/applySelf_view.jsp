@@ -40,7 +40,7 @@
   </ul>
 
   <div class="tab-content">
-    <div id="home4" class="tab-pane in active">
+    <div class="tab-pane in active">
       <div class="preview">
       <table class="table table-bordered table-striped">
         <tbody>

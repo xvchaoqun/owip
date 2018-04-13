@@ -41,7 +41,9 @@ public class PartySchoolController extends BaseController {
 
     @RequiresPermissions("partySchool:list")
     @RequestMapping("/partySchool")
-    public String partySchool() {
+    public String partySchool( @RequestParam(required = false, defaultValue = "0") boolean isHistory, ModelMap modelMap) {
+
+        modelMap.put("isHistory", isHistory);
 
         return "partySchool/partySchool/partySchool_page";
     }
@@ -49,7 +51,8 @@ public class PartySchoolController extends BaseController {
     @RequiresPermissions("partySchool:list")
     @RequestMapping("/partySchool_data")
     public void partySchool_data(HttpServletResponse response,
-                                    String name,
+                                 String name,
+                                 @RequestParam(required = false, defaultValue = "0") boolean isHistory,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -63,7 +66,7 @@ public class PartySchoolController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         PartySchoolExample example = new PartySchoolExample();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(true);
+        Criteria criteria = example.createCriteria().andIsHistoryEqualTo(isHistory);
         example.setOrderByClause("sort_order desc");
 
         if (StringUtils.isNotBlank(name)) {
@@ -105,7 +108,7 @@ public class PartySchoolController extends BaseController {
         Integer id = record.getId();
 
         if (id == null) {
-            record.setStatus(true);
+            record.setIsHistory(false);
             partySchoolService.insertSelective(record);
             logger.info(addLog( SystemConstants.LOG_ADMIN, "添加二级党校：%s", record.getId()));
         } else {
@@ -128,19 +131,21 @@ public class PartySchoolController extends BaseController {
         return "partySchool/partySchool/partySchool_au";
     }
 
-    @RequiresPermissions("partySchool:del")
-    @RequestMapping(value = "/partySchool_del", method = RequestMethod.POST)
+    @RequiresPermissions("partySchool:history")
+    @RequestMapping(value = "/partySchool_history", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_partySchool_del(HttpServletRequest request, Integer id) {
+    public Map partySchool_history(HttpServletRequest request,
+                                   boolean isHistory,
+                                   @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-        if (id != null) {
 
-            partySchoolService.del(id);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "删除二级党校：%s", id));
+        if (null != ids && ids.length>0){
+            partySchoolService.history(ids, isHistory);
+            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量转移二级党校：%s", StringUtils.join(ids, ",")));
         }
+
         return success(FormUtils.SUCCESS);
     }
-
     @RequiresPermissions("partySchool:del")
     @RequestMapping(value = "/partySchool_batchDel", method = RequestMethod.POST)
     @ResponseBody
@@ -185,7 +190,9 @@ public class PartySchoolController extends BaseController {
 
     @RequestMapping("/partySchool_selects")
     @ResponseBody
-    public Map partySchool_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map partySchool_selects(Integer pageSize,
+                                   Boolean isHistory,
+                                   Integer pageNo,String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -196,8 +203,12 @@ public class PartySchoolController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         PartySchoolExample example = new PartySchoolExample();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(true);
-        example.setOrderByClause("sort_order desc");
+        Criteria criteria = example.createCriteria().andIsHistoryEqualTo(false);
+        example.setOrderByClause("is_history asc, sort_order desc");
+
+        if(isHistory!=null){
+            criteria.andIsHistoryEqualTo(isHistory);
+        }
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");
@@ -208,7 +219,8 @@ public class PartySchoolController extends BaseController {
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<PartySchool> partySchools = partySchoolMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<PartySchool> partySchools = partySchoolMapper.selectByExampleWithRowbounds(example,
+                new RowBounds((pageNo-1)*pageSize, pageSize));
 
         List options = new ArrayList<>();
         if(null != partySchools && partySchools.size()>0){
@@ -218,7 +230,7 @@ public class PartySchoolController extends BaseController {
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", partySchool.getName());
                 option.put("id", partySchool.getId() + "");
-
+                option.put("del", partySchool.getIsHistory());
                 options.add(option);
             }
         }

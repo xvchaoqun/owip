@@ -12,7 +12,7 @@
             <div class="tabbable">
                 <jsp:include page="../scMatter/menu.jsp"/>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <a class="jqOpenViewBtn btn btn-warning btn-sm"
                                data-url="${ctx}/sc/scMatter_au"

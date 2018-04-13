@@ -198,5 +198,5 @@ pageEncoding="UTF-8"%>
 	}).change();
 
     $('[data-rel="tooltip"]').tooltip();
-	$.register.party_select($('#modalForm select[name=partyId]'));
+	$.register.del_select($('#modalForm select[name=partyId]'));
 </script>

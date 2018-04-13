@@ -341,7 +341,7 @@ public class PartyController extends BaseController {
 
         PartyExample example = new PartyExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("is_deleted asc, sort_order desc");
 
         if(del!=null){
             criteria.andIsDeletedEqualTo(del);

@@ -15,7 +15,7 @@
   </ul>
 
   <div class="tab-content">
-    <div id="home4" class="tab-pane in active">
+    <div class="tab-pane in active">
 <form class="form-horizontal" action="${ctx}/user/abroad/passportDraw_other_au" id="applyForm" method="post" enctype="multipart/form-data">
   <input type="hidden" name="cadreId" value="${param.cadreId}">
   <div class="form-group">

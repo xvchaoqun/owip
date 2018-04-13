@@ -15,7 +15,7 @@
                 <div class="tabbable">
                     <jsp:include page="/WEB-INF/jsp/dispatch/dispatch_menu.jsp"/>
                     <div class="tab-content">
-                        <div id="home4" class="tab-pane in active">
+                        <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="dispatch:edit">
                                     <a class="openView btn btn-info btn-sm"

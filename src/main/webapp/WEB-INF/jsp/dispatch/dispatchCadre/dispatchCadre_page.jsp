@@ -18,7 +18,7 @@
                 <div class="tabbable">
                     <jsp:include page="/WEB-INF/jsp/dispatch/dispatch_menu.jsp"/>
                     <div class="tab-content">
-                        <div id="home4" class="tab-pane in active">
+                        <div class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
                     <a class="openView btn btn-info btn-sm" data-url="${ctx}/dispatch_cadres"><i class="fa fa-plus"></i> 添加干部任免</a>
                     <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm" data-width="700">

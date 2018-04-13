@@ -24,7 +24,7 @@ flush privileges;
 # 重置因私申请审批状态
 set @applyId=419;
 delete from abroad_approval_log where apply_id=@applyId;
-update abroad_apply_self set is_finish=0, flow_node=-1, flow_nodes=null where id=@applyId;
+update abroad_apply_self set status=1, is_finish=0, flow_node=-1, flow_nodes=null where id=@applyId;
 
 ## 因私审批误操作为不同意，更新为同意
 select id, status,approval_remark,is_finish,flow_node,flow_nodes,flow_users,is_agreed from abroad_apply_self where id=498;

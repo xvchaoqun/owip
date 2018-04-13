@@ -17,7 +17,7 @@
     </ul>
     </c:if>
     <div class="tab-content">
-        <div id="home4" class="tab-pane in active">
+        <div class="tab-pane in active">
             <c:set var="isPerfect" value="${cm:perfectCadreInfo(_user.id)}"/>
             <div class="alert alert-warning" style="font-size: 24px;margin-bottom: 0">
                 干部信息完整性校验结果：${isPerfect?"通过":"不通过"}

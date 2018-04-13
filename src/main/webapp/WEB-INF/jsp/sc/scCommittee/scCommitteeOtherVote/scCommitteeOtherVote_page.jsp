@@ -12,7 +12,7 @@
             <div class="tabbable">
                 <jsp:include page="../scCommittee/menu.jsp"/>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                            <%-- <shiro:hasPermission name="scCommitteeOtherVote:edit">
                                 <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/sc/scCommitteeOtherVote_au"><i

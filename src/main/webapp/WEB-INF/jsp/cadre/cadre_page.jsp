@@ -40,7 +40,7 @@
                         </ul>
                     </shiro:lacksRole>
                     <div class="tab-content">
-                        <div id="home4" class="tab-pane in active rownumbers">
+                        <div class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
                                 <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">
                                     <shiro:hasPermission name="cadre:list">

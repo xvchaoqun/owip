@@ -14,7 +14,7 @@
                     <jsp:include page="menu.jsp"/>
 
                     <div class="tab-content">
-                        <div id="home4" class="tab-pane in active">
+                        <div class="tab-pane in active">
                 <div class="jqgrid-vertical-offset buttons">
                     <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果"><i class="fa fa-download"></i> 导出</a>
@@ -53,15 +53,12 @@
                                 </div>
                                     <div class="form-group">
                                         <label>所属分党委</label>
-                                        <select name="partyId" data-rel="select2"
-                                                data-placeholder="请选择所属分党委" data-width="350">
-                                            <option></option>
-                                            <c:forEach var="entity" items="${partyMap}">
-                                                <option value="${entity.key}">${entity.value.name}</option>
-                                            </c:forEach>
+                                        <select name="partyId" data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+                                                data-placeholder="请选择所属分党委">
+                                            <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
                                         </select>
                                         <script>
-                                            $("#searchForm select[name=partyId]").val('${param.partyId}');
+                                            $.register.del_select($("#searchForm select[name=partyId]"), 350)
                                         </script>
                                     </div>
                                 <div class="form-group">

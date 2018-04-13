@@ -8,7 +8,7 @@ pageEncoding="UTF-8" %>
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/abroad/user/passport/passport_menu.jsp"/>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="buttons">
                             <button data-url="${ctx}/user/abroad/passportApply_begin"
                                     class="openView btn btn-success btn-sm"><i class="fa fa-plus"></i> 申请办理因私出国（境）证件

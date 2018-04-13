@@ -34,7 +34,7 @@ pageEncoding="UTF-8" %>
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
 
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="party:edit">

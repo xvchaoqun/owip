@@ -40,14 +40,14 @@ public class CetDiscussGroupObjController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cetDiscussGroupObj:list")
+    @RequiresPermissions("cetDiscussGroup:list")
     @RequestMapping("/cetDiscussGroupObj")
     public String cetDiscussGroupObj() {
 
         return "cet/cetDiscussGroupObj/cetDiscussGroupObj_page";
     }
 
-    @RequiresPermissions("cetDiscussGroupObj:list")
+    @RequiresPermissions("cetDiscussGroup:list")
     @RequestMapping("/cetDiscussGroupObj_data")
     public void cetDiscussGroupObj_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "cet_discuss_group_obj") String sort,
@@ -104,7 +104,7 @@ public class CetDiscussGroupObjController extends CetBaseController {
         return;
     }
 
-    @RequiresPermissions("cetDiscussGroupObj:edit")
+    @RequiresPermissions("cetDiscussGroup:edit")
     @RequestMapping(value = "/cetDiscussGroupObj_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetDiscussGroupObj_au(CetDiscussGroupObj record, HttpServletRequest request) {
@@ -124,7 +124,7 @@ public class CetDiscussGroupObjController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetDiscussGroupObj:edit")
+    @RequiresPermissions("cetDiscussGroup:edit")
     @RequestMapping("/cetDiscussGroupObj_au")
     public String cetDiscussGroupObj_au(Integer id, ModelMap modelMap) {
 
@@ -135,7 +135,7 @@ public class CetDiscussGroupObjController extends CetBaseController {
         return "cet/cetDiscussGroupObj/cetDiscussGroupObj_au";
     }
 
-    @RequiresPermissions("cetDiscussGroupObj:del")
+    @RequiresPermissions("cetDiscussGroup:del")
     @RequestMapping(value = "/cetDiscussGroupObj_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetDiscussGroupObj_del(HttpServletRequest request, Integer id) {
@@ -148,7 +148,7 @@ public class CetDiscussGroupObjController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetDiscussGroupObj:del")
+    @RequiresPermissions("cetDiscussGroup:del")
     @RequestMapping(value = "/cetDiscussGroupObj_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map cetDiscussGroupObj_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {

@@ -19,7 +19,9 @@ pageEncoding="UTF-8"%>
 							data-placeholder="请选择所属分党委" data-width="350">
 						<option></option>
 						<c:forEach var="entity" items="${partyMap}">
+							<c:if test="${!entity.value.isDeleted}">
 							<option value="${entity.key}">${entity.value.name}</option>
+							</c:if>
 						</c:forEach>
 					</select>
 					<script>

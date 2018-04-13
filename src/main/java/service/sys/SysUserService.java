@@ -285,6 +285,9 @@ public class SysUserService extends BaseMapper {
         SysUser _sysUser = dbFindById(userId);
 
         SysRole sysRole = sysRoleService.getByRole(role);
+        if(sysRole==null){
+            throw new OpException("角色{}不存在。", role);
+        }
         Set<Integer> roleIdSet = getUserRoleIdSet(_sysUser.getRoleIds());
         roleIdSet.remove(sysRole.getId());
 

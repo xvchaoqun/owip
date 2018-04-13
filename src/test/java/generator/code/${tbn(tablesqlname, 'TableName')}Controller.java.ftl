@@ -239,16 +239,16 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<${TableName}> ${tableName}s = ${tableName}Mapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<${TableName}> records = ${tableName}Mapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
         List options = new ArrayList<>();
-        if(null != ${tableName}s && ${tableName}s.size()>0){
+        if(null != records && records.size()>0){
 
-            for(${TableName} ${tableName}:${tableName}s){
+            for(${TableName} record:records){
 
                 Map<String, Object> option = new HashMap<>();
-                option.put("text", ${tableName}.getName());
-                option.put("id", ${tableName}.getId() + "");
+                option.put("text", record.getName());
+                option.put("id", record.getId() + "");
 
                 options.add(option);
             }

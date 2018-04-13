@@ -43,6 +43,25 @@
         <table tableName="cet_party_school" domainObjectName="cet.CetPartySchool" mapperName="cet.CetPartySchoolMapper">
         </table>-->
 
+        <!--<table tableName="cet_unit_view" domainObjectName="cet.CetUnitView"
+               mapperName="cet.CetUnitViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>-->
+        <!--<table tableName="cet_party_view" domainObjectName="cet.CetPartyView"
+               mapperName="cet.CetPartyViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>
+        <table tableName="cet_party_school_view" domainObjectName="cet.CetPartySchoolView"
+               mapperName="cet.CetPartySchoolViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>-->
+
         <!--<table tableName="cet_project" domainObjectName="cet.CetProject" mapperName="cet.CetProjectMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -124,9 +143,9 @@
         </table>-->
 
         <!--<table tableName="cet_discuss" domainObjectName="cet.CetDiscuss" mapperName="cet.CetDiscussMapper">
-        </table>
-        <table tableName="cet_discuss_group" domainObjectName="cet.CetDiscussGroup" mapperName="cet.CetDiscussGroupMapper">
         </table>-->
+        <table tableName="cet_discuss_group" domainObjectName="cet.CetDiscussGroup" mapperName="cet.CetDiscussGroupMapper">
+        </table>
         <!--<table tableName="cet_discuss_group_obj" domainObjectName="cet.CetDiscussGroupObj" mapperName="cet.CetDiscussGroupObjMapper">
         </table>-->
 

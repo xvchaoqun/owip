@@ -21,7 +21,7 @@ public class PartySchoolService extends BaseMapper {
     @CacheEvict(value="PartySchool:ALL", allEntries = true)
     public void insertSelective(PartySchool record){
 
-        record.setSortOrder(getNextSortOrder("party_school", "status="+ record.getStatus()));
+        record.setSortOrder(getNextSortOrder("party_school", "is_history="+ record.getIsHistory()));
         partySchoolMapper.insertSelective(record);
     }
 
@@ -30,6 +30,20 @@ public class PartySchoolService extends BaseMapper {
     public void del(Integer id){
 
         partySchoolMapper.deleteByPrimaryKey(id);
+    }
+
+    @Transactional
+    @CacheEvict(value="PartySchool:ALL", allEntries = true)
+    public void history(Integer[] ids, boolean isHistory){
+
+        if(ids==null || ids.length==0) return;
+
+        PartySchoolExample example = new PartySchoolExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        PartySchool record = new PartySchool();
+        record.setIsHistory(isHistory);
+        partySchoolMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional
@@ -54,7 +68,7 @@ public class PartySchoolService extends BaseMapper {
     public Map<Integer, PartySchool> findAll() {
 
         PartySchoolExample example = new PartySchoolExample();
-        example.createCriteria().andStatusEqualTo(true);
+        example.createCriteria().andIsHistoryEqualTo(false);
         example.setOrderByClause("sort_order desc");
         List<PartySchool> partySchooles = partySchoolMapper.selectByExample(example);
         Map<Integer, PartySchool> map = new LinkedHashMap<>();
@@ -98,9 +112,9 @@ public class PartySchoolService extends BaseMapper {
             PartySchool targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("party_school", "status="+entity.getStatus(), baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("party_school", "is_history="+entity.getIsHistory(), baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("party_school", "status="+entity.getStatus(), baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("party_school", "is_history="+entity.getIsHistory(), baseSortOrder, targetEntity.getSortOrder());
 
             PartySchool record = new PartySchool();
             record.setId(id);

@@ -8,7 +8,7 @@
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/abroad/user/passport/passport_menu.jsp"/>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="widget-box transparent">
                             <div class="widget-header widget-header-flat">
                                 <h4 class="widget-title lighter">

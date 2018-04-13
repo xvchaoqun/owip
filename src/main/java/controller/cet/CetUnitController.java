@@ -1,8 +1,9 @@
 package controller.cet;
 
 import domain.cet.CetUnit;
-import domain.cet.CetUnitExample;
-import domain.cet.CetUnitExample.Criteria;
+import domain.cet.CetUnitView;
+import domain.cet.CetUnitViewExample;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -48,7 +49,6 @@ public class CetUnitController extends CetBaseController {
     @RequiresPermissions("cetUnit:list")
     @RequestMapping("/cetUnit_data")
     public void cetUnit_data(HttpServletResponse response,
-
                                     Integer unitId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -62,9 +62,9 @@ public class CetUnitController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetUnitExample example = new CetUnitExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
+        CetUnitViewExample example = new CetUnitViewExample();
+        CetUnitViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("sort_order desc");
 
         if (unitId!=null) {
             criteria.andUnitIdEqualTo(unitId);
@@ -77,12 +77,12 @@ public class CetUnitController extends CetBaseController {
             return;
         }
 
-        long count = cetUnitMapper.countByExample(example);
+        long count = cetUnitViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetUnit> records= cetUnitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetUnitView> records= cetUnitViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -118,26 +118,48 @@ public class CetUnitController extends CetBaseController {
 
     @RequiresPermissions("cetUnit:edit")
     @RequestMapping("/cetUnit_au")
-    public String cetUnit_au(Integer id, ModelMap modelMap) {
+    public String cetUnit_au(Integer id,
+                             Integer unitId,
+                             ModelMap modelMap) {
 
         if (id != null) {
             CetUnit cetUnit = cetUnitMapper.selectByPrimaryKey(id);
             modelMap.put("cetUnit", cetUnit);
+            unitId = cetUnit.getUnitId();
         }
+
+        if(unitId!=null)
+            modelMap.put("unit", unitService.findAll().get(unitId));
+
         return "cet/cetUnit/cetUnit_au";
     }
 
-    @RequiresPermissions("cetUnit:del")
-    @RequestMapping(value = "/cetUnit_del", method = RequestMethod.POST)
+    @RequiresPermissions("cetUnit:setAdmin")
+    @RequestMapping(value = "/cetUnit_setAdmin", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetUnit_del(HttpServletRequest request, Integer id) {
+    public Map do_cetUnit_setAdmin(int id,
+                                          Integer userId,
+                                          HttpServletRequest request) {
 
-        if (id != null) {
+        cetUnitService.setAdmin(id, userId);
+        logger.info(addLog( SystemConstants.LOG_CET, "更新内设机构管理员：%s, %s", id ,userId));
 
-            cetUnitService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除内设机构：%s", id));
-        }
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetUnit:setAdmin")
+    @RequestMapping("/cetUnit_setAdmin")
+    public String cetUnit_setAdmin(int id,
+                                          ModelMap modelMap) {
+
+        CetUnitView cetUnit = cetUnitService.getView(id);
+        modelMap.put("cetUnit", cetUnit);
+
+        Integer userId = cetUnit.getUserId();
+        if(userId!=null)
+            modelMap.put("sysUser", sysUserService.findById(userId));
+
+        return "cet/cetUnit/cetUnit_setAdmin";
     }
 
     @RequiresPermissions("cetUnit:del")
@@ -154,14 +176,14 @@ public class CetUnitController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cetUnit_export(CetUnitExample example, HttpServletResponse response) {
+    public void cetUnit_export(CetUnitViewExample example, HttpServletResponse response) {
 
-        List<CetUnit> records = cetUnitMapper.selectByExample(example);
+        List<CetUnitView> records = cetUnitViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"所属内设机构|100","管理员|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetUnit record = records.get(i);
+            CetUnitView record = records.get(i);
             String[] values = {
                 record.getUnitId()+"",
                             record.getUserId()+""
@@ -170,5 +192,59 @@ public class CetUnitController extends CetBaseController {
         }
         String fileName = "内设机构_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequestMapping("/cetUnit_selects")
+    @ResponseBody
+    public Map cetUnit_selects(Integer pageSize,
+                                Integer pageNo,String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CetUnitViewExample example = new CetUnitViewExample();
+        CetUnitViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("unit_status asc, sort_order desc");
+
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.andUnitNameLike("%" + searchStr + "%");
+        }
+
+        long count = cetUnitViewMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<CetUnitView> records = cetUnitViewMapper.selectByExampleWithRowbounds(example,
+                new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List options = new ArrayList<>();
+        if(null != records && records.size()>0){
+
+            for(CetUnitView record:records){
+
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", record.getUnitName());
+                option.put("id", record.getId() + "");
+                if(record.getUserId()!=null) {
+                    SysUserView uv = sysUserService.findById(record.getUserId());
+                    option.put("userId", uv.getId());
+                    option.put("realname", uv.getRealname());
+                    option.put("code", uv.getCode());
+                }
+                option.put("del", record.getUnitStatus()==SystemConstants.UNIT_STATUS_HISTORY);
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
     }
 }

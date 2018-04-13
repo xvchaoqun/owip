@@ -41,7 +41,7 @@ pageEncoding="UTF-8" %>
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_INIT}">
                             <button data-url="${ctx}/abroad/passportApply_au"

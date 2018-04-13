@@ -43,7 +43,7 @@
 </div>
 
 <script>
-    $.register.party_select($('#modalForm select[name=partyId]'), 300);
+    $.register.del_select($('#modalForm select[name=partyId]'), 300);
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

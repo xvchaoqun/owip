@@ -12,7 +12,7 @@ pageEncoding="UTF-8" %>
                 <div class="tabbable">
                     <jsp:include page="menu.jsp"/>
                     <div class="tab-content">
-                        <div id="home4" class="tab-pane in active">
+                        <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="scCommittee:edit">
                     <a class="openView btn btn-info btn-sm"  data-url="${ctx}/sc/scCommittee_au"><i class="fa fa-plus"></i> 添加</a>

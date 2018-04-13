@@ -12,7 +12,7 @@
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
                 <div class="multi-row-head-table tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="pmdMonth:edit">
                                 <button class="confirm btn btn-success btn-sm"

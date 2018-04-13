@@ -48,7 +48,7 @@
 </shiro:lacksRole>
                     </ul>
                     <div class="tab-content">
-                        <div id="home4" class="tab-pane in active rownumbers">
+                        <div class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                                 <c:if test="${status==CADRE_RESERVE_STATUS_NORMAL}">

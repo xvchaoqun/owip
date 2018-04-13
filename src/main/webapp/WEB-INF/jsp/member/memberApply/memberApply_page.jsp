@@ -122,7 +122,7 @@
                                                 </ul>
 
                                                 <div class="tab-content no-padding-bottom" >
-                                                    <div id="home4" class="tab-pane in active">
+                                                    <div class="tab-pane in active">
                                                         <div class="jqgrid-vertical-offset buttons">
                                                             <c:if test="${stage>APPLY_STAGE_OUT }">
                                                             <button id="editBtn" class="jqEditBtn btn btn-primary btn-sm"

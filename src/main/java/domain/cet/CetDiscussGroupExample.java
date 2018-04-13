@@ -225,6 +225,76 @@ public class CetDiscussGroupExample {
             return (Criteria) this;
         }
 
+        public Criteria andNameIsNull() {
+            addCriterion("name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIsNotNull() {
+            addCriterion("name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("name =", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("name <>", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("name >", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("name >=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThan(String value) {
+            addCriterion("name <", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("name <=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLike(String value) {
+            addCriterion("name like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotLike(String value) {
+            addCriterion("name not like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("name in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("name not in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("name between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("name not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
         public Criteria andHoldUserIdIsNull() {
             addCriterion("hold_user_id is null");
             return (Criteria) this;
@@ -545,63 +615,63 @@ public class CetDiscussGroupExample {
             return (Criteria) this;
         }
 
-        public Criteria andUntiIdIsNull() {
-            addCriterion("unti_id is null");
+        public Criteria andUnitIdIsNull() {
+            addCriterion("unit_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andUntiIdIsNotNull() {
-            addCriterion("unti_id is not null");
+        public Criteria andUnitIdIsNotNull() {
+            addCriterion("unit_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUntiIdEqualTo(Integer value) {
-            addCriterion("unti_id =", value, "untiId");
+        public Criteria andUnitIdEqualTo(Integer value) {
+            addCriterion("unit_id =", value, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andUntiIdNotEqualTo(Integer value) {
-            addCriterion("unti_id <>", value, "untiId");
+        public Criteria andUnitIdNotEqualTo(Integer value) {
+            addCriterion("unit_id <>", value, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andUntiIdGreaterThan(Integer value) {
-            addCriterion("unti_id >", value, "untiId");
+        public Criteria andUnitIdGreaterThan(Integer value) {
+            addCriterion("unit_id >", value, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andUntiIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("unti_id >=", value, "untiId");
+        public Criteria andUnitIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("unit_id >=", value, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andUntiIdLessThan(Integer value) {
-            addCriterion("unti_id <", value, "untiId");
+        public Criteria andUnitIdLessThan(Integer value) {
+            addCriterion("unit_id <", value, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andUntiIdLessThanOrEqualTo(Integer value) {
-            addCriterion("unti_id <=", value, "untiId");
+        public Criteria andUnitIdLessThanOrEqualTo(Integer value) {
+            addCriterion("unit_id <=", value, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andUntiIdIn(List<Integer> values) {
-            addCriterion("unti_id in", values, "untiId");
+        public Criteria andUnitIdIn(List<Integer> values) {
+            addCriterion("unit_id in", values, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andUntiIdNotIn(List<Integer> values) {
-            addCriterion("unti_id not in", values, "untiId");
+        public Criteria andUnitIdNotIn(List<Integer> values) {
+            addCriterion("unit_id not in", values, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andUntiIdBetween(Integer value1, Integer value2) {
-            addCriterion("unti_id between", value1, value2, "untiId");
+        public Criteria andUnitIdBetween(Integer value1, Integer value2) {
+            addCriterion("unit_id between", value1, value2, "unitId");
             return (Criteria) this;
         }
 
-        public Criteria andUntiIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("unti_id not between", value1, value2, "untiId");
+        public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("unit_id not between", value1, value2, "unitId");
             return (Criteria) this;
         }
 

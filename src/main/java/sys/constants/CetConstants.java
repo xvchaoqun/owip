@@ -5,6 +5,19 @@ import java.util.Map;
 
 public class CetConstants {
 
+    // 负责单位类型（分组讨论），1 党委组织部 2 内设机构  3 院系级党委 4 二级党校
+    public final static byte CET_DISCUSS_UNIT_TYPE_OW = 1;
+    public final static byte CET_DISCUSS_UNIT_TYPE_UNIT = 2;
+    public final static byte CET_DISCUSS_UNIT_TYPE_PARTY = 3;
+    public final static byte CET_DISCUSS_UNIT_TYPE_PARTY_SCHOOL = 4;
+    public static Map<Byte, String> CET_DISCUSS_UNIT_TYPE_MAP = new LinkedHashMap<Byte, String>();
+    static {
+        CET_DISCUSS_UNIT_TYPE_MAP.put(CET_DISCUSS_UNIT_TYPE_OW, "党委组织部");
+        CET_DISCUSS_UNIT_TYPE_MAP.put(CET_DISCUSS_UNIT_TYPE_UNIT, "内设机构");
+        CET_DISCUSS_UNIT_TYPE_MAP.put(CET_DISCUSS_UNIT_TYPE_PARTY, "院系级党委");
+        CET_DISCUSS_UNIT_TYPE_MAP.put(CET_DISCUSS_UNIT_TYPE_PARTY_SCHOOL, "二级党校");
+    }
+
     // 培训类型， 1 专题培训 2 年度培训
     public final static byte CET_PROJECT_TYPE_ZT = 1;
     public final static byte CET_PROJECT_TYPE_ND = 2;

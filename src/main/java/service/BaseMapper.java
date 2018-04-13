@@ -80,6 +80,8 @@ import persistence.cet.CetExpertMapper;
 import persistence.cet.CetExpertViewMapper;
 import persistence.cet.CetPartyMapper;
 import persistence.cet.CetPartySchoolMapper;
+import persistence.cet.CetPartySchoolViewMapper;
+import persistence.cet.CetPartyViewMapper;
 import persistence.cet.CetPlanCourseMapper;
 import persistence.cet.CetPlanCourseObjMapper;
 import persistence.cet.CetPlanCourseObjResultMapper;
@@ -111,6 +113,7 @@ import persistence.cet.CetTraineeMapper;
 import persistence.cet.CetTraineeTypeMapper;
 import persistence.cet.CetTraineeViewMapper;
 import persistence.cet.CetUnitMapper;
+import persistence.cet.CetUnitViewMapper;
 import persistence.cet.common.ICetMapper;
 import persistence.cis.CisEvaluateMapper;
 import persistence.cis.CisInspectObjMapper;
@@ -367,6 +370,12 @@ public class BaseMapper {
     protected CetPartyMapper cetPartyMapper;
     @Autowired(required = false)
     protected CetPartySchoolMapper cetPartySchoolMapper;
+    @Autowired(required = false)
+    protected CetUnitViewMapper cetUnitViewMapper;
+    @Autowired(required = false)
+    protected CetPartyViewMapper cetPartyViewMapper;
+    @Autowired(required = false)
+    protected CetPartySchoolViewMapper cetPartySchoolViewMapper;
     @Autowired(required = false)
     protected CetProjectMapper cetProjectMapper;
     @Autowired(required = false)

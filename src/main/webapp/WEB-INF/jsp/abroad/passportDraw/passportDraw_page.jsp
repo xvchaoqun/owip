@@ -41,7 +41,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${type!=-1}">
                             <button data-url="${ctx}/abroad/passportDraw_au?type=${type}"

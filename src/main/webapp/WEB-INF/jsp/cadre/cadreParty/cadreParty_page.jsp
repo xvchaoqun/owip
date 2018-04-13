@@ -14,7 +14,7 @@
                 <div class="tabbable">
 
                     <div class="tab-content" style="padding: 0">
-                        <div id="home4" class="tab-pane in active rownumbers">
+                        <div class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
                                 <shiro:hasPermission name="cadreParty:edit">
                                     <a class="popupBtn btn btn-sm btn-success"

@@ -82,15 +82,15 @@
          </table>
          -->
         <!--二级党校-->
-        <table tableName="party_school" domainObjectName="partySchool.PartySchool"
+        <!--<table tableName="party_school" domainObjectName="partySchool.PartySchool"
                mapperName="partySchool.PartySchoolMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
 
-        <!--<table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
+        <table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
             <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!-- <table tableName="sys_config_login_msg" domainObjectName="sys.SysConfigLoginMsg" mapperName="sys.SysConfigLoginMsgMapper">
              <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
          </table>-->

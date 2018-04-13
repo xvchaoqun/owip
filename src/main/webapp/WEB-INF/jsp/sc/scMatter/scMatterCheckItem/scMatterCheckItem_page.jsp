@@ -14,7 +14,7 @@
             <div class="tabbable">
                 <jsp:include page="../scMatterCheck/menu.jsp"/>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="scMatterCheckItem:edit">
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"

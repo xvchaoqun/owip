@@ -1,8 +1,9 @@
 package controller.cet;
 
 import domain.cet.CetParty;
-import domain.cet.CetPartyExample;
-import domain.cet.CetPartyExample.Criteria;
+import domain.cet.CetPartyView;
+import domain.cet.CetPartyViewExample;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -62,8 +63,8 @@ public class CetPartyController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetPartyExample example = new CetPartyExample();
-        Criteria criteria = example.createCriteria();
+        CetPartyViewExample example = new CetPartyViewExample();
+        CetPartyViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("id desc");
 
         if (partyId!=null) {
@@ -77,12 +78,12 @@ public class CetPartyController extends CetBaseController {
             return;
         }
 
-        long count = cetPartyMapper.countByExample(example);
+        long count = cetPartyViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetParty> records= cetPartyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetPartyView> records= cetPartyViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -119,26 +120,49 @@ public class CetPartyController extends CetBaseController {
 
     @RequiresPermissions("cetParty:edit")
     @RequestMapping("/cetParty_au")
-    public String cetParty_au(Integer id, ModelMap modelMap) {
+    public String cetParty_au(Integer id,
+                              Integer partyId,
+                              ModelMap modelMap) {
 
         if (id != null) {
             CetParty cetParty = cetPartyMapper.selectByPrimaryKey(id);
             modelMap.put("cetParty", cetParty);
+
+            partyId = cetParty.getPartyId();
         }
+
+        if(partyId!=null)
+            modelMap.put("party", partyService.findAll().get(partyId));
+
         return "cet/cetParty/cetParty_au";
     }
 
-    @RequiresPermissions("cetParty:del")
-    @RequestMapping(value = "/cetParty_del", method = RequestMethod.POST)
+    @RequiresPermissions("cetParty:setAdmin")
+    @RequestMapping(value = "/cetParty_setAdmin", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetParty_del(HttpServletRequest request, Integer id) {
+    public Map do_cetParty_setAdmin(int id,
+                                          Integer userId,
+                                          HttpServletRequest request) {
 
-        if (id != null) {
+        cetPartyService.setAdmin(id, userId);
+        logger.info(addLog( SystemConstants.LOG_CET, "更新院系级党委管理员：%s, %s", id ,userId));
 
-            cetPartyService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除院系级党委：%s", id));
-        }
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetParty:setAdmin")
+    @RequestMapping("/cetParty_setAdmin")
+    public String cetParty_setAdmin(int id,
+                                          ModelMap modelMap) {
+
+        CetPartyView cetParty = cetPartyService.getView(id);
+        modelMap.put("cetParty", cetParty);
+
+        Integer userId = cetParty.getUserId();
+        if(userId!=null)
+            modelMap.put("sysUser", sysUserService.findById(userId));
+
+        return "cet/cetParty/cetParty_setAdmin";
     }
 
     @RequiresPermissions("cetParty:del")
@@ -155,14 +179,14 @@ public class CetPartyController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cetParty_export(CetPartyExample example, HttpServletResponse response) {
+    public void cetParty_export(CetPartyViewExample example, HttpServletResponse response) {
 
-        List<CetParty> records = cetPartyMapper.selectByExample(example);
+        List<CetPartyView> records = cetPartyViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"所属基层党组织|100","管理员|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetParty record = records.get(i);
+            CetPartyView record = records.get(i);
             String[] values = {
                 record.getPartyId()+"",
                             record.getUserId()+""
@@ -171,5 +195,59 @@ public class CetPartyController extends CetBaseController {
         }
         String fileName = "院系级党委_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    @RequestMapping("/cetParty_selects")
+    @ResponseBody
+    public Map cetParty_selects(Integer pageSize,
+                                      Integer pageNo,String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CetPartyViewExample example = new CetPartyViewExample();
+        CetPartyViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("party_is_deleted asc, sort_order desc");
+
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.andPartyNameLike("%" + searchStr + "%");
+        }
+
+        long count = cetPartyViewMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<CetPartyView> records = cetPartyViewMapper.selectByExampleWithRowbounds(example,
+                new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List options = new ArrayList<>();
+        if(null != records && records.size()>0){
+
+            for(CetPartyView record:records){
+
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", record.getPartyName());
+                option.put("id", record.getId() + "");
+                if(record.getUserId()!=null) {
+                    SysUserView uv = sysUserService.findById(record.getUserId());
+                    option.put("userId", uv.getId());
+                    option.put("realname", uv.getRealname());
+                    option.put("code", uv.getCode());
+                }
+                option.put("del", record.getPartyIsDeleted());
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
     }
 }

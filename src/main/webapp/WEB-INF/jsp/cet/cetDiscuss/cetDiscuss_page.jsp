@@ -1,98 +1,84 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="row">
-    <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
-        <div id="body-content" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.planId ||not empty param.name || not empty param.code || not empty param.sort}"/>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter smaller">
+            <a href="javascript:" class="openView btn btn-xs btn-success"
+               data-url="${ctx}/cet/cetProject_detail?projectId=${cetProjectPlan.projectId}">
+                <i class="ace-icon fa fa-backward"></i> 返回</a>
+        </h4>
+        <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
+                    ${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}
+                    （${cm:formatDate(cetProjectPlan.startDate, "yyyy-MM-dd")} ~ ${cm:formatDate(cetProjectPlan.endDate, "yyyy-MM-dd")}，${cetProject.name}）
+        </span>
+
+        <div class="widget-toolbar no-border">
+            <ul class="nav nav-tabs" id="detail-ul">
+                <li class="active">
+                    <a href="javascript:;">研讨会列表</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
+            <c:set var="_query"
+                   value="${not empty param.name || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="cetDiscuss:edit">
                     <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/cet/cetDiscuss_au">
-                        <i class="fa fa-plus"></i> 添加</button>
+                            data-url="${ctx}/cet/cetDiscuss_au?planId=${param.planId}">
+                        <i class="fa fa-plus"></i> 添加
+                    </button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cet/cetDiscuss_au"
-                       data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                        修改</button>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="cetDiscuss:del">
+                            data-url="${ctx}/cet/cetDiscuss_au"
+                            data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
+                        修改
+                    </button>
                     <button data-url="${ctx}/cet/cetDiscuss_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid"
+                            data-grid-id="#jqGrid2"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
                     </button>
-                </shiro:hasPermission>
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                   data-url="${ctx}/cet/cetDiscuss_data"
-                   data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>
-            </div>
-            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
-                <div class="widget-header">
-                    <h4 class="widget-title">搜索</h4>
-
-                    <div class="widget-toolbar">
-                        <a href="#" data-action="collapse">
-                            <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="widget-body">
-                    <div class="widget-main no-padding">
-                        <form class="form-inline search-form" id="searchForm">
-                        <div class="form-group">
-                            <label>所属培训方案</label>
-                            <input class="form-control search-query" name="planId" type="text" value="${param.planId}"
-                                   placeholder="请输入所属培训方案">
-                        </div>
-                        <div class="form-group">
-                            <label>研讨会名称</label>
-                            <input class="form-control search-query" name="name" type="text" value="${param.name}"
-                                   placeholder="请输入研讨会名称">
-                        </div>
-                            <div class="clearfix form-actions center">
-                                <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/cet/cetDiscuss"
-                                   data-target="#page-content"
-                                   data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
-                                <c:if test="${_query}">&nbsp;
-                                    <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/cet/cetDiscuss"
-                                            data-target="#page-content">
-                                        <i class="fa fa-reply"></i> 重置
-                                    </button>
-                                </c:if>
-                            </div>
-                        </form>
-                    </div>
-                </div>
             </div>
             <div class="space-4"></div>
-            <table id="jqGrid" class="jqGrid table-striped"></table>
-            <div id="jqGridPager"></div>
+            <table id="jqGrid2" class="jqGrid2 table-striped"></table>
+            <div id="jqGridPager2"></div>
         </div>
         <div id="body-content-view"></div>
     </div>
 </div>
 <script>
-    $("#jqGrid").jqGrid({
+    $("#jqGrid2").jqGrid({
+        rownumbers:true,
+        pager: "jqGridPager2",
         url: '${ctx}/cet/cetDiscuss_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '所属培训方案',name: 'planId'},
-            { label: '开始日期',name: 'startDate'},
-            { label: '结束日期',name: 'endDate'},
-            { label: '研讨会名称',name: 'name'},
-            { label: '负责单位类型',name: 'unitType'},
-            { label: '学时',name: 'period'},
-            { label: '排序',name: 'sortOrder'},
-            { label: '备注',name: 'remark'}
+            {
+                label: '分组详情', name: '_detail', width: '80', formatter: function (cellvalue, options, rowObject) {
+                return ('<button class="openView btn btn-success btn-xs" ' +
+                'data-url="${ctx}/cet/cetDiscussGroup?discussId={0}"><i class="fa fa-search"></i> 详情</button>')
+                        .format(rowObject.id);
+            }, frozen: true},
+            {label: '开始日期', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {label: '结束日期', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
+            {
+                label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
+                formatoptions: {grid:'#jqGrid2', url: "${ctx}/cet/cetDiscuss_changeOrder"}, frozen: true
+            },
+            {label: '研讨会名称', name: 'name', width:300},
+            {label: '负责单位', name: 'unitType', formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return '-'
+                return _cMap.CET_DISCUSS_UNIT_TYPE_MAP[cellvalue]
+            } },
+            {label: '学时', name: 'period'},
+            {label: '备注', name: 'remark', width:300}
         ]
     }).jqGrid("setFrozenColumns");
-    $(window).triggerHandler('resize.jqGrid');
-    $.initNavGrid("jqGrid", "jqGridPager");
-    $('#searchForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
+    $(window).triggerHandler('resize.jqGrid2');
+    $.initNavGrid("jqGrid2", "jqGridPager2");
+    //$('#searchForm [data-rel="select2"]').select2();
+    //$('[data-rel="tooltip"]').tooltip();
 </script>

@@ -50,6 +50,7 @@ public class PartyMemberController extends BaseController {
     @RequiresPermissions("partyMember:list")
     @RequestMapping("/partyMember")
     public String partyMember(Integer groupId,
+                              Integer partyId,
                               @RequestParam(required = false, defaultValue = "0") int export,
                               HttpServletResponse response,
                               Integer userId, ModelMap modelMap) throws IOException {
@@ -66,6 +67,9 @@ public class PartyMemberController extends BaseController {
         if (userId != null) {
             SysUserView sysUser = sysUserService.findById(userId);
             modelMap.put("sysUser", sysUser);
+        }
+        if (partyId != null) {
+            modelMap.put("party", partyService.findAll().get(partyId));
         }
         /*if (typeIds!=null) {
             List<Integer> _typeIds = Arrays.asList(typeIds);

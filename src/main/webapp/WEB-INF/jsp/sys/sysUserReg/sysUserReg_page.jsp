@@ -24,7 +24,7 @@
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <div id="home4" class="tab-pane in active">
+                        <div class="tab-pane in active">
                             <div class="jqgrid-vertical-offset buttons">
                                 <c:if test="${cls==1}">
                                 <shiro:hasPermission name="sysUserReg:edit">
@@ -197,5 +197,5 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     $('[data-rel="select2"]').select2();
     $.register.user_select($('#searchForm select[name=userId]'));
-    $.register.party_select($('#searchForm select[name=partyId]'));
+    $.register.del_select($('#searchForm select[name=partyId]'));
 </script>

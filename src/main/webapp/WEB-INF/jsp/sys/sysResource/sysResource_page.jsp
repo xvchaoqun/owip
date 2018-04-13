@@ -15,7 +15,7 @@
                 </li>
             </ul>
             <div class="tab-content">
-                <div id="home4" class="tab-pane in active">
+                <div class="tab-pane in active">
                     <table id="jqGrid" class="jqGrid table-striped"></table>
                 </div>
             </div>

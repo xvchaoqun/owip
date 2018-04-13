@@ -1134,6 +1134,76 @@ public class SysConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andMobileTitleIsNull() {
+            addCriterion("mobile_title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleIsNotNull() {
+            addCriterion("mobile_title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleEqualTo(String value) {
+            addCriterion("mobile_title =", value, "mobileTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleNotEqualTo(String value) {
+            addCriterion("mobile_title <>", value, "mobileTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleGreaterThan(String value) {
+            addCriterion("mobile_title >", value, "mobileTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("mobile_title >=", value, "mobileTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleLessThan(String value) {
+            addCriterion("mobile_title <", value, "mobileTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleLessThanOrEqualTo(String value) {
+            addCriterion("mobile_title <=", value, "mobileTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleLike(String value) {
+            addCriterion("mobile_title like", value, "mobileTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleNotLike(String value) {
+            addCriterion("mobile_title not like", value, "mobileTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleIn(List<String> values) {
+            addCriterion("mobile_title in", values, "mobileTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleNotIn(List<String> values) {
+            addCriterion("mobile_title not in", values, "mobileTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleBetween(String value1, String value2) {
+            addCriterion("mobile_title between", value1, value2, "mobileTitle");
+            return (Criteria) this;
+        }
+
+        public Criteria andMobileTitleNotBetween(String value1, String value2) {
+            addCriterion("mobile_title not between", value1, value2, "mobileTitle");
+            return (Criteria) this;
+        }
+
         public Criteria andLogoIsNull() {
             addCriterion("logo is null");
             return (Criteria) this;
@@ -1481,6 +1551,146 @@ public class SysConfigExample {
 
         public Criteria andLoginTopBgColorNotBetween(String value1, String value2) {
             addCriterion("login_top_bg_color not between", value1, value2, "loginTopBgColor");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconIsNull() {
+            addCriterion("apple_icon is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconIsNotNull() {
+            addCriterion("apple_icon is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconEqualTo(String value) {
+            addCriterion("apple_icon =", value, "appleIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconNotEqualTo(String value) {
+            addCriterion("apple_icon <>", value, "appleIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconGreaterThan(String value) {
+            addCriterion("apple_icon >", value, "appleIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconGreaterThanOrEqualTo(String value) {
+            addCriterion("apple_icon >=", value, "appleIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconLessThan(String value) {
+            addCriterion("apple_icon <", value, "appleIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconLessThanOrEqualTo(String value) {
+            addCriterion("apple_icon <=", value, "appleIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconLike(String value) {
+            addCriterion("apple_icon like", value, "appleIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconNotLike(String value) {
+            addCriterion("apple_icon not like", value, "appleIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconIn(List<String> values) {
+            addCriterion("apple_icon in", values, "appleIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconNotIn(List<String> values) {
+            addCriterion("apple_icon not in", values, "appleIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconBetween(String value1, String value2) {
+            addCriterion("apple_icon between", value1, value2, "appleIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppleIconNotBetween(String value1, String value2) {
+            addCriterion("apple_icon not between", value1, value2, "appleIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconIsNull() {
+            addCriterion("screen_icon is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconIsNotNull() {
+            addCriterion("screen_icon is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconEqualTo(String value) {
+            addCriterion("screen_icon =", value, "screenIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconNotEqualTo(String value) {
+            addCriterion("screen_icon <>", value, "screenIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconGreaterThan(String value) {
+            addCriterion("screen_icon >", value, "screenIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconGreaterThanOrEqualTo(String value) {
+            addCriterion("screen_icon >=", value, "screenIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconLessThan(String value) {
+            addCriterion("screen_icon <", value, "screenIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconLessThanOrEqualTo(String value) {
+            addCriterion("screen_icon <=", value, "screenIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconLike(String value) {
+            addCriterion("screen_icon like", value, "screenIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconNotLike(String value) {
+            addCriterion("screen_icon not like", value, "screenIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconIn(List<String> values) {
+            addCriterion("screen_icon in", values, "screenIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconNotIn(List<String> values) {
+            addCriterion("screen_icon not in", values, "screenIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconBetween(String value1, String value2) {
+            addCriterion("screen_icon between", value1, value2, "screenIcon");
+            return (Criteria) this;
+        }
+
+        public Criteria andScreenIconNotBetween(String value1, String value2) {
+            addCriterion("screen_icon not between", value1, value2, "screenIcon");
             return (Criteria) this;
         }
 

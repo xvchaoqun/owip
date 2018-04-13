@@ -14,7 +14,7 @@
     </ul>
 
     <div class="tab-content">
-        <div id="home4" class="tab-pane in active">
+        <div class="tab-pane in active">
             <div class="widget-box">
                 <div class="widget-header">
                     <h4 class="smaller" style="font-size: larger;font-weight: bolder">

@@ -21,7 +21,7 @@
                 </ul>
                 </c:if>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active rownumbers">
+                    <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${module==2}">
                             <c:if test="${isFinished==0}">

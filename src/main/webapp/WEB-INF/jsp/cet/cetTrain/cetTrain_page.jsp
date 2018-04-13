@@ -133,6 +133,7 @@
         $("#jqGrid2").trigger("reloadGrid");
     }
     $("#jqGrid2").jqGrid({
+        rownumbers:true,
         pager: "jqGridPager2",
         url: '${ctx}/cet/cetTrain_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [

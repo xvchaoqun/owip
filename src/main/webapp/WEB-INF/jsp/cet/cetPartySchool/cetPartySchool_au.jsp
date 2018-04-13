@@ -8,18 +8,18 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetPartySchool_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetPartySchool.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label">所属二级党校</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="partySchoolId" value="${cetPartySchool.partySchoolId}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">管理员</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="userId" value="${cetPartySchool.userId}">
-				</div>
-			</div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">所属二级党校</label>
+                <div class="col-xs-6">
+                    <select name="partySchoolId" data-rel="select2-ajax" data-ajax-url="${ctx}/partySchool_selects?isHistory=0"
+                            data-placeholder="请选择所属二级党校">
+                        <option value="${partySchool.id}" title="${partySchool.isHistory}">${partySchool.name}</option>
+                    </select>
+                    <script>
+                        $.register.del_select($("#modalForm select[name=partySchoolId]"), 350)
+                    </script>
+                </div>
+            </div>
     </form>
 </div>
 <div class="modal-footer">
@@ -41,7 +41,4 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    $("#modalForm :checkbox").bootstrapSwitch();
-    $('#modalForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
 </script>

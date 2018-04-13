@@ -17,34 +17,25 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">设立日期</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="foundDate" value="${partySchool.foundDate}">
+                    <input  class="form-control date-picker required" name="foundDate"
+                            type="text" data-date-format="yyyy-mm-dd"
+                            value="${cm:formatDate(partySchool.foundDate, "yyyy-MM-dd")}"/>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">排序</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="sortOrder" value="${partySchool.sortOrder}">
-				</div>
-			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="remark" value="${partySchool.remark}">
+                    <textarea class="form-control limited" name="remark">${partySchool.remark}</textarea>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">状态</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="status" value="${partySchool.status}">
-				</div>
-			</div>
+
     </form>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${partySchool!=null}">确定</c:if><c:if test="${partySchool==null}">添加</c:if></button>
 </div>
-
 <script>
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
@@ -59,7 +50,6 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    $("#modalForm :checkbox").bootstrapSwitch();
-    $('#modalForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
+    $.register.date($('.date-picker'));
+    $('textarea.limited').inputlimiter();
 </script>

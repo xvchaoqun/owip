@@ -14,7 +14,7 @@
             <div class="tabbable">
                 <jsp:include page="../cetCourse/menu.jsp"/>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="cetColumn:edit">
                                 <a class="popupBtn btn btn-success btn-sm"

@@ -17,7 +17,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <a class="editBtn btn btn-success btn-sm"><i class="fa fa-plus"></i> 添加保险柜</a>
                             <button class="jqEditBtn btn btn-primary btn-sm">

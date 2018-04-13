@@ -20,7 +20,7 @@
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <div class="space-4"></div>
                         <c:if test="${type==1}">
                         <div class="buttons" style="position: absolute; top:35px;">

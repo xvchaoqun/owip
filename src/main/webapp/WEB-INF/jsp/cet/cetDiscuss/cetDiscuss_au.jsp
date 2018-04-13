@@ -8,24 +8,33 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetDiscuss_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetDiscuss.id}">
-			<div class="form-group">
-				<label class="col-xs-3 control-label">所属培训方案</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="planId" value="${cetDiscuss.planId}">
+		<input type="hidden" name="planId" value="${planId}">
+		<div class="form-group">
+			<label class="col-xs-3 control-label">开始日期</label>
+			<div class="col-xs-6">
+				<div class="input-group">
+					<input required class="form-control date-picker" name="startDate"
+						   type="text"
+						   data-date-format="yyyy-mm-dd"
+						   value="${cm:formatDate(cetDiscuss.startDate,'yyyy-MM-dd')}"/>
+                                            <span class="input-group-addon"> <i
+													class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">开始日期</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="startDate" value="${cetDiscuss.startDate}">
+		</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">结束日期</label>
+			<div class="col-xs-6">
+				<div class="input-group">
+					<input required class="form-control date-picker" name="endDate"
+						   type="text"
+						   data-date-format="yyyy-mm-dd"
+						   value="${cm:formatDate(cetDiscuss.endDate,'yyyy-MM-dd')}"/>
+                                            <span class="input-group-addon"> <i
+													class="fa fa-calendar bigger-110"></i></span>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">结束日期</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="endDate" value="${cetDiscuss.endDate}">
-				</div>
-			</div>
+		</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">研讨会名称</label>
 				<div class="col-xs-6">
@@ -35,25 +44,29 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">负责单位类型</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="unitType" value="${cetDiscuss.unitType}">
+					<select required data-rel="select2" name="unitType" data-placeholder="请选择" data-width="272">
+						<option></option>
+						<c:forEach items="${CET_DISCUSS_UNIT_TYPE_MAP}" var="entity">
+						<option value="${entity.key}">${entity.value}</option>
+						</c:forEach>
+					</select>
+					<script type="text/javascript">
+						$("#modalForm select[name=unitType]").val(${cetDiscuss.unitType});
+					</script>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">学时</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="period" value="${cetDiscuss.period}">
+                        <input required class="form-control period" type="text" name="period" value="${cetDiscuss.period}">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">排序</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="sortOrder" value="${cetDiscuss.sortOrder}">
-				</div>
-			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="remark" value="${cetDiscuss.remark}">
+                       <textarea class="form-control limited"
+								 name="remark">${cetDiscuss.remark}</textarea>
 				</div>
 			</div>
     </form>
@@ -71,13 +84,15 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
-                        $("#jqGrid").trigger("reloadGrid");
+                        $("#jqGrid2").trigger("reloadGrid");
                     }
                 }
             });
         }
     });
-    $("#modalForm :checkbox").bootstrapSwitch();
+	$('textarea.limited').inputlimiter();
+	$.register.date($('.date-picker'));
+    //$("#modalForm :checkbox").bootstrapSwitch();
     $('#modalForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
+    //$('[data-rel="tooltip"]').tooltip();
 </script>

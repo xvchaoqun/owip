@@ -67,7 +67,7 @@ public class CetProjectPlanController extends CetBaseController {
 
         CetProjectPlanExample example = new CetProjectPlanExample();
         Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
 
         if (type!=null) {
             criteria.andTypeEqualTo(type);
@@ -150,6 +150,7 @@ public class CetProjectPlanController extends CetBaseController {
 
         byte type = cetProjectPlan.getType();
         switch (type){
+
             case CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE: // 线下培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
                 return "forward:/cet/cetTrain";
@@ -161,6 +162,9 @@ public class CetProjectPlanController extends CetBaseController {
             case CetConstants.CET_PROJECT_PLAN_TYPE_WRITE:
                 Integer projectId = cetProjectPlan.getProjectId();
                 return "forward:/cet/cetProject_detail/obj?cls=4&projectId="+projectId + "&planId="+planId;
+
+            case CetConstants.CET_PROJECT_PLAN_TYPE_GROUP: // 分组研讨
+                return "forward:/cet/cetDiscuss";
         }
 
         return null;

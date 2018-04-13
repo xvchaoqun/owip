@@ -21,7 +21,7 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div id="home4" class="tab-pane in active">
+                    <div class="tab-pane in active">
                         <c:if test="${cls==1}">
                             <div class="jqgrid-vertical-offset buttons">
                                 <button id="assinBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
