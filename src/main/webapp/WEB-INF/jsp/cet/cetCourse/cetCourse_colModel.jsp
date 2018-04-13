@@ -53,18 +53,18 @@
   </c:if>
   <c:if test="${param.type==CET_COURSE_TYPE_SELF}">
   var colModel = [
-      {label: '编号', name: 'sn'},
-      {label: '设立时间', name: 'foundDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-      {label: '名称', name: 'name', width: 300, align: 'left'},
+      {label: '编号', name: 'sn', frozen:true},
+      {label: '设立时间', name: 'foundDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
+      {label: '名称', name: 'name', width: 300, align: 'left', frozen:true},
       {label: '学习内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
         return ('<button type="button" data-url="${ctx}/cet/cetCourseFile?courseId={0}" ' +
                 'class="popupBtn btn btn-xs btn-success"><i class="ace-icon fa fa-search"></i> 详情</button>')
                 .format(rowObject.id)
-      }},
+      }, frozen:true},
       <c:if test="${param.list=='admin'}">
       {
           label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
-          formatoptions: {url: "${ctx}/cet/cetCourse_changeOrder"}
+          formatoptions: {url: "${ctx}/cet/cetCourse_changeOrder"}, frozen:true
       },
       </c:if>
       {label: '学时', name: 'period', width: 70},
@@ -76,13 +76,13 @@
       {label: '编号', name: 'sn', frozen:true},
       {label: '设立时间', name: 'foundDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
       {label: '实践教学名称', name: 'name', width: 300, align: 'left', frozen:true},
-      {label: '实践教学地点', name: 'address', width: 300, align: 'left', frozen:true},
       <c:if test="${param.list=='admin'}">
       {
           label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
-          formatoptions: {url: "${ctx}/cet/cetCourse_changeOrder"}
+          formatoptions: {url: "${ctx}/cet/cetCourse_changeOrder"}, frozen:true
       },
       </c:if>
+      {label: '实践教学地点', name: 'address', width: 300, align: 'left'},
       {label: '学时', name: 'period', width: 70},
       {label: '备注', name: 'remark', width: 400}
   ]
@@ -92,13 +92,13 @@
       {label: '编号', name: 'sn', frozen:true},
       {label: '设立时间', name: 'foundDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
       {label: ' 网上专题培训班名称', name: 'name', width: 300, align: 'left', frozen:true},
-      {label: ' 上级单位名称', name: 'address', width: 300, align: 'left', frozen:true},
       <c:if test="${param.list=='admin'}">
       {
           label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
-          formatoptions: {url: "${ctx}/cet/cetCourse_changeOrder"}
+          formatoptions: {url: "${ctx}/cet/cetCourse_changeOrder"}, frozen:true
       },
       </c:if>
+      {label: ' 上级单位名称', name: 'address', width: 300, align: 'left'},
       {label: '总学时', name: 'totalPeriod', width: 80},
       {label: '专题班', name: '_items', width: 80, formatter: function (cellvalue, options, rowObject) {
           return ('<button type="button" data-url="${ctx}/cet/cetCourseItem?courseId={0}" ' +
