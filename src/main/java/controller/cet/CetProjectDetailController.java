@@ -47,6 +47,7 @@ public class CetProjectDetailController extends CetBaseController {
                                          *  cls=3 培训方案选择学员
                                          *  cls=4 撰写心得体会
                                          *  cls=5 设置小组成员（分组讨论）
+                                         *  cls=6 自主学习
                                          */
                             @RequestParam(defaultValue = "1") Integer cls, // 同 /cetProjectObj 的cls
                             Integer trainCourseId, // 培训班选课

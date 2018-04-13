@@ -65,6 +65,7 @@ public class CetCourseController extends CetBaseController {
     public void cetCourse_data(HttpServletResponse response,
                                     byte type,
                                     String name,
+                                    @RequestParam(defaultValue = "1") Integer cls,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -80,6 +81,8 @@ public class CetCourseController extends CetBaseController {
         CetCourseExample example = new CetCourseExample();
         Criteria criteria = example.createCriteria().andTypeEqualTo(type);
         example.setOrderByClause("sort_order desc");
+
+        criteria.andIsDeletedEqualTo(cls==4);
 
         if (StringUtils.isNotBlank(name)) {
             criteria.andNameLike("%" + name + "%");
@@ -213,6 +216,22 @@ public class CetCourseController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresPermissions("cetCourse:del")
+    @RequestMapping(value = "/cetCourse_fakeDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cetCourse_fakeDel(HttpServletRequest request,
+                                 boolean del,
+                                 @RequestParam(value = "ids[]") Integer[] ids,
+                                 ModelMap modelMap) {
+
+
+        if (null != ids && ids.length>0){
+            cetCourseService.fakeDel(ids, del);
+            logger.info(addLog( SystemConstants.LOG_CET, "批量假删除课程中心：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
     @RequiresPermissions("cetCourse:del")
     @RequestMapping(value = "/cetCourse_batchDel", method = RequestMethod.POST)
     @ResponseBody

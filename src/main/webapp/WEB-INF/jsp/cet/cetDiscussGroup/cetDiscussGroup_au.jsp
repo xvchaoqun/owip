@@ -26,7 +26,7 @@ pageEncoding="UTF-8"%>
 						<option value="${holdUser.id}">${holdUser.realname}-${holdUser.code}</option>
 					</select>
 					<script>
-						$.register.user_select($("#modalForm select[name=holdUserId]"))
+						$.register.user_select($("#modalForm select[name=holdUserId]"), {allowClear:false})
 					</script>
 				</div>
 			</div>
@@ -47,6 +47,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">负责单位</label>
 				<div class="col-xs-6">
+				<c:set var="realname" value=""/>
 				<c:if test="${cetDiscuss.unitType==CET_DISCUSS_UNIT_TYPE_UNIT}">
 					<c:set var="cetUnit" value="${cetDiscussGroup.cetUnit}"/>
 					<c:set var="realname" value="${cetUnit.user.realname}"/>
@@ -61,7 +62,9 @@ pageEncoding="UTF-8"%>
 					<c:set var="realname" value="${cetParty.user.realname}"/>
 					<select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetParty_selects"
 							data-placeholder="请选择院系级党委">
-						<option value="${cetParty.id}" title="${cetParty.partyIsDeleted}">${cetParty.partyName}</option>
+						<option value="${cetParty.id}"
+								realname="${realname}"
+								title="${cetParty.partyIsDeleted}">${cetParty.partyName}</option>
 					</select>
 				</c:if>
 				<c:if test="${cetDiscuss.unitType==CET_DISCUSS_UNIT_TYPE_PARTY_SCHOOL}">
@@ -70,6 +73,7 @@ pageEncoding="UTF-8"%>
 					<select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetPartySchool_selects"
 							data-placeholder="请选择二级党校">
 						<option value="${cetPartySchool.id}"
+								realname="${realname}"
 								title="${cetPartySchool.partySchoolIsHistory}">${cetPartySchool.partySchoolName}</option>
 					</select>
 				</c:if>
@@ -97,15 +101,16 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-	var $unitSelect = $.register.del_select($("#modalForm select[name=unitId]"), 272);
+	var $unitSelect = $.register.del_select($("#modalForm select[name=unitId]"), {width:272, allowClear:false});
 	$unitSelect.on("change",function(){
+		var admin = $(this).select2("data")[0];
+		if(admin==undefined) return ;
 		var userId = $(this).select2("data")[0]['userId'] || '';
 		var realname = $(this).select2("data")[0]['realname'] || '';
 		console.log(userId + "  " + realname)
 		$("#unitAdmin").html(realname);
 		$("#modalForm input[name=adminUserId]").val(userId);
-	}).change();
-	$unitSelect.trigger("change");
+	});
 
 	$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({

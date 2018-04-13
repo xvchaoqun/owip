@@ -47,6 +47,7 @@ public class CetPartySchoolService extends BaseMapper {
         if(oldUserId!=null){
             if(userId!=null && userId.intValue()==oldUserId) return ;
 
+            commonMapper.excuteSql("update cet_party_school set user_id=null where id=" + id);
             // 删除原管理员权限
             sysUserService.delRole(oldUserId, RoleConstants.ROLE_CET_ADMIN_PS);
         }

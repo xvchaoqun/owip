@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:if test="${cls==2 || cls==3 || cls==4 || cls==5}">
+<c:if test="${cls>1}">
     <div class="widget-box transparent">
     <div class="widget-header">
         <c:if test="${cls==2}">
@@ -22,7 +22,7 @@
             </ul>
         </div>
         </c:if>
-        <c:if test="${cls==3}">
+        <c:if test="${cls==3 || cls==6}">
         <h4 class="widget-title lighter smaller">
             <a href="javascript:;" class="openView btn btn-xs btn-success"
                     data-url="${ctx}/cet/cetProjectPlan_detail?planId=${cetPlanCourse.planId}">
@@ -102,7 +102,7 @@
 <div class="col-xs-12" id="detail-content-view">
     <c:import url="${ctx}/cet/cetProjectObj"/>
 </div>
-<c:if test="${cls==2 || cls==3 || cls==4 || cls==5}">
+<c:if test="${cls>1}">
     </div>
     </div>
     </div>

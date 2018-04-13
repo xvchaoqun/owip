@@ -1,4 +1,30 @@
 
+
+
+ALTER TABLE `cet_plan_course`
+	ADD CONSTRAINT `FK_cet_plan_course_cet_course` FOREIGN KEY (`course_id`) REFERENCES `cet_course` (`id`);
+
+	ALTER TABLE `cet_plan_course_obj_result`
+	ADD CONSTRAINT `FK_cet_plan_course_obj_result_cet_course_item` FOREIGN KEY (`course_item_id`) REFERENCES `cet_course_item` (`id`) ON DELETE RESTRICT;
+
+
+ALTER TABLE `cet_train_course`
+	ADD CONSTRAINT `FK_cet_train_course_cet_course` FOREIGN KEY (`course_id`) REFERENCES `cet_course` (`id`);
+
+	ALTER TABLE `cet_train_course_file`
+	ADD CONSTRAINT `FK_cet_train_course_file_cet_train_course` FOREIGN KEY (`train_course_id`) REFERENCES `cet_train_course` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `cet_course_file`
+	CHANGE COLUMN `file_name` `file_name` VARCHAR(200) NOT NULL COMMENT '学习材料名称' AFTER `course_id`,
+	ADD COLUMN `has_paper` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '发放纸质学习材料' AFTER `file_path`;
+
+ALTER TABLE `cet_plan_course`
+	ADD COLUMN `need_note` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否要求上传学习心得，针对自主学习' AFTER `end_time`;
+
+	ALTER TABLE `cet_plan_course_obj`
+	ADD COLUMN `note` VARCHAR(200) NULL COMMENT '学习心得，针对自主学习' AFTER `obj_id`,
+	CHANGE COLUMN `is_finished` `is_finished` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否结业，针对上级网上专题班，是否完成，针对自主学习' AFTER `num`;
+
 2018-4-13
 新建
 party_school

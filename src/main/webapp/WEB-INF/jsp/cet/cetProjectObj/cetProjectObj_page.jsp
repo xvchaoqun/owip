@@ -76,32 +76,33 @@
             <i class="fa fa-history"></i> 操作记录
         </button>
     </c:if>
-    <c:if test="${cls==3}">
+    <c:if test="${cls==3 || cls==6}">
     <button data-url="${ctx}/cet/cetPlanCourse_selectObjs?select=1&planCourseId=${param.planCourseId}"
             data-title="选择学员"
             data-msg="确定将这{0}个学员设置为学员？"
             data-grid-id="#jqGrid2"
             data-callback="_callback2"
-            class="jqBatchBtn btn btn-primary btn-sm">
-        <i class="fa fa-check"></i> 选择学员
+            class="jqBatchBtn btn btn-success btn-sm">
+        <i class="fa fa-plus"></i> 选择学员
     </button>
     <button data-url="${ctx}/cet/cetPlanCourse_selectObjs?select=0&planCourseId=${param.planCourseId}"
             data-title="取消选择"
             data-msg="确定将这{0}个学员取消选择？"
             data-grid-id="#jqGrid2"
             data-callback="_callback2"
-            class="jqBatchBtn btn btn-danger btn-sm">
-        <i class="fa fa-times"></i> 取消选择
+            class="jqBatchBtn btn btn-warning btn-sm">
+        <i class="fa fa-minus"></i> 取消选择
     </button>
-    <button class="popupBtn btn btn-primary btn-sm tooltip-success"
-                data-url="${ctx}/cet/cetPlanCourseObjResult_import?planCourseId=${param.planCourseId}"
-                data-rel="tooltip" data-placement="top"
-            title="从Excel中导入上传学习情况"><i class="fa fa-upload"></i> 上传学习情况</button>
-    <button id="resultEditBtn" class="jqOpenViewBtn btn btn-info btn-sm"
-                data-grid-id="#jqGrid2"
-                data-id-name="objId"
-                data-url="${ctx}/cet/cetPlanCourseObjResult_au?planCourseId=${param.planCourseId}">
-            <i class="fa fa-edit"></i> 编辑学习情况</button>
+        <c:if test="${cls==3}">
+        <button class="popupBtn btn btn-primary btn-sm tooltip-success"
+                    data-url="${ctx}/cet/cetPlanCourseObjResult_import?planCourseId=${param.planCourseId}"
+                    data-rel="tooltip" data-placement="top"
+                title="从Excel中导入上传学习情况"><i class="fa fa-upload"></i> 上传学习情况</button>
+        <button id="resultEditBtn" class="jqOpenViewBtn btn btn-info btn-sm"
+                    data-grid-id="#jqGrid2"
+                    data-id-name="objId"
+                    data-url="${ctx}/cet/cetPlanCourseObjResult_au?planCourseId=${param.planCourseId}">
+                <i class="fa fa-edit"></i> 编辑学习情况</button>
         <button data-url="${ctx}/cet/cetPlanCourseObjResult_clear?planCourseId=${param.planCourseId}"
                 data-title="清除学习情况"
                 data-msg="确定清除这{0}个学员的学习情况？"
@@ -110,6 +111,32 @@
                 class="jqBatchBtn btn btn-warning btn-sm">
             <i class="fa fa-eraser"></i> 清除学习情况
         </button>
+        </c:if>
+        <c:if test="${cls==6}">
+            <button data-url="${ctx}/cet/cetPlanCourseObj_finish?finish=1&planCourseId=${param.planCourseId}"
+                    data-title="完成自学"
+                    data-msg="确定将这{0}个学员设置为已完成自学？（仅对已选学员有效）"
+                    data-grid-id="#jqGrid2"
+                    data-callback="_callback2"
+                    class="jqBatchBtn btn btn-primary btn-sm">
+                <i class="fa fa-check"></i> 完成自学
+            </button>
+            <button data-url="${ctx}/cet/cetPlanCourseObj_finish?finish=0&planCourseId=${param.planCourseId}"
+                    data-title="未完成自学"
+                    data-msg="确定将这{0}个学员修改为未完成自学？（仅对已选学员有效）"
+                    data-grid-id="#jqGrid2"
+                    data-callback="_callback2"
+                    class="jqBatchBtn btn btn-danger btn-sm">
+                <i class="fa fa-times"></i> 未完成自学
+            </button>
+            <c:if test="${cetPlanCourse.needNote}">
+            <button id="uploadNoteBtn" class="jqOpenViewBtn btn btn-info btn-sm tooltip-success"
+                    data-url="${ctx}/cet/cetPlanCourseObj_uploadNote?planCourseId=${param.planCourseId}"
+                    data-grid-id="#jqGrid2"
+                    data-rel="tooltip" data-placement="top"
+                    title="上传学习心得"><i class="fa fa-upload"></i> 上传学习心得</button>
+            </c:if>
+        </c:if>
     </c:if>
     <c:if test="${cls==4}">
     <button class="jqOpenViewBtn btn btn-primary btn-sm tooltip-success"
@@ -329,6 +356,22 @@
                 return $.trim(rowObject.objInfo.planCourseObjId)
             }},
             </c:if>
+            <c:if test="${cls==6}">
+            { label: '学习情况',name: 'objInfo.isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
+                return cellvalue?"已完成":"正在进行"
+            },frozen: true},
+            <c:if test="${cetPlanCourse.needNote}">
+            { label: '学习心得',name: 'objInfo.note', width: 80, formatter: function (cellvalue, options, rowObject) {
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
+                return ($.trim(cellvalue)=='')?"未上传": $.swfPreview(cellvalue,
+                        "学习心得({0})".format(rowObject.realname), '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
+            },frozen: true},
+            </c:if>
+            {name:'planCourseObjId', hidden:true, formatter: function (cellvalue, options, rowObject){
+                return $.trim(rowObject.objInfo.planCourseObjId)
+            },frozen: true},
+            </c:if>
             <c:if test="${cls==4}">
             {
                 label: '心得体会', width: 200, formatter: function (cellvalue, options, rowObject) {
@@ -448,7 +491,7 @@
     function _onSelectRow(grid) {
         var ids = $(grid).getGridParam("selarrrow");
         if (ids.length > 1) {
-            $("#logBtn,#resultEditBtn").prop("disabled", true);
+            $("#logBtn,#resultEditBtn, #uploadNoteBtn").prop("disabled", true);
             return;
         }
         var rowData = $(grid).getRowData(ids[0]);
@@ -456,7 +499,7 @@
         $("#logBtn").prop("disabled", $.trim(traineeId)=='');
         var planCourseObjId = rowData.planCourseObjId;
         //console.log("planCourseObjId="+ $.trim(planCourseObjId))
-        $("#resultEditBtn").prop("disabled", $.trim(planCourseObjId)=='');
+        $("#resultEditBtn,#uploadNoteBtn").prop("disabled", $.trim(planCourseObjId)=='');
 
         var querystr = "&displayType=1&hideStatus=1&type=${SYS_APPROVAL_LOG_TYPE_CET_TRAINEE}&id="+traineeId;
         $("#logBtn").data("querystr", querystr);

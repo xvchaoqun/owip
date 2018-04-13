@@ -9,7 +9,7 @@
     <form class="form-horizontal" action="${ctx}/cet/cetPlanCourse_info" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetPlanCourse.id}">
         <div class="form-group" id="_startTime">
-            <label class="col-xs-3 control-label">开始时间</label>
+            <label class="col-xs-4 control-label">开始时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input class="form-control datetime-picker" required type="text" name="startTime"
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="form-group" id="_endTime">
-            <label class="col-xs-3 control-label">结束时间</label>
+            <label class="col-xs-4 control-label">结束时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
                     <input class="form-control datetime-picker" required type="text" name="endTime"
@@ -32,6 +32,15 @@
                 </div>
             </div>
         </div>
+        <c:if test="${cetProjectPlan.type == CET_PROJECT_PLAN_TYPE_SELF}">
+        <div class="form-group">
+            <label class="col-xs-4 control-label">是否要求上传学习心得</label>
+            <div class="col-xs-6">
+                <input type="checkbox" class="big"
+                       name="needNote" ${(cetPlanCourse.needNote)?"checked":""}/>
+            </div>
+        </div>
+         </c:if>
     </form>
 </div>
 <div class="modal-footer">
@@ -40,6 +49,7 @@
 </div>
 
 <script>
+    $("#modalForm :checkbox").bootstrapSwitch();
     $.register.datetime($('.datetime-picker'));
     $("#modalForm").validate({
         submitHandler: function (form) {

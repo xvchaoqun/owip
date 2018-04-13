@@ -3,7 +3,9 @@ package controller.cet;
 import domain.cet.CetPlanCourseObj;
 import domain.cet.CetPlanCourseObjExample;
 import domain.cet.CetPlanCourseObjExample.Criteria;
+import domain.cet.CetProjectObj;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -126,6 +129,57 @@ public class CetPlanCourseObjController extends CetBaseController {
             modelMap.put("cetPlanCourseObj", cetPlanCourseObj);
         }
         return "cet/cetPlanCourseObj/cetPlanCourseObj_au";
+    }
+
+    // 上传学习心得
+    @RequiresPermissions("cetProjectPlan:edit")
+    @RequestMapping(value = "/cetPlanCourseObj_uploadNote", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetPlanCourseObj_uploadNote(int id, int planCourseId, MultipartFile _file,
+                                            HttpServletRequest request) throws IOException, InterruptedException {
+
+        if(_file!=null && !_file.isEmpty()) {
+
+            CetPlanCourseObj cetPlanCourseObj = cetPlanCourseObjService.get(id, planCourseId);
+
+            CetPlanCourseObj record = new CetPlanCourseObj();
+            record.setId(cetPlanCourseObj.getId());
+            record.setNote(uploadDocOrPdf(_file, "cetPlanCourseObj_note"));
+
+            cetPlanCourseObjService.updateByPrimaryKeySelective(record);
+
+            logger.info(addLog(SystemConstants.LOG_CET, "上传心得体会：%s", record.getId()));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetProjectPlan:edit")
+    @RequestMapping("/cetPlanCourseObj_uploadNote")
+    public String cetPlanCourseObj_uploadNote(int id, ModelMap modelMap) {
+
+        CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(id);
+        Integer userId = cetProjectObj.getUserId();
+
+        modelMap.put("cetProjectObj", cetProjectObj);
+        modelMap.put("sysUser", sysUserService.findById(userId));
+
+        return "cet/cetPlanCourseObj/cetPlanCourseObj_uploadNote";
+    }
+
+    // 完成自学/未完成自学
+    @RequiresPermissions("cetProjectPlan:edit")
+    @RequestMapping(value = "/cetPlanCourseObj_finish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetPlanCourseObj_finish(boolean finish, int planCourseId,
+                                         @RequestParam(value = "ids[]", required = false) Integer[] ids ,
+                                         HttpServletRequest request) {
+
+        cetPlanCourseObjService.finish(ids, finish, planCourseId);
+        logger.info(addLog(SystemConstants.LOG_CET, "完成自学/未完成自学： %s, %s, %s",
+                StringUtils.join(ids, ","), finish, planCourseId));
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cetProjectPlan:del")

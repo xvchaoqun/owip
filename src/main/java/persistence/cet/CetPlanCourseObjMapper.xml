@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="plan_course_id" jdbcType="INTEGER" property="planCourseId" />
     <result column="obj_id" jdbcType="INTEGER" property="objId" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
     <result column="choose_time" jdbcType="TIMESTAMP" property="chooseTime" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, plan_course_id, obj_id, num, is_finished, choose_time, choose_user_id
+    id, plan_course_id, obj_id, note, num, is_finished, choose_time, choose_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetPlanCourseObjExample" resultMap="BaseResultMap">
     select
@@ -103,11 +104,11 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetPlanCourseObj">
     insert into cet_plan_course_obj (id, plan_course_id, obj_id, 
-      num, is_finished, choose_time, 
-      choose_user_id)
+      note, num, is_finished, 
+      choose_time, choose_user_id)
     values (#{id,jdbcType=INTEGER}, #{planCourseId,jdbcType=INTEGER}, #{objId,jdbcType=INTEGER}, 
-      #{num,jdbcType=INTEGER}, #{isFinished,jdbcType=BIT}, #{chooseTime,jdbcType=TIMESTAMP}, 
-      #{chooseUserId,jdbcType=INTEGER})
+      #{note,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{isFinished,jdbcType=BIT}, 
+      #{chooseTime,jdbcType=TIMESTAMP}, #{chooseUserId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetPlanCourseObj">
     insert into cet_plan_course_obj
@@ -120,6 +121,9 @@
       </if>
       <if test="objId != null">
         obj_id,
+      </if>
+      <if test="note != null">
+        note,
       </if>
       <if test="num != null">
         num,
@@ -143,6 +147,9 @@
       </if>
       <if test="objId != null">
         #{objId,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
       </if>
       <if test="num != null">
         #{num,jdbcType=INTEGER},
@@ -176,6 +183,9 @@
       <if test="record.objId != null">
         obj_id = #{record.objId,jdbcType=INTEGER},
       </if>
+      <if test="record.note != null">
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
       <if test="record.num != null">
         num = #{record.num,jdbcType=INTEGER},
       </if>
@@ -198,6 +208,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       plan_course_id = #{record.planCourseId,jdbcType=INTEGER},
       obj_id = #{record.objId,jdbcType=INTEGER},
+      note = #{record.note,jdbcType=VARCHAR},
       num = #{record.num,jdbcType=INTEGER},
       is_finished = #{record.isFinished,jdbcType=BIT},
       choose_time = #{record.chooseTime,jdbcType=TIMESTAMP},
@@ -214,6 +225,9 @@
       </if>
       <if test="objId != null">
         obj_id = #{objId,jdbcType=INTEGER},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
       </if>
       <if test="num != null">
         num = #{num,jdbcType=INTEGER},
@@ -234,6 +248,7 @@
     update cet_plan_course_obj
     set plan_course_id = #{planCourseId,jdbcType=INTEGER},
       obj_id = #{objId,jdbcType=INTEGER},
+      note = #{note,jdbcType=VARCHAR},
       num = #{num,jdbcType=INTEGER},
       is_finished = #{isFinished,jdbcType=BIT},
       choose_time = #{chooseTime,jdbcType=TIMESTAMP},

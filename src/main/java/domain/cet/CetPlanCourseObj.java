@@ -10,6 +10,8 @@ public class CetPlanCourseObj implements Serializable {
 
     private Integer objId;
 
+    private String note;
+
     private Integer num;
 
     private Boolean isFinished;
@@ -42,6 +44,14 @@ public class CetPlanCourseObj implements Serializable {
 
     public void setObjId(Integer objId) {
         this.objId = objId;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note == null ? null : note.trim();
     }
 
     public Integer getNum() {

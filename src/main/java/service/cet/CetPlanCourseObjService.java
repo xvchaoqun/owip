@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -78,5 +79,19 @@ public class CetPlanCourseObjService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(CetPlanCourseObj record){
         return cetPlanCourseObjMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
+    public void finish(Integer[] objIds, boolean finish, int planCourseId) {
+
+        if(objIds==null || objIds.length==0) return ;
+
+        CetPlanCourseObjExample example = new CetPlanCourseObjExample();
+        example.createCriteria().andPlanCourseIdEqualTo(planCourseId)
+                .andObjIdIn(Arrays.asList(objIds));
+
+        CetPlanCourseObj record = new CetPlanCourseObj();
+        record.setIsFinished(finish);
+        cetPlanCourseObjMapper.updateByExampleSelective(record, example);
     }
 }

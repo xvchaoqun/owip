@@ -214,7 +214,11 @@ public class CetPlanCourseController extends CetBaseController {
     @RequestMapping("/cetPlanCourse_info")
     public String cetPlanCourse_info(int planCourseId, ModelMap modelMap) {
 
-        modelMap.put("cetPlanCourse", cetPlanCourseMapper.selectByPrimaryKey(planCourseId));
+        CetPlanCourse cetPlanCourse = cetPlanCourseMapper.selectByPrimaryKey(planCourseId);
+        modelMap.put("cetPlanCourse", cetPlanCourse);
+
+        modelMap.put("cetProjectPlan", cetProjectPlanMapper.selectByPrimaryKey(cetPlanCourse.getPlanId()));
+
         return "cet/cetPlanCourse/cetPlanCourse_info";
     }
 

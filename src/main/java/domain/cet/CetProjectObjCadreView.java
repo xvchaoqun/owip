@@ -53,7 +53,7 @@ public class CetProjectObjCadreView implements Serializable {
                 resultMap.put("traineeId", cetTraineeView.getId());
             }
         } else if (planCourseId != null) {
-            // 培训方案选课页面
+            // 培训方案选课页面(自主学习和上级专题班)
             CetPlanCourseObjService cetPlanCourseObjService = CmTag.getBean(CetPlanCourseObjService.class);
             CetPlanCourseObj cpo = cetPlanCourseObjService.getByUserId(userId, planCourseId);
             if (cpo != null) {
@@ -70,6 +70,8 @@ public class CetProjectObjCadreView implements Serializable {
 
                 resultMap.put("chooseTime", cpo.getChooseTime());
                 if (cpo.getChooseUserId() != null) {
+
+                    resultMap.put("note", cpo.getNote());
 
                     resultMap.put("isFinished", cpo.getIsFinished());
                     resultMap.put("chooseUserId", cpo.getChooseUserId());

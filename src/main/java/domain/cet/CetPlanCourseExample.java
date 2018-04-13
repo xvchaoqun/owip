@@ -405,6 +405,66 @@ public class CetPlanCourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andNeedNoteIsNull() {
+            addCriterion("need_note is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedNoteIsNotNull() {
+            addCriterion("need_note is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedNoteEqualTo(Boolean value) {
+            addCriterion("need_note =", value, "needNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedNoteNotEqualTo(Boolean value) {
+            addCriterion("need_note <>", value, "needNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedNoteGreaterThan(Boolean value) {
+            addCriterion("need_note >", value, "needNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedNoteGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("need_note >=", value, "needNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedNoteLessThan(Boolean value) {
+            addCriterion("need_note <", value, "needNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedNoteLessThanOrEqualTo(Boolean value) {
+            addCriterion("need_note <=", value, "needNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedNoteIn(List<Boolean> values) {
+            addCriterion("need_note in", values, "needNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedNoteNotIn(List<Boolean> values) {
+            addCriterion("need_note not in", values, "needNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedNoteBetween(Boolean value1, Boolean value2) {
+            addCriterion("need_note between", value1, value2, "needNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andNeedNoteNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("need_note not between", value1, value2, "needNote");
+            return (Criteria) this;
+        }
+
         public Criteria andFileNameIsNull() {
             addCriterion("file_name is null");
             return (Criteria) this;

@@ -96,9 +96,9 @@
 
         <!--<table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
         </table>-->
-        <!--<table tableName="cet_course_file" domainObjectName="cet.CetCourseFile" mapperName="cet.CetCourseFileMapper">
-        </table>
-        <table tableName="cet_course_item" domainObjectName="cet.CetCourseItem" mapperName="cet.CetCourseItemMapper">
+       <!-- <table tableName="cet_course_file" domainObjectName="cet.CetCourseFile" mapperName="cet.CetCourseFileMapper">
+        </table>-->
+        <!--<table tableName="cet_course_item" domainObjectName="cet.CetCourseItem" mapperName="cet.CetCourseItemMapper">
         </table>-->
 
         <!--<table tableName="cet_course_type" domainObjectName="cet.CetCourseType" mapperName="cet.CetCourseTypeMapper">
@@ -136,16 +136,16 @@
         </table>-->
         <!--<table tableName="cet_plan_course" domainObjectName="cet.CetPlanCourse" mapperName="cet.CetPlanCourseMapper">
         </table>-->
-        <!--<table tableName="cet_plan_course_obj" domainObjectName="cet.CetPlanCourseObj" mapperName="cet.CetPlanCourseObjMapper">
-        </table>-->
+        <table tableName="cet_plan_course_obj" domainObjectName="cet.CetPlanCourseObj" mapperName="cet.CetPlanCourseObjMapper">
+        </table>
         <!--<table tableName="cet_plan_course_obj_result" domainObjectName="cet.CetPlanCourseObjResult"
                mapperName="cet.CetPlanCourseObjResultMapper">
         </table>-->
 
         <!--<table tableName="cet_discuss" domainObjectName="cet.CetDiscuss" mapperName="cet.CetDiscussMapper">
         </table>-->
-        <table tableName="cet_discuss_group" domainObjectName="cet.CetDiscussGroup" mapperName="cet.CetDiscussGroupMapper">
-        </table>
+        <!--<table tableName="cet_discuss_group" domainObjectName="cet.CetDiscussGroup" mapperName="cet.CetDiscussGroupMapper">
+        </table>-->
         <!--<table tableName="cet_discuss_group_obj" domainObjectName="cet.CetDiscussGroupObj" mapperName="cet.CetDiscussGroupObjMapper">
         </table>-->
 

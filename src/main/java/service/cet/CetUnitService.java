@@ -47,6 +47,7 @@ public class CetUnitService extends BaseMapper {
         if(oldUserId!=null){
             if(userId!=null && userId.intValue()==oldUserId) return ;
 
+            commonMapper.excuteSql("update cet_unit set user_id=null where id=" + id);
             // 删除原管理员权限
             sysUserService.delRole(oldUserId, RoleConstants.ROLE_CET_ADMIN_UNIT);
         }

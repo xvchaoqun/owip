@@ -74,16 +74,28 @@ public class CetCourseService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value="CetCourse", allEntries = true)
-    public void batchDel(Integer[] ids){
+    public void fakeDel(Integer[] ids, boolean del){
 
         if(ids==null || ids.length==0) return;
 
         CetCourseExample example = new CetCourseExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         CetCourse record = new CetCourse();
-        record.setIsDeleted(true);
+        record.setIsDeleted(del);
 
         cetCourseMapper.updateByExampleSelective(record, example);
+    }
+
+    @Transactional
+    @CacheEvict(value="CetCourse", allEntries = true)
+    public void batchDel(Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
+
+        CetCourseExample example = new CetCourseExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+
+        cetCourseMapper.deleteByExample( example);
     }
 
     @Transactional

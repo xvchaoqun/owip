@@ -6,6 +6,7 @@
     <result column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="has_paper" jdbcType="BIT" property="hasPaper" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, course_id, file_name, file_path, sort_order
+    id, course_id, file_name, file_path, has_paper, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetCourseFileExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetCourseFile">
     insert into cet_course_file (id, course_id, file_name, 
-      file_path, sort_order)
+      file_path, has_paper, sort_order
+      )
     values (#{id,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, 
-      #{filePath,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
+      #{filePath,jdbcType=VARCHAR}, #{hasPaper,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetCourseFile">
     insert into cet_course_file
@@ -119,6 +122,9 @@
       </if>
       <if test="filePath != null">
         file_path,
+      </if>
+      <if test="hasPaper != null">
+        has_paper,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -136,6 +142,9 @@
       </if>
       <if test="filePath != null">
         #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="hasPaper != null">
+        #{hasPaper,jdbcType=BIT},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -163,6 +172,9 @@
       <if test="record.filePath != null">
         file_path = #{record.filePath,jdbcType=VARCHAR},
       </if>
+      <if test="record.hasPaper != null">
+        has_paper = #{record.hasPaper,jdbcType=BIT},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -177,6 +189,7 @@
       course_id = #{record.courseId,jdbcType=INTEGER},
       file_name = #{record.fileName,jdbcType=VARCHAR},
       file_path = #{record.filePath,jdbcType=VARCHAR},
+      has_paper = #{record.hasPaper,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -194,6 +207,9 @@
       <if test="filePath != null">
         file_path = #{filePath,jdbcType=VARCHAR},
       </if>
+      <if test="hasPaper != null">
+        has_paper = #{hasPaper,jdbcType=BIT},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -205,6 +221,7 @@
     set course_id = #{courseId,jdbcType=INTEGER},
       file_name = #{fileName,jdbcType=VARCHAR},
       file_path = #{filePath,jdbcType=VARCHAR},
+      has_paper = #{hasPaper,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

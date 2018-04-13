@@ -11,6 +11,8 @@ public class CetCourseFile implements Serializable {
 
     private String filePath;
 
+    private Boolean hasPaper;
+
     private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +47,14 @@ public class CetCourseFile implements Serializable {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath == null ? null : filePath.trim();
+    }
+
+    public Boolean getHasPaper() {
+        return hasPaper;
+    }
+
+    public void setHasPaper(Boolean hasPaper) {
+        this.hasPaper = hasPaper;
     }
 
     public Integer getSortOrder() {

@@ -35,6 +35,8 @@ public class CetPlanCourse implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date endTime;
 
+    private Boolean needNote;
+
     private String fileName;
 
     private String filePath;
@@ -83,6 +85,14 @@ public class CetPlanCourse implements Serializable {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Boolean getNeedNote() {
+        return needNote;
+    }
+
+    public void setNeedNote(Boolean needNote) {
+        this.needNote = needNote;
     }
 
     public String getFileName() {

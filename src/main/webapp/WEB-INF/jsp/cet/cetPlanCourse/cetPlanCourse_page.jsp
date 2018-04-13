@@ -60,17 +60,21 @@
         colModel: [
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_SELF}">
             {
-                label: '学习情况', name: 'selectedCount', formatter: function (cellvalue, options, rowObject) {
+                label: '学习情况', name: 'selectedCount', width: 120, formatter: function (cellvalue, options, rowObject) {
 
                 if(cellvalue==undefined) cellvalue=0;
+
+                <c:if test="${cetProjectPlan.type == CET_PROJECT_PLAN_TYPE_SPECIAL}">var cls = 3;</c:if>
+                <c:if test="${cetProjectPlan.type == CET_PROJECT_PLAN_TYPE_SELF}">var cls = 6;</c:if>
                 return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/cet/cetProject_detail_obj?cls=3&projectId={0}&planCourseId={1}">已选课({2}/{3})</button>')
-                        .format(projectId, rowObject.id, cellvalue, objCount);
+                'data-url="${ctx}/cet/cetProject_detail_obj?cls={4}&projectId={0}&planCourseId={1}">已选课({2}/{3})</button>')
+                        .format(projectId, rowObject.id, cellvalue, objCount, cls);
+
             }},
             {label: '编号', name: 'cetCourse.sn'},
             {label: '名称', name: 'cetCourse.name', width: 300, align: 'left'},
             {label: '学习内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return ('<button type="button" data-url="${ctx}/cet/cetCourseFile?courseId={0}" ' +
+                return ('<button type="button" data-url="${ctx}/cet/cetCourseFile?view=1&courseId={0}" ' +
                 'class="popupBtn btn btn-xs btn-success"><i class="ace-icon fa fa-search"></i> 详情</button>')
                         .format(rowObject.cetCourse.id)
             }},
@@ -79,10 +83,10 @@
                 formatoptions: {url: "${ctx}/cet/cetPlanCourse_changeOrder"}
             },
             {label: '学时', name: 'cetCourse.period', width: 70},
-
             { label: '学习时间',name: '_time', width: 280, formatter: function (cellvalue, options, rowObject) {
                 return '{0} ~ {1}'.format($.date(rowObject.startTime, "yyyy-MM-dd hh:mm"), $.date(rowObject.endTime, "yyyy-MM-dd hh:mm"))
-            }}
+            }},
+            {label: '是否要求上传学习心得', name: 'needNote',formatter: $.jgrid.formatter.TRUEFALSE, width: 170}
             </c:if>
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_SPECIAL}">
             {

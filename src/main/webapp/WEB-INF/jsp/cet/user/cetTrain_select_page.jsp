@@ -98,7 +98,7 @@
                 return ('<a href="javascript:;" class="openView" ' +
                 'data-url="${ctx}/user/cet/cetTrain_detail?cls=1&trainId={0}">{1}</a>')
                         .format(rowObject.id, rowObject.name)
-            }, width:200, align:'left'},
+            }, width:350, align:'left'},
             {label: '内容简介', name: '_summary', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.hasSummary==false) return'-'
                 return ('<button class="popupBtn btn btn-primary btn-xs" data-width="750" ' +
@@ -118,7 +118,7 @@
                 return ('<a href="javascript:;" class="openView" ' +
                 'data-url="${ctx}/user/cet/cetProjectPlan?projectId={0}">{1}</a>')
                         .format(rowObject.cetProject.id, rowObject.cetProject.name)
-            }, width:200, align:'left'},
+            }, width:400, align:'left'},
             <c:if test="${module==2}">
             {label: '选课学时总数', name: 'totalPeriod', width:120},
             {label: '实际完成学时数', name: 'finishPeriod', width:130},

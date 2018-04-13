@@ -3,6 +3,7 @@ package controller.cet;
 import domain.cet.CetCourseFile;
 import domain.cet.CetCourseFileExample;
 import domain.cet.CetCourseFileExample.Criteria;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -51,7 +52,7 @@ public class CetCourseFileController extends CetBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order asc");
 
-        if (courseId!=null) {
+        if (courseId != null) {
             criteria.andCourseIdEqualTo(courseId);
         }
 
@@ -60,7 +61,7 @@ public class CetCourseFileController extends CetBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetCourseFile> records= cetCourseFileMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetCourseFile> records = cetCourseFileMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         modelMap.put("cetCourseFiles", records);
         CommonList commonList = new CommonList(count, pageNo, pageSize);
         modelMap.put("commonList", commonList);
@@ -71,32 +72,32 @@ public class CetCourseFileController extends CetBaseController {
     @RequiresPermissions("cetCourse:edit")
     @RequestMapping(value = "/cetCourseFile_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetCourseFile_au(int courseId, MultipartFile _file,
+    public Map do_cetCourseFile_au(int courseId,
+                                   MultipartFile _file,
                                    String fileName,
+                                   Boolean hasPaper,
                                    HttpServletRequest request) throws IOException, InterruptedException {
+
+        CetCourseFile record = new CetCourseFile();
+        record.setCourseId(courseId);
+        record.setFileName(fileName);
+        record.setHasPaper(BooleanUtils.isTrue(hasPaper));
 
         if (_file != null && !_file.isEmpty()) {
 
-            CetCourseFile record = new CetCourseFile();
-            record.setCourseId(courseId);
-            record.setFileName(fileName);
-            String savePath = null;
-            if (StringUtils.contains(_file.getContentType(), "pdf")) {
+            record.setFilePath(uploadDocOrPdf(_file, "cetCourseFile"));
+        }else if(!record.getHasPaper()){
 
-                savePath = uploadPdf(_file, "cetCourseFile");
-            }else{
-                savePath = uploadDoc(_file, "cetCourseFile");
-            }
-            record.setFilePath(savePath);
-
-            if (StringUtils.isBlank(record.getFileName())) {
-                record.setFileName(FileUtils.getFileName(_file.getOriginalFilename()));
-            }
-
-            cetCourseFileService.insertSelective(record);
-
-            logger.info(addLog(SystemConstants.LOG_CET, "添加学习内容：%s", record.getId()));
+            return failed("上传文件和发放纸质学习材料两项内容至少有一个。");
         }
+
+        if (StringUtils.isBlank(record.getFileName())) {
+            record.setFileName(FileUtils.getFileName(_file.getOriginalFilename()));
+        }
+
+        cetCourseFileService.insertSelective(record);
+
+        logger.info(addLog(SystemConstants.LOG_CET, "添加学习内容：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -120,7 +121,7 @@ public class CetCourseFileController extends CetBaseController {
         if (id != null) {
 
             cetCourseFileService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除学习内容：%s", id));
+            logger.info(addLog(SystemConstants.LOG_CET, "删除学习内容：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -131,7 +132,7 @@ public class CetCourseFileController extends CetBaseController {
     public Map do_cetCourseFile_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetCourseFileService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_CET, "学习内容调序：%s,%s", id, addNum));
+        logger.info(addLog(SystemConstants.LOG_CET, "学习内容调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -139,15 +140,15 @@ public class CetCourseFileController extends CetBaseController {
 
         List<CetCourseFile> records = cetCourseFileMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"所属课程|100","材料名称|100","材料|100","排序|100"};
+        String[] titles = {"所属课程|100", "材料名称|100", "材料|100", "排序|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetCourseFile record = records.get(i);
             String[] values = {
-                record.getCourseId()+"",
-                            record.getFileName(),
-                            record.getFilePath(),
-                            record.getSortOrder()+""
+                    record.getCourseId() + "",
+                    record.getFileName(),
+                    record.getFilePath(),
+                    record.getSortOrder() + ""
             };
             valuesList.add(values);
         }

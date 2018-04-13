@@ -3,19 +3,17 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/cet/cetCourse"
              data-url-export="${ctx}/cet/cetCourse_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
-            <c:if test="${param.type==CET_COURSE_TYPE_OFFLINE||param.type==CET_COURSE_TYPE_ONLINE}">
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
                 <div class="tab-content">
                     <div class="tab-pane in active">
-             </c:if>
                         <div class="jqgrid-vertical-offset buttons">
+                            <c:if test="${cls==1}">
                             <shiro:hasPermission name="cetCourse:edit">
                                 <a class="popupBtn btn btn-info btn-sm"
                                    data-url="${ctx}/cet/cetCourse_au?type=${param.type}"><i
@@ -27,7 +25,7 @@
                                     修改</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="cetCourse:del">
-                                <button data-url="${ctx}/cet/cetCourse_batchDel"
+                                <button data-url="${ctx}/cet/cetCourse_fakeDel?del=1"
                                         data-title="删除"
                                         data-msg="确定删除这{0}条数据？"
                                         data-grid-id="#jqGrid"
@@ -35,13 +33,30 @@
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </shiro:hasPermission>
-
-                            <c:if test="${param.type==CET_COURSE_TYPE_OFFLINE||param.type==CET_COURSE_TYPE_ONLINE}">
-                                <button class="jqOpenViewBatchBtn btn btn-info btn-sm"
-                                        data-url="${ctx}/cet/cetCourse_addToTrain"
-                                        data-grid-id="#jqGrid"><i class="fa fa-plus-circle"></i>
-                                    添加到培训班</button>
+                                <c:if test="${param.type==CET_COURSE_TYPE_OFFLINE||param.type==CET_COURSE_TYPE_ONLINE}">
+                                    <button class="jqOpenViewBatchBtn btn btn-info btn-sm"
+                                            data-url="${ctx}/cet/cetCourse_addToTrain"
+                                            data-grid-id="#jqGrid"><i class="fa fa-plus-circle"></i>
+                                        添加到培训班</button>
+                                </c:if>
                             </c:if>
+                            <c:if test="${cls==4}">
+                                <button data-url="${ctx}/cet/cetCourse_fakeDel?del=0"
+                                        data-title="恢复使用"
+                                        data-msg="确定恢复使用这{0}条数据？"
+                                        data-grid-id="#jqGrid"
+                                        class="jqBatchBtn btn btn-success btn-sm">
+                                    <i class="fa fa-reply"></i> 恢复使用
+                                </button>
+                                <button data-url="${ctx}/cet/cetCourse_batchDel"
+                                        data-title="彻底删除"
+                                        data-msg="确定彻底删除这{0}条数据？"
+                                        data-grid-id="#jqGrid"
+                                        class="jqBatchBtn btn btn-danger btn-sm">
+                                    <i class="fa fa-times"></i> 彻底删除
+                                </button>
+                            </c:if>
+
 
                             <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
@@ -87,11 +102,9 @@
                         <table id="jqGrid" class="jqGrid table-striped"></table>
                         <div id="jqGridPager"></div>
                     </div>
-        <c:if test="${param.type==CET_COURSE_TYPE_OFFLINE||param.type==CET_COURSE_TYPE_ONLINE}">
                 </div>
             </div>
         </div>
-        </c:if>
         <div id="body-content-view"></div>
     </div>
 </div>

@@ -378,6 +378,16 @@ public class BaseController extends BaseMapper {
         return upload(file, saveFolder, null, 0, 0);
     }
 
+    public String uploadDocOrPdf(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
+
+        if (StringUtils.contains(file.getContentType(), "pdf")) {
+
+            return uploadPdf(file, saveFolder);
+        } else {
+            return uploadDoc(file, saveFolder);
+        }
+    }
+
     public String uploadDoc(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
 
         return upload(file, saveFolder, "doc", 0, 0);

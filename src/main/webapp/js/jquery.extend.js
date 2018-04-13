@@ -1250,10 +1250,18 @@ $.extend($.register, {
         );
     },
     // 选择账号
-    user_select: function ($select, ts) {
-        return $select.select2({
+    user_select: function ($select, params) {
+
+        var _params = {};
+        if(!$.isJson(params)){
+            _params.templateSelection= params;
+        }else{
+            _params = $.extend({}, params);
+        }
+
+        return $select.select2($.extend({
             templateResult: $.register.formatState,
-            templateSelection: ts || $.register.templateSelection,
+            templateSelection: _params.templateSelection || $.register.templateSelection,
             ajax: {
                 dataType: 'json',
                 delay: 300,
@@ -1274,12 +1282,18 @@ $.extend($.register, {
                 },
                 cache: true
             }
-        });
+        }, _params));
     },
     // select2-ajax选择框，option包含属性del=true时，带删除线
-    del_select: function ($select, width) {
-        return $select.select2({
-            width: width || 350,
+    del_select: function ($select, params) {
+
+        var _params = {};
+        if(!$.isJson(params)){
+            _params.width= params;
+        }else{
+            _params = $.extend({}, params);
+        }
+        return $select.select2($.extend({
             templateResult: function (state) {
 
                 return '<span class="{0}">{1}</span>'.format(state.del || state.title == 'true' ? "delete" : "", state.text);
@@ -1310,6 +1324,6 @@ $.extend($.register, {
                 },
                 cache: true
             }
-        });
+        }, _params));
     }
 });

@@ -364,6 +364,66 @@ public class CetCourseFileExample {
             return (Criteria) this;
         }
 
+        public Criteria andHasPaperIsNull() {
+            addCriterion("has_paper is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPaperIsNotNull() {
+            addCriterion("has_paper is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPaperEqualTo(Boolean value) {
+            addCriterion("has_paper =", value, "hasPaper");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPaperNotEqualTo(Boolean value) {
+            addCriterion("has_paper <>", value, "hasPaper");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPaperGreaterThan(Boolean value) {
+            addCriterion("has_paper >", value, "hasPaper");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPaperGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_paper >=", value, "hasPaper");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPaperLessThan(Boolean value) {
+            addCriterion("has_paper <", value, "hasPaper");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPaperLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_paper <=", value, "hasPaper");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPaperIn(List<Boolean> values) {
+            addCriterion("has_paper in", values, "hasPaper");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPaperNotIn(List<Boolean> values) {
+            addCriterion("has_paper not in", values, "hasPaper");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPaperBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_paper between", value1, value2, "hasPaper");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPaperNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_paper not between", value1, value2, "hasPaper");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

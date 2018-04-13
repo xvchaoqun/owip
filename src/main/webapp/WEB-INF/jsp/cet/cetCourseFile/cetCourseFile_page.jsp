@@ -3,9 +3,10 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>管理学习内容</h3>
+    <h3>学习内容</h3>
 </div>
 <div class="modal-body">
+    <c:if test="${param.view!=1}">
     <shiro:hasPermission name="cetCourse:edit">
         <div class="widget-box">
             <div class="widget-header">
@@ -29,6 +30,12 @@
                                 <input class="form-control" type="file" name="_file"/>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">发放纸质学习材料</label>
+                            <div class="col-xs-3" id="hasPaperTip">
+                                <input type="checkbox" class="big" name="hasPaper">
+                            </div>
+                        </div>
                         <div class="clearfix form-actions">
                             <div class="col-md-offset-3 col-md-9">
                                 <button id="submitBtn" class="btn btn-info btn-sm" type="submit"
@@ -49,6 +56,7 @@
         </div>
         <div class="space-10"></div>
     </shiro:hasPermission>
+    </c:if>
     <div class="popTableDiv"
          data-url-page="${ctx}/cet/cetCourseFile?courseId=${param.courseId}"
          data-url-del="${ctx}/cet/cetCourseFile_del"
@@ -57,8 +65,9 @@
             <table class="table table-striped table-bordered table-center">
                 <thead>
                 <tr>
-                    <th>文件名称</th>
-                    <c:if test="${!_query && commonList.recNum>1}">
+                    <th>学习材料名称</th>
+                    <th width="90">纸质材料</th>
+                    <c:if test="${param.view!=1}">
                         <th nowrap width="40">排序</th>
                     </c:if>
                     <th nowrap width="150"></th>
@@ -70,7 +79,10 @@
                         <td nowrap style="text-align: left">
                                 ${cetCourseFile.fileName}
                         </td>
-                        <c:if test="${!_query && commonList.recNum>1}">
+                        <td nowrap>
+                                ${cetCourseFile.hasPaper?'有':'无'}
+                        </td>
+                        <c:if test="${param.view!=1}">
                             <td nowrap>
                                 <a href="javascript:;"
                                    <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if>
@@ -84,25 +96,29 @@
                                    class="changeOrderBtn" data-id="${cetCourseFile.id}" data-direction="-1"
                                    title="下降"><i class="fa fa-arrow-down"></i></a></td>
                             </td>
-                        </c:if>
+                            </c:if>
+                            <td nowrap>
+                                <div class="hidden-sm hidden-xs action-buttons">
+                                    <c:if test="${not empty cetCourseFile.filePath}">
+                                    <button class='openUrl btn btn-xs btn-primary'
+                                            data-url='${ctx}/swf/preview?type=url&path=${cm:encodeURI(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>
+                                        <i class="fa fa-search"></i>
+                                        预览</button>
+                                    <button class='linkBtn btn btn-xs btn-success'
+                                            data-url='${ctx}/attach/download?path=${cm:encodeURI(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>
+                                        <i class="fa fa-download"></i>
+                                        下载</button>
+                                    </c:if>
+                                    <c:if test="${param.view!=1}">
+                                    <shiro:hasPermission name="cetCourse:del">
+                                        <button class="delBtn btn btn-danger btn-xs" data-id="${cetCourseFile.id}">
+                                            <i class="fa fa-trash"></i> 删除
+                                        </button>
+                                    </shiro:hasPermission>
+                                    </c:if>
+                                </div>
+                            </td>
 
-                        <td nowrap>
-                            <div class="hidden-sm hidden-xs action-buttons">
-                                <button class='openUrl btn btn-xs btn-primary'
-                                        data-url='${ctx}/swf/preview?type=url&path=${cm:encodeURI(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>
-                                    <i class="fa fa-search"></i>
-                                    预览</button>
-                                <button class='linkBtn btn btn-xs btn-success'
-                                        data-url='${ctx}/attach/download?path=${cm:encodeURI(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>
-                                    <i class="fa fa-download"></i>
-                                    下载</button>
-                                <shiro:hasPermission name="cetCourse:del">
-                                    <button class="delBtn btn btn-danger btn-xs" data-id="${cetCourseFile.id}">
-                                        <i class="fa fa-trash"></i> 删除
-                                    </button>
-                                </shiro:hasPermission>
-                            </div>
-                        </td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -124,6 +140,17 @@
     $("#modal button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
+
+            var hasPaper = $("#modalForm input[name=hasPaper]").bootstrapSwitch("state")
+            var _file = $("#modalForm input[name=_file]").val();
+            if(!hasPaper && $.trim(_file)==''){
+                $.tip({
+                    $target: $("#hasPaperTip"),
+                    at: 'right center', my: 'left center',
+                    msg: "上传文件和发放纸质学习材料两项内容至少有一个。"
+                });
+                return;
+            }
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
@@ -137,7 +164,7 @@
             });
         }
     });
-
+    $("#modalForm :checkbox").bootstrapSwitch();
     $.fileInput($('input[type=file]'),{
         no_file: '请上传pdf或word文件...',
         allowExt: ['pdf', 'doc', 'docx'],
