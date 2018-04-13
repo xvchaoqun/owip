@@ -1,6 +1,6 @@
 
 
-
+2018-4-13
 ALTER TABLE `cet_plan_course`
 	ADD CONSTRAINT `FK_cet_plan_course_cet_course` FOREIGN KEY (`course_id`) REFERENCES `cet_course` (`id`);
 
