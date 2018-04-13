@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<!-- PAGE CONTENT BEGINS -->
+
 <div class="widget-box transparent" id="useLogs">
     <div class="widget-header">
         <h4 class="widget-title lighter smaller">
@@ -9,7 +9,6 @@
                 <i class="ace-icon fa fa-backward"></i>
                 返回</a>
         </h4>
-
         <div class="widget-toolbar no-border">
             <jsp:include page="menu.jsp"/>
         </div>
@@ -72,11 +71,13 @@
                             data-grid-id="#jqGrid2">
                         <i class="fa fa-rmb"></i> 代缴党费
                     </button>
+                    <shiro:hasPermission name="pmdMember:setIsOnlinePay">
                     <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
                             data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"
                             data-grid-id="#jqGrid2">
                         <i class="fa fa-edit"></i> 修改缴费方式
                     </button>
+                    </shiro:hasPermission>
                 </c:if>
                 </div>
                 <div class="space-4"></div>

@@ -64,7 +64,7 @@
 
                 if(cellvalue==undefined) cellvalue=0;
                 return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/cet/cetProject_detail/obj?cls=3&projectId={0}&planCourseId={1}">已选课({2}/{3})</button>')
+                'data-url="${ctx}/cet/cetProject_detail_obj?cls=3&projectId={0}&planCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
             }},
             {label: '编号', name: 'cetCourse.sn'},
@@ -89,7 +89,7 @@
                 label: '学习情况', name: 'selectedCount', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) cellvalue=0;
                 return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/cet/cetProject_detail/obj?cls=3&projectId={0}&planCourseId={1}">已选课({2}/{3})</button>')
+                'data-url="${ctx}/cet/cetProject_detail_obj?cls=3&projectId={0}&planCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
             }, frozen: true},
             {label: '编号', name: 'cetCourse.sn', frozen: true},

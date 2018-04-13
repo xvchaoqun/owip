@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<!-- PAGE CONTENT BEGINS -->
+
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content">

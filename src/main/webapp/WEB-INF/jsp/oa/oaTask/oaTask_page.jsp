@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12 rownumbers">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/oa/oaTask"
              data-url-export="${ctx}/oa/oaTask_data"

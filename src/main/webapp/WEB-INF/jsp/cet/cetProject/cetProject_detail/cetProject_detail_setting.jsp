@@ -9,7 +9,7 @@
         </div>
         <div class="widget-body">
             <div class="widget-main" id="qualification-content">
-                <form class="form-horizontal" action="${ctx}/cet/cetProject_detail/setting" id="timeForm" method="post">
+                <form class="form-horizontal" action="${ctx}/cet/cetProject_detail_setting" id="timeForm" method="post">
                     <input type="hidden" name="projectId" value="${param.projectId}">
                     <div class="form-group">
                         <label class="col-xs-5 control-label">达到结业要求的学时数</label>

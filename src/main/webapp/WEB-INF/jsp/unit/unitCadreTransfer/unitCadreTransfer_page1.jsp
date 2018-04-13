@@ -8,7 +8,7 @@ pageEncoding="UTF-8" %>
 <div class="modal-body">
 <div class="row">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div class="myTableDiv"
              data-url-au="${ctx}/unitCadreTransfer_au"
              data-url-page="${ctx}/unitCadreTransfer"

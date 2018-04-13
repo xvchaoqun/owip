@@ -1,5 +1,21 @@
 
 -- 干部教育培训
+
+DROP VIEW IF EXISTS `cet_unit_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_unit_view` AS
+select cu.*,u.code as unit_code, u.name as unit_name, u.type_id as unit_type_id, u.status as unit_status,
+u.sort_order from cet_unit cu left join unit u on cu.unit_id=u.id ;
+
+DROP VIEW IF EXISTS `cet_party_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_party_view` AS
+select cp.*, op.code as party_code, op.name as party_name, op.is_deleted as party_is_deleted, op.sort_order
+from cet_party cp left join ow_party op on cp.party_id=op.id ;
+
+DROP VIEW IF EXISTS `cet_party_school_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cet_party_school_view` AS
+select cps.*, ps.name as party_school_name, ps.is_history as party_school_is_history, ps.sort_order
+from cet_party_school cps left join party_school ps on cps.party_school_id=ps.id ;
+
 DROP VIEW IF EXISTS `cet_project_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_project_view` AS
 select cp.*, count(cpo.id) as obj_count from cet_project cp

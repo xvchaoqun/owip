@@ -1,5 +1,7 @@
 package controller.cet;
 
+import domain.cet.CetDiscuss;
+import domain.cet.CetDiscussGroup;
 import domain.cet.CetPlanCourse;
 import domain.cet.CetProject;
 import domain.cet.CetProjectPlan;
@@ -34,15 +36,22 @@ public class CetProjectDetailController extends CetBaseController {
             CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
             modelMap.put("cetProject", cetProject);
         }
-        return "cet/cetProject/cetProject_detail/menu";
+        return "cet/cetProject/cetProject_detail/cetProject_detail";
     }
 
     @RequiresPermissions("cetProject:edit")
-    @RequestMapping("/cetProject_detail/obj")
-    public String projectee(int projectId,
-                            @RequestParam(defaultValue = "1") Integer cls, // 同/cetProjectObj的cls
+    @RequestMapping("/cetProject_detail_obj")
+    public String cetProject_detail_obj(int projectId,
+                                        /** cls=1 培训对象
+                                         *  cls=2 培训班选择学员
+                                         *  cls=3 培训方案选择学员
+                                         *  cls=4 撰写心得体会
+                                         *  cls=5 设置小组成员（分组讨论）
+                                         */
+                            @RequestParam(defaultValue = "1") Integer cls, // 同 /cetProjectObj 的cls
                             Integer trainCourseId, // 培训班选课
                             Integer planCourseId,  // 培训方案选课
+                            Integer discussGroupId,  // 讨论小组
                             ModelMap modelMap) {
 
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
@@ -69,27 +78,38 @@ public class CetProjectDetailController extends CetBaseController {
                 CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
                 modelMap.put("cetProjectPlan", cetProjectPlan);
             }
+        }else if(discussGroupId!=null){
+
+            CetDiscussGroup cetDiscussGroup = cetDiscussGroupMapper.selectByPrimaryKey(discussGroupId);
+            modelMap.put("cetDiscussGroup", cetDiscussGroup);
+
+            Integer discussId = cetDiscussGroup.getDiscussId();
+            CetDiscuss cetDiscuss = cetDiscussMapper.selectByPrimaryKey(discussId);
+            modelMap.put("cetDiscuss", cetDiscuss);
+
+            /*CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(cetDiscuss.getPlanId());
+            modelMap.put("cetProjectPlan", cetProjectPlan);*/
         }
 
         modelMap.put("cls", cls);
 
-        return "cet/cetProject/cetProject_detail/obj";
+        return "cet/cetProject/cetProject_detail/cetProject_detail_obj";
     }
 
     @RequiresPermissions("cetProject:edit")
-    @RequestMapping("/cetProject_detail/setting")
-    public String time(int projectId, ModelMap modelMap) {
+    @RequestMapping("/cetProject_detail_setting")
+    public String cetProject_detail_setting(int projectId, ModelMap modelMap) {
 
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
         modelMap.put("cetProject", cetProject);
 
-        return "cet/cetProject/cetProject_detail/setting";
+        return "cet/cetProject/cetProject_detail/cetProject_detail_setting";
     }
 
     @RequiresPermissions("cetProject:edit")
-    @RequestMapping(value = "/cetProject_detail/setting", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetProject_detail_setting", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_time(int projectId, BigDecimal requirePeriod) {
+    public Map do_cetProject_detail_setting(int projectId, BigDecimal requirePeriod) {
 
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
 

@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <div class="row">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div id="body-content" class="myTableDiv"
                  data-url-au="${ctx}/member_au"
                  data-url-page="${ctx}/memberStudent"

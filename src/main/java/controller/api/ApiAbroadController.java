@@ -1,7 +1,6 @@
 package controller.api;
 
 import controller.BaseController;
-import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import interceptor.NeedSign;
 import interceptor.SignParam;
@@ -31,15 +30,19 @@ public class ApiAbroadController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    private void log(Map<String, Object> result, HttpServletRequest request){
+
+        logger.info(MessageFormat.format("{0}, {1}, {2}, {3}, {4}, result：{5}",
+                        request.getRequestURI(),
+                        request.getMethod(),
+                        JSONUtils.toString(request.getParameterMap(), false),
+                        RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)),
+                JSONUtils.toString(result, false));
+    }
+
     @NeedSign
     @RequestMapping("/approve_count")
     public void approve_count(@SignParam(value = "code") String code, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        logger.info(MessageFormat.format("查询因私审批数量接口, {0}, {1}, {2}, {3}, {4}",
-                request.getRequestURI(),
-                request.getMethod(),
-                JSONUtils.toString(request.getParameterMap(), false),
-                RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)));
 
         Map<String, Object> result = new HashMap<>();
         result.put("Success", false);
@@ -47,17 +50,20 @@ public class ApiAbroadController extends BaseController {
         try {
             SysUserView uv = sysUserService.findByCode(code);
             if (uv == null) {
+
                 result.put("Message", "没有这个学工号");
+                log(result, request);
                 JSONUtils.write(response, result, false);
                 return;
             }
 
             int userId = uv.getId();
-            CadreView cv = cadreService.dbFindByUserId(userId);
-            ApproverService approverService = CmTag.getBean(ApproverService.class);
             if(!CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRE)
-                    || cv == null || !approverService.hasApproveAuth(userId)){
+                    || cadreService.dbFindByUserId(userId) == null
+                    || !CmTag.getBean(ApproverService.class).hasApproveAuth(userId)){
+
                 result.put("Message", "没有审批权限");
+                log(result, request);
                 JSONUtils.write(response, result, false);
                 return;
             }
@@ -70,6 +76,7 @@ public class ApiAbroadController extends BaseController {
 
             result.put("Success", true);
             result.put("Count", recNum);
+            log(result, request);
             JSONUtils.write(response, result, false);
             return;
 

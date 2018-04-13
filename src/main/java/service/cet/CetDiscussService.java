@@ -2,16 +2,36 @@ package service.cet;
 
 import domain.cet.CetDiscuss;
 import domain.cet.CetDiscussExample;
+import domain.cet.CetDiscussGroupObj;
+import domain.cet.CetDiscussGroupObjExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CetDiscussService extends BaseMapper {
+
+    // 查看已分组学员情况 <projectObjId, CetDiscussGroupObj>
+    public Map<Integer, CetDiscussGroupObj> getObjMap(int discussId){
+
+        Map<Integer, CetDiscussGroupObj> resultMap = new HashMap<>();
+
+        CetDiscussGroupObjExample example = new CetDiscussGroupObjExample();
+        example.createCriteria().andDiscussIdEqualTo(discussId);
+        List<CetDiscussGroupObj> cetDiscussGroupObjs = cetDiscussGroupObjMapper.selectByExample(example);
+        for (CetDiscussGroupObj cetDiscussGroupObj : cetDiscussGroupObjs) {
+
+            resultMap.put(cetDiscussGroupObj.getObjId(), cetDiscussGroupObj);
+        }
+
+        return resultMap;
+    }
 
     @Transactional
     public void insertSelective(CetDiscuss record){

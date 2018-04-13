@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-12">
         <c:if test="${postCount>0}">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div id="body-content" class="myTableDiv">
             <div class="jqgrid-vertical-offset buttons">
                 <a class="linkBtn btn btn-success btn-sm" data-url="${ctx}/faq?type=hf_crs_note" data-target="_blank">

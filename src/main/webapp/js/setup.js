@@ -626,12 +626,17 @@ $(document).on("click", ".jqOpenViewBtn", function (e) {
 
     if (openBy == 'page') {
         var loadEl = $(this).data("load-el");
-        var $maskEl = $(loadEl || "#body-content");
+        var $hide = $(loadEl || "#body-content");
+        var $show = $(loadEl || "#body-content-view");
+        /*
         $maskEl.mask();
         $.get(url, {}, function (html) {
             $maskEl.unmask().hide();
             $(loadEl || "#body-content-view").hide().html(html).fadeIn("slow");
-        })
+        })*/
+
+        $.loadView({url:url, $hide:$hide, $show:$show});
+
     } else {
         $.loadModal(url, $(this).data("width"));
     }

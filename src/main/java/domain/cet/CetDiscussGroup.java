@@ -1,6 +1,7 @@
 package domain.cet;
 
 import domain.sys.SysUserView;
+import org.springframework.format.annotation.DateTimeFormat;
 import persistence.cet.CetDiscussMapper;
 import service.cet.CetPartySchoolService;
 import service.cet.CetPartyService;
@@ -77,6 +78,7 @@ public class CetDiscussGroup implements Serializable {
 
     private Boolean subjectCanModify;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date discussTime;
 
     private String discussAddress;

@@ -8,7 +8,7 @@
              data-url-au="${ctx}/sysUser_au"
              data-url-page="${ctx}/sysUser"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div class="col-sm-12">
             <c:set var="_query" value="${not empty param.type ||not empty param.source ||not empty param.realname
             ||not empty param.code ||not empty param.username ||not empty param.idcard

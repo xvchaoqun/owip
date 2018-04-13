@@ -10,7 +10,7 @@
              data-url-co="${ctx}/sysLog_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.typeId || not empty param.content || not empty param.ip || not empty param.userId}"/>
-            <!-- PAGE CONTENT BEGINS -->
+
             <div class="col-sm-12">
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">

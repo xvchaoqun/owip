@@ -8,7 +8,7 @@
              data-url-export="${ctx}/sysLoginLog_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.type || not empty param.username || not empty param.userId|| not empty param.ip }"/>
-            <!-- PAGE CONTENT BEGINS -->
+
             <div class="col-sm-12">
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">

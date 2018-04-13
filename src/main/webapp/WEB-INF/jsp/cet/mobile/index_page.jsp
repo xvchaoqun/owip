@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div class="row">
             <div class="col-xs-12">
                 <div class="alert alert-block alert-success" style="font-size: 18px;font-weight: bolder">

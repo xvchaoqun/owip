@@ -126,7 +126,42 @@
             <i class="fa fa-eraser"></i> 删除心得体会
         </button>
     </c:if>
+    <c:if test="${cls==5}">
+        <button data-url="${ctx}/cet/cetDiscussGroup_selectObjs?select=1&discussGroupId=${param.discussGroupId}"
+                data-title="选择学员"
+                data-msg="确定将这{0}个学员设置为学员？（此操作对已在其他分组中的学员无效）"
+                data-grid-id="#jqGrid2"
+                data-callback="_callback2"
+                class="jqBatchBtn btn btn-success btn-sm">
+            <i class="fa fa-plus"></i> 选择学员
+        </button>
+        <button data-url="${ctx}/cet/cetDiscussGroup_selectObjs?select=0&discussGroupId=${param.discussGroupId}"
+                data-title="取消选择"
+                data-msg="确定将这{0}个学员取消选择？（此操作对已在其他分组中的学员无效）"
+                data-grid-id="#jqGrid2"
+                data-callback="_callback2"
+                class="jqBatchBtn btn btn-warning btn-sm">
+            <i class="fa fa-minus"></i> 取消选择
+        </button>
+        <button data-url="${ctx}/cet/cetDiscussGroup_finish?finish=1&discussGroupId=${param.discussGroupId}"
+                data-title="参会"
+                data-msg="确定将这{0}个学员设置为已参会？（此操作只针对本组未参会成员）"
+                data-grid-id="#jqGrid2"
+                data-callback="_callback2"
+                class="jqBatchBtn btn btn-primary btn-sm">
+            <i class="fa fa-check"></i> 参会
+        </button>
+        <button data-url="${ctx}/cet/cetDiscussGroup_finish?finish=0&discussGroupId=${param.discussGroupId}"
+                data-title="取消参会"
+                data-msg="确定将这{0}个学员取消参会？（此操作只针对本组已参会成员）"
+                data-grid-id="#jqGrid2"
+                data-callback="_callback2"
+                class="jqBatchBtn btn btn-danger btn-sm">
+            <i class="fa fa-times"></i> 取消参会
+        </button>
+    </c:if>
 </div>
+<div class="space-4"></div>
 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
     <div class="widget-header">
         <h4 class="widget-title">搜索</h4>
@@ -180,12 +215,12 @@
                 </div>
                 <div class="clearfix form-actions center">
                     <a class="jqSearchBtn btn btn-default btn-sm"
-                       data-target="#obj-content-view"
+                       data-target="#detail-content-view"
                        data-form="#searchForm2"
                        data-url="${ctx}/cet/cetProjectObj?projectId=${cetProject.id}&trainCourseId=${param.trainCourseId}&planCourseId=${param.planCourseId}"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                data-target="#obj-content-view"
+                                data-target="#detail-content-view"
                                 data-url="${ctx}/cet/cetProjectObj?projectId=${cetProject.id}&traineeTypeId=${traineeTypeId}&cls=${cls}&isQuit=${isQuit}&trainCourseId=${param.trainCourseId}&planCourseId=${param.planCourseId}">
                             <i class="fa fa-reply"></i> 重置
                         </button>
@@ -236,6 +271,9 @@
 
     var period = parseFloat('${cetProject.period}');
     var requirePeriod = parseFloat('${cetProject.requirePeriod}');
+
+    var discussGroupId = '${param.discussGroupId}';
+
     //console.log("period=" + period)
     //console.log("requirePeriod=" + requirePeriod)
 
@@ -252,43 +290,43 @@
             </c:if>
             <c:if test="${cls==2}">
             { label: '选课方式',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.objCourseView.canQuit?("<span class='{0}'>可选</span>").format(rowObject.objCourseView.isFinished?"text-success bolder":"text-default"):
-                        ("<span class='{0} bolder'>必选</span>").format(rowObject.objCourseView.isFinished?"text-success":"text-danger");
+                return rowObject.objInfo.canQuit?("<span class='{0}'>可选</span>").format(rowObject.objInfo.isFinished?"text-success bolder":"text-default"):
+                        ("<span class='{0} bolder'>必选</span>").format(rowObject.objInfo.isFinished?"text-success":"text-danger");
             }, frozen: true},
-            { label: '选课时间',name: 'objCourseView.chooseTime', width: 160, frozen: true},
-            { label: '选课操作人',name: 'objCourseView.chooseUserId', formatter: function (cellvalue, options, rowObject) {
+            { label: '选课时间',name: 'objInfo.chooseTime', width: 160, frozen: true},
+            { label: '选课操作人',name: 'objInfo.chooseUserId', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
-                return cellvalue==rowObject.userId?'本人':rowObject.objCourseView.chooseUserName;
+                return cellvalue==rowObject.userId?'本人':rowObject.objInfo.chooseUserName;
             }, frozen: true},
             { name: 'traineeId', hidden:true, formatter: function (cellvalue, options, rowObject) {
-                return rowObject.objCourseView.traineeId;;
+                return rowObject.objInfo.traineeId;;
             }},
             </c:if>
             <c:if test="${cls==3}">
-            { label: '是否结业',name: 'objCourseView.isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.objCourseView.planCourseObjId)=='') return '-'
+            { label: '是否结业',name: 'objInfo.isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
                 return cellvalue?"是":"否"
             },frozen: true},
             { label: '完成学时情况',name: '_finish', width: 120, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.objCourseView.planCourseObjId)=='') return '-'
-                return "{0}/{1}".format(Math.trimToZero(rowObject.objCourseView.period), '${cm:stripTrailingZeros(cetProjectPlan.period)}')
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
+                return "{0}/{1}".format(Math.trimToZero(rowObject.objInfo.period), '${cm:stripTrailingZeros(cetProjectPlan.period)}')
             }, frozen: true},
             { label: '学习详情',name: '_detail', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.objCourseView.planCourseObjId)=='') return '-'
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
                 return ('<button class="popupBtn btn btn-success btn-xs" ' +
                 'data-url="${ctx}/cet/cetPlanCourseObjResult_au?view=1&objId={0}&planCourseId={1}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.id, '${param.planCourseId}');
             }, frozen: true},
-            { label: '选课时间',name: 'objCourseView.chooseTime', width: 160, formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.objCourseView.planCourseObjId)=='') return '-'
+            { label: '选课时间',name: 'objInfo.chooseTime', width: 160, formatter: function (cellvalue, options, rowObject) {
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
                 return cellvalue;
             }, frozen: true},
-            { label: '选课操作人',name: 'objCourseView.chooseUserId', formatter: function (cellvalue, options, rowObject) {
-                if($.trim(rowObject.objCourseView.planCourseObjId)=='') return '-'
-                return cellvalue==rowObject.userId?'本人':rowObject.objCourseView.chooseUserName;
+            { label: '选课操作人',name: 'objInfo.chooseUserId', formatter: function (cellvalue, options, rowObject) {
+                if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
+                return cellvalue==rowObject.userId?'本人':rowObject.objInfo.chooseUserName;
             }, frozen: true},
             {name:'planCourseObjId', hidden:true, formatter: function (cellvalue, options, rowObject){
-                return $.trim(rowObject.objCourseView.planCourseObjId)
+                return $.trim(rowObject.objInfo.planCourseObjId)
             }},
             </c:if>
             <c:if test="${cls==4}">
@@ -318,6 +356,32 @@
                     return 0;
                 }
                 return '${cm:stripTrailingZeros(cetProjectPlan.period)}'
+            }, frozen: true},
+            </c:if>
+            <c:if test="${cls==5}">
+            { label: '分组状态',name: 'objInfo.discussGroupId', width: 80, formatter: function (cellvalue, options, rowObject) {
+
+                if(cellvalue>0){
+                    //console.log(discussGroupObj.discussGroupId + " " + parseInt(discussGroupId))
+                    if(cellvalue==parseInt(discussGroupId)){
+                        return '<span class="text-success">本组</span>'
+                    }else{
+                        return '<span class="text-danger">其他组</span>'
+                    }
+                }else{
+                    return '未分组'
+                }
+            }, frozen: true},
+            { label: '参会情况',name: 'objInfo.isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue!=undefined &&
+                        rowObject.objInfo.discussGroupId==parseInt(discussGroupId)){
+                    return cellvalue?"已参会":"未参会"
+                }
+                return '-'
+            }, frozen: true},
+            { label: '完成学时数',name: 'objInfo.isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.objInfo.isFinished==undefined) return '-'
+                return rowObject.objInfo.isFinished?${cetDiscuss.period}:0
             }, frozen: true},
             </c:if>
             {label: '工作证号', name: 'code', width: 100, frozen: true},
@@ -376,8 +440,10 @@
         onSelectAll: function (aRowids, status) {
             saveJqgridSelected("#" + this.id);
             _onSelectRow(this)
+        },gridComplete:function(){
+            $(this).jqGrid("setFrozenColumns");
         }
-    }).jqGrid("setFrozenColumns");
+    });
 
     function _onSelectRow(grid) {
         var ids = $(grid).getGridParam("selarrrow");

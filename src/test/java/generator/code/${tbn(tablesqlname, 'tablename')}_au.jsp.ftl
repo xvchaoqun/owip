@@ -32,7 +32,6 @@ pageEncoding="UTF-8"%>
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="&{${tableName}!=null}">确定</c:if><c:if test="&{${tableName}==null}">添加</c:if></button>
 </div>
-
 <script>
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({

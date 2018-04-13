@@ -1,7 +1,9 @@
 package domain.cet;
 
 import domain.sys.SysUserView;
+import persistence.cet.CetDiscussGroupMapper;
 import persistence.cet.CetTrainCourseMapper;
+import service.cet.CetDiscussGroupObjService;
 import service.cet.CetPlanCourseObjService;
 import service.cet.CetTraineeCourseService;
 import service.cet.CetTraineeService;
@@ -18,7 +20,7 @@ import java.util.Map;
 
 public class CetProjectObjCadreView implements Serializable {
 
-    public Map getObjCourseView() {
+    public Map getObjInfo() {
 
         HttpServletRequest request = ContextHelper.getRequest();
         if (request == null) return null;
@@ -27,7 +29,8 @@ public class CetProjectObjCadreView implements Serializable {
 
         Integer trainCourseId = (Integer) request.getAttribute("trainCourseId");
         Integer planCourseId = (Integer) request.getAttribute("planCourseId");
-        if (trainCourseId == null && planCourseId == null) return null;
+        Integer discussGroupId = (Integer) request.getAttribute("discussGroupId");
+        if (trainCourseId == null && planCourseId == null && discussGroupId==null) return null;
 
         if (trainCourseId != null) {
             // 培训班选课页面
@@ -73,6 +76,20 @@ public class CetProjectObjCadreView implements Serializable {
                     SysUserView uv = CmTag.getUserById(cpo.getChooseUserId());
                     resultMap.put("chooseUserName", uv == null ? null : uv.getRealname());
                 }
+            }
+        }else if(discussGroupId!=null){
+
+            CetDiscussGroupMapper cetDiscussGroupMapper = CmTag.getBean(CetDiscussGroupMapper.class);
+            CetDiscussGroup cetDiscussGroup = cetDiscussGroupMapper.selectByPrimaryKey(discussGroupId);
+            Integer discussId = cetDiscussGroup.getDiscussId();
+
+            CetDiscussGroupObjService cetDiscussGroupObjService = CmTag.getBean(CetDiscussGroupObjService.class);
+            CetDiscussGroupObj cetDiscussGroupObj = cetDiscussGroupObjService.getByDiscussId(id, discussId);
+
+            if(cetDiscussGroupObj!=null){
+                // 当前所在分组
+                resultMap.put("discussGroupId",  cetDiscussGroupObj.getDiscussGroupId());
+                resultMap.put("isFinished",  cetDiscussGroupObj.getIsFinished());
             }
         }
 

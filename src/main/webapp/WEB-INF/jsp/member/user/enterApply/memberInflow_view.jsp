@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="row">
   <div class="col-xs-12">
-    <!-- PAGE CONTENT BEGINS -->
+
     <div class="col-xs-offset-1 col-xs-10" style="padding-top: 50px">
 
       <div class="page-header">

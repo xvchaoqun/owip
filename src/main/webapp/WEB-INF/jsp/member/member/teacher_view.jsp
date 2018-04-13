@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
     <div class="modal-body">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div class="widget-box transparent" id="view-box">
             <div class="widget-header">
                 <h4 class="widget-title lighter smaller">

@@ -50,8 +50,6 @@
   </c:if>
 <div class="row">
   <div class="col-xs-12">
-    <!-- PAGE CONTENT BEGINS -->
-    <!-- #section:pages/error -->
     <div class="error-container" >
       <div class="well">
         <h1 class="grey lighter smaller">

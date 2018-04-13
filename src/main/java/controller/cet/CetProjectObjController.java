@@ -51,6 +51,8 @@ public class CetProjectObjController extends CetBaseController {
             Integer trainCourseId, // 培训班选课页面时传入
             Integer planCourseId, // 培训方案选课页面时传入
             Integer planId, // 上传心得体会页面时传入
+            Integer discussGroupId, // 选择小组学员页面时传入（分组研讨）
+
             @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
             @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
             @RequestParam(required = false, value = "postIds") Integer[] postIds,
@@ -80,6 +82,13 @@ public class CetProjectObjController extends CetBaseController {
             CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
             modelMap.put("cetProjectPlan", cetProjectPlan);
         }
+        /*if(discussGroupId!=null){
+            // 获取所有培训对象的分组情况
+            CetDiscussGroup cetDiscussGroup = cetDiscussGroupMapper.selectByPrimaryKey(discussGroupId);
+            int discussId = cetDiscussGroup.getDiscussId();
+            Map<Integer, CetDiscussGroupObj> objMap = cetDiscussService.getObjMap(discussId);
+            modelMap.put("objMap", objMap);
+        }*/
 
         if (dpTypes != null) {
             modelMap.put("selectDpTypes", Arrays.asList(dpTypes));
@@ -104,7 +113,7 @@ public class CetProjectObjController extends CetBaseController {
                                    int projectId,
                                    Integer trainCourseId, // 培训班选课页面时传入
                                    Integer planCourseId, // 培训方案选课页面时传入
-
+                                   Integer discussGroupId, // 选择小组学员页面时传入（分组研讨）
                                    Integer userId,
                                    @RequestParam(required = false, value = "dpTypes") Long[] dpTypes,
                                    @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
@@ -167,6 +176,7 @@ public class CetProjectObjController extends CetBaseController {
 
         request.setAttribute("trainCourseId", trainCourseId);
         request.setAttribute("planCourseId", planCourseId);
+        request.setAttribute("discussGroupId", discussGroupId);
 
         Map resultMap = new HashMap();
         resultMap.put("rows", records);

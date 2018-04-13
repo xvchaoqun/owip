@@ -3,7 +3,7 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div id="body-content">
         <div class="tabbable">
             <jsp:include page="/WEB-INF/jsp/abroad/approvalAuth/approvalAuth_menu.jsp"/>

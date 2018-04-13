@@ -3,7 +3,7 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row rownumbers">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div id="body-content" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.year ||not empty param.name || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">

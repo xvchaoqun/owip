@@ -28,7 +28,7 @@
     </div>
 </div>
     </c:if>
-<!-- PAGE CONTENT BEGINS -->
+
 <div class="widget-box" id="useLogs">
     <div class="widget-header">
         <h4 class="widget-title"><i class="ace-icon fa fa-list blue "></i> 修改字段审核情况</h4>

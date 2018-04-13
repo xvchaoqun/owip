@@ -4,7 +4,6 @@
 <div class="tabbable myTableDiv">
     <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
         <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
-
             <li class="${type==1?"active":""}">
                 <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 最新审批表</a>
             </li>

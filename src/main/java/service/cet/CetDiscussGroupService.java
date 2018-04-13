@@ -3,8 +3,10 @@ package service.cet;
 import domain.cet.CetDiscuss;
 import domain.cet.CetDiscussGroup;
 import domain.cet.CetDiscussGroupExample;
+import domain.cet.CetDiscussGroupObj;
+import domain.cet.CetDiscussGroupObjExample;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -16,6 +18,9 @@ import java.util.List;
 
 @Service
 public class CetDiscussGroupService extends BaseMapper {
+
+    @Autowired
+    private CetDiscussGroupObjService cetDiscussGroupObjService;
 
     @Transactional
     public void insertSelective(CetDiscussGroup record){
@@ -58,7 +63,6 @@ public class CetDiscussGroupService extends BaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "CetDiscussGroup:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;
@@ -97,5 +101,50 @@ public class CetDiscussGroupService extends BaseMapper {
             record.setSortOrder(targetEntity.getSortOrder());
             cetDiscussGroupMapper.updateByPrimaryKeySelective(record);
         }
+    }
+
+    @Transactional
+    public void selectObjs(Integer[] objIds, boolean select, int discussGroupId) {
+
+        if(objIds==null || objIds.length==0) return ;
+
+        if(select){
+            CetDiscussGroup cetDiscussGroup = cetDiscussGroupMapper.selectByPrimaryKey(discussGroupId);
+            int discussId = cetDiscussGroup.getDiscussId();
+            for (Integer objId : objIds) {
+
+                CetDiscussGroupObj cetDiscussGroupObj = cetDiscussGroupObjService.getByDiscussId(objId, discussId);
+                if (cetDiscussGroupObj!=null) continue;
+
+                CetDiscussGroupObj record = new CetDiscussGroupObj();
+                record.setDiscussId(discussId);
+                record.setDiscussGroupId(discussGroupId);
+                record.setObjId(objId);
+                record.setIsFinished(false);
+
+                cetDiscussGroupObjMapper.insertSelective(record);
+            }
+        }else{
+
+            CetDiscussGroupObjExample example = new CetDiscussGroupObjExample();
+            example.createCriteria().andDiscussGroupIdEqualTo(discussGroupId)
+                    .andObjIdIn(Arrays.asList(objIds));
+
+            cetDiscussGroupObjMapper.deleteByExample(example);
+        }
+    }
+
+    @Transactional
+    public void finish(Integer[] objIds, boolean finish, int discussGroupId) {
+
+        if(objIds==null || objIds.length==0) return ;
+
+        CetDiscussGroupObjExample example = new CetDiscussGroupObjExample();
+        example.createCriteria().andDiscussGroupIdEqualTo(discussGroupId)
+                .andObjIdIn(Arrays.asList(objIds));
+
+        CetDiscussGroupObj record = new CetDiscussGroupObj();
+        record.setIsFinished(finish);
+        cetDiscussGroupObjMapper.updateByExampleSelective(record, example);
     }
 }

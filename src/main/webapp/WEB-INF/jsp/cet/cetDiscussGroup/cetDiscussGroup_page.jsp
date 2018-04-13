@@ -33,11 +33,23 @@
                             data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
                         修改
                     </button>
+                    <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                            data-url="${ctx}/cet/cetDiscussGroup_result"
+                            data-grid-id="#jqGrid2"><i class="fa fa-upload"></i>
+                        上传开会信息
+                    </button>
+                    <%--<button class="jqOpenViewBtn btn btn-warning btn-sm"
+                            data-open-by="page"
+                            data-url="${ctx}/cet/cetProject_detail_obj?cls=5&projectId=${cetProject.id}"
+                            data-id-name="discussGroupId"
+                            data-grid-id="#jqGrid2"><i class="fa fa-users"></i>
+                        设置小组成员
+                    </button>--%>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cetDiscussGroup:del">
                     <button data-url="${ctx}/cet/cetDiscussGroup_batchDel"
                             data-title="删除"
-                            data-msg="确定删除这{0}条数据？"
+                            data-msg="确定删除这{0}条数据？（关联数据都将删除，请谨慎操作！）"
                             data-grid-id="#jqGrid2"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
@@ -58,6 +70,11 @@
         pager: "jqGridPager2",
         url: '${ctx}/cet/cetDiscussGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '小组成员', name: 'objCount',width: 80, formatter: function (cellvalue, options, rowObject) {
+                return ('<button class="openView btn btn-success btn-xs" ' +
+                'data-url="${ctx}/cet/cetProject_detail_obj?cls=5&projectId=${cetProject.id}&discussGroupId={0}"><i class="fa fa-search"></i> 详情</button>')
+                        .format(rowObject.id);
+            }},
             {label: '状态', name: '_status', formatter: function (cellvalue, options, rowObject) {
                 return '未召开'
             }, frozen: true},
@@ -74,6 +91,12 @@
             {label: '召开时间', name: 'discussTime',width: 150, formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},
             {label: '召开地点', name: 'discussAddress',width: 250, align:'left'},
+            /*{label: '小组成员', name: 'objCount',width: 80, formatter: function (cellvalue, options, rowObject) {
+                return "-";
+            }},
+            {label: '实际参会情况', name: '_count',width: 120, formatter: function (cellvalue, options, rowObject) {
+                return '-'
+            }},*/
             <c:if test="${cetDiscuss.unitType!=CET_DISCUSS_UNIT_TYPE_OW}">
             {label: '负责单位', name: 'unitId',width: 250, formatter: function (cellvalue, options, rowObject) {
                 if(unitType==${CET_DISCUSS_UNIT_TYPE_OW}) return '-'

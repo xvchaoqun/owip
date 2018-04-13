@@ -9,7 +9,7 @@
             <c:set var="_query" value="${not empty param.receiverId ||not empty param.mobile
             || not empty param.senderId|| not empty param.content || not empty param._sendTime
             || not empty param.code || not empty param.sort}"/>
-            <!-- PAGE CONTENT BEGINS -->
+
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
                 <div class="tab-content">

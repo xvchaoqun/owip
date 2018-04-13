@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/crsPost"
              data-url-export="${ctx}/crsPost_data"

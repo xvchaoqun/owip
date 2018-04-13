@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <div class="row">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div id="body-content">
             <div class="myTableDiv"
                  data-url-page="${ctx}/cadre"

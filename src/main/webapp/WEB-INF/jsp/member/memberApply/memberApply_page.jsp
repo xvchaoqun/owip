@@ -20,7 +20,7 @@
                     <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
                         <div class="tab-content padding-4">
                             <div class="tab-pane in active">
-                                <!-- PAGE CONTENT BEGINS -->
+
                                 <div class="tabbable tabs-left">
                                     <%
                                         String[] colors= new String[8];

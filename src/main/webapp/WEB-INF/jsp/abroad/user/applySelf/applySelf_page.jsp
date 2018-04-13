@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/user/abroad/applySelf_au"
              data-url-page="${ctx}/user/abroad/applySelf"

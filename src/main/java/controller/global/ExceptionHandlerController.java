@@ -209,7 +209,8 @@ public class ExceptionHandlerController {
                 break;
         }
 
-        logger.warn(getMsg(request, ex), ex);
+        //logger.warn(getMsg(request, ex), ex);
+        logger.warn(getMsg(request, ex));
 
         try {
             JSONUtils.write(response, resultMap, false);

@@ -18,7 +18,7 @@
 <c:if test="${param._auth=='self'}">
     <div id="body-content-view">
 </c:if>
-<!-- PAGE CONTENT BEGINS -->
+
 <div class="widget-box transparent" id="view-box">
     <div class="widget-header" style="border-bottom:none">
         <div class="jqgrid-vertical-offset widget-toolbar no-border"

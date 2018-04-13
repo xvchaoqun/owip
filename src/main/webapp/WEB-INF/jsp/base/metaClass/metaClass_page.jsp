@@ -11,7 +11,7 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.name || not empty param.code
                 || (not empty param.sort&&param.sort!='sort_order')}"/>
-            <!-- PAGE CONTENT BEGINS -->
+
                 <div class="jqgrid-vertical-offset  buttons">
 
                         <shiro:hasPermission name="metaClass:edit">

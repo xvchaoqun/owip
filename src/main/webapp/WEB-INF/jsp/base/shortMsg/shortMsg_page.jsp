@@ -13,7 +13,7 @@
             <c:set var="_query" value="${not empty param.receiverId ||not empty param.mobile
             || not empty param.senderId|| not empty param.content || not empty param._sendTime
             || not empty param.code || not empty param.sort}"/>
-            <!-- PAGE CONTENT BEGINS -->
+
             <div class="col-sm-12">
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">

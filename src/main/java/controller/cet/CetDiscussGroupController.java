@@ -147,6 +147,48 @@ public class CetDiscussGroupController extends CetBaseController {
         return "cet/cetDiscussGroup/cetDiscussGroup_au";
     }
 
+    // 上传开会信息
+    @RequiresPermissions("cetDiscussGroup:edit")
+    @RequestMapping("/cetDiscussGroup_result")
+    public String cetDiscussGroup_result(Integer id,
+                                     ModelMap modelMap) {
+        if (id != null) {
+            CetDiscussGroup cetDiscussGroup = cetDiscussGroupMapper.selectByPrimaryKey(id);
+            modelMap.put("cetDiscussGroup", cetDiscussGroup);
+        }
+        return "cet/cetDiscussGroup/cetDiscussGroup_result";
+    }
+
+    // 选择学员/取消选择
+    @RequiresPermissions("cetDiscussGroup:edit")
+    @RequestMapping(value = "/cetDiscussGroup_selectObjs", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetDiscussGroup_selectObjs(boolean select, int discussGroupId,
+                                           @RequestParam(value = "ids[]", required = false) Integer[] ids ,
+                                           HttpServletRequest request) {
+
+        cetDiscussGroupService.selectObjs(ids, select, discussGroupId);
+        logger.info(addLog(SystemConstants.LOG_CET, "选择学员/取消选择： %s, %s, %s",
+                StringUtils.join(ids, ","), select, discussGroupId));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 参会/取消参会
+    @RequiresPermissions("cetDiscussGroup:edit")
+    @RequestMapping(value = "/cetDiscussGroup_finish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetDiscussGroup_finish(boolean finish, int discussGroupId,
+                                           @RequestParam(value = "ids[]", required = false) Integer[] ids ,
+                                           HttpServletRequest request) {
+
+        cetDiscussGroupService.finish(ids, finish, discussGroupId);
+        logger.info(addLog(SystemConstants.LOG_CET, "参会/取消参会： %s, %s, %s",
+                StringUtils.join(ids, ","), finish, discussGroupId));
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("cetDiscussGroup:del")
     @RequestMapping(value = "/cetDiscussGroup_del", method = RequestMethod.POST)
     @ResponseBody

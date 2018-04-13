@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content">
-            <!-- PAGE CONTENT BEGINS -->
+
             <div class="widget-box transparent">
                 <div class="widget-header">
                     <div class="widget-toolbar no-border">

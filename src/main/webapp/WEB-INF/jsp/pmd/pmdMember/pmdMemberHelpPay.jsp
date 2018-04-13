@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<!-- PAGE CONTENT BEGINS -->
+
 <div class="widget-box transparent">
   <div class="widget-header">
     <h4 class="widget-title lighter smaller">

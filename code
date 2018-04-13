@@ -93,3 +93,7 @@ $('textarea.limited').inputlimiter();
 
 
 autocomplete="off" disableautocomplete
+
+,gridComplete:function(){
+	$(this).jqGrid("setFrozenColumns");
+}

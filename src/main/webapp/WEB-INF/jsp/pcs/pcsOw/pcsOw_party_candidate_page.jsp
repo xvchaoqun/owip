@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<!-- PAGE CONTENT BEGINS -->
+
 <div class="myTableDiv"
      data-url-page="${ctx}/pcsOw_party_candidate_page"
      data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">

@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div id="body-content" class="multi-row-head-table myTableDiv"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <div class="tabbable">

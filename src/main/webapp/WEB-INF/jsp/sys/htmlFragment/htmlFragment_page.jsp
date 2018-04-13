@@ -10,7 +10,7 @@
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.title || not empty param.code
                 || (not empty param.sort&&param.sort!='sort_order')}"/>
-            <!-- PAGE CONTENT BEGINS -->
+
                 <div class="jqgrid-vertical-offset  buttons">
                         <shiro:hasPermission name="htmlFragment:edit">
                             <a class="openView btn btn-info btn-sm" data-url="${ctx}/htmlFragment_au">

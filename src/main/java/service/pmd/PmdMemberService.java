@@ -1,6 +1,7 @@
 package service.pmd;
 
 import controller.global.OpException;
+import domain.pmd.PmdBranch;
 import domain.pmd.PmdConfigMember;
 import domain.pmd.PmdConfigMemberType;
 import domain.pmd.PmdMember;
@@ -11,13 +12,16 @@ import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdNorm;
 import domain.pmd.PmdNormValue;
+import domain.pmd.PmdParty;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.party.PartyService;
 import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.PmdConstants;
@@ -26,13 +30,23 @@ import sys.constants.SystemConstants;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PmdMemberService extends BaseMapper {
 
     @Autowired
-    private PmdPayService pmdPayService;
+    private PmdBranchService pmdBranchService;
+    @Autowired
+    private PartyService partyService;
+    @Autowired
+    private PmdPartyService pmdPartyService;
+    @Autowired
+    private PmdPartyAdminService pmdPartyAdminService;
+    @Autowired
+    private PmdBranchAdminService pmdBranchAdminService;
     @Autowired
     private PmdMonthService pmdMonthService;
     @Autowired
@@ -45,6 +59,57 @@ public class PmdMemberService extends BaseMapper {
     private SysApprovalLogService sysApprovalLogService;
     @Autowired
     private  PmdMemberPayService pmdMemberPayService;
+
+    // 检测支部或直属党支部的操作权限（允许上级分党委或组织部管理员操作）
+    public PmdMember checkAdmin(int pmdMemberId) {
+
+        int userId = ShiroHelper.getCurrentUserId();
+
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        int currentMonthId = currentPmdMonth.getId();
+
+        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(pmdMemberId);
+        // 当前所在的单位快照
+        PmdMember _pmdMember = get(currentMonthId, pmdMember.getUserId());
+
+        // 检测党支部或直属党支部是否已经报送了
+        Integer partyId = _pmdMember.getPartyId();
+        Integer branchId = _pmdMember.getBranchId();
+
+        List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
+        Set<Integer> adminPartyIdSet = new HashSet<>();
+        adminPartyIdSet.addAll(adminPartyIds);
+
+        List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(userId);
+        Set<Integer> adminBranchIdSet = new HashSet<>();
+        adminBranchIdSet.addAll(adminBranchIds);
+
+        if (partyService.isDirectBranch(partyId)) {
+
+            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)
+                    && !adminPartyIdSet.contains(partyId)) {
+                throw new UnauthorizedException();
+            }
+
+            PmdParty pmdParty = pmdPartyService.get(currentMonthId, partyId);
+            if (pmdParty == null || pmdParty.getHasReport()) {
+                throw new OpException("数据已经报送，不允许操作。");
+            }
+        } else {
+
+            if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)
+                    && !adminPartyIdSet.contains(partyId)
+                    && !adminBranchIdSet.contains(branchId)) {
+                throw new UnauthorizedException();
+            }
+
+            PmdBranch pmdBranch = pmdBranchService.get(currentMonthId, partyId, branchId);
+            if (pmdBranch == null || pmdBranch.getHasReport()) {
+                throw new OpException("数据已经报送，不允许操作。");
+            }
+        }
+        return pmdMember;
+    }
 
     public PmdMember get(int monthId, int userId){
 
@@ -65,7 +130,8 @@ public class PmdMemberService extends BaseMapper {
     @Transactional
     public void del(Integer id) {
 
-        PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
+        //PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
+        PmdMember pmdMember = checkAdmin(id);
 
         if(pmdMember.getHasPay()){
             throw  new OpException("操作失败，只能删除未缴费的记录。");
@@ -162,7 +228,7 @@ public class PmdMemberService extends BaseMapper {
 
         for (int id : ids) {
 
-            PmdMember pmdMember = pmdPayService.checkAdmin(id);
+            PmdMember pmdMember = checkAdmin(id);
             SysUserView uv = pmdMember.getUser();
             int userId = uv.getUserId();
 
@@ -306,7 +372,7 @@ public class PmdMemberService extends BaseMapper {
         Integer currentUserId = ShiroHelper.getCurrentUserId();
         for (int id : ids) {
 
-            PmdMember pmdMember = pmdPayService.checkAdmin(id);
+            PmdMember pmdMember = checkAdmin(id);
             SysUserView uv = pmdMember.getUser();
 
             if(pmdMember.getMonthId()!=currentMonthId){
@@ -384,7 +450,8 @@ public class PmdMemberService extends BaseMapper {
 
         for (int id : ids) {
 
-            PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
+            //PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
+            PmdMember pmdMember = checkAdmin(id);
             int pmdMemberId = pmdMember.getId();
             String realname = pmdMember.getUser().getRealname();
             BigDecimal duePay = pmdMember.getDuePay();

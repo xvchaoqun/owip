@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content">
-            <!-- PAGE CONTENT BEGINS -->
+
             <div class="myTableDiv"
                  data-url-au="${ctx}/applyOpenTime_au"
                  data-url-page="${ctx}/applyOpenTime"

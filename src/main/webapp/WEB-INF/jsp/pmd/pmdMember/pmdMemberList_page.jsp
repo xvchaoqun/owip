@@ -3,7 +3,7 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div id="body-content" class="myTableDiv"
                  data-url-page="${ctx}/pmd/pmdMember"
                  data-url-export="${ctx}/pmd/pmdMember_data"
@@ -46,12 +46,14 @@ pageEncoding="UTF-8" %>
                             data-grid-id="#jqGrid">
                         <i class="fa fa-check-square-o"></i> 选择党员类别
                     </button>
+                    <shiro:hasPermission name="pmdMember:setIsOnlinePay">
                     <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
                             data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"
                             data-querystr="auth=1"
                             data-grid-id="#jqGrid">
                         <i class="fa fa-edit"></i> 修改缴费方式
                     </button>
+                    </shiro:hasPermission>
                     <button id="helpSetSalaryBtn" class="jqOpenViewBtn btn btn-success btn-sm"
                             data-width="600"
                             data-url="${ctx}/user/pmd/pmdMember_setSalary"

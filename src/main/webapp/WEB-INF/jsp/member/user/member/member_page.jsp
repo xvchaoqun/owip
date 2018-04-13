@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="USER_TYPE_JZG" value="<%=SystemConstants.USER_TYPE_JZG%>"/>
 	<div class="modal-body">
-		<!-- PAGE CONTENT BEGINS -->
+
 		<div class="widget-box transparent" id="view-box">
 			<div class="widget-header">
 				<h4 class="widget-title lighter smaller">

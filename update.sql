@@ -1,4 +1,30 @@
 
+2018-4-13
+新建
+party_school
+cet_unit
+cet_party
+cet_party_school
+
+cet_unit_view
+cet_party_view
+cet_party_school_view
+
+cet_discuss
+cet_discuss_group
+cet_discuss_group_obj
+
+
+2018-4-13
+
+ALTER TABLE `sys_config`
+	ADD COLUMN `apple_icon` VARCHAR(200) NULL DEFAULT NULL COMMENT 'iphone桌面图标, ICO格式，64*64' AFTER `login_top_bg_color`,
+	ADD COLUMN `screen_icon` VARCHAR(200) NULL DEFAULT NULL COMMENT 'iphone桌面图标，PNG格式，234*234' AFTER `apple_icon`;
+
+ALTER TABLE `sys_config`
+	ADD COLUMN `mobile_title` VARCHAR(20) NULL DEFAULT NULL COMMENT '移动端平台title' AFTER `mobile_plantform_name`;
+
+
 2018-4-10
 
 新建 cet_plan_course

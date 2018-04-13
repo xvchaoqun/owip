@@ -7,7 +7,7 @@
          data-url-page="${ctx}/sysApprovalLog?displayType=${displayType}&type=${type}"
          data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
       <c:set var="_query" value="${not empty param.userId}"/>
-      <!-- PAGE CONTENT BEGINS -->
+
       <div class="col-sm-12">
         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
           <div class="widget-header">

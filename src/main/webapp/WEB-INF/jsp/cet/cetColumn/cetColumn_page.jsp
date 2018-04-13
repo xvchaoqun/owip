@@ -5,7 +5,7 @@
 <c:set value="${param.columnType==1?'重点子专题':'特色子栏目'}" var="subTypeName"/>
 <div class="row">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/cet/cetColumn"
              data-url-export="${ctx}/cet/cetColumn_data"

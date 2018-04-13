@@ -3,7 +3,7 @@ pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div class="myTableDiv"
              data-url-au="${ctx}/cadreTutor_au"
              data-url-page="${ctx}/cadreTutor_page"

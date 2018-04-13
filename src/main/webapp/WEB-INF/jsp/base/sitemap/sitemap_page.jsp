@@ -4,7 +4,7 @@
 
 <div class="row" style="padding-bottom: 20px;">
     <div class="col-xs-12">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div class="col-sm-12">
             <a href="javascript:;" onclick="_appendChild('')"
                class="btn btn-success btn-xs"><i class="fa fa-plus"></i> 添加</a>

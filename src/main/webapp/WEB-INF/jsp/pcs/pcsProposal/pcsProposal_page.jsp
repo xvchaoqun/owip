@@ -14,7 +14,7 @@ pageEncoding="UTF-8" %>
             </div>
         </c:if>
         <c:if test="${!proposalClosed  && !supportClosed}">
-        <!-- PAGE CONTENT BEGINS -->
+
         <div id="body-content" class="myTableDiv"
                  data-url-page="${ctx}/pcsProposal"
                  data-url-export="${ctx}/pcsProposal_data"
