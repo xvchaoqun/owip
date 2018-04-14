@@ -27,7 +27,7 @@
                             <c:forEach items="${applySelfs}" var="applySelf">
                                 <c:set var="cadre" value="${cm:getCadreById(applySelf.cadreId)}"/>
                                 <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
-                            <div class="openView message-item" data-openby="page"
+                            <div class="openView message-item" data-open-by="page"
                                  data-url="${ctx}/m/abroad/applySelf_view?id=${applySelf.id}&status=${status}">
                                 <i class="message-star ace-icon fa ${status==1?'fa-star orange2':'fa-star-o light-green'}"></i>
                                 <span class="sender">${sysUser.realname}-${cadre.title}</span>

@@ -104,7 +104,7 @@ public class CpcAllocationService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        List<CpcInfoBean> beans = cpcInfo_data();
+        List<CpcInfoBean> beans = cpcInfo_data(null, true);
 
         XSSFRow row = sheet.getRow(1);
         XSSFCell cell = row.getCell(0);
@@ -288,8 +288,10 @@ public class CpcAllocationService extends BaseMapper {
      * 干部职数配置情况统计
      *
      * @return 最后一个bean是统计结果
+     *
+     * hasSetCpc = true 只读取设置了职数的单位
      */
-    public List<CpcInfoBean> cpcInfo_data() {
+    public List<CpcInfoBean> cpcInfo_data(Integer _unitId, boolean hasSetCpc) {
 
 
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
@@ -297,8 +299,13 @@ public class CpcAllocationService extends BaseMapper {
         MetaType viceMetaType = metaTypeMap.get("mt_admin_level_vice");
         MetaType noneMetaType = metaTypeMap.get("mt_admin_level_none");
 
-        Map<Integer, Unit> unitMap = unitService.findAll();
-
+        Map<Integer, Unit> _unitMap = unitService.findAll();
+        Map<Integer, Unit> unitMap = new HashMap<>();
+        if(_unitId!=null){
+            unitMap.put(_unitId, _unitMap.get(_unitId));
+        }else{
+            unitMap.putAll(_unitMap);
+        }
 
         List<CpcInfoBean> beans = new ArrayList<>();
 
@@ -322,15 +329,20 @@ public class CpcAllocationService extends BaseMapper {
 
             Integer unitId = unit.getId();
             if (unit.getStatus() == SystemConstants.UNIT_STATUS_RUN
-                    && (_unitAdminLevelMap.containsKey(unitId))) {
+                    && !(hasSetCpc && !_unitAdminLevelMap.containsKey(unitId))) {
 
                 CpcInfoBean bean = new CpcInfoBean();
                 bean.setUnit(unit);
 
+                Integer mainNum = null;
+                Integer viceNum = null;
+                Integer noneNum = null;
                 Map<Integer, Integer> _adminLevelMap = _unitAdminLevelMap.get(unitId);
-                Integer mainNum = _adminLevelMap.get(mainMetaType.getId());
-                Integer viceNum = _adminLevelMap.get(viceMetaType.getId());
-                Integer noneNum = _adminLevelMap.get(noneMetaType.getId());
+                if(_adminLevelMap!=null) {
+                    mainNum = _adminLevelMap.get(mainMetaType.getId());
+                    viceNum = _adminLevelMap.get(viceMetaType.getId());
+                    noneNum = _adminLevelMap.get(noneMetaType.getId());
+                }
 
                 // 查找主职、兼职在此单位的现任干部
                 List<CadrePost> cadrePosts = iCadreMapper.findCadrePosts(unitId);

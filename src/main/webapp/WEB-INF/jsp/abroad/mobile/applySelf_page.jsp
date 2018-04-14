@@ -27,7 +27,7 @@
                             <c:forEach items="${applySelfs}" var="applySelf">
                                 <c:set var="cadre" value="${cm:getCadreById(applySelf.cadreId)}"/>
                                 <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
-                                <div class="openView message-item" data-openby="page"
+                                <div class="openView message-item" data-open-by="page"
                                      data-url="${ctx}/m/abroad/applySelf_view?id=${applySelf.id}&status=${status}&type=admin">
                                     <i class="message-star ace-icon fa ${status==1?'fa-star orange2':'fa-star-o light-green'}"></i>
                                     <span class="sender">${sysUser.realname}</span>
@@ -54,7 +54,7 @@
                                     </c:if>
                                 </span>
                                 </div>
-                            <%--<div class="openView message-item" data-openby="page"
+                            <%--<div class="openView message-item" data-open-by="page"
                                  data-url="${ctx}/m/abroad/applySelf_view?id=${applySelf.id}&status=${status}&type=admin">
                                 <i class="message-star ace-icon fa ${status==1?'fa-star orange2':'fa-star-o light-green'}"></i>
                                 <span class="sender">【S${applySelf.id}】${fn:replace(applySelf.reason, '+++', ',')}</span>

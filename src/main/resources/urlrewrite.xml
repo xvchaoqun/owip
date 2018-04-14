@@ -28,6 +28,12 @@
 		<to>/cadre_selects</to>
 	</rule>
 	<rule>
+		<note>单位查询</note>
+		<condition type="method">GET</condition>
+		<from>^/m/unit_selects</from>
+		<to>/unit_selects</to>
+	</rule>
+	<rule>
 		<note>因私出访短信通知弹出框</note>
 		<condition type="method">GET</condition>
 		<from>^/m/abroad/shortMsg_view$</from>

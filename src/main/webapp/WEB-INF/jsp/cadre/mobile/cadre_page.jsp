@@ -1,29 +1,38 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<div class="ace-settings-container" id="ace-settings-container">
-    <div class="btn btn-app btn-xs btn-info ace-settings-btn" id="ace-settings-btn">
-        <i class="ace-icon fa fa-search bigger-130"></i>
-    </div>
-    <div class="ace-settings-box clearfix" id="ace-settings-box">
-        <div style="height: 35px;margin: 15px 0px;">
-            <select data-rel="select2-ajax"
-                    data-ajax-url="${ctx}/m/cadre_selects?types=${CADRE_STATUS_MIDDLE}" data-width="300"
-                    name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                <option></option>
-            </select>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<div class="row">
+    <div class="col-xs-12">
+        <div id="body-content">
+            <div class="row">
+                <div class="col-sm-8 infobox-container">
+                    <div class="openView infobox infobox-blue2" data-open-by="page" style="padding-top: 12px"
+                         data-url="${ctx}/m/cadre_search_byName">
+                        <button class="btn btn-success btn-block"><i class="fa fa-arrow-right"></i> 按姓名查询</button>
+                    </div>
+                </div>
+                <div class="col-sm-8 infobox-container">
+                    <div class="openView infobox infobox-blue2" data-open-by="page" style="padding-top: 12px"
+                         data-url="${ctx}/m/cadre_search_byUnit">
+                        <button class="btn btn-info btn-block"><i class="fa fa-arrow-right"></i> 按单位查询</button>
+                    </div>
+                </div>
+               <%-- <div class="col-sm-8 infobox-container">
+                    <div class="openView infobox infobox-blue2" data-open-by="page" style="padding-top: 12px"
+                         data-url="${ctx}/m/cadre_search">
+                        <button class="btn btn-primary btn-block" style=><i class="fa fa-arrow-right"></i> 搜索<span
+                                style="margin-left: 35px;"/></button>
+                    </div>
+                </div>--%>
+                <div class="col-sm-8 infobox-container">
+                    <div class="openView infobox infobox-blue2" data-open-by="page" style="padding-top: 12px"
+                         data-url="${ctx}/m/cadre_compare">
+                        <button class="btn btn-warning btn-block" style=><i class="fa fa-arrow-right"></i> 比对<span
+                                style="margin-left: 35px;"/></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="body-content-view">
         </div>
     </div>
 </div>
-<div id="result"></div>
-<script src="/assets/js/ace/ace.settings.js"></script>
-<script>
-
-    $("#result").load("${ctx}/m/cadre_info");
-    var $select = $.register.ajax_select($('select[name=cadreId]'),{allowClear: false,
-        templateResult: $.register.formatState,
-        templateSelection: $.register.formatState});
-    $select.on("change",function(){
-        $("#result").load("${ctx}/m/cadre_info?cadreId="+ $(this).val());
-        $('#ace-settings-box').toggleClass('open');
-    })
-</script>

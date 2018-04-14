@@ -592,7 +592,7 @@ var _modal_width;
         // 载入副区域, params是 url地址 或 {url：url, $mask: $mask, $show:$show, $hide:$hide, callback: callback} 对象
         loadView: function (params) {
 
-            NProgress.start();
+            if(typeof NProgress!= 'undefined') NProgress.start();
 
             var _params = {};
             if(!$.isJson(params)){
@@ -614,7 +614,7 @@ var _modal_width;
                 $hide.hide();
                 $show.hide().fadeIn("slow").html(html);
                 if (typeof callback == 'function') callback();
-                NProgress.done();
+                if(typeof NProgress!= 'undefined') NProgress.done();
             })
         },
         // 关闭副区域，如果传入了url，则刷新主区域

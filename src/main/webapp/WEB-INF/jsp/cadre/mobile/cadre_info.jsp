@@ -13,14 +13,14 @@
     <div id="base" class="tab-pane in active">
       <div class="profile-user-info profile-user-info-striped" style="border:0px;">
         <div class="profile-info-row">
-          <table class="table table-bordered table-center avatar" style="margin-bottom: 0px;">
+          <table class="table table-center avatar" style="margin-bottom: 0px;">
             <tr>
               <td rowspan="6" class="avatar">
                 <img src="${ctx}/m/avatar?path=${uv.avatar}&_t=<%=new Date().getTime()%>" class="avatar">
               </td>
             </tr>
             <tr>
-              <td style="color: #336199;background-color: #edf3f4;border-top: 1px solid #f7fbff;">
+              <td class="photo-row-td">
                 姓名
               </td>
               <td >
@@ -28,7 +28,7 @@
               </td>
             </tr>
             <tr>
-              <td style="color: #336199;background-color: #edf3f4;border-top: 1px solid #f7fbff;">
+              <td class="photo-row-td">
                 性别
               </td>
               <td>
@@ -36,7 +36,7 @@
               </td>
             </tr>
             <tr>
-              <td style="color: #336199;background-color: #edf3f4;border-top: 1px solid #f7fbff;">
+              <td class="photo-row-td">
                 民族
               </td>
               <td>
@@ -44,7 +44,7 @@
               </td>
             </tr>
             <tr>
-              <td style="color: #336199;background-color: #edf3f4;border-top: 1px solid #f7fbff;">
+              <td class="photo-row-td">
                 出生日期
               </td>
               <td>
@@ -52,11 +52,13 @@
               </td>
             </tr>
             <tr>
-              <td style="color: #336199;background-color: #edf3f4;border-top: 1px solid #f7fbff;">
+              <td class="photo-row-td">
                 年龄
               </td>
-              <td>
-                 ${uv.birth==null?'':cm:intervalYearsUntilNow (uv.birth)}岁
+              <td style="border-bottom: none">
+                <c:if test="${not empty uv.birth}">
+                  ${cm:intervalYearsUntilNow (uv.birth)}岁
+                </c:if>
               </td>
             </tr>
           </table>
@@ -120,7 +122,7 @@
           </div>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name"> 学历信息</div>
+          <div class="profile-info-name"> 学 历 信 息</div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 最高学历</div>
@@ -155,7 +157,7 @@
           </div>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name"> 联系方式</div>
+          <div class="profile-info-name"> 联 系 方 式</div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 手机号</div>
@@ -274,7 +276,7 @@
       <div class="profile-user-info profile-user-info-striped">
 
         <div class="profile-info-row">
-          <div class="profile-info-name"> 专技岗位</div>
+          <div class="profile-info-name"> 专 技 岗 位</div>
         </div>
 
         <div class="profile-info-row">
@@ -302,7 +304,7 @@
           </div>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name"> 管理岗位</div>
+          <div class="profile-info-name"> 管 理 岗 位</div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 管理岗位等级</div>
@@ -317,7 +319,7 @@
           </div>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name"> 工勤岗位</div>
+          <div class="profile-info-name"> 工 勤 岗 位</div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 工勤岗位等级</div>
@@ -337,7 +339,7 @@
       <div class="profile-user-info profile-user-info-striped">
 
         <div class="profile-info-row">
-          <div class="profile-info-name"> 主职信息</div>
+          <div class="profile-info-name"> 主 职 信 息</div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 任职单位</div>
@@ -403,7 +405,7 @@
           </div>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name"> 兼职信息1</div>
+          <div class="profile-info-name"> 兼 职 信 息 1</div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 兼职单位1</div>
@@ -424,7 +426,7 @@
           </div>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name"> 兼职信息2</div>
+          <div class="profile-info-name"> 兼 职 信 息 2</div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 兼职单位2</div>

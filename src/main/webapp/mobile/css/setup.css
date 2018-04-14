@@ -175,16 +175,26 @@ body{
 }
 
 .table.avatar td{
-    height: 35px;
+    /*height: 35px;*/
+    padding: 0;
+    border: 1px dotted #dcebf7;
+    border-right: none;
 }
 .table.avatar td.avatar{
     padding: 0;
     width:128px;
-    height: 179px;
+    /*height: 179px;*/
 }
 .table.avatar td.avatar img{
     width:128px;
-    height: 179px;
+    height: 169px;
+}
+
+.table.avatar .photo-row-td{
+    color: #336199;
+    background-color: #edf3f4;
+    border-top: 1px solid #f7fbff!important;
+    width: 80px;
 }
 
 /*======select2=*/

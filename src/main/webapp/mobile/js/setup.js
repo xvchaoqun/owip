@@ -108,7 +108,7 @@ register_click(".popView", function () {
 
 // 内页展示
 register_click("#body-content .openView", function () {
-    var openBy = $(this).data("openby");
+    var openBy = $(this).data("open-by");
     var url = $(this).data("url");
     if (openBy == 'page') {
         var $container = $("#body-content");

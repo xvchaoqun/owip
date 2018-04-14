@@ -134,7 +134,7 @@ public class CpcAllocationController extends BaseController {
                 return null;
             }
 
-            List<CpcInfoBean> beans = cpcAllocationService.cpcInfo_data();
+            List<CpcInfoBean> beans = cpcAllocationService.cpcInfo_data(null, true);
             modelMap.put("beans", beans);
         } else if (type == 2) {
 
