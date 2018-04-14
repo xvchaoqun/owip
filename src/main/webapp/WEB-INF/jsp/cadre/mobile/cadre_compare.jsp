@@ -43,7 +43,13 @@
 
 </div>
 <button id="compare" class="btn btn-success btn-block">
-  <i class="ace-icon fa fa-exchange"></i>
+  <i class="ace-icon fa fa-exchange"></i> 确认
+</button>
+<div class="space-4"></div>
+<div class="space-4"></div>
+<button class="closeView btn btn-info btn-block">
+  <i class="ace-icon fa fa-backward"></i>
+  返回
 </button>
 <style>
   .select{

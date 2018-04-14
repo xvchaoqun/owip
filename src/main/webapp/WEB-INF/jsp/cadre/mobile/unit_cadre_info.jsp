@@ -45,7 +45,7 @@
             <span class="editable">
               <c:if test="${bean.mainLack==0}">0</c:if>
               <c:if test="${bean.mainLack!=0}">
-                <span class="badge ${bean.mainLack>0?'badge-success':'badge-danger'}">${bean.mainLack}</span>
+                <span style="line-height: 1"  class="badge ${bean.mainLack>0?'badge-success':'badge-danger'}">${bean.mainLack}</span>
               </c:if>
             </span>
           </div>
@@ -77,7 +77,7 @@
             <span class="editable">
               <c:if test="${bean.viceLack==0}">0</c:if>
               <c:if test="${bean.viceLack!=0}">
-                <span class="badge ${bean.viceLack>0?'badge-success':'badge-danger'}">${bean.viceLack}</span>
+                <span style="line-height: 1" class="badge ${bean.viceLack>0?'badge-success':'badge-danger'}">${bean.viceLack}</span>
               </c:if>
             </span>
           </div>
@@ -111,7 +111,7 @@
             <span class="editable">
                 <c:if test="${bean.noneLack==0}">0</c:if>
                 <c:if test="${bean.noneLack!=0}">
-                  <span class="badge ${bean.noneLack>0?'badge-success':'badge-danger'}">${bean.noneLack}</span>
+                  <span style="line-height: 1"  class="badge ${bean.noneLack>0?'badge-success':'badge-danger'}">${bean.noneLack}</span>
                 </c:if>
 
             </span>
