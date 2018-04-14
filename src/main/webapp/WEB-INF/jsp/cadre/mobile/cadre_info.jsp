@@ -8,6 +8,11 @@
     <li><a data-toggle="tab" href="#pi">人事信息</a></li>
     <li><a data-toggle="tab" href="#title">职称信息</a></li>
     <li><a data-toggle="tab" href="#post">任职信息</a></li>
+    <c:if test="${param.backTo=='unit'}">
+      <div style="float:right;padding:5px;">
+      <a href="javascript:;" class="openView" data-open-by="page" data-url="${ctx}/m/cadre_search_byUnit?unitId=${cadre.unitId}">返回</a>
+      </div>
+    </c:if>
   </ul>
   <div class="tab-content" style="padding:16px 0px 10px">
     <div id="base" class="tab-pane in active">

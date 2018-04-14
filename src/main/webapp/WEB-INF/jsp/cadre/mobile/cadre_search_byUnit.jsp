@@ -5,11 +5,14 @@
     <i class="ace-icon fa fa-search bigger-130"></i>
   </div>
   <div class="ace-settings-box clearfix" id="ace-settings-box">
+    <c:if test="${not empty param.unitId}">
+    <c:set var="unit" value="${unitMap.get(cm:toInt(param.unitId))}"/>
+    </c:if>
     <div style="height: 35px;margin: 15px 0px;">
       <select data-rel="select2-ajax"
               data-ajax-url="${ctx}/m/unit_selects?status=${UNIT_STATUS_RUN}" data-width="300"
               name="unitId" data-placeholder="请输入单位名称">
-        <option></option>
+        <option value="${unit.id}">${unit.name}</option>
       </select>
     </div>
   </div>
@@ -22,7 +25,7 @@
 <script src="/assets/js/ace/ace.settings.js"></script>
 <script>
 
-  $("#result").load("${ctx}/m/unit_cadre_info");
+  $("#result").load("${ctx}/m/unit_cadre_info?unitId=${param.unitId}");
   var $select = $.register.ajax_select($('select[name=unitId]'),{allowClear: false});
   $select.on("change",function(){
     $("#result").load("${ctx}/m/unit_cadre_info?unitId="+ $(this).val());
