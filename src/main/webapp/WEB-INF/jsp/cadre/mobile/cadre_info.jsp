@@ -10,7 +10,8 @@
     <li><a data-toggle="tab" href="#post">任职信息</a></li>
     <c:if test="${param.backTo=='unit'}">
       <div style="float:right;padding:5px;">
-      <a href="javascript:;" class="openView" data-open-by="page" data-url="${ctx}/m/cadre_search_byUnit?unitId=${cadre.unitId}">返回</a>
+      <a href="javascript:;" class="openView" data-open-by="page"
+         data-url="${ctx}/m/cadre_search_byUnit?unitId=${param.unitId}">返回</a>
       </div>
     </c:if>
   </ul>
