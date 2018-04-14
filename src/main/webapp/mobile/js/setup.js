@@ -142,3 +142,17 @@ register_click("#body-content-view .closeView", function () {
             });
     });
 });
+
+// 左div float时，保证左div高度不小于右div高度
+function _adjustHeight(){
+    $.each($(".profile-info-name"), function(i, e){
+        var _h = $(this).height();
+        var h = $(e).closest(".profile-info-row").find(".profile-info-value").height();
+        if(h>_h) {
+            $(this).height(h).css("line-height", h + "px");
+        }
+    });
+}
+$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+    _adjustHeight()
+});

@@ -70,7 +70,7 @@
           </table>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name td"> 现任职务</div>
+          <div class="profile-info-name td" id="post1"> 现任职务</div>
           <div class="profile-info-value td">
             <span class="editable">${mainCadrePost.post}</span>
           </div>
@@ -456,3 +456,6 @@
     </div>
   </div>
 </div>
+<script>
+  _adjustHeight();
+</script>
