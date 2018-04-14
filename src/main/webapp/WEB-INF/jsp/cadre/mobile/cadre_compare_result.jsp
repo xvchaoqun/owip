@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div style="overflow:auto;width:100%">
-  <table  class="table table-bordered" width="auto" style="white-space:nowrap">
+  <table  class="table table-bordered table-center" width="auto" style="white-space:nowrap">
     <thead>
     <tr>
       <th>序号</th>
@@ -27,7 +27,7 @@
     <tr>
       <td>${vs.count}</td>
       <td>${cadre.realname}</td>
-      <td>${cadre.title}</td>
+      <td style="text-align: left">${cadre.title}</td>
       <td>${adminLevelMap[cadre.typeId].name}</td>
       <td>${GENDER_MAP.get(cadre.gender)}</td>
       <td>${cadre.nation}</td>
