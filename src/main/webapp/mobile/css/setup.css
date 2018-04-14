@@ -175,7 +175,7 @@ body{
 }
 
 .table.avatar td{
-    /*height: 35px;*/
+    height: 35px;
     padding: 0;
     border: 1px dotted #dcebf7;
     border-right: none;

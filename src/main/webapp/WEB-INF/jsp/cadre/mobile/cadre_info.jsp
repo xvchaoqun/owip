@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<div class="tabbable">
+<div class="tabbable" style="margin-bottom: 10px;">
   <ul class="nav nav-tabs">
     <li class="active">
       <a data-toggle="tab" href="#base"><%--<i class="blue ace-icon fa fa-user"></i> --%>基本信息</a>
@@ -9,7 +9,7 @@
     <li><a data-toggle="tab" href="#title">职称信息</a></li>
     <li><a data-toggle="tab" href="#post">任职信息</a></li>
   </ul>
-  <div class="tab-content" style="padding:16px 0px 0px">
+  <div class="tab-content" style="padding:16px 0px 10px">
     <div id="base" class="tab-pane in active">
       <div class="profile-user-info profile-user-info-striped" style="border:0px;">
         <div class="profile-info-row">
