@@ -43,7 +43,10 @@
           <div class="profile-info-name td"> 空缺数</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${cm:trimToZero(bean.mainLack)}
+              <c:if test="${bean.mainLack==0}">0</c:if>
+              <c:if test="${bean.mainLack!=0}">
+                <span class="badge ${bean.mainLack>0?'badge-success':'badge-danger'}">${bean.mainLack}</span>
+              </c:if>
             </span>
           </div>
         </div>
@@ -72,7 +75,10 @@
           <div class="profile-info-name td"> 空缺数</div>
           <div class="profile-info-value td">
             <span class="editable">
-               ${cm:trimToZero(bean.viceLack)}
+              <c:if test="${bean.viceLack==0}">0</c:if>
+              <c:if test="${bean.viceLack!=0}">
+                <span class="badge ${bean.viceLack>0?'badge-success':'badge-danger'}">${bean.viceLack}</span>
+              </c:if>
             </span>
           </div>
         </div>
@@ -103,7 +109,10 @@
           <div class="profile-info-name td"> 空缺数</div>
           <div class="profile-info-value td">
             <span class="editable">
-               ${cm:trimToZero(bean.noneLack)}
+                <c:if test="${bean.noneLack==0}">0</c:if>
+                <c:if test="${bean.noneLack!=0}">
+                  <span class="badge ${bean.noneLack>0?'badge-success':'badge-danger'}">${bean.noneLack}</span>
+                </c:if>
 
             </span>
           </div>
