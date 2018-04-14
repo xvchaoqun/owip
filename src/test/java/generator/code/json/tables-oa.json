@@ -12,7 +12,7 @@
       "searchColumns": "user_id,type,name",
       "showColumns": "user_id,type,name,content,deadline,contact,status,is_publish,pub_date,create_time",
       "excludeEditColumns": "id,msg,status,is_publishpub_date,is_delete,create_time,ip",
-      "logType": "SystemConstants.LOG_OA",
+      "logType": "LogConstants.LOG_OA",
       "ignore": false
     },
     {
@@ -21,7 +21,7 @@
       "searchColumns": "task_id,user_id",
       "showColumns": "task_id,user_id,type,content,success,send_user_id,send_time,send_ip",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_OA",
+      "logType": "LogConstants.LOG_OA",
       "ignore": false
     },
     {
@@ -30,7 +30,7 @@
       "searchColumns": "task_id,user_id",
       "showColumns": "task_id,user_id,content,start_time,is_finish,create_time,ip",
       "excludeEditColumns": "id,create_time,ip",
-      "logType": "SystemConstants.LOG_OA",
+      "logType": "LogConstants.LOG_OA",
       "ignore": false
     },
     {
@@ -39,7 +39,7 @@
       "searchColumns": "task_id,user_id",
       "showColumns": "task_id,user_id,assign_user_id,assign_user_mobile,content,remark,has_report,report_user_id,is_back",
       "excludeEditColumns": "id,status",
-      "logType": "SystemConstants.LOG_OA",
+      "logType": "LogConstants.LOG_OA",
       "ignore": false
     }
   ]

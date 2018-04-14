@@ -23,9 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -280,7 +281,7 @@ public class MemberInflowOutController extends MemberBaseController {
 
         memberInflowOutService.memberInflowOut_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_PARTY, "流入党员申请-审核：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_PARTY, "流入党员申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -305,7 +306,7 @@ public class MemberInflowOutController extends MemberBaseController {
 
         memberInflowOutService.memberInflowOut_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_PARTY, "分党委打回流入党员申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_PARTY, "分党委打回流入党员申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     @RequiresPermissions("memberInflowOut:edit")
@@ -341,13 +342,13 @@ public class MemberInflowOutController extends MemberBaseController {
 
         applyApprovalLogService.add(memberInflow.getId(),
                 memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
-                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
+                loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
                 "提交",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "后台提交流入党员转出申请");
 
-        logger.info(addLog(SystemConstants.LOG_PARTY, "后台提交流入党员转出申请"));
+        logger.info(addLog(LogConstants.LOG_PARTY, "后台提交流入党员转出申请"));
 
         return success(FormUtils.SUCCESS);
     }

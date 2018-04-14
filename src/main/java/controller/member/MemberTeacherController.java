@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import sys.constants.CadreConstants;
 import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
@@ -316,8 +317,8 @@ public class MemberTeacherController extends MemberBaseController {
             CadreView cadre = cadreService.dbFindByUserId(record.getUserId());
             String post = record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record.getPostLevel(); // 任职级别 -- 行政级别
-            if(cadre!=null && (cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
-                    || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)){
+            if(cadre!=null && (cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
+                    || cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)){
                 post = cadre.getTitle();
                 if(cadre.getTypeId()!=null) adminLevel = adminLevelMap.get(cadre.getTypeId()).getName();
             }

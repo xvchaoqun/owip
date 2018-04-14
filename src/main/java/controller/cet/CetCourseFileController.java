@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -36,7 +36,7 @@ public class CetCourseFileController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cetCourse:list")
+    //@RequiresPermissions("cetCourse:list")
     @RequestMapping("/cetCourseFile")
     public String cetCourseFile(Integer courseId, Integer pageSize, Integer pageNo, ModelMap modelMap) {
 
@@ -97,7 +97,7 @@ public class CetCourseFileController extends CetBaseController {
 
         cetCourseFileService.insertSelective(record);
 
-        logger.info(addLog(SystemConstants.LOG_CET, "添加学习内容：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_CET, "添加学习内容：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -121,7 +121,7 @@ public class CetCourseFileController extends CetBaseController {
         if (id != null) {
 
             cetCourseFileService.del(id);
-            logger.info(addLog(SystemConstants.LOG_CET, "删除学习内容：%s", id));
+            logger.info(addLog(LogConstants.LOG_CET, "删除学习内容：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -132,7 +132,7 @@ public class CetCourseFileController extends CetBaseController {
     public Map do_cetCourseFile_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetCourseFileService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_CET, "学习内容调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_CET, "学习内容调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

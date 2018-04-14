@@ -17,8 +17,8 @@ import service.LoginUserService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
@@ -150,10 +150,10 @@ public class MemberTransferService extends BaseMapper {
 
         applyApprovalLogService.add(memberTransfer.getId(),
                 memberTransfer.getPartyId(), memberTransfer.getBranchId(), memberTransfer.getUserId(),
-                ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
+                ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
                 "撤回",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "撤回校内组织关系互转申请");
     }
 
@@ -281,9 +281,9 @@ public class MemberTransferService extends BaseMapper {
             int userId = memberTransfer.getUserId();
             applyApprovalLogService.add(memberTransfer.getId(),
                     memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId,
-                    loginUserId,  (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OUT_PARTY:
-                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_IN_PARTY,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, (type == 1)
+                    loginUserId,  (type == 1)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OUT_PARTY:
+                            OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_IN_PARTY,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, (type == 1)
                             ? "转出分党委审核" : "转入分党委审核", (byte) 1, null);
         }
     }
@@ -339,8 +339,8 @@ public class MemberTransferService extends BaseMapper {
 
         applyApprovalLogService.add(id,
                 memberTransfer.getPartyId(), memberTransfer.getBranchId(), userId,
-                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, MemberConstants.MEMBER_TRANSFER_STATUS_MAP.get(status),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER, MemberConstants.MEMBER_TRANSFER_STATUS_MAP.get(status),
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -130,11 +130,11 @@ public class CadreUnderEduController extends BaseController {
 
         if (id == null) {
             cadreUnderEduService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部在读学习经历：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部在读学习经历：%s", record.getId()));
         } else {
 
             cadreUnderEduService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部在读学习经历：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部在读学习经历：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -173,7 +173,7 @@ public class CadreUnderEduController extends BaseController {
         if (id != null) {
 
             cadreUnderEduService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部在读学习经历：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除干部在读学习经历：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -186,7 +186,7 @@ public class CadreUnderEduController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreUnderEduService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部在读学习经历：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部在读学习经历：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -198,7 +198,7 @@ public class CadreUnderEduController extends BaseController {
     public Map do_cadreUnderEdu_changeOrder(Integer id, int cadreId,  Integer addNum, HttpServletRequest request) {
 
         cadreUnderEduService.changeOrder(id, cadreId, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部在读学习经历调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部在读学习经历调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

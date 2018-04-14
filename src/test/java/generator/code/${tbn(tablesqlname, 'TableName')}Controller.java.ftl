@@ -58,6 +58,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
 
     @RequiresPermissions("${tableName}:list")
     @RequestMapping("/${tableName}_data")
+    @ResponseBody
     public void ${tableName}_data(HttpServletResponse response,
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "${tablePrefix}${tablesqlname}") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,

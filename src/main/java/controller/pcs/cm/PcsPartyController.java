@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pcs.common.IPcsCandidateView;
 import persistence.pcs.common.PcsBranchBean;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -181,7 +181,7 @@ public class PcsPartyController extends PcsBaseController {
 
         pcsPartyService.report(partyId, configId, stage);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
+        logger.info(addLog(LogConstants.LOG_PCS, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
                 PcsConstants.PCS_STAGE_MAP.get(stage)));
 
         return success(FormUtils.SUCCESS);

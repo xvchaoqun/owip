@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -96,11 +96,11 @@ public class ScAdArchiveVoteController extends ScAdBaseController {
         }
         if (id == null) {
             scAdArchiveVoteService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_AD, "添加归档表决：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_AD, "添加归档表决：%s", record.getId()));
         } else {
 
             scAdArchiveVoteService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_AD, "更新归档表决：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_AD, "更新归档表决：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -125,7 +125,7 @@ public class ScAdArchiveVoteController extends ScAdBaseController {
         if (id != null) {
 
             scAdArchiveVoteService.del(id);
-            logger.info(addLog( SystemConstants.LOG_SC_AD, "删除归档表决：%s", id));
+            logger.info(addLog(LogConstants.LOG_SC_AD, "删除归档表决：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -138,7 +138,7 @@ public class ScAdArchiveVoteController extends ScAdBaseController {
 
         if (null != ids && ids.length>0){
             scAdArchiveVoteService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_AD, "批量删除归档表决：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_AD, "批量删除归档表决：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

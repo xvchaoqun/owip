@@ -35,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.AbroadConstants;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
@@ -130,7 +131,7 @@ public class ApplySelfController extends AbroadBaseController {
             //}
         }
 
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "因私出国申请审批：%s", applySelfId));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "因私出国申请审批：%s", applySelfId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -158,7 +159,7 @@ public class ApplySelfController extends AbroadBaseController {
 
         ApprovalLog approvalLog = approvalLogMapper.selectByPrimaryKey(approvalLogId);
         String before = JSONUtils.toString(approvalLog, false);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "修改审批意见和审批时间，修改前：%s", before));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "修改审批意见和审批时间，修改前：%s", before));
 
         ApprovalLog record = new ApprovalLog();
         record.setId(approvalLogId);
@@ -498,11 +499,11 @@ public class ApplySelfController extends AbroadBaseController {
             record.setFlowNode(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST);
 
             applySelfService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "添加因私出国申请：%s", record.getId()));
         } else {*/
         //record.setStatus(true);
         applySelfService.modify(record, modifyProof, modifyProofFileName, modifyRemark);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
         /*}*/
 
         return success(FormUtils.SUCCESS);
@@ -541,7 +542,7 @@ public class ApplySelfController extends AbroadBaseController {
         if (id != null) {
 
             applySelfService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -555,7 +556,7 @@ public class ApplySelfController extends AbroadBaseController {
 
         if (null != ids && ids.length > 0) {
             applySelfService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除[可找回]因私出国申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量删除[可找回]因私出国申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -569,7 +570,7 @@ public class ApplySelfController extends AbroadBaseController {
 
         if (null != ids && ids.length > 0) {
             applySelfService.batchUnDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量找回因私出国申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量找回因私出国申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -584,7 +585,7 @@ public class ApplySelfController extends AbroadBaseController {
 
         if (null != ids && ids.length > 0) {
             applySelfService.doBatchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除[真删除]因私出国申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量删除[真删除]因私出国申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

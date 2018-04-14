@@ -4,7 +4,6 @@ import domain.cet.CetExpert;
 import domain.cet.CetExpertExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -18,7 +17,7 @@ public class CetExpertService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "null");
 
         CetExpertExample example = new CetExpertExample();
         CetExpertExample.Criteria criteria = example.createCriteria();

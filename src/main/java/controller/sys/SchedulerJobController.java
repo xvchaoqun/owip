@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.sys.SchedulerJobMapper;
 import service.sys.SchedulerJobService;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.Escape;
@@ -109,11 +109,11 @@ public class SchedulerJobController extends BaseController {
         if(schedulerJob.getId() == null){
 
             schedulerJobService.insert(schedulerJob);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "创建定时任务：%s", JSONUtils.toString(schedulerJob, false)));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "创建定时任务：%s", JSONUtils.toString(schedulerJob, false)));
         }else{
 
             schedulerJobService.updateByPrimaryKeySelective(schedulerJob);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新定时任务：%s", JSONUtils.toString(schedulerJob, false)));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新定时任务：%s", JSONUtils.toString(schedulerJob, false)));
         }
 
         return success(FormUtils.SUCCESS);
@@ -142,7 +142,7 @@ public class SchedulerJobController extends BaseController {
         if(id!=null){
             SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
             schedulerJobService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除定时任务：%s", JSONUtils.toString(schedulerJob, false)));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除定时任务：%s", JSONUtils.toString(schedulerJob, false)));
         }
 
         return success(FormUtils.SUCCESS);
@@ -157,7 +157,7 @@ public class SchedulerJobController extends BaseController {
         if(id!=null){
             SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
             schedulerJobService.startJob(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "启动定时任务：%s", JSONUtils.toString(schedulerJob, false)));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "启动定时任务：%s", JSONUtils.toString(schedulerJob, false)));
         }
 
         return success(FormUtils.SUCCESS);
@@ -171,7 +171,7 @@ public class SchedulerJobController extends BaseController {
         if(id!=null){
             SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
             schedulerJobService.stopJob(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "关闭定时任务：%s", JSONUtils.toString(schedulerJob, false)));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "关闭定时任务：%s", JSONUtils.toString(schedulerJob, false)));
         }
 
         return success(FormUtils.SUCCESS);

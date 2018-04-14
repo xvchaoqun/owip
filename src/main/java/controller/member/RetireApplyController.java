@@ -9,7 +9,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
+import sys.constants.OwConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.FormUtils;
 
@@ -34,7 +35,7 @@ public class RetireApplyController extends MemberBaseController {
             if(retireApply.getBranchId()!=null){
                 modelMap.put("branch", branchService.findAll().get(retireApply.getBranchId()));
             }
-            if(retireApply.getStatus()==SystemConstants.RETIRE_APPLY_STATUS_UNCHECKED){
+            if(retireApply.getStatus()== OwConstants.OW_RETIRE_APPLY_STATUS_UNCHECKED){
 
                 return "party/retireApply/retireApply_verify";  // 审核
             }
@@ -60,10 +61,10 @@ public class RetireApplyController extends MemberBaseController {
 
         retireApply.setApplyId(loginUser.getId());
         retireApply.setCreateTime(new Date());
-        retireApply.setStatus(SystemConstants.RETIRE_APPLY_STATUS_UNCHECKED);
+        retireApply.setStatus(OwConstants.OW_RETIRE_APPLY_STATUS_UNCHECKED);
 
         retireApplyService.insertSelective(retireApply);
-        logger.info(addLog(SystemConstants.LOG_PARTY, "党员退休-提交"));
+        logger.info(addLog(LogConstants.LOG_PARTY, "党员退休-提交"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -81,7 +82,7 @@ public class RetireApplyController extends MemberBaseController {
 
         retireApplyService.verify(userId, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_PARTY, "党员退休-审核"));
+        logger.info(addLog(LogConstants.LOG_PARTY, "党员退休-审核"));
         return success(FormUtils.SUCCESS);
     }
 }

@@ -17,7 +17,7 @@ import service.party.EnterApplyService;
 import service.party.MemberService;
 import service.party.PartyService;
 import sys.constants.MemberConstants;
-import sys.constants.SystemConstants;
+import sys.constants.OwConstants;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
@@ -265,9 +265,9 @@ public class MemberReturnService extends BaseMapper {
             int userId = memberReturn.getUserId();
             applyApprovalLogService.add(memberReturn.getId(),
                     memberReturn.getPartyId(), memberReturn.getBranchId(), userId,
-                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
-                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, (type == 1)
+                    loginUserId, (type == 1)? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, (type == 1)
                             ? "党支部审核" : "分党委审核", (byte) 1, null);
         }
     }
@@ -314,7 +314,7 @@ public class MemberReturnService extends BaseMapper {
 
             EnterApply enterApply = new EnterApply();
             enterApply.setId(_enterApply.getId());
-            enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
             enterApply.setRemark(reason);
             enterApply.setBackTime(new Date());
             enterApplyMapper.updateByPrimaryKeySelective(enterApply);
@@ -331,8 +331,8 @@ public class MemberReturnService extends BaseMapper {
 
         applyApprovalLogService.add(id,
                 memberReturn.getPartyId(), memberReturn.getBranchId(), userId,
-                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, MemberConstants.MEMBER_RETURN_STATUS_MAP.get(status),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN, MemberConstants.MEMBER_RETURN_STATUS_MAP.get(status),
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

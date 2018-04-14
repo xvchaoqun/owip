@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.ContentTypeUtils;
@@ -134,11 +134,11 @@ public class ScMatterCheckController extends ScMatterBaseController {
 
         if (id == null) {
             scMatterCheckService.insertSelective(record, userIds);
-            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "添加个人有关事项-抽查核实：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_MATTER, "添加个人有关事项-抽查核实：%s", record.getId()));
         } else {
 
             scMatterCheckService.updateByPrimaryKeySelective(record, userIds);
-            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "更新个人有关事项-抽查核实：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_MATTER, "更新个人有关事项-抽查核实：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -178,7 +178,7 @@ public class ScMatterCheckController extends ScMatterBaseController {
 
         if (null != ids && ids.length>0){
             scMatterCheckService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "批量删除个人有关事项-抽查核实：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_MATTER, "批量删除个人有关事项-抽查核实：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

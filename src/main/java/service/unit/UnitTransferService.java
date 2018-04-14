@@ -19,7 +19,7 @@ public class UnitTransferService extends BaseMapper {
 
     /*public boolean idDuplicate(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "null");
 
         UnitTransferExample example = new UnitTransferExample();
         UnitTransferExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code).andStatusEqualTo(true);

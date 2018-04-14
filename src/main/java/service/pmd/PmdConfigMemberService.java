@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.sys.LogService;
 import service.sys.SysApprovalLogService;
+import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
 import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
@@ -146,7 +147,7 @@ public class PmdConfigMemberService extends BaseMapper {
         // 更新当前缴费月份数据（未缴费前）
         updatePmdMemberDuePay(userId, duePay, "修改党费计算工资");
 
-        logger.info(logService.log(SystemConstants.LOG_PMD, MessageFormat.format("修改党费计算工资,修改前：{0}，修改后：{1}",
+        logger.info(logService.log(LogConstants.LOG_PMD, MessageFormat.format("修改党费计算工资,修改前：{0}，修改后：{1}",
                 JSONUtils.toString(pmdConfigMember, false),
                 JSONUtils.toString(getPmdConfigMember(userId), false))));
     }
@@ -180,7 +181,7 @@ public class PmdConfigMemberService extends BaseMapper {
         updatePmdMemberDuePay(userId, duePay, MessageFormat.format("修改离退休费,{0}->{1}",
                 pmdConfigMember.getRetireSalary(), retireSalary));
 
-        logger.info(logService.log(SystemConstants.LOG_PMD, MessageFormat.format("修改离退休费, 修改前：{0}，修改后：{1}",
+        logger.info(logService.log(LogConstants.LOG_PMD, MessageFormat.format("修改离退休费, 修改前：{0}，修改后：{1}",
                 JSONUtils.toString(pmdConfigMember, false),
                 JSONUtils.toString(getPmdConfigMember(userId), false))));
     }

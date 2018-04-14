@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
 
 import java.util.List;
 import java.util.Set;
@@ -83,7 +83,7 @@ public interface ICadreMapper {
     // 获取主职、兼职在某单位的现任干部
     @ResultMap("persistence.cadre.CadrePostMapper.BaseResultMap")
     @Select("select cp.* from cadre_post cp , cadre c where cp.unit_id=#{unitId} and cp.cadre_id=c.id and " +
-            "c.status in(" + SystemConstants.CADRE_STATUS_MIDDLE + "," + SystemConstants.CADRE_STATUS_LEADER + ") " +
+            "c.status in(" + CadreConstants.CADRE_STATUS_MIDDLE + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
             "order by c.sort_order desc, cp.is_main_post desc, cp.sort_order desc")
     public List<CadrePost> findCadrePosts(@Param("unitId") int unitId);
 
@@ -94,7 +94,7 @@ public interface ICadreMapper {
             "and cp.is_main_post=#{isMainPost} and cp.admin_level_id=#{adminLevelId} " +
             "and cp.unit_id in(select distinct unit_id from cpc_allocation) " +
             "and cp.unit_id=u.id and u.type_id=ut.id and ut.extra_attr=#{unitType} and cp.cadre_id=c.id " +
-            "and c.status in(" + SystemConstants.CADRE_STATUS_MIDDLE + "," + SystemConstants.CADRE_STATUS_LEADER + ") " +
+            "and c.status in(" + CadreConstants.CADRE_STATUS_MIDDLE + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
             "order by c.sort_order desc, cp.is_main_post desc, cp.sort_order desc")
     public List<CadrePost> findCadrePostsByUnitType(@Param("adminLevelId") Integer adminLevelId,
                                                     @Param("isMainPost") boolean isMainPost,

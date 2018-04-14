@@ -24,7 +24,7 @@ import service.cadreReserve.CadreReserveService;
 import service.dispatch.DispatchService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
 import sys.service.ApplicationContextSupport;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
@@ -84,8 +84,8 @@ public class CadreCommonService extends BaseMapper {
         {
             CadreExample example = new CadreExample();
             example.createCriteria().andUnitIdEqualTo(unitId)
-                    .andStatusNotIn(Arrays.asList(SystemConstants.CADRE_STATUS_RESERVE,
-                            SystemConstants.CADRE_STATUS_INSPECT));
+                    .andStatusNotIn(Arrays.asList(CadreConstants.CADRE_STATUS_RESERVE,
+                            CadreConstants.CADRE_STATUS_INSPECT));
             List<Cadre> cadres = cadreMapper.selectByExample(example);
             for (Cadre cadre : cadres) {
                 MetaType postType = metaTypeMap.get(cadre.getPostId());
@@ -166,7 +166,7 @@ public class CadreCommonService extends BaseMapper {
         Map<Integer, List<CadreView>> postIdCadresMap = new LinkedHashMap<>();
 
         /*CadreExample example = new CadreExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
+        example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_STATUS_NOW);
         example.setOrderByClause(" sort_order desc");
         List<Cadre> cadres = cadreMapper.selectByExample(example);*/
         for (CadreView cadre : cadreList) {
@@ -283,8 +283,8 @@ public class CadreCommonService extends BaseMapper {
         Map<Integer, List<CadrePostBean>> unitIdCadresMap = new LinkedHashMap<>();
 
         for (CadreView cadre : cadreMap.values()) {
-            if ((cadre.getStatus() == SystemConstants.CADRE_STATUS_MIDDLE
-                    || cadre.getStatus() == SystemConstants.CADRE_STATUS_LEADER)
+            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                    || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                     && BooleanUtils.isTrue(postMap.get(cadre.getPostId()).getBoolAttr())) {
                 List<CadrePostBean> list = null;
                 Integer unitId = cadre.getUnitId();
@@ -301,8 +301,8 @@ public class CadreCommonService extends BaseMapper {
         Map<String, CadreAdditionalPost> cadreAdditionalPostMap = cadreAdditionalPostService.findAll();
         for (CadreAdditionalPost cPost : cadreAdditionalPostMap.values()) {
             CadreView cadre = cadreMap.get(cPost.getCadreId());
-            if ((cadre.getStatus() == SystemConstants.CADRE_STATUS_MIDDLE
-                    || cadre.getStatus() == SystemConstants.CADRE_STATUS_LEADER)
+            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                    || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
                     && BooleanUtils.isTrue(postMap.get(cPost.getPostId()).getBoolAttr())) {
                 List<CadrePostBean> list = null;
                 Integer unitId = cPost.getUnitId();

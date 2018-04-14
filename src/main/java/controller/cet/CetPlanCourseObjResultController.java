@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -115,7 +115,7 @@ public class CetPlanCourseObjResultController extends CetBaseController {
 
         cetPlanCourseObjResultService.add(cetPlanCourseObj, request);
 
-        logger.info(addLog( SystemConstants.LOG_CET, "添加上级网上专题班完成结果, %s",
+        logger.info(addLog(LogConstants.LOG_CET, "添加上级网上专题班完成结果, %s",
                 JSONUtils.toString(cetPlanCourseObj, false)));
 
         return success(FormUtils.SUCCESS);
@@ -165,7 +165,7 @@ public class CetPlanCourseObjResultController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetPlanCourseObjResultService.clear(planCourseId, ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "清除结果，上级网上专题班完成情况：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "清除结果，上级网上专题班完成情况：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

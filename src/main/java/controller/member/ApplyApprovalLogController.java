@@ -19,8 +19,8 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
@@ -44,40 +44,40 @@ public class ApplyApprovalLogController extends MemberBaseController {
         if(id!=null) {
             Integer userId = null;
             switch (type) {
-                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY: {
+                case OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY: {
                     MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(id);
                     userId = memberApply.getUserId();
                     break;
                 }
-                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD:
+                case OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_ABROAD:
                     MemberAbroad memberAbroad = memberAbroadMapper.selectByPrimaryKey(id);
                     userId = memberAbroad.getUserId();
                     break;
-                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN:
+                case OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN:
                     MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(id);
                     userId = memberReturn.getUserId();
                     break;
-                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN:
+                case OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN:
                     MemberIn memberIn = memberInMapper.selectByPrimaryKey(id);
                     userId = memberIn.getUserId();
                     break;
-                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT:
+                case OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT:
                     MemberOut memberOut = memberOutMapper.selectByPrimaryKey(id);
                     userId = memberOut.getUserId();
                     break;
-                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW:
+                case OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW:
                     MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
                     userId = memberInflow.getUserId();
                     break;
-                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW:
+                case OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW:
                     MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(id);
                     userId = memberOutflow.getUserId();
                     break;
-                case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER:
+                case OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER:
                     MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(id);
                     userId = memberTransfer.getUserId();
                     break;
-                /* sos! case SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY:
+                /* sos! case OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY:
                     MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
                     userId = memberStay.getUserId();
                     break;*/

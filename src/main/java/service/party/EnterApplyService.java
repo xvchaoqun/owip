@@ -30,6 +30,7 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
@@ -67,7 +68,7 @@ public class EnterApplyService extends BaseMapper{
         // 撤回原申请
         EnterApply _enterApply = getCurrentApply(userId);
         if (_enterApply != null) {
-            applyBack(userId, null, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+            applyBack(userId, null, OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
         }
     }
 
@@ -83,13 +84,13 @@ public class EnterApplyService extends BaseMapper{
     public EnterApply getCurrentApply(int userId){
 
         EnterApplyExample example = new EnterApplyExample();
-        example.createCriteria().andUserIdEqualTo(userId).andStatusEqualTo(SystemConstants.ENTER_APPLY_STATUS_APPLY);
+        example.createCriteria().andUserIdEqualTo(userId).andStatusEqualTo(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
         example.setOrderByClause("id asc");
         List<EnterApply> enterApplies = enterApplyMapper.selectByExample(example);
         if(enterApplies.size()>1) {
             // 当前申请状态每个用户只允许一个，且是最新的一条
             throw new OpException("重复申请，已经申请了[{0}]。（申请入党、留学归国申请、转入申请、流入申请只能同时申请一个）",
-                    SystemConstants.ENTER_APPLY_TYPE_MAP.get(enterApplies.get(0).getType()));
+                    OwConstants.OW_ENTER_APPLY_TYPE_MAP.get(enterApplies.get(0).getType()));
         }
 
         if(enterApplies.size()==1) return enterApplies.get(0);
@@ -141,8 +142,8 @@ public class EnterApplyService extends BaseMapper{
 
         EnterApply enterApply = new EnterApply();
         enterApply.setUserId(record.getUserId());
-        enterApply.setType(SystemConstants.ENTER_APPLY_TYPE_MEMBERAPPLY);
-        enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
+        enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY);
+        enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
         enterApply.setCreateTime(new Date());
 
         enterApplyMapper.insertSelective(enterApply);
@@ -172,8 +173,8 @@ public class EnterApplyService extends BaseMapper{
 
         EnterApply enterApply = new EnterApply();
         enterApply.setUserId(record.getUserId());
-        enterApply.setType(SystemConstants.ENTER_APPLY_TYPE_RETURN);
-        enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
+        enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_RETURN);
+        enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
         enterApply.setCreateTime(new Date());
 
         enterApplyMapper.insertSelective(enterApply);
@@ -207,8 +208,8 @@ public class EnterApplyService extends BaseMapper{
         // select * from ow_enter_apply where status=0 and user_id=97799;  2条记录
         EnterApply enterApply = new EnterApply();
         enterApply.setUserId(record.getUserId());
-        enterApply.setType(SystemConstants.ENTER_APPLY_TYPE_MEMBERIN);
-        enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
+        enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN);
+        enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
         enterApply.setCreateTime(new Date());
 
         enterApplyMapper.insertSelective(enterApply);
@@ -259,8 +260,8 @@ public class EnterApplyService extends BaseMapper{
 
         EnterApply enterApply = new EnterApply();
         enterApply.setUserId(record.getUserId());
-        enterApply.setType(SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW);
-        enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_APPLY);
+        enterApply.setType(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW);
+        enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_APPLY);
         enterApply.setCreateTime(new Date());
 
         enterApplyMapper.insertSelective(enterApply);
@@ -272,8 +273,8 @@ public class EnterApplyService extends BaseMapper{
     /*
         本人或管理员撤回,
         status:
-        SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT 本人
-        SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT 管理员
+        OwConstants.OW_ENTER_APPLY_STATUS_SELF_ABORT 本人
+        OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT 管理员
      */
     @Transactional
     public void applyBack(int userId, String remark, byte status) {
@@ -281,11 +282,11 @@ public class EnterApplyService extends BaseMapper{
         ShiroUser shiroUser = ShiroHelper.getShiroUser();
 
         byte userType=-1;
-        if(status==SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT){
-            userType = SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF;
+        if(status==OwConstants.OW_ENTER_APPLY_STATUS_SELF_ABORT){
+            userType = OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF;
         }
-        if(status==SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT){
-            userType = SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN;
+        if(status==OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT){
+            userType = OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN;
         }
 
         // 状态检查
@@ -301,36 +302,36 @@ public class EnterApplyService extends BaseMapper{
         enterApplyMapper.updateByPrimaryKeySelective(enterApply);
 
         switch (_enterApply.getType()) {
-            case SystemConstants.ENTER_APPLY_TYPE_MEMBERAPPLY: {
+            case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY: {
                 // 状态检查
                 MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
                 if(_memberApply==null)
                     throw new OpException("系统错误");
-                if(_memberApply.getStage()!=SystemConstants.APPLY_STAGE_INIT &&
-                        _memberApply.getStage() != SystemConstants.APPLY_STAGE_DENY){
+                if(_memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_INIT &&
+                        _memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY){
                     throw new OpException("申请已进入审核阶段，不允许撤回。");
                 }
 
                 MemberApply record = new MemberApply();
                 //record.setBranchId(_memberApply.getBranchId());  ?? 注释2016-12-16
-                record.setStage(SystemConstants.APPLY_STAGE_DENY);
+                record.setStage(OwConstants.OW_APPLY_STAGE_DENY);
                 record.setPassTime(new Date());// 用"通过时间"记录处理时间
                 record.setRemark(remark);
                 MemberApplyExample example = new MemberApplyExample();
                 example.createCriteria().andUserIdEqualTo(userId)
-                        .andStageEqualTo(SystemConstants.APPLY_STAGE_INIT);
+                        .andStageEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
                 Assert.isTrue(memberApplyService.updateByExampleSelective(userId, record, example) > 0, "db update failed");
 
                 applyApprovalLogService.add(_memberApply.getUserId(),
                         _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
                         shiroUser.getId(), userType,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         "撤回",
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                         "撤回入党申请");
                 }
                 break;
-            case SystemConstants.ENTER_APPLY_TYPE_RETURN: {
+            case OwConstants.OW_ENTER_APPLY_TYPE_RETURN: {
 
                 // 状态检查
                 MemberReturn _memberReturn = memberReturnService.get(userId);
@@ -353,14 +354,14 @@ public class EnterApplyService extends BaseMapper{
                 applyApprovalLogService.add(_memberReturn.getId(),
                         _memberReturn.getPartyId(), _memberReturn.getBranchId(), _memberReturn.getUserId(),
                         shiroUser.getId(), userType,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
                         "撤回",
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                         "撤回留学党员归国申请");
                 }
                 break;
 
-            case SystemConstants.ENTER_APPLY_TYPE_MEMBERIN: {
+            case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN: {
 
                 // 状态检查
                 MemberIn _memberIn = memberInService.get(userId);
@@ -373,7 +374,7 @@ public class EnterApplyService extends BaseMapper{
 
                 MemberIn record = new MemberIn();
                 //record.setBranchId(_memberIn.getBranchId());
-                if(status==SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT) // 个人撤回
+                if(status==OwConstants.OW_ENTER_APPLY_STATUS_SELF_ABORT) // 个人撤回
                     record.setStatus(MemberConstants.MEMBER_IN_STATUS_SELF_BACK);
                 else
                     record.setStatus(MemberConstants.MEMBER_IN_STATUS_BACK);
@@ -386,13 +387,13 @@ public class EnterApplyService extends BaseMapper{
                 applyApprovalLogService.add(_memberIn.getId(),
                         _memberIn.getPartyId(), _memberIn.getBranchId(), _memberIn.getUserId(),
                         shiroUser.getId(), userType,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN,
                         "撤回",
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                         "撤回组织关系转入申请");
             }
             break;
-            case SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW: {
+            case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW: {
 
                 // 状态检查
                 MemberInflow _memberInflow = memberInflowService.get(userId);
@@ -415,9 +416,9 @@ public class EnterApplyService extends BaseMapper{
                 applyApprovalLogService.add(_memberInflow.getId(),
                         _memberInflow.getPartyId(), _memberInflow.getBranchId(), _memberInflow.getUserId(),
                         shiroUser.getId(), userType,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
                         "撤回",
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                         "撤回党员流入申请");
             }
             break;

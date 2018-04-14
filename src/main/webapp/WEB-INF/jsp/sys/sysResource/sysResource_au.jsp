@@ -105,7 +105,7 @@
 			<label class="col-xs-4 control-label">关联数量缓存</label>
 			<div class="col-xs-6 ">
 				<select class="multiselect" multiple="" name="countCacheKeys" >
-					<c:forEach items="${CACHEKEY_MAP}" var="entity">
+					<c:forEach items="${CACHE_KEY_MAP}" var="entity">
 						<option value="${entity.key}">${entity.value}</option>
 					</c:forEach>
 				</select>

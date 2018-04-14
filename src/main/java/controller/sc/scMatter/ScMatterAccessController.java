@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.ContentTypeUtils;
@@ -130,11 +130,11 @@ public class ScMatterAccessController extends ScMatterBaseController {
 
         if (id == null) {
             scMatterAccessService.insertSelective(record, matterItemIds);
-            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "添加个人有关事项-调阅记录：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_MATTER, "添加个人有关事项-调阅记录：%s", record.getId()));
         } else {
 
             scMatterAccessService.updateByPrimaryKeySelective(record, matterItemIds);
-            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "更新个人有关事项-调阅记录：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_MATTER, "更新个人有关事项-调阅记录：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -242,7 +242,7 @@ public class ScMatterAccessController extends ScMatterBaseController {
         }
 
         scMatterAccessMapper.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "办理调阅：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "办理调阅：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -272,7 +272,7 @@ public class ScMatterAccessController extends ScMatterBaseController {
 
         scMatterAccessMapper.updateByPrimaryKeySelective(_record);
 
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "归还：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "归还：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -314,7 +314,7 @@ public class ScMatterAccessController extends ScMatterBaseController {
 
         if (null != ids && ids.length>0){
             scMatterAccessService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_MATTER, "批量删除个人有关事项-调阅记录：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_MATTER, "批量删除个人有关事项-调阅记录：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

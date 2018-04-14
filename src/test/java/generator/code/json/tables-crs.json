@@ -12,7 +12,7 @@
       "searchColumns": "year,name",
       "showColumns": "year,name,admin_level,unit_id,requirement,qualification,sign_status,meeting_status,committee_status,remark,status",
       "excludeEditColumns": "id,status",
-      "logType": "SystemConstants.LOG_ADMIN",
+      "logType": "LogConstants.LOG_ADMIN",
       "ignore": true
     },
     {
@@ -21,7 +21,7 @@
       "searchColumns": "type,name",
       "showColumns": "type,name",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_ADMIN",
+      "logType": "LogConstants.LOG_ADMIN",
       "ignore": true
     },
     {
@@ -30,7 +30,7 @@
       "searchColumns": "user_id,enroll_time",
       "showColumns": "user_id,enroll_time,is_recommend",
       "excludeEditColumns": "id,info_check_status,info_check_remark,require_check_status,require_check_remark,special_status",
-      "logType": "SystemConstants.LOG_ADMIN",
+      "logType": "LogConstants.LOG_ADMIN",
       "ignore": true
     },
     {
@@ -39,7 +39,7 @@
       "searchColumns": "post_id",
       "showColumns": "file,type,create_time",
       "excludeEditColumns": "create_time",
-      "logType": "SystemConstants.LOG_ADMIN",
+      "logType": "LogConstants.LOG_ADMIN",
       "ignore": true
     },
     {
@@ -48,7 +48,7 @@
       "searchColumns": "post_id",
       "showColumns": "post_ids,num,start_time,end_time",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_ADMIN",
+      "logType": "LogConstants.LOG_ADMIN",
       "ignore": false
     }
   ]

@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.member.ApplyApprovalLogService;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
@@ -201,13 +203,13 @@ public class SysUserRegController extends BaseController {
         int userId = sysUserReg.getUserId();
 
         sysUserRegService.deny(sysUserReg.getId());
-        logger.info(addLog(SystemConstants.LOG_PARTY, "拒绝用户注册申请：%s", id));
+        logger.info(addLog(LogConstants.LOG_PARTY, "拒绝用户注册申请：%s", id));
 
         ApplyApprovalLogService applyApprovalLogService = CmTag.getBean(ApplyApprovalLogService.class);
         applyApprovalLogService.add(sysUserReg.getId(),
                 sysUserReg.getPartyId(), null, userId,
-                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核" , (byte) 0, reason);
+                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核" , (byte) 0, reason);
 
         return success(FormUtils.SUCCESS);
     }
@@ -222,7 +224,7 @@ public class SysUserRegController extends BaseController {
         SysUserReg sysUserReg = verifyAuth.entity;
 
         sysUserRegService.pass(sysUserReg.getId());
-        logger.info(addLog(SystemConstants.LOG_PARTY, "用户注册-分党委审核：%s", id));
+        logger.info(addLog(LogConstants.LOG_PARTY, "用户注册-分党委审核：%s", id));
 
         int loginUserId = loginUser.getId();
         int userId = sysUserReg.getUserId();
@@ -230,8 +232,8 @@ public class SysUserRegController extends BaseController {
         ApplyApprovalLogService applyApprovalLogService = CmTag.getBean(ApplyApprovalLogService.class);
         applyApprovalLogService.add(sysUserReg.getId(),
                 sysUserReg.getPartyId(), null, userId,
-                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核", (byte) 1, null);
+                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG, "分党委党总支直属党支部审核", (byte) 1, null);
 
         return success(FormUtils.SUCCESS);
     }
@@ -263,7 +265,7 @@ public class SysUserRegController extends BaseController {
         }
 
         sysUserRegService.updateByPrimaryKeySelective(record);
-        logger.info(addLog( SystemConstants.LOG_ADMIN, "更新申请用户注册：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新申请用户注册：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -301,7 +303,7 @@ public class SysUserRegController extends BaseController {
 
         sysUserRegService.changepw(id ,password);
 
-        logger.info(addLog( SystemConstants.LOG_ADMIN, "更新注册用户%s登录密码", sysUserReg.getUsername()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新注册用户%s登录密码", sysUserReg.getUsername()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -325,7 +327,7 @@ public class SysUserRegController extends BaseController {
         if (id != null) {
 
             sysUserRegService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除用户注册：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除用户注册：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -338,7 +340,7 @@ public class SysUserRegController extends BaseController {
 
         if (null != ids && ids.length>0){
             sysUserRegService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量删除用户注册：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除用户注册：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

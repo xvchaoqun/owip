@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -116,11 +116,11 @@ public class ApproverController extends AbroadBaseController {
         }
         if (id == null) {
             approverService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加审批人：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "添加审批人：%s", record.getId()));
         } else {
 
             approverService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新审批人：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "更新审批人：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -145,7 +145,7 @@ public class ApproverController extends AbroadBaseController {
         if (id != null) {
 
             approverService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除审批人：%s", id));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "删除审批人：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -158,7 +158,7 @@ public class ApproverController extends AbroadBaseController {
 
         if (null != ids && ids.length > 0) {
             approverService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除审批人：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量删除审批人：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -170,7 +170,7 @@ public class ApproverController extends AbroadBaseController {
     public Map do_approver_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         approverService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "审批人调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "审批人调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

@@ -15,7 +15,7 @@ public class CetProjectTraineeTypeService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "null");
 
         CetProjectTraineeTypeExample example = new CetProjectTraineeTypeExample();
         CetProjectTraineeTypeExample.Criteria criteria = example.createCriteria();

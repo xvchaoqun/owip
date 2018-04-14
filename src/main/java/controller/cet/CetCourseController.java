@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CetConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -124,11 +124,11 @@ public class CetCourseController extends CetBaseController {
 
         if (id == null) {
             cetCourseService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加课程中心：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加课程中心：%s", record.getId()));
         } else {
 
             cetCourseService.updateByPrimaryKeySelectiveWithNum(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新课程中心：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新课程中心：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -211,7 +211,7 @@ public class CetCourseController extends CetBaseController {
         record.setHasSummary(StringUtils.isNotBlank(summary));
 
         cetCourseService.updateByPrimaryKeySelectiveWithoutNum(record);
-        logger.info(addLog(SystemConstants.LOG_CET, "更新课程要点：%s", id));
+        logger.info(addLog(LogConstants.LOG_CET, "更新课程要点：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -227,7 +227,7 @@ public class CetCourseController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetCourseService.fakeDel(ids, del);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量假删除课程中心：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量假删除课程中心：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -240,7 +240,7 @@ public class CetCourseController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetCourseService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除课程中心：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除课程中心：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -252,7 +252,7 @@ public class CetCourseController extends CetBaseController {
     public Map do_cetCourse_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetCourseService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_CET, "课程中心调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_CET, "课程中心调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

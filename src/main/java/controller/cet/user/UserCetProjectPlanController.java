@@ -46,13 +46,13 @@ public class UserCetProjectPlanController extends CetBaseController {
             case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
                 return "forward:/user/cet/cetTrain";
 
-            /*case CetConstants.CET_PROJECT_PLAN_TYPE_SELF: // 自主学习
+            case CetConstants.CET_PROJECT_PLAN_TYPE_SELF: // 自主学习
             case CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL: // 上级网上专题班
-                return "forward:/cet/cetPlanCourse";
+                return "forward:/user/cet/cetPlanCourse";
 
             case CetConstants.CET_PROJECT_PLAN_TYPE_WRITE:
                 Integer projectId = cetProjectPlan.getProjectId();
-                return "forward:/cet/cetProject_detail_obj?cls=4&projectId="+projectId + "&planId="+planId;*/
+                return "forward:/user/cet/cetProjectObj_write?projectId="+projectId;
         }
 
         return null;

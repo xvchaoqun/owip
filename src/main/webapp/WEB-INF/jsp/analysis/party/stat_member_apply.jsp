@@ -27,8 +27,8 @@
         var placeholder = $('#memberApply-placeholder').css({'width': '90%', 'min-height': '135px'});
         var data = [
                 <c:forEach items="${statApplyMap}" var="apply">
-                     <c:if test="${apply.key>=APPLY_STAGE_INIT && apply.key<=APPLY_STAGE_DRAW && not empty apply.value}">
-                    {label: "${APPLY_STAGE_MAP.get(apply.key)}(${apply.value})", data: '${apply.value}', color:'${PIE_COLOR_MAP.get(apply.key)}'},
+                     <c:if test="${apply.key>=OW_APPLY_STAGE_INIT && apply.key<=OW_APPLY_STAGE_DRAW && not empty apply.value}">
+                    {label: "${OW_APPLY_STAGE_MAP.get(apply.key)}(${apply.value})", data: '${apply.value}', color:'${PIE_COLOR_MAP.get(apply.key)}'},
                      </c:if>
                 </c:forEach>
         ];

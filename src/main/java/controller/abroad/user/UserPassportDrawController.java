@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -74,7 +74,7 @@ public class UserPassportDrawController extends AbroadBaseController {
                 passportDrawFileMapper.deleteByExample(example); // 先删除相关材料
 
                 passportDrawService.del(id);
-                logger.info(addLog(SystemConstants.LOG_ABROAD, "删除使用证件申请：%s", id));
+                logger.info(addLog(LogConstants.LOG_ABROAD, "删除使用证件申请：%s", id));
             }
         }
         return success(FormUtils.SUCCESS);
@@ -296,7 +296,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         record.setNeedSign(true);
         passportDrawMapper.updateByPrimaryKeySelective(record);
 
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（因私出国）-签注"));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "申请使用证件（因私出国）-签注"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -334,7 +334,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         record.setIp(IpUtils.getRealIp(request));
 
         passportDrawService.insertSelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（因私出国）：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "申请使用证件（因私出国）：%s", record.getId()));
 
         // 给干部管理员发短信提醒
         shortMsgService.sendPassportDrawSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
@@ -440,7 +440,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         record.setIp(IpUtils.getRealIp(request));
 
         passportDrawService.insertSelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（%s）：%s",
+        logger.info(addLog(LogConstants.LOG_ABROAD, "申请使用证件（%s）：%s",
                 AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP.get(type), record.getId()));
 
         // 给干部管理员发短信提醒
@@ -529,7 +529,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         record.setIp(IpUtils.getRealIp(request));
 
         passportDrawService.insertSelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请使用证件（处理其他事务）：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "申请使用证件（处理其他事务）：%s", record.getId()));
 
         // 给干部管理员发短信提醒
         shortMsgService.sendPassportDrawSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));

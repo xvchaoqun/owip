@@ -16,9 +16,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -106,19 +107,19 @@ public class UserMemberTransferController extends MemberBaseController {
         record.setIsBack(false);
         if (memberTransfer == null) {
             memberTransferService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "本人提交校内组织关系互转"));
+            logger.info(addLog(LogConstants.LOG_USER, "本人提交校内组织关系互转"));
             memberTransfer = record;
         } else {
 
             memberTransferService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "本人修改校内组织关系互转"));
+            logger.info(addLog(LogConstants.LOG_USER, "本人修改校内组织关系互转"));
         }
         applyApprovalLogService.add(memberTransfer.getId(),
                 memberTransfer.getPartyId(), memberTransfer.getBranchId(), memberTransfer.getUserId(),
-                userId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
+                userId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER,
                 "提交",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "提交校内组织关系互转申请");
 
         return success(FormUtils.SUCCESS);
@@ -131,7 +132,7 @@ public class UserMemberTransferController extends MemberBaseController {
 
         int userId = loginUser.getId();
         memberTransferService.back(userId);
-        logger.info(addLog(SystemConstants.LOG_USER, "本人取消校内组织关系互转"));
+        logger.info(addLog(LogConstants.LOG_USER, "本人取消校内组织关系互转"));
         return success(FormUtils.SUCCESS);
     }
 }

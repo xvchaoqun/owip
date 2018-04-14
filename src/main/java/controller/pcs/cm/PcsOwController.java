@@ -27,8 +27,8 @@ import persistence.pcs.common.IPcsCandidateView;
 import persistence.pcs.common.PcsBranchBean;
 import persistence.pcs.common.PcsPartyBean;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -218,7 +218,7 @@ public class PcsOwController extends PcsBaseController {
 
         pcsOwService.reportBack(reportId);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "[组织部管理员]退回报送-%s", JSONUtils.toString(pcsAdminReport, false)));
+        logger.info(addLog(LogConstants.LOG_PCS, "[组织部管理员]退回报送-%s", JSONUtils.toString(pcsAdminReport, false)));
         return success(FormUtils.SUCCESS);
     }
 
@@ -231,7 +231,7 @@ public class PcsOwController extends PcsBaseController {
         int configId = currentPcsConfig.getId();
         pcsOwService.issue(configId, stage);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "[组织部管理员]下发名单-%s-%s", configId, stage));
+        logger.info(addLog(LogConstants.LOG_PCS, "[组织部管理员]下发名单-%s-%s", configId, stage));
         return success(FormUtils.SUCCESS);
     }
 
@@ -248,7 +248,7 @@ public class PcsOwController extends PcsBaseController {
 
         isChosen = BooleanUtils.isTrue(isChosen);
         pcsOwService.choose(ids, isChosen, configId, stage, type);
-        logger.info(addLog(SystemConstants.LOG_PCS,
+        logger.info(addLog(LogConstants.LOG_PCS,
                 "[组织部管理员]%s名单-%s", isChosen ? "选入" : "删除", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
@@ -260,7 +260,7 @@ public class PcsOwController extends PcsBaseController {
     public Map do_pcsCandidateChosen_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
         // chosenId
         pcsOwService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_PCS, "入选名单调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_PCS, "入选名单调序：%s, %s", id, addNum));
 
         return success(FormUtils.SUCCESS);
     }

@@ -121,5 +121,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberStay.id}&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY}"/>
+    <c:import url="/applyApprovalLogs?id=${memberStay.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY}"/>
 </div>

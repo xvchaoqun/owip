@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
+import sys.constants.VerifyConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -66,7 +67,7 @@ public class VerifyWorkTimeController extends VerifyBaseController {
         pageNo = Math.max(1, pageNo);
 
         VerifyWorkTimeExample example = new VerifyWorkTimeExample();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.VERIFY_STATUS_NORMAL);
+        Criteria criteria = example.createCriteria().andStatusEqualTo(VerifyConstants.VERIFY_STATUS_NORMAL);
         example.setOrderByClause("submit_time desc");
 
         if (type != null) {
@@ -130,7 +131,7 @@ public class VerifyWorkTimeController extends VerifyBaseController {
             return failed("添加重复");
         }
         verifyWorkTimeService.insertSelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加参加工作时间认定：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "添加参加工作时间认定：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -164,7 +165,7 @@ public class VerifyWorkTimeController extends VerifyBaseController {
         record.setVerifyWorkTime(DateUtils.parseDate(_verifyWorkTime, DateUtils.YYYY_MM_DD));
 
         verifyWorkTimeService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "参加工作时间认定：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "参加工作时间认定：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -188,7 +189,7 @@ public class VerifyWorkTimeController extends VerifyBaseController {
 
         if (null != ids && ids.length > 0) {
             verifyWorkTimeService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除参加工作时间认定：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除参加工作时间认定：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -208,7 +209,7 @@ public class VerifyWorkTimeController extends VerifyBaseController {
                     cadre.getUser().getCode(),
                     cadre.getUser().getRealname(),
                     cadre.getTitle(),
-                    SystemConstants.VERIFY_WORK_TIME_TYPE_MAP.get(record.getType()),
+                    VerifyConstants.VERIFY_WORK_TIME_TYPE_MAP.get(record.getType()),
                     DateUtils.formatDate(record.getOldWorkTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getVerifyWorkTime(), DateUtils.YYYY_MM_DD),
                     record.getMaterialName(),

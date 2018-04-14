@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CetConstants;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -214,7 +214,7 @@ public class CetTrainInspectorController extends CetBaseController {
         cetTrainInspectorService.abolish(id);
 
         CetTrainInspector cetTrainInspector = cetTrainInspectorMapper.selectByPrimaryKey(id);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, String.format("作废参评人账号%s", cetTrainInspector.getUsername())));
+        logger.info(addLog(LogConstants.LOG_ADMIN, String.format("作废参评人账号%s", cetTrainInspector.getUsername())));
         return success(FormUtils.SUCCESS);
     }
 
@@ -229,7 +229,7 @@ public class CetTrainInspectorController extends CetBaseController {
         record.setPasswdChangeType(CetConstants.CET_TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_ADMN_RESET);
         cetTrainInspectorMapper.updateByPrimaryKeySelective(record);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, String.format("重置参评人密码%s", id)));
+        logger.info(addLog(LogConstants.LOG_ADMIN, String.format("重置参评人密码%s", id)));
         return success(FormUtils.SUCCESS);
     }
 
@@ -241,7 +241,7 @@ public class CetTrainInspectorController extends CetBaseController {
         CetTrainInspector cetTrainInspector = cetTrainInspectorMapper.selectByPrimaryKey(id);
         cetTrainInspectorService.delAbolished(id);
 
-        logger.info(addLog( SystemConstants.LOG_ADMIN, String.format("删除已作废的参评人账号%s", cetTrainInspector.getUsername())));
+        logger.info(addLog(LogConstants.LOG_ADMIN, String.format("删除已作废的参评人账号%s", cetTrainInspector.getUsername())));
         return success(FormUtils.SUCCESS);
     }
 
@@ -252,7 +252,7 @@ public class CetTrainInspectorController extends CetBaseController {
 
         int count = cetTrainInspectorService.delAllAbolished(trainId);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, String.format("删除所有的已作废的参评人账号，总共%s个", count)));
+        logger.info(addLog(LogConstants.LOG_ADMIN, String.format("删除所有的已作废的参评人账号，总共%s个", count)));
         return success(FormUtils.SUCCESS);
     }*/
 

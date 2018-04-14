@@ -25,7 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -147,7 +148,7 @@ public class CadrePartyController extends BaseController {
         }
 
         cadreService.addOrUPdateCadreParty(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部党派：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部党派：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
 
         return success(FormUtils.SUCCESS);
     }
@@ -176,7 +177,7 @@ public class CadrePartyController extends BaseController {
 
         if (null != ids){
             cadreService.cadreParty_batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部党派：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部党派：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -211,7 +212,7 @@ public class CadrePartyController extends BaseController {
             if(uv==null) continue;
             CadreParty record = new CadreParty();
             record.setUserId(uv.getId());
-            record.setType(SystemConstants.CADRE_PARTY_TYPE_OW);
+            record.setType(CadreConstants.CADRE_PARTY_TYPE_OW);
             record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
             records.add(record);
         }

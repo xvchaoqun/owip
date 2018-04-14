@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.dispatch.DispatchCadreService;
-import sys.constants.SystemConstants;
+import sys.constants.DispatchConstants;
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.utils.FormUtils;
 
@@ -45,10 +46,10 @@ public class CadreAdminLevelController extends BaseController {
 
         if (id == null) {
             cadreAdminLevelMapper.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加任职级经历：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加任职级经历：%s", record.getId()));
         } else {
             cadreAdminLevelMapper.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新任职级经历：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新任职级经历：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -77,7 +78,7 @@ public class CadreAdminLevelController extends BaseController {
 
         if (id != null) {
             cadreAdminLevelMapper.deleteByPrimaryKey(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除任职级经历：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除任职级经历：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -90,7 +91,7 @@ public class CadreAdminLevelController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             cadreAdminLevelService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除任职级经历：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除任职级经历：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -109,7 +110,7 @@ public class CadreAdminLevelController extends BaseController {
         CadreAdminLevel cadreAdminLevel = cadreAdminLevelMapper.selectByPrimaryKey(id);
         if (StringUtils.equalsIgnoreCase(cls, "start")) {
 
-            dispatchCadreType = SystemConstants.DISPATCH_CADRE_TYPE_APPOINT;
+            dispatchCadreType = DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT;
 
             if (cadreAdminLevel.getStartDispatchCadreId() != null) {
                 Integer startDispatchCadreId = cadreAdminLevel.getStartDispatchCadreId();
@@ -118,7 +119,7 @@ public class CadreAdminLevelController extends BaseController {
             }
         } else if (StringUtils.equalsIgnoreCase(cls, "end")) {
 
-            //dispatchCadreType = SystemConstants.DISPATCH_CADRE_TYPE_DISMISS;
+            //dispatchCadreType = DispatchConstants.DISPATCH_CADRE_TYPE_DISMISS;
             if (cadreAdminLevel.getEndDispatchCadreId() != null) {
                 Integer endDispatchCadreId = cadreAdminLevel.getEndDispatchCadreId();
                 dispatchCadreIdSet.add(endDispatchCadreId);
@@ -163,7 +164,7 @@ public class CadreAdminLevelController extends BaseController {
             }
 
             cadreAdminLevelMapper.updateByPrimaryKey(record); // 可以删除
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "修改任职级经历%s %s-文号：%s", id, cls, dispatchCadreId));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "修改任职级经历%s %s-文号：%s", id, cls, dispatchCadreId));
         return success(FormUtils.SUCCESS);
     }
 }

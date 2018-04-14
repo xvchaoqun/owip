@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import persistence.common.ICadreInfoCheck;
 import service.BaseMapper;
+import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -88,12 +89,12 @@ public class CadreInfoCheckService extends BaseMapper {
     }
 
     private static boolean notComplete(Byte result){
-        return(result==null || result == SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST);
+        return(result==null || result == CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST);
     }
 
     private static boolean notComplete(int cadreId, String updateName, int type){
 
-        Byte result = SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+        Byte result = CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
         if(CmTag.canUpdate(cadreId, updateName)){
             result = CmTag.cadreInfoCheck(cadreId, updateName, type);
         }
@@ -105,16 +106,16 @@ public class CadreInfoCheckService extends BaseMapper {
         Byte rewardType = null;
         switch (updateName){
             case "course_reward":
-                rewardType = SystemConstants.CADRE_REWARD_TYPE_TEACH;
+                rewardType = CadreConstants.CADRE_REWARD_TYPE_TEACH;
                 break;
             case "research_reward":
-                rewardType = SystemConstants.CADRE_REWARD_TYPE_RESEARCH;
+                rewardType = CadreConstants.CADRE_REWARD_TYPE_RESEARCH;
                 break;
             case "reward":
-                rewardType = SystemConstants.CADRE_REWARD_TYPE_OTHER;
+                rewardType = CadreConstants.CADRE_REWARD_TYPE_OTHER;
                 break;
         }
-        Byte result = SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+        Byte result = CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
         if(CmTag.canUpdate(cadreId, updateName)){
             result = CmTag.cadreRewardCheck(cadreId, rewardType);
         }
@@ -127,13 +128,13 @@ public class CadreInfoCheckService extends BaseMapper {
         Byte researchType = null;
         switch (updateName){
             case "research_direct":
-                researchType = SystemConstants.CADRE_RESEARCH_TYPE_DIRECT;
+                researchType = CadreConstants.CADRE_RESEARCH_TYPE_DIRECT;
                 break;
             case "research_in":
-                researchType = SystemConstants.CADRE_RESEARCH_TYPE_IN;
+                researchType = CadreConstants.CADRE_RESEARCH_TYPE_IN;
                 break;
         }
-        Byte result = SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+        Byte result = CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
         if(CmTag.canUpdate(cadreId, updateName)){
             result = CmTag.cadreResearchCheck(cadreId, researchType);
         }
@@ -149,7 +150,7 @@ public class CadreInfoCheckService extends BaseMapper {
 
         String tableName = "sys_user_info";
         int count = iModifyMapper.baseModifyApplyCount(userId, tableName, name);
-        if (count > 0) return SystemConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
+        if (count > 0) return CadreConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
 
         boolean exist = false;
         SysUserInfo ui = sysUserInfoMapper.selectByPrimaryKey(userId);
@@ -183,8 +184,8 @@ public class CadreInfoCheckService extends BaseMapper {
                 break;
         }
 
-        return exist ? SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST
-                : SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+        return exist ? CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST
+                : CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
     // 人事信息
@@ -195,7 +196,7 @@ public class CadreInfoCheckService extends BaseMapper {
 
         String tableName = "sys_teacher_info";
         int count = iModifyMapper.baseModifyApplyCount(userId, tableName, name);
-        if (count > 0) return SystemConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
+        if (count > 0) return CadreConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
 
         boolean exist = false;
         TeacherInfo ti = teacherInfoMapper.selectByPrimaryKey(userId);
@@ -205,8 +206,8 @@ public class CadreInfoCheckService extends BaseMapper {
                 break;
         }
 
-        return exist ? SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST
-                : SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+        return exist ? CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST
+                : CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
     // 干部信息
@@ -222,60 +223,60 @@ public class CadreInfoCheckService extends BaseMapper {
                 break;
         }
 
-        return exist ? SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST
-                : SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+        return exist ? CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST
+                : CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
     // 最高学历
     public Byte cadreHighEduCheck(int cadreId) {
 
         if (cadreEduService.hasHighEdu(null, cadreId, true, SystemConstants.RECORD_STATUS_MODIFY))
-            return SystemConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
+            return CadreConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
         if (cadreEduService.hasHighEdu(null, cadreId, true, SystemConstants.RECORD_STATUS_FORMAL))
-            return SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+            return CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
         else
-            return SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+            return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
     // 最高学位
     public Byte cadreHighDegreeCheck(int cadreId) {
 
         if (cadreEduService.hasHighDegree(null, cadreId, true, SystemConstants.RECORD_STATUS_MODIFY))
-            return SystemConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
+            return CadreConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
         if (cadreEduService.hasHighDegree(null, cadreId, true, SystemConstants.RECORD_STATUS_FORMAL))
-            return SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+            return CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
         else
-            return SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+            return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
     // 干部科研项目信息检查
     public byte cadreResearchCheck(int cadreId, byte researchType) {
 
         ICadreInfoCheck iCadreInfoCheck = iModifyMapper.cadreResearchCheck(cadreId, researchType);
-        if (iCadreInfoCheck!=null && iCadreInfoCheck.getModifyCount()!=null && iCadreInfoCheck.getModifyCount() > 0) return SystemConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
+        if (iCadreInfoCheck!=null && iCadreInfoCheck.getModifyCount()!=null && iCadreInfoCheck.getModifyCount() > 0) return CadreConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
 
-        return (iCadreInfoCheck!=null && iCadreInfoCheck.getFormalCount()!=null && iCadreInfoCheck.getFormalCount() > 0) ? SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST
-                : SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+        return (iCadreInfoCheck!=null && iCadreInfoCheck.getFormalCount()!=null && iCadreInfoCheck.getFormalCount() > 0) ? CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST
+                : CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
     // 干部奖励信息检查
     public byte cadreRewardCheck(int cadreId, byte rewardType) {
 
         ICadreInfoCheck iCadreInfoCheck = iModifyMapper.cadreRewardCheck(cadreId, rewardType);
-        if (iCadreInfoCheck!=null && iCadreInfoCheck.getModifyCount()!=null && iCadreInfoCheck.getModifyCount() > 0) return SystemConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
+        if (iCadreInfoCheck!=null && iCadreInfoCheck.getModifyCount()!=null && iCadreInfoCheck.getModifyCount() > 0) return CadreConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
 
-        return (iCadreInfoCheck!=null && iCadreInfoCheck.getFormalCount()!=null && iCadreInfoCheck.getFormalCount() > 0) ? SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST
-                : SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+        return (iCadreInfoCheck!=null && iCadreInfoCheck.getFormalCount()!=null && iCadreInfoCheck.getFormalCount() > 0) ? CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST
+                : CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
     // 除以上之外的干部信息检查
     public byte cadreInfoModifyCheck(int cadreId, String name) {
 
         ICadreInfoCheck iCadreInfoCheck = iModifyMapper.cadreInfoModifyCheck(cadreId, name);
-        if (iCadreInfoCheck!=null && iCadreInfoCheck.getModifyCount()!=null && iCadreInfoCheck.getModifyCount() > 0) return SystemConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
+        if (iCadreInfoCheck!=null && iCadreInfoCheck.getModifyCount()!=null && iCadreInfoCheck.getModifyCount() > 0) return CadreConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
 
-        return (iCadreInfoCheck!=null && iCadreInfoCheck.getFormalCount()!=null && iCadreInfoCheck.getFormalCount() > 0) ? SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST
-                : SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+        return (iCadreInfoCheck!=null && iCadreInfoCheck.getFormalCount()!=null && iCadreInfoCheck.getFormalCount() > 0) ? CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST
+                : CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
     // 除以上之外的干部信息检查（没有修改申请的表）
@@ -283,8 +284,8 @@ public class CadreInfoCheckService extends BaseMapper {
 
         ICadreInfoCheck iCadreInfoCheck = iModifyMapper.cadreInfoExistCheck(cadreId, name);
 
-        return  (iCadreInfoCheck!=null && iCadreInfoCheck.getFormalCount()!=null && iCadreInfoCheck.getFormalCount() > 0) ? SystemConstants.CADRE_INFO_CHECK_RESULT_EXIST
-                : SystemConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+        return  (iCadreInfoCheck!=null && iCadreInfoCheck.getFormalCount()!=null && iCadreInfoCheck.getFormalCount() > 0) ? CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST
+                : CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
 
@@ -334,7 +335,7 @@ public class CadreInfoCheckService extends BaseMapper {
             case "course_reward": {
                 CadreRewardExample example = new CadreRewardExample();
                 example.createCriteria().andCadreIdEqualTo(cadreId)
-                        .andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_TEACH)
+                        .andRewardTypeEqualTo(CadreConstants.CADRE_REWARD_TYPE_TEACH)
                         .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                 count = cadreRewardMapper.countByExample(example);
             }
@@ -342,7 +343,7 @@ public class CadreInfoCheckService extends BaseMapper {
             case "research_direct": {
                 CadreResearchExample example = new CadreResearchExample();
                 example.createCriteria().andCadreIdEqualTo(cadreId)
-                        .andResearchTypeEqualTo(SystemConstants.CADRE_RESEARCH_TYPE_DIRECT)
+                        .andResearchTypeEqualTo(CadreConstants.CADRE_RESEARCH_TYPE_DIRECT)
                         .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                 count = cadreResearchMapper.countByExample(example);
             }
@@ -350,7 +351,7 @@ public class CadreInfoCheckService extends BaseMapper {
             case "research_in": {
                 CadreResearchExample example = new CadreResearchExample();
                 example.createCriteria().andCadreIdEqualTo(cadreId)
-                        .andResearchTypeEqualTo(SystemConstants.CADRE_RESEARCH_TYPE_IN)
+                        .andResearchTypeEqualTo(CadreConstants.CADRE_RESEARCH_TYPE_IN)
                         .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                 count = cadreResearchMapper.countByExample(example);
             }
@@ -370,7 +371,7 @@ public class CadreInfoCheckService extends BaseMapper {
             case "research_reward": {
                 CadreRewardExample example = new CadreRewardExample();
                 example.createCriteria().andCadreIdEqualTo(cadreId)
-                        .andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_RESEARCH)
+                        .andRewardTypeEqualTo(CadreConstants.CADRE_REWARD_TYPE_RESEARCH)
                         .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                 count = cadreRewardMapper.countByExample(example);
             }
@@ -378,7 +379,7 @@ public class CadreInfoCheckService extends BaseMapper {
             case "reward": {
                 CadreRewardExample example = new CadreRewardExample();
                 example.createCriteria().andCadreIdEqualTo(cadreId)
-                        .andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_OTHER)
+                        .andRewardTypeEqualTo(CadreConstants.CADRE_REWARD_TYPE_OTHER)
                         .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                 count = cadreRewardMapper.countByExample(example);
             }

@@ -160,5 +160,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberTransfer.id}&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER}"/>
+    <c:import url="/applyApprovalLogs?id=${memberTransfer.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER}"/>
 </div>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.sys.RegException;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
 import sys.utils.FormUtils;
@@ -82,7 +83,7 @@ public class RegController extends BaseController {
 
 		SecurityUtils.getSubject().login(token);
 
-		logger.info(addLog(SystemConstants.LOG_USER, "注册后登录成功"));
+		logger.info(addLog(LogConstants.LOG_USER, "注册后登录成功"));
 
 		return success();
 	}

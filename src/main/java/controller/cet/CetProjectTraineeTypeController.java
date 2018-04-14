@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -109,11 +109,11 @@ public class CetProjectTraineeTypeController extends CetBaseController {
 
         if (id == null) {
             cetProjectTraineeTypeService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加培训班关联的参训人员类型：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加培训班关联的参训人员类型：%s", record.getId()));
         } else {
 
             cetProjectTraineeTypeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新培训班关联的参训人员类型：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新培训班关联的参训人员类型：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -138,7 +138,7 @@ public class CetProjectTraineeTypeController extends CetBaseController {
         if (id != null) {
 
             cetProjectTraineeTypeService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除培训班关联的参训人员类型：%s", id));
+            logger.info(addLog(LogConstants.LOG_CET, "删除培训班关联的参训人员类型：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -151,7 +151,7 @@ public class CetProjectTraineeTypeController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetProjectTraineeTypeService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除培训班关联的参训人员类型：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除培训班关联的参训人员类型：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

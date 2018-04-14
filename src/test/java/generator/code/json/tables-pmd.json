@@ -12,7 +12,7 @@
       "searchColumns": "pay_month",
       "showColumns": "pay_month,has_import,is_open_pay,is_finish",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_PMD",
+      "logType": "LogConstants.LOG_PMD",
       "ignore": true
     },
     {
@@ -21,7 +21,7 @@
       "searchColumns": "order_no,pay_month,user_id,party_id,branch_id,type,has_pay",
       "showColumns": "order_no,pay_month,user_id,party_id,branch_id,type,due_pay,real_pay,has_pay,is_online_pay,pay_time,charge_user_id",
       "excludeEditColumns": "id,talent_title,pro_post_level,manage_level,office_level,authorized_type,pay_time,charge_user_id",
-      "logType": "SystemConstants.LOG_PMD",
+      "logType": "LogConstants.LOG_PMD",
       "ignore": true
     },
     {
@@ -30,7 +30,7 @@
       "searchColumns": "order_no,order_date,tran_stat",
       "showColumns": "order_no,order_date,amount,jylsh,tran_stat,return_type,sign,verify_sign,ret_time,ip",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_PMD",
+      "logType": "LogConstants.LOG_PMD",
       "ignore": true
     },
     {
@@ -39,7 +39,7 @@
       "searchColumns": "pay_month",
       "showColumns": "pay_month,party_id",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_PMD",
+      "logType": "LogConstants.LOG_PMD",
       "ignore": true
     },
     {
@@ -48,7 +48,7 @@
       "searchColumns": "month_id,party_id",
       "showColumns": "month_id,party_name,branch_name,history_delay_member_count,history_delay_pay,has_report,member_count,due_pay,finish_member_count,real_pay,online_real_pay,cash_real_pay,delay_pay,delay_member_count,real_delay_pay,online_real_delay_pay,cash_real_delay_pay",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_PMD",
+      "logType": "LogConstants.LOG_PMD",
       "ignore": true
     },
     {
@@ -57,7 +57,7 @@
       "searchColumns": "type,code,realname,unit",
       "showColumns": "type,code,realname,unit",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_PMD",
+      "logType": "LogConstants.LOG_PMD",
       "ignore": true
     },
     {
@@ -66,7 +66,7 @@
       "searchColumns": "type,name",
       "showColumns": "type,name,is_fixed,start_time,end_time,start_user_id,end_user_id,status",
       "excludeEditColumns": "id,status",
-      "logType": "SystemConstants.LOG_PMD",
+      "logType": "LogConstants.LOG_PMD",
       "ignore": true
     },
     {
@@ -75,7 +75,7 @@
       "searchColumns": "norm_id",
       "showColumns": "norm_id,amount,is_enabled",
       "excludeEditColumns": "id,is_enabled",
-      "logType": "SystemConstants.LOG_PMD",
+      "logType": "LogConstants.LOG_PMD",
       "ignore": true
     },
     {
@@ -84,7 +84,7 @@
       "searchColumns": "norm_value_id",
       "showColumns": "norm_value_id,start_time,end_time,start_user_id,end_user_id",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_PMD",
+      "logType": "LogConstants.LOG_PMD",
       "ignore": true
     },
     {
@@ -93,7 +93,7 @@
       "searchColumns": "type",
       "showColumns": "type,name,norm_id,is_auto,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_PMD",
+      "logType": "LogConstants.LOG_PMD",
       "ignore": false
     },
     {
@@ -102,7 +102,7 @@
       "searchColumns": "user_id,config_member_type,config_member_type_id",
       "showColumns": "user_id,config_member_type,config_member_type_id",
       "excludeEditColumns": "user_id",
-      "logType": "SystemConstants.LOG_PMD",
+      "logType": "LogConstants.LOG_PMD",
       "ignore": false
     }
   ]

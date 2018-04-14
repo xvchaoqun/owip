@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import service.cadre.CadreAdformService;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -118,11 +118,11 @@ public class ScAdUseController extends ScAdBaseController {
         Integer id = record.getId();
         if (id == null) {
             scAdUseService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_AD, "添加干部任免审批表：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_AD, "添加干部任免审批表：%s", record.getId()));
         } else {
 
             scAdUseService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_AD, "更新干部任免审批表：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_AD, "更新干部任免审批表：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -144,7 +144,7 @@ public class ScAdUseController extends ScAdBaseController {
     @RequestMapping("/scAdUse_preview")
     public String scAdUse_preview(int useId, Boolean view, ModelMap modelMap) throws IOException {
 
-        // logger.info(addLog( SystemConstants.LOG_SC_AD, "预览干部任免审批表：%s"));
+        // logger.info(addLog(LogConstants.LOG_SC_AD, "预览干部任免审批表：%s"));
         CadreAdform cadreAdForm = null;
         ScAdUse scAdUse = scAdUseMapper.selectByPrimaryKey(useId);
         if(BooleanUtils.isTrue(view)){
@@ -165,7 +165,7 @@ public class ScAdUseController extends ScAdBaseController {
     public Map do_scAdUse_save(Integer useId) {
 
         scAdUseService.save(useId);
-        logger.info(addLog( SystemConstants.LOG_SC_AD, "归档保存干部任免审批表：%s", useId));
+        logger.info(addLog(LogConstants.LOG_SC_AD, "归档保存干部任免审批表：%s", useId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -207,7 +207,7 @@ public class ScAdUseController extends ScAdBaseController {
         record.setRemark(remark);
 
         scAdUseMapper.updateByPrimaryKeySelective(record);
-        logger.info(addLog( SystemConstants.LOG_SC_AD, "正式归档：%s", id));
+        logger.info(addLog(LogConstants.LOG_SC_AD, "正式归档：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -231,7 +231,7 @@ public class ScAdUseController extends ScAdBaseController {
 
         if (null != ids && ids.length>0){
             scAdUseService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_AD, "批量删除干部任免审批表：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_AD, "批量删除干部任免审批表：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

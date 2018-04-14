@@ -11,7 +11,7 @@
       "searchColumns": "content",
       "showColumns": "name,content,remark",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_ADMIN",
+      "logType":"LogConstants.LOG_ADMIN",
       "ignore": false
     }
   ]

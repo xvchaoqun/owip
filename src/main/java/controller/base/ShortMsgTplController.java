@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
@@ -181,11 +182,11 @@ public class ShortMsgTplController extends BaseController {
             record.setCreateTime(new Date());
             record.setIp(ContextHelper.getRealIp());
             shortMsgTplService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加定向短信模板：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加定向短信模板：%s", record.getId()));
         } else {
 
             shortMsgTplService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新定向短信模板：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新定向短信模板：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -274,7 +275,7 @@ public class ShortMsgTplController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             shortMsgTplService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除定向短信模板：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除定向短信模板：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

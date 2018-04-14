@@ -14,9 +14,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -84,18 +85,18 @@ public class UserMemberOutflowController extends MemberBaseController {
         record.setIsBack(false);
         if (memberOutflow == null) {
             memberOutflowService.add(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "提交流出党员申请"));
+            logger.info(addLog(LogConstants.LOG_USER, "提交流出党员申请"));
             memberOutflow = record;
         } else {
             memberOutflowService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "提交修改流出党员申请"));
+            logger.info(addLog(LogConstants.LOG_USER, "提交修改流出党员申请"));
         }
         applyApprovalLogService.add(memberOutflow.getId(),
                 memberOutflow.getPartyId(), memberOutflow.getBranchId(), memberOutflow.getUserId(),
-                userId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
+                userId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
                 "提交",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "提交流出党员申请");
         return success(FormUtils.SUCCESS);
     }
@@ -107,7 +108,7 @@ public class UserMemberOutflowController extends MemberBaseController {
 
         int userId = loginUser.getId();
         memberOutflowService.back(userId);
-        logger.info(addLog(SystemConstants.LOG_USER, "取消流出党员申请"));
+        logger.info(addLog(LogConstants.LOG_USER, "取消流出党员申请"));
         return success(FormUtils.SUCCESS);
     }
 }

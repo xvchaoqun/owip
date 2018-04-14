@@ -30,6 +30,7 @@ import service.cadre.CadrePostService;
 import service.party.BranchService;
 import service.party.PartyService;
 import service.unit.UnitService;
+import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
@@ -56,7 +57,7 @@ public class CadreReserveExportService extends BaseMapper {
 
     public SXSSFWorkbook export(Byte type, CadreReserveViewExample example) {
 
-        String cadreReserveType = SystemConstants.CADRE_RESERVE_TYPE_MAP.get(type);
+        String cadreReserveType = CadreConstants.CADRE_RESERVE_TYPE_MAP.get(type);
 
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         Map<Integer, Unit> unitMap = unitService.findAll();
@@ -318,7 +319,7 @@ public class CadreReserveExportService extends BaseMapper {
                     metaTypeService.getName(record.getLearnStyle()),
                     record.getSchool(),
 
-                    record.getSchoolType()==null?"":SystemConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
+                    record.getSchoolType()==null?"":CadreConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
                     record.getMajor(),
                     record.getPostClass(),
                     record.getMainPostLevel(),

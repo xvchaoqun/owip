@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +37,7 @@ public class CadreInfoCheckController extends BaseController {
         }
 
         cadreInfoCheckService.update(cadreId, name, isChecked);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新干部信息检查：%s, %s, %s", cadreId, name, isChecked));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "添加/更新干部信息检查：%s, %s, %s", cadreId, name, isChecked));
         return success(FormUtils.SUCCESS);
     }
 }

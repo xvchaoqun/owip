@@ -25,9 +25,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -75,8 +76,8 @@ public class MemberController extends MemberBaseController {
             if(member==null){
                 msg = "该用户不是党员";
                 MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-                if(memberApply!=null && memberApply.getStage()>SystemConstants.APPLY_STAGE_DENY){
-                    msg += "；已进入入党申请阶段【" + SystemConstants.APPLY_STAGE_MAP.get(memberApply.getStage()) +"】";
+                if(memberApply!=null && memberApply.getStage()> OwConstants.OW_APPLY_STAGE_DENY){
+                    msg += "；已进入入党申请阶段【" + OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()) +"】";
                 }
             }else{
                 Integer partyId = member.getPartyId();
@@ -191,8 +192,8 @@ public class MemberController extends MemberBaseController {
             SecurityUtils.getSubject().checkPermission("member:add");
 
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-            if(memberApply!=null && memberApply.getStage()>=SystemConstants.APPLY_STAGE_INIT){
-                return failed("该用户已经提交了入党申请[当前审批阶段："+SystemConstants.APPLY_STAGE_MAP.get(memberApply.getStage())+"]，不可以直接添加。");
+            if(memberApply!=null && memberApply.getStage()>=OwConstants.OW_APPLY_STAGE_INIT){
+                return failed("该用户已经提交了入党申请[当前审批阶段："+OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage())+"]，不可以直接添加。");
             }
 
             record.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常
@@ -202,7 +203,7 @@ public class MemberController extends MemberBaseController {
 
             memberService.addModify(record.getUserId(), "后台添加");
 
-            logger.info(addLog(SystemConstants.LOG_MEMBER,
+            logger.info(addLog(LogConstants.LOG_MEMBER,
                     "添加党员信息表：%s %s %s %s, 添加原因：%s", sysUser.getId(), sysUser.getRealname(),
                     partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(), reason));
@@ -213,7 +214,7 @@ public class MemberController extends MemberBaseController {
             record.setPoliticalStatus(null); // 不能修改党籍状态
             memberService.updateByPrimaryKeySelective(record, reason);
 
-            logger.info(addLog(SystemConstants.LOG_MEMBER,
+            logger.info(addLog(LogConstants.LOG_MEMBER,
                     "更新党员信息表：%s %s %s %s, 更新原因：%s", sysUser.getId(), sysUser.getRealname(),
                     partyService.findAll().get(partyId).getName(),
                     branchId == null ? "" : branchService.findAll().get(branchId).getName(),
@@ -361,7 +362,7 @@ public class MemberController extends MemberBaseController {
 
         if (null != ids) {
             memberService.changeBranch(ids, partyId, branchId);
-            logger.info(addLog(SystemConstants.LOG_MEMBER, "批量分党委内部转移：%s, %s, %s", StringUtils.join(ids, ","), partyId, branchId));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "批量分党委内部转移：%s, %s, %s", StringUtils.join(ids, ","), partyId, branchId));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -387,7 +388,7 @@ public class MemberController extends MemberBaseController {
 
         if (null != ids) {
             memberService.changeParty(ids, partyId, branchId);
-            logger.info(addLog(SystemConstants.LOG_MEMBER, "批量校内组织关系转移：%s, %s, %s", ids, partyId, branchId));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "批量校内组织关系转移：%s, %s, %s", ids, partyId, branchId));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -401,7 +402,7 @@ public class MemberController extends MemberBaseController {
         if (id != null) {
 
             memberService.del(id);
-            logger.info(addLog(SystemConstants.LOG_MEMBER, "删除党员信息表：%s", id));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "删除党员信息表：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -420,7 +421,7 @@ public class MemberController extends MemberBaseController {
 
             memberService.batchDel(ids);
 
-            logger.info(addLog(SystemConstants.LOG_MEMBER, "批量删除党员：%s", JSONUtils.toString(members)));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "批量删除党员：%s", JSONUtils.toString(members)));
         }
         return success(FormUtils.SUCCESS);
     }

@@ -22,7 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
@@ -51,7 +53,7 @@ public class MemberApplyExportController extends MemberBaseController {
                                    Integer userId,
                                    Integer partyId,
                                    Integer branchId,
-                                   @RequestParam(defaultValue = SystemConstants.APPLY_TYPE_STU+"")Byte type,
+                                   @RequestParam(defaultValue = OwConstants.OW_APPLY_TYPE_STU+"")Byte type,
                                     //导出类型：1：申请入党人员信息（包含申请至领取志愿书 5个阶段）
                                     // 2：发展党员人员信息（即预备党员阶段） 3: 领取志愿书人员信息
                                     @RequestParam(defaultValue = "0")Byte exportType,
@@ -88,11 +90,11 @@ public class MemberApplyExportController extends MemberBaseController {
         if(exportType==1){
 
             List<Byte> stageList = new ArrayList<>();
-            stageList.add(SystemConstants.APPLY_STAGE_PASS);
-            stageList.add(SystemConstants.APPLY_STAGE_ACTIVE);
-            stageList.add(SystemConstants.APPLY_STAGE_CANDIDATE);
-            stageList.add(SystemConstants.APPLY_STAGE_PLAN);
-            stageList.add(SystemConstants.APPLY_STAGE_DRAW);
+            stageList.add(OwConstants.OW_APPLY_STAGE_PASS);
+            stageList.add(OwConstants.OW_APPLY_STAGE_ACTIVE);
+            stageList.add(OwConstants.OW_APPLY_STAGE_CANDIDATE);
+            stageList.add(OwConstants.OW_APPLY_STAGE_PLAN);
+            stageList.add(OwConstants.OW_APPLY_STAGE_DRAW);
             criteria.andStageIn(stageList);
 
             if (_applyTime.getStart()!=null) {
@@ -103,17 +105,17 @@ public class MemberApplyExportController extends MemberBaseController {
             }
 
 
-            if(type==SystemConstants.APPLY_TYPE_STU) {
+            if(type==OwConstants.OW_APPLY_TYPE_STU) {
                 memberStudent_apply_export(example, response);
-                logger.info(addLog(SystemConstants.LOG_PARTY, "导出学生申请入党人员信息"));
+                logger.info(addLog(LogConstants.LOG_PARTY, "导出学生申请入党人员信息"));
             }else {
                 memberTeacher_apply_export(example, response);
-                logger.info(addLog(SystemConstants.LOG_PARTY, "导出教职工申请入党人员信息"));
+                logger.info(addLog(LogConstants.LOG_PARTY, "导出教职工申请入党人员信息"));
             }
 
         } else if(exportType==2){
 
-            criteria.andStageEqualTo(SystemConstants.APPLY_STAGE_GROW);
+            criteria.andStageEqualTo(OwConstants.OW_APPLY_STAGE_GROW);
 
             if (_growTime.getStart()!=null) {
                 criteria.andGrowTimeGreaterThanOrEqualTo(_growTime.getStart());
@@ -121,19 +123,19 @@ public class MemberApplyExportController extends MemberBaseController {
             if (_growTime.getEnd()!=null) {
                 criteria.andGrowTimeLessThanOrEqualTo(_growTime.getEnd());
             }
-            if(type==SystemConstants.APPLY_TYPE_STU) {
+            if(type==OwConstants.OW_APPLY_TYPE_STU) {
                 memberStudent_export(example, exportType, response);
-                logger.info(addLog(SystemConstants.LOG_PARTY, "导出学生预备党员信息"));
+                logger.info(addLog(LogConstants.LOG_PARTY, "导出学生预备党员信息"));
             }else {
                 memberTeacher_export(example, exportType, response);
-                logger.info(addLog(SystemConstants.LOG_PARTY, "导出教职工预备党员信息"));
+                logger.info(addLog(LogConstants.LOG_PARTY, "导出教职工预备党员信息"));
             }
         }else if(exportType==3){
 
             List<Byte> stageList = new ArrayList<>();
-            stageList.add(SystemConstants.APPLY_STAGE_DRAW);
-            stageList.add(SystemConstants.APPLY_STAGE_GROW);
-            stageList.add(SystemConstants.APPLY_STAGE_POSITIVE);
+            stageList.add(OwConstants.OW_APPLY_STAGE_DRAW);
+            stageList.add(OwConstants.OW_APPLY_STAGE_GROW);
+            stageList.add(OwConstants.OW_APPLY_STAGE_POSITIVE);
             criteria.andStageIn(stageList);
 
             if (_drawTime.getStart()!=null) {
@@ -142,12 +144,12 @@ public class MemberApplyExportController extends MemberBaseController {
             if (_drawTime.getEnd()!=null) {
                 criteria.andDrawTimeLessThanOrEqualTo(_drawTime.getEnd());
             }
-            if(type==SystemConstants.APPLY_TYPE_STU) {
+            if(type==OwConstants.OW_APPLY_TYPE_STU) {
                 memberStudent_export(example, exportType, response);
-                logger.info(addLog(SystemConstants.LOG_PARTY, "导出学生领取志愿书信息"));
+                logger.info(addLog(LogConstants.LOG_PARTY, "导出学生领取志愿书信息"));
             }else {
                 memberTeacher_export(example, exportType, response);
-                logger.info(addLog(SystemConstants.LOG_PARTY, "导出教职工领取志愿书信息"));
+                logger.info(addLog(LogConstants.LOG_PARTY, "导出教职工领取志愿书信息"));
             }
         }
 
@@ -167,13 +169,13 @@ public class MemberApplyExportController extends MemberBaseController {
         for (MemberApply memberApply:records) {
 
             String stage = "";
-            if(memberApply.getStage()==SystemConstants.APPLY_STAGE_PASS){
+            if(memberApply.getStage()==OwConstants.OW_APPLY_STAGE_PASS){
                 stage="申请入党人员";
-            }else if(memberApply.getStage()==SystemConstants.APPLY_STAGE_ACTIVE){
+            }else if(memberApply.getStage()==OwConstants.OW_APPLY_STAGE_ACTIVE){
                 stage="入党积极分子";
-            }else if(memberApply.getStage()==SystemConstants.APPLY_STAGE_CANDIDATE
-                    ||memberApply.getStage()==SystemConstants.APPLY_STAGE_PLAN
-                    || memberApply.getStage()==SystemConstants.APPLY_STAGE_DRAW){
+            }else if(memberApply.getStage()==OwConstants.OW_APPLY_STAGE_CANDIDATE
+                    ||memberApply.getStage()==OwConstants.OW_APPLY_STAGE_PLAN
+                    || memberApply.getStage()==OwConstants.OW_APPLY_STAGE_DRAW){
                 stage="发展对象";
             }
             SysUserView uv = sysUserService.findById(memberApply.getUserId());
@@ -260,7 +262,7 @@ public class MemberApplyExportController extends MemberBaseController {
 
             if(exportType==3){
                 values.set(11, DateUtils.formatDate(memberApply.getDrawTime(), DateUtils.YYYY_MM_DD));
-                values.add(12, SystemConstants.APPLY_STAGE_MAP.get(memberApply.getStage()));
+                values.add(12, OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()));
                 values.add(13, memberApply.getApplyStatus());
             }
 
@@ -291,13 +293,13 @@ public class MemberApplyExportController extends MemberBaseController {
         for (MemberApply memberApply:records) {
 
             String stage = "";
-            if(memberApply.getStage()==SystemConstants.APPLY_STAGE_PASS){
+            if(memberApply.getStage()==OwConstants.OW_APPLY_STAGE_PASS){
                 stage="申请入党人员";
-            }else if(memberApply.getStage()==SystemConstants.APPLY_STAGE_ACTIVE){
+            }else if(memberApply.getStage()==OwConstants.OW_APPLY_STAGE_ACTIVE){
                 stage="入党积极分子";
-            }else if(memberApply.getStage()==SystemConstants.APPLY_STAGE_CANDIDATE
-                    ||memberApply.getStage()==SystemConstants.APPLY_STAGE_PLAN
-                    || memberApply.getStage()==SystemConstants.APPLY_STAGE_DRAW){
+            }else if(memberApply.getStage()==OwConstants.OW_APPLY_STAGE_CANDIDATE
+                    ||memberApply.getStage()==OwConstants.OW_APPLY_STAGE_PLAN
+                    || memberApply.getStage()==OwConstants.OW_APPLY_STAGE_DRAW){
                 stage="发展对象";
             }
 
@@ -458,7 +460,7 @@ public class MemberApplyExportController extends MemberBaseController {
             }));
             if(exportType==3){
                 values.set(19, DateUtils.formatDate(memberApply.getDrawTime(), DateUtils.YYYY_MM_DD));
-                values.add(20, SystemConstants.APPLY_STAGE_MAP.get(memberApply.getStage()));
+                values.add(20, OwConstants.OW_APPLY_STAGE_MAP.get(memberApply.getStage()));
                 values.add(21, memberApply.getApplyStatus());
             }
             valuesList.add(values);

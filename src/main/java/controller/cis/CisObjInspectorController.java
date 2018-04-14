@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
@@ -129,11 +129,11 @@ public class CisObjInspectorController extends CisBaseController {
 
         if (id == null) {
             cisObjInspectorService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部考察材料中的考察组成员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部考察材料中的考察组成员：%s", record.getId()));
         } else {
 
             cisObjInspectorService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部考察材料中的考察组成员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部考察材料中的考察组成员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -158,7 +158,7 @@ public class CisObjInspectorController extends CisBaseController {
         if (id != null) {
 
             cisObjInspectorService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部考察材料中的考察组成员：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除干部考察材料中的考察组成员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -171,7 +171,7 @@ public class CisObjInspectorController extends CisBaseController {
 
         if (null != ids && ids.length > 0) {
             cisObjInspectorService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部考察材料中的考察组成员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部考察材料中的考察组成员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -84,7 +84,7 @@
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog"
-                                        data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT}"
+                                        data-querystr="&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT}"
                                         data-open-by="page">
                                     <i class="fa fa-sign-in"></i> 查看审批记录
                                 </button>

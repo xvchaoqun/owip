@@ -57,7 +57,7 @@
     ],
     rowattr: function(rowData, currentObj, rowId)
     {
-      if(rowData.status=='${APPLY_APPROVAL_LOG_STATUS_BACK}') {
+      if(rowData.status=='${OW_APPLY_APPROVAL_LOG_STATUS_BACK}') {
         //console.log(rowData)
         return {'class':'danger'}
       }

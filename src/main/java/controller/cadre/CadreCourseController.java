@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -60,13 +62,13 @@ public class CadreCourseController extends BaseController {
             modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
             modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
         }else if (type == 3) {
-            modelMap.put("bksCadreCourses", cadreCourseService.list(cadreId, SystemConstants.CADRE_COURSE_TYPE_BKS));
-            modelMap.put("ssCadreCourses", cadreCourseService.list(cadreId, SystemConstants.CADRE_COURSE_TYPE_SS));
-            modelMap.put("bsCadreCourses", cadreCourseService.list(cadreId, SystemConstants.CADRE_COURSE_TYPE_BS));
+            modelMap.put("bksCadreCourses", cadreCourseService.list(cadreId, CadreConstants.CADRE_COURSE_TYPE_BKS));
+            modelMap.put("ssCadreCourses", cadreCourseService.list(cadreId, CadreConstants.CADRE_COURSE_TYPE_SS));
+            modelMap.put("bsCadreCourses", cadreCourseService.list(cadreId, CadreConstants.CADRE_COURSE_TYPE_BS));
 
-            modelMap.put("cadreRewards", cadreRewardService.list(cadreId, SystemConstants.CADRE_REWARD_TYPE_TEACH));
+            modelMap.put("cadreRewards", cadreRewardService.list(cadreId, CadreConstants.CADRE_REWARD_TYPE_TEACH));
 
-            CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_TEACH);
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_TEACH);
             modelMap.put("cadreInfo", cadreInfo);
         }
         return "cadre/cadreCourse/cadreCourse_page";
@@ -139,11 +141,11 @@ public class CadreCourseController extends BaseController {
 
             if(!toApply) {
                 cadreCourseService.batchAdd(record, names);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "批量添加干部教学课程：%s, %s",
-                        SystemConstants.CADRE_COURSE_TYPE_MAP.get(record.getType()), names));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "批量添加干部教学课程：%s, %s",
+                        CadreConstants.CADRE_COURSE_TYPE_MAP.get(record.getType()), names));
             }else{
                 cadreCourseService.modifyApply(record, null, false);
-                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部教学课程：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部教学课程：%s", record.getId()));
             }
 
         } else {
@@ -155,15 +157,15 @@ public class CadreCourseController extends BaseController {
 
             if(!toApply) {
                 cadreCourseService.updateByPrimaryKeySelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部教学课程：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部教学课程：%s", record.getId()));
             }else{
                 if(_isUpdate==false) {
                     cadreCourseService.modifyApply(record, id, false);
-                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部教学课程：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部教学课程：%s", record.getId()));
                 }else{
                     // 更新修改申请的内容
                     cadreCourseService.updateModify(record, applyId);
-                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部教学课程：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部教学课程：%s", record.getId()));
                 }
             }
         }
@@ -195,7 +197,7 @@ public class CadreCourseController extends BaseController {
         if (id != null) {
 
             cadreCourseService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部教学课程：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除干部教学课程：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -209,7 +211,7 @@ public class CadreCourseController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreCourseService.batchDel(ids, cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部教学课程：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部教学课程：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -221,7 +223,7 @@ public class CadreCourseController extends BaseController {
     public Map do_cadreCourse_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cadreCourseService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部教学课程调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部教学课程调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

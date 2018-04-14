@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.ContextHelper;
@@ -66,7 +66,7 @@ public class UserPassportApplyController extends AbroadBaseController {
         record.setIsDeleted(false);
 
         passportApplyService.apply(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "申请办理因私出国证件：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "申请办理因私出国证件：%s", record.getId()));
 
         // 短信通知干部本人
         shortMsgService.sendPassportApplySubmitMsgToCadre(record.getId(), request);
@@ -90,7 +90,7 @@ public class UserPassportApplyController extends AbroadBaseController {
             if(passportApply.getStatus()==AbroadConstants.ABROAD_PASSPORT_APPLY_STATUS_INIT
                     && passportApply.getCadreId().intValue() == cadre.getId().intValue()) {
                 passportApplyService.del(id);
-                logger.info(addLog(SystemConstants.LOG_ABROAD, "删除申请办理因私出国证件：%s", id));
+                logger.info(addLog(LogConstants.LOG_ABROAD, "删除申请办理因私出国证件：%s", id));
             }
         }
         return success(FormUtils.SUCCESS);

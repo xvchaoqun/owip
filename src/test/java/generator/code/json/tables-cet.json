@@ -13,7 +13,7 @@
       "searchColumns": "unit_id",
       "showColumns": "unit_id,user_id",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": false
     },
     {
@@ -22,7 +22,7 @@
       "searchColumns": "party_id",
       "showColumns": "party_id,user_id",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": false
     },
     {
@@ -31,7 +31,7 @@
       "searchColumns": "party_school_id",
       "showColumns": "party_school_id,user_id",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": false
     },
 
@@ -41,7 +41,7 @@
       "searchColumns": "year,name",
       "showColumns": "year,start_date,end_date,name,file_name,pdf_file_path,word_file_path,period,require_period,remark",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -50,7 +50,7 @@
       "searchColumns": "project_id",
       "showColumns": "project_id,user_id,type,is_quit,remark",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -59,7 +59,7 @@
       "searchColumns": "plan_id,name",
       "showColumns": "plan_id,start_date,end_date,name,unit_type,period,sort_order,remark",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": false
     },
     {
@@ -68,7 +68,7 @@
       "searchColumns": "discuss_id,subject",
       "showColumns": "discuss_id,hold_user_id,subject,subject_can_modify,discuss_time,discuss_address,unti_id,admin_user_id,sort_order,remark",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": false
     },
     {
@@ -77,7 +77,7 @@
       "searchColumns": "discuss_id,discuss_group_id",
       "showColumns": "discuss_id,discuss_group_id,obj_id,is_finished,remark",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": false
     },
     {
@@ -86,7 +86,7 @@
       "searchColumns": "type",
       "showColumns": "start_date,end_date,type,summary,period,remark",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -95,7 +95,7 @@
       "searchColumns": "plan_id",
       "showColumns": "plan_id,course_id,num,is_finished",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -104,7 +104,7 @@
       "searchColumns": "plan_course_id",
       "showColumns": "plan_course_id,obj_id,num,is_finished",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -113,7 +113,7 @@
       "searchColumns": "plan_course_obj_id",
       "showColumns": "plan_course_obj_id,course_item_id,course_num,period",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -122,7 +122,7 @@
       "searchColumns": "realname",
       "showColumns": "realname,unit,post,contact,sort_order,remark",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -131,7 +131,7 @@
       "searchColumns": "name",
       "showColumns": "name,sort_order,remark",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -140,7 +140,7 @@
       "searchColumns": "name",
       "showColumns": "found_date,name,expert_id,period,course_type_id,sort_order,remark",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -149,7 +149,7 @@
       "searchColumns": "course_id",
       "showColumns": "course_id,file_name,file_path,sort_order",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -158,7 +158,7 @@
       "searchColumns": "course_id",
       "showColumns": "course_id,name,period,sort_order",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -167,7 +167,7 @@
       "searchColumns": "is_online",
       "showColumns": "is_online,fid,child_num,name,type,sort_order,remark",
       "excludeEditColumns": "id,is_deleted",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -176,7 +176,7 @@
       "searchColumns": "column_id,course_id",
       "showColumns": "column_id,course_id,sort_order,remark",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -185,7 +185,7 @@
       "searchColumns": "year,num,name",
       "showColumns": "year,num,name,subject,start_date,end_date,enroll_status,remark",
       "excludeEditColumns": "id,is_deleted,create_time",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -194,7 +194,7 @@
       "searchColumns": "name",
       "showColumns": "name,template_id,sort_order,remark",
       "excludeEditColumns": "id,is_deleted",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -203,7 +203,7 @@
       "searchColumns": "train_id,trainee_type_id",
       "showColumns": "train_id,trainee_type_id",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -212,7 +212,7 @@
       "searchColumns": "train_id,user_id",
       "showColumns": "train_id,user_id,course_count,remark",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     },
     {
@@ -221,7 +221,7 @@
       "searchColumns": "trainee_id,train_course_id",
       "showColumns": "trainee_id,train_course_id,is_finished,remark,choose_time,ip",
       "excludeEditColumns": "id,choose_time,ip",
-      "logType":"SystemConstants.LOG_CET",
+      "logType":"LogConstants.LOG_CET",
       "ignore": true
     }
   ]

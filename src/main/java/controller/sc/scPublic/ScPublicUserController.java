@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -105,11 +105,11 @@ public class ScPublicUserController extends ScPublicBaseController {
 
         if (id == null) {
             scPublicUserService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_PUBLIC, "添加干部任前公示对象：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "添加干部任前公示对象：%s", record.getId()));
         } else {
 
             scPublicUserService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_PUBLIC, "更新干部任前公示对象：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "更新干部任前公示对象：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -134,7 +134,7 @@ public class ScPublicUserController extends ScPublicBaseController {
         if (id != null) {
 
             scPublicUserService.del(id);
-            logger.info(addLog( SystemConstants.LOG_SC_PUBLIC, "删除干部任前公示对象：%s", id));
+            logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "删除干部任前公示对象：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -147,7 +147,7 @@ public class ScPublicUserController extends ScPublicBaseController {
 
         if (null != ids && ids.length>0){
             scPublicUserService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_PUBLIC, "批量删除干部任前公示对象：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "批量删除干部任前公示对象：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -159,7 +159,7 @@ public class ScPublicUserController extends ScPublicBaseController {
     public Map do_scPublicUser_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         scPublicUserService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_SC_PUBLIC, "干部任前公示对象调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "干部任前公示对象调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -105,7 +105,7 @@ public class CadreFamliyAbroadController extends BaseController {
 
         if (id == null) {
             cadreFamliyAbroadService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加家庭成员海外情况：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加家庭成员海外情况：%s", record.getId()));
         } else {
             // 干部信息本人直接修改数据校验
             CadreFamliyAbroad _record = cadreFamliyAbroadMapper.selectByPrimaryKey(id);
@@ -113,7 +113,7 @@ public class CadreFamliyAbroadController extends BaseController {
                 throw new IllegalArgumentException("数据异常");
             }
             cadreFamliyAbroadService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新家庭成员海外情况：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新家庭成员海外情况：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -148,7 +148,7 @@ public class CadreFamliyAbroadController extends BaseController {
         if (id != null) {
 
             cadreFamliyAbroadService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除家庭成员海外情况：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除家庭成员海外情况：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -163,7 +163,7 @@ public class CadreFamliyAbroadController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreFamliyAbroadService.batchDel(ids, cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除家庭成员海外情况：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除家庭成员海外情况：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

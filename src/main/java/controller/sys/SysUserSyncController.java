@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.source.ExtBksImport;
 import service.source.ExtJzgImport;
 import service.source.ExtYjsImport;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -66,7 +67,7 @@ public class SysUserSyncController extends BaseController {
     @ResponseBody
     public Map sync_user_byCode(String code) {
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "同步账号信息：%s", code));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "同步账号信息：%s", code));
 
         {
             extJzgImport.byCode(code);
@@ -248,7 +249,7 @@ public class SysUserSyncController extends BaseController {
         record.setEndTime(new Date());
         record.setAutoStop(false);
         syncService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "结束账号同步：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "结束账号同步：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -272,7 +273,7 @@ public class SysUserSyncController extends BaseController {
         if (id != null) {
 
             syncService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除账号同步日志：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除账号同步日志：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -285,7 +286,7 @@ public class SysUserSyncController extends BaseController {
 
         if (null != ids && ids.length>0){
             syncService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除账号同步日志：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除账号同步日志：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

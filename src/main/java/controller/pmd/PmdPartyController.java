@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -142,7 +142,7 @@ public class PmdPartyController extends PmdBaseController {
         }
 
         pmdPartyService.report(id);
-        logger.info(addLog(SystemConstants.LOG_PMD, "党委报送：%s", id));
+        logger.info(addLog(LogConstants.LOG_PMD, "党委报送：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -183,7 +183,7 @@ public class PmdPartyController extends PmdBaseController {
         }
 
         pmdPartyService.forceReport(id);
-        logger.info(addLog(SystemConstants.LOG_PMD, "党委强制报送：%s", id));
+        logger.info(addLog(LogConstants.LOG_PMD, "党委强制报送：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -243,11 +243,11 @@ public class PmdPartyController extends PmdBaseController {
 
         if (id == null) {
             pmdPartyService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PMD, "添加每月参与线上收费的分党委：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PMD, "添加每月参与线上收费的分党委：%s", record.getId()));
         } else {
 
             pmdPartyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PMD, "更新每月参与线上收费的分党委：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PMD, "更新每月参与线上收费的分党委：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -272,7 +272,7 @@ public class PmdPartyController extends PmdBaseController {
         if (id != null) {
 
             pmdPartyService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PMD, "删除每月参与线上收费的分党委：%s", id));
+            logger.info(addLog(LogConstants.LOG_PMD, "删除每月参与线上收费的分党委：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -285,7 +285,7 @@ public class PmdPartyController extends PmdBaseController {
 
         if (null != ids && ids.length > 0) {
             pmdPartyService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PMD, "批量删除每月参与线上收费的分党委：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PMD, "批量删除每月参与线上收费的分党委：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

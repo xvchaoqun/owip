@@ -12,7 +12,7 @@
       "searchColumns": "year,type",
       "showColumns": "year,type,num,query_date,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_LETTER",
+      "logType": "LogConstants.LOG_SC_LETTER",
       "ignore": false
     },
     {
@@ -21,7 +21,7 @@
       "searchColumns": "letter_id",
       "showColumns": "letter_id,user_id",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_LETTER",
+      "logType": "LogConstants.LOG_SC_LETTER",
       "ignore": false
     },
     {
@@ -30,7 +30,7 @@
       "searchColumns": "letter_id,reply_date",
       "showColumns": "letter_id,type,num,reply_date,content,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_LETTER",
+      "logType": "LogConstants.LOG_SC_LETTER",
       "ignore": false
     }
   ]

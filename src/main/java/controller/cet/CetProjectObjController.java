@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
@@ -199,7 +200,7 @@ public class CetProjectObjController extends CetBaseController {
                                     HttpServletRequest request) {
 
         cetProjectObjService.quit(isQuit, ids);
-        logger.info(addLog(SystemConstants.LOG_CET, "培训对象： %s, %s", isQuit ? "退出" : "重新学习",
+        logger.info(addLog(LogConstants.LOG_CET, "培训对象： %s, %s", isQuit ? "退出" : "重新学习",
                 StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
@@ -214,7 +215,7 @@ public class CetProjectObjController extends CetBaseController {
                                         HttpServletRequest request) {
 
         cetProjectObjService.canQuit(ids, canQuit, trainCourseId);
-        logger.info(addLog(SystemConstants.LOG_CET, "设置为必选学员/取消必选： %s, %s, %s",
+        logger.info(addLog(LogConstants.LOG_CET, "设置为必选学员/取消必选： %s, %s, %s",
                 StringUtils.join(ids, ","), canQuit, trainCourseId));
 
         return success(FormUtils.SUCCESS);
@@ -228,7 +229,7 @@ public class CetProjectObjController extends CetBaseController {
                                     HttpServletRequest request) {
 
         cetProjectObjService.addOrUpdate(projectId, traineeTypeId, userIds);
-        logger.info(addLog(SystemConstants.LOG_CET, "编辑培训对象： %s, %s, %s", projectId, traineeTypeId,
+        logger.info(addLog(LogConstants.LOG_CET, "编辑培训对象： %s, %s, %s", projectId, traineeTypeId,
                 StringUtils.join(userIds, ",")));
 
         return success(FormUtils.SUCCESS);
@@ -260,7 +261,7 @@ public class CetProjectObjController extends CetBaseController {
         Set<Integer> selectIdSet = cetProjectObjService.getSelectedProjectObjUserIdSet(projectId);
 
         Set<Byte> cadreStatusList = new HashSet<>();
-        cadreStatusList.add(SystemConstants.CADRE_STATUS_MIDDLE);
+        cadreStatusList.add(CadreConstants.CADRE_STATUS_MIDDLE);
         TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.findAll().values()),
                 cadreStatusList, selectIdSet, null, false, true, false);
 
@@ -288,7 +289,7 @@ public class CetProjectObjController extends CetBaseController {
             record.setPdfWrite(pdfWrite);
             cetProjectObjService.updateByPrimaryKeySelective(record);
 
-            logger.info(addLog(SystemConstants.LOG_CET, "上传心得体会：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "上传心得体会：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -313,7 +314,7 @@ public class CetProjectObjController extends CetBaseController {
         if (id != null) {
 
             cetProjectObjService.del(id);
-            logger.info(addLog(SystemConstants.LOG_CET, "删除培训对象：%s", id));
+            logger.info(addLog(LogConstants.LOG_CET, "删除培训对象：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -326,7 +327,7 @@ public class CetProjectObjController extends CetBaseController {
 
         if (null != ids && ids.length > 0) {
             cetProjectObjService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_CET, "批量删除培训对象：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除培训对象：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -340,7 +341,7 @@ public class CetProjectObjController extends CetBaseController {
 
         if (null != ids && ids.length > 0) {
             cetProjectObjService.clearWrite(ids);
-            logger.info(addLog(SystemConstants.LOG_CET, "批量删除心得体会：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除心得体会：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

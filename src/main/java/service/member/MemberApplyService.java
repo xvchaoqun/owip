@@ -1,5 +1,6 @@
 package service.member;
 
+import controller.global.OpException;
 import domain.member.Member;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import controller.global.OpException;
 import service.LoginUserService;
 import service.party.EnterApplyService;
 import service.party.MemberService;
@@ -23,7 +23,7 @@ import service.party.PartyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
-import sys.constants.SystemConstants;
+import sys.constants.OwConstants;
 
 import java.util.Date;
 import java.util.List;
@@ -69,15 +69,15 @@ public class MemberApplyService extends BaseMapper {
             MemberApply record = new MemberApply();
             record.setUserId(userId);
             record.setType((member.getType()==MemberConstants.MEMBER_TYPE_TEACHER ?
-                    SystemConstants.APPLY_TYPE_TEACHER : SystemConstants.APPLY_TYPE_STU));
+                    OwConstants.OW_APPLY_TYPE_TEACHER : OwConstants.OW_APPLY_TYPE_STU));
             record.setPartyId(member.getPartyId());
             record.setBranchId(member.getBranchId());
             record.setApplyTime(member.getApplyTime()==null?now:member.getApplyTime());
             record.setActiveTime(member.getActiveTime());
             record.setCandidateTime(member.getCandidateTime());
             record.setGrowTime(member.getGrowTime());
-            record.setGrowStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
-            record.setStage(SystemConstants.APPLY_STAGE_GROW);
+            record.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
+            record.setStage(OwConstants.OW_APPLY_STAGE_GROW);
             if(memberApply==null) { // 还没有入党申请
 
                 record.setRemark("预备党员信息添加后同步");
@@ -96,10 +96,10 @@ public class MemberApplyService extends BaseMapper {
 
             applyApprovalLogService.add(userId,
                     member.getPartyId(), member.getBranchId(), userId,
-                    currentUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    currentUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                     "后台添加或修改为预备党员阶段");
         }
     }
@@ -119,24 +119,24 @@ public class MemberApplyService extends BaseMapper {
             criteria.andStageEqualTo(stage);
             if (status != null) {
                 switch (stage){
-                    case SystemConstants.APPLY_STAGE_ACTIVE:
+                    case OwConstants.OW_APPLY_STAGE_ACTIVE:
                         if(status==-1) criteria.andCandidateStatusIsNull();
                         else criteria.andCandidateStatusEqualTo(status);
                         break;
-                    case SystemConstants.APPLY_STAGE_CANDIDATE:
+                    case OwConstants.OW_APPLY_STAGE_CANDIDATE:
                         if(status==-1) criteria.andPlanStatusIsNull();
                         else criteria.andPlanStatusEqualTo(status);
                         break;
-                    case SystemConstants.APPLY_STAGE_PLAN:
+                    case OwConstants.OW_APPLY_STAGE_PLAN:
                         /*if(status==-1) criteria.andDrawStatusIsNull();
                         else criteria.andDrawStatusEqualTo(status);*/
                         criteria.andDrawStatusIsNull();
                         break;
-                    case SystemConstants.APPLY_STAGE_DRAW:
+                    case OwConstants.OW_APPLY_STAGE_DRAW:
                         if(status==-1) criteria.andGrowStatusIsNull();
                         else criteria.andGrowStatusEqualTo(status);
                         break;
-                    case SystemConstants.APPLY_STAGE_GROW:
+                    case OwConstants.OW_APPLY_STAGE_GROW:
                         if(status==-1) criteria.andPositiveStatusIsNull();
                         else criteria.andPositiveStatusEqualTo(status);
                         break;
@@ -164,24 +164,24 @@ public class MemberApplyService extends BaseMapper {
             criteria.andStageEqualTo(stage);
             if (status != null) {
                 switch (stage){
-                    case SystemConstants.APPLY_STAGE_ACTIVE:
+                    case OwConstants.OW_APPLY_STAGE_ACTIVE:
                         if(status==-1) criteria.andCandidateStatusIsNull();
                         else criteria.andCandidateStatusEqualTo(status);
                         break;
-                    case SystemConstants.APPLY_STAGE_CANDIDATE:
+                    case OwConstants.OW_APPLY_STAGE_CANDIDATE:
                         if(status==-1) criteria.andPlanStatusIsNull();
                         else criteria.andPlanStatusEqualTo(status);
                         break;
-                    case SystemConstants.APPLY_STAGE_PLAN:
+                    case OwConstants.OW_APPLY_STAGE_PLAN:
                         /*if(status==-1) criteria.andDrawStatusIsNull();
                         else criteria.andDrawStatusEqualTo(status);*/
                         criteria.andDrawStatusIsNull();
                         break;
-                    case SystemConstants.APPLY_STAGE_DRAW:
+                    case OwConstants.OW_APPLY_STAGE_DRAW:
                         if(status==-1) criteria.andGrowStatusIsNull();
                         else criteria.andGrowStatusEqualTo(status);
                         break;
-                    case SystemConstants.APPLY_STAGE_GROW:
+                    case OwConstants.OW_APPLY_STAGE_GROW:
                         if(status==-1) criteria.andPositiveStatusIsNull();
                         else criteria.andPositiveStatusEqualTo(status);
                         break;
@@ -212,23 +212,23 @@ public class MemberApplyService extends BaseMapper {
             criteria.andStageEqualTo(stage);
             if (status != null) {
                 switch (stage){
-                    case SystemConstants.APPLY_STAGE_ACTIVE:
+                    case OwConstants.OW_APPLY_STAGE_ACTIVE:
                         if(status==-1) criteria.andCandidateStatusIsNull();
                         else criteria.andCandidateStatusEqualTo(status);
                         break;
-                    case SystemConstants.APPLY_STAGE_CANDIDATE:
+                    case OwConstants.OW_APPLY_STAGE_CANDIDATE:
                         if(status==-1) criteria.andPlanStatusIsNull();
                         else criteria.andPlanStatusEqualTo(status);
                         break;
-                    case SystemConstants.APPLY_STAGE_PLAN:
+                    case OwConstants.OW_APPLY_STAGE_PLAN:
                         if(status==-1) criteria.andDrawStatusIsNull();
                         else criteria.andDrawStatusEqualTo(status);
                         break;
-                    case SystemConstants.APPLY_STAGE_DRAW:
+                    case OwConstants.OW_APPLY_STAGE_DRAW:
                         if(status==-1) criteria.andGrowStatusIsNull();
                         else criteria.andGrowStatusEqualTo(status);
                         break;
-                    case SystemConstants.APPLY_STAGE_GROW:
+                    case OwConstants.OW_APPLY_STAGE_GROW:
                         if(status==-1) criteria.andPositiveStatusIsNull();
                         else criteria.andPositiveStatusEqualTo(status);
                         break;
@@ -256,7 +256,7 @@ public class MemberApplyService extends BaseMapper {
     public void updateWhenModifyMember(int userId, Integer partyId, Integer branchId) {
 
         MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        if(_memberApply!=null && _memberApply.getStage()>=SystemConstants.APPLY_STAGE_GROW && partyId!=null){
+        if(_memberApply!=null && _memberApply.getStage()>=OwConstants.OW_APPLY_STAGE_GROW && partyId!=null){
 
             MemberApply record = new MemberApply();
             record.setUserId(userId);
@@ -273,10 +273,10 @@ public class MemberApplyService extends BaseMapper {
 
             applyApprovalLogService.add(_memberApply.getUserId(),
                     _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
-                    ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     "更新",
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                     "修改党员所属党组织关系，同时修改入党申请的所属组织关系");
         }
     }
@@ -294,15 +294,15 @@ public class MemberApplyService extends BaseMapper {
                 MemberApply record = new MemberApply();
                 record.setUserId(userId);
                 record.setPositiveTime(member.getPositiveTime());
-                record.setStage(SystemConstants.APPLY_STAGE_POSITIVE);
+                record.setStage(OwConstants.OW_APPLY_STAGE_POSITIVE);
                 memberApplyMapper.updateByPrimaryKeySelective(record);
 
                 applyApprovalLogService.add(_memberApply.getUserId(),
                         _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
-                        ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                         "更新",
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                         "修改党员为正式党员");
             }
         }
@@ -325,8 +325,8 @@ public class MemberApplyService extends BaseMapper {
                     iMemberMapper.updateToDirectBranch("ow_member_apply", "user_id", userId, record.getPartyId());
                 }
 
-                if (memberApply.getStage()==SystemConstants.APPLY_STAGE_GROW
-                        || memberApply.getStage()==SystemConstants.APPLY_STAGE_POSITIVE) {
+                if (memberApply.getStage()==OwConstants.OW_APPLY_STAGE_GROW
+                        || memberApply.getStage()==OwConstants.OW_APPLY_STAGE_POSITIVE) {
                     Member _member = new Member();
                     _member.setUserId(userId);
                     _member.setPartyId(record.getPartyId());
@@ -406,20 +406,20 @@ public class MemberApplyService extends BaseMapper {
     @CacheEvict(value = "MemberApply", key = "#userId")
     public void denyWhenDeleteMember(int userId){
         MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-        if(_memberApply!=null && _memberApply.getStage()!=SystemConstants.APPLY_STAGE_DENY) {
+        if(_memberApply!=null && _memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_DENY) {
             // 状态检查
             EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
             if (_enterApply != null) {
                 EnterApply enterApply = new EnterApply();
                 enterApply.setId(_enterApply.getId());
-                enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+                enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
                 enterApply.setRemark("系统打回");
                 enterApply.setBackTime(new Date());
                 enterApplyMapper.updateByPrimaryKeySelective(enterApply);
             }
 
             MemberApply record = new MemberApply();
-            record.setStage(SystemConstants.APPLY_STAGE_DENY);
+            record.setStage(OwConstants.OW_APPLY_STAGE_DENY);
             record.setPassTime(new Date());// 用"通过时间"记录处理时间
             record.setRemark("系统打回");
             MemberApplyExample example = new MemberApplyExample();
@@ -428,10 +428,10 @@ public class MemberApplyService extends BaseMapper {
 
             applyApprovalLogService.add(_memberApply.getUserId(),
                     _memberApply.getPartyId(), _memberApply.getBranchId(), _memberApply.getUserId(),
-                    ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
                     "撤回",
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                     "删除党员时，同时打回入党申请");
         }
     }
@@ -445,13 +445,13 @@ public class MemberApplyService extends BaseMapper {
             throw new OpException("状态异常，请稍后再试");
 
         MemberApply record = new MemberApply();
-        record.setStage(SystemConstants.APPLY_STAGE_POSITIVE);
-        record.setPositiveStatus(SystemConstants.APPLY_STATUS_OD_CHECKED);
+        record.setStage(OwConstants.OW_APPLY_STAGE_POSITIVE);
+        record.setPositiveStatus(OwConstants.OW_APPLY_STATUS_OD_CHECKED);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_GROW)
-                .andPositiveStatusEqualTo(SystemConstants.APPLY_STATUS_CHECKED);
+                .andStageEqualTo(OwConstants.OW_APPLY_STAGE_GROW)
+                .andPositiveStatusEqualTo(OwConstants.OW_APPLY_STATUS_CHECKED);
 
         // 1. 更新申请状态
         if (updateByExampleSelective(userId, record, example) == 0)
@@ -478,14 +478,14 @@ public class MemberApplyService extends BaseMapper {
             throw new OpException("状态异常，请稍后再试");
 
         MemberApply record = new MemberApply();
-        record.setStage(SystemConstants.APPLY_STAGE_GROW);
-        record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
+        record.setStage(OwConstants.OW_APPLY_STAGE_GROW);
+        record.setGrowStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
         record.setGrowTime(growTime);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
-                .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_OD_CHECKED);
+                .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
+                .andGrowStatusEqualTo(OwConstants.OW_APPLY_STATUS_OD_CHECKED);
 
         //1. 更新申请状态
         if (updateByExampleSelective(userId, record, example) == 0)
@@ -497,8 +497,8 @@ public class MemberApplyService extends BaseMapper {
         member.setBranchId(memberApply.getBranchId());
         member.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
 
-        Assert.isTrue(memberApply.getType() == SystemConstants.APPLY_TYPE_STU
-                || memberApply.getType() == SystemConstants.APPLY_TYPE_TEACHER, "wrong apply type");
+        Assert.isTrue(memberApply.getType() == OwConstants.OW_APPLY_TYPE_STU
+                || memberApply.getType() == OwConstants.OW_APPLY_TYPE_TEACHER, "wrong apply type");
 
         member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
         member.setSource(MemberConstants.MEMBER_SOURCE_GROW); // 本校发展党员
@@ -523,13 +523,13 @@ public class MemberApplyService extends BaseMapper {
             throw new OpException("状态异常，请稍后再试");
 
         MemberApply record = new MemberApply();
-        record.setStage(SystemConstants.APPLY_STAGE_GROW);
-        record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
+        record.setStage(OwConstants.OW_APPLY_STAGE_GROW);
+        record.setGrowStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
 
         MemberApplyExample example = new MemberApplyExample();
         example.createCriteria().andUserIdEqualTo(userId)
-                .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
-                .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
+                .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
+                .andGrowStatusEqualTo(OwConstants.OW_APPLY_STATUS_UNCHECKED);
 
         //1. 更新申请状态
         if (updateByExampleSelective(userId, record, example) == 0)
@@ -541,8 +541,8 @@ public class MemberApplyService extends BaseMapper {
         member.setBranchId(memberApply.getBranchId());
         member.setPoliticalStatus(MemberConstants.MEMBER_POLITICAL_STATUS_GROW); // 预备党员
 
-        Assert.isTrue(memberApply.getType() == SystemConstants.APPLY_TYPE_STU
-                || memberApply.getType() == SystemConstants.APPLY_TYPE_TEACHER, "wrong apply type");
+        Assert.isTrue(memberApply.getType() == OwConstants.OW_APPLY_TYPE_STU
+                || memberApply.getType() == OwConstants.OW_APPLY_TYPE_TEACHER, "wrong apply type");
 
         member.setStatus(MemberConstants.MEMBER_STATUS_NORMAL); // 正常党员
         member.setSource(MemberConstants.MEMBER_SOURCE_GROW); // 本校发展党员
@@ -562,7 +562,7 @@ public class MemberApplyService extends BaseMapper {
     public void memberApply_back(int userId, byte stage){
 
         switch (stage){
-            case SystemConstants.APPLY_STAGE_GROW: // 党员(正式或预备)打回至预备党员初始状态
+            case OwConstants.OW_APPLY_STAGE_GROW: // 党员(正式或预备)打回至预备党员初始状态
                 if(iMemberMapper.memberApplyBackToGrow(userId)==1) {
 
                     commonMapper.excuteSql("update ow_member set positive_time=null where user_id="+userId);
@@ -572,16 +572,16 @@ public class MemberApplyService extends BaseMapper {
                     memberService.updateByPrimaryKeySelective(record, "在入党申请中，打回至预备党员初始状态");
                 }
                 break;
-            case SystemConstants.APPLY_STAGE_PLAN:  // 当前状态为领取志愿书之前(_stage<= SystemConstants.APPLY_STAGE_DRAW)
+            case OwConstants.OW_APPLY_STAGE_PLAN:  // 当前状态为领取志愿书之前(_stage<= OwConstants.OW_APPLY_STAGE_DRAW)
                 iMemberMapper.memberApplyBackToPlan(userId);
                 break;
-            case SystemConstants.APPLY_STAGE_CANDIDATE:
+            case OwConstants.OW_APPLY_STAGE_CANDIDATE:
                 iMemberMapper.memberApplyBackToCandidate(userId);
                 break;
-            case SystemConstants.APPLY_STAGE_ACTIVE:
+            case OwConstants.OW_APPLY_STAGE_ACTIVE:
                 iMemberMapper.memberApplyBackToActive(userId);
                 break;
-            case SystemConstants.APPLY_STAGE_INIT:
+            case OwConstants.OW_APPLY_STAGE_INIT:
                 iMemberMapper.memberApplyBackToInit(userId);
                 break;
         }

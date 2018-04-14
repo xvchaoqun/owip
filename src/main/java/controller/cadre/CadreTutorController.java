@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -105,11 +105,11 @@ public class CadreTutorController extends BaseController {
 
         if (id == null) {
             cadreTutorService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加导师信息：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加导师信息：%s", record.getId()));
         } else {
 
             cadreTutorService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新导师信息：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新导师信息：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -134,7 +134,7 @@ public class CadreTutorController extends BaseController {
         if (id != null) {
 
             cadreTutorService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除导师信息：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除导师信息：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -146,7 +146,7 @@ public class CadreTutorController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreTutorService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除导师信息：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除导师信息：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -158,7 +158,7 @@ public class CadreTutorController extends BaseController {
     public Map do_cadreTutor_changeOrder(Integer id, int cadreId,  Integer addNum, HttpServletRequest request) {
 
         cadreTutorService.changeOrder(id, cadreId, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "导师信息调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "导师信息调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

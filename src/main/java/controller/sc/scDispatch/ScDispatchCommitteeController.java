@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -94,11 +94,11 @@ public class ScDispatchCommitteeController extends ScDispatchBaseController {
         if (id == null) {
 
             scDispatchCommitteeService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_DISPATCH, "添加任免对象：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "添加任免对象：%s", record.getId()));
         } else {
 
             scDispatchCommitteeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_DISPATCH, "更新任免对象：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "更新任免对象：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -123,7 +123,7 @@ public class ScDispatchCommitteeController extends ScDispatchBaseController {
         if (id != null) {
 
             scDispatchCommitteeService.del(id);
-            logger.info(addLog( SystemConstants.LOG_SC_DISPATCH, "删除任免对象：%s", id));
+            logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "删除任免对象：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -136,7 +136,7 @@ public class ScDispatchCommitteeController extends ScDispatchBaseController {
 
         if (null != ids && ids.length>0){
             scDispatchCommitteeService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_DISPATCH, "批量删除任免对象：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "批量删除任免对象：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -7,7 +7,7 @@ import domain.cadre.CadreFamliyExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
 
 import java.util.Arrays;
 
@@ -21,14 +21,14 @@ public class CadreFamliyService extends BaseMapper {
 
     public void addCheck(int cadreId, byte title){
 
-        if(title== SystemConstants.CADRE_FAMLIY_TITLE_FATHER
-                || title == SystemConstants.CADRE_FAMLIY_TITLE_MOTHER) {
+        if(title== CadreConstants.CADRE_FAMLIY_TITLE_FATHER
+                || title == CadreConstants.CADRE_FAMLIY_TITLE_MOTHER) {
             CadreFamliyExample example = new CadreFamliyExample();
             CadreFamliyExample.Criteria criteria = example.createCriteria().andTitleEqualTo(title);
             criteria.andCadreIdEqualTo(cadreId);
 
             if(cadreFamliyMapper.countByExample(example)>0){
-                throw new OpException(SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
+                throw new OpException(CadreConstants.CADRE_FAMLIY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
             }
         }
 
@@ -41,15 +41,15 @@ public class CadreFamliyService extends BaseMapper {
 
     public void updateCheck(int id, int cadreId, byte title){
 
-        if(title== SystemConstants.CADRE_FAMLIY_TITLE_FATHER
-                || title == SystemConstants.CADRE_FAMLIY_TITLE_MOTHER) {
+        if(title== CadreConstants.CADRE_FAMLIY_TITLE_FATHER
+                || title == CadreConstants.CADRE_FAMLIY_TITLE_MOTHER) {
             CadreFamliyExample example = new CadreFamliyExample();
             CadreFamliyExample.Criteria criteria = example.createCriteria().andTitleEqualTo(title);
             criteria.andCadreIdEqualTo(cadreId);
             criteria.andIdNotEqualTo(id);
 
             if(cadreFamliyMapper.countByExample(example)>0){
-                throw new OpException(SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
+                throw new OpException(CadreConstants.CADRE_FAMLIY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
             }
         }
     }

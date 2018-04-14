@@ -15,7 +15,7 @@ public class ScCommitteeTopicService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "null");
 
         ScCommitteeTopicExample example = new ScCommitteeTopicExample();
         ScCommitteeTopicExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);

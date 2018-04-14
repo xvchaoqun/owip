@@ -27,7 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -54,7 +55,7 @@ public class CadreInspectController extends BaseController {
     @RequestMapping("/cadreInspect")
     public String cadreInspect(
             @RequestParam(required = false, defaultValue =
-                    SystemConstants.CADRE_INSPECT_STATUS_NORMAL + "") Byte status,
+                    CadreConstants.CADRE_INSPECT_STATUS_NORMAL + "") Byte status,
             Integer userId, ModelMap modelMap) {
 
         modelMap.put("status", status);
@@ -70,7 +71,7 @@ public class CadreInspectController extends BaseController {
     @RequestMapping("/cadreInspect_data")
     public void cadreInspect_data(HttpServletResponse response,
                                   @RequestParam(required = false, defaultValue =
-                                          SystemConstants.CADRE_INSPECT_STATUS_NORMAL + "") Byte status,
+                                          CadreConstants.CADRE_INSPECT_STATUS_NORMAL + "") Byte status,
                                   Integer userId,
                                   Integer typeId,
                                   Integer postId,
@@ -146,10 +147,10 @@ public class CadreInspectController extends BaseController {
         record.setRemark(inspectRemark);
         if (inspectId == null) {
             cadreInspectService.insertSelective(userId, record, cadreRecord);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加考察对象：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加考察对象：%s", record.getId()));
         } else {
             cadreInspectService.updateByPrimaryKeySelective(record, cadreRecord);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新考察对象：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新考察对象：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -196,7 +197,7 @@ public class CadreInspectController extends BaseController {
         Cadre cadre = cadreInspectService.pass(record, cadreRecord);
 
         SysUserView user = cadre.getUser();
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "考察对象通过常委会任命：%s-%s", user.getRealname(), user.getCode()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "考察对象通过常委会任命：%s-%s", user.getRealname(), user.getCode()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -206,7 +207,7 @@ public class CadreInspectController extends BaseController {
     public Map cadreInspect_abolish(HttpServletRequest request, Integer id, ModelMap modelMap) {
 
         cadreInspectService.abolish(id);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "撤销考察对象：%s", id));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "撤销考察对象：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -217,7 +218,7 @@ public class CadreInspectController extends BaseController {
     public Map do_cadreInspect_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cadreInspectService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "考察对象调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "考察对象调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

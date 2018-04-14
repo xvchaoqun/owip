@@ -1,7 +1,7 @@
 package domain.cadre;
 
 import domain.dispatch.DispatchCadreRelate;
-import sys.constants.SystemConstants;
+import sys.constants.DispatchConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CadreWork implements Serializable {
     public List<DispatchCadreRelate> getDispatchCadreRelates(){
-        return CmTag.findDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
+        return CmTag.findDispatchCadreRelates(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
     }
     private List<CadreWork> subCadreWorks;
 

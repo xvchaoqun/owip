@@ -19,7 +19,7 @@ public class ScGroupFileService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "null");
 
         ScGroupFileExample example = new ScGroupFileExample();
         ScGroupFileExample.Criteria criteria = example.createCriteria();

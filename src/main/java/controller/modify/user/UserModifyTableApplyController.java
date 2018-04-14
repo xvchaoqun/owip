@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
@@ -72,23 +74,23 @@ public class UserModifyTableApplyController extends ModifyBaseController {
                     cadreTrainService.modifyApply(null, id, true);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT:
-                    cadreResearchService.modifyApply(null, id, SystemConstants.CADRE_RESEARCH_TYPE_DIRECT, true);
+                    cadreResearchService.modifyApply(null, id, CadreConstants.CADRE_RESEARCH_TYPE_DIRECT, true);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN:
-                    cadreResearchService.modifyApply(null, id, SystemConstants.CADRE_RESEARCH_TYPE_IN, true);
+                    cadreResearchService.modifyApply(null, id, CadreConstants.CADRE_RESEARCH_TYPE_IN, true);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH:
-                    cadreRewardService.modifyApply(null, id, SystemConstants.CADRE_REWARD_TYPE_TEACH, true);
+                    cadreRewardService.modifyApply(null, id, CadreConstants.CADRE_REWARD_TYPE_TEACH, true);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH:
-                    cadreRewardService.modifyApply(null, id, SystemConstants.CADRE_REWARD_TYPE_RESEARCH, true);
+                    cadreRewardService.modifyApply(null, id, CadreConstants.CADRE_REWARD_TYPE_RESEARCH, true);
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER:
-                    cadreRewardService.modifyApply(null, id, SystemConstants.CADRE_REWARD_TYPE_OTHER, true);
+                    cadreRewardService.modifyApply(null, id, CadreConstants.CADRE_REWARD_TYPE_OTHER, true);
                     break;
             }
 
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除申请-"+
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除申请-"+
                     ModifyConstants.MODIFY_TABLE_APPLY_MODULE_MAP.get(module)+"：%s", id));
         }
 

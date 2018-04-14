@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
@@ -211,7 +212,7 @@ public class UserApplySelfController extends AbroadBaseController {
             applySelfFileMapper.deleteByExample(example); // 先删除相关材料
 
             applySelfService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -277,7 +278,7 @@ public class UserApplySelfController extends AbroadBaseController {
             record.setFlowNode(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST);
 
             applySelfService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "提交因私出国申请：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "提交因私出国申请：%s", record.getId()));
 
             // 给干部管理员发短信提醒
             shortMsgService.sendApplySelfSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
@@ -305,7 +306,7 @@ public class UserApplySelfController extends AbroadBaseController {
             approvalLogMapper.deleteByExample(example);
 
             applySelfService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "更新因私出国申请：%s", record.getId()));
 
             sysApprovalLogService.add(record.getId(), cadre.getUserId(),
                     self?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
@@ -342,7 +343,7 @@ public class UserApplySelfController extends AbroadBaseController {
 
         applySelfFileMapper.deleteByPrimaryKey(id);
 
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "删除因私出国文件：%s", applySelfFile.getFilePath()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "删除因私出国文件：%s", applySelfFile.getFilePath()));
         return success(FormUtils.SUCCESS);
     }
 

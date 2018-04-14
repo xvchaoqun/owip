@@ -12,7 +12,7 @@
       "searchColumns": "year,committee_id",
       "showColumns": "year,committee_id,word_file_path,pdf_file_path,public_date,publish_date,is_finished,is_confirmed,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_PUBLIC",
+      "logType": "LogConstants.LOG_SC_PUBLIC",
       "ignore": false
     },
     {
@@ -21,7 +21,7 @@
       "searchColumns": "public_id",
       "showColumns": "public_id,vote_id,sort_order",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_PUBLIC",
+      "logType": "LogConstants.LOG_SC_PUBLIC",
       "ignore": false
     }
   ]

@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -116,10 +118,10 @@ public class CadreBookController extends BaseController {
 
             if(!toApply) {
                 cadreBookService.insertSelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部出版著作：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部出版著作：%s", record.getId()));
             }else{
                 cadreBookService.modifyApply(record, null, false);
-                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部出版著作：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部出版著作：%s", record.getId()));
             }
 
         } else {
@@ -131,15 +133,15 @@ public class CadreBookController extends BaseController {
 
             if(!toApply) {
                 cadreBookService.updateByPrimaryKeySelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部出版著作：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部出版著作：%s", record.getId()));
             }else{
                 if(_isUpdate==false) {
                     cadreBookService.modifyApply(record, id, false);
-                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部出版著作：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部出版著作：%s", record.getId()));
                 }else{
                     // 更新修改申请的内容
                     cadreBookService.updateModify(record, applyId);
-                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部出版著作：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部出版著作：%s", record.getId()));
                 }
             }
         }
@@ -170,7 +172,7 @@ public class CadreBookController extends BaseController {
         if (id != null) {
 
             cadreBookService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部出版著作：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除干部出版著作：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -185,7 +187,7 @@ public class CadreBookController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreBookService.batchDel(ids, cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部出版著作：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部出版著作：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -215,7 +217,7 @@ public class CadreBookController extends BaseController {
                         cadreBook.getCadreId()+"",
                                             DateUtils.formatDate(cadreBook.getPubTime(), DateUtils.YYYY_MM_DD),
                                             cadreBook.getName(),
-                                            SystemConstants.CADRE_BOOK_TYPE_MAP.get(cadreBook.getType()), cadreBook.getPublisher()
+                                            CadreConstants.CADRE_BOOK_TYPE_MAP.get(cadreBook.getType()), cadreBook.getPublisher()
                     };
 
             Row row = sheet.createRow(i + 1);

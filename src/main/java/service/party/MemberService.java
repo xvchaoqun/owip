@@ -28,11 +28,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.member.MemberApplyService;
+import service.source.SyncService;
 import service.sys.LogService;
 import service.sys.SysUserService;
-import service.source.SyncService;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -102,10 +104,10 @@ public class MemberService extends BaseMapper {
         EnterApplyService enterApplyService = CmTag.getBean(EnterApplyService.class);
 
         EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
-        if (_enterApply != null && _enterApply.getType() != SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW) {
+        if (_enterApply != null && _enterApply.getType() != OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW) {
             EnterApply enterApply = new EnterApply();
             enterApply.setId(_enterApply.getId());
-            enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_PASS);
+            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_PASS);
             enterApplyMapper.updateByPrimaryKeySelective(enterApply);
         }
 
@@ -137,10 +139,10 @@ public class MemberService extends BaseMapper {
         EnterApplyService enterApplyService = CmTag.getBean(EnterApplyService.class);
 
         EnterApply _enterApply = enterApplyService.getCurrentApply(record.getUserId());
-        if (_enterApply != null && _enterApply.getType() != SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW) {
+        if (_enterApply != null && _enterApply.getType() != OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW) {
             EnterApply enterApply = new EnterApply();
             enterApply.setId(_enterApply.getId());
-            enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_PASS);
+            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_PASS);
             enterApplyMapper.updateByPrimaryKeySelective(enterApply);
         }
 
@@ -274,7 +276,7 @@ public class MemberService extends BaseMapper {
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<MemberOut> memberOuts = memberOutMapper.selectByExample(example);
             if (memberOuts.size() > 0) {
-                logger.info(logService.log(SystemConstants.LOG_MEMBER, "批量删除组织关系转出：" + JSONUtils.toString(memberOuts)));
+                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除组织关系转出：" + JSONUtils.toString(memberOuts)));
                 memberOutMapper.deleteByExample(example);
             }
         }
@@ -283,7 +285,7 @@ public class MemberService extends BaseMapper {
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<MemberStay> memberStays = memberStayMapper.selectByExample(example);
             if (memberStays.size() > 0) {
-                logger.info(logService.log(SystemConstants.LOG_MEMBER, "批量删除出国党员暂留：" + JSONUtils.toString(memberStays)));
+                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除出国党员暂留：" + JSONUtils.toString(memberStays)));
                 memberStayMapper.deleteByExample(example);
             }
         }
@@ -292,7 +294,7 @@ public class MemberService extends BaseMapper {
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<MemberTransfer> memberTransfers = memberTransferMapper.selectByExample(example);
             if (memberTransfers.size() > 0) {
-                logger.info(logService.log(SystemConstants.LOG_MEMBER, "批量删除校内转接：" + JSONUtils.toString(memberTransfers)));
+                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除校内转接：" + JSONUtils.toString(memberTransfers)));
                 memberTransferMapper.deleteByExample(example);
             }
         }
@@ -301,7 +303,7 @@ public class MemberService extends BaseMapper {
             example.createCriteria().andUserIdIn(Arrays.asList(userIds));
             List<MemberOutflow> memberOutflows = memberOutflowMapper.selectByExample(example);
             if (memberOutflows.size() > 0) {
-                logger.info(logService.log(SystemConstants.LOG_MEMBER, "批量删除党员流出：" + JSONUtils.toString(memberOutflows)));
+                logger.info(logService.log(LogConstants.LOG_MEMBER, "批量删除党员流出：" + JSONUtils.toString(memberOutflows)));
                 memberOutflowMapper.deleteByExample(example);
             }
         }

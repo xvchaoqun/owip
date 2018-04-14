@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FileUtils;
@@ -126,11 +127,11 @@ public class AttachFileController extends BaseController {
             record.setCreateTime(new Date());
 
             attachFileService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加系统附件%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加系统附件%s", record.getId()));
         } else {
 
             attachFileService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新系统附件%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新系统附件%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -155,7 +156,7 @@ public class AttachFileController extends BaseController {
         if (id != null) {
 
             attachFileService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除系统附件%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除系统附件%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -168,7 +169,7 @@ public class AttachFileController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             attachFileService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除系统附件%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除系统附件%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

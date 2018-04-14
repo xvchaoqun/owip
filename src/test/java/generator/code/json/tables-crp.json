@@ -12,7 +12,7 @@
       "searchColumns": "cadre_id,type,is_finished,is_deleted",
       "showColumns": "realname,is_present_cadre,present_post,to_unit_type,temp_post_type,title,start_date,end_date",
       "excludeEditColumns": "id,is_finished,is_deleted",
-      "logType":"SystemConstants.LOG_ADMIN",
+      "logType":"LogConstants.LOG_ADMIN",
       "ignore": false
     }
   ]

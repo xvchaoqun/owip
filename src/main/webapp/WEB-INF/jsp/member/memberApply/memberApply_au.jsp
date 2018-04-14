@@ -89,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            <c:if test="${param.stage>APPLY_STAGE_PASS}">
+            <c:if test="${param.stage>OW_APPLY_STAGE_PASS}">
                 <div class="form-group">
                     <label class="col-xs-6 control-label">确定为入党积极分子时间</label>
 
@@ -102,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                <c:if test="${param.stage>APPLY_STAGE_ACTIVE}">
+                <c:if test="${param.stage>OW_APPLY_STAGE_ACTIVE}">
                     <div class="form-group">
                         <label class="col-xs-6 control-label">确定为发展对象时间</label>
 
@@ -127,7 +127,7 @@
                             </div>
                         </div>
                     </div>
-                    <c:if test="${param.stage>APPLY_STAGE_CANDIDATE}">
+                    <c:if test="${param.stage>OW_APPLY_STAGE_CANDIDATE}">
                         <div class="form-group">
                             <label class="col-xs-6 control-label">列入发展计划时间</label>
 
@@ -140,7 +140,7 @@
                                 </div>
                             </div>
                         </div>
-                        <c:if test="${param.stage>APPLY_STAGE_PLAN}">
+                        <c:if test="${param.stage>OW_APPLY_STAGE_PLAN}">
                             <div class="form-group">
                                 <label class="col-xs-6 control-label">领取志愿书时间</label>
 
@@ -154,7 +154,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <c:if test="${param.stage>APPLY_STAGE_DRAW}">
+                            <c:if test="${param.stage>OW_APPLY_STAGE_DRAW}">
                                 <div class="form-group">
                                     <label class="col-xs-6 control-label">入党时间</label>
 
@@ -168,7 +168,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <c:if test="${param.stage>APPLY_STAGE_GROW}">
+                                <c:if test="${param.stage>OW_APPLY_STAGE_GROW}">
                                     <div class="form-group">
                                         <label class="col-xs-6 control-label">转正时间</label>
 

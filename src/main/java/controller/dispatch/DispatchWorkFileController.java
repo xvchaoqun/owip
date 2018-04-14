@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
@@ -196,13 +196,13 @@ public class DispatchWorkFileController extends DispatchBaseController {
         if (id == null) {
 
             dispatchWorkFileService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部工作文件：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部工作文件：%s", record.getId()));
         } else {
 
             record.setType(null);
             record.setStatus(null);
             dispatchWorkFileService.updateByPrimaryKeySelective(record, canUpload);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部工作文件：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部工作文件：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -235,7 +235,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
 
         if (null != ids && ids.length > 0) {
             dispatchWorkFileService.abolish(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量作废干部工作文件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量作废干部工作文件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -254,7 +254,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     public Map do_dispatchWorkFile_transfer(@RequestParam(value = "ids[]") Integer[] ids, byte type ) {
 
         dispatchWorkFileService.batchTransfer(ids, type);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "批量转移干部工作文件：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "批量转移干部工作文件：%s", StringUtils.join(ids, ",")));
         return success();
     }
 
@@ -266,7 +266,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
 
         if (null != ids && ids.length > 0) {
             dispatchWorkFileService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部工作文件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部工作文件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -278,7 +278,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     public Map do_dispatchWorkFile_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         dispatchWorkFileService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部工作文件调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部工作文件调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

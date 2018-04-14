@@ -21,7 +21,7 @@ import service.base.MetaTypeService;
 import service.global.CacheService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
 import sys.tool.tree.TreeNode;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
@@ -71,14 +71,14 @@ public class ModifyCadreAuthService extends BaseMapper {
         List<Cadre> inspectCadres = new ArrayList<>();
         // 类别-后备干部库
         Map<Byte, List<Cadre>> typeReserveCadresMap = new LinkedHashMap<>();
-        for (Map.Entry<Byte, String> entry : SystemConstants.CADRE_RESERVE_TYPE_MAP.entrySet()) {
+        for (Map.Entry<Byte, String> entry : CadreConstants.CADRE_RESERVE_TYPE_MAP.entrySet()) {
             typeReserveCadresMap.put(entry.getKey(), new ArrayList<Cadre>());
         }
 
         {
             CadreExample example = new CadreExample();
-            example.createCriteria().andStatusIn(Arrays.asList(SystemConstants.CADRE_STATUS_MIDDLE,
-                    SystemConstants.CADRE_STATUS_LEADER));
+            example.createCriteria().andStatusIn(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
+                    CadreConstants.CADRE_STATUS_LEADER));
             List<Cadre> cadres = cadreMapper.selectByExample(example);
             for (Cadre cadre : cadres) {
                 List<Cadre> list = null;
@@ -95,7 +95,7 @@ public class ModifyCadreAuthService extends BaseMapper {
 
         {
             CadreInspectExample example = new CadreInspectExample();
-            example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_INSPECT_STATUS_NORMAL);
+            example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
             example.setOrderByClause("sort_order asc");
             List<CadreInspect> cadreInspects = cadreInspectMapper.selectByExample(example);
             for (CadreInspect cadreInspect : cadreInspects) {
@@ -106,8 +106,8 @@ public class ModifyCadreAuthService extends BaseMapper {
 
         {
             CadreReserveExample example = new CadreReserveExample();
-            example.createCriteria().andStatusIn(Arrays.asList(SystemConstants.CADRE_RESERVE_STATUS_NORMAL,
-                    SystemConstants.CADRE_RESERVE_STATUS_TO_INSPECT));
+            example.createCriteria().andStatusIn(Arrays.asList(CadreConstants.CADRE_RESERVE_STATUS_NORMAL,
+                    CadreConstants.CADRE_RESERVE_STATUS_TO_INSPECT));
             example.setOrderByClause("sort_order asc");
             List<CadreReserve> cadreReserves = cadreReserveMapper.selectByExample(example);
             for (CadreReserve cadreReserve : cadreReserves) {
@@ -164,7 +164,7 @@ public class ModifyCadreAuthService extends BaseMapper {
 
         if(inspectCadres.size()>0) {
             TreeNode inspectCadreRoot = new TreeNode();
-            inspectCadreRoot.title = SystemConstants.CADRE_STATUS_MAP.get(SystemConstants.CADRE_STATUS_INSPECT);
+            inspectCadreRoot.title = CadreConstants.CADRE_STATUS_MAP.get(CadreConstants.CADRE_STATUS_INSPECT);
             inspectCadreRoot.expand = true;
             inspectCadreRoot.isFolder = true;
             List<TreeNode> children = new ArrayList<TreeNode>();
@@ -186,7 +186,7 @@ public class ModifyCadreAuthService extends BaseMapper {
 
         int count = 0;
         TreeNode reserveCadreRoot = new TreeNode();
-        reserveCadreRoot.title = SystemConstants.CADRE_STATUS_MAP.get(SystemConstants.CADRE_STATUS_RESERVE);
+        reserveCadreRoot.title = CadreConstants.CADRE_STATUS_MAP.get(CadreConstants.CADRE_STATUS_RESERVE);
         reserveCadreRoot.expand = true;
         reserveCadreRoot.isFolder = true;
         List<TreeNode> reserveCadreRootChildren = new ArrayList<TreeNode>();
@@ -196,7 +196,7 @@ public class ModifyCadreAuthService extends BaseMapper {
             if(entryValue.size()>0) {
                 count += entryValue.size();
                 TreeNode titleNode = new TreeNode();
-                titleNode.title = SystemConstants.CADRE_RESERVE_TYPE_MAP.get(entry.getKey());
+                titleNode.title = CadreConstants.CADRE_RESERVE_TYPE_MAP.get(entry.getKey());
                 titleNode.expand = false;
                 titleNode.isFolder = true;
                 List<TreeNode> titleChildren = new ArrayList<TreeNode>();

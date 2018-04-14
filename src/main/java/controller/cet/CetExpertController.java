@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -107,11 +107,11 @@ public class CetExpertController extends CetBaseController {
 
         if (id == null) {
             cetExpertService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加专家信息：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加专家信息：%s", record.getId()));
         } else {
 
             cetExpertService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新专家信息：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新专家信息：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -136,7 +136,7 @@ public class CetExpertController extends CetBaseController {
         if (id != null) {
 
             cetExpertService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除专家信息：%s", id));
+            logger.info(addLog(LogConstants.LOG_CET, "删除专家信息：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -149,7 +149,7 @@ public class CetExpertController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetExpertService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除专家信息：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除专家信息：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -161,7 +161,7 @@ public class CetExpertController extends CetBaseController {
     public Map do_cetExpert_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetExpertService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_CET, "专家信息调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_CET, "专家信息调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

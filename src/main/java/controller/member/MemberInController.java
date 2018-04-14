@@ -27,9 +27,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -265,11 +266,11 @@ public class MemberInController extends MemberBaseController {
 
             applyApprovalLogService.add(record.getId(),
                     record.getPartyId(), record.getBranchId(), record.getUserId(),
-                    loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "后台添加",
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, null);
+                    loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "后台添加",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
 
-            logger.info(addLog(SystemConstants.LOG_PARTY, "添加组织关系转入：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "添加组织关系转入：%s", record.getId()));
         } else {
 
             if (resubmit != null && resubmit == 1 && memberIn.getStatus() < MemberConstants.MEMBER_IN_STATUS_APPLY) { // 重新提交
@@ -277,9 +278,9 @@ public class MemberInController extends MemberBaseController {
 
                 applyApprovalLogService.add(record.getId(),
                         record.getPartyId(), record.getBranchId(), record.getUserId(),
-                        loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "后台重新提交",
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, null);
+                        loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, "后台重新提交",
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
             } else {
 
                 record.setStatus(null); // 更新的时候不能更新状态
@@ -289,7 +290,7 @@ public class MemberInController extends MemberBaseController {
                     memberInService.updateByPrimaryKeySelective(record);
                 }
 
-                logger.info(addLog(SystemConstants.LOG_PARTY, "更新组织关系转入：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_PARTY, "更新组织关系转入：%s", record.getId()));
             }
         }
 
@@ -362,7 +363,7 @@ public class MemberInController extends MemberBaseController {
                                  @RequestParam(value = "ids[]") Integer[] ids) {
 
         memberInService.memberIn_check(ids, null, (byte) 2, loginUser.getId());
-        logger.info(addLog(SystemConstants.LOG_PARTY, "组织关系转入申请-组织部审核通过：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_PARTY, "组织关系转入申请-组织部审核通过：%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -387,7 +388,7 @@ public class MemberInController extends MemberBaseController {
                                        @RequestParam(value = "ids[]") Integer[] ids, Boolean hasReceipt) {
 
         memberInService.memberIn_check(ids, hasReceipt, (byte) 1, loginUser.getId());
-        logger.info(addLog(SystemConstants.LOG_PARTY, "组织关系转入申请-分党委审核通过：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_PARTY, "组织关系转入申请-分党委审核通过：%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -412,7 +413,7 @@ public class MemberInController extends MemberBaseController {
 
         memberInService.memberIn_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_PARTY, "分党委打回组织关系转入申请：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_PARTY, "分党委打回组织关系转入申请：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -448,7 +449,7 @@ public class MemberInController extends MemberBaseController {
         if (id != null) {
 
             memberInService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "删除组织关系转入：%s", id));
+            logger.info(addLog(LogConstants.LOG_PARTY, "删除组织关系转入：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -461,7 +462,7 @@ public class MemberInController extends MemberBaseController {
 
         if (null != ids && ids.length>0){
             memberInService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除组织关系转入：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除组织关系转入：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -16,7 +16,7 @@
                 </span>
                 <div class="widget-toolbar no-border">
                     <ul class="nav nav-tabs" id="detail-ul">
-                        <li class="active">
+                        <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-content" data-callback="$.menu.liSelected"
                                data-url="${ctx}/crsPost_detail/step?id=${param.id}&step=1">
@@ -28,7 +28,7 @@
                                data-url="${ctx}/crsPost_detail/step2_time?id=${param.id}">
                                 <i class="green ace-icon fa fa-calendar bigger-120"></i> 报名时间管理</a>
                         </li>
-                        <li>
+                        <li class="active">
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-content" data-callback="$.menu.liSelected"
                                data-url="${ctx}/crsPost_detail/step?id=${param.id}&step=2">
@@ -46,7 +46,7 @@
             <div class="widget-body">
                 <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
                     <div class="tab-content padding-4" id="step-content">
-                    <c:import url="${ctx}/crsPost_detail/step"/>
+                    <c:import url="${ctx}/crsPost_detail/step?id=${param.id}&step=2"/>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 package controller.member.user;
 
-import controller.member.MemberBaseController;
 import controller.global.OpException;
+import controller.member.MemberBaseController;
 import domain.member.MemberInflow;
 import domain.party.Branch;
 import domain.party.Party;
@@ -14,9 +14,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.FormUtils;
 
@@ -81,13 +82,13 @@ public class UserMemberInflowController extends MemberBaseController {
 
         applyApprovalLogService.add(memberInflow.getId(),
                 memberInflow.getPartyId(), memberInflow.getBranchId(), loginUser.getId(),
-                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
+                loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
                 "提交",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "提交流入党员转出申请");
 
-        logger.info(addLog(SystemConstants.LOG_USER, "流入党员转出申请"));
+        logger.info(addLog(LogConstants.LOG_USER, "流入党员转出申请"));
 
         return success(FormUtils.SUCCESS);
     }
@@ -99,7 +100,7 @@ public class UserMemberInflowController extends MemberBaseController {
 
         int userId = loginUser.getId();
         memberInflowOutService.back(userId);
-        logger.info(addLog(SystemConstants.LOG_USER, "取消流入党员转出申请"));
+        logger.info(addLog(LogConstants.LOG_USER, "取消流入党员转出申请"));
         return success(FormUtils.SUCCESS);
     }
 

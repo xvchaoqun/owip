@@ -29,6 +29,7 @@ import service.base.MetaTypeService;
 import service.party.BranchService;
 import service.party.PartyService;
 import service.unit.UnitService;
+import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
@@ -62,7 +63,7 @@ public class CadreExportService extends BaseMapper {
 
     public SXSSFWorkbook export(Byte status, CadreViewExample example, int exportType) {
 
-        String cadreType = SystemConstants.CADRE_STATUS_MAP.get(status);
+        String cadreType = CadreConstants.CADRE_STATUS_MAP.get(status);
 
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         Map<Integer, Unit> unitMap = unitService.findAll();
@@ -307,7 +308,7 @@ public class CadreExportService extends BaseMapper {
                     record.getSchool(),
 
                     // 学校类型
-                    record.getSchoolType()==null?"":SystemConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
+                    record.getSchoolType()==null?"":CadreConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
                     record.getMajor(),
                     _fulltimeEdu,
                     _fulltimeMajor,

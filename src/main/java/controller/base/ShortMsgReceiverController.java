@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 
@@ -34,11 +35,11 @@ public class ShortMsgReceiverController extends BaseController {
             record.setAddTime(new Date());
             record.setAddUserId(ShiroHelper.getCurrentUserId());
             shortMsgReceiverMapper.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加短信接收人：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加短信接收人：%s", record.getId()));
         } else {
 
             shortMsgReceiverMapper.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新短信接收人：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新短信接收人：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -52,7 +53,7 @@ public class ShortMsgReceiverController extends BaseController {
         if (id != null) {
 
             shortMsgReceiverMapper.deleteByPrimaryKey(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除短信接收人：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除短信接收人：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }

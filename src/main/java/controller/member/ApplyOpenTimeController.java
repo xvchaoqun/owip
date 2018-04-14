@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
+import sys.constants.OwConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -93,7 +94,7 @@ public class ApplyOpenTimeController extends MemberBaseController {
         commonList.setSearchStr(searchStr);
         modelMap.put("commonList", commonList);
 
-        modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
+        modelMap.put("OW_APPLY_STAGE_MAP", OwConstants.OW_APPLY_STAGE_MAP);
 
         return "member/applyOpenTime/applyOpenTime_page";
     }
@@ -115,11 +116,11 @@ public class ApplyOpenTimeController extends MemberBaseController {
 
         if (id == null) {
             applyOpenTimeService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_MEMBER, "添加党员申请开放时间段：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "添加党员申请开放时间段：%s", record.getId()));
         } else {
 
             applyOpenTimeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_MEMBER, "更新党员申请开放时间段：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "更新党员申请开放时间段：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -143,7 +144,7 @@ public class ApplyOpenTimeController extends MemberBaseController {
                 modelMap.put("branch", branchMap.get(applyOpenTime.getBranchId()));
             }
         }
-        modelMap.put("APPLY_STAGE_MAP", SystemConstants.APPLY_STAGE_MAP);
+        modelMap.put("OW_APPLY_STAGE_MAP", OwConstants.OW_APPLY_STAGE_MAP);
         modelMap.put("partyMap", partyService.findAll());
 
         return "member/applyOpenTime/applyOpenTime_au";
@@ -157,7 +158,7 @@ public class ApplyOpenTimeController extends MemberBaseController {
         if (id != null) {
 
             applyOpenTimeService.del(id);
-            logger.info(addLog(SystemConstants.LOG_MEMBER, "删除党员申请开放时间段：%s", id));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "删除党员申请开放时间段：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -170,7 +171,7 @@ public class ApplyOpenTimeController extends MemberBaseController {
 
         if (null != ids && ids.length>0){
             applyOpenTimeService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_MEMBER, "批量删除党员申请开放时间段：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_MEMBER, "批量删除党员申请开放时间段：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

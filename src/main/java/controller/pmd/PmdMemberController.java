@@ -28,9 +28,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
@@ -360,7 +360,7 @@ public class PmdMemberController extends PmdBaseController {
         }
 
         pmdMemberService.del(id);
-        logger.info(addLog(SystemConstants.LOG_PMD, "删除未缴费记录：%s", JSONUtils.toString(pmdMember, false)));
+        logger.info(addLog(LogConstants.LOG_PMD, "删除未缴费记录：%s", JSONUtils.toString(pmdMember, false)));
 
         return success(FormUtils.SUCCESS);
     }
@@ -501,7 +501,7 @@ public class PmdMemberController extends PmdBaseController {
 
         pmdMemberService.setDuePay(ids, amount, remark);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "[支部管理员]设定缴纳额度-%s-%s",
+        logger.info(addLog(LogConstants.LOG_PMD, "[支部管理员]设定缴纳额度-%s-%s",
                 StringUtils.join(ids, ","), amount));
         return success(FormUtils.SUCCESS);
     }
@@ -543,7 +543,7 @@ public class PmdMemberController extends PmdBaseController {
 
         pmdMemberService.selectMemberType(ids, hasSalary, configMemberType, configMemberTypeId, amount, remark);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "修改党员分类别-%s-%s-%s",
+        logger.info(addLog(LogConstants.LOG_PMD, "修改党员分类别-%s-%s-%s",
                 ids, configMemberTypeId, amount));
         return success(FormUtils.SUCCESS);
     }
@@ -571,7 +571,7 @@ public class PmdMemberController extends PmdBaseController {
 
         pmdMemberService.setIsOnlinePay(ids, BooleanUtils.isTrue(isOnlinePay) , remark);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "修改缴费方式-%s-%s-%s",
+        logger.info(addLog(LogConstants.LOG_PMD, "修改缴费方式-%s-%s-%s",
                 StringUtils.join(ids, ","), isOnlinePay, remark));
         return success(FormUtils.SUCCESS);
     }
@@ -599,7 +599,7 @@ public class PmdMemberController extends PmdBaseController {
 
         pmdMemberService.selectReduceNorm(ids, normId, amount, remark);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "[支部管理员]选择减免标准-%s-%s-%s",
+        logger.info(addLog(LogConstants.LOG_PMD, "[支部管理员]选择减免标准-%s-%s-%s",
                 StringUtils.join(ids, ","), normId, amount));
         return success(FormUtils.SUCCESS);
     }

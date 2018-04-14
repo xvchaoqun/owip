@@ -22,7 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
-import sys.constants.SystemConstants;
+import sys.constants.DispatchConstants;
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -124,10 +125,10 @@ public class CadrePostController extends BaseController {
 
         if (id == null) {
             cadrePostService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加现任职务：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加现任职务：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
         } else {
             cadrePostService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新现任职务：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新现任职务：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
         }
 
         return success(FormUtils.SUCCESS);
@@ -162,7 +163,7 @@ public class CadrePostController extends BaseController {
 
         if (id != null) {
             cadrePostMapper.deleteByPrimaryKey(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除现任职务：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除现任职务：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -175,7 +176,7 @@ public class CadrePostController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             cadrePostService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除现任职务：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除现任职务：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -194,7 +195,7 @@ public class CadrePostController extends BaseController {
         DispatchCadreRelateService dispatchCadreRelateService = CmTag.getBean(DispatchCadreRelateService.class);
         Map<Integer, DispatchCadre> dispatchCadreMap = CmTag.getBean(DispatchCadreService.class).findAll();
         List<DispatchCadreRelate> dispatchCadreRelates =
-                dispatchCadreRelateService.findDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
+                dispatchCadreRelateService.findDispatchCadreRelates(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
         for (DispatchCadreRelate dispatchCadreRelate : dispatchCadreRelates) {
             Integer dispatchCadreId = dispatchCadreRelate.getDispatchCadreId();
             DispatchCadre dispatchCadre = dispatchCadreMap.get(dispatchCadreId);
@@ -207,10 +208,10 @@ public class CadrePostController extends BaseController {
         if (relateDispatchCadres.size() == 0 || StringUtils.equalsIgnoreCase(type, "edit")) {
             modelMap.put("type", "edit");
 
-            List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreList(cadreId, SystemConstants.DISPATCH_CADRE_TYPE_APPOINT);
+            List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreList(cadreId, DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT);
             modelMap.put("dispatchCadres", dispatchCadres);
 
-            Set<Integer> otherDispatchCadreRelateSet = dispatchCadreRelateService.findOtherDispatchCadreRelateSet(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
+            Set<Integer> otherDispatchCadreRelateSet = dispatchCadreRelateService.findOtherDispatchCadreRelateSet(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
             modelMap.put("otherDispatchCadreRelateSet", otherDispatchCadreRelateSet);
         } else {
             modelMap.put("type", "add");
@@ -228,8 +229,8 @@ public class CadrePostController extends BaseController {
                                          @RequestParam(required = false, value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         DispatchCadreRelateService dispatchCadreRelateService = CmTag.getBean(DispatchCadreRelateService.class);
-        dispatchCadreRelateService.updateDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST, ids);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改现任职务%s-关联发文：%s", id, StringUtils.join(ids, ",")));
+        dispatchCadreRelateService.updateDispatchCadreRelates(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST, ids);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "修改现任职务%s-关联发文：%s", id, StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -240,7 +241,7 @@ public class CadrePostController extends BaseController {
 
         CadrePost cadrePost = cadrePostMapper.selectByPrimaryKey(id);
         cadrePostService.changeOrder(id, cadrePost.getCadreId(), addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部职务调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部职务调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 }

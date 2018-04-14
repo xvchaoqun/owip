@@ -19,21 +19,21 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">打回至状态</label>
 
-                    <c:if test="${param.stage<APPLY_STAGE_GROW}">
+                    <c:if test="${param.stage<OW_APPLY_STAGE_GROW}">
                 <div class="col-xs-6">
                     <select name="stage" data-rel="select2">
-                        <c:forEach var="_stage" items="${cm:inverseMap(APPLY_STAGE_MAP)}">
-                            <c:if test="${_stage.key>=APPLY_STAGE_INIT && _stage.key<=param.stage}">
+                        <c:forEach var="_stage" items="${cm:inverseMap(OW_APPLY_STAGE_MAP)}">
+                            <c:if test="${_stage.key>=OW_APPLY_STAGE_INIT && _stage.key<=param.stage}">
                             <option value="${_stage.key}">${_stage.value}</option>
                             </c:if>
                         </c:forEach>
                     </select>
                 </div>
                     </c:if>
-                    <c:if test="${param.stage>=APPLY_STAGE_GROW}">
+                    <c:if test="${param.stage>=OW_APPLY_STAGE_GROW}">
                 <div class="col-xs-6 label-text">
-                        ${APPLY_STAGE_MAP.get(APPLY_STAGE_GROW)}（初始状态）
-                        <input type="hidden" name="stage" value="${APPLY_STAGE_GROW}">
+                        ${OW_APPLY_STAGE_MAP.get(OW_APPLY_STAGE_GROW)}（初始状态）
+                        <input type="hidden" name="stage" value="${OW_APPLY_STAGE_GROW}">
                 </div>
                     </c:if>
 

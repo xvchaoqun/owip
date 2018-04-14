@@ -15,7 +15,7 @@ public class ScGroupTopicUnitService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "null");
 
         ScGroupTopicUnitExample example = new ScGroupTopicUnitExample();
         ScGroupTopicUnitExample.Criteria criteria = example.createCriteria();

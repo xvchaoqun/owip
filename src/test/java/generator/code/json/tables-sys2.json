@@ -12,7 +12,7 @@
       "searchColumns": "user_id,type",
       "showColumns": "user_id,type,path,filename,remark,create_time",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_ADMIN",
+      "logType":"LogConstants.LOG_ADMIN",
       "ignore": true
     },{
       "table": "feedback",
@@ -20,7 +20,7 @@
       "searchColumns": "user_id",
       "showColumns": "user_id,content,create_time,ip",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_USER",
+      "logType":"LogConstants.LOG_USER",
       "ignore": false
     }
   ]

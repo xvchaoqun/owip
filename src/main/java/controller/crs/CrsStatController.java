@@ -14,8 +14,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import persistence.crs.common.CrsStatApplicantBean;
+import sys.constants.CadreConstants;
 import sys.constants.CrsConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.JSONUtils;
@@ -100,7 +100,7 @@ public class CrsStatController extends CrsBaseController {
         }
         if(isMiddle!=null){
             if(isMiddle){
-                criteria.andStatusEqualTo(SystemConstants.CADRE_STATUS_MIDDLE);
+                criteria.andStatusEqualTo(CadreConstants.CADRE_STATUS_MIDDLE);
             }
         }
 

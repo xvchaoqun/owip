@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -88,11 +88,11 @@ public class ScGroupParticipantController extends ScGroupBaseController {
 
         if (id == null) {
             scGroupParticipantService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_GROUP, "添加干部小组会参会人：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "添加干部小组会参会人：%s", record.getId()));
         } else {
 
             scGroupParticipantService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_GROUP, "更新干部小组会参会人：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "更新干部小组会参会人：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -118,7 +118,7 @@ public class ScGroupParticipantController extends ScGroupBaseController {
 
         if (null != ids && ids.length>0){
             scGroupParticipantService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_GROUP, "批量删除干部小组会参会人：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "批量删除干部小组会参会人：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

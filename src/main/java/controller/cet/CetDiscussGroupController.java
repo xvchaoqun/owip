@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -119,11 +119,11 @@ public class CetDiscussGroupController extends CetBaseController {
 
         if (id == null) {
             cetDiscussGroupService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加研讨小组：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加研讨小组：%s", record.getId()));
         } else {
 
             cetDiscussGroupService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新研讨小组：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新研讨小组：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -168,7 +168,7 @@ public class CetDiscussGroupController extends CetBaseController {
                                            HttpServletRequest request) {
 
         cetDiscussGroupService.selectObjs(ids, select, discussGroupId);
-        logger.info(addLog(SystemConstants.LOG_CET, "选择学员/取消选择： %s, %s, %s",
+        logger.info(addLog(LogConstants.LOG_CET, "选择学员/取消选择： %s, %s, %s",
                 StringUtils.join(ids, ","), select, discussGroupId));
 
         return success(FormUtils.SUCCESS);
@@ -183,7 +183,7 @@ public class CetDiscussGroupController extends CetBaseController {
                                            HttpServletRequest request) {
 
         cetDiscussGroupService.finish(ids, finish, discussGroupId);
-        logger.info(addLog(SystemConstants.LOG_CET, "参会/取消参会： %s, %s, %s",
+        logger.info(addLog(LogConstants.LOG_CET, "参会/取消参会： %s, %s, %s",
                 StringUtils.join(ids, ","), finish, discussGroupId));
 
         return success(FormUtils.SUCCESS);
@@ -197,7 +197,7 @@ public class CetDiscussGroupController extends CetBaseController {
         if (id != null) {
 
             cetDiscussGroupService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除研讨小组：%s", id));
+            logger.info(addLog(LogConstants.LOG_CET, "删除研讨小组：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -210,7 +210,7 @@ public class CetDiscussGroupController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetDiscussGroupService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除研讨小组：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除研讨小组：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -222,7 +222,7 @@ public class CetDiscussGroupController extends CetBaseController {
     public Map do_cetDiscussGroup_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetDiscussGroupService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_CET, "研讨小组调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_CET, "研讨小组调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

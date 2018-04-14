@@ -23,8 +23,8 @@ import service.cadre.CadreService;
 import service.cadreReserve.CadreReserveService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
+import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.List;
@@ -54,17 +54,17 @@ public class CadreInspectService extends BaseMapper {
         int cadreId = cadre.getId();
         String realname = cadre.getUser().getRealname();
 
-        /*if(cadre.getStatus()==SystemConstants.CADRE_STATUS_NOW||
-                cadre.getStatus()==SystemConstants.CADRE_STATUS_LEAVE||
-                cadre.getStatus()==SystemConstants.CADRE_STATUS_LEADER_LEAVE){
+        /*if(cadre.getStatus()==CadreConstants.CADRE_STATUS_NOW||
+                cadre.getStatus()==CadreConstants.CADRE_STATUS_LEAVE||
+                cadre.getStatus()==CadreConstants.CADRE_STATUS_LEADER_LEAVE){
             throw new OpException(realname + "已经在"
-                    + SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "中");
+                    + CadreConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "中");
         }*/
 
         // 本库检查
         CadreInspectExample example = new CadreInspectExample();
         CadreInspectExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadre.getId())
-                .andStatusEqualTo(SystemConstants.CADRE_INSPECT_STATUS_NORMAL);
+                .andStatusEqualTo(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
         if (id != null) criteria.andIdNotEqualTo(id);
 
         if(cadreInspectMapper.countByExample(example) > 0){
@@ -83,7 +83,7 @@ public class CadreInspectService extends BaseMapper {
 
         CadreInspectExample example = new CadreInspectExample();
         example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andStatusEqualTo(SystemConstants.CADRE_INSPECT_STATUS_NORMAL);
+                .andStatusEqualTo(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
         List<CadreInspect> cadreInspects = cadreInspectMapper.selectByExample(example);
         if(cadreInspects.size()>1){
             CadreInspect cadreInspect = cadreInspects.get(0);
@@ -123,7 +123,7 @@ public class CadreInspectService extends BaseMapper {
                 // 先添加到干部库（类型：考察对象）
                 cadreRecord.setId(null); // 防止误传ID过来
                 cadreRecord.setUserId(userId);
-                cadreRecord.setStatus(SystemConstants.CADRE_STATUS_INSPECT);
+                cadreRecord.setStatus(CadreConstants.CADRE_STATUS_INSPECT);
                 cadreRecord.setIsCommitteeMember(BooleanUtils.isTrue(cadreRecord.getIsCommitteeMember()));
                 cadreMapper.insertSelective(cadreRecord);
 
@@ -132,25 +132,25 @@ public class CadreInspectService extends BaseMapper {
                 cadreId = cadre.getId();
 
                 // 已经在干部库中的情况，如果后备干部[非干部]撤销了，需要更新为考察对象
-                if(cadre.getStatus()==SystemConstants.CADRE_STATUS_RESERVE) {
+                if(cadre.getStatus()== CadreConstants.CADRE_STATUS_RESERVE) {
                     cadreRecord = new Cadre();
                     cadreRecord.setId(cadreId);
-                    cadreRecord.setStatus(SystemConstants.CADRE_STATUS_INSPECT);
+                    cadreRecord.setStatus(CadreConstants.CADRE_STATUS_INSPECT);
                     cadreMapper.updateByPrimaryKeySelective(cadreRecord);
                 }
             }
         }
 
-        record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + SystemConstants.CADRE_INSPECT_STATUS_NORMAL
-                + " and type=" + SystemConstants.CADRE_INSPECT_TYPE_DEFAULT));
+        record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + CadreConstants.CADRE_INSPECT_STATUS_NORMAL
+                + " and type=" + CadreConstants.CADRE_INSPECT_TYPE_DEFAULT));
         record.setCadreId(cadreId);
-        record.setStatus(SystemConstants.CADRE_INSPECT_STATUS_NORMAL);
-        record.setType(SystemConstants.CADRE_INSPECT_TYPE_DEFAULT);
+        record.setStatus(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
+        record.setType(CadreConstants.CADRE_INSPECT_TYPE_DEFAULT);
         cadreInspectMapper.insertSelective(record);
 
         // 记录任免日志
         cadreAdLogService.addLog(cadreId, "添加考察对象",
-                SystemConstants.CADRE_AD_LOG_MODULE_INSPECT, record.getId());
+                CadreConstants.CADRE_AD_LOG_MODULE_INSPECT, record.getId());
     }
 
     @Transactional
@@ -162,7 +162,7 @@ public class CadreInspectService extends BaseMapper {
 
         CadreInspect cadreInspect = cadreInspectMapper.selectByPrimaryKey(record.getId());
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreInspect.getCadreId());
-        if (cadre.getStatus() == SystemConstants.CADRE_STATUS_INSPECT) {
+        if (cadre.getStatus() == CadreConstants.CADRE_STATUS_INSPECT) {
 
             cadreRecord.setId(cadre.getId());
             cadreRecord.setUserId(null);
@@ -201,7 +201,7 @@ public class CadreInspectService extends BaseMapper {
             cadreRecord.setTitle(uRow.getTitle());
 
             CadreInspect record = new CadreInspect();
-            record.setStatus(SystemConstants.CADRE_INSPECT_STATUS_NORMAL);
+            record.setStatus(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
             record.setRemark(uRow.getInspectRemark());
 
             insertSelective(userId, record, cadreRecord);
@@ -221,11 +221,11 @@ public class CadreInspectService extends BaseMapper {
         for (Integer id : ids) {
             CadreInspect cadreInspect = cadreInspectMapper.selectByPrimaryKey(id);
             Cadre cadre = cadreMapper.selectByPrimaryKey(cadreInspect.getCadreId());
-            if(cadre.getStatus()==SystemConstants.CADRE_STATUS_INSPECT){
+            if(cadre.getStatus()==CadreConstants.CADRE_STATUS_INSPECT){
                 cadreMapper.deleteByPrimaryKey(cadre.getId());
             }
 
-            if(cadreInspect.getStatus()==SystemConstants.CADRE_INSPECT_STATUS_NORMAL){
+            if(cadreInspect.getStatus()==CadreConstants.CADRE_INSPECT_STATUS_NORMAL){
 
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
                 // 删除考核对象角色
@@ -246,18 +246,18 @@ public class CadreInspectService extends BaseMapper {
         CadreInspect cadreInspect = cadreInspectMapper.selectByPrimaryKey(record.getId());
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreInspect.getCadreId());
         Integer cadreId = cadre.getId();
-        if (cadreInspect.getStatus() != SystemConstants.CADRE_INSPECT_STATUS_NORMAL) {
+        if (cadreInspect.getStatus() != CadreConstants.CADRE_INSPECT_STATUS_NORMAL) {
             throw new IllegalArgumentException("[通过常委会任命]考察对象"
                     +cadre.getUser().getRealname()+"状态异常：" + cadreInspect.getStatus());
         }
 
         // 记录任免日志
         cadreAdLogService.addLog(cadreId, "通过常委会任命",
-                SystemConstants.CADRE_AD_LOG_MODULE_INSPECT, cadreInspect.getId());
+                CadreConstants.CADRE_AD_LOG_MODULE_INSPECT, cadreInspect.getId());
 
-        Byte status = SystemConstants.CADRE_STATUS_MIDDLE;
-        if(cadre.getStatus()==SystemConstants.CADRE_STATUS_LEADER_LEAVE){// 如果原来是离任校领导，重新任命之后也是离任校领导？
-            status = SystemConstants.CADRE_STATUS_LEADER;
+        Byte status = CadreConstants.CADRE_STATUS_MIDDLE;
+        if(cadre.getStatus()==CadreConstants.CADRE_STATUS_LEADER_LEAVE){// 如果原来是离任校领导，重新任命之后也是离任校领导？
+            status = CadreConstants.CADRE_STATUS_LEADER;
         }
         // 覆盖干部库
         _cadre.setId(cadreId);
@@ -270,12 +270,12 @@ public class CadreInspectService extends BaseMapper {
         {
             CadreReserve fromTempRecord = cadreReserveService.getFromTempRecord(cadreId);
             if(fromTempRecord!=null){
-                fromTempRecord.setStatus(SystemConstants.CADRE_RESERVE_STATUS_ASSIGN);
+                fromTempRecord.setStatus(CadreConstants.CADRE_RESERVE_STATUS_ASSIGN);
                 cadreReserveMapper.updateByPrimaryKeySelective(fromTempRecord);
             }
         }
         // 通过常委会任命
-        record.setStatus(SystemConstants.CADRE_INSPECT_STATUS_ASSIGN);
+        record.setStatus(CadreConstants.CADRE_INSPECT_STATUS_ASSIGN);
         cadreInspectMapper.updateByPrimaryKeySelective(record);
 
         // 改变账号角色，考核对象->干部
@@ -296,19 +296,19 @@ public class CadreInspectService extends BaseMapper {
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreInspect.getCadreId());
         int cadreId = cadre.getId();
         // 只有正常状态的考察对象，才可以撤销
-        if(cadreInspect.getStatus() != SystemConstants.CADRE_INSPECT_STATUS_NORMAL){
+        if(cadreInspect.getStatus() != CadreConstants.CADRE_INSPECT_STATUS_NORMAL){
             throw new IllegalArgumentException("考察对象"
                     +cadre.getUser().getRealname()+"状态异常:" + cadreInspect.getStatus());
         }
 
         // 记录任免日志
         cadreAdLogService.addLog(cadreId, "撤销考察对象",
-                SystemConstants.CADRE_AD_LOG_MODULE_INSPECT, cadreInspect.getId());
+                CadreConstants.CADRE_AD_LOG_MODULE_INSPECT, cadreInspect.getId());
 
         // 已撤销
         CadreInspect record = new CadreInspect();
         record.setId(id);
-        record.setStatus(SystemConstants.CADRE_INSPECT_STATUS_ABOLISH);
+        record.setStatus(CadreConstants.CADRE_INSPECT_STATUS_ABOLISH);
         cadreInspectMapper.updateByPrimaryKeySelective(record);
 
         // 删除考核对象角色
@@ -318,7 +318,7 @@ public class CadreInspectService extends BaseMapper {
         {
             CadreReserve fromTempRecord = cadreReserveService.getFromTempRecord(cadreId);
             if(fromTempRecord!=null){
-                fromTempRecord.setStatus(SystemConstants.CADRE_RESERVE_STATUS_NORMAL);
+                fromTempRecord.setStatus(CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
                 cadreReserveMapper.updateByPrimaryKeySelective(fromTempRecord);
             }
         }
@@ -334,19 +334,19 @@ public class CadreInspectService extends BaseMapper {
         CadreInspect entity = cadreInspectMapper.selectByPrimaryKey(id);
         byte type = entity.getType();
         // 只对正常状态进行排序
-        Assert.isTrue(entity.getStatus() == SystemConstants.CADRE_INSPECT_STATUS_NORMAL);
+        Assert.isTrue(entity.getStatus() == CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
 
         Integer baseSortOrder = entity.getSortOrder();
 
         CadreInspectExample example = new CadreInspectExample();
         if (addNum*orderBy > 0) {
 
-            example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_INSPECT_STATUS_NORMAL)
+            example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_INSPECT_STATUS_NORMAL)
                     .andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         } else {
 
-            example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_INSPECT_STATUS_NORMAL)
+            example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_INSPECT_STATUS_NORMAL)
                     .andTypeEqualTo(type).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
@@ -358,11 +358,11 @@ public class CadreInspectService extends BaseMapper {
 
             if (addNum*orderBy > 0)
                 commonMapper.downOrder(TABLE_NAME,
-                        "status=" + SystemConstants.CADRE_INSPECT_STATUS_NORMAL + " and type=" + type,
+                        "status=" + CadreConstants.CADRE_INSPECT_STATUS_NORMAL + " and type=" + type,
                         baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder(TABLE_NAME,
-                        "status=" + SystemConstants.CADRE_INSPECT_STATUS_NORMAL + " and type=" + type,
+                        "status=" + CadreConstants.CADRE_INSPECT_STATUS_NORMAL + " and type=" + type,
                         baseSortOrder, targetEntity.getSortOrder());
 
             CadreInspect record = new CadreInspect();

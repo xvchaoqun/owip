@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.constants.OaConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
@@ -133,11 +134,11 @@ public class OaTaskController extends OaBaseController {
 
             oaTaskService.checkAuth(record.getType());
             oaTaskService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_OA, "添加协同办公任务：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_OA, "添加协同办公任务：%s", record.getId()));
         } else {
 
             oaTaskService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_OA, "更新协同办公任务：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_OA, "更新协同办公任务：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -165,7 +166,7 @@ public class OaTaskController extends OaBaseController {
 
         if (null != ids && ids.length > 0) {
             oaTaskService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_OA, "批量删除协同办公任务：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_OA, "批量删除协同办公任务：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -192,7 +193,7 @@ public class OaTaskController extends OaBaseController {
             record.setCreateTime(new Date());
 
             oaTaskFileMapper.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_OA, "添加协同办公任务附件：%s", record.getFileName()));
+            logger.info(addLog(LogConstants.LOG_OA, "添加协同办公任务附件：%s", record.getFileName()));
 
         }
 
@@ -220,7 +221,7 @@ public class OaTaskController extends OaBaseController {
         oaTaskService.checkAuth(oaTask.getType());
 
         oaTaskFileMapper.deleteByPrimaryKey(id);
-        logger.info(addLog(SystemConstants.LOG_OA, "删除协同办公任务附件：%s", oaTaskFile.getFileName()));
+        logger.info(addLog(LogConstants.LOG_OA, "删除协同办公任务附件：%s", oaTaskFile.getFileName()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -243,8 +244,8 @@ public class OaTaskController extends OaBaseController {
     public Map selectUsers_tree(int id) throws IOException {
 
         Set<Integer> selectIdSet = oaTaskUserService.getTaskUserIdSet(id);
-        Set<Byte> cadreStatusList = new HashSet(Arrays.asList(SystemConstants.CADRE_STATUS_MIDDLE,
-                SystemConstants.CADRE_STATUS_LEADER));
+        Set<Byte> cadreStatusList = new HashSet(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
+                CadreConstants.CADRE_STATUS_LEADER));
         TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
                 cadreStatusList, selectIdSet, null, false, true, false);
 
@@ -284,7 +285,7 @@ public class OaTaskController extends OaBaseController {
             }
 
             oaTaskService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_OA, (BooleanUtils.isTrue(publish) ? "发布" : "召回") + "任务：%s", id));
+            logger.info(addLog(LogConstants.LOG_OA, (BooleanUtils.isTrue(publish) ? "发布" : "召回") + "任务：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -296,7 +297,7 @@ public class OaTaskController extends OaBaseController {
     public Map oaTask_abolish(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         oaTaskService.batchAbolish(ids);
-        logger.info(addLog(SystemConstants.LOG_OA, "作废任务：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_OA, "作废任务：%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -308,7 +309,7 @@ public class OaTaskController extends OaBaseController {
     public Map oaTask_finish(HttpServletRequest request, int id, ModelMap modelMap) {
 
         oaTaskService.finish(id);
-        logger.info(addLog(SystemConstants.LOG_OA, "任务完结：%s", id));
+        logger.info(addLog(LogConstants.LOG_OA, "任务完结：%s", id));
 
         return success(FormUtils.SUCCESS);
     }

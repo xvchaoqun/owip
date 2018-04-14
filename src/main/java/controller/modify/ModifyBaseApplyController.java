@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -120,7 +120,7 @@ public class ModifyBaseApplyController extends ModifyBaseController{
 
         if (null != ids && ids.length>0){
             modifyBaseApplyService.fakeDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量【假】删除基本信息修改申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量【假】删除基本信息修改申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -136,7 +136,7 @@ public class ModifyBaseApplyController extends ModifyBaseController{
 
         if (null != ids && ids.length > 0) {
             modifyBaseApplyService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除基本信息修改申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除基本信息修改申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -16,8 +16,8 @@ import service.party.MemberService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -58,14 +58,14 @@ public class MemberApplyOpService extends BaseMapper {
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
-            if (memberApply != null && memberApply.getStage() != SystemConstants.APPLY_STAGE_DENY) {
-                enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+            if (memberApply != null && memberApply.getStage() != OwConstants.OW_APPLY_STAGE_DENY) {
+                enterApplyService.applyBack(userId, remark, OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_DENY, "入党申请未通过");
+                        ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_INIT),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_DENY, "入党申请未通过");
             }
         }
     }
@@ -76,19 +76,19 @@ public class MemberApplyOpService extends BaseMapper {
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
             MemberApply record = new MemberApply();
-            record.setStage(SystemConstants.APPLY_STAGE_PASS);
+            record.setStage(OwConstants.OW_APPLY_STAGE_PASS);
             record.setPassTime(new Date());
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_INIT);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_INIT);
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "通过入党申请");
+                        loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_INIT),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS, "通过入党申请");
             }
         }
     }
@@ -99,20 +99,20 @@ public class MemberApplyOpService extends BaseMapper {
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
             MemberApply record = new MemberApply();
-            record.setStage(SystemConstants.APPLY_STAGE_ACTIVE);
+            record.setStage(OwConstants.OW_APPLY_STAGE_ACTIVE);
             record.setActiveTime(activeTime);
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_PASS);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_PASS);
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_ACTIVE),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "成为积极分子");
+                        loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_ACTIVE),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS, "成为积极分子");
             }
         }
     }
@@ -148,25 +148,25 @@ public class MemberApplyOpService extends BaseMapper {
             record.setTrainTime(DateUtils.parseDate(_trainTime, DateUtils.YYYY_MM_DD));
 
             if(directParty && partyAdmin){ // 直属党支部管理员，不需要通过审核，直接确定发展对象
-                record.setStage(SystemConstants.APPLY_STAGE_CANDIDATE);
-                record.setCandidateStatus(SystemConstants.APPLY_STATUS_CHECKED);
+                record.setStage(OwConstants.OW_APPLY_STAGE_CANDIDATE);
+                record.setCandidateStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
             } else {
-                record.setCandidateStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
+                record.setCandidateStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
             }
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_ACTIVE);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_ACTIVE);
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId,  (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
-                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_CANDIDATE),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId,  (directParty && partyAdmin)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_CANDIDATE),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         (directParty && partyAdmin)?"确定为发展对象，直属党支部提交":"确定为发展对象，党支部提交");
             }
         }
@@ -181,22 +181,22 @@ public class MemberApplyOpService extends BaseMapper {
             MemberApply memberApply = verifyAuth.entity;
 
             MemberApply record = new MemberApply();
-            record.setStage(SystemConstants.APPLY_STAGE_CANDIDATE);
-            record.setCandidateStatus(SystemConstants.APPLY_STATUS_CHECKED);
+            record.setStage(OwConstants.OW_APPLY_STAGE_CANDIDATE);
+            record.setCandidateStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_ACTIVE)
-                    .andCandidateStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_ACTIVE)
+                    .andCandidateStatusEqualTo(OwConstants.OW_APPLY_STATUS_UNCHECKED);
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_CANDIDATE),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS, "确定为发展对象，已审核");
+                        loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_CANDIDATE),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS, "确定为发展对象，已审核");
             }
         }
     }
@@ -212,7 +212,7 @@ public class MemberApplyOpService extends BaseMapper {
             boolean directParty = verifyAuth.isDirectBranch;
             int partyId = memberApply.getPartyId();
 
-            if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STAGE_PLAN)){
+            if(!applyOpenTimeService.isOpen(partyId, OwConstants.OW_APPLY_STAGE_PLAN)){
                 throw new OpException("不在开放时间范围");
             }
             Date planTime = DateUtils.parseDate(_planTime, DateUtils.YYYY_MM_DD);
@@ -222,26 +222,26 @@ public class MemberApplyOpService extends BaseMapper {
 
             MemberApply record = new MemberApply();
             if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过审核
-                record.setStage(SystemConstants.APPLY_STAGE_PLAN);
-                record.setPlanStatus(SystemConstants.APPLY_STATUS_CHECKED);
+                record.setStage(OwConstants.OW_APPLY_STAGE_PLAN);
+                record.setPlanStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
             }else{
-                record.setPlanStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
+                record.setPlanStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
             }
             record.setPlanTime(planTime);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_CANDIDATE);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_CANDIDATE);
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId, (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
-                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId, (directParty && partyAdmin)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_PLAN),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         (directParty && partyAdmin)?"列入发展计划，直属党支部提交":"列入发展计划，党支部提交");
             }
         }
@@ -256,26 +256,26 @@ public class MemberApplyOpService extends BaseMapper {
             MemberApply memberApply = verifyAuth.entity;
             Integer partyId = memberApply.getPartyId();
 
-            if(!applyOpenTimeService.isOpen(partyId, SystemConstants.APPLY_STAGE_PLAN)){
+            if(!applyOpenTimeService.isOpen(partyId, OwConstants.OW_APPLY_STAGE_PLAN)){
                 throw new OpException("不在开放时间范围");
             }
             MemberApply record = new MemberApply();
-            record.setStage(SystemConstants.APPLY_STAGE_PLAN);
-            record.setPlanStatus(SystemConstants.APPLY_STATUS_CHECKED);
+            record.setStage(OwConstants.OW_APPLY_STAGE_PLAN);
+            record.setPlanStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_CANDIDATE)
-                    .andPlanStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_CANDIDATE)
+                    .andPlanStatusEqualTo(OwConstants.OW_APPLY_STATUS_UNCHECKED);
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_PLAN),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_PLAN),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         "列入发展计划，已审核");
             }
         }
@@ -298,26 +298,26 @@ public class MemberApplyOpService extends BaseMapper {
 
             MemberApply record = new MemberApply();
             if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过审核
-                record.setStage(SystemConstants.APPLY_STAGE_DRAW);
-                record.setDrawStatus(SystemConstants.APPLY_STATUS_CHECKED);
+                record.setStage(OwConstants.OW_APPLY_STAGE_DRAW);
+                record.setDrawStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
             }else {
-                record.setDrawStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
+                record.setDrawStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
             }
             record.setDrawTime(drawTime);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_PLAN);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_PLAN);
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId, (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
-                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId, (directParty && partyAdmin)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_DRAW),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         (directParty && partyAdmin)?"领取志愿书，直属党支部提交":"领取志愿书，党支部提交");
             }
         }
@@ -333,22 +333,22 @@ public class MemberApplyOpService extends BaseMapper {
             MemberApply memberApply = verifyAuth.entity;
 
             MemberApply record = new MemberApply();
-            record.setStage(SystemConstants.APPLY_STAGE_DRAW);
-            record.setDrawStatus(SystemConstants.APPLY_STATUS_CHECKED);
+            record.setStage(OwConstants.OW_APPLY_STAGE_DRAW);
+            record.setDrawStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_PLAN)
-                    .andDrawStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_PLAN)
+                    .andDrawStatusEqualTo(OwConstants.OW_APPLY_STATUS_UNCHECKED);
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_DRAW),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         "领取志愿书，已审核");
             }
         }
@@ -370,23 +370,23 @@ public class MemberApplyOpService extends BaseMapper {
 
             MemberApply record = new MemberApply();
 
-            record.setStage(SystemConstants.APPLY_STAGE_DRAW);
-            record.setDrawStatus(SystemConstants.APPLY_STATUS_CHECKED);
+            record.setStage(OwConstants.OW_APPLY_STAGE_DRAW);
+            record.setDrawStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
 
             record.setDrawTime(drawTime);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_PLAN);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_PLAN);
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_DRAW),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_DRAW),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         "领取志愿书，分党委提交");
             }
         }
@@ -403,9 +403,9 @@ public class MemberApplyOpService extends BaseMapper {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth2(userId);
             MemberApply memberApply = verifyAuth.entity;
 
-            if(memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW
+            if(memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_DRAW
                     || memberApply.getGrowStatus()==null
-                    || memberApply.getGrowStatus()!= SystemConstants.APPLY_STATUS_UNCHECKED){
+                    || memberApply.getGrowStatus()!= OwConstants.OW_APPLY_STATUS_UNCHECKED){
                 throw new OpException("还没有提交发展时间。");
             }
 
@@ -414,31 +414,31 @@ public class MemberApplyOpService extends BaseMapper {
             boolean directParty = verifyAuth.isDirectBranch;
 
             MemberApply record = new MemberApply();
-            record.setGrowStatus(SystemConstants.APPLY_STATUS_CHECKED);
+            record.setGrowStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
-                    .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
+                    .andGrowStatusEqualTo(OwConstants.OW_APPLY_STATUS_UNCHECKED);
 
             *//*if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
                 memberApplyService.applyGrowCheckByParty(userId, record, example);
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         "预备党员，分党委审核");
             }else *//*if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId,  (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
-                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId,  (directParty && partyAdmin)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         "预备党员，分党委审核");
             }
         }
@@ -450,26 +450,26 @@ public class MemberApplyOpService extends BaseMapper {
 
         for (int userId : userIds) {
             MemberApply _memberApply = memberApplyMapper.selectByPrimaryKey(userId);
-            if(_memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW){
+            if(_memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_DRAW){
                 throw new OpException("状态异常，还没到领取志愿书阶段。");
             }
 
             MemberApply record = new MemberApply();
-            record.setGrowStatus(SystemConstants.APPLY_STATUS_OD_CHECKED);
+            record.setGrowStatus(OwConstants.OW_APPLY_STATUS_OD_CHECKED);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW);
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         "预备党员，组织部审核");
             }
         }
@@ -486,11 +486,11 @@ public class MemberApplyOpService extends BaseMapper {
             boolean directParty = verifyAuth.isDirectBranch;
 
             if(_memberApply.getGrowStatus()==null ||
-                    _memberApply.getGrowStatus()!=SystemConstants.APPLY_STATUS_OD_CHECKED){
+                    _memberApply.getGrowStatus()!=OwConstants.OW_APPLY_STATUS_OD_CHECKED){
                 throw new OpException("待组织部审核之后，才能提交。");
             }
 
-            if(_memberApply.getStage()!=SystemConstants.APPLY_STAGE_DRAW){
+            if(_memberApply.getStage()!=OwConstants.OW_APPLY_STAGE_DRAW){
                 throw new OpException("状态异常，还没到领取志愿书阶段。");
             }
 
@@ -504,30 +504,30 @@ public class MemberApplyOpService extends BaseMapper {
                 memberApplyService.memberGrowByDirectParty(userId, growTime);
                 applyApprovalLogService.add(userId,
                         _memberApply.getPartyId(), _memberApply.getBranchId(), userId,
-                        loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         "预备党员，直属党支部提交");
             }else {
                 MemberApply record = new MemberApply();
-                record.setGrowStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
+                record.setGrowStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
                 record.setGrowTime(growTime);
 
                 MemberApplyExample example = new MemberApplyExample();
                 example.createCriteria().andUserIdEqualTo(userId)
-                        .andStageEqualTo(SystemConstants.APPLY_STAGE_DRAW)
-                        .andGrowStatusEqualTo(SystemConstants.APPLY_STATUS_OD_CHECKED);
+                        .andStageEqualTo(OwConstants.OW_APPLY_STAGE_DRAW)
+                        .andGrowStatusEqualTo(OwConstants.OW_APPLY_STATUS_OD_CHECKED);
 
                 if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                     MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
                     applyApprovalLogService.add(userId,
                             memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                            loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                            SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                            SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                            SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                            loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                            OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                            OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
+                            OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                             "预备党员，支部提交");
                 }
             }
@@ -546,10 +546,10 @@ public class MemberApplyOpService extends BaseMapper {
 
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                    loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_GROW),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                    loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_GROW),
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                     "预备党员，分党委审核");
         }
     }
@@ -580,25 +580,25 @@ public class MemberApplyOpService extends BaseMapper {
 
             MemberApply record = new MemberApply();
             if(directParty && partyAdmin) { // 直属党支部管理员，不需要通过分党委审核
-                record.setPositiveStatus(SystemConstants.APPLY_STATUS_CHECKED);
+                record.setPositiveStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
             }else {
-                record.setPositiveStatus(SystemConstants.APPLY_STATUS_UNCHECKED);
+                record.setPositiveStatus(OwConstants.OW_APPLY_STATUS_UNCHECKED);
             }
             record.setPositiveTime(positiveTime);
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_GROW);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_GROW);
 
             if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId,  (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
-                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId,  (directParty && partyAdmin)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_POSITIVE),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         (directParty && partyAdmin)?"正式党员，直属党支部提交":"正式党员，党支部提交");
 
             }
@@ -623,37 +623,37 @@ public class MemberApplyOpService extends BaseMapper {
             boolean partyAdmin = verifyAuth.isPartyAdmin;
             boolean directParty = verifyAuth.isDirectBranch;
             MemberApply record = new MemberApply();
-            record.setPositiveStatus(SystemConstants.APPLY_STATUS_CHECKED);
+            record.setPositiveStatus(OwConstants.OW_APPLY_STATUS_CHECKED);
 
             if(memberApply.getPositiveStatus()==null ||
-                    memberApply.getPositiveStatus()!=SystemConstants.APPLY_STATUS_UNCHECKED){
+                    memberApply.getPositiveStatus()!=OwConstants.OW_APPLY_STATUS_UNCHECKED){
                 throw new OpException("党支部管理员还未提交转正时间");
             }
 
             MemberApplyExample example = new MemberApplyExample();
             example.createCriteria().andUserIdEqualTo(userId)
-                    .andStageEqualTo(SystemConstants.APPLY_STAGE_GROW)
-                    .andPositiveStatusEqualTo(SystemConstants.APPLY_STATUS_UNCHECKED);
+                    .andStageEqualTo(OwConstants.OW_APPLY_STAGE_GROW)
+                    .andPositiveStatusEqualTo(OwConstants.OW_APPLY_STATUS_UNCHECKED);
 
             if(isParty){ // 分党委审核，需要跳过下一步的组织部审核
                 memberApplyService.applyPositiveCheckByParty(userId, record, example);
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_POSITIVE),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         "正式党员，分党委审核");
             }else if (memberApplyService.updateByExampleSelective(userId, record, example) > 0) {
 
                 applyApprovalLogService.add(userId,
                         memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                        loginUserId, (directParty && partyAdmin)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
-                                SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                        SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                        loginUserId, (directParty && partyAdmin)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                                OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                        OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_POSITIVE),
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                         "正式党员，党总支直属党支部审核");
             }
         }
@@ -676,10 +676,10 @@ public class MemberApplyOpService extends BaseMapper {
             MemberApply memberApply = memberApplyMapper.selectByPrimaryKey(userId);
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                    SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_POSITIVE),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_PASS,
+                    loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                    OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_POSITIVE),
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_PASS,
                     "正式党员，组织部审核");
         }
     }
@@ -695,13 +695,13 @@ public class MemberApplyOpService extends BaseMapper {
             }
 
             byte _stage = memberApply.getStage();
-            if(_stage>=SystemConstants.APPLY_STAGE_GROW ){
+            if(_stage>=OwConstants.OW_APPLY_STAGE_GROW ){
 
-                if(stage<SystemConstants.APPLY_STAGE_GROW) {
+                if(stage<OwConstants.OW_APPLY_STAGE_GROW) {
                     throw new OpException("已是党员，不可以打回非党员状态。");
                 }
             }
-            if(stage>_stage || stage<SystemConstants.APPLY_STAGE_INIT || stage==SystemConstants.APPLY_STAGE_PASS){
+            if(stage>_stage || stage<OwConstants.OW_APPLY_STAGE_INIT || stage==OwConstants.OW_APPLY_STAGE_PASS){
                 throw new OpException("打回状态有误。");
             }
 
@@ -709,9 +709,9 @@ public class MemberApplyOpService extends BaseMapper {
 
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, SystemConstants.APPLY_STAGE_MAP.get(stage),
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+                    loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, OwConstants.OW_APPLY_STAGE_MAP.get(stage),
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
         }
 
     }
@@ -728,7 +728,7 @@ public class MemberApplyOpService extends BaseMapper {
                 throw new UnauthorizedException();
             }
             byte stage = memberApply.getStage();
-            if(stage>=SystemConstants.APPLY_STAGE_GROW ){
+            if(stage>=OwConstants.OW_APPLY_STAGE_GROW ){
                 throw new OpException("已是党员，不可移除。");
             }
 
@@ -739,9 +739,9 @@ public class MemberApplyOpService extends BaseMapper {
 
             applyApprovalLogService.add(userId,
                     memberApply.getPartyId(), memberApply.getBranchId(), userId,
-                    loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, isRemove?"移除":"撤销移除",
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, reason);
+                    loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY, isRemove?"移除":"撤销移除",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, reason);
         }
     }
 }

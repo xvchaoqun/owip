@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
@@ -196,7 +197,7 @@ public class SysUserController extends BaseController {
             sysUser.setCreateTime(new Date());
             sysUser.setSource(SystemConstants.USER_SOURCE_ADMIN);
             sysUserService.insertSelective(sysUser);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加用户：%s", sysUser.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加用户：%s", sysUser.getId()));
         } else {
             if (StringUtils.isBlank(sysUser.getPasswd())) {
                 // 密码不变
@@ -208,7 +209,7 @@ public class SysUserController extends BaseController {
             }
             SysUser oldSysUser = sysUserMapper.selectByPrimaryKey(id);
             sysUserService.updateByPrimaryKeySelective(sysUser);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新用户：%s", sysUser.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户：%s", sysUser.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -275,7 +276,7 @@ public class SysUserController extends BaseController {
             SysUserView sysUser = sysUserService.findById(id);
             String username = sysUser.getUsername();
             sysUserService.lockUser(sysUser.getId(), locked);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, (locked ? "禁用" : "解禁") + "用户：%s", username));
+            logger.info(addLog(LogConstants.LOG_ADMIN, (locked ? "禁用" : "解禁") + "用户：%s", username));
         }
 
         return success(FormUtils.SUCCESS);
@@ -296,7 +297,7 @@ public class SysUserController extends BaseController {
 
         sysUserService.updateUserRoles(sysUser.getId(),  "," + StringUtils.join(rIds, ",") + ",");
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新用户%s 角色：%s", sysUser.getUsername(), StringUtils.join(rIds, ",")));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户%s 角色：%s", sysUser.getUsername(), StringUtils.join(rIds, ",")));
         return success(FormUtils.SUCCESS);
     }
 

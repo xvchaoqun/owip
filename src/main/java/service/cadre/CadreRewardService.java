@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
@@ -106,11 +107,11 @@ public class CadreRewardService extends BaseMapper {
     public void modifyApply(CadreReward record, Integer id, byte rewardType, boolean isDelete){
 
         byte module = 0;
-        if(rewardType==SystemConstants.CADRE_REWARD_TYPE_TEACH){
+        if(rewardType== CadreConstants.CADRE_REWARD_TYPE_TEACH){
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH;
-        }else if(rewardType==SystemConstants.CADRE_REWARD_TYPE_RESEARCH){
+        }else if(rewardType==CadreConstants.CADRE_REWARD_TYPE_RESEARCH){
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH;
-        }else if(rewardType==SystemConstants.CADRE_REWARD_TYPE_OTHER){
+        }else if(rewardType==CadreConstants.CADRE_REWARD_TYPE_OTHER){
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER;
         }
 

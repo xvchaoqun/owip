@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -108,11 +108,11 @@ public class CetTrainEvaNormController extends CetBaseController {
 
         if (id == null) {
             cetTrainEvaNormService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "添加评估指标：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加评估指标：%s", record.getId()));
         } else {
 
             cetTrainEvaNormService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "更新评估指标：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新评估指标：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -145,7 +145,7 @@ public class CetTrainEvaNormController extends CetBaseController {
         if (id != null) {
 
             //cetTrainEvaNormService.del(id);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "删除评估指标：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除评估指标：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -158,7 +158,7 @@ public class CetTrainEvaNormController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetTrainEvaNormService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量删除评估指标：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除评估指标：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -170,7 +170,7 @@ public class CetTrainEvaNormController extends CetBaseController {
     public Map do_cetTrainEvaNorm_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetTrainEvaNormService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_ADMIN, "评估指标调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "评估指标调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

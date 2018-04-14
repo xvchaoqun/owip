@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -128,11 +128,11 @@ public class PmdSpecialUserController extends PmdBaseController {
         }
         if (id == null) {
             pmdSpecialUserService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PMD, "添加特殊人员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PMD, "添加特殊人员：%s", record.getId()));
         } else {
 
             pmdSpecialUserService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PMD, "更新特殊人员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PMD, "更新特殊人员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -187,7 +187,7 @@ public class PmdSpecialUserController extends PmdBaseController {
         if (id != null) {
 
             pmdSpecialUserService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PMD, "删除特殊人员：%s", id));
+            logger.info(addLog(LogConstants.LOG_PMD, "删除特殊人员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -200,7 +200,7 @@ public class PmdSpecialUserController extends PmdBaseController {
 
         if (null != ids && ids.length > 0) {
             pmdSpecialUserService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PMD, "批量删除特殊人员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PMD, "批量删除特殊人员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.CetConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -149,7 +149,7 @@ public class CetTrainCourseController extends CetBaseController {
                                                HttpServletRequest request) {
 
         cetTrainCourseService.selectCourses(trainId, courseIds);
-        logger.info(addLog(SystemConstants.LOG_CET, "添加培训班课程：%s, %s",trainId, StringUtils.join(courseIds, ",")));
+        logger.info(addLog(LogConstants.LOG_CET, "添加培训班课程：%s, %s",trainId, StringUtils.join(courseIds, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -250,7 +250,7 @@ public class CetTrainCourseController extends CetBaseController {
                                                 HttpServletRequest request) {
 
         cetTrainCourseService.selectObjs(trainCourseId, userIds);
-        logger.info(addLog(SystemConstants.LOG_CET, "设置参训人员：%s, %s",trainCourseId, StringUtils.join(userIds, ",")));
+        logger.info(addLog(LogConstants.LOG_CET, "设置参训人员：%s, %s",trainCourseId, StringUtils.join(userIds, ",")));
 
         return success(FormUtils.SUCCESS);
     }*/
@@ -316,7 +316,7 @@ public class CetTrainCourseController extends CetBaseController {
     public Map do_cetTrainCourse_info(CetTrainCourse record, HttpServletRequest request) {
 
         cetTrainCourseService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_CET, "更新培训班课程信息：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_CET, "更新培训班课程信息：%s", record.getId()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -335,7 +335,7 @@ public class CetTrainCourseController extends CetBaseController {
 
         if (null != ids && ids.length > 0) {
             cetTrainCourseService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_CET, "批量删除培训课程：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除培训课程：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -347,7 +347,7 @@ public class CetTrainCourseController extends CetBaseController {
     public Map do_cetTrainCourse_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetTrainCourseService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_CET, "培训课程调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_CET, "培训课程调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -418,11 +418,11 @@ public class CetTrainCourseController extends CetBaseController {
         if (id == null) {
 
             cetTrainCourseService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加培训课程：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加培训课程：%s", record.getId()));
         } else {
 
             cetTrainCourseService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新培训课程：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新培训课程：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -459,7 +459,7 @@ public class CetTrainCourseController extends CetBaseController {
     public Map do_cetTrainCourse_evaTable(int trainId, @RequestParam(value = "ids[]") Integer[] ids, int evaTableId) {
 
         cetTrainCourseService.evaTable(trainId, ids, evaTableId);
-        //logger.info(addLog(SystemConstants.LOG_ADMIN, "更新培训课程评估表：%s", id));
+        //logger.info(addLog(LogConstants.LOG_ADMIN, "更新培训课程评估表：%s", id));
 
         return success(FormUtils.SUCCESS);
     }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -109,11 +109,11 @@ public class CetDiscussController extends CetBaseController {
 
         if (id == null) {
             cetDiscussService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加分组研讨：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加分组研讨：%s", record.getId()));
         } else {
 
             cetDiscussService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新分组研讨：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新分组研讨：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -141,7 +141,7 @@ public class CetDiscussController extends CetBaseController {
         if (id != null) {
 
             cetDiscussService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除分组研讨：%s", id));
+            logger.info(addLog(LogConstants.LOG_CET, "删除分组研讨：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -154,7 +154,7 @@ public class CetDiscussController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetDiscussService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除分组研讨：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除分组研讨：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -166,7 +166,7 @@ public class CetDiscussController extends CetBaseController {
     public Map do_cetDiscuss_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetDiscussService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_CET, "分组研讨调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_CET, "分组研讨调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

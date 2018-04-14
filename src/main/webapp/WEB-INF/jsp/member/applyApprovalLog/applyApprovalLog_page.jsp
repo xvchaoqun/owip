@@ -13,7 +13,7 @@
     <div class="widget-toolbar no-border">
       <ul class="nav nav-tabs">
         <li class="active">
-          <a href="javascript:"><c:if test="${not empty sysUser}">${sysUser.realname}-</c:if>${APPLY_APPROVAL_LOG_TYPE_MAP.get(type)}-审核记录</a>
+          <a href="javascript:"><c:if test="${not empty sysUser}">${sysUser.realname}-</c:if>${OW_APPLY_APPROVAL_LOG_TYPE_MAP.get(type)}-审核记录</a>
         </li>
       </ul>
     </div>
@@ -40,14 +40,14 @@
       { label: '操作人', name: 'user.realname', width: 150 },
       { label:'审核结果',  name: 'statusName', width: 100, formatter:function(cellvalue, options, rowObject){
         //return cellvalue==0?"未通过":"通过";
-        return _cMap.APPLY_APPROVAL_LOG_STATUS_MAP[rowObject.status];
+        return _cMap.OW_APPLY_APPROVAL_LOG_STATUS_MAP[rowObject.status];
       } },
       { label:'备注',  name: 'remark', width: 450 },
       { label:'IP',  name: 'ip', width: 150 },{hidden: true, name: 'status'}
     ],
     rowattr: function(rowData, currentObj, rowId)
     {
-      if(rowData.status=='${APPLY_APPROVAL_LOG_STATUS_BACK}') {
+      if(rowData.status=='${OW_APPLY_APPROVAL_LOG_STATUS_BACK}') {
         //console.log(rowData)
         return {'class':'danger'}
       }

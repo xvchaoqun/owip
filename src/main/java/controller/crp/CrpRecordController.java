@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.CrpConstants;
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -156,11 +157,11 @@ public class CrpRecordController extends BaseController {
 
         if (id == null) {
             crpRecordService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部挂职锻炼：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部挂职锻炼：%s", record.getId()));
         } else {
 
             crpRecordService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部挂职锻炼：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部挂职锻炼：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -192,7 +193,7 @@ public class CrpRecordController extends BaseController {
         if (id != null) {
 
             crpRecordService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部挂职锻炼：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除干部挂职锻炼：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -217,7 +218,7 @@ public class CrpRecordController extends BaseController {
         if (id != null) {
 
             crpRecordService.finish(id, realEndDate);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "干部挂职结束：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "干部挂职结束：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -230,7 +231,7 @@ public class CrpRecordController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             crpRecordService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部挂职锻炼：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部挂职锻炼：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -263,7 +264,7 @@ public class CrpRecordController extends BaseController {
             }
             byte type = record.getType();
             String toUnit = "";
-            if(type==SystemConstants.CRP_RECORD_TYPE_IN){
+            if(type== CrpConstants.CRP_RECORD_TYPE_IN){
                 toUnit = record.getToUnit();
             }else{
                 MetaType metaType = metaTypeMap.get(record.getToUnitType());

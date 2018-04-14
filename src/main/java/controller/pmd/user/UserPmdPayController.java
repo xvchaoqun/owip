@@ -1,7 +1,7 @@
 package controller.pmd.user;
 
-import controller.pmd.PmdBaseController;
 import controller.global.OpException;
+import controller.pmd.PmdBaseController;
 import domain.member.Member;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMonth;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.pmd.PayFormWszfBean;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.PropertiesUtils;
@@ -77,7 +77,7 @@ public class UserPmdPayController extends PmdBaseController {
     public Map do_payConfirm_wszf(int monthId) {
 
         PayFormWszfBean payFormBean = pmdPayWszfService.payConfirm(monthId);
-        logger.info(addLog(SystemConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
+        logger.info(addLog(LogConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(payFormBean, false)));
 
         return success(FormUtils.SUCCESS);
@@ -162,7 +162,7 @@ public class UserPmdPayController extends PmdBaseController {
         checkPayAuth(id, isSelfPay);
 
         PmdOrderCampuscard order = pmdPayCampusCardService.payConfirm(id, isSelfPay);
-        logger.info(addLog(SystemConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
+        logger.info(addLog(LogConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(order, false)));
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);

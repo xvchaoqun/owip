@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -64,7 +64,7 @@ public class PcsPrFileTemplateController extends PcsBaseController {
             pcsPrFileTemplateMapper.updateByPrimaryKeySelective(record);
         }
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "添加/修改党员大会材料：%s", JSONUtils.toString(record, false)));
+        logger.info(addLog(LogConstants.LOG_PCS, "添加/修改党员大会材料：%s", JSONUtils.toString(record, false)));
         return success(FormUtils.SUCCESS);
     }
 
@@ -88,7 +88,7 @@ public class PcsPrFileTemplateController extends PcsBaseController {
         PcsPrFileTemplate pcsPrFileTemplate = pcsPrFileTemplateMapper.selectByPrimaryKey(id);
         pcsPrFileTemplateService.del(id);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "删除党员大会材料：%s", JSONUtils.toString(pcsPrFileTemplate, false)));
+        logger.info(addLog(LogConstants.LOG_PCS, "删除党员大会材料：%s", JSONUtils.toString(pcsPrFileTemplate, false)));
         return success(FormUtils.SUCCESS);
     }
 
@@ -98,7 +98,7 @@ public class PcsPrFileTemplateController extends PcsBaseController {
     public Map do_pcsPrFileTemplate_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         pcsPrFileTemplateService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_PCS, "党员大会材料调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_PCS, "党员大会材料调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 }

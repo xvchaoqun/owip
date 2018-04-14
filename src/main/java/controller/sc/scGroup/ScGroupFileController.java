@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
@@ -85,7 +85,7 @@ public class ScGroupFileController extends ScGroupBaseController {
 
         scGroupFileService.batchAdd(records);
 
-        logger.info(addLog(SystemConstants.LOG_SC_GROUP, "批量添加小组会成立文件：%s",  JSONUtils.toString(records, false)));
+        logger.info(addLog(LogConstants.LOG_SC_GROUP, "批量添加小组会成立文件：%s",  JSONUtils.toString(records, false)));
         return success(FormUtils.SUCCESS);
     }
 
@@ -96,7 +96,7 @@ public class ScGroupFileController extends ScGroupBaseController {
 
         if (id != null) {
             scGroupFileService.del(id);
-            logger.info(addLog(SystemConstants.LOG_SC_GROUP, "删除小组会成立文件：%s", id));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "删除小组会成立文件：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -108,7 +108,7 @@ public class ScGroupFileController extends ScGroupBaseController {
 
         if (id != null) {
             scGroupFileService.setCurrent(id);
-            logger.info(addLog(SystemConstants.LOG_SC_GROUP, "应用小组会成立文件：%s", id));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "应用小组会成立文件：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -119,7 +119,7 @@ public class ScGroupFileController extends ScGroupBaseController {
     public Map do_scGroupFile_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         scGroupFileService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_SC_GROUP, "干部工作小组会成立文件调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_SC_GROUP, "干部工作小组会成立文件调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 }

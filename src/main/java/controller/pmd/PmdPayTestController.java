@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import service.pmd.PayNotifyWszfBean;
 import service.pmd.PmdPayBranchService;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.DateUtils;
 import sys.utils.JSONUtils;
 import sys.utils.MD5Util;
@@ -51,7 +51,7 @@ public class PmdPayTestController extends PmdBaseController {
 
      delete from pmd_branch where branch_id  not in(1152,1157,1164,1168);
      */
-    @RequestMapping("/ab")
+    //@RequestMapping("/ab")
     public void ab( HttpServletResponse response) throws IOException {
 
         PmdMonth currentMonth = pmdMonthService.getMonth(new Date());
@@ -155,7 +155,7 @@ public class PmdPayTestController extends PmdBaseController {
         modelMap.put("sign", sign);
 
         logger.info(addLog(ShiroHelper.getCurrentUserId(), ShiroHelper.getCurrentUsername(),
-                SystemConstants.LOG_PMD, "test跳转支付页面：%s", md5Str));
+                LogConstants.LOG_PMD, "test跳转支付页面：%s", md5Str));
 
         return "pmd/pay/test";
     }

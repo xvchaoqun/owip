@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.utils.FormUtils;
 
@@ -59,7 +59,7 @@ public class SysConfigController extends BaseController {
 
         record.setDisplayLoginMsg(BooleanUtils.isTrue(record.getDisplayLoginMsg()));
         sysConfigService.insertOrUpdate(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新系统配置：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新系统配置：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }

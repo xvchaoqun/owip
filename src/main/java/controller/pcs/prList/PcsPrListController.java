@@ -1,7 +1,7 @@
 package controller.pcs.prList;
 
-import controller.pcs.PcsBaseController;
 import controller.global.OpException;
+import controller.pcs.PcsBaseController;
 import controller.pcs.pr.PcsPrCandidateFormBean;
 import domain.cadre.CadreView;
 import domain.member.Member;
@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
@@ -145,7 +147,7 @@ public class PcsPrListController extends PcsBaseController {
         List<PcsPrCandidateFormBean> records = GsonUtils.toBeans(items, PcsPrCandidateFormBean.class);
         pcsPrListService.submit(configId, partyId, records);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "分党委提交党代表名单：%s-%s-%s", configId, stage, partyId));
+        logger.info(addLog(LogConstants.LOG_PCS, "分党委提交党代表名单：%s-%s-%s", configId, stage, partyId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -235,7 +237,7 @@ public class PcsPrListController extends PcsBaseController {
 
         pcsPrPartyService.report(partyId, configId, stage);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
+        logger.info(addLog(LogConstants.LOG_PCS, "[分党委管理员]报送-%s(%s)", currentPcsConfig.getName(),
                 PcsConstants.PCS_STAGE_MAP.get(stage)));
 
         return success(FormUtils.SUCCESS);
@@ -296,7 +298,7 @@ public class PcsPrListController extends PcsBaseController {
 
                     TeacherInfo teacherInfo = teacherService.get(userId);
                     CadreView cv = cadreService.dbFindByUserId(userId);
-                    if(cv!=null && SystemConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())){
+                    if(cv!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())){
                         // 是干部
                         candidate.setUserType(PcsConstants.PCS_PR_USER_TYPE_CADRE);
                         candidate.setEduId(cv.getEduId());

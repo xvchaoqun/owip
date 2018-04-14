@@ -13,8 +13,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.FormUtils;
 
@@ -76,10 +77,10 @@ public class UserRetireApplyController extends MemberBaseController {
         retireApply.setUserId(loginUser.getId());
         retireApply.setApplyId(loginUser.getId());
         retireApply.setCreateTime(new Date());
-        retireApply.setStatus(SystemConstants.RETIRE_APPLY_STATUS_UNCHECKED);
+        retireApply.setStatus(OwConstants.OW_RETIRE_APPLY_STATUS_UNCHECKED);
 
         retireApplyService.insertSelective(retireApply);
-        logger.info(addLog(SystemConstants.LOG_USER, "党员退休-本人提交"));
+        logger.info(addLog(LogConstants.LOG_USER, "党员退休-本人提交"));
         return success(FormUtils.SUCCESS);
     }
 }

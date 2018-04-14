@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.jackson.Select2Option;
 import sys.utils.FormUtils;
@@ -60,12 +60,12 @@ public class SitemapController extends BaseController {
         if(sitemap.getId() == null){
 
             sitemapService.insert(sitemap);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加网站导航：%s", JSONUtils.toString(sitemap, MixinUtils.baseMixins(),  false)));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加网站导航：%s", JSONUtils.toString(sitemap, MixinUtils.baseMixins(),  false)));
 
         }else{
 
             sitemapService.updateByPrimaryKeySelective(sitemap);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新网站导航：%s", JSONUtils.toString(sitemap, MixinUtils.baseMixins(), false)));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新网站导航：%s", JSONUtils.toString(sitemap, MixinUtils.baseMixins(), false)));
         }
 
         return success(FormUtils.SUCCESS);
@@ -115,7 +115,7 @@ public class SitemapController extends BaseController {
         if(id!=null){
 
             sitemapService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除网站导航：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除网站导航：%s", id));
         }
 
         return success(FormUtils.SUCCESS);
@@ -174,7 +174,7 @@ public class SitemapController extends BaseController {
                                 HttpServletRequest request) {
 
         sitemapService.updateRoles(id, roleIds);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "分配网站导航所属角色 %s, %s", id, StringUtils.join(roleIds, ",")));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "分配网站导航所属角色 %s, %s", id, StringUtils.join(roleIds, ",")));
         return success(FormUtils.SUCCESS);
     }
 

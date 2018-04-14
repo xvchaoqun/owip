@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -95,7 +95,7 @@ public class CadrePostAdminController extends BaseController {
 
         if (id == null) {
             cadrePostAdminService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加管理岗位过程信息：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加管理岗位过程信息：%s", record.getId()));
         } else {
             // 干部信息本人直接修改数据校验
             CadrePostAdmin _record = cadrePostAdminMapper.selectByPrimaryKey(id);
@@ -103,7 +103,7 @@ public class CadrePostAdminController extends BaseController {
                 throw new IllegalArgumentException("数据异常");
             }
             cadrePostAdminService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新管理岗位过程信息：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新管理岗位过程信息：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -136,7 +136,7 @@ public class CadrePostAdminController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadrePostAdminService.batchDel(ids, cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除管理岗位过程信息：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除管理岗位过程信息：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

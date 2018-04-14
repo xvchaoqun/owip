@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -158,11 +158,11 @@ public class ScCommitteeController extends ScCommitteeBaseController {
         record.setLogFile(uploadPdf(_logFile, "scCommittee-log"));
         if (id == null) {
             scCommitteeService.insertSelective(record, scCommitteeMembers);
-            logger.info(addLog( SystemConstants.LOG_SC_COMMITTEE, "添加党委常委会：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "添加党委常委会：%s", record.getId()));
         } else {
 
             scCommitteeService.updateByPrimaryKeySelective(record, scCommitteeMembers);
-            logger.info(addLog( SystemConstants.LOG_SC_COMMITTEE, "更新党委常委会：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "更新党委常委会：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -204,7 +204,7 @@ public class ScCommitteeController extends ScCommitteeBaseController {
 
         if (null != ids && ids.length>0){
             scCommitteeService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_COMMITTEE, "批量删除党委常委会：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "批量删除党委常委会：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

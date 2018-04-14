@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pcs.common.PcsPrAllocateBean;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.gson.GsonUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -51,7 +51,7 @@ public class PcsPrAllocateController extends PcsBaseController {
 
         pcsPrAlocateService.batchUpdate(configId, records);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "更新党代表分配方案：%s", JSONUtils.toString(records)));
+        logger.info(addLog(LogConstants.LOG_PCS, "更新党代表分配方案：%s", JSONUtils.toString(records)));
 
         return success(FormUtils.SUCCESS);
     }

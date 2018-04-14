@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -61,10 +62,10 @@ public class MemberStudentInfoController extends MemberBaseController {
 
         if (userId == null) {
             studentService.insertSelective(studentInfo);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "添加学生党员基本信息：%s", studentInfo.getUserId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "添加学生党员基本信息：%s", studentInfo.getUserId()));
         } else {
             studentService.updateByPrimaryKeySelective(studentInfo);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "更新学生党员基本信息：%s", studentInfo.getUserId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "更新学生党员基本信息：%s", studentInfo.getUserId()));
         }
 
         // 更新基本信息

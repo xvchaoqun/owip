@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
@@ -111,11 +111,11 @@ public class FeedbackController extends BaseController {
             record.setCreateTime(new Date());
             record.setIp(ContextHelper.getRealIp());
             feedbackService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "添加系统反馈意见：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_USER, "添加系统反馈意见：%s", record.getId()));
         } else {
 
             feedbackService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "更新系统反馈意见：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_USER, "更新系统反馈意见：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -140,7 +140,7 @@ public class FeedbackController extends BaseController {
         if (id != null) {
 
             feedbackService.del(id);
-            logger.info(addLog(SystemConstants.LOG_USER, "删除系统反馈意见：%s", id));
+            logger.info(addLog(LogConstants.LOG_USER, "删除系统反馈意见：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -152,7 +152,7 @@ public class FeedbackController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             feedbackService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_USER, "批量删除系统反馈意见：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_USER, "批量删除系统反馈意见：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

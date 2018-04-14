@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.PropertiesUtils;
@@ -78,7 +78,7 @@ public class PcsPartyAdminController extends PcsBaseController {
         // 添加本单位管理员
         record.setPartyId( pcsAdmin.getPartyId());
         pcsAdminService.addOrUpdate(record, mobile);
-        logger.info(addLog(SystemConstants.LOG_PCS, "[分党委书记]添加/修改党代会分党委管理员：%s-%s"
+        logger.info(addLog(LogConstants.LOG_PCS, "[分党委书记]添加/修改党代会分党委管理员：%s-%s"
                 , JSONUtils.toString(record, false), mobile));
 
         return success(FormUtils.SUCCESS);
@@ -117,7 +117,7 @@ public class PcsPartyAdminController extends PcsBaseController {
 
         pcsAdminService.batchDel(new Integer[]{id});
         SysUserView user = admin.getUser();
-        logger.info(addLog(SystemConstants.LOG_PCS, "[分党委书记]删除党代会分党委管理员-%s(%s)", user.getRealname(), user.getCode()));
+        logger.info(addLog(LogConstants.LOG_PCS, "[分党委书记]删除党代会分党委管理员-%s(%s)", user.getRealname(), user.getCode()));
 
         return success(FormUtils.SUCCESS);
     }

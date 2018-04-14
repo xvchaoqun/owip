@@ -55,7 +55,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select required name="type" data-rel="select2" data-placeholder="请选择阶段">
                         <option></option>
-                        <c:forEach items="${APPLY_STAGE_MAP}" var="type">
+                        <c:forEach items="${OW_APPLY_STAGE_MAP}" var="type">
                             <c:if test="${type.key>0}">
                             <option value="${type.key}">${type.value}</option>
                             </c:if>

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -151,11 +152,11 @@ public class UnitController extends BaseController {
             record.setCreateTime(new Date());
             record.setStatus(SystemConstants.UNIT_STATUS_RUN);
             unitService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加单位：%s", record.getId()));
         } else {
 
             unitService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新单位：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -180,7 +181,7 @@ public class UnitController extends BaseController {
         if (id != null) {
 
             unitService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除单位：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除单位：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -203,7 +204,7 @@ public class UnitController extends BaseController {
         if (null != ids){
             
             unitService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除单位：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除单位：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -215,7 +216,7 @@ public class UnitController extends BaseController {
     public Map do_unit_changeOrder(Integer id, byte status, Integer addNum, HttpServletRequest request) {
 
         unitService.changeOrder(id, status, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "单位调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "单位调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

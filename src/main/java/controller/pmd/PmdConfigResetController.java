@@ -11,7 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 
@@ -67,7 +67,7 @@ public class PmdConfigResetController extends PmdBaseController {
     public Map do_pmdConfigReset_au(String salaryMonth, HttpServletRequest request) {
 
         pmdConfigResetService.reset(salaryMonth);
-        logger.info(addLog(SystemConstants.LOG_PMD, "党费收缴-设置党费重新计算工资月份：%s", salaryMonth));
+        logger.info(addLog(LogConstants.LOG_PMD, "党费收缴-设置党费重新计算工资月份：%s", salaryMonth));
 
         return success(FormUtils.SUCCESS);
     }

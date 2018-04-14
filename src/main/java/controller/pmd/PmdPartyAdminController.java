@@ -9,7 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.FormUtils;
 
@@ -42,7 +42,7 @@ public class PmdPartyAdminController extends PmdBaseController {
 
         pmdPartyAdminService.add(partyId, userId);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "添加缴费分党委管理员：%s， %s", partyId, userId));
+        logger.info(addLog(LogConstants.LOG_PMD, "添加缴费分党委管理员：%s， %s", partyId, userId));
         return success(FormUtils.SUCCESS);
     }
 
@@ -53,7 +53,7 @@ public class PmdPartyAdminController extends PmdBaseController {
                                     HttpServletRequest request, Integer id) {
 
         pmdPartyAdminService.del(id);
-        logger.info(addLog(SystemConstants.LOG_PMD, "删除缴费分党委管理员：%s", id));
+        logger.info(addLog(LogConstants.LOG_PMD, "删除缴费分党委管理员：%s", id));
         return success(FormUtils.SUCCESS);
     }
 
@@ -63,7 +63,7 @@ public class PmdPartyAdminController extends PmdBaseController {
     public Map do_pmdPartyAdmin_sync() {
 
         pmdPartyAdminService.syncPartyAdmins();
-        logger.info(addLog(SystemConstants.LOG_PMD, "同步缴费分党委管理员"));
+        logger.info(addLog(LogConstants.LOG_PMD, "同步缴费分党委管理员"));
         return success(FormUtils.SUCCESS);
     }
 }

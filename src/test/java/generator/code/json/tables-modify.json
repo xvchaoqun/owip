@@ -12,7 +12,7 @@
       "searchColumns": "cadre_id",
       "showColumns": "cadre_id,start_time,end_time,is_unlimited,add_time,add_user_id,add_ip",
       "excludeEditColumns": "id",
-      "logType":"SystemConstants.LOG_ADMIN",
+      "logType":"LogConstants.LOG_ADMIN",
       "ignore": false
     }
   ]

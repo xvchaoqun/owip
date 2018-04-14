@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -141,7 +141,7 @@ public class HtmlFragmentController extends BaseController {
 
         if (null != ids) {
             htmlFragmentService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除配置：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除配置：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -157,7 +157,7 @@ public class HtmlFragmentController extends BaseController {
             roleId = -1;
         }
         htmlFragmentService.updateRoles(id, roleId);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新系统配置所属角色 %s, %s", id, roleId));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新系统配置所属角色 %s, %s", id, roleId));
         return success(FormUtils.SUCCESS);
     }
 

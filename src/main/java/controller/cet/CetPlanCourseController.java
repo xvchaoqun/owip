@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CetConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -114,7 +114,7 @@ public class CetPlanCourseController extends CetBaseController {
                                                HttpServletRequest request) {
 
         cetPlanCourseService.selectCourses(planId, courseIds);
-        logger.info(addLog(SystemConstants.LOG_CET, "添加培训班课程：%s, %s",planId, StringUtils.join(courseIds, ",")));
+        logger.info(addLog(LogConstants.LOG_CET, "添加培训班课程：%s, %s",planId, StringUtils.join(courseIds, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -141,7 +141,7 @@ public class CetPlanCourseController extends CetBaseController {
                                         HttpServletRequest request) {
 
         cetPlanCourseService.selectObjs(ids, select, planCourseId);
-        logger.info(addLog(SystemConstants.LOG_CET, "选择学员/取消选择： %s, %s, %s",
+        logger.info(addLog(LogConstants.LOG_CET, "选择学员/取消选择： %s, %s, %s",
                 StringUtils.join(ids, ","), select, planCourseId));
 
         return success(FormUtils.SUCCESS);
@@ -206,7 +206,7 @@ public class CetPlanCourseController extends CetBaseController {
     public Map do_cetPlanCourse_info(CetPlanCourse record, HttpServletRequest request) {
 
         cetPlanCourseService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_CET, "更新培训班课程信息：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_CET, "更新培训班课程信息：%s", record.getId()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -225,17 +225,17 @@ public class CetPlanCourseController extends CetBaseController {
     @RequiresPermissions("cetProjectPlan:edit")
     @RequestMapping(value = "/cetPlanCourse_upload", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetPlanCourse_upload(int cetPlanCourseId, MultipartFile _file, HttpServletRequest request) throws IOException, InterruptedException {
+    public Map do_cetPlanCourse_upload(int planCourseId, MultipartFile _file, HttpServletRequest request) throws IOException, InterruptedException {
 
         if(_file!=null) {
             String savePath = upload(_file, "cetPlanCourse");
             if(savePath!=null) {
                 CetPlanCourse record = new CetPlanCourse();
-                record.setId(cetPlanCourseId);
+                record.setId(planCourseId);
                 record.setFileName(FileUtils.getFileName(_file.getOriginalFilename()));
                 record.setFilePath(savePath);
                 cetPlanCourseService.updateByPrimaryKeySelective(record);
-                logger.info(addLog(SystemConstants.LOG_CET, "上传附件：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_CET, "上传附件：%s", record.getId()));
             }
         }
         return success(FormUtils.SUCCESS);
@@ -257,7 +257,7 @@ public class CetPlanCourseController extends CetBaseController {
         if (id != null) {
 
             cetPlanCourseService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除培训方案包含的培训课程：%s", id));
+            logger.info(addLog(LogConstants.LOG_CET, "删除培训方案包含的培训课程：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -270,7 +270,7 @@ public class CetPlanCourseController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetPlanCourseService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除培训方案包含的培训课程：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除培训方案包含的培训课程：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -282,7 +282,7 @@ public class CetPlanCourseController extends CetBaseController {
     public Map do_cetPlanCourse_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetPlanCourseService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_CET, "培训方案包含的培训课程调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_CET, "培训方案包含的培训课程调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.crs.common.ICrsExpert;
 import sys.constants.CisConstants;
 import sys.constants.CrsConstants;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -164,11 +165,11 @@ public class CrsExpertController extends CrsBaseController {
         if (id == null) {
             record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_NOW);
             crsExpertService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_CRS, "添加干部考察组成员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CRS, "添加干部考察组成员：%s", record.getId()));
         } else {
 
             crsExpertService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_CRS, "更新干部考察组成员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CRS, "更新干部考察组成员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -193,7 +194,7 @@ public class CrsExpertController extends CrsBaseController {
         if (null != ids && ids.length > 0) {
 
             crsExpertService.abolish(ids);
-            logger.info(addLog(SystemConstants.LOG_CRS, "撤销干部考察组成员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CRS, "撤销干部考察组成员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -207,7 +208,7 @@ public class CrsExpertController extends CrsBaseController {
         if (null != ids && ids.length > 0) {
 
             crsExpertService.reuse(ids);
-            logger.info(addLog(SystemConstants.LOG_CRS, "重新任用干部考察组成员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CRS, "重新任用干部考察组成员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -223,7 +224,7 @@ public class CrsExpertController extends CrsBaseController {
         if (null != ids && ids.length > 0) {
 
             crsExpertService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_CRS, "批量删除干部考察组成员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CRS, "批量删除干部考察组成员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pcs.common.PcsPartyBean;
 import persistence.pcs.common.PcsPrPartyBean;
+import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -187,7 +187,7 @@ public class PcsPrOwController extends PcsBaseController {
                 BooleanUtils.isTrue(status) ? PcsConstants.PCS_PR_RECOMMEND_STATUS_PASS
                         : PcsConstants.PCS_PR_RECOMMEND_STATUS_DENY, remark);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "[组织部管理员]审核分党委推荐-%s-%s-%s-%s",
+        logger.info(addLog(LogConstants.LOG_PCS, "[组织部管理员]审核分党委推荐-%s-%s-%s-%s",
                 configId, stage, partyIds, status));
         return success(FormUtils.SUCCESS);
     }

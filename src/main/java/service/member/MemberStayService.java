@@ -20,8 +20,8 @@ import service.party.BranchService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -195,10 +195,10 @@ public class MemberStayService extends BaseMapper {
 
         applyApprovalLogService.add(memberStay.getId(),
                 memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(),
-                ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
+                ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
                 "撤回",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "撤回暂留申请");
     }
 
@@ -374,9 +374,9 @@ public class MemberStayService extends BaseMapper {
             int userId = memberStay.getUserId();
             applyApprovalLogService.add(memberStay.getId(),
                     memberStay.getPartyId(), memberStay.getBranchId(), userId,
-                    loginUserId, (type == 1) ? SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH :
-                            (type == 2) ? SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY : SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, (type == 1)
+                    loginUserId, (type == 1) ? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH :
+                            (type == 2) ? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY : OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, (type == 1)
                             ? "支部审核" : (type == 2)
                             ? "分党委审核" : "组织部审核", (byte) 1, null);
         }
@@ -434,8 +434,8 @@ public class MemberStayService extends BaseMapper {
 
         applyApprovalLogService.add(id,
                 memberStay.getPartyId(), memberStay.getBranchId(), userId,
-                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, MemberConstants.MEMBER_STAY_STATUS_MAP.get(status),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY, MemberConstants.MEMBER_STAY_STATUS_MAP.get(status),
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

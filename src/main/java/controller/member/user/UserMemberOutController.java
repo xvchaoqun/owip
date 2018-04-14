@@ -14,9 +14,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -92,20 +93,20 @@ public class UserMemberOutController extends MemberBaseController {
         record.setIsBack(false);
         if (memberOut == null) {
             memberOutService.insertOrUpdateSelective(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "提交组织关系转出申请"));
+            logger.info(addLog(LogConstants.LOG_USER, "提交组织关系转出申请"));
 
             memberOut = record;
         } else {
             memberOutService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "修改组织关系转出申请"));
+            logger.info(addLog(LogConstants.LOG_USER, "修改组织关系转出申请"));
         }
 
         applyApprovalLogService.add(memberOut.getId(),
                 memberOut.getPartyId(), memberOut.getBranchId(), memberOut.getUserId(),
-                userId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
+                userId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
                 "提交",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "提交组织关系转出申请");
 
         return success(FormUtils.SUCCESS);
@@ -119,7 +120,7 @@ public class UserMemberOutController extends MemberBaseController {
         int userId = loginUser.getId();
         memberOutService.back(userId);
 
-        logger.info(addLog(SystemConstants.LOG_USER, "取消组织关系转出申请"));
+        logger.info(addLog(LogConstants.LOG_USER, "取消组织关系转出申请"));
         return success(FormUtils.SUCCESS);
     }
 }

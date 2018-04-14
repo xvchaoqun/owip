@@ -21,6 +21,7 @@ import service.modify.ModifyCadreAuthService;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 import sys.constants.CrsConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -318,12 +319,12 @@ public class CrsApplicantService extends BaseMapper {
         int cadreId;
         if(cv!=null ){
             cadreId = cv.getId();
-            Assert.isTrue(cv.getStatus()==SystemConstants.CADRE_STATUS_RECRUIT, "应聘干部状态异常");
+            Assert.isTrue(cv.getStatus()==CadreConstants.CADRE_STATUS_RECRUIT, "应聘干部状态异常");
         }else{
             // 普通教师 第一次访问的情况，需要先初始化 应聘干部
             Cadre record  = new Cadre();
             record.setUserId(userId);
-            record.setStatus(SystemConstants.CADRE_STATUS_RECRUIT);
+            record.setStatus(CadreConstants.CADRE_STATUS_RECRUIT);
             cadreService.insertSelective(record);
 
             cadreId = record.getId();

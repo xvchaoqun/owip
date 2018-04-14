@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.dispatch.DispatchCadreRelateService;
 import shiro.ShiroHelper;
+import sys.constants.DispatchConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
@@ -108,7 +109,7 @@ public class CadreWorkService extends BaseMapper {
                     subCadreWorkIds.add(subCadreWork.getId());
                 }
                 // 同时删除关联的任免文件
-                dispatchCadreRelateService.delDispatchCadreRelates(subCadreWorkIds, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
+                dispatchCadreRelateService.delDispatchCadreRelates(subCadreWorkIds, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
             }
         }
 
@@ -135,7 +136,7 @@ public class CadreWorkService extends BaseMapper {
         }
 
         // 同时删除关联的任免文件
-        dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(ids),  SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
+        dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(ids),  DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
     }
 
     @Transactional

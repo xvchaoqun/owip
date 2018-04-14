@@ -2,11 +2,16 @@ package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import service.cet.CetCourseService;
+import service.cet.CetPlanCourseObjService;
 import service.cet.CetPlanCourseService;
 import sys.tags.CmTag;
+import sys.utils.ContextHelper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CetPlanCourse implements Serializable {
 
@@ -21,6 +26,27 @@ public class CetPlanCourse implements Serializable {
 
         CetPlanCourseService cetPlanCourseService = CmTag.getBean(CetPlanCourseService.class);
         return cetPlanCourseService.getSelectedCount(id);
+    }
+
+    public Map getObjInfo() {
+
+        HttpServletRequest request = ContextHelper.getRequest();
+        if (request == null) return null;
+
+        Map<String, Object> resultMap = new HashMap<>();
+
+        Integer userId = (Integer) request.getAttribute("userId");
+        if (userId == null ) return null;
+
+        // 培训方案选课页面(自主学习和上级专题班)
+        CetPlanCourseObjService cetPlanCourseObjService = CmTag.getBean(CetPlanCourseObjService.class);
+        CetPlanCourseObj cpo = cetPlanCourseObjService.getByUserId(userId, id);
+        if(cpo!=null) {
+            resultMap.put("planCourseObjId", cpo.getId());
+            resultMap.put("note", cpo.getNote());
+            resultMap.put("isFinished", cpo.getIsFinished());
+        }
+        return resultMap;
     }
 
     private Integer id;

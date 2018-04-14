@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import service.sc.scCommittee.ScCommitteeService;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -141,11 +141,11 @@ public class ScDispatchController extends ScDispatchBaseController {
         }
         if (id == null) {
             scDispatchService.insertSelective(record, committeeIds, voteIds);
-            logger.info(addLog( SystemConstants.LOG_SC_DISPATCH, "添加文件起草签发：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "添加文件起草签发：%s", record.getId()));
         } else {
 
             scDispatchService.updateByPrimaryKeySelective(record, committeeIds, voteIds);
-            logger.info(addLog( SystemConstants.LOG_SC_DISPATCH, "更新文件起草签发：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "更新文件起草签发：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -240,7 +240,7 @@ public class ScDispatchController extends ScDispatchBaseController {
 
         if (null != ids && ids.length>0){
             scDispatchService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_DISPATCH, "批量删除文件起草签发：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "批量删除文件起草签发：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

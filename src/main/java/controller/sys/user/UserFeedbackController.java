@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
@@ -89,7 +89,7 @@ public class UserFeedbackController extends BaseController {
         record.setCreateTime(new Date());
         record.setIp(ContextHelper.getRealIp());
         feedbackService.insertSelective(record);
-        logger.info(addLog(SystemConstants.LOG_USER, "添加系统反馈意见：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_USER, "添加系统反馈意见：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }

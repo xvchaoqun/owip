@@ -12,7 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -115,7 +115,7 @@ public class MetaClassTypeController extends BaseController{
         MetaClass metaClass = metaClassService.codeKeyMap().get(cls);
 
         metaTypeService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, metaClass.getName() + "调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, metaClass.getName() + "调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 }

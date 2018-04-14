@@ -17,7 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -58,7 +58,7 @@ public class ShortMsgController extends BaseController {
 
         if(shortMsgService.send(shortMsgBean, IpUtils.getRealIp(request))){
 
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "发送短信：%s", shortMsgBean.getContent()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "发送短信：%s", shortMsgBean.getContent()));
             return success(FormUtils.SUCCESS);
         }
 

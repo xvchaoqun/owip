@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.party.MemberService;
 import service.sys.SysUserService;
-import sys.constants.SystemConstants;
+import sys.constants.OwConstants;
 
 import java.util.Date;
 import java.util.List;
@@ -43,7 +43,7 @@ public class RetireApplyService extends BaseMapper{
 
         RetireApply record = new RetireApply();
         record.setUserId(userId);
-        record.setStatus(SystemConstants.RETIRE_APPLY_STATUS_CHECKED);
+        record.setStatus(OwConstants.OW_RETIRE_APPLY_STATUS_CHECKED);
         record.setVerifyId(verifyId);
         record.setVerifyTime(new Date());
         retireApplyMapper.updateByPrimaryKeySelective(record);

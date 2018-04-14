@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
@@ -28,8 +28,8 @@ public class ApproverService extends BaseMapper {
         ApproverTypeBean approverTypeBean = CmTag.getApproverTypeBean(userId);
         if(approverTypeBean==null) return false;
         CadreView cadre = approverTypeBean.getCadre();
-        if ((cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE
-                && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER) ||
+        if ((cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
+                && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER) ||
                 !(approverTypeBean.getMainPostUnitIds().size()>0
                         || approverTypeBean.isManagerLeader()
                         || approverTypeBean.isApprover())) {

@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 import sys.utils.PropertiesUtils;
 
@@ -64,7 +65,7 @@ public class CadreBaseInfoController extends BaseController {
             if(dpTypeId!=null && _dpAddTime!=null){
                 CadreParty record = new CadreParty();
                 record.setUserId(userId);
-                record.setType(SystemConstants.CADRE_PARTY_TYPE_DP);
+                record.setType(CadreConstants.CADRE_PARTY_TYPE_DP);
                 record.setClassId(dpTypeId);
                 record.setGrowTime(_dpAddTime);
                 record.setRemark("干部本人添加");
@@ -103,7 +104,7 @@ public class CadreBaseInfoController extends BaseController {
         record.setEmail(email);
         sysUserService.insertOrUpdateUserInfoSelective(record);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部基本信息：%s ", cadreId));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部基本信息：%s ", cadreId));
         return success(FormUtils.SUCCESS);
     }
 }

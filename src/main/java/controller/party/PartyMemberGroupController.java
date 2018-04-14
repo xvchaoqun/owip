@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.dispatch.DispatchService;
 import service.dispatch.DispatchUnitService;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -167,7 +167,7 @@ public class PartyMemberGroupController extends BaseController {
 
         if (id == null) {
             partyMemberGroupService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "添加基层党组织领导班子：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "添加基层党组织领导班子：%s", record.getId()));
         } else {
 
             if(record.getFid()!=null && record.getFid().intValue()==record.getId()){
@@ -175,7 +175,7 @@ public class PartyMemberGroupController extends BaseController {
             }
 
             partyMemberGroupService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "更新基层党组织领导班子：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "更新基层党组织领导班子：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -222,7 +222,7 @@ public class PartyMemberGroupController extends BaseController {
         if (id != null) {
 
             partyMemberGroupService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "删除基层党组织领导班子：%s", id));
+            logger.info(addLog(LogConstants.LOG_PARTY, "删除基层党组织领导班子：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -237,7 +237,7 @@ public class PartyMemberGroupController extends BaseController {
 
         if (null != ids && ids.length>0){
             partyMemberGroupService.batchDel(ids, isDeleted);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除基层党组织领导班子：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除基层党组织领导班子：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -249,7 +249,7 @@ public class PartyMemberGroupController extends BaseController {
     public Map do_partyMemberGroup_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         partyMemberGroupService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_PARTY, "基层党组织领导班子调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_PARTY, "基层党组织领导班子调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

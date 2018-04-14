@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CetConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -120,11 +120,11 @@ public class CetTrainController extends CetBaseController {
         if (id == null) {
 
             cetTrainService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加培训班：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加培训班：%s", record.getId()));
         } else {
 
             cetTrainService.updateBase(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新培训班：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新培训班：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -176,7 +176,7 @@ public class CetTrainController extends CetBaseController {
         record.setSummary(summary);
         record.setHasSummary(StringUtils.isNotBlank(summary));
         cetTrainMapper.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_CET, "更新内容简介：%s", id));
+        logger.info(addLog(LogConstants.LOG_CET, "更新内容简介：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -191,7 +191,7 @@ public class CetTrainController extends CetBaseController {
         record.setEvaNote(evaNote);
 
         cetTrainMapper.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新培训评课说明：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新培训评课说明：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -231,7 +231,7 @@ public class CetTrainController extends CetBaseController {
         }*/
 
         cetTrainService.updateEvaCloseTime(trainId, BooleanUtils.isTrue(evaClosed), evaCloseTime);
-        //logger.info(addLog(SystemConstants.LOG_ADMIN, "更新培训评课关闭时间：%s", id));
+        //logger.info(addLog(LogConstants.LOG_ADMIN, "更新培训评课关闭时间：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -258,7 +258,7 @@ public class CetTrainController extends CetBaseController {
             record.setPubStatus(pubStatus);
             cetTrainMapper.updateByPrimaryKeySelective(record);
 
-            logger.info(addLog(SystemConstants.LOG_CET,
+            logger.info(addLog(LogConstants.LOG_CET,
                     CetConstants.CET_TRAIN_PUB_STATUS_MAP.get(pubStatus) + "培训班：%s", id));
         }
 
@@ -276,7 +276,7 @@ public class CetTrainController extends CetBaseController {
             record.setIsFinished(true);
             cetTrainMapper.updateByPrimaryKeySelective(record);
 
-            logger.info(addLog(SystemConstants.LOG_CET,
+            logger.info(addLog(LogConstants.LOG_CET,
                     "培训班结课：%s", id));
         }
 
@@ -291,7 +291,7 @@ public class CetTrainController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetTrainService.fakeDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除培训班：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除培训班：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -305,7 +305,7 @@ public class CetTrainController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetTrainService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除培训班：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除培训班：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

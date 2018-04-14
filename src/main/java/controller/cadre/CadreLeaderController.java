@@ -29,7 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -53,7 +54,7 @@ public class CadreLeaderController extends BaseController {
     @RequiresPermissions("cadreLeaderInfo:list")
     @RequestMapping("/cadreLeaderInfo")
     public String cadreLeaderInfo(@RequestParam(required = false,
-            defaultValue = SystemConstants.CADRE_STATUS_LEADER+"")Byte status,
+            defaultValue = CadreConstants.CADRE_STATUS_LEADER+"")Byte status,
                              Integer cadreId,ModelMap modelMap) {
 
         modelMap.put("status", status);
@@ -164,11 +165,11 @@ public class CadreLeaderController extends BaseController {
 
         if (id == null) {
             cadreLeaderService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加校领导：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加校领导：%s", record.getId()));
         } else {
 
             cadreLeaderService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新校领导：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新校领导：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -197,7 +198,7 @@ public class CadreLeaderController extends BaseController {
         if (id != null) {
 
             cadreLeaderService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除校领导：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除校领导：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -209,7 +210,7 @@ public class CadreLeaderController extends BaseController {
 
         if (null != ids){
             cadreLeaderService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除校领导：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除校领导：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -221,7 +222,7 @@ public class CadreLeaderController extends BaseController {
     public Map do_cadreLeader_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cadreLeaderService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "校领导调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "校领导调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

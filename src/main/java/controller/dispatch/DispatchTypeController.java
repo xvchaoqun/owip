@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -117,11 +117,11 @@ public class DispatchTypeController extends DispatchBaseController {
         if (id == null) {
             record.setCreateTime(new Date());
             dispatchTypeService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加发文类型：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加发文类型：%s", record.getId()));
         } else {
 
             dispatchTypeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新发文类型：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新发文类型：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -146,7 +146,7 @@ public class DispatchTypeController extends DispatchBaseController {
         if (id != null) {
             DispatchType dispatchType = dispatchTypeMapper.selectByPrimaryKey(id);
             dispatchTypeService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除发文类型：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除发文类型：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -159,7 +159,7 @@ public class DispatchTypeController extends DispatchBaseController {
 
         if (null != ids && ids.length>0){
             dispatchTypeService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除发文类型：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除发文类型：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -172,7 +172,7 @@ public class DispatchTypeController extends DispatchBaseController {
 
         DispatchType dispatchType = dispatchTypeMapper.selectByPrimaryKey(id);
         dispatchTypeService.changeOrder(id, addNum, dispatchType.getYear());
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "发文类型调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "发文类型调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

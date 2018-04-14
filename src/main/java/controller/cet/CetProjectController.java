@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CetConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -135,12 +135,12 @@ public class CetProjectController extends CetBaseController {
 
         if (id == null) {
             cetProjectService.insertSelective(record, traineeTypeIds);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加专题培训：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加专题培训：%s", record.getId()));
         } else {
             // 不改变培训类型
             record.setType(null);
             cetProjectService.updateWithTraineeTypes(record, traineeTypeIds);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新专题培训：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新专题培训：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -177,7 +177,7 @@ public class CetProjectController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetProjectService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除专题培训：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除专题培训：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -204,7 +204,7 @@ public class CetProjectController extends CetBaseController {
             }
             cetProjectMapper.updateByExampleSelective(record, example);
 
-            logger.info(addLog(SystemConstants.LOG_CET,
+            logger.info(addLog(LogConstants.LOG_CET,
                     "修改培训计划状态：%s %s", id, status));
         }
 
@@ -225,7 +225,7 @@ public class CetProjectController extends CetBaseController {
                     : CetConstants.CET_PROJECT_PUB_STATUS_CANCEL);
 
             cetProjectService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_CRS, (BooleanUtils.isTrue(publish) ? "发布" : "取消发布") + "培训计划：%s", id));
+            logger.info(addLog(LogConstants.LOG_CRS, (BooleanUtils.isTrue(publish) ? "发布" : "取消发布") + "培训计划：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }

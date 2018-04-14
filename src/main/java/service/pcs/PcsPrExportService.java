@@ -29,6 +29,7 @@ import service.cadre.CadreService;
 import service.sys.StudentInfoService;
 import service.sys.SysUserService;
 import service.sys.TeacherInfoService;
+import sys.constants.CadreConstants;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
@@ -338,7 +339,7 @@ public class PcsPrExportService extends BaseMapper {
 
             TeacherInfo teacherInfo = teacherService.get(userId);
             CadreView cv = cadreService.dbFindByUserId(userId);
-            if (cv != null && SystemConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())) {
+            if (cv != null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())) {
                 // 是干部
                 edu = metaTypeService.getName(cv.getEduId());
                 workTime = DateUtils.formatDate(cv.getWorkTime(), "yyyy.MM");

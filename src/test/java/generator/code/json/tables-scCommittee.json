@@ -12,7 +12,7 @@
       "searchColumns": "year,hold_date",
       "showColumns": "year,hold_date,file_path,topic_num,log_file,attend_users,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_COMMITTEE",
+      "logType": "LogConstants.LOG_SC_COMMITTEE",
       "ignore": false
     },{
       "table": "sc_committee_member",
@@ -20,7 +20,7 @@
       "searchColumns": "user_id",
       "showColumns": "user_id,is_absent,sort_order",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_COMMITTEE",
+      "logType": "LogConstants.LOG_SC_COMMITTEE",
       "ignore": false
     },{
       "table": "sc_committee_topic",
@@ -28,7 +28,7 @@
       "searchColumns": "committee_id,name",
       "showColumns": "committee_id,name,content,has_vote,has_other_vote,vote_file_path,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_COMMITTEE",
+      "logType": "LogConstants.LOG_SC_COMMITTEE",
       "ignore": false
     },{
       "table": "sc_committee_vote",
@@ -36,7 +36,7 @@
       "searchColumns": "topic_id,cadre_id",
       "showColumns": "topic_id,cadre_id,sort_order,type,original_post,original_post_time,cadre_type_id,way_id,procedure_id,post,post_id,admin_level_id,unit_id,aggree_count,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_COMMITTEE",
+      "logType": "LogConstants.LOG_SC_COMMITTEE",
       "ignore": false
     },{
       "table": "sc_committee_other_vote",
@@ -44,7 +44,7 @@
       "searchColumns": "topic_id",
       "showColumns": "topic_id,memo,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_COMMITTEE",
+      "logType": "LogConstants.LOG_SC_COMMITTEE",
       "ignore": false
     }
   ]

@@ -123,7 +123,7 @@ public class PassportService extends BaseMapper {
 
     // 判断是否重复（更新时，不修改类别） 0 不重复  1证件号码重复 2证件类别重复
     public int idDuplicate(Integer id, Byte type, int cadreId, int classId, String code) {
-        //Assert.isTrue(StringUtils.isNotBlank(code));
+        //Assert.isTrue(StringUtils.isNotBlank(code), "null");
 
         if (id != null) {
             Passport passport = passportMapper.selectByPrimaryKey(id);

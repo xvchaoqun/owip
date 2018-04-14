@@ -12,7 +12,7 @@
       "searchColumns": "year,dispatch_type_id",
       "showColumns": "year,dispatch_type_id,code,meeting_time,pub_time,file_path,sign_file_path,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_DISPATCH",
+      "logType": "LogConstants.LOG_SC_DISPATCH",
       "ignore": false
     },
     {
@@ -21,7 +21,7 @@
       "searchColumns": "dispatch_id",
       "showColumns": "dispatch_id,vote_id,type,sort_order",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_DISPATCH",
+      "logType": "LogConstants.LOG_SC_DISPATCH",
       "ignore": false
     },
     {
@@ -30,7 +30,7 @@
       "searchColumns": "dispatch_id",
       "showColumns": "dispatch_id,committee_id",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_DISPATCH",
+      "logType": "LogConstants.LOG_SC_DISPATCH",
       "ignore": false
     }
   ]

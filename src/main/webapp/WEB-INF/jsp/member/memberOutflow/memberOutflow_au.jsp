@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:set var="MEMBER_TYPE_MAP" value="<%=MemberConstants.MEMBER_TYPE_MAP%>"/>
-<c:set var="OR_STATUS_MAP" value="<%=SystemConstants.OR_STATUS_MAP%>"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${memberOutflow!=null}">编辑</c:if><c:if test="${memberOutflow==null}">添加</c:if>流出党员</h3>
@@ -85,7 +83,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="orStatus" data-placeholder="请选择">
 						<option></option>
-						<c:forEach items="${OR_STATUS_MAP}" var="_status">
+						<c:forEach items="${OW_OR_STATUS_MAP}" var="_status">
 							<option value="${_status.key}">${_status.value}</option>
 						</c:forEach>
 					</select>

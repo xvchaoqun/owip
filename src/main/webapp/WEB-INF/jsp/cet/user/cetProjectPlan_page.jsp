@@ -21,6 +21,25 @@
     <div class="widget-body">
         <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
             <div class="tab-content padding-4" id="detail-content">
+                <div class="jqgrid-vertical-offset panel panel-default" style="margin-bottom: 0">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="text-primary bolder"><i
+                                class="fa fa-line-chart"></i>   参加学习情况</span>
+                        </h3>
+                    </div>
+                    <div class="collapse in">
+                        <div class="panel-body" style="padding-top: 0">
+                            <label>培训班总学时：</label><span class="result">32</span>
+                            <label>完成学时数：</label><span class="result">20</span>
+                            <label>学习进度：</label>
+                            <div class="progress progress-striped pos-rel" data-percent="66%" style="width:150px;display: inline-block;top:22px;">
+                                  <div class="progress-bar progress-bar-success" style="width:66%;"></div>
+                             </div>
+                            <label>结业：</label><span class="result">未结业</span>
+
+                        </div>
+                    </div>
+                </div>
                 <div class="space-4"></div>
                 <table id="jqGrid2" class="jqGrid2 table-striped"></table>
                 <div id="jqGridPager2"></div>
@@ -28,6 +47,18 @@
         </div>
     </div>
 </div>
+<style>
+    .panel-body label{
+        font-size: 14pt;
+        font-weight: bolder;
+        margin-left: 20px;
+    }
+    .panel-body span.result{
+        font-size: 14pt;
+        color: #a94442;
+        font-weight: bolder;
+    }
+</style>
 <script>
     $("#jqGrid2").jqGrid({
         rownumbers:true,

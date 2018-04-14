@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -113,7 +113,7 @@ public class PcsAdminController extends PcsBaseController {
     public Map do_pcsAdmin_sync() {
 
         pcsAdminService.syncCurrentPcsAdmin();
-        logger.info(addLog(SystemConstants.LOG_PCS, "同步党代会分党委管理员"));
+        logger.info(addLog(LogConstants.LOG_PCS, "同步党代会分党委管理员"));
 
         return success(FormUtils.SUCCESS);
     }
@@ -146,7 +146,7 @@ public class PcsAdminController extends PcsBaseController {
         }
 
         pcsAdminService.addOrUpdate(record, mobile);
-        logger.info(addLog(SystemConstants.LOG_PCS, "添加/修改党代会分党委管理员：%s-%s",
+        logger.info(addLog(LogConstants.LOG_PCS, "添加/修改党代会分党委管理员：%s-%s",
                 JSONUtils.toString(record, false), mobile));
         return success(FormUtils.SUCCESS);
     }
@@ -176,7 +176,7 @@ public class PcsAdminController extends PcsBaseController {
         }
 
         Map<String, Integer> result = pcsAdminService.sendMsg(type, stage, adminType, mobile, msg);
-        logger.info(addLog(SystemConstants.LOG_PCS, "发送短信给分党委管理员：%s-%s", msg, mobile));
+        logger.info(addLog(LogConstants.LOG_PCS, "发送短信给分党委管理员：%s-%s", msg, mobile));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("totalCount", result.get("total"));
         resultMap.put("successCount", result.get("success"));
@@ -196,7 +196,7 @@ public class PcsAdminController extends PcsBaseController {
         }
 
         Map<String, Integer> result = pcsAdminService.sendMsg2( mobile, msg);
-        logger.info(addLog(SystemConstants.LOG_PCS, "两委委员-下发名单短信通知，发送给全部的分党委管理员：%s-%s", msg, mobile));
+        logger.info(addLog(LogConstants.LOG_PCS, "两委委员-下发名单短信通知，发送给全部的分党委管理员：%s-%s", msg, mobile));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("totalCount", result.get("total"));
         resultMap.put("successCount", result.get("success"));
@@ -219,7 +219,7 @@ public class PcsAdminController extends PcsBaseController {
         }
 
         Map<String, Integer> result = pcsAdminService.sendMsg3(partyId, mobile, msg);
-        logger.info(addLog(SystemConstants.LOG_PCS, "党代表给单个分党委的所有管理员发送审核通知，分为审核通过/审核不通过：%s-%s", msg, mobile));
+        logger.info(addLog(LogConstants.LOG_PCS, "党代表给单个分党委的所有管理员发送审核通知，分为审核通过/审核不通过：%s-%s", msg, mobile));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("totalCount", result.get("total"));
         resultMap.put("successCount", result.get("success"));
@@ -255,7 +255,7 @@ public class PcsAdminController extends PcsBaseController {
 
         if (null != ids && ids.length > 0) {
             pcsAdminService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PCS, "批量删除党代会分党委管理员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PCS, "批量删除党代会分党委管理员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

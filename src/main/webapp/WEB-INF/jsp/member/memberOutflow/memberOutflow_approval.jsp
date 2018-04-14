@@ -113,7 +113,7 @@
                                     <div class="profile-info-name"> 组织关系状态 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${OR_STATUS_MAP.get(memberOutflow.orStatus)}</span>
+                                        <span class="editable" >${OW_OR_STATUS_MAP.get(memberOutflow.orStatus)}</span>
                                     </div>
                                 </div>
                                 <div class="profile-info-row">
@@ -202,5 +202,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberOutflow.id}&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW}"/>
+    <c:import url="/applyApprovalLogs?id=${memberOutflow.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW}"/>
 </div>

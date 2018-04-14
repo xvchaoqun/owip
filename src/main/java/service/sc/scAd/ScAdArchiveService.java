@@ -24,7 +24,7 @@ import service.BaseMapper;
 import service.cadre.CadreAdformService;
 import service.cis.CisInspectObjService;
 import service.sys.SysConfigService;
-import sys.constants.SystemConstants;
+import sys.constants.DispatchConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.XmlSerializeUtils;
@@ -45,7 +45,7 @@ public class ScAdArchiveService extends BaseMapper {
 
  /*   public boolean idDuplicate(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "null");
 
         ScAdArchiveExample example = new ScAdArchiveExample();
         ScAdArchiveExample.Criteria criteria = example.createCriteria().and(code).andStatusEqualTo(true);
@@ -150,7 +150,7 @@ public class ScAdArchiveService extends BaseMapper {
         for (ScCommitteeVote scCommitteeVote : scCommitteeVotes) {
 
             cadreId = scCommitteeVote.getCadreId();
-            if(scCommitteeVote.getType() == SystemConstants.DISPATCH_CADRE_TYPE_APPOINT){
+            if(scCommitteeVote.getType() == DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT){
                 appointVote = scCommitteeVote;
             }else{
                 dismissVote = scCommitteeVote;
@@ -226,7 +226,7 @@ public class ScAdArchiveService extends BaseMapper {
         for (ScAdArchiveVote scAdArchiveVote : scAdArchiveVotes) {
 
             ScCommitteeVoteViewExample example1 = new ScCommitteeVoteViewExample();
-            example1.createCriteria().andIdEqualTo(scAdArchiveVote.getVoteId()).andTypeEqualTo(SystemConstants.DISPATCH_CADRE_TYPE_APPOINT);
+            example1.createCriteria().andIdEqualTo(scAdArchiveVote.getVoteId()).andTypeEqualTo(DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT);
             List<ScCommitteeVoteView> scCommitteeVoteViews = scCommitteeVoteViewMapper.selectByExampleWithRowbounds(example1, new RowBounds(0, 1));
 
             if(scCommitteeVoteViews.size()==1){

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.sys.SysOnlineStaticService;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
@@ -106,7 +106,7 @@ public class SysOnlineLogController extends BaseController {
 
         if(usernames.size()>0) {
             ShiroHelper.kickOutUser(usernames);
-            logService.log(SystemConstants.LOG_USER, "踢下线：" + StringUtils.join(usernames, ","));
+            logService.log(LogConstants.LOG_USER, "踢下线：" + StringUtils.join(usernames, ","));
         }
 
         return success();

@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
@@ -293,7 +294,7 @@ public class PcsProposalController extends PcsBaseController {
         }
 
         pcsProposalService.saveOrUpdate(record, pcsProposalFiles, inviteIds);
-        logger.info(addLog(SystemConstants.LOG_PCS, "添加/更新提案：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_PCS, "添加/更新提案：%s", record.getId()));
 
         if(sumitMsgToAdmin){
             pcsProposalService.sendPcsProposalSubmitMsgToAdmin(record.getId(), ContextHelper.getRealIp());
@@ -386,7 +387,7 @@ public class PcsProposalController extends PcsBaseController {
 
         if (null != ids && ids.length > 0) {
             pcsProposalService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PCS, "批量删除提案：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PCS, "批量删除提案：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -405,7 +406,7 @@ public class PcsProposalController extends PcsBaseController {
 
         if (null != ids && ids.length > 0) {
             pcsProposalService.batchDelFiles(ids);
-            logger.info(addLog(SystemConstants.LOG_PCS, "批量删除提案附件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PCS, "批量删除提案附件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

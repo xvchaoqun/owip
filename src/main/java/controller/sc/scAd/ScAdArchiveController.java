@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import service.cadre.CadreAdformService;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -126,7 +126,7 @@ public class ScAdArchiveController extends ScAdBaseController {
                                  HttpServletRequest request) {
 
         scAdArchiveService.add(committeeId, cadreIds);
-        logger.info(addLog( SystemConstants.LOG_SC_AD, "添加干部任免审批表：%s, %s",
+        logger.info(addLog(LogConstants.LOG_SC_AD, "添加干部任免审批表：%s, %s",
                 committeeId, StringUtils.join(cadreIds, ",")));
 
         return success(FormUtils.SUCCESS);
@@ -164,7 +164,7 @@ public class ScAdArchiveController extends ScAdBaseController {
                                       @RequestParam(required = false, value = "voteIds[]") Integer[] voteIds,
                                       ModelMap modelMap) throws IOException {
 
-        // logger.info(addLog( SystemConstants.LOG_SC_AD, "预览干部任免审批表：%s"));
+        // logger.info(addLog(LogConstants.LOG_SC_AD, "预览干部任免审批表：%s"));
         CadreAdform cadreAdForm = null;
 
         if(voteIds==null || voteIds.length==0){
@@ -197,7 +197,7 @@ public class ScAdArchiveController extends ScAdBaseController {
     public Map do_scAdArchive_save(Integer archiveId, @RequestParam(value = "voteIds[]") Integer[] voteIds) {
 
         scAdArchiveService.save(archiveId, voteIds);
-        logger.info(addLog( SystemConstants.LOG_SC_AD, "归档保存干部任免审批表：%s, %s",
+        logger.info(addLog(LogConstants.LOG_SC_AD, "归档保存干部任免审批表：%s, %s",
                 archiveId, StringUtils.join(voteIds, ",")));
 
         return success(FormUtils.SUCCESS);
@@ -243,7 +243,7 @@ public class ScAdArchiveController extends ScAdBaseController {
     @RequestMapping("/scAdArchive_cisPreview")
     public String scAdArchive_cisPreview(int archiveId, Integer objId, ModelMap modelMap) throws IOException, TemplateException {
 
-        // logger.info(addLog( SystemConstants.LOG_SC_AD, "预览干部考察报告：%s"));
+        // logger.info(addLog(LogConstants.LOG_SC_AD, "预览干部考察报告：%s"));
         Map<String, Object> dataMap = new HashMap<>();
         if(objId!=null){
             CisInspectObj cisInspectObj = scAdArchiveService.getCisInspectObj(archiveId, objId);
@@ -265,7 +265,7 @@ public class ScAdArchiveController extends ScAdBaseController {
     public Map do_scAdArchive_cisSave(Integer archiveId, int objId) throws IOException, TemplateException {
 
         scAdArchiveService.cisSave(archiveId, objId);
-        logger.info(addLog( SystemConstants.LOG_SC_AD, "归档保存干部考察报告：%s, %s", archiveId, objId));
+        logger.info(addLog(LogConstants.LOG_SC_AD, "归档保存干部考察报告：%s, %s", archiveId, objId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -311,7 +311,7 @@ public class ScAdArchiveController extends ScAdBaseController {
         record.setRemark(remark);
 
         scAdArchiveMapper.updateByPrimaryKeySelective(record);
-        logger.info(addLog( SystemConstants.LOG_SC_AD, "正式归档：%s", id));
+        logger.info(addLog(LogConstants.LOG_SC_AD, "正式归档：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -335,7 +335,7 @@ public class ScAdArchiveController extends ScAdBaseController {
 
         if (null != ids && ids.length>0){
             scAdArchiveService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_AD, "批量删除干部任免审批表：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_AD, "批量删除干部任免审批表：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

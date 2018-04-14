@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CetConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -108,11 +108,11 @@ public class CetTraineeCourseController extends CetBaseController {
 
         if (id == null) {
             cetTraineeCourseService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加参训情况：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加参训情况：%s", record.getId()));
         } else {
 
             cetTraineeCourseService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新参训情况：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新参训情况：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -137,7 +137,7 @@ public class CetTraineeCourseController extends CetBaseController {
         if (id != null) {
 
             cetTraineeCourseService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除参训情况：%s", id));
+            logger.info(addLog(LogConstants.LOG_CET, "删除参训情况：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -150,7 +150,7 @@ public class CetTraineeCourseController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetTraineeCourseService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除参训情况：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除参训情况：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -166,7 +166,7 @@ public class CetTraineeCourseController extends CetBaseController {
         if (null != ids && ids.length>0){
 
             cetTraineeCourseService.sign(ids, BooleanUtils.isTrue(sign), CetConstants.CET_TRAINEE_SIGN_TYPE_MANUAL);
-            logger.info(addLog( SystemConstants.LOG_CET,
+            logger.info(addLog(LogConstants.LOG_CET,
                     (BooleanUtils.isTrue(sign)?"签到":"还原") + "：%s",
                     StringUtils.join(ids, ",")));
         }

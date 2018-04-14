@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
@@ -44,7 +45,7 @@ public class UserOaTaskUserController extends OaBaseController {
                              String remark, HttpServletRequest request) throws IOException, InterruptedException {
 
         oaTaskUserService.report(taskId, content, _files, remark);
-        logger.info(addLog(SystemConstants.LOG_OA, "报送任务：%s", taskId));
+        logger.info(addLog(LogConstants.LOG_OA, "报送任务：%s", taskId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -72,7 +73,7 @@ public class UserOaTaskUserController extends OaBaseController {
     public Map do_oaTaskUser_back(HttpServletRequest request, int taskId) {
 
         oaTaskUserService.selfBack(taskId);
-        logger.info(addLog(SystemConstants.LOG_OA, "撤回报送：%s", taskId));
+        logger.info(addLog(LogConstants.LOG_OA, "撤回报送：%s", taskId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -85,7 +86,7 @@ public class UserOaTaskUserController extends OaBaseController {
         if (null != ids && ids.length > 0) {
 
             oaTaskUserService.batchDelFiles(ids);
-            logger.info(addLog(SystemConstants.LOG_PCS, "删除任务附件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PCS, "删除任务附件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -120,7 +121,7 @@ public class UserOaTaskUserController extends OaBaseController {
         }
 
         oaTaskUserService.assign(taskId, userId, mobile);
-        logger.info(addLog(SystemConstants.LOG_OA, "指定负责人：%s, %s", taskId, userId));
+        logger.info(addLog(LogConstants.LOG_OA, "指定负责人：%s, %s", taskId, userId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -177,7 +178,7 @@ public class UserOaTaskUserController extends OaBaseController {
         bean.setType(tpl.getName());
 
         shortMsgService.send(bean, ContextHelper.getRealIp());
-        logger.info(addLog(SystemConstants.LOG_OA, "短信通知指定负责人：%s, %s", taskId, userId));
+        logger.info(addLog(LogConstants.LOG_OA, "短信通知指定负责人：%s, %s", taskId, userId));
 
         return success(FormUtils.SUCCESS);
     }

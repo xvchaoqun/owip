@@ -181,5 +181,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberQuit.userId}&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT}"/>
+    <c:import url="/applyApprovalLogs?id=${memberQuit.userId}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT}"/>
 </div>

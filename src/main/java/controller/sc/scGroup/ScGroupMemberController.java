@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -116,11 +116,11 @@ public class ScGroupMemberController extends ScGroupBaseController {
 
         if (id == null) {
             scGroupMemberService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_GROUP, "添加干部工作小组会组成名单：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "添加干部工作小组会组成名单：%s", record.getId()));
         } else {
 
             scGroupMemberService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_GROUP, "更新干部工作小组会组成名单：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "更新干部工作小组会组成名单：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -147,7 +147,7 @@ public class ScGroupMemberController extends ScGroupBaseController {
         if (id != null) {
 
             scGroupMemberService.del(id);
-            logger.info(addLog( SystemConstants.LOG_SC_GROUP, "删除干部工作小组会组成名单：%s", id));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "删除干部工作小组会组成名单：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -161,7 +161,7 @@ public class ScGroupMemberController extends ScGroupBaseController {
 
         if (null != ids && ids.length>0){
             scGroupMemberService.transfer(ids, BooleanUtils.isTrue(isCurrent));
-            logger.info(addLog( SystemConstants.LOG_SC_GROUP, "批量转移干部工作小组会组成名单：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "批量转移干部工作小组会组成名单：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -175,7 +175,7 @@ public class ScGroupMemberController extends ScGroupBaseController {
 
         if (null != ids && ids.length>0){
             scGroupMemberService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_GROUP, "批量删除干部工作小组会组成名单：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "批量删除干部工作小组会组成名单：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -187,7 +187,7 @@ public class ScGroupMemberController extends ScGroupBaseController {
     public Map do_scGroupMember_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         scGroupMemberService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_SC_GROUP, "干部工作小组会组成名单调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_SC_GROUP, "干部工作小组会组成名单调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

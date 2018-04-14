@@ -1,15 +1,5 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fafa
-  Date: 2015/12/7
-  Time: 13:39
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set var="MEMBER_TYPE_MAP" value="<%=MemberConstants.MEMBER_TYPE_MAP%>"/>
-<c:set var="OR_STATUS_MAP" value="<%=SystemConstants.OR_STATUS_MAP%>"/>
-<c:set var="MEMBER_OUTFLOW_STATUS_MAP" value="<%=MemberConstants.MEMBER_OUTFLOW_STATUS_MAP%>"/>
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-paw blue"></i> 党员流出申请</h4>
@@ -85,7 +75,7 @@
                 </td>
                 <td class="bg-right">组织关系状态</td>
                 <td class="bg-left">
-                    ${OR_STATUS_MAP.get(memberOutflow.orStatus)}
+                    ${OW_OR_STATUS_MAP.get(memberOutflow.orStatus)}
                 </td>
                 <td class="bg-right">提交时间</td>
                 <td class="bg-left">

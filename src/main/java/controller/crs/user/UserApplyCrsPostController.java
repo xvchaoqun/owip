@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.crs.common.ICrsPost;
 import shiro.ShiroHelper;
 import sys.constants.CrsConstants;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -166,7 +167,7 @@ public class UserApplyCrsPostController extends CrsBaseController {
         int cadreId = crsApplicantService.start();
 
 
-        logger.info(addLog(SystemConstants.LOG_USER, "干部招聘-开始采集信息"));
+        logger.info(addLog(LogConstants.LOG_USER, "干部招聘-开始采集信息"));
 
         boolean hasDirectModifyCadreAuth = CmTag.hasDirectModifyCadreAuth(cadreId);
 
@@ -215,7 +216,7 @@ public class UserApplyCrsPostController extends CrsBaseController {
 
         crsApplicantService.quit(postId, userId);
 
-        logger.info(addLog(SystemConstants.LOG_USER, "干部招聘-退出竞聘"));
+        logger.info(addLog(LogConstants.LOG_USER, "干部招聘-退出竞聘"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -237,7 +238,7 @@ public class UserApplyCrsPostController extends CrsBaseController {
 
         crsApplicantService.reApply(postId, userId);
 
-        logger.info(addLog(SystemConstants.LOG_USER, "干部招聘-重新报名"));
+        logger.info(addLog(LogConstants.LOG_USER, "干部招聘-重新报名"));
         return success(FormUtils.SUCCESS);
     }
 }

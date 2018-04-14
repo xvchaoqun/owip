@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -150,11 +150,11 @@ public class BranchMemberController extends BaseController {
         }
         if (id == null) {
             branchMemberService.insertSelective(record, autoAdmin);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "添加支部成员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "添加支部成员：%s", record.getId()));
         } else {
 
             branchMemberService.updateByPrimaryKeySelective(record, autoAdmin);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "更新支部成员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "更新支部成员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -195,7 +195,7 @@ public class BranchMemberController extends BaseController {
         }
 
         branchMemberService.delAdmin(userId, branchId);
-        logger.info(addLog(SystemConstants.LOG_PARTY, "删除支部管理员权限，userId=%s, branchId=%s", userId, branchId));
+        logger.info(addLog(LogConstants.LOG_PARTY, "删除支部管理员权限，userId=%s, branchId=%s", userId, branchId));
         return success(FormUtils.SUCCESS);
     }
 
@@ -207,7 +207,7 @@ public class BranchMemberController extends BaseController {
 
         if (id != null) {
             branchMemberService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "删除支部成员：%s", id));
+            logger.info(addLog(LogConstants.LOG_PARTY, "删除支部成员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -221,7 +221,7 @@ public class BranchMemberController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             branchMemberService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除支部成员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除支部成员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -234,7 +234,7 @@ public class BranchMemberController extends BaseController {
     public Map do_branchMember_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         branchMemberService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_PARTY, "支部成员调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_PARTY, "支部成员调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -259,7 +259,7 @@ public class BranchMemberController extends BaseController {
             branchMemberAdminService.toggleAdmin(branchMember);
 
             String op = branchMember.getIsAdmin() ? "删除" : "添加";
-            logger.info(addLog(SystemConstants.LOG_PARTY, "%s党支部委员管理员权限，memberId=%s", op, id));
+            logger.info(addLog(LogConstants.LOG_PARTY, "%s党支部委员管理员权限，memberId=%s", op, id));
         }
         return success(FormUtils.SUCCESS);
     }

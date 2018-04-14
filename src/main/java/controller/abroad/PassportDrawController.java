@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.AbroadConstants;
 import sys.constants.ContentTplConstants;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -89,7 +89,7 @@ public class PassportDrawController extends AbroadBaseController {
         record.setIp(IpUtils.getRealIp(request));
 
         passportDrawService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "批准申请使用证件（通过）：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "批准申请使用证件（通过）：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -111,7 +111,7 @@ public class PassportDrawController extends AbroadBaseController {
         record.setIp(IpUtils.getRealIp(request));
 
         passportDrawService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "批准申请使用证件（未通过）：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "批准申请使用证件（未通过）：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -282,7 +282,7 @@ public class PassportDrawController extends AbroadBaseController {
 
         passportDrawService.drawPassport(record);
 
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "领取证件：%s", id));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "领取证件：%s", id));
         return success(FormUtils.SUCCESS);
     }
 
@@ -413,7 +413,7 @@ public class PassportDrawController extends AbroadBaseController {
 
         passportDrawService.returnPassport(record);
 
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "归还证件：%s", id));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "归还证件：%s", id));
         return success(FormUtils.SUCCESS);
     }
 
@@ -441,7 +441,7 @@ public class PassportDrawController extends AbroadBaseController {
                 .andDrawStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW);
         passportDrawMapper.updateByExampleSelective(record, example);
 
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "修改归还日期：%s", id));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "修改归还日期：%s", id));
         return success(FormUtils.SUCCESS);
     }
 
@@ -453,7 +453,7 @@ public class PassportDrawController extends AbroadBaseController {
 
         passportDrawService.resetReturnPassport(id);
 
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "重置归还证件的归还状态为未归还：%s", id));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "重置归还证件的归还状态为未归还：%s", id));
         return success(FormUtils.SUCCESS);
     }
 
@@ -486,7 +486,7 @@ public class PassportDrawController extends AbroadBaseController {
         if (id != null) {
 
             passportDrawService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除领取证件：%s", id));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "删除领取证件：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -502,7 +502,7 @@ public class PassportDrawController extends AbroadBaseController {
 
         if (null != ids && ids.length > 0) {
             passportDrawService.batchDel(ids, BooleanUtils.isTrue(isReal));
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除领取证件申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量删除领取证件申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -515,7 +515,7 @@ public class PassportDrawController extends AbroadBaseController {
 
         if (null != ids && ids.length > 0) {
             passportDrawService.batchUnDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量找回领取证件申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量找回领取证件申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

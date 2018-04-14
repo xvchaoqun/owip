@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -129,11 +129,11 @@ public class PcsVoteMemberController extends PcsBaseController {
         
         if (id == null) {
             pcsVoteMemberService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PCS, "添加当选人：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PCS, "添加当选人：%s", record.getId()));
         } else {
 
             pcsVoteMemberService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PCS, "更新当选人：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PCS, "更新当选人：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -158,7 +158,7 @@ public class PcsVoteMemberController extends PcsBaseController {
 
         if (null != ids && ids.length > 0) {
             pcsVoteMemberService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PCS, "批量删除当选人：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PCS, "批量删除当选人：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

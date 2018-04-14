@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.abroad.PassportService;
+import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
@@ -161,11 +162,11 @@ public class CommonController extends BaseController {
         } else {
             if (types == null) {
                 if (type == 1) {
-                    cadreStatusSet = SystemConstants.CADRE_STATUS_SET;
+                    cadreStatusSet = CadreConstants.CADRE_STATUS_SET;
                 } else if (type == 2) {
-                    cadreStatusSet = SystemConstants.CADRE_STATUS_NOW_SET;
+                    cadreStatusSet = CadreConstants.CADRE_STATUS_NOW_SET;
                 } else if (type == 3) {
-                    cadreStatusSet = SystemConstants.CADRE_STATUS_LEAVE_SET;
+                    cadreStatusSet = CadreConstants.CADRE_STATUS_LEAVE_SET;
                 }
             } else {
                 cadreStatusSet = new HashSet<>(Arrays.asList(types));
@@ -232,13 +233,13 @@ public class CommonController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if (searchStr != null) searchStr = "%" + searchStr + "%";
 
-        int count = iCadreMapper.countNotCadre(searchStr, SystemConstants.CADRE_STATUS_SET,
+        int count = iCadreMapper.countNotCadre(searchStr, CadreConstants.CADRE_STATUS_SET,
                 sysUserService.buildRoleIds(RoleConstants.ROLE_REG));
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<SysUserView> uvs = iCadreMapper.selectNotCadreList(searchStr, SystemConstants.CADRE_STATUS_SET,
+        List<SysUserView> uvs = iCadreMapper.selectNotCadreList(searchStr, CadreConstants.CADRE_STATUS_SET,
                 sysUserService.buildRoleIds(RoleConstants.ROLE_REG), new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
@@ -296,12 +297,12 @@ public class CommonController extends BaseController {
         searchStr = StringUtils.trimToNull(searchStr);
         if (searchStr != null) searchStr = "%" + searchStr + "%";
 
-        int count = iCadreMapper.countCadreList(searchStr, SystemConstants.CADRE_STATUS_SET, null);
+        int count = iCadreMapper.countCadreList(searchStr, CadreConstants.CADRE_STATUS_SET, null);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, SystemConstants.CADRE_STATUS_SET, null,
+        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, CadreConstants.CADRE_STATUS_SET, null,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();

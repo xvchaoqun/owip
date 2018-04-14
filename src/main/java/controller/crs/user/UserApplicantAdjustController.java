@@ -63,7 +63,7 @@ public class UserApplicantAdjustController extends CrsBaseController {
 
         crsApplicantService.adjust(applyPostIds, selectablePostIds, ShiroHelper.getCurrentUserId());
 
-        logger.info(addLog(SystemConstants.LOG_USER, "干部招聘-调整岗位"));
+        logger.info(addLog(LogConstants.LOG_USER, "干部招聘-调整岗位"));
         return success(FormUtils.SUCCESS);
     }
 

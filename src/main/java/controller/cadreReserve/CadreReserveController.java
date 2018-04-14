@@ -28,7 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -97,13 +98,13 @@ public class CadreReserveController extends BaseController {
 
         if (status == null && reserveType == null) {
             // 默认页面
-            reserveType = SystemConstants.CADRE_RESERVE_TYPE_ADMIN_CHIEF;
+            reserveType = CadreConstants.CADRE_RESERVE_TYPE_ADMIN_CHIEF;
         }
         if (reserveType != null) {
             // 正常状态的后备干部库，读取指定的类别
-            status = SystemConstants.CADRE_RESERVE_STATUS_NORMAL;
+            status = CadreConstants.CADRE_RESERVE_STATUS_NORMAL;
         }
-        if (status != SystemConstants.CADRE_RESERVE_STATUS_NORMAL) {
+        if (status != CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
             // 非正常状态的后备干部库，读取全部的类别
             reserveType = null;
         }
@@ -117,17 +118,17 @@ public class CadreReserveController extends BaseController {
         }
 
         Map<Byte, Integer> statusCountMap = new HashMap<>();
-        for (Map.Entry<Byte, String> entry : SystemConstants.CADRE_RESERVE_STATUS_MAP.entrySet()) {
+        for (Map.Entry<Byte, String> entry : CadreConstants.CADRE_RESERVE_STATUS_MAP.entrySet()) {
             statusCountMap.put(entry.getKey(), 0);
         }
         Map<Byte, Integer> normalCountMap = new HashMap<>();
-        for (Map.Entry<Byte, String> entry : SystemConstants.CADRE_RESERVE_TYPE_MAP.entrySet()) {
+        for (Map.Entry<Byte, String> entry : CadreConstants.CADRE_RESERVE_TYPE_MAP.entrySet()) {
             normalCountMap.put(entry.getKey(), 0);
         }
         List<CadreReserveCount> cadreReserveCounts = iCadreMapper.selectCadreReserveCount();
         for (CadreReserveCount crc : cadreReserveCounts) {
             Byte st = crc.getStatus();
-            if (st == SystemConstants.CADRE_RESERVE_STATUS_NORMAL) {
+            if (st == CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
                 Byte type = crc.getType();
                 Integer count = normalCountMap.get(type);
                 if (count == null) count = 0; // 不可能的情况
@@ -156,13 +157,13 @@ public class CadreReserveController extends BaseController {
 
         if (status == null && reserveType == null) {
             // 默认页面
-            reserveType = SystemConstants.CADRE_RESERVE_TYPE_SCHOOL;
+            reserveType = CadreConstants.CADRE_RESERVE_TYPE_SCHOOL;
         }
         if (reserveType != null) {
             // 正常状态的后备干部库，读取指定的类别
-            status = SystemConstants.CADRE_RESERVE_STATUS_NORMAL;
+            status = CadreConstants.CADRE_RESERVE_STATUS_NORMAL;
         }
-        if (status != SystemConstants.CADRE_RESERVE_STATUS_NORMAL) {
+        if (status != CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
             // 非正常状态的后备干部库，读取全部的类别
             reserveType = null;
         }
@@ -180,7 +181,7 @@ public class CadreReserveController extends BaseController {
 
         if (status != null)
             criteria.andReserveStatusEqualTo(status);
-        if (status == null || status == SystemConstants.CADRE_RESERVE_STATUS_NORMAL)
+        if (status == null || status == CadreConstants.CADRE_RESERVE_STATUS_NORMAL)
             criteria.andReserveTypeEqualTo(reserveType);
 
         example.setOrderByClause("reserve_sort_order asc");
@@ -245,10 +246,10 @@ public class CadreReserveController extends BaseController {
         record.setRemark(reserveRemark);
         if (reserveId == null) {
             cadreReserveService.insertSelective(userId, record, cadreRecord);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加后备干部：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加后备干部：%s", record.getId()));
         } else {
             cadreReserveService.updateByPrimaryKeySelective(record, cadreRecord);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新后备干部：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新后备干部：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -277,7 +278,7 @@ public class CadreReserveController extends BaseController {
 
         if (null != ids) {
             cadreReserveService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除后备干部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除后备干部：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -310,7 +311,7 @@ public class CadreReserveController extends BaseController {
         Cadre cadre = cadreReserveService.pass(record, cadreRecord);
 
         SysUserView user = cadre.getUser();
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "后备干部列为考察对象：%s-%s", user.getRealname(), user.getCode()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "后备干部列为考察对象：%s-%s", user.getRealname(), user.getCode()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -320,7 +321,7 @@ public class CadreReserveController extends BaseController {
     public Map cadreReserve_abolish(HttpServletRequest request, Integer id, ModelMap modelMap) {
 
         cadreReserveService.abolish(id);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "撤销后备干部：%s", id));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "撤销后备干部：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -332,7 +333,7 @@ public class CadreReserveController extends BaseController {
 
         if (null != ids) {
             cadreReserveService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除已撤销后备干部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除已撤销后备干部：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -343,7 +344,7 @@ public class CadreReserveController extends BaseController {
     public Map do_cadreReserve_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cadreReserveService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "后备干部调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "后备干部调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -351,7 +352,7 @@ public class CadreReserveController extends BaseController {
 
         SXSSFWorkbook wb = cadreReserveExportService.export(reserveType, example);
 
-        String cadreReserveType = SystemConstants.CADRE_RESERVE_TYPE_MAP.get(reserveType);
+        String cadreReserveType = CadreConstants.CADRE_RESERVE_TYPE_MAP.get(reserveType);
         String fileName = CmTag.getSysConfig().getSchoolName() + "后备干部_" + DateUtils.formatDate(new Date(), "yyyyMMdd");
 
         if (cadreReserveType != null)

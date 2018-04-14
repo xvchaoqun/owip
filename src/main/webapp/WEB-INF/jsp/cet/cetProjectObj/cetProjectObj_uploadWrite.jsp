@@ -9,7 +9,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/cet/cetProjectObj_uploadWrite" id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
         <div class="form-group">
-            <label class=" col-xs-4 control-label">学员姓名</label>
+            <label class=" col-xs-3 control-label">学员姓名</label>
             <div class="col-xs-6 label-text">
                 ${sysUser.realname}
             </div>

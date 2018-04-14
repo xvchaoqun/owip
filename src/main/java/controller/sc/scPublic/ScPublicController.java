@@ -23,7 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import service.common.FreemarkerService;
 import service.sc.scCommittee.ScCommitteeService;
-import sys.constants.SystemConstants;
+import sys.constants.DispatchConstants;
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -169,11 +170,11 @@ public class ScPublicController extends ScPublicBaseController {
         record.setPdfFilePath(uploadPdf(_pdfFilePath, "scPublic-pdf"));
         if (id == null) {
             scPublicService.insertSelective(record, voteIds);
-            logger.info(addLog( SystemConstants.LOG_SC_PUBLIC, "添加干部任前公示：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "添加干部任前公示：%s", record.getId()));
         } else {
 
             scPublicService.updateByPrimaryKeySelective(record, voteIds);
-            logger.info(addLog( SystemConstants.LOG_SC_PUBLIC, "更新干部任前公示：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "更新干部任前公示：%s", record.getId()));
         }
 
         JSONUtils.write(response, success(FormUtils.SUCCESS));
@@ -186,7 +187,7 @@ public class ScPublicController extends ScPublicBaseController {
 
         ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
         example.createCriteria().andCommitteeIdEqualTo(committeeId)
-                .andTypeEqualTo(SystemConstants.DISPATCH_CADRE_TYPE_APPOINT);
+                .andTypeEqualTo(DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT);
         example.setOrderByClause("sort_order desc");
         List<ScCommitteeVoteView> scCommitteeVoteViews = scCommitteeVoteViewMapper.selectByExample(example);
         modelMap.put("scCommitteeVotes", scCommitteeVoteViews);
@@ -238,7 +239,7 @@ public class ScPublicController extends ScPublicBaseController {
 
         if (null != ids && ids.length>0){
             scPublicService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_PUBLIC, "批量删除干部任前公示：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "批量删除干部任前公示：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -254,7 +255,7 @@ public class ScPublicController extends ScPublicBaseController {
 
         if (null != ids && ids.length>0){
             scPublicService.finish(ids, true);
-            logger.info(addLog( SystemConstants.LOG_SC_PUBLIC, "批量结束干部任前公示（已确认）：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "批量结束干部任前公示（已确认）：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -271,7 +272,7 @@ public class ScPublicController extends ScPublicBaseController {
         if (null != ids && ids.length>0){
 
             scPublicService.confirm(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_PUBLIC, "批量确认结束干部任前公示：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "批量确认结束干部任前公示：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

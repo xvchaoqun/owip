@@ -19,9 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -222,7 +223,7 @@ public class UserMemberStayController extends MemberBaseController {
         record.setIsBack(false);
         if (memberStay == null) {
             memberStayService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "提交组织关系暂留申请"));
+            logger.info(addLog(LogConstants.LOG_USER, "提交组织关系暂留申请"));
             memberStay = record;
         } else {
 
@@ -233,15 +234,15 @@ public class UserMemberStayController extends MemberBaseController {
                 record.setCreateTime(null);
             }
             memberStayService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_USER, "修改提交组织关系暂留申请"));
+            logger.info(addLog(LogConstants.LOG_USER, "修改提交组织关系暂留申请"));
         }
         applyApprovalLogService.add(memberStay.getId(),
                 memberStay.getPartyId(), memberStay.getBranchId(), memberStay.getUserId(),
-                loginUserId, selfSubmit?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF
-                        :SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
+                loginUserId, selfSubmit? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF
+                        :OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY,
                 (memberStay == null)?"提交":"修改提交",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "组织关系暂留申请");
 
         return success(FormUtils.SUCCESS);
@@ -254,7 +255,7 @@ public class UserMemberStayController extends MemberBaseController {
 
         int userId = loginUser.getId();
         memberStayService.back(userId);
-        logger.info(addLog(SystemConstants.LOG_USER, "取消组织关系暂留申请"));
+        logger.info(addLog(LogConstants.LOG_USER, "取消组织关系暂留申请"));
         return success(FormUtils.SUCCESS);
     }
 }

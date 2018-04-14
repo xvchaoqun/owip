@@ -11,7 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 
@@ -70,7 +70,7 @@ public class PmdNormValueController extends PmdBaseController {
 
         record.setIsEnabled(false);
         pmdNormValueService.insertSelective(record);
-        logger.info(addLog( SystemConstants.LOG_PMD, "添加固定额度：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_PMD, "添加固定额度：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -81,7 +81,7 @@ public class PmdNormValueController extends PmdBaseController {
     public Map do_pmdNormValue_use(int id, HttpServletRequest request) {
 
         pmdNormValueService.use(id);
-        logger.info(addLog( SystemConstants.LOG_PMD, "启用固定额度：%s", id));
+        logger.info(addLog(LogConstants.LOG_PMD, "启用固定额度：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -94,7 +94,7 @@ public class PmdNormValueController extends PmdBaseController {
         if (id != null) {
 
             pmdNormValueService.del(id);
-            logger.info(addLog( SystemConstants.LOG_PMD, "删除固定额度：%s", id));
+            logger.info(addLog(LogConstants.LOG_PMD, "删除固定额度：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }

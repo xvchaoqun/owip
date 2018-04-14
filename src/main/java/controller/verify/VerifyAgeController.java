@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
+import sys.constants.VerifyConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -68,7 +69,7 @@ public class VerifyAgeController extends VerifyBaseController {
         pageNo = Math.max(1, pageNo);
 
         VerifyAgeExample example = new VerifyAgeExample();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.VERIFY_STATUS_NORMAL);
+        Criteria criteria = example.createCriteria().andStatusEqualTo(VerifyConstants.VERIFY_STATUS_NORMAL);
         example.setOrderByClause("submit_time desc");
 
         if (type != null) {
@@ -133,7 +134,7 @@ public class VerifyAgeController extends VerifyBaseController {
         }
 
         verifyAgeService.insertSelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加出生时间认定：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "添加出生时间认定：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -169,7 +170,7 @@ public class VerifyAgeController extends VerifyBaseController {
         record.setVerifyBirth(DateUtils.parseDate(_verifyBirth, DateUtils.YYYY_MM_DD));
 
         verifyAgeService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "出生时间认定：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "出生时间认定：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -194,7 +195,7 @@ public class VerifyAgeController extends VerifyBaseController {
 
         if (null != ids && ids.length > 0) {
             verifyAgeService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除出生时间认定：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除出生时间认定：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -215,7 +216,7 @@ public class VerifyAgeController extends VerifyBaseController {
                     cadre.getUser().getCode(),
                     cadre.getUser().getRealname(),
                     cadre.getTitle(),
-                    SystemConstants.VERIFY_AGE_TYPE_MAP.get(record.getType()),
+                    VerifyConstants.VERIFY_AGE_TYPE_MAP.get(record.getType()),
                     DateUtils.formatDate(record.getOldBirth(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getVerifyBirth(), DateUtils.YYYY_MM_DD),
                     record.getMaterialName(),

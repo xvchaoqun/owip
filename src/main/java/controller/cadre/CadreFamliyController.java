@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -100,7 +101,7 @@ public class CadreFamliyController extends BaseController {
             SecurityUtils.getSubject().checkPermission("cadre:exportFamliy");
             if(ids!=null && ids.length>0)
                 criteria.andCadreIdIn(Arrays.asList(ids));
-            cadreFamliy_export(ids, SystemConstants.CADRE_STATUS_MIDDLE, response);
+            cadreFamliy_export(ids, CadreConstants.CADRE_STATUS_MIDDLE, response);
             return;
         }
 
@@ -169,7 +170,7 @@ public class CadreFamliyController extends BaseController {
 
         if (id == null) {
             cadreFamliyService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加家庭成员信息：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加家庭成员信息：%s", record.getId()));
         } else {
 
             // 干部信息本人直接修改数据校验
@@ -179,7 +180,7 @@ public class CadreFamliyController extends BaseController {
             }
             record.setCadreId(_record.getCadreId());
             cadreFamliyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新家庭成员信息：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新家庭成员信息：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -209,7 +210,7 @@ public class CadreFamliyController extends BaseController {
         if (id != null) {
 
             cadreFamliyService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除家庭成员信息：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除家庭成员信息：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -224,7 +225,7 @@ public class CadreFamliyController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreFamliyService.batchDel(ids,cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除家庭成员信息：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除家庭成员信息：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -245,7 +246,7 @@ public class CadreFamliyController extends BaseController {
                     uv.getCode(),
                     uv.getRealname(),
                     cadre.getTitle(),
-                    cadreFamliy.getTitle()==null?"":SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(cadreFamliy.getTitle()),
+                    cadreFamliy.getTitle()==null?"":CadreConstants.CADRE_FAMLIY_TITLE_MAP.get(cadreFamliy.getTitle()),
                     cadreFamliy.getRealname(),
                     cadreFamliy.getPoliticalStatus()==null?"":metaTypeService.getName(cadreFamliy.getPoliticalStatus()),
                     cadreFamliy.getUnit()

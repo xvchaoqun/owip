@@ -85,7 +85,7 @@ import service.sys.SysConfigService;
 import service.sys.SysResourceService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
-import sys.constants.SystemConstants;
+import sys.constants.OwConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
@@ -246,63 +246,63 @@ public class CmTag {
     public static String getApplyStatus(MemberApply memberApply) {
         String stage = "";
         switch (memberApply.getStage()) {
-            case SystemConstants.APPLY_STAGE_INIT:
+            case OwConstants.OW_APPLY_STAGE_INIT:
                 stage = "待支部审核";
                 break;
-            case SystemConstants.APPLY_STAGE_DENY:
+            case OwConstants.OW_APPLY_STAGE_DENY:
                 stage = "申请未通过";
                 break;
-            case SystemConstants.APPLY_STAGE_PASS:
+            case OwConstants.OW_APPLY_STAGE_PASS:
                 stage = "申请通过，待支部确定为入党积极分子";
                 break;
-            case SystemConstants.APPLY_STAGE_ACTIVE:
+            case OwConstants.OW_APPLY_STAGE_ACTIVE:
                 if (memberApply.getCandidateStatus() == null || memberApply.getCandidateTime() == null) {
                     stage = "待支部确定为发展对象";
-                } else if (memberApply.getCandidateStatus() == SystemConstants.APPLY_STATUS_UNCHECKED) {
+                } else if (memberApply.getCandidateStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
                     stage = "支部已提交，待分党委审核";
-                } else if (memberApply.getCandidateStatus() == SystemConstants.APPLY_STATUS_CHECKED) {
+                } else if (memberApply.getCandidateStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
                     stage = "已审核";
                 }
                 break;
-            case SystemConstants.APPLY_STAGE_CANDIDATE:
+            case OwConstants.OW_APPLY_STAGE_CANDIDATE:
                 if (memberApply.getPlanStatus() == null || memberApply.getPlanTime() == null) {
                     stage = "待支部列入发展计划";
-                } else if (memberApply.getPlanStatus() == SystemConstants.APPLY_STATUS_UNCHECKED) {
+                } else if (memberApply.getPlanStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
                     stage = "支部已提交，待分党委审核";
-                } else if (memberApply.getPlanStatus() == SystemConstants.APPLY_STATUS_CHECKED) {
+                } else if (memberApply.getPlanStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
                     stage = "已审核";
                 }
                 break;
-            case SystemConstants.APPLY_STAGE_PLAN:
+            case OwConstants.OW_APPLY_STAGE_PLAN:
                 if (memberApply.getDrawStatus() == null || memberApply.getDrawTime() == null) {
                     stage = "待分党委提交领取志愿书";
-                } /*else if (memberApply.getDrawStatus() == SystemConstants.APPLY_STATUS_UNCHECKED) {
+                } /*else if (memberApply.getDrawStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
                     stage = "待分党委审核";
-                } else if (memberApply.getDrawStatus() == SystemConstants.APPLY_STATUS_CHECKED) {
+                } else if (memberApply.getDrawStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
                     stage = "已审核";
                 }*/
                 break;
-            case SystemConstants.APPLY_STAGE_DRAW:
+            case OwConstants.OW_APPLY_STAGE_DRAW:
                 if (memberApply.getGrowStatus() == null) {
                     stage = "待组织部审核";
-                } else if (memberApply.getGrowStatus() == SystemConstants.APPLY_STATUS_OD_CHECKED) {
+                } else if (memberApply.getGrowStatus() == OwConstants.OW_APPLY_STATUS_OD_CHECKED) {
                     stage = "组织部已审核，待支部发展为预备党员";
-                } else if (memberApply.getGrowStatus() == SystemConstants.APPLY_STATUS_UNCHECKED) {
+                } else if (memberApply.getGrowStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
                     stage = "支部已提交，待分党委审核";
                 }
                 break;
-            case SystemConstants.APPLY_STAGE_GROW:
+            case OwConstants.OW_APPLY_STAGE_GROW:
                 if (memberApply.getPositiveStatus() == null || memberApply.getPositiveTime() == null) {
                     stage = "待支部提交预备党员转正";
-                } else if (memberApply.getPositiveStatus() == SystemConstants.APPLY_STATUS_UNCHECKED) {
+                } else if (memberApply.getPositiveStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
                     stage = "支部已提交，待分党委审核";
-                } else if (memberApply.getPositiveStatus() == SystemConstants.APPLY_STATUS_CHECKED) {
+                } else if (memberApply.getPositiveStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
                     stage = "分党委已审核，待组织部审核";
-                } else if (memberApply.getPositiveStatus() == SystemConstants.APPLY_STATUS_OD_CHECKED) {
+                } else if (memberApply.getPositiveStatus() == OwConstants.OW_APPLY_STATUS_OD_CHECKED) {
                     stage = "已审核";
                 }
                 break;
-            case SystemConstants.APPLY_STAGE_POSITIVE:
+            case OwConstants.OW_APPLY_STAGE_POSITIVE:
                 stage = "已转正";
                 break;
         }

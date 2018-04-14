@@ -33,9 +33,9 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import persistence.common.CountMapper;
 import sys.constants.AbroadConstants;
+import sys.constants.CacheConstants;
 import sys.constants.MemberConstants;
 import sys.constants.ModifyConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.ClassUtils;
 import sys.utils.FileUtils;
@@ -93,10 +93,10 @@ public class CacheService extends BaseController{
 
         countCache.clear();
 
-        countCache.put(SystemConstants.CACHEKEY_MODIFY_BASE_APPLY, countMapper.modifyBaseApply());
-        countCache.put(SystemConstants.CACHEKEY_ABROAD_PASSPORT_APPLY, countMapper.abroadPassportApply());
-        countCache.put(SystemConstants.CACHEKEY_ABROAD_APPLY_SELF, countMapper.abroadApplySelf());
-        countCache.put(SystemConstants.CACHEKEY_TAIWAN_RECORD_HANDLE_TYPE, countMapper.taiwanRecordHandleType());
+        countCache.put(CacheConstants.CACHE_KEY_MODIFY_BASE_APPLY, countMapper.modifyBaseApply());
+        countCache.put(CacheConstants.CACHE_KEY_ABROAD_PASSPORT_APPLY, countMapper.abroadPassportApply());
+        countCache.put(CacheConstants.CACHE_KEY_ABROAD_APPLY_SELF, countMapper.abroadApplySelf());
+        countCache.put(CacheConstants.CACHE_KEY_TAIWAN_RECORD_HANDLE_TYPE, countMapper.taiwanRecordHandleType());
 
         {
             // 特殊党员干部库-已存在于党员信息库（用于提醒管理员删除）
@@ -105,7 +105,7 @@ public class CacheService extends BaseController{
             criteria.andOwIdIsNotNull().andMemberStatusIn(Arrays.asList(MemberConstants.MEMBER_STATUS_NORMAL,
                     MemberConstants.MEMBER_STATUS_TRANSFER));
 
-            countCache.put(SystemConstants.CACHEKEY_CADRE_PARTY_TO_REMOVE, (int)cadreViewMapper.countByExample(example));
+            countCache.put(CacheConstants.CACHE_KEY_CADRE_PARTY_TO_REMOVE, (int)cadreViewMapper.countByExample(example));
         }
 
         List<Map> modifyTableApplyCounts = countMapper.modifyTableApply();
@@ -115,31 +115,31 @@ public class CacheService extends BaseController{
             Byte cacheKey = null;
             switch (module){
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_EDU; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_EDU; break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_WORK; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_WORK; break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK; break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY; break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE; break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER; break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME; break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH; break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH; break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER; break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN; break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT; break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN:
-                    cacheKey = SystemConstants.CACHEKEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN; break;
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN; break;
             }
             countCache.put(cacheKey, num);
         }
@@ -151,13 +151,13 @@ public class CacheService extends BaseController{
             Byte cacheKey = null;
             switch (type){
                 case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF:
-                    cacheKey = SystemConstants.CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_SELF; break;
+                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_SELF; break;
                 case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW:
-                    cacheKey = SystemConstants.CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_TW; break;
+                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW; break;
                 case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_OTHER:
-                    cacheKey = SystemConstants.CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER; break;
+                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER; break;
                 case AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF:
-                    cacheKey = SystemConstants.CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF; break;
+                    cacheKey = CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF; break;
             }
             countCache.put(cacheKey, num);
         }

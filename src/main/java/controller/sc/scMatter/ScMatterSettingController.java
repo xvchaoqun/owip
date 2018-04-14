@@ -79,7 +79,7 @@ public class ScMatterSettingController extends ScMatterBaseController {
     public Map do_scMatterSetting_changeOrder(Integer id,Integer addNum, HttpServletRequest request) {
 
         metaTypeService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_SC_MATTER, "个人有关事项参数设置-调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_SC_MATTER, "个人有关事项参数设置-调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }*/
 }

@@ -19,7 +19,7 @@ public class DispatchUnitService extends BaseMapper {
 
     /*public boolean idDuplicate(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "null");
 
         DispatchUnitExample example = new DispatchUnitExample();
         DispatchUnitExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code).andStatusEqualTo(true);

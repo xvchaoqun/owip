@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -108,11 +108,11 @@ public class CetCourseTypeController extends CetBaseController {
 
         if (id == null) {
             cetCourseTypeService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加专题分类：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加专题分类：%s", record.getId()));
         } else {
 
             cetCourseTypeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新专题分类：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新专题分类：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -137,7 +137,7 @@ public class CetCourseTypeController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetCourseTypeService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除专题分类：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除专题分类：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -149,7 +149,7 @@ public class CetCourseTypeController extends CetBaseController {
     public Map do_cetCourseType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetCourseTypeService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_CET, "专题分类调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_CET, "专题分类调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

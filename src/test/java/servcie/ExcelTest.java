@@ -25,6 +25,7 @@ import persistence.cadre.CadreViewMapper;
 import persistence.dispatch.common.IDispatchMapper;
 import service.cadre.CadreService;
 import service.unit.UnitService;
+import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
@@ -114,7 +115,7 @@ public class ExcelTest {
             row2.getCell(0).setCellComment(comment);*/
 
             CadreViewExample example = new CadreViewExample();
-            example.createCriteria().andUnitIdEqualTo(unit.getId()).andStatusEqualTo(SystemConstants.CADRE_STATUS_MIDDLE);
+            example.createCriteria().andUnitIdEqualTo(unit.getId()).andStatusEqualTo(CadreConstants.CADRE_STATUS_MIDDLE);
             example.setOrderByClause("sort_order desc");
             List<CadreView> cadres = cadreViewMapper.selectByExample(example);
 
@@ -126,7 +127,7 @@ public class ExcelTest {
             List<DispatchCadreView> filterLeaveCadres = new ArrayList<>();
             for (DispatchCadreView leaveCadre : leaveCadres) {
                 CadreView cadre = cadreMap.get(leaveCadre.getCadreId());
-                if(cadre.getStatus()!=SystemConstants.CADRE_STATUS_MIDDLE){
+                if(cadre.getStatus()!= CadreConstants.CADRE_STATUS_MIDDLE){
                     filterLeaveCadres.add(leaveCadre);
                 }
             }

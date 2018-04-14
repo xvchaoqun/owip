@@ -1,7 +1,7 @@
 package controller.pcs.prList;
 
-import controller.pcs.PcsBaseController;
 import controller.global.OpException;
+import controller.pcs.PcsBaseController;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrCandidateView;
@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
 import sys.utils.ContentTypeUtils;
 import sys.utils.ContextHelper;
 import sys.utils.FileUtils;
@@ -97,7 +97,7 @@ public class PcsPrFileController extends PcsBaseController {
 
         pcsPrListService.sort(configId, partyId, userIds);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "按姓氏笔画排序"));
+        logger.info(addLog(LogConstants.LOG_PCS, "按姓氏笔画排序"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -142,7 +142,7 @@ public class PcsPrFileController extends PcsBaseController {
             pcsPrFileMapper.updateByPrimaryKeySelective(record);
         }
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "上传党员大会材料：%s-%s", savePath, originalFilename));
+        logger.info(addLog(LogConstants.LOG_PCS, "上传党员大会材料：%s-%s", savePath, originalFilename));
         return success(FormUtils.SUCCESS);
     }
 

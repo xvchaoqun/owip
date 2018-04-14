@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -86,7 +86,7 @@ public class UnitTransferController extends BaseController {
             record.setDispatchs(StringUtils.join(ids, ","));
         }
         unitTransferMapper.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改单位发文%s-关联发文：%s", id, StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "修改单位发文%s-关联发文：%s", id, StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -166,11 +166,11 @@ public class UnitTransferController extends BaseController {
 
         if (id == null) {
             unitTransferService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加单位变更：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加单位变更：%s", record.getId()));
         } else {
 
             unitTransferService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新单位变更：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新单位变更：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -199,7 +199,7 @@ public class UnitTransferController extends BaseController {
         if (id != null) {
 
             unitTransferService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除单位变更：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除单位变更：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -212,7 +212,7 @@ public class UnitTransferController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             unitTransferService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除单位变更：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除单位变更：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -224,7 +224,7 @@ public class UnitTransferController extends BaseController {
     public Map do_unitTransfer_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         unitTransferService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "单位变更调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "单位变更调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

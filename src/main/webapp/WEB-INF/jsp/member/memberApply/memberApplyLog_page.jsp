@@ -48,7 +48,7 @@ pageEncoding="UTF-8" %>
                                                                 <div class="input-group">
                                                                     <select class="form-control" name="stage" data-rel="select2" data-placeholder="请选择阶段">
                                                                         <option></option>
-                                                                        <c:forEach items="${APPLY_STAGE_MAP}" var="applyStageType">
+                                                                        <c:forEach items="${OW_APPLY_STAGE_MAP}" var="applyStageType">
                                                                             <option value="${applyStageType.value}">${applyStageType.value}</option>
                                                                         </c:forEach>
                                                                     </select>
@@ -113,7 +113,7 @@ pageEncoding="UTF-8" %>
 <script>
     $("#jqGrid").jqGrid({
         multiselect:false,
-        url: "${ctx}/applyApprovalLog_data?callback=?&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY}&${cm:encodeQueryString(pageContext.request.queryString)}",
+        url: "${ctx}/applyApprovalLog_data?callback=?&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY}&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel: [
             {label: '${type==1?"学生证号":"工作证号"}', name: 'applyUser.code', width: 150, frozen:true},
             {label: '姓名', name: 'applyUser.realname', width: 100, frozen:true},

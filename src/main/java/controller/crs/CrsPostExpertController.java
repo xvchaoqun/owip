@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.FormUtils;
@@ -146,11 +146,11 @@ public class CrsPostExpertController extends CrsBaseController {
         if (id == null) {
 
             crsPostExpertService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_CRS, "添加岗位专家：%s", id));
+            logger.info(addLog(LogConstants.LOG_CRS, "添加岗位专家：%s", id));
         } else {
 
             crsPostExpertService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_CRS, "更新岗位专家：%s", id));
+            logger.info(addLog(LogConstants.LOG_CRS, "更新岗位专家：%s", id));
         }
 
         return success(FormUtils.SUCCESS);
@@ -163,7 +163,7 @@ public class CrsPostExpertController extends CrsBaseController {
     public Map do_crsPostExpert_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         crsPostExpertService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_CRS, "岗位专家调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_CRS, "岗位专家调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -176,7 +176,7 @@ public class CrsPostExpertController extends CrsBaseController {
         if (null != ids && ids.length > 0) {
 
             crsPostExpertService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_CRS, "批量删除岗位专家：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CRS, "批量删除岗位专家：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

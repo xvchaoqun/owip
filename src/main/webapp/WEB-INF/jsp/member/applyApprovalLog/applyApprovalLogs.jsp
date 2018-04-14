@@ -34,7 +34,7 @@
           <tr>
             <td>${record.stage}</td>
             <td>${cm:getUserById(record.userId).realname}</td>
-            <td>${APPLY_APPROVAL_LOG_STATUS_MAP.get(record.status)}</td>
+            <td>${OW_APPLY_APPROVAL_LOG_STATUS_MAP.get(record.status)}</td>
             <td>${record.remark}</td>
             <td>${cm:formatDate(record.createTime,'yyyy-MM-dd HH:mm:ss')}</td>
           </tr>

@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.VerifyConstants;
 import sys.utils.ContextHelper;
 
 import java.util.Arrays;
@@ -21,7 +21,7 @@ public class VerifyWorkTimeService extends BaseMapper {
     public VerifyWorkTime get(int cadreId){
 
         VerifyWorkTimeExample example = new VerifyWorkTimeExample();
-        VerifyWorkTimeExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.VERIFY_STATUS_NORMAL);
+        VerifyWorkTimeExample.Criteria criteria = example.createCriteria().andStatusEqualTo(VerifyConstants.VERIFY_STATUS_NORMAL);
         criteria.andCadreIdEqualTo(cadreId);
         List<VerifyWorkTime> verifyWorkTimes = verifyWorkTimeMapper.selectByExample(example);
 
@@ -31,7 +31,7 @@ public class VerifyWorkTimeService extends BaseMapper {
     public boolean idDuplicate(int cadreId) {
 
         VerifyWorkTimeExample example = new VerifyWorkTimeExample();
-        VerifyWorkTimeExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.VERIFY_STATUS_NORMAL);
+        VerifyWorkTimeExample.Criteria criteria = example.createCriteria().andStatusEqualTo(VerifyConstants.VERIFY_STATUS_NORMAL);
         criteria.andCadreIdEqualTo(cadreId);
         return verifyWorkTimeMapper.countByExample(example) > 0;
     }
@@ -40,7 +40,7 @@ public class VerifyWorkTimeService extends BaseMapper {
     @Transactional
     public void insertSelective(VerifyWorkTime record) {
 
-        record.setStatus(SystemConstants.VERIFY_STATUS_NORMAL);
+        record.setStatus(VerifyConstants.VERIFY_STATUS_NORMAL);
         Assert.isTrue(!idDuplicate(record.getCadreId()), "duplicate cadreId");
         record.setSubmitTime(new Date());
         record.setSubmitIp(ContextHelper.getRealIp());
@@ -55,10 +55,10 @@ public class VerifyWorkTimeService extends BaseMapper {
         if (ids == null || ids.length == 0) return;
 
         VerifyWorkTimeExample example = new VerifyWorkTimeExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids)).andStatusEqualTo(SystemConstants.VERIFY_STATUS_NORMAL);
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andStatusEqualTo(VerifyConstants.VERIFY_STATUS_NORMAL);
 
         VerifyWorkTime record = new VerifyWorkTime();
-        record.setStatus(SystemConstants.VERIFY_STATUS_DEL);
+        record.setStatus(VerifyConstants.VERIFY_STATUS_DEL);
         record.setUpdateTime(new Date());
         record.setUpdateIp(ContextHelper.getRealIp());
         record.setUpdateUserId(ShiroHelper.getCurrentUserId());
@@ -72,7 +72,7 @@ public class VerifyWorkTimeService extends BaseMapper {
         // 更新原记录
         VerifyWorkTime _update = new VerifyWorkTime();
         _update.setId(record.getId());
-        _update.setStatus(SystemConstants.VERIFY_STATUS_MODIFY);
+        _update.setStatus(VerifyConstants.VERIFY_STATUS_MODIFY);
         _update.setUpdateTime(new Date());
         _update.setUpdateIp(ContextHelper.getRealIp());
         _update.setUpdateUserId(ShiroHelper.getCurrentUserId());

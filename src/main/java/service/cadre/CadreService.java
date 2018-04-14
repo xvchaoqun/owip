@@ -32,8 +32,8 @@ import service.sys.SysUserService;
 import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
+import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
 
@@ -84,13 +84,13 @@ public class CadreService extends BaseMapper {
 
         CadreExample example = new CadreExample();
         CadreExample.Criteria criteria = example.createCriteria()
-                .andUserIdEqualTo(userId).andStatusIn(new ArrayList<Byte>(SystemConstants.CADRE_STATUS_SET));
+                .andUserIdEqualTo(userId).andStatusIn(new ArrayList<Byte>(CadreConstants.CADRE_STATUS_SET));
         if (id != null) criteria.andIdNotEqualTo(id);
         long count = cadreMapper.countByExample(example);
         if (count > 0) {
             CadreView cadre = dbFindByUserId(userId);
             throw new OpException(cadre.getUser().getRealname()
-                    + "已经在" + SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "中");
+                    + "已经在" + CadreConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "中");
         }
 
         if (id == null && count == 0) { // 新添加干部的时候，判断一下是否在后备干部库或考察对象库中
@@ -124,19 +124,19 @@ public class CadreService extends BaseMapper {
         Byte status = null;
         Cadre cadre = cadreMapper.selectByPrimaryKey(id);
         byte orgStatus = cadre.getStatus();
-        if (orgStatus == SystemConstants.CADRE_STATUS_MIDDLE) {
-            status = SystemConstants.CADRE_STATUS_MIDDLE_LEAVE;
-        } else if (orgStatus == SystemConstants.CADRE_STATUS_LEADER) {
-            status = SystemConstants.CADRE_STATUS_LEADER_LEAVE;
+        if (orgStatus == CadreConstants.CADRE_STATUS_MIDDLE) {
+            status = CadreConstants.CADRE_STATUS_MIDDLE_LEAVE;
+        } else if (orgStatus == CadreConstants.CADRE_STATUS_LEADER) {
+            status = CadreConstants.CADRE_STATUS_LEADER_LEAVE;
         }
 
         if (status == null) return -1;
 
         // 记录任免日志
         cadreAdLogService.addLog(id, "干部离任",
-                SystemConstants.CADRE_AD_LOG_MODULE_CADRE, id);
+                CadreConstants.CADRE_AD_LOG_MODULE_CADRE, id);
 
-        if (status == SystemConstants.CADRE_STATUS_MIDDLE_LEAVE) {
+        if (status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE) {
 
             /**2016.11.08
              *
@@ -201,12 +201,12 @@ public class CadreService extends BaseMapper {
 
             // 记录任免日志
             cadreAdLogService.addLog(id, "重新任用",
-                    SystemConstants.CADRE_AD_LOG_MODULE_CADRE, id);
+                    CadreConstants.CADRE_AD_LOG_MODULE_CADRE, id);
 
             Cadre cadre = cadreMapper.selectByPrimaryKey(id);
             int userId = cadre.getUserId();
-            if (cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE_LEAVE
-                    && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER_LEAVE) {
+            if (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE_LEAVE
+                    && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER_LEAVE) {
                 throw new IllegalArgumentException("干部[" + cadre.getUser().getRealname() + "]状态异常：" + cadre.getStatus());
             }
 
@@ -218,11 +218,11 @@ public class CadreService extends BaseMapper {
 
             // 添加到考察对象中
             CadreInspect record = new CadreInspect();
-            record.setSortOrder(getNextSortOrder(CadreInspectService.TABLE_NAME, "status=" + SystemConstants.CADRE_INSPECT_STATUS_NORMAL));
+            record.setSortOrder(getNextSortOrder(CadreInspectService.TABLE_NAME, "status=" + CadreConstants.CADRE_INSPECT_STATUS_NORMAL));
             record.setCadreId(cadre.getId());
-            record.setStatus(SystemConstants.CADRE_INSPECT_STATUS_NORMAL);
-            record.setType(SystemConstants.CADRE_INSPECT_TYPE_DEFAULT);
-            record.setRemark(SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "重新任用");
+            record.setStatus(CadreConstants.CADRE_INSPECT_STATUS_NORMAL);
+            record.setType(CadreConstants.CADRE_INSPECT_TYPE_DEFAULT);
+            record.setRemark(CadreConstants.CADRE_STATUS_MAP.get(cadre.getStatus()) + "重新任用");
             cadreInspectMapper.insertSelective(record);
         }
     }
@@ -248,10 +248,10 @@ public class CadreService extends BaseMapper {
         // 检查
         directAddCheck(null, userId);
 
-        Assert.isTrue(record.getStatus() != null && record.getStatus() != SystemConstants.CADRE_STATUS_RESERVE
-                && record.getStatus() != SystemConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非后备干部、考察对象
+        Assert.isTrue(record.getStatus() != null && record.getStatus() != CadreConstants.CADRE_STATUS_RESERVE
+                && record.getStatus() != CadreConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非后备干部、考察对象
 
-        if(SystemConstants.CADRE_STATUS_SET.contains(record.getStatus())){
+        if(CadreConstants.CADRE_STATUS_SET.contains(record.getStatus())){
             // 添加干部身份
             sysUserService.addRole(userId, RoleConstants.ROLE_CADRE);
         }
@@ -270,7 +270,7 @@ public class CadreService extends BaseMapper {
 
         // 记录任免日志
         cadreAdLogService.addLog(record.getId(), "添加干部",
-                SystemConstants.CADRE_AD_LOG_MODULE_CADRE, record.getId());
+                CadreConstants.CADRE_AD_LOG_MODULE_CADRE, record.getId());
     }
 
     @Transactional
@@ -319,8 +319,8 @@ public class CadreService extends BaseMapper {
         for (Integer id : ids) {
 
             Cadre cadre = cadreMapper.selectByPrimaryKey(id);
-            Assert.isTrue(cadre.getStatus() != SystemConstants.CADRE_STATUS_RESERVE
-                    && cadre.getStatus() != SystemConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非后备干部、考察对象
+            Assert.isTrue(cadre.getStatus() != CadreConstants.CADRE_STATUS_RESERVE
+                    && cadre.getStatus() != CadreConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非后备干部、考察对象
 
             cadreMapper.deleteByPrimaryKey(id);
 
@@ -387,7 +387,7 @@ public class CadreService extends BaseMapper {
                 Integer cadreId = cadreView.getId();
                 // 记录任免日志
                 cadreAdLogService.addLog(cadreId, "删除干部党派：" + JSONUtils.toString(cadreParty, false),
-                        SystemConstants.CADRE_AD_LOG_MODULE_CADRE, cadreId);
+                        CadreConstants.CADRE_AD_LOG_MODULE_CADRE, cadreId);
             }
         }
 
@@ -420,9 +420,9 @@ public class CadreService extends BaseMapper {
     public Map<Integer, CadreView> findAll() {
 
         Set<Byte> cadreStatusSet = new HashSet<>();
-        cadreStatusSet.addAll(SystemConstants.CADRE_STATUS_SET);
-        cadreStatusSet.add(SystemConstants.CADRE_STATUS_RESERVE);
-        cadreStatusSet.add(SystemConstants.CADRE_STATUS_INSPECT);
+        cadreStatusSet.addAll(CadreConstants.CADRE_STATUS_SET);
+        cadreStatusSet.add(CadreConstants.CADRE_STATUS_RESERVE);
+        cadreStatusSet.add(CadreConstants.CADRE_STATUS_INSPECT);
 
         CadreViewExample example = new CadreViewExample();
         example.createCriteria().andStatusIn(new ArrayList<>(cadreStatusSet));

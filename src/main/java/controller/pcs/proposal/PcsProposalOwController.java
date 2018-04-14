@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +39,7 @@ public class PcsProposalOwController extends PcsBaseController {
 
         // candidateId
         pcsProposalOwService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_PCS, "党代表名单调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_PCS, "党代表名单调序：%s, %s", id, addNum));
 
         return success(FormUtils.SUCCESS);
     }

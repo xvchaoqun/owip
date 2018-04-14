@@ -13,15 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import controller.global.OpException;
 import service.LoginUserService;
 import service.party.EnterApplyService;
 import service.party.MemberService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.List;
@@ -263,9 +262,9 @@ public class MemberQuitService extends BaseMapper {
             int userId = memberQuit.getUserId();
             applyApprovalLogService.add(memberQuit.getUserId(),
                     memberQuit.getPartyId(), memberQuit.getBranchId(), userId,
-                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
-                            (type == 2)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, (type == 1)
+                    loginUserId, (type == 1)? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            (type == 2)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY:OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, (type == 1)
                             ? "支部审核" : (type == 2)
                             ? "分党委审核" : "组织部审核", (byte) 1, null);
         }
@@ -317,9 +316,9 @@ public class MemberQuitService extends BaseMapper {
 
         applyApprovalLogService.add(userId,
                 memberQuit.getPartyId(), memberQuit.getBranchId(), userId,
-                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, MemberConstants.MEMBER_QUIT_STATUS_MAP.get(status),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, MemberConstants.MEMBER_QUIT_STATUS_MAP.get(status),
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 
     /**

@@ -12,7 +12,7 @@
       "searchColumns": "year,hold_date",
       "showColumns": "year,hold_date,file_path,topic_num,word_file_path,log_file,attend_users",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_GROUP",
+      "logType": "LogConstants.LOG_SC_GROUP",
       "ignore": false
     },{
       "table": "sc_group_file",
@@ -20,7 +20,7 @@
       "searchColumns": "is_current",
       "showColumns": "file_path,file_name,is_current,sort_order",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_GROUP",
+      "logType": "LogConstants.LOG_SC_GROUP",
       "ignore": false
     },{
       "table": "sc_group_member",
@@ -28,7 +28,7 @@
       "searchColumns": "user_id,is_current",
       "showColumns": "user_id,is_current,is_leader,sort_order",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_GROUP",
+      "logType": "LogConstants.LOG_SC_GROUP",
       "ignore": false
     },{
       "table": "sc_group_participant",
@@ -36,7 +36,7 @@
       "searchColumns": "group_id",
       "showColumns": "group_id,member_id",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_GROUP",
+      "logType": "LogConstants.LOG_SC_GROUP",
       "ignore": false
     },{
       "table": "sc_group_topic",
@@ -44,7 +44,7 @@
       "searchColumns": "group_id",
       "showColumns": "group_id,name,content,memo,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_GROUP",
+      "logType": "LogConstants.LOG_SC_GROUP",
       "ignore": false
     },{
       "table": "sc_group_topic_unit",
@@ -52,7 +52,7 @@
       "searchColumns": "topic_id",
       "showColumns": "topic_id,unit_id",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_GROUP",
+      "logType": "LogConstants.LOG_SC_GROUP",
       "ignore": false
     }
   ]

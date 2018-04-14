@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.ContentTplConstants;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -130,11 +130,11 @@ public class ContentTplController extends BaseController {
             record.setCreateTime(new Date());
             record.setUserId(loginUser.getId());
             contentTplService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "添加内容模板：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加内容模板：%s", record.getId()));
         } else {
 
             contentTplService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "更新内容模板：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新内容模板：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -168,7 +168,7 @@ public class ContentTplController extends BaseController {
         if (id != null) {
 
             contentTplService.del(id);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "删除内容模板：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除内容模板：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -181,7 +181,7 @@ public class ContentTplController extends BaseController {
 
         if (null != ids && ids.length>0){
             contentTplService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量删除内容模板：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除内容模板：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -198,7 +198,7 @@ public class ContentTplController extends BaseController {
             roleId = -1;
         }
         contentTplService.updateRoles(id, roleId);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新模板所属角色 %s, %s", id, roleId));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新模板所属角色 %s, %s", id, roleId));
         return success(FormUtils.SUCCESS);
     }
 

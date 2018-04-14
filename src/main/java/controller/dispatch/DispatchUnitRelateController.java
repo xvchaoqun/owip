@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -115,11 +115,11 @@ public class DispatchUnitRelateController extends DispatchBaseController {
         if (id == null) {
 
             dispatchUnitRelateService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加单位发文关联单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加单位发文关联单位：%s", record.getId()));
         } else {
 
             dispatchUnitRelateService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新单位发文关联单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新单位发文关联单位：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -144,7 +144,7 @@ public class DispatchUnitRelateController extends DispatchBaseController {
         if (id != null) {
 
             dispatchUnitRelateService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除单位发文关联单位：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除单位发文关联单位：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -157,7 +157,7 @@ public class DispatchUnitRelateController extends DispatchBaseController {
 
         if (null != ids && ids.length > 0) {
             dispatchUnitRelateService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除单位发文关联单位：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除单位发文关联单位：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -170,7 +170,7 @@ public class DispatchUnitRelateController extends DispatchBaseController {
 
         DispatchUnitRelate dispatchUnitRelate = dispatchUnitRelateMapper.selectByPrimaryKey(id);
         dispatchUnitRelateService.changeOrder(id, dispatchUnitRelate.getDispatchUnitId(), addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "单位发文关联单位调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "单位发文关联单位调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

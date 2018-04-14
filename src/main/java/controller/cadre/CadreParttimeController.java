@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -58,7 +60,7 @@ public class CadreParttimeController extends BaseController {
 
             modelMap.put("cadreParttimes", cadreParttimeService.list(cadreId));
 
-            CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_PARTTIME);
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_PARTTIME);
             modelMap.put("cadreInfo", cadreInfo);
         }else{
             String name = "parttime";
@@ -144,10 +146,10 @@ public class CadreParttimeController extends BaseController {
 
             if (!toApply) {
                 cadreParttimeService.insertSelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部社会或学术兼职：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部社会或学术兼职：%s", record.getId()));
             } else {
                 cadreParttimeService.modifyApply(record, null, false);
-                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部社会或学术兼职：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部社会或学术兼职：%s", record.getId()));
             }
 
         } else {
@@ -159,15 +161,15 @@ public class CadreParttimeController extends BaseController {
 
             if (!toApply) {
                 cadreParttimeService.updateByPrimaryKeySelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部社会或学术兼职：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部社会或学术兼职：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
                     cadreParttimeService.modifyApply(record, id, false);
-                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部社会或学术兼职：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部社会或学术兼职：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容
                     cadreParttimeService.updateModify(record, applyId);
-                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部社会或学术兼职：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部社会或学术兼职：%s", record.getId()));
                 }
             }
         }
@@ -202,7 +204,7 @@ public class CadreParttimeController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             cadreParttimeService.batchDel(ids, cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部社会或学术兼职：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部社会或学术兼职：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -215,7 +217,7 @@ public class CadreParttimeController extends BaseController {
 
         CadreParttime cadreParttime = cadreParttimeMapper.selectByPrimaryKey(id);
         cadreParttimeService.changeOrder(id, cadreParttime.getCadreId(), addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部社会或学术兼职调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部社会或学术兼职调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

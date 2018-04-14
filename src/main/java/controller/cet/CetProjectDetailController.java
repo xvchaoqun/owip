@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 
 import java.math.BigDecimal;
@@ -120,7 +120,7 @@ public class CetProjectDetailController extends CetBaseController {
 
         cetProjectMapper.updateByPrimaryKeySelective(record);
 
-        logger.info(addLog(SystemConstants.LOG_CET, "更新专题培训参数设置：%s~%s",
+        logger.info(addLog(LogConstants.LOG_CET, "更新专题培训参数设置：%s~%s",
                 cetProject.getName(), requirePeriod));
 
         return success(FormUtils.SUCCESS);

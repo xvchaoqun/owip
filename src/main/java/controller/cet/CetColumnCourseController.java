@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -109,7 +109,7 @@ public class CetColumnCourseController extends CetBaseController {
         }
 
         cetColumnCourseService.insertSelective(record);
-        logger.info(addLog( SystemConstants.LOG_CET, "添加课程栏目包含课程：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_CET, "添加课程栏目包含课程：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -133,7 +133,7 @@ public class CetColumnCourseController extends CetBaseController {
         if (id != null) {
 
             cetColumnCourseService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除课程栏目包含课程：%s", id));
+            logger.info(addLog(LogConstants.LOG_CET, "删除课程栏目包含课程：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -146,7 +146,7 @@ public class CetColumnCourseController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetColumnCourseService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除课程栏目包含课程：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除课程栏目包含课程：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -158,7 +158,7 @@ public class CetColumnCourseController extends CetBaseController {
     public Map do_cetColumnCourse_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetColumnCourseService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_CET, "课程栏目包含课程调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_CET, "课程栏目包含课程调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

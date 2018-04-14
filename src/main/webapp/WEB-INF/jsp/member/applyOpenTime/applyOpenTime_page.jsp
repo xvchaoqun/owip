@@ -26,7 +26,7 @@ pageEncoding="UTF-8" %>
                                         <input type="hidden" name="cls" value="${param.cls}">
                                         <select name="type" data-rel="select2" data-placeholder="请选择阶段">
                                             <option></option>
-                                            <c:forEach items="${APPLY_STAGE_MAP}" var="type">
+                                            <c:forEach items="${OW_APPLY_STAGE_MAP}" var="type">
                                                 <c:if test="${type.key>0}">
                                                     <option value="${type.key}">${type.value}</option>
                                                 </c:if>
@@ -90,7 +90,7 @@ pageEncoding="UTF-8" %>
                                                     </td>
                                                     <td>${cm:formatDate(applyOpenTime.startTime,'yyyy-MM-dd')}</td>
                                                     <td>${cm:formatDate(applyOpenTime.endTime,'yyyy-MM-dd')}</td>
-                                                    <td>${APPLY_STAGE_MAP.get(applyOpenTime.type)}</td>
+                                                    <td>${OW_APPLY_STAGE_MAP.get(applyOpenTime.type)}</td>
                                                     <td>${applyOpenTime.isGlobal?"是":"否"}</td>
                                                     <td>
                                                         <div class="hidden-sm hidden-xs action-buttons">

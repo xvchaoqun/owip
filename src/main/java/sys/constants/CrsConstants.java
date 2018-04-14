@@ -188,8 +188,8 @@ public class CrsConstants {
 
     public final static Set<Byte> CRS_EXPERT_CADRE_STATUS_SET = new HashSet<>(); // 干部招聘专家组要求的干部状态
     static {
-        CRS_EXPERT_CADRE_STATUS_SET.add(SystemConstants.CADRE_STATUS_MIDDLE);
-        CRS_EXPERT_CADRE_STATUS_SET.add(SystemConstants.CADRE_STATUS_LEADER);
+        CRS_EXPERT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_MIDDLE);
+        CRS_EXPERT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_LEADER);
     }
 
 }

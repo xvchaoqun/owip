@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -154,7 +154,7 @@ public class PmdBranchController extends PmdBaseController {
         }
 
         pmdBranchService.report(id);
-        logger.info(addLog(SystemConstants.LOG_PMD, "党支部报送：%s", id));
+        logger.info(addLog(LogConstants.LOG_PMD, "党支部报送：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -221,11 +221,11 @@ public class PmdBranchController extends PmdBaseController {
 
         if (id == null) {
             pmdBranchService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PMD, "添加每月参与线上收费的党支部：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PMD, "添加每月参与线上收费的党支部：%s", record.getId()));
         } else {
 
             pmdBranchService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PMD, "更新每月参与线上收费的党支部：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PMD, "更新每月参与线上收费的党支部：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -251,7 +251,7 @@ public class PmdBranchController extends PmdBaseController {
         if (id != null) {
 
             pmdBranchService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PMD, "删除当月参与线上收费的党支部：%s", id));
+            logger.info(addLog(LogConstants.LOG_PMD, "删除当月参与线上收费的党支部：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -264,7 +264,7 @@ public class PmdBranchController extends PmdBaseController {
 
         if (null != ids && ids.length > 0) {
             pmdBranchService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PMD, "批量删除当月参与线上收费的党支部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PMD, "批量删除当月参与线上收费的党支部：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

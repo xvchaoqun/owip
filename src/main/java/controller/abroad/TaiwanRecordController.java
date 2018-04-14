@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.AbroadConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
@@ -141,11 +141,11 @@ public class TaiwanRecordController extends AbroadBaseController {
             record.setIsDeleted(false);
             record.setCreateTime(new Date());
             taiwanRecordService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加因公赴台备案：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "添加因公赴台备案：%s", record.getId()));
         } else {
 
             taiwanRecordService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新因公赴台备案：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "更新因公赴台备案：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -187,7 +187,7 @@ public class TaiwanRecordController extends AbroadBaseController {
 
         taiwanRecordMapper.updateByExampleSelective(record, example);
 
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "[因公赴台备案]修改新证件应交组织部日期：%s", id));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "[因公赴台备案]修改新证件应交组织部日期：%s", id));
         return success(FormUtils.SUCCESS);
     }
 
@@ -199,7 +199,7 @@ public class TaiwanRecordController extends AbroadBaseController {
 
         if (null != ids && ids.length > 0) {
             taiwanRecordService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除因公赴台备案：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量删除因公赴台备案：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

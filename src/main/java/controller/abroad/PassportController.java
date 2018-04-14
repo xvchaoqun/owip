@@ -38,8 +38,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.abroad.common.PassportSearchBean;
 import sys.constants.AbroadConstants;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -227,7 +228,7 @@ public class PassportController extends AbroadBaseController {
                         sysUser.getRealname(),
                         cadre.getTitle(),
                         cadre.getPostType()!=null?cadre.getPostType().getName():"",
-                        SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
+                        CadreConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
                         record.getPassportClass().getName(),
                         record.getCode(),
                         record.getAuthority(),
@@ -257,7 +258,7 @@ public class PassportController extends AbroadBaseController {
                         uv.getRealname(),
                         cadre.getTitle(),
                         cadre.getPostType()!=null?cadre.getPostType().getName():"",
-                        SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
+                        CadreConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
                         record.getPassportClass().getName(),
                         record.getCode(),
                         record.getAuthority(),
@@ -288,7 +289,7 @@ public class PassportController extends AbroadBaseController {
                         uv.getRealname(),
                         cadre.getTitle(),
                         cadre.getPostType()!=null?cadre.getPostType().getName():"",
-                        SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
+                        CadreConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
                         record.getPassportClass().getName(),
                         record.getCode(),
                         record.getAuthority(),
@@ -322,7 +323,7 @@ public class PassportController extends AbroadBaseController {
                         uv.getRealname(),
                         cadre.getTitle(),
                         cadre.getPostType()!=null?cadre.getPostType().getName():"",
-                        SystemConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
+                        CadreConstants.CADRE_STATUS_MAP.get(cadre.getStatus()),
                         record.getPassportClass().getName(),
                         record.getCode(),
                         record.getAuthority(),
@@ -397,7 +398,7 @@ public class PassportController extends AbroadBaseController {
         }
 
         passportService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "确认取消集中管理证件：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "确认取消集中管理证件：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -472,7 +473,7 @@ public class PassportController extends AbroadBaseController {
         if(record.getPic()!=null){
 
             passportService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "上传证件首页：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "上传证件首页：%s", record.getId()));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -515,7 +516,7 @@ public class PassportController extends AbroadBaseController {
         record.setLostUserId(loginUser.getId());
         if(record.getLostTime()!=null || record.getLostProof()!=null)
             passportService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "更新证件丢失证明：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "更新证件丢失证明：%s", record.getId()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -566,7 +567,7 @@ public class PassportController extends AbroadBaseController {
         //record.setCancelConfirm(true);
         if(record.getCancelTime()!=null || record.getCancelPic()!=null)
             passportService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "更新取消集中管理证明：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "更新取消集中管理证明：%s", record.getId()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -658,7 +659,7 @@ public class PassportController extends AbroadBaseController {
             record.setCancelConfirm(false);
             record.setCreateTime(new Date());
             passportService.add(record, applyId, taiwanRecordId);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加证件：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "添加证件：%s", record.getId()));
 
             // 添加证件后需要短信提醒
             resultMap.put("id", record.getId());
@@ -682,7 +683,7 @@ public class PassportController extends AbroadBaseController {
                 passportService.back(record);
             }
 
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新证件：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "更新证件：%s", record.getId()));
         }
 
         return resultMap;
@@ -823,7 +824,7 @@ public class PassportController extends AbroadBaseController {
         }
 
         passportService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "丢失证件：%s", id));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "丢失证件：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -851,7 +852,7 @@ public class PassportController extends AbroadBaseController {
                                    String cancelTypeOther) {
 
         passportService.abolish(id,cancelType, cancelTypeOther);
-        logger.info(addLog(SystemConstants.LOG_ABROAD,
+        logger.info(addLog(LogConstants.LOG_ABROAD,
                 "取消证件集中管理：%s, %s", id, cancelType, cancelTypeOther));
 
         return success(FormUtils.SUCCESS);
@@ -865,7 +866,7 @@ public class PassportController extends AbroadBaseController {
         Passport passport = passportService.unabolish(id);
         if(passport!=null) {
             MetaType mcPassportType = CmTag.getMetaType(passport.getClassId());
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "已取消集中管理证件返回集中管理：%s, %s",
+            logger.info(addLog(LogConstants.LOG_ABROAD, "已取消集中管理证件返回集中管理：%s, %s",
                     passport.getUser().getRealname(), mcPassportType.getName()));
         }
 
@@ -880,7 +881,7 @@ public class PassportController extends AbroadBaseController {
         if (id != null) {
 
             passportService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除证件：%s", id));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "删除证件：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -893,7 +894,7 @@ public class PassportController extends AbroadBaseController {
 
         if (null != ids && ids.length > 0) {
             passportService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除证件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量删除证件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

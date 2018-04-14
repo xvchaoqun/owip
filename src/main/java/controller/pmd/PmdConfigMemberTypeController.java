@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -94,11 +94,11 @@ public class PmdConfigMemberTypeController extends PmdBaseController {
         if (id == null) {
             record.setIsDeleted(false);
             pmdConfigMemberTypeService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_PMD, "添加党员计费类别：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PMD, "添加党员计费类别：%s", record.getId()));
         } else {
 
             pmdConfigMemberTypeService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_PMD, "更新党员计费类别：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PMD, "更新党员计费类别：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -126,7 +126,7 @@ public class PmdConfigMemberTypeController extends PmdBaseController {
         if (id != null) {
 
             pmdConfigMemberTypeService.del(id);
-            logger.info(addLog( SystemConstants.LOG_PMD, "删除党员计费类别：%s", id));
+            logger.info(addLog(LogConstants.LOG_PMD, "删除党员计费类别：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -139,7 +139,7 @@ public class PmdConfigMemberTypeController extends PmdBaseController {
 
         if (null != ids && ids.length>0){
             pmdConfigMemberTypeService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_PMD, "批量删除党员计费类别：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PMD, "批量删除党员计费类别：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -151,7 +151,7 @@ public class PmdConfigMemberTypeController extends PmdBaseController {
     public Map do_pmdConfigMemberType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         pmdConfigMemberTypeService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_PMD, "党员计费类别调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_PMD, "党员计费类别调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 }

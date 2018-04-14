@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -51,13 +53,13 @@ public class CadreResearchController extends BaseController {
     @RequiresPermissions("cadreResearch:list")
     @RequestMapping("/cadreResearch_page")
     public String cadreResearch_page(
-            @RequestParam(defaultValue = SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY + "") Byte type,
+            @RequestParam(defaultValue = CadreConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY + "") Byte type,
             Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("type", type);
 
             /*CadreResearchExample example = new CadreResearchExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId).andResearchTypeEqualTo(SystemConstants.CADRE_RESEARCH_TYPE_DIRECT);
+            example.createCriteria().andCadreIdEqualTo(cadreId).andResearchTypeEqualTo(CadreConstants.CADRE_RESEARCH_TYPE_DIRECT);
             example.setOrderByClause("start_time asc");
             List<CadreResearch> cadreResearchs = cadreResearchMapper.selectByExample(example);
             modelMap.put("cadreResearchs", cadreResearchs);*/
@@ -65,37 +67,37 @@ public class CadreResearchController extends BaseController {
         CadreInfo cadreInfo = cadreInfoService.get(cadreId, type);
         modelMap.put("cadreInfo", cadreInfo);
 
-        /*if (type == SystemConstants.CADRE_INFO_TYPE_RESEARCH) {
+        /*if (type == CadreConstants.CADRE_INFO_TYPE_RESEARCH) {
             Map<String, HtmlFragment> htmlFragmentMap = htmlFragmentService.codeKeyMap();
-            modelMap.put("researchInInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY));
-            modelMap.put("researchDirectInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY));
-            modelMap.put("bookInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_BOOK_SUMMARY));
-            modelMap.put("paperInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_PAPER_SUMMARY));
-            //modelMap.put("researchRewardInfo", cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_RESEARCH_REWARD));
+            modelMap.put("researchInInfo", cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY));
+            modelMap.put("researchDirectInfo", cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY));
+            modelMap.put("bookInfo", cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_BOOK_SUMMARY));
+            modelMap.put("paperInfo", cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_PAPER_SUMMARY));
+            //modelMap.put("researchRewardInfo", cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_RESEARCH_REWARD));
 
 
         } else {
             String key = null;
             switch (type) {
-                case SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY: {
+                case CadreConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY: {
                     key = "hf_cadre_research_in_summary";
                     CadreResearchExample example = new CadreResearchExample();
                     example.createCriteria().andCadreIdEqualTo(cadreId)
-                            .andResearchTypeEqualTo(SystemConstants.CADRE_RESEARCH_TYPE_IN)
+                            .andResearchTypeEqualTo(CadreConstants.CADRE_RESEARCH_TYPE_IN)
                             .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                     modelMap.put("count", cadreResearchMapper.countByExample(example));
                 }
                 break;
-                case SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY: {
+                case CadreConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY: {
                     key = "hf_cadre_research_direct_summary";
                     CadreResearchExample example = new CadreResearchExample();
                     example.createCriteria().andCadreIdEqualTo(cadreId)
-                            .andResearchTypeEqualTo(SystemConstants.CADRE_RESEARCH_TYPE_DIRECT)
+                            .andResearchTypeEqualTo(CadreConstants.CADRE_RESEARCH_TYPE_DIRECT)
                             .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                     modelMap.put("count", cadreResearchMapper.countByExample(example));
                 }
                 break;
-                case SystemConstants.CADRE_INFO_TYPE_BOOK_SUMMARY: {
+                case CadreConstants.CADRE_INFO_TYPE_BOOK_SUMMARY: {
                     key = "hf_cadre_book_summary";
                     CadreBookExample example = new CadreBookExample();
                     example.createCriteria().andCadreIdEqualTo(cadreId)
@@ -103,7 +105,7 @@ public class CadreResearchController extends BaseController {
                     modelMap.put("count", cadreBookMapper.countByExample(example));
                 }
                 break;
-                case SystemConstants.CADRE_INFO_TYPE_PAPER_SUMMARY: {
+                case CadreConstants.CADRE_INFO_TYPE_PAPER_SUMMARY: {
                     key = "hf_cadre_paper_summary";
                     CadrePaperExample example = new CadrePaperExample();
                     example.createCriteria().andCadreIdEqualTo(cadreId)
@@ -111,7 +113,7 @@ public class CadreResearchController extends BaseController {
                     modelMap.put("count", cadrePaperMapper.countByExample(example));
                 }
                 break;
-                *//*case SystemConstants.CADRE_INFO_TYPE_RESEARCH_REWARD:
+                *//*case CadreConstants.CADRE_INFO_TYPE_RESEARCH_REWARD:
                     key = "hf_cadre_research_reward";
                     break;*//*
             }
@@ -124,23 +126,23 @@ public class CadreResearchController extends BaseController {
 
         String name = null;
         switch (type) {
-            case SystemConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY: {
+            case CadreConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY: {
                 name = "research_direct";
             }
             break;
-            case SystemConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY: {
+            case CadreConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY: {
                 name = "research_in";
             }
             break;
-            case SystemConstants.CADRE_INFO_TYPE_BOOK_SUMMARY: {
+            case CadreConstants.CADRE_INFO_TYPE_BOOK_SUMMARY: {
                 name = "book";
             }
             break;
-            case SystemConstants.CADRE_INFO_TYPE_PAPER_SUMMARY: {
+            case CadreConstants.CADRE_INFO_TYPE_PAPER_SUMMARY: {
                 name = "paper";
             }
             break;
-            case SystemConstants.CADRE_INFO_TYPE_RESEARCH_REWARD: {
+            case CadreConstants.CADRE_INFO_TYPE_RESEARCH_REWARD: {
                 name = "research_reward";
             }
             break;
@@ -148,11 +150,11 @@ public class CadreResearchController extends BaseController {
         modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
         modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
 
-        modelMap.put("cadreResearchDirects", cadreResearchService.list(cadreId, SystemConstants.CADRE_RESEARCH_TYPE_DIRECT));
-        modelMap.put("cadreResearchIns", cadreResearchService.list(cadreId, SystemConstants.CADRE_RESEARCH_TYPE_IN));
+        modelMap.put("cadreResearchDirects", cadreResearchService.list(cadreId, CadreConstants.CADRE_RESEARCH_TYPE_DIRECT));
+        modelMap.put("cadreResearchIns", cadreResearchService.list(cadreId, CadreConstants.CADRE_RESEARCH_TYPE_IN));
         modelMap.put("cadreBooks", cadreBookService.list(cadreId));
         modelMap.put("cadrePapers", cadrePaperService.list(cadreId));
-        modelMap.put("cadreRewards", cadreRewardService.list(cadreId, SystemConstants.CADRE_REWARD_TYPE_RESEARCH));
+        modelMap.put("cadreRewards", cadreRewardService.list(cadreId, CadreConstants.CADRE_REWARD_TYPE_RESEARCH));
 
         return "cadre/cadreResearch/cadreResearch_page";
     }
@@ -162,7 +164,7 @@ public class CadreResearchController extends BaseController {
     public String cadreReward_fragment(Integer cadreId, ModelMap modelMap) {
 
         CadreRewardExample example = new CadreRewardExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(SystemConstants.CADRE_REWARD_TYPE_RESEARCH)
+        example.createCriteria().andCadreIdEqualTo(cadreId).andRewardTypeEqualTo(CadreConstants.CADRE_REWARD_TYPE_RESEARCH)
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("reward_time asc");
         List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
@@ -248,10 +250,10 @@ public class CadreResearchController extends BaseController {
 
             if (!toApply) {
                 cadreResearchService.insertSelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部科研项目：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部科研项目：%s", record.getId()));
             } else {
                 cadreResearchService.modifyApply(record, null, record.getResearchType(), false);
-                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部科研项目：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部科研项目：%s", record.getId()));
             }
 
         } else {
@@ -263,15 +265,15 @@ public class CadreResearchController extends BaseController {
 
             if (!toApply) {
                 cadreResearchService.updateByPrimaryKeySelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部科研项目：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部科研项目：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
                     cadreResearchService.modifyApply(record, id, record.getResearchType(), false);
-                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部科研项目：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部科研项目：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容
                     cadreResearchService.updateModify(record, applyId);
-                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部科研项目：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部科研项目：%s", record.getId()));
                 }
             }
         }
@@ -305,7 +307,7 @@ public class CadreResearchController extends BaseController {
         if (id != null) {
 
             cadreResearchService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部科研项目：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除干部科研项目：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -320,7 +322,7 @@ public class CadreResearchController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             cadreResearchService.batchDel(ids, cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部科研项目：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部科研项目：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

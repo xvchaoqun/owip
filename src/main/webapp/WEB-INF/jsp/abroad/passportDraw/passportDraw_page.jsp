@@ -8,7 +8,7 @@
         <div id="body-content">
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <c:set var="countCacheKeys" value="${CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_SELF}"/>
+                    <c:set var="countCacheKeys" value="${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_SELF}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_SELF}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=${ABROAD_PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-credit-card"></i> 因私出国（境）
@@ -17,7 +17,7 @@
                             </c:if>
                         </a>
                     </li>
-                    <c:set var="countCacheKeys" value="${CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_TW},${CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF}"/>
+                    <c:set var="countCacheKeys" value="${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW},${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=${ABROAD_PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-credit-card"></i> 因公赴台、长期因公出国
@@ -26,7 +26,7 @@
                             </c:if>
                         </a>
                     </li>
-                    <c:set var="countCacheKeys" value="${CACHEKEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER}"/>
+                    <c:set var="countCacheKeys" value="${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER}"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_OTHER}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=${ABROAD_PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-credit-card"></i> 处理其他事务

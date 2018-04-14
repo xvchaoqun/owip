@@ -2,17 +2,27 @@ package controller.cet.user;
 
 import controller.cet.CetBaseController;
 import domain.cet.CetProject;
+import domain.cet.CetProjectObj;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
@@ -70,5 +80,55 @@ public class UserCetProjectController extends CetBaseController {
         //baseMixins.put(cetProject.class, cetProjectMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
+    }
+
+    @RequiresPermissions("userCetProject:edit")
+    @RequestMapping(value = "/cetProjectObj_uploadWrite", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProjectObj_uploadWrite(int id, MultipartFile _pdfFilePath,
+                                            MultipartFile _wordFilePath,
+                                            HttpServletRequest request) throws IOException, InterruptedException {
+
+        CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(id);
+        if(cetProjectObj.getUserId().intValue()!=ShiroHelper.getCurrentUserId()){
+            throw new UnauthorizedException();
+        }
+
+        String wordWrite = upload(_wordFilePath, "cetProjectObj");
+        String pdfWrite = uploadPdf(_pdfFilePath, "cetProjectObj");
+
+        if(StringUtils.isNotBlank(wordWrite) || StringUtils.isNotBlank(pdfWrite)) {
+
+            CetProjectObj record = new CetProjectObj();
+            record.setId(id);
+            record.setWordWrite(wordWrite);
+            record.setPdfWrite(pdfWrite);
+            cetProjectObjService.updateByPrimaryKeySelective(record);
+
+            logger.info(addLog(LogConstants.LOG_CET, "上传心得体会：%s", record.getId()));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("userCetProject:edit")
+    @RequestMapping("/cetProjectObj_uploadWrite")
+    public String cetProjectObj_uploadWrite(int id, ModelMap modelMap) {
+
+        return "cet/user/cetProjectObj_uploadWrite";
+    }
+
+    @RequiresPermissions("userCetProject:edit")
+    @RequestMapping("/cetProjectObj_write")
+    public String cetProjectObj_write(int projectId, ModelMap modelMap) {
+
+        int userId = ShiroHelper.getCurrentUserId();
+        CetProjectObj cetProjectObj = cetProjectObjService.get(userId, projectId);
+        modelMap.put("cetProjectObj", cetProjectObj);
+
+       /* CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+        modelMap.put("cetProjectPlan", cetProjectPlan);*/
+
+        return "cet/user/cetProjectObj_write";
     }
 }

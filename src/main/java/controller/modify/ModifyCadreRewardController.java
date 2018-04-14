@@ -10,9 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,11 +46,11 @@ public class ModifyCadreRewardController extends ModifyBaseController {
         }
 
         byte module = 0;
-        if(rewardType==SystemConstants.CADRE_REWARD_TYPE_TEACH){
+        if(rewardType== CadreConstants.CADRE_REWARD_TYPE_TEACH){
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH;
-        }else if(rewardType==SystemConstants.CADRE_REWARD_TYPE_RESEARCH){
+        }else if(rewardType==CadreConstants.CADRE_REWARD_TYPE_RESEARCH){
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH;
-        }else if(rewardType==SystemConstants.CADRE_REWARD_TYPE_OTHER){
+        }else if(rewardType==CadreConstants.CADRE_REWARD_TYPE_OTHER){
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER;
         }
         modelMap.put("module", module);

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import service.cadre.CadreStatHistoryService;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
 
 /**
  * Created by lm on 2017/9/17.
@@ -26,7 +26,7 @@ public class CadreBackup implements Job {
 
         logger.info("备份干部历史数据文件...");
         try {
-            for (Byte type : SystemConstants.CADRE_STAT_HISTORY_TYPE_MAP.keySet()) {
+            for (Byte type : CadreConstants.CADRE_STAT_HISTORY_TYPE_MAP.keySet()) {
 
                 cadreStatHistoryService.saveExport(type);
             }

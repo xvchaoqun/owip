@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -156,7 +156,7 @@ public class CetTraineeController extends CetBaseController {
                                  HttpServletRequest request) {
 
         cetTraineeService.addOrUpdate(trainId, traineeTypeId, userIds);
-        logger.info(addLog(SystemConstants.LOG_CET, "编辑可选课人员： %s, %s, %s", trainId, traineeTypeId,
+        logger.info(addLog(LogConstants.LOG_CET, "编辑可选课人员： %s, %s, %s", trainId, traineeTypeId,
                 StringUtils.join(userIds, ",")));
 
         return success(FormUtils.SUCCESS);
@@ -187,7 +187,7 @@ public class CetTraineeController extends CetBaseController {
         Set<Integer> selectIdSet = cetTraineeService.getSelectedTraineeUserIdSet(trainId);
 
         Set<Byte> cadreStatusList = new HashSet<>();
-        cadreStatusList.add(SystemConstants.CADRE_STATUS_MIDDLE);
+        cadreStatusList.add(CadreConstants.CADRE_STATUS_MIDDLE);
         TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<>(cadreService.findAll().values()),
                 cadreStatusList, selectIdSet, null, false, true, false);
 
@@ -204,7 +204,7 @@ public class CetTraineeController extends CetBaseController {
         if (id != null) {
 
             cetTraineeService.del(id);
-            logger.info(addLog(SystemConstants.LOG_CET, "删除可选课人员：%s", id));
+            logger.info(addLog(LogConstants.LOG_CET, "删除可选课人员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -217,7 +217,7 @@ public class CetTraineeController extends CetBaseController {
 
         if (null != ids && ids.length > 0) {
             cetTraineeService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_CET, "批量删除可选课人员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除可选课人员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

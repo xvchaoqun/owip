@@ -32,6 +32,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
+import sys.constants.DispatchConstants;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
@@ -94,7 +97,7 @@ public class CadreController extends BaseController {
     }
 
     @RequestMapping("/cadre")
-    public String cadre_page(@RequestParam(required = false, defaultValue = SystemConstants.CADRE_STATUS_MIDDLE + "") Byte status,
+    public String cadre_page(@RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_MIDDLE + "") Byte status,
 
                              @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
                              @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
@@ -173,7 +176,7 @@ public class CadreController extends BaseController {
     public void cadre_data(HttpServletResponse response,
                            @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre") String sort,
                            @OrderParam(required = false, defaultValue = "desc") String order,
-                           @RequestParam(required = false, defaultValue = SystemConstants.CADRE_STATUS_MIDDLE + "") Byte status,
+                           @RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_MIDDLE + "") Byte status,
                            Integer cadreId,
                            Byte gender,
                            Integer startAge,
@@ -335,7 +338,7 @@ public class CadreController extends BaseController {
 
         SXSSFWorkbook wb = cadreExportService.export(status, example, ShiroHelper.isPermitted("cadre:list")?0:1);
 
-        String cadreType = SystemConstants.CADRE_STATUS_MAP.get(status);
+        String cadreType = CadreConstants.CADRE_STATUS_MAP.get(status);
         String fileName = CmTag.getSysConfig().getSchoolName() + cadreType + "(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
 
         ExportHelper.output(wb, fileName + ".xlsx", response);
@@ -375,7 +378,7 @@ public class CadreController extends BaseController {
         modelMap.put("sysUser", sysUser);
         modelMap.put("cadre", cadre);
 
-        TreeNode dispatchCadreTree = cadreCommonService.getDispatchCadreTree(id, SystemConstants.DISPATCH_CADRE_TYPE_DISMISS);
+        TreeNode dispatchCadreTree = cadreCommonService.getDispatchCadreTree(id, DispatchConstants.DISPATCH_CADRE_TYPE_DISMISS);
         modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
 
         return "cadre/cadre_leave";
@@ -386,11 +389,11 @@ public class CadreController extends BaseController {
     @ResponseBody
     public Map do_cadre_leave(int id, String title, Integer dispatchCadreId, HttpServletRequest request) {
 
-        //if(status==null) status=SystemConstants.CADRE_STATUS_LEAVE;
+        //if(status==null) status=CadreConstants.CADRE_STATUS_LEAVE;
 
         byte status = cadreService.leave(id, StringUtils.trimToNull(title), dispatchCadreId);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部离任：%s", id));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部离任：%s", id));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("status", status);
 
@@ -405,7 +408,7 @@ public class CadreController extends BaseController {
 
         cadreService.re_assign(ids);
 
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部重新任用：%s", StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部重新任用：%s", StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -432,12 +435,12 @@ public class CadreController extends BaseController {
         Integer id = record.getId();
         if (id == null) {
             cadreService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部：%s", record.getId()));
         } else {
             record.setUserId(null); // 不能修改账号、干部类别
             record.setStatus(null);
             cadreService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -455,8 +458,8 @@ public class CadreController extends BaseController {
 
             modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
         }
-        if (id != null && (status == SystemConstants.CADRE_STATUS_MIDDLE_LEAVE || status == SystemConstants.CADRE_STATUS_LEADER_LEAVE)) {
-            TreeNode dispatchCadreTree = cadreCommonService.getDispatchCadreTree(id, SystemConstants.DISPATCH_CADRE_TYPE_DISMISS);
+        if (id != null && (status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE || status == CadreConstants.CADRE_STATUS_LEADER_LEAVE)) {
+            TreeNode dispatchCadreTree = cadreCommonService.getDispatchCadreTree(id, DispatchConstants.DISPATCH_CADRE_TYPE_DISMISS);
             modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
         }
 
@@ -470,7 +473,7 @@ public class CadreController extends BaseController {
 
         if (null != ids) {
             cadreService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -481,7 +484,7 @@ public class CadreController extends BaseController {
     public Map do_cadre_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cadreService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

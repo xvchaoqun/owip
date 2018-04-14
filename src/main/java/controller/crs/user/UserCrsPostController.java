@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.CrsConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -95,7 +95,7 @@ public class UserCrsPostController extends CrsBaseController {
     public Map do_crsPost_apply(Integer id, int postId, byte status, String report, HttpServletRequest request) {
 
         crsApplicantService.apply(id, postId, status, report,  ShiroHelper.getCurrentUserId());
-        logger.info(addLog(SystemConstants.LOG_USER, "干部应聘报名"));
+        logger.info(addLog(LogConstants.LOG_USER, "干部应聘报名"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -153,7 +153,7 @@ public class UserCrsPostController extends CrsBaseController {
         record.setPpt(savePath);
         crsApplicantMapper.updateByPrimaryKeySelective(record);
 
-        logger.info(addLog(SystemConstants.LOG_USER, "上传应聘PPT"));
+        logger.info(addLog(LogConstants.LOG_USER, "上传应聘PPT"));
         return success(FormUtils.SUCCESS);
     }
 

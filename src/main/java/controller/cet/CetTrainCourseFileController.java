@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
@@ -91,7 +91,7 @@ public class CetTrainCourseFileController extends CetBaseController {
 
         cetTrainCourseService.batchAddFile(records);
 
-        logger.info(addLog(SystemConstants.LOG_SC_GROUP, "批量添加培训课程文件：%s",  JSONUtils.toString(records, false)));
+        logger.info(addLog(LogConstants.LOG_SC_GROUP, "批量添加培训课程文件：%s",  JSONUtils.toString(records, false)));
         return success(FormUtils.SUCCESS);
     }
 
@@ -102,7 +102,7 @@ public class CetTrainCourseFileController extends CetBaseController {
 
         if (id != null) {
             cetTrainCourseService.delFile(id);
-            logger.info(addLog(SystemConstants.LOG_SC_GROUP, "删除培训课程文件：%s", id));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "删除培训课程文件：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }

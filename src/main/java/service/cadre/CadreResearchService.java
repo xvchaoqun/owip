@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
@@ -107,9 +108,9 @@ public class CadreResearchService extends BaseMapper {
     public void modifyApply(CadreResearch record, Integer id, byte researchType, boolean isDelete){
 
         byte module = 0;
-        if(researchType==SystemConstants.CADRE_RESEARCH_TYPE_DIRECT){
+        if(researchType== CadreConstants.CADRE_RESEARCH_TYPE_DIRECT){
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT;
-        }else if(researchType==SystemConstants.CADRE_RESEARCH_TYPE_IN){
+        }else if(researchType==CadreConstants.CADRE_RESEARCH_TYPE_IN){
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN;
         }
 

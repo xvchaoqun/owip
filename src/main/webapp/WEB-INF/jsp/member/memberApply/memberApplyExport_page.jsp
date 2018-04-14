@@ -65,11 +65,11 @@ pageEncoding="UTF-8" %>
                                             </form>
                                                 <div class="space-4"></div>
                                                 <div class="clearfix form-actions center">
-                                                    <button class="btn btn-primary btn-sm" onclick="_exportApply1('${APPLY_TYPE_STU}')">
+                                                    <button class="btn btn-primary btn-sm" onclick="_exportApply1('${OW_APPLY_TYPE_STU}')">
                                                         <i class="fa fa-download"></i> 导出学生</button>
 
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <button type="button" class="btn btn-warning btn-sm" onclick="_exportApply1('${APPLY_TYPE_TEACHER}')">
+                                                        <button type="button" class="btn btn-warning btn-sm" onclick="_exportApply1('${OW_APPLY_TYPE_TEACHER}')">
                                                             <i class="fa fa-download"></i> 导出教职工
                                                         </button>
 
@@ -127,11 +127,11 @@ pageEncoding="UTF-8" %>
                                                 </div>
                                             </form>
                                                 <div class="clearfix form-actions center">
-                                                    <button class="btn btn-primary btn-sm"  onclick="_exportApply2('${APPLY_TYPE_STU}')">
+                                                    <button class="btn btn-primary btn-sm"  onclick="_exportApply2('${OW_APPLY_TYPE_STU}')">
                                                         <i class="fa fa-download"></i> 导出学生</button>
 
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <button type="button" class="btn btn-warning btn-sm"  onclick="_exportApply2('${APPLY_TYPE_TEACHER}')">
+                                                    <button type="button" class="btn btn-warning btn-sm"  onclick="_exportApply2('${OW_APPLY_TYPE_TEACHER}')">
                                                         <i class="fa fa-download"></i> 导出教职工
                                                     </button>
 
@@ -189,11 +189,11 @@ pageEncoding="UTF-8" %>
                                                 </div>
                                             </form>
                                                 <div class="clearfix form-actions center">
-                                                    <button class="btn btn-primary btn-sm"  onclick="_exportApply3('${APPLY_TYPE_STU}')">
+                                                    <button class="btn btn-primary btn-sm"  onclick="_exportApply3('${OW_APPLY_TYPE_STU}')">
                                                         <i class="fa fa-download"></i> 导出学生</button>
 
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <button type="button" class="btn btn-warning btn-sm"  onclick="_exportApply3('${APPLY_TYPE_TEACHER}')">
+                                                    <button type="button" class="btn btn-warning btn-sm"  onclick="_exportApply3('${OW_APPLY_TYPE_TEACHER}')">
                                                         <i class="fa fa-download"></i> 导出教职工
                                                     </button>
 

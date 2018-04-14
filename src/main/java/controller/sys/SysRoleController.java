@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -118,10 +118,10 @@ public class SysRoleController extends BaseController {
 				throw new IllegalArgumentException("角色不能为空");
 			}
 			sysRoleService.insertSelective(sysRole);
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "创建角色：%s", JSONUtils.toString(sysRole, MixinUtils.baseMixins(), false)));
+			logger.info(addLog(LogConstants.LOG_ADMIN, "创建角色：%s", JSONUtils.toString(sysRole, MixinUtils.baseMixins(), false)));
 		}else{
 			sysRoleService.updateByPrimaryKeySelective(sysRole);
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "更新角色：%s", JSONUtils.toString(sysRole, MixinUtils.baseMixins(), false)));
+			logger.info(addLog(LogConstants.LOG_ADMIN, "更新角色：%s", JSONUtils.toString(sysRole, MixinUtils.baseMixins(), false)));
 		}
 		
 		return success(FormUtils.SUCCESS);
@@ -176,7 +176,7 @@ public class SysRoleController extends BaseController {
 		
 		if(id!=null){
 			sysRoleService.del(id);
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "删除角色：%s", id));
+			logger.info(addLog(LogConstants.LOG_ADMIN, "删除角色：%s", id));
 		}
 		
 		return success(FormUtils.SUCCESS);
@@ -188,7 +188,7 @@ public class SysRoleController extends BaseController {
 	public Map do_sysRole_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
 		sysRoleService.changeOrder(id, addNum);
-		logger.info(addLog(SystemConstants.LOG_ADMIN, "角色调序：%s,%s", id, addNum));
+		logger.info(addLog(LogConstants.LOG_ADMIN, "角色调序：%s,%s", id, addNum));
 		return success(FormUtils.SUCCESS);
 	}
 
@@ -208,7 +208,7 @@ public class SysRoleController extends BaseController {
 			record.setId(id);
 			record.setIsSysHold(!isSysHold);
 			sysRoleService.updateByPrimaryKeySelective(record);
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "更改角色是否系统自动控制：%s, %s", role, !isSysHold));
+			logger.info(addLog(LogConstants.LOG_ADMIN, "更改角色是否系统自动控制：%s, %s", role, !isSysHold));
 		}
 
 		return success(FormUtils.SUCCESS);

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CisConstants;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -191,7 +192,7 @@ public class CisInspectObjController extends CisBaseController {
                 record.setSeq(cisInspectObjService.genSeq(record.getTypeId(), record.getYear()));
             }
             cisInspectObjService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部考察材料：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部考察材料：%s", record.getId()));
         } else {
 
             CisInspectObj cisInspectObj = cisInspectObjMapper.selectByPrimaryKey(id);
@@ -202,7 +203,7 @@ public class CisInspectObjController extends CisBaseController {
             }
 
             cisInspectObjService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部考察材料：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部考察材料：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -273,7 +274,7 @@ public class CisInspectObjController extends CisBaseController {
                                    HttpServletRequest request) {
 
         cisInspectObjService.updateSummary( unitIds, inspectorIds, record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部考察材料、考察单位、考察组成员：%s",record.getId()));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部考察材料、考察单位、考察组成员：%s",record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -302,7 +303,7 @@ public class CisInspectObjController extends CisBaseController {
 
         if (null != ids && ids.length > 0) {
             cisInspectObjService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部考察材料：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部考察材料：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

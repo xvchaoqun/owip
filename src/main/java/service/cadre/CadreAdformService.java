@@ -30,6 +30,7 @@ import service.common.FreemarkerService;
 import service.party.MemberService;
 import service.sys.SysConfigService;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.ImageUtils;
@@ -162,14 +163,14 @@ public class CadreAdformService extends BaseMapper{
         }
 
         // 学习经历
-        CadreInfo edu = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_EDU);
+        CadreInfo edu = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU);
         bean.setLearnDesc(edu==null?null:edu.getContent());
         // 奖惩情况，暂时同步其他奖励
-        CadreInfo reward = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_REWARD_OTHER);
+        CadreInfo reward = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_REWARD_OTHER);
         bean.setReward(reward == null ? null : reward.getContent());
 
         // 工作经历
-        CadreInfo work = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_WORK);
+        CadreInfo work = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_WORK);
         bean.setWorkDesc(work==null?null:work.getContent());
 
         //年度考核结果
@@ -177,7 +178,7 @@ public class CadreAdformService extends BaseMapper{
         bean.setCes((currentYear-3) + "、"+ (currentYear-2) + "、"+ (currentYear-1) + "年年度考核均为合格。");
 
         // 培训情况
-        CadreInfo train = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_TRAIN);
+        CadreInfo train = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN);
         bean.setTrainDesc(train==null?null:train.getContent());
 
         // 社会关系
@@ -355,7 +356,7 @@ public class CadreAdformService extends BaseMapper{
 
             CadreFamliy cf = cadreFamliys.get(i);
             Element item = famliys.addElement("Item");
-            item.addElement("ChengWei").setText(StringUtils.trimToEmpty(SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(cf.getTitle())));
+            item.addElement("ChengWei").setText(StringUtils.trimToEmpty(CadreConstants.CADRE_FAMLIY_TITLE_MAP.get(cf.getTitle())));
             item.addElement("XingMing").setText(StringUtils.trimToEmpty(cf.getRealname()));
             item.addElement("ChuShengRiQi").setText(StringUtils.trimToEmpty(DateUtils.formatDate(cf.getBirthday(), "yyyyMM")));
 
@@ -397,7 +398,7 @@ public class CadreAdformService extends BaseMapper{
 
         String ftitle = "";
         if(cf!=null){
-            ftitle =SystemConstants.CADRE_FAMLIY_TITLE_MAP.get(cf.getTitle());
+            ftitle =CadreConstants.CADRE_FAMLIY_TITLE_MAP.get(cf.getTitle());
         }
         dataMap.put("ftitle", StringUtils.trimToEmpty(ftitle));
         dataMap.put("fname", cf==null?"":StringUtils.trimToEmpty(cf.getRealname()));

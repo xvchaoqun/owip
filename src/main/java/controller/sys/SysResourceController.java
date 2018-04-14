@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
@@ -104,14 +105,14 @@ public class SysResourceController extends BaseController {
 			sysResourceService.insert(record);
 
 			resultMap.put("data",record);
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "添加资源：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
+			logger.info(addLog(LogConstants.LOG_ADMIN, "添加资源：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
 			
 		}else{
 			
 			sysResourceService.updateByPrimaryKeySelective(record);
 			resultMap.put("data", sysResourceMapper.selectByPrimaryKey(record.getId()));
 
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "更新资源：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
+			logger.info(addLog(LogConstants.LOG_ADMIN, "更新资源：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
 		}
 		
 		return resultMap;
@@ -159,7 +160,7 @@ public class SysResourceController extends BaseController {
 		if(id!=null){
 
 			sysResourceService.del(id);
-			logger.info(addLog(SystemConstants.LOG_ADMIN, "删除资源：%s", id));
+			logger.info(addLog(LogConstants.LOG_ADMIN, "删除资源：%s", id));
 		}
 		
 		return success(FormUtils.SUCCESS);

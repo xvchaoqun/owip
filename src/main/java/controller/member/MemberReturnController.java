@@ -27,9 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -269,21 +270,21 @@ public class MemberReturnController extends MemberBaseController {
         if (id == null) {
 
             enterApplyService.memberReturn(record);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "添加留学归国人员申请恢复组织生活：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "添加留学归国人员申请恢复组织生活：%s", record.getId()));
 
             applyApprovalLogService.add(record.getId(),
                     record.getPartyId(), record.getBranchId(), record.getUserId(),
-                    loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
+                    loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
                     "后台添加",
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                     "提交留学归国人员申请恢复组织生活申请");
 
         } else {
 
             record.setStatus(null); // 更新的时候不能更新状态
             memberReturnService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "更新留学归国人员申请恢复组织生活：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "更新留学归国人员申请恢复组织生活：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -359,7 +360,7 @@ public class MemberReturnController extends MemberBaseController {
 
         memberReturnService.memberReturn_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_PARTY, "留学归国人员申请恢复组织生活申请-审核：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_PARTY, "留学归国人员申请恢复组织生活申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -384,7 +385,7 @@ public class MemberReturnController extends MemberBaseController {
 
         memberReturnService.memberReturn_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_PARTY, "分党委打回留学归国人员申请恢复组织生活申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_PARTY, "分党委打回留学归国人员申请恢复组织生活申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
     
@@ -420,7 +421,7 @@ public class MemberReturnController extends MemberBaseController {
         if (id != null) {
 
             memberReturnService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "删除留学归国人员申请恢复组织生活：%s", id));
+            logger.info(addLog(LogConstants.LOG_PARTY, "删除留学归国人员申请恢复组织生活：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -433,7 +434,7 @@ public class MemberReturnController extends MemberBaseController {
 
         if (null != ids && ids.length>0){
             memberReturnService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除留学归国人员申请恢复组织生活：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除留学归国人员申请恢复组织生活：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

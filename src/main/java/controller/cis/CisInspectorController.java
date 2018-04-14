@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CisConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -119,11 +119,11 @@ public class CisInspectorController extends CisBaseController {
         if (id == null) {
             record.setStatus(CisConstants.CIS_INSPECTOR_STATUS_NOW);
             cisInspectorService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部考察组成员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部考察组成员：%s", record.getId()));
         } else {
 
             cisInspectorService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部考察组成员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部考察组成员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -148,7 +148,7 @@ public class CisInspectorController extends CisBaseController {
         if (null != ids && ids.length > 0) {
 
             cisInspectorService.abolish(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "撤销干部考察组成员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "撤销干部考察组成员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -162,7 +162,7 @@ public class CisInspectorController extends CisBaseController {
         if (null != ids && ids.length > 0) {
 
             cisInspectorService.reuse(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "重新任用干部考察组成员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "重新任用干部考察组成员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -178,7 +178,7 @@ public class CisInspectorController extends CisBaseController {
         if (null != ids && ids.length > 0) {
 
             cisInspectorService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部考察组成员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部考察组成员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -190,7 +190,7 @@ public class CisInspectorController extends CisBaseController {
     public Map do_cisInspector_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cisInspectorService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部考察组成员调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部考察组成员调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

@@ -28,9 +28,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -321,7 +322,7 @@ public class MemberOutflowController extends MemberBaseController {
 
         memberOutflowService.memberOutflow_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_PARTY, "流出党员申请-审核：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_PARTY, "流出党员申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -346,7 +347,7 @@ public class MemberOutflowController extends MemberBaseController {
 
         memberOutflowService.memberOutflow_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_PARTY, "分党委打回流出党员申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_PARTY, "分党委打回流出党员申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -387,16 +388,16 @@ public class MemberOutflowController extends MemberBaseController {
             memberOutflowService.add(record);
             applyApprovalLogService.add(record.getId(),
                     record.getPartyId(), record.getBranchId(), record.getUserId(),
-                    loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
+                    loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW,
                     "后台添加",
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                     "提交流出党员申请");
-            logger.info(addLog(SystemConstants.LOG_PARTY, "添加流出党员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "添加流出党员：%s", record.getId()));
         } else {
             record.setStatus(null);// 不修改状态
             memberOutflowService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "更新流出党员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "更新流出党员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -434,7 +435,7 @@ public class MemberOutflowController extends MemberBaseController {
         if (id != null) {
 
             memberOutflowService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "删除流出党员：%s", id));
+            logger.info(addLog(LogConstants.LOG_PARTY, "删除流出党员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -447,7 +448,7 @@ public class MemberOutflowController extends MemberBaseController {
 
         if (null != ids && ids.length>0){
             memberOutflowService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除流出党员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除流出党员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -476,7 +477,7 @@ public class MemberOutflowController extends MemberBaseController {
                     record.getProvince()==null?"":locationService.codeMap().get(record.getProvince()).getName(),
                     record.getReason(),
                     record.getHasPapers()==null?"":record.getHasPapers()?"是":"否",
-                    record.getOrStatus()==null?"":SystemConstants.OR_STATUS_MAP.get(record.getOrStatus())
+                    record.getOrStatus()==null?"": OwConstants.OW_OR_STATUS_MAP.get(record.getOrStatus())
             };
             valuesList.add(values);
         }

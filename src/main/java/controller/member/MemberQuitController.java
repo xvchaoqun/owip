@@ -28,9 +28,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -268,7 +269,7 @@ public class MemberQuitController extends MemberBaseController {
 
         memberQuitService.memberQuit_check(ids, type, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_PARTY, "党员出党申请-审核：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_PARTY, "党员出党申请-审核：%s", StringUtils.join( ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -293,7 +294,7 @@ public class MemberQuitController extends MemberBaseController {
 
         memberQuitService.memberQuit_back(ids, status, reason, loginUser.getId());
 
-        logger.info(addLog(SystemConstants.LOG_PARTY, "分党委打回党员出党申请：%s", StringUtils.join( ids, ",")));
+        logger.info(addLog(LogConstants.LOG_PARTY, "分党委打回党员出党申请：%s", StringUtils.join( ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -351,11 +352,11 @@ public class MemberQuitController extends MemberBaseController {
             }
             applyApprovalLogService.add(record.getUserId(),
                     record.getPartyId(), record.getBranchId(), userId,
-                    loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, "后台添加",
-                    SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, null);
+                    loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT, "后台添加",
+                    OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, null);
 
-            logger.info(addLog(SystemConstants.LOG_PARTY, "添加党员出党：%s", record.getUserId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "添加党员出党：%s", record.getUserId()));
         } else {
 
             if(memberQuit.getStatus()==MemberConstants.MEMBER_QUIT_STATUS_OW_VERIFY)
@@ -366,7 +367,7 @@ public class MemberQuitController extends MemberBaseController {
             }
 
             memberQuitService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "更新党员出党：%s", record.getUserId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "更新党员出党：%s", record.getUserId()));
         }
 
         return success(FormUtils.SUCCESS);

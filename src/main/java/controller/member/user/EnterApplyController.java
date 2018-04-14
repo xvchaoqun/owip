@@ -1,7 +1,7 @@
 package controller.member.user;
 
-import controller.member.MemberBaseController;
 import controller.global.OpException;
+import controller.member.MemberBaseController;
 import domain.member.Member;
 import domain.member.MemberApply;
 import domain.member.MemberIn;
@@ -20,7 +20,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
@@ -51,13 +53,13 @@ public class EnterApplyController extends MemberBaseController {
             return "member/user/enterApply/apply";
         }
         switch (currentApply.getType()){
-            case SystemConstants.ENTER_APPLY_TYPE_MEMBERAPPLY:
+            case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERAPPLY:
                 return "forward:/user/memberApply_view";
-            case SystemConstants.ENTER_APPLY_TYPE_RETURN:
+            case OwConstants.OW_ENTER_APPLY_TYPE_RETURN:
                 return "forward:/user/memberReturn_view";
-             case SystemConstants.ENTER_APPLY_TYPE_MEMBERIN:
+             case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERIN:
                 return "forward:/user/memberIn_view";
-             case SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW:
+             case OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW:
                 return "forward:/user/memberInflow_view";
         }
 
@@ -110,9 +112,9 @@ public class EnterApplyController extends MemberBaseController {
     public Map applyBack(@CurrentUser SysUserView loginUser, String remark){
 
         int userId = loginUser.getId();
-        enterApplyService.applyBack(userId, remark, SystemConstants.ENTER_APPLY_STATUS_SELF_ABORT);
+        enterApplyService.applyBack(userId, remark, OwConstants.OW_ENTER_APPLY_STATUS_SELF_ABORT);
 
-        logger.info(addLog(SystemConstants.LOG_USER, "撤回申请"));
+        logger.info(addLog(LogConstants.LOG_USER, "撤回申请"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -128,10 +130,10 @@ public class EnterApplyController extends MemberBaseController {
         memberApply.setUserId(loginUser.getId());
 
         if(loginUser.getType() == SystemConstants.USER_TYPE_JZG){
-            memberApply.setType(SystemConstants.APPLY_TYPE_TEACHER); // 教职工
+            memberApply.setType(OwConstants.OW_APPLY_TYPE_TEACHER); // 教职工
         } else if(loginUser.getType() == SystemConstants.USER_TYPE_BKS
                 || loginUser.getType() == SystemConstants.USER_TYPE_YJS){
-            memberApply.setType(SystemConstants.APPLY_TYPE_STU); // 学生
+            memberApply.setType(OwConstants.OW_APPLY_TYPE_STU); // 学生
         }else{
             return failed("没有权限。");
         }
@@ -147,18 +149,18 @@ public class EnterApplyController extends MemberBaseController {
         memberApply.setRemark(remark);
         memberApply.setFillTime(new Date());
         memberApply.setCreateTime(new Date());
-        memberApply.setStage(SystemConstants.APPLY_STAGE_INIT);
+        memberApply.setStage(OwConstants.OW_APPLY_STAGE_INIT);
         enterApplyService.memberApply(memberApply);
 
         applyApprovalLogService.add(loginUser.getId(),
                 memberApply.getPartyId(), memberApply.getBranchId(), loginUser.getId(),
-                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
-                SystemConstants.APPLY_STAGE_MAP.get(SystemConstants.APPLY_STAGE_INIT),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY,
+                OwConstants.OW_APPLY_STAGE_MAP.get(OwConstants.OW_APPLY_STAGE_INIT),
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "提交入党申请");
 
-        logger.info(addLog(SystemConstants.LOG_PARTY, "提交入党申请"));
+        logger.info(addLog(LogConstants.LOG_PARTY, "提交入党申请"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -254,13 +256,13 @@ public class EnterApplyController extends MemberBaseController {
 
         applyApprovalLogService.add(record.getId(),
                 record.getPartyId(), record.getBranchId(), loginUser.getId(),
-                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
+                loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN,
                 "提交",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "提交留学归国申请");
 
-        logger.info(addLog(SystemConstants.LOG_USER, "留学归国申请"));
+        logger.info(addLog(LogConstants.LOG_USER, "留学归国申请"));
 
         return success(FormUtils.SUCCESS);
     }
@@ -382,13 +384,13 @@ public class EnterApplyController extends MemberBaseController {
 
         applyApprovalLogService.add(record.getId(),
                 record.getPartyId(), record.getBranchId(), loginUser.getId(),
-                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN,
+                loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN,
                 "提交",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "提交组织关系转入申请");
 
-        logger.info(addLog(SystemConstants.LOG_USER, "组织关系转入申请"));
+        logger.info(addLog(LogConstants.LOG_USER, "组织关系转入申请"));
 
         return success(FormUtils.SUCCESS);
     }
@@ -456,13 +458,13 @@ public class EnterApplyController extends MemberBaseController {
 
         applyApprovalLogService.add(record.getId(),
                 record.getPartyId(), record.getBranchId(), loginUser.getId(),
-                loginUser.getId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
+                loginUser.getId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
                 "提交",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "提交流入党员申请");
 
-        logger.info(addLog(SystemConstants.LOG_USER, "流入党员申请"));
+        logger.info(addLog(LogConstants.LOG_USER, "流入党员申请"));
 
         return success(FormUtils.SUCCESS);
     }

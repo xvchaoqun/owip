@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.abroad.common.PassportSearchBean;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -168,11 +168,11 @@ public class SafeBoxController extends AbroadBaseController {
         }
         if (id == null) {
             safeBoxService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "添加保险柜：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "添加保险柜：%s", record.getId()));
         } else {
 
             safeBoxService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "更新保险柜：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "更新保险柜：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -197,7 +197,7 @@ public class SafeBoxController extends AbroadBaseController {
         if (id != null) {
 
             safeBoxService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "删除保险柜：%s", id));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "删除保险柜：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -210,7 +210,7 @@ public class SafeBoxController extends AbroadBaseController {
 
         if (null != ids && ids.length>0){
             safeBoxService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除保险柜：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量删除保险柜：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -222,7 +222,7 @@ public class SafeBoxController extends AbroadBaseController {
     public Map do_safeBox_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         safeBoxService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "保险柜调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "保险柜调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 }

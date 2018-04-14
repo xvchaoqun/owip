@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 
@@ -63,7 +63,7 @@ public class PcsVoteCadidateController extends PcsBaseController {
 
         isChosen = BooleanUtils.isTrue(isChosen);
         pcsVoteCandidateService.choose(ids, isChosen, configId, type);
-        logger.info(addLog(SystemConstants.LOG_PCS,
+        logger.info(addLog(LogConstants.LOG_PCS,
                 "[组织部管理员]%s当选名单-%s", isChosen ? "选入" : "删除", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);

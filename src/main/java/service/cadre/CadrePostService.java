@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.dispatch.DispatchCadreRelateService;
-import sys.constants.SystemConstants;
+import sys.constants.DispatchConstants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +51,7 @@ public class CadrePostService extends BaseMapper {
         cadrePostMapper.deleteByExample(example);
 
         // 同时删除关联的任免文件
-        dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(ids), SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
+        dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(ids), DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
     }
 
     public void updateByPrimaryKeySelective(CadrePost record) {

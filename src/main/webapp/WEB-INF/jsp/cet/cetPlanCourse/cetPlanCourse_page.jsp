@@ -119,9 +119,9 @@
                     "data-url='${ctx}/attach/download?path={0}&filename={1}'>"+
                             "<i class='fa fa-download'></i> 下载</button> &nbsp;").format(rowObject.filePath, rowObject.fileName)
                 }
-                return str + ('<button class="openView btn btn-primary btn-xs" ' +
+                return str + ('<button class="popupBtn btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/cet/cetPlanCourse_upload?planCourseId={0}"><i class="fa fa-upload"></i> 上传</button>')
-                        .format(rowObject.id, cellvalue, objCount);
+                        .format(rowObject.id);
             }},
             {label: '备注', name: 'remark', width: 400}
             </c:if>

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
@@ -113,7 +113,7 @@ public class CadreStatHistoryController extends BaseController {
             CadreStatHistoryExample example = new CadreStatHistoryExample();
             example.createCriteria().andIdIn(Arrays.asList(ids));
             cadreStatHistoryMapper.deleteByExample(example);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部历史数据：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部历史数据：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

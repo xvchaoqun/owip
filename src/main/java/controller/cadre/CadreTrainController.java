@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -58,7 +60,7 @@ public class CadreTrainController extends BaseController {
 
             modelMap.put("cadreTrains", cadreTrainService.list(cadreId));
 
-            CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_TRAIN);
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN);
             modelMap.put("cadreInfo", cadreInfo);
         }else{
             String name = "train";
@@ -142,10 +144,10 @@ public class CadreTrainController extends BaseController {
 
             if(!toApply) {
                 cadreTrainService.insertSelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部培训情况：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部培训情况：%s", record.getId()));
             }else{
                 cadreTrainService.modifyApply(record, null, false);
-                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部培训情况：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部培训情况：%s", record.getId()));
             }
 
         } else {
@@ -157,15 +159,15 @@ public class CadreTrainController extends BaseController {
 
             if(!toApply) {
                 cadreTrainService.updateByPrimaryKeySelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部培训情况：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部培训情况：%s", record.getId()));
             }else{
                 if(_isUpdate==false) {
                     cadreTrainService.modifyApply(record, id, false);
-                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部培训情况：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部培训情况：%s", record.getId()));
                 }else{
                     // 更新修改申请的内容
                     cadreTrainService.updateModify(record, applyId);
-                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部培训情况：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部培训情况：%s", record.getId()));
                 }
             }
         }
@@ -200,7 +202,7 @@ public class CadreTrainController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreTrainService.batchDel(ids, cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部培训情况：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部培训情况：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

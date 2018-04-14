@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.ContentTplConstants;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 
@@ -59,7 +59,7 @@ public class PmdSendMsgController extends PmdBaseController {
 
         pmdSendMsgService.notifyMembers(partyId, branchId);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "本月党费收缴已经启动，短信通知本支部党员缴纳党费"));
+        logger.info(addLog(LogConstants.LOG_PMD, "本月党费收缴已经启动，短信通知本支部党员缴纳党费"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -86,7 +86,7 @@ public class PmdSendMsgController extends PmdBaseController {
 
         pmdSendMsgService.notifyPartyAdmins();
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "通知所有分党委管理员"));
+        logger.info(addLog(LogConstants.LOG_PMD, "通知所有分党委管理员"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -124,7 +124,7 @@ public class PmdSendMsgController extends PmdBaseController {
 
         pmdSendMsgService.notifyBranchAdmins(partyId);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "通知分党委的所有支部管理员"));
+        logger.info(addLog(LogConstants.LOG_PMD, "通知分党委的所有支部管理员"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -184,7 +184,7 @@ public class PmdSendMsgController extends PmdBaseController {
 
         pmdSendMsgService.urgeMembers(ids, partyId, branchId);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "通知支部的所有未缴费党员"));
+        logger.info(addLog(LogConstants.LOG_PMD, "通知支部的所有未缴费党员"));
         return success(FormUtils.SUCCESS);
     }
 }

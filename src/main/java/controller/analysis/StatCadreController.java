@@ -12,7 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
+import sys.constants.CrpConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -62,7 +63,7 @@ public class StatCadreController extends BaseController {
 
         /*switch (type){
             case 1:
-                List<CadreEdu> cadreEdus = iCadreMapper.selectCadreEduList(SystemConstants.CADRE_SCHOOL_TYPE_ABROAD);
+                List<CadreEdu> cadreEdus = iCadreMapper.selectCadreEduList(CadreConstants.CADRE_SCHOOL_TYPE_ABROAD);
                 break;
         }
         */
@@ -90,11 +91,11 @@ public class StatCadreController extends BaseController {
 
         MetaType xyUnitMetaType = metaTypeService.codeKeyMap().get("mt_unit_type_xy");
 
-        searchBean.setCadreStatus(SystemConstants.CADRE_STATUS_MIDDLE); // 统计现任中层干部
+        searchBean.setCadreStatus(CadreConstants.CADRE_STATUS_MIDDLE); // 统计现任中层干部
         switch (type) {
             case 1: // 查找干部的（境外）学习经历
-                count = iCadreMapper.countCadreEduList(SystemConstants.CADRE_SCHOOL_TYPE_ABROAD, searchBean);
-                records = iCadreMapper.selectCadreEduList(SystemConstants.CADRE_SCHOOL_TYPE_ABROAD, searchBean, rowBounds);
+                count = iCadreMapper.countCadreEduList(CadreConstants.CADRE_SCHOOL_TYPE_ABROAD, searchBean);
+                records = iCadreMapper.selectCadreEduList(CadreConstants.CADRE_SCHOOL_TYPE_ABROAD, searchBean, rowBounds);
                 break;
             case 2: // 查找干部的（境外）工作经历
                 MetaType abroadMetaType = metaTypeService.codeKeyMap().get("mt_cadre_work_type_abroad");
@@ -118,8 +119,8 @@ public class StatCadreController extends BaseController {
                 records = iCadreMapper.selectCadreWorkList(workType, searchBean, rowBounds);
                 break;
             case 5: // 有校外挂职经历的干部
-                count = iCadreMapper.countCrpRecordList(SystemConstants.CRP_RECORD_TYPE_OUT, searchBean);
-                records = iCadreMapper.selectCrpRecordList(SystemConstants.CRP_RECORD_TYPE_OUT, searchBean, rowBounds);
+                count = iCadreMapper.countCrpRecordList(CrpConstants.CRP_RECORD_TYPE_OUT, searchBean);
+                records = iCadreMapper.selectCrpRecordList(CrpConstants.CRP_RECORD_TYPE_OUT, searchBean, rowBounds);
                 break;
             case 6: // 具有人才/荣誉称号的干部
                 searchBean.setHasTalentTitle(true);

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.cpc.CpcInfoBean;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
@@ -103,7 +104,7 @@ public class CpcAllocationController extends BaseController {
 
         cpcAllocationService.update(records);
 
-        logger.info(addLog(SystemConstants.LOG_CPC, "更新干部职数配置情况：%s", JSONUtils.toString(records)));
+        logger.info(addLog(LogConstants.LOG_CPC, "更新干部职数配置情况：%s", JSONUtils.toString(records)));
 
         return success(FormUtils.SUCCESS);
     }
@@ -215,7 +216,7 @@ public class CpcAllocationController extends BaseController {
         cpcAllocationService.update(records);
 
         Unit unit = unitService.findAll().get(unitId);
-        logger.info(addLog(SystemConstants.LOG_CPC, "更新干部职数配置情况【%s】：%s", unit.getName(), JSONUtils.toString(records)));
+        logger.info(addLog(LogConstants.LOG_CPC, "更新干部职数配置情况【%s】：%s", unit.getName(), JSONUtils.toString(records)));
 
 
         return success(FormUtils.SUCCESS);
@@ -256,7 +257,7 @@ public class CpcAllocationController extends BaseController {
         if (id != null) {
 
             cpcAllocationService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部职数配置情况：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除干部职数配置情况：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -269,7 +270,7 @@ public class CpcAllocationController extends BaseController {
 
         if (null != unitIds && unitIds.length > 0) {
             cpcAllocationService.batchDel(unitIds);
-            logger.info(addLog(SystemConstants.LOG_CPC, "批量删除干部职数配置情况：%s", StringUtils.join(unitIds, ",")));
+            logger.info(addLog(LogConstants.LOG_CPC, "批量删除干部职数配置情况：%s", StringUtils.join(unitIds, ",")));
         }
 
         return success(FormUtils.SUCCESS);

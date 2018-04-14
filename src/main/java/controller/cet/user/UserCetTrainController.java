@@ -24,10 +24,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import persistence.cet.common.ICetTrainCourse;
 import persistence.cet.common.ICetTrain;
+import persistence.cet.common.ICetTrainCourse;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -207,7 +207,7 @@ public class UserCetTrainController extends CetBaseController {
         int userId = ShiroHelper.getCurrentUserId();
         cetTraineeCourseService.apply(userId, trainId, trainCourseIds);
 
-        logger.info(addLog(SystemConstants.LOG_CET, "报名：%s", StringUtils.join(trainCourseIds, ",")));
+        logger.info(addLog(LogConstants.LOG_CET, "报名：%s", StringUtils.join(trainCourseIds, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -222,7 +222,7 @@ public class UserCetTrainController extends CetBaseController {
         isApply = BooleanUtils.isTrue(isApply);
         cetTraineeCourseService.applyItem(userId, trainCourseId, isApply, false, (isApply ? "选课" : "退课"));
 
-        logger.info(addLog(SystemConstants.LOG_CET, (isApply ? "选课" : "退课") + "：%s", trainCourseId));
+        logger.info(addLog(LogConstants.LOG_CET, (isApply ? "选课" : "退课") + "：%s", trainCourseId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -236,7 +236,7 @@ public class UserCetTrainController extends CetBaseController {
         int userId = ShiroHelper.getCurrentUserId();
         cetTraineeCourseService.quit(userId, traineeId);
 
-        logger.info(addLog(SystemConstants.LOG_CET, "退出培训班：%s", traineeId));
+        logger.info(addLog(LogConstants.LOG_CET, "退出培训班：%s", traineeId));
         return success(FormUtils.SUCCESS);
     }
 

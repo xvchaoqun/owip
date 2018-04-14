@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.DispatchConstants;
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -251,7 +252,7 @@ public class DispatchCadreController extends DispatchBaseController {
                 return failed("已经复核，不可添加。");
             }
             dispatchCadreService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部发文：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部发文：%s", record.getId()));
         } else {
             DispatchCadre dispatchCadre = dispatchCadreMapper.selectByPrimaryKey(id);
             if(dispatchCadre!=null && dispatchCadre.getDispatch().getHasChecked()){
@@ -259,7 +260,7 @@ public class DispatchCadreController extends DispatchBaseController {
             }
             record.setDispatchId(null);
             dispatchCadreService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部发文：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部发文：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -292,7 +293,7 @@ public class DispatchCadreController extends DispatchBaseController {
         if (id != null) {
 
             dispatchCadreService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部发文：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除干部发文：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -305,7 +306,7 @@ public class DispatchCadreController extends DispatchBaseController {
 
         if (null != ids && ids.length>0){
             dispatchCadreService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部发文：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部发文：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -317,7 +318,7 @@ public class DispatchCadreController extends DispatchBaseController {
     public Map do_dispatchCadre_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         dispatchCadreService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "干部发文调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部发文调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -337,7 +338,7 @@ public class DispatchCadreController extends DispatchBaseController {
                     record.getYear()+"",
                     CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear()),
                     DateUtils.formatDate(dispatch.getWorkTime(), DateUtils.YYYY_MM_DD),
-                    SystemConstants.DISPATCH_CADRE_TYPE_MAP.get(record.getType()),
+                    DispatchConstants.DISPATCH_CADRE_TYPE_MAP.get(record.getType()),
                     metaTypeService.getName(record.getWayId()),
                     metaTypeService.getName(record.getProcedureId()),
                     metaTypeService.getName(record.getCadreTypeId()),

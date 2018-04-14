@@ -118,7 +118,7 @@ public class CrsExpertService extends BaseMapper {
         Map<Integer, List<CadreView>> postIdCadresMap = new LinkedHashMap<>();
 
         /*CadreExample example = new CadreExample();
-        example.createCriteria().andStatusEqualTo(SystemConstants.CADRE_STATUS_NOW);
+        example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_STATUS_NOW);
         example.setOrderByClause(" sort_order desc");
         List<Cadre> cadres = cadreMapper.selectByExample(example);*/
         for (CadreView cadre : cadreList) {

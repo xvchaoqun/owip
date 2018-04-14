@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.AbroadConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -82,7 +82,7 @@ public class PassportApplyController extends AbroadBaseController {
         record.setApproveTime(new Date());
 
         passportApplyService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "批准申请办理证件：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "批准申请办理证件：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -101,7 +101,7 @@ public class PassportApplyController extends AbroadBaseController {
         record.setApproveTime(new Date());
 
         passportApplyService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "批准申请办理证件：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "批准申请办理证件：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -227,7 +227,7 @@ public class PassportApplyController extends AbroadBaseController {
 
         if (null != ids && ids.length > 0) {
             passportApplyService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量删除申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量删除申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -259,7 +259,7 @@ public class PassportApplyController extends AbroadBaseController {
 
         passportApplyMapper.updateByExampleSelective(record, example);
 
-        logger.info(addLog(SystemConstants.LOG_ABROAD, "修改应交时间：%s, %s", id, expectDate));
+        logger.info(addLog(LogConstants.LOG_ABROAD, "修改应交时间：%s, %s", id, expectDate));
 
         return success(FormUtils.SUCCESS);
     }
@@ -273,7 +273,7 @@ public class PassportApplyController extends AbroadBaseController {
 
         if (null != ids && ids.length > 0) {
             passportApplyService.batchUnDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "批量找回申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "批量找回申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -288,7 +288,7 @@ public class PassportApplyController extends AbroadBaseController {
 
         if (null != ids && ids.length > 0) {
             passportApplyService.doBatchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "（真删除）批量删除申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "（真删除）批量删除申请办理因私出国证件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -303,7 +303,7 @@ public class PassportApplyController extends AbroadBaseController {
         if (null != ids && ids.length > 0) {
 
             passportApplyService.abolish(ids);
-            logger.info(addLog(SystemConstants.LOG_ABROAD, "作废申请办理证件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ABROAD, "作废申请办理证件：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

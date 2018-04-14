@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CetConstants;
 import sys.constants.ContentTplConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
@@ -142,12 +142,12 @@ public class CetTrainDetailController extends CetBaseController {
         if(StringUtils.equals(tplKey, "ct_cet_msg_1")) {
 
             successCount = cetShortMsgService.trainTomorrowCourse(trainId);
-            logger.info(addLog(SystemConstants.LOG_CET, "第二天开班通知"));
+            logger.info(addLog(LogConstants.LOG_CET, "第二天开班通知"));
 
         }else  if(StringUtils.equals(tplKey, "ct_cet_msg_2")) {
 
             successCount = cetShortMsgService.todayCourse(trainId);
-            logger.info(addLog(SystemConstants.LOG_CET, "当天开课通知"));
+            logger.info(addLog(LogConstants.LOG_CET, "当天开课通知"));
         }
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", successCount);
@@ -190,7 +190,7 @@ public class CetTrainDetailController extends CetBaseController {
 
         cetTrainService.updateBase(record);
 
-        logger.info(addLog(SystemConstants.LOG_CET, "更新培训班[{%s}]报名时间：%s~%s",
+        logger.info(addLog(LogConstants.LOG_CET, "更新培训班[{%s}]报名时间：%s~%s",
                 cetTrain.getName(), DateUtils.formatDate(startTime, DateUtils.YYYY_MM_DD_HH_MM),
                 DateUtils.formatDate(endTime, DateUtils.YYYY_MM_DD_HH_MM)));
 
@@ -212,7 +212,7 @@ public class CetTrainDetailController extends CetBaseController {
 
         cetTrainService.updateBase(record);
 
-        logger.info(addLog(SystemConstants.LOG_CET, "更新培训班[{%s}]报名开关：%s",
+        logger.info(addLog(LogConstants.LOG_CET, "更新培训班[{%s}]报名开关：%s",
                 cetTrain.getName(), CetConstants.CET_TRAIN_ENROLL_STATUS_MAP.get(enrollStatus)));
 
         return success(FormUtils.SUCCESS);

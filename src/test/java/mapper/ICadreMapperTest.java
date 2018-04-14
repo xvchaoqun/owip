@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import persistence.abroad.common.IAbroadMapper;
 import persistence.common.ICadreMapper;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
 
 import java.util.List;
 
@@ -31,10 +31,10 @@ public class ICadreMapperTest {
 	@Test
 	public void list() {
 
-		List<Cadre> cadres = iCadreMapper.selectCadreList("%sd%", SystemConstants.CADRE_STATUS_SET, null, new RowBounds(0, 2));
+		List<Cadre> cadres = iCadreMapper.selectCadreList("%sd%", CadreConstants.CADRE_STATUS_SET, null, new RowBounds(0, 2));
 		System.out.println("================" + cadres.size());
 
-		int sd = iCadreMapper.countCadreList("sd", SystemConstants.CADRE_STATUS_SET, null);
+		int sd = iCadreMapper.countCadreList("sd", CadreConstants.CADRE_STATUS_SET, null);
 		System.out.println(sd);
 	}
 }

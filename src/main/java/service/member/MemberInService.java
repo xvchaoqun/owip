@@ -19,15 +19,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import controller.global.OpException;
 import service.LoginUserService;
 import service.party.EnterApplyService;
 import service.party.MemberService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
@@ -343,9 +342,9 @@ public class MemberInService extends BaseMapper {
 
             applyApprovalLogService.add(memberIn.getId(),
                     memberIn.getPartyId(), memberIn.getBranchId(), userId,
-                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
-                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, (type == 1)
+                    loginUserId, (type == 1)? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY:
+                            OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, (type == 1)
                             ? "分党委审核" : "组织部审核", (byte) 1, null);
         }
     }
@@ -391,7 +390,7 @@ public class MemberInService extends BaseMapper {
             if (_enterApply != null) {
                 EnterApply enterApply = new EnterApply();
                 enterApply.setId(_enterApply.getId());
-                enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+                enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
                 enterApply.setRemark(reason);
                 enterApply.setBackTime(new Date());
                 enterApplyMapper.updateByPrimaryKeySelective(enterApply);
@@ -409,9 +408,9 @@ public class MemberInService extends BaseMapper {
 
         applyApprovalLogService.add(id,
                 memberIn.getPartyId(), memberIn.getBranchId(), userId,
-                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, MemberConstants.MEMBER_IN_STATUS_MAP.get(status),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN, MemberConstants.MEMBER_IN_STATUS_MAP.get(status),
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 
 }

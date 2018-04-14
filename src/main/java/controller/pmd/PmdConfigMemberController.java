@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -120,7 +120,7 @@ public class PmdConfigMemberController extends PmdBaseController {
         record.setConfigMemberType(type);
 
         pmdConfigMemberService.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_PMD, "更新缴费党员类别：%s", record.getUserId()));
+        logger.info(addLog(LogConstants.LOG_PMD, "更新缴费党员类别：%s", record.getUserId()));
 
         return success(FormUtils.SUCCESS);
     }
@@ -151,7 +151,7 @@ public class PmdConfigMemberController extends PmdBaseController {
         if (userId != null) {
 
             pmdConfigMemberService.del(userId);
-            logger.info(addLog(SystemConstants.LOG_PMD, "删除党员缴费分类：%s", userId));
+            logger.info(addLog(LogConstants.LOG_PMD, "删除党员缴费分类：%s", userId));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -163,7 +163,7 @@ public class PmdConfigMemberController extends PmdBaseController {
 
         if (null != userIds && userIds.length > 0) {
 
-            logger.info(addLog(SystemConstants.LOG_PMD, "批量删除党员缴费分类：%s", StringUtils.join(userIds, ",")));
+            logger.info(addLog(LogConstants.LOG_PMD, "批量删除党员缴费分类：%s", StringUtils.join(userIds, ",")));
         }
 
         return success(FormUtils.SUCCESS);

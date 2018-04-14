@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -115,12 +115,12 @@ public class HistoryUnitController extends BaseController {
 
             record.setCreateTime(new Date());
             historyUnitService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加历史单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加历史单位：%s", record.getId()));
         } else {
 
             HistoryUnit historyUnit = historyUnitMapper.selectByPrimaryKey(id);
             historyUnitService.updateByPrimaryKeySelective(record, historyUnit.getUnitId());
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新历史单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新历史单位：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -145,7 +145,7 @@ public class HistoryUnitController extends BaseController {
         if (id != null) {
             HistoryUnit historyUnit = historyUnitMapper.selectByPrimaryKey(id);
             historyUnitService.del(id, historyUnit.getUnitId());
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除历史单位：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除历史单位：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -157,7 +157,7 @@ public class HistoryUnitController extends BaseController {
 
         if (null != ids) {
             historyUnitService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除历史单位：%s", new Object[]{ids}));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除历史单位：%s", new Object[]{ids}));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -169,7 +169,7 @@ public class HistoryUnitController extends BaseController {
 
         HistoryUnit historyUnit = historyUnitMapper.selectByPrimaryKey(id);
         historyUnitService.changeOrder(id, historyUnit.getUnitId(), addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "历史单位调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "历史单位调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

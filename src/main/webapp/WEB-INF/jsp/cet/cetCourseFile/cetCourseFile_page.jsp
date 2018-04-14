@@ -66,7 +66,7 @@
                 <thead>
                 <tr>
                     <th>学习材料名称</th>
-                    <th width="90">纸质材料</th>
+                    <%--<th width="90">纸质材料</th>--%>
                     <c:if test="${param.view!=1}">
                         <th nowrap width="40">排序</th>
                     </c:if>
@@ -79,9 +79,9 @@
                         <td nowrap style="text-align: left">
                                 ${cetCourseFile.fileName}
                         </td>
-                        <td nowrap>
-                                ${cetCourseFile.hasPaper?'有':'无'}
-                        </td>
+                       <%-- <td nowrap>
+                                ${cetCourseFile.hasPaper?'已发放':'-'}
+                        </td>--%>
                         <c:if test="${param.view!=1}">
                             <td nowrap>
                                 <a href="javascript:;"
@@ -99,6 +99,10 @@
                             </c:if>
                             <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
+
+                                    <c:if test="${param.view==1 && empty cetCourseFile.filePath}">
+                                    已发放纸质学习材料
+                                    </c:if>
                                     <c:if test="${not empty cetCourseFile.filePath}">
                                     <button class='openUrl btn btn-xs btn-primary'
                                             data-url='${ctx}/swf/preview?type=url&path=${cm:encodeURI(cetCourseFile.filePath)}&filename=${cetCourseFile.fileName}'>

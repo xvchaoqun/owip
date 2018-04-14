@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import service.sc.scDispatch.ScDispatchService;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
@@ -329,7 +329,7 @@ public class DispatchController extends DispatchBaseController {
                 record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
             dispatchService.insertSelective(record);
             id = record.getId(); // 新ID
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加发文：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加发文：%s", id));
         } else {
 
             Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
@@ -348,7 +348,7 @@ public class DispatchController extends DispatchBaseController {
                 record.setCode(dispatchService.genCode(record.getDispatchTypeId(), record.getYear()));
             }
             dispatchService.updateByPrimaryKeySelective(record, true);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新发文：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新发文：%s", id));
         }
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
@@ -491,7 +491,7 @@ public class DispatchController extends DispatchBaseController {
         if (id != null) {
 
             dispatchService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除发文：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除发文：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -504,7 +504,7 @@ public class DispatchController extends DispatchBaseController {
 
         if (null != ids && ids.length > 0) {
             dispatchService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除发文：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除发文：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -516,7 +516,7 @@ public class DispatchController extends DispatchBaseController {
     public Map do_dispatch_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         dispatchService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "发文调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "发文调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

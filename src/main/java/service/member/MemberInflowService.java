@@ -12,15 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import controller.global.OpException;
 import service.LoginUserService;
 import service.party.EnterApplyService;
 import service.party.PartyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.Date;
@@ -182,10 +181,10 @@ public class MemberInflowService extends BaseMapper {
         updateByPrimaryKeySelective(record);
 
         EnterApply _enterApply = enterApplyService.getCurrentApply(userId);
-        if(_enterApply!=null && _enterApply.getType()==SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW) {
+        if(_enterApply!=null && _enterApply.getType()== OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW) {
             EnterApply enterApply = new EnterApply();
             enterApply.setId(_enterApply.getId());
-            enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_PASS);
+            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_PASS);
             enterApplyMapper.updateByPrimaryKeySelective(enterApply);
         }
 
@@ -225,11 +224,11 @@ public class MemberInflowService extends BaseMapper {
                 {
                     EnterApplyExample example = new EnterApplyExample();
                     example.createCriteria()
-                            .andTypeEqualTo(SystemConstants.ENTER_APPLY_TYPE_MEMBERINFLOW)
+                            .andTypeEqualTo(OwConstants.OW_ENTER_APPLY_TYPE_MEMBERINFLOW)
                             .andUserIdEqualTo(userId)
-                            .andStatusEqualTo(SystemConstants.ENTER_APPLY_STATUS_PASS);
+                            .andStatusEqualTo(OwConstants.OW_ENTER_APPLY_STATUS_PASS);
                     EnterApply record = new EnterApply();
-                    record.setStatus(SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+                    record.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
                     enterApplyMapper.updateByExampleSelective(record, example);
                 }
 
@@ -237,10 +236,10 @@ public class MemberInflowService extends BaseMapper {
 
                 applyApprovalLogService.add(id,
                         memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
-                        ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                        SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
+                        ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW,
                         MemberConstants.MEMBER_INFLOW_STATUS_MAP.get(memberInflow.getInflowStatus()),
-                        SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED, "删除流入党员");
+                        OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED, "删除流入党员");
             }
         }
     }
@@ -293,9 +292,9 @@ public class MemberInflowService extends BaseMapper {
 
             applyApprovalLogService.add(memberInflow.getId(),
                     memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
-                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
-                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, (type == 1) ? "支部审核" : "分党委审核", (byte) 1, null);
+                    loginUserId, (type == 1)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, (type == 1) ? "支部审核" : "分党委审核", (byte) 1, null);
 
         }
     }
@@ -341,7 +340,7 @@ public class MemberInflowService extends BaseMapper {
 
             EnterApply enterApply = new EnterApply();
             enterApply.setId(_enterApply.getId());
-            enterApply.setStatus(SystemConstants.ENTER_APPLY_STATUS_ADMIN_ABORT);
+            enterApply.setStatus(OwConstants.OW_ENTER_APPLY_STATUS_ADMIN_ABORT);
             enterApply.setRemark(reason);
             enterApply.setBackTime(new Date());
             enterApplyMapper.updateByPrimaryKeySelective(enterApply);
@@ -358,8 +357,8 @@ public class MemberInflowService extends BaseMapper {
 
         applyApprovalLogService.add(id,
                 memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
-                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, MemberConstants.MEMBER_INFLOW_STATUS_MAP.get(status),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW, MemberConstants.MEMBER_INFLOW_STATUS_MAP.get(status),
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

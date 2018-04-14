@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -105,11 +105,11 @@ public class PcsConfigController extends PcsBaseController {
         if (id == null) {
             record.setCreateTime(new Date());
             pcsConfigService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PCS, "添加党代会：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PCS, "添加党代会：%s", record.getId()));
         } else {
 
             pcsConfigService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PCS, "更新党代会：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PCS, "更新党代会：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -134,7 +134,7 @@ public class PcsConfigController extends PcsBaseController {
 
         if (null != ids && ids.length > 0) {
             pcsConfigService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PCS, "批量删除党代会：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PCS, "批量删除党代会：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

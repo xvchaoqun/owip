@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -170,10 +171,10 @@ public class CadreCompanyController extends BaseController {
 
             if (!toApply) {
                 cadreCompanyService.insertSelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部企业兼职情况：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部企业兼职情况：%s", record.getId()));
             } else {
                 cadreCompanyService.modifyApply(record, null, false);
-                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部企业兼职情况：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部企业兼职情况：%s", record.getId()));
             }
 
         } else {
@@ -185,15 +186,15 @@ public class CadreCompanyController extends BaseController {
 
             if (!toApply) {
                 cadreCompanyService.updateByPrimaryKeySelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部企业兼职情况：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部企业兼职情况：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
                     cadreCompanyService.modifyApply(record, id, false);
-                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部企业兼职情况：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部企业兼职情况：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容
                     cadreCompanyService.updateModify(record, applyId);
-                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部企业兼职情况：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部企业兼职情况：%s", record.getId()));
                 }
             }
         }
@@ -226,7 +227,7 @@ public class CadreCompanyController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             cadreCompanyService.batchDel(ids, cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部企业兼职情况：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部企业兼职情况：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

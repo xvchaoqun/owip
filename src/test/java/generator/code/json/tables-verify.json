@@ -12,7 +12,7 @@
       "searchColumns": "cadreId,type",
       "showColumns": "cadreId,type,old_birth,verify_birth,material_name,material_time,material_birth,ad_time,ad_birth,idcard_birth,remark,od_birth",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_ADMIN",
+      "logType": "LogConstants.LOG_ADMIN",
       "ignore": false
     },
     {
@@ -21,7 +21,7 @@
       "searchColumns": "cadreId,type",
       "showColumns": "cadreId,type,old_work_time,verify_work_time,material_name,material_time,material_work_time,ad_time,ad_work_time,remark,od_work_time",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_ADMIN",
+      "logType": "LogConstants.LOG_ADMIN",
       "ignore": false
     }
   ]

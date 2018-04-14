@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -47,9 +48,9 @@ public class ModifyCadreResearchController extends ModifyBaseController {
         }
 
         byte module = 0;
-        if(researchType==SystemConstants.CADRE_RESEARCH_TYPE_DIRECT){
+        if(researchType== CadreConstants.CADRE_RESEARCH_TYPE_DIRECT){
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT;
-        }else if(researchType==SystemConstants.CADRE_RESEARCH_TYPE_IN){
+        }else if(researchType==CadreConstants.CADRE_RESEARCH_TYPE_IN){
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN;
         }
 

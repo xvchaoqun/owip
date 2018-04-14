@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.ContentTypeUtils;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -129,7 +129,7 @@ public class CrsApplicantCheckController extends CrsBaseController {
         crsApplicantCheckService.special(record.getId(), specialStatus,
                 filePath, record.getSpecialRemark());
 
-        logger.info(addLog(SystemConstants.LOG_CRS, (specialStatus ? "" : "取消") + "破格操作：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_CRS, (specialStatus ? "" : "取消") + "破格操作：%s", record.getId()));
         return success(FormUtils.SUCCESS);
     }
 

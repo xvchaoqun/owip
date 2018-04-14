@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
 import sys.utils.DateUtils;
@@ -119,7 +120,7 @@ public class FindPassController extends BaseController {
             // 覆盖原验证码，使其失效
             findPassCache.put(cacheKey, seq + "_" + RandomStringUtils.randomNumeric(4));
 
-            logger.info(addLog(uv.getId(), uv.getUsername(), SystemConstants.LOG_USER, "账号%s通过短信验证修改密码成功", username));
+            logger.info(addLog(uv.getId(), uv.getUsername(), LogConstants.LOG_USER, "账号%s通过短信验证修改密码成功", username));
             return success();
         }else{
             return failed("短信验证码错误，请输入正确的短信验证码");

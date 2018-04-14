@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.fancytree.TreeNode;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -94,7 +94,7 @@ public class PmdMonthController extends PmdBaseController {
 
         pmdMonthService.create();
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "新建缴费月份"));
+        logger.info(addLog(LogConstants.LOG_PMD, "新建缴费月份"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -116,7 +116,7 @@ public class PmdMonthController extends PmdBaseController {
 
         pmdMonthService.update(id, month);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "修改缴费月份"));
+        logger.info(addLog(LogConstants.LOG_PMD, "修改缴费月份"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -128,7 +128,7 @@ public class PmdMonthController extends PmdBaseController {
 
         pmdMonthService.updatePartyIds(monthId, partyIds);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "设置/更新缴费月份的分党委"));
+        logger.info(addLog(LogConstants.LOG_PMD, "设置/更新缴费月份的分党委"));
         return success(FormUtils.SUCCESS);
     }
 
@@ -164,7 +164,7 @@ public class PmdMonthController extends PmdBaseController {
 
         pmdMonthService.start(monthId);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "启动缴费， %s", monthId));
+        logger.info(addLog(LogConstants.LOG_PMD, "启动缴费， %s", monthId));
         return success(FormUtils.SUCCESS);
     }
 
@@ -190,7 +190,7 @@ public class PmdMonthController extends PmdBaseController {
 
         pmdMonthService.end(monthId);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "结算缴费， %s", monthId));
+        logger.info(addLog(LogConstants.LOG_PMD, "结算缴费， %s", monthId));
         return success(FormUtils.SUCCESS);
     }
 
@@ -214,7 +214,7 @@ public class PmdMonthController extends PmdBaseController {
         if (id != null) {
 
             pmdMonthService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PMD, "删除每月党费缴纳配置：%s", id));
+            logger.info(addLog(LogConstants.LOG_PMD, "删除每月党费缴纳配置：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -227,7 +227,7 @@ public class PmdMonthController extends PmdBaseController {
 
         if (null != ids && ids.length > 0) {
             pmdMonthService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PMD, "批量删除每月党费缴纳配置：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PMD, "批量删除每月党费缴纳配置：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

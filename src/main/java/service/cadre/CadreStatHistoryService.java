@@ -9,7 +9,7 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.analysis.StatCadreService;
 import service.cpc.CpcAllocationService;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 
@@ -37,24 +37,24 @@ public class CadreStatHistoryService extends BaseMapper {
 
         Workbook wb = null;
         switch (type) {
-            case SystemConstants.CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE:
+            case CadreConstants.CADRE_STAT_HISTORY_TYPE_CADRE_MIDDLE:
 
-                byte status = SystemConstants.CADRE_STATUS_MIDDLE;
+                byte status = CadreConstants.CADRE_STATUS_MIDDLE;
                 CadreViewExample example = new CadreViewExample();
                 example.createCriteria().andStatusEqualTo(status);
                 example.setOrderByClause("sort_order desc");
                 wb = cadreExportService.export(status, example, 0);
 
                 break;
-            case SystemConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE:
+            case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CADRE:
 
                 wb = statCadreService.toXlsx();
                 break;
-            case SystemConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC:
+            case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC:
 
                 wb = cpcAllocationService.cpcInfo_Xlsx();
                 break;
-            case SystemConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT:
+            case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT:
 
                 wb = cpcAllocationService.cpcStat_Xlsx();
                 break;

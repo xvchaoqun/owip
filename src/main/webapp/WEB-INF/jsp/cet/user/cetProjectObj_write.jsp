@@ -1,0 +1,72 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter smaller">
+            <a href="javascript:" class="openView btn btn-xs btn-success"
+               data-url="${ctx}/user/cet/cetProjectPlan?projectId=${cetProjectPlan.projectId}">
+                <i class="ace-icon fa fa-backward"></i> 返回</a>
+        </h4>
+        <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
+                    ${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}
+                    （${cm:formatDate(cetProjectPlan.startDate, "yyyy-MM-dd")} ~ ${cm:formatDate(cetProjectPlan.endDate, "yyyy-MM-dd")}，${cetProject.name}）
+        </span>
+
+        <div class="widget-toolbar no-border">
+            <ul class="nav nav-tabs" id="detail-ul">
+                <li class="active">
+                    <a href="javascript:;">上传心得体会</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="rownumbers widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
+            <div class="widget-box" style="width:300px">
+                <div class="widget-header">
+                    <h4 class="smaller">
+                        <i class="fa fa-edit"></i> 上传心得体会
+                    </h4>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main center">
+                        <button class="popupBtn btn btn-primary btn-sm tooltip-success"
+                                data-url="${ctx}/user/cet/cetProjectObj_uploadWrite?id=${cetProjectObj.id}&planId=${cetProjectPlan.id}">
+                            <i class="fa fa-upload"></i> 上传
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <c:if test="${not empty cetProjectObj.pdfWrite}">
+
+                <div class="widget-box" style="width:300px;margin-top: 20px;">
+                    <div class="widget-header">
+                        <h4 class="smaller">
+                           <i class="fa fa-check"></i> 已上传心得体会
+                        </h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main center">
+                            <button class="popupBtn btn btn-sm btn-warning"
+                               data-url="${ctx}/swf/preview?path=${cm:encodeURI(cetProjectObj.pdfWrite)}&filename=${cm:encodeURI(dispatch.fileName)}">
+                                <i class="fa fa-search"></i> 预览</button>
+
+                            <button class='linkBtn btn btn-sm btn-success'
+                                    data-url='${ctx}/attach/download?path=${cm:encodeURI(cetProjectObj.pdfWrite)}&filename=心得体会'>
+                                <i class="fa fa-download"></i>
+                                下载PDF
+                            </button>
+                            <button class='linkBtn btn btn-sm btn-success'
+                                    data-url='${ctx}/attach/download?path=${cm:encodeURI(cetProjectObj.wordWrite)}&filename=心得体会'>
+                                <i class="fa fa-download"></i>
+                                下载WORD
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+        </div>
+    </div>
+</div>
+

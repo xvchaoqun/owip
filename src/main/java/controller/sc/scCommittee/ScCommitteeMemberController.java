@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -102,11 +102,11 @@ public class ScCommitteeMemberController extends ScCommitteeBaseController {
         Integer id = record.getId();
         if (id == null) {
             scCommitteeMemberService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_COMMITTEE, "添加党委常委会成员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "添加党委常委会成员：%s", record.getId()));
         } else {
 
             scCommitteeMemberService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_COMMITTEE, "更新党委常委会成员：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "更新党委常委会成员：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -131,7 +131,7 @@ public class ScCommitteeMemberController extends ScCommitteeBaseController {
 
         if (null != ids && ids.length>0){
             scCommitteeMemberService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_COMMITTEE, "批量删除党委常委会成员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "批量删除党委常委会成员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -143,7 +143,7 @@ public class ScCommitteeMemberController extends ScCommitteeBaseController {
     public Map do_scCommitteeMember_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         scCommitteeMemberService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_SC_COMMITTEE, "党委常委会成员调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "党委常委会成员调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.VerifyConstants;
 import sys.utils.ContextHelper;
 
 import java.util.Arrays;
@@ -20,7 +20,7 @@ public class VerifyAgeService extends BaseMapper {
 
         // 正式记录只有一条
         VerifyAgeExample example = new VerifyAgeExample();
-        VerifyAgeExample.Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.VERIFY_STATUS_NORMAL);
+        VerifyAgeExample.Criteria criteria = example.createCriteria().andStatusEqualTo(VerifyConstants.VERIFY_STATUS_NORMAL);
         criteria.andCadreIdEqualTo(cadreId);
         return verifyAgeMapper.countByExample(example) > 0;
     }
@@ -30,7 +30,7 @@ public class VerifyAgeService extends BaseMapper {
     public void insertSelective(VerifyAge record) {
 
 
-        record.setStatus(SystemConstants.VERIFY_STATUS_NORMAL);
+        record.setStatus(VerifyConstants.VERIFY_STATUS_NORMAL);
         Assert.isTrue(!idDuplicate(record.getCadreId()), "duplicate cadreId");
         record.setSubmitTime(new Date());
         record.setSubmitIp(ContextHelper.getRealIp());
@@ -45,10 +45,10 @@ public class VerifyAgeService extends BaseMapper {
         if (ids == null || ids.length == 0) return;
 
         VerifyAgeExample example = new VerifyAgeExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids)).andStatusEqualTo(SystemConstants.VERIFY_STATUS_NORMAL);
+        example.createCriteria().andIdIn(Arrays.asList(ids)).andStatusEqualTo(VerifyConstants.VERIFY_STATUS_NORMAL);
 
         VerifyAge record = new VerifyAge();
-        record.setStatus(SystemConstants.VERIFY_STATUS_DEL);
+        record.setStatus(VerifyConstants.VERIFY_STATUS_DEL);
         record.setUpdateTime(new Date());
         record.setUpdateIp(ContextHelper.getRealIp());
         record.setUpdateUserId(ShiroHelper.getCurrentUserId());
@@ -62,7 +62,7 @@ public class VerifyAgeService extends BaseMapper {
         // 更新原记录
         VerifyAge _update = new VerifyAge();
         _update.setId(record.getId());
-        _update.setStatus(SystemConstants.VERIFY_STATUS_MODIFY);
+        _update.setStatus(VerifyConstants.VERIFY_STATUS_MODIFY);
         _update.setUpdateTime(new Date());
         _update.setUpdateIp(ContextHelper.getRealIp());
         _update.setUpdateUserId(ShiroHelper.getCurrentUserId());

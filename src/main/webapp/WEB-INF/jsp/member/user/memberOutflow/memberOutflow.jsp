@@ -83,7 +83,7 @@
                 </td>
                 <td class="bg-right">组织关系状态</td>
                 <td class="bg-left">
-                    ${OR_STATUS_MAP.get(memberOutflow.orStatus)}
+                    ${OW_OR_STATUS_MAP.get(memberOutflow.orStatus)}
                 </td>
                 <td class="bg-right">提交时间</td>
                 <td class="bg-left">

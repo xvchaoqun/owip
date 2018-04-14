@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.jackson.Select2Option;
@@ -90,7 +90,7 @@ public class UnitCadreTransferController extends BaseController {
             record.setDispatchs(StringUtils.join(ids, ","));
         }
         unitCadreTransferMapper.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改单位干部发文%s-关联发文：%s", id, StringUtils.join(ids, ",")));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "修改单位干部发文%s-关联发文：%s", id, StringUtils.join(ids, ",")));
         return success(FormUtils.SUCCESS);
     }
 
@@ -201,11 +201,11 @@ public class UnitCadreTransferController extends BaseController {
 
         if (id == null) {
             unitCadreTransferService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加单位任免记录：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加单位任免记录：%s", record.getId()));
         } else {
 
             unitCadreTransferService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新单位任免记录：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新单位任免记录：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -234,7 +234,7 @@ public class UnitCadreTransferController extends BaseController {
         if (id != null) {
 
             unitCadreTransferService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除单位任免记录：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除单位任免记录：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -247,7 +247,7 @@ public class UnitCadreTransferController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             unitCadreTransferService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除单位任免记录：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除单位任免记录：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -259,7 +259,7 @@ public class UnitCadreTransferController extends BaseController {
     public Map do_unitCadreTransfer_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         unitCadreTransferService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "单位任免记录调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "单位任免记录调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

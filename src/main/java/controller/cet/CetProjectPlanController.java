@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CetConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -113,11 +113,11 @@ public class CetProjectPlanController extends CetBaseController {
 
         if (id == null) {
             cetProjectPlanService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加培训方案：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加培训方案：%s", record.getId()));
         } else {
 
             cetProjectPlanService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新培训方案：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新培训方案：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -196,7 +196,7 @@ public class CetProjectPlanController extends CetBaseController {
         record.setSummary(summary);
         record.setHasSummary(StringUtils.isNotBlank(summary));
         cetProjectPlanMapper.updateByPrimaryKeySelective(record);
-        logger.info(addLog(SystemConstants.LOG_CET, "更新培训内容：%s", id));
+        logger.info(addLog(LogConstants.LOG_CET, "更新培训内容：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -209,7 +209,7 @@ public class CetProjectPlanController extends CetBaseController {
         if (id != null) {
 
             cetProjectPlanService.del(id);
-            logger.info(addLog( SystemConstants.LOG_CET, "删除培训方案：%s", id));
+            logger.info(addLog(LogConstants.LOG_CET, "删除培训方案：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -222,7 +222,7 @@ public class CetProjectPlanController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetProjectPlanService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除培训方案：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除培训方案：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -234,7 +234,7 @@ public class CetProjectPlanController extends CetBaseController {
     public Map do_cetProjectPlan_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetProjectPlanService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_CET, "培训方案调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_CET, "培训方案调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

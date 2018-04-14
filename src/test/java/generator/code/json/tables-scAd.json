@@ -13,7 +13,7 @@
       "searchColumns": "committee_id,cadre_id",
       "showColumns": "committee_id,cadre_id,sign_file_path,cis_sign_file_path,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_AD",
+      "logType": "LogConstants.LOG_SC_AD",
       "ignore": false
     },
     {
@@ -22,7 +22,7 @@
       "searchColumns": "archive_id",
       "showColumns": "archive_id,vote_id",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_AD",
+      "logType": "LogConstants.LOG_SC_AD",
       "ignore": false
     },
     {
@@ -31,7 +31,7 @@
       "searchColumns": "year,use_date",
       "showColumns": "year,use_date,is_on_campus,unit_id,unit,cadre_id,sign_file_path,useage,remark",
       "excludeEditColumns": "id",
-      "logType": "SystemConstants.LOG_SC_AD",
+      "logType": "LogConstants.LOG_SC_AD",
       "ignore": false
     }
   ]

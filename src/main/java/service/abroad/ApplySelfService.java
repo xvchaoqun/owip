@@ -55,6 +55,7 @@ import service.sys.UserBeanService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.AbroadConstants;
+import sys.constants.CadreConstants;
 import sys.constants.ContentTplConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -137,16 +138,16 @@ public class ApplySelfService extends BaseMapper {
                 List<SysUserView> _users = new ArrayList<SysUserView>();
                 List<Cadre> mainPostList = cadreCommonService.findMainPost(cadre.getUnitId());
                 for (Cadre _cadre : mainPostList) {
-                    if ((_cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
-                            || _cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)
+                    if ((_cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
+                            || _cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)
                             && (mainPostBlackList.get(_cadre.getId())==null))  // 排除本单位正职黑名单（不包括兼审单位正职）
                         _users.add(_cadre.getUser());
                 }
 
                 List<CadreView> additionalPost = cadreCommonService.findAdditionalPost(cadre.getUnitId());
                 for (CadreView _cadre : additionalPost) {
-                    if (_cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
-                            || _cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER){
+                    if (_cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
+                            || _cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER){
                         _users.add(_cadre.getUser());
                     }
                 }
@@ -159,8 +160,8 @@ public class ApplySelfService extends BaseMapper {
                 List<CadreLeader> managerUnitLeaders = iCadreMapper.getManagerUnitLeaders(cadre.getUnitId(), leaderManagerType.getId());
                 for (CadreLeader managerUnitLeader : managerUnitLeaders) {
                     CadreView _cadre = managerUnitLeader.getCadre();
-                    if ((_cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
-                            || _cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)
+                    if ((_cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
+                            || _cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)
                             && leaderBlackList.get(_cadre.getId())==null)  // 排除黑名单
                         users.add(managerUnitLeader.getUser());
                 }
@@ -170,8 +171,8 @@ public class ApplySelfService extends BaseMapper {
                 List<Approver> approvers = approverService.findByType(approvalTypeId);
                 for (Approver approver : approvers) {
                     CadreView _cadre = approver.getCadre();
-                    if (_cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
-                            || _cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)
+                    if (_cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
+                            || _cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)
                         users.add(approver.getUser());
                 }
                 return users;
@@ -393,8 +394,8 @@ public class ApplySelfService extends BaseMapper {
         List<ApplySelf> applySelfs = null;
 
         CadreView cadre = cadreService.dbFindByUserId(userId);
-        if (cadre != null && (cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
-                || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)) { // 审批人必须是现任干部才有审批权限
+        if (cadre != null && (cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
+                || cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)) { // 审批人必须是现任干部才有审批权限
 
             //==============================================
             Map<Integer, List<Integer>> approverTypeUnitIdListMap = new HashMap<Integer, List<Integer>>();
@@ -643,8 +644,8 @@ public class ApplySelfService extends BaseMapper {
     public ApproverTypeBean getApproverTypeBean(int userId) {
 
         CadreView cadre = cadreService.dbFindByUserId(userId);
-        if (cadre == null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE
-                && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER)) return null;
+        if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
+                && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER)) return null;
 
         // 本单位正职
         List<Integer> mainPostUnitIds = getMainPostUnitIds(userId);
@@ -775,8 +776,8 @@ public class ApplySelfService extends BaseMapper {
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         CadreView cadre = cadreService.dbFindByUserId(userId);
         if (cadre != null
-                && (cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
-                || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)
+                && (cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
+                || cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)
                 && blackListMap.get(cadre.getId())==null) { // 必须是现任干部，且不在黑名单
             MetaType postType = metaTypeMap.get(cadre.getPostId());
             if (postType != null && postType.getBoolAttr()) {
@@ -814,8 +815,8 @@ public class ApplySelfService extends BaseMapper {
         Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(leaderApproverType.getId());
 
         CadreView cadre = cadreService.dbFindByUserId(userId);
-        if (cadre != null && (cadre.getStatus()== SystemConstants.CADRE_STATUS_MIDDLE
-                || cadre.getStatus()== SystemConstants.CADRE_STATUS_LEADER)
+        if (cadre != null && (cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
+                || cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER)
                 && blackListMap.get(cadre.getId())==null) { // 必须是现任干部，且不在黑名单
             MetaType leaderManagerType = CmTag.getMetaTypeByCode("mt_leader_manager");
             unitIds = iCadreMapper.getLeaderManagerUnitId(cadre.getId(), leaderManagerType.getId());
@@ -969,8 +970,8 @@ public class ApplySelfService extends BaseMapper {
         CadreView cadre = cadreService.dbFindByUserId(userId);
         if (approvalTypeId <= 0) {
             return ShiroHelper.hasRole(RoleConstants.ROLE_CADREADMIN);
-        } else if (cadre == null || (cadre.getStatus() != SystemConstants.CADRE_STATUS_MIDDLE
-                && cadre.getStatus() != SystemConstants.CADRE_STATUS_LEADER)) {
+        } else if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
+                && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER)) {
             return false; // 必须是现任干部才有审批权限
         }
 

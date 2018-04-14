@@ -2,7 +2,7 @@
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div  style="padding-top: 50px;"></div>
-<c:if test="${memberApply.stage==APPLY_STAGE_DENY}">
+<c:if test="${memberApply.stage==OW_APPLY_STAGE_DENY}">
   <div class="alert alert-danger">
     <button type="button" class="close" data-dismiss="alert">
       <i class="ace-icon fa fa-times"></i>

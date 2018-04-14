@@ -1,7 +1,7 @@
 package controller.pcs.prList;
 
-import controller.pcs.PcsBaseController;
 import controller.global.OpException;
+import controller.pcs.PcsBaseController;
 import controller.pcs.pr.PcsPrCandidateFormBean;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsConfig;
@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
 import sys.utils.ContentTypeUtils;
 import sys.utils.FileUtils;
@@ -109,7 +109,7 @@ public class PcsPrVoteController extends PcsBaseController {
         List<PcsPrCandidateFormBean> beans = GsonUtils.toBeans(items, PcsPrCandidateFormBean.class);
         pcsPrPartyService.submit3(configId, partyId, record, beans);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "上传党员大会选举情况：%s", JSONUtils.toString(record, false)));
+        logger.info(addLog(LogConstants.LOG_PCS, "上传党员大会选举情况：%s", JSONUtils.toString(record, false)));
         return success(FormUtils.SUCCESS);
     }
 

@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -61,7 +63,7 @@ public class CadreEduController extends BaseController {
 
             modelMap.put("cadreEdus", cadreEduService.list(cadreId));
 
-            CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_EDU);
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU);
             modelMap.put("cadreInfo", cadreInfo);
         }
 
@@ -163,8 +165,8 @@ public class CadreEduController extends BaseController {
             record.setDegreeCountry("");
             record.setDegreeUnit("");
         }*/
-        if (record.getSchoolType() == SystemConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL ||
-                record.getSchoolType() == SystemConstants.CADRE_SCHOOL_TYPE_DOMESTIC) {
+        if (record.getSchoolType() == CadreConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL ||
+                record.getSchoolType() == CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC) {
             record.setDegreeCountry("中国");
         }
 
@@ -175,10 +177,10 @@ public class CadreEduController extends BaseController {
 
             if (!toApply) {
                 cadreEduService.insertSelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加干部学习经历：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部学习经历：%s", record.getId()));
             } else {
                 cadreEduService.modifyApply(record, null, false);
-                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-干部学习经历：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部学习经历：%s", record.getId()));
             }
 
         } else {
@@ -195,15 +197,15 @@ public class CadreEduController extends BaseController {
                     record.setCertificate(_record.getCertificate());
                 }
                 cadreEduService.updateByPrimaryKey(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新干部学习经历：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部学习经历：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
                     cadreEduService.modifyApply(record, id, false);
-                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-干部学习经历：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部学习经历：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容
                     cadreEduService.updateModify(record, applyId);
-                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-干部学习经历：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部学习经历：%s", record.getId()));
                 }
             }
         }
@@ -244,7 +246,7 @@ public class CadreEduController extends BaseController {
         if (id != null) {
 
             cadreEduService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除干部学习经历：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除干部学习经历：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -259,7 +261,7 @@ public class CadreEduController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             cadreEduService.batchDel(ids, cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除干部学习经历：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部学习经历：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

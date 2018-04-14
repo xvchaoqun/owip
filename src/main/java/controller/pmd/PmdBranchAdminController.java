@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
 import sys.utils.FormUtils;
 
@@ -47,7 +47,7 @@ public class PmdBranchAdminController extends PmdBaseController {
         Branch branch = branchService.findAll().get(branchId);
         pmdBranchAdminService.add(branch.getPartyId(), branchId, userId);
 
-        logger.info(addLog(SystemConstants.LOG_PMD, "添加缴费党支部管理员：%s， %s", branchId, userId));
+        logger.info(addLog(LogConstants.LOG_PMD, "添加缴费党支部管理员：%s， %s", branchId, userId));
         return success(FormUtils.SUCCESS);
     }
 
@@ -58,7 +58,7 @@ public class PmdBranchAdminController extends PmdBaseController {
                                     HttpServletRequest request, Integer id) {
 
         pmdBranchAdminService.del(id);
-        logger.info(addLog(SystemConstants.LOG_PMD, "删除缴费党支部管理员：%s", id));
+        logger.info(addLog(LogConstants.LOG_PMD, "删除缴费党支部管理员：%s", id));
         return success(FormUtils.SUCCESS);
     }
 
@@ -69,7 +69,7 @@ public class PmdBranchAdminController extends PmdBaseController {
 
         List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
         pmdBranchAdminService.syncBranchAdmins(adminPartyIds);
-        logger.info(addLog(SystemConstants.LOG_PMD, "同步缴费党支部管理员:%s", StringUtils.join(adminPartyIds, ",")));
+        logger.info(addLog(LogConstants.LOG_PMD, "同步缴费党支部管理员:%s", StringUtils.join(adminPartyIds, ",")));
         return success(FormUtils.SUCCESS);
     }
 }

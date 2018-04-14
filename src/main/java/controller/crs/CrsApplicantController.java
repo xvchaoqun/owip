@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CrsConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
@@ -147,7 +147,7 @@ public class CrsApplicantController extends CrsBaseController {
 
         crsApplicantService.apply(id, postId,
                 CrsConstants.CRS_APPLICANT_STATUS_SUBMIT, report, userId);
-        logger.info(addLog(SystemConstants.LOG_CRS, "添加报名人员：%s, %s", postId, userId));
+        logger.info(addLog(LogConstants.LOG_CRS, "添加报名人员：%s, %s", postId, userId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -200,7 +200,7 @@ public class CrsApplicantController extends CrsBaseController {
         record.setRecommendPdf(filePath);
         crsApplicantCheckService.recommend(record);
 
-        logger.info(addLog(SystemConstants.LOG_CRS, "更新岗位报名自荐/推荐：%s", record.getId()));
+        logger.info(addLog(LogConstants.LOG_CRS, "更新岗位报名自荐/推荐：%s", record.getId()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -257,7 +257,7 @@ public class CrsApplicantController extends CrsBaseController {
         if (id != null) {
 
             crsApplicantService.del(id);
-            logger.info(addLog(SystemConstants.LOG_CRS, "删除报名人员：%s", id));
+            logger.info(addLog(LogConstants.LOG_CRS, "删除报名人员：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -270,7 +270,7 @@ public class CrsApplicantController extends CrsBaseController {
 
         if (null != ids && ids.length > 0) {
             crsApplicantService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_CRS, "批量删除报名人员：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CRS, "批量删除报名人员：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

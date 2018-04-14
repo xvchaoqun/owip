@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.party.PartyExportService;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
@@ -218,11 +218,11 @@ public class PartyController extends BaseController {
         if (id == null) {
             record.setCreateTime(new Date());
             partyService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "添加基层党组织：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "添加基层党组织：%s", record.getId()));
         } else {
 
             partyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "更新基层党组织：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "更新基层党组织：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -249,7 +249,7 @@ public class PartyController extends BaseController {
         if (id != null) {
 
             partyService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "删除基层党组织：%s", id));
+            logger.info(addLog(LogConstants.LOG_PARTY, "删除基层党组织：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -265,7 +265,7 @@ public class PartyController extends BaseController {
 
         if (null != ids && ids.length>0){
             partyService.batchDel(ids, isDeleted);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除基层党组织：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除基层党组织：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -278,7 +278,7 @@ public class PartyController extends BaseController {
     public Map do_party_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         partyService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_PARTY, "基层党组织调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_PARTY, "基层党组织调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

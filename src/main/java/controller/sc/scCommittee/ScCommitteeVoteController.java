@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -159,11 +159,11 @@ public class ScCommitteeVoteController extends ScCommitteeBaseController {
         Integer id = record.getId();
         if (id == null) {
             scCommitteeVoteService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_COMMITTEE, "添加干部选拔任用表决：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "添加干部选拔任用表决：%s", record.getId()));
         } else {
 
             scCommitteeVoteService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_COMMITTEE, "更新干部选拔任用表决：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "更新干部选拔任用表决：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -191,7 +191,7 @@ public class ScCommitteeVoteController extends ScCommitteeBaseController {
 
         if (null != ids && ids.length>0){
             scCommitteeVoteService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_COMMITTEE, "批量删除干部选拔任用表决：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "批量删除干部选拔任用表决：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -203,7 +203,7 @@ public class ScCommitteeVoteController extends ScCommitteeBaseController {
     public Map do_scCommitteeVote_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         scCommitteeVoteService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_SC_COMMITTEE, "干部选拔任用表决调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "干部选拔任用表决调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

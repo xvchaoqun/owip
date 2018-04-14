@@ -17,7 +17,7 @@ public class CetColumnService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "null");
 
         CetColumnExample example = new CetColumnExample();
         CetColumnExample.Criteria criteria = example.createCriteria();

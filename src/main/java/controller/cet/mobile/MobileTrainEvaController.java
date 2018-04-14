@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.SessionUtils;
 import sys.constants.CetConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
 
@@ -162,7 +162,7 @@ public class MobileTrainEvaController extends CetBaseController {
 
         CetTrainInspector trainInspector = SessionUtils.getTrainInspector(request);
         logger.info(addLog(trainInspector.getId(), trainInspector.getUsername(),
-                SystemConstants.LOG_USER, "提交评课：" + id));
+                LogConstants.LOG_USER, "提交评课：" + id));
 
         return success(FormUtils.SUCCESS);
     }

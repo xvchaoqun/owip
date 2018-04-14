@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
+import sys.constants.LogConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -123,7 +124,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
 
         if (null != ids && ids.length > 0) {
             modifyTableApplyService.fakeDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量【假】删除信息修改申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量【假】删除信息修改申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -138,7 +139,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
 
         if (null != ids && ids.length > 0) {
             modifyTableApplyService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除信息修改申请：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除信息修改申请：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -165,27 +166,27 @@ public class ModifyTableApplyController extends ModifyBaseController {
         }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT){
 
             return "forward:/modifyCadreResearch_detail?applyId=" + applyId
-                    +"&researchType=" + SystemConstants.CADRE_RESEARCH_TYPE_DIRECT;
+                    +"&researchType=" + CadreConstants.CADRE_RESEARCH_TYPE_DIRECT;
 
         }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN){
 
             return "forward:/modifyCadreResearch_detail?applyId=" + applyId
-                    +"&researchType=" + SystemConstants.CADRE_RESEARCH_TYPE_IN;
+                    +"&researchType=" + CadreConstants.CADRE_RESEARCH_TYPE_IN;
 
         }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH){
 
             return "forward:/modifyCadreReward_detail?applyId=" + applyId
-                    + "&rewardType=" + SystemConstants.CADRE_REWARD_TYPE_TEACH;
+                    + "&rewardType=" + CadreConstants.CADRE_REWARD_TYPE_TEACH;
 
         }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH){
 
             return "forward:/modifyCadreReward_detail?applyId=" + applyId
-                    + "&rewardType=" + SystemConstants.CADRE_REWARD_TYPE_RESEARCH;
+                    + "&rewardType=" + CadreConstants.CADRE_REWARD_TYPE_RESEARCH;
 
         }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER){
 
             return "forward:/modifyCadreReward_detail?applyId=" + applyId
-                    + "&rewardType=" + SystemConstants.CADRE_REWARD_TYPE_OTHER;
+                    + "&rewardType=" + CadreConstants.CADRE_REWARD_TYPE_OTHER;
 
         }else if(module==ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN){
             return "forward:/modifyCadreTrain_detail?applyId=" + applyId;
@@ -205,7 +206,7 @@ public class ModifyTableApplyController extends ModifyBaseController {
 
         if (null != id){
             modifyTableApplyService.approval(id, status, checkRemark, checkReason);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "审核信息修改申请：%s, %s", id, status));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "审核信息修改申请：%s, %s", id, status));
         }
 
         return success(FormUtils.SUCCESS);

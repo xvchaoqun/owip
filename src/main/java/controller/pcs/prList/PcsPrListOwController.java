@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pcs.common.PcsPrPartyBean;
+import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -288,7 +288,7 @@ public class PcsPrListOwController extends PcsBaseController {
 
         pcsPrOwService.sync(configId);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "同步全校党代表名单至提案党代表名单"));
+        logger.info(addLog(LogConstants.LOG_PCS, "同步全校党代表名单至提案党代表名单"));
         return success(FormUtils.SUCCESS);
     }
 }

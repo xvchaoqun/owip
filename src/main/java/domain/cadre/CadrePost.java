@@ -3,7 +3,7 @@ package domain.cadre;
 import bean.DispatchCadreRelateBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import domain.dispatch.DispatchCadreRelate;
-import sys.constants.SystemConstants;
+import sys.constants.DispatchConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.util.List;
 public class CadrePost implements Serializable {
 
     public DispatchCadreRelateBean getDispatchCadreRelateBean(){
-        List<DispatchCadreRelate> all = CmTag.findDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
+        List<DispatchCadreRelate> all = CmTag.findDispatchCadreRelates(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
         if(all==null) return null;
         return new DispatchCadreRelateBean(all);
     }

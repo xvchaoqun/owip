@@ -14,7 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -107,7 +107,7 @@ public class ModifyBaseItemController extends ModifyBaseController{
 
         if (null != id){
             modifyBaseItemService.approval(id, status, checkRemark, checkReason);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "审核基本信息修改申请：%s, %s", id, status));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "审核基本信息修改申请：%s, %s", id, status));
         }
 
         return success(FormUtils.SUCCESS);

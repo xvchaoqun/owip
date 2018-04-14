@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ContextHelper;
 import sys.utils.FormUtils;
@@ -111,11 +111,11 @@ public class PcsExcludeBranchController extends PcsBaseController {
         record.setIp(ContextHelper.getRealIp());
         if (id == null) {
             pcsExcludeBranchMapper.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PCS, "添加不参与党代会的支部：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PCS, "添加不参与党代会的支部：%s", record.getId()));
         } else {
 
             pcsExcludeBranchMapper.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PCS, "更新不参与党代会的支部：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PCS, "更新不参与党代会的支部：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -149,7 +149,7 @@ public class PcsExcludeBranchController extends PcsBaseController {
             PcsExcludeBranchExample example = new PcsExcludeBranchExample();
             example.createCriteria().andIdIn(Arrays.asList(ids));
             pcsExcludeBranchMapper.deleteByExample(example);
-            logger.info(addLog(SystemConstants.LOG_PCS, "批量不参与党代会的支部：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PCS, "批量不参与党代会的支部：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

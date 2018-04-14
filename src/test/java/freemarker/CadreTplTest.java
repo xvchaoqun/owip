@@ -21,7 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import service.cadre.CadreInfoService;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
 import sys.utils.DocumentHandler;
 import sys.utils.ImageUtils;
 
@@ -125,7 +125,7 @@ public class CadreTplTest {
         }
         dataMap.put("relateList", relateList);
 
-        CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_EDU);
+        CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU);
 
         String base64 = ImageUtils.encodeImgageToBase64(new File("/Volumes/work/test/88029.jpeg"));
         //System.out.println(base64);

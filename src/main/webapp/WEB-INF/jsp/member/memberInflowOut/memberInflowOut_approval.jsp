@@ -195,5 +195,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberInflow.id}&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT}"/>
+    <c:import url="/applyApprovalLogs?id=${memberInflow.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT}"/>
 </div>

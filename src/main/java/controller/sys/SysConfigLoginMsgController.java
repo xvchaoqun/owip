@@ -11,7 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 
 import java.util.Date;
@@ -54,10 +54,10 @@ public class SysConfigLoginMsgController extends BaseController {
         record.setCreateTime(new Date());
         if(record.getId()==null) {
             sysConfigLoginMsgMapper.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "保存常用登录公告：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "保存常用登录公告：%s", record.getId()));
         }else{
             sysConfigLoginMsgMapper.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新常用登录公告：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新常用登录公告：%s", record.getId()));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -68,7 +68,7 @@ public class SysConfigLoginMsgController extends BaseController {
     public Map do_sysConfigLoginMsg_del(int id) {
 
         sysConfigLoginMsgMapper.deleteByPrimaryKey(id);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "删除常用登录公告：%s", id));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "删除常用登录公告：%s", id));
 
         return success(FormUtils.SUCCESS);
     }

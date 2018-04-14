@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -109,11 +109,11 @@ public class CetPartySchoolController extends CetBaseController {
 
         if (id == null) {
             cetPartySchoolService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加二级党校：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加二级党校：%s", record.getId()));
         } else {
 
             cetPartySchoolService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新二级党校：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新二级党校：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -154,7 +154,7 @@ public class CetPartySchoolController extends CetBaseController {
                                           HttpServletRequest request) {
 
         cetPartySchoolService.setAdmin(id, userId);
-        logger.info(addLog( SystemConstants.LOG_CET, "更新二级党校管理员：%s, %s", id ,userId));
+        logger.info(addLog(LogConstants.LOG_CET, "更新二级党校管理员：%s, %s", id ,userId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -182,7 +182,7 @@ public class CetPartySchoolController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetPartySchoolService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除二级党校：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除二级党校：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

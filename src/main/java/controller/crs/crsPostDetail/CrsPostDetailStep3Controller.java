@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.ContentTplConstants;
 import sys.constants.CrsConstants;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.security.Base64Utils;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -94,7 +94,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
         crsPostService.updateByPrimaryKeySelective(record);
 
-        logger.info(addLog(SystemConstants.LOG_CRS, "设定招聘会时间和地点：%s", id));
+        logger.info(addLog(LogConstants.LOG_CRS, "设定招聘会时间和地点：%s", id));
         return success(FormUtils.SUCCESS);
     }
 
@@ -152,7 +152,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
         crsShortMsgService.insertOrUpdate(postId, type, content);
 
-        logger.info(addLog(SystemConstants.LOG_CRS, "添加/更新干部招聘短信内容：%s", postId));
+        logger.info(addLog(LogConstants.LOG_CRS, "添加/更新干部招聘短信内容：%s", postId));
         return success(FormUtils.SUCCESS);
     }*/
 
@@ -178,7 +178,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
         int send = crsShortMsgService.send(postId, tplKey);
 
-        logger.info(addLog(SystemConstants.LOG_CRS, "干部招聘，发送短信：%s, %s", postId, tplKey));
+        logger.info(addLog(LogConstants.LOG_CRS, "干部招聘，发送短信：%s, %s", postId, tplKey));
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("successCount", send);
@@ -220,7 +220,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
         crsPostService.stat(jsonResult, savePath, originalFilename);
 
-        logger.info(addLog(SystemConstants.LOG_CRS, "专家组推荐意见汇总：%s", jsonResult));
+        logger.info(addLog(LogConstants.LOG_CRS, "专家组推荐意见汇总：%s", jsonResult));
         return success(FormUtils.SUCCESS);
     }
 
@@ -240,7 +240,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
         crsPostMapper.updateByExampleSelective(record, example);
 
-        logger.info(addLog(SystemConstants.LOG_CRS, "招聘会完成：%s", postId));
+        logger.info(addLog(LogConstants.LOG_CRS, "招聘会完成：%s", postId));
         return success(FormUtils.SUCCESS);
     }
 

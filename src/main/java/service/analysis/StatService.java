@@ -6,7 +6,7 @@ import bean.analysis.StatIntBean;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import sys.constants.MemberConstants;
-import sys.constants.SystemConstants;
+import sys.constants.OwConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,11 +70,11 @@ public class StatService extends BaseMapper{
         }
 
         Map<Byte, Integer> applyMap = new LinkedHashMap<>();
-        for (Byte key : SystemConstants.APPLY_STAGE_MAP.keySet()) {
+        for (Byte key : OwConstants.OW_APPLY_STAGE_MAP.keySet()) {
             Integer count = _applyMap.get(key);
-            if(key==SystemConstants.APPLY_STAGE_INIT){
-                Integer initCount = _applyMap.get(SystemConstants.APPLY_STAGE_INIT);
-                Integer passCount = _applyMap.get(SystemConstants.APPLY_STAGE_PASS);
+            if(key==OwConstants.OW_APPLY_STAGE_INIT){
+                Integer initCount = _applyMap.get(OwConstants.OW_APPLY_STAGE_INIT);
+                Integer passCount = _applyMap.get(OwConstants.OW_APPLY_STAGE_PASS);
                 count = (initCount!=null?initCount:0) + (passCount!=null?passCount:0);
             }
             applyMap.put(key, count);

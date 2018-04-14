@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.pcs.common.IPcsCandidateView;
 import shiro.ShiroHelper;
+import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
 import sys.gson.GsonUtils;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -111,11 +111,11 @@ public class PcsVoteGroupController extends PcsBaseController {
             int configId = currentPcsConfig.getId();
             record.setConfigId(configId);
             pcsVoteGroupService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PCS, "添加小组：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PCS, "添加小组：%s", record.getId()));
         } else {
 
             pcsVoteGroupService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PCS, "更新小组：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PCS, "更新小组：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -140,7 +140,7 @@ public class PcsVoteGroupController extends PcsBaseController {
 
         if (null != ids && ids.length > 0) {
             pcsVoteGroupService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PCS, "批量删除小组：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PCS, "批量删除小组：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -162,7 +162,7 @@ public class PcsVoteGroupController extends PcsBaseController {
         List<PcsVoteCandidateFormBean> records = GsonUtils.toBeans(items, PcsVoteCandidateFormBean.class);
         pcsVoteGroupService.submit(record, records);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "党委委员计票录入：%s", groupId));
+        logger.info(addLog(LogConstants.LOG_PCS, "党委委员计票录入：%s", groupId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -254,7 +254,7 @@ public class PcsVoteGroupController extends PcsBaseController {
 
         pcsVoteGroupService.report(groupId);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "党委委员计票录入报送：%s", groupId));
+        logger.info(addLog(LogConstants.LOG_PCS, "党委委员计票录入报送：%s", groupId));
 
         return success(FormUtils.SUCCESS);
     }
@@ -268,7 +268,7 @@ public class PcsVoteGroupController extends PcsBaseController {
 
         pcsVoteGroupService.back(groupId);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "党委委员计票录入退回报送：%s", groupId));
+        logger.info(addLog(LogConstants.LOG_PCS, "党委委员计票录入退回报送：%s", groupId));
 
         return success(FormUtils.SUCCESS);
     }

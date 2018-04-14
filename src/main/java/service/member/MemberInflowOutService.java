@@ -15,8 +15,8 @@ import service.party.EnterApplyService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -164,10 +164,10 @@ public class MemberInflowOutService extends BaseMapper {
 
         applyApprovalLogService.add(memberInflow.getId(),
                 memberInflow.getPartyId(), memberInflow.getBranchId(), memberInflow.getUserId(),
-                ShiroHelper.getCurrentUserId(),  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
+                ShiroHelper.getCurrentUserId(),  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT,
                 "撤回",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "撤回流入党员转出申请");
     }
 
@@ -269,9 +269,9 @@ public class MemberInflowOutService extends BaseMapper {
 
             applyApprovalLogService.add(memberInflow.getId(),
                     memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
-                    loginUserId, (type == 1)?SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
-                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, (type == 1) ? "支部审核" : "分党委审核", (byte) 1, null);
+                    loginUserId, (type == 1)?OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_BRANCH:
+                            OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, (type == 1) ? "支部审核" : "分党委审核", (byte) 1, null);
 
         }
     }
@@ -320,8 +320,8 @@ public class MemberInflowOutService extends BaseMapper {
 
         applyApprovalLogService.add(id,
                 memberInflow.getPartyId(), memberInflow.getBranchId(), userId,
-                loginUserId,  SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, MemberConstants.MEMBER_INFLOW_OUT_STATUS_MAP.get(status),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+                loginUserId,  OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW_OUT, MemberConstants.MEMBER_INFLOW_OUT_STATUS_MAP.get(status),
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

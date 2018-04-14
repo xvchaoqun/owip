@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import service.cpc.CpcStatBean;
-import sys.constants.SystemConstants;
+import sys.constants.CadreConstants;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public interface ICpcMapper {
             "where (cp.is_main_post=1 or (cp.is_main_post=0 and cp.is_cpc=1)) " +
             "and cp.unit_id in(select distinct unit_id from cpc_allocation) " +
             "and cp.unit_id=u.id and u.type_id=ut.id and ut.extra_attr=#{unitType} and cp.cadre_id=c.id " +
-            "and c.status in(" + SystemConstants.CADRE_STATUS_MIDDLE + "," + SystemConstants.CADRE_STATUS_LEADER + ") " +
+            "and c.status in(" + CadreConstants.CADRE_STATUS_MIDDLE + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
             "group by cp.admin_level_id, cp.is_main_post")
     public List<CpcStatBean> cpcStat_real(@Param("unitType") String unitType);
 }

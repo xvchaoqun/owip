@@ -86,7 +86,7 @@
                                     </c:if>
                                     <button class="jqOpenViewBtn btn btn-info btn-sm"
                                                                                   data-url="${ctx}/applyApprovalLog"
-                                                                                  data-querystr="&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW}"
+                                                                                  data-querystr="&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW}"
                                                                                   data-open-by="page">
                                         <i class="fa fa-check-circle-o"></i> 查看审批记录
                                     </button>
@@ -201,7 +201,7 @@
                                                 <label>组织关系状态</label>
                                                 <select data-rel="select2" name="orStatus" data-placeholder="请选择">
                                                     <option></option>
-                                                    <c:forEach items="${OR_STATUS_MAP}" var="orStatus">
+                                                    <c:forEach items="${OW_OR_STATUS_MAP}" var="orStatus">
                                                         <option value="${orStatus.key}">${orStatus.value}</option>
                                                     </c:forEach>
                                                 </select>
@@ -333,7 +333,7 @@
             { label: '流出原因',   name: 'reason', width: 350 },
             { label: '是否持有《中国共产党流动党员活动证》',   name: 'hasPapers', width: 300, formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '组织关系状态',   name: 'orStatus', width: 150, formatter:function(cellvalue, options, rowObject){
-                return _cMap.OR_STATUS_MAP[cellvalue];
+                return _cMap.OW_OR_STATUS_MAP[cellvalue];
             }  },
             { label: '申请时间',   name: 'createTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             {hidden:true, name:'status'}

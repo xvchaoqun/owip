@@ -18,7 +18,7 @@ public class ScGroupMemberService extends BaseMapper {
 
     public boolean idDuplicate(Integer id, String code){
 
-        Assert.isTrue(StringUtils.isNotBlank(code));
+        Assert.isTrue(StringUtils.isNotBlank(code), "null");
 
         ScGroupMemberExample example = new ScGroupMemberExample();
         ScGroupMemberExample.Criteria criteria = example.createCriteria();

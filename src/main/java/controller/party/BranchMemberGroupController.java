@@ -31,8 +31,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.dispatch.DispatchService;
 import service.dispatch.DispatchUnitService;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -189,7 +189,7 @@ public class BranchMemberGroupController extends BaseController {
 
         if (id == null) {
             branchMemberGroupService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "添加支部委员会：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "添加支部委员会：%s", record.getId()));
         } else {
 
             if(record.getFid()!=null && record.getFid().intValue()==record.getId()){
@@ -197,7 +197,7 @@ public class BranchMemberGroupController extends BaseController {
             }
 
             branchMemberGroupService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "更新支部委员会：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PARTY, "更新支部委员会：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -248,7 +248,7 @@ public class BranchMemberGroupController extends BaseController {
         if (id != null) {
 
             branchMemberGroupService.del(id);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "删除支部委员会：%s", id));
+            logger.info(addLog(LogConstants.LOG_PARTY, "删除支部委员会：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -263,7 +263,7 @@ public class BranchMemberGroupController extends BaseController {
 
         if (null != ids && ids.length>0){
             branchMemberGroupService.batchDel(ids, isDeleted);
-            logger.info(addLog(SystemConstants.LOG_PARTY, "批量删除支部委员会：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PARTY, "批量删除支部委员会：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -275,7 +275,7 @@ public class BranchMemberGroupController extends BaseController {
     public Map do_branchMemberGroup_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         branchMemberGroupService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_PARTY, "支部委员会调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_PARTY, "支部委员会调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

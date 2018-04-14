@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -46,11 +46,11 @@ public class CadreLeaderUnitController extends BaseController {
         }
         if (id == null) {
             cadreLeaderUnitService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "添加校领导单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加校领导单位：%s", record.getId()));
         } else {
 
             cadreLeaderUnitService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新校领导单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新校领导单位：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -73,7 +73,7 @@ public class CadreLeaderUnitController extends BaseController {
     public Map do_cadreLeaderUnit_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cadreLeaderUnitService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "校领导分管工作调序：%s, %s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "校领导分管工作调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -85,7 +85,7 @@ public class CadreLeaderUnitController extends BaseController {
         if (id != null) {
 
             cadreLeaderUnitService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除校领导单位：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除校领导单位：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -98,7 +98,7 @@ public class CadreLeaderUnitController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreLeaderUnitService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除校领导单位：%s", new Object[]{ids}));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除校领导单位：%s", new Object[]{ids}));
         }
 
         return success(FormUtils.SUCCESS);

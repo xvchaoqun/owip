@@ -12,7 +12,7 @@
     </h4>
   </div>
   <div class="widget-body">
-    <div class="widget-main" id="qualification-content">
+    <div class="widget-main">
       <table class="table table-bordered table-striped">
         <thead>
         <tr>

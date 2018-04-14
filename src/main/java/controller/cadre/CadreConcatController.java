@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 import sys.utils.PropertiesUtils;
 
@@ -57,7 +57,7 @@ public class CadreConcatController extends BaseController {
         record.setEmail(email);
 
         sysUserService.insertOrUpdateUserInfoSelective(record);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "添加/更新干部联系方式：userId=%s", userId));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "添加/更新干部联系方式：userId=%s", userId));
 
         return success(FormUtils.SUCCESS);
     }

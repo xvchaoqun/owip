@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.OaConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -130,7 +130,7 @@ public class OaTaskUserController extends OaBaseController {
                 BooleanUtils.isTrue(pass) ? OaConstants.OA_TASK_USER_STATUS_PASS
                         : OaConstants.OA_TASK_USER_STATUS_DENY, remark);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "审核任务报送情况-%s-%s", taskUserIds, pass));
+        logger.info(addLog(LogConstants.LOG_PCS, "审核任务报送情况-%s-%s", taskUserIds, pass));
         return success(FormUtils.SUCCESS);
     }
 
@@ -146,7 +146,7 @@ public class OaTaskUserController extends OaBaseController {
 
         oaTaskUserService.back(id);
 
-        logger.info(addLog(SystemConstants.LOG_PCS, "退回任务报送-%s-%s", oaTaskUser.getUserId(), oaTaskUser.getTaskId()));
+        logger.info(addLog(LogConstants.LOG_PCS, "退回任务报送-%s-%s", oaTaskUser.getUserId(), oaTaskUser.getTaskId()));
         return success(FormUtils.SUCCESS);
     }
 
@@ -176,7 +176,7 @@ public class OaTaskUserController extends OaBaseController {
     public Map do_oaTaskUser_infoMsg(int taskId, String msg, HttpServletRequest request) {
 
         Map<String, Integer> result = oaTaskUserService.sendInfoMsg(taskId, msg);
-        logger.info(addLog(SystemConstants.LOG_OA, "下发通知短信：%s", taskId));
+        logger.info(addLog(LogConstants.LOG_OA, "下发通知短信：%s", taskId));
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("totalCount", result.get("total"));
@@ -201,7 +201,7 @@ public class OaTaskUserController extends OaBaseController {
     public Map do_oaTaskUser_unreportMsg(int taskId, String msg, HttpServletResponse response) throws IOException {
 
         Map<String, Object> result = oaTaskUserService.sendUnReportMsg(taskId, msg);
-        logger.info(addLog(SystemConstants.LOG_OA, "短信催促未报送对象：%s", taskId));
+        logger.info(addLog(LogConstants.LOG_OA, "短信催促未报送对象：%s", taskId));
 
         List<SysUserView> failedUsers =  (List<SysUserView>) result.get("failedUsers");
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
@@ -236,7 +236,7 @@ public class OaTaskUserController extends OaBaseController {
     public Map do_oaTaskUser_denyMsg(int id, String msg, HttpServletResponse response) throws IOException {
 
         Boolean success = oaTaskUserService.sendDenyMsg(id, msg);
-        logger.info(addLog(SystemConstants.LOG_OA, "审核未通过短信提醒：%s", id));
+        logger.info(addLog(LogConstants.LOG_OA, "审核未通过短信提醒：%s", id));
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("sendSuccess", success);

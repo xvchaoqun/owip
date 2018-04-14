@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.DispatchConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -99,11 +100,11 @@ public class ScDispatchUserController extends ScDispatchBaseController {
 
         if (id == null) {
             scDispatchUserService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_SC_DISPATCH, "添加任免对象：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "添加任免对象：%s", record.getId()));
         } else {
 
             scDispatchUserService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_SC_DISPATCH, "更新任免对象：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "更新任免对象：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -128,7 +129,7 @@ public class ScDispatchUserController extends ScDispatchBaseController {
         if (id != null) {
 
             scDispatchUserService.del(id);
-            logger.info(addLog(SystemConstants.LOG_SC_DISPATCH, "删除任免对象：%s", id));
+            logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "删除任免对象：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -141,7 +142,7 @@ public class ScDispatchUserController extends ScDispatchBaseController {
 
         if (null != ids && ids.length > 0) {
             scDispatchUserService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_SC_DISPATCH, "批量删除任免对象：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "批量删除任免对象：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -153,7 +154,7 @@ public class ScDispatchUserController extends ScDispatchBaseController {
     public Map do_scDispatchUser_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         scDispatchUserService.changeOrder(id, addNum);
-        logger.info(addLog(SystemConstants.LOG_SC_DISPATCH, "任免对象调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "任免对象调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -184,7 +185,7 @@ public class ScDispatchUserController extends ScDispatchBaseController {
             String[] values = {
                     user.getCode(),
                     user.getRealname(),
-                    SystemConstants.DISPATCH_CADRE_TYPE_MAP.get(record.getType()),
+                    DispatchConstants.DISPATCH_CADRE_TYPE_MAP.get(record.getType()),
                     record.getOriginalPost(),
                     record.getPost()
             };

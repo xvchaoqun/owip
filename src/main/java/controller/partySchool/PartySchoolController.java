@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -110,11 +110,11 @@ public class PartySchoolController extends BaseController {
         if (id == null) {
             record.setIsHistory(false);
             partySchoolService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "添加二级党校：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加二级党校：%s", record.getId()));
         } else {
 
             partySchoolService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "更新二级党校：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新二级党校：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -141,7 +141,7 @@ public class PartySchoolController extends BaseController {
 
         if (null != ids && ids.length>0){
             partySchoolService.history(ids, isHistory);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量转移二级党校：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量转移二级党校：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -154,7 +154,7 @@ public class PartySchoolController extends BaseController {
 
         if (null != ids && ids.length>0){
             partySchoolService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量删除二级党校：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除二级党校：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -166,7 +166,7 @@ public class PartySchoolController extends BaseController {
     public Map do_partySchool_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         partySchoolService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_ADMIN, "二级党校调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "二级党校调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

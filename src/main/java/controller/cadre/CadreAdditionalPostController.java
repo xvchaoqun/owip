@@ -13,7 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 
@@ -139,11 +139,11 @@ public class CadreAdditionalPostController extends BaseController {
         }
         if (id == null) {
             cadreAdditionalPostService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "添加干部附属职务属性：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部附属职务属性：%s", record.getId()));
         } else {
 
             //cadreAdditionalPostService.updateByPrimaryKeySelective(record);
-            //logger.info(addLog( SystemConstants.LOG_ADMIN, "更新干部附属职务属性：%s", record.getId()));
+            //logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部附属职务属性：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -168,7 +168,7 @@ public class CadreAdditionalPostController extends BaseController {
         if (id != null) {
             CadreAdditionalPost cPost = cadreAdditionalPostMapper.selectByPrimaryKey(id);
             cadreAdditionalPostService.del(cPost.getId(), cPost.getCadreId());
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "删除干部附属职务属性：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除干部附属职务属性：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -181,7 +181,7 @@ public class CadreAdditionalPostController extends BaseController {
 
         if (null != ids && ids.length>0){
             cadreAdditionalPostService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量删除干部附属职务属性：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部附属职务属性：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

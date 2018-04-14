@@ -63,11 +63,11 @@
               <c:forEach var="apply" items="${applyList}">
             <hr/>
             <dt>
-                ${ENTER_APPLY_TYPE_MAP.get(apply.type)}
+                ${OW_ENTER_APPLY_TYPE_MAP.get(apply.type)}
                 <dd>
               <ul>
                 <li>提交申请时间：${cm:formatDate(apply.createTime,'yyyy-MM-dd HH:mm')}</li>
-                <li>申请状态：${ENTER_APPLY_STATUS_MAP.get(apply.status)}</li>
+                <li>申请状态：${OW_ENTER_APPLY_STATUS_MAP.get(apply.status)}</li>
                 <c:if test="${not empty apply.remark}">
                 <li>备注：${apply.remark}</li>
                 </c:if>

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -113,11 +113,11 @@ public class CetColumnController extends CetBaseController {
 
         if (id == null) {
             cetColumnService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "添加课程栏目：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "添加课程栏目：%s", record.getId()));
         } else {
 
             cetColumnService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_CET, "更新课程栏目：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_CET, "更新课程栏目：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -155,7 +155,7 @@ public class CetColumnController extends CetBaseController {
 
         if (null != ids && ids.length>0){
             cetColumnService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_CET, "批量删除课程栏目：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_CET, "批量删除课程栏目：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -167,7 +167,7 @@ public class CetColumnController extends CetBaseController {
     public Map do_cetColumn_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         cetColumnService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_CET, "课程栏目调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_CET, "课程栏目调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

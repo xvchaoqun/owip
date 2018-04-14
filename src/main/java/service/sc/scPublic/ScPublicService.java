@@ -25,6 +25,7 @@ import service.base.MetaTypeService;
 import service.base.ShortMsgService;
 import service.cadre.CadreService;
 import service.sys.UserBeanService;
+import sys.constants.CadreConstants;
 import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -256,7 +257,7 @@ public class ScPublicService extends BaseMapper {
             vote.put("detail", MessageFormat.format("{0}，{1}生，{2}，{3}{4}，{5}。{6}{7}。",
                     _gender, _birth, nation, StringUtils.isBlank(partyName)?"":(partyName+"，"), StringUtils.trimToEmpty(edu)
                     , StringUtils.trimToEmpty(post),
-                    (cv==null||!SystemConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus()))?"现为":"现任", originalPost));
+                    (cv==null||!CadreConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus()))?"现为":"现任", originalPost));
 
             votes.add(vote);
         }

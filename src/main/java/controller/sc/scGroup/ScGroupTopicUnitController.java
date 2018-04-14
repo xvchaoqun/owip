@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -84,11 +84,11 @@ public class ScGroupTopicUnitController extends ScGroupBaseController {
 
         if (id == null) {
             scGroupTopicUnitService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_GROUP, "添加干部小组会议题涉及单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "添加干部小组会议题涉及单位：%s", record.getId()));
         } else {
 
             scGroupTopicUnitService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_SC_GROUP, "更新干部小组会议题涉及单位：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "更新干部小组会议题涉及单位：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -113,7 +113,7 @@ public class ScGroupTopicUnitController extends ScGroupBaseController {
         if (id != null) {
 
             scGroupTopicUnitService.del(id);
-            logger.info(addLog( SystemConstants.LOG_SC_GROUP, "删除干部小组会议题涉及单位：%s", id));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "删除干部小组会议题涉及单位：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -126,7 +126,7 @@ public class ScGroupTopicUnitController extends ScGroupBaseController {
 
         if (null != ids && ids.length>0){
             scGroupTopicUnitService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_SC_GROUP, "批量删除干部小组会议题涉及单位：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_GROUP, "批量删除干部小组会议题涉及单位：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

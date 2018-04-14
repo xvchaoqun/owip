@@ -17,8 +17,8 @@ import service.party.MemberService;
 import service.party.PartyService;
 import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
+import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
@@ -185,10 +185,10 @@ public class MemberOutService extends BaseMapper {
 
         applyApprovalLogService.add(memberOut.getId(),
                 memberOut.getPartyId(), memberOut.getBranchId(), memberOut.getUserId(),
-                ShiroHelper.getCurrentUserId(), SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_SELF,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
+                ShiroHelper.getCurrentUserId(), OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_SELF,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT,
                 "撤回",
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_NONEED,
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_NONEED,
                 "撤回组织关系转出申请");
     }
 
@@ -263,9 +263,9 @@ public class MemberOutService extends BaseMapper {
 
         applyApprovalLogService.add(memberOut.getId(),
                 memberOut.getPartyId(), memberOut.getBranchId(), userId,
-                ShiroHelper.getCurrentUserId(), (type == 1) ? SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY :
-                        SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, "撤销已完成的审批", (byte) 1, StringUtils.defaultIfBlank(remark, "组织部打回已完成的审批"));
+                ShiroHelper.getCurrentUserId(), (type == 1) ? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY :
+                        OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, "撤销已完成的审批", (byte) 1, StringUtils.defaultIfBlank(remark, "组织部打回已完成的审批"));
     }
 
 
@@ -338,9 +338,9 @@ public class MemberOutService extends BaseMapper {
             int userId = memberOut.getUserId();
             applyApprovalLogService.add(memberOut.getId(),
                     memberOut.getPartyId(), memberOut.getBranchId(), userId,
-                    loginUserId, (type == 1) ? SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_PARTY :
-                            SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_OW,
-                    SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, (type == 1)
+                    loginUserId, (type == 1) ? OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_PARTY :
+                            OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_OW,
+                    OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, (type == 1)
                             ? "分党委审核" : "组织部审核", (byte) 1, null);
         }
     }
@@ -389,8 +389,8 @@ public class MemberOutService extends BaseMapper {
 
         applyApprovalLogService.add(id,
                 memberOut.getPartyId(), memberOut.getBranchId(), userId,
-                loginUserId, SystemConstants.APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
-                SystemConstants.APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, MemberConstants.MEMBER_OUT_STATUS_MAP.get(status),
-                SystemConstants.APPLY_APPROVAL_LOG_STATUS_BACK, reason);
+                loginUserId, OwConstants.OW_APPLY_APPROVAL_LOG_USER_TYPE_ADMIN,
+                OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT, MemberConstants.MEMBER_OUT_STATUS_MAP.get(status),
+                OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_BACK, reason);
     }
 }

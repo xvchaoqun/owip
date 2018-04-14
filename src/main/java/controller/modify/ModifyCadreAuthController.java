@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.SystemConstants;
+import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
@@ -108,10 +108,10 @@ public class ModifyCadreAuthController extends ModifyBaseController {
 
         if (id == null) {
             modifyCadreAuthService.insertSelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "添加干部信息修改权限设置：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部信息修改权限设置：%s", record.getId()));
         } else {
             modifyCadreAuthService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "更新干部信息修改权限设置：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部信息修改权限设置：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -162,7 +162,7 @@ public class ModifyCadreAuthController extends ModifyBaseController {
         isUnlimited = BooleanUtils.isTrue(isUnlimited);
 
         modifyCadreAuthService.batchAdd(cadreIds, start, end, isUnlimited);
-        logger.info(addLog( SystemConstants.LOG_ADMIN, "批量添加干部信息修改权限设置：%s", StringUtils.join(cadreIds, ",")));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "批量添加干部信息修改权限设置：%s", StringUtils.join(cadreIds, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -175,7 +175,7 @@ public class ModifyCadreAuthController extends ModifyBaseController {
         if (id != null) {
 
             modifyCadreAuthService.del(id);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "删除干部信息修改权限设置：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除干部信息修改权限设置：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }
@@ -188,7 +188,7 @@ public class ModifyCadreAuthController extends ModifyBaseController {
 
         if (null != ids && ids.length>0){
             modifyCadreAuthService.batchDel(ids);
-            logger.info(addLog( SystemConstants.LOG_ADMIN, "批量删除干部信息修改权限设置：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部信息修改权限设置：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

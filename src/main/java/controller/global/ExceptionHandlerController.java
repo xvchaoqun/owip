@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
 import sys.utils.FormUtils;
 import sys.utils.HttpUtils;
 import sys.utils.IpUtils;
@@ -66,17 +67,26 @@ public class ExceptionHandlerController {
         if (ex.getCause() instanceof MySQLIntegrityConstraintViolationException) {
 
             resultMap.put("success", false);
-            if (StringUtils.contains(ex.getCause().getMessage(), "Duplicate")) {
+            String message = ex.getCause().getMessage();
+            if (StringUtils.contains(message, "Duplicate")) {
 
                 resultMap.put("msg", "添加重复");
                 logger.warn(getMsg(request, ex), ex);
 
-            } else if (StringUtils.contains(ex.getCause().getMessage(), "foreign key constraint")) {
-                //resultMap.put("msg", "请先删除关联表的所有数据");
-                resultMap.put("msg", "数据已在别的地方使用，不可以删除");
-                logger.warn(getMsg(request, ex), ex);
+            } else if (StringUtils.contains(message, "foreign key constraint")) {
+
+                String msg = "数据已在别的地方使用，不可以删除";
+                Map<String, String> delMsgMap = SystemConstants.FOREIN_KEY_DEL_MSG_MAP;
+                for (Map.Entry<String, String> entry : delMsgMap.entrySet()) {
+                    if(StringUtils.contains(message, MessageFormat.format("REFERENCES `{0}` (`id`)", entry.getKey()))){
+                        msg = entry.getValue();
+                    }
+                }
+
+                resultMap.put("msg", msg);
+                logger.warn(getMsg(request, ex));
             } else {
-                resultMap.put("msg", "系统异常，请稍后重试");
+                resultMap.put("msg", "数据异常，请稍后重试");
                 logger.error(getMsg(request, ex), ex);
             }
         } else if (ex.getCause() instanceof SQLException) {

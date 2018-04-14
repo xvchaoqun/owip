@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.LogConstants;
 import sys.constants.PmdConstants;
-import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -96,10 +96,10 @@ public class PmdNormController extends PmdBaseController {
         if (id == null) {
             record.setStatus(PmdConstants.PMD_NORM_STATUS_INIT);
             pmdNormService.insertSelective(record);
-            logger.info(addLog(SystemConstants.LOG_PMD, "添加收费标准：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PMD, "添加收费标准：%s", record.getId()));
         } else {
             pmdNormService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(SystemConstants.LOG_PMD, "更新收费标准：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_PMD, "更新收费标准：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -111,7 +111,7 @@ public class PmdNormController extends PmdBaseController {
     public Map do_pmdNorm_use(int id, HttpServletRequest request) {
 
         pmdNormService.use(id);
-        logger.info(addLog(SystemConstants.LOG_PMD, "启用收费标准：%s", id));
+        logger.info(addLog(LogConstants.LOG_PMD, "启用收费标准：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -122,7 +122,7 @@ public class PmdNormController extends PmdBaseController {
     public Map do_pmdNorm_abolish(int id, HttpServletRequest request) {
 
         pmdNormService.abolish(id);
-        logger.info(addLog(SystemConstants.LOG_PMD, "作废收费标准：%s", id));
+        logger.info(addLog(LogConstants.LOG_PMD, "作废收费标准：%s", id));
 
         return success(FormUtils.SUCCESS);
     }
@@ -149,7 +149,7 @@ public class PmdNormController extends PmdBaseController {
     public Map do_pmdNorm_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         pmdNormService.changeOrder(id, addNum);
-        logger.info(addLog( SystemConstants.LOG_PMD, "收费标准调序：%s,%s", id, addNum));
+        logger.info(addLog(LogConstants.LOG_PMD, "收费标准调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -161,7 +161,7 @@ public class PmdNormController extends PmdBaseController {
 
         if (null != ids && ids.length > 0) {
             pmdNormService.batchDel(ids);
-            logger.info(addLog(SystemConstants.LOG_PMD, "批量删除收费标准：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_PMD, "批量删除收费标准：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);

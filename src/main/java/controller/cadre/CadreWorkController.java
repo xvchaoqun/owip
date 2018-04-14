@@ -33,6 +33,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
+import sys.constants.CadreConstants;
+import sys.constants.DispatchConstants;
+import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -72,7 +75,7 @@ public class CadreWorkController extends BaseController {
         if (type == 2) {
             List<CadreWork> cadreWorks = cadreWorkService.list(cadreId);
             modelMap.put("cadreWorks", cadreWorks);
-            CadreInfo cadreInfo = cadreInfoService.get(cadreId, SystemConstants.CADRE_INFO_TYPE_WORK);
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_WORK);
             modelMap.put("cadreInfo", cadreInfo);
         }
 
@@ -214,10 +217,10 @@ public class CadreWorkController extends BaseController {
 
             if(!toApply) {
                 cadreWorkService.insertSelective(record);
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "添加工作经历：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "添加工作经历：%s", record.getId()));
             }else{
                 cadreWorkService.modifyApply(record, null, false);
-                logger.info(addLog(SystemConstants.LOG_USER, "提交添加申请-工作经历：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-工作经历：%s", record.getId()));
             }
 
         } else {
@@ -232,15 +235,15 @@ public class CadreWorkController extends BaseController {
                 if(record.getEndTime()==null){
                     commonMapper.excuteSql("update cadre_work set end_time=null where id="+id);
                 }
-                logger.info(addLog(SystemConstants.LOG_ADMIN, "更新工作经历：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_ADMIN, "更新工作经历：%s", record.getId()));
             }else{
                 if(_isUpdate==false) {
                     cadreWorkService.modifyApply(record, id, false);
-                    logger.info(addLog(SystemConstants.LOG_USER, "提交修改申请-工作经历：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-工作经历：%s", record.getId()));
                 }else{
                     // 更新修改申请的内容
                     cadreWorkService.updateModify(record, applyId);
-                    logger.info(addLog(SystemConstants.LOG_USER, "修改申请内容-工作经历：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-工作经历：%s", record.getId()));
                 }
             }
         }
@@ -278,14 +281,14 @@ public class CadreWorkController extends BaseController {
         if(unitId==null){
 
             commonMapper.excuteSql("update cadre_work set unit_id=null where id="+id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除对应工作单位：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除对应工作单位：%s", id));
         }else {
             CadreWork record = new CadreWork();
             record.setId(id);
             record.setUnitId(unitId);
             cadreWorkService.updateByPrimaryKeySelective(record);
 
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "更新对应工作单位：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新对应工作单位：%s", id));
         }
 
         return success(FormUtils.SUCCESS);
@@ -318,7 +321,7 @@ public class CadreWorkController extends BaseController {
         if (id != null) {
 
             cadreWorkService.del(id);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "删除工作经历：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除工作经历：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
@@ -333,7 +336,7 @@ public class CadreWorkController extends BaseController {
 
         if (null != ids && ids.length > 0) {
             cadreWorkService.batchDel(ids, cadreId);
-            logger.info(addLog(SystemConstants.LOG_ADMIN, "批量删除工作经历：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除工作经历：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -348,7 +351,7 @@ public class CadreWorkController extends BaseController {
         Set<Integer> dispatchCadreIdSet = new HashSet<>();
         List<DispatchCadre> relateDispatchCadres = new ArrayList<>();
         Map<Integer, DispatchCadre> dispatchCadreMap = CmTag.getBean(DispatchCadreService.class).findAll();
-        List<DispatchCadreRelate> dispatchCadreRelates = dispatchCadreRelateService.findDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
+        List<DispatchCadreRelate> dispatchCadreRelates = dispatchCadreRelateService.findDispatchCadreRelates(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
         for (DispatchCadreRelate dispatchCadreRelate : dispatchCadreRelates) {
             Integer dispatchCadreId = dispatchCadreRelate.getDispatchCadreId();
             dispatchCadreIdSet.add(dispatchCadreId);
@@ -361,7 +364,7 @@ public class CadreWorkController extends BaseController {
             List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreList(cadreId, null);
             modelMap.put("dispatchCadres", dispatchCadres);
 
-            Set<Integer> otherDispatchCadreRelateSet = dispatchCadreRelateService.findOtherDispatchCadreRelateSet(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
+            Set<Integer> otherDispatchCadreRelateSet = dispatchCadreRelateService.findOtherDispatchCadreRelateSet(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
             modelMap.put("otherDispatchCadreRelateSet", otherDispatchCadreRelateSet);
         } else {
             modelMap.put("type", "add");
@@ -379,8 +382,8 @@ public class CadreWorkController extends BaseController {
 
         DispatchCadreRelateService dispatchCadreRelateService = CmTag.getBean(DispatchCadreRelateService.class);
         //if (ids != null && ids.length > 0) { // 可以删除
-        dispatchCadreRelateService.updateDispatchCadreRelates(id, SystemConstants.DISPATCH_CADRE_RELATE_TYPE_WORK, ids);
-        logger.info(addLog(SystemConstants.LOG_ADMIN, "修改工作经历%s-关联发文：%s", id, StringUtils.join(ids, ",")));
+        dispatchCadreRelateService.updateDispatchCadreRelates(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_WORK, ids);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "修改工作经历%s-关联发文：%s", id, StringUtils.join(ids, ",")));
         //}
         return success(FormUtils.SUCCESS);
     }

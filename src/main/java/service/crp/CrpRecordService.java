@@ -5,7 +5,7 @@ import domain.crp.CrpRecordExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import sys.constants.SystemConstants;
+import sys.constants.CrpConstants;
 import sys.tags.CmTag;
 
 import java.util.Arrays;
@@ -42,21 +42,21 @@ public class CrpRecordService extends BaseMapper {
 
         crpRecordMapper.updateByPrimaryKeySelective(record);
 
-        if((record.getType()== SystemConstants.CRP_RECORD_TYPE_OUT &&
+        if((record.getType()== CrpConstants.CRP_RECORD_TYPE_OUT &&
                 record.getToUnitType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_out_unit_other").getId())
-        || (record.getType()== SystemConstants.CRP_RECORD_TYPE_TRANSFER &&
+        || (record.getType()== CrpConstants.CRP_RECORD_TYPE_TRANSFER &&
                 record.getToUnitType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_transfer_unit_other").getId())){
             commonMapper.excuteSql("update crp_record set to_unit=null where id=" + record.getId());
         }
-        if(record.getType()== SystemConstants.CRP_RECORD_TYPE_IN){
+        if(record.getType()== CrpConstants.CRP_RECORD_TYPE_IN){
             commonMapper.excuteSql("update crp_record set to_unit_type=null where id=" + record.getId());
         }
 
-        if((record.getType()== SystemConstants.CRP_RECORD_TYPE_OUT &&
+        if((record.getType()== CrpConstants.CRP_RECORD_TYPE_OUT &&
                 record.getTempPostType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_out_post_other").getId())
-                || (record.getType()== SystemConstants.CRP_RECORD_TYPE_IN &&
+                || (record.getType()== CrpConstants.CRP_RECORD_TYPE_IN &&
                 record.getTempPostType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_in_post_other").getId())
-                || (record.getType()== SystemConstants.CRP_RECORD_TYPE_TRANSFER &&
+                || (record.getType()== CrpConstants.CRP_RECORD_TYPE_TRANSFER &&
                 record.getTempPostType().intValue()!= CmTag.getMetaTypeByCode("mt_temppost_transfer_post_other").getId())){
             commonMapper.excuteSql("update crp_record set temp_post=null where id=" + record.getId());
         }

@@ -264,5 +264,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberIn.id}&type=${APPLY_APPROVAL_LOG_TYPE_MEMBER_IN}"/>
+    <c:import url="/applyApprovalLogs?id=${memberIn.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN}"/>
 </div>
