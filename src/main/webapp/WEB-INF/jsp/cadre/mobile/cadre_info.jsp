@@ -1,29 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="tabbable">
-  <ul class="nav nav-tabs" id="myTab3">
+  <ul class="nav nav-tabs">
     <li class="active">
-      <a data-toggle="tab" href="#dropdown1">
-        <%--<i class="blue ace-icon fa fa-user"></i> --%>基本信息
-      </a>
+      <a data-toggle="tab" href="#base"><%--<i class="blue ace-icon fa fa-user"></i> --%>基本信息</a>
     </li>
-    <li>
-      <a data-toggle="tab" href="#dropdown2">
-        人事信息
-      </a>
-    </li>
-    <li>
-      <a data-toggle="tab" href="#dropdown3">任职信息
-      </a>
-    </li>
-    <li>
-      <a data-toggle="tab" href="#dropdown4">其他信息
-      </a>
-    </li>
+    <li><a data-toggle="tab" href="#pi">人事信息</a></li>
+    <li><a data-toggle="tab" href="#title">职称信息</a></li>
+    <li><a data-toggle="tab" href="#post">任职信息</a></li>
   </ul>
   <div class="tab-content" style="padding:16px 0px 0px">
-    <div id="dropdown1" class="tab-pane in active">
-
+    <div id="base" class="tab-pane in active">
       <div class="profile-user-info profile-user-info-striped" style="border:0px;">
         <div class="profile-info-row">
           <table class="table table-bordered table-center avatar" style="margin-bottom: 0px;">
@@ -33,49 +20,60 @@
               </td>
             </tr>
             <tr>
-              <td>
-                ${uv.realname}
+              <td style="color: #336199;background-color: #edf3f4;border-top: 1px solid #f7fbff;">
+                姓名
+              </td>
+              <td >
+                  ${uv.realname}
+              </td>
+            </tr>
+            <tr>
+              <td style="color: #336199;background-color: #edf3f4;border-top: 1px solid #f7fbff;">
+                性别
               </td>
               <td>
                 ${GENDER_MAP.get(uv.gender)}
               </td>
             </tr>
             <tr>
-              <td colspan="2">
-                <c:if test="${not empty uv}">
-                ${cm:formatDate(uv.birth,'yyyy-MM-dd')}(${uv.birth==null?'':cm:intervalYearsUntilNow (uv.birth)}岁)
-                </c:if>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">${uv.code}</td>
-            </tr>
-            <tr>
-              <td>
-                ${extJzg.gj}
+              <td style="color: #336199;background-color: #edf3f4;border-top: 1px solid #f7fbff;">
+                民族
               </td>
               <td>
                 ${uv.nation}
               </td>
             </tr>
             <tr>
-              <td colspan="2">
-                <a href='tel:${uv.mobile}'>${uv.mobile}</a>
+              <td style="color: #336199;background-color: #edf3f4;border-top: 1px solid #f7fbff;">
+                出生日期
+              </td>
+              <td>
+                ${cm:formatDate(uv.birth,'yyyy-MM-dd')}
+              </td>
+            </tr>
+            <tr>
+              <td style="color: #336199;background-color: #edf3f4;border-top: 1px solid #f7fbff;">
+                年龄
+              </td>
+              <td>
+                 ${uv.birth==null?'':cm:intervalYearsUntilNow (uv.birth)}岁
               </td>
             </tr>
           </table>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name"> 办公电话&邮箱</div>
-
-          <div class="profile-info-value">
-            <span class="editable">
-              <a href='tel:${uv.phone}'>${uv.phone}</a>
-              <c:if test="${not empty uv.phone && not empty uv.email}"> ， </c:if>
-              <a href='mailto:${uv.email}'>${uv.email}</a>
-            </span>
+          <div class="profile-info-name td"> 现任职务</div>
+          <div class="profile-info-value td">
+            <span class="editable">${mainCadrePost.post}</span>
           </div>
         </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 行政级别</div>
+          <div class="profile-info-value td">
+            <span class="editable">${adminLevelMap.get(cadreAdminLevel.adminLevelId).name}</span>
+          </div>
+        </div>
+
         <div class="profile-info-row">
           <div class="profile-info-name td"> 政治面貌 </div>
 
@@ -95,18 +93,8 @@
             </span>
           </div>
         </div>
-
         <div class="profile-info-row">
-          <div class="profile-info-name"> 所在党组织</div>
-
-          <div class="profile-info-value" style="margin-left: 0px;">
-            <span class="editable">
-              ${cm:displayParty(member.partyId, member.branchId)}
-            </span>
-          </div>
-        </div>
-        <div class="profile-info-row">
-          <div class="profile-info-name td"> 证件号码</div>
+          <div class="profile-info-name td"> 身份证号码</div>
 
           <div class="profile-info-value td">
             <span class="editable">
@@ -132,38 +120,66 @@
           </div>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name td"> 户籍地</div>
+          <div class="profile-info-name"> 学历信息</div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 最高学历</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${uv.household}
+              ${eduTypeMap.get(highEdu.eduId).name}
             </span>
           </div>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name"> 熟悉专业有何专长 </div>
-          <div class="profile-info-value">
+          <div class="profile-info-name td"> 学习方式</div>
+          <div class="profile-info-value td">
             <span class="editable">
-              ${uv.specialty}
+              ${learnStyleMap.get(highEdu.learnStyle).name}
             </span>
           </div>
         </div>
-
         <div class="profile-info-row">
-          <div class="profile-info-name td"> 健康状况</div>
+          <div class="profile-info-name td"> 毕业学校</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${cm:getMetaType(uv.health).name}
+              ${highEdu.school}
+            </span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 所学专业</div>
+          <div class="profile-info-value td">
+            <span class="editable">
+              ${highEdu.major}
+            </span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 联系方式</div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 手机号</div>
+          <div class="profile-info-value td">
+            <span class="editable">
+              <a href='tel:${uv.mobile}'>${uv.mobile}</a>
+            </span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 邮箱</div>
+          <div class="profile-info-value td">
+            <span class="editable">
+               <a href='mailto:${uv.email}'>${uv.email}</a>
             </span>
           </div>
         </div>
       </div>
     </div>
-    <div id="dropdown2" class="tab-pane">
-
+    <div id="pi" class="tab-pane">
       <div class="profile-user-info profile-user-info-striped">
         <div class="profile-info-row">
-          <div class="profile-info-name"> 所在单位</div>
-          <div class="profile-info-value">
+          <div class="profile-info-name td"> 所在单位</div>
+          <div class="profile-info-value td">
             <span class="editable">${extJzg.dwmc}</span>
           </div>
         </div>
@@ -210,8 +226,8 @@
           </div>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name"> 主岗等级</div>
-          <div class="profile-info-value">
+          <div class="profile-info-name td"> 主岗等级</div>
+          <div class="profile-info-value td">
             <span class="editable">${extJzg.zgdjmmc}</span>
           </div>
         </div>
@@ -221,12 +237,12 @@
             <span class="editable">${fn:substringBefore(extJzg.glqsrq, ' ')}</span>
           </div>
         </div>
-        <div class="profile-info-row">
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 间断工龄</div>
           <div class="profile-info-value td">
             <span class="editable">${extJzg.jdgl}</span>
           </div>
-        </div>
+        </div>--%>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 到校时间</div>
           <div class="profile-info-value td">
@@ -239,27 +255,93 @@
             <span class="editable">${cm:formatDate(teacherInfo.workTime, "yyyy-MM-dd")}</span>
           </div>
         </div>
-        <div class="profile-info-row">
+        <%--<div class="profile-info-row">
           <div class="profile-info-name td"> 转正定级时间</div>
           <div class="profile-info-value td">
             <span class="editable">${fn:substringBefore(extJzg.zzdjsj, ' ')}</span>
           </div>
-        </div>
+        </div>--%>
         <div class="profile-info-row">
-          <div class="profile-info-name"> 人才/荣誉称号 </div>
-          <div class="profile-info-value">
+          <div class="profile-info-name td"> 人才/荣誉称号 </div>
+          <div class="profile-info-value td">
             <span class="editable">${teacherInfo.talentTitle}</span>
           </div>
         </div>
 
       </div>
     </div>
-    <div id="dropdown3" class="tab-pane">
+    <div id="title" class="tab-pane">
       <div class="profile-user-info profile-user-info-striped">
 
         <div class="profile-info-row">
-          <div class="profile-info-name"> 任职单位</div>
-          <div class="profile-info-value">
+          <div class="profile-info-name"> 专技岗位</div>
+        </div>
+
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 专业技术职务</div>
+          <div class="profile-info-value td">
+            <span class="editable">${teacherInfo.proPost}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 专技职务评定时间</div>
+          <div class="profile-info-value td">
+            <span class="editable">${fn:substringBefore(extJzg.zyjszwpdsj, ' ')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 专技职务等级</div>
+          <div class="profile-info-value td">
+            <span class="editable">${teacherInfo.proPostLevel}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 专技职务分级时间</div>
+          <div class="profile-info-value td">
+            <span class="editable">${fn:substringBefore(extJzg.zjgwfjsj, ' ')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 管理岗位</div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 管理岗位等级</div>
+          <div class="profile-info-value td">
+            <span class="editable">${teacherInfo.manageLevel}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 管理岗位分级时间</div>
+          <div class="profile-info-value td">
+            <span class="editable">${fn:substringBefore(extJzg.glgwfjsj, ' ')}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 工勤岗位</div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 工勤岗位等级</div>
+          <div class="profile-info-value td">
+            <span class="editable">${extJzg.gqgwdjmc}</span>
+          </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 工勤岗位分级时间</div>
+          <div class="profile-info-value td">
+            <span class="editable">${fn:substringBefore(extJzg.gqgwfjsj, ' ')}</span>
+          </div>
+        </div>
+        </div>
+    </div>
+    <div id="post" class="tab-pane">
+      <div class="profile-user-info profile-user-info-striped">
+
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 主职信息</div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name td"> 任职单位</div>
+          <div class="profile-info-value td">
             <span class="editable">${unitMap.get(mainCadrePost.unitId).name}</span>
           </div>
         </div>
@@ -280,8 +362,8 @@
           </div>
         </div>
         <div class="profile-info-row">
-          <div class="profile-info-name"> 现任职务</div>
-          <div class="profile-info-value">
+          <div class="profile-info-name td"> 现任职务</div>
+          <div class="profile-info-value td">
             <span class="editable">${mainCadrePost.post}</span>
           </div>
         </div>
@@ -321,6 +403,9 @@
           </div>
         </div>
         <div class="profile-info-row">
+          <div class="profile-info-name"> 兼职信息1</div>
+        </div>
+        <div class="profile-info-row">
           <div class="profile-info-name td"> 兼职单位1</div>
           <div class="profile-info-value td">
             <span class="editable">${unitMap.get(subCadrePost1.unitId).name}</span>
@@ -337,6 +422,9 @@
           <div class="profile-info-value td">
             <span class="editable">${cm:formatDate(subCadrePost1.dispatchCadreRelateBean.last.workTime,'yyyy-MM-dd')}</span>
           </div>
+        </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 兼职信息2</div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 兼职单位2</div>
@@ -357,9 +445,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div id="dropdown4">
-
     </div>
   </div>
 </div>

@@ -7,7 +7,7 @@
     <div class="ace-settings-box clearfix" id="ace-settings-box">
         <div style="height: 35px;margin: 15px 0px;">
             <select data-rel="select2-ajax"
-                    data-ajax-url="${ctx}/m/cadre_selects?types=${CADRE_STATUS_MIDDLE},${CADRE_STATUS_LEADER}" data-width="300"
+                    data-ajax-url="${ctx}/m/cadre_selects?types=${CADRE_STATUS_MIDDLE}" data-width="300"
                     name="cadreId" data-placeholder="请输入账号或姓名或学工号">
                 <option></option>
             </select>

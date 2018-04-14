@@ -224,12 +224,12 @@ body{
 
 /***detail **/
 .profile-info-name{
-    width: 120px;
+    width: 130px;
 }
 @media only screen and (max-width: 480px){
     .profile-user-info-striped .profile-info-name.td{
         float: left;
-        width: 120px;
+        width: 130px;
         text-align: left;
     }
 }
@@ -240,7 +240,7 @@ body{
 }
 @media only screen and (max-width: 480px) {
     .profile-user-info-striped .profile-info-value.td {
-        padding-left: 120px;
+        padding-left: 130px;
     }
 }
 #detail .tab-content{
