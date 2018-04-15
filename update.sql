@@ -1,5 +1,6 @@
 
 
+2018-4-15
 更新 cet_trainee_view
 cet_trainee_cadre_view
 

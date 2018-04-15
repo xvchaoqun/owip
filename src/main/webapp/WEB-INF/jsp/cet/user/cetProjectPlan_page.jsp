@@ -29,7 +29,7 @@
                     </div>
                     <div class="collapse in">
                         <div class="panel-body">
-                            <label>培训班总学时：</label><span class="result">${cetProject.period}</span>
+                            <label>培训班总学时：</label><span class="result">${cm:stripTrailingZeros(cetProject.period)}</span>
                             <label>完成学时数：</label><span class="result">${cm:stripTrailingZeros(cetProject.finishPeriod)}</span>
                             <label>学习进度：</label>
                             <c:set var="progress" value="0%"/>
