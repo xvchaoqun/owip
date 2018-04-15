@@ -1,9 +1,20 @@
 package domain.cet;
 
+import persistence.cet.CetTrainMapper;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CetShortMsg implements Serializable {
+
+    public CetTrain getCetTrain(){
+
+        if(trainId==null) return null;
+        CetTrainMapper cetTrainMapper = CmTag.getBean(CetTrainMapper.class);
+        return cetTrainMapper.selectByPrimaryKey(trainId);
+    }
+
     private Integer id;
 
     private Integer trainId;

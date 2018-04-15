@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by lm on 2017/8/18.
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/user/cet")
 public class UserCetShortMsgController extends CetBaseController {
 
     @RequiresPermissions("userCetShortMsg:*")
@@ -37,7 +37,8 @@ public class UserCetShortMsgController extends CetBaseController {
     @RequiresPermissions("userCetShortMsg:list")
     @RequestMapping("/cetShortMsg_data")
     @ResponseBody
-    public void cetShortMsg_data(HttpServletResponse response, Integer pageSize, Integer pageNo) throws IOException {
+    public void cetShortMsg_data(HttpServletResponse response,
+                                 Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
