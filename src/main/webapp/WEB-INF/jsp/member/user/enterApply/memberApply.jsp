@@ -29,7 +29,7 @@
           <div class="input-group" style="width: 150px">
             <input required class="form-control date-picker" name="_applyTime" type="text"
                    data-date-format="yyyy-mm-dd"
-                   data-date-end-date="${today}"
+                   data-date-end-date="${_today}"
                    value="${cm:formatDate(memberApply.applyTime,'yyyy-MM-dd')}"/>
             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
           </div>

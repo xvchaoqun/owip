@@ -205,6 +205,19 @@ SysMsg.confirm = function (msg, title, callback) {
 var _modal_width;
 (function ($) {
     $.extend({
+        // 左div float时，保证左div高度不小于右div高度
+        adjustLeftFloatDivHeight:function($leftFloatDiv){
+            $.each($leftFloatDiv, function(i, e){
+                var thisHeight = $(this).height();
+                //console.log($(e).attr("class"))
+                //console.log($(e).parent().attr("class"))
+                //console.log($(e).next().attr("class"))
+                var nextHeight = $(e).next().height();
+                if(nextHeight>thisHeight) {
+                    $(this).height(nextHeight).css("line-height", nextHeight + "px");
+                }
+            });
+        },
         menu: {
             liSelected: function ($aHref) {
                 //console.log($aHref)
@@ -242,7 +255,7 @@ var _modal_width;
             // other browser
             return false;
         },
-        loadModal: function (url, width, dragTarget) { // dragTarget：拖拽位置
+        loadModal: function (url, width, dragTarget) { // 加载url内容，dragTarget：拖拽位置
             //$("#modal").modal('hide');
             //console.log("width="+width + " _modal_width=" + _modal_width);
             if (width > 0) {
@@ -258,7 +271,7 @@ var _modal_width;
                 if (!data.startWith("{")) $("#modal").modal('show').draggable({handle: dragTarget});
             });
         },
-        showModal: function (content, width, dragTarget) { // dragTarget：拖拽位置
+        showModal: function (content, width, dragTarget) { // 直接显示content内容，dragTarget：拖拽位置
             //$("#modal").modal('hide');
             //console.log("width="+width + " _modal_width=" + _modal_width);
             if (width > 0) {
@@ -871,6 +884,25 @@ if ($.jgrid) {
 // 初始化表单控件
 $.register = {};
 $.extend($.register, {
+    // 移动端点击注册
+    m_click:function(selector, fn) {
+        var _touch = false;
+        $(document).on("touchend click", selector, function () {
+            event.preventDefault();
+            if (_touch) {
+                //console.log(this)
+                fn.call(this);
+            }
+        });
+
+        $(document).on("touchstart", selector, function () {
+            _touch = true;
+        });
+
+        $(document).on("touchmove", selector, function () {
+            _touch = false;
+        });
+    },
     formatState: function (state) {
         if (!state.id) {
             return state.text;

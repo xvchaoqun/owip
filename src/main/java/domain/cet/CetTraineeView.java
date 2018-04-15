@@ -1,9 +1,20 @@
 package domain.cet;
 
+import persistence.cet.CetTrainMapper;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class CetTraineeView implements Serializable {
+
+    public CetTrain getCetTrain(){
+
+        if(trainId==null) return null;
+        CetTrainMapper cetTrainMapper = CmTag.getBean(CetTrainMapper.class);
+        return cetTrainMapper.selectByPrimaryKey(trainId);
+    }
+
     private Integer id;
 
     private Integer trainId;
@@ -21,6 +32,8 @@ public class CetTraineeView implements Serializable {
     private Integer projectId;
 
     private Boolean objIsQuit;
+
+    private Integer planId;
 
     private BigDecimal totalPeriod;
 
@@ -102,6 +115,14 @@ public class CetTraineeView implements Serializable {
 
     public void setObjIsQuit(Boolean objIsQuit) {
         this.objIsQuit = objIsQuit;
+    }
+
+    public Integer getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
     }
 
     public BigDecimal getTotalPeriod() {

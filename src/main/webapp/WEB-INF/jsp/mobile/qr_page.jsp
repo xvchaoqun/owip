@@ -11,7 +11,7 @@
         jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表
     });
 
-    register_click("#ssss", function(){
+    $.register.m_click("#ssss", function(){
 
         wx.scanQRCode({
             needResult: 1,

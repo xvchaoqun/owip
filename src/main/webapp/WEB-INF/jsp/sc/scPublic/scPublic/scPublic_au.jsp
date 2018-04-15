@@ -66,13 +66,13 @@
                                                        name="publicStartDate"
                                                        type="text"
                                                        data-date-format="yyyy-mm-dd"
-                                                       value="${empty scPublic.publishDate?today:(cm:formatDate(scPublic.publicStartDate,'yyyy-MM-dd'))}"/>
+                                                       value="${empty scPublic.publishDate?_today:(cm:formatDate(scPublic.publicStartDate,'yyyy-MM-dd'))}"/>
                                                 至
                                                 <input required class="date-picker" style="width: 104px;"
                                                        name="publicEndDate"
                                                        type="text"
                                                        data-date-format="yyyy-mm-dd"
-                                                       value="${empty scPublic.publishDate?today:(cm:formatDate(scPublic.publicEndDate,'yyyy-MM-dd'))}"/>
+                                                       value="${empty scPublic.publishDate?_today:(cm:formatDate(scPublic.publicEndDate,'yyyy-MM-dd'))}"/>
 
                                             </div>
                                         </div>
@@ -85,7 +85,7 @@
                                                            name="publishDate"
                                                            type="text"
                                                            data-date-format="yyyy-mm-dd"
-                                                           value="${empty scPublic.publishDate?today:(cm:formatDate(scPublic.publishDate,'yyyy-MM-dd'))}"/>
+                                                           value="${empty scPublic.publishDate?_today:(cm:formatDate(scPublic.publishDate,'yyyy-MM-dd'))}"/>
                                             <span class="input-group-addon"> <i
                                                     class="fa fa-calendar bigger-110"></i></span>
                                                 </div>

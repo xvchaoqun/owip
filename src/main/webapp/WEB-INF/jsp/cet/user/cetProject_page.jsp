@@ -88,8 +88,13 @@ pageEncoding="UTF-8" %>
                 return '-';
             }},
             { label: '总学时',name: 'period'},
-            { label: '完成学时数',name: '_finish'},
-            { label: '学习进度',name: '_finish'},
+            {label: '完成学时数', name: 'finishPeriod'},
+            { label: '学习进度',name: '_finish',formatter: function (cellvalue, options, rowObject) {
+                if(Math.trimToZero(rowObject.period)==0) return '-'
+                var progress = Math.formatFloat(Math.trimToZero(rowObject.finishPeriod)*100/rowObject.period, 1) + "%";
+                return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
+                '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
+            }},
             { label: '是否结业',name: '_finish'}
         ]
     }).jqGrid("setFrozenColumns");

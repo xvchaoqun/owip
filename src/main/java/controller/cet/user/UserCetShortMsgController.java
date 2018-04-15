@@ -9,6 +9,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
@@ -35,6 +36,7 @@ public class UserCetShortMsgController extends CetBaseController {
 
     @RequiresPermissions("userCetShortMsg:list")
     @RequestMapping("/cetShortMsg_data")
+    @ResponseBody
     public void cetShortMsg_data(HttpServletResponse response, Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {

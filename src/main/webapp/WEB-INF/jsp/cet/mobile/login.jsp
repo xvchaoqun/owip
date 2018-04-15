@@ -16,7 +16,7 @@
 									<t:img src="/img/logo_white.png"/>
 								</div>
 								<h1 class="white">
-									${sysConfig.mobilePlantformName}
+									${_sysConfig.mobilePlantformName}
 									<div style="font-size:smaller">（培训课程）</div>
 								</h1>
 							</div>
@@ -80,7 +80,7 @@
 								</div><!-- /.login-box -->
 							</div><!-- /.position-relative -->
 							<div class="center" style="padding-top: 50px">
-								<h4 class="white" id="id-company-text">${sysConfig.schoolName}党委组织部</h4>
+								<h4 class="white" id="id-company-text">${_sysConfig.schoolName}党委组织部</h4>
 							</div>
 						</div>
 					</div><!-- /.col -->

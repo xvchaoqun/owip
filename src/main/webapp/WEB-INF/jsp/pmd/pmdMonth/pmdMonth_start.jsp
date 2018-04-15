@@ -20,7 +20,7 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-5 control-label">启动日期</label>
 
             <div class="col-xs-6 label-text">
-                ${today}
+                ${_today}
             </div>
         </div>
         <div class="form-group">

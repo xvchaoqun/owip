@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -119,6 +120,35 @@ public interface ICetMapper {
             "where ct.id=#{trainId} and ct.plan_id=cpp.id and cpp.project_id=cpo.project_id " +
             " and cpo.user_id=#{userId}")
     public CetProjectObj getCetProjectObj(@Param("userId") int userId, @Param("trainId") int trainId);
+
+    // 获取培训对象在一个培训方案中的已完成学时（针对线下培训和实践教学）
+    @Select("select sum(finish_period) from cet_trainee_view where plan_id=#{planId} and obj_id=#{objId}")
+    public BigDecimal getPlanFinishPeriod(@Param("planId") int planId,
+                                          @Param("objId") int objId);
+
+    // 获取培训对象在一个培训方案中的已完成学时（针对自主学习）
+    @Select("select sum(cc.period) from cet_plan_course_obj cpco " +
+            "left join cet_plan_course cpc on cpc.id=cpco.plan_course_id " +
+            "left join cet_course cc on cc.id=cpc.course_id " +
+            "where cpc.plan_id=#{planId} and is_finished=1 and obj_id=#{objId}")
+    public BigDecimal getSelfFinishPeriod(@Param("planId") int planId,
+                                          @Param("objId") int objId);
+
+    // 获取培训对象在一个培训方案中的已完成学时（针对上级网上专题）
+    @Select("select sum(cci.period) from cet_plan_course_obj_result cpcor " +
+            "left join cet_course_item cci on cci.id=cpcor.course_item_id " +
+            "left join cet_plan_course_obj cpco on cpco.id = cpcor.plan_course_obj_id " +
+            "left join cet_plan_course cpc on cpc.id=cpco.plan_course_id " +
+            "where cpc.plan_id=#{planId} and cpco.obj_id=#{objId} and cpco.is_finished=1")
+    public BigDecimal getSpecialFinishPeriod(@Param("planId") int planId,
+                                          @Param("objId") int objId);
+
+    // 获取培训对象在一个培训方案中的已完成学时（针对撰写心得体会）
+    @Select("select cpp.period from cet_project_plan cpp " +
+            "left join cet_project_obj cpo on cpo.project_id=cpp.project_id " +
+            "where cpp.id=#{planId} and cpo.id=#{objId} and cpo.pdf_write is not null")
+    public BigDecimal getWriteFinishPeriod(@Param("planId") int planId,
+                                          @Param("objId") int objId);
 
     /**
      select user_id, sum(period) as yearPeriod from cet_trainee_course_view cteecv

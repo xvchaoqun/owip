@@ -185,7 +185,7 @@ pageEncoding="UTF-8"%>
 							<div class="input-group">
 								<c:set var="handleTime" value="${cm:formatDate(memberIn.handleTime,'yyyy-MM-dd')}"/>
 								<input required class="form-control date-picker" name="_handleTime" type="text"
-									   data-date-format="yyyy-mm-dd" value="${empty handleTime?today:handleTime}" />
+									   data-date-format="yyyy-mm-dd" value="${empty handleTime?_today:handleTime}" />
 								<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 							</div>
 						</div>

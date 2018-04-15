@@ -14,12 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -40,8 +41,8 @@ public class UserCetProjectPlanController extends CetBaseController {
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(cetProjectPlan.getProjectId());
         modelMap.put("cetProject", cetProject);
 
-        byte type = cetProjectPlan.getType();
-        switch (type){
+        byte planType = cetProjectPlan.getType();
+        switch (planType){
             case CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE: // 线下培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
                 return "forward:/user/cet/cetTrain";
@@ -61,8 +62,10 @@ public class UserCetProjectPlanController extends CetBaseController {
     // 学员 第二级：培训方案
     @RequiresPermissions("userCetProject:*list")
     @RequestMapping("/cetProjectPlan")
-    public String cetProjectPlan(int projectId, ModelMap modelMap) {
+    public String cetProjectPlan(HttpServletRequest request,
+                                 int projectId, ModelMap modelMap) {
 
+        request.setAttribute("userId", ShiroHelper.getCurrentUserId());
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
         modelMap.put("cetProject", cetProject);
 
@@ -71,7 +74,8 @@ public class UserCetProjectPlanController extends CetBaseController {
 
     @RequiresPermissions("userCetProject:*list")
     @RequestMapping("/cetProjectPlan_data")
-    public void cetProjectPlan_data(HttpServletResponse response,
+    @ResponseBody
+    public void cetProjectPlan_data(HttpServletRequest request,
                                     int projectId,
                                     Integer pageSize, Integer pageNo)  throws IOException{
 
@@ -102,6 +106,8 @@ public class UserCetProjectPlanController extends CetBaseController {
         List<CetProjectPlan> records= cetProjectPlanMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        request.setAttribute("objId", cetProjectObj.getId());
 
         Map resultMap = new HashMap();
         resultMap.put("rows", records);

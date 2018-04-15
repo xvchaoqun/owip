@@ -11,19 +11,18 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="wo" uri="/wo-tags" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
-<c:set var="_path" value="${fn:escapeXml(requestScope['javax.servlet.forward.servlet_path'])}"/>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
-
-<c:set value="${sysConfig.siteName}" var="_plantform_name"/>
-<c:set value="${sysConfig.siteShortName}" var="_plantform_short_name"/>
+<c:set var="_path" value="${fn:escapeXml(requestScope['javax.servlet.forward.servlet_path'])}"/>
+<c:set value="${cm:getSysConfig()}" var="_sysConfig"/>
+<c:set value="${_sysConfig.siteName}" var="_plantform_name"/>
+<c:set value="${_sysConfig.siteShortName}" var="_plantform_short_name"/>
 <c:set value="<%=new Date()%>" var="now"/>
-<c:set value="<%=DateUtils.getDateBeforeOrAfterYears(new Date(), -1)%>" var="yearAgo"/>
-<c:set value="${cm:formatDate(now,'yyyy-MM-dd')}" var="today"/>
+<%--<c:set value="<%=DateUtils.getDateBeforeOrAfterYears(new Date(), -1)%>" var="yearAgo"/>--%>
+<c:set value="${cm:formatDate(now,'yyyy-MM-dd')}" var="_today"/>
 <c:set value="${cm:formatDate(now,'yyyy')}" var="_thisYear"/>
-<c:set value="${cm:formatDate(yearAgo,'yyyy-MM-dd')}" var="yearAgo"/>
+<%--<c:set value="${cm:formatDate(yearAgo,'yyyy-MM-dd')}" var="yearAgo"/>--%>
 
 <fmt:setBundle basename="spring" var="spring"/>
-
 <fmt:message key="login.useCaptcha" bundle="${spring}" var="useCaptcha"/>
 <fmt:message key="upload.path" bundle="${spring}" var="_uploadPath"/>
 <fmt:message key="upload.maxSize" bundle="${spring}" var="_uploadMaxSize"/>

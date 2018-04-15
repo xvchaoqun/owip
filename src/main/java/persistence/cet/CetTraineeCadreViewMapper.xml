@@ -11,6 +11,7 @@
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="obj_is_quit" jdbcType="BIT" property="objIsQuit" />
+    <result column="plan_id" jdbcType="INTEGER" property="planId" />
     <result column="total_period" jdbcType="DECIMAL" property="totalPeriod" />
     <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod" />
     <result column="course_count" jdbcType="INTEGER" property="courseCount" />
@@ -60,9 +61,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, train_id, obj_id, is_quit, remark, user_id, trainee_type_id, project_id, obj_is_quit, 
-    total_period, finish_period, course_count, finish_count, cadre_id, code, realname, 
-    title, type_id, post_id, cadre_dp_type, pro_post, lp_work_time, mobile, email, status, 
-    cadre_sort_order
+    plan_id, total_period, finish_period, course_count, finish_count, cadre_id, code, 
+    realname, title, type_id, post_id, cadre_dp_type, pro_post, lp_work_time, mobile, 
+    email, status, cadre_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeCadreViewExample" resultMap="BaseResultMap">
     select

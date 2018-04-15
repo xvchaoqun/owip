@@ -3,6 +3,8 @@ package service.cet;
 import controller.global.OpException;
 import domain.cet.CetProjectObj;
 import domain.cet.CetProjectObjExample;
+import domain.cet.CetProjectPlan;
+import domain.cet.CetProjectPlanExample;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTraineeCourse;
@@ -16,9 +18,11 @@ import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -243,5 +247,51 @@ public class CetProjectObjService extends BaseMapper {
         }
     }
 
+    // 获取培训对象在一个培训方案中已完成的学时
+    public BigDecimal getPlanFinishPeriod(CetProjectPlan cetProjectPlan, int objId) {
 
+        int projectId = cetProjectPlan.getProjectId();
+        int planId = cetProjectPlan.getId();
+        byte planType = cetProjectPlan.getType();
+        switch (planType){
+            case CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE: // 线下培训
+            case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
+                return iCetMapper.getPlanFinishPeriod(planId, objId);
+
+            case CetConstants.CET_PROJECT_PLAN_TYPE_SELF: // 自主学习
+                return iCetMapper.getSelfFinishPeriod(planId, objId);
+
+            case CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL: // 上级网上专题班
+                return iCetMapper.getSpecialFinishPeriod(planId, objId);
+
+            case CetConstants.CET_PROJECT_PLAN_TYPE_GROUP: // 分组研讨
+                //return iCetMapper.getGroupFinishPeriod(planId, objId);
+                return null;
+            case CetConstants.CET_PROJECT_PLAN_TYPE_WRITE: // 撰写心得体会
+                return iCetMapper.getWriteFinishPeriod(planId, objId);
+        }
+
+        return null;
+    }
+
+    // 获取培训对象在一个培训中已完成的学时
+    public BigDecimal getProjectFinishPeriod(int projectId, int userId) {
+
+        CetProjectObj cetProjectObj = get(userId, projectId);
+        int objId = cetProjectObj.getId();
+
+        CetProjectPlanExample example = new CetProjectPlanExample();
+        example.createCriteria().andProjectIdEqualTo(projectId);
+        List<CetProjectPlan> cetProjectPlans = cetProjectPlanMapper.selectByExample(example);
+
+        BigDecimal finishPeriod = BigDecimal.ZERO;
+        for (CetProjectPlan cetProjectPlan : cetProjectPlans) {
+
+            BigDecimal planFinishPeriod = getPlanFinishPeriod(cetProjectPlan, objId);
+            if(planFinishPeriod!=null){
+                finishPeriod = finishPeriod.add(planFinishPeriod);
+            }
+        }
+        return finishPeriod;
+    }
 }

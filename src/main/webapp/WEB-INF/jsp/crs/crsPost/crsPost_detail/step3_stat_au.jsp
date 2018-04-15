@@ -109,7 +109,7 @@
                 <span class="num date">
                 <input name="statDate" class="datetime-picker" type="text" name="endTime"
                        data-date-format="yyyy-mm-dd"
-                       value="${crsPost.statDate==null?today:cm:formatDate(crsPost.statDate, "yyyy-MM-dd")}">
+                       value="${crsPost.statDate==null?_today:cm:formatDate(crsPost.statDate, "yyyy-MM-dd")}">
                </span>
                 </td>
             </tr>

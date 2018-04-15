@@ -16,7 +16,7 @@
                     <input required class="form-control date-picker" name="returnDate"
                            type="text"
                            data-date-format="yyyy-mm-dd"
-                           value="${empty scMatterAccess.returnDate?today:(cm:formatDate(scMatterAccess.returnDate,'yyyy-MM-dd'))}"/>
+                           value="${empty scMatterAccess.returnDate?_today:(cm:formatDate(scMatterAccess.returnDate,'yyyy-MM-dd'))}"/>
                                             <span class="input-group-addon"> <i
                                                     class="fa fa-calendar bigger-110"></i></span>
                 </div>

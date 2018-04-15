@@ -14,9 +14,8 @@ pageEncoding="UTF-8"%>
                 <label class="col-xs-4 control-label">取消集中保管确认时间</label>
                 <div class="col-xs-5">
                     <div class="input-group">
-                        <c:set var="today" value='<%=DateUtils.getCurrentDateTime("yyyy-MM-dd")%>'/>
                         <input required class="form-control date-picker" name="_cancelTime" type="text"
-                               data-date-format="yyyy-mm-dd" value="${passport==null?today:cm:formatDate(passport.cancelTime,'yyyy-MM-dd')}" />
+                               data-date-format="yyyy-mm-dd" value="${passport==null?_today:cm:formatDate(passport.cancelTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>

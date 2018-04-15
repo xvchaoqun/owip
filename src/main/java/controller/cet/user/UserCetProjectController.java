@@ -23,7 +23,6 @@ import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +44,8 @@ public class UserCetProjectController extends CetBaseController {
 
     @RequiresPermissions("userCetProject:list")
     @RequestMapping("/cetProject_data")
-    public void cetProject_data(HttpServletResponse response,
+    @ResponseBody
+    public void cetProject_data(HttpServletRequest request,
                                 byte type, // 培训类型：专题培训、年度培训
                                 Integer year,
                                 String name,
@@ -69,6 +69,8 @@ public class UserCetProjectController extends CetBaseController {
         List<CetProject> records= iCetMapper.selectUserCetProjectList(userId, type, year, name,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        request.setAttribute("userId", userId);
 
         Map resultMap = new HashMap();
         resultMap.put("rows", records);

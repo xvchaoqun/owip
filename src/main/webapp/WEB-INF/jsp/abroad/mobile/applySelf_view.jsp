@@ -123,9 +123,9 @@
               </div>
 
               <div class="profile-info-row">
-                <div class="profile-info-name"> 工作单位及职务</div>
+                <div class="profile-info-name td"> 工作单位及职务</div>
 
-                <div class="profile-info-value">
+                <div class="profile-info-value td">
                   <span class="editable">${cadre.title}</span>
                 </div>
               </div>
@@ -182,25 +182,25 @@
                 </div>
               </div>
               <div class="profile-info-row">
-                <div class="profile-info-name"> 出国（境）事由 </div>
+                <div class="profile-info-name td"> 出国（境）事由 </div>
 
-                <div class="profile-info-value">
+                <div class="profile-info-value td">
                   <span class="editable">${fn:replace(applySelf.reason, "+++", ",")}</span>
                 </div>
               </div>
 
               <div class="profile-info-row">
-                <div class="profile-info-name"> 费用来源 </div>
+                <div class="profile-info-name td"> 费用来源 </div>
 
-                <div class="profile-info-value">
+                <div class="profile-info-value td">
                   <span class="editable">${applySelf.costSource}</span>
                 </div>
               </div>
 
               <div class="profile-info-row">
-                <div class="profile-info-name"> 所需证件 </div>
+                <div class="profile-info-name td"> 所需证件 </div>
 
-                <div class="profile-info-value">
+                <div class="profile-info-value td">
                   <span class="editable">
                     <c:forEach items="${fn:split(applySelf.needPassports, ',')}" var="typeId" varStatus="vs">
                       ${cm:getMetaType(typeId).name}
@@ -210,18 +210,18 @@
                 </div>
               </div>
               <div class="profile-info-row">
-                <div class="profile-info-name"> 备注 </div>
+                <div class="profile-info-name td"> 备注 </div>
 
-                <div class="profile-info-value">
+                <div class="profile-info-value td">
                   <span class="editable">
                     ${applySelf.remark}
                   </span>
                 </div>
               </div>
               <div class="profile-info-row">
-                <div class="profile-info-name"> 其他说明材料 </div>
+                <div class="profile-info-name td"> 其他说明材料 </div>
 
-                <div class="profile-info-value">
+                <div class="profile-info-value td">
                   <span class="editable" >
                     <c:if test="${fn:length(files)==0}">无</c:if>
                     <c:forEach items="${files}" var="file">
@@ -302,6 +302,7 @@
   </div>
 </div>
 <script>
+  $.adjustLeftFloatDivHeight($(".profile-info-name.td"))
   <c:if test="${param.status==0}">
   $("#agree").click(function(){
     $.loadModal("${ctx}/m/abroad/applySelf_approval?id=${applySelf.id}&pass=1&type=${param.type}");

@@ -27,7 +27,7 @@
       <div class="col-xs-6">
         <div class="input-group">
           <input class="form-control date-picker" name="approvalTime" type="text"
-                 data-date-format="yyyy-mm-dd" value="${today}"/>
+                 data-date-format="yyyy-mm-dd" value="${_today}"/>
           <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
         </div>
       </div>

@@ -32,7 +32,7 @@
                     <input required class="form-control date-picker" name="useDate"
                            type="text"
                            data-date-format="yyyy-mm-dd"
-                           value="${empty scAdUse?today:(cm:formatDate(scAdUse.useDate,'yyyy-MM-dd'))}"/>
+                           value="${empty scAdUse?_today:(cm:formatDate(scAdUse.useDate,'yyyy-MM-dd'))}"/>
                                                     <span class="input-group-addon"> <i
                                                             class="fa fa-calendar bigger-110"></i></span>
                 </div>

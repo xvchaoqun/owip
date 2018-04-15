@@ -456,6 +456,4 @@
     </div>
   </div>
 </div>
-<script>
-  _adjustHeight();
-</script>
+<script>$.adjustLeftFloatDivHeight($(".profile-info-name.td"))</script>

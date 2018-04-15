@@ -29,7 +29,7 @@
 					<!-- #section:basics/navbar.layout.brand -->
 					<a href="javascript:;" class="navbar-brand">
 						<span style="font-size: 16px; font-weight: bold">
-							${sysConfig.mobilePlantformName}
+							${_sysConfig.mobilePlantformName}
 						</span>
 					</a>
 				</div>
@@ -131,7 +131,7 @@
 				<div class="footer-inner">
 					<div class="footer-content">
 						<span class="bigger-120">
-							${sysConfig.schoolName}党委组织部
+							${_sysConfig.schoolName}党委组织部
 						</span>
 					</div>
 				</div>

@@ -112,7 +112,7 @@
         <div class="footer-inner">
             <div class="footer-content">
             <span class="bigger-120">
-                ${sysConfig.siteCopyright}
+                ${_sysConfig.siteCopyright}
             </span>
             </div>
         </div>

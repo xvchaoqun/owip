@@ -59,7 +59,7 @@ String.prototype.htmldecode = function(){
 }
 
 Math.formatFloat = function (f, digit) {
-    return parseFloat(f).toFixed(digit);
+    return parseFloat(parseFloat(f).toFixed(digit));
     /*var m = Math.pow(10, digit);
      return parseInt(f * m, 10) / m;*/
 }

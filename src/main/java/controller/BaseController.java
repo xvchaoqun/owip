@@ -479,7 +479,7 @@ public class BaseController extends BaseMapper {
 
         Map map = new HashMap<>();
 
-        map.put("sysConfig", CmTag.getSysConfig());
+        //map.put("sysConfig", CmTag.getSysConfig());
 
         map.put("partyMap", partyService.findAll());
         map.put("staffTypeMap", metaTypeService.metaTypes("mc_branch_staff_type"));

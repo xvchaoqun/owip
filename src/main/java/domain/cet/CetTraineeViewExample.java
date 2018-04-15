@@ -655,6 +655,66 @@ public class CetTraineeViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andPlanIdIsNull() {
+            addCriterion("plan_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanIdIsNotNull() {
+            addCriterion("plan_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanIdEqualTo(Integer value) {
+            addCriterion("plan_id =", value, "planId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanIdNotEqualTo(Integer value) {
+            addCriterion("plan_id <>", value, "planId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanIdGreaterThan(Integer value) {
+            addCriterion("plan_id >", value, "planId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("plan_id >=", value, "planId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanIdLessThan(Integer value) {
+            addCriterion("plan_id <", value, "planId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanIdLessThanOrEqualTo(Integer value) {
+            addCriterion("plan_id <=", value, "planId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanIdIn(List<Integer> values) {
+            addCriterion("plan_id in", values, "planId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanIdNotIn(List<Integer> values) {
+            addCriterion("plan_id not in", values, "planId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanIdBetween(Integer value1, Integer value2) {
+            addCriterion("plan_id between", value1, value2, "planId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPlanIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("plan_id not between", value1, value2, "planId");
+            return (Criteria) this;
+        }
+
         public Criteria andTotalPeriodIsNull() {
             addCriterion("total_period is null");
             return (Criteria) this;

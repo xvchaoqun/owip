@@ -156,7 +156,7 @@ pageEncoding="UTF-8"%>
         $.loadModal("${ctx}/shortMsg_view?id=${passportApply.id}&type=passportApplyUnPass");
     });
 
-    $.register.date($('.date-picker'), {startDate:'${today}'});
+    $.register.date($('.date-picker'), {startDate:'${_today}'});
 
     $('textarea.limited').inputlimiter();
 </script>

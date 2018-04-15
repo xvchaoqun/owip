@@ -11,6 +11,11 @@
 
 	<!--System Tag -->
 	<function>
+		<name>getSysConfig</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>domain.sys.SysConfig getSysConfig()</function-signature>
+	</function>
+	<function>
 		<name>canUpdate</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.Boolean canUpdate(java.lang.Integer,java.lang.String)</function-signature>
@@ -340,5 +345,10 @@
 		<name>stripTrailingZeros</name>
 		<function-class>sys.utils.NumberUtils</function-class>
 		<function-signature>java.lang.String stripTrailingZeros(java.math.BigDecimal)</function-signature>
+	</function>
+	<function>
+		<name>divide</name>
+		<function-class>sys.utils.NumberUtils</function-class>
+		<function-signature>java.math.BigDecimal divide(java.math.BigDecimal,java.math.BigDecimal, java.lang.Integer)</function-signature>
 	</function>
 </taglib>

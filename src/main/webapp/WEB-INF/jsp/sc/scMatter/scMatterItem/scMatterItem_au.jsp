@@ -13,7 +13,7 @@
             <div class="col-xs-6">
                 <div class="input-group">
                     <input required class="form-control date-picker" name="realHandTime" type="text"
-                           data-date-format="yyyy-mm-dd" value="${empty scMatterItem.realHandTime?today:cm:formatDate(scMatterItem.realHandTime,'yyyy-MM-dd')}" />
+                           data-date-format="yyyy-mm-dd" value="${empty scMatterItem.realHandTime?_today:cm:formatDate(scMatterItem.realHandTime,'yyyy-MM-dd')}" />
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>

@@ -23,6 +23,8 @@ public class CetTraineeCadreView implements Serializable {
 
     private Boolean objIsQuit;
 
+    private Integer planId;
+
     private BigDecimal totalPeriod;
 
     private BigDecimal finishPeriod;
@@ -129,6 +131,14 @@ public class CetTraineeCadreView implements Serializable {
 
     public void setObjIsQuit(Boolean objIsQuit) {
         this.objIsQuit = objIsQuit;
+    }
+
+    public Integer getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
     }
 
     public BigDecimal getTotalPeriod() {

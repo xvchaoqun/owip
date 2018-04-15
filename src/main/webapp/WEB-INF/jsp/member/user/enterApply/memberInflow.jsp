@@ -177,7 +177,7 @@
     $('textarea.limited').inputlimiter();
     $("#modalForm :checkbox").bootstrapSwitch();
     showLocation("${memberInflow.province}", null, null, $("#loc_province_container1"));
-    $.register.date($('.date-picker'), {endDate: '${today}'});
+    $.register.date($('.date-picker'), {endDate: '${_today}'});
     $('#modalForm [data-rel="select2"]').select2();
     $("form").validate({
         submitHandler: function (form) {

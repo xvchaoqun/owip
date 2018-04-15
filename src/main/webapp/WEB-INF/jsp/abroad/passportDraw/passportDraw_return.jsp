@@ -130,7 +130,7 @@
                     <div class="col-xs-6">
                         <div class="input-group" style="width: 300px">
                             <input class="form-control date-picker" name="_realReturnDate" type="text"
-                                   data-date-format="yyyy-mm-dd" value="${today}"/>
+                                   data-date-format="yyyy-mm-dd" value="${_today}"/>
                             <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                         </div>
                     </div>

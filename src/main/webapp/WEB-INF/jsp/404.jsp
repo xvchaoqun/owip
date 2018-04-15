@@ -13,25 +13,34 @@
   <link href="${ctx}/extend/css/docs.min.css" rel="stylesheet">
   <link rel="stylesheet" href="${ctx}/extend/css/navbar.css" />
 </head>
-<body>
+<body class="no-skin mob-safari">
   <div id="navbar" class="navbar navbar-default" id="top">
+    <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+      <span class="sr-only">Toggle sidebar</span>
+
+      <span class="icon-bar"></span>
+
+      <span class="icon-bar"></span>
+
+      <span class="icon-bar"></span>
+    </button>
     <div class="navbar-container" id="navbar-container">
       <div class="navbar-header pull-left hidden-xs hidden-sm">
         <div class="logo"  style="cursor: pointer;" onclick="location.href='${ctx}/'"><t:img src="/img/logo_white.png"/></div>
         <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">${_plantform_name}</div>
       </div>
       <div class="navbar-header pull-left hidden-md hidden-lg ">
-        <a href="index" class="navbar-brand">
-          <small  style="cursor: pointer;" onclick="location.href='${ctx}/'">
-            ${_plantform_short_name}
-          </small>
+        <a href="${ctx}/" class="navbar-brand">
+          <span  style="cursor: pointer;font-size: 16px; font-weight: bold">
+              ${_sysConfig.mobilePlantformName}
+          </span>
         </a>
       </div>
     </div>
     <div class="navbar-buttons navbar-header pull-right hidden-xs hidden-sm hidden-md" role="navigation">
       <ul class="nav nav-pills">
         <li class="<c:if test="${_path=='/profile'}">active</c:if>">
-          <a href="${ctx}/profile"><i class="fa fa-user"></i>
+          <a href="${ctx}/#/profile"><i class="fa fa-user"></i>
             ${_user.realname}（${_user.code}）</a>
         </li>
         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
@@ -50,7 +59,7 @@
   </c:if>
 <div class="row">
   <div class="col-xs-12">
-    <div class="error-container" >
+    <div class="error-container" style="padding-top: 150px;">
       <div class="well">
         <h1 class="grey lighter smaller">
 					<span class="blue bigger-125">

@@ -18,13 +18,13 @@
     <![endif]-->
 </head>
 <body>
-<div class="top" style="background:url(${ctx}/img/login_top.jpg?_=${cm:lastModified(cm:getAbsolutePath('/img/login_top.jpg'))}) ${sysConfig.loginTopBgColor} top right no-repeat">
+<div class="top" style="background:url(${ctx}/img/login_top.jpg?_=${cm:lastModified(cm:getAbsolutePath('/img/login_top.jpg'))}) ${_sysConfig.loginTopBgColor} top right no-repeat">
     <div class="w1000">
         <div class="logo"><t:img src="/img/logo.png"/></div>
         <div class="txt">${_plantform_name}</div>
     </div>
 </div>
-<div class="login_box ${sysConfig.displayLoginMsg?'':'no-msg'}">
+<div class="login_box ${_sysConfig.displayLoginMsg?'':'no-msg'}">
 
     <div class="bg">
         <t:img src="/img/login_bg.jpg"/>
@@ -48,7 +48,7 @@
             </form>
 
             <div class="msg">
-                ${sysConfig.loginMsg}
+                ${_sysConfig.loginMsg}
             </div>
         </div>
         <div class="login-layout" id="reg">

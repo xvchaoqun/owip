@@ -565,7 +565,7 @@ td.padding10{
         </c:forEach>
         <tr>
             <td colspan="13" class="padding10">
-                <span>注：此表填好后，请发组织部干部信箱（${sysConfig.schoolEmail}）。</span>
+                <span>注：此表填好后，请发组织部干部信箱（${_sysConfig.schoolEmail}）。</span>
             </td>
         </tr>
         </tbody>

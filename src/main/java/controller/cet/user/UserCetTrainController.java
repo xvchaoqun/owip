@@ -8,8 +8,8 @@ import domain.cet.CetProjectPlan;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseExample;
-import domain.cet.CetTrainExample;
 import domain.cet.CetTraineeView;
+import domain.cet.CetTraineeViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -60,6 +60,7 @@ public class UserCetTrainController extends CetBaseController {
 
     @RequiresPermissions("userCetTrain:list")
     @RequestMapping("/cetTrain_data")
+    @ResponseBody
     public void cetTrain_data(HttpServletResponse response,
                               int planId,
                               Integer pageSize, Integer pageNo) throws IOException {
@@ -80,7 +81,7 @@ public class UserCetTrainController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetTrainExample example = new CetTrainExample();
+        /*CetTrainExample example = new CetTrainExample();
         CetTrainExample.Criteria criteria = example.createCriteria().andPlanIdEqualTo(planId);
         example.setOrderByClause("create_time desc");
 
@@ -89,7 +90,19 @@ public class UserCetTrainController extends CetBaseController {
             pageNo = Math.max(1, pageNo - 1);
         }
         List<CetTrain> records = cetTrainMapper.selectByExampleWithRowbounds(example,
+                new RowBounds((pageNo - 1) * pageSize, pageSize));*/
+
+        CetTraineeViewExample example = new CetTraineeViewExample();
+        example.createCriteria().andPlanIdEqualTo(planId).andObjIdEqualTo(cetProjectObj.getId());
+        example.setOrderByClause("train_id desc");
+
+        long count = cetTraineeViewMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CetTraineeView> records = cetTraineeViewMapper.selectByExampleWithRowbounds(example,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
+
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -99,7 +112,6 @@ public class UserCetTrainController extends CetBaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(cetTrain.class, cetTrainMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }

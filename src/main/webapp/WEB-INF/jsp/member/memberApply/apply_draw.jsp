@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    $.register.date($('.date-picker'), {endDate:"${today}"});
+    $.register.date($('.date-picker'), {endDate:"${_today}"});
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

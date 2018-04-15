@@ -1,5 +1,6 @@
 package controller.cet;
 
+import domain.cet.CetDiscussGroup;
 import domain.cet.CetPlanCourse;
 import domain.cet.CetProject;
 import domain.cet.CetProjectObj;
@@ -83,13 +84,14 @@ public class CetProjectObjController extends CetBaseController {
             CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
             modelMap.put("cetProjectPlan", cetProjectPlan);
         }
-        /*if(discussGroupId!=null){
+        if(discussGroupId!=null){
             // 获取所有培训对象的分组情况
             CetDiscussGroup cetDiscussGroup = cetDiscussGroupMapper.selectByPrimaryKey(discussGroupId);
             int discussId = cetDiscussGroup.getDiscussId();
-            Map<Integer, CetDiscussGroupObj> objMap = cetDiscussService.getObjMap(discussId);
-            modelMap.put("objMap", objMap);
-        }*/
+            modelMap.put("cetDiscuss", cetDiscussMapper.selectByPrimaryKey(discussId));
+           /* Map<Integer, CetDiscussGroupObj> objMap = cetDiscussService.getObjMap(discussId);
+            modelMap.put("objMap", objMap);*/
+        }
 
         if (dpTypes != null) {
             modelMap.put("selectDpTypes", Arrays.asList(dpTypes));

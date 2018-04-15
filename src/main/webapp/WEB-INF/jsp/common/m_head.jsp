@@ -9,8 +9,8 @@
 <link rel="apple-touch-icon-precomposed" href="${ctx}/img/screen_icon_new.png?_=${cm:lastModified(cm:getAbsolutePath('/img/screen_icon_new.png'))}"/>
 <link rel="stylesheet" href="${ctx}/mobile/css/main.css" />
 <link rel="stylesheet" href="${ctx}/mobile/css/extend.css" />
-<title>${sysConfig.mobileTitle}</title>
 <t:link href="${ctx}/mobile/css/setup.css"/>
+<title>${_sysConfig.mobileTitle}</title>
 <script src="${ctx}/assets/js/ace-extra.js"></script>
 <script src='${ctx}/mobile/js/main.js'></script>
 <script type="text/javascript">

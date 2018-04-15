@@ -16,7 +16,7 @@
                 <div class="input-group">
                     <input required class="form-control" name="recordDate" type="text"
                            data-date-format="yyyy-mm-dd"
-                           value="${taiwanRecord==null?today:cm:formatDate(taiwanRecord.recordDate,'yyyy-MM-dd')}"/>
+                           value="${taiwanRecord==null?_today:cm:formatDate(taiwanRecord.recordDate,'yyyy-MM-dd')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>

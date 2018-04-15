@@ -1,12 +1,29 @@
 package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import service.cet.CetProjectObjService;
+import sys.tags.CmTag;
+import sys.utils.ContextHelper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class CetProject implements Serializable {
+
+    public BigDecimal getFinishPeriod(){
+
+        HttpServletRequest request = ContextHelper.getRequest();
+        if (request == null) return null;
+
+        Integer userId = (Integer) request.getAttribute("userId");
+        if(userId==null) return null;
+
+        CetProjectObjService cetProjectObjService = CmTag.getBean(CetProjectObjService.class);
+        return cetProjectObjService.getProjectFinishPeriod(id, userId);
+    }
+
     private Integer id;
 
     private Byte type;

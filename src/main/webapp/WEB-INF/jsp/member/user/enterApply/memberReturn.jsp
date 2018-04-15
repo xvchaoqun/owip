@@ -181,7 +181,7 @@
       <script>
         $('textarea.limited').inputlimiter();
 
-        $.register.date($('.date-picker'), {endDate:'${today}'});
+        $.register.date($('.date-picker'), {endDate:'${_today}'});
         $('#modalForm [data-rel="select2"]').select2();
         var jqValid = $("form").validate({
           submitHandler: function (form) {

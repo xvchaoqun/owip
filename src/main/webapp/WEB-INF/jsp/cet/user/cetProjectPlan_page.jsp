@@ -28,15 +28,19 @@
                         </h3>
                     </div>
                     <div class="collapse in">
-                        <div class="panel-body" style="padding-top: 0">
-                            <label>培训班总学时：</label><span class="result">32</span>
-                            <label>完成学时数：</label><span class="result">20</span>
+                        <div class="panel-body">
+                            <label>培训班总学时：</label><span class="result">${cetProject.period}</span>
+                            <label>完成学时数：</label><span class="result">${cm:stripTrailingZeros(cetProject.finishPeriod)}</span>
                             <label>学习进度：</label>
-                            <div class="progress progress-striped pos-rel" data-percent="66%" style="width:150px;display: inline-block;top:22px;">
-                                  <div class="progress-bar progress-bar-success" style="width:66%;"></div>
+                            <c:set var="progress" value="0%"/>
+                            <c:if test="${cetProject.period>0 && cetProject.finishPeriod>0}">
+                                <fmt:formatNumber var="progress" value="${(cm:divide(cetProject.finishPeriod, cetProject.period, 3))}" type="percent"
+                                                  pattern="#0.0%"/>
+                            </c:if>
+                            <div class="progress progress-striped pos-rel" data-percent="${progress}" style="width:150px;display: inline-block;top:2px;">
+                                  <div class="progress-bar progress-bar-success" style="width:${progress};"></div>
                              </div>
                             <label>结业：</label><span class="result">未结业</span>
-
                         </div>
                     </div>
                 </div>
@@ -84,8 +88,13 @@
                         .format(rowObject.id);
             }},
             {label: '学时', name: 'period'},
-            {label: '完成学时数', name: '_finish'},
-            {label: '学习进度', name: '_finish'},
+            {label: '完成学时数', name: 'finishPeriod'},
+            { label: '学习进度',name: '_finish',formatter: function (cellvalue, options, rowObject) {
+                if(Math.trimToZero(rowObject.period)==0) return '-'
+                var progress = Math.formatFloat(Math.trimToZero(rowObject.finishPeriod)*100/rowObject.period, 1) + "%";
+                return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
+                '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
+            }}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');

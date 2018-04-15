@@ -1226,3 +1226,11 @@ span.delete {
     border-radius: inherit!important;
     font-family: inherit!important;
 }
+
+/*进度条*/
+.progress{
+    margin-bottom: 0px;
+}
+.progress[data-percent]:after{
+    color: #000;
+}

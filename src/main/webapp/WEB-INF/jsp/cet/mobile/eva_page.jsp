@@ -82,7 +82,7 @@
     }
     //alert(getSelectedRankId())
 
-    register_click(".rank-name, .rank-check", function () {
+    $.register.m_click(".rank-name, .rank-check", function () {
         $("#rank-table i").hide();
         $("#rank-table td").removeClass("selected-td");
         // console.log($(this).closest("tr").find("i"))
@@ -92,7 +92,7 @@
         $i.show();
     })
 
-    register_click(".last-step", function () {
+    $.register.m_click(".last-step", function () {
         if (!$(this).prop("disabled")) {
             var rankId = getSelectedRankId();
             //return;
@@ -102,7 +102,7 @@
         }
     })
 
-    register_click(".next-step", function () {
+    $.register.m_click(".next-step", function () {
         if (!$(this).prop("disabled")) {
             var rankId = getSelectedRankId();
             //return;
@@ -116,12 +116,12 @@
         }
     })
 
-    register_click(".first-step", function () {
+    $.register.m_click(".first-step", function () {
         if (!$(this).prop("disabled")) {
             $(".tab-content").load("${ctx}/m/cet/eva_page_next?trainCourseId=${tc.id}&step=1");
         }
     })
-    register_click(".max-step", function () {
+    $.register.m_click(".max-step", function () {
         if (!$(this).prop("disabled")) {
             var maxStep = $(this).data("max-step");
             $(".tab-content").load("${ctx}/m/cet/eva_page_next?trainCourseId=${tc.id}&step=" + maxStep);

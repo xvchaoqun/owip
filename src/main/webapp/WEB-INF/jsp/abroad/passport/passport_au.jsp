@@ -15,7 +15,6 @@
         </c:if>
     </h3>
 </div>
-<c:set var="today" value='<%=DateUtils.getCurrentDateTime("yyyy-MM-dd")%>'/>
 <div class="modal-body">
     <c:if test="${isDuplicate}">
         <div class="alert alert-warning">
@@ -115,7 +114,7 @@
                     <div class="input-group">
                         <input class="form-control date-picker" name="_keepDate" type="text"
                                data-date-format="yyyy-mm-dd"
-                               value="${param.op=='back'?today:cm:formatDate(passport.keepDate,'yyyy-MM-dd')}"/>
+                               value="${param.op=='back'?_today:cm:formatDate(passport.keepDate,'yyyy-MM-dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>
@@ -146,7 +145,7 @@
                     <div class="input-group">
                         <input required class="form-control date-picker" name="_lostTime" type="text"
                                data-date-format="yyyy-mm-dd"
-                               value="${passport==null?today:cm:formatDate(passport.lostTime,'yyyy-MM-dd')}"/>
+                               value="${passport==null?_today:cm:formatDate(passport.lostTime,'yyyy-MM-dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>

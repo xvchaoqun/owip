@@ -14,9 +14,8 @@ pageEncoding="UTF-8"%>
                 <label class="col-xs-3 control-label">登记丢失日期</label>
                 <div class="col-xs-6">
                     <div class="input-group">
-                        <c:set var="today" value='<%=DateUtils.getCurrentDateTime("yyyy-MM-dd")%>'/>
                         <input required class="form-control date-picker" name="_lostTime" type="text"
-                               data-date-format="yyyy-mm-dd" value="${passport==null?today:cm:formatDate(passport.lostTime,'yyyy-MM-dd')}" />
+                               data-date-format="yyyy-mm-dd" value="${passport==null?_today:cm:formatDate(passport.lostTime,'yyyy-MM-dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 </div>
