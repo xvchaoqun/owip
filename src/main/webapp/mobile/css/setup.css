@@ -232,6 +232,16 @@ body{
     border-color: #68adde!important;
 }
 
+.ace-settings-container{
+    top:20px;
+}
+
+.back-btn{
+    position: absolute;
+    top: -38px;
+    right: 0px;
+    padding-right: 15px;
+}
 /***detail **/
 .profile-info-name{
     width: 130px;

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 
 @Controller
@@ -37,7 +38,8 @@ public class MobileMemberController extends MemberBaseController {
 	public String member_info(Integer userId, ModelMap modelMap) {
 
 		if(userId==null){
-			return "member/mobile/teacher_member_info";
+			// 默认读取本人信息
+			userId = ShiroHelper.getCurrentUserId();
 		}
 
 		SysUserView uv = sysUserService.findById(userId);

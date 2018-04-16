@@ -538,7 +538,7 @@
         {label: '专技职务任职时间', name: 'holdTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
         {label: '专技岗位等级', name: 'level', width: 160, formatter: $.jgrid.formatter.MetaType},
         {label: '专技岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
-        {label: '专技岗位备注', name: 'remark', width: 350}
+        {label: '专技岗位备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];
 
     colModels.cadrePostAdmin = [
@@ -547,7 +547,7 @@
         }},
         {label: '管理岗位等级', name: 'level', width: 150, formatter: $.jgrid.formatter.MetaType},
         {label: '管理岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
-        {label: '管理岗位备注', name: 'remark', width: 350}
+        {label: '管理岗位备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];
 
     colModels.cadrePostWork = [
@@ -556,7 +556,7 @@
         }},
         {label: '工勤岗位等级', name: 'level', width: 150, formatter: $.jgrid.formatter.MetaType},
         {label: '工勤岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
-        {label: '工勤岗位备注', name: 'remark', width: 350}
+        {label: '工勤岗位备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];
 
     colModels.cadreTrain = [
@@ -581,7 +581,7 @@
             return _cMap.politicalStatusMap[cellvalue].name
         }
         },
-        {label: '工作单位及职务', name: 'unit', width: 450, align:"left"}
+        {label: '工作单位及职务', name: 'unit', width: 450, align:"left"}, {hidden: true, name: 'id'}
     ];
 
     colModels.cadreFamliyAbroad = [
@@ -602,7 +602,7 @@
         }
         },
         {label: '移居时间', name: 'abroadTime', formatter: 'date', formatoptions: {newformat: 'Y-m'}},
-        {label: '现居住城市', name: 'city', width: 150}
+        {label: '现居住城市', name: 'city', width: 150}, {hidden: true, name: 'id'}
     ];
 
     colModels.cadreCourse = [

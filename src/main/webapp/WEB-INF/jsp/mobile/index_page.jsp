@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="alert alert-block alert-success">
-                    <i class="ace-icon fa fa-check green"></i>
+                    <i class="ace-icon fa fa-smile-o green"></i>
                     欢迎使用${_plantform_name}
                 </div>
             </div>

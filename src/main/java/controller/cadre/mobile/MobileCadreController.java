@@ -38,7 +38,14 @@ public class MobileCadreController extends BaseController {
 
 	@RequiresPermissions("m:cadre:list")
 	@RequestMapping("/cadre_compare")
-	public String cadre_compare() {
+	public String cadre_compare(@RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds, ModelMap modelMap) {
+
+		if(cadreIds!=null && cadreIds.length>0) {
+			CadreViewExample example = new CadreViewExample();
+			example.createCriteria().andIdIn(Arrays.asList(cadreIds));
+			List<CadreView> cadres = cadreViewMapper.selectByExample(example);
+			modelMap.put("cadres", cadres);
+		}
 
 		return "cadre/mobile/cadre_compare";
 	}

@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td data-code="politicalStatus">政治面貌</td>
-                    <td class="bg-left">${politicalStatusMap.get(modify.politicalStatus)}</td>
+                    <td class="bg-left">${politicalStatusMap.get(modify.politicalStatus).name}</td>
                     <td data-code="unit">工作单位及职务</td>
                     <td colspan="3" class="bg-left">${modify.unit}</td>
                 </tr>
@@ -123,7 +123,6 @@
         返回
     </button>
 </div>
-
 <script>
     <c:if test="${mta.type==MODIFY_TABLE_APPLY_TYPE_MODIFY}">
     var modify = ${cm:toJSONObject(modify)};

@@ -18,10 +18,10 @@
   </div>
 </div>
 <div id="result" style="min-height: 300px"></div>
-<button class="closeView btn btn-success btn-block">
+<%--<button class="closeView btn btn-success btn-block">
   <i class="ace-icon fa fa-backward"></i>
   返回
-</button>
+</button>--%>
 <script src="/assets/js/ace/ace.settings.js"></script>
 <script>
 

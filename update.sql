@@ -1,4 +1,19 @@
 
+2018-4-16
+ALTER TABLE `cadre_famliy`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `unit`;
+
+	ALTER TABLE `cadre_famliy_abroad`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `city`;
+
+	ALTER TABLE `cadre_post_admin`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `remark`;
+
+	ALTER TABLE `cadre_post_pro`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `remark`;
+
+ALTER TABLE `cadre_post_work`
+	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `remark`;
 
 2018-4-15
 更新 cet_trainee_view

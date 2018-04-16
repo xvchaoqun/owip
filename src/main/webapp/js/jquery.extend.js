@@ -202,6 +202,102 @@ SysMsg.confirm = function (msg, title, callback) {
     }).draggable({handle: ".modal-header"});
 };
 
+$.fn.extend({
+    fixedTable:function(option){
+        var fixedCell=option.fixedCell||0;
+        var fixedType=option.fixedType||'left';
+        var $table=$(this).clone(true);
+
+        var fixedCellTheadList=getFixedCellThead($(this),fixedCell,fixedType);
+        var fixedCellTbodyList=getFixedCellTbody($(this),fixedCell,fixedType);
+        //console.log(fixedCellTheadList)
+        //console.log(fixedCellTbodyList)
+        setFixedCell($table,fixedCellTheadList.fixedCellList,fixedCellTbodyList);
+        $(this).parent().css({
+            "width":Number($(this).parent().width())-Number(fixedCellTheadList.fixedCellWidth)+"px",
+            "position":"relative",
+            "top":"0"
+        });
+        $(this).parent().parent().css("position","relative");
+        $table.attr("id",$table.attr("id")+"_fixed");
+        $table.css({
+            "width":fixedCellTheadList.fixedCellWidth+"px",
+            "position":"absolute",
+            "top":0
+        })
+        if(fixedType=='left'){
+            $table.css("left","0");
+            $(this).parent().css("left",fixedCellTheadList.fixedCellWidth);
+        }else{
+            $table.css("right","0");
+            $(this).parent().css("left","0");
+        }
+        $(this).parent().parent().append($table);
+        function setFixedCell($ele,fixedCellTheadList,fixedCellTbodyList){
+            $ele.find("thead").html(fixedCellTheadList);
+            $ele.find("tbody").html(fixedCellTbodyList.join(""));
+        }
+        function getFixedCellThead($ele,fixedCell,fixedType){
+            var ret={};
+            var needArr=[];
+            var width=0;
+            var needLength=$ele.find("th").length;
+            if(fixedType=="left"){
+                var removeTh = [];
+                for(var i=0;i<fixedCell;i++){
+                    needArr.push($ele.find("th").eq(i).clone(true)[0].outerHTML);
+                    width+=$ele.find("th").eq(i).width()+
+                        parseInt($ele.find("th").eq(i).css("padding-left"))+
+                        parseInt($ele.find("th").eq(i).css("padding-right"))+
+                        parseInt($ele.find("th").eq(i).css("border-left"))+
+                        parseInt($ele.find("th").eq(i).css("border-right"));
+                    //console.log("needArr="+ needArr)
+                    removeTh.push($ele.find("th").eq(i));
+                }
+                $.each(removeTh, function(i, th){
+                    th.remove();
+                })
+            }else{
+                for(var i=needLength-fixedCell;i<needLength;i++){
+                    needArr.push($ele.find("th").eq(i).clone(true)[0].outerHTML);
+                    width+=$ele.find("th").eq(i).width();
+                    $ele.find("th").eq(i).remove();
+                }
+            }
+
+            ret.fixedCellList="<tr>"+needArr.join("")+"</tr>";
+            ret.fixedCellWidth=width;
+            return ret;
+        }
+        function getFixedCellTbody($ele,fixedCell,fixedType){
+            var needArr=[];
+            var needLength=$ele.find("th").length+fixedCell;
+            var needTr=$ele.find("tbody").children("tr");
+            var needTrLength=needTr.length;
+
+            for(var k=0;k<needTrLength;k++){
+                var $needTdArr=$(needTr[k]).children("td");
+                if(fixedType=="left"){
+                    var nowTr=[];
+                    for(var i=0;i<fixedCell;i++){
+                        nowTr.push($needTdArr.eq(i).clone(true)[0].outerHTML);
+                        $needTdArr.eq(i).remove();
+                    }
+                    needArr.push("<tr>"+nowTr.join("")+"</tr>");
+                }else{
+                    var nowTr=[];
+                    for(var i=needLength-fixedCell;i<needLength;i++){
+                        nowTr.push($needTdArr.eq(i).clone(true)[0].outerHTML);
+                        $needTdArr.eq(i).remove();
+                    }
+                    needArr.push("<tr>"+nowTr.join("")+"</tr>");
+                }
+            }
+            return needArr;
+        }
+    }
+});
+
 var _modal_width;
 (function ($) {
     $.extend({

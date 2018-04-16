@@ -15,7 +15,7 @@
 </head>
 <body class="no-skin mob-safari">
   <div id="navbar" class="navbar navbar-default" id="top">
-    <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+    <button type="button" class="navbar-toggle menu-toggler pull-left" onclick="location.href='${ctx}/'">
       <span class="sr-only">Toggle sidebar</span>
 
       <span class="icon-bar"></span>
@@ -29,7 +29,7 @@
         <div class="logo"  style="cursor: pointer;" onclick="location.href='${ctx}/'"><t:img src="/img/logo_white.png"/></div>
         <div class="txt" style="cursor: pointer;" onclick="location.href='${ctx}/'">${_plantform_name}</div>
       </div>
-      <div class="navbar-header pull-left hidden-md hidden-lg ">
+      <div class="navbar-header pull-left hidden-md hidden-lg " style="left: 36px;top: 0px;position: absolute;">
         <a href="${ctx}/" class="navbar-brand">
           <span  style="cursor: pointer;font-size: 16px; font-weight: bold">
               ${_sysConfig.mobilePlantformName}

@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
-<div class="profile-user-info profile-user-info-striped" style="border:0px; padding-top:15px; padding-bottom: 20px;">
+<div class="back-btn">
+    <a href="javascript:;" class="closeView"><i class="fa fa-reply"></i> 返回</a>
+</div>
+<div class="profile-user-info profile-user-info-striped" style="border:0px; padding-bottom: 20px;">
 
     <div class="profile-info-row">
         <div class="profile-info-name"> 内 设 机 构</div>

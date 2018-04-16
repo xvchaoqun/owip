@@ -27,7 +27,7 @@
                     <div class="openView infobox infobox-blue2" data-open-by="page" style="padding-top: 12px"
                          data-url="${ctx}/m/cadre_compare">
                         <button class="btn btn-warning btn-block" style=><i class="fa fa-arrow-right"></i> 比对<span
-                                style="margin-left: 35px;"/></button>
+                                style="margin-left: 37px;"/></button>
                     </div>
                 </div>
             </div>

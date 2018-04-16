@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td data-code="type">移居类别</td>
-                    <td class="bg-left">${abroadTypeMap.(modify.type).name}</td>
+                    <td class="bg-left">${abroadTypeMap.get(modify.type).name}</td>
                     <td data-code="abroadTime">移居时间</td>
                     <td colspan="3" class="bg-left">${cm:formatDate(modify.abroadTime,'yyyy.MM')}</td>
                 </tr>

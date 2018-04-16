@@ -1,5 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<div class="back-btn">
+  <c:if test="${param.backTo!='unit'}">
+    <a href="javascript:;" class="closeView"><i class="fa fa-reply"></i> 返回</a>
+  </c:if>
+  <c:if test="${param.backTo=='unit'}">
+    <a href="javascript:;" class="openView" data-open-by="page"
+       data-url="${ctx}/m/cadre_search_byUnit?unitId=${param.unitId}"><i class="fa fa-reply"></i> 返回</a>
+  </c:if>
+</div>
 <div class="tabbable" style="margin-bottom: 10px;">
   <ul class="nav nav-tabs">
     <li class="active">
@@ -8,12 +17,6 @@
     <li><a data-toggle="tab" href="#pi">人事信息</a></li>
     <li><a data-toggle="tab" href="#title">职称信息</a></li>
     <li><a data-toggle="tab" href="#post">任职信息</a></li>
-    <c:if test="${param.backTo=='unit'}">
-      <div style="float:right;padding:5px;">
-      <a href="javascript:;" class="openView" data-open-by="page"
-         data-url="${ctx}/m/cadre_search_byUnit?unitId=${param.unitId}">返回</a>
-      </div>
-    </c:if>
   </ul>
   <div class="tab-content" style="padding:16px 0px 10px">
     <div id="base" class="tab-pane in active">

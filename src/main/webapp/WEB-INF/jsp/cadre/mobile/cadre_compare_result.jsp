@@ -1,7 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<div class="back-btn">
+  <a href="javascript:;" class="openView" data-open-by="page"
+     data-url="${ctx}/m/cadre_compare?cadreIds[]=${param['cadreIds[]']}"><i class="fa fa-reply"></i> 返回</a>
+</div>
 <div style="overflow:auto;width:100%">
-  <table  class="table table-bordered table-center" width="auto" style="white-space:nowrap">
+  <table id="fixedTable" class="table table-bordered table-center" width="auto" style="white-space:nowrap">
     <thead>
     <tr>
       <th>序号</th>
@@ -50,7 +54,28 @@
     </tbody>
   </table>
 </div>
-<button class="closeView btn btn-success btn-block">
+<%--<button class="closeView btn btn-success btn-block">
   <i class="ace-icon fa fa-backward"></i>
   返回
-</button>
+</button>--%>
+<div class="alert alert-block alert-success" style="margin-top: 40px;">
+  <i class="ace-icon fa fa-info-circle green"></i>  提示：打开手机的屏幕旋转，横屏后效果更佳
+</div>
+<style>
+  .table>thead>tr>th:last-child{
+    border-right-color: inherit;
+  }
+</style>
+<script>
+  $("#fixedTable").fixedTable({
+    fixedCell:2,
+    fixedType:"left",
+  });
+
+  window.addEventListener("orientationchange",function() {
+    window.setTimeout(function() {
+      var w = $("#body-content-view").width() - $("#fixedTable_fixed").width();
+      $("#fixedTable").closest("div").width(w);
+    }, 200);
+  });
+</script>
