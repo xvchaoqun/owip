@@ -71,11 +71,8 @@
         <!--
         <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-        </table>
-        <table tableName="cadre_famliy_abroad" domainObjectName="cadre.CadreFamliyAbroad">
-        </table>
-        <table tableName="cadre_famliy" domainObjectName="cadre.CadreFamliy">
         </table>-->
+
         <!--<table tableName="cadre_company" domainObjectName="cadre.CadreCompany">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -119,15 +116,26 @@
           <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">
           <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-
-        <!--<table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro">
-        </table>-->
-
-        <!--<table tableName="cadre_post_admin" domainObjectName="cadre.CadrePostAdmin">
+        <table tableName="cadre_famliy_abroad" domainObjectName="cadre.CadreFamliyAbroad"
+               mapperName="cadre.CadreFamliyAbroadMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cadre_famliy" domainObjectName="cadre.CadreFamliy"
+               mapperName="cadre.CadreFamliyMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro"
+               mapperName="cadre.CadrePostProMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cadre_post_admin" domainObjectName="cadre.CadrePostAdmin"
+               mapperName="cadre.CadrePostAdminMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>
-
-         <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork">
-         </table>-->
+         <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork"
+                mapperName="cadre.CadrePostWorkMapper">
+             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+         </table>
         <!--<table tableName="cadre_report" domainObjectName="cadre.CadreReport">
         </table>
         -->

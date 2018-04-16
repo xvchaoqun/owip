@@ -117,30 +117,7 @@
         ondblClickRow: function () {
         },
         url: '${ctx}/cadreFamliy_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {
-                label: '称谓', name: 'title', frozen: true, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.CADRE_FAMLIY_TITLE_MAP[cellvalue]
-            }
-            },
-            {label: '姓名', width: 120, name: 'realname'},
-            {label: '出生年月', name: 'birthday', formatter: 'date', formatoptions: {newformat: 'Y-m'}},
-            /*{
-                label: '年龄',
-                name: 'birthday',
-                formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '';
-                    return calAge(cellvalue);
-                }
-            },*/
-            {
-                label: '政治面貌', name: 'politicalStatus', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.politicalStatusMap[cellvalue].name
-            }
-            },
-            {label: '工作单位及职务', name: 'unit', width: 450, align:"left"}
-        ]
+        colModel: colModels.cadreFamliy
     }).jqGrid("setFrozenColumns");
 
     $("#jqGrid_cadreFamliyAbroad").jqGrid({
@@ -151,26 +128,7 @@
         ondblClickRow: function () {
         },
         url: '${ctx}/cadreFamliyAbroad_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            {
-                label: '称谓',
-                name: 'cadreFamliy.title',
-                frozen: true,
-                formatter: function (cellvalue, options, rowObject) {
-                    return _cMap.CADRE_FAMLIY_TITLE_MAP[cellvalue]
-                }
-            },
-            {label: '姓名', name: 'cadreFamliy.realname'},
-            {label: '移居国家', name: 'country', width: 200},
-            {
-                label: '移居类别', name: 'type', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.abroadTypeMap[cellvalue].name
-            }
-            },
-            {label: '移居时间', name: 'abroadTime', formatter: 'date', formatoptions: {newformat: 'Y-m'}},
-            {label: '现居住城市', name: 'city', width: 150}
-        ]
+        colModel: colModels.cadreFamliyAbroad
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid4');
 </script>

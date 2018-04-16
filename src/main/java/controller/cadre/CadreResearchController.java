@@ -253,7 +253,7 @@ public class CadreResearchController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部科研项目：%s", record.getId()));
             } else {
                 cadreResearchService.modifyApply(record, null, record.getResearchType(), false);
-                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部科研项目：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-干部科研项目：%s", record.getId()));
             }
 
         } else {
@@ -269,11 +269,11 @@ public class CadreResearchController extends BaseController {
             } else {
                 if (_isUpdate == false) {
                     cadreResearchService.modifyApply(record, id, record.getResearchType(), false);
-                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部科研项目：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-干部科研项目：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容
                     cadreResearchService.updateModify(record, applyId);
-                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部科研项目：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "修改申请内容-干部科研项目：%s", record.getId()));
                 }
             }
         }

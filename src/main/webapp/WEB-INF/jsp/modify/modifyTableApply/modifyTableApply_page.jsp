@@ -104,7 +104,7 @@
             },
             {
                 label: '申请内容', name: 'content', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return '<button href="javascript:;" class="openView btn btn-primary btn-xs" data-url="${ctx}/modifyTableApply_detail?module=${module}&applyId={0}">'.format(rowObject.id)
+                return '<button href="javascript:;" class="openView btn btn-primary btn-xs" data-url="${ctx}/modifyTableApply_detail?applyId={0}">'.format(rowObject.id)
                         + '<i class="fa fa-search"></i> 详情</button>';
             }
             },
@@ -113,7 +113,7 @@
             {
                 label: '组织部审核', name: '_check', formatter: function (cellvalue, options, rowObject) {
 
-                return '<button data-url="${ctx}/modifyTableApply_detail?module=${module}&type=check&applyId={0}" class="openView btn btn-success btn-xs">'
+                return '<button data-url="${ctx}/modifyTableApply_detail?type=check&applyId={0}" class="openView btn btn-success btn-xs">'
                                 .format(rowObject.id)
                         + '<i class="fa fa-check"></i> 审核</button>'
             }

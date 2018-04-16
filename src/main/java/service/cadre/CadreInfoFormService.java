@@ -285,7 +285,7 @@ public class CadreInfoFormService extends BaseMapper {
         {
             // 社会关系
             CadreFamliyExample example = new CadreFamliyExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId);
+            example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             List<CadreFamliy> cadreFamliys = cadreFamliyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 6));
             bean.setCadreFamliys(cadreFamliys);
         }
@@ -293,7 +293,7 @@ public class CadreInfoFormService extends BaseMapper {
         {
             // 家庭成员海外情况
             CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId);
+            example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             List<CadreFamliyAbroad> cadreFamliyAbroads =
                     cadreFamliyAbroadMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 2));
             if (cadreFamliyAbroads.size() == 0) {

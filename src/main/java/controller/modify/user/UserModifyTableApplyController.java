@@ -27,7 +27,7 @@ public class UserModifyTableApplyController extends ModifyBaseController {
     @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/modifyTableApply_back", method = RequestMethod.POST)
     @ResponseBody
-    public Map back(Integer id,
+    public Map modifyTableApply_back(Integer id,
                     HttpServletRequest request) {
 
         try {
@@ -43,7 +43,7 @@ public class UserModifyTableApplyController extends ModifyBaseController {
     @RequiresPermissions(SystemConstants.PERMISSION_CADREADMINSELF)
     @RequestMapping(value = "/modifyTableApply_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreEdu_del(HttpServletRequest request, byte module,  Integer id) {
+    public Map do_modifyTableApply_del(HttpServletRequest request, byte module,  Integer id) {
 
         if (id != null) {
 
@@ -87,6 +87,21 @@ public class UserModifyTableApplyController extends ModifyBaseController {
                     break;
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER:
                     cadreRewardService.modifyApply(null, id, CadreConstants.CADRE_REWARD_TYPE_OTHER, true);
+                    break;
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO:
+                    cadrePostProService.modifyApply(null, id, true);
+                    break;
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN:
+                    cadrePostAdminService.modifyApply(null, id, true);
+                    break;
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK:
+                    cadrePostWorkService.modifyApply(null, id, true);
+                    break;
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY:
+                    cadreFamliyService.modifyApply(null, id, true);
+                    break;
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD:
+                    cadreFamliyAbroadService.modifyApply(null, id, true);
                     break;
             }
 

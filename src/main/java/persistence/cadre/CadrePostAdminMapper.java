@@ -2,13 +2,12 @@ package persistence.cadre;
 
 import domain.cadre.CadrePostAdmin;
 import domain.cadre.CadrePostAdminExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface CadrePostAdminMapper {
-    int countByExample(CadrePostAdminExample example);
+    long countByExample(CadrePostAdminExample example);
 
     int deleteByExample(CadrePostAdminExample example);
 

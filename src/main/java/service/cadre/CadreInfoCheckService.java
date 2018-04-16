@@ -294,23 +294,26 @@ public class CadreInfoCheckService extends BaseMapper {
 
         if (StringUtils.isBlank(name)) return false;
 
-        int count = 0;
+        long count = 0;
         switch (name) {
             case "post_pro": {
                 CadrePostProExample example = new CadrePostProExample();
-                example.createCriteria().andCadreIdEqualTo(cadreId);
+                example.createCriteria().andCadreIdEqualTo(cadreId)
+                        .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                 count = cadrePostProMapper.countByExample(example);
             }
             break;
             case "post_admin": {
                 CadrePostAdminExample example = new CadrePostAdminExample();
-                example.createCriteria().andCadreIdEqualTo(cadreId);
+                example.createCriteria().andCadreIdEqualTo(cadreId)
+                        .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                 count = cadrePostAdminMapper.countByExample(example);
             }
             break;
             case "post_work": {
                 CadrePostWorkExample example = new CadrePostWorkExample();
-                example.createCriteria().andCadreIdEqualTo(cadreId);
+                example.createCriteria().andCadreIdEqualTo(cadreId)
+                        .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                 count = cadrePostWorkMapper.countByExample(example);
             }
             break;
@@ -386,7 +389,8 @@ public class CadreInfoCheckService extends BaseMapper {
             break;
             case "famliy_abroad": {
                 CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
-                example.createCriteria().andCadreIdEqualTo(cadreId);
+                example.createCriteria().andCadreIdEqualTo(cadreId)
+                        .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
                 count = cadreFamliyAbroadMapper.countByExample(example);
             }
             break;

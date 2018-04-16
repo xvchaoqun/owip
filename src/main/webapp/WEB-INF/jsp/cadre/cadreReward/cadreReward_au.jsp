@@ -91,7 +91,7 @@ pageEncoding="UTF-8"%>
                         </c:if>
                         <c:if test="${param.toApply==1}">
                         <c:if test="${param._isUpdate==1}">
-                        $("#body-content-view").load("${ctx}/modifyCadreReward_detail?applyId=${param.applyId}&rewardType=${param.rewardType}&_="+new Date().getTime())
+                        $("#body-content-view").load("${ctx}/modifyTableApply_detail?applyId=${param.applyId}&module=${param.module}&_="+new Date().getTime())
                         </c:if>
                         <c:if test="${param._isUpdate!=1}">
                         $.hashchange('cls=1&rewardType=${param.rewardType}&module=${param.module}');

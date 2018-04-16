@@ -174,7 +174,7 @@ public class CadreCompanyController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部企业兼职情况：%s", record.getId()));
             } else {
                 cadreCompanyService.modifyApply(record, null, false);
-                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部企业兼职情况：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-干部企业兼职情况：%s", record.getId()));
             }
 
         } else {
@@ -190,11 +190,11 @@ public class CadreCompanyController extends BaseController {
             } else {
                 if (_isUpdate == false) {
                     cadreCompanyService.modifyApply(record, id, false);
-                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部企业兼职情况：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-干部企业兼职情况：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容
                     cadreCompanyService.updateModify(record, applyId);
-                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部企业兼职情况：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "修改申请内容-干部企业兼职情况：%s", record.getId()));
                 }
             }
         }

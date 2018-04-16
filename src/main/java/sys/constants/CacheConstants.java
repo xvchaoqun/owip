@@ -23,6 +23,8 @@ public class CacheConstants {
     public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT = 8;
     public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN = 13;
     public final static byte CACHE_KEY_MODIFY_BASE_APPLY = 14;
+
+
     public final static byte CACHE_KEY_ABROAD_PASSPORT_APPLY = 15;
     public final static byte CACHE_KEY_ABROAD_APPLY_SELF = 16;
 
@@ -34,6 +36,12 @@ public class CacheConstants {
     public final static byte CACHE_KEY_TAIWAN_RECORD_HANDLE_TYPE = 21;
 
     public final static byte CACHE_KEY_CADRE_PARTY_TO_REMOVE = 22;
+
+    public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO = 30;
+    public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN = 31;
+    public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK = 32;
+    public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY = 33;
+    public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD = 34;
 
     public final static Map<Byte, String> CACHE_KEY_MAP = new LinkedHashMap<>();
 
@@ -64,5 +72,11 @@ public class CacheConstants {
         CACHE_KEY_MAP.put(CACHE_KEY_TAIWAN_RECORD_HANDLE_TYPE, "因公赴台备案-提醒管理员选择办理新证件方式");
 
         CACHE_KEY_MAP.put(CACHE_KEY_CADRE_PARTY_TO_REMOVE, "特殊党员干部库-已存在于党员信息库");
+
+        CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO, "专技岗位过程信息-干部信息修改申请");
+        CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN, "管理岗位过程信息-干部信息修改申请");
+        CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK, "工勤岗位过程信息-干部信息修改申请");
+        CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY, "家庭成员信息-干部信息修改申请");
+        CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD, "家庭成员移居国(境)外的情况-干部信息修改申请");
     }
 }

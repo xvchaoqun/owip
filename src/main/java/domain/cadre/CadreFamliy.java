@@ -18,6 +18,8 @@ public class CadreFamliy implements Serializable {
 
     private String unit;
 
+    private Byte status;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -74,5 +76,13 @@ public class CadreFamliy implements Serializable {
 
     public void setUnit(String unit) {
         this.unit = unit == null ? null : unit.trim();
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }

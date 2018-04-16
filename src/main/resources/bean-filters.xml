@@ -21,7 +21,7 @@
                 <value>(persistence|service|controller)\.sc\..*</value>
                 <value>(persistence|service|controller)\.dispatch\..*</value>
                 <value>(persistence|service|controller)\.verify\..*</value>
-                <value>(persistence|service|controller)\.modify\..*</value>
+                <!--<value>(persistence|service|controller)\.modify\..*</value>-->
             </list>
         </property>
     </bean>

@@ -438,6 +438,30 @@
         {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];
 
+    colModels.cadreWork = [
+        {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+        {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+        {label: '工作单位', name: 'unit', width: 280},
+        {label: '担任职务或者专技职务', name: 'post', width: 170},
+        /*     {
+         label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType
+         },*/
+        {label: '工作类型', name: 'workType', width: 140, formatter: $.jgrid.formatter.MetaType},
+        {label: '是否担任领导职务', name: 'isCadre', width: 150, formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '备注', name: 'remark', width: 150},
+        {
+            label: '干部任免文件', name: 'dispatchCadreRelates', formatter: function (cellvalue, options, rowObject) {
+            if(cellvalue==undefined) return ''
+            var count = cellvalue.length;
+            <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
+            if(count==0) return ''
+            </shiro:lacksPermission>
+            return  _.template($("#dispatch_select_tpl").html().NoMultiSpace())
+            ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
+        }, width: 120
+        }, {hidden: true, name: 'id'}
+    ];
+
     colModels.cadrePaper = [
         {label: '发表日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
         {label: '论文题目', name: 'name', width: 350},
@@ -504,12 +528,81 @@
         {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];
 
+    colModels.cadrePostPro = [
+        {label: '是否当前专技岗位', width: 150, name: 'isCurrent',formatter: function (cellvalue, options, rowObject) {
+            return cellvalue ? "是" : "否";
+        }},
+        {label: '岗位类别', width: 120, name: 'type', formatter: $.jgrid.formatter.MetaType},
+        {label: '职级', name: 'postLevel'},
+        {label: '专业技术职务', name: 'post', width: 250, formatter: $.jgrid.formatter.MetaType},
+        {label: '专技职务任职时间', name: 'holdTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {label: '专技岗位等级', name: 'level', width: 160, formatter: $.jgrid.formatter.MetaType},
+        {label: '专技岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {label: '专技岗位备注', name: 'remark', width: 350}
+    ];
+
+    colModels.cadrePostAdmin = [
+        {label: '是否当前管理岗位', width: 150, name: 'isCurrent',formatter: function (cellvalue, options, rowObject) {
+            return cellvalue ? "是" : "否";
+        }},
+        {label: '管理岗位等级', name: 'level', width: 150, formatter: $.jgrid.formatter.MetaType},
+        {label: '管理岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {label: '管理岗位备注', name: 'remark', width: 350}
+    ];
+
+    colModels.cadrePostWork = [
+        {label: '是否当前工勤岗位', width: 150, name: 'isCurrent',formatter: function (cellvalue, options, rowObject) {
+            return cellvalue ? "是" : "否";
+        }},
+        {label: '工勤岗位等级', name: 'level', width: 150, formatter: $.jgrid.formatter.MetaType},
+        {label: '工勤岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {label: '工勤岗位备注', name: 'remark', width: 350}
+    ];
+
     colModels.cadreTrain = [
         {label: '起始时间', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '结束时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '培训内容', name: 'content', width: 350},
         {label: '主办单位', name: 'unit', width: 280},
         {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
+    ];
+
+    colModels.cadreFamliy = [
+        {
+            label: '称谓', name: 'title', frozen: true, formatter: function (cellvalue, options, rowObject) {
+            return _cMap.CADRE_FAMLIY_TITLE_MAP[cellvalue]
+        }
+        },
+        {label: '姓名', width: 120, name: 'realname'},
+        {label: '出生年月', name: 'birthday', formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {
+            label: '政治面貌', name: 'politicalStatus', formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '';
+            return _cMap.politicalStatusMap[cellvalue].name
+        }
+        },
+        {label: '工作单位及职务', name: 'unit', width: 450, align:"left"}
+    ];
+
+    colModels.cadreFamliyAbroad = [
+        {
+            label: '称谓',
+            name: 'cadreFamliy.title',
+            frozen: true,
+            formatter: function (cellvalue, options, rowObject) {
+                return _cMap.CADRE_FAMLIY_TITLE_MAP[cellvalue]
+            }
+        },
+        {label: '姓名', name: 'cadreFamliy.realname'},
+        {label: '移居国家', name: 'country', width: 200},
+        {
+            label: '移居类别', name: 'type', formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '';
+            return _cMap.abroadTypeMap[cellvalue].name
+        }
+        },
+        {label: '移居时间', name: 'abroadTime', formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {label: '现居住城市', name: 'city', width: 150}
     ];
 
     colModels.cadreCourse = [

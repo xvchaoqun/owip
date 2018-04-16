@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
@@ -90,7 +91,7 @@ public class CadreFamliyController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreFamliyExample example = new CadreFamliyExample();
-        Criteria criteria = example.createCriteria();
+        Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         //example.setOrderByClause(String.format("%s %s", sort, order));
 
         if (cadreId!=null) {
@@ -105,7 +106,7 @@ public class CadreFamliyController extends BaseController {
             return;
         }
 
-        int count = cadreFamliyMapper.countByExample(example);
+        long count = cadreFamliyMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -160,7 +161,13 @@ public class CadreFamliyController extends BaseController {
     @RequiresPermissions("cadreFamliy:edit")
     @RequestMapping(value = "/cadreFamliy_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreFamliy_au(CadreFamliy record, String _birthday, HttpServletRequest request) {
+    public Map do_cadreFamliy_au(
+            // toApply、_isUpdate、applyId 是干部本人修改申请时传入
+            @RequestParam(required = true, defaultValue = "0") boolean toApply,
+            // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
+            @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
+            Integer applyId, // _isUpdate=true时，传入
+            CadreFamliy record, String _birthday, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -169,20 +176,36 @@ public class CadreFamliyController extends BaseController {
         }
 
         if (id == null) {
-            cadreFamliyService.insertSelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "添加家庭成员信息：%s", record.getId()));
-        } else {
 
+            if (!toApply) {
+                cadreFamliyService.insertSelective(record);
+                logger.info(addLog(LogConstants.LOG_ADMIN, "添加家庭成员信息：%s", record.getId()));
+            } else {
+                cadreFamliyService.modifyApply(record, null, false);
+                logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-家庭成员信息：%s", record.getId()));
+            }
+
+        } else {
             // 干部信息本人直接修改数据校验
             CadreFamliy _record = cadreFamliyMapper.selectByPrimaryKey(id);
-            if(_record.getCadreId().intValue() != record.getCadreId()){
+            if (_record.getCadreId().intValue() != record.getCadreId()) {
                 throw new IllegalArgumentException("数据异常");
             }
-            record.setCadreId(_record.getCadreId());
-            cadreFamliyService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "更新家庭成员信息：%s", record.getId()));
-        }
 
+            if (!toApply) {
+                cadreFamliyService.updateByPrimaryKeySelective(record);
+                logger.info(addLog(LogConstants.LOG_ADMIN, "更新家庭成员信息：%s", record.getId()));
+            } else {
+                if (_isUpdate == false) {
+                    cadreFamliyService.modifyApply(record, id, false);
+                    logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-家庭成员信息：%s", record.getId()));
+                } else {
+                    // 更新修改申请的内容
+                    cadreFamliyService.updateModify(record, applyId);
+                    logger.info(addLog(LogConstants.LOG_CADRE, "修改申请内容-家庭成员信息：%s", record.getId()));
+                }
+            }
+        }
         return success(FormUtils.SUCCESS);
     }
 
@@ -270,14 +293,14 @@ public class CadreFamliyController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreFamliyExample example = new CadreFamliyExample();
-        Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId);
+        Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("id desc");
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andRealnameLike("%" + searchStr + "%");
         }
 
-        int count = cadreFamliyMapper.countByExample(example);
+        long count = cadreFamliyMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);

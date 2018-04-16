@@ -6,7 +6,9 @@ pageEncoding="UTF-8"%>
     <h3><c:if test="${cadreFamliy!=null}">编辑</c:if><c:if test="${cadreFamliy==null}">添加</c:if>家庭成员信息</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreFamliy_au?cadreId=${cadre.id}" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreFamliy_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post">
+        <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
+        <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="id" value="${cadreFamliy.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">姓名</label>
@@ -87,7 +89,17 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal("hide");
+                        <c:if test="${param.toApply!=1}">
                         $("#jqGrid_cadreFamliy").trigger("reloadGrid");
+                        </c:if>
+                        <c:if test="${param.toApply==1}">
+                        <c:if test="${param._isUpdate==1}">
+                        $("#body-content-view").load("${ctx}/modifyTableApply_detail?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY}&applyId=${param.applyId}&_="+new Date().getTime())
+                        </c:if>
+                        <c:if test="${param._isUpdate!=1}">
+                        $.hashchange('cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY}');
+                        </c:if>
+                        </c:if>
                     }
                 }
             });

@@ -180,7 +180,7 @@
                 return _isEnd(rowObject) ? cellvalue : rowObject.r.realPay;
             }
             },
-            {
+            /*{
                 label: '本月线上<br/>缴费数', name: 'onlineRealPay', formatter: function (cellvalue, options, rowObject) {
                 if (_isInit(rowObject))  return "-";
                 return _isEnd(rowObject) ? cellvalue : rowObject.r.onlineRealPay;
@@ -191,7 +191,7 @@
                 if (_isInit(rowObject))  return "-";
                 return _isEnd(rowObject) ? cellvalue : rowObject.r.cashRealPay;
             }
-            },
+            },*/
             {
                 label: '本月延迟<br/>缴费数', name: 'delayPay', formatter: function (cellvalue, options, rowObject) {
                 if (_isInit(rowObject))  return "-";
@@ -216,7 +216,7 @@
                 return _isEnd(rowObject) ? cellvalue : rowObject.r.realDelayPay;
             }
             },
-            {
+            /*{
                 label: '线上补缴<br/>往月党费数',
                 name: 'onlineRealDelayPay',
                 formatter: function (cellvalue, options, rowObject) {
@@ -229,7 +229,7 @@
                 if (_isInit(rowObject))  return "-";
                 return _isEnd(rowObject) ? cellvalue : rowObject.r.cashRealDelayPay;
             }
-            }, {label: '结算时间', name: 'endTime', width:200}, {hidden: true, name: 'status'}, {name: 'id', hidden: true, key: true}
+            },*/ {label: '结算时间', name: 'endTime', width:200}, {hidden: true, name: 'status'}, {name: 'id', hidden: true, key: true}
         ],
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);

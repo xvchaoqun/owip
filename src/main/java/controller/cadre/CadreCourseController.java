@@ -145,7 +145,7 @@ public class CadreCourseController extends BaseController {
                         CadreConstants.CADRE_COURSE_TYPE_MAP.get(record.getType()), names));
             }else{
                 cadreCourseService.modifyApply(record, null, false);
-                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部教学课程：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-干部教学课程：%s", record.getId()));
             }
 
         } else {
@@ -161,11 +161,11 @@ public class CadreCourseController extends BaseController {
             }else{
                 if(_isUpdate==false) {
                     cadreCourseService.modifyApply(record, id, false);
-                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部教学课程：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-干部教学课程：%s", record.getId()));
                 }else{
                     // 更新修改申请的内容
                     cadreCourseService.updateModify(record, applyId);
-                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部教学课程：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "修改申请内容-干部教学课程：%s", record.getId()));
                 }
             }
         }

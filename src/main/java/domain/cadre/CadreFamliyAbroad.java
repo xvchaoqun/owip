@@ -19,7 +19,7 @@ public class CadreFamliyAbroad implements Serializable {
 
     public CadreFamliy getCadreFamliy(){
 
-        return (famliyId!=null)?CmTag.getCadreFamliy(famliyId):null;
+        return (famliyId!=null)? CmTag.getCadreFamliy(famliyId):null;
     }
 
 
@@ -36,6 +36,8 @@ public class CadreFamliyAbroad implements Serializable {
     private String country;
 
     private String city;
+
+    private Byte status;
 
     private static final long serialVersionUID = 1L;
 
@@ -93,5 +95,13 @@ public class CadreFamliyAbroad implements Serializable {
 
     public void setCity(String city) {
         this.city = city == null ? null : city.trim();
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }

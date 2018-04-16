@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">起始时间</label>
 				<div class="col-xs-6">
-                    <div class="input-group" style="width: 120px">
+                    <div class="input-group" style="width: 150px">
                         <input required class="form-control date-picker" name="_startTime" type="text"
                                data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadreTrain.startTime,'yyyy.MM.dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">结束时间</label>
 				<div class="col-xs-6">
-                    <div class="input-group" style="width: 120px">
+                    <div class="input-group" style="width: 150px">
                         <input required class="form-control date-picker" name="_endTime" type="text"
                                data-date-format="yyyy.mm.dd" value="${cm:formatDate(cadreTrain.endTime,'yyyy.MM.dd')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -76,7 +76,7 @@ pageEncoding="UTF-8"%>
                         </c:if>
                         <c:if test="${param.toApply==1}">
                         <c:if test="${param._isUpdate==1}">
-                        $("#body-content-view").load("${ctx}/modifyCadreTrain_detail?applyId=${param.applyId}&_="+new Date().getTime())
+                        $("#body-content-view").load("${ctx}/modifyTableApply_detail?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN}&applyId=${param.applyId}&_="+new Date().getTime())
                         </c:if>
                         <c:if test="${param._isUpdate!=1}">
                         $.hashchange('cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN}');

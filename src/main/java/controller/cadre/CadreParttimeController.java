@@ -149,7 +149,7 @@ public class CadreParttimeController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部社会或学术兼职：%s", record.getId()));
             } else {
                 cadreParttimeService.modifyApply(record, null, false);
-                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部社会或学术兼职：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-干部社会或学术兼职：%s", record.getId()));
             }
 
         } else {
@@ -165,11 +165,11 @@ public class CadreParttimeController extends BaseController {
             } else {
                 if (_isUpdate == false) {
                     cadreParttimeService.modifyApply(record, id, false);
-                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部社会或学术兼职：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-干部社会或学术兼职：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容
                     cadreParttimeService.updateModify(record, applyId);
-                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部社会或学术兼职：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "修改申请内容-干部社会或学术兼职：%s", record.getId()));
                 }
             }
         }

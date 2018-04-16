@@ -180,7 +180,7 @@ public class CadreEduController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部学习经历：%s", record.getId()));
             } else {
                 cadreEduService.modifyApply(record, null, false);
-                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部学习经历：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-干部学习经历：%s", record.getId()));
             }
 
         } else {
@@ -201,11 +201,11 @@ public class CadreEduController extends BaseController {
             } else {
                 if (_isUpdate == false) {
                     cadreEduService.modifyApply(record, id, false);
-                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部学习经历：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-干部学习经历：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容
                     cadreEduService.updateModify(record, applyId);
-                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部学习经历：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "修改申请内容-干部学习经历：%s", record.getId()));
                 }
             }
         }

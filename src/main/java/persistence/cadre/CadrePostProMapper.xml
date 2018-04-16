@@ -1,37 +1,38 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.cadre.CadrePostProMapper" >
-  <resultMap id="BaseResultMap" type="domain.cadre.CadrePostPro" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
-    <result column="is_current" property="isCurrent" jdbcType="BIT" />
-    <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="post_level" property="postLevel" jdbcType="VARCHAR" />
-    <result column="post" property="post" jdbcType="INTEGER" />
-    <result column="hold_time" property="holdTime" jdbcType="DATE" />
-    <result column="level" property="level" jdbcType="INTEGER" />
-    <result column="grade_time" property="gradeTime" jdbcType="DATE" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.cadre.CadrePostProMapper">
+  <resultMap id="BaseResultMap" type="domain.cadre.CadrePostPro">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="is_current" jdbcType="BIT" property="isCurrent" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="post_level" jdbcType="VARCHAR" property="postLevel" />
+    <result column="post" jdbcType="INTEGER" property="post" />
+    <result column="hold_time" jdbcType="DATE" property="holdTime" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="grade_time" jdbcType="DATE" property="gradeTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -42,25 +43,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -71,161 +72,171 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, cadre_id, is_current, type, post_level, post, hold_time, level, grade_time, remark
+  <sql id="Base_Column_List">
+    id, cadre_id, is_current, type, post_level, post, hold_time, level, grade_time, remark, 
+    status
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadrePostProExample" >
+  <select id="selectByExample" parameterType="domain.cadre.CadrePostProExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from cadre_post_pro
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from cadre_post_pro
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cadre_post_pro
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cadre.CadrePostProExample" >
+  <delete id="deleteByExample" parameterType="domain.cadre.CadrePostProExample">
     delete from cadre_post_pro
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cadre.CadrePostPro" >
-    insert into cadre_post_pro (id, cadre_id, is_current, 
-      type, post_level, post, 
-      hold_time, level, grade_time, 
-      remark)
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{isCurrent,jdbcType=BIT}, 
-      #{type,jdbcType=INTEGER}, #{postLevel,jdbcType=VARCHAR}, #{post,jdbcType=INTEGER}, 
-      #{holdTime,jdbcType=DATE}, #{level,jdbcType=INTEGER}, #{gradeTime,jdbcType=DATE}, 
-      #{remark,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="domain.cadre.CadrePostPro">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cadre_post_pro (cadre_id, is_current, type, 
+      post_level, post, hold_time, 
+      level, grade_time, remark, 
+      status)
+    values (#{cadreId,jdbcType=INTEGER}, #{isCurrent,jdbcType=BIT}, #{type,jdbcType=INTEGER}, 
+      #{postLevel,jdbcType=VARCHAR}, #{post,jdbcType=INTEGER}, #{holdTime,jdbcType=DATE}, 
+      #{level,jdbcType=INTEGER}, #{gradeTime,jdbcType=DATE}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="domain.cadre.CadrePostPro" >
+  <insert id="insertSelective" parameterType="domain.cadre.CadrePostPro">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into cadre_post_pro
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="cadreId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cadreId != null">
         cadre_id,
       </if>
-      <if test="isCurrent != null" >
+      <if test="isCurrent != null">
         is_current,
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         type,
       </if>
-      <if test="postLevel != null" >
+      <if test="postLevel != null">
         post_level,
       </if>
-      <if test="post != null" >
+      <if test="post != null">
         post,
       </if>
-      <if test="holdTime != null" >
+      <if test="holdTime != null">
         hold_time,
       </if>
-      <if test="level != null" >
+      <if test="level != null">
         level,
       </if>
-      <if test="gradeTime != null" >
+      <if test="gradeTime != null">
         grade_time,
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark,
       </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+      <if test="status != null">
+        status,
       </if>
-      <if test="cadreId != null" >
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="isCurrent != null" >
+      <if test="isCurrent != null">
         #{isCurrent,jdbcType=BIT},
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="postLevel != null" >
+      <if test="postLevel != null">
         #{postLevel,jdbcType=VARCHAR},
       </if>
-      <if test="post != null" >
+      <if test="post != null">
         #{post,jdbcType=INTEGER},
       </if>
-      <if test="holdTime != null" >
+      <if test="holdTime != null">
         #{holdTime,jdbcType=DATE},
       </if>
-      <if test="level != null" >
+      <if test="level != null">
         #{level,jdbcType=INTEGER},
       </if>
-      <if test="gradeTime != null" >
+      <if test="gradeTime != null">
         #{gradeTime,jdbcType=DATE},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cadre.CadrePostProExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.cadre.CadrePostProExample" resultType="java.lang.Long">
     select count(*) from cadre_post_pro
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update cadre_post_pro
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.cadreId != null" >
+      <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.isCurrent != null" >
+      <if test="record.isCurrent != null">
         is_current = #{record.isCurrent,jdbcType=BIT},
       </if>
-      <if test="record.type != null" >
+      <if test="record.type != null">
         type = #{record.type,jdbcType=INTEGER},
       </if>
-      <if test="record.postLevel != null" >
+      <if test="record.postLevel != null">
         post_level = #{record.postLevel,jdbcType=VARCHAR},
       </if>
-      <if test="record.post != null" >
+      <if test="record.post != null">
         post = #{record.post,jdbcType=INTEGER},
       </if>
-      <if test="record.holdTime != null" >
+      <if test="record.holdTime != null">
         hold_time = #{record.holdTime,jdbcType=DATE},
       </if>
-      <if test="record.level != null" >
+      <if test="record.level != null">
         level = #{record.level,jdbcType=INTEGER},
       </if>
-      <if test="record.gradeTime != null" >
+      <if test="record.gradeTime != null">
         grade_time = #{record.gradeTime,jdbcType=DATE},
       </if>
-      <if test="record.remark != null" >
+      <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update cadre_post_pro
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
@@ -236,45 +247,49 @@
       hold_time = #{record.holdTime,jdbcType=DATE},
       level = #{record.level,jdbcType=INTEGER},
       grade_time = #{record.gradeTime,jdbcType=DATE},
-      remark = #{record.remark,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT}
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadrePostPro" >
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadrePostPro">
     update cadre_post_pro
-    <set >
-      <if test="cadreId != null" >
+    <set>
+      <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="isCurrent != null" >
+      <if test="isCurrent != null">
         is_current = #{isCurrent,jdbcType=BIT},
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="postLevel != null" >
+      <if test="postLevel != null">
         post_level = #{postLevel,jdbcType=VARCHAR},
       </if>
-      <if test="post != null" >
+      <if test="post != null">
         post = #{post,jdbcType=INTEGER},
       </if>
-      <if test="holdTime != null" >
+      <if test="holdTime != null">
         hold_time = #{holdTime,jdbcType=DATE},
       </if>
-      <if test="level != null" >
+      <if test="level != null">
         level = #{level,jdbcType=INTEGER},
       </if>
-      <if test="gradeTime != null" >
+      <if test="gradeTime != null">
         grade_time = #{gradeTime,jdbcType=DATE},
       </if>
-      <if test="remark != null" >
+      <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadrePostPro" >
+  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadrePostPro">
     update cadre_post_pro
     set cadre_id = #{cadreId,jdbcType=INTEGER},
       is_current = #{isCurrent,jdbcType=BIT},
@@ -284,20 +299,21 @@
       hold_time = #{holdTime,jdbcType=DATE},
       level = #{level,jdbcType=INTEGER},
       grade_time = #{gradeTime,jdbcType=DATE},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.cadre.CadrePostProExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cadre.CadrePostProExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from cadre_post_pro
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

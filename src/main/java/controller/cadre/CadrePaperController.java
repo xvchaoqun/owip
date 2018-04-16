@@ -158,7 +158,7 @@ public class CadrePaperController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加发表论文情况：%s", record.getId()));
             } else {
                 cadrePaperService.modifyApply(record, null, false);
-                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-发表论文情况：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-发表论文情况：%s", record.getId()));
             }
 
         } else {
@@ -174,11 +174,11 @@ public class CadrePaperController extends BaseController {
             } else {
                 if (_isUpdate == false) {
                     cadrePaperService.modifyApply(record, id, false);
-                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-发表论文情况：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-发表论文情况：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容
                     cadrePaperService.updateModify(record, applyId);
-                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-发表论文情况：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "修改申请内容-发表论文情况：%s", record.getId()));
                 }
             }
         }

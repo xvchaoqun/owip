@@ -104,7 +104,7 @@
     <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADRERESERVE}">
         <c:if test="${_user.id==mta.userId && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
         <button class="popupBtn btn btn-primary"
-                data-url="${ctx}/cadreResearch_au?module=${mta.module}&researchType=${param.researchType}&toApply=1&cadreId=${cadre.id}&_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
+                data-url="${ctx}/cadreResearch_au?module=${mta.module}&researchType=${modify.researchType}&toApply=1&cadreId=${cadre.id}&_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
                 type="button">
             <i class="ace-icon fa fa-edit"></i>
             编辑
@@ -165,7 +165,7 @@
         ondblClickRow: function () {
         },
         pager: "#jqGridPager_cadreResearch",
-        url: '${ctx}/cadreResearch_data?cadreId=${cadre.id}&researchType=${param.researchType}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cadreResearch_data?cadreId=${cadre.id}&researchType=${modify.researchType}&${cm:encodeQueryString(pageContext.request.queryString)}',
         multiselect: false,
         colModel: colModels.cadreResearch,
         rowattr: function(rowData, currentObj, rowId)

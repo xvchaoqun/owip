@@ -550,6 +550,8 @@ public class PmdMonthService extends BaseMapper {
             record.setRetireSalary(ltxf);
             // 默认线上缴费
             record.setIsOnlinePay(true);
+            // ???
+            record.setHasReset(true);
 
             pmdConfigMemberService.insertSelective(record);
         }

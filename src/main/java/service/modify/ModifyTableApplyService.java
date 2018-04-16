@@ -12,8 +12,13 @@ import service.cadre.CadreBookService;
 import service.cadre.CadreCompanyService;
 import service.cadre.CadreCourseService;
 import service.cadre.CadreEduService;
+import service.cadre.CadreFamliyAbroadService;
+import service.cadre.CadreFamliyService;
 import service.cadre.CadrePaperService;
 import service.cadre.CadreParttimeService;
+import service.cadre.CadrePostAdminService;
+import service.cadre.CadrePostProService;
+import service.cadre.CadrePostWorkService;
 import service.cadre.CadreResearchService;
 import service.cadre.CadreRewardService;
 import service.cadre.CadreTrainService;
@@ -55,6 +60,16 @@ public class ModifyTableApplyService extends BaseMapper {
     protected CadreCourseService cadreCourseService;
     @Autowired
     protected CadreWorkService cadreWorkService;
+    @Autowired
+    protected CadrePostProService cadrePostProService;
+    @Autowired
+    protected CadrePostAdminService cadrePostAdminService;
+    @Autowired
+    protected CadrePostWorkService cadrePostWorkService;
+    @Autowired
+    protected CadreFamliyService cadreFamliyService;
+    @Autowired
+    protected CadreFamliyAbroadService cadreFamliyAbroadService;
 
 
     // 本人删除（真删除）
@@ -151,8 +166,23 @@ public class ModifyTableApplyService extends BaseMapper {
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN:
                     cadreTrainService.approval(mta, record);
                     break;
-                default:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO:
+                    cadrePostProService.approval(mta, record);
                     break;
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN:
+                    cadrePostAdminService.approval(mta, record);
+                    break;
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK:
+                    cadrePostWorkService.approval(mta, record);
+                    break;
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY:
+                    cadreFamliyService.approval(mta, record);
+                    break;
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD:
+                    cadreFamliyAbroadService.approval(mta, record);
+                    break;
+                default:
+                    throw new OpException("审核类型有误。");
             }
         }
 

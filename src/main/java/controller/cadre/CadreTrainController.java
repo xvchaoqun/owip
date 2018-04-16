@@ -147,7 +147,7 @@ public class CadreTrainController extends BaseController {
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部培训情况：%s", record.getId()));
             }else{
                 cadreTrainService.modifyApply(record, null, false);
-                logger.info(addLog(LogConstants.LOG_USER, "提交添加申请-干部培训情况：%s", record.getId()));
+                logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-干部培训情况：%s", record.getId()));
             }
 
         } else {
@@ -163,11 +163,11 @@ public class CadreTrainController extends BaseController {
             }else{
                 if(_isUpdate==false) {
                     cadreTrainService.modifyApply(record, id, false);
-                    logger.info(addLog(LogConstants.LOG_USER, "提交修改申请-干部培训情况：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-干部培训情况：%s", record.getId()));
                 }else{
                     // 更新修改申请的内容
                     cadreTrainService.updateModify(record, applyId);
-                    logger.info(addLog(LogConstants.LOG_USER, "修改申请内容-干部培训情况：%s", record.getId()));
+                    logger.info(addLog(LogConstants.LOG_CADRE, "修改申请内容-干部培训情况：%s", record.getId()));
                 }
             }
         }

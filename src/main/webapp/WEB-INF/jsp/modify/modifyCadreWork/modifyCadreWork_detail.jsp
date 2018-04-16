@@ -20,7 +20,8 @@
     </div>
     <div class="widget-body">
         <div class="widget-main">
-            <table id="jqGrid_cadreWork" class="jqGrid4"></table>
+            <table id="jqGrid_records" class="jqGrid4"></table>
+            <div id="jqGridPager_cadreWork"></div>
         </div>
     </div>
 </div>
@@ -129,7 +130,6 @@
         返回
     </button>
 </div>
-
 <script type="text/template" id="dispatch_select_tpl">
     <button class="popupBtn btn {{=(count>0)?'btn-warning':'btn-success'}} btn-xs"
             data-url="${ctx}/cadreWork_addDispatchs?id={{=id}}&cadreId={{=cadreId}}"
@@ -172,36 +172,13 @@
         }
     });
 
-    $("#jqGrid_cadreWork").jqGrid({
-        pager: null,
+    $("#jqGrid_records").jqGrid({
         ondblClickRow: function () {
         },
-        datatype: "local",
-        data:${cm:toJSONArray(cadreWorks)},
+        pager: "#jqGridPager_cadreWork",
+        url: '${ctx}/cadreWork_data?cadreId=${cadre.id}&fid=-1&${cm:encodeQueryString(pageContext.request.queryString)}',
         multiselect: false,
-        colModel: [
-            {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '工作单位', name: 'unit', width: 280},
-            {label: '担任职务或者专技职务', name: 'post', width: 170},
-            /*     {
-             label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType
-             },*/
-            {label: '工作类型', name: 'workType', width: 140, formatter: $.jgrid.formatter.MetaType},
-            {label: '是否担任领导职务', name: 'isCadre', width: 150, formatter: $.jgrid.formatter.TRUEFALSE},
-            {label: '备注', name: 'remark', width: 150},
-
-            {
-                label: '干部任免文件', name: 'dispatchCadreRelates', formatter: function (cellvalue, options, rowObject) {
-                if(cellvalue==undefined) return ''
-                var count = cellvalue.length;
-                <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
-                if(count==0) return ''
-                </shiro:lacksPermission>
-                return  _.template($("#dispatch_select_tpl").html().NoMultiSpace())
-                ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
-            }, width: 120
-            },{hidden:true, name:'id'}],
+        colModel: colModels.cadreWork,
         rowattr: function(rowData, currentObj, rowId)
         {
             //console.log(rowData.id + '-${mta.originalId}')

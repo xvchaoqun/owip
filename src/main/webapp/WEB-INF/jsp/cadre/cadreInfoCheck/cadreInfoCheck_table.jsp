@@ -144,7 +144,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreEdu_page"
-                    applyUrl="${ctx}/modifyCadreEdu"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_EDU}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                                toEdit="${toEdit}"/>
         </td>
@@ -158,7 +158,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreEdu_page"
-                    applyUrl="${ctx}/modifyCadreEdu"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_EDU}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"/>
         </td>
@@ -176,7 +176,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreWork_page"
-                    applyUrl="${ctx}/modifyCadreWork"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_WORK}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"/>
         </td>
@@ -257,7 +257,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreParttime_page"
-                    applyUrl="${ctx}/modifyCadreParttime"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
@@ -278,7 +278,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreTrain_page"
-                    applyUrl="${ctx}/modifyCadreTrain"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
@@ -301,7 +301,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreCourse_page&type=1"
-                    applyUrl="${ctx}/modifyCadreCourse"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
@@ -320,7 +320,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreCourse_page&type=2"
-                    applyUrl="${ctx}/modifyCadreReward?rewardType=1"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
@@ -342,7 +342,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY}"
-                    applyUrl="${ctx}/modifyCadreResearch?researchType=1"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
@@ -361,7 +361,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY}"
-                    applyUrl="${ctx}/modifyCadreResearch?researchType=2"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
@@ -380,7 +380,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_BOOK_SUMMARY}"
-                    applyUrl="${ctx}/modifyCadreBook"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
@@ -399,7 +399,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_PAPER_SUMMARY}"
-                    applyUrl="${ctx}/modifyCadrePaper"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
@@ -418,7 +418,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreResearch_page&type=${CADRE_INFO_TYPE_RESEARCH_REWARD}"
-                    applyUrl="${ctx}/modifyCadreReward?rewardType=2"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
@@ -440,7 +440,7 @@
         <td>
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreReward_page&rewardType=${CADRE_REWARD_TYPE_OTHER}"
-                    applyUrl="${ctx}/modifyCadreReward?rewardType=3"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>
@@ -497,7 +497,7 @@
         <td class="bg-left">
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreCompany"
-                    applyUrl="${ctx}/modifyCadreCompany"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>

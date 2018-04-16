@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
         <input type="hidden" name="applyId" value="${param.applyId}">
         <input type="hidden" name="id" value="${cadreResearch.id}">
-        <input type="hidden" name="researchType" value="${researchType}">
+        <input type="hidden" name="researchType" value="${param.researchType}">
         <div class="form-group">
             <label class="col-xs-3 control-label">姓名</label>
             <div class="col-xs-6 label-text">
@@ -97,10 +97,10 @@ pageEncoding="UTF-8"%>
                         </c:if>
                         <c:if test="${param.toApply==1}">
                         <c:if test="${param._isUpdate==1}">
-                        $("#body-content-view").load("${ctx}/modifyCadreResearch_detail?applyId=${param.applyId}&researchType=${researchType}&module=${param.module}&_="+new Date().getTime())
+                        $("#body-content-view").load("${ctx}/modifyTableApply_detail?applyId=${param.applyId}&researchType=${param.researchType}&module=${param.module}&_="+new Date().getTime())
                         </c:if>
                         <c:if test="${param._isUpdate!=1}">
-                        $.hashchange('cls=1&researchType=${researchType}&module=${param.module}');
+                        $.hashchange('cls=1&researchType=${param.researchType}&module=${param.module}');
                         </c:if>
                         </c:if>
                     }
