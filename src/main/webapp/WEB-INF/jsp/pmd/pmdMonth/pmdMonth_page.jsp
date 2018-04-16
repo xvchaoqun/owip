@@ -229,7 +229,7 @@
                 if (_isInit(rowObject))  return "-";
                 return _isEnd(rowObject) ? cellvalue : rowObject.r.cashRealDelayPay;
             }
-            }, {hidden: true, name: 'status'}, {name: 'id', hidden: true, key: true}
+            }, {label: '结算时间', name: 'endTime', width:200}, {hidden: true, name: 'status'}, {name: 'id', hidden: true, key: true}
         ],
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);
