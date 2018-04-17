@@ -54,11 +54,16 @@
                 })
 
 
-                var disabled = false;
-                if(rowObject.switchStatus!='${CRS_POST_ENROLL_STATUS_OPEN}'){
-                    disabled = true;
+                if(rowObject.switchStatus!='${CRS_POST_ENROLL_STATUS_OPEN}') {
+                    if (rowObject.endTime != null) {
+                        var nowTime = new Date().getTime();
+                        var endTime = Date.parse(rowObject.endTime);
+                        if (endTime < nowTime) {
+                            return '报名结束'
+                        }
+                        return '未开启';
+                    }
                 }
-                if(disabled) return '未开启';
                 if(hasApply){
                     if(hasQuit){
                         return '已退出 <button class="confirm btn btn-success btn-xs" ' +

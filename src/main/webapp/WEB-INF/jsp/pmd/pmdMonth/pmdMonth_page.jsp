@@ -163,11 +163,13 @@
             }
             },
             { label: '线上缴纳<br/>党费总数',name: '_onlinePay', formatter: function (cellvalue, options, rowObject) {
-                return (rowObject.hasReport)?(rowObject.onlineRealPay + rowObject.onlineRealDelayPay)
+                if (_isInit(rowObject))  return "-";
+                return _isEnd(rowObject)?(rowObject.onlineRealPay + rowObject.onlineRealDelayPay)
                         :(rowObject.r.onlineRealPay + rowObject.r.onlineRealDelayPay);
             }},
             { label: '现金缴纳<br/>党费总数',name: '_cashPay', formatter: function (cellvalue, options, rowObject) {
-                return (rowObject.hasReport)?(rowObject.cashRealPay + rowObject.cashRealDelayPay)
+                if (_isInit(rowObject))  return "-";
+                return _isEnd(rowObject)?(rowObject.cashRealPay + rowObject.cashRealDelayPay)
                         :(rowObject.r.cashRealPay + rowObject.r.cashRealDelayPay);
             }},
             {
