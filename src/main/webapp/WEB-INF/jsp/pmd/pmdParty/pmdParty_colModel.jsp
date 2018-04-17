@@ -22,20 +22,20 @@
       }
       return '-'
     }},
-    <c:if test="${cls==1}">
-    { label: '详情',name: '_branchs', formatter: function (cellvalue, options, rowObject) {
+    { label: '党委名称',name: 'partyName', width:400, align:'left', frozen: true},
+    <c:if test="${cls==1||cls==2}">
+    { label: '各支部详情',name: '_branchs', formatter: function (cellvalue, options, rowObject) {
       if(rowObject.isDirectBranch){
         return ('<button class="openView btn btn-primary btn-xs" ' +
-        'data-url="${ctx}/pmd/pmdMember?cls=2&partyId={0}&monthId={1}"><i class="fa fa-search"></i> 详情</button>')
+        'data-url="${ctx}/pmd/pmdMember?cls=2&partyId={0}&monthId={1}&backToPartyList=${cls==2?1:0}"><i class="fa fa-search"></i> 详情</button>')
                 .format(rowObject.partyId, rowObject.monthId);
       }else{
         return ('<button class="openView btn btn-primary btn-xs" ' +
-        'data-url="${ctx}/pmd/pmdBranch?cls=2&monthId={0}&partyId={1}"><i class="fa fa-search"></i> 详情</button>')
+        'data-url="${ctx}/pmd/pmdBranch?cls=2&monthId={0}&partyId={1}&backToPartyList=${cls==2?1:0}"><i class="fa fa-search"></i> 详情</button>')
                 .format(rowObject.monthId, rowObject.partyId);
       }
     }, frozen: true},
     </c:if>
-    { label: '党委名称',name: 'partyName', width:400, align:'left'},
     { label: '党支部数',name: 'branchCount', formatter: function (cellvalue, options, rowObject) {
       if(rowObject.isDirectBranch) return '1'
       return (rowObject.hasReport)?cellvalue:rowObject.r.branchCount;
@@ -44,14 +44,22 @@
       if(rowObject.isDirectBranch) return '-'
       return (rowObject.hasReport)?cellvalue:rowObject.r.hasReportCount;
     }},
-    { label: '未报送<br/>党支部数',name: '_notReportCount', formatter: function (cellvalue, options, rowObject) {
+    /*{ label: '未报送<br/>党支部数',name: '_notReportCount', formatter: function (cellvalue, options, rowObject) {
       if(rowObject.isDirectBranch) return '-'
       return ((rowObject.hasReport)?rowObject.branchCount:rowObject.r.branchCount) - ((rowObject.hasReport)?rowObject.hasReportCount:rowObject.r.hasReportCount);
-    }},
+    }},*/
     { label: '党员总数',name: 'memberCount', formatter: function (cellvalue, options, rowObject) {
       if(cellvalue==undefined) cellvalue=0;
       if(rowObject.isDirectBranch) return cellvalue
       return (rowObject.hasReport)?cellvalue:rowObject.r.memberCount;
+    }},
+    { label: '线上缴纳<br/>党费总数',name: '_onlinePay', formatter: function (cellvalue, options, rowObject) {
+      return (rowObject.hasReport)?(rowObject.onlineRealPay + rowObject.onlineRealDelayPay)
+              :(rowObject.r.onlineRealPay + rowObject.r.onlineRealDelayPay);
+    }},
+    { label: '现金缴纳<br/>党费总数',name: '_cashPay', formatter: function (cellvalue, options, rowObject) {
+      return (rowObject.hasReport)?(rowObject.cashRealPay + rowObject.cashRealDelayPay)
+              :(rowObject.r.cashRealPay + rowObject.r.cashRealDelayPay);
     }},
     { label: '本月应缴纳<br/>党费数',name: 'duePay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.duePay;
@@ -59,34 +67,34 @@
     { label: '本月按时缴纳<br/>党费党员数',name: 'finishMemberCount', width:120, formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.finishMemberCount;
     }},
-    { label: '本月实缴纳<br/>党费数',name: 'realPay', formatter: function (cellvalue, options, rowObject) {
+    /*{ label: '本月实缴纳<br/>党费数',name: 'realPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.realPay;
-    }},
-    /*{ label: '本月线上<br/>缴纳党费数',name: 'onlineRealPay', formatter: function (cellvalue, options, rowObject) {
+    }},*/
+    { label: '本月线上<br/>缴纳党费数',name: 'onlineRealPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.onlineRealPay;
     }},
     { label: '本月现金<br/>缴纳党费数',name: 'cashRealPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.cashRealPay;
-    }},*/
-    { label: '本月未缴纳<br/>党费数',name: 'delayPay', formatter: function (cellvalue, options, rowObject) {
-      return (rowObject.hasReport)?cellvalue:rowObject.r.delayPay;
     }},
-    { label: '本月未缴纳<br/>党费党员数',name: 'delayMemberCount', formatter: function (cellvalue, options, rowObject) {
+    { label: '本月延迟缴纳<br/>党费党员数',name: 'delayMemberCount', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.delayMemberCount;
     }},
-    { label: '往月延迟<br/>缴费党员数',name: 'historyDelayMemberCount'},
-    { label: '应补缴<br/>往月党费数',name: 'historyDelayPay'},
-    { label: '补缴往月<br/>党费党员数',name: 'realDelayMemberCount', formatter: function (cellvalue, options, rowObject) {
+    { label: '本月延迟缴纳<br/>党费数',name: 'delayPay', formatter: function (cellvalue, options, rowObject) {
+      return (rowObject.hasReport)?cellvalue:rowObject.r.delayPay;
+    }},
+    /*{ label: '往月延迟<br/>缴费党员数',name: 'historyDelayMemberCount'},*/
+    { label: '往月应补缴<br/>党费数',name: 'historyDelayPay'},
+    /*{ label: '补缴往月<br/>党费党员数',name: 'realDelayMemberCount', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.realDelayMemberCount;
     }},
     { label: '实补缴<br/>往月党费数',name: 'realDelayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.realDelayPay;
-    }}/*,
-    { label: '线上补缴<br/>往月党费数',name: 'onlineRealDelayPay', formatter: function (cellvalue, options, rowObject) {
+    }},*/
+    { label: '往月线上<br/>补缴党费数',name: 'onlineRealDelayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.onlineRealDelayPay;
     }},
-    { label: '现金补缴<br/>往月党费数',name: 'cashRealDelayPay', formatter: function (cellvalue, options, rowObject) {
+    { label: '往月现金<br/>补缴党费数',name: 'cashRealDelayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.cashRealDelayPay;
-    }}*/
+    }}
   ]
 </script>

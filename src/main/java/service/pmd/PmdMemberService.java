@@ -473,7 +473,8 @@ public class PmdMemberService extends BaseMapper {
                 throw  new OpException("操作失败，{0}未确认缴费额度。", realname); // 未确认缴费额度
             }
 
-            if(pmdMemberPayService.branchHasReport(pmdMember, currentPmdMonth)){
+            PmdMember _pmdMember = get(currentMonthId, userId);
+            if(pmdMemberPayService.branchHasReport(_pmdMember, currentPmdMonth)){
                 throw  new OpException("操作失败，{0}所在支部已报送。", realname);
             }
 
@@ -522,7 +523,7 @@ public class PmdMemberService extends BaseMapper {
                 commonMapper.excuteSql(String.format("update pmd_member set real_pay=%s, has_pay=1, " +
                         "is_online_pay=0 where id=%s", duePay, pmdMemberId));
 
-                PmdMember _pmdMember = get(currentMonthId, userId);
+                //PmdMember _pmdMember = get(currentMonthId, userId);
                 int partyId = _pmdMember.getPartyId();
                 Integer branchId = _pmdMember.getBranchId();
 

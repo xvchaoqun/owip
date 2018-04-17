@@ -31,40 +31,48 @@
     { label: '党员总数',name: 'memberCount', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.memberCount;
     }},
+    { label: '线上缴纳<br/>党费总数',name: '_onlinePay', formatter: function (cellvalue, options, rowObject) {
+      return (rowObject.hasReport)?(rowObject.onlineRealPay + rowObject.onlineRealDelayPay)
+              :(rowObject.r.onlineRealPay + rowObject.r.onlineRealDelayPay);
+    }},
+    { label: '现金缴纳<br/>党费总数',name: '_cashPay', formatter: function (cellvalue, options, rowObject) {
+      return (rowObject.hasReport)?(rowObject.cashRealPay + rowObject.cashRealDelayPay)
+              :(rowObject.r.cashRealPay + rowObject.r.cashRealDelayPay);
+    }},
     { label: '本月应<br/>缴纳党费数',name: 'duePay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.duePay;
     }},
     { label: '本月按时缴纳<br/>党费党员数', width:120,name: 'finishMemberCount', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.finishMemberCount;
     }},
-    { label: '本月实缴纳<br/>党费数',name: 'realPay', formatter: function (cellvalue, options, rowObject) {
+    /*{ label: '本月实缴纳<br/>党费数',name: 'realPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.realPay;
-    }},
-   /* { label: '本月线上<br/>缴纳党费数',name: 'onlineRealPay', formatter: function (cellvalue, options, rowObject) {
+    }},*/
+    { label: '本月线上<br/>缴纳党费数',name: 'onlineRealPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.onlineRealPay;
     }},
     { label: '本月现金<br/>缴纳党费数',name: 'cashRealPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.cashRealPay;
-    }},*/
-    { label: '本月未缴纳<br/>党费数',name: 'delayPay', formatter: function (cellvalue, options, rowObject) {
-      return (rowObject.hasReport)?cellvalue:rowObject.r.delayPay;
     }},
-    { label: '本月未缴纳<br/>党费党员数',name: 'delayMemberCount', formatter: function (cellvalue, options, rowObject) {
+    { label: '本月延迟缴纳<br/>党费党员数',name: 'delayMemberCount', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.delayMemberCount;
     }},
-    { label: '往月延迟<br/>缴费党员数',name: 'historyDelayMemberCount'},
-    { label: '应补缴<br/>往月党费数',name: 'historyDelayPay'},
-    { label: '补缴往月<br/>党费党员数',name: 'realDelayMemberCount', formatter: function (cellvalue, options, rowObject) {
+    { label: '本月延迟缴纳<br/>党费数',name: 'delayPay', formatter: function (cellvalue, options, rowObject) {
+      return (rowObject.hasReport)?cellvalue:rowObject.r.delayPay;
+    }},
+    /*{ label: '往月延迟<br/>缴费党员数',name: 'historyDelayMemberCount'},*/
+    { label: '往月应补缴<br/>党费数',name: 'historyDelayPay'},
+    /*{ label: '补缴往月<br/>党费党员数',name: 'realDelayMemberCount', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.realDelayMemberCount;
     }},
     { label: '实补缴<br/>往月党费数',name: 'realDelayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.realDelayPay;
-    }}, {hidden: true, name: 'hasReport'}, {hidden: true, name: 'canReport'}/*,
-    { label: '线上补缴<br/>往月党费数',name: 'onlineRealDelayPay', formatter: function (cellvalue, options, rowObject) {
+    }}, */
+    { label: '往月线上<br/>补缴党费数',name: 'onlineRealDelayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.onlineRealDelayPay;
     }},
-    { label: '现金补缴<br/>往月党费数',name: 'cashRealDelayPay', formatter: function (cellvalue, options, rowObject) {
+    { label: '往月现金<br/>补缴党费数',name: 'cashRealDelayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.cashRealDelayPay;
-    }}*/
+    }},{hidden: true, name: 'hasReport'}, {hidden: true, name: 'canReport'}
   ]
 </script>

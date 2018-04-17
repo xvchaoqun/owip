@@ -4,11 +4,20 @@
 
 <div class="widget-box transparent" id="useLogs">
     <div class="widget-header">
+        <c:if test="${param.backToPartyList==1}">
+        <h4 class="widget-title lighter smaller">
+            <a href="javascript:;" data-url="/pmd/pmdParty?cls=2&monthId=${param.monthId}" class="openView btn btn-xs btn-success">
+                <i class="ace-icon fa fa-backward"></i>
+                返回</a>
+        </h4>
+        </c:if>
+        <c:if test="${param.backToPartyList!=1}">
         <h4 class="widget-title lighter smaller">
             <a href="javascript:;" class="hideView btn btn-xs btn-success">
                 <i class="ace-icon fa fa-backward"></i>
                 返回</a>
         </h4>
+        </c:if>
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">
                 <li class="active">

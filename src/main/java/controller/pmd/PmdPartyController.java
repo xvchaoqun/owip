@@ -88,7 +88,7 @@ public class PmdPartyController extends PmdBaseController {
         }
 
         if(cls==1) {
-            if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)){
+            //if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)){
 
                 int userId = ShiroHelper.getCurrentUserId();
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
@@ -97,7 +97,7 @@ public class PmdPartyController extends PmdBaseController {
                 } else {
                     criteria.andPartyIdIsNull();
                 }
-            }
+            //}
         }else if(cls==2){
 
             SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_PMD_OW);
