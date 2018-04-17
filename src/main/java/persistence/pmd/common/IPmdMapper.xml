@@ -143,7 +143,7 @@
             -- 本月按时缴费党员数
             sum(if(pm.has_pay=1 && pm.is_delay=0, 1, 0)) as finish_member_count,
             -- 本月实缴党费数
-            sum(pm.real_pay) as real_pay,
+            sum(if(pm.has_pay=1 && pm.is_delay=0, pm.real_pay, 0)) as real_pay,
             -- 本月线上缴费数
             sum(if(pm.has_pay=1  && pm.is_delay=0 && pm.is_online_pay, pm.real_pay, 0)) as online_real_pay,
             -- 本月延迟缴费数
@@ -161,13 +161,11 @@
             -- 实补缴往月党费数
             sum(pmpv.real_pay) as real_delay_pay,
             -- 线上补缴往月党费数
-            sum(if(pmpv.is_online_pay, pmpv.real_pay, 0)) as online_real_delay_pay
+            sum(if(pmpv.has_pay=1  && pmpv.is_delay=1 && pmpv.is_online_pay, pmpv.real_pay, 0)) as online_real_delay_pay
             from pmd_member_pay_view pmpv
             left join pmd_party pp on pp.month_id=#{monthId} and pmpv.charge_party_id=pp.party_id
             where pmpv.pay_month_id=#{monthId} and pmpv.month_id < #{monthId} and pp.has_report=1
             )b
-
-
         ]]>
     </select>
     <!--分党委汇总-->
@@ -194,7 +192,7 @@
             -- 本月按时缴费党员数
             sum(if(pm.has_pay=1 && pm.is_delay=0, 1, 0)) as finish_member_count,
             -- 本月实缴党费数
-            sum(pm.real_pay) as real_pay,
+            sum(if(pm.has_pay=1 && pm.is_delay=0, pm.real_pay, 0)) as real_pay,
             -- 本月线上缴费数
             sum(if(pm.has_pay=1  && pm.is_delay=0 && pm.is_online_pay, pm.real_pay, 0)) as online_real_pay,
             -- 本月延迟缴费数
@@ -212,15 +210,13 @@
             -- 实补缴往月党费数
             sum(pmpv.real_pay) as real_delay_pay,
             -- 线上补缴往月党费数
-            sum(if(pmpv.is_online_pay, pmpv.real_pay, 0)) as online_real_delay_pay
+            sum(if(pmpv.has_pay=1  && pmpv.is_delay=1 && pmpv.is_online_pay, pmpv.real_pay, 0)) as online_real_delay_pay
             from pmd_member_pay_view pmpv
             left join pmd_branch pb on pb.month_id=#{monthId}
             and pmpv.charge_party_id=pb.party_id and pmpv.charge_branch_id=pb.branch_id
             where pmpv.pay_month_id=#{monthId} and pmpv.charge_party_id=#{partyId}
             and pmpv.month_id < #{monthId} and pb.has_report=1
             )b
-
-
         ]]>
     </select>
     <!--党支部汇总-->
@@ -241,14 +237,14 @@
             -- 本月按时缴费党员数
             sum(if(pm.has_pay=1 && pm.is_delay=0, 1, 0)) as finish_member_count,
             -- 本月实缴党费数
-            sum(pm.real_pay) as real_pay,
+            sum(if(pm.has_pay=1 && pm.is_delay=0, pm.real_pay, 0)) as real_pay,
             -- 本月线上缴纳党费数
             sum(if(pm.has_pay=1  && pm.is_delay=0 && pm.is_online_pay, pm.real_pay, 0)) as online_real_pay,
             -- 本月延迟缴纳党费数
             sum(if(pm.has_pay=0  && pm.is_delay=1, pm.due_pay, 0)) as delay_pay,
             -- 本月延迟缴纳党费党员数
             sum(if(pm.has_pay=0  && pm.is_delay=1, 1, 0)) as delay_member_count
-             ]]>
+        ]]>
         from pmd_member pm
         where pm.month_id=#{monthId} and pm.party_id=#{partyId}
         -- branchId=null时统计直属党支部
@@ -261,12 +257,14 @@
         )a,
         (
         select
+        <![CDATA[
         -- 补缴往月党费党员数
         count(distinct pmpv.user_id) as real_delay_member_count,
         -- 实补缴往月党费数
         sum(pmpv.real_pay) as real_delay_pay,
         -- 往月线上补缴党费数
-        sum(if(pmpv.is_online_pay, pmpv.real_pay, 0)) as online_real_delay_pay
+        sum(if(pmpv.has_pay=1  && pmpv.is_delay=1 && pmpv.is_online_pay, pmpv.real_pay, 0)) as online_real_delay_pay
+        ]]>
         from pmd_member_pay_view pmpv
         where pmpv.pay_month_id=#{monthId} and pmpv.charge_party_id=#{partyId}
         -- branchId=null时统计直属党支部
@@ -277,10 +275,8 @@
             and pmpv.charge_branch_id is null
         </if>
         <![CDATA[
-             and pmpv.month_id < #{monthId}
-             ]]>
-        )b
-
+        and pmpv.month_id < #{monthId})b
+        ]]>
     </select>
 
     <!--分党委报表-->
