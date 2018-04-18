@@ -1,7 +1,7 @@
 package domain.pmd;
 
-import persistence.pmd.common.PmdReportBean;
 import persistence.pmd.common.IPmdMapper;
+import persistence.pmd.common.PmdReportBean;
 import service.pmd.PmdBranchService;
 import sys.tags.CmTag;
 
@@ -52,6 +52,8 @@ public class PmdBranchView implements Serializable {
     private BigDecimal duePay;
 
     private Integer finishMemberCount;
+
+    private Integer onlineFinishMemberCount;
 
     private BigDecimal realPay;
 
@@ -185,6 +187,14 @@ public class PmdBranchView implements Serializable {
 
     public void setFinishMemberCount(Integer finishMemberCount) {
         this.finishMemberCount = finishMemberCount;
+    }
+
+    public Integer getOnlineFinishMemberCount() {
+        return onlineFinishMemberCount;
+    }
+
+    public void setOnlineFinishMemberCount(Integer onlineFinishMemberCount) {
+        this.onlineFinishMemberCount = onlineFinishMemberCount;
     }
 
     public BigDecimal getRealPay() {

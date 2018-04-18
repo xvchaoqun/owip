@@ -1,7 +1,7 @@
 package domain.pmd;
 
-import persistence.pmd.common.PmdReportBean;
 import persistence.pmd.common.IPmdMapper;
+import persistence.pmd.common.PmdReportBean;
 import service.pmd.PmdMonthService;
 import sys.constants.PmdConstants;
 import sys.tags.CmTag;
@@ -53,6 +53,8 @@ public class PmdMonth implements Serializable {
     private BigDecimal duePay;
 
     private Integer finishMemberCount;
+
+    private Integer onlineFinishMemberCount;
 
     private BigDecimal realPay;
 
@@ -182,6 +184,14 @@ public class PmdMonth implements Serializable {
 
     public void setFinishMemberCount(Integer finishMemberCount) {
         this.finishMemberCount = finishMemberCount;
+    }
+
+    public Integer getOnlineFinishMemberCount() {
+        return onlineFinishMemberCount;
+    }
+
+    public void setOnlineFinishMemberCount(Integer onlineFinishMemberCount) {
+        this.onlineFinishMemberCount = onlineFinishMemberCount;
     }
 
     public BigDecimal getRealPay() {

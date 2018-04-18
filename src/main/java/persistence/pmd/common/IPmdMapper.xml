@@ -111,6 +111,7 @@
         <result column="member_count" jdbcType="INTEGER" property="memberCount"/>
         <result column="due_pay" jdbcType="DECIMAL" property="duePay"/>
         <result column="finish_member_count" jdbcType="INTEGER" property="finishMemberCount"/>
+        <result column="online_finish_member_count" jdbcType="INTEGER" property="onlineFinishMemberCount"/>
         <result column="real_pay" jdbcType="DECIMAL" property="realPay"/>
         <result column="cash_real_pay" jdbcType="DECIMAL" property="cashRealPay"/>
         <result column="online_real_pay" jdbcType="DECIMAL" property="onlineRealPay"/>
@@ -124,8 +125,6 @@
     <!--组织部汇总-->
     <select id="getOwPmdReportBean" resultMap="pmdReportBeanMap" parameterType="map">
         <![CDATA[
-
-
             select *, (real_pay-online_real_pay) as cash_real_pay
             , (real_delay_pay-online_real_delay_pay) as cash_real_delay_pay from
             (
@@ -142,6 +141,8 @@
             sum(pm.due_pay) as due_pay,
             -- 本月按时缴费党员数
             sum(if(pm.has_pay=1 && pm.is_delay=0, 1, 0)) as finish_member_count,
+            -- 本月线上缴纳党费党员数
+            sum(if(pm.has_pay=1 && pm.is_delay=0 && pm.is_online_pay, 1, 0)) as online_finish_member_count,
             -- 本月实缴党费数
             sum(if(pm.has_pay=1 && pm.is_delay=0, pm.real_pay, 0)) as real_pay,
             -- 本月线上缴费数
@@ -171,8 +172,6 @@
     <!--分党委汇总-->
     <select id="getPartyPmdReportBean" resultMap="pmdReportBeanMap" parameterType="map">
         <![CDATA[
-
-
             select *, (real_pay-online_real_pay) as cash_real_pay
             , (real_delay_pay-online_real_delay_pay) as cash_real_delay_pay from
             (
@@ -191,6 +190,8 @@
             sum(pm.due_pay) as due_pay,
             -- 本月按时缴费党员数
             sum(if(pm.has_pay=1 && pm.is_delay=0, 1, 0)) as finish_member_count,
+            -- 本月线上缴纳党费党员数
+            sum(if(pm.has_pay=1 && pm.is_delay=0 && pm.is_online_pay, 1, 0)) as online_finish_member_count,
             -- 本月实缴党费数
             sum(if(pm.has_pay=1 && pm.is_delay=0, pm.real_pay, 0)) as real_pay,
             -- 本月线上缴费数
@@ -236,6 +237,8 @@
         <![CDATA[
             -- 本月按时缴费党员数
             sum(if(pm.has_pay=1 && pm.is_delay=0, 1, 0)) as finish_member_count,
+            -- 本月线上缴纳党费党员数
+            sum(if(pm.has_pay=1 && pm.is_delay=0 && pm.is_online_pay, 1, 0)) as online_finish_member_count,
             -- 本月实缴党费数
             sum(if(pm.has_pay=1 && pm.is_delay=0, pm.real_pay, 0)) as real_pay,
             -- 本月线上缴纳党费数

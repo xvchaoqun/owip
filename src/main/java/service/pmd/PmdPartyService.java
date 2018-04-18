@@ -1,7 +1,6 @@
 package service.pmd;
 
 import controller.global.OpException;
-import domain.party.Party;
 import domain.pmd.PmdBranch;
 import domain.pmd.PmdBranchExample;
 import domain.pmd.PmdMember;
@@ -9,30 +8,18 @@ import domain.pmd.PmdMemberExample;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdParty;
 import domain.pmd.PmdPartyExample;
-import domain.sys.SysUserView;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ResourceUtils;
-import persistence.pmd.common.PmdExcelReportBean;
 import persistence.pmd.common.PmdReportBean;
 import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -177,7 +164,7 @@ public class PmdPartyService extends BaseMapper {
     }
 
     // 分党委报表
-    public XSSFWorkbook export(int id) throws IOException {
+    /*public XSSFWorkbook export(int id) throws IOException {
 
         PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(id);
         int montId = pmdParty.getMonthId();
@@ -354,7 +341,7 @@ public class PmdPartyService extends BaseMapper {
         cell.setCellValue(totalCashPay.toString());
 
         return wb;
-    }
+    }*/
 
     //获取还未设置应缴额度的党员
     public List<PmdMember> listUnsetDuepayMembers(int pmdPartyId) {

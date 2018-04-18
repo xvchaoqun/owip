@@ -1,4 +1,17 @@
 
+
+ALTER TABLE `pmd_month`
+	ADD COLUMN `online_finish_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '本月现金缴纳党费党员数' AFTER `finish_member_count`;
+
+ALTER TABLE `pmd_party`
+	ADD COLUMN `online_finish_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '本月现金缴纳党费党员数' AFTER `finish_member_count`;
+
+ALTER TABLE `pmd_branch`
+	ADD COLUMN `online_finish_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '本月现金缴纳党费党员数' AFTER `finish_member_count`;
+
+更新 pmd_party_view
+pmd_branch_view
+
 2018-4-16
 ALTER TABLE `cadre_famliy`
 	ADD COLUMN `status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '状态， 0：正式记录 1：修改记录' AFTER `unit`;

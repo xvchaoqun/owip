@@ -31,6 +31,8 @@ public class PmdBranch implements Serializable {
 
     private Integer finishMemberCount;
 
+    private Integer onlineFinishMemberCount;
+
     private BigDecimal realPay;
 
     private BigDecimal onlineRealPay;
@@ -159,6 +161,14 @@ public class PmdBranch implements Serializable {
 
     public void setFinishMemberCount(Integer finishMemberCount) {
         this.finishMemberCount = finishMemberCount;
+    }
+
+    public Integer getOnlineFinishMemberCount() {
+        return onlineFinishMemberCount;
+    }
+
+    public void setOnlineFinishMemberCount(Integer onlineFinishMemberCount) {
+        this.onlineFinishMemberCount = onlineFinishMemberCount;
     }
 
     public BigDecimal getRealPay() {

@@ -113,7 +113,7 @@
             }, frozen: true
             },
             {
-                label: '结算', name: '_end', formatter: function (cellvalue, options, rowObject) {
+                label: '结算', name: '_end', width:80, formatter: function (cellvalue, options, rowObject) {
 
                 if (_isEnd(rowObject))  return '<span class="text-success">已结算</span>';
                 if (!rowObject.canEnd) return "-";
@@ -127,15 +127,14 @@
             {
                 label: '对账和报表', name: '_report', formatter: function (cellvalue, options, rowObject) {
 
-                return ''
-                /*if (_isEnd(rowObject) == false)  return "-";
-                return ('<button class="openView btn btn-primary btn-xs" ' +
-                'data-url="${ctx}/pmd/pmdMonth_partyDetail?monthId={0}"><i class="fa fa-search"></i> 报表</button>')
-                        .format(rowObject.id);*/
+                if (_isEnd(rowObject) == false)  return "-";
+                return ('<button class="popupBtn btn btn-success btn-xs" ' +
+                'data-url="${ctx}/pmd/pmdOw_export_page?monthId={0}"><i class="fa fa-download"></i> 报表</button>')
+                        .format(rowObject.id);
             }, frozen: true
             },
             {
-                label: '各党委<br/>详情', name: '_partyDetail', formatter: function (cellvalue, options, rowObject) {
+                label: '各党委<br/>详情', name: '_partyDetail', width:80, formatter: function (cellvalue, options, rowObject) {
 
                 if (_isInit(rowObject))  return "-";
                 return ('<button class="openView btn btn-primary btn-xs" ' +
@@ -143,9 +142,9 @@
                         .format(rowObject.id);
             }
             },
-            {label: '党委数', name: 'partyCount'},
+            {label: '党委数', name: 'partyCount', width:70},
             {
-                label: '已报送<br/>党委数', name: 'hasReportCount', formatter: function (cellvalue, options, rowObject) {
+                label: '已报送<br/>党委数', name: 'hasReportCount', width:80, formatter: function (cellvalue, options, rowObject) {
                 if (_isInit(rowObject))  return "-";
                 return _isEnd(rowObject) ? cellvalue : rowObject.r.hasReportCount;
             }
@@ -157,20 +156,24 @@
             }
             },*/
             {
-                label: '党员总数', name: 'memberCount', formatter: function (cellvalue, options, rowObject) {
+                label: '党员总数', name: 'memberCount', width:80, formatter: function (cellvalue, options, rowObject) {
                 if (_isInit(rowObject))  return "-";
                 return _isEnd(rowObject) ? cellvalue : rowObject.r.memberCount;
             }
             },
-            { label: '线上缴纳<br/>党费总数',name: '_onlinePay', formatter: function (cellvalue, options, rowObject) {
+            { label: '线上缴纳<br/>党费总数',name: '_onlinePay', width:80, formatter: function (cellvalue, options, rowObject) {
                 if (_isInit(rowObject))  return "-";
                 return _isEnd(rowObject)?(rowObject.onlineRealPay + rowObject.onlineRealDelayPay)
                         :(rowObject.r.onlineRealPay + rowObject.r.onlineRealDelayPay);
+            },cellattr:function(rowId, val, rowObject, cm, rdata) {
+                return "class='success bolder'";
             }},
-            { label: '现金缴纳<br/>党费总数',name: '_cashPay', formatter: function (cellvalue, options, rowObject) {
+            { label: '现金缴纳<br/>党费总数',name: '_cashPay', width:80, formatter: function (cellvalue, options, rowObject) {
                 if (_isInit(rowObject))  return "-";
                 return _isEnd(rowObject)?(rowObject.cashRealPay + rowObject.cashRealDelayPay)
                         :(rowObject.r.cashRealPay + rowObject.r.cashRealDelayPay);
+            },cellattr:function(rowId, val, rowObject, cm, rdata) {
+                return "class='success bolder'";
             }},
             {
                 label: '本月应缴费<br/>党费数', name: 'duePay', formatter: function (cellvalue, options, rowObject) {

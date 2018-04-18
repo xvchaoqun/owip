@@ -27,50 +27,6 @@
             class="btn btn-success btn-lg"><i class="fa fa-random"></i> ${hasReport?"已报送数据":"报&nbsp;&nbsp;送"}
     </button>
 </div>
-<style>
-    .bs-callout-warning {
-        border-left-color: #f0ad4e !important;
-    }
-
-    .bs-callout-info {
-        border-left-color: #5bc0de !important;
-    }
-
-    .bs-callout {
-        padding: 20px;
-        margin: 20px 0;
-        border: 1px solid #eee;
-        border-left-width: 5px;
-        border-radius: 3px;
-    }
-
-    .bs-callout-warning h4 {
-        color: #f0ad4e;
-    }
-
-    .bs-callout-info h4 {
-        color: #5bc0de;
-    }
-
-    .bs-callout h4 {
-        font-size: 24px !important;
-        font-family: inherit;
-        font-weight: 500;
-        line-height: 1.1;
-        margin-top: 0;
-        margin-bottom: 5px;
-    }
-
-    .bs-callout *:last-child {
-        margin-bottom: 0;
-    }
-
-    .btn-outline {
-        color: #563d7c;
-        background-color: transparent;
-        border-color: #563d7c;
-    }
-</style>
 <script type="text/template" id="alertTpl">
     <div class="tip">
         <div style="font-size: 18px; font-weight: bolder;color:red">以下支部的推荐情况未录入系统：</div>

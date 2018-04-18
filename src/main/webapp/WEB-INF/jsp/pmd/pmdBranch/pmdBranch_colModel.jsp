@@ -3,7 +3,7 @@
 <script>
   var colModel = [
     {label: '月份', name: 'payMonth', formatter: 'date', formatoptions: {newformat: 'Y年m月'}, frozen: true},
-    { label: '报送',name: '_report', formatter: function (cellvalue, options, rowObject) {
+    { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
 
       if (rowObject.hasReport) return '<span class="text-success">已报送</span>'
       return ('<button class="popupBtn btn btn-success btn-xs" ' +
@@ -13,7 +13,7 @@
     }, frozen: true},
     /*{ label: '报表',name: '_table', frozen: true},*/
 
-    { label: '详情',name: '_members', formatter: function (cellvalue, options, rowObject) {
+    { label: '详情',name: '_members', width:80, formatter: function (cellvalue, options, rowObject) {
       <c:if test="${cls==1}">
       return ('<button class="openView btn btn-primary btn-xs" ' +
       'data-url="${ctx}/pmd/pmdMember?branchId={0}&monthId={1}&partyId={2}"><i class="fa fa-search"></i> 详情</button>')
@@ -26,18 +26,22 @@
       </c:if>
     }, frozen: true},
 
-    { label: '党支部名称',name: 'branchName', width:200, align:'left'},
+    { label: '党支部名称',name: 'branchName', width:200, align:'left', frozen: true},
     { label: '所属党委',name: 'partyName', width:300, align:'left'},
-    { label: '党员总数',name: 'memberCount', formatter: function (cellvalue, options, rowObject) {
+    { label: '党员总数',name: 'memberCount', width:80, formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.memberCount;
     }},
-    { label: '线上缴纳<br/>党费总数',name: '_onlinePay', formatter: function (cellvalue, options, rowObject) {
+    { label: '线上缴纳<br/>党费总数',name: '_onlinePay', width:80, formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?(rowObject.onlineRealPay + rowObject.onlineRealDelayPay)
               :(rowObject.r.onlineRealPay + rowObject.r.onlineRealDelayPay);
+    },cellattr:function(rowId, val, rowObject, cm, rdata) {
+      return "class='success bolder'";
     }},
-    { label: '现金缴纳<br/>党费总数',name: '_cashPay', formatter: function (cellvalue, options, rowObject) {
+    { label: '现金缴纳<br/>党费总数',name: '_cashPay', width:80, formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?(rowObject.cashRealPay + rowObject.cashRealDelayPay)
               :(rowObject.r.cashRealPay + rowObject.r.cashRealDelayPay);
+    },cellattr:function(rowId, val, rowObject, cm, rdata) {
+      return "class='success bolder'";
     }},
     { label: '本月应<br/>缴纳党费数',name: 'duePay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.duePay;

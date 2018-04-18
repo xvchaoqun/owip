@@ -2,10 +2,9 @@ package persistence.pmd;
 
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdMonthExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface PmdMonthMapper {
     long countByExample(PmdMonthExample example);

@@ -1234,3 +1234,47 @@ span.delete {
 .progress[data-percent]:after{
     color: #000;
 }
+
+/** 报表下载框 **/
+.bs-callout-warning {
+    border-left-color: #f0ad4e !important;
+}
+
+.bs-callout-info {
+    border-left-color: #5bc0de !important;
+}
+
+.bs-callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.bs-callout-warning h4 {
+    color: #f0ad4e;
+}
+
+.bs-callout-info h4 {
+    color: #5bc0de;
+}
+
+.bs-callout h4 {
+    font-size: 24px !important;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.bs-callout *:last-child {
+    margin-bottom: 0;
+}
+
+.btn-outline {
+    color: #563d7c;
+    background-color: transparent;
+    border-color: #563d7c;
+}

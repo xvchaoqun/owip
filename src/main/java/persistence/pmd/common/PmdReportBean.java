@@ -17,6 +17,8 @@ public class PmdReportBean {
 
     private Integer finishMemberCount;
 
+    private Integer onlineFinishMemberCount;
+
     private BigDecimal realPay;
 
     private BigDecimal cashRealPay;
@@ -73,6 +75,14 @@ public class PmdReportBean {
 
     public void setFinishMemberCount(Integer finishMemberCount) {
         this.finishMemberCount = finishMemberCount;
+    }
+
+    public Integer getOnlineFinishMemberCount() {
+        return onlineFinishMemberCount;
+    }
+
+    public void setOnlineFinishMemberCount(Integer onlineFinishMemberCount) {
+        this.onlineFinishMemberCount = onlineFinishMemberCount;
     }
 
     public BigDecimal getRealPay() {

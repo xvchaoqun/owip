@@ -933,6 +933,66 @@ public class PmdBranchViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andOnlineFinishMemberCountIsNull() {
+            addCriterion("online_finish_member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOnlineFinishMemberCountIsNotNull() {
+            addCriterion("online_finish_member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOnlineFinishMemberCountEqualTo(Integer value) {
+            addCriterion("online_finish_member_count =", value, "onlineFinishMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andOnlineFinishMemberCountNotEqualTo(Integer value) {
+            addCriterion("online_finish_member_count <>", value, "onlineFinishMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andOnlineFinishMemberCountGreaterThan(Integer value) {
+            addCriterion("online_finish_member_count >", value, "onlineFinishMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andOnlineFinishMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("online_finish_member_count >=", value, "onlineFinishMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andOnlineFinishMemberCountLessThan(Integer value) {
+            addCriterion("online_finish_member_count <", value, "onlineFinishMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andOnlineFinishMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("online_finish_member_count <=", value, "onlineFinishMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andOnlineFinishMemberCountIn(List<Integer> values) {
+            addCriterion("online_finish_member_count in", values, "onlineFinishMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andOnlineFinishMemberCountNotIn(List<Integer> values) {
+            addCriterion("online_finish_member_count not in", values, "onlineFinishMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andOnlineFinishMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("online_finish_member_count between", value1, value2, "onlineFinishMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andOnlineFinishMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("online_finish_member_count not between", value1, value2, "onlineFinishMemberCount");
+            return (Criteria) this;
+        }
+
         public Criteria andRealPayIsNull() {
             addCriterion("real_pay is null");
             return (Criteria) this;

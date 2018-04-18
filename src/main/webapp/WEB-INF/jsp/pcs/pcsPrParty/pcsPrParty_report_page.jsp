@@ -21,48 +21,6 @@
             class="btn btn-success btn-lg"><i class="fa fa-random"></i> ${pcsPrRecommend.hasReport?"已报送数据":"报&nbsp;&nbsp;送"}
     </button>
 </div>
-<style>
-    .bs-callout-warning {
-        border-left-color: #f0ad4e !important;
-    }
-    .bs-callout-info {
-        border-left-color: #5bc0de !important;
-    }
-    .bs-callout {
-        padding: 20px;
-        margin: 20px 0;
-        border: 1px solid #eee;
-        border-left-width: 5px;
-        border-radius: 3px;
-    }
-
-    .bs-callout-warning h4 {
-        color: #f0ad4e;
-    }
-
-    .bs-callout-info h4 {
-        color: #5bc0de;
-    }
-
-    .bs-callout h4 {
-        font-size: 24px !important;
-        font-family: inherit;
-        font-weight: 500;
-        line-height: 1.1;
-        margin-top: 0;
-        margin-bottom: 5px;
-    }
-
-    .bs-callout *:last-child {
-        margin-bottom: 0;
-    }
-
-    .btn-outline {
-        color: #563d7c;
-        background-color: transparent;
-        border-color: #563d7c;
-    }
-</style>
 <script type="text/template" id="successTpl">
     <div style='padding: 50px;font-size: 22px;font-weight: bolder;'>
         <div style="color: green; font-size: 38px;text-align: center;margin-bottom: 30px;margin-top: 20px;">

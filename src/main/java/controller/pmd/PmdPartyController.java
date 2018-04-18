@@ -204,9 +204,9 @@ public class PmdPartyController extends PmdBaseController {
     @RequestMapping("/pmdParty_export")
     public String pmdParty_export(int id, HttpServletResponse response) throws IOException {
 
-        XSSFWorkbook wb = pmdPartyService.export(id);
+        XSSFWorkbook wb = pmdExportService.reportParty(id);
         if (wb != null) {
-            ExportHelper.output(wb, "【党费报表】.xlsx", response);
+            ExportHelper.output(wb, "线上缴纳党费报表.xlsx", response);
         }
 
         return null;

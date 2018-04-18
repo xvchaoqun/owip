@@ -15,6 +15,7 @@
     <result column="member_count" jdbcType="INTEGER" property="memberCount" />
     <result column="due_pay" jdbcType="DECIMAL" property="duePay" />
     <result column="finish_member_count" jdbcType="INTEGER" property="finishMemberCount" />
+    <result column="online_finish_member_count" jdbcType="INTEGER" property="onlineFinishMemberCount" />
     <result column="real_pay" jdbcType="DECIMAL" property="realPay" />
     <result column="online_real_pay" jdbcType="DECIMAL" property="onlineRealPay" />
     <result column="cash_real_pay" jdbcType="DECIMAL" property="cashRealPay" />
@@ -89,9 +90,9 @@
   <sql id="Base_Column_List">
     id, pay_month, start_time, start_user_id, end_time, end_user_id, party_count, history_delay_member_count, 
     history_delay_pay, has_report_count, member_count, due_pay, finish_member_count, 
-    real_pay, online_real_pay, cash_real_pay, delay_pay, delay_member_count, real_delay_member_count, 
-    real_delay_pay, online_real_delay_pay, cash_real_delay_pay, status, create_user_id, 
-    create_time
+    online_finish_member_count, real_pay, online_real_pay, cash_real_pay, delay_pay, 
+    delay_member_count, real_delay_member_count, real_delay_pay, online_real_delay_pay, 
+    cash_real_delay_pay, status, create_user_id, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdMonthExample" resultMap="BaseResultMap">
     select
@@ -128,20 +129,22 @@
       start_user_id, end_time, end_user_id, 
       party_count, history_delay_member_count, history_delay_pay, 
       has_report_count, member_count, due_pay, 
-      finish_member_count, real_pay, online_real_pay, 
-      cash_real_pay, delay_pay, delay_member_count, 
-      real_delay_member_count, real_delay_pay, online_real_delay_pay, 
-      cash_real_delay_pay, status, create_user_id, 
-      create_time)
+      finish_member_count, online_finish_member_count, 
+      real_pay, online_real_pay, cash_real_pay, 
+      delay_pay, delay_member_count, real_delay_member_count, 
+      real_delay_pay, online_real_delay_pay, cash_real_delay_pay, 
+      status, create_user_id, create_time
+      )
     values (#{id,jdbcType=INTEGER}, #{payMonth,jdbcType=DATE}, #{startTime,jdbcType=TIMESTAMP}, 
       #{startUserId,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP}, #{endUserId,jdbcType=INTEGER}, 
       #{partyCount,jdbcType=INTEGER}, #{historyDelayMemberCount,jdbcType=INTEGER}, #{historyDelayPay,jdbcType=DECIMAL}, 
       #{hasReportCount,jdbcType=INTEGER}, #{memberCount,jdbcType=INTEGER}, #{duePay,jdbcType=DECIMAL}, 
-      #{finishMemberCount,jdbcType=INTEGER}, #{realPay,jdbcType=DECIMAL}, #{onlineRealPay,jdbcType=DECIMAL}, 
-      #{cashRealPay,jdbcType=DECIMAL}, #{delayPay,jdbcType=DECIMAL}, #{delayMemberCount,jdbcType=INTEGER}, 
-      #{realDelayMemberCount,jdbcType=INTEGER}, #{realDelayPay,jdbcType=DECIMAL}, #{onlineRealDelayPay,jdbcType=DECIMAL}, 
-      #{cashRealDelayPay,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{finishMemberCount,jdbcType=INTEGER}, #{onlineFinishMemberCount,jdbcType=INTEGER}, 
+      #{realPay,jdbcType=DECIMAL}, #{onlineRealPay,jdbcType=DECIMAL}, #{cashRealPay,jdbcType=DECIMAL}, 
+      #{delayPay,jdbcType=DECIMAL}, #{delayMemberCount,jdbcType=INTEGER}, #{realDelayMemberCount,jdbcType=INTEGER}, 
+      #{realDelayPay,jdbcType=DECIMAL}, #{onlineRealDelayPay,jdbcType=DECIMAL}, #{cashRealDelayPay,jdbcType=DECIMAL}, 
+      #{status,jdbcType=TINYINT}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdMonth">
     insert into pmd_month
@@ -184,6 +187,9 @@
       </if>
       <if test="finishMemberCount != null">
         finish_member_count,
+      </if>
+      <if test="onlineFinishMemberCount != null">
+        online_finish_member_count,
       </if>
       <if test="realPay != null">
         real_pay,
@@ -261,6 +267,9 @@
       </if>
       <if test="finishMemberCount != null">
         #{finishMemberCount,jdbcType=INTEGER},
+      </if>
+      <if test="onlineFinishMemberCount != null">
+        #{onlineFinishMemberCount,jdbcType=INTEGER},
       </if>
       <if test="realPay != null">
         #{realPay,jdbcType=DECIMAL},
@@ -348,6 +357,9 @@
       <if test="record.finishMemberCount != null">
         finish_member_count = #{record.finishMemberCount,jdbcType=INTEGER},
       </if>
+      <if test="record.onlineFinishMemberCount != null">
+        online_finish_member_count = #{record.onlineFinishMemberCount,jdbcType=INTEGER},
+      </if>
       <if test="record.realPay != null">
         real_pay = #{record.realPay,jdbcType=DECIMAL},
       </if>
@@ -404,6 +416,7 @@
       member_count = #{record.memberCount,jdbcType=INTEGER},
       due_pay = #{record.duePay,jdbcType=DECIMAL},
       finish_member_count = #{record.finishMemberCount,jdbcType=INTEGER},
+      online_finish_member_count = #{record.onlineFinishMemberCount,jdbcType=INTEGER},
       real_pay = #{record.realPay,jdbcType=DECIMAL},
       online_real_pay = #{record.onlineRealPay,jdbcType=DECIMAL},
       cash_real_pay = #{record.cashRealPay,jdbcType=DECIMAL},
@@ -459,6 +472,9 @@
       <if test="finishMemberCount != null">
         finish_member_count = #{finishMemberCount,jdbcType=INTEGER},
       </if>
+      <if test="onlineFinishMemberCount != null">
+        online_finish_member_count = #{onlineFinishMemberCount,jdbcType=INTEGER},
+      </if>
       <if test="realPay != null">
         real_pay = #{realPay,jdbcType=DECIMAL},
       </if>
@@ -512,6 +528,7 @@
       member_count = #{memberCount,jdbcType=INTEGER},
       due_pay = #{duePay,jdbcType=DECIMAL},
       finish_member_count = #{finishMemberCount,jdbcType=INTEGER},
+      online_finish_member_count = #{onlineFinishMemberCount,jdbcType=INTEGER},
       real_pay = #{realPay,jdbcType=DECIMAL},
       online_real_pay = #{onlineRealPay,jdbcType=DECIMAL},
       cash_real_pay = #{cashRealPay,jdbcType=DECIMAL},

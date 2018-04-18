@@ -7,6 +7,7 @@ import service.pmd.PmdBranchService;
 import service.pmd.PmdConfigMemberService;
 import service.pmd.PmdConfigMemberTypeService;
 import service.pmd.PmdConfigResetService;
+import service.pmd.PmdExportService;
 import service.pmd.PmdExtService;
 import service.pmd.PmdMemberPayService;
 import service.pmd.PmdMemberService;
@@ -58,6 +59,8 @@ public class PmdBaseController extends BaseController {
     protected PmdConfigMemberService pmdConfigMemberService;
     @Autowired
     protected PmdConfigResetService pmdConfigResetService;
+    @Autowired
+    protected PmdExportService pmdExportService;
     @Autowired
     protected PmdExtService pmdExtService;
     @Autowired
