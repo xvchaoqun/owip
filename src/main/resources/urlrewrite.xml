@@ -34,6 +34,12 @@
 		<to>/unit_selects</to>
 	</rule>
 	<rule>
+		<note>干部任免审批表下载</note>
+		<condition type="method">GET</condition>
+		<from>^/m/cadreAdform_download</from>
+		<to>/cadreAdform_download</to>
+	</rule>
+	<rule>
 		<note>因私出访短信通知弹出框</note>
 		<condition type="method">GET</condition>
 		<from>^/m/abroad/shortMsg_view$</from>

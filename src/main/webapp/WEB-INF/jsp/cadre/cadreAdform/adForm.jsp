@@ -56,8 +56,13 @@ td.padding10{
 }
 td.bolder{font-weight: bolder}
 </style>
-
-<div style="float: left; margin-right: 20px; padding-bottom: 20px">
+<c:if test="${param.mobile=='1'}">
+  <div class="back-btn">
+  <a href="javascript:;" class="openView" data-open-by="page"
+     data-url="${ctx}/m/cadre_info?cadreId=${param.cadreId}"><i class="fa fa-reply"></i> 返回</a>
+  </div>
+</c:if>
+<div style="float: left; margin-right: 20px; padding-bottom: 20px;overflow-x: hidden">
   <table class="t1">
     <tbody>
     <tr>

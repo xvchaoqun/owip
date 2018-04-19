@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/m")
-public class MobileCadreController extends BaseController {
+public class MobileCadreSearchController extends BaseController {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 

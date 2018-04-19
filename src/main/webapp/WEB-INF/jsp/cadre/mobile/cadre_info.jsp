@@ -184,6 +184,18 @@
             </span>
           </div>
         </div>
+        <div class="profile-info-row">
+          <div class="profile-info-name"> 干部任免审批表</div>
+          <div class="profile-info-value center">
+            <button class="openView btn btn-success btn-sm" data-open-by="page"
+                    data-url="${ctx}/m/cadreAdform?mobile=1&cadreId=${param.cadreId}"><i class="fa fa-search"></i> 查看</button>
+            <span style="width: 40px;">&nbsp;</span>
+            <a class="btn btn-primary btn-sm" href="${ctx}/m/cadreAdform_download?cadreId=${param.cadreId}">
+              <i class="ace-icon fa fa-download"></i>
+              下 载
+            </a>
+          </div>
+        </div>
       </div>
     </div>
     <div id="pi" class="tab-pane">
