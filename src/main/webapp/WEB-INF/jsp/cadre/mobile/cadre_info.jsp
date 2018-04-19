@@ -187,6 +187,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name"> 干部任免审批表</div>
           <div class="profile-info-value center">
+            <c:if test="${not empty cadre}">
             <button class="openView btn btn-success btn-sm" data-open-by="page"
                     data-url="${ctx}/m/cadreAdform?mobile=1&cadreId=${param.cadreId}"><i class="fa fa-search"></i> 查看</button>
             <div style="width: 30px;display: inline-block">&nbsp;</div>
@@ -194,6 +195,7 @@
               <i class="ace-icon fa fa-download"></i>
               下 载
             </a>
+            </c:if>
           </div>
         </div>
       </div>
