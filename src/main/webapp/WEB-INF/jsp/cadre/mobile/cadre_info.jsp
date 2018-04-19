@@ -188,7 +188,7 @@
           <div class="profile-info-name"> 干部任免审批表</div>
           <div class="profile-info-value center">
             <c:if test="${not empty cadre}">
-            <button class="openView btn btn-success btn-sm" data-open-by="page"
+            <button class="openView btn btn-success btn-sm" data-open-by="page" data-callback="_preview"
                     data-url="${ctx}/m/cadreAdform?mobile=1&cadreId=${param.cadreId}"><i class="fa fa-search"></i> 查看</button>
             <div style="width: 30px;display: inline-block">&nbsp;</div>
             <a class="btn btn-primary btn-sm" href="${ctx}/m/cadreAdform_download?cadreId=${param.cadreId}">
@@ -473,4 +473,13 @@
     </div>
   </div>
 </div>
-<script>$.adjustLeftFloatDivHeight($(".profile-info-name.td"))</script>
+<script>$.adjustLeftFloatDivHeight($(".profile-info-name.td"));
+function _preview(){
+  console.log($("#preview table").width())
+  console.log(window.screen.availWidth)
+  var r = (window.screen.availWidth-40) / $("#preview table").width();
+  $("#preview").css("-webkit-transform","scale(" + r + ")")
+          .css("transform-origin","left top");
+  $("#body-content-view").height( $("#preview").height()*r)
+}
+</script>

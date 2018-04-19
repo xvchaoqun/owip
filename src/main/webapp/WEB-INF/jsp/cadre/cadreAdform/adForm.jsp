@@ -62,7 +62,8 @@ td.bolder{font-weight: bolder}
      data-url="${ctx}/m/cadre_info?cadreId=${param.cadreId}"><i class="fa fa-reply"></i> 返回</a>
   </div>
 </c:if>
-<div style="float: left; margin-right: 20px; padding-bottom: 20px;overflow-x: hidden">
+<div id="preview">
+<div style="float: left; margin-right: 20px; padding-bottom: 20px;">
   <table class="t1">
     <tbody>
     <tr>
@@ -506,4 +507,5 @@ td.bolder{font-weight: bolder}
     </tr>
     </tbody>
   </table>
+</div>
 </div>

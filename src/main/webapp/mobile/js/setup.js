@@ -90,8 +90,9 @@ $.register.m_click(".popView", function () {
 
 // 内页展示
 $.register.m_click(".openView", function () {
-    var openBy = $(this).data("open-by");
-    var url = $(this).data("url");
+    var $this = $(this);
+    var openBy = $this.data("open-by");
+    var url = $this.data("url");
     if (openBy == 'page') {
         /*var $container = $("#body-content");
         $container.showLoading({
@@ -105,9 +106,11 @@ $.register.m_click(".openView", function () {
             $container.hideLoading().hide();
             $("#body-content-view").hide().html(html).fadeIn("slow");
         })*/
-        $.loadView({url:url});
+        var callback = $this.data("callback");
+        if(callback!='') callback=eval(callback)
+        $.loadView({url:url, callback:callback});
     } else {
-        $.loadModal(url, $(this).data("width"));
+        $.loadModal(url, $this.data("width"));
     }
 });
 
