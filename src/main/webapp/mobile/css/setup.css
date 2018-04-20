@@ -47,6 +47,9 @@ body{
     width: 100%;
     background: #033975;
 }
+.navbar-fixed-top+.main-container {
+    padding-top: 45px;
+}
 .no-skin .navbar .navbar-toggle {
     background-color: #337ab7;
 }
@@ -215,6 +218,9 @@ body{
     top: 8px;
     left: auto;
     right: 12px;
+}
+.select2-dropdown{
+    z-index: 1029;
 }
 
 .has-error .select2-selection {
