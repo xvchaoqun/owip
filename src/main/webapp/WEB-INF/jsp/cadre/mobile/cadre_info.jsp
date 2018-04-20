@@ -475,11 +475,16 @@
 </div>
 <script>$.adjustLeftFloatDivHeight($(".profile-info-name.td"));
 function _preview(){
-  console.log($("#preview table").width())
-  console.log(window.screen.availWidth)
+  //console.log($("#preview table").width())
+  //console.log(window.screen.availWidth)
+
   var r = (window.screen.availWidth-40) / $("#preview table").width();
   $("#preview").css("-webkit-transform","scale(" + r + ")")
           .css("transform-origin","left top");
-  $("#body-content-view").height( $("#preview").height()*r)
+  //console.log($("#body-content-view").height())
+  //console.log($("#preview").height())
+  //console.log($("#preview").height()*(1-r))
+  $("#preview").css("margin-bottom", -1*$("#preview").height()*(1-r) + "px");
+  $("#btn-scroll-up").click();
 }
 </script>

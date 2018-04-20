@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.sys.SysLoginLogService;
+import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
 
@@ -102,6 +103,8 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
 
                     //kickoutSession.setTimeout(-1); // remeberMe 踢出
                     kickoutSession.stop();// remeberMe 踢出
+
+                    ShiroHelper.removeAll(username, sessionId.toString());
                 }
             } catch (Exception e) {//ignore exception
             }

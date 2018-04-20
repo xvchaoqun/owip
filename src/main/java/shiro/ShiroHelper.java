@@ -13,6 +13,7 @@ import service.sys.SysRoleService;
 import service.sys.SysUserService;
 import sys.shiro.BaseShiroHelper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -130,6 +131,27 @@ public class ShiroHelper extends BaseShiroHelper{
 			if(null != session && usernames.contains(shiroUser.getUsername())){
 				session.setTimeout(0);//设置session立即失效，即将其踢出系统
 				logger.info("############## success kick out user 【{}】 ------ #################", shiroUser.getUsername());
+				sessionDAO.delete(session);
+			}
+		}
+	}
+
+	/** 删除某个用户多余的session，只保留一个
+	 * @param username
+	 * @param currentSessionId
+	 */
+	public static void removeAll(String username, String currentSessionId){
+
+		Collection<Session> sessions = sessionDAO.getActiveSessions();
+		for(Session session : sessions){
+			Serializable sessionId = session.getId();
+			if(StringUtils.equals(sessionId.toString(), currentSessionId)) continue;
+			PrincipalCollection principals = (PrincipalCollection)session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+			if(principals==null || principals.isEmpty()) continue;
+			ShiroUser shiroUser = (ShiroUser)principals.getPrimaryPrincipal();
+			if(null != session && StringUtils.equals(username, shiroUser.getUsername())){
+				session.setTimeout(0);//设置session立即失效，即将其踢出系统
+				logger.info("############## remove session 【{}, {}】 ------ #################", shiroUser.getUsername(), sessionId);
 				sessionDAO.delete(session);
 			}
 		}

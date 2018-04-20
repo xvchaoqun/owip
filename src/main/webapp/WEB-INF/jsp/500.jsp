@@ -4,6 +4,7 @@
 <%
   //exception.printStackTrace(response.getWriter());
   if(exception.getCause() instanceof UnknownSessionException){
+    //ShiroHelper.kickOutUser(ShiroHelper.getCurrentUsername());
     response.sendRedirect("/");
   }
 %>

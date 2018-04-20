@@ -21,6 +21,7 @@ import sys.utils.IpUtils;
 import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -38,7 +39,8 @@ public class SysLoginLogService extends BaseMapper {
     // 记录当前用户登录日记 , 如果没登录成功，那么userId=null
     public String log(Integer userId, String username, byte type, boolean isSuccess, String remark) {
 
-        OnlineSession session = (OnlineSession) sessionDAO.readSession(SecurityUtils.getSubject().getSession().getId());
+        Serializable sessionId = SecurityUtils.getSubject().getSession().getId();
+        OnlineSession session = (OnlineSession) sessionDAO.readSession(sessionId);
 
         String userAgent = session.getUserAgent();
         String ip = session.getHost();
@@ -69,7 +71,8 @@ public class SysLoginLogService extends BaseMapper {
 
         sysLoginLogMapper.insertSelective(_loginLog);
 
-        return String.format("账号：%s %s登录,结果：%s, %s, %s", username, SystemConstants.LOGIN_TYPE_MAP.get(type), isSuccess, remark, userAgent);
+        return String.format("账号：%s %s登录,结果：%s, %s, %s, %s",
+                username, SystemConstants.LOGIN_TYPE_MAP.get(type), isSuccess, remark, sessionId, userAgent);
     }
 
     // 记录评课用户登录日记 , 如果没登录成功，那么userId=null
