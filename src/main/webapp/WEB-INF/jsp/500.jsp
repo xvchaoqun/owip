@@ -1,12 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fafa
-  Date: 2015/11/11
-  Time: 15:43
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ page import="org.apache.shiro.session.UnknownSessionException" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" isErrorPage="true" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%
+  //exception.printStackTrace(response.getWriter());
+  if(exception.getCause() instanceof UnknownSessionException){
+    response.sendRedirect("/");
+  }
+%>
 <c:if test="${!param.__includePage}">
 <html>
 <head>
@@ -20,8 +20,6 @@
   </c:if>
 <div class="row">
   <div class="col-xs-12">
-
-
     <div class="error-container">
       <div class="well">
         <h1 class="grey lighter smaller">

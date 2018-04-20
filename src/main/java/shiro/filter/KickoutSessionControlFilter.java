@@ -1,6 +1,5 @@
 package shiro.filter;
 
-import controller.BaseController;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.session.Session;
@@ -14,17 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.sys.SysLoginLogService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
-import sys.utils.HttpUtils;
-import sys.utils.JSONUtils;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Map;
 
 
 public class KickoutSessionControlFilter extends AccessControlFilter {
@@ -114,7 +108,7 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
         }
 
         //如果被踢出了，直接退出，重定向到踢出后的地址
-        if (kickout != null) {
+        /*if (kickout != null) {
             //会话被踢出了
             try {
                 logger.info("用户{}-{}被踢出", shiroUser.getRealname(), username);
@@ -126,14 +120,14 @@ public class KickoutSessionControlFilter extends AccessControlFilter {
             if(HttpUtils.isAjaxRequest((HttpServletRequest) request)){
                 Map<String, Object> resultMap = BaseController.failed("login");
                 JSONUtils.write((HttpServletResponse) response, resultMap);
-            }/*else {
+            }*//*else {
                 request.setAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME, "kickout");
                 //request.setAttribute("error", "kickout");
                 WebUtils.issueRedirect(request, response, this.getLoginUrl());
-            }*/
+            }*//*
 
             return false;
-        }
+        }*/
 
         return true;
     }
