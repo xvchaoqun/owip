@@ -75,4 +75,8 @@
 <div class="modal-footer">
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
 </div>
-<script>$.adjustLeftFloatDivHeight($(".profile-info-name.td"))</script>
+<script>
+  window.setTimeout(function() {
+    $.adjustLeftFloatDivHeight($(".profile-info-name.td"))
+  }, 200);
+</script>
