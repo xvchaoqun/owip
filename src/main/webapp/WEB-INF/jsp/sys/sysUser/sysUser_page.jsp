@@ -181,16 +181,13 @@
             }},
             { label: '性别',  name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
             { label: '系统角色',  name: 'roleIds', width: 150 , formatter:function(cellvalue, options, rowObject){
-                var roles = [];
-                if(cellvalue!=undefined) {
-                    var roleIdArray = cellvalue.split(",");
-                    for (var i = 1; i < roleIdArray.length - 1; i++) {
-                        var role = _cMap.roleMap[roleIdArray[i]];
-                        if(role)
-                            roles.push(role.description);
-                    }
-                }
-                return roles.join(",")
+
+                if(cellvalue==undefined) return '-'
+                var roleIdArray = cellvalue.split(",");
+                return $.map(roleIdArray, function(item){
+                    var role = _cMap.roleMap[item];
+                    return role?role.description:null;
+                });
             } },
             { label: '身份证号码',  name: 'idcard', width: 160 },
             { label: '办公电话',  name: 'phone', width: 150 },
