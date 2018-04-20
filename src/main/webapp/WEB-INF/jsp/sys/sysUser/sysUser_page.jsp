@@ -180,7 +180,7 @@
                 return _cMap.USER_TYPE_MAP[cellvalue];
             }},
             { label: '性别',  name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
-            { label: '系统角色',  name: 'roleIds', width: 150 , formatter:function(cellvalue, options, rowObject){
+            { label: '系统角色',  name: 'roleIds', align:'left', width: 150 , formatter:function(cellvalue, options, rowObject){
 
                 if(cellvalue==undefined) return '-'
                 var roleIdArray = cellvalue.split(",");
