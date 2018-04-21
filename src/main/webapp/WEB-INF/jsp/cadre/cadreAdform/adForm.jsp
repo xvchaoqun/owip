@@ -66,7 +66,7 @@ td.bolder{font-weight: bolder}
 </c:if>
 <div id="preview">
 <div style="float: left; margin-right: 20px; padding-bottom: 20px;">
-  <table class="t1">
+  <table id="t1" class="t1">
     <tbody>
     <tr>
       <td colspan="9">
@@ -266,7 +266,7 @@ td.bolder{font-weight: bolder}
 </div>
 
 <div style="padding-top: 53px">
-  <table class="t1">
+  <table id="t2" class="t1">
     <tbody>
     <tr>
       <td class="td1 center bolder" style="height: 100px;">
@@ -513,21 +513,25 @@ td.bolder{font-weight: bolder}
 </div>
 <c:if test="${param.mobile=='1'}">
   </div>
+  <div style="clear: both"/>
   <script>
     window.setTimeout(function() {
 
       //console.log($("#preview table").width())
       //console.log(window.screen.availWidth)
-      var r = $("#modal .modal-content").width() / $("#preview table").width();
+      var r = (window.screen.availWidth-20) / $("#preview table").width();
       $("#preview").css("-webkit-transform","scale(" + r + ")")
               .css("transform-origin","left top");
       //console.log($("#body-content-view").height())
       //console.log($("#preview").height())
-      //console.log($("#preview").height()*(1-r))
+      //console.log($("tal").height()*(1-r))
+     // alert($("#t1").height())
+      //alert($("#t2").height())
       $("#preview").css("margin-bottom", -1*$("#preview").height()*(1-r) + "px");
       //$("#btn-scroll-up").click();
+      //alert(r)
 
-    }, 200);
+    }, 400);
 
   </script>
 </c:if>

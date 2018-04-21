@@ -472,4 +472,4 @@
     </div>
   </div>
 </div>
-<script>$.adjustLeftFloatDivHeight($(".profile-info-name.td"));</script>
+<script>$.adjustLeftFloatDivHeight($(".profile-info-name.td"));$("#btn-scroll-up").click();</script>
