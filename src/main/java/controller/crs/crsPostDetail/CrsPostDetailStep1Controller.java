@@ -23,7 +23,7 @@ public class CrsPostDetailStep1Controller extends CrsBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
 
-    @RequiresPermissions("crsPost:edit")
+    @RequiresPermissions("crsPost:list")
     @RequestMapping("/crsPost_detail/step1_base")
     public String step1_base(Integer id, ModelMap modelMap) {
 
@@ -34,7 +34,7 @@ public class CrsPostDetailStep1Controller extends CrsBaseController {
         return "crs/crsPost/crsPost_detail/step1_base";
     }
 
-    @RequiresPermissions("crsPost:edit")
+    @RequiresPermissions("crsPost:list")
     @RequestMapping("/crsPost_detail/step1_notice")
     public String step1_notice(Integer id, ModelMap modelMap) {
 
@@ -45,7 +45,7 @@ public class CrsPostDetailStep1Controller extends CrsBaseController {
         return "crs/crsPost/crsPost_detail/step1_notice";
     }
 
-    @RequiresPermissions("crsPost:edit")
+    @RequiresPermissions("crsPost:list")
     @RequestMapping("/crsPost_detail/step1_require")
     public String step1_require(Integer id, ModelMap modelMap) {
 
@@ -62,7 +62,7 @@ public class CrsPostDetailStep1Controller extends CrsBaseController {
         return "crs/crsPost/crsPost_detail/step1_require";
     }
 
-    @RequiresPermissions("crsPost:edit")
+    @RequiresPermissions("crsPost:list")
     @RequestMapping("/crsPost_detail/step1_require_au")
     public String step1_require_au(int id, ModelMap modelMap) {
 

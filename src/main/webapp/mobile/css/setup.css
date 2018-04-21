@@ -99,12 +99,18 @@ body{
         max-width: 200px;
         /*font-size: 10px;*/
     }
+    .message-item .sender.sigle-span {
+        max-width: 280px;
+    }
 }
 @media only screen and (max-width: 320px){
     .message-item .sender {
         width: auto;
         max-width: 170px;
         font-size: 10px;
+    }
+    .message-item .sender.sigle-span {
+        max-width: 230px;
     }
 }
 
@@ -119,6 +125,9 @@ body{
         /*max-width: 230px;*/
         max-width: 230px;
     }
+    .message-item .summary .text.sigle-span {
+        max-width: 280px;
+    }
 }
 @media only screen and (max-width: 320px) {
     .message-item .summary .text {
@@ -126,6 +135,9 @@ body{
     }
     .nav-tabs > li > a {
         padding: 7px 5px 8px!important;
+    }
+    .message-item .summary .text.sigle-span {
+        max-width: 250px;
     }
 }
 
@@ -243,8 +255,8 @@ body{
 }
 
 .back-btn{
-    position: absolute;
-    top: -38px;
+    position: fixed;
+    top: 55px;
     right: 0px;
     padding-right: 15px;
 }

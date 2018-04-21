@@ -60,9 +60,11 @@
                                 </button>
                             </shiro:hasPermission>
                             </c:if>
+<shiro:hasPermission name="crsPost:export">
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>
+    </shiro:hasPermission>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -222,9 +224,12 @@
                 if (cellvalue == undefined) return '-';
                 return _cMap.CRS_POST_PUB_STATUS_MAP[cellvalue];
             }},
+            <shiro:hasPermission name="crsPost:edit">
             {label: '发布', name: '_publish', formatter: function (cellvalue, options, rowObject) {
                 return _.template($("#publish_tpl").html().NoMultiSpace())({id: rowObject.id, isPublish:(rowObject.pubStatus==${CRS_POST_PUB_STATUS_PUBLISHED})})
-            }},{label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
+            }},
+            </shiro:hasPermission>
+            {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
                 return _cMap.CRS_POST_STATUS_MAP[cellvalue];
             }},

@@ -84,7 +84,7 @@ public class MobileCadreSearchController extends BaseController {
 		return "cadre/mobile/cadre_search";
 	}
 
-	@RequiresPermissions("m:cadre:list")
+	@RequiresPermissions("m:cadre:view")
 	@RequestMapping("/cadre_info")
 	public String cadre_info(Integer cadreId, ModelMap modelMap) {
 

@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <div id="body-content-view" style="overflow-y: hidden">
+        <div id="body-content-view"<%-- style="overflow-y: hidden"--%>>
         </div>
     </div>
 </div>

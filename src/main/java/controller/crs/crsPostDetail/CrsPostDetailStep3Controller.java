@@ -36,7 +36,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("crsPost:edit")
+    @RequiresPermissions("crsPost:list")
     @RequestMapping("/crsPost_detail/step3_expert")
     public String step3_expert(int id, ModelMap modelMap) {
 
@@ -46,7 +46,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
         return "crs/crsPost/crsPost_detail/step3_expert";
     }
 
-    @RequiresPermissions("crsPost:edit")
+    @RequiresPermissions("crsPost:list")
     @RequestMapping("/crsPost_detail/step3_material")
     public String step3_material(int id, ModelMap modelMap) {
 
@@ -56,7 +56,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
         return "crs/crsPost/crsPost_detail/step3_material";
     }
 
-    @RequiresPermissions("crsPost:edit")
+    @RequiresPermissions("crsPost:list")
     @RequestMapping("/crsPost_detail/step3_meeting")
     public String step3_meeting(int id, ModelMap modelMap) {
 

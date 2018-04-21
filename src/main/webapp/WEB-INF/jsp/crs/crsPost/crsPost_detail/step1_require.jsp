@@ -10,6 +10,7 @@
             任职资格
             <c:if test="${not empty crsPost.qualification}">
             <div class="pull-right" style="margin-right: 10px">
+                <shiro:hasPermission name="crsPost:edit">
                 <button type="button"
                         data-load-el="#qualification-content"
                         data-url="${ctx}/crsPost_templateContent?id=${param.id}&type=${CRS_TEMPLATE_TYPE_POST}"
@@ -17,6 +18,7 @@
                     <i class="ace-icon fa fa-edit"></i>
                     编辑
                 </button>
+                </shiro:hasPermission>
             </div>
             </c:if>
         </h4>
@@ -38,6 +40,7 @@
             岗位具体要求（用于资格审核）
             <c:if test="${not empty crsPostRequire}">
             <div class="pull-right" style="margin-right: 10px">
+                <shiro:hasPermission name="crsPost:edit">
                 <button type="button"
                         data-load-el="#require-content"
                         data-url="${ctx}/crsPost_detail/step1_require_au?id=${param.id}"
@@ -45,6 +48,7 @@
                     <i class="ace-icon fa fa-edit"></i>
                     编辑
                 </button>
+                </shiro:hasPermission>
             </div>
             </c:if>
         </h4>

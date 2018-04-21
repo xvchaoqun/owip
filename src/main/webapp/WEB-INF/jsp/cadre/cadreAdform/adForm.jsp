@@ -57,10 +57,12 @@ td.padding10{
 td.bolder{font-weight: bolder}
 </style>
 <c:if test="${param.mobile=='1'}">
-  <div class="back-btn">
-  <a href="javascript:;" class="openView" data-open-by="page"
-     data-url="${ctx}/m/cadre_info?cadreId=${param.cadreId}"><i class="fa fa-reply"></i> 返回</a>
-  </div>
+
+    <button type="button"
+            style="padding: 15px; position: absolute;right: 0;top: -10px;z-index: 2222"
+            data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+
+  <div style="overflow: hidden;width: 100%">
 </c:if>
 <div id="preview">
 <div style="float: left; margin-right: 20px; padding-bottom: 20px;">
@@ -509,3 +511,23 @@ td.bolder{font-weight: bolder}
   </table>
 </div>
 </div>
+<c:if test="${param.mobile=='1'}">
+  </div>
+  <script>
+    window.setTimeout(function() {
+
+      //console.log($("#preview table").width())
+      //console.log(window.screen.availWidth)
+      var r = $("#modal .modal-content").width() / $("#preview table").width();
+      $("#preview").css("-webkit-transform","scale(" + r + ")")
+              .css("transform-origin","left top");
+      //console.log($("#body-content-view").height())
+      //console.log($("#preview").height())
+      //console.log($("#preview").height()*(1-r))
+      $("#preview").css("margin-bottom", -1*$("#preview").height()*(1-r) + "px");
+      //$("#btn-scroll-up").click();
+
+    }, 200);
+
+  </script>
+</c:if>

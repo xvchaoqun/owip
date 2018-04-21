@@ -22,24 +22,28 @@
                                data-url="${ctx}/crsPost_detail/step?id=${param.id}&step=1">
                                 <i class="green ace-icon fa fa-bullhorn bigger-120"></i> 公告和资格</a>
                         </li>
+<shiro:hasPermission name="crsPost:edit">
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-content" data-callback="$.menu.liSelected"
                                data-url="${ctx}/crsPost_detail/step2_time?id=${param.id}">
                                 <i class="green ace-icon fa fa-calendar bigger-120"></i> 报名时间管理</a>
                         </li>
+    </shiro:hasPermission>
                         <li class="active">
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-content" data-callback="$.menu.liSelected"
                                data-url="${ctx}/crsPost_detail/step?id=${param.id}&step=2">
                                 <i class="green ace-icon fa fa-gears bigger-120"></i> 报名和审核</a>
                         </li>
+<shiro:hasPermission name="crsPost:edit">
                         <li>
                             <a href="javascript:;" class="loadPage"
                                data-load-el="#step-content" data-callback="$.menu.liSelected"
                                data-url="${ctx}/crsPost_detail/step?id=${param.id}&step=3">
                                 <i class="green ace-icon fa fa-users bigger-120"></i> 招聘会</a>
                         </li>
+    </shiro:hasPermission>
                     </ul>
                 </div>
             </div>

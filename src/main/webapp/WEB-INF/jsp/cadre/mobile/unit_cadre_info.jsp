@@ -3,8 +3,8 @@
 <div class="back-btn">
     <a href="javascript:;" class="closeView"><i class="fa fa-reply"></i> 返回</a>
 </div>
+<c:set var="backTo" value="${ctx}/m/cadre_search_byUnit?unitId=${param.unitId}"/>
 <div class="profile-user-info profile-user-info-striped" style="border:0px; padding-bottom: 20px;">
-
     <div class="profile-info-row">
         <div class="profile-info-name"> 内 设 机 构</div>
     </div>
@@ -38,7 +38,7 @@
     <div class="profile-info-row">
         <div class="profile-info-name td"> 现任干部</div>
         <div class="profile-info-value td">
-            <span class="editable"><t:cpc_cadres_m cadrePosts="${bean.mains}"/></span>
+            <span class="editable"><t:cpc_cadres_m cadrePosts="${bean.mains}" backTo="${cm:encodeURI(backTo)}"/></span>
         </div>
     </div>
     <div class="profile-info-row">
@@ -71,7 +71,7 @@
     <div class="profile-info-row">
         <div class="profile-info-name td"> 现任干部</div>
         <div class="profile-info-value td">
-            <span class="editable"><t:cpc_cadres_m cadrePosts="${bean.vices}"/></span>
+            <span class="editable"><t:cpc_cadres_m cadrePosts="${bean.vices}"  backTo="${cm:encodeURI(backTo)}"/></span>
         </div>
     </div>
     <div class="profile-info-row">
@@ -105,7 +105,7 @@
         <div class="profile-info-name td"> 现任干部</div>
         <div class="profile-info-value td">
             <span class="editable">
-              <t:cpc_cadres_m cadrePosts="${bean.nones}"/>
+              <t:cpc_cadres_m cadrePosts="${bean.nones}" backTo="${cm:encodeURI(backTo)}"/>
             </span>
         </div>
     </div>

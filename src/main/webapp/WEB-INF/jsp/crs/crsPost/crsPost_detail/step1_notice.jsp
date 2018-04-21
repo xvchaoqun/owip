@@ -7,6 +7,7 @@
     <div class="widget-header">
         <h4 class="smaller">
             <div class="pull-right" style="margin-right: 10px">
+<shiro:hasPermission name="crsPost:edit">
                 <form action="${ctx}/crsPost_uploadNotice"
                       enctype="multipart/form-data" method="post"
                       class="btn-upload-form">
@@ -19,6 +20,7 @@
                     <input type="hidden" name="id" value="${crsPost.id}">
                     <input type="file" name="file" id="upload-file">
                 </form>
+    </shiro:hasPermission>
             </div>
         </h4>
     </div>

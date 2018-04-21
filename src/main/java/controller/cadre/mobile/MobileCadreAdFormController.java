@@ -18,7 +18,7 @@ public class MobileCadreAdFormController extends BaseController {
 	@Autowired
 	private CadreAdformService cadreAdformService;
 
-	@RequiresPermissions("m:cadre:list")
+	@RequiresPermissions("m:cadre:view")
 	@RequestMapping("/cadreAdform")
 	public String cadre(int cadreId, ModelMap modelMap) {
 

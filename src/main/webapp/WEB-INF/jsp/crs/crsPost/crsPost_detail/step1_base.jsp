@@ -8,6 +8,7 @@
         <h4 class="smaller">
             <c:if test="${not empty crsPost.requirement}">
             <div class="pull-right" style="margin-right: 10px">
+                <shiro:hasPermission name="crsPost:edit">
                 <button type="button"
                         data-load-el="#requirement-content"
                         data-url="${ctx}/crsPost_templateContent?id=${param.id}&type=${CRS_TEMPLATE_TYPE_BASE}"
@@ -15,6 +16,7 @@
                     <i class="ace-icon fa fa-edit"></i>
                     编辑
                 </button>
+                </shiro:hasPermission>
             </div>
             </c:if>
         </h4>

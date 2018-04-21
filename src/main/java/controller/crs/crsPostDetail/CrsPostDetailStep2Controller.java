@@ -25,7 +25,7 @@ public class CrsPostDetailStep2Controller extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("crsPost:edit")
+    @RequiresPermissions("crsPost:list")
     @RequestMapping("/crsPost_detail/step2_time")
     public String step2_time(int id, ModelMap modelMap) {
 

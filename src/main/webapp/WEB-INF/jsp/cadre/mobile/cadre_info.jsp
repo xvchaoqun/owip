@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="back-btn">
-  <c:if test="${param.backTo!='unit'}">
+  <c:if test="${empty param.backTo}">
     <a href="javascript:;" class="closeView"><i class="fa fa-reply"></i> 返回</a>
   </c:if>
-  <c:if test="${param.backTo=='unit'}">
+  <c:if test="${not empty param.backTo}">
     <a href="javascript:;" class="openView" data-open-by="page"
-       data-url="${ctx}/m/cadre_search_byUnit?unitId=${param.unitId}"><i class="fa fa-reply"></i> 返回</a>
+       data-url="${param.backTo}"><i class="fa fa-reply"></i> 返回</a>
   </c:if>
 </div>
 <div class="tabbable" style="margin-bottom: 10px;">
@@ -188,8 +188,7 @@
           <div class="profile-info-name"> 干部任免审批表</div>
           <div class="profile-info-value center">
             <c:if test="${not empty cadre}">
-            <button class="openView btn btn-success btn-sm" data-open-by="page" data-callback="_preview"
-                    data-url="${ctx}/m/cadreAdform?mobile=1&cadreId=${param.cadreId}"><i class="fa fa-search"></i> 查看</button>
+            <button class="popView btn btn-success btn-sm" data-url="${ctx}/m/cadreAdform?mobile=1&cadreId=${param.cadreId}"><i class="fa fa-search"></i> 查看</button>
             <div style="width: 30px;display: inline-block">&nbsp;</div>
             <a class="btn btn-primary btn-sm" href="${ctx}/m/cadreAdform_download?cadreId=${param.cadreId}">
               <i class="ace-icon fa fa-download"></i>
@@ -473,18 +472,4 @@
     </div>
   </div>
 </div>
-<script>$.adjustLeftFloatDivHeight($(".profile-info-name.td"));
-function _preview(){
-  //console.log($("#preview table").width())
-  //console.log(window.screen.availWidth)
-
-  var r = (window.screen.availWidth-40) / $("#preview table").width();
-  $("#preview").css("-webkit-transform","scale(" + r + ")")
-          .css("transform-origin","left top");
-  //console.log($("#body-content-view").height())
-  //console.log($("#preview").height())
-  //console.log($("#preview").height()*(1-r))
-  $("#preview").css("margin-bottom", -1*$("#preview").height()*(1-r) + "px");
-  $("#btn-scroll-up").click();
-}
-</script>
+<script>$.adjustLeftFloatDivHeight($(".profile-info-name.td"));</script>

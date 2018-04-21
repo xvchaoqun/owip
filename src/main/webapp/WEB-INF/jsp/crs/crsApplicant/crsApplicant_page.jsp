@@ -5,8 +5,8 @@
 <c:set var="_query"
        value="${not empty param.userId ||not empty param.enrollTime || not empty param.code || not empty param.sort}"/>
 <div class="jqgrid-vertical-offset buttons">
-    <c:if test="${param.cls==1}">
     <shiro:hasPermission name="crsApplicant:edit">
+    <c:if test="${param.cls==1}">
         <a class="popupBtn btn btn-primary btn-sm" data-width="700"
            data-url="${ctx}/crsApplicant_au?postId=${param.postId}"><i class="fa fa-plus"></i> 添加</a>
         <%--  <a class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -14,7 +14,6 @@
              data-grid-id="#jqGrid2"
              data-querystr="&postId=${param.postId}"><i class="fa fa-edit"></i>
               修改</a>--%>
-    </shiro:hasPermission>
     </c:if>
     <a href="javascript:void(0)" class="jqOpenViewBtn btn btn-success btn-sm"
        data-open-by="page"
@@ -74,6 +73,7 @@
             <i class="fa fa-reply"></i> 重新报名
         </button>
     </c:if>
+    </shiro:hasPermission>
     <button class="jqOpenViewBtn btn btn-info btn-sm"
             data-grid-id="#jqGrid2"
             data-url="${ctx}/sysApprovalLog"

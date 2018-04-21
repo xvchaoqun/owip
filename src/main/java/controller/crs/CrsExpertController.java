@@ -75,7 +75,7 @@ public class CrsExpertController extends CrsBaseController {
     }
 
     // 批量添加专家
-    @RequiresPermissions("crsExpert:list")
+    @RequiresPermissions("crsExpert:edit")
     @RequestMapping("/crsExpert/selectCadres")
     public String selectCadres() throws IOException {
 
@@ -83,7 +83,7 @@ public class CrsExpertController extends CrsBaseController {
     }
 
     // 批量添加专家
-    @RequiresPermissions("crsExpert:list")
+    @RequiresPermissions("crsExpert:edit")
     @RequestMapping(value = "/crsExpert/selectCadres", method = RequestMethod.POST)
     @ResponseBody
     public Map do_select_posts(@RequestParam(value = "userIds[]", required = false) Integer[] userIds) {
