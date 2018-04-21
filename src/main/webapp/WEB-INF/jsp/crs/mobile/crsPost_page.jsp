@@ -61,7 +61,7 @@
                                     <span class="text">
                                         分管工作：${empty crsPost.job?'--':crsPost.job}
                                     </span>
-                                    <a class="btn btn-warning btn-xs pull-right">详情</a>
+                                    <a class="btn btn-success btn-xs pull-right">详情</a>
                                 </span>
                                 </div>
                             </c:forEach>
