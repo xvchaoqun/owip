@@ -515,11 +515,12 @@ td.bolder{font-weight: bolder}
       //console.log(window.screen.availWidth)
       var r = (window.screen.availWidth-20) / $("#preview table").width();
       $("#preview").css("-webkit-transform","scale(" + r + ")")
-              .css("transform-origin","left top");
+              .css("transform-origin","left top").css("padding", "20px");
       //console.log($("#body-content-view").height())
       //console.log($("#preview").height())
       $("#preview").css("margin-bottom", -1*$("#preview").height()*(1-r) + "px");
       //$("#btn-scroll-up").click();
+      $(".modal-dialog").css("margin", "0")
     }, 400);
 
   </script>
