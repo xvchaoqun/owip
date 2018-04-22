@@ -300,3 +300,34 @@ body.mob-safari .navbar-fixed-top+.main-container .sidebar.responsive {
 .isCpc, .isCpc a {
     color: green;
 }
+
+/**modal direction**/
+.modal.fade:not(.in).left .modal-dialog {
+    -webkit-transform: translate3d(-25%, 0, 0);
+    transform: translate3d(-25%, 0, 0);
+}
+.modal.fade:not(.in).right .modal-dialog {
+    -webkit-transform: translate3d(25%, 0, 0);
+    transform: translate3d(25%, 0, 0);
+}
+.modal.fade:not(.in).bottom .modal-dialog {
+    -webkit-transform: translate3d(0, 25%, 0);
+    transform: translate3d(0, 25%, 0);
+}
+/* Alternative Angles */
+.modal.fade:not(.in).top-left .modal-dialog {
+    -webkit-transform: translate3d(-25%, -25%, 0);
+    transform: translate3d(-25%, -25%, 0);
+}
+.modal.fade:not(.in).top-right .modal-dialog {
+    -webkit-transform: translate3d(25%, -25%, 0);
+    transform: translate3d(25%, -25%, 0);
+}
+.modal.fade:not(.in).bottom-left .modal-dialog {
+    -webkit-transform: translate3d(-25%, 25%, 0);
+    transform: translate3d(-25%, 25%, 0);
+}
+.modal.fade:not(.in).bottom-right .modal-dialog {
+    -webkit-transform: translate3d(25%, 25%, 0);
+    transform: translate3d(25%, 25%, 0);
+}

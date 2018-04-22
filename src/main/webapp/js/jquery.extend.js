@@ -365,7 +365,7 @@ var _modal_width;
             // other browser
             return false;
         },
-        loadModal: function (url, width, dragTarget) { // 加载url内容，dragTarget：拖拽位置
+        loadModal: function (url, width, direction, dragTarget) { // 加载url内容，dragTarget：拖拽位置
             //$("#modal").modal('hide');
             //console.log("width="+width + " _modal_width=" + _modal_width);
             if (width > 0) {
@@ -376,7 +376,9 @@ var _modal_width;
                 _modal_width = undefined;
             }
             dragTarget = dragTarget || ".modal-header";
-
+            if(direction){
+                $("#modal").addClass(direction);
+            }
             $('#modal .modal-content').load(url, function (data) {
                 if (!data.startWith("{")) $("#modal").modal('show').draggable({handle: dragTarget});
             });

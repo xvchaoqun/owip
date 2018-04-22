@@ -59,23 +59,6 @@ $.ajaxSetup({
     }
 });
 
-
-/*var _width;
-function loadModal(url, width, dragTarget) { // dragTarget：拖拽位置
-    if (width > 0) {
-        _width = width;
-        $('#modal .modal-dialog').addClass("width" + width);
-    } else {
-        $('#modal .modal-dialog').removeClass("width" + _width);
-    }
-    dragTarget = dragTarget || ".modal-header";
-
-    $('#modal .modal-content').load(url, function (data) {
-        if (!data.startWith("{")) $("#modal").modal('show');
-    });
-}*/
-
-
 $.register.m_click(".hashchange", function () {
     location.href = $(this).data("url");
 })
@@ -85,7 +68,7 @@ $.register.m_click(".ahref", function () {
 })
 $.register.m_click(".popView", function () {
     var url = $(this).data("url");
-    $.loadModal(url, $(this).data("width"));
+    $.loadModal(url, $(this).data("width"), $(this).data("direction"));
 })
 
 // 内页展示
@@ -94,18 +77,6 @@ $.register.m_click(".openView", function () {
     var openBy = $this.data("open-by");
     var url = $this.data("url");
     if (openBy == 'page') {
-        /*var $container = $("#body-content");
-        $container.showLoading({
-            'afterShow': function () {
-                setTimeout(function () {
-                    $container.hideLoading();
-                }, 2000);
-            }
-        })
-        $.get(url, {}, function (html) {
-            $container.hideLoading().hide();
-            $("#body-content-view").hide().html(html).fadeIn("slow");
-        })*/
         var callback = $this.data("callback");
         if(callback!='') callback=eval(callback)
         $.loadView({url:url, callback:callback});
@@ -117,30 +88,11 @@ $.register.m_click(".openView", function () {
 $.register.m_click("#body-content-view .closeView", function () {
     //var $this = $(this);
     $("#body-content-view").fadeOut("fast", function () {
-
-        /*if ($this.hasClass("reload")) {
-            page_reload(function () {
-                $("#body-content").show()
-            });
-        } else {
-            $("#body-content").show(0, function () {
-                $(window).resize(); // 解决jqgrid不显示的问题
-            });
-        }*/
         $("#body-content").show();
     });
 });
 
 // 左div float时，保证左div高度不小于右div高度
-/*function _adjustHeight(){
-    $.each($(".profile-info-name"), function(i, e){
-        var _h = $(this).height();
-        var h = $(e).closest(".profile-info-row").find(".profile-info-value").height();
-        if(h>_h) {
-            $(this).height(h).css("line-height", h + "px");
-        }
-    });
-}*/
 $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
     $.adjustLeftFloatDivHeight($(".profile-info-name.td"))
 });
