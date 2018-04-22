@@ -29,6 +29,7 @@
   var $select = $.register.ajax_select($('select[name=unitId]'),{allowClear: false});
   $select.on("change",function(){
     $("#result").load("${ctx}/m/unit_cadre_info?unitId="+ $(this).val());
+    $("#btn-scroll-up").click();
     $('#ace-settings-box').toggleClass('open');
   })
 </script>

@@ -3,12 +3,12 @@ package controller.crs.mobile;
 import controller.crs.CrsBaseController;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsApplicantViewExample;
+import domain.crs.CrsPost;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import sys.constants.CrsConstants;
 import sys.tool.paging.CommonList;
 
@@ -24,14 +24,23 @@ public class MobileCrsApplicantController extends CrsBaseController {
 	@RequiresPermissions("m:crsPost:*")
 	@RequestMapping("/crsApplicant_page")
 	public String crsApplicant_page(HttpServletResponse response,
-									@RequestParam(required = false, defaultValue = "1") int cls,
+									Integer cls,
 									int postId, Integer pageSize,
 							   Integer pageNo, HttpServletRequest request, ModelMap modelMap) throws IOException {
 
+		CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
+		modelMap.put("crsPost", crsPost);
+		if(cls==null) {
+			if (crsPost.getAutoSwitch() && crsPost.getSwitchStatus() == CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED) {
+				cls = 2;
+			}else{
+				cls = 1;
+			}
+		}
 		modelMap.put("cls", cls);
 
 		if (null == pageSize) {
-			pageSize = springProps.mPageSize;
+			pageSize = 8;
 		}
 		if (null == pageNo) {
 			pageNo = 1;

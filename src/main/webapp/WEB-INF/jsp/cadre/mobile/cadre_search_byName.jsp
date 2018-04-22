@@ -28,6 +28,7 @@
     templateSelection: $.register.formatState});
   $select.on("change",function(){
     $("#result").load("${ctx}/m/cadre_info?cadreId="+ $(this).val());
+    $("#btn-scroll-up").click();
     $('#ace-settings-box').toggleClass('open');
   })
 </script>

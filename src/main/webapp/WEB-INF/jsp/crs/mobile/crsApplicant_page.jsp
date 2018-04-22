@@ -3,6 +3,10 @@
 <div class="back-btn">
     <a href="javascript:;" class="closeView"><i class="fa fa-reply"></i> 返回</a>
 </div>
+<div class="alert alert-block alert-success" style="margin-bottom: 5px; padding: 5px 15px;">
+    <i class="ace-icon fa fa-info-circle green"></i> ${crsPost.name}
+    <c:if test="${not empty crsPost.job}">(${crsPost.job})</c:if>
+</div>
 <div class="tabbable">
     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4">
         <li class="<c:if test="${cls==1}">active</c:if>">
@@ -99,9 +103,6 @@
             <div class="message-footer clearfix">
                 <wo:page commonList="${commonList}" uri="${ctx}/m/crs/crsApplicant_page" target="#body-content-view"
                          model="4"/>
-            </div>
-            <div class="alert alert-block alert-success" style="margin-top: 40px;">
-                <i class="ace-icon fa fa-info-circle green"></i> 提示：打开手机的屏幕旋转，横屏后效果更佳
             </div>
         </div>
     </div>

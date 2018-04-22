@@ -61,6 +61,10 @@ body{
 .ace-nav > li.light-blue > a {
     background-color: #337ab7;
 }
+
+body.mob-safari .navbar-fixed-top+.main-container .sidebar.responsive {
+    top: 45px;
+}
 /**modal**/
 .modal .modal-footer{
     text-align: center!important;
@@ -251,14 +255,15 @@ body{
 }
 
 .ace-settings-container{
-    top:20px;
+    position: fixed;
+    top:150px;
 }
 
 .back-btn{
-    position: fixed;
-    top: 40px;
+    position: absolute;
+    top: -38px;
     right: 0px;
-    padding: 15px;
+    padding-right: 15px;
 }
 /***detail **/
 .profile-info-name{

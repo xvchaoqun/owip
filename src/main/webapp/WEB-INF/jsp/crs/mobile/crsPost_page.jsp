@@ -20,7 +20,7 @@
                     <div class="message-list-container">
                         <div class="message-list">
                             <c:if test="${fn:length(crsPosts)==0}">
-                                <div class="none">目前没有${status==0?'正在招聘':'完成招聘'}记录</div>
+                                <div class="none">目前没有${status==1?'正在招聘':'完成招聘'}记录</div>
                             </c:if>
                             <c:forEach items="${crsPosts}" var="crsPost">
                                 <%--<c:set var="cadre" value="${cm:getCadreById(crsPost.cadreId)}"/>
@@ -31,7 +31,6 @@
                                     <span class="sender sigle-span">${crsPost.name}</span>
                                 <span class="summary">
                                     <span class="text sigle-span">
-
                                          <c:choose>
                                             <c:when test="${crsPost.autoSwitch}">
                                                 <c:choose>
@@ -42,7 +41,7 @@
                                                         正在报名(${crsPost.applicantCount})
                                                     </c:when>
                                                     <c:otherwise>
-                                                        报名结束
+                                                        <span class="text-danger">报名结束(${crsPost.applicantCount})</span>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </c:when>

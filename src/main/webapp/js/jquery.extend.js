@@ -737,6 +737,7 @@ var _modal_width;
                 $hide.hide();
                 $show.hide().fadeIn("slow").html(html);
                 if (typeof callback == 'function') callback();
+                $("#btn-scroll-up").click();// 移动端
                 if(typeof NProgress!= 'undefined') NProgress.done();
             })
         },
