@@ -57,7 +57,8 @@ public class CommonController extends BaseController {
     // 根据账号或姓名或学工号选择用户
     @RequestMapping("/sysUser_selects")
     @ResponseBody
-    public Map sysUser_selects(@RequestParam(required = false, value = "type") Byte[] type, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+    public Map sysUser_selects(@RequestParam(required = false, value = "type") Byte[] type,
+                               Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -70,9 +71,9 @@ public class CommonController extends BaseController {
         SysUserViewExample example = new SysUserViewExample();
         example.setOrderByClause("create_time desc");
         if (StringUtils.isNotBlank(searchStr)) {
-            SysUserViewExample.Criteria criteria = example.or().andUsernameLike("%" + searchStr + "%");
-            SysUserViewExample.Criteria criteria1 = example.or().andCodeLike("%" + searchStr + "%");
-            SysUserViewExample.Criteria criteria2 = example.or().andRealnameLike("%" + searchStr + "%");
+            SysUserViewExample.Criteria criteria = example.or().andUsernameLike(searchStr + "%");
+            SysUserViewExample.Criteria criteria1 = example.or().andCodeLike(searchStr + "%");
+            SysUserViewExample.Criteria criteria2 = example.or().andRealnameLike(searchStr + "%");
             if (type != null && type.length > 0) {
                 criteria.andTypeIn(Arrays.asList(type));
                 criteria1.andTypeIn(Arrays.asList(type));
@@ -154,7 +155,7 @@ public class CommonController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = "%" + searchStr + "%";
+        if (searchStr != null) searchStr = searchStr + "%";
 
         Set<Byte> cadreStatusSet = new HashSet<>();
         if (status != null) {
@@ -231,7 +232,7 @@ public class CommonController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = "%" + searchStr + "%";
+        if (searchStr != null) searchStr = searchStr + "%";
 
         int count = iCadreMapper.countNotCadre(searchStr, CadreConstants.CADRE_STATUS_SET,
                 sysUserService.buildRoleIds(RoleConstants.ROLE_REG));
@@ -295,7 +296,7 @@ public class CommonController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = "%" + searchStr + "%";
+        if (searchStr != null) searchStr = searchStr + "%";
 
         int count = iCadreMapper.countCadreList(searchStr, CadreConstants.CADRE_STATUS_SET, null);
         if ((pageNo - 1) * pageSize >= count) {
@@ -365,9 +366,9 @@ public class CommonController extends BaseController {
         CadreReserveViewExample example = new CadreReserveViewExample();
         example.setOrderByClause("reserve_sort_order desc");
         if (StringUtils.isNotBlank(searchStr)) {
-            CadreReserveViewExample.Criteria criteria1 = example.or().andUsernameLike("%" + searchStr + "%");
-            CadreReserveViewExample.Criteria criteria2 = example.or().andCodeLike("%" + searchStr + "%");
-            CadreReserveViewExample.Criteria criteria3 = example.or().andRealnameLike("%" + searchStr + "%");
+            CadreReserveViewExample.Criteria criteria1 = example.or().andUsernameLike( searchStr + "%");
+            CadreReserveViewExample.Criteria criteria2 = example.or().andCodeLike(searchStr + "%");
+            CadreReserveViewExample.Criteria criteria3 = example.or().andRealnameLike( searchStr + "%");
             if (reserveStatus != null) {
                 criteria1.andReserveStatusEqualTo(reserveStatus);
                 criteria2.andReserveStatusEqualTo(reserveStatus);
@@ -454,7 +455,7 @@ public class CommonController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = "%" + searchStr + "%";
+        if (searchStr != null) searchStr = searchStr + "%";
 
         boolean addPermits = false;
         List<Integer> adminPartyIdList = null;
@@ -535,7 +536,7 @@ public class CommonController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = "%" + searchStr + "%";
+        if (searchStr != null) searchStr = searchStr + "%";
 
         Subject subject = SecurityUtils.getSubject();
         boolean addPermits = !(subject.hasRole(RoleConstants.ROLE_ADMIN)
@@ -606,7 +607,7 @@ public class CommonController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = "%" + searchStr + "%";
+        if (searchStr != null) searchStr = searchStr + "%";
 
         int count = iMemberMapper.countNotMemberList(searchStr, sysUserService.buildRoleIds(RoleConstants.ROLE_REG));
         if ((pageNo - 1) * pageSize >= count) {
