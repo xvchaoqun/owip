@@ -28,12 +28,25 @@ public class MobileCrsApplicantController extends CrsBaseController {
 									int postId, Integer pageSize,
 							   Integer pageNo, HttpServletRequest request, ModelMap modelMap) throws IOException {
 
+		int[] groupCount = crsPostService.groupCount(postId);
+		modelMap.put("count", groupCount);
+
 		CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
 		modelMap.put("crsPost", crsPost);
+
 		if(cls==null) {
-			if (crsPost.getAutoSwitch() && crsPost.getSwitchStatus() == CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED) {
+			/*if (crsPost.getAutoSwitch() && crsPost.getSwitchStatus() == CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED) {
 				cls = 2;
 			}else{
+				cls = 1;
+			}*/
+			for(int i=1; i<=4; i++){
+				if(groupCount[i]>0){
+					cls = i;
+					break;
+				}
+			}
+			if(cls==null){
 				cls = 1;
 			}
 		}
@@ -83,8 +96,6 @@ public class MobileCrsApplicantController extends CrsBaseController {
 		String searchStr = "&postId="+postId+"&cls=" + cls;
 		commonList.setSearchStr(searchStr);
 		modelMap.put("commonList", commonList);
-
-		modelMap.put("count", crsPostService.goupCount(postId));
 
 		return "crs/mobile/crsApplicant_page";
 	}

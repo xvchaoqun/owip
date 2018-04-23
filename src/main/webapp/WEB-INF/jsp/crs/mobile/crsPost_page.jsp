@@ -49,7 +49,7 @@
                                                 正在报名(${crsPost.applicantCount})
                                             </c:when>
                                             <c:otherwise>
-                                               ${CRS_POST_ENROLL_STATUS_MAP.get(crsPost.enrollStatus)}
+                                               ${CRS_POST_ENROLL_STATUS_MAP.get(crsPost.enrollStatus)}(${crsPost.applicantCount})
                                             </c:otherwise>
                                          </c:choose>
                                         (${cm:formatDate(crsPost.endTime, "yyyy-MM-dd HH:mm")} 截止报名)

@@ -3,6 +3,7 @@ package controller.crs.crsPostDetail;
 import controller.crs.CrsBaseController;
 import domain.base.ContentTpl;
 import domain.crs.CrsApplicantView;
+import domain.crs.CrsApplicantViewExample;
 import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
 import domain.crs.CrsShortMsg;
@@ -52,6 +53,15 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(id);
         modelMap.put("crsPost", crsPost);
+
+        CrsApplicantViewExample example = new CrsApplicantViewExample();
+        CrsApplicantViewExample.Criteria criteria = example.createCriteria()
+                .andPostIdEqualTo(id)
+                .andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
+        example.setOrderByClause("enroll_time asc");
+        criteria.andIsRequireCheckPassEqualTo(true).andIsQuitEqualTo(false);
+        List<CrsApplicantView> crsApplicants = crsApplicantViewMapper.selectByExample(example);
+        modelMap.put("crsApplicants", crsApplicants);
 
         return "crs/crsPost/crsPost_detail/step3_material";
     }

@@ -31,7 +31,7 @@ import java.util.Map;
 @Service
 public class CrsPostService extends BaseMapper {
 
-    public int[] goupCount(int postId){
+    public int[] groupCount(int postId){
 
         int[] count = new int[]{-1, 0,0,0,0};
         List<Map> sta = iCrsMapper.applicantStatic(postId, CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);

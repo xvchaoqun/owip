@@ -93,8 +93,12 @@ public class CrsApplicantService extends BaseMapper {
         if(crsPost==null ||crsPost.getStatus() ==CrsConstants.CRS_POST_STATUS_FINISH){
             throw new OpException("岗位{0}应聘已经结束。", crsPost==null?"":crsPost.getName());
         }
-        if(crsPost.getSwitchStatus() != CrsConstants.CRS_POST_ENROLL_STATUS_OPEN){
-            throw new OpException("岗位{0}应聘还未开始。", crsPost==null?"":crsPost.getName());
+        byte switchStatus = crsPost.getSwitchStatus();
+        if( switchStatus != CrsConstants.CRS_POST_ENROLL_STATUS_OPEN){
+            if(switchStatus == CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED)
+                throw new OpException("岗位{0}应聘报名已结束。", crsPost==null?"":crsPost.getName());
+            else
+                throw new OpException("岗位{0}应聘还未开始。", crsPost==null?"":crsPost.getName());
         }
 
         Date meetingTime = crsPost.getMeetingTime();

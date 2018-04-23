@@ -6,7 +6,7 @@
        value="${not empty param.userId ||not empty param.enrollTime || not empty param.code || not empty param.sort}"/>
 <div class="jqgrid-vertical-offset buttons">
     <shiro:hasPermission name="crsApplicant:edit">
-    <c:if test="${param.cls==1}">
+    <c:if test="${cls==1}">
         <a class="popupBtn btn btn-primary btn-sm" data-width="700"
            data-url="${ctx}/crsApplicant_au?postId=${param.postId}"><i class="fa fa-plus"></i> 添加</a>
         <%--  <a class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -19,10 +19,10 @@
        data-open-by="page"
        data-load-el="#step-body-content-view"
        data-grid-id="#jqGrid2"
-       data-querystr="&cls=${param.cls}"
+       data-querystr="&cls=${cls}"
        data-url="${ctx}/crsApplicant_recommend"><i class="fa fa-thumbs-o-up"></i> 推荐/自荐</a>
 
-    <c:if test="${param.cls==2}">
+    <c:if test="${cls==2}">
         <button id="unSpecialBtn" class="jqItemBtn btn btn-warning btn-sm"
                 data-title="取消破格"
                 data-msg="确定取消破格？"
@@ -32,15 +32,15 @@
                 data-url="${ctx}/crsApplicant_special"><i class="fa fa-star-o"></i> 取消破格
         </button>
     </c:if>
-    <c:if test="${param.cls==3}">
+    <c:if test="${cls==3}">
         <a href="javascript:void(0)" class="jqOpenViewBtn btn btn-warning btn-sm"
            data-open-by="page"
            data-load-el="#step-body-content-view"
            data-grid-id="#jqGrid2"
-           data-querystr="&cls=${param.cls}"
+           data-querystr="&cls=${cls}"
            data-url="${ctx}/crsApplicant_special"><i class="fa fa-star"></i> 破格</a>
     </c:if>
-    <c:if test="${param.cls==2 || param.cls==3}">
+    <c:if test="${cls==2 || cls==3}">
         <button id="unSpecialBtn" class="jqItemBtn btn btn-primary btn-sm"
                 data-title="重新审核"
                 data-msg="确定重新审核？"
@@ -49,7 +49,7 @@
                 data-url="${ctx}/crsApplicant_requireCheck_back"><i class="fa fa-reply"></i> 重新审核
         </button>
     </c:if>
-    <c:if test="${param.cls!=4}">
+    <c:if test="${cls!=4}">
         <button data-url="${ctx}/user/crsPost_quit"
                 data-title="退出"
                 data-msg="确定退出竞聘？"
@@ -61,7 +61,7 @@
             <i class="fa fa-minus-circle"></i> 退出
         </button>
     </c:if>
-    <c:if test="${param.cls==4}">
+    <c:if test="${cls==4}">
         <button data-url="${ctx}/user/crsPost_reApply"
                 data-title="重新报名"
                 data-msg="确定重新报名？"
@@ -81,7 +81,7 @@
             data-querystr="&displayType=1&type=${SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT}">
         <i class="fa fa-history"></i> 操作记录
     </button>
-<c:if test="${param.cls==2 || param.cls==3}">
+<c:if test="${cls==2 || cls==3}">
     <div class="btn-group">
         <button data-toggle="dropdown" class="btn btn-success btn-sm dropdown-toggle">
             <i class="fa fa-download"></i> 导出  <span class="caret"></span>
@@ -90,7 +90,7 @@
             <li>
                 <a href="javascript:;" class="jqLinkBtn"
                    data-need-id="false" data-grid-id="#jqGrid2"
-                   data-url="${ctx}/crsApplicant_data" data-querystr="cls=${param.cls}&postId=${param.postId}&export=1">
+                   data-url="${ctx}/crsApplicant_data" data-querystr="cls=${cls}&postId=${param.postId}&export=1">
                     <i class="fa fa-file-excel-o"></i> 报名汇总表</a>
             </li>
             <li>
@@ -145,12 +145,12 @@
                     <a class="jqSearchBtn btn btn-default btn-sm"
                        data-target="#step-body-content-view"
                        data-form="#searchForm2"
-                       data-url="${ctx}/crsApplicant?postId=${param.postId}&cls=${param.cls}"><i class="fa fa-search"></i> 查找</a>
+                       data-url="${ctx}/crsApplicant?postId=${param.postId}&cls=${cls}"><i class="fa fa-search"></i> 查找</a>
 
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="resetBtn btn btn-warning btn-sm"
                                 data-target="#step-body-content-view"
-                                data-url="${ctx}/crsApplicant?postId=${param.postId}&cls=${param.cls}">
+                                data-url="${ctx}/crsApplicant?postId=${param.postId}&cls=${cls}">
                             <i class="fa fa-reply"></i> 重置
                         </button>
                     </c:if>
@@ -173,7 +173,7 @@
     $("#jqGrid2").jqGrid({
         pager: "#jqGridPager2",
         rownumbers: true,
-        url: '${ctx}/crsApplicant_data?callback=?&postId=${param.postId}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/crsApplicant_data?callback=?&cls=${cls}&postId=${param.postId}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
                 label: '报名时间', name: 'enrollTime', width: 150, formatter: 'date',
@@ -187,7 +187,7 @@
 
             }, frozen: true},
             {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 200, frozen: true},
-            <c:if test="${param.cls==1}">
+            <c:if test="${cls==1}">
             {label: '信息审核', name: 'infoCheckStatus', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==${CRS_APPLICANT_INFO_CHECK_STATUS_INIT})
                     return '<button class="popupBtn btn btn-warning btn-xs" data-url="${ctx}/crsApplicant_infoCheck?applicantId={0}"><i class="fa fa-check-circle"></i> 信息审核</button>'
@@ -272,10 +272,10 @@
                     return "个人报名";
                 }
                 return '<a href="javascript:void(0)" class="loadPage" data-load-el="#step-body-content-view" ' +
-                        'data-url="${ctx}/crsApplicant_recommend?id={0}&cls=${param.cls}">推荐/自荐</a>'.format(rowObject.id);
+                        'data-url="${ctx}/crsApplicant_recommend?id={0}&cls=${cls}">推荐/自荐</a>'.format(rowObject.id);
             }
             }
-            <c:if test="${param.cls==2}">
+            <c:if test="${cls==2}">
             , {
                 label: '通过方式',
                 name: '_isRequireCheckPass',
@@ -292,7 +292,7 @@
                 }
             }
         ]
-        <c:if test="${param.cls==2}">
+        <c:if test="${cls==2}">
         ,
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id);

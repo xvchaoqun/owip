@@ -47,9 +47,10 @@ public class CrsApplicantController extends CrsBaseController {
 
     @RequiresPermissions("crsApplicant:list")
     @RequestMapping("/crsApplicant")
-    public String crsApplicant(int postId, Integer userId, ModelMap modelMap) {
+    public String crsApplicant( @RequestParam(required = false, defaultValue = "1") int cls,
+                                int postId, Integer userId, ModelMap modelMap) {
 
-
+        modelMap.put("cls", cls);
         modelMap.put("crsPost", crsPostService.get(postId));
         if (userId != null) {
             modelMap.put("sysUser", sysUserService.findById(userId));

@@ -8,7 +8,9 @@ import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
 import mixin.MixinUtils;
 import mixin.UserCrsPostMixin;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +24,9 @@ import shiro.ShiroHelper;
 import sys.constants.CrsConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.ContentTypeUtils;
 import sys.utils.DateUtils;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -124,15 +128,29 @@ public class UserCrsPostController extends CrsBaseController {
         return "crs/user/crsPost_apply_notice";
     }
 
-    @RequiresPermissions("userCrsPost:*")
+    //@RequiresPermissions("userCrsPost:*")
     @RequestMapping(value = "/crsPost_apply_ppt", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsPost_apply_ppt(int postId, MultipartFile ppt, HttpServletRequest request) throws IOException, InterruptedException {
+    public Map do_crsPost_apply_ppt(int postId, Integer userId, MultipartFile ppt, HttpServletRequest request) throws IOException, InterruptedException {
 
-        int userId = ShiroHelper.getCurrentUserId();
+        if(!ShiroHelper.isPermitted("crsPost:edit")){
+            // 管理员和本人可以上传
+            SecurityUtils.getSubject().checkPermission("userCrsPost:*");
+        }
+        if(userId==null){
+            userId = ShiroHelper.getCurrentUserId();
+        }
+
         CrsApplicant crsApplicant = crsApplicantService.getAvaliable(postId, userId);
         if(crsApplicant==null || ppt==null || ppt.isEmpty()){
             return failed("参数错误。");
+        }
+
+        String originalFilename = ppt.getOriginalFilename();
+        String ext = FileUtils.getExtention(originalFilename);
+        if ((!StringUtils.equalsIgnoreCase(ext, ".ppt") && !StringUtils.equalsIgnoreCase(ext, ".pptx"))
+                && !ContentTypeUtils.isFormat(ppt, "ppt")) {
+            throw new OpException("文件格式错误，请上传ppt文件");
         }
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
@@ -144,7 +162,7 @@ public class UserCrsPostController extends CrsBaseController {
                     DateUtils.formatDate(reportDeadline, "yyyy年MM月dd日 HH点"));
         }
 
-        String originalFilename = ppt.getOriginalFilename();
+        //String originalFilename = ppt.getOriginalFilename();
         String savePath = upload(ppt, "crsApplicant_ppt");
 
         CrsApplicant record = new CrsApplicant();

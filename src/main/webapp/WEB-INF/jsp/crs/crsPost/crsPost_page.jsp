@@ -191,22 +191,22 @@
             {label: '报名状态', name: 'enrollStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
                 if(rowObject.autoSwitch){
-                    var startTime = Date.parse(rowObject.startTime);
-                    var endTime = Date.parse(rowObject.endTime);
-                    var nowTime = new Date().getTime();
+                    var nowTime = $.date(new Date(), 'yyyy-MM-dd hh:mm');
+                    var startTime = $.date(rowObject.startTime, 'yyyy-MM-dd hh:mm');
+                    var endTime = $.date(rowObject.endTime, 'yyyy-MM-dd hh:mm');
                     //console.log(startTime + " " + endTime + " "  +new Date().getTime())
                     if(startTime > nowTime){
                         return '未开启报名';
                     }else if(endTime >= nowTime){
                         return '正在报名({0})'.format(rowObject.applicantCount)
                     }else{
-                        return '报名结束'
+                        return '报名结束({0})'.format(rowObject.applicantCount)
                     }
                 }
                 if(cellvalue==${CRS_POST_ENROLL_STATUS_OPEN}){
                     return '正在报名({0})'.format(rowObject.applicantCount)
                 }
-                return _cMap.CRS_POST_ENROLL_STATUS_MAP[cellvalue];
+                return _cMap.CRS_POST_ENROLL_STATUS_MAP[cellvalue] + '({0})'.format(rowObject.applicantCount);
             }},
             {label: '报名截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'

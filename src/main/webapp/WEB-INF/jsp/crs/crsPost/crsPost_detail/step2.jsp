@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-    <li class="active">
+    <li class="${cls==1?'active':''}">
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
            data-url='${ctx}/crsApplicant?postId=${param.id}&cls=1'><i
@@ -10,7 +10,7 @@
                 <span class="badge badge-primary">${count[1]}</span>
         </a>
     </li>
-    <li>
+    <li class="${cls==2?'active':''}">
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
            data-url='${ctx}/crsApplicant?postId=${param.id}&cls=2'><i
@@ -18,7 +18,7 @@
             <span class="badge badge-primary">${count[2]}</span>
         </a>
     </li>
-    <li>
+    <li class="${cls==3?'active':''}">
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
            data-url='${ctx}/crsApplicant?postId=${param.id}&cls=3'><i
@@ -26,7 +26,7 @@
             <span class="badge badge-primary">${count[3]}</span>
         </a>
     </li>
-    <li>
+    <li class="${cls==4?'active':''}">
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
            data-url='${ctx}/crsApplicant?postId=${param.id}&cls=4'><i
@@ -36,6 +36,6 @@
     </li>
 </ul>
 <div class="col-xs-12" id="step-body-content-view">
-    <c:import url="${ctx}/crsApplicant?postId=${param.id}&cls=1"/>
+    <c:import url="${ctx}/crsApplicant?postId=${param.id}&cls=${cls}"/>
 </div>
 <div style="clear: both"></div>

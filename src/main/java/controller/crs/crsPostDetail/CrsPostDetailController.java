@@ -25,7 +25,17 @@ public class CrsPostDetailController extends CrsBaseController {
         }
 
         if(step==2){
-            modelMap.put("count", crsPostService.goupCount(id));
+
+            int[] groupCount = crsPostService.groupCount(id);
+            modelMap.put("count", groupCount);
+            int cls = 1;
+            for(int i=1; i<=4; i++){
+                if(groupCount[i]>0){
+                    cls = i;
+                    break;
+                }
+            }
+            modelMap.put("cls", cls);
         }
 
         return "crs/crsPost/crsPost_detail/step" + step;
