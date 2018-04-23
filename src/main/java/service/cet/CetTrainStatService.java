@@ -1,6 +1,6 @@
 package service.cet;
 
-import bean.analysis.StatTrainBean;
+import persistence.cet.common.StatTrainBean;
 import domain.cet.CetCourse;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;

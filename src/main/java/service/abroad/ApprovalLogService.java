@@ -1,6 +1,6 @@
 package service.abroad;
 
-import bean.ApprovalResult;
+import persistence.abroad.common.ApprovalResult;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApprovalLog;
 import domain.abroad.ApprovalLogExample;

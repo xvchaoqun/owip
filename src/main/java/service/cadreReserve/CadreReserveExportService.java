@@ -1,6 +1,6 @@
 package service.cadreReserve;
 
-import bean.DispatchCadreRelateBean;
+import persistence.dispatch.common.DispatchCadreRelateBean;
 import domain.base.MetaType;
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadrePost;

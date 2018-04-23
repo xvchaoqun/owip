@@ -11,6 +11,7 @@
         <!--<springsecurity.version>3.1.0.RELEASE</springsecurity.version>-->
         <spring.version>4.3.8.RELEASE</spring.version>
         <shiro.version>1.4.0</shiro.version>
+        <lucene.version>7.3.0</lucene.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <generator.mybatis.modal>pmd</generator.mybatis.modal>
@@ -441,6 +442,33 @@
             <artifactId>wsdl4j</artifactId>
             <version>1.5.3</version>
         </dependency>
+
+       <!-- <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-highlighter</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-memory</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers-smartcn</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>-->
+
         <!-- iReport JasperReports -->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>

@@ -1,8 +1,8 @@
 package service.analysis;
 
-import bean.analysis.MemberStatByPartyBean;
-import bean.analysis.StatByteBean;
-import bean.analysis.StatIntBean;
+import persistence.member.common.MemberStatByPartyBean;
+import bean.StatByteBean;
+import bean.StatIntBean;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import sys.constants.MemberConstants;

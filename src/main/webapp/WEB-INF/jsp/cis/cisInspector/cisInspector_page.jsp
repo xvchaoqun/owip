@@ -82,7 +82,7 @@
                                     <form class="form-inline search-form" id="searchForm">
                                         <div class="form-group">
                                             <label>考察组成员</label>
-                                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?type=${USER_TYPE_JZG}" data-width="350"
+                                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}" data-width="350"
                                                     name="userId" data-placeholder="请输入账号或姓名或工号">
                                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                             </select>

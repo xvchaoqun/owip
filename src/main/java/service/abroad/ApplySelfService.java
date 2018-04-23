@@ -1,9 +1,9 @@
 package service.abroad;
 
-import bean.ApplySelfSearchBean;
-import bean.ApprovalResult;
-import bean.ApprovalTdBean;
-import bean.ApproverTypeBean;
+import persistence.abroad.common.ApplySelfSearchBean;
+import persistence.abroad.common.ApprovalResult;
+import persistence.abroad.common.ApprovalTdBean;
+import persistence.abroad.common.ApproverTypeBean;
 import bean.ShortMsgBean;
 import controller.global.OpException;
 import domain.abroad.ApplicatCadre;

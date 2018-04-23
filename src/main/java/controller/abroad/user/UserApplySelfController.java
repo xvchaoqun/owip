@@ -1,6 +1,6 @@
 package controller.abroad.user;
 
-import bean.ApprovalResult;
+import persistence.abroad.common.ApprovalResult;
 import controller.abroad.AbroadBaseController;
 import controller.global.OpException;
 import domain.abroad.ApplySelf;

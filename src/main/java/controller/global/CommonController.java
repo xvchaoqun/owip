@@ -12,7 +12,6 @@ import domain.ext.ExtYjs;
 import domain.member.Member;
 import domain.member.MemberInflow;
 import domain.sys.SysUserView;
-import domain.sys.SysUserViewExample;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -43,21 +42,10 @@ import java.util.Set;
 @Controller
 public class CommonController extends BaseController {
 
-/*    public static void main(String[] args) throws IllegalAccessException {
-
-        Field[] fields = SystemConstants.class.getFields();
-        for (Field field : fields) {
-            if(StringUtils.equals(field.getType().getName(), "java.util.Map")){
-
-                System.out.println(field.getName() + ":"+ field.get(null));
-            }
-        }
-    }*/
-
     // 根据账号或姓名或学工号选择用户
     @RequestMapping("/sysUser_selects")
     @ResponseBody
-    public Map sysUser_selects(@RequestParam(required = false, value = "type") Byte[] type,
+    public Map sysUser_selects(@RequestParam(required = false, value = "types") Byte[] types,
                                Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -68,27 +56,13 @@ public class CommonController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        SysUserViewExample example = new SysUserViewExample();
-        example.setOrderByClause("create_time desc");
-        if (StringUtils.isNotBlank(searchStr)) {
-            SysUserViewExample.Criteria criteria = example.or().andUsernameLike(searchStr + "%");
-            SysUserViewExample.Criteria criteria1 = example.or().andCodeLike(searchStr + "%");
-            SysUserViewExample.Criteria criteria2 = example.or().andRealnameLike(searchStr + "%");
-            if (type != null && type.length > 0) {
-                criteria.andTypeIn(Arrays.asList(type));
-                criteria1.andTypeIn(Arrays.asList(type));
-                criteria2.andTypeIn(Arrays.asList(type));
-            }
-        } else if (type != null && type.length > 0) {
-            example.createCriteria().andTypeIn(Arrays.asList(type));
-        }
-
-        long count = sysUserViewMapper.countByExample(example);
+        searchStr = StringUtils.trimToNull(searchStr);
+        long count = iSysMapper.countUserList(searchStr, types);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<SysUserView> uvs = sysUserViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<SysUserView> uvs = iSysMapper.selectUserList(searchStr, types, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != uvs && uvs.size() > 0) {
@@ -232,9 +206,7 @@ public class CommonController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = searchStr + "%";
-
-        int count = iCadreMapper.countNotCadre(searchStr, CadreConstants.CADRE_STATUS_SET,
+        int count = iCadreMapper.countNotCadreList(searchStr, CadreConstants.CADRE_STATUS_SET,
                 sysUserService.buildRoleIds(RoleConstants.ROLE_REG));
         if ((pageNo - 1) * pageSize >= count) {
 
@@ -607,7 +579,6 @@ public class CommonController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         searchStr = StringUtils.trimToNull(searchStr);
-        if (searchStr != null) searchStr = searchStr + "%";
 
         int count = iMemberMapper.countNotMemberList(searchStr, sysUserService.buildRoleIds(RoleConstants.ROLE_REG));
         if ((pageNo - 1) * pageSize >= count) {

@@ -285,16 +285,18 @@ public class PmdExportService extends BaseMapper {
 
         startRow = 9;
         row = sheet.getRow(startRow++);
+        BigDecimal _onlineRealPay = pmdParty.getOnlineRealPay().add(pmdParty.getOnlineRealDelayPay());
         cell = row.getCell(3);
-        cell.setCellValue(pmdParty.getRealPay().toString());
+        cell.setCellValue(_onlineRealPay.toString());
         cell = row.getCell(9);
-        cell.setCellValue(pmdParty.getRealPay().toString());
+        cell.setCellValue(_onlineRealPay.toString());
 
         row = sheet.getRow(startRow++);
+        BigDecimal _cashRealPay = pmdParty.getCashRealPay().add(pmdParty.getCashRealDelayPay());
         cell = row.getCell(3);
-        cell.setCellValue(pmdParty.getRealDelayPay().toString());
+        cell.setCellValue(_cashRealPay.toString());
         cell = row.getCell(9);
-        cell.setCellValue(pmdParty.getRealDelayPay().toString());
+        cell.setCellValue(_cashRealPay.toString());
 
 
         String notPay = pmdParty.getDuePay().subtract(pmdParty.getRealPay()).toString();

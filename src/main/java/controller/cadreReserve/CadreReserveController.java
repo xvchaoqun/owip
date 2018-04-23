@@ -1,6 +1,6 @@
 package controller.cadreReserve;
 
-import bean.CadreReserveCount;
+import persistence.cadre.common.CadreReserveCount;
 import bean.XlsCadreReserve;
 import bean.XlsUpload;
 import controller.BaseController;

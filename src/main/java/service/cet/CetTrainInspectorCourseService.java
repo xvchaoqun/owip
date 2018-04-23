@@ -1,6 +1,6 @@
 package service.cet;
 
-import bean.TrainTempData;
+import persistence.cet.common.TrainTempData;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
 import com.thoughtworks.xstream.io.xml.DomDriver;

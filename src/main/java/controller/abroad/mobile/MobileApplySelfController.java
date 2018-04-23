@@ -1,7 +1,7 @@
 package controller.abroad.mobile;
 
-import bean.ApprovalResult;
-import bean.ApproverTypeBean;
+import persistence.abroad.common.ApprovalResult;
+import persistence.abroad.common.ApproverTypeBean;
 import controller.abroad.AbroadBaseController;
 import controller.global.OpException;
 import domain.abroad.ApplySelf;

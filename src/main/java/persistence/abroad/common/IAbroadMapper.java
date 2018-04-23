@@ -1,11 +1,5 @@
 package persistence.abroad.common;
 
-import bean.ApplySelfModifyBean;
-import bean.ApplySelfSearchBean;
-import bean.PassportStatByClassBean;
-import bean.PassportStatByLentBean;
-import bean.PassportStatByPostBean;
-import bean.SafeBoxBean;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApprovalOrder;
 import domain.abroad.Passport;
@@ -31,7 +25,7 @@ public interface IAbroadMapper {
     int countApprovalOrders(@Param("applicatTypeId") int applicatTypeId);
 
 
-    @ResultType(bean.ApplySelfModifyBean.class)
+    @ResultType(ApplySelfModifyBean.class)
     @Select("select modify_proof as modifyProof, modify_proof_file_name as modifyProofFileName,remark from abroad_apply_self_modify " +
             "where apply_id=#{applyId} and modify_type=" + AbroadConstants.ABROAD_APPLYSELF_MODIFY_TYPE_MODIFY)
     List<ApplySelfModifyBean> getApplySelfModifyList(@Param("applyId") Integer applyId);

@@ -10,7 +10,7 @@
         <input type="hidden" name="trainCourseId" value="${cetTrainCourse.id}">
         <div class="form-group">
             <label>姓名</label>
-            <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?type=${USER_TYPE_JZG}"
+            <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
                     name="userId" data-placeholder="请输入账号或姓名或教工号">
                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
             </select>

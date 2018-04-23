@@ -55,7 +55,7 @@
     <c:if test="${cls==1||cls==2||cls==5}">
     { label: '确认额度',name: '_confirmDuePay', formatter: function (cellvalue, options, rowObject) {
 
-        if(rowObject.monthId!=${_pmdMonth.id} || rowObject.hasPay) return '-'
+        if(rowObject.monthId!='${_pmdMonth.id}' || rowObject.hasPay) return '-'
         if(rowObject.pmdConfigMember==undefined
                 ||rowObject.pmdConfigMember.pmdConfigMemberType==undefined
                 ||rowObject.pmdConfigMember.pmdConfigMemberType.pmdNorm==undefined) return "-";

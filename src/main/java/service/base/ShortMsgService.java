@@ -1,6 +1,6 @@
 package service.base;
 
-import bean.ApprovalResult;
+import persistence.abroad.common.ApprovalResult;
 import bean.ShortMsgBean;
 import controller.global.OpException;
 import domain.abroad.ApplySelf;

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.cadre.common.StatCadreMapper">
+    <resultMap id="BaseResultMap" type="persistence.cadre.common.StatCadreBean" >
+        <result column="admin_level_code" property="adminLevelCode" jdbcType="VARCHAR" />
+        <result column="gender" property="gender" jdbcType="TINYINT" />
+        <result column="nation" property="nation" jdbcType="VARCHAR" />
+        <result column="max_ce_edu_attr" property="maxCeEduAttr" jdbcType="VARCHAR" />
+        <result column="num" property="num" jdbcType="INTEGER" />
+        <result column="num_1" property="num1" jdbcType="INTEGER" />
+        <result column="num_2" property="num2" jdbcType="INTEGER" />
+        <result column="num_3" property="num3" jdbcType="INTEGER" />
+        <result column="num_4" property="num4" jdbcType="INTEGER" />
+        <result column="num_5" property="num5" jdbcType="INTEGER" />
+        <result column="num_6" property="num6" jdbcType="INTEGER" />
+        <result column="num_7" property="num7" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="andSql">
+        <if test="unitTypeAttr!=null">
+            and unit_type_attr =#{unitTypeAttr}
+        </if>
+    </sql>
+    <!-- 总人数 -->
+    <select id="countCadre" resultType="java.lang.Integer" parameterType="map">
+        select count(*) as num from cadre_view where status=1
+        <include refid="andSql" />
+    </select>
+
+    <!-- 行政级别 -->
+    <select id="cadre_stat_adminLevel" resultMap="BaseResultMap" parameterType="map">
+       select admin_level_code, count(*) as num from cadre_view where status=1
+        <include refid="andSql" /> and admin_level_code is not null
+       group by admin_level_code
+    </select>
+    <!-- 性别 -->
+    <select id="cadre_stat_gender" resultMap="BaseResultMap" parameterType="map">
+        select gender, count(*) as num from cadre_view  where status=1
+        <include refid="andSql" />
+        and gender is not null group by gender
+    </select>
+    <!-- 行政级别-性别 -->
+    <select id="cadre_stat_adminLevel_gender" resultMap="BaseResultMap" parameterType="map">
+        select admin_level_code, gender, count(*) as num from cadre_view  where status=1
+        <include refid="andSql" />
+        and gender is not null and admin_level_code is not null group by admin_level_code, gender
+    </select>
+    <!-- 民族 -->
+    <select id="cadre_stat_nation" resultMap="BaseResultMap" parameterType="map">
+        select nation, count(*) as num from cadre_view  where status=1
+        <include refid="andSql" />
+        and nation is not null and nation!='' group by nation
+    </select>
+    <!-- 民族-行政级别 -->
+    <select id="cadre_stat_nation_adminLevel" resultMap="BaseResultMap" parameterType="map">
+        select nation, admin_level_code,  count(*) as num from cadre_view  where status=1
+        <include refid="andSql" />
+        and nation is not null and nation!='' and admin_level_code is not null group by nation, admin_level_code
+    </select>
+    <!-- 民族-性别 -->
+    <select id="cadre_stat_nation_gender" resultMap="BaseResultMap" parameterType="map">
+        select nation, gender, count(*) as num from cadre_view  where status=1
+        <include refid="andSql" />
+        and gender is not null and gender!='' and nation is not null and nation!='' group by nation, gender
+    </select>
+    <!-- 党派 (num_1:民主党派 num_2:中共党员)-->
+    <select id="cadre_stat_dp" resultMap="BaseResultMap" parameterType="map">
+        select sum(if(cadre_dp_type>0, 1,0)) as num_1, sum(if(cadre_dp_type=0, 1,0)) as num_2 from cadre_view  where status=1
+        <include refid="andSql" />
+    </select>
+    <!-- 党派-行政级别 -->
+    <select id="cadre_stat_dp_adminLevel" resultMap="BaseResultMap" parameterType="map">
+       select admin_level_code, sum(if(cadre_dp_type>0, 1,0)) as num_1, sum(if(cadre_dp_type=0, 1,0)) as num_2 from cadre_view  where status=1
+        <include refid="andSql" /> and admin_level_code is not null
+        group by admin_level_code
+    </select>
+    <!-- 党派-性别 -->
+    <select id="cadre_stat_dp_gender" resultMap="BaseResultMap" parameterType="map">
+        select gender, sum(if(cadre_dp_type>0, 1,0)) as num_1, sum(if(cadre_dp_type=0, 1,0)) as num_2 from cadre_view  where status=1
+        <include refid="andSql" />
+         and gender is not null group by gender
+    </select>
+    <!-- 年龄 -->
+    <select id="cadre_stat_age" resultMap="BaseResultMap" parameterType="map">
+        select
+         <![CDATA[
+         sum(if(age<=30, 1,0)) as num_1
+        ,sum(if(age>=31 and age<=35, num,0)) as num_2
+        ,sum(if(age>=36 and age<=40, num,0)) as num_3
+        ,sum(if(age>=41 and age<=45, num,0)) as num_4
+        ,sum(if(age>=46 and age<=50, num,0)) as num_5
+        ,sum(if(age>=51 and age<=55, num,0)) as num_6
+        ,sum(if(age>55, num,0)) as num_7
+        ]]>
+        from (
+        select (year(now())-year(birth)-1) + ( DATE_FORMAT(birth, '%m%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%m%d') ) as age, count(*) as num from cadre_view  where status=1
+         <include refid="andSql" />
+         and birth is not null group by age
+        ) tmp
+
+    </select>
+    <!-- 年龄-行政级别 -->
+    <select id="cadre_stat_age_adminLevel" resultMap="BaseResultMap" parameterType="map">
+        <![CDATA[
+        select admin_level_code,
+         sum(if(age<=30, 1,0)) as num_1
+        ,sum(if(age>=31 and age<=35, num,0)) as num_2
+        ,sum(if(age>=36 and age<=40, num,0)) as num_3
+        ,sum(if(age>=41 and age<=45, num,0)) as num_4
+        ,sum(if(age>=46 and age<=50, num,0)) as num_5
+        ,sum(if(age>=51 and age<=55, num,0)) as num_6
+        ,sum(if(age>55, num,0)) as num_7
+        ]]>
+         from (
+        select (year(now())-year(birth)-1) + ( DATE_FORMAT(birth, '%m%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%m%d') ) as age, admin_level_code, count(*) as num from cadre_view  where status=1
+        <include refid="andSql" />
+         and birth is not null and admin_level_code is not null group by age,admin_level_code
+        ) tmp group by admin_level_code
+
+    </select>
+    <!-- 年龄-性别 -->
+    <select id="cadre_stat_age_gender" resultMap="BaseResultMap" parameterType="map">
+
+        select gender,
+        <![CDATA[
+         sum(if(age<=30, 1,0)) as num_1
+        ,sum(if(age>=31 and age<=35, num,0)) as num_2
+        ,sum(if(age>=36 and age<=40, num,0)) as num_3
+        ,sum(if(age>=41 and age<=45, num,0)) as num_4
+        ,sum(if(age>=46 and age<=50, num,0)) as num_5
+        ,sum(if(age>=51 and age<=55, num,0)) as num_6
+        ,sum(if(age>55, num,0)) as num_7
+        ]]>
+         from (
+        select (year(now())-year(birth)-1) + ( DATE_FORMAT(birth, '%m%d') <![CDATA[<=]]> DATE_FORMAT(NOW(), '%m%d') ) as age, gender, count(*) as num from cadre_view  where status=1
+        <include refid="andSql" />
+         and birth is not null and gender is not null group by age,gender
+        ) tmp group by gender
+
+    </select>
+    <!-- 职称 -->
+    <select id="cadre_stat_post" resultMap="BaseResultMap" parameterType="map">
+        <![CDATA[
+        select sum(if(pro_post_level like '%正高%', 1,0)) as num_1
+        ,sum(if(pro_post_level like '%02级%正高%', 1,0)) as num_2
+        ,sum(if(pro_post_level like '%03级%正高%', 1,0)) as num_3
+        ,sum(if(pro_post_level REGEXP '(04|四)级.*正高', 1,0)) as num_4
+        ,sum(if(pro_post_level like '%副高%', 1,0)) as num_5
+        ,sum(if(pro_post_level REGEXP '(中|初)级', 1,0)) as num_6
+         from cadre_view where status =1
+        ]]>
+        <include refid="andSql" />
+    </select>
+    <!-- 职称-行政级别 -->
+    <select id="cadre_stat_post_adminLevel" resultMap="BaseResultMap" parameterType="map">
+
+        select admin_level_code, sum(if(pro_post_level like '%正高%', 1,0)) as num_1
+        <![CDATA[
+        ,sum(if(pro_post_level like '%02级%正高%', 1,0)) as num_2
+        ,sum(if(pro_post_level like '%03级%正高%', 1,0)) as num_3
+        ,sum(if(pro_post_level REGEXP '(04|四)级.*正高', 1,0)) as num_4
+        ,sum(if(pro_post_level like '%副高%', 1,0)) as num_5
+        ,sum(if(pro_post_level REGEXP '(中|初)级', 1,0)) as num_6
+        ]]>
+         from cadre_view where  status =1
+        <include refid="andSql" />
+         and admin_level_code is not null group by admin_level_code
+
+    </select>
+    <!-- 职称-性别 -->
+    <select id="cadre_stat_post_gender" resultMap="BaseResultMap" parameterType="map">
+
+        select gender, sum(if(pro_post_level like '%正高%', 1,0)) as num_1
+        <![CDATA[
+        ,sum(if(pro_post_level like '%02级%正高%', 1,0)) as num_2
+        ,sum(if(pro_post_level like '%03级%正高%', 1,0)) as num_3
+        ,sum(if(pro_post_level REGEXP '(04|四)级.*正高', 1,0)) as num_4
+        ,sum(if(pro_post_level like '%副高%', 1,0)) as num_5
+        ,sum(if(pro_post_level REGEXP '(中|初)级', 1,0)) as num_6
+        ]]>
+         from cadre_view where  status =1
+         <include refid="andSql" />
+         and gender is not null group by gender
+
+    </select>
+    <!-- 学历 -->
+    <select id="cadre_stat_edu" resultMap="BaseResultMap" parameterType="map">
+        select max_ce_edu_attr, count(*) as num from cadre_view where status=1
+        <include refid="andSql" />
+         and max_ce_edu_attr is not null  group by max_ce_edu_attr
+    </select>
+    <!-- 学历-行政级别 -->
+    <select id="cadre_stat_edu_adminLevel" resultMap="BaseResultMap" parameterType="map">
+        select max_ce_edu_attr, admin_level_code, count(*) as num from cadre_view where status=1
+        <include refid="andSql" />
+         and max_ce_edu_attr is not null and admin_level_code is not null  group by max_ce_edu_attr, admin_level_code
+    </select>
+    <!-- 学历-性别 -->
+    <select id="cadre_stat_edu_gender" resultMap="BaseResultMap" parameterType="map">
+        select max_ce_edu_attr, gender, count(*) as num from cadre_view where status=1
+        <include refid="andSql" />
+         and max_ce_edu_attr is not null and gender is not null  group by max_ce_edu_attr, gender
+    </select>
+    <!-- 专职 -->
+    <select id="cadre_stat_double" resultMap="BaseResultMap" parameterType="map">
+        select sum(if(is_double, 0,1)) as num from cadre_view where status=1 <include refid="andSql" />
+    </select>
+    <!-- 专职-行政级别 -->
+    <select id="cadre_stat_double_adminLevel" resultMap="BaseResultMap" parameterType="map">
+        select admin_level_code ,sum(if(is_double, 0,1)) as num from cadre_view where status=1
+        <include refid="andSql" />
+         and admin_level_code is not null group by admin_level_code
+    </select>
+    <!-- 专职-性别 -->
+    <select id="cadre_stat_double_gender" resultMap="BaseResultMap" parameterType="map">
+        select gender ,sum(if(is_double, 0,1)) as num from cadre_view where status=1
+        <include refid="andSql" />
+         and gender is not null group by gender
+    </select>
+</mapper>

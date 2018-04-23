@@ -1,6 +1,6 @@
 package controller.member;
 
-import bean.MemberApplyCount;
+import persistence.member.common.MemberApplyCount;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
 import domain.member.MemberApplyView;

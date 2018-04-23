@@ -1,6 +1,6 @@
 package mapper;
 
-import bean.ApplySelfSearchBean;
+import persistence.abroad.common.ApplySelfSearchBean;
 import domain.abroad.ApplySelf;
 import org.apache.ibatis.session.RowBounds;
 import org.junit.Test;

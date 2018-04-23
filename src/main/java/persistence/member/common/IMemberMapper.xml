@@ -132,26 +132,39 @@
         </if>
     </select>
 
-    <select id="selectMemberApplyCount" parameterType="map" resultType="bean.MemberApplyCount">
+    <select id="selectMemberApplyCount" parameterType="map" resultType="persistence.member.common.MemberApplyCount">
         select type, stage , count(*) as num from ow_member_apply_view m where m.member_status=0 and m.is_remove=0
         <include refid="member_selects_permits"/>
         group by type, stage
     </select>
 
-    <select id="selectNotMemberList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
-        select user.* from sys_user_view user where user.id not in(select user_id from ow_member where status=1)
-        <if test="search != null">
-            and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
+    <sql id="userSearchSql">
+        select * from sys_user_view
+        <if test="query != null">
+            <where>
+                and username like '${query}%'
+            </where>
+            union
+            select * from sys_user_view
+            <where>
+                and realname like '${query}%'
+            </where>
+            union
+            select * from sys_user_view
+            <where>
+                and code like '${query}%'
+            </where>
         </if>
-        and user.role_ids not like "%${regRoleStr}%"
+    </sql>
+
+    <select id="selectNotMemberList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
+        select * from (<include refid="userSearchSql" />) u where id not in(select user_id from ow_member where status=1)
+        and role_ids not like "%${regRoleStr}%"
         order by create_time desc
     </select>
     <select id="countNotMemberList" parameterType="map" resultType="java.lang.Integer">
-        select count(user.id) from sys_user_view user where user.id not in(select user_id from ow_member where status=1)
-        <if test="search != null">
-            and (user.username like #{search} or user.realname like #{search} or user.code like #{search})
-        </if>
-        and user.role_ids not like "%${regRoleStr}%"
+        select count(id) from (<include refid="userSearchSql" />) u where id not in(select user_id from ow_member where status=1)
+        and role_ids not like "%${regRoleStr}%"
     </select>
 
     <update id="changeMemberParty" parameterType="map">

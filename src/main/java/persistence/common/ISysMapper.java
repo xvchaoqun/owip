@@ -1,8 +1,10 @@
 package persistence.common;
 
 import domain.sys.SysOnlineStatic;
+import domain.sys.SysUserView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.Date;
 import java.util.List;
@@ -12,6 +14,11 @@ import java.util.List;
  */
 public interface ISysMapper {
 
+
+    List<SysUserView> selectUserList(@Param("query")String query, @Param("types") Byte[] types, RowBounds rowBounds);
+    int countUserList(@Param("query")String query, @Param("types") Byte[] types);
+
+    // 地区（一级）
     @Select("select distinct parent_code from base_location order by parent_code asc")
     List<Integer> selectDistinctLocationParentCode();
 

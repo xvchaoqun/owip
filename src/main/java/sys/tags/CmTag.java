@@ -1,7 +1,7 @@
 package sys.tags;
 
-import bean.ApplySelfModifyBean;
-import bean.ApproverTypeBean;
+import persistence.abroad.common.ApplySelfModifyBean;
+import persistence.abroad.common.ApproverTypeBean;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApprovalLog;
 import domain.abroad.Passport;

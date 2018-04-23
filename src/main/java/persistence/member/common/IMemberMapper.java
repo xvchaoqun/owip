@@ -1,6 +1,5 @@
 package persistence.member.common;
 
-import bean.MemberApplyCount;
 import domain.member.Member;
 import domain.member.MemberExample;
 import domain.member.MemberInflow;
@@ -26,9 +25,9 @@ public interface IMemberMapper {
     String getMemberStayMaxCode(@Param("year") int year);
 
     // 根据账号、姓名、学工号查找 不是 党员的用户
-    List<SysUserView> selectNotMemberList(@Param("search") String search,
+    List<SysUserView> selectNotMemberList(@Param("query") String query,
                                           @Param("regRoleStr") String regRoleStr, RowBounds rowBounds);
-    int countNotMemberList(@Param("search") String search, @Param("regRoleStr") String regRoleStr);
+    int countNotMemberList(@Param("query") String query, @Param("regRoleStr") String regRoleStr);
 
     // 入党申请数量分阶段统计
     List<MemberApplyCount> selectMemberApplyCount(@Param("addPermits")Boolean addPermits,

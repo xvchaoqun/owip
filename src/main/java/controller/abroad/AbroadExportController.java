@@ -1,6 +1,6 @@
 package controller.abroad;
 
-import bean.ApproverTypeBean;
+import persistence.abroad.common.ApproverTypeBean;
 import controller.global.OpException;
 import domain.abroad.ApplySelf;
 import domain.cadre.CadreView;

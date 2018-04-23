@@ -1,6 +1,6 @@
 package sys.tags;
 
-import bean.ApprovalResult;
+import persistence.abroad.common.ApprovalResult;
 import domain.abroad.ApplySelf;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;

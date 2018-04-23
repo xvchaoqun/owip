@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.member.common.StatMemberMapper">
+    <sql id="Where_ow">
+        <if test="partyId!=null">
+            and partyId =#{partyId}
+        </if>
+        <if test="branchId!=null">
+            and branchId =#{branchId}
+        </if>
+    </sql>
+    <!-- 统计党员分布情况（预备、正式） -->
+    <select id="member_groupByPoliticalStatus" resultType="bean.StatByteBean" parameterType="map">
+        select count(*) as num, political_status as type from ow_member where status=1
+        <include refid="Where_ow"/> group by political_status
+    </select>
+
+    <!-- 统计党员分布情况（预备、正式） -->
+    <select id="member_groupByType" resultType="bean.StatByteBean" parameterType="map">
+        select count(*) as num, type from ow_member where status=1
+        <if test="politicalStatus!=null">
+            and political_status =#{politicalStatus}
+        </if>
+        <include refid="Where_ow"/> group by type
+    </select>
+
+    <!-- 统计教职工党员年龄分布情况 -->
+    <select id="member_teatcherGroupByBirth" resultType="bean.StatIntBean" parameterType="map">
+        select count(*) as num, left(birth, 4) as type from ow_member_teacher where status=1
+        <include refid="Where_ow"/> group by left(birth, 4)
+    </select>
+    <!-- 统计学生党员年龄分布情况 -->
+    <select id="member_studentGroupByBirth" resultType="bean.StatIntBean" parameterType="map">
+        select count(*) as num, left(birth, 4) as type from ow_member_student where status=1
+        <include refid="Where_ow"/> group by left(birth, 4)
+    </select>
+    <!-- 统计入党申请各阶段情况-->
+    <select id="memberApply_groupByStage" resultType="bean.StatByteBean" parameterType="map">
+        select count(*) as num, stage as type from ow_member_apply_view where member_status=0 and stage>-1
+        <if test="stage!=null">
+            and stage =#{stage}
+        </if>
+        <include refid="Where_ow"/> group by stage
+    </select>
+    <!-- 统计排在前十的分党委党员人数-->
+    <select id="memberApply_groupByPartyId" resultType="persistence.member.common.MemberStatByPartyBean" parameterType="map">
+      select count(*) as num, party_id as partyId, sum(if(type=1, 1,0)) as teacher, sum(if(type=2, 1,0)) as student
+      from ow_member where status=1 group by party_id order by num desc limit #{top}
+    </select>
+
+    <!-- 统计分党委下各党支部党员人数-->
+    <select id="memberApply_groupByBranchId" resultType="bean.StatIntBean" parameterType="map">
+        select count(*) as num, branch_id as type from ow_member where status=1 and party_id=#{partyId} group by branch_id
+    </select>
+</mapper>

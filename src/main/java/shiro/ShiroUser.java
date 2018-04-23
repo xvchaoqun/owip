@@ -1,6 +1,6 @@
 package shiro;
 
-import bean.ApproverTypeBean;
+import persistence.abroad.common.ApproverTypeBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import sys.tags.CmTag;
 

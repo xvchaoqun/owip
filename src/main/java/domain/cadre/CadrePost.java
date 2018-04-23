@@ -1,6 +1,6 @@
 package domain.cadre;
 
-import bean.DispatchCadreRelateBean;
+import persistence.dispatch.common.DispatchCadreRelateBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import domain.dispatch.DispatchCadreRelate;
 import sys.constants.DispatchConstants;

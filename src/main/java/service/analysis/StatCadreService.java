@@ -1,6 +1,6 @@
 package service.analysis;
 
-import bean.statCadre.StatCadreBean;
+import persistence.cadre.common.StatCadreBean;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Header;

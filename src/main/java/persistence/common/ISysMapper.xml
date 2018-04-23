@@ -1,19 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.common.ISysMapper">
-    <!--
-select  * from sys_online_static order by id desc limit 1;
 
-select * from sys_online_static where month=7 and day=1 order by online_count desc limit 1 ;
+    <sql id="typesSearchSql">
+        <if test="types != null and types.length>0">
+            and type IN
+            <foreach collection="types" item="type" separator="," open="(" close=")">
+                #{type}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="userSearchSql">
+        select * from sys_user_view
+        <if test="query == null">
+            <where>
+                <include refid="typesSearchSql" />
+            </where>
+        </if>
+        <if test="query != null">
+        <where>
+            <include refid="typesSearchSql" />
+            and username like '${query}%'
+        </where>
+        union
+        select * from sys_user_view
+        <where>
+            <include refid="typesSearchSql" />
+            and realname like '${query}%'
+        </where>
+        union
+        select * from sys_user_view
+        <where>
+            <include refid="typesSearchSql" />
+            and code like '${query}%'
+        </where>
+        </if>
+    </sql>
+    <select id="selectUserList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
+        <include refid="userSearchSql" />
+        order by create_time asc
+    </select>
+    <select id="countUserList" parameterType="map" resultType="java.lang.Integer">
+        select count(id) from (
+        <include refid="userSearchSql"/>
+        )tmp
+    </select>
 
-select * from (select * from sys_online_static where month=7 and day=1 order by online_count desc) as tmp group by day,month, year;
-
-explain select * from sys_online_static a where not exists(select id from sys_online_static b where b.year=a.year and b.month=a.month and b.day=a.day and b.online_count >a.online_count)
-group by day,month, year order by year, month, day;
-
-
-select a.* from sys_online_static a, (select max(online_count) as online_count,  day,month, year  from sys_online_static  where create_time>'2016-06-20' and create_time<'2016-07-10' group by day,month, year) b where a.day=b.day and a.month=b.month and a.year=b.year and a.online_count=b.online_count group by a.day,a.month, a.year order by a.create_time;
--->
     <!-- 每日最高在线人数流量图 -->
     <select id="online_static_day" resultMap="persistence.sys.SysOnlineStaticMapper.BaseResultMap" parameterType="map">
         select a.* from sys_online_static a, (select max(online_count) as online_count, day, month, year

@@ -17,7 +17,7 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
-  <resultMap id="IBaseResultMap" extends="BaseResultMap" type="persistence.common.ICadreWork" ></resultMap>
+  <resultMap id="IBaseResultMap" extends="BaseResultMap" type="persistence.cadre.common.ICadreWork" ></resultMap>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >

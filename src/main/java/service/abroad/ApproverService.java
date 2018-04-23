@@ -1,6 +1,6 @@
 package service.abroad;
 
-import bean.ApproverTypeBean;
+import persistence.abroad.common.ApproverTypeBean;
 import domain.abroad.Approver;
 import domain.abroad.ApproverExample;
 import domain.cadre.CadreView;

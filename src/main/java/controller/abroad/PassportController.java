@@ -1,8 +1,8 @@
 package controller.abroad;
 
-import bean.PassportStatByClassBean;
-import bean.PassportStatByLentBean;
-import bean.PassportStatByPostBean;
+import persistence.abroad.common.PassportStatByClassBean;
+import persistence.abroad.common.PassportStatByLentBean;
+import persistence.abroad.common.PassportStatByPostBean;
 import bean.XlsPassport;
 import bean.XlsUpload;
 import controller.global.OpException;

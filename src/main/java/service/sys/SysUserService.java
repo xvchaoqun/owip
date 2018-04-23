@@ -1,6 +1,6 @@
 package service.sys;
 
-import bean.ApproverTypeBean;
+import persistence.abroad.common.ApproverTypeBean;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.CadreView;

@@ -1,6 +1,6 @@
 package controller.cet.mobile;
 
-import bean.TrainTempData;
+import persistence.cet.common.TrainTempData;
 import controller.cet.CetBaseController;
 import controller.global.OpException;
 import domain.cet.CetTrainCourse;

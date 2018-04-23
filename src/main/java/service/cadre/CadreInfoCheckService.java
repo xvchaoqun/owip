@@ -23,7 +23,7 @@ import org.apache.shiro.util.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import persistence.common.ICadreInfoCheck;
+import persistence.cadre.common.ICadreInfoCheck;
 import service.BaseMapper;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;

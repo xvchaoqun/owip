@@ -1,6 +1,6 @@
 package controller.analysis;
 
-import bean.analysis.MemberStatByPartyBean;
+import persistence.member.common.MemberStatByPartyBean;
 import controller.BaseController;
 import domain.party.Party;
 import org.apache.commons.lang.StringUtils;

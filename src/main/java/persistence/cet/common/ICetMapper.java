@@ -1,6 +1,5 @@
 package persistence.cet.common;
 
-import bean.analysis.StatTrainBean;
 import domain.cet.CetCourse;
 import domain.cet.CetProject;
 import domain.cet.CetProjectObj;
@@ -168,7 +167,7 @@ public interface ICetMapper {
     public List<Map> listTraineeYearPeriod(@Param("trainId") int trainId);
 
     // 一个培训班内，每个参训人对每个课程的评价情况
-    @ResultType(bean.analysis.StatTrainBean.class)
+    @ResultType(StatTrainBean.class)
     @Select("select result.train_course_id as trainCourseId, result.inspector_id as inspectorId, sum(rank.score) as totalScore, ic.feedback " +
             "from cet_train_eva_result result, cet_train_eva_rank rank, cet_train_inspector_course ic " +
             "where result.train_id=#{trainId} and rank.id=result.rank_id and " +

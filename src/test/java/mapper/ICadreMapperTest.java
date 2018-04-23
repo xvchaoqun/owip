@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import persistence.abroad.common.IAbroadMapper;
-import persistence.common.ICadreMapper;
+import persistence.cadre.common.ICadreMapper;
 import sys.constants.CadreConstants;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package controller.abroad;
 
-import bean.SafeBoxBean;
+import persistence.abroad.common.SafeBoxBean;
 import domain.abroad.Passport;
 import domain.abroad.SafeBox;
 import domain.abroad.SafeBoxExample;
