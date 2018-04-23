@@ -329,11 +329,23 @@ public class CadreReserveController extends BaseController {
     @RequiresPermissions("cadreReserve:del")
     @RequestMapping(value = "/cadreReserve_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cadreReserve_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids) {
             cadreReserveService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除已撤销后备干部：%s", StringUtils.join(ids, ",")));
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cadreReserve:del")
+    @RequestMapping(value = "/cadreReserve_batchDelPass", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cadreReserve_batchDelPass(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+        if (null != ids) {
+            cadreReserveService.batchDelPass(ids);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除已列为考察对象的后备干部：%s", StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

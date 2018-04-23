@@ -294,6 +294,35 @@ public class CadreReserveService extends BaseMapper {
         return cadreMapper.selectByPrimaryKey(cadreId);
     }
 
+    // 删除已列为考察对象
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public void batchDelPass(Integer[] ids) {
+
+        if(ids==null || ids.length==0) return;
+        for (Integer reserveId : ids) {
+
+            CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(reserveId);
+            int cadreId = cadreReserve.getCadreId();
+            CadreView cadreView = cadreService.findAll().get(cadreId);
+            int userId = cadreView.getUserId();
+            cadreReserveMapper.deleteByPrimaryKey(reserveId);
+
+            CadreInspect cadreInspect = cadreInspectService.getNormalRecord(cadreId);
+            cadreInspectMapper.deleteByPrimaryKey(cadreInspect.getId());
+
+            sysUserService.delRole(userId, RoleConstants.ROLE_CADREINSPECT);
+
+            // 记录任免日志
+            cadreAdLogService.addLog(cadreId, "删除已列为考察对象",
+                    CadreConstants.CADRE_AD_LOG_MODULE_CADRE, cadreId);
+        }
+
+    }
+
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),

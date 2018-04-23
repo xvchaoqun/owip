@@ -319,7 +319,8 @@ public class CrsApplicantService extends BaseMapper {
         int cadreId;
         if(cv!=null ){
             cadreId = cv.getId();
-            Assert.isTrue(cv.getStatus()==CadreConstants.CADRE_STATUS_RECRUIT, "应聘干部状态异常");
+            //Assert.isTrue(cv.getStatus()==CadreConstants.CADRE_STATUS_RECRUIT, "应聘干部状态异常");
+            // 可能是已撤销资格的考察对象，则这里cv.getStatus()=CadreConstants.CADRE_STATUS_INSPECT
         }else{
             // 普通教师 第一次访问的情况，需要先初始化 应聘干部
             Cadre record  = new Cadre();

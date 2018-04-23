@@ -6,7 +6,7 @@
 
         <div id="body-content" class="myTableDiv"
                  data-url-page="${ctx}/cadreReserve"
-                 data-url-bd="${ctx}/cadreReserve_batchDel"
+
                  data-url-co="${ctx}/cadreReserve_changeOrder"
                  data-url-export="${ctx}/cadreReserve_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -89,8 +89,15 @@
                                     <i class="fa fa-search"></i> 任免操作记录
                                 </button>
 
+                                <c:if test="${status==CADRE_RESERVE_STATUS_TO_INSPECT}">
+                                    <button class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/cadreReserve_batchDelPass" data-title="删除"
+                                       data-msg="确定删除这{0}条记录吗？（该考察对象的关联数据都将删除，不可恢复。）"><i class="fa fa-trash"></i> 删除</button>
+                                </c:if>
                                 <c:if test="${status==CADRE_RESERVE_STATUS_ABOLISH}">
-                                    <a class="jqDelBtn btn btn-danger btn-sm"><i class="fa fa-trash"></i> 删除</a>
+                                    <button class="jqBatchBtn btn btn-danger btn-sm"
+                                       data-url="${ctx}/cadreReserve_batchDel" data-title="删除"
+                                       data-msg="确定删除这{0}条记录吗？"><i class="fa fa-trash"></i> 删除</button>
                                 </c:if>
                                 </shiro:lacksRole>
                                 <a class="jqExportBtn btn btn-success btn-sm"

@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
+<shiro:hasPermission name="${PERMISSION_CADREADMIN}">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 工作经历</a>
@@ -9,15 +10,13 @@
    <%-- <li class="${type==3?"active":""}">
         <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 挂职锻炼经历</a>
     </li>--%>
-    <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
             <li class="${type==2?"active":""}">
                 <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
             </li>
         </shiro:lacksRole>
-    </shiro:hasPermission>
 </ul>
-
+</shiro:hasPermission>
 <c:if test="${type==1}">
     <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
