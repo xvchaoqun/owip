@@ -10,7 +10,7 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/db_owip?useUnicode=true&amp;characterEncoding=UTF8"
+                        connectionURL="jdbc:mysql://localhost:3306/db_owip_0?useUnicode=true&amp;characterEncoding=UTF8"
                         userId="root" password="123"/>
         <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
             <property name="trimStrings" value="true"/>
@@ -27,12 +27,11 @@
 
         <!--<table tableName="base_country" domainObjectName="base.Country">
         </table>-->
-        <!--   <table tableName="base_content_tpl" domainObjectName="base.ContentTpl">
+           <!--<table tableName="base_content_tpl" domainObjectName="base.ContentTpl" mapperName="base.ContentTplMapper">
                 <generatedKey column="id" sqlStatement="MySql" identity="true"/>
                  <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
                  <ignoreColumn column="update_time"/>
-             </table>
-          -->
+             </table>-->
         <!--<table tableName="base_location" domainObjectName="base.Location">
         </table>-->
         <!--   <table tableName="base_meta_class" domainObjectName="base.MetaClass">
@@ -87,10 +86,10 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
-        <table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
+        <!--<table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
             <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <!-- <table tableName="sys_config_login_msg" domainObjectName="sys.SysConfigLoginMsg" mapperName="sys.SysConfigLoginMsgMapper">
              <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
          </table>-->
@@ -147,9 +146,8 @@
         <!--<table tableName="sys_user_sync" domainObjectName="sys.SysUserSync">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <!--   <table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
+           <table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
            </table>
-     -->
 
         <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks">
         </table>-->

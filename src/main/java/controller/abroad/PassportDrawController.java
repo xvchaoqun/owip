@@ -240,7 +240,7 @@ public class PassportDrawController extends AbroadBaseController {
             modelMap.put("applySelf", applySelf);
         }
 
-        ContentTpl shortMsgTpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PASSPORTDRAW);
+        ContentTpl shortMsgTpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PASSPORTDRAW);
         Integer userId = passport.getUser().getId();
         String msgTitle = userBeanService.getMsgTitle(userId);
         String shortMsg = MessageFormat.format(shortMsgTpl.getContent(), msgTitle,

@@ -38,7 +38,7 @@ pageEncoding="UTF-8" %>
                                     <i class="fa fa-times"></i> 丢失
                                 </a>
                                 <button class="jqOpenViewBtn btn btn-success btn-sm"
-                                        data-url="${ctx}/shortMsg_view" data-querystr="&type=passportInfo">
+                                        data-url="${ctx}/abroad/shortMsg_view" data-querystr="&type=passportInfo">
                                     <i class="fa fa-info-circle"></i> 发送证件信息
                                 </button>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm" data-open-by="page"
@@ -70,7 +70,7 @@ pageEncoding="UTF-8" %>
                             <c:if test="${status==ABROAD_PASSPORT_TYPE_CANCEL}">
 
                                 <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                                        data-url="${ctx}/shortMsg_view" data-querystr="&type=passport">
+                                        data-url="${ctx}/abroad/shortMsg_view" data-querystr="&type=passport">
                                     <i class="fa fa-info-circle"></i> 短信通知
                                 </button>
                                 <a class="jqOpenViewBtn btn btn-success btn-sm"

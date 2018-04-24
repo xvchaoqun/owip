@@ -92,7 +92,7 @@ public class PartyMemberGroupService extends BaseMapper {
         }
         record.setIsDeleted(false);
         // 排序还未用
-        record.setSortOrder(getNextSortOrder("ow_party_member_group", "1=1"));
+        record.setSortOrder(getNextSortOrder("ow_party_member_group", null));
         return partyMemberGroupMapper.insertSelective(record);
     }
 

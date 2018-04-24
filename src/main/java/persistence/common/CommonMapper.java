@@ -1,7 +1,6 @@
 package persistence.common;
 
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 /**
@@ -9,8 +8,9 @@ import org.apache.ibatis.annotations.Update;
  */
 public interface CommonMapper {
 
-    @Select("select max(${sortOrder}) from ${table} where ${whereSql}")
-    Integer getMaxSortOrder(@Param("table") String table, @Param("sortOrder") String sortOrder, @Param("whereSql") String whereSql);
+    Integer getMaxSortOrder(@Param("table") String table,
+                            @Param("sortOrder") String sortOrder,
+                            @Param("whereSql") String whereSql);
 
     // 排序列名默认为sort_order
     void downOrder(@Param("table") String table, @Param("whereSql") String whereSql,

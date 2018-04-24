@@ -217,7 +217,7 @@
                         $("#modal").modal('hide').on('hidden.bs.modal', function() {
                             hideInProgress = false;
                             if(ret.id > 0){
-                                $.loadModal("${ctx}/shortMsg_view?type=passportKeep&id="+ ret.id);
+                                $.loadModal("${ctx}/abroad/shortMsg_view?type=passportKeep&id="+ ret.id);
                             }
                             $(this).off('hidden.bs.modal');
                         });

@@ -1,4 +1,4 @@
-package job;
+package job.base;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -6,26 +6,21 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import service.abroad.PassportService;
+import service.global.CacheService;
 
-/**
- * Created by lm on 2017/9/17.
- */
-@Component
-public class PassportExpire implements Job {
+public class FlushMetadata implements Job {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private PassportService passportService;
+    protected CacheService cacheService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
-        logger.info("证件过期扫描...");
+        logger.info("刷新元数据缓存...");
         try {
-            passportService.expire();
+            cacheService.flushMetadata();
         }catch (Exception ex){
             ex.printStackTrace();
         }

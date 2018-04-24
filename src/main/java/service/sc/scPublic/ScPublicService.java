@@ -174,7 +174,7 @@ public class ScPublicService extends BaseMapper {
                 .andIsFinishedEqualTo(true)
                 .andIsConfirmedEqualTo(false);
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_SC_PUBLIC_FINISH_CONFIRM);
+        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_SC_PUBLIC_FINISH_CONFIRM);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
         List<ScPublic> scPublics = scPublicMapper.selectByExample(example);
         for (ScPublic scPublic : scPublics) {

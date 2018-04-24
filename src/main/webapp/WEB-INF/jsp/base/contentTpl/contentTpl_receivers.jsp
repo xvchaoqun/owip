@@ -89,7 +89,7 @@
                 success: function (ret) {
                     if (ret.success) {
                         pop_reload();
-                        //SysMsg.success('操作成功。', '成功');
+                        $("#jqGrid").trigger("reloadGrid");
                     }
                 }
             });

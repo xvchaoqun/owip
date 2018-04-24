@@ -2,21 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.common.CommonMapper" >
 
+  <select id="getMaxSortOrder" parameterType="map" resultType="java.lang.Integer">
+    select max(${sortOrder}) from ${table}
+    <where>
+      <if test="whereSql!=null">${whereSql}</if>
+    </where>
+  </select>
+
   <update id="downOrder" parameterType="map" >
-    update ${table} set sort_order = sort_order - 1 where <if test="whereSql!=null"> ${whereSql} and </if>
-    sort_order >#{baseSortOrder} and sort_order<![CDATA[<=]]> #{targetSortOrder}
+    update ${table} set sort_order = sort_order - 1
+    <where>
+      <if test="whereSql!=null">${whereSql}</if>
+      and sort_order >#{baseSortOrder} and sort_order<![CDATA[<=]]> #{targetSortOrder}
+    </where>
   </update>
   <update id="upOrder" parameterType="map" >
-    update ${table} set sort_order = sort_order + 1 where <if test="whereSql!=null"> ${whereSql} and </if>
-    sort_order <![CDATA[<]]> #{baseSortOrder} and sort_order>=#{targetSortOrder}
+    update ${table} set sort_order = sort_order + 1
+    <where>
+      <if test="whereSql!=null">${whereSql}</if>
+      and sort_order <![CDATA[<]]> #{baseSortOrder} and sort_order>=#{targetSortOrder}
+    </where>
   </update>
 
   <update id="downOrder2" parameterType="map" >
-    update ${table} set ${sortOrder} = ${sortOrder} - 1 where <if test="whereSql!=null"> ${whereSql} and </if>
-    ${sortOrder} >#{baseSortOrder} and ${sortOrder}<![CDATA[<=]]> #{targetSortOrder}
+    update ${table} set ${sortOrder} = ${sortOrder} - 1
+    <where>
+      <if test="whereSql!=null">${whereSql}</if>
+      and ${sortOrder} >#{baseSortOrder} and ${sortOrder}<![CDATA[<=]]> #{targetSortOrder}
+    </where>
   </update>
   <update id="upOrder2" parameterType="map" >
-    update ${table} set ${sortOrder} = ${sortOrder} + 1 where <if test="whereSql!=null"> ${whereSql} and </if>
-    ${sortOrder} <![CDATA[<]]> #{baseSortOrder} and ${sortOrder}>=#{targetSortOrder}
+    update ${table} set ${sortOrder} = ${sortOrder} + 1
+    <where>
+      <if test="whereSql!=null">${whereSql}</if>
+      and ${sortOrder} <![CDATA[<]]> #{baseSortOrder} and ${sortOrder}>=#{targetSortOrder}
+    </where>
   </update>
 </mapper>

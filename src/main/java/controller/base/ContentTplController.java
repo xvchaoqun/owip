@@ -76,7 +76,7 @@ public class ContentTplController extends BaseController {
 
         ContentTplExample example = new ContentTplExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("create_time desc");
+        example.setOrderByClause("sort_order desc");
         if (type!=null) {
             criteria.andTypeEqualTo(type);
         }
@@ -95,7 +95,7 @@ public class ContentTplController extends BaseController {
             return;
         }
 
-        int count = contentTplMapper.countByExample(example);
+        long count = contentTplMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -219,7 +219,16 @@ public class ContentTplController extends BaseController {
 
         return "base/contentTpl/contentTplRole";
     }
-    
+
+    @RequiresPermissions("contentTpl:changeOrder")
+    @RequestMapping(value = "/contentTpl_changeOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_contentTpl_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+        contentTplService.changeOrder(id, addNum);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "模板调序：%s, %s", id, addNum));
+        return success(FormUtils.SUCCESS);
+    }
 
     public void contentTpl_export(ContentTplExample example, HttpServletResponse response) {
 

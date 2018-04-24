@@ -16,6 +16,8 @@ public class SchedulerJob implements Serializable {
 
     private Boolean isStarted;
 
+    private Integer sortOrder;
+
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
@@ -66,6 +68,14 @@ public class SchedulerJob implements Serializable {
 
     public void setIsStarted(Boolean isStarted) {
         this.isStarted = isStarted;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Date getCreateTime() {

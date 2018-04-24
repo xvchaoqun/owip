@@ -3,6 +3,7 @@ package controller.abroad;
 import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.abroad.AbroadExportService;
+import service.abroad.AbroadShortMsgService;
 import service.abroad.ApplicatTypeService;
 import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
@@ -48,4 +49,7 @@ public class AbroadBaseController extends BaseController {
     protected TaiwanRecordService taiwanRecordService;
     @Autowired
     protected AbroadExportService abroadExportService;
+
+    @Autowired
+    protected AbroadShortMsgService abroadShortMsgService;
 }

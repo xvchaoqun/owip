@@ -65,8 +65,14 @@
                                     </button>
                                 </shiro:hasPermission>
                                 <c:if test="${status==CADRE_STATUS_MIDDLE}">
-                                    <shiro:hasPermission name="cadre:leave">
+                                    <shiro:hasPermission name="cadre:edit">
                                         <button class="jqOpenViewBtn btn btn-success btn-sm"
+                                                data-url="${ctx}/cadre_promote">
+                                            <i class="fa fa-edit"></i> 提任
+                                        </button>
+                                    </shiro:hasPermission>
+                                    <shiro:hasPermission name="cadre:leave">
+                                        <button class="jqOpenViewBtn btn btn-danger btn-sm"
                                                 data-width="700"
                                                 data-url="${ctx}/cadre_leave"
                                                 data-querystr="&status=${CADRE_STATUS_MIDDLE_LEAVE}">

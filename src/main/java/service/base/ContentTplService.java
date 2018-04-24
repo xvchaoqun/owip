@@ -2,11 +2,10 @@ package service.base;
 
 import domain.base.ContentTpl;
 import domain.base.ContentTplExample;
-import domain.base.ShortMsgReceiver;
-import domain.base.ShortMsgReceiverExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,18 +32,14 @@ public class ContentTplService extends BaseMapper {
     // 获取短信接收人手机号
     public List<SysUserView> getShorMsgReceivers(int tplId){
 
-        ShortMsgReceiverExample example = new ShortMsgReceiverExample();
-        example.createCriteria().andTplIdEqualTo(tplId)
-                .andStatusEqualTo(SystemConstants.SHORT_MSG_RECEIVER_STATUS_NORMAL);
+        List<Integer> shorMsgReceiverUserIds = iBaseMapper.getShorMsgReceiverUserIds(tplId,
+                SystemConstants.SHORT_MSG_RECEIVER_STATUS_NORMAL);
 
-        List<ShortMsgReceiver> shortMsgReceivers = shortMsgReceiverMapper.selectByExample(example);
         List<SysUserView> receivers = new ArrayList<>();
-        for (ShortMsgReceiver shortMsgReceiver : shortMsgReceivers) {
-            Integer userId = shortMsgReceiver.getUserId();
+        for (Integer userId : shorMsgReceiverUserIds) {
             SysUserView uv = sysUserService.findById(userId);
             receivers.add(uv);
         }
-
         return  receivers;
     }
 
@@ -52,7 +47,7 @@ public class ContentTplService extends BaseMapper {
 
         String prefix = "ct";
         String code = "";
-        int count = 0;
+        long count = 0;
         do {
             code = prefix + "_" + RandomStringUtils.randomAlphanumeric(8).toLowerCase();
             ContentTplExample example = new ContentTplExample();
@@ -80,6 +75,8 @@ public class ContentTplService extends BaseMapper {
             record.setCode(genCode());
         }
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate code");
+
+        record.setSortOrder(getNextSortOrder("base_content_tpl", null));
         contentTplMapper.insertSelective(record);
     }
     @Transactional
@@ -131,5 +128,44 @@ public class ContentTplService extends BaseMapper {
         record.setRoleId(roleId);
 
         contentTplMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
+    @Caching(evict= {
+            @CacheEvict(value = "ContentTpl:Code:ALL", allEntries = true)
+    })
+    public void changeOrder(int id, int addNum) {
+
+        if(addNum == 0) return ;
+
+        ContentTpl entity = contentTplMapper.selectByPrimaryKey(id);
+        Integer baseSortOrder = entity.getSortOrder();
+
+        ContentTplExample example = new ContentTplExample();
+        if (addNum > 0) {
+
+            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.setOrderByClause("sort_order asc");
+        }else {
+
+            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.setOrderByClause("sort_order desc");
+        }
+
+        List<ContentTpl> overEntities = contentTplMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        if(overEntities.size()>0) {
+
+            ContentTpl targetEntity = overEntities.get(overEntities.size()-1);
+
+            if (addNum > 0)
+                commonMapper.downOrder("base_content_tpl", null, baseSortOrder, targetEntity.getSortOrder());
+            else
+                commonMapper.upOrder("base_content_tpl", null, baseSortOrder, targetEntity.getSortOrder());
+
+            ContentTpl record = new ContentTpl();
+            record.setId(id);
+            record.setSortOrder(targetEntity.getSortOrder());
+            contentTplMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

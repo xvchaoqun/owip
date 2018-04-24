@@ -50,7 +50,7 @@ public class SysRoleService extends BaseMapper {
 	@Transactional
 	public void insertSelective(SysRole record){
 
-		record.setSortOrder(getNextSortOrder("sys_role", "1=1"));
+		record.setSortOrder(getNextSortOrder("sys_role", null));
 		sysRoleMapper.insertSelective(record);
 
 		cacheService.clearRoleCache();
@@ -115,9 +115,9 @@ public class SysRoleService extends BaseMapper {
 			SysRole targetEntity = overEntities.get(overEntities.size()-1);
 
 			if (addNum*orderBy > 0)
-				commonMapper.downOrder("sys_role", "1=1", baseSortOrder, targetEntity.getSortOrder());
+				commonMapper.downOrder("sys_role", null, baseSortOrder, targetEntity.getSortOrder());
 			else
-				commonMapper.upOrder("sys_role", "1=1", baseSortOrder, targetEntity.getSortOrder());
+				commonMapper.upOrder("sys_role", null, baseSortOrder, targetEntity.getSortOrder());
 
 			SysRole record = new SysRole();
 			record.setId(id);

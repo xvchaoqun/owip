@@ -1,6 +1,5 @@
 package service.abroad;
 
-import persistence.abroad.common.ApprovalResult;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApprovalLog;
 import domain.abroad.ApprovalLogExample;
@@ -10,8 +9,8 @@ import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.abroad.common.ApprovalResult;
 import service.BaseMapper;
-import service.base.ShortMsgService;
 import service.sys.SysApprovalLogService;
 import sys.constants.AbroadConstants;
 import sys.constants.SystemConstants;
@@ -28,7 +27,7 @@ public class ApprovalLogService extends BaseMapper {
     @Autowired
     private ApplySelfService applySelfService;
     @Autowired
-    private ShortMsgService shortMsgService;
+    private AbroadShortMsgService abroadShortMsgService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
 
@@ -141,7 +140,7 @@ public class ApprovalLogService extends BaseMapper {
 
         // 如果通过审批，且下一个审批身份是管理员，则短信通知管理员
         if(record.getStatus() && nextFlowNode!=null && nextFlowNode==AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST){
-            shortMsgService.sendApplySelfPassMsgToCadreAdmin(applyId, IpUtils.getRealIp(ContextHelper.getRequest()));
+            abroadShortMsgService.sendApplySelfPassMsgToCadreAdmin(applyId, IpUtils.getRealIp(ContextHelper.getRequest()));
         }
     }
 

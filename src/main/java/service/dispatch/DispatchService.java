@@ -71,7 +71,7 @@ public class DispatchService extends BaseMapper {
             Assert.isTrue(!idDuplicate(null, record.getDispatchTypeId(), record.getYear(), record.getCode()), "duplicate");
         }
 
-        record.setSortOrder(getNextSortOrder("dispatch", "1=1"));
+        record.setSortOrder(getNextSortOrder("dispatch", null));
         record.setHasChecked(false);
         return dispatchMapper.insertSelective(record);
 

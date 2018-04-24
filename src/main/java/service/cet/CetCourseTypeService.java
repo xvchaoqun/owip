@@ -35,7 +35,7 @@ public class CetCourseTypeService extends BaseMapper {
     public void insertSelective(CetCourseType record){
 
         Assert.isTrue(!idDuplicate(null, record.getName()), "类型重复");
-        record.setSortOrder(getNextSortOrder("cet_course_type", "1=1"));
+        record.setSortOrder(getNextSortOrder("cet_course_type", null));
         cetCourseTypeMapper.insertSelective(record);
     }
 
@@ -106,9 +106,9 @@ public class CetCourseTypeService extends BaseMapper {
             CetCourseType targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("cet_course_type", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cet_course_type", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cet_course_type", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cet_course_type", null, baseSortOrder, targetEntity.getSortOrder());
 
             CetCourseType record = new CetCourseType();
             record.setId(id);

@@ -1,9 +1,21 @@
 package domain.base;
 
+import domain.sys.SysUserView;
+import service.base.ContentTplService;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class ContentTpl implements Serializable {
+
+    public List<SysUserView> getReceivers(){
+
+        ContentTplService contentTplService = CmTag.getBean(ContentTplService.class);
+        return contentTplService.getShorMsgReceivers(id);
+    }
+
     private Integer id;
 
     private String name;
@@ -27,6 +39,8 @@ public class ContentTpl implements Serializable {
     private String paramNames;
 
     private String paramDefValues;
+
+    private Integer sortOrder;
 
     private Integer userId;
 
@@ -128,6 +142,14 @@ public class ContentTpl implements Serializable {
 
     public void setParamDefValues(String paramDefValues) {
         this.paramDefValues = paramDefValues == null ? null : paramDefValues.trim();
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Integer getUserId() {

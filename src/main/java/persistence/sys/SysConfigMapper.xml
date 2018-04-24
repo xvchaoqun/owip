@@ -25,6 +25,7 @@
     <result column="login_top_bg_color" jdbcType="VARCHAR" property="loginTopBgColor" />
     <result column="apple_icon" jdbcType="VARCHAR" property="appleIcon" />
     <result column="screen_icon" jdbcType="VARCHAR" property="screenIcon" />
+    <result column="qr_logo" jdbcType="VARCHAR" property="qrLogo" />
     <result column="login_msg" jdbcType="VARCHAR" property="loginMsg" />
     <result column="display_login_msg" jdbcType="BIT" property="displayLoginMsg" />
   </resultMap>
@@ -90,7 +91,8 @@
     id, xss_ignore_uri, upload_max_size, short_msg_url, school_name, school_short_name, 
     school_login_url, school_email, site_copyright, site_home, site_keywords, site_description, 
     site_name, site_short_name, mobile_plantform_name, mobile_title, logo, logo_white, 
-    login_bg, login_top, login_top_bg_color, apple_icon, screen_icon, login_msg, display_login_msg
+    login_bg, login_top, login_top_bg_color, apple_icon, screen_icon, qr_logo, login_msg, 
+    display_login_msg
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">
     select
@@ -130,8 +132,8 @@
       site_name, site_short_name, mobile_plantform_name, 
       mobile_title, logo, logo_white, 
       login_bg, login_top, login_top_bg_color, 
-      apple_icon, screen_icon, login_msg, 
-      display_login_msg)
+      apple_icon, screen_icon, qr_logo, 
+      login_msg, display_login_msg)
     values (#{id,jdbcType=INTEGER}, #{xssIgnoreUri,jdbcType=VARCHAR}, #{uploadMaxSize,jdbcType=INTEGER}, 
       #{shortMsgUrl,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{schoolShortName,jdbcType=VARCHAR}, 
       #{schoolLoginUrl,jdbcType=VARCHAR}, #{schoolEmail,jdbcType=VARCHAR}, #{siteCopyright,jdbcType=VARCHAR}, 
@@ -139,8 +141,8 @@
       #{siteName,jdbcType=VARCHAR}, #{siteShortName,jdbcType=VARCHAR}, #{mobilePlantformName,jdbcType=VARCHAR}, 
       #{mobileTitle,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{logoWhite,jdbcType=VARCHAR}, 
       #{loginBg,jdbcType=VARCHAR}, #{loginTop,jdbcType=VARCHAR}, #{loginTopBgColor,jdbcType=VARCHAR}, 
-      #{appleIcon,jdbcType=VARCHAR}, #{screenIcon,jdbcType=VARCHAR}, #{loginMsg,jdbcType=VARCHAR}, 
-      #{displayLoginMsg,jdbcType=BIT})
+      #{appleIcon,jdbcType=VARCHAR}, #{screenIcon,jdbcType=VARCHAR}, #{qrLogo,jdbcType=VARCHAR}, 
+      #{loginMsg,jdbcType=VARCHAR}, #{displayLoginMsg,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysConfig">
     insert into sys_config
@@ -213,6 +215,9 @@
       </if>
       <if test="screenIcon != null">
         screen_icon,
+      </if>
+      <if test="qrLogo != null">
+        qr_logo,
       </if>
       <if test="loginMsg != null">
         login_msg,
@@ -290,6 +295,9 @@
       </if>
       <if test="screenIcon != null">
         #{screenIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="qrLogo != null">
+        #{qrLogo,jdbcType=VARCHAR},
       </if>
       <if test="loginMsg != null">
         #{loginMsg,jdbcType=VARCHAR},
@@ -377,6 +385,9 @@
       <if test="record.screenIcon != null">
         screen_icon = #{record.screenIcon,jdbcType=VARCHAR},
       </if>
+      <if test="record.qrLogo != null">
+        qr_logo = #{record.qrLogo,jdbcType=VARCHAR},
+      </if>
       <if test="record.loginMsg != null">
         login_msg = #{record.loginMsg,jdbcType=VARCHAR},
       </if>
@@ -413,6 +424,7 @@
       login_top_bg_color = #{record.loginTopBgColor,jdbcType=VARCHAR},
       apple_icon = #{record.appleIcon,jdbcType=VARCHAR},
       screen_icon = #{record.screenIcon,jdbcType=VARCHAR},
+      qr_logo = #{record.qrLogo,jdbcType=VARCHAR},
       login_msg = #{record.loginMsg,jdbcType=VARCHAR},
       display_login_msg = #{record.displayLoginMsg,jdbcType=BIT}
     <if test="_parameter != null">
@@ -488,6 +500,9 @@
       <if test="screenIcon != null">
         screen_icon = #{screenIcon,jdbcType=VARCHAR},
       </if>
+      <if test="qrLogo != null">
+        qr_logo = #{qrLogo,jdbcType=VARCHAR},
+      </if>
       <if test="loginMsg != null">
         login_msg = #{loginMsg,jdbcType=VARCHAR},
       </if>
@@ -521,6 +536,7 @@
       login_top_bg_color = #{loginTopBgColor,jdbcType=VARCHAR},
       apple_icon = #{appleIcon,jdbcType=VARCHAR},
       screen_icon = #{screenIcon,jdbcType=VARCHAR},
+      qr_logo = #{qrLogo,jdbcType=VARCHAR},
       login_msg = #{loginMsg,jdbcType=VARCHAR},
       display_login_msg = #{displayLoginMsg,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}

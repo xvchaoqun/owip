@@ -3,6 +3,7 @@ package service.sys;
 import controller.global.OpException;
 import domain.sys.SchedulerJob;
 import domain.sys.SchedulerJobExample;
+import org.apache.ibatis.session.RowBounds;
 import org.quartz.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import persistence.sys.SchedulerJobMapper;
+import service.BaseMapper;
 import sys.quartz.QuartzManager;
 
 import java.util.Date;
@@ -22,7 +24,7 @@ import java.util.Map;
  * Created by lm on 2017/9/17.
  */
 @Service
-public class SchedulerJobService {
+public class SchedulerJobService  extends BaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
@@ -40,13 +42,14 @@ public class SchedulerJobService {
     }
 
     @Transactional
-    public int insert(SchedulerJob schedulerJob) {
+    public int insert(SchedulerJob record) {
 
-        Assert.isTrue(!idDuplicate(schedulerJob.getId(), schedulerJob.getName()), "定时任务名称重复");
+        Assert.isTrue(!idDuplicate(record.getId(), record.getName()), "定时任务名称重复");
 
-        schedulerJob.setCreateTime(new Date());
-        schedulerJob.setIsStarted(false);
-        return schedulerJobMapper.insert(schedulerJob);
+        record.setCreateTime(new Date());
+        record.setIsStarted(false);
+        record.setSortOrder(getNextSortOrder("sys_scheduler_job", null));
+        return schedulerJobMapper.insert(record);
     }
 
     public Map<String, Map<String, Object>> allJobsMap() {
@@ -69,23 +72,24 @@ public class SchedulerJobService {
         SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
+        String clazz = schedulerJob.getClazz();
+
         Class cls = null;
         try {
-            cls = Class.forName(schedulerJob.getClazz());
+            cls = Class.forName(clazz);
         } catch (ClassNotFoundException e) {
             logger.error("类不存在", e);
             throw new OpException("类{0}不存在", schedulerJob.getClazz());
         }
 
-        String jobName = schedulerJob.getName();
-        QuartzManager.addJob(scheduler, jobName, cls, schedulerJob.getCron());
+        QuartzManager.addJob(scheduler, clazz.replaceAll("\\.", "_"), cls, schedulerJob.getCron());
 
         SchedulerJob record = new SchedulerJob();
         record.setId(id);
         record.setIsStarted(true);
         schedulerJobMapper.updateByPrimaryKeySelective(record);
 
-        logger.info("启动定时任务[{}]成功", jobName);
+        logger.info("启动定时任务[{}]成功", schedulerJob.getName());
     }
 
     // 启动所有已开启的任务（系统启动时执行）
@@ -103,12 +107,11 @@ public class SchedulerJobService {
         for (SchedulerJob schedulerJob : schedulerJobs) {
 
             try {
-
-                String jobName =  schedulerJob.getName();
-                QuartzManager.addJob(scheduler, jobName,
-                        Class.forName(schedulerJob.getClazz()), schedulerJob.getCron());
+                String clazz =  schedulerJob.getClazz();
+                QuartzManager.addJob(scheduler, clazz.replaceAll("\\.", "_"),
+                        Class.forName(clazz), schedulerJob.getCron());
                 success++;
-                logger.info("启动定时任务[{}]", jobName);
+                logger.info("启动定时任务[{}]", schedulerJob.getName());
             } catch (ClassNotFoundException e) {
 
                 logger.error("类不存在", e);
@@ -124,15 +127,15 @@ public class SchedulerJobService {
         SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
-        String jobName =  schedulerJob.getName();
-        QuartzManager.removeJob(scheduler, jobName);
+        String clazz =  schedulerJob.getClazz();
+        QuartzManager.removeJob(scheduler, clazz.replaceAll("\\.", "_"));
 
         SchedulerJob record = new SchedulerJob();
         record.setId(id);
         record.setIsStarted(false);
         schedulerJobMapper.updateByPrimaryKeySelective(record);
 
-        logger.info("关闭定时任务[{}]成功", jobName);
+        logger.info("关闭定时任务[{}]成功", schedulerJob.getName());
     }
 
     @Transactional
@@ -156,5 +159,40 @@ public class SchedulerJobService {
 
         stopJob(id);
         schedulerJobMapper.deleteByPrimaryKey(id);
+    }
+
+    public void changeOrder(int id, int addNum) {
+
+        if(addNum == 0) return ;
+
+        SchedulerJob entity = schedulerJobMapper.selectByPrimaryKey(id);
+        Integer baseSortOrder = entity.getSortOrder();
+
+        SchedulerJobExample example = new SchedulerJobExample();
+        if (addNum > 0) {
+
+            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.setOrderByClause("sort_order asc");
+        }else {
+
+            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.setOrderByClause("sort_order desc");
+        }
+
+        List<SchedulerJob> overEntities = schedulerJobMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        if(overEntities.size()>0) {
+
+            SchedulerJob targetEntity = overEntities.get(overEntities.size()-1);
+
+            if (addNum > 0)
+                commonMapper.downOrder("sys_scheduler_job", null, baseSortOrder, targetEntity.getSortOrder());
+            else
+                commonMapper.upOrder("sys_scheduler_job", null, baseSortOrder, targetEntity.getSortOrder());
+
+            SchedulerJob record = new SchedulerJob();
+            record.setId(id);
+            record.setSortOrder(targetEntity.getSortOrder());
+            schedulerJobMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

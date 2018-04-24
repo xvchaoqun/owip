@@ -19,7 +19,7 @@ pageEncoding="UTF-8" %>
                         修改</button>
                 </shiro:hasPermission>
                 <button id="handleBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
-                        data-url="${ctx}/shortMsg_view" data-querystr="&type=taiwanRecordHandle">
+                        data-url="${ctx}/abroad/shortMsg_view" data-querystr="&type=taiwanRecordHandle">
                     <i class="fa fa-hand-paper-o"></i> 催交证件
                 </button>
                 <shiro:hasPermission name="taiwanRecord:del">

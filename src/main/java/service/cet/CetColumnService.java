@@ -29,9 +29,9 @@ public class CetColumnService extends BaseMapper {
     @Transactional
     public void insertSelective(CetColumn record){
 
-        String whereSql = "1=1";
+        String whereSql = null;
         if(record.getFid()!=null){
-            whereSql += " and fid="+record.getFid();
+            whereSql = "fid="+record.getFid();
         }
 
         record.setSortOrder(getNextSortOrder("cet_column", whereSql));
@@ -86,9 +86,9 @@ public class CetColumnService extends BaseMapper {
         if(overEntities.size()>0) {
 
             CetColumn targetEntity = overEntities.get(overEntities.size()-1);
-            String whereSql = "1=1";
+            String whereSql = null;
             if(entity.getFid()!=null){
-                whereSql += " and fid="+entity.getFid();
+                whereSql = "fid="+entity.getFid();
             }
             if (addNum > 0)
                 commonMapper.downOrder("cet_column", whereSql, baseSortOrder, targetEntity.getSortOrder());

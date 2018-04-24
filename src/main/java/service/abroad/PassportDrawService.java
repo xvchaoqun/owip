@@ -53,6 +53,8 @@ public class PassportDrawService extends BaseMapper {
 
     @Autowired
     protected ShortMsgService shortMsgService;
+    @Autowired
+    protected AbroadShortMsgService abroadShortMsgService;
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     /*
@@ -83,7 +85,7 @@ public class PassportDrawService extends BaseMapper {
                 int days = p.getDays();
                 if ((days - 1) % 3 == 0) {  // 间隔第1,4,7...天应发短信提醒
 
-                    ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(null, null, "passportDrawReturn", passportDraw.getId());
+                    ShortMsgBean shortMsgBean = abroadShortMsgService.getShortMsgBean(null, null, "passportDrawReturn", passportDraw.getId());
                     try {
                         boolean ret = shortMsgService.send(shortMsgBean, "127.0.0.1");
                         logger.info(String.format("系统发送短信[%s]：%s", ret ? "成功" : "失败", shortMsgBean.getContent()));
@@ -220,7 +222,7 @@ public class PassportDrawService extends BaseMapper {
             passportMapper.updateByPrimaryKeySelective(_record);
 
             // 归还证件后通知本人
-            ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(ShiroHelper.getCurrentUserId(),
+            ShortMsgBean shortMsgBean = abroadShortMsgService.getShortMsgBean(ShiroHelper.getCurrentUserId(),
                     null, "passportDrawReturnSuccess", passportDraw.getId());
             shortMsgService.send(shortMsgBean, IpUtils.getRealIp(ContextHelper.getRequest()));
         }

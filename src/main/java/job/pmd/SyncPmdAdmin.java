@@ -1,4 +1,4 @@
-package job;
+package job.pmd;
 
 import domain.pmd.PmdPayParty;
 import org.quartz.Job;
@@ -7,6 +7,7 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import service.pmd.PmdBranchAdminService;
 import service.pmd.PmdPartyAdminService;
 import service.pmd.PmdPayPartyService;

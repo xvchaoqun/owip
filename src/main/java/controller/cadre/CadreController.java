@@ -369,13 +369,35 @@ public class CadreController extends BaseController {
         return "cadre/cadre_base";
     }
 
+    // 提任（中层->校领导）
+    @RequiresPermissions("cadre:edit")
+    @RequestMapping("/cadre_promote")
+    public String cadre_promote(int id, ModelMap modelMap) {
+
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(id);
+        modelMap.put("cadre", cadre);
+
+        return "cadre/cadre_promote";
+    }
+
+    @RequiresPermissions("cadre:edit")
+    @RequestMapping(value = "/cadre_promote", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadre_promote(int id, String title, HttpServletRequest request) {
+
+        cadreService.promote(id, StringUtils.trimToNull(title));
+
+        logger.info(addLog(LogConstants.LOG_ADMIN, "干部提任：%s", id));
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+
+        return resultMap;
+    }
+    // 离任
     @RequiresPermissions("cadre:leave")
     @RequestMapping("/cadre_leave")
     public String cadre_leave(int id, ModelMap modelMap) {
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(id);
-        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-        modelMap.put("sysUser", sysUser);
         modelMap.put("cadre", cadre);
 
         TreeNode dispatchCadreTree = cadreCommonService.getDispatchCadreTree(id, DispatchConstants.DISPATCH_CADRE_TYPE_DISMISS);

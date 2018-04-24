@@ -327,7 +327,7 @@
                  return '-';
                  }
                 if (rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_UNDRAW}') {
-                    return '<button data-url="${ctx}/shortMsg_view?id={0}&type=passportDrawApply" class="popupBtn btn btn-warning btn-xs">'
+                    return '<button data-url="${ctx}/abroad/shortMsg_view?id={0}&type=passportDrawApply" class="popupBtn btn btn-warning btn-xs">'
                                     .format(rowObject.id)
                             + '<i class="fa fa-info"></i> 短信通知</button>';
                 }
@@ -376,7 +376,7 @@
                     if (rowObject.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW}' || rowObject.returnDateNotNow) {
                         return '-';
                     }
-                    return '<button data-url="${ctx}/shortMsg_view?id={0}&type=passportDrawReturn" class="popupBtn btn btn-danger btn-xs">'
+                    return '<button data-url="${ctx}/abroad/shortMsg_view?id={0}&type=passportDrawReturn" class="popupBtn btn btn-danger btn-xs">'
                                     .format(rowObject.id)
                             + '<i class="fa fa-hand-paper-o"></i> 催交证件</button>';
                 }

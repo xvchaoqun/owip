@@ -114,6 +114,11 @@ public class ContentTplConstants {
         CONTENT_TPL_CRS_MSG_MAP.put(CONTENT_TPL_CRS_MSG_4, "通知4：招聘会前一天提醒");
         CONTENT_TPL_CRS_MSG_MAP.put(CONTENT_TPL_CRS_MSG_5, "通知5：招聘会前一小时提醒");
     }
+    // 竞争上岗报名通知管理员
+    public final static String CONTENT_TPL_CRS_APPLY_MSG = "ct_crs_apply_msg";
+    // 竞争上岗报名截止通知领导
+    public final static String CONTENT_TPL_CRS_APPLY_END = "ct_crs_apply_end";
+
 
     /*******
      * 干部教育培训

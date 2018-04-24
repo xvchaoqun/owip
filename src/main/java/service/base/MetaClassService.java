@@ -58,7 +58,7 @@ public class MetaClassService extends BaseMapper {
     public int insertSelective(MetaClass record){
 
         Assert.isTrue(codeAvailable(null, record.getCode()), "wrong code");
-        record.setSortOrder(getNextSortOrder("base_meta_class", "1=1"));
+        record.setSortOrder(getNextSortOrder("base_meta_class", null));
         return metaClassMapper.insertSelective(record);
     }
 

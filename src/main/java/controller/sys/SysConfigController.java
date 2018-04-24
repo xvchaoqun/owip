@@ -42,7 +42,9 @@ public class SysConfigController extends BaseController {
                                MultipartFile _logo,
                                MultipartFile _logoWhite,
                                MultipartFile _loginTop,
-                               MultipartFile _loginBg) throws IOException, InterruptedException {
+                               MultipartFile _loginBg,
+                               MultipartFile _qrLogo
+                                ) throws IOException, InterruptedException {
 
         String folder = "sysConfig";
         String logo = uploadPic(_logo, folder, 100, 50);
@@ -56,6 +58,7 @@ public class SysConfigController extends BaseController {
 
         record.setAppleIcon(upload(_appleIcon, folder));
         record.setScreenIcon(upload(_screenIcon, folder));
+        record.setQrLogo(upload(_qrLogo, folder));
 
         record.setDisplayLoginMsg(BooleanUtils.isTrue(record.getDisplayLoginMsg()));
         sysConfigService.insertOrUpdate(record);

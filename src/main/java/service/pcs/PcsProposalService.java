@@ -56,7 +56,7 @@ public class PcsProposalService extends BaseMapper {
         PcsProposalView pcsProposal = pcsProposalViewMapper.selectByPrimaryKey(proposalId);
         SysUserView applyUser = pcsProposal.getUser();
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PCS_PROPOSAL_SUMIT_INFO);
+        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PCS_PROPOSAL_SUMIT_INFO);
         List<SysUserView> receivers = contentTplService.getShorMsgReceivers(tpl.getId());
 
         for (SysUserView uv : receivers) {
@@ -96,7 +96,7 @@ public class PcsProposalService extends BaseMapper {
         String date = DateUtils.formatDate(pcsProposal.getCreateTime(), DateUtils.YYYY_MM_DD_CHINA);
 
         List<PcsPrCandidateView> inviteCandidates = getInviteCandidates(configId, pcsProposal);
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PCS_INVITE_SECONDER);
+        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PCS_INVITE_SECONDER);
 
         for (PcsPrCandidateView candidate : inviteCandidates) {
             try {

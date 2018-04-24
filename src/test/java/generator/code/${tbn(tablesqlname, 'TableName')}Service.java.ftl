@@ -38,7 +38,7 @@ public class ${TableName}Service extends BaseMapper {
     public void insertSelective(${TableName} record){
 
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate");
-        record.setSortOrder(getNextSortOrder("${tablesqlname}", "1=1"));
+        record.setSortOrder(getNextSortOrder("${tablesqlname}", null));
         ${tableName}Mapper.insertSelective(record);
     }
 
@@ -116,9 +116,9 @@ public class ${TableName}Service extends BaseMapper {
             ${TableName} targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("${tablePrefix}${tablesqlname}", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("${tablePrefix}${tablesqlname}", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("${tablePrefix}${tablesqlname}", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("${tablePrefix}${tablesqlname}", null, baseSortOrder, targetEntity.getSortOrder());
 
             ${TableName} record = new ${TableName}();
             record.setId(id);

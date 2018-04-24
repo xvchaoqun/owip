@@ -337,7 +337,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         logger.info(addLog(LogConstants.LOG_ABROAD, "申请使用证件（因私出国）：%s", record.getId()));
 
         // 给干部管理员发短信提醒
-        shortMsgService.sendPassportDrawSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
+        abroadShortMsgService.sendPassportDrawSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
 
         return success(FormUtils.SUCCESS);
     }
@@ -444,7 +444,7 @@ public class UserPassportDrawController extends AbroadBaseController {
                 AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP.get(type), record.getId()));
 
         // 给干部管理员发短信提醒
-        shortMsgService.sendPassportDrawSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
+        abroadShortMsgService.sendPassportDrawSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
 
         for (PassportDrawFile passportDrawFile : passportDrawFiles) {
             passportDrawFile.setDrawId(record.getId());
@@ -532,7 +532,7 @@ public class UserPassportDrawController extends AbroadBaseController {
         logger.info(addLog(LogConstants.LOG_ABROAD, "申请使用证件（处理其他事务）：%s", record.getId()));
 
         // 给干部管理员发短信提醒
-        shortMsgService.sendPassportDrawSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
+        abroadShortMsgService.sendPassportDrawSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
 
         for (PassportDrawFile passportDrawFile : passportDrawFiles) {
             passportDrawFile.setDrawId(record.getId());

@@ -32,7 +32,7 @@ public class UnitTransferService extends BaseMapper {
     @CacheEvict(value="UnitTransfer:ALL", allEntries = true)
     public int insertSelective(UnitTransfer record){
 
-        record.setSortOrder(getNextSortOrder("unit_transfer", "1=1"));
+        record.setSortOrder(getNextSortOrder("unit_transfer", null));
         return unitTransferMapper.insertSelective(record);
     }
     @Transactional

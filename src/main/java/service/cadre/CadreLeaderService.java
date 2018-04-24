@@ -52,7 +52,7 @@ public class CadreLeaderService extends BaseMapper {
     })
     public int insertSelective(CadreLeader record) {
 
-        record.setSortOrder(getNextSortOrder("cadre_leader", "1=1"));
+        record.setSortOrder(getNextSortOrder("cadre_leader", null));
         return cadreLeaderMapper.insertSelective(record);
     }
 

@@ -187,6 +187,12 @@
                         <input type="file" name="_screenIcon" id="_screenIcon"/>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">二维码LOGO（分辨率90*90，PNG格式）</label>
+                    <div class="col-xs-6 logo">
+                        <input type="file" name="_qrLogo" id="_qrLogo"/>
+                    </div>
+                </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">登录页公告</label>
 
@@ -400,7 +406,7 @@
     <c:if test="${not empty sysConfig.screenIcon}">
     $("#_screenIcon").find('button[type=reset]').on(ace.click_event, function () {
         //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_appleIcon").ace_file_input('show_file_list', [{
+        $("#_screenIcon").ace_file_input('show_file_list', [{
             type: 'image',
             name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.screenIcon)}&_=<%=new Date().getTime()%>'
         }]);
@@ -408,6 +414,32 @@
     $("#_screenIcon").ace_file_input('show_file_list', [{
         type: 'image',
         name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.screenIcon)}&_=<%=new Date().getTime()%>'
+    }]);
+    </c:if>
+    $.fileInput($("#_qrLogo"), {
+        style: 'well',
+        btn_choose: '二维码LOGO, PNG格式',
+        btn_change: null,
+        no_icon: 'ace-icon fa fa-picture-o',
+        thumbnail: 'large',
+        droppable: true,
+        previewWidth: 90,
+        previewHeight: 90,
+        allowExt: ['png'],
+        allowMime: ['image/png']
+    });
+    <c:if test="${not empty sysConfig.qrLogo}">
+    $("#_qrLogo").find('button[type=reset]').on(ace.click_event, function () {
+        //$('#user-profile input[type=file]').ace_file_input('reset_input');
+        $("#_qrLogo").ace_file_input('show_file_list', [{
+            type: 'image',
+            name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.qrLogo)}&_=<%=new Date().getTime()%>'
+        }]);
+    });
+
+    $("#_qrLogo").ace_file_input('show_file_list', [{
+        type: 'image',
+        name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.qrLogo)}&_=<%=new Date().getTime()%>'
     }]);
     </c:if>
 

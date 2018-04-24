@@ -40,7 +40,7 @@ public class ScGroupFileService extends BaseMapper {
     @Transactional
     public void batchAdd(List<ScGroupFile> records) {
         for (ScGroupFile record : records) {
-            record.setSortOrder(getNextSortOrder("sc_group_file", "1=1"));
+            record.setSortOrder(getNextSortOrder("sc_group_file", null));
             scGroupFileMapper.insertSelective(record);
         }
     }
@@ -96,9 +96,9 @@ public class ScGroupFileService extends BaseMapper {
             ScGroupFile targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("sc_group_file", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("sc_group_file", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("sc_group_file", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("sc_group_file", null, baseSortOrder, targetEntity.getSortOrder());
 
             ScGroupFile record = new ScGroupFile();
             record.setId(id);

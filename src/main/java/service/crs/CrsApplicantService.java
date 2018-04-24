@@ -11,6 +11,7 @@ import domain.crs.CrsPost;
 import domain.modify.ModifyCadreAuth;
 import mixin.MixinUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -46,6 +47,9 @@ public class CrsApplicantService extends BaseMapper {
     private ModifyCadreAuthService modifyCadreAuthService;
     @Autowired
     private CrsApplyRuleService crsApplyRuleService;
+    @Autowired
+    @Lazy
+    private CrsShortMsgService crsShortMsgService;
 
     // 获得报名人员
     public List<CrsApplicantView> getCrsApplicants(int postId){
@@ -83,7 +87,7 @@ public class CrsApplicantService extends BaseMapper {
 
     // 应聘报名
     @Transactional
-    public void apply(Integer id, int postId, byte status, String report, int userId) {
+    public void apply(Integer applicantId, int postId, byte status, String report, int userId) {
 
         if(!CadreInfoCheckService.perfectCadreInfo(userId)){
             throw new OpException("未通过干部信息完整性校验。");
@@ -110,7 +114,7 @@ public class CrsApplicantService extends BaseMapper {
                     DateUtils.formatDate(reportDeadline, "yyyy年MM月dd日 HH点"));
         }
 
-        if(idDuplicate(id, postId, userId)){
+        if(idDuplicate(applicantId, postId, userId)){
             throw new OpException("岗位{0}重复应聘。", crsPost==null?"":crsPost.getName());
         }
 
@@ -119,7 +123,7 @@ public class CrsApplicantService extends BaseMapper {
             throw new OpException("状态异常。");
         }
 
-        if(id==null) {
+        if(applicantId==null) {
 
             // 检查报名规则
             if(!crsApplyRuleService.canApply(userId, postId)){
@@ -144,14 +148,17 @@ public class CrsApplicantService extends BaseMapper {
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT,
                     "应聘报名", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     JSONUtils.toString(record, MixinUtils.baseMixins(), false));
+
+            // 短信通知管理员
+            crsShortMsgService.sendApplySubmitMsgToAdmin(record.getId(), ContextHelper.getRealIp());
         }else{
 
-            CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(id);
+            CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
             Assert.isTrue(crsApplicant!=null && crsApplicant.getPostId()==postId
                     && crsApplicant.getUserId()==userId, "数据异常。");
 
             CrsApplicant record = new CrsApplicant();
-            record.setId(id);
+            record.setId(applicantId);
             record.setReport(report);
             if(status==CrsConstants.CRS_APPLICANT_STATUS_SUBMIT)
                 record.setStatus(status);

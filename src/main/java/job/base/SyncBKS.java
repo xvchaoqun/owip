@@ -1,4 +1,4 @@
-package job;
+package job.base;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -6,14 +6,12 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import service.source.SyncService;
 
 /**
  * Created by lm on 2017/9/17.
  */
-@Component
-public class SyncTeacherAbroadInfo implements Job {
+public class SyncBKS implements Job {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -23,9 +21,9 @@ public class SyncTeacherAbroadInfo implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
-        logger.info("同步教职工党员出国境信息...");
+        logger.info("同步本科生库...");
         try {
-            sysUserSyncService.syncAllAbroad(true);
+            sysUserSyncService.syncAllBks(true);
         }catch (Exception ex){
             ex.printStackTrace();
         }

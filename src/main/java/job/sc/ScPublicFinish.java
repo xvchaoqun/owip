@@ -1,4 +1,4 @@
-package job;
+package job.sc;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -6,26 +6,23 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import service.source.SyncService;
+import service.sc.scPublic.ScPublicService;
 
-/**
- * Created by lm on 2017/9/17.
- */
-@Component
-public class SyncYJS implements Job {
+public class ScPublicFinish implements Job {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private SyncService sysUserSyncService;
+    private ScPublicService scPublicService;
 
+    // 公示时间那天的下午6点， 系统自动将公示转入到“公示结束”中来
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
-        logger.info("同步研究生库...");
+        logger.info("干部任前公示结束系统自动扫描...");
         try {
-            sysUserSyncService.syncAllYJS(true);
+            scPublicService.autoFinish();
+
         }catch (Exception ex){
             ex.printStackTrace();
         }

@@ -114,6 +114,28 @@ public class CadreService extends BaseMapper {
         }
     }
 
+    // 提任（中层干部->校领导）
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public void promote(int id, String title) {
+
+        Cadre record = new Cadre();
+        record.setStatus(CadreConstants.CADRE_STATUS_LEADER);
+        if (StringUtils.isNotBlank(title))
+            record.setTitle(title);
+        record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + CadreConstants.CADRE_STATUS_LEADER));
+
+        CadreExample example = new CadreExample();
+        example.createCriteria().andIdEqualTo(id)
+                .andStatusEqualTo(CadreConstants.CADRE_STATUS_MIDDLE);
+
+        cadreMapper.updateByExampleSelective(record, example);
+    }
+
+    // 离任
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = "UserPermissions", allEntries = true),

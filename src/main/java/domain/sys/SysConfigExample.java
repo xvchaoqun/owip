@@ -1694,6 +1694,76 @@ public class SysConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andQrLogoIsNull() {
+            addCriterion("qr_logo is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoIsNotNull() {
+            addCriterion("qr_logo is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoEqualTo(String value) {
+            addCriterion("qr_logo =", value, "qrLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoNotEqualTo(String value) {
+            addCriterion("qr_logo <>", value, "qrLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoGreaterThan(String value) {
+            addCriterion("qr_logo >", value, "qrLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoGreaterThanOrEqualTo(String value) {
+            addCriterion("qr_logo >=", value, "qrLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoLessThan(String value) {
+            addCriterion("qr_logo <", value, "qrLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoLessThanOrEqualTo(String value) {
+            addCriterion("qr_logo <=", value, "qrLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoLike(String value) {
+            addCriterion("qr_logo like", value, "qrLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoNotLike(String value) {
+            addCriterion("qr_logo not like", value, "qrLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoIn(List<String> values) {
+            addCriterion("qr_logo in", values, "qrLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoNotIn(List<String> values) {
+            addCriterion("qr_logo not in", values, "qrLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoBetween(String value1, String value2) {
+            addCriterion("qr_logo between", value1, value2, "qrLogo");
+            return (Criteria) this;
+        }
+
+        public Criteria andQrLogoNotBetween(String value1, String value2) {
+            addCriterion("qr_logo not between", value1, value2, "qrLogo");
+            return (Criteria) this;
+        }
+
         public Criteria andLoginMsgIsNull() {
             addCriterion("login_msg is null");
             return (Criteria) this;

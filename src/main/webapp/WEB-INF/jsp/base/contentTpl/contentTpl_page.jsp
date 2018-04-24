@@ -98,21 +98,33 @@
         colModel: [
             { label: '模板名称', name: 'name', align:'left', width: 220,frozen:true },
             <shiro:hasRole name="${ROLE_ADMIN}">
-            { label: '代码', name: 'code', align:'left', width: 250 },
+            { label: '代码', name: 'code', align:'left', width: 250 ,frozen:true },
             </shiro:hasRole>
+            <c:if test="${!_query}">
+            { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url:'${ctx}/contentTpl_changeOrder'}, frozen:true },
+            </c:if>
             { label: '类型', name: 'type',  formatter: function (cellvalue, options, rowObject) {
                 return _cMap.CONTENT_TPL_TYPE_MAP[cellvalue];
             }},
             { label: '内容', name: 'content', width: 450, align:'left', formatter: $.jgrid.formatter.htmlencodeWithNoSpace},
-            { label: '模板类型', name: 'contentType', formatter: function (cellvalue, options, rowObject) {
+            { label: '指定短信接收人', name: '_receivers', width: 180, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.receivers==undefined || rowObject.receivers.length==0) return '-'
+                //console.log(rowObject.receivers)
+                return $.map(rowObject.receivers,function(val, i){
+                    return val.realname;
+                })
+            }},
+            /*{ label: '模板类型', name: 'contentType', formatter: function (cellvalue, options, rowObject) {
                 return _cMap.CONTENT_TPL_CONTENT_TYPE_MAP[cellvalue];
             }},
             { label: '模板引擎', name: 'engine', width: 150,formatter: function (cellvalue, options, rowObject) {
                 return _cMap.CONTENT_TPL_ENGINE_MAP[cellvalue];
-            }},
+            }},*/
             { label: '备注', name: 'remark', width: 250},
             { label: '添加时间', name: 'createTime', width: 150}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
+    $.initNavGrid("jqGrid", "jqGridPager");
 </script>

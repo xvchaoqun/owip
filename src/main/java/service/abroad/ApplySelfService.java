@@ -117,10 +117,10 @@ public class ApplySelfService extends BaseMapper {
             /*List<SysUserView> cadreAdmin = sysUserService.findByRole(RoleConstants.ROLE_CADREADMIN);
             return cadreAdmin;*/
             if(approvalTypeId==-1) { // 组织部初审
-                ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
+                ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_SUBMIT_INFO);
                 return contentTplService.getShorMsgReceivers(tpl.getId());
             }else if(approvalTypeId==0){ // 组织部终审
-                ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_PASS_INFO);
+                ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_APPLYSELF_PASS_INFO);
                 return contentTplService.getShorMsgReceivers(tpl.getId());
             }
 
@@ -279,7 +279,7 @@ public class ApplySelfService extends BaseMapper {
                 ShortMsgBean bean = new ShortMsgBean();
                 bean.setSender(null);
                 bean.setReceiver(userId);
-                ContentTpl tpl = shortMsgService.getShortMsgTpl(key);
+                ContentTpl tpl = shortMsgService.getTpl(key);
                 String msgTpl = tpl.getContent();
                 bean.setRelateId(tpl.getId());
                 bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);

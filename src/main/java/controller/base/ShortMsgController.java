@@ -1,11 +1,9 @@
 package controller.base;
 
-import bean.ShortMsgBean;
 import controller.BaseController;
 import domain.base.ShortMsg;
 import domain.base.ShortMsgExample;
 import domain.base.ShortMsgExample.Criteria;
-import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -15,18 +13,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.LogConstants;
-import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tool.paging.CommonList;
-import sys.utils.FormUtils;
-import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,33 +29,6 @@ import java.util.Map;
 public class ShortMsgController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
-    @RequestMapping("/shortMsg_view")
-    public String shortMsg_view(@CurrentUser SysUserView loginUser,
-                                String type, // passport
-                                Integer id, ModelMap modelMap) {
-
-        ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(loginUser.getId(), null, type, id);
-        modelMap.put("shortMsgBean", shortMsgBean);
-
-        return "base/shortMsg/short_msg_view";
-    }
-
-    @RequiresPermissions("ShortMsg:send")
-    @RequestMapping(value = "/shortMsg", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_shortMsg(@CurrentUser SysUserView loginUser, String type, Integer id, HttpServletRequest request) {
-
-        ShortMsgBean shortMsgBean = shortMsgService.getShortMsgBean(loginUser.getId(), null, type, id);
-
-        if(shortMsgService.send(shortMsgBean, IpUtils.getRealIp(request))){
-
-            logger.info(addLog(LogConstants.LOG_ADMIN, "发送短信：%s", shortMsgBean.getContent()));
-            return success(FormUtils.SUCCESS);
-        }
-
-        return failed(FormUtils.FAILED);
-    }
 
     @RequiresPermissions("shortMsg:list")
     @RequestMapping("/shortMsg")

@@ -22,9 +22,7 @@ import service.sys.SchedulerJobService;
 import sys.constants.LogConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
-import sys.utils.Escape;
 import sys.utils.FormUtils;
-import sys.utils.HtmlEscapeUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,8 +53,7 @@ public class SchedulerJobController extends BaseController {
     @RequiresPermissions("schedulerJob:list")
     @RequestMapping("/schedulerJob_data")
     @ResponseBody
-    public void schedulerJob_data(HttpServletRequest request, Integer pageSize,
-                                  Integer pageNo, String searchStr) throws IOException {
+    public void schedulerJob_data(HttpServletRequest request, Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -66,10 +63,8 @@ public class SchedulerJobController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        searchStr = HtmlEscapeUtils.escape(Escape.unescape(searchStr), "UTF-8");
-
         SchedulerJobExample example = new SchedulerJobExample();
-        example.setOrderByClause(" id desc");
+        example.setOrderByClause(" sort_order desc");
 
         long count = schedulerJobMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
@@ -174,6 +169,16 @@ public class SchedulerJobController extends BaseController {
             logger.info(addLog(LogConstants.LOG_ADMIN, "关闭定时任务：%s", JSONUtils.toString(schedulerJob, false)));
         }
 
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("schedulerJob:changeOrder")
+    @RequestMapping(value = "/schedulerJob_changeOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_schedulerJob_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+        schedulerJobService.changeOrder(id, addNum);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "定时任务调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 

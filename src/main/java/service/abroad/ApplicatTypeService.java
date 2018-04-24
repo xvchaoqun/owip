@@ -64,7 +64,7 @@ public class ApplicatTypeService extends BaseMapper {
             ApplicatCadre record = new ApplicatCadre();
             record.setTypeId(typeId);
             record.setCadreId(cadreId);
-            record.setSortOrder(getNextSortOrder("abroad_applicat_type", "1=1"));
+            record.setSortOrder(getNextSortOrder("abroad_applicat_type", null));
             applicatCadreMapper.insert(record);
         }
     }

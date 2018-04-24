@@ -1,4 +1,4 @@
-package job;
+package job.crs;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -6,31 +6,24 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import service.cadre.CadreStatHistoryService;
-import sys.constants.CadreConstants;
+import service.crs.CrsShortMsgService;
 
 /**
- * Created by lm on 2017/9/17.
+ * Created by lm on 2018/4/24.
  */
-@Component
-public class CadreBackup implements Job {
+public class ApplyFinishMsg implements Job {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private CadreStatHistoryService cadreStatHistoryService;
+    private CrsShortMsgService crsShortMsgService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
-        logger.info("备份干部历史数据文件...");
+        logger.info("竞争上岗报名截止通知领导...");
         try {
-            for (Byte type : CadreConstants.CADRE_STAT_HISTORY_TYPE_MAP.keySet()) {
-
-                cadreStatHistoryService.saveExport(type);
-            }
-
+            crsShortMsgService.sendApplyFinishMsg();
         }catch (Exception ex){
             ex.printStackTrace();
         }

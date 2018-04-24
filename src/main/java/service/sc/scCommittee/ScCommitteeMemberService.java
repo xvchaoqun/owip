@@ -29,7 +29,7 @@ public class ScCommitteeMemberService extends BaseMapper {
     @Transactional
     public void insertSelective(ScCommitteeMember record){
 
-        record.setSortOrder(getNextSortOrder("sc_committee_member", "1=1"));
+        record.setSortOrder(getNextSortOrder("sc_committee_member", null));
         scCommitteeMemberMapper.insertSelective(record);
     }
 
@@ -80,9 +80,9 @@ public class ScCommitteeMemberService extends BaseMapper {
             ScCommitteeMember targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("sc_committee_member", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("sc_committee_member", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("sc_committee_member", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("sc_committee_member", null, baseSortOrder, targetEntity.getSortOrder());
 
             ScCommitteeMember record = new ScCommitteeMember();
             record.setId(id);

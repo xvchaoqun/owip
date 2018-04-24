@@ -69,7 +69,7 @@ public class PmdSendMsgController extends PmdBaseController {
     public String pmdSendMsg_notifyPartyAdmins(ModelMap modelMap) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_PARTY);
+        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_PARTY);
         String msg = MessageFormat.format(tpl.getContent(), DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyy年MM月"));
 
         modelMap.put("msg", msg);
@@ -98,7 +98,7 @@ public class PmdSendMsgController extends PmdBaseController {
         Party party = partyService.findAll().get(partyId);
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_BRANCH);
+        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PMD_NOTIFY_BRANCH);
         String msg = MessageFormat.format(tpl.getContent(),
                 "党支部",
                 DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyy年MM月"),
@@ -142,7 +142,7 @@ public class PmdSendMsgController extends PmdBaseController {
         }
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_PMD_URGE_MEMBERS);
+        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_PMD_URGE_MEMBERS);
         String msg = MessageFormat.format(tpl.getContent(),
                 DateUtils.formatDate(currentPmdMonth.getPayMonth(), "yyyy年MM月"),
                 branchName);

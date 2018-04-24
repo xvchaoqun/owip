@@ -281,7 +281,7 @@ public class UserApplySelfController extends AbroadBaseController {
             logger.info(addLog(LogConstants.LOG_ABROAD, "提交因私出国申请：%s", record.getId()));
 
             // 给干部管理员发短信提醒
-            shortMsgService.sendApplySelfSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
+            abroadShortMsgService.sendApplySelfSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
 
             sysApprovalLogService.add(record.getId(), cadre.getUserId(),
                     self?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,

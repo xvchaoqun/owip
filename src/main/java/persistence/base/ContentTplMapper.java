@@ -2,13 +2,12 @@ package persistence.base;
 
 import domain.base.ContentTpl;
 import domain.base.ContentTplExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface ContentTplMapper {
-    int countByExample(ContentTplExample example);
+    long countByExample(ContentTplExample example);
 
     int deleteByExample(ContentTplExample example);
 

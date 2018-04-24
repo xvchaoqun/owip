@@ -208,7 +208,7 @@
                 success:function(ret){
                     if(ret.success){
                         bootbox.hideAll();
-                        $.post("${ctx}/shortMsg", {id:'${passportDraw.id}', type:'passportDraw'}, function(ret){
+                        $.post("${ctx}/abroad/shortMsg", {id:'${passportDraw.id}', type:'passportDraw'}, function(ret){
                             if(ret.success) {
                                 //SysMsg.success('通知成功', '提示', function () {
                                 $.hideView();

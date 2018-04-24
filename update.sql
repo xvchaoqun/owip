@@ -1,5 +1,43 @@
 
+2018-4-24
+ALTER TABLE `base_content_tpl`
+	ADD COLUMN `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序' AFTER `param_def_values`;
 
+update base_content_tpl set sort_order=id;
+
+ALTER TABLE `sys_config`
+	ADD COLUMN `qr_logo` VARCHAR(200) NULL DEFAULT NULL COMMENT '二维码logo，90*90 PNG' AFTER `screen_icon`;
+
+UPDATE `sys_scheduler_job` SET `clazz`='job.cadre.CadreBackup' WHERE  `id`=1;
+UPDATE `sys_scheduler_job` SET `clazz`='job.abroad.ApplySelfSendApprovalMsg' WHERE  `id`=2;
+UPDATE `sys_scheduler_job` SET `clazz`='job.abroad.ApplySelfSendApprovalMsgToAdmin' WHERE  `id`=3;
+UPDATE `sys_scheduler_job` SET `clazz`='job.base.OnlineStatic' WHERE  `id`=4;
+UPDATE `sys_scheduler_job` SET `clazz`='job.abroad.PassportDrawReturnMsg' WHERE  `id`=5;
+UPDATE `sys_scheduler_job` SET `clazz`='job.abroad.PassportExpire' WHERE  `id`=6;
+UPDATE `sys_scheduler_job` SET `clazz`='job.base.SyncTeacherAbroadInfo' WHERE  `id`=7;
+UPDATE `sys_scheduler_job` SET `clazz`='job.base.SyncJZG' WHERE  `id`=8;
+UPDATE `sys_scheduler_job` SET `clazz`='job.base.SyncYJS' WHERE  `id`=9;
+UPDATE `sys_scheduler_job` SET `clazz`='job.base.SyncBKS' WHERE  `id`=10;
+UPDATE `sys_scheduler_job` SET `clazz`='job.base.SyncRetireSalary' WHERE  `id`=11;
+UPDATE `sys_scheduler_job` SET `clazz`='job.base.FlushMetadata' WHERE  `id`=12;
+UPDATE `sys_scheduler_job` SET `clazz`='job.base.FlushCountCache' WHERE  `id`=13;
+UPDATE `sys_scheduler_job` SET `clazz`='job.base.SyncJzgSalary' WHERE  `id`=14;
+UPDATE `sys_scheduler_job` SET `clazz`='job.sc.ScPublicFinishMsg' WHERE  `id`=15;
+UPDATE `sys_scheduler_job` SET `clazz`='job.sc.ScPublicFinishMsg' WHERE  `id`=16;
+UPDATE `sys_scheduler_job` SET `clazz`='job.sc.ScPublicFinish' WHERE  `id`=17;
+UPDATE `sys_scheduler_job` SET `clazz`='job.pmd.SyncPmdAdmin' WHERE  `id`=18;
+
+
+
+ALTER TABLE `sys_scheduler_job`
+	ADD COLUMN `sort_order` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '排序' AFTER `is_started`;
+	INSERT INTO `sys_scheduler_job` (`id`, `name`, `summary`, `clazz`, `cron`, `is_started`, `sort_order`, `create_time`)
+VALUES (19, '【竞争上岗】报名截止通知领导', '每10分钟竞争上岗报名截止通知', 'job.crs.ApplyFinishMsg', '0/10 * * * * ?',
+0, 19, '2018-04-24 15:12:17');
+	update sys_scheduler_job set sort_order=id;
+
+
+2018-4-18
 ALTER TABLE `pmd_month`
 	ADD COLUMN `online_finish_member_count` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '本月现金缴纳党费党员数' AFTER `finish_member_count`;
 
@@ -307,7 +345,7 @@ UPDATE sys_resource SET `url`=NULL WHERE  `id`=453;
 ALTER TABLE `sys_resource`
 	ADD UNIQUE INDEX `url` (`url`);
 
-UPDATE `db_owip`.`sys_resource` SET `permission`=NULL WHERE  `id`=1;
+UPDATE `sys_resource` SET `permission`=NULL WHERE  `id`=1;
 
 2018-3-30
 ALTER TABLE `crs_applicant`

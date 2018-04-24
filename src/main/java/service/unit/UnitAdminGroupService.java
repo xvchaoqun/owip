@@ -34,7 +34,7 @@ public class UnitAdminGroupService extends BaseMapper {
             resetPresentParty(record.getUnitId());
         }
 
-        record.setSortOrder(getNextSortOrder("unit_admin_group", "1=1"));
+        record.setSortOrder(getNextSortOrder("unit_admin_group", null));
         return unitAdminGroupMapper.insertSelective(record);
     }
     @Transactional

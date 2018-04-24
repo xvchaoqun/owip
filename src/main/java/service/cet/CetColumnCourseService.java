@@ -25,7 +25,7 @@ public class CetColumnCourseService extends BaseMapper {
     public void insertSelective(CetColumnCourse record){
 
         //Assert.isTrue(!idDuplicate(null, record.getCode()));
-        record.setSortOrder(getNextSortOrder("cet_column_course", "1=1"));
+        record.setSortOrder(getNextSortOrder("cet_column_course", null));
         cetColumnCourseMapper.insertSelective(record);
     }
 
@@ -78,9 +78,9 @@ public class CetColumnCourseService extends BaseMapper {
             CetColumnCourse targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("cet_column_course", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cet_column_course", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cet_column_course", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cet_column_course", null, baseSortOrder, targetEntity.getSortOrder());
 
             CetColumnCourse record = new CetColumnCourse();
             record.setId(id);

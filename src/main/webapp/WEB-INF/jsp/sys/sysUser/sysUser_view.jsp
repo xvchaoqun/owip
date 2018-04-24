@@ -141,7 +141,7 @@
                         </div>
                         </div>
                             <div>
-                                <img src="${ctx}/qrcode?content=${sysUser.code}"/>
+                                <img src="${ctx}/qrcode?content=${sysUser.code}&_=<%=new Date().getTime()%>"/>
                             </div>
                         </div>
                         <div class="clearfix form-actions center">

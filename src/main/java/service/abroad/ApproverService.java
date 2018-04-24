@@ -62,7 +62,7 @@ public class ApproverService extends BaseMapper {
     public int insertSelective(Approver record){
 
         Assert.isTrue(!idDuplicate(null, record.getCadreId()), "duplicate cadreId");
-        record.setSortOrder(getNextSortOrder("abroad_approver", "1=1"));
+        record.setSortOrder(getNextSortOrder("abroad_approver", null));
         return approverMapper.insertSelective(record);
     }
     @Transactional

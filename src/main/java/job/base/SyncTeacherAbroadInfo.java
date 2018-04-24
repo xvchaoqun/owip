@@ -1,4 +1,4 @@
-package job;
+package job.base;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -6,25 +6,24 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import service.sc.scPublic.ScPublicService;
+import service.source.SyncService;
 
-@Component
-public class ScPublicFinishMsg implements Job {
+/**
+ * Created by lm on 2017/9/17.
+ */
+public class SyncTeacherAbroadInfo implements Job {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private ScPublicService scPublicService;
+    private SyncService sysUserSyncService;
 
-    // 公示结束没有“确认”之前， 每天上午8:30， 下午2:30反复发短信提醒
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
-        logger.info("干部任前公示结束确认短信系统自动扫描...");
+        logger.info("同步教职工党员出国境信息...");
         try {
-            scPublicService.autoFinishMsg();
-
+            sysUserSyncService.syncAllAbroad(true);
         }catch (Exception ex){
             ex.printStackTrace();
         }

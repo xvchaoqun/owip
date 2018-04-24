@@ -57,7 +57,7 @@ public class CetShortMsgService extends BaseMapper {
     @Transactional
     public boolean sendMsg_2(int traineeId, int trainCourseId) {
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_CET_MSG_2);
+        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_CET_MSG_2);
         if (tpl == null) return false;
 
         CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);
@@ -125,7 +125,7 @@ public class CetShortMsgService extends BaseMapper {
     @Transactional
     public boolean sendMsg_1(int traineeId) {
 
-        ContentTpl tpl = shortMsgService.getShortMsgTpl(ContentTplConstants.CONTENT_TPL_CET_MSG_1);
+        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_CET_MSG_1);
         if (tpl == null) return false;
 
         CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);

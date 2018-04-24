@@ -29,7 +29,7 @@ public class CetExpertService extends BaseMapper {
     @Transactional
     public void insertSelective(CetExpert record){
 
-        record.setSortOrder(getNextSortOrder("cet_expert", "1=1"));
+        record.setSortOrder(getNextSortOrder("cet_expert", null));
         cetExpertMapper.insertSelective(record);
     }
 
@@ -85,9 +85,9 @@ public class CetExpertService extends BaseMapper {
             CetExpert targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("cet_expert", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cet_expert", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cet_expert", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cet_expert", null, baseSortOrder, targetEntity.getSortOrder());
 
             CetExpert record = new CetExpert();
             record.setId(id);

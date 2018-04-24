@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><span style="font-size:25px;font-weight: bolder">${sysUser.realname}</span>离任
+    <h3><span style="font-size:25px;font-weight: bolder">${cadre.realname}</span>离任
     </h3>
 </div>
 <div class="modal-body">

@@ -34,7 +34,7 @@ public class CetTraineeTypeService extends BaseMapper {
     @CacheEvict(value="CetTraineeType:ALL", allEntries = true)
     public void insertSelective(CetTraineeType record){
 
-        record.setSortOrder(getNextSortOrder("cet_trainee_type", "1=1"));
+        record.setSortOrder(getNextSortOrder("cet_trainee_type", null));
         cetTraineeTypeMapper.insertSelective(record);
     }
 
@@ -110,9 +110,9 @@ public class CetTraineeTypeService extends BaseMapper {
             CetTraineeType targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("cet_trainee_type", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cet_trainee_type", null, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cet_trainee_type", "1=1", baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cet_trainee_type", null, baseSortOrder, targetEntity.getSortOrder());
 
             CetTraineeType record = new CetTraineeType();
             record.setId(id);

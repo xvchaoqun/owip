@@ -102,7 +102,7 @@ public class CetTrainCourseService extends BaseMapper {
     public void batchAddFile(List<CetTrainCourseFile> records) {
 
         for (CetTrainCourseFile record : records) {
-            //record.setSortOrder(getNextSortOrder("sc_group_file", "1=1"));
+            //record.setSortOrder(getNextSortOrder("sc_group_file", null));
             cetTrainCourseFileMapper.insertSelective(record);
         }
     }

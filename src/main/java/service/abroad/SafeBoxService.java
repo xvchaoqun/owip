@@ -83,7 +83,7 @@ public class SafeBoxService extends BaseMapper {
     public int insertSelective(SafeBox record) {
 
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate code");
-        record.setSortOrder(getNextSortOrder("abroad_safe_box", "1=1"));
+        record.setSortOrder(getNextSortOrder("abroad_safe_box", null));
         return safeBoxMapper.insertSelective(record);
     }
 

@@ -21,7 +21,7 @@ public class CetTrainEvaRankService extends BaseMapper {
     @CacheEvict(value="CetTrainEvaRanks", allEntries = true)
     public void insertSelective(CetTrainEvaRank record){
 
-        record.setSortOrder(getNextSortOrder("cet_train_eva_rank", "1=1"));
+        record.setSortOrder(getNextSortOrder("cet_train_eva_rank", null));
         cetTrainEvaRankMapper.insertSelective(record);
     }
 

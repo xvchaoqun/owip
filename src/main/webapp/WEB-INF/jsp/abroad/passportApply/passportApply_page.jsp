@@ -51,7 +51,7 @@ pageEncoding="UTF-8" %>
                             </c:if>
                             <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_PASS}">
                                 <button class="jqOpenViewBtn btn btn-danger btn-sm"
-                                        data-url="${ctx}/shortMsg_view" data-querystr="&type=passportApplyDraw">
+                                        data-url="${ctx}/abroad/shortMsg_view" data-querystr="&type=passportApplyDraw">
                                     <i class="fa fa-hand-paper-o"></i> 催交证件
                                 </button>
                                 <button class="jqOpenViewBtn btn btn-success btn-sm"

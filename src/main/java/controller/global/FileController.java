@@ -18,8 +18,8 @@ import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
+import sys.tags.CmTag;
 import sys.tool.qrcode.QRCodeUtil;
-import sys.utils.ConfigUtil;
 import sys.utils.DownloadUtils;
 import sys.utils.FileUtils;
 import sys.utils.ImageUtils;
@@ -230,8 +230,7 @@ public class FileController extends BaseController {
     @RequestMapping("/qrcode")
     public void qrcode(String content, HttpServletResponse response) throws Exception {
 
-        String homePath = ConfigUtil.defaultHomePath();
-        BufferedImage image = QRCodeUtil.createImage(content, homePath + "/extend/img/bnu90.png", false);
+        BufferedImage image = QRCodeUtil.createImage(content, CmTag.getImgFolder() + "qr.png", false);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "PNG", baos);
         ImageUtils.displayImage(baos.toByteArray(), response);

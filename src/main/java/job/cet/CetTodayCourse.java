@@ -1,4 +1,4 @@
-package job;
+package job.cet;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -6,24 +6,22 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import service.sc.scPublic.ScPublicService;
+import service.cet.CetShortMsgService;
 
-@Component
-public class ScPublicFinish implements Job {
+public class CetTodayCourse implements Job {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private ScPublicService scPublicService;
+    private CetShortMsgService cetShortMsgService;
 
-    // 公示时间那天的下午6点， 系统自动将公示转入到“公示结束”中来
+    // 发送当天的课
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
-        logger.info("干部任前公示结束系统自动扫描...");
+        logger.info("每日开课通知...");
         try {
-            scPublicService.autoFinish();
+            cetShortMsgService.todayCourse(null);
 
         }catch (Exception ex){
             ex.printStackTrace();

@@ -69,9 +69,9 @@ public class UserPassportApplyController extends AbroadBaseController {
         logger.info(addLog(LogConstants.LOG_ABROAD, "申请办理因私出国证件：%s", record.getId()));
 
         // 短信通知干部本人
-        shortMsgService.sendPassportApplySubmitMsgToCadre(record.getId(), request);
+        abroadShortMsgService.sendPassportApplySubmitMsgToCadre(record.getId(), request);
         // 短信通知干部管理员
-        shortMsgService.sendPassportApplySubmitMsgToCadreAdmin(record.getId(), ip);
+        abroadShortMsgService.sendPassportApplySubmitMsgToCadreAdmin(record.getId(), ip);
 
         Map<String, Object> success = success(FormUtils.SUCCESS);
         success.put("applyId", record.getId());

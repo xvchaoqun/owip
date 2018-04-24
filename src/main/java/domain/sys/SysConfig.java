@@ -49,6 +49,8 @@ public class SysConfig implements Serializable {
 
     private String screenIcon;
 
+    private String qrLogo;
+
     private String loginMsg;
 
     private Boolean displayLoginMsg;
@@ -237,6 +239,14 @@ public class SysConfig implements Serializable {
 
     public void setScreenIcon(String screenIcon) {
         this.screenIcon = screenIcon == null ? null : screenIcon.trim();
+    }
+
+    public String getQrLogo() {
+        return qrLogo;
+    }
+
+    public void setQrLogo(String qrLogo) {
+        this.qrLogo = qrLogo == null ? null : qrLogo.trim();
     }
 
     public String getLoginMsg() {

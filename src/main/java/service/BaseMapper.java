@@ -30,6 +30,7 @@ import persistence.base.ShortMsgReceiverMapper;
 import persistence.base.ShortMsgTplMapper;
 import persistence.base.SitemapMapper;
 import persistence.base.SitemapRoleMapper;
+import persistence.base.common.IBaseMapper;
 import persistence.cadre.CadreAdLogMapper;
 import persistence.cadre.CadreAdditionalPostMapper;
 import persistence.cadre.CadreAdminLevelMapper;
@@ -127,7 +128,6 @@ import persistence.cis.CisObjUnitMapper;
 import persistence.cis.common.ICisMapper;
 import persistence.common.CommonMapper;
 import persistence.common.IExtMapper;
-import persistence.modify.common.IModifyMapper;
 import persistence.common.IPartyMapper;
 import persistence.common.IPropertyMapper;
 import persistence.common.ISysMapper;
@@ -201,6 +201,7 @@ import persistence.modify.ModifyBaseApplyMapper;
 import persistence.modify.ModifyBaseItemMapper;
 import persistence.modify.ModifyCadreAuthMapper;
 import persistence.modify.ModifyTableApplyMapper;
+import persistence.modify.common.IModifyMapper;
 import persistence.oa.OaTaskFileMapper;
 import persistence.oa.OaTaskMapper;
 import persistence.oa.OaTaskMsgMapper;
@@ -1154,6 +1155,8 @@ public class BaseMapper {
     protected SitemapRoleMapper sitemapRoleMapper;
     @Autowired(required = false)
     protected ShortMsgTplMapper shortMsgTplMapper;
+    @Autowired(required = false)
+    protected IBaseMapper iBaseMapper;
 
 
     // #tomcat版本>=8.0.39 下 win10下url路径中带正斜杠的文件路径读取不了

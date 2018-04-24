@@ -37,14 +37,18 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/schedulerJob_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '任务名称', name: 'name', width:300, align:'left'},
+            { label: '任务名称', name: 'name', width:300, align:'left', frozen:true},
+            <c:if test="${!_query}">
+            { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url:'${ctx}/schedulerJob_changeOrder'}, frozen:true },
+            </c:if>
             { label: '执行类', name: 'clazz', width: 300, align:'left'},
             { label: 'cron表达式', name: 'cron', width: 120, align:'left'},
             { label: '启动状态', name: '_status', formatter:function(cellvalue, options, rowObject){
-                return (allJobsReg.test(rowObject.name))?'<span class="text-success bolder">已启动</span>':'未启动'
+                return (allJobsReg.test(rowObject.clazz.replaceAll("\\.", "_")))?'<span class="text-success bolder">已启动</span>':'未启动'
             }},
             { label: '执行状态', name: '_runStatus', formatter:function(cellvalue, options, rowObject){
-                return (runJobsReg.test(rowObject.name))?'<span class="text-success bolder">执行中</span>':'未执行'
+                return (runJobsReg.test(rowObject.clazz.replaceAll("\\.", "_")))?'<span class="text-success bolder">执行中</span>':'未执行'
             }},
             { label: '任务描述', name: 'summary', width: 550, align:'left', formatter: $.jgrid.formatter.NoMultiSpace}
         ],
@@ -71,8 +75,8 @@
             $("#startBtn,#stopBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
-            var isStart = (allJobsReg.test(rowData.name));
-            var isRun = (runJobsReg.test(rowData.name));
+            var isStart = (allJobsReg.test(rowData.clazz.replaceAll("\\.", "_")));
+            //var isRun = (runJobsReg.test(rowData.clazz.replaceAll("\\.", "_")));
 
             $("#startBtn").prop("disabled", isStart);
             $("#stopBtn").prop("disabled", !isStart);
