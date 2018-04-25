@@ -1,4 +1,5 @@
 
+============更新北化工=========
 2018-4-25
 update modify_table_apply set table_name='cadre_post_admin' where module=15;
 update modify_table_apply set table_name='cadre_post_work' where module=16;
@@ -76,7 +77,7 @@ select modify_id from modify_table_apply  where table_name='cadre_family_abroad'
 更新utils.jar
 
 
-============更新北化工=========
+
 2018-4-25
 
 RENAME TABLE `cadre_famliy` TO `cadre_family`;
