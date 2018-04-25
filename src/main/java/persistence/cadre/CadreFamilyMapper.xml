@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.cadre.CadreFamliyAbroadMapper">
-  <resultMap id="BaseResultMap" type="domain.cadre.CadreFamliyAbroad">
+<mapper namespace="persistence.cadre.CadreFamilyMapper">
+  <resultMap id="BaseResultMap" type="domain.cadre.CadreFamily">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
-    <result column="famliy_id" jdbcType="INTEGER" property="famliyId" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="abroad_time" jdbcType="DATE" property="abroadTime" />
-    <result column="country" jdbcType="VARCHAR" property="country" />
-    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="title" jdbcType="TINYINT" property="title" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="political_status" jdbcType="INTEGER" property="politicalStatus" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,15 +70,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, famliy_id, type, abroad_time, country, city, status
+    id, cadre_id, title, realname, birthday, political_status, unit, status
   </sql>
-  <select id="selectByExample" parameterType="domain.cadre.CadreFamliyAbroadExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.cadre.CadreFamilyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cadre_famliy_abroad
+    from cadre_family
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,53 +89,53 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from cadre_famliy_abroad
+    from cadre_family
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from cadre_famliy_abroad
+    delete from cadre_family
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cadre.CadreFamliyAbroadExample">
-    delete from cadre_famliy_abroad
+  <delete id="deleteByExample" parameterType="domain.cadre.CadreFamilyExample">
+    delete from cadre_family
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cadre.CadreFamliyAbroad">
+  <insert id="insert" parameterType="domain.cadre.CadreFamily">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cadre_famliy_abroad (cadre_id, famliy_id, type, 
-      abroad_time, country, city, 
+    insert into cadre_family (cadre_id, title, realname, 
+      birthday, political_status, unit, 
       status)
-    values (#{cadreId,jdbcType=INTEGER}, #{famliyId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
-      #{abroadTime,jdbcType=DATE}, #{country,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+    values (#{cadreId,jdbcType=INTEGER}, #{title,jdbcType=TINYINT}, #{realname,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=DATE}, #{politicalStatus,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="domain.cadre.CadreFamliyAbroad">
+  <insert id="insertSelective" parameterType="domain.cadre.CadreFamily">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into cadre_famliy_abroad
+    insert into cadre_family
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="cadreId != null">
         cadre_id,
       </if>
-      <if test="famliyId != null">
-        famliy_id,
+      <if test="title != null">
+        title,
       </if>
-      <if test="type != null">
-        type,
+      <if test="realname != null">
+        realname,
       </if>
-      <if test="abroadTime != null">
-        abroad_time,
+      <if test="birthday != null">
+        birthday,
       </if>
-      <if test="country != null">
-        country,
+      <if test="politicalStatus != null">
+        political_status,
       </if>
-      <if test="city != null">
-        city,
+      <if test="unit != null">
+        unit,
       </if>
       <if test="status != null">
         status,
@@ -145,34 +145,34 @@
       <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="famliyId != null">
-        #{famliyId,jdbcType=INTEGER},
+      <if test="title != null">
+        #{title,jdbcType=TINYINT},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="realname != null">
+        #{realname,jdbcType=VARCHAR},
       </if>
-      <if test="abroadTime != null">
-        #{abroadTime,jdbcType=DATE},
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
       </if>
-      <if test="country != null">
-        #{country,jdbcType=VARCHAR},
+      <if test="politicalStatus != null">
+        #{politicalStatus,jdbcType=INTEGER},
       </if>
-      <if test="city != null">
-        #{city,jdbcType=VARCHAR},
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cadre.CadreFamliyAbroadExample" resultType="java.lang.Long">
-    select count(*) from cadre_famliy_abroad
+  <select id="countByExample" parameterType="domain.cadre.CadreFamilyExample" resultType="java.lang.Long">
+    select count(*) from cadre_family
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update cadre_famliy_abroad
+    update cadre_family
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -180,20 +180,20 @@
       <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.famliyId != null">
-        famliy_id = #{record.famliyId,jdbcType=INTEGER},
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=TINYINT},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+      <if test="record.realname != null">
+        realname = #{record.realname,jdbcType=VARCHAR},
       </if>
-      <if test="record.abroadTime != null">
-        abroad_time = #{record.abroadTime,jdbcType=DATE},
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=DATE},
       </if>
-      <if test="record.country != null">
-        country = #{record.country,jdbcType=VARCHAR},
+      <if test="record.politicalStatus != null">
+        political_status = #{record.politicalStatus,jdbcType=INTEGER},
       </if>
-      <if test="record.city != null">
-        city = #{record.city,jdbcType=VARCHAR},
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
       </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
@@ -204,39 +204,39 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update cadre_famliy_abroad
+    update cadre_family
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
-      famliy_id = #{record.famliyId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=INTEGER},
-      abroad_time = #{record.abroadTime,jdbcType=DATE},
-      country = #{record.country,jdbcType=VARCHAR},
-      city = #{record.city,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=TINYINT},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=DATE},
+      political_status = #{record.politicalStatus,jdbcType=INTEGER},
+      unit = #{record.unit,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreFamliyAbroad">
-    update cadre_famliy_abroad
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreFamily">
+    update cadre_family
     <set>
       <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="famliyId != null">
-        famliy_id = #{famliyId,jdbcType=INTEGER},
+      <if test="title != null">
+        title = #{title,jdbcType=TINYINT},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
       </if>
-      <if test="abroadTime != null">
-        abroad_time = #{abroadTime,jdbcType=DATE},
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
       </if>
-      <if test="country != null">
-        country = #{country,jdbcType=VARCHAR},
+      <if test="politicalStatus != null">
+        political_status = #{politicalStatus,jdbcType=INTEGER},
       </if>
-      <if test="city != null">
-        city = #{city,jdbcType=VARCHAR},
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
@@ -244,24 +244,24 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreFamliyAbroad">
-    update cadre_famliy_abroad
+  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreFamily">
+    update cadre_family
     set cadre_id = #{cadreId,jdbcType=INTEGER},
-      famliy_id = #{famliyId,jdbcType=INTEGER},
-      type = #{type,jdbcType=INTEGER},
-      abroad_time = #{abroadTime,jdbcType=DATE},
-      country = #{country,jdbcType=VARCHAR},
-      city = #{city,jdbcType=VARCHAR},
+      title = #{title,jdbcType=TINYINT},
+      realname = #{realname,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=DATE},
+      political_status = #{politicalStatus,jdbcType=INTEGER},
+      unit = #{unit,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.cadre.CadreFamliyAbroadExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cadre.CadreFamilyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cadre_famliy_abroad
+    from cadre_family
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

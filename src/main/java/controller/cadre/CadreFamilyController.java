@@ -1,9 +1,9 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.CadreFamliy;
-import domain.cadre.CadreFamliyExample;
-import domain.cadre.CadreFamliyExample.Criteria;
+import domain.cadre.CadreFamily;
+import domain.cadre.CadreFamilyExample;
+import domain.cadre.CadreFamilyExample.Criteria;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
@@ -41,13 +41,13 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class CadreFamliyController extends BaseController {
+public class CadreFamilyController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cadreFamliy:list")
-    @RequestMapping("/cadreFamliy_page")
-    public String cadreFamliy_page(HttpServletResponse response,
+    @RequiresPermissions("cadreFamily:list")
+    @RequestMapping("/cadreFamily_page")
+    public String cadreFamily_page(HttpServletResponse response,
                                 Integer cadreId, ModelMap modelMap) {
 
         if (cadreId!=null) {
@@ -59,22 +59,22 @@ public class CadreFamliyController extends BaseController {
         }
 
         {
-            /*CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
+            /*CadreFamilyAbroadExample example = new CadreFamilyAbroadExample();
             example.createCriteria().andCadreIdEqualTo(cadreId);
-            modelMap.put("cadreFamliyAbroadCount", cadreFamliyAbroadMapper.countByExample(example));*/
+            modelMap.put("cadreFamilyAbroadCount", cadreFamilyAbroadMapper.countByExample(example));*/
 
-            String name = "famliy_abroad";
+            String name = "family_abroad";
             modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));
             modelMap.put("canUpdate", cadreInfoCheckService.canUpdate(cadreId, name));
         }
 
         modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));
-        return "cadre/cadreFamliy/cadreFamliy_page";
+        return "cadre/cadreFamily/cadreFamily_page";
     }
 
-    @RequiresPermissions("cadreFamliy:list")
-    @RequestMapping("/cadreFamliy_data")
-    public void cadreFamliy_data(HttpServletResponse response,
+    @RequiresPermissions("cadreFamily:list")
+    @RequestMapping("/cadreFamily_data")
+    public void cadreFamily_data(HttpServletResponse response,
                                  Integer cadreId,
                                  Integer pageSize, Integer pageNo,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -90,7 +90,7 @@ public class CadreFamliyController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CadreFamliyExample example = new CadreFamliyExample();
+        CadreFamilyExample example = new CadreFamilyExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         //example.setOrderByClause(String.format("%s %s", sort, order));
 
@@ -99,19 +99,19 @@ public class CadreFamliyController extends BaseController {
         }
 
         if (export == 1) {
-            SecurityUtils.getSubject().checkPermission("cadre:exportFamliy");
+            SecurityUtils.getSubject().checkPermission("cadre:exportFamily");
             if(ids!=null && ids.length>0)
                 criteria.andCadreIdIn(Arrays.asList(ids));
-            cadreFamliy_export(ids, CadreConstants.CADRE_STATUS_MIDDLE, response);
+            cadreFamily_export(ids, CadreConstants.CADRE_STATUS_MIDDLE, response);
             return;
         }
 
-        long count = cadreFamliyMapper.countByExample(example);
+        long count = cadreFamilyMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CadreFamliy> records = cadreFamliyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CadreFamily> records = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -126,48 +126,48 @@ public class CadreFamliyController extends BaseController {
         return;
     }
     
-   /* @RequiresPermissions("cadreFamliy:list")
-    @RequestMapping("/cadreFamliy_data")
-    public void cadreFamliy_data(HttpServletResponse response,
+   /* @RequiresPermissions("cadreFamily:list")
+    @RequestMapping("/cadreFamily_data")
+    public void cadreFamily_data(HttpServletResponse response,
                                     int cadreId,
                                  @RequestParam(required = false, defaultValue = "0") int export) {
 
-        List<CadreFamliy> cadreFamliys = new ArrayList<>();
+        List<CadreFamily> cadreFamilys = new ArrayList<>();
         {
-            CadreFamliyExample example = new CadreFamliyExample();
+            CadreFamilyExample example = new CadreFamilyExample();
             example.createCriteria().andCadreIdEqualTo(cadreId);
-            cadreFamliys = cadreFamliyMapper.selectByExample(example);
+            cadreFamilys = cadreFamilyMapper.selectByExample(example);
         }
-        modelMap.put("cadreFamliys", cadreFamliys);
+        modelMap.put("cadreFamilys", cadreFamilys);
 
 
-        Map<Integer, CadreFamliy> cadreFamliyMap = new HashMap<>();
-        for (CadreFamliy cadreFamliy : cadreFamliys) {
-            cadreFamliyMap.put(cadreFamliy.getId(), cadreFamliy);
+        Map<Integer, CadreFamily> cadreFamilyMap = new HashMap<>();
+        for (CadreFamily cadreFamily : cadreFamilys) {
+            cadreFamilyMap.put(cadreFamily.getId(), cadreFamily);
         }
-        modelMap.put("cadreFamliyMap", cadreFamliyMap);
+        modelMap.put("cadreFamilyMap", cadreFamilyMap);
 
-        List<CadreFamliyAbroad> cadreFamliyAbroads = new ArrayList<>();
+        List<CadreFamilyAbroad> cadreFamilyAbroads = new ArrayList<>();
         {
-            CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
+            CadreFamilyAbroadExample example = new CadreFamilyAbroadExample();
             example.createCriteria().andCadreIdEqualTo(cadreId);
-            cadreFamliyAbroads = cadreFamliyAbroadMapper.selectByExample(example);
+            cadreFamilyAbroads = cadreFamilyAbroadMapper.selectByExample(example);
         }
-        modelMap.put("cadreFamliyAbroads", cadreFamliyAbroads);
+        modelMap.put("cadreFamilyAbroads", cadreFamilyAbroads);
 
-        return "cadre/cadreFamliy/cadreFamliy_page";
+        return "cadre/cadreFamily/cadreFamily_page";
     }*/
 
-    @RequiresPermissions("cadreFamliy:edit")
-    @RequestMapping(value = "/cadreFamliy_au", method = RequestMethod.POST)
+    @RequiresPermissions("cadreFamily:edit")
+    @RequestMapping(value = "/cadreFamily_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreFamliy_au(
+    public Map do_cadreFamily_au(
             // toApply、_isUpdate、applyId 是干部本人修改申请时传入
             @RequestParam(required = true, defaultValue = "0") boolean toApply,
             // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
             @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
             Integer applyId, // _isUpdate=true时，传入
-            CadreFamliy record, String _birthday, HttpServletRequest request) {
+            CadreFamily record, String _birthday, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -178,30 +178,30 @@ public class CadreFamliyController extends BaseController {
         if (id == null) {
 
             if (!toApply) {
-                cadreFamliyService.insertSelective(record);
+                cadreFamilyService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加家庭成员信息：%s", record.getId()));
             } else {
-                cadreFamliyService.modifyApply(record, null, false);
+                cadreFamilyService.modifyApply(record, null, false);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-家庭成员信息：%s", record.getId()));
             }
 
         } else {
             // 干部信息本人直接修改数据校验
-            CadreFamliy _record = cadreFamliyMapper.selectByPrimaryKey(id);
+            CadreFamily _record = cadreFamilyMapper.selectByPrimaryKey(id);
             if (_record.getCadreId().intValue() != record.getCadreId()) {
                 throw new IllegalArgumentException("数据异常");
             }
 
             if (!toApply) {
-                cadreFamliyService.updateByPrimaryKeySelective(record);
+                cadreFamilyService.updateByPrimaryKeySelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新家庭成员信息：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
-                    cadreFamliyService.modifyApply(record, id, false);
+                    cadreFamilyService.modifyApply(record, id, false);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-家庭成员信息：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容
-                    cadreFamliyService.updateModify(record, applyId);
+                    cadreFamilyService.updateModify(record, applyId);
                     logger.info(addLog(LogConstants.LOG_CADRE, "修改申请内容-家庭成员信息：%s", record.getId()));
                 }
             }
@@ -209,9 +209,9 @@ public class CadreFamliyController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreFamliy:edit")
-    @RequestMapping("/cadreFamliy_au")
-    public String cadreFamliy_au(Integer id, int cadreId, ModelMap modelMap) {
+    @RequiresPermissions("cadreFamily:edit")
+    @RequestMapping("/cadreFamily_au")
+    public String cadreFamily_au(Integer id, int cadreId, ModelMap modelMap) {
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
@@ -219,27 +219,27 @@ public class CadreFamliyController extends BaseController {
         modelMap.put("sysUser", sysUser);
 
         if (id != null) {
-            CadreFamliy cadreFamliy = cadreFamliyMapper.selectByPrimaryKey(id);
-            modelMap.put("cadreFamliy", cadreFamliy);
+            CadreFamily cadreFamily = cadreFamilyMapper.selectByPrimaryKey(id);
+            modelMap.put("cadreFamily", cadreFamily);
         }
-        return "cadre/cadreFamliy/cadreFamliy_au";
+        return "cadre/cadreFamily/cadreFamily_au";
     }
 
-    /*@RequiresPermissions("cadreFamliy:del")
-    @RequestMapping(value = "/cadreFamliy_del", method = RequestMethod.POST)
+    /*@RequiresPermissions("cadreFamily:del")
+    @RequestMapping(value = "/cadreFamily_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreFamliy_del(HttpServletRequest request, Integer id) {
+    public Map do_cadreFamily_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
-            cadreFamliyService.del(id);
+            cadreFamilyService.del(id);
             logger.info(addLog(LogConstants.LOG_ADMIN, "删除家庭成员信息：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
 
-    @RequiresPermissions("cadreFamliy:del")
-    @RequestMapping(value = "/cadreFamliy_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("cadreFamily:del")
+    @RequestMapping(value = "/cadreFamily_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request,
                         int cadreId, // 干部直接修改权限校验用
@@ -247,7 +247,7 @@ public class CadreFamliyController extends BaseController {
 
 
         if (null != ids && ids.length>0){
-            cadreFamliyService.batchDel(ids,cadreId);
+            cadreFamilyService.batchDel(ids,cadreId);
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除家庭成员信息：%s", StringUtils.join(ids, ",")));
         }
 
@@ -255,24 +255,24 @@ public class CadreFamliyController extends BaseController {
     }
 
 
-    public void cadreFamliy_export(Integer[] cadreIds, Byte status, HttpServletResponse response) {
+    public void cadreFamily_export(Integer[] cadreIds, Byte status, HttpServletResponse response) {
 
-        List<CadreFamliy> cadreFamliys = iCadreMapper.getCadreFamliys(cadreIds, status);
-        int rownum = cadreFamliys.size();
+        List<CadreFamily> cadreFamilys = iCadreMapper.getCadreFamilys(cadreIds, status);
+        int rownum = cadreFamilys.size();
         String[] titles = {"工号|100", "干部|80", "所在单位及职务|400", "称谓|100","姓名|80","政治面貌|100","工作单位及职务|500"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CadreFamliy cadreFamliy = cadreFamliys.get(i);
-            CadreView cadre = CmTag.getCadreById(cadreFamliy.getCadreId());
+            CadreFamily cadreFamily = cadreFamilys.get(i);
+            CadreView cadre = CmTag.getCadreById(cadreFamily.getCadreId());
             SysUserView uv = cadre.getUser();
             String[] values = {
                     uv.getCode(),
                     uv.getRealname(),
                     cadre.getTitle(),
-                    cadreFamliy.getTitle()==null?"":CadreConstants.CADRE_FAMLIY_TITLE_MAP.get(cadreFamliy.getTitle()),
-                    cadreFamliy.getRealname(),
-                    cadreFamliy.getPoliticalStatus()==null?"":metaTypeService.getName(cadreFamliy.getPoliticalStatus()),
-                    cadreFamliy.getUnit()
+                    cadreFamily.getTitle()==null?"":CadreConstants.CADRE_FAMILY_TITLE_MAP.get(cadreFamily.getTitle()),
+                    cadreFamily.getRealname(),
+                    cadreFamily.getPoliticalStatus()==null?"":metaTypeService.getName(cadreFamily.getPoliticalStatus()),
+                    cadreFamily.getUnit()
             };
             valuesList.add(values);
         }
@@ -280,9 +280,9 @@ public class CadreFamliyController extends BaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-    @RequestMapping("/cadreFamliy_selects")
+    @RequestMapping("/cadreFamily_selects")
     @ResponseBody
-    public Map cadreFamliy_selects(Integer pageSize, Integer pageNo, int cadreId, String searchStr) throws IOException {
+    public Map cadreFamily_selects(Integer pageSize, Integer pageNo, int cadreId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -292,7 +292,7 @@ public class CadreFamliyController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CadreFamliyExample example = new CadreFamliyExample();
+        CadreFamilyExample example = new CadreFamilyExample();
         Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("id desc");
 
@@ -300,21 +300,21 @@ public class CadreFamliyController extends BaseController {
             criteria.andRealnameLike("%" + searchStr + "%");
         }
 
-        long count = cadreFamliyMapper.countByExample(example);
+        long count = cadreFamilyMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<CadreFamliy> cadreFamliys = cadreFamliyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
         List<Select2Option> options = new ArrayList<Select2Option>();
-        if(null != cadreFamliys && cadreFamliys.size()>0){
+        if(null != cadreFamilys && cadreFamilys.size()>0){
 
-            for(CadreFamliy cadreFamliy:cadreFamliys){
+            for(CadreFamily cadreFamily:cadreFamilys){
 
                 Select2Option option = new Select2Option();
-                option.setText(cadreFamliy.getRealname());
-                option.setId(cadreFamliy.getId() + "");
+                option.setText(cadreFamily.getRealname());
+                option.setId(cadreFamily.getId() + "");
 
                 options.add(option);
             }

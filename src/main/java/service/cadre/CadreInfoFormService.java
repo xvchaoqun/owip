@@ -5,10 +5,10 @@ import domain.base.MetaType;
 import domain.cadre.CadreCompany;
 import domain.cadre.CadreCompanyExample;
 import domain.cadre.CadreEdu;
-import domain.cadre.CadreFamliy;
-import domain.cadre.CadreFamliyAbroad;
-import domain.cadre.CadreFamliyAbroadExample;
-import domain.cadre.CadreFamliyExample;
+import domain.cadre.CadreFamily;
+import domain.cadre.CadreFamilyAbroad;
+import domain.cadre.CadreFamilyAbroadExample;
+import domain.cadre.CadreFamilyExample;
 import domain.cadre.CadreInfo;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
@@ -284,30 +284,30 @@ public class CadreInfoFormService extends BaseMapper {
 
         {
             // 社会关系
-            CadreFamliyExample example = new CadreFamliyExample();
+            CadreFamilyExample example = new CadreFamilyExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-            List<CadreFamliy> cadreFamliys = cadreFamliyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 6));
-            bean.setCadreFamliys(cadreFamliys);
+            List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 6));
+            bean.setCadreFamilys(cadreFamilys);
         }
 
         {
             // 家庭成员海外情况
-            CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
+            CadreFamilyAbroadExample example = new CadreFamilyAbroadExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-            List<CadreFamliyAbroad> cadreFamliyAbroads =
-                    cadreFamliyAbroadMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 2));
-            if (cadreFamliyAbroads.size() == 0) {
-                CadreFamliyAbroad record = new CadreFamliyAbroad();
-                record.setFamliyTitle("无");
-                cadreFamliyAbroads.add(record);
+            List<CadreFamilyAbroad> cadreFamilyAbroads =
+                    cadreFamilyAbroadMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 2));
+            if (cadreFamilyAbroads.size() == 0) {
+                CadreFamilyAbroad record = new CadreFamilyAbroad();
+                record.setFamilyTitle("无");
+                cadreFamilyAbroads.add(record);
             } else {
-                for (CadreFamliyAbroad record : cadreFamliyAbroads) {
-                    String famliyTitle = CadreConstants.CADRE_FAMLIY_TITLE_MAP.get(record.getCadreFamliy().getTitle());
-                    record.setFamliyTitle(famliyTitle);
+                for (CadreFamilyAbroad record : cadreFamilyAbroads) {
+                    String familyTitle = CadreConstants.CADRE_FAMILY_TITLE_MAP.get(record.getCadreFamily().getTitle());
+                    record.setFamilyTitle(familyTitle);
                 }
             }
 
-            bean.setCadreFamliyAbroads(cadreFamliyAbroads);
+            bean.setCadreFamilyAbroads(cadreFamilyAbroads);
         }
 
         return bean;
@@ -392,30 +392,30 @@ public class CadreInfoFormService extends BaseMapper {
         }
 
         {
-            String famliys = "";
-            List<CadreFamliy> cadreFamliys = bean.getCadreFamliys();
-            int size = cadreFamliys.size();
+            String familys = "";
+            List<CadreFamily> cadreFamilys = bean.getCadreFamilys();
+            int size = cadreFamilys.size();
             for (int i = 0; i < 6; i++) {
                 if (size <= i)
-                    famliys += getFamliySeg(null, "/infoform/famliy.ftl");
+                    familys += getFamilySeg(null, "/infoform/family.ftl");
                 else
-                    famliys += getFamliySeg(cadreFamliys.get(i), "/infoform/famliy.ftl");
+                    familys += getFamilySeg(cadreFamilys.get(i), "/infoform/family.ftl");
             }
-            dataMap.put("famliys", famliys);
+            dataMap.put("familys", familys);
         }
 
         {
-            String famliyAbroads = "";
-            List<CadreFamliyAbroad> cadreFamliyAbroads = bean.getCadreFamliyAbroads();
-            int size = cadreFamliyAbroads.size();
+            String familyAbroads = "";
+            List<CadreFamilyAbroad> cadreFamilyAbroads = bean.getCadreFamilyAbroads();
+            int size = cadreFamilyAbroads.size();
             for (int i = 0; i < 2; i++) {
                 if (size <= i)
-                    famliyAbroads += getFamliyAbroadSeg(null, "/infoform/abroad.ftl");
+                    familyAbroads += getFamilyAbroadSeg(null, "/infoform/abroad.ftl");
                 else {
-                    famliyAbroads += getFamliyAbroadSeg(cadreFamliyAbroads.get(i), "/infoform/abroad.ftl");
+                    familyAbroads += getFamilyAbroadSeg(cadreFamilyAbroads.get(i), "/infoform/abroad.ftl");
                 }
             }
-            dataMap.put("famliyAbroads", famliyAbroads);
+            dataMap.put("familyAbroads", familyAbroads);
         }
 
         return dataMap;
@@ -442,13 +442,13 @@ public class CadreInfoFormService extends BaseMapper {
         return freemarkerService.process(ftlPath, dataMap);
     }
 
-    private String getFamliySeg(CadreFamliy bean, String ftlPath) throws IOException, TemplateException {
+    private String getFamilySeg(CadreFamily bean, String ftlPath) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = new HashMap<>();
 
         String ftitle = "";
         if (bean != null) {
-            ftitle = CadreConstants.CADRE_FAMLIY_TITLE_MAP.get(bean.getTitle());
+            ftitle = CadreConstants.CADRE_FAMILY_TITLE_MAP.get(bean.getTitle());
         }
         dataMap.put("a2", StringUtils.trimToNull(ftitle));
         dataMap.put("b2", bean == null ? "" : StringUtils.trimToEmpty(bean.getRealname()));
@@ -466,12 +466,12 @@ public class CadreInfoFormService extends BaseMapper {
         return freemarkerService.process(ftlPath, dataMap);
     }
 
-    private String getFamliyAbroadSeg(CadreFamliyAbroad bean, String ftlPath) throws IOException, TemplateException {
+    private String getFamilyAbroadSeg(CadreFamilyAbroad bean, String ftlPath) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = new HashMap<>();
 
-        dataMap.put("a3", bean == null ? "" : bean.getFamliyTitle());
-        dataMap.put("b3", (bean == null || bean.getCadreFamliy() == null) ? "" : bean.getCadreFamliy().getRealname());
+        dataMap.put("a3", bean == null ? "" : bean.getFamilyTitle());
+        dataMap.put("b3", (bean == null || bean.getCadreFamily() == null) ? "" : bean.getCadreFamily().getRealname());
         dataMap.put("c3", (bean == null || bean.getCountry() == null) ? "" : bean.getCountry());
         dataMap.put("d3", (bean == null || bean.getAbroadTime() == null) ? "" : DateUtils.formatDate(bean.getAbroadTime(), "yyyy.MM"));
         dataMap.put("e3", (bean == null || bean.getCity() == null) ? "" : bean.getCity());

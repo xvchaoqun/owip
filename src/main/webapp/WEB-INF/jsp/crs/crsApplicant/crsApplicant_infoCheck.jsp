@@ -34,7 +34,7 @@
             <label class="col-xs-3 control-label">说明</label>
 
             <div class="col-xs-6">
-                <textarea required class="form-control limited" name="remark"></textarea>
+                <textarea class="form-control limited" name="remark"></textarea>
             </div>
         </div>
     </form>

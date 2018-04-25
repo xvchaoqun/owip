@@ -21,7 +21,7 @@
     <div class="widget-body">
         <div class="widget-main">
             <table id="jqGrid_records" class="jqGrid4"></table>
-            <div id="jqGridPager_cadreFamliyAbroad"></div>
+            <div id="jqGridPager_cadreFamilyAbroad"></div>
         </div>
     </div>
 </div>
@@ -40,10 +40,10 @@
         <div class="widget-main">
             <table class="table  table-unhover table-bordered table-striped">
                 <tr>
-                    <td data-code="cadreFamliy.title">称谓</td>
-                    <td class="bg-left">${modify.cadreFamliy.title}</td>
-                    <td data-code="cadreFamliy.realname">姓名</td>
-                    <td class="bg-left">${modify.cadreFamliy.realname}</td>
+                    <td data-code="cadreFamily.title">称谓</td>
+                    <td class="bg-left">${modify.cadreFamily.title}</td>
+                    <td data-code="cadreFamily.realname">姓名</td>
+                    <td class="bg-left">${modify.cadreFamily.realname}</td>
                     <td data-code="country">移居国家</td>
                     <td class="bg-left">${modify.country}</td>
                 </tr>
@@ -106,7 +106,7 @@
     <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADRERESERVE}">
         <c:if test="${_user.id==mta.userId && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
         <button class="popupBtn btn btn-primary"
-                data-url="${ctx}/cadreFamliyAbroad_au?toApply=1&cadreId=${cadre.id}&_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
+                data-url="${ctx}/cadreFamilyAbroad_au?toApply=1&cadreId=${cadre.id}&_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
                 type="button">
             <i class="ace-icon fa fa-edit"></i>
             编辑
@@ -166,10 +166,10 @@
     $("#jqGrid_records").jqGrid({
         ondblClickRow: function () {
         },
-        pager: "#jqGridPager_cadreFamliyAbroad",
-        url: '${ctx}/cadreFamliyAbroad_data?cadreId=${cadre.id}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        pager: "#jqGridPager_cadreFamilyAbroad",
+        url: '${ctx}/cadreFamilyAbroad_data?cadreId=${cadre.id}&${cm:encodeQueryString(pageContext.request.queryString)}',
         multiselect: false,
-        colModel: colModels.cadreFamliyAbroad,
+        colModel: colModels.cadreFamilyAbroad,
         rowattr: function(rowData, currentObj, rowId)
         {
             //console.log(rowData.id + '-${mta.originalId}')

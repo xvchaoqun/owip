@@ -16,7 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sys.SessionUtils;
+import controller.cet.CetSessionUtils;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.utils.ContextHelper;
@@ -43,7 +43,7 @@ public class MobileTrainEvaController extends CetBaseController {
     public String eva_page(int trainCourseId,
                            HttpServletRequest request, ModelMap modelMap) {
 
-        CetTrainInspector trainInspector = SessionUtils.getTrainInspector(request);
+        CetTrainInspector trainInspector = CetSessionUtils.getTrainInspector(request);
         Integer trainId = trainInspector.getTrainId();
         Map<Integer, CetTrainCourse> trainCourseMap = cetTrainCourseService.findAll(trainId);
         CetTrainCourse trainCourse = trainCourseMap.get(trainCourseId);
@@ -67,7 +67,7 @@ public class MobileTrainEvaController extends CetBaseController {
                            Integer step,
                            HttpServletRequest request, ModelMap modelMap) {
 
-        CetTrainInspector trainInspector = SessionUtils.getTrainInspector(request);
+        CetTrainInspector trainInspector = CetSessionUtils.getTrainInspector(request);
         Integer trainId = trainInspector.getTrainId();
         Map<Integer, CetTrainCourse> trainCourseMap = cetTrainCourseService.findAll(trainId);
         CetTrainCourse trainCourse = trainCourseMap.get(trainCourseId);
@@ -160,7 +160,7 @@ public class MobileTrainEvaController extends CetBaseController {
 
         cetTrainInspectorCourseService.doEva(id, feedback);
 
-        CetTrainInspector trainInspector = SessionUtils.getTrainInspector(request);
+        CetTrainInspector trainInspector = CetSessionUtils.getTrainInspector(request);
         logger.info(addLog(trainInspector.getId(), trainInspector.getUsername(),
                 LogConstants.LOG_USER, "提交评课：" + id));
 

@@ -3,8 +3,8 @@ package service.cadre;
 import bean.CadreAdform;
 import domain.base.MetaType;
 import domain.cadre.CadreEdu;
-import domain.cadre.CadreFamliy;
-import domain.cadre.CadreFamliyExample;
+import domain.cadre.CadreFamily;
+import domain.cadre.CadreFamilyExample;
 import domain.cadre.CadreInfo;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
@@ -182,10 +182,10 @@ public class CadreAdformService extends BaseMapper{
         bean.setTrainDesc(train==null?null:train.getContent());
 
         // 社会关系
-        CadreFamliyExample example = new CadreFamliyExample();
+        CadreFamilyExample example = new CadreFamilyExample();
         example.createCriteria().andCadreIdEqualTo(cadreId);
-        List<CadreFamliy> cadreFamliys = cadreFamliyMapper.selectByExample(example);
-        bean.setCadreFamliys(cadreFamliys);
+        List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExample(example);
+        bean.setCadreFamilys(cadreFamilys);
 
         return bean;
     }
@@ -234,16 +234,16 @@ public class CadreAdformService extends BaseMapper{
         if(adform.getTrainDesc()!=null)
             dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, adform.getTrainDesc()));
 
-        String famliy = "";
-        List<CadreFamliy> cadreFamliys = adform.getCadreFamliys();
-        int size = cadreFamliys.size();
+        String family = "";
+        List<CadreFamily> cadreFamilys = adform.getCadreFamilys();
+        int size = cadreFamilys.size();
         for (int i=0; i<5; i++) {
             if(size<=i)
-                famliy += getFamliySeg(null, "/adform/famliy.ftl");
+                family += getFamilySeg(null, "/adform/family.ftl");
             else
-                famliy += getFamliySeg(cadreFamliys.get(i), "/adform/famliy.ftl");
+                family += getFamilySeg(cadreFamilys.get(i), "/adform/family.ftl");
         }
-        dataMap.put("famliy", famliy);
+        dataMap.put("family", family);
         SysUserView currentUser = ShiroHelper.getCurrentUser();
         if(currentUser!=null)
             dataMap.put("admin", currentUser.getRealname());
@@ -349,14 +349,14 @@ public class CadreAdformService extends BaseMapper{
         setNodeText(doc, "RenMianLiYou", adform.getReason());
 
         // 家庭成员
-        Element famliys = (Element)doc.selectSingleNode("//Person//JiaTingChengYuan");
-        List<CadreFamliy> cadreFamliys = adform.getCadreFamliys();
-        int size = Math.min(cadreFamliys.size(), 10);
+        Element familys = (Element)doc.selectSingleNode("//Person//JiaTingChengYuan");
+        List<CadreFamily> cadreFamilys = adform.getCadreFamilys();
+        int size = Math.min(cadreFamilys.size(), 10);
         for (int i=0; i<size; i++) {
 
-            CadreFamliy cf = cadreFamliys.get(i);
-            Element item = famliys.addElement("Item");
-            item.addElement("ChengWei").setText(StringUtils.trimToEmpty(CadreConstants.CADRE_FAMLIY_TITLE_MAP.get(cf.getTitle())));
+            CadreFamily cf = cadreFamilys.get(i);
+            Element item = familys.addElement("Item");
+            item.addElement("ChengWei").setText(StringUtils.trimToEmpty(CadreConstants.CADRE_FAMILY_TITLE_MAP.get(cf.getTitle())));
             item.addElement("XingMing").setText(StringUtils.trimToEmpty(cf.getRealname()));
             item.addElement("ChuShengRiQi").setText(StringUtils.trimToEmpty(DateUtils.formatDate(cf.getBirthday(), "yyyyMM")));
 
@@ -392,13 +392,13 @@ public class CadreAdformService extends BaseMapper{
         writer.close();*/
     }
 
-    private String getFamliySeg(CadreFamliy cf, String ftlPath) throws IOException, TemplateException {
+    private String getFamilySeg(CadreFamily cf, String ftlPath) throws IOException, TemplateException {
 
         Map<String,Object> dataMap = new HashMap<>();
 
         String ftitle = "";
         if(cf!=null){
-            ftitle =CadreConstants.CADRE_FAMLIY_TITLE_MAP.get(cf.getTitle());
+            ftitle =CadreConstants.CADRE_FAMILY_TITLE_MAP.get(cf.getTitle());
         }
         dataMap.put("ftitle", StringUtils.trimToEmpty(ftitle));
         dataMap.put("fname", cf==null?"":StringUtils.trimToEmpty(cf.getRealname()));

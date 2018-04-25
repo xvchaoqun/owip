@@ -16,14 +16,14 @@ public class SyncBKS implements Job {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private SyncService sysUserSyncService;
+    private SyncService syncService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         logger.info("同步本科生库...");
         try {
-            sysUserSyncService.syncAllBks(true);
+            syncService.syncAllBks(true);
         }catch (Exception ex){
             ex.printStackTrace();
         }

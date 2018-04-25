@@ -3,7 +3,7 @@ package domain.cadre;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CadreFamliy implements Serializable {
+public class CadreFamily implements Serializable {
     private Integer id;
 
     private Integer cadreId;

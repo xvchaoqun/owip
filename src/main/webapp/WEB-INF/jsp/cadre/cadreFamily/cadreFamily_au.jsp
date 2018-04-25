@@ -3,13 +3,13 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreFamliy!=null}">编辑</c:if><c:if test="${cadreFamliy==null}">添加</c:if>家庭成员信息</h3>
+    <h3><c:if test="${cadreFamily!=null}">编辑</c:if><c:if test="${cadreFamily==null}">添加</c:if>家庭成员信息</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/cadreFamliy_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/cadreFamily_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post">
         <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
         <input type="hidden" name="applyId" value="${param.applyId}">
-        <input type="hidden" name="id" value="${cadreFamliy.id}">
+        <input type="hidden" name="id" value="${cadreFamily.id}">
         <div class="form-group">
             <label class="col-xs-3 control-label">姓名</label>
             <div class="col-xs-6 label-text">
@@ -21,19 +21,19 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-3">
                     <select required data-rel="select2" name="title" data-placeholder="请选择" data-width="125">
                         <option></option>
-                        <c:forEach var="famliyTitle" items="${CADRE_FAMLIY_TITLE_MAP}">
-                            <option value="${famliyTitle.key}">${famliyTitle.value}</option>
+                        <c:forEach var="familyTitle" items="${CADRE_FAMILY_TITLE_MAP}">
+                            <option value="${familyTitle.key}">${familyTitle.value}</option>
                         </c:forEach>
                     </select>
                     <script>
-                        $("#modal select[name=title]").val("${cadreFamliy.title}");
+                        $("#modal select[name=title]").val("${cadreFamily.title}");
                     </script>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">姓名</label>
 				<div class="col-xs-3">
-                        <input required class="form-control" type="text" name="realname" value="${cadreFamliy.realname}">
+                        <input required class="form-control" type="text" name="realname" value="${cadreFamily.realname}">
 				</div>
 			</div>
 			<div class="form-group">
@@ -42,7 +42,7 @@ pageEncoding="UTF-8"%>
                     <div class="input-group">
                         <input class="form-control date-picker" name="_birthday" type="text"
                                data-date-min-view-mode="1"
-                               data-date-format="yyyy-mm" value="${cm:formatDate(cadreFamliy.birthday,'yyyy-MM')}" />
+                               data-date-format="yyyy-mm" value="${cm:formatDate(cadreFamily.birthday,'yyyy-MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
@@ -56,7 +56,7 @@ pageEncoding="UTF-8"%>
                         <c:import url="/metaTypes?__code=mc_political_status"/>
                     </select>
                     <script type="text/javascript">
-                        $("#modal form select[name=politicalStatus]").val(${cadreFamliy.politicalStatus});
+                        $("#modal form select[name=politicalStatus]").val(${cadreFamily.politicalStatus});
                     </script>
 
 				</div>
@@ -64,7 +64,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">工作单位及职务</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="unit" value="${cadreFamliy.unit}">
+                        <input required class="form-control" type="text" name="unit" value="${cadreFamily.unit}">
 				</div>
 			</div>
             <div class="form-group">
@@ -76,7 +76,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${cadreFamliy!=null}">确定</c:if><c:if test="${cadreFamliy==null}">添加</c:if>"/>
+    <input type="submit" class="btn btn-primary" value="<c:if test="${cadreFamily!=null}">确定</c:if><c:if test="${cadreFamily==null}">添加</c:if>"/>
 </div>
 
 <script>
@@ -90,14 +90,14 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $("#modal").modal("hide");
                         <c:if test="${param.toApply!=1}">
-                        $("#jqGrid_cadreFamliy").trigger("reloadGrid");
+                        $("#jqGrid_cadreFamily").trigger("reloadGrid");
                         </c:if>
                         <c:if test="${param.toApply==1}">
                         <c:if test="${param._isUpdate==1}">
-                        $("#body-content-view").load("${ctx}/modifyTableApply_detail?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY}&applyId=${param.applyId}&_="+new Date().getTime())
+                        $("#body-content-view").load("${ctx}/modifyTableApply_detail?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY}&applyId=${param.applyId}&_="+new Date().getTime())
                         </c:if>
                         <c:if test="${param._isUpdate!=1}">
-                        $.hashchange('cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY}');
+                        $.hashchange('cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY}');
                         </c:if>
                         </c:if>
                     }

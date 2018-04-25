@@ -97,11 +97,11 @@ public class UserModifyTableApplyController extends ModifyBaseController {
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK:
                     cadrePostWorkService.modifyApply(null, id, true);
                     break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY:
-                    cadreFamliyService.modifyApply(null, id, true);
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY:
+                    cadreFamilyService.modifyApply(null, id, true);
                     break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD:
-                    cadreFamliyAbroadService.modifyApply(null, id, true);
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD:
+                    cadreFamilyAbroadService.modifyApply(null, id, true);
                     break;
             }
 

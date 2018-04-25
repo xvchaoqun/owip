@@ -49,4 +49,12 @@ public interface IModifyMapper {
     @Select("select count(*) as formalCount " +
             "from cadre_${tableName} where cadre_id=#{cadreId}")
     ICadreInfoCheck cadreInfoExistCheck(@Param("cadreId") int cadreId, @Param("tableName") String tableName);
+
+    @ResultType(ICadreInfoCheck.class)
+    @Select("select sum(if(status=0,1,0)) as formalCount, sum(if(status=1,1,0)) as modifyCount " +
+            "from cadre_family where cadre_id=#{cadreId} and " +
+            "(realname is null or birthday is null or political_status is null or unit is null)")
+    ICadreInfoCheck familyCheck(@Param("cadreId") int cadreId);
+
+
 }

@@ -453,12 +453,12 @@
         <td>家庭成员信息</td>
 
         <td>
-            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, 'famliy', 4)}"/>
+            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, null, 8)}"/>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="?cadreId=${param.cadreId}&to=cadreFamliy_page"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreFamily_page"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"/>
         </td>
@@ -466,7 +466,7 @@
     <tr>
         <td>家庭成员移居国（境）外的情况</td>
         <td>
-            <c:set var="updateName" value="famliy_abroad"/>
+            <c:set var="updateName" value="family_abroad"/>
             <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
             <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
                 <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 4)}"/>
@@ -475,7 +475,7 @@
         </td>
         <td>
             <t:cadre_info_edit
-                    editUrl="?cadreId=${param.cadreId}&to=cadreFamliy_page"
+                    editUrl="?cadreId=${param.cadreId}&to=cadreFamily_page"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>

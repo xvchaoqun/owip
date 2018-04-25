@@ -140,13 +140,13 @@ public class ModifyTableApplyController extends ModifyBaseController {
 
                     return "modify/modifyCadrePostWork/modifyCadrePostWork_page";
 
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY:
 
-                    return "modify/modifyCadreFamliy/modifyCadreFamliy_page";
+                    return "modify/modifyCadreFamily/modifyCadreFamily_page";
 
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD:
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD:
 
-                    return "modify/modifyCadreFamliyAbroad/modifyCadreFamliyAbroad_page";
+                    return "modify/modifyCadreFamilyAbroad/modifyCadreFamilyAbroad_page";
             }
         }
 
@@ -244,15 +244,15 @@ public class ModifyTableApplyController extends ModifyBaseController {
                 modelMap.put("modify", cadrePostAdminMapper.selectByPrimaryKey(modifyId));
                 return "modify/modifyCadrePostWork/modifyCadrePostWork_detail";
 
-            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY:
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY:
 
-                modelMap.put("modify", cadreFamliyMapper.selectByPrimaryKey(modifyId));
-                return "modify/modifyCadreFamliy/modifyCadreFamliy_detail";
+                modelMap.put("modify", cadreFamilyMapper.selectByPrimaryKey(modifyId));
+                return "modify/modifyCadreFamily/modifyCadreFamily_detail";
 
-            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD:
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD:
 
-                modelMap.put("modify", cadreFamliyAbroadMapper.selectByPrimaryKey(modifyId));
-                return "modify/modifyCadreFamliyAbroad/modifyCadreFamliyAbroad_detail";
+                modelMap.put("modify", cadreFamilyAbroadMapper.selectByPrimaryKey(modifyId));
+                return "modify/modifyCadreFamilyAbroad/modifyCadreFamilyAbroad_detail";
         }
 
         return null;

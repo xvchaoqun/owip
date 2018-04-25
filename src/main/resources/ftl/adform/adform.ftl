@@ -3032,7 +3032,7 @@
 						</w:p>
 					</w:tc>
 				</w:tr>
-				${famliy!}
+				${family!}
 				
 				<w:tr wsp:rsidR="00E759EF">
 					<w:trPr>

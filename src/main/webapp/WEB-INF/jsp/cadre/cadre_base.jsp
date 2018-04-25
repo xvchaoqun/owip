@@ -930,7 +930,7 @@ pageEncoding="UTF-8"%>
 								手机号
 							</td>
 							<td style="min-width: 80px">
-								<input type="text" name="mobile" value="${uv.mobile}">
+								<input type="text" class="mobile" name="mobile" value="${uv.mobile}">
 							</td>
 							<td>
 								办公电话

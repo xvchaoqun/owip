@@ -150,11 +150,11 @@ public class CacheService extends BaseController{
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK:
                     cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK; break;
 
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY; break;
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY:
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY; break;
 
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD:
-                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD; break;
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD:
+                    cacheKey = CacheConstants.CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD; break;
             }
             countCache.put(cacheKey, num);
         }

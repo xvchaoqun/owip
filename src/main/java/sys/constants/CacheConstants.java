@@ -40,8 +40,8 @@ public class CacheConstants {
     public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO = 30;
     public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN = 31;
     public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK = 32;
-    public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY = 33;
-    public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD = 34;
+    public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY = 33;
+    public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD = 34;
 
     public final static Map<Byte, String> CACHE_KEY_MAP = new LinkedHashMap<>();
 
@@ -76,7 +76,7 @@ public class CacheConstants {
         CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO, "专技岗位过程信息-干部信息修改申请");
         CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN, "管理岗位过程信息-干部信息修改申请");
         CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK, "工勤岗位过程信息-干部信息修改申请");
-        CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY, "家庭成员信息-干部信息修改申请");
-        CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD, "家庭成员移居国(境)外的情况-干部信息修改申请");
+        CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY, "家庭成员信息-干部信息修改申请");
+        CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD, "家庭成员移居国(境)外的情况-干部信息修改申请");
     }
 }

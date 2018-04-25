@@ -1,8 +1,9 @@
 package service.cadre;
 
 import controller.global.OpException;
-import domain.cadre.CadreFamliyAbroad;
-import domain.cadre.CadreFamliyAbroadExample;
+import domain.cadre.CadreFamily;
+import domain.cadre.CadreFamilyAbroadExample;
+import domain.cadre.CadreFamilyExample;
 import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import shiro.ShiroHelper;
+import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -22,22 +24,60 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class CadreFamliyAbroadService extends BaseMapper {
+public class CadreFamilyService extends BaseMapper {
 
-    public CadreFamliyAbroad get(int id){
+    public CadreFamily get(int id){
 
-        return cadreFamliyAbroadMapper.selectByPrimaryKey(id);
+        return cadreFamilyMapper.selectByPrimaryKey(id);
     }
+
+    public void addCheck(int cadreId, byte title){
+
+        if(title== CadreConstants.CADRE_FAMILY_TITLE_FATHER
+                || title == CadreConstants.CADRE_FAMILY_TITLE_MOTHER) {
+            CadreFamilyExample example = new CadreFamilyExample();
+            CadreFamilyExample.Criteria criteria = example.createCriteria().andTitleEqualTo(title);
+            criteria.andCadreIdEqualTo(cadreId);
+
+            if(cadreFamilyMapper.countByExample(example)>0){
+                throw new OpException(CadreConstants.CADRE_FAMILY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
+            }
+        }
+
+        CadreFamilyExample example = new CadreFamilyExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId);
+        if(cadreFamilyMapper.countByExample(example)>=6){
+            throw new OpException("最多只允许添加6个家庭成员");
+        }
+    }
+
+    public void updateCheck(int id, int cadreId, byte title){
+
+        if(title== CadreConstants.CADRE_FAMILY_TITLE_FATHER
+                || title == CadreConstants.CADRE_FAMILY_TITLE_MOTHER) {
+            CadreFamilyExample example = new CadreFamilyExample();
+            CadreFamilyExample.Criteria criteria = example.createCriteria().andTitleEqualTo(title);
+            criteria.andCadreIdEqualTo(cadreId);
+            criteria.andIdNotEqualTo(id);
+
+            if(cadreFamilyMapper.countByExample(example)>0){
+                throw new OpException(CadreConstants.CADRE_FAMILY_TITLE_MAP.get(title)+"已经添加了，请不要重复添加");
+            }
+        }
+    }
+
     @Transactional
-    public int insertSelective(CadreFamliyAbroad record){
+    public int insertSelective(CadreFamily record){
+
+        addCheck(record.getCadreId(), record.getTitle());
 
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
-        return cadreFamliyAbroadMapper.insertSelective(record);
+        return cadreFamilyMapper.insertSelective(record);
     }
     @Transactional
     public void del(Integer id){
 
-        cadreFamliyAbroadMapper.deleteByPrimaryKey(id);
+        cadreFamilyMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
@@ -46,28 +86,40 @@ public class CadreFamliyAbroadService extends BaseMapper {
         if(ids==null || ids.length==0) return;
         {
             // 干部信息本人直接修改数据校验
-            CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
+            CadreFamilyExample example = new CadreFamilyExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
-            long count = cadreFamliyAbroadMapper.countByExample(example);
+            long count = cadreFamilyMapper.countByExample(example);
             if(count!=ids.length){
                 throw new IllegalArgumentException("数据异常");
             }
         }
-        CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
+
+        {
+            // 删除关联的家庭成员移居国（境）外的情况
+            CadreFamilyAbroadExample example = new CadreFamilyAbroadExample();
+            example.createCriteria().andFamilyIdIn(Arrays.asList(ids));
+            cadreFamilyAbroadMapper.deleteByExample(example);
+        }
+
+        CadreFamilyExample example = new CadreFamilyExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        cadreFamliyAbroadMapper.deleteByExample(example);
+        cadreFamilyMapper.deleteByExample(example);
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadreFamliyAbroad record){
+    public int updateByPrimaryKeySelective(CadreFamily record){
 
+        if(record.getTitle()!=null)
+            updateCheck(record.getId(), record.getCadreId(), record.getTitle());
+
+        record.setCadreId(null);
         record.setStatus(null);
-        return cadreFamliyAbroadMapper.updateByPrimaryKeySelective(record);
+        return cadreFamilyMapper.updateByPrimaryKeySelective(record);
     }
 
     // 更新修改申请的内容（仅允许本人更新自己的申请）
     @Transactional
-    public void updateModify(CadreFamliyAbroad record, Integer applyId){
+    public void updateModify(CadreFamily record, Integer applyId){
 
         if(applyId==null){
             throw new IllegalArgumentException();
@@ -83,13 +135,13 @@ public class CadreFamliyAbroadService extends BaseMapper {
         CadreView cadre = CmTag.getCadreByUserId(currentUserId);
 
         int id = record.getId();
-        CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
+        CadreFamilyExample example = new CadreFamilyExample();
         example.createCriteria().andIdEqualTo(id).andCadreIdEqualTo(cadre.getId()) // 保证本人只更新自己的记录
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_MODIFY);
 
         record.setId(null);
         record.setStatus(null);
-        if(cadreFamliyAbroadMapper.updateByExampleSelective(record, example)>0) {
+        if(cadreFamilyMapper.updateByExampleSelective(record, example)>0) {
 
             // 更新申请时间
             ModifyTableApply _record= new ModifyTableApply();
@@ -101,19 +153,19 @@ public class CadreFamliyAbroadService extends BaseMapper {
 
     // 添加、修改、删除申请（仅允许本人提交自己的申请）
     @Transactional
-    public void modifyApply(CadreFamliyAbroad record, Integer id, boolean isDelete){
+    public void modifyApply(CadreFamily record, Integer id, boolean isDelete){
 
-        CadreFamliyAbroad original = null; // 修改、删除申请对应的原纪录
+        CadreFamily original = null; // 修改、删除申请对应的原纪录
         byte type;
         if(isDelete){ // 删除申请时id不允许为空
-            record = cadreFamliyAbroadMapper.selectByPrimaryKey(id);
+            record = cadreFamilyMapper.selectByPrimaryKey(id);
             original = record;
             type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE;
         }else{
             if(record.getId()==null) // 添加申请
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD;
             else { // 修改申请
-                original = cadreFamliyAbroadMapper.selectByPrimaryKey(record.getId());
+                original = cadreFamilyMapper.selectByPrimaryKey(record.getId());
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY;
             }
         }
@@ -124,7 +176,7 @@ public class CadreFamliyAbroadService extends BaseMapper {
             // 如果是修改或删除请求，则只允许一条未审批记录存在
             ModifyTableApplyExample example = new ModifyTableApplyExample();
             example.createCriteria().andOriginalIdEqualTo(originalId) // 此时originalId肯定不为空
-                    .andModuleEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD)
+                    .andModuleEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY)
                     .andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
             List<ModifyTableApply> applies = modifyTableApplyMapper.selectByExample(example);
             if(applies.size()>0){
@@ -138,11 +190,11 @@ public class CadreFamliyAbroadService extends BaseMapper {
         record.setCadreId(cadre.getId());  // 保证本人只能提交自己的申请
         record.setId(null);
         record.setStatus(SystemConstants.RECORD_STATUS_MODIFY);
-        cadreFamliyAbroadMapper.insertSelective(record);
+        cadreFamilyMapper.insertSelective(record);
 
 
         ModifyTableApply _record = new ModifyTableApply();
-        _record.setModule(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD);
+        _record.setModule(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY);
         _record.setUserId(userId);
         _record.setApplyUserId(userId);
         _record.setTableName("cadre_post_pro");
@@ -165,29 +217,30 @@ public class CadreFamliyAbroadService extends BaseMapper {
 
         if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
 
-            CadreFamliyAbroad modify = cadreFamliyAbroadMapper.selectByPrimaryKey(modifyId);
+            CadreFamily modify = cadreFamilyMapper.selectByPrimaryKey(modifyId);
             modify.setId(null);
             modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-            cadreFamliyAbroadMapper.insertSelective(modify); // 插入新纪录
+            cadreFamilyMapper.insertSelective(modify); // 插入新纪录
             record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
 
         } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
-            CadreFamliyAbroad modify = cadreFamliyAbroadMapper.selectByPrimaryKey(modifyId);
+            CadreFamily modify = cadreFamilyMapper.selectByPrimaryKey(modifyId);
             modify.setId(originalId);
             modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-            cadreFamliyAbroadMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+            cadreFamilyMapper.updateByPrimaryKey(modify); // 覆盖原纪录
 
         } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
 
             // 更新最后删除的记录内容
-            record.setOriginalJson(JSONUtils.toString(cadreFamliyAbroadMapper.selectByPrimaryKey(originalId), false));
+            record.setOriginalJson(JSONUtils.toString(cadreFamilyMapper.selectByPrimaryKey(originalId), false));
             // 删除原纪录
-            cadreFamliyAbroadMapper.deleteByPrimaryKey(originalId);
+            cadreFamilyMapper.deleteByPrimaryKey(originalId);
         }
 
         return record;
     }
+
 }

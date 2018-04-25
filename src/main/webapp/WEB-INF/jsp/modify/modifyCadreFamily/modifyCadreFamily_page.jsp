@@ -10,10 +10,10 @@
                 <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
                         <a class="popupBtn btn btn-success btn-sm"
-                           data-url="${ctx}/cadreFamliy_au?toApply=1&cadreId=${cadre.id}"><i class="fa fa-plus"></i>
+                           data-url="${ctx}/cadreFamily_au?toApply=1&cadreId=${cadre.id}"><i class="fa fa-plus"></i>
                             添加</a>
                         <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                           data-url="${ctx}/cadreFamliy_au"
+                           data-url="${ctx}/cadreFamily_au"
                            data-grid-id="#jqGrid_records"
                            data-querystr="&toApply=1&cadreId=${cadre.id}"><i class="fa fa-edit"></i>
                             修改</a>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="space-4"></div>
                 <table id="jqGrid_records" class="jqGrid"></table>
-                <div id="jqGridPager_cadreFamliy"></div>
+                <div id="jqGridPager_cadreFamily"></div>
             </div>
         </div>
         <div id="body-content-view">
@@ -45,9 +45,9 @@
     $("#jqGrid_records").jqGrid({
         ondblClickRow: function () {
         },
-        pager: "#jqGridPager_cadreFamliy",
-        url: '${ctx}/cadreFamliy_data?cadreId=${cadre.id}&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: colModels.cadreFamliy
+        pager: "#jqGridPager_cadreFamily",
+        url: '${ctx}/cadreFamily_data?cadreId=${cadre.id}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: colModels.cadreFamily
     }).jqGrid("setFrozenColumns");
     $.register.fancybox(function () {
         //console.log(this)

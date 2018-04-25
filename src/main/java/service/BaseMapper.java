@@ -38,8 +38,8 @@ import persistence.cadre.CadreBookMapper;
 import persistence.cadre.CadreCompanyMapper;
 import persistence.cadre.CadreCourseMapper;
 import persistence.cadre.CadreEduMapper;
-import persistence.cadre.CadreFamliyAbroadMapper;
-import persistence.cadre.CadreFamliyMapper;
+import persistence.cadre.CadreFamilyAbroadMapper;
+import persistence.cadre.CadreFamilyMapper;
 import persistence.cadre.CadreInfoCheckMapper;
 import persistence.cadre.CadreInfoMapper;
 import persistence.cadre.CadreLeaderMapper;
@@ -810,9 +810,9 @@ public class BaseMapper {
     @Autowired(required = false)
     protected CadreInfoCheckMapper cadreInfoCheckMapper;
     @Autowired(required = false)
-    protected CadreFamliyAbroadMapper cadreFamliyAbroadMapper;
+    protected CadreFamilyAbroadMapper cadreFamilyAbroadMapper;
     @Autowired(required = false)
-    protected CadreFamliyMapper cadreFamliyMapper;
+    protected CadreFamilyMapper cadreFamilyMapper;
     @Autowired(required = false)
     protected CadreCompanyMapper cadreCompanyMapper;
     @Autowired(required = false)

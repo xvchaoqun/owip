@@ -16,14 +16,14 @@ public class SyncRetireSalary implements Job {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private SyncService sysUserSyncService;
+    private SyncService syncService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         logger.info("同步本月离退休信息...");
         try {
-            sysUserSyncService.syncRetireSalary(true);
+            syncService.syncRetireSalary(true);
         }catch (Exception ex){
             ex.printStackTrace();
         }

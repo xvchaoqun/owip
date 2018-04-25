@@ -355,10 +355,10 @@ td.bolder{font-weight: bolder}
         <span>工 作 单 位 及 职 务</span>
       </td>
     </tr>
-    <c:forEach items="${bean.cadreFamliys}" var="f">
+    <c:forEach items="${bean.cadreFamilys}" var="f">
       <tr class="r2">
         <td class="td13 center">
-            ${CADRE_FAMLIY_TITLE_MAP.get(f.title)}
+            ${CADRE_FAMILY_TITLE_MAP.get(f.title)}
         </td>
         <td class="td14 center" colspan="2">
             ${f.realname}
@@ -376,7 +376,7 @@ td.bolder{font-weight: bolder}
         </td>
       </tr>
     </c:forEach>
-    <c:forEach begin="0" end="${5-fn:length(bean.cadreFamliys)}">
+    <c:forEach begin="0" end="${5-fn:length(bean.cadreFamilys)}">
       <tr class="r2">
         <td class="td13">
           <p class="p8"></p>

@@ -102,9 +102,9 @@
                                             class="fa fa-download"></i> 导出</a>
                                 </shiro:hasPermission>
                                 <c:if test="${status==CADRE_STATUS_MIDDLE}">
-                                    <shiro:hasPermission name="cadre:exportFamliy">
+                                    <shiro:hasPermission name="cadre:exportFamily">
                                         <a class="jqExportBtn btn btn-success btn-sm"
-                                           data-url="${ctx}/cadreFamliy_data"
+                                           data-url="${ctx}/cadreFamily_data"
                                            data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
                                                 class="fa fa-download"></i> 导出家庭成员</a>
                                     </shiro:hasPermission>

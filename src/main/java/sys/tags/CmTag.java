@@ -13,7 +13,7 @@ import domain.base.MetaType;
 import domain.cadre.CadreAdditionalPost;
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadreEdu;
-import domain.cadre.CadreFamliy;
+import domain.cadre.CadreFamily;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
 import domain.cet.CetTrainEvaNorm;
@@ -56,7 +56,7 @@ import service.base.MetaTypeService;
 import service.cadre.CadreAdditionalPostService;
 import service.cadre.CadreAdminLevelService;
 import service.cadre.CadreEduService;
-import service.cadre.CadreFamliyService;
+import service.cadre.CadreFamilyService;
 import service.cadre.CadreInfoCheckService;
 import service.cadre.CadrePostService;
 import service.cadre.CadreService;
@@ -116,7 +116,7 @@ public class CmTag {
     static CadreService cadreService = context.getBean(CadreService.class);
     static CadrePostService cadrePostService = context.getBean(CadrePostService.class);
     static CadreAdminLevelService cadreAdminLevelService = context.getBean(CadreAdminLevelService.class);
-    static CadreFamliyService cadreFamliyService = context.getBean(CadreFamliyService.class);
+    static CadreFamilyService cadreFamilyService = context.getBean(CadreFamilyService.class);
     static SysResourceService sysResourceService = context.getBean(SysResourceService.class);
     static MetaTypeService metaTypeService = context.getBean(MetaTypeService.class);
     static MetaClassService metaClassService = context.getBean(MetaClassService.class);
@@ -444,8 +444,8 @@ public class CmTag {
                 mainCadrePost != null ? mainCadrePost.getAdminLevelId() : null);
     }
 
-    public static CadreFamliy getCadreFamliy(Integer id) {
-        return cadreFamliyService.get(id);
+    public static CadreFamily getCadreFamily(Integer id) {
+        return cadreFamilyService.get(id);
     }
 
     public static SysUserView getUserById(Integer id) {
@@ -638,6 +638,8 @@ public class CmTag {
             return cadreInfoCheckService.cadreHighEduCheck(cadreId);
         else if(type==6)
             return cadreInfoCheckService.cadreHighDegreeCheck(cadreId);
+        else if(type==8)
+            return cadreInfoCheckService.familyCheck(cadreId);
 
         return null;
     }

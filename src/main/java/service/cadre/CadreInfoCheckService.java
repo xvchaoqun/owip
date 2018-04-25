@@ -3,7 +3,7 @@ package service.cadre;
 import domain.cadre.CadreBookExample;
 import domain.cadre.CadreCompanyExample;
 import domain.cadre.CadreCourseExample;
-import domain.cadre.CadreFamliyAbroadExample;
+import domain.cadre.CadreFamilyAbroadExample;
 import domain.cadre.CadreInfoCheck;
 import domain.cadre.CadrePaperExample;
 import domain.cadre.CadreParttimeExample;
@@ -80,9 +80,9 @@ public class CadreInfoCheckService extends BaseMapper {
         if(notComplete(cadreId, "paper", 3)) return false;
         if(notCompleteReward(cadreId, "research_reward")) return false;
         if(notCompleteReward(cadreId, "reward")) return false;
-
-        if(notComplete(CmTag.cadreInfoCheck(cadreId, "famliy", 4))) return false;
-        if(notComplete(cadreId, "famliy_abroad", 4)) return false;
+        // 家庭信息
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, null, 8))) return false;
+        if(notComplete(cadreId, "family_abroad", 4)) return false;
         if(notComplete(cadreId, "company", 4)) return false;
 
         return true;
@@ -249,6 +249,22 @@ public class CadreInfoCheckService extends BaseMapper {
             return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
+    // 家庭信息
+    public Byte familyCheck(int cadreId) {
+
+        if(CmTag.cadreInfoCheck(cadreId, "family", 4)==CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST){
+            return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+        }
+        ICadreInfoCheck iCadreInfoCheck = iModifyMapper.familyCheck(cadreId);
+        if(iCadreInfoCheck!=null && iCadreInfoCheck.getFormalCount()!=null && iCadreInfoCheck.getFormalCount()>0)
+            return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+
+        if(iCadreInfoCheck!=null && iCadreInfoCheck.getModifyCount()!=null && iCadreInfoCheck.getModifyCount()>0)
+            return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+
+        return CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+    }
+
     // 干部科研项目信息检查
     public byte cadreResearchCheck(int cadreId, byte researchType) {
 
@@ -280,9 +296,9 @@ public class CadreInfoCheckService extends BaseMapper {
     }
 
     // 除以上之外的干部信息检查（没有修改申请的表）
-    public byte cadreInfoExistCheck(int cadreId, String name) {
+    public byte cadreInfoExistCheck(int cadreId, String tableName) {
 
-        ICadreInfoCheck iCadreInfoCheck = iModifyMapper.cadreInfoExistCheck(cadreId, name);
+        ICadreInfoCheck iCadreInfoCheck = iModifyMapper.cadreInfoExistCheck(cadreId, tableName);
 
         return  (iCadreInfoCheck!=null && iCadreInfoCheck.getFormalCount()!=null && iCadreInfoCheck.getFormalCount() > 0) ? CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST
                 : CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
@@ -387,11 +403,11 @@ public class CadreInfoCheckService extends BaseMapper {
                 count = cadreRewardMapper.countByExample(example);
             }
             break;
-            case "famliy_abroad": {
-                CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
+            case "family_abroad": {
+                CadreFamilyAbroadExample example = new CadreFamilyAbroadExample();
                 example.createCriteria().andCadreIdEqualTo(cadreId)
                         .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-                count = cadreFamliyAbroadMapper.countByExample(example);
+                count = cadreFamilyAbroadMapper.countByExample(example);
             }
             break;
             case "company": {

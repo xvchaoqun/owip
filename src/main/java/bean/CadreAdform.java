@@ -1,6 +1,6 @@
 package bean;
 
-import domain.cadre.CadreFamliy;
+import domain.cadre.CadreFamily;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -83,7 +83,7 @@ public class CadreAdform  implements Serializable {
     // 培训情况
     private String trainDesc;
     // 主要家庭成员及社会关系
-    private List<CadreFamliy> cadreFamliys;
+    private List<CadreFamily> cadreFamilys;
 
     public Integer getCadreId() {
         return cadreId;
@@ -357,11 +357,11 @@ public class CadreAdform  implements Serializable {
         this.trainDesc = trainDesc;
     }
 
-    public List<CadreFamliy> getCadreFamliys() {
-        return cadreFamliys;
+    public List<CadreFamily> getCadreFamilys() {
+        return cadreFamilys;
     }
 
-    public void setCadreFamliys(List<CadreFamliy> cadreFamliys) {
-        this.cadreFamliys = cadreFamliys;
+    public void setCadreFamilys(List<CadreFamily> cadreFamilys) {
+        this.cadreFamilys = cadreFamilys;
     }
 }

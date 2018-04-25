@@ -10,7 +10,7 @@
 <c:set var="HF_CADRE_COMPANY" value="hf_cadre_company"/>
 <c:set var="HF_CADRE_COURSE" value="hf_cadre_course"/>
 <c:set var="HF_CADRE_EDU" value="hf_cadre_edu"/>
-<c:set var="HF_CADRE_FAMLIY" value="hf_cadre_famliy"/>
+<c:set var="HF_CADRE_FAMILY" value="hf_cadre_family"/>
 <c:set var="HF_CADRE_PARTTIME" value="hf_cadre_parttime"/>
 <c:set var="HF_CADRE_POST" value="hf_cadre_post"/>
 <c:set var="HF_CADRE_POST_INFO" value="hf_cadre_post_info"/>

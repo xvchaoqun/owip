@@ -2,7 +2,7 @@ package persistence.cadre.common;
 
 import controller.analysis.CadreCategorySearchBean;
 import domain.cadre.Cadre;
-import domain.cadre.CadreFamliy;
+import domain.cadre.CadreFamily;
 import domain.cadre.CadreLeader;
 import domain.cadre.CadrePost;
 import domain.crp.CrpRecord;
@@ -105,7 +105,7 @@ public interface ICadreMapper {
     List<CadreView> leaveCadres(@Param("unitId")int unitId);*/
 
     // 查询干部家庭成员
-    List<CadreFamliy> getCadreFamliys(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
+    List<CadreFamily> getCadreFamilys(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
 
     //查询校领导的分管单位
     @Select("select blu.unit_id from cadre_leader_unit blu, cadre_leader bl " +

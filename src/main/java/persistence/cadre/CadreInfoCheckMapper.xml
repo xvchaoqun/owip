@@ -16,7 +16,7 @@
     <result column="paper" jdbcType="BIT" property="paper" />
     <result column="research_reward" jdbcType="BIT" property="researchReward" />
     <result column="reward" jdbcType="BIT" property="reward" />
-    <result column="famliy_abroad" jdbcType="BIT" property="famliyAbroad" />
+    <result column="family_abroad" jdbcType="BIT" property="familyAbroad" />
     <result column="company" jdbcType="BIT" property="company" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -79,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     cadre_id, post_pro, post_admin, post_work, parttime, train, course, course_reward, 
-    research_direct, research_in, book, paper, research_reward, reward, famliy_abroad, 
+    research_direct, research_in, book, paper, research_reward, reward, family_abroad, 
     company
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreInfoCheckExample" resultMap="BaseResultMap">
@@ -117,12 +117,12 @@
       post_work, parttime, train, course, 
       course_reward, research_direct, research_in, 
       book, paper, research_reward, reward, 
-      famliy_abroad, company)
+      family_abroad, company)
     values (#{cadreId,jdbcType=INTEGER}, #{postPro,jdbcType=BIT}, #{postAdmin,jdbcType=BIT}, 
       #{postWork,jdbcType=BIT}, #{parttime,jdbcType=BIT}, #{train,jdbcType=BIT}, #{course,jdbcType=BIT}, 
       #{courseReward,jdbcType=BIT}, #{researchDirect,jdbcType=BIT}, #{researchIn,jdbcType=BIT}, 
       #{book,jdbcType=BIT}, #{paper,jdbcType=BIT}, #{researchReward,jdbcType=BIT}, #{reward,jdbcType=BIT}, 
-      #{famliyAbroad,jdbcType=BIT}, #{company,jdbcType=BIT})
+      #{familyAbroad,jdbcType=BIT}, #{company,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreInfoCheck">
     insert into cadre_info_check
@@ -169,8 +169,8 @@
       <if test="reward != null">
         reward,
       </if>
-      <if test="famliyAbroad != null">
-        famliy_abroad,
+      <if test="familyAbroad != null">
+        family_abroad,
       </if>
       <if test="company != null">
         company,
@@ -219,8 +219,8 @@
       <if test="reward != null">
         #{reward,jdbcType=BIT},
       </if>
-      <if test="famliyAbroad != null">
-        #{famliyAbroad,jdbcType=BIT},
+      <if test="familyAbroad != null">
+        #{familyAbroad,jdbcType=BIT},
       </if>
       <if test="company != null">
         #{company,jdbcType=BIT},
@@ -278,8 +278,8 @@
       <if test="record.reward != null">
         reward = #{record.reward,jdbcType=BIT},
       </if>
-      <if test="record.famliyAbroad != null">
-        famliy_abroad = #{record.famliyAbroad,jdbcType=BIT},
+      <if test="record.familyAbroad != null">
+        family_abroad = #{record.familyAbroad,jdbcType=BIT},
       </if>
       <if test="record.company != null">
         company = #{record.company,jdbcType=BIT},
@@ -305,7 +305,7 @@
       paper = #{record.paper,jdbcType=BIT},
       research_reward = #{record.researchReward,jdbcType=BIT},
       reward = #{record.reward,jdbcType=BIT},
-      famliy_abroad = #{record.famliyAbroad,jdbcType=BIT},
+      family_abroad = #{record.familyAbroad,jdbcType=BIT},
       company = #{record.company,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -353,8 +353,8 @@
       <if test="reward != null">
         reward = #{reward,jdbcType=BIT},
       </if>
-      <if test="famliyAbroad != null">
-        famliy_abroad = #{famliyAbroad,jdbcType=BIT},
+      <if test="familyAbroad != null">
+        family_abroad = #{familyAbroad,jdbcType=BIT},
       </if>
       <if test="company != null">
         company = #{company,jdbcType=BIT},
@@ -377,7 +377,7 @@
       paper = #{paper,jdbcType=BIT},
       research_reward = #{researchReward,jdbcType=BIT},
       reward = #{reward,jdbcType=BIT},
-      famliy_abroad = #{famliyAbroad,jdbcType=BIT},
+      family_abroad = #{familyAbroad,jdbcType=BIT},
       company = #{company,jdbcType=BIT}
     where cadre_id = #{cadreId,jdbcType=INTEGER}
   </update>

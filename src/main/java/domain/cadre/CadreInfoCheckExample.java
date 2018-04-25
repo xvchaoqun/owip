@@ -944,63 +944,63 @@ public class CadreInfoCheckExample {
             return (Criteria) this;
         }
 
-        public Criteria andFamliyAbroadIsNull() {
-            addCriterion("famliy_abroad is null");
+        public Criteria andFamilyAbroadIsNull() {
+            addCriterion("family_abroad is null");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyAbroadIsNotNull() {
-            addCriterion("famliy_abroad is not null");
+        public Criteria andFamilyAbroadIsNotNull() {
+            addCriterion("family_abroad is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyAbroadEqualTo(Boolean value) {
-            addCriterion("famliy_abroad =", value, "famliyAbroad");
+        public Criteria andFamilyAbroadEqualTo(Boolean value) {
+            addCriterion("family_abroad =", value, "familyAbroad");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyAbroadNotEqualTo(Boolean value) {
-            addCriterion("famliy_abroad <>", value, "famliyAbroad");
+        public Criteria andFamilyAbroadNotEqualTo(Boolean value) {
+            addCriterion("family_abroad <>", value, "familyAbroad");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyAbroadGreaterThan(Boolean value) {
-            addCriterion("famliy_abroad >", value, "famliyAbroad");
+        public Criteria andFamilyAbroadGreaterThan(Boolean value) {
+            addCriterion("family_abroad >", value, "familyAbroad");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyAbroadGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("famliy_abroad >=", value, "famliyAbroad");
+        public Criteria andFamilyAbroadGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("family_abroad >=", value, "familyAbroad");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyAbroadLessThan(Boolean value) {
-            addCriterion("famliy_abroad <", value, "famliyAbroad");
+        public Criteria andFamilyAbroadLessThan(Boolean value) {
+            addCriterion("family_abroad <", value, "familyAbroad");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyAbroadLessThanOrEqualTo(Boolean value) {
-            addCriterion("famliy_abroad <=", value, "famliyAbroad");
+        public Criteria andFamilyAbroadLessThanOrEqualTo(Boolean value) {
+            addCriterion("family_abroad <=", value, "familyAbroad");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyAbroadIn(List<Boolean> values) {
-            addCriterion("famliy_abroad in", values, "famliyAbroad");
+        public Criteria andFamilyAbroadIn(List<Boolean> values) {
+            addCriterion("family_abroad in", values, "familyAbroad");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyAbroadNotIn(List<Boolean> values) {
-            addCriterion("famliy_abroad not in", values, "famliyAbroad");
+        public Criteria andFamilyAbroadNotIn(List<Boolean> values) {
+            addCriterion("family_abroad not in", values, "familyAbroad");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyAbroadBetween(Boolean value1, Boolean value2) {
-            addCriterion("famliy_abroad between", value1, value2, "famliyAbroad");
+        public Criteria andFamilyAbroadBetween(Boolean value1, Boolean value2) {
+            addCriterion("family_abroad between", value1, value2, "familyAbroad");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyAbroadNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("famliy_abroad not between", value1, value2, "famliyAbroad");
+        public Criteria andFamilyAbroadNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("family_abroad not between", value1, value2, "familyAbroad");
             return (Criteria) this;
         }
 

@@ -21,7 +21,7 @@
     <div class="widget-body">
         <div class="widget-main">
             <table id="jqGrid_records" class="jqGrid4"></table>
-            <div id="jqGridPager_cadreFamliy"></div>
+            <div id="jqGridPager_cadreFamily"></div>
         </div>
     </div>
 </div>
@@ -41,7 +41,7 @@
             <table class="table  table-unhover table-bordered table-striped">
                 <tr>
                     <td data-code="title">称谓</td>
-                    <td class="bg-left">${CADRE_FAMLIY_TITLE_MAP.get(modify.title)}</td>
+                    <td class="bg-left">${CADRE_FAMILY_TITLE_MAP.get(modify.title)}</td>
                     <td data-code="realname">姓名</td>
                     <td class="bg-left">${modify.realname}</td>
                     <td data-code="birthday">出生年月</td>
@@ -102,7 +102,7 @@
     <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADRERESERVE}">
         <c:if test="${_user.id==mta.userId && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
         <button class="popupBtn btn btn-primary"
-                data-url="${ctx}/cadreFamliy_au?toApply=1&cadreId=${cadre.id}&_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
+                data-url="${ctx}/cadreFamily_au?toApply=1&cadreId=${cadre.id}&_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
                 type="button">
             <i class="ace-icon fa fa-edit"></i>
             编辑
@@ -161,10 +161,10 @@
     $("#jqGrid_records").jqGrid({
         ondblClickRow: function () {
         },
-        pager: "#jqGridPager_cadreFamliy",
-        url: '${ctx}/cadreFamliy_data?cadreId=${cadre.id}&${cm:encodeQueryString(pageContext.request.queryString)}',
+        pager: "#jqGridPager_cadreFamily",
+        url: '${ctx}/cadreFamily_data?cadreId=${cadre.id}&${cm:encodeQueryString(pageContext.request.queryString)}',
         multiselect: false,
-        colModel: colModels.cadreFamliy,
+        colModel: colModels.cadreFamily,
         rowattr: function(rowData, currentObj, rowId)
         {
             //console.log(rowData.id + '-${mta.originalId}')

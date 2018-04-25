@@ -1,6 +1,6 @@
 package freemarker;
 
-import domain.cadre.CadreFamliy;
+import domain.cadre.CadreFamily;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -33,7 +33,7 @@ public class FtlTest {
     @Test
     public void ftl2() throws IOException, TemplateException {
 
-        CadreFamliy cf = null;
+        CadreFamily cf = null;
 
         Map<String,Object> dataMap = new HashMap<>();
         dataMap.put("ftitle", cf==null?"":cf.getTitle());
@@ -51,7 +51,7 @@ public class FtlTest {
 
         dataMap.put("fpost", cf == null ? "" : cf.getUnit());
 
-        System.out.println(processFtl("famliy.ftl", dataMap));
+        System.out.println(processFtl("family.ftl", dataMap));
     }
 
     @Test

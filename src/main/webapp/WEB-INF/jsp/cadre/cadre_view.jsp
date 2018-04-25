@@ -81,10 +81,10 @@
                            data-url="${ctx}/cadreReward_page?cadreId=${param.cadreId}&_auth=${param._auth}">其他奖励情况</a>
                     </li>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cadreFamliy:*">
-                    <li class="${to=='cadreFamliy_page'?'active':''}">
+                <shiro:hasPermission name="cadreFamily:*">
+                    <li class="${to=='cadreFamily_page'?'active':''}">
                         <a href="javascript:"
-                           data-url="${ctx}/cadreFamliy_page?cadreId=${param.cadreId}&_auth=${param._auth}">家庭成员信息</a>
+                           data-url="${ctx}/cadreFamily_page?cadreId=${param.cadreId}&_auth=${param._auth}">家庭成员信息</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreCompany:*">

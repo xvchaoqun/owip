@@ -12,8 +12,8 @@ import service.cadre.CadreBookService;
 import service.cadre.CadreCompanyService;
 import service.cadre.CadreCourseService;
 import service.cadre.CadreEduService;
-import service.cadre.CadreFamliyAbroadService;
-import service.cadre.CadreFamliyService;
+import service.cadre.CadreFamilyAbroadService;
+import service.cadre.CadreFamilyService;
 import service.cadre.CadrePaperService;
 import service.cadre.CadreParttimeService;
 import service.cadre.CadrePostAdminService;
@@ -67,9 +67,9 @@ public class ModifyTableApplyService extends BaseMapper {
     @Autowired
     protected CadrePostWorkService cadrePostWorkService;
     @Autowired
-    protected CadreFamliyService cadreFamliyService;
+    protected CadreFamilyService cadreFamilyService;
     @Autowired
-    protected CadreFamliyAbroadService cadreFamliyAbroadService;
+    protected CadreFamilyAbroadService cadreFamilyAbroadService;
 
 
     // 本人删除（真删除）
@@ -175,11 +175,11 @@ public class ModifyTableApplyService extends BaseMapper {
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK:
                     cadrePostWorkService.approval(mta, record);
                     break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIY:
-                    cadreFamliyService.approval(mta, record);
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY:
+                    cadreFamilyService.approval(mta, record);
                     break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMLIYABROAD:
-                    cadreFamliyAbroadService.approval(mta, record);
+                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD:
+                    cadreFamilyAbroadService.approval(mta, record);
                     break;
                 default:
                     throw new OpException("审核类型有误。");

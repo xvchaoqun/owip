@@ -567,10 +567,10 @@
         {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];
 
-    colModels.cadreFamliy = [
+    colModels.cadreFamily = [
         {
             label: '称谓', name: 'title', frozen: true, formatter: function (cellvalue, options, rowObject) {
-            return _cMap.CADRE_FAMLIY_TITLE_MAP[cellvalue]
+            return _cMap.CADRE_FAMILY_TITLE_MAP[cellvalue]
         }
         },
         {label: '姓名', width: 120, name: 'realname'},
@@ -584,16 +584,16 @@
         {label: '工作单位及职务', name: 'unit', width: 450, align:"left"}, {hidden: true, name: 'id'}
     ];
 
-    colModels.cadreFamliyAbroad = [
+    colModels.cadreFamilyAbroad = [
         {
             label: '称谓',
-            name: 'cadreFamliy.title',
+            name: 'cadreFamily.title',
             frozen: true,
             formatter: function (cellvalue, options, rowObject) {
-                return _cMap.CADRE_FAMLIY_TITLE_MAP[cellvalue]
+                return _cMap.CADRE_FAMILY_TITLE_MAP[cellvalue]
             }
         },
-        {label: '姓名', name: 'cadreFamliy.realname'},
+        {label: '姓名', name: 'cadreFamily.realname'},
         {label: '移居国家', name: 'country', width: 200},
         {
             label: '移居类别', name: 'type', formatter: function (cellvalue, options, rowObject) {

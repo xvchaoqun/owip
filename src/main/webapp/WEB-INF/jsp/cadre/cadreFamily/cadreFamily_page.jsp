@@ -11,23 +11,23 @@
             <div class="buttons">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-width="800"
-                   data-url="${ctx}/hf_content?code=${HF_CADRE_FAMLIY}">
+                   data-url="${ctx}/hf_content?code=${HF_CADRE_FAMILY}">
                     <i class="fa fa-info-circle"></i> 填写说明</a>
-                <shiro:hasPermission name="cadreFamliy:edit">
+                <shiro:hasPermission name="cadreFamily:edit">
                     <a class="popupBtn btn btn-success btn-sm"
-                       data-url="${ctx}/cadreFamliy_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
+                       data-url="${ctx}/cadreFamily_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                         添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cadreFamliy_au"
-                       data-grid-id="#jqGrid_cadreFamliy"
+                       data-url="${ctx}/cadreFamily_au"
+                       data-grid-id="#jqGrid_cadreFamily"
                        data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cadreFamliy:del">
-                    <a data-url="${ctx}/cadreFamliy_batchDel"
+                <shiro:hasPermission name="cadreFamily:del">
+                    <a data-url="${ctx}/cadreFamily_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？<div class='bolder text-danger'>（与此关联的家庭成员移居国（境）外的情况也将删除）</div>"
-                            data-grid-id="#jqGrid_cadreFamliy"
+                            data-grid-id="#jqGrid_cadreFamily"
                             data-querystr="cadreId=${param.cadreId}"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
@@ -46,8 +46,8 @@
     </div>
     <div class="widget-body">
         <div class="widget-main table-nonselect">
-            <table id="jqGrid_cadreFamliy" class="jqGrid4" data-width-reduce="50"></table>
-            <div id="jqGridPager_cadreFamliy"></div>
+            <table id="jqGrid_cadreFamily" class="jqGrid4" data-width-reduce="50"></table>
+            <div id="jqGridPager_cadreFamily"></div>
         </div>
     </div>
 </div>
@@ -59,27 +59,27 @@
 
         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
             <span style="color: #000;font-size: 14px; font-weight: normal">
-            <input type="checkbox" data-name="famliy_abroad" name="check" class="cadre-info-check"> 无此类情况
+            <input type="checkbox" data-name="family_abroad" name="check" class="cadre-info-check"> 无此类情况
                 </span>
         </shiro:lacksRole>
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
     <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
             <div class="buttons">
-                <shiro:hasPermission name="cadreFamliy:edit">
+                <shiro:hasPermission name="cadreFamily:edit">
                     <button class="popupBtn btn btn-success btn-sm"
-                       data-url="${ctx}/cadreFamliyAbroad_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
+                       data-url="${ctx}/cadreFamilyAbroad_au?cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
                         添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cadreFamliyAbroad_au"
-                       data-grid-id="#jqGrid_cadreFamliyAbroad"
+                       data-url="${ctx}/cadreFamilyAbroad_au"
+                       data-grid-id="#jqGrid_cadreFamilyAbroad"
                        data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cadreFamliy:del">
-                    <button data-url="${ctx}/cadreFamliyAbroad_batchDel"
+                <shiro:hasPermission name="cadreFamily:del">
+                    <button data-url="${ctx}/cadreFamilyAbroad_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
-                            data-grid-id="#jqGrid_cadreFamliyAbroad"
+                            data-grid-id="#jqGrid_cadreFamilyAbroad"
                             data-querystr="cadreId=${param.cadreId}"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
@@ -93,8 +93,8 @@
     </div>
     <div class="widget-body">
         <div class="widget-main table-nonselect">
-            <table id="jqGrid_cadreFamliyAbroad" class="jqGrid4" data-width-reduce="50"></table>
-            <div id="jqGridPager_cadreFamliyAbroad"></div>
+            <table id="jqGrid_cadreFamilyAbroad" class="jqGrid4" data-width-reduce="50"></table>
+            <div id="jqGridPager_cadreFamilyAbroad"></div>
         </div>
     </div>
 </div>
@@ -109,26 +109,26 @@
     $(".cadre-info-check").prop("disabled", true);
     </c:if>
 
-    $("#jqGrid_cadreFamliy").jqGrid({
+    $("#jqGrid_cadreFamily").jqGrid({
         <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
-        pager: "#jqGridPager_cadreFamliy",
+        pager: "#jqGridPager_cadreFamily",
         ondblClickRow: function () {
         },
-        url: '${ctx}/cadreFamliy_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: colModels.cadreFamliy
+        url: '${ctx}/cadreFamily_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: colModels.cadreFamily
     }).jqGrid("setFrozenColumns");
 
-    $("#jqGrid_cadreFamliyAbroad").jqGrid({
+    $("#jqGrid_cadreFamilyAbroad").jqGrid({
         <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
         multiselect:false,
         </c:if>
-        pager: "#jqGridPager_cadreFamliyAbroad",
+        pager: "#jqGridPager_cadreFamilyAbroad",
         ondblClickRow: function () {
         },
-        url: '${ctx}/cadreFamliyAbroad_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: colModels.cadreFamliyAbroad
+        url: '${ctx}/cadreFamilyAbroad_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        colModel: colModels.cadreFamilyAbroad
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid4');
 </script>

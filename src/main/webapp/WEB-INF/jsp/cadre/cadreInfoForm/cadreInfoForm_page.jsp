@@ -466,10 +466,10 @@ td.padding10{
                 <span>工作单位及职务</span>
         </td>
         </tr>
-        <c:forEach items="${bean.cadreFamliys}" var="f">
+        <c:forEach items="${bean.cadreFamilys}" var="f">
             <tr class="r4">
                 <td class="td15 center">
-                        ${CADRE_FAMLIY_TITLE_MAP.get(f.title)}
+                        ${CADRE_FAMILY_TITLE_MAP.get(f.title)}
                 </td><td class="td16 center" colspan="2">
                     ${f.realname}
             </td><td class="td17 center" colspan="2">
@@ -481,7 +481,7 @@ td.padding10{
             </td>
             </tr>
         </c:forEach>
-        <c:forEach begin="0" end="${5-fn:length(bean.cadreFamliys)}">
+        <c:forEach begin="0" end="${5-fn:length(bean.cadreFamilys)}">
         <tr class="r4">
             <td class="td15">
                 <p class="p18"></p>
@@ -513,12 +513,12 @@ td.padding10{
                 <span>现居住城市</span>
         </td>
         </tr>
-        <c:forEach items="${bean.cadreFamliyAbroads}" var="f">
+        <c:forEach items="${bean.cadreFamilyAbroads}" var="f">
         <tr class="r2">
             <td class="td15 center">
-                ${f.famliyTitle}
+                ${f.familyTitle}
             </td><td class="td16 center" colspan="2">
-                ${f.cadreFamliy.realname}
+                ${f.cadreFamily.realname}
         </td><td class="td20 center" colspan="3">
             ${f.country}
         </td><td class="td21 padding10" colspan="4">
@@ -540,7 +540,7 @@ td.padding10{
         </td>
         </tr>
         </c:forEach>
-        <c:forEach begin="0" end="${1-fn:length(bean.cadreFamliyAbroads)}">
+        <c:forEach begin="0" end="${1-fn:length(bean.cadreFamilyAbroads)}">
         <tr class="r2">
             <td class="td15">
                 <p class="p18"></p>

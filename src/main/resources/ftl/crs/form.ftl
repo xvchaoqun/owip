@@ -4820,7 +4820,7 @@
 							</w:p>
 						</w:tc>
 					</w:tr>
-					${bean.famliys!}
+					${bean.familys!}
 					<w:tr wsp:rsidR="002616D5" wsp:rsidRPr="00D22114" wsp:rsidTr="00B03368">
 						<w:trPr>
 							<w:cantSplit/>
@@ -5032,7 +5032,7 @@
 							</w:p>
 						</w:tc>
 					</w:tr>
-					${bean.famliyAbroads!}
+					${bean.familyAbroads!}
 				</w:tbl>
 				</#list>
 				<w:p wsp:rsidR="00E125AC" wsp:rsidRPr="00E125AC" wsp:rsidRDefault="00E125AC" wsp:rsidP="00A3090C">

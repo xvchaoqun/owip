@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class CadreFamliyAbroadExample {
+public class CadreFamilyAbroadExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CadreFamliyAbroadExample() {
+    public CadreFamilyAbroadExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -252,63 +252,63 @@ public class CadreFamliyAbroadExample {
             return (Criteria) this;
         }
 
-        public Criteria andFamliyIdIsNull() {
-            addCriterion("famliy_id is null");
+        public Criteria andFamilyIdIsNull() {
+            addCriterion("family_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyIdIsNotNull() {
-            addCriterion("famliy_id is not null");
+        public Criteria andFamilyIdIsNotNull() {
+            addCriterion("family_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyIdEqualTo(Integer value) {
-            addCriterion("famliy_id =", value, "famliyId");
+        public Criteria andFamilyIdEqualTo(Integer value) {
+            addCriterion("family_id =", value, "familyId");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyIdNotEqualTo(Integer value) {
-            addCriterion("famliy_id <>", value, "famliyId");
+        public Criteria andFamilyIdNotEqualTo(Integer value) {
+            addCriterion("family_id <>", value, "familyId");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyIdGreaterThan(Integer value) {
-            addCriterion("famliy_id >", value, "famliyId");
+        public Criteria andFamilyIdGreaterThan(Integer value) {
+            addCriterion("family_id >", value, "familyId");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("famliy_id >=", value, "famliyId");
+        public Criteria andFamilyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("family_id >=", value, "familyId");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyIdLessThan(Integer value) {
-            addCriterion("famliy_id <", value, "famliyId");
+        public Criteria andFamilyIdLessThan(Integer value) {
+            addCriterion("family_id <", value, "familyId");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyIdLessThanOrEqualTo(Integer value) {
-            addCriterion("famliy_id <=", value, "famliyId");
+        public Criteria andFamilyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("family_id <=", value, "familyId");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyIdIn(List<Integer> values) {
-            addCriterion("famliy_id in", values, "famliyId");
+        public Criteria andFamilyIdIn(List<Integer> values) {
+            addCriterion("family_id in", values, "familyId");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyIdNotIn(List<Integer> values) {
-            addCriterion("famliy_id not in", values, "famliyId");
+        public Criteria andFamilyIdNotIn(List<Integer> values) {
+            addCriterion("family_id not in", values, "familyId");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyIdBetween(Integer value1, Integer value2) {
-            addCriterion("famliy_id between", value1, value2, "famliyId");
+        public Criteria andFamilyIdBetween(Integer value1, Integer value2) {
+            addCriterion("family_id between", value1, value2, "familyId");
             return (Criteria) this;
         }
 
-        public Criteria andFamliyIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("famliy_id not between", value1, value2, "famliyId");
+        public Criteria andFamilyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("family_id not between", value1, value2, "familyId");
             return (Criteria) this;
         }
 

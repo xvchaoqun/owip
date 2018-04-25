@@ -16,14 +16,14 @@ public class SyncYJS implements Job {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private SyncService sysUserSyncService;
+    private SyncService syncService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         logger.info("同步研究生库...");
         try {
-            sysUserSyncService.syncAllYJS(true);
+            syncService.syncAllYJS(true);
         }catch (Exception ex){
             ex.printStackTrace();
         }

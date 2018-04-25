@@ -45,16 +45,16 @@
       "ignore": true
     },
     {
-      "table": "cadre_famliy_abroad",
+      "table": "cadre_family_abroad",
       "key": "id",
       "searchColumns": "cadre_id",
-      "showColumns": "famliy_id,type,abroad_time,country,city",
+      "showColumns": "family_id,type,abroad_time,country,city",
       "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_ADMIN",
       "ignore": true
     },
     {
-      "table": "cadre_famliy",
+      "table": "cadre_family",
       "key": "id",
       "searchColumns": "cadre_id",
       "showColumns": "title,realname,birthday,political_status,unit",

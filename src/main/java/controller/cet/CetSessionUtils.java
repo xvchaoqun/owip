@@ -1,4 +1,4 @@
-package sys;
+package controller.cet;
 
 import domain.cet.CetTrainInspector;
 
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Created by lm on 2017/2/9.
  */
-public class SessionUtils {
+public class CetSessionUtils {
 
     public final static String TRAIN_INSPECTOR_LOGIN_SESSION_NAME = "_trainInspector";
 

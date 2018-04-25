@@ -1,8 +1,8 @@
 package bean;
 
 import domain.cadre.CadreCompany;
-import domain.cadre.CadreFamliy;
-import domain.cadre.CadreFamliyAbroad;
+import domain.cadre.CadreFamily;
+import domain.cadre.CadreFamilyAbroad;
 
 import java.util.Date;
 import java.util.List;
@@ -100,9 +100,9 @@ public class CadreInfoForm {
     // 企业兼职情况
     private List<CadreCompany> cadreCompanies;
     // 主要家庭成员及社会关系
-    private List<CadreFamliy> cadreFamliys;
+    private List<CadreFamily> cadreFamilys;
     // 家庭成员移居国（境）外的情况
-    private List<CadreFamliyAbroad> cadreFamliyAbroads;
+    private List<CadreFamilyAbroad> cadreFamilyAbroads;
 
     public Integer getCadreId() {
         return cadreId;
@@ -432,19 +432,19 @@ public class CadreInfoForm {
         this.cadreCompanies = cadreCompanies;
     }
 
-    public List<CadreFamliy> getCadreFamliys() {
-        return cadreFamliys;
+    public List<CadreFamily> getCadreFamilys() {
+        return cadreFamilys;
     }
 
-    public void setCadreFamliys(List<CadreFamliy> cadreFamliys) {
-        this.cadreFamliys = cadreFamliys;
+    public void setCadreFamilys(List<CadreFamily> cadreFamilys) {
+        this.cadreFamilys = cadreFamilys;
     }
 
-    public List<CadreFamliyAbroad> getCadreFamliyAbroads() {
-        return cadreFamliyAbroads;
+    public List<CadreFamilyAbroad> getCadreFamilyAbroads() {
+        return cadreFamilyAbroads;
     }
 
-    public void setCadreFamliyAbroads(List<CadreFamliyAbroad> cadreFamliyAbroads) {
-        this.cadreFamliyAbroads = cadreFamliyAbroads;
+    public void setCadreFamilyAbroads(List<CadreFamilyAbroad> cadreFamilyAbroads) {
+        this.cadreFamilyAbroads = cadreFamilyAbroads;
     }
 }

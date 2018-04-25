@@ -16,14 +16,14 @@ public class SyncJZG implements Job {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private SyncService sysUserSyncService;
+    private SyncService syncService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         logger.info("同步人事库...");
         try {
-            sysUserSyncService.syncAllJZG(true);
+            syncService.syncAllJZG(true);
         }catch (Exception ex){
             ex.printStackTrace();
         }

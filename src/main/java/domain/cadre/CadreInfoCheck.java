@@ -31,7 +31,7 @@ public class CadreInfoCheck implements Serializable {
 
     private Boolean reward;
 
-    private Boolean famliyAbroad;
+    private Boolean familyAbroad;
 
     private Boolean company;
 
@@ -149,12 +149,12 @@ public class CadreInfoCheck implements Serializable {
         this.reward = reward;
     }
 
-    public Boolean getFamliyAbroad() {
-        return famliyAbroad;
+    public Boolean getFamilyAbroad() {
+        return familyAbroad;
     }
 
-    public void setFamliyAbroad(Boolean famliyAbroad) {
-        this.famliyAbroad = famliyAbroad;
+    public void setFamilyAbroad(Boolean familyAbroad) {
+        this.familyAbroad = familyAbroad;
     }
 
     public Boolean getCompany() {

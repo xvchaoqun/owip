@@ -5,29 +5,28 @@ import sys.tags.CmTag;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CadreFamliyAbroad implements Serializable {
+public class CadreFamilyAbroad implements Serializable {
 
-    private String famliyTitle;
+    private String familyTitle;
 
-    public String getFamliyTitle() {
-        return famliyTitle;
+    public String getFamilyTitle() {
+        return familyTitle;
     }
 
-    public void setFamliyTitle(String famliyTitle) {
-        this.famliyTitle = famliyTitle;
+    public void setFamilyTitle(String familyTitle) {
+        this.familyTitle = familyTitle;
     }
 
-    public CadreFamliy getCadreFamliy(){
+    public CadreFamily getCadreFamily(){
 
-        return (famliyId!=null)? CmTag.getCadreFamliy(famliyId):null;
+        return (familyId!=null)? CmTag.getCadreFamily(familyId):null;
     }
-
 
     private Integer id;
 
     private Integer cadreId;
 
-    private Integer famliyId;
+    private Integer familyId;
 
     private Integer type;
 
@@ -57,12 +56,12 @@ public class CadreFamliyAbroad implements Serializable {
         this.cadreId = cadreId;
     }
 
-    public Integer getFamliyId() {
-        return famliyId;
+    public Integer getFamilyId() {
+        return familyId;
     }
 
-    public void setFamliyId(Integer famliyId) {
-        this.famliyId = famliyId;
+    public void setFamilyId(Integer familyId) {
+        this.familyId = familyId;
     }
 
     public Integer getType() {

@@ -13,14 +13,14 @@ public class SyncJzgSalary implements Job {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private SyncService sysUserSyncService;
+    private SyncService syncService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         logger.info("同步本月在职工资信息...");
         try {
-            sysUserSyncService.syncJzgSalary(true);
+            syncService.syncJzgSalary(true);
         }catch (Exception ex){
             ex.printStackTrace();
         }

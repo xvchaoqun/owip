@@ -1,9 +1,9 @@
 package controller.cadre;
 
 import controller.BaseController;
-import domain.cadre.CadreFamliy;
-import domain.cadre.CadreFamliyAbroad;
-import domain.cadre.CadreFamliyAbroadExample;
+import domain.cadre.CadreFamily;
+import domain.cadre.CadreFamilyAbroad;
+import domain.cadre.CadreFamilyAbroadExample;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
@@ -41,13 +41,13 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class CadreFamliyAbroadController extends BaseController {
+public class CadreFamilyAbroadController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cadreFamliyAbroad:list")
-    @RequestMapping("/cadreFamliyAbroad_data")
-    public void cadreFamliyAbroad_data(HttpServletResponse response,
+    @RequiresPermissions("cadreFamilyAbroad:list")
+    @RequestMapping("/cadreFamilyAbroad_data")
+    public void cadreFamilyAbroad_data(HttpServletResponse response,
                                     Integer cadreId,
                                     Integer pageSize, Integer pageNo,
                                  @RequestParam(required = false, defaultValue = "0") int export) throws IOException {
@@ -60,8 +60,8 @@ public class CadreFamliyAbroadController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CadreFamliyAbroadExample example = new CadreFamliyAbroadExample();
-        CadreFamliyAbroadExample.Criteria criteria = example.createCriteria()
+        CadreFamilyAbroadExample example = new CadreFamilyAbroadExample();
+        CadreFamilyAbroadExample.Criteria criteria = example.createCriteria()
                 .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
        // example.setOrderByClause(String.format("%s %s", sort, order));
 
@@ -70,16 +70,16 @@ public class CadreFamliyAbroadController extends BaseController {
         }
 
         if (export == 1) {
-            cadreFamliyAbroad_export(example, response);
+            cadreFamilyAbroad_export(example, response);
             return;
         }
 
-        long count = cadreFamliyAbroadMapper.countByExample(example);
+        long count = cadreFamilyAbroadMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CadreFamliyAbroad> records = cadreFamliyAbroadMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CadreFamilyAbroad> records = cadreFamilyAbroadMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -94,16 +94,16 @@ public class CadreFamliyAbroadController extends BaseController {
         return;
     }
 
-    @RequiresPermissions("cadreFamliyAbroad:edit")
-    @RequestMapping(value = "/cadreFamliyAbroad_au", method = RequestMethod.POST)
+    @RequiresPermissions("cadreFamilyAbroad:edit")
+    @RequestMapping(value = "/cadreFamilyAbroad_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreFamliyAbroad_au(
+    public Map do_cadreFamilyAbroad_au(
             // toApply、_isUpdate、applyId 是干部本人修改申请时传入
             @RequestParam(required = true, defaultValue = "0") boolean toApply,
             // 否：添加[添加或修改申请] ， 是：更新[添加或修改申请]。
             @RequestParam(required = true, defaultValue = "0") boolean _isUpdate,
             Integer applyId, // _isUpdate=true时，传入
-            CadreFamliyAbroad record, String _abroadTime, HttpServletRequest request) {
+            CadreFamilyAbroad record, String _abroadTime, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -114,30 +114,30 @@ public class CadreFamliyAbroadController extends BaseController {
         if (id == null) {
 
             if (!toApply) {
-                cadreFamliyAbroadService.insertSelective(record);
+                cadreFamilyAbroadService.insertSelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "添加家庭成员海外情况：%s", record.getId()));
             } else {
-                cadreFamliyAbroadService.modifyApply(record, null, false);
+                cadreFamilyAbroadService.modifyApply(record, null, false);
                 logger.info(addLog(LogConstants.LOG_CADRE, "提交添加申请-家庭成员海外情况：%s", record.getId()));
             }
 
         } else {
             // 干部信息本人直接修改数据校验
-            CadreFamliyAbroad _record = cadreFamliyAbroadMapper.selectByPrimaryKey(id);
+            CadreFamilyAbroad _record = cadreFamilyAbroadMapper.selectByPrimaryKey(id);
             if (_record.getCadreId().intValue() != record.getCadreId()) {
                 throw new IllegalArgumentException("数据异常");
             }
 
             if (!toApply) {
-                cadreFamliyAbroadService.updateByPrimaryKeySelective(record);
+                cadreFamilyAbroadService.updateByPrimaryKeySelective(record);
                 logger.info(addLog(LogConstants.LOG_ADMIN, "更新家庭成员海外情况：%s", record.getId()));
             } else {
                 if (_isUpdate == false) {
-                    cadreFamliyAbroadService.modifyApply(record, id, false);
+                    cadreFamilyAbroadService.modifyApply(record, id, false);
                     logger.info(addLog(LogConstants.LOG_CADRE, "提交修改申请-家庭成员海外情况：%s", record.getId()));
                 } else {
                     // 更新修改申请的内容
-                    cadreFamliyAbroadService.updateModify(record, applyId);
+                    cadreFamilyAbroadService.updateModify(record, applyId);
                     logger.info(addLog(LogConstants.LOG_CADRE, "修改申请内容-家庭成员海外情况：%s", record.getId()));
                 }
             }
@@ -145,17 +145,17 @@ public class CadreFamliyAbroadController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cadreFamliyAbroad:edit")
-    @RequestMapping("/cadreFamliyAbroad_au")
-    public String cadreFamliyAbroad_au(Integer id, int cadreId, ModelMap modelMap) {
+    @RequiresPermissions("cadreFamilyAbroad:edit")
+    @RequestMapping("/cadreFamilyAbroad_au")
+    public String cadreFamilyAbroad_au(Integer id, int cadreId, ModelMap modelMap) {
 
         if (id != null) {
-            CadreFamliyAbroad cadreFamliyAbroad = cadreFamliyAbroadMapper.selectByPrimaryKey(id);
-            modelMap.put("cadreFamliyAbroad", cadreFamliyAbroad);
+            CadreFamilyAbroad cadreFamilyAbroad = cadreFamilyAbroadMapper.selectByPrimaryKey(id);
+            modelMap.put("cadreFamilyAbroad", cadreFamilyAbroad);
 
-            Integer famliyId = cadreFamliyAbroad.getFamliyId();
-            CadreFamliy cadreFamliy = cadreFamliyMapper.selectByPrimaryKey(famliyId);
-            modelMap.put("cadreFamliy", cadreFamliy);
+            Integer familyId = cadreFamilyAbroad.getFamilyId();
+            CadreFamily cadreFamily = cadreFamilyMapper.selectByPrimaryKey(familyId);
+            modelMap.put("cadreFamily", cadreFamily);
         }
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
@@ -163,24 +163,24 @@ public class CadreFamliyAbroadController extends BaseController {
         SysUserView sysUser = sysUserService.findById(cadre.getUserId());
         modelMap.put("sysUser", sysUser);
 
-        return "cadre/cadreFamliyAbroad/cadreFamliyAbroad_au";
+        return "cadre/cadreFamilyAbroad/cadreFamilyAbroad_au";
     }
 
-    /*@RequiresPermissions("cadreFamliyAbroad:del")
-    @RequestMapping(value = "/cadreFamliyAbroad_del", method = RequestMethod.POST)
+    /*@RequiresPermissions("cadreFamilyAbroad:del")
+    @RequestMapping(value = "/cadreFamilyAbroad_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreFamliyAbroad_del(HttpServletRequest request, Integer id) {
+    public Map do_cadreFamilyAbroad_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
-            cadreFamliyAbroadService.del(id);
+            cadreFamilyAbroadService.del(id);
             logger.info(addLog(LogConstants.LOG_ADMIN, "删除家庭成员海外情况：%s", id));
         }
         return success(FormUtils.SUCCESS);
     }*/
 
-    @RequiresPermissions("cadreFamliyAbroad:del")
-    @RequestMapping(value = "/cadreFamliyAbroad_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("cadreFamilyAbroad:del")
+    @RequestMapping(value = "/cadreFamilyAbroad_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request,
                         int cadreId, // 干部直接修改权限校验用
@@ -188,7 +188,7 @@ public class CadreFamliyAbroadController extends BaseController {
 
 
         if (null != ids && ids.length>0){
-            cadreFamliyAbroadService.batchDel(ids, cadreId);
+            cadreFamilyAbroadService.batchDel(ids, cadreId);
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除家庭成员海外情况：%s", StringUtils.join(ids, ",")));
         }
 
@@ -196,10 +196,10 @@ public class CadreFamliyAbroadController extends BaseController {
     }
 
 
-    public void cadreFamliyAbroad_export(CadreFamliyAbroadExample example, HttpServletResponse response) {
+    public void cadreFamilyAbroad_export(CadreFamilyAbroadExample example, HttpServletResponse response) {
 
-        List<CadreFamliyAbroad> cadreFamliyAbroads = cadreFamliyAbroadMapper.selectByExample(example);
-        long rownum = cadreFamliyAbroadMapper.countByExample(example);
+        List<CadreFamilyAbroad> cadreFamilyAbroads = cadreFamilyAbroadMapper.selectByExample(example);
+        long rownum = cadreFamilyAbroadMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
@@ -214,12 +214,12 @@ public class CadreFamliyAbroadController extends BaseController {
 
         for (int i = 0; i < rownum; i++) {
 
-            CadreFamliyAbroad cadreFamliyAbroad = cadreFamliyAbroads.get(i);
+            CadreFamilyAbroad cadreFamilyAbroad = cadreFamilyAbroads.get(i);
             String[] values = {
-                    cadreFamliyAbroad.getFamliyId() + "",
-                    cadreFamliyAbroad.getType() + "",
-                    cadreFamliyAbroad.getCountry(),
-                    cadreFamliyAbroad.getCity()
+                    cadreFamilyAbroad.getFamilyId() + "",
+                    cadreFamilyAbroad.getType() + "",
+                    cadreFamilyAbroad.getCountry(),
+                    cadreFamilyAbroad.getCity()
             };
 
             Row row = sheet.createRow(i + 1);

@@ -238,7 +238,7 @@ public class PmdExportService extends BaseMapper {
         cell = row.getCell(0);
         str = cell.getStringCellValue().replace("month", month);
         cell.setCellValue(str);
-        cell = row.getCell(6);
+        cell = row.getCell(7);
         str = cell.getStringCellValue().replace("month", month);
         cell.setCellValue(str);
 
@@ -246,7 +246,7 @@ public class PmdExportService extends BaseMapper {
         cell = row.getCell(0);
         str = cell.getStringCellValue().replace("party", partyName);
         cell.setCellValue(str);
-        cell = row.getCell(6);
+        cell = row.getCell(7);
         str = cell.getStringCellValue().replace("party", partyName);
         cell.setCellValue(str);
 
@@ -257,7 +257,7 @@ public class PmdExportService extends BaseMapper {
         for (int i = 0; i < rowCount; i++) {
 
             PmdExcelReportBean bean = iPmdMapper.getPmdExcelReportBean(montId, partyId, i);
-            int column = 1;
+            int column = 2;
 
             row = sheet.getRow(startRow++);
 
@@ -271,7 +271,7 @@ public class PmdExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(bean.getBdx()+bean.getDx());
 
-            column += 2;
+            column += 3;
             cell = row.getCell(column++);
             cell.setCellValue(bean.getTotal());
             cell = row.getCell(column++);
@@ -286,32 +286,36 @@ public class PmdExportService extends BaseMapper {
         startRow = 9;
         row = sheet.getRow(startRow++);
         BigDecimal _onlineRealPay = pmdParty.getOnlineRealPay().add(pmdParty.getOnlineRealDelayPay());
-        cell = row.getCell(3);
+        cell = row.getCell(2);
         cell.setCellValue(_onlineRealPay.toString());
         cell = row.getCell(9);
         cell.setCellValue(_onlineRealPay.toString());
 
+        cell = row.getCell(5);
+        cell.setCellValue(pmdParty.getOnlineRealPay().toString());
+        cell = row.getCell(12);
+        cell.setCellValue(pmdParty.getOnlineRealPay().toString());
+
         row = sheet.getRow(startRow++);
-        BigDecimal _cashRealPay = pmdParty.getCashRealPay().add(pmdParty.getCashRealDelayPay());
-        cell = row.getCell(3);
-        cell.setCellValue(_cashRealPay.toString());
-        cell = row.getCell(9);
-        cell.setCellValue(_cashRealPay.toString());
+        cell = row.getCell(5);
+        cell.setCellValue(pmdParty.getOnlineRealDelayPay().toString());
+        cell = row.getCell(12);
+        cell.setCellValue(pmdParty.getOnlineRealDelayPay().toString());
 
 
         String notPay = pmdParty.getDuePay().subtract(pmdParty.getRealPay()).toString();
         row = sheet.getRow(startRow++);
-        cell = row.getCell(1);
+        cell = row.getCell(2);
         cell.setCellValue(notPay);
-        cell = row.getCell(7);
+        cell = row.getCell(9);
         cell.setCellValue(notPay);
 
         String schoolName = getSchoolName();
         row = sheet.getRow(14);
-        cell = row.getCell(2);
+        cell = row.getCell(3);
         str = cell.getStringCellValue().replace("school", schoolName);
         cell.setCellValue(str);
-        cell = row.getCell(8);
+        cell = row.getCell(10);
         str = cell.getStringCellValue().replace("school", schoolName);
         cell.setCellValue(str);
 
@@ -353,7 +357,7 @@ public class PmdExportService extends BaseMapper {
         int startRow = isDetail?4:3;
         ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
 
-        BigDecimal realPayTotal = BigDecimal.ZERO;
+        BigDecimal realOnlinePayTotal = BigDecimal.ZERO;
 
         BigDecimal _onlineRealPayTotal = BigDecimal.ZERO;
         BigDecimal _cashRealPayTotal = BigDecimal.ZERO;
@@ -385,10 +389,10 @@ public class PmdExportService extends BaseMapper {
 
             if(!isDetail) {
                 // 线上缴纳党费总额
-                BigDecimal realPay = bean.getRealPay().add(bean.getRealDelayPay());
+                BigDecimal onlineRealPay = bean.getOnlineRealPay().add(bean.getOnlineRealDelayPay());
                 cell = row.getCell(column++);
-                cell.setCellValue(realPay.toString());
-                realPayTotal = realPayTotal.add(realPay);
+                cell.setCellValue(onlineRealPay.toString());
+                realOnlinePayTotal = realOnlinePayTotal.add(onlineRealPay);
             }else{
 
                 // 线上缴纳党费总数
@@ -458,7 +462,7 @@ public class PmdExportService extends BaseMapper {
         row = sheet.getRow(startRow++);
         if(!isDetail) {
             cell = row.getCell(column);
-            cell.setCellValue(realPayTotal.toString());
+            cell.setCellValue(realOnlinePayTotal.toString());
         }else{
 
             cell = row.getCell(column++);

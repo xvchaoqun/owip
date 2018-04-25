@@ -16,14 +16,14 @@ public class SyncTeacherAbroadInfo implements Job {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private SyncService sysUserSyncService;
+    private SyncService syncService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         logger.info("同步教职工党员出国境信息...");
         try {
-            sysUserSyncService.syncAllAbroad(true);
+            syncService.syncAllAbroad(true);
         }catch (Exception ex){
             ex.printStackTrace();
         }

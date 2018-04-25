@@ -169,8 +169,8 @@
      </if>
    </select>-->
 
-    <select id="getCadreFamliys" resultMap="persistence.cadre.CadreFamliyMapper.BaseResultMap" parameterType="map">
-        select cf.* from cadre_famliy cf, cadre c where cf.cadre_id=c.id
+    <select id="getCadreFamilys" resultMap="persistence.cadre.CadreFamilyMapper.BaseResultMap" parameterType="map">
+        select cf.* from cadre_family cf, cadre c where cf.cadre_id=c.id
         <if test="cadreIds != null and cadreIds.length>0">
             and c.id IN
             <foreach collection="cadreIds" item="cadreId" separator="," open="(" close=")">

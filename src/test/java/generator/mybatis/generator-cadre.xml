@@ -10,7 +10,7 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/db_owip?useUnicode=true&amp;characterEncoding=UTF8"
+                        connectionURL="jdbc:mysql://localhost:3306/db_owip_0?useUnicode=true&amp;characterEncoding=UTF8"
                         userId="root" password="123"/>
         <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
             <property name="trimStrings" value="true"/>
@@ -65,8 +65,8 @@
                  enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                  enableDeleteByExample="false">
           </table>-->
-        <!--<table tableName="cadre_info_check" domainObjectName="cadre.CadreInfoCheck" mapperName="cadre.CadreInfoCheckMapper">
-        </table>-->
+        <table tableName="cadre_info_check" domainObjectName="cadre.CadreInfoCheck" mapperName="cadre.CadreInfoCheckMapper">
+        </table>
 
         <!--
         <table tableName="cadre_info" domainObjectName="cadre.CadreInfo">
@@ -116,15 +116,15 @@
           <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">
           <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <table tableName="cadre_famliy_abroad" domainObjectName="cadre.CadreFamliyAbroad"
-               mapperName="cadre.CadreFamliyAbroadMapper">
+        <!--<table tableName="cadre_family_abroad" domainObjectName="cadre.CadreFamilyAbroad"
+               mapperName="cadre.CadreFamilyAbroadMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="cadre_famliy" domainObjectName="cadre.CadreFamliy"
-               mapperName="cadre.CadreFamliyMapper">
+        <table tableName="cadre_family" domainObjectName="cadre.CadreFamily"
+               mapperName="cadre.CadreFamilyMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro"
+        </table>-->
+        <!--<table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro"
                mapperName="cadre.CadrePostProMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
@@ -135,7 +135,7 @@
          <table tableName="cadre_post_work" domainObjectName="cadre.CadrePostWork"
                 mapperName="cadre.CadrePostWorkMapper">
              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
+         </table>-->
         <!--<table tableName="cadre_report" domainObjectName="cadre.CadreReport">
         </table>
         -->
