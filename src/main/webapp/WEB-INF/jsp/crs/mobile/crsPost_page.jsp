@@ -31,6 +31,7 @@
                                     <span class="sender sigle-span">${crsPost.name}</span>
                                 <span class="summary">
                                     <span class="text sigle-span">
+                                        <c:set var="applicantCount" value="${fn:length(crsPost.applicants)}"/>
                                          <c:choose>
                                             <c:when test="${crsPost.autoSwitch}">
                                                 <c:choose>
@@ -38,18 +39,18 @@
                                                         未开启报名
                                                     </c:when>
                                                     <c:when test="${cm:compareDate(crsPost.endTime, now)}">
-                                                        正在报名(${crsPost.applicantCount})
+                                                        正在报名(${applicantCount})
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <span class="text-danger">报名结束(${crsPost.applicantCount})</span>
+                                                        <span class="text-danger">报名结束(${applicantCount})</span>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </c:when>
                                             <c:when test="${crsPost.enrollStatus==CRS_POST_ENROLL_STATUS_OPEN}">
-                                                正在报名(${crsPost.applicantCount})
+                                                正在报名(${applicantCount})
                                             </c:when>
                                             <c:otherwise>
-                                               ${CRS_POST_ENROLL_STATUS_MAP.get(crsPost.enrollStatus)}(${crsPost.applicantCount})
+                                               ${CRS_POST_ENROLL_STATUS_MAP.get(crsPost.enrollStatus)}(${applicantCount})
                                             </c:otherwise>
                                          </c:choose>
                                         (${cm:formatDate(crsPost.endTime, "yyyy-MM-dd HH:mm")} 截止报名)

@@ -148,6 +148,13 @@
     data-url="${ctx}/crsPost_publish?id={{=id}}&publish={{=isPublish?0:1}}">
         <i class="fa fa-{{=isPublish?'times':'check'}}"></i> {{=isPublish?'取消发布':'发布'}}</button>
 </script>
+<style>
+    .tooltip-inner{
+        text-align: left;
+        font-size: 16pt;
+        max-width: 300px;
+    }
+</style>
 <script>
     $.register.user_select($('#searchForm select[name=expertUserId]'));
     $.register.date($('.date-picker'));
@@ -190,23 +197,34 @@
 
             {label: '报名状态', name: 'enrollStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
+                var str = "";
+                var applicantCount = rowObject.applicants.length;
                 if(rowObject.autoSwitch){
                     var nowTime = $.date(new Date(), 'yyyy-MM-dd hh:mm');
                     var startTime = $.date(rowObject.startTime, 'yyyy-MM-dd hh:mm');
                     var endTime = $.date(rowObject.endTime, 'yyyy-MM-dd hh:mm');
                     //console.log(startTime + " " + endTime + " "  +new Date().getTime())
                     if(startTime > nowTime){
-                        return '未开启报名';
+                        str = '未开启报名';
                     }else if(endTime >= nowTime){
-                        return '正在报名({0})'.format(rowObject.applicantCount)
+                        str = '正在报名({0})'.format(applicantCount)
                     }else{
-                        return '报名结束({0})'.format(rowObject.applicantCount)
+                        str = '报名结束({0})'.format(applicantCount)
                     }
+                }else if(cellvalue==${CRS_POST_ENROLL_STATUS_OPEN}){
+                    str = '正在报名({0})'.format(applicantCount)
+                }else {
+                    str = _cMap.CRS_POST_ENROLL_STATUS_MAP[cellvalue] + '({0})'.format(applicantCount);
                 }
-                if(cellvalue==${CRS_POST_ENROLL_STATUS_OPEN}){
-                    return '正在报名({0})'.format(rowObject.applicantCount)
-                }
-                return _cMap.CRS_POST_ENROLL_STATUS_MAP[cellvalue] + '({0})'.format(rowObject.applicantCount);
+
+                return str;
+            }, cellattr: function (rowId, val, rawObject, cm, rdata) {
+                var applicants = $.map(rawObject.applicants, function(val, i){
+                    return val.realname;
+                });
+                if(applicants.length>0)
+                    return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="'
+                        + applicants +'"';
             }},
             {label: '报名截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
@@ -236,8 +254,9 @@
             {label: '备注', name: 'remark', width: 350, formatter: $.jgrid.formatter.NoMultiSpace}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
-        $(window).triggerHandler('resize.jqGrid');
+        $('[data-tooltip="tooltip"]').tooltip({html:true});
     })
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();

@@ -6,16 +6,30 @@ import sys.constants.CrsConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CrsPost implements Serializable {
 
-    public int getApplicantCount(){
+    public List<Map<String, Object>> getApplicants(){
 
         CrsApplicantService crsApplicantService = CmTag.getBean(CrsApplicantService.class);
         List<CrsApplicantView> crsApplicants = crsApplicantService.getCrsApplicants(id);
-        return crsApplicants.size();
+
+        List<Map<String, Object>> applicants = new ArrayList<>();
+        for (CrsApplicantView crsApplicant : crsApplicants) {
+
+            Map<String, Object> applicant = new HashMap<>();
+            applicant.put("userId", crsApplicant.getUserId());
+            applicant.put("realname", crsApplicant.getUser().getRealname());
+
+            applicants.add(applicant);
+        }
+
+        return applicants;
     }
 
     public Unit getUnit() {
