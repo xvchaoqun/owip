@@ -28,7 +28,7 @@ public class CadreCourseService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
 
-    public List<CadreCourse> list(int cadreId, byte type){
+    public List<CadreCourse> list(int cadreId, byte type) {
 
         CadreCourseExample example = new CadreCourseExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
@@ -39,16 +39,16 @@ public class CadreCourseService extends BaseMapper {
     }
 
     @Transactional
-    public void batchAdd(CadreCourse record, String names){
-        if(StringUtils.isNotBlank(names)){
+    public void batchAdd(CadreCourse record, String names) {
+        if (StringUtils.isNotBlank(names)) {
             String[] nameArray = names.split("#");
             for (String name : nameArray) {
-                if(StringUtils.isNotBlank(name)){
+                if (StringUtils.isNotBlank(name)) {
                     record.setId(null);
                     record.setName(name);
                     record.setSortOrder(getNextSortOrder("cadre_course",
-                            "cadre_id=" + record.getCadreId() +" and status="+SystemConstants.RECORD_STATUS_FORMAL
-                                    + " and type="+record.getType()));
+                            "cadre_id=" + record.getCadreId() + " and status=" + SystemConstants.RECORD_STATUS_FORMAL
+                                    + " and type=" + record.getType()));
                     record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
                     cadreCourseMapper.insertSelective(record);
                 }
@@ -57,15 +57,15 @@ public class CadreCourseService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids, int cadreId){
+    public void batchDel(Integer[] ids, int cadreId) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
         {
             // 干部信息本人直接修改数据校验
             CadreCourseExample example = new CadreCourseExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             int count = cadreCourseMapper.countByExample(example);
-            if(count!=ids.length){
+            if (count != ids.length) {
                 throw new IllegalArgumentException("数据异常");
             }
         }
@@ -75,7 +75,7 @@ public class CadreCourseService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadreCourse record){
+    public int updateByPrimaryKeySelective(CadreCourse record) {
         record.setStatus(null);
         return cadreCourseMapper.updateByPrimaryKeySelective(record);
     }
@@ -83,7 +83,7 @@ public class CadreCourseService extends BaseMapper {
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
+        if (addNum == 0) return;
 
         CadreCourse entity = cadreCourseMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
@@ -96,7 +96,7 @@ public class CadreCourseService extends BaseMapper {
             example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
-        }else {
+        } else {
 
             example.createCriteria().andCadreIdEqualTo(cadreId).andTypeEqualTo(type)
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL).andSortOrderLessThan(baseSortOrder);
@@ -104,15 +104,15 @@ public class CadreCourseService extends BaseMapper {
         }
 
         List<CadreCourse> overEntities = cadreCourseMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
+        if (overEntities.size() > 0) {
 
-            CadreCourse targetEntity = overEntities.get(overEntities.size()-1);
+            CadreCourse targetEntity = overEntities.get(overEntities.size() - 1);
             if (addNum > 0)
-                commonMapper.downOrder("cadre_course", "cadre_id=" + cadreId +" and status="+SystemConstants.RECORD_STATUS_FORMAL
-                        + " and type="+type, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cadre_course", "cadre_id=" + cadreId + " and status=" + SystemConstants.RECORD_STATUS_FORMAL
+                        + " and type=" + type, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cadre_course", "cadre_id=" + cadreId +" and status="+SystemConstants.RECORD_STATUS_FORMAL
-                        + " and type="+type, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cadre_course", "cadre_id=" + cadreId + " and status=" + SystemConstants.RECORD_STATUS_FORMAL
+                        + " and type=" + type, baseSortOrder, targetEntity.getSortOrder());
 
             CadreCourse record = new CadreCourse();
             record.setId(id);
@@ -123,9 +123,9 @@ public class CadreCourseService extends BaseMapper {
 
     // 更新修改申请的内容（仅允许本人更新自己的申请）
     @Transactional
-    public void updateModify(CadreCourse record, Integer applyId){
+    public void updateModify(CadreCourse record, Integer applyId) {
 
-        if(applyId==null){
+        if (applyId == null) {
             throw new IllegalArgumentException();
         }
 
@@ -145,10 +145,10 @@ public class CadreCourseService extends BaseMapper {
 
         record.setId(null);
         record.setStatus(null);
-        if(cadreCourseMapper.updateByExampleSelective(record, example)>0) {
+        if (cadreCourseMapper.updateByExampleSelective(record, example) > 0) {
 
             // 更新申请时间
-            ModifyTableApply _record= new ModifyTableApply();
+            ModifyTableApply _record = new ModifyTableApply();
             _record.setId(mta.getId());
             _record.setCreateTime(new Date());
             modifyTableApplyMapper.updateByPrimaryKeySelective(_record);
@@ -157,16 +157,16 @@ public class CadreCourseService extends BaseMapper {
 
     // 添加、修改、删除申请（仅允许本人提交自己的申请）
     @Transactional
-    public void modifyApply(CadreCourse record, Integer id, boolean isDelete){
+    public void modifyApply(CadreCourse record, Integer id, boolean isDelete) {
 
         CadreCourse original = null; // 修改、删除申请对应的原纪录
         byte type;
-        if(isDelete){ // 删除申请时id不允许为空
+        if (isDelete) { // 删除申请时id不允许为空
             record = cadreCourseMapper.selectByPrimaryKey(id);
             original = record;
             type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE;
-        }else{
-            if(record.getId()==null) // 添加申请
+        } else {
+            if (record.getId() == null) // 添加申请
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD;
             else { // 修改申请
                 original = cadreCourseMapper.selectByPrimaryKey(record.getId());
@@ -175,16 +175,16 @@ public class CadreCourseService extends BaseMapper {
             }
         }
 
-        Integer originalId = original==null?null:original.getId();
-        if(type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
-                type==ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE){
+        Integer originalId = original == null ? null : original.getId();
+        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
+                type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
             // 如果是修改或删除请求，则只允许一条未审批记录存在
             ModifyTableApplyExample example = new ModifyTableApplyExample();
             example.createCriteria().andOriginalIdEqualTo(originalId) // 此时originalId肯定不为空
                     .andModuleEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE)
                     .andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
             List<ModifyTableApply> applies = modifyTableApplyMapper.selectByExample(example);
-            if(applies.size()>0){
+            if (applies.size() > 0) {
                 throw new OpException(String.format("当前记录对应的修改或删除申请[序号%s]已经存在，请等待审核。", applies.get(0).getId()));
             }
         }
@@ -213,37 +213,44 @@ public class CadreCourseService extends BaseMapper {
     }
 
     // 审核修改申请
-    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record){
+    @Transactional
+    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record, Boolean status) {
 
         Integer originalId = mta.getOriginalId();
         Integer modifyId = mta.getModifyId();
         byte type = mta.getType();
 
-        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
+        if (status) {
+            if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
 
-            CadreCourse modify = cadreCourseMapper.selectByPrimaryKey(modifyId);
-            modify.setId(null);
-            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                CadreCourse modify = cadreCourseMapper.selectByPrimaryKey(modifyId);
+                modify.setId(null);
+                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-            cadreCourseMapper.insertSelective(modify); // 插入新纪录
-            record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
+                cadreCourseMapper.insertSelective(modify); // 插入新纪录
+                record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
 
-        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
+            } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
-            CadreCourse modify = cadreCourseMapper.selectByPrimaryKey(modifyId);
-            modify.setId(originalId);
-            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                CadreCourse modify = cadreCourseMapper.selectByPrimaryKey(modifyId);
+                modify.setId(originalId);
+                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-            cadreCourseMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+                cadreCourseMapper.updateByPrimaryKey(modify); // 覆盖原纪录
 
-        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
+            } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
 
-            // 更新最后删除的记录内容
-            record.setOriginalJson(JSONUtils.toString(cadreCourseMapper.selectByPrimaryKey(originalId), false));
-            // 删除原纪录
-            cadreCourseMapper.deleteByPrimaryKey(originalId);
+                // 更新最后删除的记录内容
+                record.setOriginalJson(JSONUtils.toString(cadreCourseMapper.selectByPrimaryKey(originalId), false));
+                // 删除原纪录
+                cadreCourseMapper.deleteByPrimaryKey(originalId);
+            }
         }
 
+        CadreCourse modify = new CadreCourse();
+        modify.setId(modifyId);
+        modify.setStatus(SystemConstants.RECORD_STATUS_APPROVAL);
+        cadreCourseMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
         return record;
     }
 }

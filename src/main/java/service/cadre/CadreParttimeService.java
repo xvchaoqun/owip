@@ -28,7 +28,7 @@ public class CadreParttimeService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
 
-    public List<CadreParttime> list(int cadreId){
+    public List<CadreParttime> list(int cadreId) {
 
         CadreParttimeExample example = new CadreParttimeExample();
         example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
@@ -38,24 +38,24 @@ public class CadreParttimeService extends BaseMapper {
     }
 
     @Transactional
-    public int insertSelective(CadreParttime record){
+    public int insertSelective(CadreParttime record) {
 
         record.setSortOrder(getNextSortOrder("cadre_parttime", "cadre_id=" + record.getCadreId()
-                +" and status="+SystemConstants.RECORD_STATUS_FORMAL));
+                + " and status=" + SystemConstants.RECORD_STATUS_FORMAL));
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
         return cadreParttimeMapper.insertSelective(record);
     }
 
     @Transactional
-    public void batchDel(Integer[] ids, int cadreId){
+    public void batchDel(Integer[] ids, int cadreId) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
         {
             // 干部信息本人直接修改数据校验
             CadreParttimeExample example = new CadreParttimeExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             int count = cadreParttimeMapper.countByExample(example);
-            if(count!=ids.length){
+            if (count != ids.length) {
                 throw new IllegalArgumentException("数据异常");
             }
         }
@@ -66,7 +66,7 @@ public class CadreParttimeService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadreParttime record){
+    public int updateByPrimaryKeySelective(CadreParttime record) {
         record.setStatus(null);
         return cadreParttimeMapper.updateByPrimaryKeySelective(record);
     }
@@ -75,13 +75,14 @@ public class CadreParttimeService extends BaseMapper {
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      * 3.sort_order = LAST_INSERT_ID()+1,
+     *
      * @param id
      * @param addNum
      */
     @Transactional
     public void changeOrder(int id, int cadreId, int addNum) {
 
-        if(addNum == 0) return ;
+        if (addNum == 0) return;
 
         CadreParttime entity = cadreParttimeMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
@@ -92,7 +93,7 @@ public class CadreParttimeService extends BaseMapper {
             example.createCriteria().andCadreIdEqualTo(cadreId).andSortOrderGreaterThan(baseSortOrder)
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
             example.setOrderByClause("sort_order asc");
-        }else {
+        } else {
 
             example.createCriteria().andCadreIdEqualTo(cadreId).andSortOrderLessThan(baseSortOrder)
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
@@ -100,14 +101,14 @@ public class CadreParttimeService extends BaseMapper {
         }
 
         List<CadreParttime> overEntities = cadreParttimeMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
+        if (overEntities.size() > 0) {
 
-            CadreParttime targetEntity = overEntities.get(overEntities.size()-1);
+            CadreParttime targetEntity = overEntities.get(overEntities.size() - 1);
             if (addNum > 0)
-                commonMapper.downOrder("cadre_parttime", "cadre_id=" + cadreId +" and status="+SystemConstants.RECORD_STATUS_FORMAL,
+                commonMapper.downOrder("cadre_parttime", "cadre_id=" + cadreId + " and status=" + SystemConstants.RECORD_STATUS_FORMAL,
                         baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cadre_parttime", "cadre_id=" + cadreId+" and status="+SystemConstants.RECORD_STATUS_FORMAL,
+                commonMapper.upOrder("cadre_parttime", "cadre_id=" + cadreId + " and status=" + SystemConstants.RECORD_STATUS_FORMAL,
                         baseSortOrder, targetEntity.getSortOrder());
 
             CadreParttime record = new CadreParttime();
@@ -119,9 +120,9 @@ public class CadreParttimeService extends BaseMapper {
 
     // 更新修改申请的内容（仅允许本人更新自己的申请）
     @Transactional
-    public void updateModify(CadreParttime record, Integer applyId){
+    public void updateModify(CadreParttime record, Integer applyId) {
 
-        if(applyId==null){
+        if (applyId == null) {
             throw new IllegalArgumentException();
         }
 
@@ -141,10 +142,10 @@ public class CadreParttimeService extends BaseMapper {
 
         record.setId(null);
         record.setStatus(null);
-        if(cadreParttimeMapper.updateByExampleSelective(record, example)>0) {
+        if (cadreParttimeMapper.updateByExampleSelective(record, example) > 0) {
 
             // 更新申请时间
-            ModifyTableApply _record= new ModifyTableApply();
+            ModifyTableApply _record = new ModifyTableApply();
             _record.setId(mta.getId());
             _record.setCreateTime(new Date());
             modifyTableApplyMapper.updateByPrimaryKeySelective(_record);
@@ -153,16 +154,16 @@ public class CadreParttimeService extends BaseMapper {
 
     // 添加、修改、删除申请（仅允许本人提交自己的申请）
     @Transactional
-    public void modifyApply(CadreParttime record, Integer id, boolean isDelete){
+    public void modifyApply(CadreParttime record, Integer id, boolean isDelete) {
 
         CadreParttime original = null; // 修改、删除申请对应的原纪录
         byte type;
-        if(isDelete){ // 删除申请时id不允许为空
+        if (isDelete) { // 删除申请时id不允许为空
             record = cadreParttimeMapper.selectByPrimaryKey(id);
             original = record;
             type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE;
-        }else{
-            if(record.getId()==null) // 添加申请
+        } else {
+            if (record.getId() == null) // 添加申请
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD;
             else { // 修改申请
                 original = cadreParttimeMapper.selectByPrimaryKey(record.getId());
@@ -170,16 +171,16 @@ public class CadreParttimeService extends BaseMapper {
             }
         }
 
-        Integer originalId = original==null?null:original.getId();
-        if(type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
-                type==ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE){
+        Integer originalId = original == null ? null : original.getId();
+        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
+                type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
             // 如果是修改或删除请求，则只允许一条未审批记录存在
             ModifyTableApplyExample example = new ModifyTableApplyExample();
             example.createCriteria().andOriginalIdEqualTo(originalId) // 此时originalId肯定不为空
                     .andModuleEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME)
                     .andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
             List<ModifyTableApply> applies = modifyTableApplyMapper.selectByExample(example);
-            if(applies.size()>0){
+            if (applies.size() > 0) {
                 throw new OpException(String.format("当前记录对应的修改或删除申请[序号%s]已经存在，请等待审核。", applies.get(0).getId()));
             }
         }
@@ -208,37 +209,44 @@ public class CadreParttimeService extends BaseMapper {
     }
 
     // 审核修改申请
-    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record){
+    @Transactional
+    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record, Boolean status) {
 
         Integer originalId = mta.getOriginalId();
         Integer modifyId = mta.getModifyId();
         byte type = mta.getType();
 
-        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
+        if (status) {
+            if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
 
-            CadreParttime modify = cadreParttimeMapper.selectByPrimaryKey(modifyId);
-            modify.setId(null);
-            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                CadreParttime modify = cadreParttimeMapper.selectByPrimaryKey(modifyId);
+                modify.setId(null);
+                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-            cadreParttimeMapper.insertSelective(modify); // 插入新纪录
-            record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
+                cadreParttimeMapper.insertSelective(modify); // 插入新纪录
+                record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
 
-        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
+            } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
-            CadreParttime modify = cadreParttimeMapper.selectByPrimaryKey(modifyId);
-            modify.setId(originalId);
-            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                CadreParttime modify = cadreParttimeMapper.selectByPrimaryKey(modifyId);
+                modify.setId(originalId);
+                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-            cadreParttimeMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+                cadreParttimeMapper.updateByPrimaryKey(modify); // 覆盖原纪录
 
-        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
+            } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
 
-            // 更新最后删除的记录内容
-            record.setOriginalJson(JSONUtils.toString(cadreParttimeMapper.selectByPrimaryKey(originalId), false));
-            // 删除原纪录
-            cadreParttimeMapper.deleteByPrimaryKey(originalId);
+                // 更新最后删除的记录内容
+                record.setOriginalJson(JSONUtils.toString(cadreParttimeMapper.selectByPrimaryKey(originalId), false));
+                // 删除原纪录
+                cadreParttimeMapper.deleteByPrimaryKey(originalId);
+            }
         }
 
+        CadreParttime modify = new CadreParttime();
+        modify.setId(modifyId);
+        modify.setStatus(SystemConstants.RECORD_STATUS_APPROVAL);
+        cadreParttimeMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
         return record;
     }
 }

@@ -131,59 +131,58 @@ public class ModifyTableApplyService extends BaseMapper {
         ModifyTableApply record = new ModifyTableApply();
         record.setId(mta.getId());
 
-        if (status) { // 审核通过，需要更新对应的信息
-            switch (mta.getModule()) {
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU:
-                    cadreEduService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK:
-                    cadreWorkService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK:
-                    cadreBookService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY:
-                    cadreCompanyService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE:
-                    cadreCourseService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER:
-                    cadrePaperService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME:
-                    cadreParttimeService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT:
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN:
-                    cadreResearchService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH:
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH:
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER:
-                    cadreRewardService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN:
-                    cadreTrainService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO:
-                    cadrePostProService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN:
-                    cadrePostAdminService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK:
-                    cadrePostWorkService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY:
-                    cadreFamilyService.approval(mta, record);
-                    break;
-                case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD:
-                    cadreFamilyAbroadService.approval(mta, record);
-                    break;
-                default:
-                    throw new OpException("审核类型有误。");
-            }
+        // 审核，需要更新对应的信息
+        switch (mta.getModule()) {
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU:
+                cadreEduService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK:
+                cadreWorkService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_BOOK:
+                cadreBookService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY:
+                cadreCompanyService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_COURSE:
+                cadreCourseService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER:
+                cadrePaperService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PARTTIME:
+                cadreParttimeService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT:
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN:
+                cadreResearchService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_TEACH:
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_RESEARCH:
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_REWARD_OTHER:
+                cadreRewardService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_TRAIN:
+                cadreTrainService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTPRO:
+                cadrePostProService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN:
+                cadrePostAdminService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK:
+                cadrePostWorkService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY:
+                cadreFamilyService.approval(mta, record, status);
+                break;
+            case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD:
+                cadreFamilyAbroadService.approval(mta, record, status);
+                break;
+            default:
+                throw new OpException("审核类型有误。");
         }
 
         record.setStatus(status ? ModifyConstants.MODIFY_TABLE_APPLY_STATUS_PASS

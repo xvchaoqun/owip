@@ -31,17 +31,17 @@ public interface IModifyMapper {
 
     @ResultType(ICadreInfoCheck.class)
     @Select("select sum(if(status=0,1,0)) as formalCount, sum(if(status=1,1,0)) as modifyCount " +
-            "from cadre_research where cadre_id=#{cadreId} and research_type=#{researchType}")
+            "from cadre_research where cadre_id=#{cadreId} and research_type=#{researchType} ")
     ICadreInfoCheck cadreResearchCheck(@Param("cadreId") int cadreId, @Param("researchType") Byte researchType);
 
     @ResultType(ICadreInfoCheck.class)
     @Select("select sum(if(status=0,1,0)) as formalCount, sum(if(status=1,1,0)) as modifyCount " +
-            "from cadre_reward where cadre_id=#{cadreId} and reward_type=#{rewardType}")
+            "from cadre_reward where cadre_id=#{cadreId} and reward_type=#{rewardType} ")
     ICadreInfoCheck cadreRewardCheck(@Param("cadreId") int cadreId, @Param("rewardType") Byte rewardType);
 
     @ResultType(ICadreInfoCheck.class)
     @Select("select sum(if(status=0,1,0)) as formalCount, sum(if(status=1,1,0)) as modifyCount " +
-            "from cadre_${tableName} where cadre_id=#{cadreId}")
+            "from cadre_${tableName} where cadre_id=#{cadreId} ")
     ICadreInfoCheck cadreInfoModifyCheck(@Param("cadreId") int cadreId, @Param("tableName") String tableName);
 
 
@@ -50,10 +50,13 @@ public interface IModifyMapper {
             "from cadre_${tableName} where cadre_id=#{cadreId}")
     ICadreInfoCheck cadreInfoExistCheck(@Param("cadreId") int cadreId, @Param("tableName") String tableName);
 
+    //unFormalCount：不完整的记录，且未提交修改申请（待审核）， formalCount：正常记录，  modifyCount：修改记录，且还未审核
     @ResultType(ICadreInfoCheck.class)
-    @Select("select sum(if(status=0,1,0)) as formalCount, sum(if(status=1,1,0)) as modifyCount " +
-            "from cadre_family where cadre_id=#{cadreId} and " +
-            "(realname is null or birthday is null or political_status is null or unit is null)")
+    @Select("select sum(if(cf.status=0 and cf.realname is not null and cf.birthday is not null and cf.political_status is not null and cf.unit is not null, 1, 0)) as formalCount," +
+            "sum(if(cf.status=0 and (cf.realname is null or cf.birthday is null or cf.political_status is null or cf.unit is null) " +
+            "and cf.id not in(select original_id from modify_table_apply  where table_name='cadre_family' and status=0),1,0)) as unFormalCount, " +
+            "sum(if(cf.status=1, 1, 0)) as modifyCount  from cadre_family cf " +
+            "where cf.cadre_id=#{cadreId}")
     ICadreInfoCheck familyCheck(@Param("cadreId") int cadreId);
 
 

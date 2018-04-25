@@ -27,7 +27,7 @@ public class CadreResearchService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
 
-    public List<CadreResearch> list(int cadreId, byte researchType){
+    public List<CadreResearch> list(int cadreId, byte researchType) {
 
         CadreResearchExample example = new CadreResearchExample();
         example.createCriteria().andCadreIdEqualTo(cadreId)
@@ -53,7 +53,7 @@ public class CadreResearchService extends BaseMapper {
             CadreResearchExample example = new CadreResearchExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             int count = cadreResearchMapper.countByExample(example);
-            if(count!=ids.length){
+            if (count != ids.length) {
                 throw new IllegalArgumentException("数据异常");
             }
         }
@@ -71,9 +71,9 @@ public class CadreResearchService extends BaseMapper {
 
     // 更新修改申请的内容（仅允许本人更新自己的申请）
     @Transactional
-    public void updateModify(CadreResearch record, Integer applyId){
+    public void updateModify(CadreResearch record, Integer applyId) {
 
-        if(applyId==null){
+        if (applyId == null) {
             throw new IllegalArgumentException();
         }
 
@@ -93,10 +93,10 @@ public class CadreResearchService extends BaseMapper {
 
         record.setId(null);
         record.setStatus(null);
-        if(cadreResearchMapper.updateByExampleSelective(record, example)>0) {
+        if (cadreResearchMapper.updateByExampleSelective(record, example) > 0) {
 
             // 更新申请时间
-            ModifyTableApply _record= new ModifyTableApply();
+            ModifyTableApply _record = new ModifyTableApply();
             _record.setId(mta.getId());
             _record.setCreateTime(new Date());
             modifyTableApplyMapper.updateByPrimaryKeySelective(_record);
@@ -105,23 +105,23 @@ public class CadreResearchService extends BaseMapper {
 
     // 添加、修改、删除申请（仅允许本人提交自己的申请）
     @Transactional
-    public void modifyApply(CadreResearch record, Integer id, byte researchType, boolean isDelete){
+    public void modifyApply(CadreResearch record, Integer id, byte researchType, boolean isDelete) {
 
         byte module = 0;
-        if(researchType== CadreConstants.CADRE_RESEARCH_TYPE_DIRECT){
+        if (researchType == CadreConstants.CADRE_RESEARCH_TYPE_DIRECT) {
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_DIRECT;
-        }else if(researchType==CadreConstants.CADRE_RESEARCH_TYPE_IN){
+        } else if (researchType == CadreConstants.CADRE_RESEARCH_TYPE_IN) {
             module = ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_RESEARCH_IN;
         }
 
         CadreResearch original = null; // 修改、删除申请对应的原纪录
         byte type;
-        if(isDelete){ // 删除申请时id不允许为空
+        if (isDelete) { // 删除申请时id不允许为空
             record = cadreResearchMapper.selectByPrimaryKey(id);
             original = record;
             type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE;
-        }else{
-            if(record.getId()==null) // 添加申请
+        } else {
+            if (record.getId() == null) // 添加申请
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD;
             else { // 修改申请
                 original = cadreResearchMapper.selectByPrimaryKey(record.getId());
@@ -129,16 +129,16 @@ public class CadreResearchService extends BaseMapper {
             }
         }
 
-        Integer originalId = original==null?null:original.getId();
-        if(type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
-                type==ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE){
+        Integer originalId = original == null ? null : original.getId();
+        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
+                type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
             // 如果是修改或删除请求，则只允许一条未审批记录存在
             ModifyTableApplyExample example = new ModifyTableApplyExample();
             example.createCriteria().andOriginalIdEqualTo(originalId) // 此时originalId肯定不为空
                     .andModuleEqualTo(module)
                     .andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
             List<ModifyTableApply> applies = modifyTableApplyMapper.selectByExample(example);
-            if(applies.size()>0){
+            if (applies.size() > 0) {
                 throw new OpException(String.format("当前记录对应的修改或删除申请[序号%s]已经存在，请等待审核。", applies.get(0).getId()));
             }
         }
@@ -167,37 +167,44 @@ public class CadreResearchService extends BaseMapper {
     }
 
     // 审核修改申请
-    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record){
+    @Transactional
+    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record, Boolean status) {
 
         Integer originalId = mta.getOriginalId();
         Integer modifyId = mta.getModifyId();
         byte type = mta.getType();
 
-        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
+        if (status) {
+            if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
 
-            CadreResearch modify = cadreResearchMapper.selectByPrimaryKey(modifyId);
-            modify.setId(null);
-            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                CadreResearch modify = cadreResearchMapper.selectByPrimaryKey(modifyId);
+                modify.setId(null);
+                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-            cadreResearchMapper.insertSelective(modify); // 插入新纪录
-            record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
+                cadreResearchMapper.insertSelective(modify); // 插入新纪录
+                record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
 
-        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
+            } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
-            CadreResearch modify = cadreResearchMapper.selectByPrimaryKey(modifyId);
-            modify.setId(originalId);
-            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                CadreResearch modify = cadreResearchMapper.selectByPrimaryKey(modifyId);
+                modify.setId(originalId);
+                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-            cadreResearchMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+                cadreResearchMapper.updateByPrimaryKey(modify); // 覆盖原纪录
 
-        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
+            } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
 
-            // 更新最后删除的记录内容
-            record.setOriginalJson(JSONUtils.toString(cadreResearchMapper.selectByPrimaryKey(originalId), false));
-            // 删除原纪录
-            cadreResearchMapper.deleteByPrimaryKey(originalId);
+                // 更新最后删除的记录内容
+                record.setOriginalJson(JSONUtils.toString(cadreResearchMapper.selectByPrimaryKey(originalId), false));
+                // 删除原纪录
+                cadreResearchMapper.deleteByPrimaryKey(originalId);
+            }
         }
 
+        CadreResearch modify = new CadreResearch();
+        modify.setId(modifyId);
+        modify.setStatus(SystemConstants.RECORD_STATUS_APPROVAL);
+        cadreResearchMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
         return record;
     }
 

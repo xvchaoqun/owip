@@ -197,7 +197,7 @@ public class CadreFamilyService extends BaseMapper {
         _record.setModule(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY);
         _record.setUserId(userId);
         _record.setApplyUserId(userId);
-        _record.setTableName("cadre_post_pro");
+        _record.setTableName("cadre_family");
         _record.setOriginalId(originalId);
         _record.setModifyId(record.getId());
         _record.setType(type);
@@ -209,36 +209,45 @@ public class CadreFamilyService extends BaseMapper {
     }
 
     // 审核修改申请
-    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record){
+    @Transactional
+    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record, Boolean status){
 
         Integer originalId = mta.getOriginalId();
         Integer modifyId = mta.getModifyId();
         byte type = mta.getType();
 
-        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
+        if(status) {
 
-            CadreFamily modify = cadreFamilyMapper.selectByPrimaryKey(modifyId);
-            modify.setId(null);
-            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+            if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
 
-            cadreFamilyMapper.insertSelective(modify); // 插入新纪录
-            record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
+                CadreFamily modify = cadreFamilyMapper.selectByPrimaryKey(modifyId);
+                modify.setId(null);
+                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
+                cadreFamilyMapper.insertSelective(modify); // 插入新纪录
+                record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
 
-            CadreFamily modify = cadreFamilyMapper.selectByPrimaryKey(modifyId);
-            modify.setId(originalId);
-            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+            } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
-            cadreFamilyMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+                CadreFamily modify = cadreFamilyMapper.selectByPrimaryKey(modifyId);
+                modify.setId(originalId);
+                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
+                cadreFamilyMapper.updateByPrimaryKey(modify); // 覆盖原纪录
 
-            // 更新最后删除的记录内容
-            record.setOriginalJson(JSONUtils.toString(cadreFamilyMapper.selectByPrimaryKey(originalId), false));
-            // 删除原纪录
-            cadreFamilyMapper.deleteByPrimaryKey(originalId);
+            } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
+
+                // 更新最后删除的记录内容
+                record.setOriginalJson(JSONUtils.toString(cadreFamilyMapper.selectByPrimaryKey(originalId), false));
+                // 删除原纪录
+                cadreFamilyMapper.deleteByPrimaryKey(originalId);
+            }
         }
+
+        CadreFamily modify = new CadreFamily();
+        modify.setId(modifyId);
+        modify.setStatus(SystemConstants.RECORD_STATUS_APPROVAL);
+        cadreFamilyMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
 
         return record;
     }

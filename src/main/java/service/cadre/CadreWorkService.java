@@ -33,7 +33,7 @@ public class CadreWorkService extends BaseMapper {
     private CadreService cadreService;
 
     // 获取树状列表
-    public List<CadreWork> list(int cadreId){
+    public List<CadreWork> list(int cadreId) {
 
         List<CadreWork> cadreWorks = null;
         {
@@ -43,7 +43,7 @@ public class CadreWorkService extends BaseMapper {
             example.setOrderByClause("start_time asc");
             cadreWorks = cadreWorkMapper.selectByExample(example);
         }
-        if(cadreWorks!=null) {
+        if (cadreWorks != null) {
             for (CadreWork cadreWork : cadreWorks) {
                 Integer fid = cadreWork.getId();
                 CadreWorkExample example = new CadreWorkExample();
@@ -58,8 +58,8 @@ public class CadreWorkService extends BaseMapper {
     }
 
     // 更新 子工作经历的数量
-    public void updateSubWorkCount(Integer fid){
-        if(fid!=null){
+    public void updateSubWorkCount(Integer fid) {
+        if (fid != null) {
             CadreWorkExample example = new CadreWorkExample();
             example.createCriteria().andFidEqualTo(fid)
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
@@ -72,7 +72,7 @@ public class CadreWorkService extends BaseMapper {
     }
 
     @Transactional
-    public void insertSelective(CadreWork record){
+    public void insertSelective(CadreWork record) {
 
         record.setSubWorkCount(0);
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
@@ -82,15 +82,15 @@ public class CadreWorkService extends BaseMapper {
     }
 
     @Transactional
-    public void batchDel(Integer[] ids, int cadreId){
+    public void batchDel(Integer[] ids, int cadreId) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
         {
             // 干部信息本人直接修改数据校验
             CadreWorkExample example = new CadreWorkExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             int count = cadreWorkMapper.countByExample(example);
-            if(count!=ids.length){
+            if (count != ids.length) {
                 throw new IllegalArgumentException("数据异常");
             }
         }
@@ -101,7 +101,7 @@ public class CadreWorkService extends BaseMapper {
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
 
             List<CadreWork> subCadreWorks = cadreWorkMapper.selectByExample(example);
-            if(subCadreWorks.size()>0) {
+            if (subCadreWorks.size() > 0) {
                 cadreWorkMapper.deleteByExample(example);
 
                 List<Integer> subCadreWorkIds = new ArrayList<>();
@@ -128,7 +128,7 @@ public class CadreWorkService extends BaseMapper {
             cadreWorkMapper.deleteByExample(example);
 
             // 3、更新父工作经历的期间工作数量
-            if(subCadreWorks!=null) {
+            if (subCadreWorks != null) {
                 for (CadreWork subCadreWork : subCadreWorks) {
                     updateSubWorkCount(subCadreWork.getFid());
                 }
@@ -136,11 +136,11 @@ public class CadreWorkService extends BaseMapper {
         }
 
         // 同时删除关联的任免文件
-        dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(ids),  DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
+        dispatchCadreRelateService.delDispatchCadreRelates(Arrays.asList(ids), DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadreWork record){
+    public int updateByPrimaryKeySelective(CadreWork record) {
 
         record.setFid(null); // 不能更新所属工作经历
         record.setStatus(null);
@@ -149,9 +149,9 @@ public class CadreWorkService extends BaseMapper {
 
     // 更新修改申请的内容（仅允许本人更新自己的申请）
     @Transactional
-    public void updateModify(CadreWork record, Integer applyId){
+    public void updateModify(CadreWork record, Integer applyId) {
 
-        if(applyId==null){
+        if (applyId == null) {
             throw new IllegalArgumentException();
         }
 
@@ -172,10 +172,10 @@ public class CadreWorkService extends BaseMapper {
         record.setId(null);
         record.setFid(null);
         record.setStatus(null);
-        if(cadreWorkMapper.updateByExampleSelective(record, example)>0) {
+        if (cadreWorkMapper.updateByExampleSelective(record, example) > 0) {
 
             // 更新申请时间
-            ModifyTableApply _record= new ModifyTableApply();
+            ModifyTableApply _record = new ModifyTableApply();
             _record.setId(mta.getId());
             _record.setCreateTime(new Date());
             modifyTableApplyMapper.updateByPrimaryKeySelective(_record);
@@ -184,16 +184,16 @@ public class CadreWorkService extends BaseMapper {
 
     // 添加、修改、删除申请（仅允许本人提交自己的申请）
     @Transactional
-    public void modifyApply(CadreWork record, Integer id, boolean isDelete){
+    public void modifyApply(CadreWork record, Integer id, boolean isDelete) {
 
         CadreWork original = null; // 修改、删除申请对应的原纪录
         byte type;
-        if(isDelete){ // 删除申请时id不允许为空
+        if (isDelete) { // 删除申请时id不允许为空
             record = cadreWorkMapper.selectByPrimaryKey(id);
             original = record;
             type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE;
-        }else{
-            if(record.getId()==null) // 添加申请
+        } else {
+            if (record.getId() == null) // 添加申请
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD;
             else { // 修改申请
                 original = cadreWorkMapper.selectByPrimaryKey(record.getId());
@@ -201,16 +201,16 @@ public class CadreWorkService extends BaseMapper {
             }
         }
 
-        Integer originalId = original==null?null:original.getId();
-        if(type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
-                type==ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE){
+        Integer originalId = original == null ? null : original.getId();
+        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
+                type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
             // 如果是修改或删除请求，则只允许一条未审批记录存在
             ModifyTableApplyExample example = new ModifyTableApplyExample();
             example.createCriteria().andOriginalIdEqualTo(originalId) // 此时originalId肯定不为空
                     .andModuleEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_WORK)
                     .andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
             List<ModifyTableApply> applies = modifyTableApplyMapper.selectByExample(example);
-            if(applies.size()>0){
+            if (applies.size() > 0) {
                 throw new OpException(String.format("当前记录对应的修改或删除申请[序号%s]已经存在，请等待审核。", applies.get(0).getId()));
             }
         }
@@ -239,43 +239,51 @@ public class CadreWorkService extends BaseMapper {
     }
 
     // 审核修改申请
-    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record){
+    @Transactional
+    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record, Boolean status) {
 
         Integer originalId = mta.getOriginalId();
         Integer modifyId = mta.getModifyId();
         byte type = mta.getType();
 
-        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
+        if (status) {
+            if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
 
-            CadreWork modify = cadreWorkMapper.selectByPrimaryKey(modifyId);
-            modify.setId(null);
-            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                CadreWork modify = cadreWorkMapper.selectByPrimaryKey(modifyId);
+                modify.setId(null);
+                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-            cadreWorkMapper.insertSelective(modify); // 插入新纪录
-            updateSubWorkCount(modify.getFid()); // 必须放插入之后
+                cadreWorkMapper.insertSelective(modify); // 插入新纪录
+                updateSubWorkCount(modify.getFid()); // 必须放插入之后
 
-            record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
+                record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
 
-        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
+            } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
-            CadreWork modify = cadreWorkMapper.selectByPrimaryKey(modifyId);
-            modify.setId(originalId);
+                CadreWork modify = cadreWorkMapper.selectByPrimaryKey(modifyId);
+                modify.setId(originalId);
 
-            CadreWork original = cadreWorkMapper.selectByPrimaryKey(originalId);
-            modify.setSubWorkCount(original.getSubWorkCount()); // 防止申请之后，再添加期间工作经历
+                CadreWork original = cadreWorkMapper.selectByPrimaryKey(originalId);
+                modify.setSubWorkCount(original.getSubWorkCount()); // 防止申请之后，再添加期间工作经历
 
-            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-            cadreWorkMapper.updateByPrimaryKey(modify); // 覆盖原纪录
-            updateSubWorkCount(modify.getFid()); // 必须放插入之后
+                cadreWorkMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+                updateSubWorkCount(modify.getFid()); // 必须放插入之后
 
-        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
+            } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
 
-            // 更新最后删除的记录内容
-            record.setOriginalJson(JSONUtils.toString(cadreWorkMapper.selectByPrimaryKey(originalId), false));
-            // 删除原纪录
-            batchDel(new Integer[]{originalId}, mta.getCadre().getId());
+                // 更新最后删除的记录内容
+                record.setOriginalJson(JSONUtils.toString(cadreWorkMapper.selectByPrimaryKey(originalId), false));
+                // 删除原纪录
+                batchDel(new Integer[]{originalId}, mta.getCadre().getId());
+            }
         }
+
+        CadreWork modify = new CadreWork();
+        modify.setId(modifyId);
+        modify.setStatus(SystemConstants.RECORD_STATUS_APPROVAL);
+        cadreWorkMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
 
         return record;
     }

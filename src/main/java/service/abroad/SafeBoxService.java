@@ -29,7 +29,6 @@ import org.springframework.util.Assert;
 import persistence.abroad.common.PassportSearchBean;
 import service.BaseMapper;
 import service.base.MetaTypeService;
-import service.cadre.CadreService;
 import service.sys.SysUserService;
 import sys.Utils;
 import sys.constants.AbroadConstants;
@@ -50,21 +49,31 @@ import java.util.Map;
 public class SafeBoxService extends BaseMapper {
 
     @Autowired
-    private CadreService cadreService;
-    @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
     private SysUserService sysUserService;
 
-    public SafeBox getByCode(String code) {
+    @Transactional
+    @CacheEvict(value = "SafeBox:ALL", allEntries = true)
+    public SafeBox createIfNotExisted(String code) {
 
         Assert.isTrue(StringUtils.isNotBlank(code), "保险柜编号为空");
 
         SafeBoxExample example = new SafeBoxExample();
         example.createCriteria().andCodeEqualTo(code.trim());
         List<SafeBox> safeBoxes = safeBoxMapper.selectByExample(example);
-        if (safeBoxes.size() > 0) return safeBoxes.get(0);
-        return null;
+        if (safeBoxes.size() == 0){
+
+            SafeBox record = new SafeBox();
+            record.setCode(code);
+            record.setSortOrder(getNextSortOrder("abroad_safe_box", null));
+            record.setRemark("导入证件时创建");
+            safeBoxMapper.insertSelective(record);
+
+            return record;
+        }else{
+            return safeBoxes.get(0);
+        }
     }
 
     public boolean idDuplicate(Integer id, String code) {

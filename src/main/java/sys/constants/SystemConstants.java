@@ -226,6 +226,7 @@ public class SystemConstants {
     // 信息修改申请
     public final static byte RECORD_STATUS_FORMAL = 0; // 正式记录
     public final static byte RECORD_STATUS_MODIFY = 1; // 修改记录
+    public final static byte RECORD_STATUS_APPROVAL = 2; // 已审核的修改记录
 
     // 短信接收人状态
     public final static byte SHORT_MSG_RECEIVER_STATUS_NORMAL = 0;

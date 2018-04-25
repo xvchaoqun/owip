@@ -77,9 +77,8 @@ public class PassportService extends BaseMapper {
             if(StringUtils.isBlank(uRow.getSafeCode())){
                 throw new OpException("工作证号：{0} 姓名：{1} 保险柜编号为空", userCode, uv.getRealname());
             }
-            SafeBox safeBox = safeBoxService.getByCode(uRow.getSafeCode());
-            if (safeBox == null)
-                if (uv == null) throw new OpException("工作证号：{0} 姓名：{1} 保险柜编号{2}不存在", userCode, uv.getRealname(), safeBox.getCode());
+            SafeBox safeBox = safeBoxService.createIfNotExisted(uRow.getSafeCode());
+
             record.setSafeBoxId(safeBox.getId());
             record.setCreateTime(new Date());
             record.setIsLent(false);

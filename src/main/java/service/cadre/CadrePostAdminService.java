@@ -23,24 +23,24 @@ import java.util.List;
 
 @Service
 public class CadrePostAdminService extends BaseMapper {
-    
+
     @Transactional
-    public int insertSelective(CadrePostAdmin record){
+    public int insertSelective(CadrePostAdmin record) {
 
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
         return cadrePostAdminMapper.insertSelective(record);
     }
 
     @Transactional
-    public void batchDel(Integer[] ids, int cadreId){
+    public void batchDel(Integer[] ids, int cadreId) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
         {
             // 干部信息本人直接修改数据校验
             CadrePostAdminExample example = new CadrePostAdminExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             long count = cadrePostAdminMapper.countByExample(example);
-            if(count!=ids.length){
+            if (count != ids.length) {
                 throw new IllegalArgumentException("数据异常");
             }
         }
@@ -51,7 +51,7 @@ public class CadrePostAdminService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadrePostAdmin record){
+    public int updateByPrimaryKeySelective(CadrePostAdmin record) {
 
         record.setStatus(null);
         return cadrePostAdminMapper.updateByPrimaryKeySelective(record);
@@ -59,9 +59,9 @@ public class CadrePostAdminService extends BaseMapper {
 
     // 更新修改申请的内容（仅允许本人更新自己的申请）
     @Transactional
-    public void updateModify(CadrePostAdmin record, Integer applyId){
+    public void updateModify(CadrePostAdmin record, Integer applyId) {
 
-        if(applyId==null){
+        if (applyId == null) {
             throw new IllegalArgumentException();
         }
 
@@ -81,10 +81,10 @@ public class CadrePostAdminService extends BaseMapper {
 
         record.setId(null);
         record.setStatus(null);
-        if(cadrePostAdminMapper.updateByExampleSelective(record, example)>0) {
+        if (cadrePostAdminMapper.updateByExampleSelective(record, example) > 0) {
 
             // 更新申请时间
-            ModifyTableApply _record= new ModifyTableApply();
+            ModifyTableApply _record = new ModifyTableApply();
             _record.setId(mta.getId());
             _record.setCreateTime(new Date());
             modifyTableApplyMapper.updateByPrimaryKeySelective(_record);
@@ -93,16 +93,16 @@ public class CadrePostAdminService extends BaseMapper {
 
     // 添加、修改、删除申请（仅允许本人提交自己的申请）
     @Transactional
-    public void modifyApply(CadrePostAdmin record, Integer id, boolean isDelete){
+    public void modifyApply(CadrePostAdmin record, Integer id, boolean isDelete) {
 
         CadrePostAdmin original = null; // 修改、删除申请对应的原纪录
         byte type;
-        if(isDelete){ // 删除申请时id不允许为空
+        if (isDelete) { // 删除申请时id不允许为空
             record = cadrePostAdminMapper.selectByPrimaryKey(id);
             original = record;
             type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE;
-        }else{
-            if(record.getId()==null) // 添加申请
+        } else {
+            if (record.getId() == null) // 添加申请
                 type = ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD;
             else { // 修改申请
                 original = cadrePostAdminMapper.selectByPrimaryKey(record.getId());
@@ -110,16 +110,16 @@ public class CadrePostAdminService extends BaseMapper {
             }
         }
 
-        Integer originalId = original==null?null:original.getId();
-        if(type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
-                type==ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE){
+        Integer originalId = original == null ? null : original.getId();
+        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY ||
+                type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
             // 如果是修改或删除请求，则只允许一条未审批记录存在
             ModifyTableApplyExample example = new ModifyTableApplyExample();
             example.createCriteria().andOriginalIdEqualTo(originalId) // 此时originalId肯定不为空
                     .andModuleEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN)
                     .andStatusEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_STATUS_APPLY);
             List<ModifyTableApply> applies = modifyTableApplyMapper.selectByExample(example);
-            if(applies.size()>0){
+            if (applies.size() > 0) {
                 throw new OpException(String.format("当前记录对应的修改或删除申请[序号%s]已经存在，请等待审核。", applies.get(0).getId()));
             }
         }
@@ -137,7 +137,7 @@ public class CadrePostAdminService extends BaseMapper {
         _record.setModule(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_POSTADMIN);
         _record.setUserId(userId);
         _record.setApplyUserId(userId);
-        _record.setTableName("cadre_post_pro");
+        _record.setTableName("cadre_post_admin");
         _record.setOriginalId(originalId);
         _record.setModifyId(record.getId());
         _record.setType(type);
@@ -149,37 +149,44 @@ public class CadrePostAdminService extends BaseMapper {
     }
 
     // 审核修改申请
-    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record){
+    @Transactional
+    public ModifyTableApply approval(ModifyTableApply mta, ModifyTableApply record, Boolean status) {
 
         Integer originalId = mta.getOriginalId();
         Integer modifyId = mta.getModifyId();
         byte type = mta.getType();
 
-        if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
+        if (status) {
+            if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_ADD) {
 
-            CadrePostAdmin modify = cadrePostAdminMapper.selectByPrimaryKey(modifyId);
-            modify.setId(null);
-            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                CadrePostAdmin modify = cadrePostAdminMapper.selectByPrimaryKey(modifyId);
+                modify.setId(null);
+                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-            cadrePostAdminMapper.insertSelective(modify); // 插入新纪录
-            record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
+                cadrePostAdminMapper.insertSelective(modify); // 插入新纪录
+                record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
 
-        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
+            } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
-            CadrePostAdmin modify = cadrePostAdminMapper.selectByPrimaryKey(modifyId);
-            modify.setId(originalId);
-            modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
+                CadrePostAdmin modify = cadrePostAdminMapper.selectByPrimaryKey(modifyId);
+                modify.setId(originalId);
+                modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
-            cadrePostAdminMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+                cadrePostAdminMapper.updateByPrimaryKey(modify); // 覆盖原纪录
 
-        } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
+            } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
 
-            // 更新最后删除的记录内容
-            record.setOriginalJson(JSONUtils.toString(cadrePostAdminMapper.selectByPrimaryKey(originalId), false));
-            // 删除原纪录
-            cadrePostAdminMapper.deleteByPrimaryKey(originalId);
+                // 更新最后删除的记录内容
+                record.setOriginalJson(JSONUtils.toString(cadrePostAdminMapper.selectByPrimaryKey(originalId), false));
+                // 删除原纪录
+                cadrePostAdminMapper.deleteByPrimaryKey(originalId);
+            }
         }
 
+        CadrePostAdmin modify = new CadrePostAdmin();
+        modify.setId(modifyId);
+        modify.setStatus(SystemConstants.RECORD_STATUS_APPROVAL);
+        cadrePostAdminMapper.updateByPrimaryKeySelective(modify); // 更新为“已审核”的修改记录
         return record;
     }
 }

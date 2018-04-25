@@ -75,10 +75,12 @@ public class StatCadreService extends BaseMapper {
 
             Cell cell=row.getCell(startColumnNum);
             if(i%2==0) {
-                cell.setCellValue((Integer) data.get(i));
+                if(data.get(i)!=null && StringUtils.isNotBlank(data.get(i).toString()))
+                    cell.setCellValue((Integer) data.get(i));
             }else {
                 try {
-                    cell.setCellValue(nf.parse((String) data.get(i)).doubleValue());
+                    if(data.get(i)!=null && StringUtils.isNotBlank(data.get(i).toString()))
+                        cell.setCellValue(nf.parse((String) data.get(i)).doubleValue());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

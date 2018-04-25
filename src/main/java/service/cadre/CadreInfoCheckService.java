@@ -252,17 +252,20 @@ public class CadreInfoCheckService extends BaseMapper {
     // 家庭信息
     public Byte familyCheck(int cadreId) {
 
-        if(CmTag.cadreInfoCheck(cadreId, "family", 4)==CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST){
+        ICadreInfoCheck iCadreInfoCheck = iModifyMapper.familyCheck(cadreId);
+        if(iCadreInfoCheck!=null && iCadreInfoCheck.getUnFormalCount()!=null && iCadreInfoCheck.getUnFormalCount()>0) {
             return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
         }
-        ICadreInfoCheck iCadreInfoCheck = iModifyMapper.familyCheck(cadreId);
-        if(iCadreInfoCheck!=null && iCadreInfoCheck.getFormalCount()!=null && iCadreInfoCheck.getFormalCount()>0)
-            return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
 
-        if(iCadreInfoCheck!=null && iCadreInfoCheck.getModifyCount()!=null && iCadreInfoCheck.getModifyCount()>0)
-            return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+        if(iCadreInfoCheck!=null && iCadreInfoCheck.getModifyCount()!=null && iCadreInfoCheck.getModifyCount()>0) {
+            return CadreConstants.CADRE_INFO_CHECK_RESULT_MODIFY;
+        }
 
-        return CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+        if(iCadreInfoCheck!=null && iCadreInfoCheck.getFormalCount()!=null && iCadreInfoCheck.getFormalCount()>0) {
+            return CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+        }
+
+        return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
     }
 
     // 干部科研项目信息检查

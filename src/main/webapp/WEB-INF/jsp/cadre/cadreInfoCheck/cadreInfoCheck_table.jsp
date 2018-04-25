@@ -191,7 +191,7 @@
             <c:set var="updateName" value="post_pro"/>
             <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
             <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
-                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 4)}"/>
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 3)}"/>
             </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
@@ -209,7 +209,7 @@
             <c:set var="updateName" value="post_admin"/>
             <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
             <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
-                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 4)}"/>
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 3)}"/>
             </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
@@ -227,7 +227,7 @@
             <c:set var="updateName" value="post_work"/>
             <c:set var="result" value="${CADRE_INFO_CHECK_RESULT_EXIST}"/>
             <c:if test="${cm:canUpdate(param.cadreId, updateName)}">
-                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 4)}"/>
+                <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, updateName, 3)}"/>
             </c:if>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>

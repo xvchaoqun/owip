@@ -5,8 +5,17 @@ package persistence.cadre.common;
  */
 public class ICadreInfoCheck {
 
+    public Integer unFormalCount;
     public Integer formalCount;
     public Integer modifyCount;
+
+    public Integer getUnFormalCount() {
+        return unFormalCount;
+    }
+
+    public void setUnFormalCount(Integer unFormalCount) {
+        this.unFormalCount = unFormalCount;
+    }
 
     public Integer getFormalCount() {
         return formalCount;
