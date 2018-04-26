@@ -80,6 +80,9 @@ public class ModifyTableApplyController extends ModifyBaseController {
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU:
 
+                    List<Integer> needTutorEduTypes = cadreEduService.needTutorEduTypes();
+                    modelMap.put("needTutorEduTypes", needTutorEduTypes);
+
                     return "modify/modifyCadreEdu/modifyCadreEdu_page";
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_PAPER:
@@ -191,6 +194,9 @@ public class ModifyTableApplyController extends ModifyBaseController {
                 return "modify/modifyCadreCourse/modifyCadreCourse_detail";
 
             case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU:
+
+                List<Integer> needTutorEduTypes = cadreEduService.needTutorEduTypes();
+                modelMap.put("needTutorEduTypes", needTutorEduTypes);
 
                 modelMap.put("modify", cadreEduMapper.selectByPrimaryKey(modifyId));
                 return "modify/modifyCadreEdu/modifyCadreEdu_detail";
