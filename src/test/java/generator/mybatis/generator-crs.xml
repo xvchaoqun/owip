@@ -40,8 +40,8 @@
                enableDeleteByExample="false">
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <table tableName="crs_apply_user" domainObjectName="crs.CrsApplyUser" mapperName="crs.CrsApplyUserMapper">
-        </table>
+        <!--<table tableName="crs_apply_user" domainObjectName="crs.CrsApplyUser" mapperName="crs.CrsApplyUserMapper">
+        </table>-->
         <!--<table tableName="crs_apply_rule" domainObjectName="crs.CrsApplyRule" mapperName="crs.CrsApplyRuleMapper">
         </table>-->
         <!--  <table tableName="crs_short_msg" domainObjectName="crs.CrsShortMsg" mapperName="crs.CrsShortMsgMapper">
@@ -51,8 +51,8 @@
         <!-- <table tableName="crs_post_file" domainObjectName="crs.CrsPostFile"  mapperName="crs.CrsPostFileMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <!--<table tableName="crs_applicant" domainObjectName="crs.CrsApplicant"  mapperName="crs.CrsApplicantMapper">
-        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        <table tableName="crs_applicant" domainObjectName="crs.CrsApplicant"  mapperName="crs.CrsApplicantMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="report" jdbcType="VARCHAR"></columnOverride>
         </table>
         <table tableName="crs_applicant_view" domainObjectName="crs.CrsApplicantView"  mapperName="crs.CrsApplicantViewMapper"
@@ -61,7 +61,7 @@
                enableDeleteByExample="false">
             <columnOverride column="is_require_check_pass" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
             <columnOverride column="report" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!-- <table tableName="crs_applicant_stat_view" domainObjectName="crs.CrsApplicantStatView"
                 mapperName="crs.CrsApplicantStatViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"

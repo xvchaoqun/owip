@@ -1,4 +1,11 @@
 
+2018-4-27
+ALTER TABLE `crs_applicant`
+	ADD COLUMN `sort_order` INT(10) UNSIGNED NULL
+	COMMENT '排序，（审核通过或破格）后的排序，审核通过或破格时，对其赋值' AFTER `recommend_second_count`;
+
+更新 crs_applicant_view
+
 2018-4-26
 ALTER TABLE `sys_user_info`
 	CHANGE COLUMN `avatar` `avatar` VARCHAR(200) NULL DEFAULT NULL COMMENT '照片' AFTER `birth`,

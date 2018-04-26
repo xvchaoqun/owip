@@ -77,15 +77,15 @@ public class CrsApplyUserService extends BaseMapper {
 
         CrsApplyUser entity = crsApplyUserMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
-
+        Integer postId = entity.getPostId();
         CrsApplyUserExample example = new CrsApplyUserExample();
         if (addNum*orderBy > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andPostIdEqualTo(postId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andPostIdEqualTo(postId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -95,9 +95,9 @@ public class CrsApplyUserService extends BaseMapper {
             CrsApplyUser targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("crs_apply_user", "post_id=" + entity.getPostId(), baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("crs_apply_user", "post_id=" + postId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("crs_apply_user", "post_id=" + entity.getPostId(), baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("crs_apply_user", "post_id=" + postId, baseSortOrder, targetEntity.getSortOrder());
 
             CrsApplyUser record = new CrsApplyUser();
             record.setId(id);

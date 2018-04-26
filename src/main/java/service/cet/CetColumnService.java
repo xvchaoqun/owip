@@ -88,7 +88,7 @@ public class CetColumnService extends BaseMapper {
             CetColumn targetEntity = overEntities.get(overEntities.size()-1);
             String whereSql = null;
             if(entity.getFid()!=null){
-                whereSql = "fid="+entity.getFid();
+                whereSql = "fid="+fid;
             }
             if (addNum > 0)
                 commonMapper.downOrder("cet_column", whereSql, baseSortOrder, targetEntity.getSortOrder());

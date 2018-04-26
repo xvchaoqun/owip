@@ -65,6 +65,8 @@ public class CrsApplicant implements Serializable {
 
     private Integer recommendSecondCount;
 
+    private Integer sortOrder;
+
     private Byte status;
 
     private static final long serialVersionUID = 1L;
@@ -243,6 +245,14 @@ public class CrsApplicant implements Serializable {
 
     public void setRecommendSecondCount(Integer recommendSecondCount) {
         this.recommendSecondCount = recommendSecondCount;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Byte getStatus() {

@@ -57,6 +57,40 @@
                         </tr>
                     </c:forEach>
                 </c:forEach>
+                <c:set var="ruleCount" value="${fn:length(crsPostRequire.rules)}"/>
+                <tr>
+                    <td>
+                        ${ruleCount + 1}
+                    </td>
+                    <td>
+                        是否现任处级干部
+                    </td>
+                    <td colspan="3">
+                        ${cadre.status==CADRE_STATUS_MIDDLE?"是":"否"}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ${ruleCount + 2}
+                    </td>
+                    <td>
+                        现任职务
+                    </td>
+                    <td colspan="3">
+                        ${cadre.title}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        ${ruleCount + 3}
+                    </td>
+                    <td>
+                        行政级别
+                    </td>
+                    <td colspan="3">
+                        ${cm:getMetaType(cadre.typeId).name}
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>

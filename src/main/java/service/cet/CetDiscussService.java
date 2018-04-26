@@ -76,15 +76,16 @@ public class CetDiscussService extends BaseMapper {
 
         CetDiscuss entity = cetDiscussMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
+        Integer planId = entity.getPlanId();
 
         CetDiscussExample example = new CetDiscussExample();
         if (addNum*orderBy > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andPlanIdEqualTo(planId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andPlanIdEqualTo(planId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -95,10 +96,10 @@ public class CetDiscussService extends BaseMapper {
             CetDiscuss targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("cet_discuss", "plan_id="+entity.getPlanId(),
+                commonMapper.downOrder("cet_discuss", "plan_id="+planId,
                         baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cet_discuss", "plan_id="+entity.getPlanId(),
+                commonMapper.upOrder("cet_discuss", "plan_id="+planId,
                         baseSortOrder, targetEntity.getSortOrder());
 
             CetDiscuss record = new CetDiscuss();

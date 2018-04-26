@@ -65,6 +65,8 @@ public class CrsApplicantView implements Serializable {
 
     private Integer recommendSecondCount;
 
+    private Integer sortOrder;
+
     private Byte status;
 
     private Boolean isRequireCheckPass;
@@ -245,6 +247,14 @@ public class CrsApplicantView implements Serializable {
 
     public void setRecommendSecondCount(Integer recommendSecondCount) {
         this.recommendSecondCount = recommendSecondCount;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Byte getStatus() {

@@ -71,15 +71,16 @@ public class CetDiscussGroupService extends BaseMapper {
 
         CetDiscussGroup entity = cetDiscussGroupMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
+        Integer discussId = entity.getDiscussId();
 
         CetDiscussGroupExample example = new CetDiscussGroupExample();
         if (addNum*orderBy > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andDiscussIdEqualTo(discussId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andDiscussIdEqualTo(discussId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -90,10 +91,10 @@ public class CetDiscussGroupService extends BaseMapper {
             CetDiscussGroup targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("cet_discuss_group", "discuss_id="+entity.getDiscussId(),
+                commonMapper.downOrder("cet_discuss_group", "discuss_id="+discussId,
                         baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cet_discuss_group", "discuss_id="+entity.getDiscussId(),
+                commonMapper.upOrder("cet_discuss_group", "discuss_id="+discussId,
                         baseSortOrder, targetEntity.getSortOrder());
 
             CetDiscussGroup record = new CetDiscussGroup();

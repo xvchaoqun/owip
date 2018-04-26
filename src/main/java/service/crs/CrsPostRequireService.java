@@ -51,7 +51,10 @@ public class CrsPostRequireService extends BaseMapper {
 
         String proPostLevel = record.getProPostLevel();
         String proPostLevelTime = record.getProPostLevelTime() == null ? null : DateUtils.yearOffNow_cn(record.getProPostLevelTime());
-        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZZJS,  combineTowString(proPostLevel, proPostLevelTime));
+        String proPost = record.getProPost();
+        String proPostTime = record.getProPostTime() == null ? null : DateUtils.yearOffNow_cn(record.getProPostTime());
+        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZZJS, combineTowString(proPost, proPostTime)
+                +"<br/>" + combineTowString(proPostLevel, proPostLevelTime));
 
         String manageLevel = record.getManageLevel();
         String manageLevelTime = record.getManageLevelTime() == null ? null : DateUtils.yearOffNow_cn(record.getManageLevelTime());

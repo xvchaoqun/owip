@@ -47,6 +47,7 @@
         $("#modal").modal("hide");
         $.hashchange('cls=1&module=${module}');
     }
+    var needTutorEduTypes = ${cm:toJSONArray(needTutorEduTypes)};
     $("#jqGrid_records").jqGrid({
         ondblClickRow: function () {
         },

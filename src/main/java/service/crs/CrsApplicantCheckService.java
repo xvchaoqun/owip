@@ -119,6 +119,11 @@ public class CrsApplicantCheckService extends BaseMapper {
         record.setRequireCheckStatus(status ? CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS :
                 CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS);
         record.setRequireCheckRemark(remark);
+        if(status){
+            String whereSql = "post_id=" + oldRecord.getPostId()
+                    + " and (special_status=1 or require_check_status=1) and is_quit=0";
+            record.setSortOrder(getNextSortOrder("crs_applicant", whereSql));
+        }
 
         CrsApplicantExample example = new CrsApplicantExample();
         example.createCriteria().andIdEqualTo(id)
@@ -199,6 +204,10 @@ public class CrsApplicantCheckService extends BaseMapper {
             record.setSpecialStatus(true);
             record.setSpecialPdf(specialPdf);
             record.setSpecialRemark(specialRemark);
+
+            String whereSql = "post_id=" + oldRecord.getPostId()
+                    + " and (special_status=1 or require_check_status=1) and is_quit=0";
+            record.setSortOrder(getNextSortOrder("crs_applicant", whereSql));
 
             CrsApplicantExample example = new CrsApplicantExample();
             example.createCriteria().andIdEqualTo(id).andRequireCheckStatusEqualTo(

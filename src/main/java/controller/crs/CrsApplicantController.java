@@ -83,7 +83,7 @@ public class CrsApplicantController extends CrsBaseController {
         CrsApplicantViewExample.Criteria criteria = example.createCriteria()
                 .andPostIdEqualTo(postId)
                 .andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
-        example.setOrderByClause("enroll_time asc");
+        example.setOrderByClause("sort_order desc, enroll_time asc");
 
         switch (cls) {
             case 1:
@@ -275,6 +275,16 @@ public class CrsApplicantController extends CrsBaseController {
         resultMap.put("file", savePath);
 
         return resultMap;
+    }
+
+    @RequiresPermissions("crsApplicant:changeOrder")
+    @RequestMapping(value = "/crsApplicant_changeOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_crsApplicant_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+        crsApplicantService.changeOrder(id, addNum);
+        logger.info(addLog( LogConstants.LOG_CRS, "资格审核（通过）调序：%s,%s", id, addNum));
+        return success(FormUtils.SUCCESS);
     }
 
     /*@RequiresPermissions("crsApplicant:del")

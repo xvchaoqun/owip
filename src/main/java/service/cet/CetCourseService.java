@@ -141,15 +141,15 @@ public class CetCourseService extends BaseMapper {
 
         CetCourse entity = get(id);
         Integer baseSortOrder = entity.getSortOrder();
-
+        Byte type = entity.getType();
         CetCourseExample example = new CetCourseExample();
         if (addNum > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andTypeEqualTo(type).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andTypeEqualTo(type).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -159,9 +159,9 @@ public class CetCourseService extends BaseMapper {
             CetCourse targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum > 0)
-                commonMapper.downOrder("cet_course", "type="+ entity.getType(), baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cet_course", "type="+ type, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cet_course", "type="+ entity.getType(), baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cet_course", "type="+ type, baseSortOrder, targetEntity.getSortOrder());
 
             CetCourse record = new CetCourse();
             record.setId(id);

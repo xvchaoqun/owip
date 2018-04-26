@@ -24,6 +24,7 @@
     <result column="special_remark" jdbcType="VARCHAR" property="specialRemark" />
     <result column="recommend_first_count" jdbcType="INTEGER" property="recommendFirstCount" />
     <result column="recommend_second_count" jdbcType="INTEGER" property="recommendSecondCount" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -88,7 +89,7 @@
     id, user_id, post_id, report, ppt_name, ppt, enroll_time, is_quit, is_recommend, 
     recommend_ow, recommend_cadre, recommend_crowd, recommend_pdf, info_check_status, 
     info_check_remark, require_check_status, require_check_remark, special_status, special_pdf, 
-    special_remark, recommend_first_count, recommend_second_count, status
+    special_remark, recommend_first_count, recommend_second_count, sort_order, status
   </sql>
   <select id="selectByExample" parameterType="domain.crs.CrsApplicantExample" resultMap="BaseResultMap">
     select
@@ -120,32 +121,33 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.crs.CrsApplicant">
-    insert into crs_applicant (id, user_id, post_id, 
-      report, ppt_name, ppt, 
-      enroll_time, is_quit, is_recommend, 
-      recommend_ow, recommend_cadre, recommend_crowd, 
-      recommend_pdf, info_check_status, info_check_remark, 
-      require_check_status, require_check_remark, 
-      special_status, special_pdf, special_remark, 
-      recommend_first_count, recommend_second_count, 
-      status)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, 
-      #{report,jdbcType=VARCHAR}, #{pptName,jdbcType=VARCHAR}, #{ppt,jdbcType=VARCHAR}, 
-      #{enrollTime,jdbcType=TIMESTAMP}, #{isQuit,jdbcType=BIT}, #{isRecommend,jdbcType=BIT}, 
-      #{recommendOw,jdbcType=VARCHAR}, #{recommendCadre,jdbcType=VARCHAR}, #{recommendCrowd,jdbcType=VARCHAR}, 
-      #{recommendPdf,jdbcType=VARCHAR}, #{infoCheckStatus,jdbcType=TINYINT}, #{infoCheckRemark,jdbcType=VARCHAR}, 
-      #{requireCheckStatus,jdbcType=TINYINT}, #{requireCheckRemark,jdbcType=VARCHAR}, 
-      #{specialStatus,jdbcType=BIT}, #{specialPdf,jdbcType=VARCHAR}, #{specialRemark,jdbcType=VARCHAR}, 
-      #{recommendFirstCount,jdbcType=INTEGER}, #{recommendSecondCount,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT})
+  <insert id="insert" parameterType="domain.crs.CrsApplicant">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into crs_applicant (user_id, post_id, report, 
+      ppt_name, ppt, enroll_time, 
+      is_quit, is_recommend, recommend_ow, 
+      recommend_cadre, recommend_crowd, recommend_pdf, 
+      info_check_status, info_check_remark, require_check_status, 
+      require_check_remark, special_status, special_pdf, 
+      special_remark, recommend_first_count, recommend_second_count, 
+      sort_order, status)
+    values (#{userId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, #{report,jdbcType=VARCHAR}, 
+      #{pptName,jdbcType=VARCHAR}, #{ppt,jdbcType=VARCHAR}, #{enrollTime,jdbcType=TIMESTAMP}, 
+      #{isQuit,jdbcType=BIT}, #{isRecommend,jdbcType=BIT}, #{recommendOw,jdbcType=VARCHAR}, 
+      #{recommendCadre,jdbcType=VARCHAR}, #{recommendCrowd,jdbcType=VARCHAR}, #{recommendPdf,jdbcType=VARCHAR}, 
+      #{infoCheckStatus,jdbcType=TINYINT}, #{infoCheckRemark,jdbcType=VARCHAR}, #{requireCheckStatus,jdbcType=TINYINT}, 
+      #{requireCheckRemark,jdbcType=VARCHAR}, #{specialStatus,jdbcType=BIT}, #{specialPdf,jdbcType=VARCHAR}, 
+      #{specialRemark,jdbcType=VARCHAR}, #{recommendFirstCount,jdbcType=INTEGER}, #{recommendSecondCount,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.crs.CrsApplicant">
+  <insert id="insertSelective" parameterType="domain.crs.CrsApplicant">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into crs_applicant
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="userId != null">
         user_id,
       </if>
@@ -209,14 +211,14 @@
       <if test="recommendSecondCount != null">
         recommend_second_count,
       </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
       <if test="status != null">
         status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
@@ -279,6 +281,9 @@
       </if>
       <if test="recommendSecondCount != null">
         #{recommendSecondCount,jdbcType=INTEGER},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -360,6 +365,9 @@
       <if test="record.recommendSecondCount != null">
         recommend_second_count = #{record.recommendSecondCount,jdbcType=INTEGER},
       </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
@@ -392,6 +400,7 @@
       special_remark = #{record.specialRemark,jdbcType=VARCHAR},
       recommend_first_count = #{record.recommendFirstCount,jdbcType=INTEGER},
       recommend_second_count = #{record.recommendSecondCount,jdbcType=INTEGER},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -463,6 +472,9 @@
       <if test="recommendSecondCount != null">
         recommend_second_count = #{recommendSecondCount,jdbcType=INTEGER},
       </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
@@ -492,6 +504,7 @@
       special_remark = #{specialRemark,jdbcType=VARCHAR},
       recommend_first_count = #{recommendFirstCount,jdbcType=INTEGER},
       recommend_second_count = #{recommendSecondCount,jdbcType=INTEGER},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>

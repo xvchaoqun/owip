@@ -58,7 +58,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
         CrsApplicantViewExample.Criteria criteria = example.createCriteria()
                 .andPostIdEqualTo(id)
                 .andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
-        example.setOrderByClause("enroll_time asc");
+        example.setOrderByClause("sort_order desc, enroll_time asc");
         criteria.andIsRequireCheckPassEqualTo(true).andIsQuitEqualTo(false);
         List<CrsApplicantView> crsApplicants = crsApplicantViewMapper.selectByExample(example);
         modelMap.put("crsApplicants", crsApplicants);

@@ -72,11 +72,11 @@ public class ScCommitteeVoteService extends BaseMapper {
         ScCommitteeVoteExample example = new ScCommitteeVoteExample();
         if (addNum > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andTopicIdEqualTo(topicId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andTopicIdEqualTo(topicId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 

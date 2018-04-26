@@ -68,15 +68,16 @@ public class CetProjectPlanService extends BaseMapper {
 
         CetProjectPlan entity = cetProjectPlanMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
+        Integer projectId = entity.getProjectId();
 
         CetProjectPlanExample example = new CetProjectPlanExample();
         if (addNum*orderBy > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andProjectIdEqualTo(projectId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andProjectIdEqualTo(projectId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -86,9 +87,9 @@ public class CetProjectPlanService extends BaseMapper {
             CetProjectPlan targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("cet_project_plan", "project_id=" + entity.getProjectId(), baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cet_project_plan", "project_id=" + projectId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cet_project_plan", "project_id=" + entity.getProjectId(), baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cet_project_plan", "project_id=" + projectId, baseSortOrder, targetEntity.getSortOrder());
 
             CetProjectPlan record = new CetProjectPlan();
             record.setId(id);

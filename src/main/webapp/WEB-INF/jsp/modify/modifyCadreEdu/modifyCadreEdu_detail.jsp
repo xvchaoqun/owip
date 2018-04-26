@@ -207,6 +207,7 @@
         }
     });
 
+    var needTutorEduTypes = ${cm:toJSONArray(needTutorEduTypes)};
     $("#jqGrid_records").jqGrid({
         ondblClickRow: function () {
         },

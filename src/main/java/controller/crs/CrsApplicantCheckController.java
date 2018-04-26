@@ -74,6 +74,8 @@ public class CrsApplicantCheckController extends CrsBaseController {
                 CrsPostRequire crsPostRequire = crsPostRequireMapper.selectByPrimaryKey(crsPost.getPostRequireId());
                 modelMap.put("crsPostRequire", crsPostRequire);
             }
+
+            modelMap.put("cadre", crsApplicant.getCadre());
         }
 
         return "crs/crsApplicant/crsApplicant_requireCheck";

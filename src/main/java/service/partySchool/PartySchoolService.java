@@ -94,15 +94,16 @@ public class PartySchoolService extends BaseMapper {
 
         PartySchool entity = partySchoolMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
+        Boolean isHistory = entity.getIsHistory();
 
         PartySchoolExample example = new PartySchoolExample();
         if (addNum*orderBy > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andIsHistoryEqualTo(isHistory).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andIsHistoryEqualTo(isHistory).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -112,9 +113,9 @@ public class PartySchoolService extends BaseMapper {
             PartySchool targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("party_school", "is_history="+entity.getIsHistory(), baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("party_school", "is_history="+isHistory, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("party_school", "is_history="+entity.getIsHistory(), baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("party_school", "is_history="+isHistory, baseSortOrder, targetEntity.getSortOrder());
 
             PartySchool record = new PartySchool();
             record.setId(id);

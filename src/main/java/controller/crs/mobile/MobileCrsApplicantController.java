@@ -64,7 +64,7 @@ public class MobileCrsApplicantController extends CrsBaseController {
 		CrsApplicantViewExample.Criteria criteria = example.createCriteria()
 				.andPostIdEqualTo(postId)
 				.andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
-		example.setOrderByClause("enroll_time asc");
+		example.setOrderByClause("sort_order desc, enroll_time asc");
 
 		switch (cls) {
 			case 1:

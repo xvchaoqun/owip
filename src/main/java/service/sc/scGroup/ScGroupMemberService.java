@@ -85,11 +85,11 @@ public class ScGroupMemberService extends BaseMapper {
         ScGroupMemberExample example = new ScGroupMemberExample();
         if (addNum > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andIsCurrentEqualTo(isCurrent).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andIsCurrentEqualTo(isCurrent).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 

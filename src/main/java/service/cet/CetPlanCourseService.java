@@ -140,15 +140,15 @@ public class CetPlanCourseService extends BaseMapper {
 
         CetPlanCourse entity = cetPlanCourseMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
-
+        Integer planId = entity.getPlanId();
         CetPlanCourseExample example = new CetPlanCourseExample();
         if (addNum*orderBy > 0) {
 
-            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.createCriteria().andPlanIdEqualTo(planId).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
         }else {
 
-            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.createCriteria().andPlanIdEqualTo(planId).andSortOrderLessThan(baseSortOrder);
             example.setOrderByClause("sort_order desc");
         }
 
@@ -158,9 +158,9 @@ public class CetPlanCourseService extends BaseMapper {
             CetPlanCourse targetEntity = overEntities.get(overEntities.size()-1);
 
             if (addNum*orderBy > 0)
-                commonMapper.downOrder("cet_plan_course", "plan_id="+ entity.getPlanId(), baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.downOrder("cet_plan_course", "plan_id="+ planId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cet_plan_course", "plan_id="+ entity.getPlanId(), baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cet_plan_course", "plan_id="+ planId, baseSortOrder, targetEntity.getSortOrder());
 
             CetPlanCourse record = new CetPlanCourse();
             record.setId(id);
