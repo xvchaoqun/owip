@@ -146,6 +146,7 @@
         function _innerPage(type, fn) {
             $("#view-box .tab-content").loadPage({url:"${ctx}/cadreEdu_page?cadreId=${param.cadreId}&type=" + type, callback:fn})
         }
+        var needTutorEduTypes = ${cm:toJSONArray(needTutorEduTypes)};
         $("#jqGrid_cadreEdu").jqGrid({
             <c:if test="${!cm:isPermitted(PERMISSION_CADREADMIN) && !hasDirectModifyCadreAuth}">
             multiselect:false,

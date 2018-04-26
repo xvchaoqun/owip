@@ -7,6 +7,7 @@ import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.shiro.SaltPassword;
@@ -25,6 +27,7 @@ import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -115,6 +118,7 @@ public class ProfileController extends BaseController {
         SysUserInfo record = new SysUserInfo();
         record.setUserId(userId);
         record.setAvatar(avatar);
+        record.setAvatarUploadTime(new Date());
         record.setRealname(realname);
         record.setBirth(DateUtils.parseDate(_birth, DateUtils.YYYY_MM_DD));
         record.setGender(gender);
@@ -126,11 +130,12 @@ public class ProfileController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequestMapping(value = "/updateAvatar", method = RequestMethod.POST)
     @ResponseBody
     public Map do_updateAvatar(MultipartFile _avatar, int userId) throws IOException {
 
-        SysUserView uv = sysUserService.findById(userId);
+        //SysUserView uv = sysUserService.findById(userId);
         String avatar = avatarService.uploadAvatar(_avatar);
 
         SysUserInfo record = new SysUserInfo();

@@ -25,7 +25,7 @@
                         <a href="${ctx}/attach/download?path=${crsApplicant.ppt}&filename=${crsApplicant.pptName}">下载已上传PPT</a>
                         </div>
                     </c:if>
-                    <c:if test="${cm:compareDate(crsPost.reportDeadline, now)}">
+                    <c:if test="${cm:compareDate(crsPost.meetingTime, now)}">
                     <form class="form-inline" action="${ctx}/user/crsPost_apply_ppt" id="modalForm" method="post">
                         <input type="hidden" name="postId" value="${crsPost.id}">
                         <div style="width: 200px;float: left" class="input-group" data-my="bottom center" data-at="top center">

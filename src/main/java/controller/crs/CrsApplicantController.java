@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsApplicantViewExample;
+import domain.crs.CrsPost;
 import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -139,6 +140,32 @@ public class CrsApplicantController extends CrsBaseController {
         //baseMixins.put(crsApplicant.class, crsApplicantMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
+    }
+
+    @RequiresPermissions("crsApplicant:list")
+    @RequestMapping("/crsApplicant_search")
+    public String crsApplicant_search() {
+
+        return "crs/crsApplicant/crsApplicant_search";
+    }
+
+    @RequiresPermissions("crsApplicant:list")
+    @RequestMapping(value = "/crsApplicant_search", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_crsApplicant_search(int userId) {
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+
+        List<Map> hasApplyPosts = iCrsMapper.hasApplyPosts(userId, CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
+        for (Map hasApplyPost : hasApplyPosts) {
+            int postId = ((Long) hasApplyPost.get("postId")).intValue();
+            //boolean isQuit = (boolean) hasApplyPost.get("isQuit");
+            CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
+            hasApplyPost.put("postName", crsPost.getName());
+        }
+
+        resultMap.put("hasApplyPosts", hasApplyPosts);
+        return resultMap;
     }
 
     @RequiresPermissions("crsApplicant:edit")

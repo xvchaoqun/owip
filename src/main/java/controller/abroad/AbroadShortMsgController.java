@@ -32,7 +32,7 @@ public class AbroadShortMsgController extends AbroadBaseController {
         ShortMsgBean shortMsgBean = abroadShortMsgService.getShortMsgBean(loginUser.getId(), null, type, id);
         modelMap.put("shortMsgBean", shortMsgBean);
 
-        return "base/shortMsg/short_msg_view";
+        return "abroad/shortMsg_view";
     }
 
     @RequiresPermissions("ShortMsg:send")

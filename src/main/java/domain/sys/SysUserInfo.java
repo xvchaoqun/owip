@@ -14,6 +14,8 @@ public class SysUserInfo implements Serializable {
 
     private String avatar;
 
+    private Date avatarUploadTime;
+
     private Byte gender;
 
     private String nation;
@@ -80,6 +82,14 @@ public class SysUserInfo implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar == null ? null : avatar.trim();
+    }
+
+    public Date getAvatarUploadTime() {
+        return avatarUploadTime;
+    }
+
+    public void setAvatarUploadTime(Date avatarUploadTime) {
+        this.avatarUploadTime = avatarUploadTime;
     }
 
     public Byte getGender() {

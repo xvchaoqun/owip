@@ -2,6 +2,8 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="jdbc.properties"/>
     <context id="context1" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
@@ -9,9 +11,10 @@
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/db_owip_0?useUnicode=true&amp;characterEncoding=UTF8"
-                        userId="root" password="123"/>
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${jdbc_driverClassName}"
+                        connectionURL="${jdbc_url}" userId="${jdbc_username}"
+                        password="${jdbc_password}" />
         <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -104,14 +107,14 @@
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-        <!-- <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
+         <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
           </table>
           <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
                  enableInsert="false" enableUpdateByPrimaryKey="false"
                  enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                  enableDeleteByExample="false">
               <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
-          </table>-->
+          </table>
         <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
            <ignoreColumn column="update_time"/>
        </table>-->
@@ -146,8 +149,8 @@
         <!--<table tableName="sys_user_sync" domainObjectName="sys.SysUserSync">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-           <table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
-           </table>
+           <!--<table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
+           </table>-->
 
         <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks">
         </table>-->

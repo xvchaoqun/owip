@@ -397,16 +397,21 @@
         {label: '学位授予日期', name: 'degreeTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
         {
             label: '导师姓名', name: 'tutorName', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_master").id}" || rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_doctor").id}") {
-                return cellvalue == undefined ? '' : cellvalue;
+            if ($.inArray(rowObject.eduId , needTutorEduTypes)>=0) {
+                return $.trim(cellvalue);
             } else return '-'
-        }
-        },
+        }, cellattr: function (rowId, val, rowObject, cm, rdata) {
+            if($.inArray(rowObject.eduId , needTutorEduTypes)>=0 && $.trim(rowObject.tutorName)=='')
+                return "class='danger'";
+        }},
         {
             label: '导师现所在单位及职务（或职称）', name: 'tutorTitle', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_master").id}" || rowObject.eduId == "${cm:getMetaTypeByCode("mt_edu_doctor").id}") {
-                return cellvalue == undefined ? '' : cellvalue;
+            if ($.inArray(rowObject.eduId , needTutorEduTypes)>=0) {
+                return $.trim(cellvalue);
             } else return '-'
+        }, cellattr: function (rowId, val, rowObject, cm, rdata) {
+            if($.inArray(rowObject.eduId , needTutorEduTypes)>=0 && $.trim(rowObject.tutorTitle)=='')
+                return "class='danger'";
         }, width: 250
         },
         {

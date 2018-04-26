@@ -48,7 +48,9 @@
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </shiro:hasPermission>
-                                </c:if>
+                            <button class="popupBtn btn btn-success btn-sm"
+                                    data-url="${ctx}/crsApplicant_search"><i class="fa fa-search"></i> 查询账号报名情况</button>
+                             </c:if>
                             <c:if test="${status==CRS_POST_STATUS_DELETE}">
                             <shiro:hasPermission name="crsPost:del">
                                 <button data-url="${ctx}/crsPost_realDel"
@@ -60,11 +62,11 @@
                                 </button>
                             </shiro:hasPermission>
                             </c:if>
-<shiro:hasPermission name="crsPost:export">
+                            <shiro:hasPermission name="crsPost:export">
                             <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>
-    </shiro:hasPermission>
+                            </shiro:hasPermission>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

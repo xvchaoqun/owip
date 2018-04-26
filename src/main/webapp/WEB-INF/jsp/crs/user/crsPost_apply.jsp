@@ -52,9 +52,8 @@
                        class="btn btn-success btn-lg"><i class="fa fa-check"></i> 提交报名信息</button>
                     </c:if>
                 <c:if test="${param.type=='detail'}">
-
-                    <button type="button" id="editBtn" data-loading-text="提交中..."  data-success-text="已提交成功" autocomplete="off"
-                            class="btn ${cm:compareDate(crsPost.reportDeadline, now)?'btn-primary':'btn-default disabled'} btn-lg"><i class="fa fa-edit"></i> 编辑</button>
+                    <a href="javascript:;" id="editBtn" data-loading-text="提交中..."  data-success-text="已提交成功" autocomplete="off"
+                            class="btn ${crsPost.switchStatus==CRS_POST_ENROLL_STATUS_OPEN?'btn-primary':'btn-default disabled'} btn-lg"><i class="fa fa-edit"></i> 编辑</a>
                </c:if>
             </div>
             </c:if>

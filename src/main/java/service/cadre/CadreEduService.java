@@ -18,10 +18,12 @@ import service.base.MetaTypeService;
 import shiro.ShiroHelper;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +36,19 @@ public class CadreEduService extends BaseMapper {
     private CadreService cadreService;
     @Autowired
     private MetaTypeService metaTypeService;
+
+    public List<Integer> needTutorEduTypes(){
+
+        MetaType eduDoctor = CmTag.getMetaTypeByCode("mt_edu_doctor");
+        MetaType eduMaster = CmTag.getMetaTypeByCode("mt_edu_master");
+        MetaType eduSstd = CmTag.getMetaTypeByCode("mt_sstd");
+        List<Integer> needTutorEduTypeIds = new ArrayList<>();
+        needTutorEduTypeIds.add(eduDoctor.getId());
+        needTutorEduTypeIds.add(eduMaster.getId());
+        needTutorEduTypeIds.add(eduSstd.getId());
+
+        return needTutorEduTypeIds;
+    }
 
     // 查找某个干部的学习经历
     public List<CadreEdu> list(int cadreId){

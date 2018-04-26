@@ -142,6 +142,7 @@ import persistence.crs.CrsApplicantMapper;
 import persistence.crs.CrsApplicantStatViewMapper;
 import persistence.crs.CrsApplicantViewMapper;
 import persistence.crs.CrsApplyRuleMapper;
+import persistence.crs.CrsApplyUserMapper;
 import persistence.crs.CrsCandidateMapper;
 import persistence.crs.CrsCandidateViewMapper;
 import persistence.crs.CrsExpertMapper;
@@ -979,6 +980,8 @@ public class BaseMapper {
     protected CrsApplicantCheckMapper crsApplicantCheckMapper;
     @Autowired(required = false)
     protected CrsPostMapper crsPostMapper;
+    @Autowired(required = false)
+    protected CrsApplyUserMapper crsApplyUserMapper;
     @Autowired(required = false)
     protected CrsCandidateViewMapper crsCandidateViewMapper;
     @Autowired(required = false)

@@ -462,6 +462,66 @@ public class SysUserInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andAvatarUploadTimeIsNull() {
+            addCriterion("avatar_upload_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvatarUploadTimeIsNotNull() {
+            addCriterion("avatar_upload_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvatarUploadTimeEqualTo(Date value) {
+            addCriterion("avatar_upload_time =", value, "avatarUploadTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvatarUploadTimeNotEqualTo(Date value) {
+            addCriterion("avatar_upload_time <>", value, "avatarUploadTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvatarUploadTimeGreaterThan(Date value) {
+            addCriterion("avatar_upload_time >", value, "avatarUploadTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvatarUploadTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("avatar_upload_time >=", value, "avatarUploadTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvatarUploadTimeLessThan(Date value) {
+            addCriterion("avatar_upload_time <", value, "avatarUploadTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvatarUploadTimeLessThanOrEqualTo(Date value) {
+            addCriterion("avatar_upload_time <=", value, "avatarUploadTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvatarUploadTimeIn(List<Date> values) {
+            addCriterion("avatar_upload_time in", values, "avatarUploadTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvatarUploadTimeNotIn(List<Date> values) {
+            addCriterion("avatar_upload_time not in", values, "avatarUploadTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvatarUploadTimeBetween(Date value1, Date value2) {
+            addCriterion("avatar_upload_time between", value1, value2, "avatarUploadTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvatarUploadTimeNotBetween(Date value1, Date value2) {
+            addCriterion("avatar_upload_time not between", value1, value2, "avatarUploadTime");
+            return (Criteria) this;
+        }
+
         public Criteria andGenderIsNull() {
             addCriterion("gender is null");
             return (Criteria) this;

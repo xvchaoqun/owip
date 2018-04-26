@@ -54,4 +54,13 @@ public interface ICrsMapper {
     public int countUserApplyCrsPostList(@Param("userId") Integer userId,
                                          @Param("isQuit") Boolean isQuit,
                                          @Param("postStatusList") List<Byte> postStatusList);
+
+    // 已报名的岗位
+    @ResultType(java.util.HashMap.class)
+    @Select("select post_id as postId, is_quit as isQuit from crs_applicant where user_id=#{userId} and status = #{status}")
+    public List<Map> hasApplyPosts(@Param("userId") Integer userId, @Param("status") Byte status);
+
+    // 可补报岗位
+    @Select("select post_id from crs_apply_user where user_id=#{userId} and status=1 and now() between start_time and end_time")
+    public List<Integer> canApplyPostIds(@Param("userId") Integer userId);
 }

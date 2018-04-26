@@ -93,6 +93,7 @@ public class CadreBaseInfoController extends BaseController {
         String avatar = avatarService.uploadAvatar(_avatar);
         SysUserInfo record = new SysUserInfo();
         record.setAvatar(avatar);
+        record.setAvatarUploadTime(new Date());
         record.setUserId(cadre.getUserId());
         record.setNativePlace(nativePlace);
         record.setHomeplace(homeplace);

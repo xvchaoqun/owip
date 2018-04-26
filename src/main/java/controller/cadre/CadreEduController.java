@@ -74,6 +74,10 @@ public class CadreEduController extends BaseController {
             SysUserView sysUser = sysUserService.findById(cadre.getUserId());
             modelMap.put("sysUser", sysUser);
         }
+
+        List<Integer> needTutorEduTypes = cadreEduService.needTutorEduTypes();
+        modelMap.put("needTutorEduTypes", needTutorEduTypes);
+
         //modelMap.put("cadreTutors", JSONUtils.toString(cadreTutorService.findAll(cadreId).values()));
         return "cadre/cadreEdu/cadreEdu_page";
     }

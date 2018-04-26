@@ -29,14 +29,10 @@
 <script>
     function _reload() {
         $("#modal").modal('hide');
-
-        $.getJSON("${ctx}/user/crsPost_hasApplys",function(ret){
-            hasApplys = ret
-            $("#jqGrid").trigger("reloadGrid");
-        })
+        $("#jqGrid").trigger("reloadGrid");
     }
-    var hasApplys = <c:import url="/user/crsPost_hasApplys"/>;
-
+    var hasApplys = [];
+    var canApplyPostIds = [];
     $("#jqGrid").jqGrid({
         multiselect:false,
         rownumbers: true,
@@ -52,7 +48,7 @@
                     //console.log(hasApply + " " + applicant.isQuit)
                     if(hasApply) return false;
                 })
-
+                var canApply = ($.inArray(rowObject.id, canApplyPostIds)>=0)
 
                 if(rowObject.switchStatus!='${CRS_POST_ENROLL_STATUS_OPEN}') {
                     if (rowObject.endTime != null) {
@@ -60,9 +56,10 @@
                         var endTime = $.date(rowObject.endTime, 'yyyy-MM-dd hh:mm');
                         //console.log(nowTime + "--" + endTime);
                         if (endTime < nowTime) {
-                            return '报名结束'
+                            if(!canApply) return '报名结束'
+                        }else {
+                            return '未开启';
                         }
-                        return '未开启';
                     }
                 }
                 if(hasApply){
@@ -111,7 +108,12 @@
             {label: '招聘人数', name: 'num', width: 90},
             {label: '应聘截止时间', name: 'endTime', width: 150, formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}}
-        ]
+        ],
+        beforeProcessing:function(data, status, xhr){
+            //console.log(data)
+            hasApplys = data.hasApplys;
+            canApplyPostIds = data.canApplyPostIds;
+        }
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid');
     })

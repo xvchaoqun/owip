@@ -10,16 +10,21 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import service.DBOperator;
+import sys.utils.PropertiesUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,8 +35,9 @@ import java.util.Map;
 @ContextConfiguration(locations = {"classpath*:applicationContext.xml"})
 public class TplParser {
 
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
-	DBOperator dbOperator;
+	private DBOperator dbOperator;
 
 	@Test
 	public void execute() throws Exception{
@@ -47,8 +53,8 @@ public class TplParser {
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cpc.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-train.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-partySchool.json";
-		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cet.json";
-		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-crs.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cet.json";
+		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-crs.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-oa.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-pmd.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-scMatter.json";
@@ -66,16 +72,20 @@ public class TplParser {
 		excute(pathname);
 	}
 
+	public static void main(String[] args) {
+
+		System.out.println(MessageFormatter.arrayFormat("schema {} table {} not existed", new Object[]{"1", "1"}).getMessage());
+	}
 	private void excute(String jsonConfig) throws Exception {
 
 		ObjectMapper m = new ObjectMapper();
 		JsonNode jsonNode = m.readTree(new File(jsonConfig));
 
+		String schema = PropertiesUtils.getString("db.schema");
 		String tablePrefix = jsonNode.path("tablePrefix").getTextValue();
 		//String folder = tablePrefix.substring(0, tablePrefix.length() - 1);
 		String folder = jsonNode.path("folder").getTextValue();
 		String resFolder = jsonNode.path("resFolder").getTextValue();
-		String schema = jsonNode.path("schema").getTextValue();
 		String cpath = jsonNode.path("cpath").getTextValue() + "\\" + folder+ "\\";
 		String spath = jsonNode.path("spath").getTextValue() + "\\" + folder+ "\\";
 		String vpath = jsonNode.path("vpath").getTextValue() + "\\" + folder+ "\\";
@@ -95,18 +105,23 @@ public class TplParser {
 			String searchColumns = tableNode.path("searchColumns").getTextValue();
 			String logType = tableNode.path("logType").getTextValue();
 
-			genService(folder, tablePrefix, tablename, key, spath);
-
-			String outpath4Page = vpath + TableNameMethod.formatStr(tablename, "tableName") + "\\";
 			String cnTableName = dbOperator.getTableComments(tablePrefix + tablename, schema);
-
 			Map<String, ColumnBean> tableColumnsMap = dbOperator.getTableColumnsMap(tablePrefix + tablename, schema);
+			if(cnTableName==null || tableColumnsMap.size()==0){
+
+				throw new RuntimeException(MessageFormat.format("schema {0} table {1} not existed",
+						schema, tablePrefix + tablename));
+			}
+
+			genService(folder, tablePrefix, tablename, key, spath);
 
 			List<ColumnBean> searchColumnBeans = new ArrayList<>();
 			for (String searchColumn : searchColumns.split(",")) {
 				ColumnBean columnBean = tableColumnsMap.get(searchColumn);
 				if(columnBean!=null) searchColumnBeans.add(columnBean);
 			}
+
+			String outpath4Page = vpath + TableNameMethod.formatStr(tablename, "tableName") + "\\";
 
 			String listPageShowColumns = tableNode.path("showColumns").getTextValue();
 			List<ColumnBean> listPageTableColumns= dbOperator.getTableColumns(tablePrefix + tablename, schema, listPageShowColumns, true);

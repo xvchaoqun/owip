@@ -9,7 +9,7 @@ import domain.${folder?replace('/', '.')}.${TableName}Example;
 import domain.${folder?replace('/', '.')}.${TableName}Example.Criteria;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-
+import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;

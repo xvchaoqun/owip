@@ -640,6 +640,8 @@ public class CmTag {
             return cadreInfoCheckService.cadreHighDegreeCheck(cadreId);
         else if(type==8)
             return cadreInfoCheckService.familyCheck(cadreId);
+        else if(type==9)
+            return cadreInfoCheckService.tutorCheck(cadreId);
 
         return null;
     }

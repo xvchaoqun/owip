@@ -7,6 +7,8 @@ import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantExample;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsApplicantViewExample;
+import domain.crs.CrsApplyUser;
+import domain.crs.CrsApplyUserExample;
 import domain.crs.CrsPost;
 import domain.modify.ModifyCadreAuth;
 import mixin.MixinUtils;
@@ -32,7 +34,9 @@ import sys.utils.JSONUtils;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CrsApplicantService extends BaseMapper {
@@ -99,10 +103,13 @@ public class CrsApplicantService extends BaseMapper {
         }
         byte switchStatus = crsPost.getSwitchStatus();
         if( switchStatus != CrsConstants.CRS_POST_ENROLL_STATUS_OPEN){
-            if(switchStatus == CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED)
-                throw new OpException("岗位{0}应聘报名已结束。", crsPost==null?"":crsPost.getName());
-            else
-                throw new OpException("岗位{0}应聘还未开始。", crsPost==null?"":crsPost.getName());
+            if(switchStatus == CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED) {
+                Set<Integer> canApplyPostIdSet = new HashSet<>(iCrsMapper.canApplyPostIds(userId));
+                if(!canApplyPostIdSet.contains(postId))
+                    throw new OpException("岗位{0}应聘报名已结束。", crsPost == null ? "" : crsPost.getName());
+            }else {
+                throw new OpException("岗位{0}应聘还未开始。", crsPost == null ? "" : crsPost.getName());
+            }
         }
 
         Date meetingTime = crsPost.getMeetingTime();
@@ -141,6 +148,13 @@ public class CrsApplicantService extends BaseMapper {
             record.setIsQuit(false);
             record.setStatus(status);
             crsApplicantMapper.insertSelective(record);
+
+            // 更新补报状态为完成（如果存在）
+            CrsApplyUser _record = new CrsApplyUser();
+            _record.setStatus(CrsConstants.CRS_APPLY_USER_STATUS_FINISH);
+            CrsApplyUserExample example = new CrsApplyUserExample();
+            example.createCriteria().andPostIdEqualTo(postId).andUserIdEqualTo(userId);
+            crsApplyUserMapper.updateByExampleSelective(_record, example);
 
             sysApprovalLogService.add(record.getId(), record.getUserId(),
                     (userId == ShiroHelper.getCurrentUserId()) ? SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF
@@ -224,8 +238,16 @@ public class CrsApplicantService extends BaseMapper {
     public void reApply(int postId, Integer userId) {
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
-        if(crsPost.getSwitchStatus() != CrsConstants.CRS_POST_ENROLL_STATUS_OPEN){
-            throw new OpException("岗位{0}应聘未开始。", crsPost==null?"":crsPost.getName());
+
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)
+            && crsPost.getSwitchStatus() != CrsConstants.CRS_POST_ENROLL_STATUS_OPEN){
+
+            if(crsPost.getSwitchStatus() == CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED) {
+
+                throw new OpException("岗位{0}应聘报名已结束。", crsPost == null ? "" : crsPost.getName());
+            }else {
+                throw new OpException("岗位{0}应聘还未开始。", crsPost == null ? "" : crsPost.getName());
+            }
         }
 
         CrsApplicant crsApplicant = getAvaliable(postId, userId);

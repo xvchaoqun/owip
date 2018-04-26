@@ -28,6 +28,9 @@
         </td>
         <td>
             <t:cadre_base_edit notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}" toEdit="${toEdit}"/>
+            <c:if test="${not empty sysUser.avatar && result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}">
+                <input type="checkbox" data-name="avatar" name="check" class="cadre-info-check"> 已确认为近期标准证件照
+            </c:if>
         </td>
     </tr>
     <tr>
@@ -133,7 +136,7 @@
     </tr>
     </c:if>
     <tr>
-        <td rowspan="2">
+        <td rowspan="3">
             学习经历
         </td>
         <td>最高学历</td>
@@ -153,6 +156,20 @@
         <td>最高学位</td>
         <td>
             <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, null, 6)}"/>
+            ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
+        </td>
+        <td>
+            <t:cadre_info_edit
+                    editUrl="?cadreId=${param.cadreId}&to=cadreEdu_page"
+                    applyUrl="${ctx}/modifyTableApply?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_EDU}"
+                    notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
+                    toEdit="${toEdit}"/>
+        </td>
+    </tr>
+    <tr>
+        <td>硕士和博士导师信息</td>
+        <td>
+            <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, null, 9)}"/>
             ${CADRE_INFO_CHECK_RESULT_MAP.get(result)}
         </td>
         <td>

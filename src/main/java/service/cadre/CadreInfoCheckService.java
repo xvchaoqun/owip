@@ -3,6 +3,8 @@ package service.cadre;
 import domain.cadre.CadreBookExample;
 import domain.cadre.CadreCompanyExample;
 import domain.cadre.CadreCourseExample;
+import domain.cadre.CadreEdu;
+import domain.cadre.CadreEduExample;
 import domain.cadre.CadreFamilyAbroadExample;
 import domain.cadre.CadreInfoCheck;
 import domain.cadre.CadrePaperExample;
@@ -14,6 +16,8 @@ import domain.cadre.CadreResearchExample;
 import domain.cadre.CadreRewardExample;
 import domain.cadre.CadreTrainExample;
 import domain.cadre.CadreView;
+import domain.modify.ModifyTableApply;
+import domain.modify.ModifyTableApplyExample;
 import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
@@ -26,9 +30,14 @@ import org.springframework.transaction.annotation.Transactional;
 import persistence.cadre.common.ICadreInfoCheck;
 import service.BaseMapper;
 import sys.constants.CadreConstants;
+import sys.constants.ModifyConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class CadreInfoCheckService extends BaseMapper {
@@ -63,6 +72,8 @@ public class CadreInfoCheckService extends BaseMapper {
         if(notComplete(CmTag.cadreInfoCheck(cadreId, null, 5))) return false;
         // 最高学位
         if(notComplete(CmTag.cadreInfoCheck(cadreId, null, 6))) return false;
+        // 硕士和博士导师信息
+        if(notComplete(CmTag.cadreInfoCheck(cadreId, null, 9))) return false;
 
         if(notComplete(CmTag.cadreInfoCheck(cadreId, "work", 3))) return false;
         if(notComplete(cadreId, "post_pro", 4)) return false;
@@ -157,6 +168,10 @@ public class CadreInfoCheckService extends BaseMapper {
         switch (name) {
             case "avatar":
                 exist = StringUtils.isNotBlank(ui.getAvatar());
+                Date avatarUploadTime = ui.getAvatarUploadTime();
+                if(avatarUploadTime==null || DateUtils.monthOffNow(avatarUploadTime)>12){
+                    exist = false;
+                }
                 break;
             case "native_place":
                 exist = StringUtils.isNotBlank(ui.getNativePlace());
@@ -247,6 +262,49 @@ public class CadreInfoCheckService extends BaseMapper {
             return CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
         else
             return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+    }
+
+    // 硕士和博士导师信息
+    public Byte tutorCheck(int cadreId) {
+
+        List<Integer> needTutorEduTypes = cadreEduService.needTutorEduTypes();
+        CadreEduExample example = new CadreEduExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andEduIdIn(needTutorEduTypes)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
+        // 不存在以上三种学历的学习经历，无需验证导师信息
+        if(cadreEdus.size()== 0) return CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+
+        boolean hasModify = false;
+        for (CadreEdu cadreEdu : cadreEdus) {
+
+            String tutorName = cadreEdu.getTutorName();
+            String tutorTitle = cadreEdu.getTutorTitle();
+            if(StringUtils.isBlank(tutorName) || StringUtils.isBlank(tutorTitle)){
+                // 是否提交了修改申请
+                ModifyTableApplyExample example2 = new ModifyTableApplyExample();
+                example2.createCriteria().andModuleEqualTo(ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU)
+                        .andOriginalIdEqualTo(cadreEdu.getId());
+                List<ModifyTableApply> modifyTableApplies = modifyTableApplyMapper.selectByExample(example2);
+                ModifyTableApply modifyTableApply = modifyTableApplies.size()>0?modifyTableApplies.get(0):null;
+                if(modifyTableApply==null){
+                    return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+                }else{
+                    Integer modifyId = modifyTableApply.getModifyId();
+                    CadreEdu _cadreEdu = cadreEduMapper.selectByPrimaryKey(modifyId);
+                    if(_cadreEdu==null || StringUtils.isBlank(_cadreEdu.getTutorName())
+                            || StringUtils.isBlank(_cadreEdu.getTutorTitle())){
+                        // 对应的修改申请记录，也没有填写导师信息
+                        return CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST;
+                    }else{
+                        hasModify = true;
+                    }
+                }
+            }
+        }
+
+        return hasModify?CadreConstants.CADRE_INFO_CHECK_RESULT_MODIFY:CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
     }
 
     // 家庭信息

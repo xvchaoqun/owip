@@ -192,4 +192,17 @@ public class CrsConstants {
         CRS_EXPERT_CADRE_STATUS_SET.add(CadreConstants.CADRE_STATUS_LEADER);
     }
 
+    // 补报人员 状态，0 未启动补报 1 正在补报 2 关闭补报窗口 3 完成补报
+    public final static byte CRS_APPLY_USER_STATUS_INIT = 0;
+    public final static byte CRS_APPLY_USER_STATUS_OPEN = 1;
+    public final static byte CRS_APPLY_USER_STATUS_CLOSED = 2;
+    public final static byte CRS_APPLY_USER_STATUS_FINISH = 3;
+    public final static  Map<Byte, String> CRS_APPLY_USER_STATUS_AMP = new LinkedHashMap<Byte, String>();
+    static {
+        CRS_APPLY_USER_STATUS_AMP.put(CRS_APPLY_USER_STATUS_INIT, "未启动补报");
+        CRS_APPLY_USER_STATUS_AMP.put(CRS_APPLY_USER_STATUS_OPEN, "正在补报");
+        CRS_APPLY_USER_STATUS_AMP.put(CRS_APPLY_USER_STATUS_CLOSED, "关闭补报窗口");
+        CRS_APPLY_USER_STATUS_AMP.put(CRS_APPLY_USER_STATUS_FINISH, "完成补报");
+    }
+
 }

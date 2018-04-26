@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.crs.CrsApplicantCheckService;
 import service.crs.CrsApplicantService;
 import service.crs.CrsApplyRuleService;
+import service.crs.CrsApplyUserService;
 import service.crs.CrsCandidateService;
 import service.crs.CrsExpertService;
 import service.crs.CrsExportService;
@@ -26,6 +27,8 @@ public class CrsBaseController extends BaseController {
     protected CrsPostService crsPostService;
     @Autowired
     protected CrsCandidateService crsCandidateService;
+    @Autowired
+    protected CrsApplyUserService crsApplyUserService;
     @Autowired
     protected CrsApplyRuleService crsApplyRuleService;
     @Autowired

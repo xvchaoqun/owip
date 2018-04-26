@@ -1,12 +1,10 @@
 package controller.crs.user;
 
 import controller.crs.CrsBaseController;
-import domain.member.MemberTeacher;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import shiro.ShiroHelper;
 
 /**
  * Created by lm on 2017/8/18.
@@ -19,9 +17,9 @@ public class UserCrsInfoController extends CrsBaseController {
     @RequestMapping("/crsInfo")
     public String crsInfo(ModelMap modelMap) {
 
-        int userId = ShiroHelper.getCurrentUserId();
+        /*int userId = ShiroHelper.getCurrentUserId();
         MemberTeacher memberTeacher = memberTeacherService.get(userId);
-        modelMap.put("memberTeacher", memberTeacher);
+        modelMap.put("memberTeacher", memberTeacher);*/
 
         return "crs/user/crsInfo";
     }

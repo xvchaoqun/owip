@@ -1,10 +1,10 @@
 {
-  "schema": "db_owip",
   "cpath": "\\src\\main\\java\\controller\\",
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "",
   "folder": "crs",
+  "resFolder": "",
   "tables": [
     {
       "table": "crs_post",
@@ -12,7 +12,7 @@
       "searchColumns": "year,name",
       "showColumns": "year,name,admin_level,unit_id,requirement,qualification,sign_status,meeting_status,committee_status,remark,status",
       "excludeEditColumns": "id,status",
-      "logType": "LogConstants.LOG_ADMIN",
+      "logType": "LogConstants.LOG_CRS",
       "ignore": true
     },
     {
@@ -21,8 +21,17 @@
       "searchColumns": "type,name",
       "showColumns": "type,name",
       "excludeEditColumns": "id",
-      "logType": "LogConstants.LOG_ADMIN",
+      "logType": "LogConstants.LOG_CRS",
       "ignore": true
+    },
+    {
+      "table": "crs_apply_user",
+      "key": "id",
+      "searchColumns": "post_id",
+      "showColumns": "user_id,post_id,start_time,end_time,status,create_time,sort_order,remark",
+      "excludeEditColumns": "id,create_time,status",
+      "logType": "LogConstants.LOG_CRS",
+      "ignore": false
     },
     {
       "table": "crs_applicant",
@@ -30,7 +39,7 @@
       "searchColumns": "user_id,enroll_time",
       "showColumns": "user_id,enroll_time,is_recommend",
       "excludeEditColumns": "id,info_check_status,info_check_remark,require_check_status,require_check_remark,special_status",
-      "logType": "LogConstants.LOG_ADMIN",
+      "logType": "LogConstants.LOG_CRS",
       "ignore": true
     },
     {
@@ -39,7 +48,7 @@
       "searchColumns": "post_id",
       "showColumns": "file,type,create_time",
       "excludeEditColumns": "create_time",
-      "logType": "LogConstants.LOG_ADMIN",
+      "logType": "LogConstants.LOG_CRS",
       "ignore": true
     },
     {
@@ -48,8 +57,8 @@
       "searchColumns": "post_id",
       "showColumns": "post_ids,num,start_time,end_time",
       "excludeEditColumns": "id",
-      "logType": "LogConstants.LOG_ADMIN",
-      "ignore": false
+      "logType": "LogConstants.LOG_CRS",
+      "ignore": true
     }
   ]
 }

@@ -25,7 +25,7 @@
             </div>
         </ul>
         <div class="col-xs-12" id="detail-content">
-            <c:import url="${ctx}/user/crsPost_apply"/>
+            <c:import url="${ctx}/user/crsPost_apply?type=detail"/>
         </div>
         <div style="clear: both"></div>
     </div>

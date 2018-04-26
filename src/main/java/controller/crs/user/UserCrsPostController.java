@@ -3,7 +3,6 @@ package controller.crs.user;
 import controller.crs.CrsBaseController;
 import controller.global.OpException;
 import domain.crs.CrsApplicant;
-import domain.crs.CrsApplicantExample;
 import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
 import mixin.MixinUtils;
@@ -136,6 +135,15 @@ public class UserCrsPostController extends CrsBaseController {
         if(!ShiroHelper.isPermitted("crsPost:edit")){
             // 管理员和本人可以上传
             SecurityUtils.getSubject().checkPermission("userCrsPost:*");
+
+            CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
+            Date meetingTime = crsPost.getMeetingTime();
+            //Date reportDeadline = crsPost.getReportDeadline();
+            if(meetingTime!=null && DateUtils.compareDate(new Date(), meetingTime)){
+                throw new OpException("招聘会于{0}召开，{1}之后不可上传应聘PPT。",
+                        DateUtils.formatDate(meetingTime, "yyyy年MM月dd日 HH点"),
+                        DateUtils.formatDate(meetingTime, "yyyy年MM月dd日 HH点"));
+            }
         }
         if(userId==null){
             userId = ShiroHelper.getCurrentUserId();
@@ -153,15 +161,6 @@ public class UserCrsPostController extends CrsBaseController {
             throw new OpException("文件格式错误，请上传ppt文件");
         }
 
-        CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
-        Date meetingTime = crsPost.getMeetingTime();
-        Date reportDeadline = crsPost.getReportDeadline();
-        if(reportDeadline!=null && DateUtils.compareDate(new Date(), reportDeadline)){
-            throw new OpException("招聘会于{0}召开，{1}之后不可上传应聘PPT。",
-                    DateUtils.formatDate(meetingTime, "yyyy年MM月dd日 HH点"),
-                    DateUtils.formatDate(reportDeadline, "yyyy年MM月dd日 HH点"));
-        }
-
         //String originalFilename = ppt.getOriginalFilename();
         String savePath = upload(ppt, "crsApplicant_ppt");
 
@@ -173,25 +172,6 @@ public class UserCrsPostController extends CrsBaseController {
 
         logger.info(addLog(LogConstants.LOG_USER, "上传应聘PPT"));
         return success(FormUtils.SUCCESS);
-    }
-
-    // 已报名岗位
-    @RequiresPermissions("userCrsPost:*")
-    @RequestMapping("/crsPost_hasApplys")
-    @ResponseBody
-    public void crsPost_hasApplys(HttpServletResponse response) throws IOException {
-
-        CrsApplicantExample example = new CrsApplicantExample();
-        example.createCriteria().andUserIdEqualTo(ShiroHelper.getCurrentUserId())
-                .andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
-        List<CrsApplicant> crsApplicants = crsApplicantMapper.selectByExample(example);
-
-        JSONUtils.write(response, crsApplicants, "postId", "isQuit");
-        return;
-       /* Map<String, Object> resultMap = success();
-        resultMap.put("crsApplicants", crsApplicants);
-        JSONUtils.write(response, resultMap, "success", "crsApplicants", "crsApplicants.postId", "crsApplicants.isQuit");
-        return;*/
     }
 
     @RequiresPermissions("userCrsPost:*")
@@ -242,6 +222,14 @@ public class UserCrsPostController extends CrsBaseController {
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
+
+        int userId = ShiroHelper.getCurrentUserId();
+        // 已报名岗位
+        List<Map> hasApplys = iCrsMapper.hasApplyPosts(userId, CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
+        resultMap.put("hasApplys", hasApplys);
+        // 可补报岗位
+        List<Integer> canApplyPostIds = iCrsMapper.canApplyPostIds(userId);
+        resultMap.put("canApplyPostIds", canApplyPostIds);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
         baseMixins.put(CrsPost.class, UserCrsPostMixin.class);

@@ -1,4 +1,12 @@
 
+2018-4-26
+ALTER TABLE `sys_user_info`
+	CHANGE COLUMN `avatar` `avatar` VARCHAR(200) NULL DEFAULT NULL COMMENT '照片' AFTER `birth`,
+	ADD COLUMN `avatar_upload_time` DATETIME NULL DEFAULT NULL COMMENT '照片上传时间' AFTER `avatar`;
+
+更新 sys_user_view
+
+
 ============更新北化工=========
 2018-4-25
 update modify_table_apply set table_name='cadre_post_admin' where module=15;

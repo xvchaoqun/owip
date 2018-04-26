@@ -7,6 +7,7 @@
     <result column="idcard" jdbcType="VARCHAR" property="idcard" />
     <result column="birth" jdbcType="DATE" property="birth" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="avatar_upload_time" jdbcType="TIMESTAMP" property="avatarUploadTime" />
     <result column="gender" jdbcType="TINYINT" property="gender" />
     <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
@@ -80,8 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, realname, idcard, birth, avatar, gender, nation, native_place, homeplace, 
-    household, specialty, health, sign, mobile, phone, home_phone, email, msg_title
+    user_id, realname, idcard, birth, avatar, avatar_upload_time, gender, nation, native_place, 
+    homeplace, household, specialty, health, sign, mobile, phone, home_phone, email, 
+    msg_title
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysUserInfoExample" resultMap="BaseResultMap">
     select
@@ -115,19 +117,19 @@
   </delete>
   <insert id="insert" parameterType="domain.sys.SysUserInfo">
     insert into sys_user_info (user_id, realname, idcard, 
-      birth, avatar, gender, 
-      nation, native_place, homeplace, 
-      household, specialty, health, 
-      sign, mobile, phone, 
-      home_phone, email, msg_title
-      )
+      birth, avatar, avatar_upload_time, 
+      gender, nation, native_place, 
+      homeplace, household, specialty, 
+      health, sign, mobile, 
+      phone, home_phone, email, 
+      msg_title)
     values (#{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
-      #{birth,jdbcType=DATE}, #{avatar,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
-      #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{homeplace,jdbcType=VARCHAR}, 
-      #{household,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, #{health,jdbcType=INTEGER}, 
-      #{sign,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{msgTitle,jdbcType=VARCHAR}
-      )
+      #{birth,jdbcType=DATE}, #{avatar,jdbcType=VARCHAR}, #{avatarUploadTime,jdbcType=TIMESTAMP}, 
+      #{gender,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
+      #{homeplace,jdbcType=VARCHAR}, #{household,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, 
+      #{health,jdbcType=INTEGER}, #{sign,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{msgTitle,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysUserInfo">
     insert into sys_user_info
@@ -146,6 +148,9 @@
       </if>
       <if test="avatar != null">
         avatar,
+      </if>
+      <if test="avatarUploadTime != null">
+        avatar_upload_time,
       </if>
       <if test="gender != null">
         gender,
@@ -202,6 +207,9 @@
       </if>
       <if test="avatar != null">
         #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUploadTime != null">
+        #{avatarUploadTime,jdbcType=TIMESTAMP},
       </if>
       <if test="gender != null">
         #{gender,jdbcType=TINYINT},
@@ -268,6 +276,9 @@
       <if test="record.avatar != null">
         avatar = #{record.avatar,jdbcType=VARCHAR},
       </if>
+      <if test="record.avatarUploadTime != null">
+        avatar_upload_time = #{record.avatarUploadTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.gender != null">
         gender = #{record.gender,jdbcType=TINYINT},
       </if>
@@ -319,6 +330,7 @@
       idcard = #{record.idcard,jdbcType=VARCHAR},
       birth = #{record.birth,jdbcType=DATE},
       avatar = #{record.avatar,jdbcType=VARCHAR},
+      avatar_upload_time = #{record.avatarUploadTime,jdbcType=TIMESTAMP},
       gender = #{record.gender,jdbcType=TINYINT},
       nation = #{record.nation,jdbcType=VARCHAR},
       native_place = #{record.nativePlace,jdbcType=VARCHAR},
@@ -350,6 +362,9 @@
       </if>
       <if test="avatar != null">
         avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUploadTime != null">
+        avatar_upload_time = #{avatarUploadTime,jdbcType=TIMESTAMP},
       </if>
       <if test="gender != null">
         gender = #{gender,jdbcType=TINYINT},
@@ -399,6 +414,7 @@
       idcard = #{idcard,jdbcType=VARCHAR},
       birth = #{birth,jdbcType=DATE},
       avatar = #{avatar,jdbcType=VARCHAR},
+      avatar_upload_time = #{avatarUploadTime,jdbcType=TIMESTAMP},
       gender = #{gender,jdbcType=TINYINT},
       nation = #{nation,jdbcType=VARCHAR},
       native_place = #{nativePlace,jdbcType=VARCHAR},

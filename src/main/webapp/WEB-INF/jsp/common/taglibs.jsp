@@ -373,6 +373,11 @@
 
 <c:set value="<%=CrsConstants.CRS_TEMPLATE_TYPE_MAP%>" var="CRS_TEMPLATE_TYPE_MAP"/>
 
+<c:set value="<%=CrsConstants.CRS_APPLY_USER_STATUS_OPEN%>" var="CRS_APPLY_USER_STATUS_OPEN"/>
+<c:set value="<%=CrsConstants.CRS_APPLY_USER_STATUS_CLOSED%>" var="CRS_APPLY_USER_STATUS_CLOSED"/>
+<c:set value="<%=CrsConstants.CRS_APPLY_USER_STATUS_AMP%>" var="CRS_APPLY_USER_STATUS_AMP"/>
+
+
 <c:set value="<%=VerifyConstants.VERIFY_STATUS_DEL%>" var="VERIFY_STATUS_DEL"/>
 
 <c:set value="<%=VerifyConstants.VERIFY_AGE_TYPE_MAP%>" var="VERIFY_AGE_TYPE_MAP"/>
