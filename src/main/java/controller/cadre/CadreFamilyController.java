@@ -293,7 +293,8 @@ public class CadreFamilyController extends BaseController {
         pageNo = Math.max(1, pageNo);
 
         CadreFamilyExample example = new CadreFamilyExample();
-        Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
         example.setOrderByClause("id desc");
 
         if(StringUtils.isNotBlank(searchStr)){

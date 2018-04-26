@@ -10,6 +10,7 @@ import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -183,8 +184,8 @@ public class CadreAdformService extends BaseMapper{
 
         // 社会关系
         CadreFamilyExample example = new CadreFamilyExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId);
-        List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExample(example);
+        example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 6));
         bean.setCadreFamilys(cadreFamilys);
 
         return bean;
