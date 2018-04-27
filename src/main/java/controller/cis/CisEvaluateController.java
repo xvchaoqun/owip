@@ -52,6 +52,7 @@ public class CisEvaluateController extends CisBaseController {
 
     @RequiresPermissions("cisEvaluate:list")
     @RequestMapping("/cisEvaluate_data")
+    @ResponseBody
     public void cisEvaluate_data(HttpServletResponse response,
                                  Integer cadreId,
                                  Byte type,

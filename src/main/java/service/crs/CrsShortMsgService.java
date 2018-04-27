@@ -116,7 +116,8 @@ public class CrsShortMsgService extends BaseMapper {
             example.createCriteria().andPubStatusEqualTo(CrsConstants.CRS_POST_PUB_STATUS_PUBLISHED)
                     .andStatusEqualTo(CrsConstants.CRS_POST_STATUS_NORMAL)
                     .andEnrollStatusEqualTo(CrsConstants.CRS_POST_ENROLL_STATUS_DEFAULT)
-                    .andEndTimeBetween(cal.getTime(), now);
+                    .andEndTimeGreaterThan(cal.getTime())
+                    .andEndTimeLessThanOrEqualTo(now); // 10分钟前的时刻 < 结束时间 <= 当前时刻
             example.setOrderByClause("end_time asc, id asc");
             crsPosts = crsPostMapper.selectByExample(example);
         }

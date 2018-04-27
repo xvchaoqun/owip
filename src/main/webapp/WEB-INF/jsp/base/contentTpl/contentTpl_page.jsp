@@ -112,7 +112,8 @@
                 if(rowObject.receivers==undefined || rowObject.receivers.length==0) return '-'
                 //console.log(rowObject.receivers)
                 return $.map(rowObject.receivers,function(val, i){
-                    return val.realname;
+                    if(val!=undefined)
+                        return val.realname;
                 })
             }},
             /*{ label: '模板类型', name: 'contentType', formatter: function (cellvalue, options, rowObject) {

@@ -123,7 +123,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
     @RequiresPermissions("crsPost:edit")
     @RequestMapping("/crsPost_detail/step3_shortMsg_list")
-    public String step3_shortMsg(int postId, String tplKey,
+    public String step3_shortMsg_list(int postId, String tplKey,
                                  Integer pageSize, Integer pageNo,
                                  ModelMap modelMap) {
 

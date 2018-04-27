@@ -67,13 +67,13 @@ public class CrsApplicantService extends BaseMapper {
         return crsApplicantViewMapper.selectByExample(example);
     }
 
-    // 获取资格审核推荐通过人员列表
+    // 获取资格审核推荐通过人员列表（不包含退出）
     public List<CrsApplicantView> getPassedCrsApplicants(int postId) {
 
         CrsApplicantViewExample example = new CrsApplicantViewExample();
         example.createCriteria().andPostIdEqualTo(postId)
                 .andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT)
-                .andIsRequireCheckPassEqualTo(true);
+                .andIsRequireCheckPassEqualTo(true).andIsQuitEqualTo(false);
 
         return crsApplicantViewMapper.selectByExample(example);
     }

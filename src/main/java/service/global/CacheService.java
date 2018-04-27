@@ -222,6 +222,12 @@ public class CacheService extends BaseController{
         Map metaMap = getMetaMap();
         cMap.putAll(metaMap);
 
+        Map<Integer, SysRole> roleMap = sysRoleService.findAll();
+        Map<String, SysRole> roleCodeMap = new HashMap<>();
+        for (SysRole sysRole : roleMap.values()) {
+            roleCodeMap.put(sysRole.getRole(), sysRole);
+        }
+        cMap.put("roleCodeMap", roleCodeMap);
 
         ObjectMapper mapper = JSONUtils.buildObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
@@ -230,18 +236,11 @@ public class CacheService extends BaseController{
         baseMixins.put(MetaType.class, MetaTypeOptionMixin.class);
         baseMixins.put(Party.class, PartyOptionMixin.class);
         baseMixins.put(Branch.class, PartyOptionMixin.class);
-        //baseMixins.put(Dispatch.class, OptionMixin.class);
-        //baseMixins.put(DispatchUnit.class, OptionMixin.class);
         baseMixins.put(Unit.class, OptionMixin.class);
-        //baseMixins.put(Cadre.class, OptionMixin.class);
         baseMixins.put(DispatchType.class, OptionMixin.class);
-        //baseMixins.put(SafeBox.class, OptionMixin.class);
         baseMixins.put(ApproverType.class, OptionMixin.class);
         baseMixins.put(Location.class, OptionMixin.class);
-        //baseMixins.put(Country.class, OptionMixin.class);
-
         baseMixins.put(CetTrainEvaTable.class, OptionMixin.class);
-
         baseMixins.put(SysRole.class, OptionMixin.class);
 
         mapper.setMixIns(baseMixins);

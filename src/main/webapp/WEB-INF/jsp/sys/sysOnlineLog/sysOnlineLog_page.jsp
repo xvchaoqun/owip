@@ -39,7 +39,13 @@ pageEncoding="UTF-8" %>
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.shiroUser.id, rowObject.shiroUser.realname);
             },frozen:true },
-            { label: '角色', name: 'shiroUser.roles', align:'left', width: 300},
+            { label: '角色', name: 'shiroUser.roles', align:'left', formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '-'
+                return $.map(cellvalue, function(item){
+                    var role = _cMap.roleCodeMap[item];
+                    return role?role.description:null;
+                });
+            }, width: 300},
             { label: '最新操作时间', name: 'lastAccessTime', width: 200 },
             { label: '登录时间', name: 'startTimestamp', width: 200 },
             { label:'登录IP', name: 'ip', width: 150},

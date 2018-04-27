@@ -68,6 +68,7 @@ public class CisInspectObjController extends CisBaseController {
 
     @RequiresPermissions("cisInspectObj:list")
     @RequestMapping("/cisInspectObj_data")
+    @ResponseBody
     public void cisInspectObj_data(HttpServletResponse response,
                                    Integer year,
                                    Integer typeId,

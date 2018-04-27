@@ -55,6 +55,7 @@
     <div id="jqGridPager_cadreTrain"></div>
 </c:if>
 <c:if test="${type==2}">
+    <div class="space-4"></div>
     <div class="row">
         <div class="col-xs-6 preview-text">
             <div class="widget-box">

@@ -97,6 +97,7 @@
     <div id="jqGridPager_cadreReward"></div>
 </c:if>
 <c:if test="${type==3}">
+    <div class="space-4"></div>
     <div class="row">
         <div class="col-xs-6 preview-text">
             <div class="widget-box">
