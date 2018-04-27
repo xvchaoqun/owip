@@ -1,10 +1,9 @@
 
 2018-4-27
-学历 mt_edu_bk
-mt_edu_zk
-mt_jxxi -> mt_edu_jxxi
-mt_sstd -> mt_edu_sstd
-mt_sstd3 -> mt_edu_sstd3
+更改学历 mt_edu_bk  mt_edu_zk
+update base_meta_type set code='mt_edu_jxxi' where code='mt_jxxi';
+update base_meta_type set code='mt_edu_sstd' where code='mt_sstd';
+update base_meta_type set code='mt_edu_sstd3' where code='mt_sstd3';
 
 -- 去掉 <w:cantSplit/> 防止word文档显示不全而且不进行不分页
 
