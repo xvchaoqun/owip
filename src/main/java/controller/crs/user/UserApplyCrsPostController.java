@@ -195,7 +195,7 @@ public class UserApplyCrsPostController extends CrsBaseController {
             throw new UnauthorizedException();
         }
 
-        crsExportService.process(new Integer[]{applicantId}, response.getWriter());
+        crsExportService.process(crsApplicant.getPostId(), new Integer[]{applicantId}, response.getWriter());
     }
 
     // 管理员也拥有该权限

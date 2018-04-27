@@ -1,5 +1,19 @@
 
 2018-4-27
+学历 mt_edu_bk
+mt_edu_zk
+mt_jxxi -> mt_edu_jxxi
+mt_sstd -> mt_edu_sstd
+mt_sstd3 -> mt_edu_sstd3
+
+-- 去掉 <w:cantSplit/> 防止word文档显示不全而且不进行不分页
+
+ALTER TABLE `crs_post`
+	ADD COLUMN `ppt_deadline` DATETIME NULL DEFAULT NULL COMMENT '上传应聘PPT截止时间' AFTER `quit_deadline`;
+
+update sys_html_fragment set sort_order=id;
+
+2018-4-27
 ALTER TABLE `crs_applicant`
 	ADD COLUMN `sort_order` INT(10) UNSIGNED NULL
 	COMMENT '排序，（审核通过或破格）后的排序，审核通过或破格时，对其赋值' AFTER `recommend_second_count`;

@@ -1,5 +1,6 @@
 package service.crs;
 
+import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantView;
@@ -21,6 +22,7 @@ import service.base.MetaTypeService;
 import service.cadre.CadreInfoFormService;
 import service.cadre.CadreService;
 import service.common.FreemarkerService;
+import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -103,9 +105,9 @@ public class CrsExportService extends BaseMapper{
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(birth));
 
-            // 民族
+            // 民族 （全都去掉“族”， 显示“汉”)
             cell = row.getCell(column++);
-            cell.setCellValue(StringUtils.trimToEmpty(uv.getNation()));
+            cell.setCellValue(StringUtils.trimToEmpty(StringUtils.replace(uv.getNation(), "族", "")));
 
             // 政治面貌
             String political = cadreService.getCadreParty(cv.getCadreDpType());
@@ -122,7 +124,22 @@ public class CrsExportService extends BaseMapper{
             String edu = "";
             Integer eduId = cv.getEduId();
             if(eduId!=null) {
-                edu += metaTypeService.getName(eduId);
+
+                MetaType metaType = metaTypeMapper.selectByPrimaryKey(eduId);
+                if(StringUtils.equals(metaType.getCode(), "mt_edu_doctor")) {
+                    edu += "博士";
+                }else if(StringUtils.equals(metaType.getCode(), "mt_edu_master")
+                        || StringUtils.equals(metaType.getCode(), "mt_edu_sstd")) {
+                    edu += "硕士";
+                }else if(StringUtils.equals(metaType.getCode(), "mt_edu_sstd3")) {
+                    edu += "研究生课程班";
+                }else if(StringUtils.equals(metaType.getCode(), "mt_edu_bk")) {
+                    edu += "学士";
+                }else if(StringUtils.equals(metaType.getCode(), "mt_edu_zk")) {
+                    edu += "专科";
+                }else{
+                    edu += metaType.getName();
+                }
             }
             if(StringUtils.isNotBlank(cv.getDegree())) {
                 edu += "\r\n" + StringUtils.trimToEmpty(cv.getDegree());
@@ -152,15 +169,8 @@ public class CrsExportService extends BaseMapper{
             cell.setCellValue(proPost);
 
             // 专业技术职务评定时间
-            String proPostTime = DateUtils.formatDate(cv.getProPostTime(), "yyyy.MM");
-            if(cv.getProPostLevelTime()!=null){
-                if(proPostTime!=null){
-                    proPostTime += "\r\n";
-                }else{
-                    proPostTime="";
-                }
-                proPostTime += DateUtils.formatDate(cv.getProPostLevelTime(), "yyyy.MM");
-            }
+            String proPostTime = StringUtils.defaultIfBlank(DateUtils.formatDate(cv.getProPostTime(), "yyyy.MM"), "--")
+                    + "\r\n" + StringUtils.defaultIfBlank(DateUtils.formatDate(cv.getProPostLevelTime(), "yyyy.MM"), "--");
             cell = row.getCell(column++);
             cell.setCellValue(proPostTime);
 
@@ -188,12 +198,26 @@ public class CrsExportService extends BaseMapper{
 
     /**
      * xxx处级干部应聘报名表.doc
+     * @param postId
      * @param ids
      * @param out
      */
-    public void process(Integer[] ids, PrintWriter out) throws IOException, TemplateException {
+    public void process(int postId, Integer[] ids, PrintWriter out) throws IOException, TemplateException {
 
-        if(ids==null || ids.length==0) return;
+        if(ids==null || ids.length==0){
+            CrsApplicantViewExample example = new CrsApplicantViewExample();
+            CrsApplicantViewExample.Criteria criteria = example.createCriteria()
+                    .andPostIdEqualTo(postId)
+                    .andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
+            criteria.andIsRequireCheckPassEqualTo(true).andIsQuitEqualTo(false);
+            example.setOrderByClause("sort_order desc, enroll_time asc");
+            List<CrsApplicantView> crsApplicantViews = crsApplicantViewMapper.selectByExample(example);
+            List<Integer> idList = new ArrayList<>();
+            for (CrsApplicantView crsApplicantView : crsApplicantViews) {
+                idList.add(crsApplicantView.getId());
+            }
+            ids = idList.toArray(new Integer[0]);
+        }
 
         List applicants = new ArrayList<>();
         for (int id : ids) {

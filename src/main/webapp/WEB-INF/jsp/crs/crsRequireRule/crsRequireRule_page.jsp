@@ -62,7 +62,7 @@
 <script type="text/template" id="switch_tpl">
     <button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id}}, this)"
             data-id="{{=id}}"><i class="fa fa-folder-o"></i>
-        <span>查看条例</span>({{=count}})
+        <span>详情</span>({{=count}})
     </button>
 </script>
 <script type="text/template" id="subgrid_op_tpl">
@@ -73,7 +73,7 @@
     <button class="confirm btn btn-xs btn-danger"
             data-parent="{{=parentRowKey}}"
             data-url="${ctx}/crsRuleItem_batchDel?ids[]={{=id}}"
-            data-msg="确定删除该条例？"
+            data-msg="确定删除该具体条件？"
             data-callback="_delCallback"><i class="fa fa-times"></i> 删除
     </button>
 </script>
@@ -85,24 +85,24 @@
         url: '${ctx}/crsRequireRule_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
-                label: '规则条例', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
+                label: '详情', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.itemNum == 0) return '';
                 return _.template($("#switch_tpl").html().NoMultiSpace())({
                     id: rowObject.id,
                     count: rowObject.itemNum
                 });
-            }, width: 150},
+            }, width: 90},
             {
                 label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{grid:'#jqGrid2', url: "${ctx}/crsRequireRule_changeOrder"}, frozen: true
             },
             { label: '类别名称',name: 'name', width: 250},
-            {label: '添加条例', name: '_items', width: 150, formatter: function (cellvalue, options, rowObject) {
+            {label: '具体条件', name: '_items', width: 90, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.normNum==0||rowObject.rankNum==0) return '-'
-                return '<button class="popupBtn btn btn-success btn-xs" data-width="700" data-url="${ctx}/crsRuleItem_au?requireRuleId={0}"><i class="fa fa-plus"></i> 添加条例</button>'
+                return '<button class="popupBtn btn btn-success btn-xs" data-width="700" data-url="${ctx}/crsRuleItem_au?requireRuleId={0}"><i class="fa fa-plus"></i> 添加</button>'
                         .format(rowObject.id);
             }},
-            { label: '备注',name: 'remark', width: 380}
+            { label: '备注',name: 'remark', width: 480}
         ],
         rowattr: function (rowData, currentObj, rowId) {
             //console.log(currentObj)
@@ -145,7 +145,7 @@
     var currentExpandRows = [];
     function subGridRowColapsed(parentRowID, parentRowKey) {
         $(".switchBtn i", '#jqGrid2 #' + parentRowKey).removeClass("fa-folder-open-o");
-        $(".switchBtn span", '#jqGrid2 #' + parentRowKey).html("查看条例");
+        $(".switchBtn span", '#jqGrid2 #' + parentRowKey).html("详情");
         currentExpandRows.remove(parentRowKey);
         //console.log(currentExpandRows)
     }
@@ -155,7 +155,7 @@
         //console.log("parentRowKey=" + parentRowKey)
         //console.log($('#jqGrid2 #' + parentRowKey).html())
         $(".switchBtn i", '#jqGrid2 #' + parentRowKey).addClass("fa-folder-open-o");
-        $(".switchBtn span", '#jqGrid2 #' + parentRowKey).html("隐藏条例");
+        $(".switchBtn span", '#jqGrid2 #' + parentRowKey).html("隐藏");
         currentExpandRows.remove(parentRowKey);
         currentExpandRows.push(parentRowKey);
         //console.log(currentExpandRows)
@@ -171,11 +171,11 @@
             multiselect: false,
             url: childGridURL,
             colModel: [
-                { label: '类别',name: 'type', width: 180, formatter: function (cellvalue, options, rowObject) {
+                { label: '类别',name: 'type', width: 180, align:'left', formatter: function (cellvalue, options, rowObject) {
                     if (cellvalue == undefined) return '-';
                     return _cMap.CRS_POST_RULE_TYPE_MAP[cellvalue];
                 }},
-                { label: '规格',name: 'val', width: 250},
+                { label: '规格',name: 'val', width: 350, align:'left'},
                 {
                     label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
                     formatoptions:{grid:'#jqGrid2', url: "${ctx}/crsRuleItem_changeOrder"}, frozen: true

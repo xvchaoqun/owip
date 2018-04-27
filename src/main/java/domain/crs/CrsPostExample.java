@@ -1462,6 +1462,66 @@ public class CrsPostExample {
             return (Criteria) this;
         }
 
+        public Criteria andPptDeadlineIsNull() {
+            addCriterion("ppt_deadline is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptDeadlineIsNotNull() {
+            addCriterion("ppt_deadline is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptDeadlineEqualTo(Date value) {
+            addCriterion("ppt_deadline =", value, "pptDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptDeadlineNotEqualTo(Date value) {
+            addCriterion("ppt_deadline <>", value, "pptDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptDeadlineGreaterThan(Date value) {
+            addCriterion("ppt_deadline >", value, "pptDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptDeadlineGreaterThanOrEqualTo(Date value) {
+            addCriterion("ppt_deadline >=", value, "pptDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptDeadlineLessThan(Date value) {
+            addCriterion("ppt_deadline <", value, "pptDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptDeadlineLessThanOrEqualTo(Date value) {
+            addCriterion("ppt_deadline <=", value, "pptDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptDeadlineIn(List<Date> values) {
+            addCriterion("ppt_deadline in", values, "pptDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptDeadlineNotIn(List<Date> values) {
+            addCriterion("ppt_deadline not in", values, "pptDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptDeadlineBetween(Date value1, Date value2) {
+            addCriterion("ppt_deadline between", value1, value2, "pptDeadline");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptDeadlineNotBetween(Date value1, Date value2) {
+            addCriterion("ppt_deadline not between", value1, value2, "pptDeadline");
+            return (Criteria) this;
+        }
+
         public Criteria andMeetingStatusIsNull() {
             addCriterion("meeting_status is null");
             return (Criteria) this;

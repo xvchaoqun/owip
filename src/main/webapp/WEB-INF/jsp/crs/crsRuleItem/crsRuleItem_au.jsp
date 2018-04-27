@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${crsRuleItem!=null}">编辑</c:if><c:if test="${crsRuleItem==null}">添加</c:if>条例</h3>
+    <h3><c:if test="${crsRuleItem!=null}">编辑</c:if><c:if test="${crsRuleItem==null}">添加</c:if>具体条件</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/crsRuleItem_au" id="modalForm" method="post">

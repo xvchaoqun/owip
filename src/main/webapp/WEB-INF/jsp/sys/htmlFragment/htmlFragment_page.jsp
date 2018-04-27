@@ -91,6 +91,10 @@
         colModel: [
             { label: 'ID', name: 'id', frozen:true, width:50 },
             { label: '名称', name: 'title', width: 250,frozen:true, align:'left' },
+            <c:if test="${!_query}">
+            { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,
+                formatoptions:{url:'${ctx}/htmlFragment_changeOrder'},frozen:true },
+            </c:if>
             { label: '上级说明', name: 'fid', width: 250,  align:'left', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
                 return "[{0}]".format(rowObject.parent.id) + rowObject.parent.title ;
@@ -98,7 +102,6 @@
             <shiro:hasRole name="${ROLE_ADMIN}">
             { label: '代码', name: 'code', width: 250, align:'left' },
             </shiro:hasRole>
-            { label: '排序', name: 'sortOrder'},
             { label: '备注', name: 'remark', width: 250}
         ]
     }).jqGrid("setFrozenColumns");

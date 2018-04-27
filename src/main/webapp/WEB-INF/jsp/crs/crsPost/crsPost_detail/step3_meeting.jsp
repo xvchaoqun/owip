@@ -8,7 +8,7 @@
         <div class="widget-box">
             <div class="widget-header">
                 <h4 class="smaller">
-                    招聘会时间和地点
+                    招聘会相关时间节点
                 </h4>
             </div>
             <div class="widget-body">
@@ -59,9 +59,22 @@
                                 <div class="input-group">
                                     <input class="form-control datetime-picker" required type="text" name="quitDeadline"
                                            value="${cm:formatDate(crsPost.quitDeadline, "yyyy-MM-dd HH:mm")}">
-							<span class="input-group-addon">
-                            <i class="fa fa-calendar bigger-110"></i>
-                        </span>
+							    <span class="input-group-addon">
+                                <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">上传应聘PPT截止时间</label>
+
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <input class="form-control datetime-picker" required type="text" name="pptDeadline"
+                                           value="${cm:formatDate(crsPost.pptDeadline, "yyyy-MM-dd HH:mm")}">
+							    <span class="input-group-addon">
+                                <i class="fa fa-calendar bigger-110"></i>
+                                </span>
                                 </div>
                             </div>
                         </div>

@@ -194,7 +194,7 @@ public class CrsApplicantController extends CrsBaseController {
     // 导出应聘人报名表
     @RequiresPermissions("crsApplicant:export")
     @RequestMapping("/crsApplicant_export")
-    public void crsApplicant_export(@RequestParam(required = false, value = "ids[]") Integer[] ids,
+    public void crsApplicant_export(int postId, @RequestParam(required = false, value = "ids[]") Integer[] ids,
                                     HttpServletResponse response) throws IOException, TemplateException {
 
         //输出文件
@@ -204,7 +204,7 @@ public class CrsApplicantController extends CrsBaseController {
                 "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
         response.setContentType("application/msword;charset=UTF-8");
 
-        crsExportService.process(ids, response.getWriter());
+        crsExportService.process(postId, ids, response.getWriter());
     }
 
     @RequiresPermissions("crsApplicant:edit")

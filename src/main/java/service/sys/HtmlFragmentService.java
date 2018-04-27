@@ -4,6 +4,7 @@ import domain.sys.HtmlFragment;
 import domain.sys.HtmlFragmentExample;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -54,6 +55,7 @@ public class HtmlFragmentService extends BaseMapper {
     public void insertSelective(HtmlFragment record) {
 
         Assert.isTrue(codeAvailable(null, record.getCode()), "wrong code");
+        record.setSortOrder(getNextSortOrder("sys_html_fragment", null));
         htmlFragmentMapper.insertSelective(record);
     }
 
@@ -145,5 +147,45 @@ public class HtmlFragmentService extends BaseMapper {
         }
 
         return menuList;
+    }
+
+    @Transactional
+    @Caching(evict= {
+            @CacheEvict(value = "HtmlFragment:Code:ALL", allEntries = true),
+            @CacheEvict(value = "HtmlFragment:Code:Tree", allEntries = true)
+    })
+    public void changeOrder(int id, int addNum) {
+
+        if(addNum == 0) return ;
+
+        HtmlFragment entity = htmlFragmentMapper.selectByPrimaryKey(id);
+        Integer baseSortOrder = entity.getSortOrder();
+
+        HtmlFragmentExample example = new HtmlFragmentExample();
+        if (addNum > 0) {
+
+            example.createCriteria().andSortOrderGreaterThan(baseSortOrder);
+            example.setOrderByClause("sort_order asc");
+        }else {
+
+            example.createCriteria().andSortOrderLessThan(baseSortOrder);
+            example.setOrderByClause("sort_order desc");
+        }
+
+        List<HtmlFragment> overEntities = htmlFragmentMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
+        if(overEntities.size()>0) {
+
+            HtmlFragment targetEntity = overEntities.get(overEntities.size()-1);
+
+            if (addNum > 0)
+                commonMapper.downOrder("sys_html_fragment", null, baseSortOrder, targetEntity.getSortOrder());
+            else
+                commonMapper.upOrder("sys_html_fragment", null, baseSortOrder, targetEntity.getSortOrder());
+
+            HtmlFragment record = new HtmlFragment();
+            record.setId(id);
+            record.setSortOrder(targetEntity.getSortOrder());
+            htmlFragmentMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

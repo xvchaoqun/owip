@@ -95,8 +95,8 @@
             </li>
             <li>
                 <a href="javascript:;" class="jqLinkBtn"
-                   data-grid-id="#jqGrid2"
-                   data-url="${ctx}/crsApplicant_export" >
+                   data-need-id="false" data-grid-id="#jqGrid2"
+                   data-url="${ctx}/crsApplicant_export" data-querystr="postId=${param.postId}">
                     <i class="fa fa-file-word-o"></i> 应聘人报名表</a>
             </li>
         </ul>
@@ -188,7 +188,7 @@
             }, frozen: true},
             <c:if test="${cls==2}">
             {label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{grid:"#jqGrid2",url: "${ctx}/crsApplicant_changeOrder"}},
+                formatoptions:{grid:"#jqGrid2",url: "${ctx}/crsApplicant_changeOrder"}, frozen: true},
             </c:if>
             {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 200, frozen: true},
             <c:if test="${cls==1}">

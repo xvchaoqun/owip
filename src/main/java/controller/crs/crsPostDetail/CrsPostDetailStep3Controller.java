@@ -92,6 +92,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
                                 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date meetingTime,
                                 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date reportDeadline,
                                 @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date quitDeadline,
+                                @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") Date pptDeadline,
                                 String meetingAddress,
                                 HttpServletRequest request) {
 
@@ -101,6 +102,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
         record.setMeetingAddress(meetingAddress);
         record.setReportDeadline(reportDeadline);
         record.setQuitDeadline(quitDeadline);
+        record.setPptDeadline(pptDeadline);
 
         crsPostService.updateByPrimaryKeySelective(record);
 

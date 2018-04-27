@@ -40,12 +40,6 @@
                 <textarea name="remark" class="form-control">${htmlFragment.remark}</textarea>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label">排序</label>
-            <div class="col-xs-6 " style="width: 370px">
-                <input class="form-control digits" type="text" name="sortOrder" value="${htmlFragment.sortOrder}">
-            </div>
-        </div>
         </c:if>
         <div class="form-group">
             <div class="col-xs-6 col-xs-offset-3">

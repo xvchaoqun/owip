@@ -39,7 +39,7 @@
                         .format(cellvalue);
             }
             },
-            {"name": "url", "label": "URL路径", "width": 270, align: 'left'},
+            {"name": "url", "label": "URL路径", "width": 320, align: 'left'},
             {"name": "permission", "label": "权限字符串", "width": 180, align: 'left'},
             {"name": "remark", "label": "备注", "width": 170},
             {

@@ -41,7 +41,7 @@ public class CadreEduService extends BaseMapper {
 
         MetaType eduDoctor = CmTag.getMetaTypeByCode("mt_edu_doctor");
         MetaType eduMaster = CmTag.getMetaTypeByCode("mt_edu_master");
-        MetaType eduSstd = CmTag.getMetaTypeByCode("mt_sstd");
+        MetaType eduSstd = CmTag.getMetaTypeByCode("mt_edu_sstd");
         List<Integer> needTutorEduTypeIds = new ArrayList<>();
         needTutorEduTypeIds.add(eduDoctor.getId());
         needTutorEduTypeIds.add(eduMaster.getId());

@@ -70,10 +70,10 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/crsPostRequire_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '模板名称',name: 'name', width: 300, align:'left', frozen: true},
+            { label: '模板名称',name: 'name', width: 400, align:'left', frozen: true},
 
             {
-                label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', width: 90, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url: "${ctx}/crsPostRequire_changeOrder"}, frozen: true
             },
             {label: '岗位要求', name: '_ruleNum', formatter: function (cellvalue, options, rowObject) {
@@ -83,14 +83,14 @@ pageEncoding="UTF-8" %>
                     return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/crsRequireRule?postRequireId={0}">编辑</a>'
                             .format(rowObject.id);
                 else
-                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/crsRequireRule?postRequireId={0}">查看（{1}）</a>'
+                    return '<a href="javascript:void(0)" class="openView" data-url="${ctx}/crsRequireRule?postRequireId={0}">查看({1})</a>'
                             .format(rowObject.id, num);
-            }, width: 200},
+            }},
             {label: '预览', name: 'rankNum', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.normNum==0||rowObject.rankNum==0) return '-'
                 return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/crsPostRequire_preview?id={0}">预览</a>'
                         .format(rowObject.id);
-            }},
+            }, width: 80},
             { label: '备注',name: 'remark', width: 300, frozen: true}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){

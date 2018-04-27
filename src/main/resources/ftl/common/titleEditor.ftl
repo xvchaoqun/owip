@@ -36,7 +36,9 @@
             <#case 0><#break>
             <#case 1>
             <w:pPr>
+                <#if row_index==0>
                 <w:spacing w:line="400" w:line-rule="exact"/>
+                </#if>
                 <w:ind w:left-chars="50" w:left="105" w:first-line-chars="100" w:first-line="220"/>
                 <w:rPr>
                     <w:sz w:val="24"/>
@@ -45,7 +47,9 @@
             <#break>
             <#case 2>
             <w:pPr>
-                <w:spacing w:line="400" w:line-rule="exact"/>
+                <#if row_index==0>
+                    <w:spacing w:line="400" w:line-rule="exact"/>
+                </#if>
                 <w:ind w:left-chars="50" w:left="105" w:first-line-chars="400" w:first-line="880"/>
                 <w:rPr>
                     <w:sz w:val="24"/>

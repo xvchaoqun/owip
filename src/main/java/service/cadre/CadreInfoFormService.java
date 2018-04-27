@@ -135,16 +135,17 @@ public class CadreInfoFormService extends BaseMapper {
             Integer eduId = fulltimeEdu.getEduId();
             //String degree = fulltimeEdu.getDegree();
             _fulltimeEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-            _fulltimeMajor = fulltimeEdu.getSchool() + fulltimeEdu.getDep() + fulltimeEdu.getMajor()
-                    + (StringUtils.isNotBlank(fulltimeEdu.getMajor()) ? "专业" : "");
+
+            _fulltimeMajor = fulltimeEdu.getSchool() + fulltimeEdu.getDep()
+                    + StringUtils.trimToEmpty(CadreUtils.major(fulltimeEdu.getMajor()));
             _fulltimeDegreee = fulltimeEdu.getDegree(); // 学位
         }
         if (onjobEdu != null) {
             Integer eduId = onjobEdu.getEduId();
             //String degree = onjobEdu.getDegree();
             _onjobEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-            _onjobMajor = onjobEdu.getSchool() + onjobEdu.getDep() + onjobEdu.getMajor()
-                    + (StringUtils.isNotBlank(onjobEdu.getMajor()) ? "专业" : "");
+            _onjobMajor = onjobEdu.getSchool() + onjobEdu.getDep()
+                    + StringUtils.trimToEmpty(CadreUtils.major(onjobEdu.getMajor()));
 
             _onjobDegree = onjobEdu.getDegree();
         }

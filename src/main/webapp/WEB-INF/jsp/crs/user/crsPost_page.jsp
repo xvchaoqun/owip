@@ -7,8 +7,15 @@
 
         <div id="body-content" class="myTableDiv">
             <div class="jqgrid-vertical-offset buttons">
-                <a class="linkBtn btn btn-success btn-sm" data-url="${ctx}/faq?type=hf_crs_note" data-target="_blank">
-                    <i class="fa fa-info-circle"></i> 报名须知</a>
+                <a class="popupBtn btn btn-info btn-sm"
+                   data-width="650"
+                   data-url="${ctx}/hf_content?code=hf_crs_note">
+                    <i class="fa fa-search"></i> 应聘程序</a>
+                <a class="popupBtn btn btn-warning btn-sm"
+                   data-width="650"
+                   data-url="${ctx}/hf_content?code=hf_crs_require">
+                    <i class="fa fa-exclamation-triangle"></i> 纪律要求</a>
+
                 <a class="popupBtn btn btn-primary btn-sm" data-url="${ctx}/user/recommend_form_download">
                     <i class="fa fa-download"></i> 推荐表格下载</a>
             </div>

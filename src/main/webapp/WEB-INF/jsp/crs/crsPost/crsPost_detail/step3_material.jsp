@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="space-4"></div>
 <div class="row" style="width: 1450px">
-<div style="margin: 0px 20px; width: 600px;float: left">
+<div style="margin: 0px; width: 500px;float: left">
     <div class="widget-box">
         <div class="widget-header">
             <h4 class="smaller">
@@ -40,16 +40,18 @@
                     <tr>
                         <td>3</td>
                         <td>应聘报名统计表</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td colspan="3">
+                            <a href="${ctx}/crsApplicant_data?cls=2&postId=${param.id}&export=1">
+                                <i class="fa fa-file-excel-o"></i> 下载报名汇总表</a>
+                        </td>
                     </tr>
                     <tr>
                         <td>4</td>
                         <td>应聘报名表</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td colspan="3">
+                            <a href="${ctx}/crsApplicant_export?postId=${param.id}">
+                                <i class="fa fa-file-word-o"></i> 下载应聘人报名表</a>
+                        </td>
                     </tr>
                     <tr>
                         <td>5</td>
@@ -78,21 +80,8 @@
             </div>
         </div>
     </div>
-
-    <div class="widget-box">
-        <div class="widget-header">
-            <h4 class="smaller">
-                会务材料清单
-            </h4>
-        </div>
-        <div class="widget-body">
-            <div class="widget-main">
-                ${cm:getHtmlFragment("hf_crs_material").content}
-            </div>
-        </div>
-    </div>
 </div>
-    <div style="width: 400px;float: left">
+<div style="margin: 0px 10px; width: 400px;float: left">
     <div class="widget-box">
         <div class="widget-header">
             <h4 class="smaller">
@@ -147,6 +136,20 @@
         </div>
     </div>
 </div>
+    <div style="width: 500px;float: left">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h4 class="smaller">
+                    会务材料清单
+                </h4>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    ${cm:getHtmlFragment("hf_crs_material").content}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     $(".upload-file").on('click', function() {

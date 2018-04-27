@@ -68,7 +68,7 @@
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="1020" w:type="dxa"/>
+            <w:tcW w:w="1109" w:type="dxa"/>
             <w:gridSpan w:val="2"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
@@ -93,7 +93,7 @@
     </w:tc>
     <w:tc>
         <w:tcPr>
-            <w:tcW w:w="991" w:type="dxa"/>
+            <w:tcW w:w="896" w:type="dxa"/>
             <w:vAlign w:val="center"/>
         </w:tcPr>
         <w:p wsp:rsidR="00B03368" wsp:rsidRPr="00D22114" wsp:rsidRDefault="008803C6" wsp:rsidP="00CD38F3">

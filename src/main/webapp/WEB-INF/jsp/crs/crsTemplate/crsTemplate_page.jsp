@@ -75,7 +75,7 @@ pageEncoding="UTF-8" %>
                 if (cellvalue == undefined) return '-';
                 return _cMap.CRS_TEMPLATE_TYPE_MAP[cellvalue];
             }},
-            { label: '模板名称',name: 'name', width: 400}
+            { label: '模板名称',name: 'name', width: 400, align:'left'}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
         $(window).triggerHandler('resize.jqGrid');

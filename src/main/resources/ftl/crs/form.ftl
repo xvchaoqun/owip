@@ -1993,6 +1993,7 @@
 	</w:docPr>
 	<w:body>
 		<wx:sect>
+			<#list applicants as bean >
 			<wx:sub-section>
 				<w:p wsp:rsidR="0047784B" wsp:rsidRDefault="007810CF" wsp:rsidP="00E933BF">
 					<w:pPr>
@@ -2028,8 +2029,7 @@
 				</w:p>
 			</wx:sub-section>
 			<wx:sub-section>
-				<#list applicants as bean >
-                    <#if bean_index gt 0>
+                    <#--<#if bean_index gt 0>
 			<w:p wsp:rsidR="00C42F09" wsp:rsidRDefault="00C42F09">
 				<w:pPr>
 					<w:widowControl/>
@@ -2039,7 +2039,7 @@
 					<w:br w:type="page"/>
 				</w:r>
 			</w:p>
-					</#if>
+					</#if>-->
 				<w:p wsp:rsidR="00AD2788" wsp:rsidRPr="006F28D7" wsp:rsidRDefault="00AD2788" wsp:rsidP="00AD2788">
 					<w:pPr>
 						<w:spacing w:line="440" w:line-rule="exact"/>
@@ -2139,7 +2139,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1415" w:type="dxa"/>
+								<w:tcW w:w="1312" w:type="dxa"/>
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -2431,7 +2431,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1415" w:type="dxa"/>
+								<w:tcW w:w="1312" w:type="dxa"/>
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -2644,7 +2644,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1415" w:type="dxa"/>
+								<w:tcW w:w="1312" w:type="dxa"/>
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -3061,7 +3061,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1415" w:type="dxa"/>
+								<w:tcW w:w="1312" w:type="dxa"/>
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -3219,7 +3219,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1415" w:type="dxa"/>
+								<w:tcW w:w="1312" w:type="dxa"/>
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -4037,7 +4037,7 @@
 					</w:tr>
 					<w:tr wsp:rsidR="00542744" wsp:rsidRPr="00CE6129" wsp:rsidTr="006F28D7">
 						<w:trPr>
-							<w:cantSplit/>
+							<#--<w:cantSplit/>-->
 							<w:trHeight w:val="15307"/>
 							<w:jc w:val="center"/>
 						</w:trPr>
@@ -4734,7 +4734,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1020" w:type="dxa"/>
+								<w:tcW w:w="1109" w:type="dxa"/>
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -4765,7 +4765,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="991" w:type="dxa"/>
+								<w:tcW w:w="896" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00092C82" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00092C82" wsp:rsidP="00005295">
@@ -5034,7 +5034,7 @@
 					</w:tr>
 					${bean.familyAbroads!}
 				</w:tbl>
-				</#list>
+				<#if !bean_has_next>
 				<w:p wsp:rsidR="00E125AC" wsp:rsidRPr="00E125AC" wsp:rsidRDefault="00E125AC" wsp:rsidP="00A3090C">
 					<w:pPr>
 						<w:jc w:val="right"/>
@@ -5067,7 +5067,9 @@
 						<w:t>组织部制表</w:t>
 					</w:r>
 				</w:p>
+				</#if>
 			</wx:sub-section>
+			</#list>
 			<w:sectPr wsp:rsidR="00005295" wsp:rsidRPr="00644E8B" wsp:rsidSect="00E933BF">
 				<w:ftr w:type="odd">
 					<w:p wsp:rsidR="00E933BF" wsp:rsidRDefault="00A13A6B">

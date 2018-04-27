@@ -69,7 +69,7 @@ public class HtmlFragmentController extends BaseController {
 
         HtmlFragmentExample example = new HtmlFragmentExample();
         HtmlFragmentExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("sort_order desc");
 
         if (!ShiroHelper.hasRole(RoleConstants.ROLE_ADMIN)) {
 
@@ -141,8 +141,18 @@ public class HtmlFragmentController extends BaseController {
 
         if (null != ids) {
             htmlFragmentService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除配置：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除系统说明：%s", StringUtils.join(ids, ",")));
         }
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("htmlFragment:changeOrder")
+    @RequestMapping(value = "/htmlFragment_changeOrder", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_htmlFragment_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+
+        htmlFragmentService.changeOrder(id, addNum);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "系统说明调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
@@ -157,7 +167,7 @@ public class HtmlFragmentController extends BaseController {
             roleId = -1;
         }
         htmlFragmentService.updateRoles(id, roleId);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "更新系统配置所属角色 %s, %s", id, roleId));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "更新系统说明所属角色 %s, %s", id, roleId));
         return success(FormUtils.SUCCESS);
     }
 
