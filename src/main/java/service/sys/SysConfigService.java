@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.SpringProps;
 import sys.tags.CmTag;
+import sys.utils.ConfigUtil;
 import sys.utils.FileUtils;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -54,6 +56,10 @@ public class SysConfigService extends BaseMapper {
         // 拷贝图片
         sysConfigs = sysConfigMapper.selectByExample(new SysConfigExample());
         sysConfig = sysConfigs.get(0);
+        if(StringUtils.isNotBlank(sysConfig.getFavicon())) {
+            FileUtils.copyFile(springProps.uploadPath + sysConfig.getFavicon(),
+                    ConfigUtil.defaultHomePath() + File.separator + "favicon.ico");
+        }
         if(StringUtils.isNotBlank(sysConfig.getLogo())) {
             FileUtils.copyFile(springProps.uploadPath + sysConfig.getLogo(), CmTag.getImgFolder() + "logo.png");
         }

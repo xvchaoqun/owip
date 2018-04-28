@@ -1,15 +1,18 @@
 package service.analysis;
 
-import persistence.cadre.common.StatCadreBean;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Header;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import persistence.cadre.common.StatCadreBean;
 import service.BaseMapper;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.NumberUtils;
 
@@ -35,7 +38,7 @@ public class StatCadreService extends BaseMapper {
         InputStream is = getClass().getResourceAsStream("/xlsx/cadre_template.xlsx");
         XSSFWorkbook wb=new XSSFWorkbook(is);
 
-        renderSheetData(wb, null);
+        renderSheetData(wb, null); // 汇总
         renderSheetData(wb, SystemConstants.UNIT_TYPE_ATTR_JG);
         renderSheetData(wb, SystemConstants.UNIT_TYPE_ATTR_XY);
         renderSheetData(wb, SystemConstants.UNIT_TYPE_ATTR_FS);
@@ -45,17 +48,30 @@ public class StatCadreService extends BaseMapper {
 
     private void renderSheetData(XSSFWorkbook wb, String type)  {
 
-        Sheet sheet = wb.getSheetAt(0);
+        XSSFSheet sheet = wb.getSheetAt(0);
         if(StringUtils.equals(type, SystemConstants.UNIT_TYPE_ATTR_JG)){
             sheet = wb.getSheetAt(1);
         }else if(StringUtils.equals(type, SystemConstants.UNIT_TYPE_ATTR_XY)){
             sheet = wb.getSheetAt(2);
         }else if(StringUtils.equals(type, SystemConstants.UNIT_TYPE_ATTR_FS)){
             sheet = wb.getSheetAt(3);
+
+            XSSFRow row = sheet.getRow(29);
+            XSSFCell cell = row.getCell(0);
+            String str = cell.getStringCellValue()
+                    .replace("cadre_template_fs_note",
+                            StringUtils.trimToEmpty(CmTag.getSysConfig().getCadreTemplateFsNote()));
+            cell.setCellValue(str);
         }
 
         Header header = sheet.getHeader();
         header.setRight("截至" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("school", CmTag.getSysConfig().getSchoolName());
+        cell.setCellValue(str);
 
         int rowNum = 3;
         Map<String, List> dataMap = stat(type);

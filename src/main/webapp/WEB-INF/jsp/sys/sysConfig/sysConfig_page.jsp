@@ -4,7 +4,6 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="page-header">
-
             <h1>
                 <i class="fa fa-soundcloud"></i> 缓存管理
             </h1>
@@ -80,6 +79,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-xs-3 control-label">附属单位说明(用于中层干部统计表格)</label>
+                <div class="col-xs-6">
+                    <textarea class="form-control" name="cadreTemplateFsNote">${sysConfig.cadreTemplateFsNote}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-3 control-label">版权说明</label>
 
                 <div class="col-xs-6">
@@ -137,24 +142,31 @@
                            value="${sysConfig.mobileTitle}">
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-xs-3 control-label">登录页LOGO（分辨率269*58，PNG格式）</label>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">favicon.ico, ICO格式（48*48）</label>
 
-                <div class="col-xs-6 logo">
+                    <div class="col-xs-6">
+                        <input type="file" name="_favicon" id="_favicon"/>
+                    </div>
+                </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">登录页LOGO（269*58，PNG格式）</label>
+
+                <div class="col-xs-6">
                     <input type="file" name="_logo" id="_logo"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">后台LOGO（分辨率269*58，PNG格式）</label>
+                <label class="col-xs-3 control-label">后台LOGO（269*58，透明PNG格式）</label>
 
-                <div class="col-xs-6 logoWhite">
+                <div class="col-xs-6">
                     <input type="file" name="_logoWhite" id="_logoWhite"/>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">登录页顶部背景图片（分辨率1102*109，JPG格式）</label>
+                <label class="col-xs-3 control-label">登录页顶部背景图片（1102*109，JPG格式）</label>
 
-                <div class="col-xs-6 loginTop">
+                <div class="col-xs-6">
                     <input type="file" name="_loginTop" id="_loginTop"/>
                 </div>
             </div>
@@ -167,29 +179,29 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">登录页背景（分辨率1920*890，JPG格式）</label>
+                <label class="col-xs-3 control-label">登录页背景（1920*890，JPG格式）</label>
 
-                <div class="col-xs-6 loginBg">
+                <div class="col-xs-6">
                     <input type="file" name="_loginBg" id="_loginBg"/>
                 </div>
             </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">iphone桌面图标, ICO格式</label>
 
-                    <div class="col-xs-6 logoWhite">
+                    <div class="col-xs-6">
                         <input type="file" name="_appleIcon" id="_appleIcon"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-3 control-label">iphone桌面图标，PNG格式</label>
 
-                    <div class="col-xs-6 logoWhite">
+                    <div class="col-xs-6">
                         <input type="file" name="_screenIcon" id="_screenIcon"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-xs-3 control-label">二维码LOGO（分辨率90*90，PNG格式）</label>
-                    <div class="col-xs-6 logo">
+                    <label class="col-xs-3 control-label">二维码LOGO（90*90，PNG格式）</label>
+                    <div class="col-xs-6">
                         <input type="file" name="_qrLogo" id="_qrLogo"/>
                     </div>
                 </div>
@@ -249,20 +261,23 @@
     .ace-file-multiple .ace-file-container .ace-file-name.large {
         border: none;
     }
-
-    .logo .ace-file-input, .logoWhite .ace-file-input {
-        width: 274px;
-    }
-
-    .loginBg .ace-file-input {
-        width: 405px;
-    }
-    .loginTop .ace-file-input{
-        width: 500px;
-    }
 </style>
 <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
+    $.fileInput($("#_favicon"), {
+        style: 'well',
+        btn_choose: '网站标志, ICO格式',
+        btn_change: null,
+        no_icon: 'ace-icon fa fa-picture-o',
+        thumbnail: 'large',
+        droppable: true,
+        previewWidth: 48,
+        previewHeight: 48,
+        allowExt: ['ico'],
+        allowMime: ['image/x-icon'],
+        value:'${ctx}/favicon.ico?_=<%=new Date().getTime()%>'
+    });
+
     $.fileInput($("#_logo"), {
         style: 'well',
         btn_choose: '更换登录页LOGO',
@@ -273,21 +288,9 @@
         previewWidth: 269,
         previewHeight: 58,
         allowExt: ['png'],
-        allowMime: ['image/png']
+        allowMime: ['image/png'],
+        value:'${ctx}/pic?path=${cm:encodeURI(sysConfig.logo)}&_=<%=new Date().getTime()%>'
     });
-    <c:if test="${not empty sysConfig.logo}">
-    $("#_logo").find('button[type=reset]').on(ace.click_event, function () {
-        //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_logo").ace_file_input('show_file_list', [{
-            type: 'image',
-            name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.logo)}&_=<%=new Date().getTime()%>'
-        }]);
-    });
-    $("#_logo").ace_file_input('show_file_list', [{
-        type: 'image',
-        name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.logo)}&_=<%=new Date().getTime()%>'
-    }]);
-    </c:if>
 
     $.fileInput($("#_logoWhite"), {
         style: 'well',
@@ -299,21 +302,9 @@
         previewWidth: 269,
         previewHeight: 58,
         allowExt: ['png'],
-        allowMime: ['image/png']
+        allowMime: ['image/png'],
+        value:'${ctx}/pic?path=${cm:encodeURI(sysConfig.logoWhite)}&_=<%=new Date().getTime()%>'
     });
-    <c:if test="${not empty sysConfig.logoWhite}">
-    $("#_logoWhite").find('button[type=reset]').on(ace.click_event, function () {
-        //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_logoWhite").ace_file_input('show_file_list', [{
-            type: 'image',
-            name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.logoWhite)}&_=<%=new Date().getTime()%>'
-        }]);
-    });
-    $("#_logoWhite").ace_file_input('show_file_list', [{
-        type: 'image',
-        name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.logoWhite)}&_=<%=new Date().getTime()%>'
-    }]);
-    </c:if>
 
     $.fileInput($("#_loginTop"), {
         style: 'well',
@@ -325,21 +316,9 @@
         previewWidth: 500,
         previewHeight: 50,
         allowExt: ['jpg'],
-        allowMime: ['image/jpg', 'image/jpeg']
+        allowMime: ['image/jpg', 'image/jpeg'],
+        value:'${ctx}/pic?path=${cm:encodeURI(sysConfig.loginTop)}&_=<%=new Date().getTime()%>'
     });
-    <c:if test="${not empty sysConfig.loginTop}">
-    $("#_loginTop").find('button[type=reset]').on(ace.click_event, function () {
-        //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_loginTop").ace_file_input('show_file_list', [{
-            type: 'image',
-            name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.loginTop)}&_=<%=new Date().getTime()%>'
-        }]);
-    });
-    $("#_loginTop").ace_file_input('show_file_list', [{
-        type: 'image',
-        name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.loginTop)}&_=<%=new Date().getTime()%>'
-    }]);
-    </c:if>
 
     $.fileInput($("#_loginBg"), {
         style: 'well',
@@ -351,21 +330,9 @@
         previewWidth: 400,
         previewHeight: 200,
         allowExt: ['jpg'],
-        allowMime: ['image/jpg', 'image/jpeg']
+        allowMime: ['image/jpg', 'image/jpeg'],
+        value:'${ctx}/pic?path=${cm:encodeURI(cm:getShortPic(sysConfig.loginBg))}&_=<%=new Date().getTime()%>'
     });
-    <c:if test="${not empty sysConfig.loginBg}">
-    $("#_loginBg").find('button[type=reset]').on(ace.click_event, function () {
-        //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_loginBg").ace_file_input('show_file_list', [{
-            type: 'image',
-            name: '${ctx}/pic?path=${cm:encodeURI(cm:getShortPic(sysConfig.loginBg))}&_=<%=new Date().getTime()%>'
-        }]);
-    });
-    $("#_loginBg").ace_file_input('show_file_list', [{
-        type: 'image',
-        name: '${ctx}/pic?path=${cm:encodeURI(cm:getShortPic(sysConfig.loginBg))}&_=<%=new Date().getTime()%>'
-    }]);
-    </c:if>
     $.fileInput($("#_appleIcon"), {
         style: 'well',
         btn_choose: 'iphone桌面图标, ICO格式',
@@ -376,21 +343,10 @@
         previewWidth: 64,
         previewHeight: 64,
         allowExt: ['ico'],
-        allowMime: ['image/x-icon']
+        allowMime: ['image/x-icon'],
+        value:'${ctx}/img/favicon64.ico?_=<%=new Date().getTime()%>'
     });
-    <c:if test="${not empty sysConfig.appleIcon}">
-    $("#_appleIcon").find('button[type=reset]').on(ace.click_event, function () {
-        //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_appleIcon").ace_file_input('show_file_list', [{
-            type: 'image',
-            name: '${ctx}/img/favicon64.ico?_=<%=new Date().getTime()%>'
-        }]);
-    });
-    $("#_appleIcon").ace_file_input('show_file_list', [{
-        type: 'image',
-        name: '${ctx}/img/screen_icon_new.png?_=<%=new Date().getTime()%>'
-    }]);
-    </c:if>
+
     $.fileInput($("#_screenIcon"), {
         style: 'well',
         btn_choose: 'iphone桌面图标, PNG格式',
@@ -401,21 +357,9 @@
         previewWidth: 64,
         previewHeight: 64,
         allowExt: ['png'],
-        allowMime: ['image/png']
+        allowMime: ['image/png'],
+        value:'${ctx}/pic?path=${cm:encodeURI(sysConfig.screenIcon)}&_=<%=new Date().getTime()%>'
     });
-    <c:if test="${not empty sysConfig.screenIcon}">
-    $("#_screenIcon").find('button[type=reset]').on(ace.click_event, function () {
-        //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_screenIcon").ace_file_input('show_file_list', [{
-            type: 'image',
-            name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.screenIcon)}&_=<%=new Date().getTime()%>'
-        }]);
-    });
-    $("#_screenIcon").ace_file_input('show_file_list', [{
-        type: 'image',
-        name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.screenIcon)}&_=<%=new Date().getTime()%>'
-    }]);
-    </c:if>
     $.fileInput($("#_qrLogo"), {
         style: 'well',
         btn_choose: '二维码LOGO, PNG格式',
@@ -426,22 +370,9 @@
         previewWidth: 90,
         previewHeight: 90,
         allowExt: ['png'],
-        allowMime: ['image/png']
+        allowMime: ['image/png'],
+        value:'${ctx}/pic?path=${cm:encodeURI(sysConfig.qrLogo)}&_=<%=new Date().getTime()%>'
     });
-    <c:if test="${not empty sysConfig.qrLogo}">
-    $("#_qrLogo").find('button[type=reset]').on(ace.click_event, function () {
-        //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_qrLogo").ace_file_input('show_file_list', [{
-            type: 'image',
-            name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.qrLogo)}&_=<%=new Date().getTime()%>'
-        }]);
-    });
-
-    $("#_qrLogo").ace_file_input('show_file_list', [{
-        type: 'image',
-        name: '${ctx}/pic?path=${cm:encodeURI(sysConfig.qrLogo)}&_=<%=new Date().getTime()%>'
-    }]);
-    </c:if>
 
     var ke = KindEditor.create('#loginMsg', {
         filterMode: false,

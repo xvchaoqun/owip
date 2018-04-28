@@ -1,4 +1,11 @@
 
+2018-4-28
+ALTER TABLE `sys_config`
+	ADD COLUMN `favicon` VARCHAR(200) NULL DEFAULT NULL COMMENT 'favicon.ico，48*48' AFTER `mobile_title`,
+	ADD COLUMN `cadre_template_fs_note` VARCHAR(100) NULL DEFAULT NULL COMMENT '附属单位说明，用于中层干部统计表格' AFTER `display_login_msg`;
+
+
+
 2018-4-27
 更改学历 mt_edu_bk  mt_edu_zk
 update base_meta_type set code='mt_edu_jxxi' where code='mt_jxxi';

@@ -1204,6 +1204,76 @@ public class SysConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andFaviconIsNull() {
+            addCriterion("favicon is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconIsNotNull() {
+            addCriterion("favicon is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconEqualTo(String value) {
+            addCriterion("favicon =", value, "favicon");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconNotEqualTo(String value) {
+            addCriterion("favicon <>", value, "favicon");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconGreaterThan(String value) {
+            addCriterion("favicon >", value, "favicon");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconGreaterThanOrEqualTo(String value) {
+            addCriterion("favicon >=", value, "favicon");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconLessThan(String value) {
+            addCriterion("favicon <", value, "favicon");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconLessThanOrEqualTo(String value) {
+            addCriterion("favicon <=", value, "favicon");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconLike(String value) {
+            addCriterion("favicon like", value, "favicon");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconNotLike(String value) {
+            addCriterion("favicon not like", value, "favicon");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconIn(List<String> values) {
+            addCriterion("favicon in", values, "favicon");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconNotIn(List<String> values) {
+            addCriterion("favicon not in", values, "favicon");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconBetween(String value1, String value2) {
+            addCriterion("favicon between", value1, value2, "favicon");
+            return (Criteria) this;
+        }
+
+        public Criteria andFaviconNotBetween(String value1, String value2) {
+            addCriterion("favicon not between", value1, value2, "favicon");
+            return (Criteria) this;
+        }
+
         public Criteria andLogoIsNull() {
             addCriterion("logo is null");
             return (Criteria) this;
@@ -1891,6 +1961,76 @@ public class SysConfigExample {
 
         public Criteria andDisplayLoginMsgNotBetween(Boolean value1, Boolean value2) {
             addCriterion("display_login_msg not between", value1, value2, "displayLoginMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteIsNull() {
+            addCriterion("cadre_template_fs_note is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteIsNotNull() {
+            addCriterion("cadre_template_fs_note is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteEqualTo(String value) {
+            addCriterion("cadre_template_fs_note =", value, "cadreTemplateFsNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteNotEqualTo(String value) {
+            addCriterion("cadre_template_fs_note <>", value, "cadreTemplateFsNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteGreaterThan(String value) {
+            addCriterion("cadre_template_fs_note >", value, "cadreTemplateFsNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteGreaterThanOrEqualTo(String value) {
+            addCriterion("cadre_template_fs_note >=", value, "cadreTemplateFsNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteLessThan(String value) {
+            addCriterion("cadre_template_fs_note <", value, "cadreTemplateFsNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteLessThanOrEqualTo(String value) {
+            addCriterion("cadre_template_fs_note <=", value, "cadreTemplateFsNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteLike(String value) {
+            addCriterion("cadre_template_fs_note like", value, "cadreTemplateFsNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteNotLike(String value) {
+            addCriterion("cadre_template_fs_note not like", value, "cadreTemplateFsNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteIn(List<String> values) {
+            addCriterion("cadre_template_fs_note in", values, "cadreTemplateFsNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteNotIn(List<String> values) {
+            addCriterion("cadre_template_fs_note not in", values, "cadreTemplateFsNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteBetween(String value1, String value2) {
+            addCriterion("cadre_template_fs_note between", value1, value2, "cadreTemplateFsNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTemplateFsNoteNotBetween(String value1, String value2) {
+            addCriterion("cadre_template_fs_note not between", value1, value2, "cadreTemplateFsNote");
             return (Criteria) this;
         }
     }

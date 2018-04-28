@@ -23,6 +23,7 @@ import service.base.MetaTypeService;
 import service.cadre.CadrePostService;
 import service.unit.UnitService;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 
@@ -106,8 +107,14 @@ public class CpcAllocationService extends BaseMapper {
 
         List<CpcInfoBean> beans = cpcInfo_data(null, true);
 
-        XSSFRow row = sheet.getRow(1);
+        XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("school", CmTag.getSysConfig().getSchoolName());
+        cell.setCellValue(str);
+
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
         cell.setCellValue("统计日期：" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
         int cpRow = 5;

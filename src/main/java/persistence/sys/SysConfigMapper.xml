@@ -18,6 +18,7 @@
     <result column="site_short_name" jdbcType="VARCHAR" property="siteShortName" />
     <result column="mobile_plantform_name" jdbcType="VARCHAR" property="mobilePlantformName" />
     <result column="mobile_title" jdbcType="VARCHAR" property="mobileTitle" />
+    <result column="favicon" jdbcType="VARCHAR" property="favicon" />
     <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="logo_white" jdbcType="VARCHAR" property="logoWhite" />
     <result column="login_bg" jdbcType="VARCHAR" property="loginBg" />
@@ -28,6 +29,7 @@
     <result column="qr_logo" jdbcType="VARCHAR" property="qrLogo" />
     <result column="login_msg" jdbcType="VARCHAR" property="loginMsg" />
     <result column="display_login_msg" jdbcType="BIT" property="displayLoginMsg" />
+    <result column="cadre_template_fs_note" jdbcType="VARCHAR" property="cadreTemplateFsNote" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -90,9 +92,9 @@
   <sql id="Base_Column_List">
     id, xss_ignore_uri, upload_max_size, short_msg_url, school_name, school_short_name, 
     school_login_url, school_email, site_copyright, site_home, site_keywords, site_description, 
-    site_name, site_short_name, mobile_plantform_name, mobile_title, logo, logo_white, 
+    site_name, site_short_name, mobile_plantform_name, mobile_title, favicon, logo, logo_white, 
     login_bg, login_top, login_top_bg_color, apple_icon, screen_icon, qr_logo, login_msg, 
-    display_login_msg
+    display_login_msg, cadre_template_fs_note
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">
     select
@@ -130,19 +132,21 @@
       school_login_url, school_email, site_copyright, 
       site_home, site_keywords, site_description, 
       site_name, site_short_name, mobile_plantform_name, 
-      mobile_title, logo, logo_white, 
-      login_bg, login_top, login_top_bg_color, 
-      apple_icon, screen_icon, qr_logo, 
-      login_msg, display_login_msg)
+      mobile_title, favicon, logo, 
+      logo_white, login_bg, login_top, 
+      login_top_bg_color, apple_icon, screen_icon, 
+      qr_logo, login_msg, display_login_msg, 
+      cadre_template_fs_note)
     values (#{id,jdbcType=INTEGER}, #{xssIgnoreUri,jdbcType=VARCHAR}, #{uploadMaxSize,jdbcType=INTEGER}, 
       #{shortMsgUrl,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{schoolShortName,jdbcType=VARCHAR}, 
       #{schoolLoginUrl,jdbcType=VARCHAR}, #{schoolEmail,jdbcType=VARCHAR}, #{siteCopyright,jdbcType=VARCHAR}, 
       #{siteHome,jdbcType=VARCHAR}, #{siteKeywords,jdbcType=VARCHAR}, #{siteDescription,jdbcType=VARCHAR}, 
       #{siteName,jdbcType=VARCHAR}, #{siteShortName,jdbcType=VARCHAR}, #{mobilePlantformName,jdbcType=VARCHAR}, 
-      #{mobileTitle,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{logoWhite,jdbcType=VARCHAR}, 
-      #{loginBg,jdbcType=VARCHAR}, #{loginTop,jdbcType=VARCHAR}, #{loginTopBgColor,jdbcType=VARCHAR}, 
-      #{appleIcon,jdbcType=VARCHAR}, #{screenIcon,jdbcType=VARCHAR}, #{qrLogo,jdbcType=VARCHAR}, 
-      #{loginMsg,jdbcType=VARCHAR}, #{displayLoginMsg,jdbcType=BIT})
+      #{mobileTitle,jdbcType=VARCHAR}, #{favicon,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
+      #{logoWhite,jdbcType=VARCHAR}, #{loginBg,jdbcType=VARCHAR}, #{loginTop,jdbcType=VARCHAR}, 
+      #{loginTopBgColor,jdbcType=VARCHAR}, #{appleIcon,jdbcType=VARCHAR}, #{screenIcon,jdbcType=VARCHAR}, 
+      #{qrLogo,jdbcType=VARCHAR}, #{loginMsg,jdbcType=VARCHAR}, #{displayLoginMsg,jdbcType=BIT}, 
+      #{cadreTemplateFsNote,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysConfig">
     insert into sys_config
@@ -195,6 +199,9 @@
       <if test="mobileTitle != null">
         mobile_title,
       </if>
+      <if test="favicon != null">
+        favicon,
+      </if>
       <if test="logo != null">
         logo,
       </if>
@@ -224,6 +231,9 @@
       </if>
       <if test="displayLoginMsg != null">
         display_login_msg,
+      </if>
+      <if test="cadreTemplateFsNote != null">
+        cadre_template_fs_note,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -275,6 +285,9 @@
       <if test="mobileTitle != null">
         #{mobileTitle,jdbcType=VARCHAR},
       </if>
+      <if test="favicon != null">
+        #{favicon,jdbcType=VARCHAR},
+      </if>
       <if test="logo != null">
         #{logo,jdbcType=VARCHAR},
       </if>
@@ -304,6 +317,9 @@
       </if>
       <if test="displayLoginMsg != null">
         #{displayLoginMsg,jdbcType=BIT},
+      </if>
+      <if test="cadreTemplateFsNote != null">
+        #{cadreTemplateFsNote,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -364,6 +380,9 @@
       <if test="record.mobileTitle != null">
         mobile_title = #{record.mobileTitle,jdbcType=VARCHAR},
       </if>
+      <if test="record.favicon != null">
+        favicon = #{record.favicon,jdbcType=VARCHAR},
+      </if>
       <if test="record.logo != null">
         logo = #{record.logo,jdbcType=VARCHAR},
       </if>
@@ -394,6 +413,9 @@
       <if test="record.displayLoginMsg != null">
         display_login_msg = #{record.displayLoginMsg,jdbcType=BIT},
       </if>
+      <if test="record.cadreTemplateFsNote != null">
+        cadre_template_fs_note = #{record.cadreTemplateFsNote,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -417,6 +439,7 @@
       site_short_name = #{record.siteShortName,jdbcType=VARCHAR},
       mobile_plantform_name = #{record.mobilePlantformName,jdbcType=VARCHAR},
       mobile_title = #{record.mobileTitle,jdbcType=VARCHAR},
+      favicon = #{record.favicon,jdbcType=VARCHAR},
       logo = #{record.logo,jdbcType=VARCHAR},
       logo_white = #{record.logoWhite,jdbcType=VARCHAR},
       login_bg = #{record.loginBg,jdbcType=VARCHAR},
@@ -426,7 +449,8 @@
       screen_icon = #{record.screenIcon,jdbcType=VARCHAR},
       qr_logo = #{record.qrLogo,jdbcType=VARCHAR},
       login_msg = #{record.loginMsg,jdbcType=VARCHAR},
-      display_login_msg = #{record.displayLoginMsg,jdbcType=BIT}
+      display_login_msg = #{record.displayLoginMsg,jdbcType=BIT},
+      cadre_template_fs_note = #{record.cadreTemplateFsNote,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -479,6 +503,9 @@
       <if test="mobileTitle != null">
         mobile_title = #{mobileTitle,jdbcType=VARCHAR},
       </if>
+      <if test="favicon != null">
+        favicon = #{favicon,jdbcType=VARCHAR},
+      </if>
       <if test="logo != null">
         logo = #{logo,jdbcType=VARCHAR},
       </if>
@@ -509,6 +536,9 @@
       <if test="displayLoginMsg != null">
         display_login_msg = #{displayLoginMsg,jdbcType=BIT},
       </if>
+      <if test="cadreTemplateFsNote != null">
+        cadre_template_fs_note = #{cadreTemplateFsNote,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -529,6 +559,7 @@
       site_short_name = #{siteShortName,jdbcType=VARCHAR},
       mobile_plantform_name = #{mobilePlantformName,jdbcType=VARCHAR},
       mobile_title = #{mobileTitle,jdbcType=VARCHAR},
+      favicon = #{favicon,jdbcType=VARCHAR},
       logo = #{logo,jdbcType=VARCHAR},
       logo_white = #{logoWhite,jdbcType=VARCHAR},
       login_bg = #{loginBg,jdbcType=VARCHAR},
@@ -538,7 +569,8 @@
       screen_icon = #{screenIcon,jdbcType=VARCHAR},
       qr_logo = #{qrLogo,jdbcType=VARCHAR},
       login_msg = #{loginMsg,jdbcType=VARCHAR},
-      display_login_msg = #{displayLoginMsg,jdbcType=BIT}
+      display_login_msg = #{displayLoginMsg,jdbcType=BIT},
+      cadre_template_fs_note = #{cadreTemplateFsNote,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">

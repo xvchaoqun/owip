@@ -89,10 +89,10 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
-        <!--<table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
+        <table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
             <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!-- <table tableName="sys_config_login_msg" domainObjectName="sys.SysConfigLoginMsg" mapperName="sys.SysConfigLoginMsgMapper">
              <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
          </table>-->
@@ -107,14 +107,14 @@
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-         <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
+         <!--<table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
           </table>
           <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
                  enableInsert="false" enableUpdateByPrimaryKey="false"
                  enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                  enableDeleteByExample="false">
               <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
-          </table>
+          </table>-->
         <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
            <ignoreColumn column="update_time"/>
        </table>-->

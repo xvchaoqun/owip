@@ -786,7 +786,7 @@ var _modal_width;
             params = params || {};
             var maxSize = params.maxSize || _uploadMaxSize;
             $files.each(function () {
-                var $file = $(this)
+                var $file = $(this);
                 $file.ace_file_input($.extend({
                     no_file: '请选择文件 ...',
                     btn_choose: '选择',
@@ -822,6 +822,13 @@ var _modal_width;
                     }
                     e.preventDefault();
                 });
+                // 初始图片
+                if(params.value!=undefined) {
+                    $file.ace_file_input('show_file_list', [{
+                        type: 'image',
+                        name: params.value
+                    }]);
+                }
             })
         },
         swfPreview: function (filepath, filename, hrefLabel, plainText, type) {

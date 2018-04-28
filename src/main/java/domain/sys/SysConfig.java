@@ -35,6 +35,8 @@ public class SysConfig implements Serializable {
 
     private String mobileTitle;
 
+    private String favicon;
+
     private String logo;
 
     private String logoWhite;
@@ -54,6 +56,8 @@ public class SysConfig implements Serializable {
     private String loginMsg;
 
     private Boolean displayLoginMsg;
+
+    private String cadreTemplateFsNote;
 
     private static final long serialVersionUID = 1L;
 
@@ -185,6 +189,14 @@ public class SysConfig implements Serializable {
         this.mobileTitle = mobileTitle == null ? null : mobileTitle.trim();
     }
 
+    public String getFavicon() {
+        return favicon;
+    }
+
+    public void setFavicon(String favicon) {
+        this.favicon = favicon == null ? null : favicon.trim();
+    }
+
     public String getLogo() {
         return logo;
     }
@@ -263,5 +275,13 @@ public class SysConfig implements Serializable {
 
     public void setDisplayLoginMsg(Boolean displayLoginMsg) {
         this.displayLoginMsg = displayLoginMsg;
+    }
+
+    public String getCadreTemplateFsNote() {
+        return cadreTemplateFsNote;
+    }
+
+    public void setCadreTemplateFsNote(String cadreTemplateFsNote) {
+        this.cadreTemplateFsNote = cadreTemplateFsNote == null ? null : cadreTemplateFsNote.trim();
     }
 }
