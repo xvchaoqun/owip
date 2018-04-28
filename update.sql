@@ -7,6 +7,12 @@
 4、重新分配处级干部和干部管理员的信息审核的权限
 
 
+alter table  cet_course_type add column `is_deleted` tinyint(1)
+ unsigned NOT NULL DEFAULT '0' COMMENT '状态，0 正常 1 已删除' after remark;
+
+更新 cet_course_type_view
+
+
 ============更新北化工========= 包括crs
 2018-4-28
 ALTER TABLE `sys_config`

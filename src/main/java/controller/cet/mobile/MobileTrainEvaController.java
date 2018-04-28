@@ -161,8 +161,8 @@ public class MobileTrainEvaController extends CetBaseController {
         cetTrainInspectorCourseService.doEva(id, feedback);
 
         CetTrainInspector trainInspector = CetSessionUtils.getTrainInspector(request);
-        logger.info(addLog(trainInspector.getId(), trainInspector.getUsername(),
-                LogConstants.LOG_USER, "提交评课：" + id));
+        logger.info(addNoLoginLog(trainInspector.getId(), trainInspector.getUsername(),
+                LogConstants.LOG_CET, "提交评课：" + id));
 
         return success(FormUtils.SUCCESS);
     }

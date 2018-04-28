@@ -419,7 +419,7 @@ public class BaseController extends BaseMapper {
     }
 
     // 未登录操作日志
-    public String addLog(Integer userId, String username, String logType, String content, Object... params) {
+    public String addNoLoginLog(Integer userId, String username, Integer logType, String content, Object... params) {
 
         if (params != null && params.length > 0)
             content = String.format(content, params);

@@ -1,6 +1,5 @@
 package service.sys;
 
-import domain.base.MetaType;
 import domain.sys.SysLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +47,7 @@ public class LogService extends BaseMapper {
                 SystemConstants.USER_TYPE_MAP.get(shiroUser.getType()), content );
     }
 
-    public String log(Integer userId, String username, String logType, String content){
+    public String log(Integer userId, String username, Integer logType, String content){
 
         HttpServletRequest request = ContextHelper.getRequest();
 
@@ -61,9 +60,7 @@ public class LogService extends BaseMapper {
         record.setAgent(RequestUtils.getUserAgent(request));
         String api = request.getRequestURI().substring(1);
         record.setApi(api);
-        MetaType metaType = metaTypeService.codeKeyMap().get(logType);
-        if(metaType!=null)
-            record.setTypeId(metaType.getId());
+        record.setTypeId(logType);
         record.setStatus(SystemConstants.AVAILABLE);
 
         sysLogMapper.insertSelective(record );
