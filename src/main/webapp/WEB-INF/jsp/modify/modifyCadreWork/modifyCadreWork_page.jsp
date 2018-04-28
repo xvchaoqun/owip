@@ -10,12 +10,12 @@
                 <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
                         <a class="popupBtn btn btn-success btn-sm"
-                           data-url="${ctx}/cadreWork_au?toApply=1&cadreId=${cadre.id}"><i class="fa fa-plus"></i>
+                           data-url="${ctx}/cadreWork_au?module=${param.module}&toApply=1&cadreId=${cadre.id}"><i class="fa fa-plus"></i>
                             添加工作经历</a>
                         <a class="jqOpenViewBtn btn btn-primary btn-sm"
                            data-url="${ctx}/cadreWork_au"
                            data-grid-id="#jqGrid_cadreWork"
-                           data-querystr="&toApply=1&cadreId=${cadre.id}"><i class="fa fa-edit"></i>
+                           data-querystr="module=${param.module}&toApply=1&cadreId=${cadre.id}"><i class="fa fa-edit"></i>
                             修改工作经历</a>
                     <a class="jqOpenViewBtn btn btn-success btn-sm"
                        data-grid-id="#jqGrid_cadreWork"

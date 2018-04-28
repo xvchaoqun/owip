@@ -10,12 +10,12 @@
                 <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
                         <a class="popupBtn btn btn-success btn-sm"
-                           data-url="${ctx}/cadreTrain_au?toApply=1&cadreId=${cadre.id}"><i class="fa fa-plus"></i>
+                           data-url="${ctx}/cadreTrain_au?module=${param.module}&toApply=1&cadreId=${cadre.id}"><i class="fa fa-plus"></i>
                             添加</a>
                         <a class="jqOpenViewBtn btn btn-primary btn-sm"
                            data-url="${ctx}/cadreTrain_au"
                            data-grid-id="#jqGrid_records"
-                           data-querystr="&toApply=1&cadreId=${cadre.id}"><i class="fa fa-edit"></i>
+                           data-querystr="module=${param.module}&toApply=1&cadreId=${cadre.id}"><i class="fa fa-edit"></i>
                             修改</a>
                         <button data-url="${ctx}/user/modifyTableApply_del"
                                 data-title="删除"

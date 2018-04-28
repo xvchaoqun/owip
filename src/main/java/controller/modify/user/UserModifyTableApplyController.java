@@ -46,7 +46,7 @@ public class UserModifyTableApplyController extends ModifyBaseController {
     public Map do_modifyTableApply_del(HttpServletRequest request, byte module,  Integer id) {
 
         if (id != null) {
-
+            module = (byte) (module%100);
             switch (module){
 
                 case ModifyConstants.MODIFY_TABLE_APPLY_MODULE_CADRE_EDU:

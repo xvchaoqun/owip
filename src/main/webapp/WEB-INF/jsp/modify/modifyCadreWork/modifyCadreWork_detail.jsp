@@ -107,7 +107,7 @@
 <div class="clearfix form-actions center">
     <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADRERESERVE}">
         <c:if test="${_user.id==mta.userId && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
-        <button class="popupBtn btn btn-primary"
+        <button class="popupBtn btn btn-primary" ${mta.status!=MODIFY_TABLE_APPLY_STATUS_APPLY?'disabled':''}
                 data-url="${ctx}/cadreWork_au?toApply=1&cadreId=${cadre.id}&_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
                 data-width="900"
                 type="button">

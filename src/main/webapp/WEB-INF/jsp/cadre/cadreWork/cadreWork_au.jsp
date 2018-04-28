@@ -132,10 +132,10 @@ pageEncoding="UTF-8"%>
                         </c:if>
                         <c:if test="${param.toApply==1}">
                         <c:if test="${param._isUpdate==1}">
-                        $("#body-content-view").load("${ctx}/modifyTableApply_detail?module=${MODIFY_TABLE_APPLY_MODULE_CADRE_WORK}&applyId=${param.applyId}&_="+new Date().getTime())
+                        $("#body-content-view").load("${ctx}/modifyTableApply_detail?module=${param.module}&applyId=${param.applyId}&_="+new Date().getTime())
                         </c:if>
                         <c:if test="${param._isUpdate!=1}">
-                        $.hashchange('cls=1&module=${MODIFY_TABLE_APPLY_MODULE_CADRE_WORK}');
+                        $.hashchange('cls=1&module=${param.module}');
                         </c:if>
                         </c:if>
                     }

@@ -29,7 +29,7 @@
     $('#jqGrid').jqGrid({
         url: '${ctx}/sysResource_data?${cm:encodeQueryString(pageContext.request.queryString)}',
         "colModel": [
-            {"name": "name", "label": "名称", "width": 200, align: 'left'},
+            {"name": "name", "label": "名称", "width": 300, align: 'left'},
             {"name": "type", "label": "类型", "width": 80},
             {"name": "sortOrder", "label": "排序", "width": 50},
             {

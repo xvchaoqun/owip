@@ -150,7 +150,7 @@
         <c:if test="${_user.id==mta.userId && mta.type != MODIFY_TABLE_APPLY_TYPE_DELETE}">
         <button class="popupBtn btn btn-primary"
                 data-url="${ctx}/cadreEdu_au?toApply=1&cadreId=${cadre.id}&_isUpdate=1&id=${modify.id}&applyId=${mta.id}"
-                data-width="900"
+                data-width="900" ${mta.status!=MODIFY_TABLE_APPLY_STATUS_APPLY?'disabled':''}
                 type="button">
             <i class="ace-icon fa fa-edit"></i>
             编辑
