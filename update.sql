@@ -1,4 +1,6 @@
 
+
+============更新北化工========= 包括crs
 2018-4-28
 ALTER TABLE `sys_config`
 	ADD COLUMN `favicon` VARCHAR(200) NULL DEFAULT NULL COMMENT 'favicon.ico，48*48' AFTER `mobile_title`,
