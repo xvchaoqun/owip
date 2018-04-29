@@ -8,6 +8,6 @@
     <a href="javascript:;" class="cadre-info-check-edit" data-url="?cadreId=${param.cadreId}&type=1">编辑</a>
   </c:if>
   <c:if test="${!toEdit}">
-    <a href="javascript:;" class="hashchange" data-url="${ctx}/modifyBaseApply">编辑</a>
+    <a href="javascript:;" class="hashchange" data-url="${ctx}/modifyBaseApply?admin=0">编辑</a>
   </c:if>
 </c:if>
