@@ -471,6 +471,7 @@
             <c:if test="${stage==-3}">
             {
                 label: '所在阶段', name: '_stage', formatter:function(cellvalue, options, rowObject){
+                    if(rowObject.stage==1) return '申请通过'
                     return _cMap.OW_APPLY_STAGE_MAP[rowObject.stage];
                 }, frozen:true
             },
