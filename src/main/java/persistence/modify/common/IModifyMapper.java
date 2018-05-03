@@ -54,7 +54,7 @@ public interface IModifyMapper {
     @ResultType(ICadreInfoCheck.class)
     @Select("select sum(if(cf.status=0 and cf.realname is not null and cf.birthday is not null and cf.political_status is not null and cf.unit is not null, 1, 0)) as formalCount," +
             "sum(if(cf.status=0 and (cf.realname is null or cf.birthday is null or cf.political_status is null or cf.unit is null) " +
-            "and cf.id not in(select original_id from modify_table_apply  where table_name='cadre_family' and status=0),1,0)) as unFormalCount, " +
+            "and not exists(select 1 from modify_table_apply where original_id=cf.id and table_name='cadre_family' and status=0),1,0)) as unFormalCount, " +
             "sum(if(cf.status=1, 1, 0)) as modifyCount  from cadre_family cf " +
             "where cf.cadre_id=#{cadreId}")
     ICadreInfoCheck familyCheck(@Param("cadreId") int cadreId);

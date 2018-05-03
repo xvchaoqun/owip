@@ -21,7 +21,8 @@ public interface IPmdMapper {
                           @Param("partyId") int partyId,
                           @Param("branchId") int branchId);
 
-    @Select("select distinct rq from ext_jzg_salary where rq in(select distinct rq from ext_retire_salary) order by rq desc")
+    @Select("select distinct ejs.rq from ext_jzg_salary ejs where " +
+            "exists(select 1 from ext_retire_salary where rq=ejs.rq) order by ejs.rq desc")
     public List<String> extSalaryMonthList();
 
     // 读取当前缴费党员库中的教职工工资

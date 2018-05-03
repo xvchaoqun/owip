@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.ContentTplConstants;
@@ -28,6 +29,7 @@ import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -123,7 +125,9 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
 
     @RequiresPermissions("crsPost:edit")
     @RequestMapping("/crsPost_detail/step3_shortMsg_list")
-    public String step3_shortMsg_list(int postId, String tplKey,
+    public String step3_shortMsg_list(int postId,
+                                      Integer userId,
+                                      @RequestParam(name = "tplKey") String[] tplKey,
                                  Integer pageSize, Integer pageNo,
                                  ModelMap modelMap) {
 
@@ -136,7 +140,11 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
         pageNo = Math.max(1, pageNo);
 
         CrsShortMsgExample example = new CrsShortMsgExample();
-        example.createCriteria().andPostIdEqualTo(postId).andTplKeyEqualTo(tplKey);
+        CrsShortMsgExample.Criteria criteria = example.createCriteria().andPostIdEqualTo(postId).
+                andTplKeyIn(Arrays.asList(tplKey));
+        if(userId!=null){
+            criteria.andUserIdEqualTo(userId);
+        }
         example.setOrderByClause("send_time desc");
 
         long count = crsShortMsgMapper.countByExample(example);

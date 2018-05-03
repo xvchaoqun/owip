@@ -113,6 +113,8 @@ public class CrsPost implements Serializable {
 
     private Date pptDeadline;
 
+    private Boolean pptUploadClosed;
+
     private Boolean meetingStatus;
 
     private Boolean committeeStatus;
@@ -313,6 +315,14 @@ public class CrsPost implements Serializable {
 
     public void setPptDeadline(Date pptDeadline) {
         this.pptDeadline = pptDeadline;
+    }
+
+    public Boolean getPptUploadClosed() {
+        return pptUploadClosed;
+    }
+
+    public void setPptUploadClosed(Boolean pptUploadClosed) {
+        this.pptUploadClosed = pptUploadClosed;
     }
 
     public Boolean getMeetingStatus() {

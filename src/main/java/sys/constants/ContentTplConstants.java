@@ -118,6 +118,10 @@ public class ContentTplConstants {
     public final static String CONTENT_TPL_CRS_APPLY_MSG = "ct_crs_apply_msg";
     // 竞争上岗报名截止通知领导
     public final static String CONTENT_TPL_CRS_APPLY_END = "ct_crs_apply_end";
+    // 上传应聘PPT提醒
+    public final static String CONTENT_TPL_CRS_PPT_MSG = "ct_crs_ppt_msg";
+    // 催交上传应聘PPT
+    public final static String CONTENT_TPL_CRS_PPT_URGE_MSG = "ct_crs_ppt_urge_msg";
 
 
     /*******

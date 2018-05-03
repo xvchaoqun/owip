@@ -221,7 +221,9 @@ public class PmdConfigMemberService extends BaseMapper {
             PmdMember pmdMember = pmdMemberService.get(currentPmdMonth.getId(), userId);
             if (pmdMember != null && pmdMember.getConfigMemberTypeId()!=null && !pmdMember.getHasPay()) {
 
-                commonMapper.excuteSql("update pmd_member set due_pay =null where id="+ pmdMember.getId());
+                commonMapper.excuteSql("update pmd_member set due_pay=null where id="+ pmdMember.getId());
+
+                commonMapper.excuteSql("update pmd_config_member set has_reset=0 where user_id="+ pmdMember.getUserId());
 
                 sysApprovalLogService.add(pmdMember.getId(), userId,
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,

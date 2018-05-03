@@ -25,20 +25,20 @@
                         <a href="${ctx}/attach/download?path=${crsApplicant.ppt}&filename=${crsApplicant.pptName}">下载已上传PPT</a>
                         </div>
                     </c:if>
-                    <c:if test="${cm:compareDate(crsPost.meetingTime, now)}">
+
                     <form class="form-inline" action="${ctx}/user/crsPost_apply_ppt" id="modalForm" method="post">
                         <input type="hidden" name="postId" value="${crsPost.id}">
                         <div style="width: 200px;float: left" class="input-group" data-my="bottom center" data-at="top center">
                         <input required class="form-control" type="file" name="ppt" />
                         </div>
                         <div style="float: left; margin-left: 15px;">
-                        <button class="btn btn-primary btn-sm">
+                        <button class="btn btn-primary btn-sm" ${crsPost.pptUploadClosed?"disabled":""}>
                             <i class="fa fa-upload"></i>
                             <c:if test="${empty crsApplicant.ppt}">上传</c:if><c:if test="${not empty crsApplicant.ppt}">修改</c:if>
                             </button>
                         </div>
                     </form>
-                    </c:if>
+
                 </td>
             </tr>
         </table>

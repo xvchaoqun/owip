@@ -103,15 +103,14 @@
         </if>
     </sql>
     <select id="selectNotCadreList" resultMap="persistence.sys.SysUserViewMapper.BaseResultMap" parameterType="map">
-        select * from (<include refid="userSearchSql" />) u where id not in(select c.user_id from cadre c
+        select * from (<include refid="userSearchSql" />) u where not exists(select 1 from cadre
+        where user_id = u.id
         <if test="cadreStatusList.size>0">
-            <where>
-            and c.status in
+            and status in
             <foreach collection="cadreStatusList" item="status"
                      index="index" open="(" close=")" separator=",">
                 #{status}
             </foreach>
-            </where>
         </if>
         )
         and role_ids not like "%${regRoleStr}%"
@@ -119,15 +118,14 @@
     </select>
 
     <select id="countNotCadreList" parameterType="map" resultType="java.lang.Integer">
-        select count(id) from (<include refid="userSearchSql" />) u where id not in(select c.user_id from cadre c
+        select count(id) from (<include refid="userSearchSql" />) u where not exists(select 1 from cadre
+        where user_id = u.id
         <if test="cadreStatusList.size>0">
-            <where>
-            and c.status in
+            and status in
             <foreach collection="cadreStatusList" item="status"
                      index="index" open="(" close=")" separator=",">
                 #{status}
             </foreach>
-            </where>
         </if>
         )
         and role_ids not like "%${regRoleStr}%"

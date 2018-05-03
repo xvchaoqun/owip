@@ -327,6 +327,25 @@ public class CrsPostController extends CrsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+
+    @RequiresPermissions("crsPost:edit")
+    @RequestMapping(value = "/crsPost_pptUploadClosed", method = RequestMethod.POST)
+    @ResponseBody
+    public Map crsPost_pptUploadClosed(HttpServletRequest request, Integer id, Boolean closed, ModelMap modelMap) {
+
+        if (id != null) {
+
+            closed = BooleanUtils.isTrue(closed);
+            CrsPost record = new CrsPost();
+            record.setId(id);
+            record.setPptUploadClosed(closed);
+
+            crsPostService.updateByPrimaryKeySelective(record);
+            logger.info(addLog(LogConstants.LOG_CRS, (BooleanUtils.isTrue(closed) ? "关闭" : "开启") + "ppt上传，岗位：%s", id));
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("crsPost:del")
     @RequestMapping(value = "/crsPost_batchDel", method = RequestMethod.POST)
     @ResponseBody

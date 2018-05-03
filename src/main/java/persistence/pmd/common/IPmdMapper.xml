@@ -298,7 +298,7 @@
         sum(if(type=3 and has_salary=0, 1, 0)) as bdx,
         -- 带薪就读学生党员
         sum(if(type=3 and has_salary=1, 1, 0)) as dx
-        from pmd_member where month_id=#{monthId} and party_id=#{partyId}
+        from pmd_member pm where month_id=#{monthId} and party_id=#{partyId}
         <if test="type==1">
             -- 本月按时缴纳党费党员数
             and is_delay=0 and has_pay=1
@@ -310,8 +310,8 @@
         <if test="type==3">
             <![CDATA[
             -- 补缴往月党费党员数
-            and user_id in(select distinct user_id from pmd_member_pay_view
-            where has_pay=1 and pay_month_id=#{monthId} and month_id<#{monthId} and charge_party_id=#{partyId});
+            and exists(select 1 from pmd_member_pay_view
+            where user_id=pm.user_id and has_pay=1 and pay_month_id=#{monthId} and month_id<#{monthId} and charge_party_id=#{partyId});
             ]]>
         </if>
 

@@ -55,8 +55,8 @@ public interface ICetMapper {
 
     // 学员未选课程
     @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
-    @Select("select * from cet_train_course where train_id=#{trainId} and " +
-            "id not in(select train_course_id from cet_trainee_course where  trainee_id=#{traineeId}) order by sort_order asc")
+    @Select("select * from cet_train_course ctc where ctc.train_id=#{trainId} and " +
+            " not exists(select 1 from cet_trainee_course where train_course_id=ctc.id and trainee_id=#{traineeId}) order by ctc.sort_order asc")
     public List<CetTrainCourse> unSelectedCetTrainCourses(@Param("trainId") Integer trainId,
                                                              @Param("traineeId") Integer traineeId);
 

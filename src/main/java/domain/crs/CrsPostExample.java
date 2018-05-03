@@ -1522,6 +1522,66 @@ public class CrsPostExample {
             return (Criteria) this;
         }
 
+        public Criteria andPptUploadClosedIsNull() {
+            addCriterion("ppt_upload_closed is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptUploadClosedIsNotNull() {
+            addCriterion("ppt_upload_closed is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptUploadClosedEqualTo(Boolean value) {
+            addCriterion("ppt_upload_closed =", value, "pptUploadClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptUploadClosedNotEqualTo(Boolean value) {
+            addCriterion("ppt_upload_closed <>", value, "pptUploadClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptUploadClosedGreaterThan(Boolean value) {
+            addCriterion("ppt_upload_closed >", value, "pptUploadClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptUploadClosedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("ppt_upload_closed >=", value, "pptUploadClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptUploadClosedLessThan(Boolean value) {
+            addCriterion("ppt_upload_closed <", value, "pptUploadClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptUploadClosedLessThanOrEqualTo(Boolean value) {
+            addCriterion("ppt_upload_closed <=", value, "pptUploadClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptUploadClosedIn(List<Boolean> values) {
+            addCriterion("ppt_upload_closed in", values, "pptUploadClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptUploadClosedNotIn(List<Boolean> values) {
+            addCriterion("ppt_upload_closed not in", values, "pptUploadClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptUploadClosedBetween(Boolean value1, Boolean value2) {
+            addCriterion("ppt_upload_closed between", value1, value2, "pptUploadClosed");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptUploadClosedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("ppt_upload_closed not between", value1, value2, "pptUploadClosed");
+            return (Criteria) this;
+        }
+
         public Criteria andMeetingStatusIsNull() {
             addCriterion("meeting_status is null");
             return (Criteria) this;

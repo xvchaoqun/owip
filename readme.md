@@ -9,6 +9,25 @@ left join ext_retire_salary s on s.zgh = m.code and s.rq=(select max(rq) from ex
  where m.party_id=21 and m.status=1 and ltxf is not null;
 
 
+####
+-- 当月未确认额度的记录
+select u.code, u.realname from pmd_member pm
+left join sys_user_view u on u.id=pm.user_id
+left join pmd_config_member pcm on pcm.user_id=pm.user_id
+left join pmd_config_member_type pcmt on pcm.config_member_type_id=pcmt.id
+left join pmd_norm pn on pn.id = pcmt.norm_id
+ where pm.has_pay=0 and  pm.pay_month='2018-05-01' and pcm.has_reset=0 and pn.set_type=2;
+
+-- 更新当月未确认额度的记录
+update pmd_member pm
+left join sys_user_view u on u.id=pm.user_id
+left join pmd_config_member pcm on pcm.user_id=pm.user_id
+left join pmd_config_member_type pcmt on pcm.config_member_type_id=pcmt.id
+left join pmd_norm pn on pn.id = pcmt.norm_id
+set pcm.has_reset=1, pm.due_pay = pcm.due_pay
+where pm.has_pay=0 and  pm.pay_month='2018-05-01' and pcm.has_reset=0 and pn.set_type=2;
+
+
 ############
 ## 视图权限
 drop user data@219.224.19.33;

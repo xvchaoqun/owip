@@ -24,7 +24,7 @@ public interface ICpcMapper {
     @Select("select cp.admin_level_id as adminLevelId, cp.is_main_post as isMainPost, count(*) as num " +
             "from cadre_post cp , unit u, base_meta_type ut, cadre c " +
             "where (cp.is_main_post=1 or (cp.is_main_post=0 and cp.is_cpc=1)) " +
-            "and cp.unit_id in(select distinct unit_id from cpc_allocation) " +
+            "and exists(select 1 from cpc_allocation where unit_id=cp.unit_id) " +
             "and cp.unit_id=u.id and u.type_id=ut.id and ut.extra_attr=#{unitType} and cp.cadre_id=c.id " +
             "and c.status in(" + CadreConstants.CADRE_STATUS_MIDDLE + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
             "group by cp.admin_level_id, cp.is_main_post")

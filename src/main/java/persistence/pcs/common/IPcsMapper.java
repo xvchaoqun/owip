@@ -39,8 +39,8 @@ public interface IPcsMapper {
 
     // 还未报送党代表数据的分党委管理员
     @ResultMap("persistence.pcs.PcsAdminMapper.BaseResultMap")
-    @Select("select * from pcs_admin where type = #{adminType} and party_id not in(select party_id from " +
-            "pcs_pr_recommend where config_id  = #{configId} and stage = #{stage} and has_report=1)")
+    @Select("select * from pcs_admin pa where pa.type = #{adminType} and not exists(select 1 from " +
+            "pcs_pr_recommend where party_id =pa.party_id and config_id  = #{configId} and stage = #{stage} and has_report=1)")
     public List<PcsAdmin> hasNotReportPcsPrAdmins(@Param("configId") int configId,
                                                   @Param("stage") byte stage,
                                                   @Param("adminType") byte adminType);
@@ -93,8 +93,8 @@ public interface IPcsMapper {
 
     // 还未报送两委委员数据的分党委管理员
     @ResultMap("persistence.pcs.PcsAdminMapper.BaseResultMap")
-    @Select("select * from pcs_admin where type = #{adminType} and party_id not in(select party_id from " +
-            "pcs_admin_report where config_id  = #{configId} and stage = #{stage})")
+    @Select("select * from pcs_admin pa where pa.type = #{adminType} and not exists(select 1 from " +
+            "pcs_admin_report where party_id=pa.party_id and config_id  = #{configId} and stage = #{stage})")
     public List<PcsAdmin> hasNotReportPcsAdmins(@Param("configId") int configId,
                                                 @Param("stage") byte stage, @Param("adminType") byte adminType);
 
@@ -102,7 +102,7 @@ public interface IPcsMapper {
     @ResultType(java.util.HashMap.class)
     @Select("select sum(pr.expect_member_count) as expect, sum(pr.actual_member_count) as actual " +
             "from pcs_recommend pr where config_id  = #{configId} and stage = #{stage} " +
-            "and pr.party_id in(select party_id from pcs_admin_report where config_id  = #{configId} and stage = #{stage})")
+            "and exists(select 1 from pcs_admin_report where party_id=pr.party_id and config_id  = #{configId} and stage = #{stage})")
     public Map<String, BigDecimal> schoolMemberCount(@Param("configId") int configId,
                                                      @Param("stage") byte stage);
 

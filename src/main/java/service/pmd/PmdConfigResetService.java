@@ -5,7 +5,6 @@ import domain.ext.ExtJzgSalaryExample;
 import domain.ext.ExtRetireSalary;
 import domain.ext.ExtRetireSalaryExample;
 import domain.pmd.PmdConfigMember;
-import domain.pmd.PmdConfigMemberExample;
 import domain.pmd.PmdConfigMemberType;
 import domain.pmd.PmdConfigMemberTypeExample;
 import domain.pmd.PmdConfigReset;
@@ -194,14 +193,14 @@ public class PmdConfigResetService extends BaseMapper {
     @CacheEvict(value = "PmdConfigMember", allEntries = true)
     public void reset(String salaryMonth) {
 
-        {
+        /*{
             PmdConfigMember record = new PmdConfigMember();
             record.setHasReset(false);
 
             PmdConfigMemberExample example = new PmdConfigMemberExample();
             example.createCriteria().andIsOnlinePayEqualTo(true);
             pmdConfigMemberMapper.updateByExampleSelective(record, example);
-        }
+        }*/
 
         // 同步月份工资到党员缴费分类列表中 （在职、校聘教职工）
         List<ExtJzgSalary> extJzgSalaries = iPmdMapper.extJzgSalaryList(salaryMonth);

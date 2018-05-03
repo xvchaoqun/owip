@@ -96,7 +96,7 @@
         <if test="expertId!=null">
           and cc.expert_id=#{expertId}
         </if>
-          and cc.id not in(select course_id from cet_train_course where train_id=#{trainId} and course_id is not null)
+          and not exists(select 1 from cet_train_course where course_id=cc.id and train_id=#{trainId} and course_id is not null)
         </where>
     </sql>
     <!--培训班 选择 课程-->
@@ -124,7 +124,7 @@
             and cc.name like '%${name}%'
         </if>
 
-          and cc.id not in(select course_id from cet_plan_course where plan_id=#{planId} and course_id is not null)
+          and not exists(select 1 from cet_plan_course where course_id=cc.id and plan_id=#{planId} and course_id is not null)
         </where>
     </sql>
     <!--培训方案 选择 课程-->

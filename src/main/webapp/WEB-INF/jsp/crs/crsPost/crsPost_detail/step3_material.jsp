@@ -90,14 +90,27 @@
         </div>
         <div class="widget-body">
             <div class="widget-main">
-
+                上传通道：${crsPost.pptUploadClosed?"已关闭":"已开启"}&nbsp;
+                <c:if test="${crsPost.pptUploadClosed}">
+                <button class="confirm btn btn-xs btn-success"
+                             data-msg="确定开启上传PPT？"
+                             data-callback="_stepContentReload"
+                             data-url="${ctx}/crsPost_pptUploadClosed?id=${crsPost.id}&closed=0"><i class="fa fa-check"></i> 开启</button>
+                </c:if>
+              <c:if test="${!crsPost.pptUploadClosed}">
+                <button class="confirm btn btn-xs btn-danger"
+                        data-msg="确定关闭上传PPT？"
+                        data-callback="_stepContentReload"
+                        data-url="${ctx}/crsPost_pptUploadClosed?id=${crsPost.id}&closed=1"><i class="fa fa-close"></i> 关闭</button>
+              </c:if>
+                <div class="space-4"></div>
                 <table class="table table-bordered table-center table-unhover2">
                     <thead>
                     <tr>
                         <th width="50">序号</th>
                         <th width="100">应聘人姓名</th>
                         <th>答辩PPT</th>
-                        <th width="80">短信提醒</th>
+                        <th width="80">短信催交记录</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -127,7 +140,14 @@
                                 <input type="file" name="ppt" class="upload-file"/>
                             </form>
                         </td>
-                        <td></td>
+                        <td>
+                            <button type="button"
+                                    data-url="${ctx}/crsPost_detail/step3_shortMsg_list?postId=${crsApplicant.postId}&userId=${crsApplicant.userId}&tplKey=ct_crs_ppt_msg,ct_crs_ppt_urge_msg"
+                                    class="popupBtn btn btn-xs btn-info">
+                                <i class="ace-icon fa fa-history"></i>
+                                查看
+                            </button>
+                        </td>
                     </tr>
                     </c:forEach>
                     </tbody>

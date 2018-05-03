@@ -16,6 +16,6 @@ public interface ICisMapper {
     // 干部任免审批表-待选干部考察报告
     @ResultMap("persistence.cis.CisInspectObjViewMapper.BaseResultMap")
     @Select("select cio.* from cis_inspect_obj_view cio where cio.cadre_id=#{cadreId} " +
-            "and cio.id not in(select obj_id from sc_ad_archive where cadre_id=#{cadreId} and id != #{archiveId})")
+            "and not exists(select 1 from sc_ad_archive where obj_id=cio.id and cadre_id=#{cadreId} and id != #{archiveId})")
     public List<CisInspectObjView>  selectScAdCisInspectObjs(@Param("archiveId") int archiveId, @Param("cadreId") int cadreId);
 }

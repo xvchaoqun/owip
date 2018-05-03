@@ -1,4 +1,10 @@
 
+2018-5-3
+
+ALTER TABLE `crs_post`
+	ADD COLUMN `ppt_upload_closed` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '上传通道是否关闭' AFTER `ppt_deadline`;
+
+
 2018-4-28
 
 1、删除“信息修改申请”下的所有function

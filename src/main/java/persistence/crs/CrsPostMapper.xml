@@ -24,6 +24,7 @@
     <result column="report_deadline" jdbcType="TIMESTAMP" property="reportDeadline" />
     <result column="quit_deadline" jdbcType="TIMESTAMP" property="quitDeadline" />
     <result column="ppt_deadline" jdbcType="TIMESTAMP" property="pptDeadline" />
+    <result column="ppt_upload_closed" jdbcType="BIT" property="pptUploadClosed" />
     <result column="meeting_status" jdbcType="BIT" property="meetingStatus" />
     <result column="committee_status" jdbcType="BIT" property="committeeStatus" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -98,9 +99,9 @@
   <sql id="Base_Column_List">
     id, year, type, seq, name, job, admin_level, unit_id, num, notice, requirement, qualification, 
     post_require_id, start_time, end_time, enroll_status, meeting_time, meeting_address, 
-    meeting_notice, report_deadline, quit_deadline, ppt_deadline, meeting_status, committee_status, 
-    remark, create_time, pub_status, status, meeting_summary, stat_give_count, stat_back_count, 
-    stat_file, stat_file_name, stat_date
+    meeting_notice, report_deadline, quit_deadline, ppt_deadline, ppt_upload_closed, 
+    meeting_status, committee_status, remark, create_time, pub_status, status, meeting_summary, 
+    stat_give_count, stat_back_count, stat_file, stat_file_name, stat_date
   </sql>
   <select id="selectByExample" parameterType="domain.crs.CrsPostExample" resultMap="BaseResultMap">
     select
@@ -140,11 +141,11 @@
       start_time, end_time, enroll_status, 
       meeting_time, meeting_address, meeting_notice, 
       report_deadline, quit_deadline, ppt_deadline, 
-      meeting_status, committee_status, remark, 
-      create_time, pub_status, status, 
-      meeting_summary, stat_give_count, stat_back_count, 
-      stat_file, stat_file_name, stat_date
-      )
+      ppt_upload_closed, meeting_status, committee_status, 
+      remark, create_time, pub_status, 
+      status, meeting_summary, stat_give_count, 
+      stat_back_count, stat_file, stat_file_name, 
+      stat_date)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{seq,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, 
       #{unitId,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{notice,jdbcType=VARCHAR}, 
@@ -152,11 +153,11 @@
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{enrollStatus,jdbcType=TINYINT}, 
       #{meetingTime,jdbcType=TIMESTAMP}, #{meetingAddress,jdbcType=VARCHAR}, #{meetingNotice,jdbcType=VARCHAR}, 
       #{reportDeadline,jdbcType=TIMESTAMP}, #{quitDeadline,jdbcType=TIMESTAMP}, #{pptDeadline,jdbcType=TIMESTAMP}, 
-      #{meetingStatus,jdbcType=BIT}, #{committeeStatus,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{pubStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
-      #{meetingSummary,jdbcType=VARCHAR}, #{statGiveCount,jdbcType=INTEGER}, #{statBackCount,jdbcType=INTEGER}, 
-      #{statFile,jdbcType=VARCHAR}, #{statFileName,jdbcType=VARCHAR}, #{statDate,jdbcType=DATE}
-      )
+      #{pptUploadClosed,jdbcType=BIT}, #{meetingStatus,jdbcType=BIT}, #{committeeStatus,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{pubStatus,jdbcType=TINYINT}, 
+      #{status,jdbcType=TINYINT}, #{meetingSummary,jdbcType=VARCHAR}, #{statGiveCount,jdbcType=INTEGER}, 
+      #{statBackCount,jdbcType=INTEGER}, #{statFile,jdbcType=VARCHAR}, #{statFileName,jdbcType=VARCHAR}, 
+      #{statDate,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="domain.crs.CrsPost">
     insert into crs_post
@@ -226,6 +227,9 @@
       </if>
       <if test="pptDeadline != null">
         ppt_deadline,
+      </if>
+      <if test="pptUploadClosed != null">
+        ppt_upload_closed,
       </if>
       <if test="meetingStatus != null">
         meeting_status,
@@ -330,6 +334,9 @@
       </if>
       <if test="pptDeadline != null">
         #{pptDeadline,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pptUploadClosed != null">
+        #{pptUploadClosed,jdbcType=BIT},
       </if>
       <if test="meetingStatus != null">
         #{meetingStatus,jdbcType=BIT},
@@ -444,6 +451,9 @@
       <if test="record.pptDeadline != null">
         ppt_deadline = #{record.pptDeadline,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.pptUploadClosed != null">
+        ppt_upload_closed = #{record.pptUploadClosed,jdbcType=BIT},
+      </if>
       <if test="record.meetingStatus != null">
         meeting_status = #{record.meetingStatus,jdbcType=BIT},
       </if>
@@ -509,6 +519,7 @@
       report_deadline = #{record.reportDeadline,jdbcType=TIMESTAMP},
       quit_deadline = #{record.quitDeadline,jdbcType=TIMESTAMP},
       ppt_deadline = #{record.pptDeadline,jdbcType=TIMESTAMP},
+      ppt_upload_closed = #{record.pptUploadClosed,jdbcType=BIT},
       meeting_status = #{record.meetingStatus,jdbcType=BIT},
       committee_status = #{record.committeeStatus,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -591,6 +602,9 @@
       <if test="pptDeadline != null">
         ppt_deadline = #{pptDeadline,jdbcType=TIMESTAMP},
       </if>
+      <if test="pptUploadClosed != null">
+        ppt_upload_closed = #{pptUploadClosed,jdbcType=BIT},
+      </if>
       <if test="meetingStatus != null">
         meeting_status = #{meetingStatus,jdbcType=BIT},
       </if>
@@ -653,6 +667,7 @@
       report_deadline = #{reportDeadline,jdbcType=TIMESTAMP},
       quit_deadline = #{quitDeadline,jdbcType=TIMESTAMP},
       ppt_deadline = #{pptDeadline,jdbcType=TIMESTAMP},
+      ppt_upload_closed = #{pptUploadClosed,jdbcType=BIT},
       meeting_status = #{meetingStatus,jdbcType=BIT},
       committee_status = #{committeeStatus,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},

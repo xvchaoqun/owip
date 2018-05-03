@@ -34,7 +34,7 @@ public interface IScMapper {
     // 文件起草签发-待选任免对象
     @ResultMap("persistence.sc.scCommittee.ScCommitteeVoteViewMapper.BaseResultMap")
     @Select("select scv.* from sc_committee_vote_view scv where scv.committee_id in(${committeeIds}) " +
-            "and scv.id not in(select vote_id from sc_dispatch_user) order by scv.type asc, scv.sort_order")
+            "and not exists(select 1 from sc_dispatch_user where vote_id=scv.id) order by scv.type asc, scv.sort_order")
     public List<ScCommitteeVoteView> getScDispatchUsers(@Param("committeeIds") String committeeIds);
 
     // 文件起草签发-已选任免对象
@@ -60,6 +60,6 @@ public interface IScMapper {
     // 干部任免审批表-待选任免信息
     @ResultMap("persistence.sc.scCommittee.ScCommitteeVoteViewMapper.BaseResultMap")
     @Select("select scv.* from sc_committee_vote_view scv where scv.cadre_id = #{cadreId} " +
-            "and scv.id not in(select vote_id from sc_ad_archive_vote where archive_id != #{archiveId}) order by scv.id desc")
+            "and not exists(select 1 from sc_ad_archive_vote where vote_id=scv.id and archive_id != #{archiveId}) order by scv.id desc")
     public List<ScCommitteeVoteView> selectScAdVotes(@Param("archiveId") int archiveId, @Param("cadreId") int cadreId);
 }
