@@ -6,10 +6,24 @@
     <c:if test="${param.type!='admin'}">
     {label: '缴费', name: '_pay', formatter: function (cellvalue, options, rowObject) {
       // 能缴费的情况：已开启缴费 且 党支部未报送  且 还未缴费  且 当月的没有设置为延迟缴费
-      if(rowObject.payStatus==0) return '-';
+      if(rowObject.payStatus==0){
+          if(rowObject.monthId=='${_pmdMonth.id}'
+                  && $.trim(rowObject.duePay)==''){
+              return '<span style="font-size: 11px;">支部管理员<br/>未设定额度</span>'
+          }
+          return '-';
+      }
       return ('<button class="popupBtn btn btn-success btn-xs" ' +
               'data-url="${ctx}/user/pmd/payConfirm_campuscard?id={0}"><i class="fa fa-rmb"></i> {1}</button>')
               .format(rowObject.id, rowObject.payStatus==1?'缴费':'补缴');
+    }, cellattr: function (rowId, val, rowObject, cm, rdata) {
+
+        if(rowObject.payStatus==0){
+            if(rowObject.monthId=='${_pmdMonth.id}'
+                    && $.trim(rowObject.duePay)==''){
+                return "style='padding:0'";
+            }
+        }
     }, frozen: true},
     </c:if>
       { label: '缴费方式',name: '_isOnlinePay', width: 90, formatter: function (cellvalue, options, rowObject) {
@@ -49,6 +63,9 @@
         return "class='danger'";
     }},
     { label: '应交金额',name: 'duePay', formatter: function (cellvalue, options, rowObject) {
+        if(rowObject.monthId!='${_pmdMonth.id}'){
+            return rowObject.duePay;
+        }
         if(rowObject.pmdConfigMember==undefined || rowObject.pmdConfigMember.hasReset==undefined) return "-";
         return $.trim(rowObject.pmdConfigMember.hasReset?rowObject.duePay:rowObject.configMemberDuePay);
     }},
