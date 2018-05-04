@@ -136,7 +136,7 @@ public class UserPmdPayController extends PmdBaseController {
             }
         }
 
-        return pmdMember;
+        return _pmdMember;
     }
 
     // 校园卡
