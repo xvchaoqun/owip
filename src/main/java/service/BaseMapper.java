@@ -74,8 +74,6 @@ import persistence.cet.CetColumnViewMapper;
 import persistence.cet.CetCourseFileMapper;
 import persistence.cet.CetCourseItemMapper;
 import persistence.cet.CetCourseMapper;
-import persistence.cet.CetCourseTypeMapper;
-import persistence.cet.CetCourseTypeViewMapper;
 import persistence.cet.CetDiscussGroupMapper;
 import persistence.cet.CetDiscussGroupObjMapper;
 import persistence.cet.CetDiscussMapper;
@@ -91,8 +89,10 @@ import persistence.cet.CetPlanCourseObjResultMapper;
 import persistence.cet.CetProjectMapper;
 import persistence.cet.CetProjectObjCadreViewMapper;
 import persistence.cet.CetProjectObjMapper;
+import persistence.cet.CetProjectObjViewMapper;
 import persistence.cet.CetProjectPlanMapper;
 import persistence.cet.CetProjectTraineeTypeMapper;
+import persistence.cet.CetProjectTypeMapper;
 import persistence.cet.CetProjectViewMapper;
 import persistence.cet.CetShortMsgMapper;
 import persistence.cet.CetTrainCourseFileMapper;
@@ -385,6 +385,8 @@ public class BaseMapper {
     @Autowired(required = false)
     protected CetProjectObjMapper cetProjectObjMapper;
     @Autowired(required = false)
+    protected CetProjectObjViewMapper cetProjectObjViewMapper;
+    @Autowired(required = false)
     protected CetProjectObjCadreViewMapper cetProjectObjCadreViewMapper;
     @Autowired(required = false)
     protected CetDiscussMapper cetDiscussMapper;
@@ -407,9 +409,9 @@ public class BaseMapper {
     @Autowired(required = false)
     protected CetCourseItemMapper cetCourseItemMapper;
     @Autowired(required = false)
-    protected CetCourseTypeMapper cetCourseTypeMapper;
-    @Autowired(required = false)
-    protected CetCourseTypeViewMapper cetCourseTypeViewMapper;
+    protected CetProjectTypeMapper cetProjectTypeMapper;
+    /*@Autowired(required = false)
+    protected CetProjectTypeViewMapper cetProjectTypeViewMapper;*/
     @Autowired(required = false)
     protected CetExpertMapper cetExpertMapper;
     @Autowired(required = false)

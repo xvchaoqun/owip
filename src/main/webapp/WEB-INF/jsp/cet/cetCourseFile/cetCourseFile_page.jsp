@@ -25,15 +25,21 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-4 control-label">上传文件(pdf或word)</label>
+                            <label class="col-xs-4 control-label">上传电子学习材料</label>
                             <div class="col-xs-6">
                                 <input class="form-control" type="file" name="_file"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-xs-4 control-label">发放纸质学习材料</label>
-                            <div class="col-xs-3" id="hasPaperTip">
-                                <input type="checkbox" class="big" name="hasPaper">
+                            <label class="col-xs-4 control-label">纸质学习材料</label>
+                            <div class="col-xs-3" id="hasPaper">
+                                <input type="checkbox" class="big" name="hasPaper" data-on-text="有" data-off-text="无">
+                            </div>
+                        </div>
+                        <div class="form-group" id="paperNote" style="display:none">
+                            <label class="col-xs-4 control-label">纸质学习材料说明</label>
+                            <div class="col-xs-6">
+                                <input class="form-control" type="text" name="paperNote" value="已发放纸质学习材料">
                             </div>
                         </div>
                         <div class="clearfix form-actions">
@@ -65,8 +71,8 @@
             <table class="table table-striped table-bordered table-center">
                 <thead>
                 <tr>
-                    <th>学习材料名称</th>
-                    <%--<th width="90">纸质材料</th>--%>
+                    <th>材料名称</th>
+                   <%-- <th width="90">纸质学习材料说明</th>--%>
                     <c:if test="${param.view!=1}">
                         <th nowrap width="40">排序</th>
                     </c:if>
@@ -79,8 +85,8 @@
                         <td nowrap style="text-align: left">
                                 ${cetCourseFile.fileName}
                         </td>
-                       <%-- <td nowrap>
-                                ${cetCourseFile.hasPaper?'已发放':'-'}
+                        <%--<td nowrap>
+                                ${cetCourseFile.hasPaper?cetCourseFile.paperNote:'-'}
                         </td>--%>
                         <c:if test="${param.view!=1}">
                             <td nowrap>
@@ -99,9 +105,8 @@
                             </c:if>
                             <td nowrap>
                                 <div class="hidden-sm hidden-xs action-buttons">
-
-                                    <c:if test="${param.view==1 && empty cetCourseFile.filePath}">
-                                    已发放纸质学习材料
+                                    <c:if test="${cetCourseFile.hasPaper}">
+                                        ${cetCourseFile.paperNote}
                                     </c:if>
                                     <c:if test="${not empty cetCourseFile.filePath}">
                                     <button class='openUrl btn btn-xs btn-primary'
@@ -141,6 +146,16 @@
     </div>
 </div>
 <script>
+    $('input[name=hasPaper]').on('switchChange.bootstrapSwitch', function(event, state) {
+        if(!$("input[name=hasPaper]").bootstrapSwitch("state")) {
+            $("#paperNote").hide();
+            $("input[name=paperNote]").prop("disabled", true).removeAttr("required");
+        }else {
+            $("#paperNote").show();
+            $("input[name=paperNote]").prop("disabled", false).attr("required", "required");
+        }
+    });
+
     $("#modal button[type=submit]").click(function(){$("#modalForm").submit(); return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
@@ -149,7 +164,7 @@
             var _file = $("#modalForm input[name=_file]").val();
             if(!hasPaper && $.trim(_file)==''){
                 $.tip({
-                    $target: $("#hasPaperTip"),
+                    $target: $("#hasPaper"),
                     at: 'right center', my: 'left center',
                     msg: "上传文件和发放纸质学习材料两项内容至少有一个。"
                 });

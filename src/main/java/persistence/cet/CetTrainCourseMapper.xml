@@ -7,6 +7,7 @@
     <result column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="teacher" jdbcType="VARCHAR" property="teacher" />
+    <result column="apply_limit" jdbcType="INTEGER" property="applyLimit" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="is_global" jdbcType="BIT" property="isGlobal" />
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_id, course_id, name, teacher, start_time, end_time, is_global, eva_table_id, 
-    address, sort_order
+    id, train_id, course_id, name, teacher, apply_limit, start_time, end_time, is_global, 
+    eva_table_id, address, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainCourseExample" resultMap="BaseResultMap">
     select
@@ -108,13 +109,15 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetTrainCourse">
     insert into cet_train_course (id, train_id, course_id, 
-      name, teacher, start_time, 
-      end_time, is_global, eva_table_id, 
-      address, sort_order)
+      name, teacher, apply_limit, 
+      start_time, end_time, is_global, 
+      eva_table_id, address, sort_order
+      )
     values (#{id,jdbcType=INTEGER}, #{trainId,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{teacher,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{endTime,jdbcType=TIMESTAMP}, #{isGlobal,jdbcType=BIT}, #{evaTableId,jdbcType=INTEGER}, 
-      #{address,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
+      #{name,jdbcType=VARCHAR}, #{teacher,jdbcType=VARCHAR}, #{applyLimit,jdbcType=INTEGER}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isGlobal,jdbcType=BIT}, 
+      #{evaTableId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetTrainCourse">
     insert into cet_train_course
@@ -133,6 +136,9 @@
       </if>
       <if test="teacher != null">
         teacher,
+      </if>
+      <if test="applyLimit != null">
+        apply_limit,
       </if>
       <if test="startTime != null">
         start_time,
@@ -168,6 +174,9 @@
       </if>
       <if test="teacher != null">
         #{teacher,jdbcType=VARCHAR},
+      </if>
+      <if test="applyLimit != null">
+        #{applyLimit,jdbcType=INTEGER},
       </if>
       <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
@@ -213,6 +222,9 @@
       <if test="record.teacher != null">
         teacher = #{record.teacher,jdbcType=VARCHAR},
       </if>
+      <if test="record.applyLimit != null">
+        apply_limit = #{record.applyLimit,jdbcType=INTEGER},
+      </if>
       <if test="record.startTime != null">
         start_time = #{record.startTime,jdbcType=TIMESTAMP},
       </if>
@@ -243,6 +255,7 @@
       course_id = #{record.courseId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       teacher = #{record.teacher,jdbcType=VARCHAR},
+      apply_limit = #{record.applyLimit,jdbcType=INTEGER},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       is_global = #{record.isGlobal,jdbcType=BIT},
@@ -267,6 +280,9 @@
       </if>
       <if test="teacher != null">
         teacher = #{teacher,jdbcType=VARCHAR},
+      </if>
+      <if test="applyLimit != null">
+        apply_limit = #{applyLimit,jdbcType=INTEGER},
       </if>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
@@ -295,6 +311,7 @@
       course_id = #{courseId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       teacher = #{teacher,jdbcType=VARCHAR},
+      apply_limit = #{applyLimit,jdbcType=INTEGER},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       is_global = #{isGlobal,jdbcType=BIT},

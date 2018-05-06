@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="trainId" value="${cetTrain.id}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">培训班次</label>
-				<div class="col-xs-6 label-text">
+				<div class="col-xs-9 label-text">
 					${cetTrain.name}
 				</div>
 			</div>

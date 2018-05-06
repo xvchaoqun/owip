@@ -243,6 +243,7 @@ public class SystemConstants {
     public final static byte SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL = 2;
     public final static byte SHORT_MSG_RELATE_TYPE_SHORT_PCS = 3; // 党代会
     public final static byte SHORT_MSG_RELATE_TYPE_SHORT_OA = 4; // 协同办公
+    public final static byte SHORT_MSG_RELATE_TYPE_SHORT_CET = 5; // 干部教育培训
     public final static Map<Byte, String> SHORT_MSG_RELATE_TYPE_MAP = new LinkedHashMap<>();
 
     static {
@@ -250,6 +251,7 @@ public class SystemConstants {
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_MSG_TPL, "定向短信");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_PCS, "党代会");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_OA, "协同办公");
+        SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_CET, "干部教育培训");
     }
 
     // 审批记录类型

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="persistence.cet.CetCourseTypeMapper">
-  <resultMap id="BaseResultMap" type="domain.cet.CetCourseType">
+<mapper namespace="persistence.cet.CetProjectTypeMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetProjectType">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, sort_order, remark
+    id, name, sort_order, remark, is_deleted
   </sql>
-  <select id="selectByExample" parameterType="domain.cet.CetCourseTypeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="domain.cet.CetProjectTypeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_course_type
+    from cet_project_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,27 +86,27 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from cet_course_type
+    from cet_project_type
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from cet_course_type
+    delete from cet_project_type
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cet.CetCourseTypeExample">
-    delete from cet_course_type
+  <delete id="deleteByExample" parameterType="domain.cet.CetProjectTypeExample">
+    delete from cet_project_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.cet.CetCourseType">
-    insert into cet_course_type (id, name, sort_order, 
-      remark)
+  <insert id="insert" parameterType="domain.cet.CetProjectType">
+    insert into cet_project_type (id, name, sort_order, 
+      remark, is_deleted)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="domain.cet.CetCourseType">
-    insert into cet_course_type
+  <insert id="insertSelective" parameterType="domain.cet.CetProjectType">
+    insert into cet_project_type
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -118,6 +119,9 @@
       </if>
       <if test="remark != null">
         remark,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -133,16 +137,19 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cet.CetCourseTypeExample" resultType="java.lang.Long">
-    select count(*) from cet_course_type
+  <select id="countByExample" parameterType="domain.cet.CetProjectTypeExample" resultType="java.lang.Long">
+    select count(*) from cet_project_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update cet_course_type
+    update cet_project_type
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -156,23 +163,27 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update cet_course_type
+    update cet_project_type
     set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      remark = #{record.remark,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetCourseType">
-    update cet_course_type
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetProjectType">
+    update cet_project_type
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -183,23 +194,27 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cet.CetCourseType">
-    update cet_course_type
+  <update id="updateByPrimaryKey" parameterType="domain.cet.CetProjectType">
+    update cet_project_type
     set name = #{name,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetCourseTypeExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetProjectTypeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cet_course_type
+    from cet_project_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

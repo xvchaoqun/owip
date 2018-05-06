@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="isOpen" value="${cetTrain.switchStatus==CET_TRAIN_ENROLL_STATUS_OPEN}"/>
-<c:set var="isClosed" value="${cetTrain.switchStatus==CET_TRAIN_ENROLL_STATUS_CLOSED}"/>
+<c:set var="isClosed" value="${cetTrain.switchStatus==CET_TRAIN_ENROLL_STATUS_CLOSED
+|| cetTrain.switchStatus==CET_TRAIN_ENROLL_STATUS_NOT_BEGIN}"/>
 <c:set var="isPause" value="${cetTrain.switchStatus==CET_TRAIN_ENROLL_STATUS_PAUSE}"/>
 <div style="width: 850px">
     <div class="alert alert-warning" style="">

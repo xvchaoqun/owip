@@ -151,6 +151,15 @@ public class CetTraineeCourseService extends BaseMapper {
 
         if(isApply){
 
+            if(!isAdmin){
+                // 判断是否超出选课人数上限
+                Integer applyLimit = cetTrainCourse.getApplyLimit();
+                List<Integer> applyUserIds = iCetMapper.applyUserIds(trainCourseId);
+                if(applyLimit!=null && applyUserIds.size()>=applyLimit){
+                    throw new OpException("已超出选课人数上限。");
+                }
+            }
+
             if(cetTraineeCourse!=null){
                 throw new OpException("重复选课。");
             }

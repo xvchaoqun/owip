@@ -5,6 +5,7 @@ import domain.cet.CetProject;
 import domain.cet.CetProjectObj;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
+import domain.cet.CetTrainCourseView;
 import domain.cet.CetTraineeType;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
@@ -49,16 +50,26 @@ public interface ICetMapper {
 
     // 学员已选课程
     @ResultMap("persistence.cet.common.ICetMapper.ICetTrainCourseBaseResultMap")
-    @Select("select ctc.*, cteec.can_quit from cet_trainee_course cteec, cet_train_course ctc " +
+    @Select("select ctc.*, cteec.can_quit, cteec.is_finished from cet_trainee_course cteec, cet_train_course ctc " +
             "where cteec.trainee_id=#{traineeId} and cteec.train_course_id=ctc.id order by ctc.sort_order asc")
     public List<ICetTrainCourse> selectedCetTrainCourses(@Param("traineeId") Integer traineeId);
 
     // 学员未选课程
-    @ResultMap("persistence.cet.CetTrainCourseMapper.BaseResultMap")
-    @Select("select * from cet_train_course ctc where ctc.train_id=#{trainId} and " +
+    @ResultMap("persistence.cet.CetTrainCourseViewMapper.BaseResultMap")
+    @Select("select * from cet_train_course_view ctc where ctc.train_id=#{trainId} and " +
             " not exists(select 1 from cet_trainee_course where train_course_id=ctc.id and trainee_id=#{traineeId}) order by ctc.sort_order asc")
-    public List<CetTrainCourse> unSelectedCetTrainCourses(@Param("trainId") Integer trainId,
+    public List<CetTrainCourseView> unSelectedCetTrainCourses(@Param("trainId") Integer trainId,
                                                              @Param("traineeId") Integer traineeId);
+
+    // 已选课学员
+    @Select("select user_id from cet_trainee_course_view where train_course_id=#{trainCourseId}")
+    public List<Integer> applyUserIds(@Param("trainCourseId") Integer trainCourseId);
+
+    // 未选课学员
+    @Select("select user_id from cet_project_obj cpo " +
+            "where not exists(select 1 from cet_trainee_course_view where train_course_id=#{trainCourseId} " +
+            "and project_id=cpo.project_id and user_id=cpo.user_id)")
+    public List<Integer> notApplyUserIds(@Param("trainCourseId") Integer trainCourseId);
 
     // 培训班 选择 课程
     List<CetCourse> selectCetTrainCourseList(@Param("trainId") int trainId,

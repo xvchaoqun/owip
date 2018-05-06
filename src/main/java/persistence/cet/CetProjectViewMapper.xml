@@ -8,6 +8,7 @@
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="project_type_id" jdbcType="INTEGER" property="projectTypeId" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="pdf_file_path" jdbcType="VARCHAR" property="pdfFilePath" />
     <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
@@ -49,8 +50,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, year, start_date, end_date, name, file_name, pdf_file_path, word_file_path, 
-    period, require_period, remark, status, pub_status, create_time, obj_count
+    id, type, year, start_date, end_date, name, project_type_id, file_name, pdf_file_path, 
+    word_file_path, period, require_period, remark, status, pub_status, create_time, 
+    obj_count
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectViewExample" resultMap="BaseResultMap">
     select

@@ -123,13 +123,23 @@
             data-url="${ctx}/cadreWork_au?id={{=id}}&cadreId={{=cadreId}}&&fid={{=parentRowKey}}"><i
             class="fa fa-edit"></i> 编辑
     </button>
-    </shiro:hasPermission>
+    {{if(parentRowKey>0){}}
+    <shiro:hasRole name="${ROLE_CADREADMIN}">
+    <button class="confirm btn btn-xs btn-info"
+            data-msg="确定转移至主要工作经历？"
+            data-callback="_callback"
+            data-url="${ctx}/cadreWork_transfer?id={{=id}}&cadreId={{=cadreId}}"><i
+            class="fa fa-reply"></i> 转移
+    </button>
+    </shiro:hasRole>
+    {{}}}
+</shiro:hasPermission>
 <shiro:hasPermission name="cadreWork:del">
     <button class="confirm btn btn-xs btn-danger"
             data-parent="{{=parentRowKey}}"
             data-url="${ctx}/cadreWork_batchDel?ids[]={{=id}}&cadreId=${param.cadreId}"
-            data-msg="确定删除该记录？"
-            data-callback="_delCallback"><i class="fa fa-times"></i> 删除
+            data-msg="确定删除该工作经历？"
+            data-callback="_callback"><i class="fa fa-times"></i> 删除
     </button>
     </shiro:hasPermission>
 </script>
@@ -343,7 +353,7 @@
                         //alert(rowObject.id)
                         return _.template($("#op_tpl").html().NoMultiSpace())
                         ({id: rowObject.id, parentRowKey: parentRowKey, cadreId: rowObject.cadreId})
-                    }, width: 150
+                    }, width: ${cm:hasRole(ROLE_CADREADMIN)?200:150}
                     }
                     </shiro:lacksRole>
                     </c:if>
@@ -352,7 +362,7 @@
             });
         }
 
-        function _delCallback(target) {
+        function _callback(target) {
             //_reloadSubGrid($(target).data("parent"))
             $("#jqGrid_cadreWork").trigger("reloadGrid");
         }

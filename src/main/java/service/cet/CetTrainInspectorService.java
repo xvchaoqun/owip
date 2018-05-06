@@ -8,6 +8,7 @@ import domain.cet.CetTrainEvaResultExample;
 import domain.cet.CetTrainInspector;
 import domain.cet.CetTrainInspectorCourseExample;
 import domain.cet.CetTrainInspectorExample;
+import domain.cet.CetTrainView;
 import domain.cet.CetTraineeCadreView;
 import domain.cet.CetTraineeCadreViewExample;
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +26,7 @@ import sys.constants.CetConstants;
 import sys.utils.DateUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -48,17 +50,27 @@ public class CetTrainInspectorService extends BaseMapper {
                 .andStatusEqualTo(CetConstants.CET_TRAIN_INSPECTOR_STATUS_ABOLISH);
 
         cetTrainInspectorMapper.deleteByPrimaryKey(id);
-
     }
 
-/*    @Transactional
-    public int delAllAbolished(int trainId) {
+    // 彻底删除
+    @Transactional
+    public void batchDel(int trainId, Integer[] ids){
+
+        if(ids==null || ids.length==0) return;
 
         CetTrainInspectorExample example = new CetTrainInspectorExample();
-        example.createCriteria().andTrainIdEqualTo(trainId)
-                .andStatusEqualTo(CetConstants.CET_TRAIN_INSPECTOR_STATUS_ABOLISH);
-        return cetTrainInspectorMapper.deleteByExample(example);
-    }*/
+        example.createCriteria().andTrainIdEqualTo(trainId).andIdIn(Arrays.asList(ids));
+        cetTrainInspectorMapper.deleteByExample(example);
+
+        CetTrainInspectorExample _example = new CetTrainInspectorExample();
+        _example.createCriteria().andTrainIdEqualTo(trainId);
+        int count = (int) cetTrainInspectorMapper.countByExample(_example);
+
+        CetTrain record = new CetTrain();
+        record.setId(trainId);
+        record.setEvaCount(count);
+        cetTrainMapper.updateByPrimaryKeySelective(record);
+    }
 
     /**
      * @param trainId
@@ -154,61 +166,73 @@ public class CetTrainInspectorService extends BaseMapper {
 
     // 校内培训，生成评课账号
     @Transactional
-    public void generateInspectorOnCampus(int trainId) throws IOException, InvalidFormatException {
+    public void generateInspectorOnCampus(int trainId, boolean evaAnonymous) throws IOException, InvalidFormatException {
 
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+        CetTrainView trainView = cetTrainService.getView(trainId);
 
         int closed = cetTrainService.evaIsClosed(trainId);
         if (closed == 1) {
             throw new OpException("评课已关闭。");
         } else if (closed == 3) {
-            throw new OpException("评课已结束于" + DateUtils.formatDate(cetTrain.getEvaCloseTime(), DateUtils.YYYY_MM_DD_HH_MM));
+            throw new OpException("评课已结束于" + DateUtils.formatDate(trainView.getEvaCloseTime(), DateUtils.YYYY_MM_DD_HH_MM));
         }
 
-        // 读取已选课人员
-        CetTraineeCadreViewExample example = new CetTraineeCadreViewExample();
-        example.createCriteria().andTrainIdEqualTo(trainId)
-                .andCourseCountGreaterThan(0);
-        List<CetTraineeCadreView> cetTraineeCadreViews = cetTraineeCadreViewMapper.selectByExample(example);
+        // 实名测评
+        if(!evaAnonymous) {
+            // 读取已选课人员
+            CetTraineeCadreViewExample example = new CetTraineeCadreViewExample();
+            example.createCriteria().andTrainIdEqualTo(trainId)
+                    .andCourseCountGreaterThan(0);
+            List<CetTraineeCadreView> cetTraineeCadreViews = cetTraineeCadreViewMapper.selectByExample(example);
 
-        Date now = new Date();
-        for (CetTraineeCadreView ctee : cetTraineeCadreViews) {
+            Date now = new Date();
+            for (CetTraineeCadreView ctee : cetTraineeCadreViews) {
 
-            // 使用工作证号当做账号
-            String mobile = ctee.getCode();
-            String realname = ctee.getRealname();
-            CetTrainInspector cetTrainInspector = tryLogin(trainId, mobile);
-            if (cetTrainInspector != null) {
-                // 存在则进行更新操作
-                CetTrainInspector record = new CetTrainInspector();
-                record.setId(cetTrainInspector.getId());
-                record.setRealname(realname);
-                cetTrainInspectorMapper.updateByPrimaryKeySelective(record);
-            } else {
+                // 使用工作证号当做账号
+                String mobile = ctee.getCode();
+                String realname = ctee.getRealname();
+                CetTrainInspector cetTrainInspector = tryLogin(trainId, mobile);
+                if (cetTrainInspector != null) {
+                    // 存在则进行更新操作
+                    CetTrainInspector record = new CetTrainInspector();
+                    record.setId(cetTrainInspector.getId());
+                    record.setRealname(realname);
+                    cetTrainInspectorMapper.updateByPrimaryKeySelective(record);
+                } else {
 
-                CetTrainInspector record = new CetTrainInspector();
-                record.setTrainId(trainId);
-                record.setUsername(buildUsername());
-                record.setPasswd(RandomStringUtils.randomNumeric(6));
-                record.setMobile(mobile);
-                record.setRealname(realname);
-                record.setType((byte)1);
-                record.setStatus(CetConstants.CET_TRAIN_INSPECTOR_STATUS_INIT);
-                record.setCreateTime(now);
+                    CetTrainInspector record = new CetTrainInspector();
+                    record.setTrainId(trainId);
+                    record.setUsername(buildUsername());
+                    record.setPasswd(RandomStringUtils.randomNumeric(6));
+                    record.setMobile(mobile);
+                    record.setRealname(realname);
+                    record.setType((byte) 1);
+                    record.setStatus(CetConstants.CET_TRAIN_INSPECTOR_STATUS_INIT);
+                    record.setCreateTime(now);
 
-                cetTrainInspectorMapper.insert(record);
+                    cetTrainInspectorMapper.insert(record);
+                }
             }
+
+            CetTrainInspectorExample _example = new CetTrainInspectorExample();
+            _example.createCriteria().andTrainIdEqualTo(trainId);
+            int count = (int) cetTrainInspectorMapper.countByExample(_example);
+
+            CetTrain record = new CetTrain();
+            record.setId(trainId);
+            record.setEvaCount(count);
+            record.setEvaAnonymous(false);
+            cetTrainMapper.updateByPrimaryKeySelective(record);
+        }else{
+            // 匿名测评
+            CetTrain record = new CetTrain();
+            record.setId(trainId);
+            record.setEvaAnonymous(true);
+            cetTrainMapper.updateByPrimaryKeySelective(record);
+
+            int count = trainView.getTraineeCount();
+            generateInspector(trainId, (byte)1, true, count, null);
         }
-
-        CetTrainInspectorExample _example = new CetTrainInspectorExample();
-        _example.createCriteria().andTrainIdEqualTo(trainId);
-        int count = (int) cetTrainInspectorMapper.countByExample(_example);
-
-        CetTrain record = new CetTrain();
-        record.setId(trainId);
-        record.setEvaCount(count);
-        record.setEvaAnonymous(false);
-        cetTrainMapper.updateByPrimaryKeySelective(record);
     }
 
     public String buildUsername() {

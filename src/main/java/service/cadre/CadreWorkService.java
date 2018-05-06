@@ -81,6 +81,20 @@ public class CadreWorkService extends BaseMapper {
         updateSubWorkCount(record.getFid()); // 必须放插入之后
     }
 
+    // 转移期间工作经历
+    @Transactional
+    public void transfer(Integer id) {
+
+        CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
+        Integer fid = cadreWork.getFid();
+        if(fid==null){
+            throw new OpException("非期间工作经历，不允许转移。");
+        }
+        commonMapper.excuteSql("update cadre_work set fid=null where id="+id);
+
+        updateSubWorkCount(fid);
+    }
+
     @Transactional
     public void batchDel(Integer[] ids, int cadreId) {
 
@@ -91,7 +105,7 @@ public class CadreWorkService extends BaseMapper {
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
             int count = cadreWorkMapper.countByExample(example);
             if (count != ids.length) {
-                throw new IllegalArgumentException("数据异常");
+                throw new OpException("数据有误，请稍后再试。");
             }
         }
 
@@ -152,7 +166,7 @@ public class CadreWorkService extends BaseMapper {
     public void updateModify(CadreWork record, Integer applyId) {
 
         if (applyId == null) {
-            throw new IllegalArgumentException();
+            throw new OpException("数据有误，请稍后再试。");
         }
 
         Integer currentUserId = ShiroHelper.getCurrentUserId();

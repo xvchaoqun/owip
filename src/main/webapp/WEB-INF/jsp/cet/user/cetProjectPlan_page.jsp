@@ -29,18 +29,37 @@
                     </div>
                     <div class="collapse in">
                         <div class="panel-body">
-                            <label>培训班总学时：</label><span class="result">${cm:stripTrailingZeros(cetProject.period)}</span>
-                            <label>完成学时数：</label><span class="result">${cm:stripTrailingZeros(cetProject.finishPeriod)}</span>
+                            <label>应完成学时数：</label>
+                            <c:if test="${cetProjectObj.shouldFinishPeriod==null}">
+                                --
+                            </c:if>
+                            <c:if test="${cetProjectObj.shouldFinishPeriod!=null}">
+                                <span class="result">${cm:stripTrailingZeros(cetProjectObj.shouldFinishPeriod)}</span>
+                            </c:if>
+                           </span>
+                            <label>已完成学时数：</label><span class="result">${cm:stripTrailingZeros(cetProjectObj.finishPeriod)}</span>
                             <label>学习进度：</label>
+                            <c:if test="${cetProjectObj.shouldFinishPeriod==null}">
+                                --
+                            </c:if>
+                            <c:if test="${cetProjectObj.shouldFinishPeriod!=null}">
                             <c:set var="progress" value="0%"/>
-                            <c:if test="${cetProject.period>0 && cetProject.finishPeriod>0}">
-                                <fmt:formatNumber var="progress" value="${(cm:divide(cetProject.finishPeriod, cetProject.period, 3))}" type="percent"
-                                                  pattern="#0.0%"/>
+                            <c:if test="${cetProjectObj.shouldFinishPeriod>0 && cetProjectObj.finishPeriod>0}">
+                                <fmt:formatNumber var="progress" value="${(cm:divide(cetProjectObj.finishPeriod, cetProjectObj.shouldFinishPeriod, 3))}"
+                                                  type="percent" pattern="#0.0%"/>
                             </c:if>
                             <div class="progress progress-striped pos-rel" data-percent="${progress}" style="width:150px;display: inline-block;top:2px;">
-                                  <div class="progress-bar progress-bar-success" style="width:${progress};"></div>
-                             </div>
-                            <label>结业：</label><span class="result">未结业</span>
+                                <div class="progress-bar progress-bar-success" style="width:${progress};"></div>
+                            </div>
+                            </c:if>
+                            <label>结业：</label>
+                            <c:if test="${cetProjectObj.shouldFinishPeriod==null}">
+                                --
+                            </c:if>
+                            <c:if test="${cetProjectObj.shouldFinishPeriod!=null}">
+                                ${cetProjectObj.isGraduate?'<span class="result graduate">已结业</span>'
+                                                    :'<span class="result">未结业</span>'}
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -62,6 +81,11 @@
         color: #a94442;
         font-weight: bolder;
     }
+    .panel-body span.result.graduate{
+        font-size: 14pt;
+        color: #449d44;
+        font-weight: bolder;
+    }
 </style>
 <script>
     $("#jqGrid2").jqGrid({
@@ -81,12 +105,12 @@
             {label: '培训形式', name: 'type', width: 180, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.CET_PROJECT_PLAN_TYPE_MAP[cellvalue];
             }, frozen: true},
-            {label: '培训内容', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
+            /*{label: '培训内容', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if (!rowObject.hasSummary) return '-';
                 return ('<button class="popupBtn btn btn-primary btn-xs" data-width="750" ' +
                 'data-url="${ctx}/cet/cetProjectPlan_summary?view=1&id={0}"><i class="fa fa-search"></i> 查看</button>')
                         .format(rowObject.id);
-            }},
+            }},*/
             {label: '学时', name: 'period'},
             {label: '完成学时数', name: 'finishPeriod'},
             { label: '学习进度',name: '_finish',formatter: function (cellvalue, options, rowObject) {

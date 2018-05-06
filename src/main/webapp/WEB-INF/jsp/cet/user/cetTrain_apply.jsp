@@ -20,7 +20,8 @@
                 </div>
                 <div class="modal-footer center jqgrid-vertical-offset">
                     <c:if test="${cetTrain.switchStatus!=CET_TRAIN_ENROLL_STATUS_OPEN}">
-                        <span class="text-danger bolder" style="font-size: 16pt">${cetTrain.switchStatusText}</span>
+                        <span class="text-danger bolder" style="font-size: 16pt">
+                        ${CET_TRAIN_ENROLL_STATUS_MAP.get(cetTrain.switchStatus)}</span>
                     </c:if>
                     <c:if test="${cetTrain.switchStatus==CET_TRAIN_ENROLL_STATUS_OPEN}">
                     <button id="selectBtn" ${cetTrainee.courseCount>0?'disabled':''}

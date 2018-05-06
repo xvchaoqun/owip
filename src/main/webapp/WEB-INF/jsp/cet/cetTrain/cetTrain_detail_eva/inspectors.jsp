@@ -4,10 +4,7 @@
 <c:set var="_query" value="${not empty param.realname || not empty param.status}"/>
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">
-      <button class="confirm btn btn-info btn-sm"
-         data-msg="确定根据选课人员生成评课账号？（生成评课账号之前，请务必设定所有课程的评估表，没有设置评估表的课程将无法评课。）"
-         data-title="生成评课账号"
-         data-callback="_callback4"
+      <button class="popupBtn btn btn-info btn-sm"
          data-url="${ctx}/cet/cetTrainInspector_gen_oncampus?trainId=${cetTrain.id}">
         <i class="fa fa-plus"></i> 生成评课账号</button>
 
@@ -16,9 +13,26 @@
           data-target="_blank" data-rel="tooltip" data-placement="top" title="导出全部的测评账号">
       <i class="fa fa-download"></i> 导出账号</button>
 
-  <button class="linkBtn btn btn-warning btn-sm"
-          data-url="${ctx}/cet/cetTrainInspector_list?export=2&trainId=${cetTrain.id}"
-          data-target="_blank"><i class="fa fa-print"></i> 打印二维码</button>
+  <c:if test="${cetTrain.evaCount>0}">
+      <c:if test="${cetTrain.evaAnonymous}">
+          <button class="btn btn-warning btn-sm"
+                  onclick="to_print_inspector(${cetTrain.id})"><i class="fa fa-print"></i> 打印账号</button>
+      </c:if>
+      <c:if test="${!cetTrain.evaAnonymous}">
+      <button class="linkBtn btn btn-warning btn-sm"
+              data-url="${ctx}/cet/cetTrainInspector_list?export=2&trainId=${cetTrain.id}"
+              data-target="_blank"><i class="fa fa-print"></i> 打印二维码</button>
+      </c:if>
+
+      <button class="jqBatchBtn btn btn-danger btn-sm"
+              data-msg="确定删除这{0}个评课账号？（关联的已评课数据均将删除，不可恢复，请谨慎操作！）"
+              data-title="删除评课账号"
+              data-grid-id="#jqGrid4"
+              data-callback="_detailContentReload2"
+              data-url="${ctx}/cet/cetTrainInspector_batchDel?trainId=${cetTrain.id}">
+          <i class="fa fa-times"></i> 删除</button>
+  </c:if>
+
 </div>
 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
   <div class="widget-header">
@@ -74,19 +88,53 @@
 <div id="jqGridPager4"></div>
 </div>
 <script>
+    function to_print_inspector(trainId){
+
+        bootbox.prompt({
+            size:'small',
+            title: "设置每页打印数量",
+            value:'2',
+            inputType: 'number',
+            callback: function (result) {
+                if(result!=null) {
+                    print_inspector(trainId, result)
+                }
+            }
+        })
+    }
+
+    function print_inspector(trainId, result){
+        $.print("${ctx}/cet/cetTrainInspector_list?export=2&pagesize="+result+"&trainId="+ trainId)
+    }
+
   function _callback4(target) {
 
     $("#jqGrid4").trigger("reloadGrid");
   }
   $('#searchForm2 [data-rel="select2"]').select2();
   $.register.date($('.date-picker'));
+  var isEvaAnonymous = ${cetTrain.evaAnonymous};
   $("#jqGrid4").jqGrid({
     pager: "jqGridPager4",
     rownumbers:true,
     url: '${ctx}/cet/cetTrainInspector_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
     colModel: [
-      {label: '工作证号', name: 'mobile', frozen:true},
-      {label: '姓名', name: 'realname', frozen:true},
+      {label: '账号', name: 'username', formatter: function (cellvalue, options, rowObject) {
+          if(!isEvaAnonymous) return '-'
+          return cellvalue;
+      }},
+      {label: '密码', name: 'passwd', formatter: function (cellvalue, options, rowObject) {
+          if(!isEvaAnonymous) return '-'
+          return cellvalue;
+      }},
+      {label: '工作证号', name: 'mobile', formatter: function (cellvalue, options, rowObject) {
+          if(isEvaAnonymous) return '-'
+          return cellvalue;
+      }},
+      {label: '姓名', name: 'realname', formatter: function (cellvalue, options, rowObject) {
+          if(isEvaAnonymous) return '-'
+          return cellvalue;
+      }},
       {label: '测评状态', name: '_eva', width: 200, formatter: function (cellvalue, options, rowObject) {
 
         var statusTxt = _cMap.CET_TRAIN_INSPECTOR_STATUS_MAP[rowObject.status];

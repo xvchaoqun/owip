@@ -2,7 +2,7 @@ package domain.cet;
 
 import java.io.Serializable;
 
-public class CetCourseType implements Serializable {
+public class CetProjectType implements Serializable {
     private Integer id;
 
     private String name;
@@ -10,6 +10,8 @@ public class CetCourseType implements Serializable {
     private Integer sortOrder;
 
     private String remark;
+
+    private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -43,5 +45,13 @@ public class CetCourseType implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

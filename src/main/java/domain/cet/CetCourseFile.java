@@ -13,6 +13,8 @@ public class CetCourseFile implements Serializable {
 
     private Boolean hasPaper;
 
+    private String paperNote;
+
     private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
@@ -55,6 +57,14 @@ public class CetCourseFile implements Serializable {
 
     public void setHasPaper(Boolean hasPaper) {
         this.hasPaper = hasPaper;
+    }
+
+    public String getPaperNote() {
+        return paperNote;
+    }
+
+    public void setPaperNote(String paperNote) {
+        this.paperNote = paperNote == null ? null : paperNote.trim();
     }
 
     public Integer getSortOrder() {

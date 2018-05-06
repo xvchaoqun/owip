@@ -76,12 +76,14 @@ public class CetCourseFileController extends CetBaseController {
                                    MultipartFile _file,
                                    String fileName,
                                    Boolean hasPaper,
+                                   String paperNote,
                                    HttpServletRequest request) throws IOException, InterruptedException {
 
         CetCourseFile record = new CetCourseFile();
         record.setCourseId(courseId);
         record.setFileName(fileName);
         record.setHasPaper(BooleanUtils.isTrue(hasPaper));
+        record.setPaperNote(paperNote);
 
         if (_file != null && !_file.isEmpty()) {
 

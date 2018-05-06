@@ -425,6 +425,66 @@ public class CetTrainCourseExample {
             return (Criteria) this;
         }
 
+        public Criteria andApplyLimitIsNull() {
+            addCriterion("apply_limit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitIsNotNull() {
+            addCriterion("apply_limit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitEqualTo(Integer value) {
+            addCriterion("apply_limit =", value, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitNotEqualTo(Integer value) {
+            addCriterion("apply_limit <>", value, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitGreaterThan(Integer value) {
+            addCriterion("apply_limit >", value, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitGreaterThanOrEqualTo(Integer value) {
+            addCriterion("apply_limit >=", value, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitLessThan(Integer value) {
+            addCriterion("apply_limit <", value, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitLessThanOrEqualTo(Integer value) {
+            addCriterion("apply_limit <=", value, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitIn(List<Integer> values) {
+            addCriterion("apply_limit in", values, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitNotIn(List<Integer> values) {
+            addCriterion("apply_limit not in", values, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitBetween(Integer value1, Integer value2) {
+            addCriterion("apply_limit between", value1, value2, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitNotBetween(Integer value1, Integer value2) {
+            addCriterion("apply_limit not between", value1, value2, "applyLimit");
+            return (Criteria) this;
+        }
+
         public Criteria andStartTimeIsNull() {
             addCriterion("start_time is null");
             return (Criteria) this;

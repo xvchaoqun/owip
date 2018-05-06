@@ -1,5 +1,6 @@
 package domain.cet;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -401,6 +402,126 @@ public class CetProjectObjExample {
 
         public Criteria andIsQuitNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_quit not between", value1, value2, "isQuit");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouldFinishPeriodIsNull() {
+            addCriterion("should_finish_period is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouldFinishPeriodIsNotNull() {
+            addCriterion("should_finish_period is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouldFinishPeriodEqualTo(BigDecimal value) {
+            addCriterion("should_finish_period =", value, "shouldFinishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouldFinishPeriodNotEqualTo(BigDecimal value) {
+            addCriterion("should_finish_period <>", value, "shouldFinishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouldFinishPeriodGreaterThan(BigDecimal value) {
+            addCriterion("should_finish_period >", value, "shouldFinishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouldFinishPeriodGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("should_finish_period >=", value, "shouldFinishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouldFinishPeriodLessThan(BigDecimal value) {
+            addCriterion("should_finish_period <", value, "shouldFinishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouldFinishPeriodLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("should_finish_period <=", value, "shouldFinishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouldFinishPeriodIn(List<BigDecimal> values) {
+            addCriterion("should_finish_period in", values, "shouldFinishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouldFinishPeriodNotIn(List<BigDecimal> values) {
+            addCriterion("should_finish_period not in", values, "shouldFinishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouldFinishPeriodBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("should_finish_period between", value1, value2, "shouldFinishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andShouldFinishPeriodNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("should_finish_period not between", value1, value2, "shouldFinishPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateIsNull() {
+            addCriterion("is_graduate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateIsNotNull() {
+            addCriterion("is_graduate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateEqualTo(Boolean value) {
+            addCriterion("is_graduate =", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateNotEqualTo(Boolean value) {
+            addCriterion("is_graduate <>", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGreaterThan(Boolean value) {
+            addCriterion("is_graduate >", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_graduate >=", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateLessThan(Boolean value) {
+            addCriterion("is_graduate <", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_graduate <=", value, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateIn(List<Boolean> values) {
+            addCriterion("is_graduate in", values, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateNotIn(List<Boolean> values) {
+            addCriterion("is_graduate not in", values, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_graduate between", value1, value2, "isGraduate");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsGraduateNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_graduate not between", value1, value2, "isGraduate");
             return (Criteria) this;
         }
 

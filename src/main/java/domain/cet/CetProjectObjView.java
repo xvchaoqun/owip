@@ -1,9 +1,19 @@
 package domain.cet;
 
+import service.cet.CetProjectObjService;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class CetProjectObjView implements Serializable {
+
+    public BigDecimal getFinishPeriod(){
+
+        CetProjectObjService cetProjectObjService = CmTag.getBean(CetProjectObjService.class);
+        return cetProjectObjService.getFinishPeriod(projectId, id);
+    }
+
     private Integer id;
 
     private Integer projectId;
@@ -14,13 +24,21 @@ public class CetProjectObjView implements Serializable {
 
     private Boolean isQuit;
 
+    private BigDecimal shouldFinishPeriod;
+
+    private Boolean isGraduate;
+
     private String wordWrite;
 
     private String pdfWrite;
 
     private String remark;
 
-    private BigDecimal finishPeriod;
+    private String username;
+
+    private String code;
+
+    private String realname;
 
     private static final long serialVersionUID = 1L;
 
@@ -64,6 +82,22 @@ public class CetProjectObjView implements Serializable {
         this.isQuit = isQuit;
     }
 
+    public BigDecimal getShouldFinishPeriod() {
+        return shouldFinishPeriod;
+    }
+
+    public void setShouldFinishPeriod(BigDecimal shouldFinishPeriod) {
+        this.shouldFinishPeriod = shouldFinishPeriod;
+    }
+
+    public Boolean getIsGraduate() {
+        return isGraduate;
+    }
+
+    public void setIsGraduate(Boolean isGraduate) {
+        this.isGraduate = isGraduate;
+    }
+
     public String getWordWrite() {
         return wordWrite;
     }
@@ -88,11 +122,27 @@ public class CetProjectObjView implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public BigDecimal getFinishPeriod() {
-        return finishPeriod;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFinishPeriod(BigDecimal finishPeriod) {
-        this.finishPeriod = finishPeriod;
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname == null ? null : realname.trim();
     }
 }

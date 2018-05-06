@@ -17,6 +17,8 @@ public class CetProjectView implements Serializable {
 
     private String name;
 
+    private Integer projectTypeId;
+
     private String fileName;
 
     private String pdfFilePath;
@@ -85,6 +87,14 @@ public class CetProjectView implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getProjectTypeId() {
+        return projectTypeId;
+    }
+
+    public void setProjectTypeId(Integer projectTypeId) {
+        this.projectTypeId = projectTypeId;
     }
 
     public String getFileName() {

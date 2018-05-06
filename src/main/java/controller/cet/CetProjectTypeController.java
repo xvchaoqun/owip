@@ -1,10 +1,8 @@
 package controller.cet;
 
-import domain.cet.CetCourseType;
-import domain.cet.CetCourseTypeExample;
-import domain.cet.CetCourseTypeExample.Criteria;
-import domain.cet.CetCourseTypeView;
-import domain.cet.CetCourseTypeViewExample;
+import domain.cet.CetProjectType;
+import domain.cet.CetProjectTypeExample;
+import domain.cet.CetProjectTypeExample.Criteria;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -37,20 +35,20 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/cet")
-public class CetCourseTypeController extends CetBaseController {
+public class CetProjectTypeController extends CetBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cetCourseType:list")
-    @RequestMapping("/cetCourseType")
-    public String cetCourseType() {
+    @RequiresPermissions("cetProjectType:list")
+    @RequestMapping("/cetProjectType")
+    public String cetProjectType() {
 
-        return "cet/cetCourseType/cetCourseType_page";
+        return "cet/cetProjectType/cetProjectType_page";
     }
 
-    @RequiresPermissions("cetCourseType:list")
-    @RequestMapping("/cetCourseType_data")
-    public void cetCourseType_data(HttpServletResponse response,
+    @RequiresPermissions("cetProjectType:list")
+    @RequestMapping("/cetProjectType_data")
+    public void cetProjectType_data(HttpServletResponse response,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -64,8 +62,8 @@ public class CetCourseTypeController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetCourseTypeViewExample example = new CetCourseTypeViewExample();
-        CetCourseTypeViewExample.Criteria criteria = example.createCriteria();
+        CetProjectTypeExample example = new CetProjectTypeExample();
+        CetProjectTypeExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order asc");
 
         if (StringUtils.isNotBlank(name)) {
@@ -75,16 +73,16 @@ public class CetCourseTypeController extends CetBaseController {
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cetCourseType_export(example, response);
+            cetProjectType_export(example, response);
             return;
         }
 
-        long count = cetCourseTypeViewMapper.countByExample(example);
+        long count = cetProjectTypeMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetCourseTypeView> records= cetCourseTypeViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetProjectType> records= cetProjectTypeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -94,73 +92,73 @@ public class CetCourseTypeController extends CetBaseController {
         resultMap.put("total", commonList.pageNum);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
-        //baseMixins.put(cetCourseType.class, cetCourseTypeMixin.class);
+        //baseMixins.put(cetProjectType.class, cetProjectTypeMixin.class);
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
 
-    @RequiresPermissions("cetCourseType:edit")
-    @RequestMapping(value = "/cetCourseType_au", method = RequestMethod.POST)
+    @RequiresPermissions("cetProjectType:edit")
+    @RequestMapping(value = "/cetProjectType_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetCourseType_au(CetCourseType record, HttpServletRequest request) {
+    public Map do_cetProjectType_au(CetProjectType record, HttpServletRequest request) {
 
         Integer id = record.getId();
 
         if (id == null) {
-            cetCourseTypeService.insertSelective(record);
+            cetProjectTypeService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_CET, "添加专题分类：%s", record.getId()));
         } else {
 
-            cetCourseTypeService.updateByPrimaryKeySelective(record);
+            cetProjectTypeService.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_CET, "更新专题分类：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetCourseType:edit")
-    @RequestMapping("/cetCourseType_au")
-    public String cetCourseType_au(Integer id, ModelMap modelMap) {
+    @RequiresPermissions("cetProjectType:edit")
+    @RequestMapping("/cetProjectType_au")
+    public String cetProjectType_au(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-            CetCourseType cetCourseType = cetCourseTypeMapper.selectByPrimaryKey(id);
-            modelMap.put("cetCourseType", cetCourseType);
+            CetProjectType cetProjectType = cetProjectTypeMapper.selectByPrimaryKey(id);
+            modelMap.put("cetProjectType", cetProjectType);
         }
-        return "cet/cetCourseType/cetCourseType_au";
+        return "cet/cetProjectType/cetProjectType_au";
     }
 
-    @RequiresPermissions("cetCourseType:del")
-    @RequestMapping(value = "/cetCourseType_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("cetProjectType:del")
+    @RequestMapping(value = "/cetProjectType_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetCourseType_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map cetProjectType_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
-            cetCourseTypeService.batchDel(ids);
+            cetProjectTypeService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_CET, "批量删除专题分类：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("cetCourseType:changeOrder")
-    @RequestMapping(value = "/cetCourseType_changeOrder", method = RequestMethod.POST)
+    @RequiresPermissions("cetProjectType:changeOrder")
+    @RequestMapping(value = "/cetProjectType_changeOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetCourseType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
+    public Map do_cetProjectType_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        cetCourseTypeService.changeOrder(id, addNum);
+        cetProjectTypeService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_CET, "专题分类调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
-    public void cetCourseType_export(CetCourseTypeViewExample example, HttpServletResponse response) {
+    public void cetProjectType_export(CetProjectTypeExample example, HttpServletResponse response) {
 
-        List<CetCourseTypeView> records = cetCourseTypeViewMapper.selectByExample(example);
+        List<CetProjectType> records = cetProjectTypeMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"名称|100","排序|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CetCourseTypeView record = records.get(i);
+            CetProjectType record = records.get(i);
             String[] values = {
                 record.getName(),
                             record.getSortOrder()+"",
@@ -172,9 +170,9 @@ public class CetCourseTypeController extends CetBaseController {
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 
-    @RequestMapping("/cetCourseType_selects")
+    @RequestMapping("/cetProjectType_selects")
     @ResponseBody
-    public Map cetCourseType_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map cetProjectType_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -184,7 +182,7 @@ public class CetCourseTypeController extends CetBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        CetCourseTypeExample example = new CetCourseTypeExample();
+        CetProjectTypeExample example = new CetProjectTypeExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
@@ -192,21 +190,21 @@ public class CetCourseTypeController extends CetBaseController {
             criteria.andNameLike("%"+searchStr+"%");
         }
 
-        long count = cetCourseTypeMapper.countByExample(example);
+        long count = cetProjectTypeMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<CetCourseType> cetCourseTypes = cetCourseTypeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<CetProjectType> cetProjectTypes = cetProjectTypeMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
 
         List<Select2Option> options = new ArrayList<Select2Option>();
-        if(null != cetCourseTypes && cetCourseTypes.size()>0){
+        if(null != cetProjectTypes && cetProjectTypes.size()>0){
 
-            for(CetCourseType cetCourseType:cetCourseTypes){
+            for(CetProjectType cetProjectType:cetProjectTypes){
 
                 Select2Option option = new Select2Option();
-                option.setText(cetCourseType.getName());
-                option.setId(cetCourseType.getId() + "");
+                option.setText(cetProjectType.getName());
+                option.setId(cetProjectType.getId() + "");
 
                 options.add(option);
             }

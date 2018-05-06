@@ -1,6 +1,7 @@
 package domain.cet;
 
 import domain.base.MetaType;
+import persistence.cet.common.ICetMapper;
 import sys.constants.CetConstants;
 import sys.tags.CmTag;
 
@@ -22,7 +23,13 @@ public class BaseCetTrain {
                 year, num);
     }
 
-    public static Byte getSwitchStatus(Byte enrollStatus, Date startTime, Date endTime) {
+    public static Byte getSwitchStatus(int trainId, Byte enrollStatus, Date startTime, Date endTime) {
+
+        ICetMapper iCetMapper = CmTag.getBean(ICetMapper.class);
+        CetProject cetProject = iCetMapper.getCetProject(trainId);
+        if(cetProject!=null && cetProject.getStatus()!=CetConstants.CET_PROJECT_STATUS_START){
+            return CetConstants.CET_TRAIN_ENROLL_STATUS_NOT_BEGIN;
+        }
 
         // 手动开关判断
         if (enrollStatus != CetConstants.CET_TRAIN_ENROLL_STATUS_DEFAULT) {
@@ -33,12 +40,18 @@ public class BaseCetTrain {
         Date now = new Date();
         if (startTime != null && endTime != null) {
 
-            if (now.after(startTime) && now.before(endTime)) {
+            if(startTime.after(now)){
+
+                return CetConstants.CET_TRAIN_ENROLL_STATUS_NOT_BEGIN;
+            }else if (now.after(startTime) && now.before(endTime)) {
+
                 return CetConstants.CET_TRAIN_ENROLL_STATUS_OPEN;
             }
         } else if (startTime != null) {
 
-            if (now.after(startTime)) {
+            if(startTime.after(now)){
+                return CetConstants.CET_TRAIN_ENROLL_STATUS_NOT_BEGIN;
+            }else {
                 return CetConstants.CET_TRAIN_ENROLL_STATUS_OPEN;
             }
         } else if (endTime != null) {
@@ -46,28 +59,11 @@ public class BaseCetTrain {
             if (now.before(endTime)) {
                 return CetConstants.CET_TRAIN_ENROLL_STATUS_OPEN;
             }
+        }else{
+            return CetConstants.CET_TRAIN_ENROLL_STATUS_NOT_BEGIN;
         }
 
         return CetConstants.CET_TRAIN_ENROLL_STATUS_CLOSED;
-    }
-
-    public static String getSwitchStatusText(boolean autoSwitch, Byte enrollStatus, Date startTime, Date endTime){
-
-        Date now = new Date();
-        if(autoSwitch){
-            if(startTime==null && endTime==null){
-                return "未启动选课";
-            }else{
-                if(startTime!=null && startTime.after(now)){
-                    return "未启动选课";
-                }else if(endTime!=null && endTime.after(now)){
-                    return "正在选课";
-                }
-                return "选课结束";
-            }
-        }
-
-        return CetConstants.CET_TRAIN_ENROLL_STATUS_MAP.get(enrollStatus);
     }
 
 }

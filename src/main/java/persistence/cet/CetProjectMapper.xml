@@ -8,6 +8,7 @@
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="project_type_id" jdbcType="INTEGER" property="projectTypeId" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="pdf_file_path" jdbcType="VARCHAR" property="pdfFilePath" />
     <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
@@ -77,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, year, start_date, end_date, name, file_name, pdf_file_path, word_file_path, 
-    period, require_period, remark, status, pub_status, create_time
+    id, type, year, start_date, end_date, name, project_type_id, file_name, pdf_file_path, 
+    word_file_path, period, require_period, remark, status, pub_status, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectExample" resultMap="BaseResultMap">
     select
@@ -115,15 +116,17 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cet_project (type, year, start_date, 
-      end_date, name, file_name, 
-      pdf_file_path, word_file_path, period, 
-      require_period, remark, status, 
-      pub_status, create_time)
+      end_date, name, project_type_id, 
+      file_name, pdf_file_path, word_file_path, 
+      period, require_period, remark, 
+      status, pub_status, create_time
+      )
     values (#{type,jdbcType=TINYINT}, #{year,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, 
-      #{endDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
-      #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, 
-      #{requirePeriod,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{pubStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
+      #{endDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, #{projectTypeId,jdbcType=INTEGER}, 
+      #{fileName,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, 
+      #{period,jdbcType=DECIMAL}, #{requirePeriod,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{pubStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -145,6 +148,9 @@
       </if>
       <if test="name != null">
         name,
+      </if>
+      <if test="projectTypeId != null">
+        project_type_id,
       </if>
       <if test="fileName != null">
         file_name,
@@ -189,6 +195,9 @@
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="projectTypeId != null">
+        #{projectTypeId,jdbcType=INTEGER},
       </if>
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
@@ -246,6 +255,9 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.projectTypeId != null">
+        project_type_id = #{record.projectTypeId,jdbcType=INTEGER},
+      </if>
       <if test="record.fileName != null">
         file_name = #{record.fileName,jdbcType=VARCHAR},
       </if>
@@ -286,6 +298,7 @@
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
       name = #{record.name,jdbcType=VARCHAR},
+      project_type_id = #{record.projectTypeId,jdbcType=INTEGER},
       file_name = #{record.fileName,jdbcType=VARCHAR},
       pdf_file_path = #{record.pdfFilePath,jdbcType=VARCHAR},
       word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
@@ -316,6 +329,9 @@
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="projectTypeId != null">
+        project_type_id = #{projectTypeId,jdbcType=INTEGER},
       </if>
       <if test="fileName != null">
         file_name = #{fileName,jdbcType=VARCHAR},
@@ -354,6 +370,7 @@
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
       name = #{name,jdbcType=VARCHAR},
+      project_type_id = #{projectTypeId,jdbcType=INTEGER},
       file_name = #{fileName,jdbcType=VARCHAR},
       pdf_file_path = #{pdfFilePath,jdbcType=VARCHAR},
       word_file_path = #{wordFilePath,jdbcType=VARCHAR},

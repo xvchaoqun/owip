@@ -503,6 +503,66 @@ public class CetProjectViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andProjectTypeIdIsNull() {
+            addCriterion("project_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdIsNotNull() {
+            addCriterion("project_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdEqualTo(Integer value) {
+            addCriterion("project_type_id =", value, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdNotEqualTo(Integer value) {
+            addCriterion("project_type_id <>", value, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdGreaterThan(Integer value) {
+            addCriterion("project_type_id >", value, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("project_type_id >=", value, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdLessThan(Integer value) {
+            addCriterion("project_type_id <", value, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("project_type_id <=", value, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdIn(List<Integer> values) {
+            addCriterion("project_type_id in", values, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdNotIn(List<Integer> values) {
+            addCriterion("project_type_id not in", values, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("project_type_id between", value1, value2, "projectTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("project_type_id not between", value1, value2, "projectTypeId");
+            return (Criteria) this;
+        }
+
         public Criteria andFileNameIsNull() {
             addCriterion("file_name is null");
             return (Criteria) this;

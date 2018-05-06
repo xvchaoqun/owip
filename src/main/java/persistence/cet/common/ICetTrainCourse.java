@@ -8,6 +8,7 @@ import domain.cet.CetTrainCourse;
 public class ICetTrainCourse extends CetTrainCourse {
 
     private Boolean canQuit;
+    private Boolean isFinished;
 
     public Boolean getCanQuit() {
         return canQuit;
@@ -15,5 +16,13 @@ public class ICetTrainCourse extends CetTrainCourse {
 
     public void setCanQuit(Boolean canQuit) {
         this.canQuit = canQuit;
+    }
+
+    public Boolean getIsFinished() {
+        return isFinished;
+    }
+
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
     }
 }

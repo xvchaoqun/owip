@@ -1,13 +1,13 @@
 package controller.cet.user;
 
 import controller.cet.CetBaseController;
-import domain.cet.CetCourseType;
 import domain.cet.CetProject;
 import domain.cet.CetProjectObj;
 import domain.cet.CetProjectPlan;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseExample;
+import domain.cet.CetTrainCourseView;
 import domain.cet.CetTraineeView;
 import domain.cet.CetTraineeViewExample;
 import mixin.MixinUtils;
@@ -186,9 +186,6 @@ public class UserCetTrainController extends CetBaseController {
             modelMap.put("cetProjectPlan", cetProjectPlan);
         }
 
-        Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
-        modelMap.put("courseTypeMap", courseTypeMap);
-
         int userId = ShiroHelper.getCurrentUserId();
         CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
         if (cetTrainee != null) {
@@ -266,9 +263,6 @@ public class UserCetTrainController extends CetBaseController {
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(cetProjectPlan.getProjectId());
         modelMap.put("cetProject", cetProject);
 
-        Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
-        modelMap.put("courseTypeMap", courseTypeMap);
-
         int userId = ShiroHelper.getCurrentUserId();
         CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
         if (cetTrainee == null) {
@@ -279,7 +273,7 @@ public class UserCetTrainController extends CetBaseController {
         int traineeId = cetTrainee.getId();
 
         List<ICetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
-        List<CetTrainCourse> unSelectedCetTrainCourses = iCetMapper.unSelectedCetTrainCourses(trainId, traineeId);
+        List<CetTrainCourseView> unSelectedCetTrainCourses = iCetMapper.unSelectedCetTrainCourses(trainId, traineeId);
 
         modelMap.put("selectedCetTrainCourses", selectedCetTrainCourses);
         modelMap.put("unSelectedCetTrainCourses", unSelectedCetTrainCourses);

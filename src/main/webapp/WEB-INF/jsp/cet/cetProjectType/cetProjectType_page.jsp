@@ -5,21 +5,21 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
 
         <div id="body-content" class="myTableDiv"
-                 data-url-page="${ctx}/cet/cetCourseType"
-                 data-url-export="${ctx}/cet/cetCourseType_data"
+                 data-url-page="${ctx}/cet/cetProjectType"
+                 data-url-export="${ctx}/cet/cetProjectType_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.name || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasPermission name="cetCourseType:edit">
-                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/cet/cetCourseType_au"><i class="fa fa-plus"></i> 添加</a>
+                <shiro:hasPermission name="cetProjectType:edit">
+                    <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/cet/cetProjectType_au"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
-                       data-url="${ctx}/cet/cetCourseType_au"
+                       data-url="${ctx}/cet/cetProjectType_au"
                        data-grid-id="#jqGrid"
                        ><i class="fa fa-edit"></i>
                         修改</a>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cetCourseType:del">
-                    <button data-url="${ctx}/cet/cetCourseType_batchDel"
+                <shiro:hasPermission name="cetProjectType:del">
+                    <button data-url="${ctx}/cet/cetProjectType_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -71,15 +71,15 @@ pageEncoding="UTF-8" %>
 </div>
 <script>
     $("#jqGrid").jqGrid({
-        url: '${ctx}/cet/cetCourseType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/cet/cetProjectType_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '专题分类',name: 'name', width:200},
             {
                 label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{url: "${ctx}/cet/cetCourseType_changeOrder"}
+                formatoptions:{url: "${ctx}/cet/cetProjectType_changeOrder"}
             },
-            { label: '课程',name: 'courseNum'},
-            { label: '选课人次',name: 'traineeCount'},
+            /*{ label: '课程',name: 'courseNum'},
+            { label: '选课人次',name: 'traineeCount'},*/
             { label: '备注',name: 'remark', width:300}
         ]
     }).jqGrid("setFrozenColumns");

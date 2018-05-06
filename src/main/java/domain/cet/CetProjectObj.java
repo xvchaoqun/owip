@@ -1,8 +1,19 @@
 package domain.cet;
 
+import service.cet.CetProjectObjService;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class CetProjectObj implements Serializable {
+
+    public BigDecimal getFinishPeriod(){
+
+        CetProjectObjService cetProjectObjService = CmTag.getBean(CetProjectObjService.class);
+        return cetProjectObjService.getFinishPeriod(projectId, id);
+    }
+
     private Integer id;
 
     private Integer projectId;
@@ -12,6 +23,10 @@ public class CetProjectObj implements Serializable {
     private Integer traineeTypeId;
 
     private Boolean isQuit;
+
+    private BigDecimal shouldFinishPeriod;
+
+    private Boolean isGraduate;
 
     private String wordWrite;
 
@@ -59,6 +74,22 @@ public class CetProjectObj implements Serializable {
 
     public void setIsQuit(Boolean isQuit) {
         this.isQuit = isQuit;
+    }
+
+    public BigDecimal getShouldFinishPeriod() {
+        return shouldFinishPeriod;
+    }
+
+    public void setShouldFinishPeriod(BigDecimal shouldFinishPeriod) {
+        this.shouldFinishPeriod = shouldFinishPeriod;
+    }
+
+    public Boolean getIsGraduate() {
+        return isGraduate;
+    }
+
+    public void setIsGraduate(Boolean isGraduate) {
+        this.isGraduate = isGraduate;
     }
 
     public String getWordWrite() {

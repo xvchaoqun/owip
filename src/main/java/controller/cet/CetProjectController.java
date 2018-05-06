@@ -2,6 +2,7 @@ package controller.cet;
 
 import domain.cet.CetProject;
 import domain.cet.CetProjectExample;
+import domain.cet.CetProjectType;
 import domain.cet.CetProjectView;
 import domain.cet.CetProjectViewExample;
 import domain.cet.CetTraineeType;
@@ -48,7 +49,10 @@ public class CetProjectController extends CetBaseController {
 
     @RequiresPermissions("cetProject:list")
     @RequestMapping("/cetProject")
-    public String cetProject() {
+    public String cetProject( ModelMap modelMap) {
+
+        Map<Integer, CetProjectType> projectTypeMap = cetProjectTypeService.findAll();
+        modelMap.put("projectTypeMap", projectTypeMap);
 
         return "cet/cetProject/cetProject_page";
     }
@@ -161,6 +165,10 @@ public class CetProjectController extends CetBaseController {
             Set<Integer> traineeTypeIdSet = cetProjectService.findTraineeTypeIdSet(id);
             modelMap.put("traineeTypeIds", new ArrayList<>(traineeTypeIdSet));
         }
+
+        Map<Integer, CetProjectType> projectTypeMap = cetProjectTypeService.findAll();
+        modelMap.put("projectTypes", projectTypeMap.values());
+
         modelMap.put("type", type);
 
         Map<Integer, CetTraineeType> traineeTypeMap = cetTraineeTypeService.findAll();
@@ -198,7 +206,7 @@ public class CetProjectController extends CetBaseController {
             CetProjectExample.Criteria criteria = example.createCriteria().andIdEqualTo(id);
 
             if(status==CetConstants.CET_PROJECT_STATUS_START){
-                criteria.andStatusEqualTo(CetConstants.CET_PROJECT_STATUS_INIT);
+                criteria.andStatusNotEqualTo(CetConstants.CET_PROJECT_STATUS_START);
             }else if(status==CetConstants.CET_PROJECT_STATUS_FINISH){
                 criteria.andStatusEqualTo(CetConstants.CET_PROJECT_STATUS_START);
             }

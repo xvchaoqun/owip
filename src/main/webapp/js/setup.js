@@ -56,8 +56,16 @@ $.jgrid.defaults.gridComplete = function () {
         $(this).closest(".ui-jqgrid-bdiv").scrollTop(0).scrollTop(jgrid_top);
         jgrid_top = undefined;
     }
+    _adjustFrozenDivHeight($(this))
 };
 
+// 防止冻结列时，挡住部分滚动条
+function _adjustFrozenDivHeight($jqGrid){
+    setTimeout(function(){
+        var $frozenBdiv = $jqGrid.closest(".ui-jqgrid").find(".frozen-bdiv");
+        $frozenBdiv.height($frozenBdiv.height()-3);
+    }, 400)
+}
 $(window).on('resize.jqGrid0', function () {
 
     $(".jqGrid0").jqGrid('setGridWidth', $(window).width() - $(".nav-list").width() - 60 - 180);
@@ -109,6 +117,10 @@ $(window).on('resize.jqGrid', function () {
     $(".jqGrid").setGridHeight(gridHeight)
         .trigger("reloadGrid")        // 以下两行防止jqgrid内部高度变化，导致前后高度显示不一致
         .closest(".ui-jqgrid-bdiv").scrollTop(0).scrollLeft(0);
+
+    $(".jqGrid").each(function(){
+        _adjustFrozenDivHeight($(this))
+    })
 });
 $(window).on('resize.jqGrid2', function () {
     /*if( $("#body-content-view").is(":hidden")){
@@ -146,6 +158,8 @@ $(window).on('resize.jqGrid2', function () {
         }
         //console.log(" gridWidth=" + gridWidth + "gridHeight=" + gridHeight)
         $jqgrid.setGridHeight(gridHeight);
+
+        _adjustFrozenDivHeight($jqgrid)
     })
 
 });

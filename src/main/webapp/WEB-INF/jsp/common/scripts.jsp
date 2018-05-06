@@ -6,6 +6,7 @@
 <script type="text/javascript">location.href="${ctx}/jsp/browsers.jsp?type=unsupport";</script>
 <![endif]-->
 <script src="${ctx}/js/main.js"></script>
+<%--<script src="${ctx}/extend/js/jqGrid/jquery.jqGrid.js"></script>--%>
 <script type="text/javascript">if('ontouchstart' in document.documentElement) document.write("<script src='${ctx}/assets/js/jquery.mobile.custom.js'>"+"<"+"/script>");</script>
 <script src="${ctx}/js/ui.js"></script>
 <t:script src="/js/extend.js"/>

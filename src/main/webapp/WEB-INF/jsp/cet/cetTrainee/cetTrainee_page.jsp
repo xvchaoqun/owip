@@ -50,7 +50,7 @@
                 <input type="hidden" name="traineeTypeId" value="${traineeTypeId}">
                 <div class="form-group">
                     <label>姓名</label>
-                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetProjectObj_selects?projectId=${param.projectId}"
                             data-width="280"
                             name="userId" data-placeholder="请输入账号或姓名或教工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
@@ -60,11 +60,11 @@
                     <a class="jqSearchBtn btn btn-default btn-sm"
                        data-target="#detail-content2"
                        data-form="#searchForm2"
-                       data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&cls=${param.cls}"><i class="fa fa-search"></i> 查找</a>
+                       data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&projectId=${param.projectId}&cls=${param.cls}"><i class="fa fa-search"></i> 查找</a>
                     <c:if test="${_query}">&nbsp;
                         <button type="button" class="resetBtn btn btn-warning btn-sm"
                                 data-target="#detail-content2"
-                                data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&traineeTypeId=${traineeTypeId}&cls=${param.cls}">
+                                data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&projectId=${param.projectId}&traineeTypeId=${traineeTypeId}&cls=${param.cls}">
                             <i class="fa fa-reply"></i> 重置
                         </button>
                     </c:if>

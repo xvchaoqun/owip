@@ -49,6 +49,7 @@
         colModel: [
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_SELF}">
             { label: '学习心得',name: 'objInfo.note', width: 80, formatter: function (cellvalue, options, rowObject) {
+                if(!rowObject.needNote) return '-'
                 if($.trim(rowObject.objInfo.planCourseObjId)=='') return '-'
                 return ($.trim(cellvalue)=='')?"未上传": $.swfPreview(cellvalue,
                         "学习心得({0})".format(rowObject.realname), '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
@@ -63,7 +64,8 @@
             {label: '学时', name: 'cetCourse.period', width: 70},
             { label: '学习时间',name: '_time', width: 280, formatter: function (cellvalue, options, rowObject) {
                 return '{0} ~ {1}'.format($.date(rowObject.startTime, "yyyy-MM-dd hh:mm"), $.date(rowObject.endTime, "yyyy-MM-dd hh:mm"))
-            }}
+            }},
+            {name: 'needNote', hidden:true},
             </c:if>
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_SPECIAL}">
 
@@ -90,10 +92,30 @@
             }},
             {label: '备注', name: 'remark', width: 400}
             </c:if>
-        ]
+        ],
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+
+    function _onSelectRow(grid) {
+        var ids = $(grid).getGridParam("selarrrow");
+
+        if (ids.length > 1) {
+            $("#uploadNoteBtn").prop("disabled", true);
+        } else if (ids.length == 1) {
+            var rowData = $(grid).getRowData(ids[0]);
+            var needNote = (rowData.needNote=="true");
+            $("#uploadNoteBtn").prop("disabled",!needNote);
+        }
+    }
 </script>

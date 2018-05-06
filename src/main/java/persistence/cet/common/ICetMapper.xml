@@ -5,6 +5,7 @@
     <resultMap id="ICetTrainCourseBaseResultMap" type="persistence.cet.common.ICetTrainCourse"
                extends="persistence.cet.CetTrainCourseMapper.BaseResultMap">
         <result column="can_quit" jdbcType="BIT" property="canQuit" />
+        <result column="is_finished" jdbcType="BIT" property="isFinished" />
     </resultMap>
 
     <resultMap id="TrainBaseResultMap" type="persistence.cet.common.ICetTrain"

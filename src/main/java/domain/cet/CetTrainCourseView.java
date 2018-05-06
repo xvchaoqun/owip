@@ -46,11 +46,13 @@ public class CetTrainCourseView implements Serializable {
 
     private String teacher;
 
+    private Integer applyLimit;
+
     private Date startTime;
 
     private Date endTime;
 
-    private Integer isGlobal;
+    private Boolean isGlobal;
 
     private Integer evaTableId;
 
@@ -106,6 +108,14 @@ public class CetTrainCourseView implements Serializable {
         this.teacher = teacher == null ? null : teacher.trim();
     }
 
+    public Integer getApplyLimit() {
+        return applyLimit;
+    }
+
+    public void setApplyLimit(Integer applyLimit) {
+        this.applyLimit = applyLimit;
+    }
+
     public Date getStartTime() {
         return startTime;
     }
@@ -122,11 +132,11 @@ public class CetTrainCourseView implements Serializable {
         this.endTime = endTime;
     }
 
-    public Integer getIsGlobal() {
+    public Boolean getIsGlobal() {
         return isGlobal;
     }
 
-    public void setIsGlobal(Integer isGlobal) {
+    public void setIsGlobal(Boolean isGlobal) {
         this.isGlobal = isGlobal;
     }
 

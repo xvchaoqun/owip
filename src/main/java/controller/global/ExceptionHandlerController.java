@@ -103,12 +103,13 @@ public class ExceptionHandlerController {
     @ResponseBody
     public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 
-        logger.error(getMsg(request, ex), ex);
         String msg = "系统异常，请稍后重试";
         if (ex instanceof FileNotFoundException) {
             msg = "文件不存在";
         } else if (ex instanceof OpException) {
             msg = ex.getMessage();
+        }else{
+            logger.error(getMsg(request, ex), ex);
         }
         //ex.printStackTrace();
         // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错

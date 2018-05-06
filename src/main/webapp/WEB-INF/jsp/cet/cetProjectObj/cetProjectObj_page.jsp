@@ -27,6 +27,28 @@
                 class="jqBatchBtn btn btn-warning btn-sm">
             <i class="fa fa-sign-out"></i> 退出
         </button>
+
+        <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
+                data-url="${ctx}/cet/cetProjectObj_shouldFinishPeriod"
+                data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
+            设置应完成学时</button>
+
+        <button data-url="${ctx}/cet/cetProjectObj_autoGraduate?projectId=${cetProject.id}"
+                data-title="自动结业"
+                data-msg="确定自动结业？（根据已设置的达到结业要求的学时数和学员已完成学时数自动计算）"
+                data-grid-id="#jqGrid2"
+                data-callback="_detailReload"
+                class="confirm btn btn-success btn-sm">
+            <i class="fa fa-sign-out"></i> 自动结业
+        </button>
+
+        <button data-url="${ctx}/cet/cetProjectObj_forceGraduate"
+                data-title="手动结业"
+                data-msg="确定将这{0}个人员手动结业？"
+                data-grid-id="#jqGrid2"
+                class="jqBatchBtn btn btn-warning btn-sm">
+            <i class="fa fa-sign-out"></i> 手动结业
+        </button>
     </shiro:hasPermission>
     </c:if>
     <c:if test="${isQuit}">
@@ -152,6 +174,12 @@
                 class="jqBatchBtn btn btn-warning btn-sm">
             <i class="fa fa-eraser"></i> 删除心得体会
         </button>
+
+        <button class="jqExportBtn btn btn-success btn-sm"
+                data-grid-id="#jqGrid2"
+                data-search-form-id="#searchForm2"
+                data-url="${ctx}/cet/cetProjectObj_data?projectId=${cetProject.id}"><i class="fa fa-download"></i>
+            打包下载</button>
     </c:if>
     <c:if test="${cls==5}">
         <button data-url="${ctx}/cet/cetDiscussGroup_selectObjs?select=1&discussGroupId=${param.discussGroupId}"
@@ -207,7 +235,7 @@
                 <input type="hidden" name="cls" value="${cls}">
                 <div class="form-group">
                     <label>姓名</label>
-                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetProjectObj_selects?projectId=${cetProject.id}"
                             data-width="280"
                             name="userId" data-placeholder="请输入账号或姓名或教工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
@@ -312,8 +340,10 @@
         colModel:[
             <c:if test="${cls==1}">
             { label: '学习情况',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return ''
+                return rowObject.finishPeriod
             }, frozen: true},
+            {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
+            {label: '应完成学时数', name: 'shouldFinishPeriod', width: 110, frozen: true},
             </c:if>
             <c:if test="${cls==2}">
             { label: '选课方式',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -463,18 +493,18 @@
             {label: '联系方式', name: 'mobile', width: 120},
             {label: '电子邮箱', name: 'email', width: 250},
 
-            {label: '完成学时数', name: 'finishPeriod'},
+            {label: '已完成学时数', name: 'finishPeriod', width: 110},
             {label: '完成百分比', name: '_finishPercent', width: 110, formatter: function (cellvalue, options, rowObject) {
 
                 if(isNaN(period) || period<=0) return '-';
                 return Math.formatFloat(rowObject.finishPeriod*100/period, 2) + "%";
-            }},
+            }}/*,
             {label: '是否达到结业要求', name: '_enough', width: 150, formatter: function (cellvalue, options, rowObject) {
 
                 if(isNaN(requirePeriod) || requirePeriod<=0) return '-';
                 return rowObject.finishPeriod/requirePeriod >= 0.9?"<span class='text-success'>达到</span>"
                         :"<span class='text-danger'>未达到</span>";
-            }}
+            }}*/
         ],
         onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);

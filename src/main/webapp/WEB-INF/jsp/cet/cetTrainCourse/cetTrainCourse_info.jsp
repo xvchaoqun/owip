@@ -8,6 +8,12 @@
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_info" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetTrainCourse.id}">
+        <div class="form-group" id="_name">
+            <label class="col-xs-3 control-label">选课人数上限</label>
+            <div class="col-xs-6">
+                <input required class="form-control number" type="text" name="applyLimit" value="${cetTrainCourse.applyLimit}">
+            </div>
+        </div>
         <div class="form-group" id="_startTime">
             <label class="col-xs-3 control-label">开始时间</label>
             <div class="col-xs-6">

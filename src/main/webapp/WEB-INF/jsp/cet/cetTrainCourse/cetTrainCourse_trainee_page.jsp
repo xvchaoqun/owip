@@ -8,9 +8,10 @@
 <div class="modal-body popup-jqgrid" style="padding-top: 0">
     <form class="form-inline search-form" id="popup_searchForm" style="padding-bottom: 0;float: left">
         <input type="hidden" name="trainCourseId" value="${cetTrainCourse.id}">
+        <input type="hidden" name="projectId" value="${param.projectId}">
         <div class="form-group">
             <label>姓名</label>
-            <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects?types=${USER_TYPE_JZG}"
+            <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetProjectObj_selects?projectId=${param.projectId}"
                     name="userId" data-placeholder="请输入账号或姓名或教工号">
                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
             </select>
@@ -24,7 +25,7 @@
             <c:if test="${_query}">
                 <button type="button"
                         data-url="${ctx}/cet/cetTrainCourse_trainee"
-                        data-querystr="trainCourseId=${param.trainCourseId}"
+                        data-querystr="trainCourseId=${param.trainCourseId}&projectId=${param.projectId}"
                         data-target="#modal .modal-content"
                         class="resetBtn btn btn-warning btn-sm">
                     <i class="fa fa-reply"></i> 重置

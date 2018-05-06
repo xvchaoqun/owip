@@ -23,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,7 @@ import service.dispatch.DispatchCadreService;
 import sys.constants.CadreConstants;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -312,24 +314,25 @@ public class CadreWorkController extends BaseController {
 
         return "cadre/cadreWork/cadreWork_updateUnitId";
     }
-/*
-    @RequiresPermissions("cadreWork:del")
-    @RequestMapping(value = "/cadreWork_del", method = RequestMethod.POST)
+
+    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequestMapping(value = "/cadreWork_transfer", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreWork_del(HttpServletRequest request, Integer id) {
+    public Map do_cadreWork_transfer(HttpServletRequest request, int cadreId,
+                                     Integer id) {
 
         if (id != null) {
 
-            cadreWorkService.del(id);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "删除工作经历：%s", id));
+            cadreWorkService.transfer(id);
+            logger.info(addLog(LogConstants.LOG_ADMIN, "转移期间工作经历：%s", id));
         }
         return success(FormUtils.SUCCESS);
-    }*/
+    }
 
     @RequiresPermissions("cadreWork:del")
     @RequestMapping(value = "/cadreWork_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request,
+    public Map cadreWork_batchDel(HttpServletRequest request,
                         int cadreId, // 干部信息本人直接修改数据校验
                         @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 

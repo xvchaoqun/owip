@@ -19,6 +19,13 @@
                             <i class="ace-icon fa fa-backward"></i> 返回</a>
                     </h4>
                 </c:if>
+                <c:if test="${param.cls==3}">
+                    <h4 class="widget-title lighter smaller">
+                        <a href="javascript:" class="openView btn btn-xs btn-success"
+                           data-url="${ctx}/user/cet/cetProjectPlan?projectId=${cetProject.id}">
+                            <i class="ace-icon fa fa-backward"></i> 返回</a>
+                    </h4>
+                </c:if>
                 <span class="text text-info bolder" style="cursor: auto;padding-left: 20px;">
                     ${cetTrain.name}（${CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.type)}，${cetProject.name}）
                 </span>
@@ -41,7 +48,7 @@
                     <div class="panel panel-default" style="margin-bottom: 0">
                         <div class="panel-heading">
                             <h3 class="panel-title"><span class="text-danger bolder"><i
-                                    class="fa fa-times-rectangle-o"></i>   未选课列表</span>
+                                    class="fa fa-times-rectangle-o"></i>   可选课列表</span>
                             </h3>
                         </div>
                         <div class="collapse in">
@@ -81,6 +88,14 @@
             }, frozen:true},
             {label: '必修/选修', width: 90, name:'canQuit', formatter: $.jgrid.formatter.TRUEFALSE,
                 formatoptions:{on:'选修', off:'必修'},frozen:true},
+            {label: '学习情况', name: '_status', width: 80,  formatter: function (cellvalue, options, rowObject) {
+                // 未开课、未上课、已签到
+                if(rowObject.startTime > $.date(new Date(), "yyyy-MM-dd HH:mm")){
+                    return "未开课"
+                }else{
+                    return rowObject.isFinished?"已签到":"未上课"
+                }
+            }, frozen:true},
             </c:if>
             ].concat(colModel)
     }).jqGrid("setFrozenColumns");
@@ -99,6 +114,8 @@
                 label: '选课', name: '_apply', width: 90, formatter: function (cellvalue, options, rowObject) {
                 //console.log(options)
                 if(rowObject.isFinished) return '-'
+                if(rowObject.applyLimit!=undefined &&
+                        rowObject.selectedCount>rowObject.applyLimit){ return '报名已满'}
                 return ('<button class="confirm btn btn-success btn-xs" ' +
                 'data-url="${ctx}/user/cet/cetTrain_apply_item?isApply=1&trainCourseId={0}" '
                 +'data-msg="确定选课？（{1}）" data-apply="true" data-callback="_applyReload"><i class="fa fa-plus-circle"></i> 选课</button>')

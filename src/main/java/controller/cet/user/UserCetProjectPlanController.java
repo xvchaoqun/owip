@@ -1,10 +1,13 @@
 package controller.cet.user;
 
 import controller.cet.CetBaseController;
+import controller.global.OpException;
 import domain.cet.CetProject;
 import domain.cet.CetProjectObj;
 import domain.cet.CetProjectPlan;
 import domain.cet.CetProjectPlanExample;
+import domain.cet.CetTraineeView;
+import domain.cet.CetTraineeViewExample;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -40,11 +43,25 @@ public class UserCetProjectPlanController extends CetBaseController {
         modelMap.put("cetProjectPlan", cetProjectPlan);
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(cetProjectPlan.getProjectId());
         modelMap.put("cetProject", cetProject);
+        int userId = ShiroHelper.getCurrentUserId();
 
         byte planType = cetProjectPlan.getType();
         switch (planType){
             case CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE: // 线下培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
+
+                CetProjectObj cetProjectObj = cetProjectObjService.get(userId, cetProjectPlan.getProjectId());
+                CetTraineeViewExample example = new CetTraineeViewExample();
+                example.createCriteria().andPlanIdEqualTo(planId).andObjIdEqualTo(cetProjectObj.getId());
+                long trainCount = cetTraineeViewMapper.countByExample(example);
+                if(trainCount==0){
+                    throw new OpException("暂无培训班。");
+                }else if(trainCount==1){
+                    List<CetTraineeView> cetTraineeViews = cetTraineeViewMapper.selectByExample(example);
+                    // 只有一个培训班时，直接跳转
+                    int trainId = cetTraineeViews.get(0).getTrainId();
+                    return "forward:/user/cet/cetTrain_detail?cls=3&trainId=" + trainId;
+                }
                 return "forward:/user/cet/cetTrain";
 
             case CetConstants.CET_PROJECT_PLAN_TYPE_SELF: // 自主学习
@@ -65,9 +82,12 @@ public class UserCetProjectPlanController extends CetBaseController {
     public String cetProjectPlan(HttpServletRequest request,
                                  int projectId, ModelMap modelMap) {
 
-        request.setAttribute("userId", ShiroHelper.getCurrentUserId());
+        Integer userId = ShiroHelper.getCurrentUserId();
+        request.setAttribute("userId", userId);
         CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
         modelMap.put("cetProject", cetProject);
+        CetProjectObj cetProjectObj = cetProjectObjService.get(userId, projectId);
+        modelMap.put("cetProjectObj", cetProjectObj);
 
         return "cet/user/cetProjectPlan_page";
     }
@@ -96,7 +116,7 @@ public class UserCetProjectPlanController extends CetBaseController {
 
         CetProjectPlanExample example = new CetProjectPlanExample();
         CetProjectPlanExample.Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
 
         long count = cetProjectPlanMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {

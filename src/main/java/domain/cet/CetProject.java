@@ -1,6 +1,7 @@
 package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import persistence.cet.common.ICetProjectObj;
 import service.cet.CetProjectObjService;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
@@ -12,7 +13,7 @@ import java.util.Date;
 
 public class CetProject implements Serializable {
 
-    public BigDecimal getFinishPeriod(){
+    public ICetProjectObj getObj(){
 
         HttpServletRequest request = ContextHelper.getRequest();
         if (request == null) return null;
@@ -21,7 +22,7 @@ public class CetProject implements Serializable {
         if(userId==null) return null;
 
         CetProjectObjService cetProjectObjService = CmTag.getBean(CetProjectObjService.class);
-        return cetProjectObjService.getProjectFinishPeriod(id, userId);
+        return cetProjectObjService.getICetProjectObj(id, userId);
     }
 
     private Integer id;
@@ -37,6 +38,8 @@ public class CetProject implements Serializable {
     private Date endDate;
 
     private String name;
+
+    private Integer projectTypeId;
 
     private String fileName;
 
@@ -104,6 +107,14 @@ public class CetProject implements Serializable {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getProjectTypeId() {
+        return projectTypeId;
+    }
+
+    public void setProjectTypeId(Integer projectTypeId) {
+        this.projectTypeId = projectTypeId;
     }
 
     public String getFileName() {

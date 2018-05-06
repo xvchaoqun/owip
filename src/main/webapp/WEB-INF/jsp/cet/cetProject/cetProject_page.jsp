@@ -128,6 +128,13 @@ pageEncoding="UTF-8" %>
             }, frozen: true},
             { label: '培训班名称',name: 'name', width: 300, frozen: true},
             {
+                label: '专题分类', name: 'projectTypeId', formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return ''
+                var projectTypeMap = ${cm:toJSONObject(projectTypeMap)};
+                return projectTypeMap[cellvalue].name
+            }
+            },
+            {
                 label: '培训方案', width: 200, align:'left', formatter: function (cellvalue, options, rowObject) {
 
                 var ret = "";
@@ -187,7 +194,7 @@ pageEncoding="UTF-8" %>
 
             var status = rowData.status;
 
-            $("#startBtn").prop("disabled", status !=${CET_PROJECT_STATUS_INIT});
+            $("#startBtn").prop("disabled", status ==${CET_PROJECT_STATUS_START});
             $("#finishBtn").prop("disabled", status !=${CET_PROJECT_STATUS_START});
         }
     }

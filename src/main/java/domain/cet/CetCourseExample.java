@@ -873,66 +873,6 @@ public class CetCourseExample {
             return (Criteria) this;
         }
 
-        public Criteria andCourseTypeIdIsNull() {
-            addCriterion("course_type_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseTypeIdIsNotNull() {
-            addCriterion("course_type_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseTypeIdEqualTo(Integer value) {
-            addCriterion("course_type_id =", value, "courseTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseTypeIdNotEqualTo(Integer value) {
-            addCriterion("course_type_id <>", value, "courseTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseTypeIdGreaterThan(Integer value) {
-            addCriterion("course_type_id >", value, "courseTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseTypeIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("course_type_id >=", value, "courseTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseTypeIdLessThan(Integer value) {
-            addCriterion("course_type_id <", value, "courseTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseTypeIdLessThanOrEqualTo(Integer value) {
-            addCriterion("course_type_id <=", value, "courseTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseTypeIdIn(List<Integer> values) {
-            addCriterion("course_type_id in", values, "courseTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseTypeIdNotIn(List<Integer> values) {
-            addCriterion("course_type_id not in", values, "courseTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseTypeIdBetween(Integer value1, Integer value2) {
-            addCriterion("course_type_id between", value1, value2, "courseTypeId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCourseTypeIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("course_type_id not between", value1, value2, "courseTypeId");
-            return (Criteria) this;
-        }
-
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

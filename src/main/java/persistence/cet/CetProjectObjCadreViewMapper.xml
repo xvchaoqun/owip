@@ -7,13 +7,15 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="trainee_type_id" jdbcType="INTEGER" property="traineeTypeId" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
+    <result column="should_finish_period" jdbcType="DECIMAL" property="shouldFinishPeriod" />
+    <result column="is_graduate" jdbcType="BIT" property="isGraduate" />
     <result column="word_write" jdbcType="VARCHAR" property="wordWrite" />
     <result column="pdf_write" jdbcType="VARCHAR" property="pdfWrite" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="finish_period" jdbcType="DECIMAL" property="finishPeriod" />
-    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
@@ -56,9 +58,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, user_id, trainee_type_id, is_quit, word_write, pdf_write, remark, 
-    finish_period, cadre_id, code, realname, title, type_id, post_id, cadre_dp_type, 
-    dp_type_id, pro_post, lp_work_time, mobile, email, cadre_status, cadre_sort_order
+    id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, is_graduate, 
+    word_write, pdf_write, remark, username, code, realname, cadre_id, title, type_id, 
+    post_id, cadre_dp_type, dp_type_id, pro_post, lp_work_time, mobile, email, cadre_status, 
+    cadre_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectObjCadreViewExample" resultMap="BaseResultMap">
     select

@@ -7,7 +7,7 @@ import service.cet.CetColumnService;
 import service.cet.CetCourseFileService;
 import service.cet.CetCourseItemService;
 import service.cet.CetCourseService;
-import service.cet.CetCourseTypeService;
+import service.cet.CetProjectTypeService;
 import service.cet.CetDiscussGroupObjService;
 import service.cet.CetDiscussGroupService;
 import service.cet.CetDiscussService;
@@ -69,7 +69,7 @@ public class CetBaseController extends BaseController {
     @Autowired
     protected CetCourseItemService cetCourseItemService;
     @Autowired
-    protected CetCourseTypeService cetCourseTypeService;
+    protected CetProjectTypeService cetProjectTypeService;
     @Autowired
     protected CetExpertService cetExpertService;
     @Autowired

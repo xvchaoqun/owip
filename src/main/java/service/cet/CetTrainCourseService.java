@@ -1,5 +1,6 @@
 package service.cet;
 
+import bean.ShortMsgBean;
 import bean.XlsTrainCourse;
 import controller.global.OpException;
 import domain.cet.CetCourse;
@@ -10,7 +11,9 @@ import domain.cet.CetTrainCourseFile;
 import domain.cet.CetTrainEvaResultExample;
 import domain.cet.CetTraineeCourseView;
 import domain.cet.CetTraineeCourseViewExample;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -18,8 +21,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import service.sys.SysApprovalLogService;
+import service.base.ShortMsgService;
 import service.sys.SysUserService;
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
+import sys.utils.ContextHelper;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -34,40 +40,34 @@ public class CetTrainCourseService extends BaseMapper {
     @Autowired
     private CetCourseService cetCourseService;
     @Autowired
-    private CetProjectObjService cetProjectObjService;
-    @Autowired
     private SysUserService sysUserService;
     @Autowired
-    private CetTraineeService cetTraineeService;
-    @Autowired
-    private CetTraineeCourseService cetTraineeCourseService;
-    @Autowired
-    private SysApprovalLogService sysApprovalLogService;
+    private ShortMsgService shortMsgService;
 
 
-    public CetTrainCourse get(int trainId, int courseId){
+    public CetTrainCourse get(int trainId, int courseId) {
 
         CetTrainCourseExample example = new CetTrainCourseExample();
         example.createCriteria().andTrainIdEqualTo(trainId).andCourseIdEqualTo(courseId);
         List<CetTrainCourse> cetTrainCourses = cetTrainCourseMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 1));
 
-        return (cetTrainCourses.size()>0)?cetTrainCourses.get(0):null;
+        return (cetTrainCourses.size() > 0) ? cetTrainCourses.get(0) : null;
     }
 
     @Transactional
-    @CacheEvict(value="CetTrainCourses", key = "#record.trainId")
-    public void insertSelective(CetTrainCourse record){
+    @CacheEvict(value = "CetTrainCourses", key = "#record.trainId")
+    public void insertSelective(CetTrainCourse record) {
 
-        record.setSortOrder(getNextSortOrder("cet_train_course", "train_id="+record.getTrainId()));
+        record.setSortOrder(getNextSortOrder("cet_train_course", "train_id=" + record.getTrainId()));
         cetTrainCourseMapper.insertSelective(record);
     }
 
 
     @Transactional
-    @CacheEvict(value="CetTrainCourses", allEntries = true)
-    public void batchDel(Integer[] ids){
+    @CacheEvict(value = "CetTrainCourses", allEntries = true)
+    public void batchDel(Integer[] ids) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
 
         CetTrainCourseExample example = new CetTrainCourseExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -76,14 +76,14 @@ public class CetTrainCourseService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="CetTrainCourses", allEntries = true)
-    public int updateByPrimaryKeySelective(CetTrainCourse record){
+    @CacheEvict(value = "CetTrainCourses", allEntries = true)
+    public int updateByPrimaryKeySelective(CetTrainCourse record) {
 
         record.setTrainId(null);
         return cetTrainCourseMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="CetTrainCourses", key = "#trainId")
+    @Cacheable(value = "CetTrainCourses", key = "#trainId")
     public Map<Integer, CetTrainCourse> findAll(int trainId) {
 
         CetTrainCourseExample example = new CetTrainCourseExample();
@@ -116,26 +116,27 @@ public class CetTrainCourseService extends BaseMapper {
 
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
+     *
      * @param id
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value="CetTrainCourses", allEntries = true)
+    @CacheEvict(value = "CetTrainCourses", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
+        if (addNum == 0) return;
         byte orderBy = ORDER_BY_ASC;
         CetTrainCourse entity = cetTrainCourseMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
         Integer trainId = entity.getTrainId();
 
         CetTrainCourseExample example = new CetTrainCourseExample();
-        if (addNum*orderBy > 0) {
+        if (addNum * orderBy > 0) {
 
             example.createCriteria().andSortOrderGreaterThan(baseSortOrder)
-            .andTrainIdEqualTo(trainId);
+                    .andTrainIdEqualTo(trainId);
             example.setOrderByClause("sort_order asc");
-        }else {
+        } else {
 
             example.createCriteria().andSortOrderLessThan(baseSortOrder)
                     .andTrainIdEqualTo(trainId);
@@ -143,14 +144,14 @@ public class CetTrainCourseService extends BaseMapper {
         }
 
         List<CetTrainCourse> overEntities = cetTrainCourseMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
+        if (overEntities.size() > 0) {
 
-            CetTrainCourse targetEntity = overEntities.get(overEntities.size()-1);
+            CetTrainCourse targetEntity = overEntities.get(overEntities.size() - 1);
 
-            if (addNum*orderBy > 0)
-                commonMapper.downOrder("cet_train_course", "train_id="+trainId, baseSortOrder, targetEntity.getSortOrder());
+            if (addNum * orderBy > 0)
+                commonMapper.downOrder("cet_train_course", "train_id=" + trainId, baseSortOrder, targetEntity.getSortOrder());
             else
-                commonMapper.upOrder("cet_train_course", "train_id="+trainId, baseSortOrder, targetEntity.getSortOrder());
+                commonMapper.upOrder("cet_train_course", "train_id=" + trainId, baseSortOrder, targetEntity.getSortOrder());
 
             CetTrainCourse record = new CetTrainCourse();
             record.setId(id);
@@ -163,39 +164,39 @@ public class CetTrainCourseService extends BaseMapper {
     @Transactional
     public void selectCourses(int trainId, Integer[] courseIds) {
 
-        if(courseIds==null || courseIds.length==0) return;
+        if (courseIds == null || courseIds.length == 0) return;
 
         CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
         Boolean isOnCampus = cetTrain.getIsOnCampus();
         for (Integer courseId : courseIds) {
 
             CetTrainCourse cetTrainCourse = get(trainId, courseId);
-            if(cetTrainCourse!=null) continue;
+            if (cetTrainCourse != null) continue;
 
             CetTrainCourse record = new CetTrainCourse();
             record.setTrainId(trainId);
             record.setCourseId(courseId);
-            if(!isOnCampus){
+            if (!isOnCampus) {
                 // 校外培训,同步课程名称和专家姓名
                 CetCourse cetCourse = cetCourseService.get(courseId);
                 record.setName(cetCourse.getName());
                 record.setTeacher(cetCourse.getCetExpert().getRealname());
             }
-            record.setSortOrder(getNextSortOrder("cet_train_course", "train_id="+record.getTrainId()));
+            record.setSortOrder(getNextSortOrder("cet_train_course", "train_id=" + record.getTrainId()));
             cetTrainCourseMapper.insertSelective(record);
         }
     }
 
     // 关联评估表
     @Transactional
-    @CacheEvict(value="CetTrainCourses", key = "#trainId")
+    @CacheEvict(value = "CetTrainCourses", key = "#trainId")
     public void evaTable(int trainId, Integer[] ids, int evaTableId) {
 
-        if(ids.length==0) return;
+        if (ids.length == 0) return;
         for (Integer id : ids) {
             CetTrainCourse trainCourse = cetTrainCourseMapper.selectByPrimaryKey(id);
-            if(trainCourse.getTrainId().intValue()==trainId
-                    && (trainCourse.getEvaTableId()==null || trainCourse.getEvaTableId().intValue()!=evaTableId)) {
+            if (trainCourse.getTrainId().intValue() == trainId
+                    && (trainCourse.getEvaTableId() == null || trainCourse.getEvaTableId().intValue() != evaTableId)) {
 
                 {
                     CetTrainEvaResultExample example = new CetTrainEvaResultExample();
@@ -214,11 +215,11 @@ public class CetTrainCourseService extends BaseMapper {
     }
 
     // 0：评课进行中 1:已关闭评课 2：评课未开始（未上课） 3：评课已结束
-    public int evaIsClosed(int courseId){
+    public int evaIsClosed(int courseId) {
 
         CetTrainCourse trainCourse = cetTrainCourseMapper.selectByPrimaryKey(courseId);
         CetTrain train = cetTrainMapper.selectByPrimaryKey(trainCourse.getTrainId());
-        if(BooleanUtils.isTrue(train.getEvaClosed())){
+        if (BooleanUtils.isTrue(train.getEvaClosed())) {
             return 1;
         }
 
@@ -226,10 +227,10 @@ public class CetTrainCourseService extends BaseMapper {
         Date openTime = trainCourse.getStartTime();
         Date closeTime = train.getEvaCloseTime();
 
-        if(openTime!=null && now.before(openTime)){
+        if (openTime != null && now.before(openTime)) {
             return 2;
         }
-        if(closeTime!=null && now.after(closeTime)){
+        if (closeTime != null && now.after(closeTime)) {
             return 3;
         }
 
@@ -238,7 +239,7 @@ public class CetTrainCourseService extends BaseMapper {
 
 
     @Transactional
-    @CacheEvict(value="CetTrainCourses", key = "#trainId")
+    @CacheEvict(value = "CetTrainCourses", key = "#trainId")
     public int imports(final List<XlsTrainCourse> beans, int trainId) {
 
         int success = 0;
@@ -270,6 +271,64 @@ public class CetTrainCourseService extends BaseMapper {
 
             resultMap.put(cetTraineeCourseView.getUserId(), cetTraineeCourseView);
         }
+
+        return resultMap;
+    }
+
+    public Map<String, Integer> sendApplyMsg(int trainCourseId, String mobile, String msg) {
+
+        int total = 0;
+        int success = 0;
+
+        String ip = ContextHelper.getRealIp();
+        int sendUserId = ShiroHelper.getCurrentUserId();
+        if (StringUtils.isNotBlank(mobile)) {
+
+            // 发送给指定手机号码
+            ShortMsgBean bean = new ShortMsgBean();
+            bean.setSender(sendUserId);
+            bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_CET);
+            bean.setType("补选课报名");
+            bean.setMobile(mobile);
+            bean.setContent(msg);
+
+            if (shortMsgService.send(bean, ip)) {
+                total++;
+                success++;
+            }
+        } else {
+
+            List<Integer> userIds = iCetMapper.notApplyUserIds(trainCourseId);
+
+
+            if (userIds != null) {
+                total = userIds.size();
+                for (Integer userId : userIds) {
+                    SysUserView uv = sysUserService.findById(userId);
+                    mobile = uv.getMobile();
+                    if (StringUtils.isNotBlank(mobile)) {
+
+                        ShortMsgBean bean = new ShortMsgBean();
+                        bean.setReceiver(userId);
+                        bean.setSender(sendUserId);
+                        bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_CET);
+                        bean.setType("补选课报名");
+                        bean.setMobile(mobile);
+                        bean.setContent(msg);
+
+                        try {
+                            if (shortMsgService.send(bean, ip)) success++;
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+
+                    }
+                }
+            }
+        }
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("total", total);
+        resultMap.put("success", success);
 
         return resultMap;
     }

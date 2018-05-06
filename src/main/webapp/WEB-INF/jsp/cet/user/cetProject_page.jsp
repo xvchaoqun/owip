@@ -88,14 +88,21 @@ pageEncoding="UTF-8" %>
                 return '-';
             }},
             { label: '总学时',name: 'period'},
-            {label: '完成学时数', name: 'finishPeriod'},
+            { label: '应完成学时数',name: 'obj.shouldFinishPeriod', width: 110,formatter: function (cellvalue, options, rowObject) {
+                if(Math.trimToZero(cellvalue)==0) return '-'
+                return cellvalue
+            }},
+            {label: '已完成学时数', name: 'obj.finishPeriod', width: 110},
             { label: '学习进度',name: '_finish',formatter: function (cellvalue, options, rowObject) {
-                if(Math.trimToZero(rowObject.period)==0) return '-'
-                var progress = Math.formatFloat(Math.trimToZero(rowObject.finishPeriod)*100/rowObject.period, 1) + "%";
+                if(Math.trimToZero(rowObject.obj.shouldFinishPeriod)==0) return '-'
+                var progress = Math.formatFloat(Math.trimToZero(rowObject.obj.finishPeriod)*100/rowObject.obj.shouldFinishPeriod, 1) + "%";
                 return ('<div class="progress progress-striped pos-rel" data-percent="{0}">' +
                 '<div class="progress-bar progress-bar-success" style="width:{0};"></div></div>').format(progress)
             }},
-            { label: '是否结业',name: '_finish'}
+            { label: '是否结业',name: 'obj.isGraduate',formatter: function (cellvalue, options, rowObject) {
+                if(Math.trimToZero(rowObject.obj.shouldFinishPeriod)==0) return '-'
+                return cellvalue?"已结业":"未结业"
+            }}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

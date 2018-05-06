@@ -5,6 +5,7 @@ import persistence.cet.CetDiscussGroupMapper;
 import persistence.cet.CetTrainCourseMapper;
 import service.cet.CetDiscussGroupObjService;
 import service.cet.CetPlanCourseObjService;
+import service.cet.CetProjectObjService;
 import service.cet.CetTraineeCourseService;
 import service.cet.CetTraineeService;
 import sys.tags.CmTag;
@@ -19,6 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 public class CetProjectObjCadreView implements Serializable {
+
+    public BigDecimal getFinishPeriod(){
+
+        CetProjectObjService cetProjectObjService = CmTag.getBean(CetProjectObjService.class);
+        return cetProjectObjService.getFinishPeriod(projectId, id);
+    }
 
     public Map getObjInfo() {
 
@@ -108,19 +115,23 @@ public class CetProjectObjCadreView implements Serializable {
 
     private Boolean isQuit;
 
+    private BigDecimal shouldFinishPeriod;
+
+    private Boolean isGraduate;
+
     private String wordWrite;
 
     private String pdfWrite;
 
     private String remark;
 
-    private BigDecimal finishPeriod;
-
-    private Integer cadreId;
+    private String username;
 
     private String code;
 
     private String realname;
+
+    private Integer cadreId;
 
     private String title;
 
@@ -186,6 +197,22 @@ public class CetProjectObjCadreView implements Serializable {
         this.isQuit = isQuit;
     }
 
+    public BigDecimal getShouldFinishPeriod() {
+        return shouldFinishPeriod;
+    }
+
+    public void setShouldFinishPeriod(BigDecimal shouldFinishPeriod) {
+        this.shouldFinishPeriod = shouldFinishPeriod;
+    }
+
+    public Boolean getIsGraduate() {
+        return isGraduate;
+    }
+
+    public void setIsGraduate(Boolean isGraduate) {
+        this.isGraduate = isGraduate;
+    }
+
     public String getWordWrite() {
         return wordWrite;
     }
@@ -210,20 +237,12 @@ public class CetProjectObjCadreView implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public BigDecimal getFinishPeriod() {
-        return finishPeriod;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFinishPeriod(BigDecimal finishPeriod) {
-        this.finishPeriod = finishPeriod;
-    }
-
-    public Integer getCadreId() {
-        return cadreId;
-    }
-
-    public void setCadreId(Integer cadreId) {
-        this.cadreId = cadreId;
+    public void setUsername(String username) {
+        this.username = username == null ? null : username.trim();
     }
 
     public String getCode() {
@@ -240,6 +259,14 @@ public class CetProjectObjCadreView implements Serializable {
 
     public void setRealname(String realname) {
         this.realname = realname == null ? null : realname.trim();
+    }
+
+    public Integer getCadreId() {
+        return cadreId;
+    }
+
+    public void setCadreId(Integer cadreId) {
+        this.cadreId = cadreId;
     }
 
     public String getTitle() {

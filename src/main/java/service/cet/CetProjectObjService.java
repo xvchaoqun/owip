@@ -1,8 +1,11 @@
 package service.cet;
 
 import controller.global.OpException;
+import domain.cet.CetProject;
 import domain.cet.CetProjectObj;
 import domain.cet.CetProjectObjExample;
+import domain.cet.CetProjectObjView;
+import domain.cet.CetProjectObjViewExample;
 import domain.cet.CetProjectPlan;
 import domain.cet.CetProjectPlanExample;
 import domain.cet.CetTrain;
@@ -11,9 +14,14 @@ import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseView;
 import domain.cet.CetTraineeView;
 import domain.sys.SysUserView;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.BigDecimalConverter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.cet.common.ICetProjectObj;
 import service.BaseMapper;
 import service.sys.SysApprovalLogService;
 import service.sys.SysUserService;
@@ -22,7 +30,9 @@ import sys.constants.CetConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -275,10 +285,23 @@ public class CetProjectObjService extends BaseMapper {
     }
 
     // 获取培训对象在一个培训中已完成的学时
-    public BigDecimal getProjectFinishPeriod(int projectId, int userId) {
+    public ICetProjectObj getICetProjectObj(int projectId, int userId) {
 
-        CetProjectObj cetProjectObj = get(userId, projectId);
+        ICetProjectObj cetProjectObj = new ICetProjectObj();
+        try {
+            ConvertUtils.register(new BigDecimalConverter(null), java.math.BigDecimal.class);
+            BeanUtils.copyProperties(cetProjectObj, get(userId, projectId));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
         int objId = cetProjectObj.getId();
+        cetProjectObj.setFinishPeriod(getFinishPeriod(projectId, objId));
+        return cetProjectObj;
+    }
+
+    public BigDecimal getFinishPeriod(int projectId, int objId){
 
         CetProjectPlanExample example = new CetProjectPlanExample();
         example.createCriteria().andProjectIdEqualTo(projectId);
@@ -292,6 +315,70 @@ public class CetProjectObjService extends BaseMapper {
                 finishPeriod = finishPeriod.add(planFinishPeriod);
             }
         }
+
         return finishPeriod;
+    }
+
+    // 设置应完成学时
+    @Transactional
+    public void setShouldFinishPeriod(Integer[] ids, BigDecimal shouldFinishPeriod) {
+
+        if(ids==null || ids.length==0) return;
+
+        if(shouldFinishPeriod!=null){
+
+            CetProjectObj record = new CetProjectObj();
+            record.setShouldFinishPeriod(shouldFinishPeriod);
+
+            CetProjectObjExample example = new CetProjectObjExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            cetProjectObjMapper.updateByExampleSelective(record, example);
+        }else{
+            commonMapper.excuteSql("update cet_project_obj set should_finish_period=null where id in("
+                    + StringUtils.join(ids, ",") + ")");
+        }
+    }
+
+    // 自动结业
+    @Transactional
+    public void autoGraduate(int projectId) {
+
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+        BigDecimal requirePeriod = cetProject.getRequirePeriod();
+
+        List<Integer> finishIds = new ArrayList<>();
+        {
+            CetProjectObjViewExample example = new CetProjectObjViewExample();
+            example.createCriteria().andProjectIdEqualTo(projectId).andIsQuitEqualTo(false);
+            List<CetProjectObjView> cetProjectObjViews = cetProjectObjViewMapper.selectByExample(example);
+            for (CetProjectObjView cetProjectObjView : cetProjectObjViews) {
+
+                BigDecimal finishPeriod = cetProjectObjView.getFinishPeriod();
+
+                if (requirePeriod != null && finishPeriod != null && requirePeriod.compareTo(finishPeriod) <= 0) {
+                    finishIds.add(cetProjectObjView.getId());
+                }
+            }
+        }
+        if(finishIds.size()>0) {
+            CetProjectObj record = new CetProjectObj();
+            record.setIsGraduate(true);
+            CetProjectObjExample example = new CetProjectObjExample();
+            example.createCriteria().andIdIn(finishIds);
+            cetProjectObjMapper.updateByExampleSelective(record, example);
+        }
+    }
+
+    // 手动结业
+    @Transactional
+    public void forceGraduate(Integer[] ids) {
+
+        if(ids==null || ids.length==0) return;
+
+        CetProjectObj record = new CetProjectObj();
+        record.setIsGraduate(true);
+        CetProjectObjExample example = new CetProjectObjExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        cetProjectObjMapper.updateByExampleSelective(record, example);
     }
 }

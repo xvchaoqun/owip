@@ -424,6 +424,76 @@ public class CetCourseFileExample {
             return (Criteria) this;
         }
 
+        public Criteria andPaperNoteIsNull() {
+            addCriterion("paper_note is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteIsNotNull() {
+            addCriterion("paper_note is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteEqualTo(String value) {
+            addCriterion("paper_note =", value, "paperNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteNotEqualTo(String value) {
+            addCriterion("paper_note <>", value, "paperNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteGreaterThan(String value) {
+            addCriterion("paper_note >", value, "paperNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteGreaterThanOrEqualTo(String value) {
+            addCriterion("paper_note >=", value, "paperNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteLessThan(String value) {
+            addCriterion("paper_note <", value, "paperNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteLessThanOrEqualTo(String value) {
+            addCriterion("paper_note <=", value, "paperNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteLike(String value) {
+            addCriterion("paper_note like", value, "paperNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteNotLike(String value) {
+            addCriterion("paper_note not like", value, "paperNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteIn(List<String> values) {
+            addCriterion("paper_note in", values, "paperNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteNotIn(List<String> values) {
+            addCriterion("paper_note not in", values, "paperNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteBetween(String value1, String value2) {
+            addCriterion("paper_note between", value1, value2, "paperNote");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaperNoteNotBetween(String value1, String value2) {
+            addCriterion("paper_note not between", value1, value2, "paperNote");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

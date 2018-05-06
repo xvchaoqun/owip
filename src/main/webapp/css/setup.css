@@ -322,6 +322,12 @@ body {
     cursor: pointer;
 }
 
+.ui-jqgrid input[type="checkbox"]{
+    width: 17px;
+    height: 17px;
+    margin:0 5px 0 0;
+}
+
 .ui-common-table button {
     /*margin: 0!important;*/
     /* padding: 0!important;*/

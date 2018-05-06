@@ -1,12 +1,12 @@
 package controller.cet;
 
 import domain.cet.CetCourse;
-import domain.cet.CetCourseType;
 import domain.cet.CetPlanCourse;
 import domain.cet.CetPlanCourseExample;
 import domain.cet.CetPlanCourseExample.Criteria;
 import domain.cet.CetProjectPlan;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -126,9 +126,6 @@ public class CetPlanCourseController extends CetBaseController {
         CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
         modelMap.put("cetProjectPlan", cetProjectPlan);
 
-        Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
-        modelMap.put("courseTypeMap", courseTypeMap);
-
         return "cet/cetPlanCourse/cetPlanCourse_selectCourses";
     }
 
@@ -205,6 +202,7 @@ public class CetPlanCourseController extends CetBaseController {
     @ResponseBody
     public Map do_cetPlanCourse_info(CetPlanCourse record, HttpServletRequest request) {
 
+        record.setNeedNote(BooleanUtils.isTrue(record.getNeedNote()));
         cetPlanCourseService.updateByPrimaryKeySelective(record);
         logger.info(addLog(LogConstants.LOG_CET, "更新培训班课程信息：%s", record.getId()));
         return success(FormUtils.SUCCESS);

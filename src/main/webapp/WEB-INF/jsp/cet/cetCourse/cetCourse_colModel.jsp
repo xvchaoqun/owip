@@ -34,13 +34,6 @@
       <c:if test="${param.type==CET_COURSE_TYPE_ONLINE}">
       {label: '时长', name: 'duration'},
       </c:if>
-      {
-          label: '专题分类', name: 'courseTypeId', formatter: function (cellvalue, options, rowObject) {
-          if (cellvalue == undefined) return ''
-          var courseTypeMap = ${cm:toJSONObject(courseTypeMap)};
-          return courseTypeMap[cellvalue].name
-      }
-      },
       <c:if test="${param.list=='admin'}">
       {label: '详情', name: '_detail', width:'80', formatter: function (cellvalue, options, rowObject) {
           return ('<button class="openView btn btn-warning btn-xs" ' +

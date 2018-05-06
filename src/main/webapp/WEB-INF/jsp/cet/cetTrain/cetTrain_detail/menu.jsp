@@ -36,7 +36,7 @@
                 <li>
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content2" data-callback="$.menu.liSelected"
-                       data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}">
+                       data-url="${ctx}/cet/cetTrainee?trainId=${param.trainId}&projectId=${cetProjectPlan.projectId}">
                         <i class="green ace-icon fa fa-users bigger-120"></i> 学员学习情况汇总</a>
                 </li>
                 <li>
@@ -60,5 +60,8 @@
 <script>
     function _detailReload2(){
         $("#detail-ul2 li.active .loadPage").click()
+    }
+    function _detailContentReload2(){
+        $("#detail-content2 li.active .loadPage").click()
     }
 </script>

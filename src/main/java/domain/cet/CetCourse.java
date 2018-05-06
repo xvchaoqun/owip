@@ -76,8 +76,6 @@ public class CetCourse implements Serializable {
 
     private BigDecimal duration;
 
-    private Integer courseTypeId;
-
     private Integer sortOrder;
 
     private String remark;
@@ -182,14 +180,6 @@ public class CetCourse implements Serializable {
 
     public void setDuration(BigDecimal duration) {
         this.duration = duration;
-    }
-
-    public Integer getCourseTypeId() {
-        return courseTypeId;
-    }
-
-    public void setCourseTypeId(Integer courseTypeId) {
-        this.courseTypeId = courseTypeId;
     }
 
     public Integer getSortOrder() {

@@ -3,7 +3,6 @@ package controller.cet;
 import domain.cet.CetCourse;
 import domain.cet.CetCourseExample;
 import domain.cet.CetCourseExample.Criteria;
-import domain.cet.CetCourseType;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -53,9 +52,6 @@ public class CetCourseController extends CetBaseController {
         }else if (cls == 3) {
             return "forward:/cet/cetColumn?columnType=2&isOnline="+ (type== CetConstants.CET_COURSE_TYPE_ONLINE?1:0);
         }
-
-        Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
-        modelMap.put("courseTypeMap", courseTypeMap);
 
         return "cet/cetCourse/cetCourse_page";
     }
@@ -150,9 +146,6 @@ public class CetCourseController extends CetBaseController {
         // 线下、线上课程
         if(NumberUtils.contains(type, CetConstants.CET_COURSE_TYPE_ONLINE,
                 CetConstants.CET_COURSE_TYPE_OFFLINE)) {
-            Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
-            modelMap.put("courseTypes", courseTypeMap.values());
-
             return "cet/cetCourse/cetCourse_au";
         }else if(type==CetConstants.CET_COURSE_TYPE_SELF){
 
@@ -260,7 +253,7 @@ public class CetCourseController extends CetBaseController {
 
         List<CetCourse> records = cetCourseMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"设立时间|100","课程名称|100","主讲人|100","学时|100","专题分类|100","排序|100","备注|100"};
+        String[] titles = {"设立时间|100","课程名称|100","主讲人|100","学时|100","排序|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetCourse record = records.get(i);
@@ -269,7 +262,7 @@ public class CetCourseController extends CetBaseController {
                             record.getName(),
                             record.getExpertId()+"",
                             record.getPeriod()+"",
-                            record.getCourseTypeId()+"",
+
                             record.getSortOrder()+"",
                             record.getRemark()
             };

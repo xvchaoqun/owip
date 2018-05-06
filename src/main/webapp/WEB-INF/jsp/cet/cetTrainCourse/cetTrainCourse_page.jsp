@@ -21,6 +21,12 @@
            data-id-name="trainCourseId"><i class="fa fa-edit"></i>
             编辑课程信息</button>
 
+        <button class="jqOpenViewBtn btn btn-warning btn-sm"
+           data-url="${ctx}/cet/cetTrainCourse_applyMsg"
+           data-grid-id="#jqGrid2"
+           data-id-name="trainCourseId"><i class="fa fa-send"></i>
+            补选课通知</button>
+
     <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
        data-url="${ctx}/cet/cetTrainCourse_data"
        data-querystr="trainId=${cetTrain.id}"
@@ -69,8 +75,8 @@
                 var finishCount = (rowObject.finishCount==undefined)?0:rowObject.finishCount;
                 var selectedCount = (rowObject.selectedCount==undefined)?0:rowObject.selectedCount;
                 return ('<button class="popupBtn btn btn-success btn-xs" data-width="1000" ' +
-                'data-url="${ctx}/cet/cetTrainCourse_trainee?trainCourseId={0}">已签到({1}/{2})</button>')
-                        .format(rowObject.id, finishCount, selectedCount);
+                'data-url="${ctx}/cet/cetTrainCourse_trainee?trainCourseId={0}&projectId={3}">已签到({1}/{2})</button>')
+                        .format(rowObject.id, finishCount, selectedCount, projectId);
             }},
             {label: '课程编号', name: 'cetCourse.sn', frozen:true},
             </c:if>
@@ -103,14 +109,8 @@
             {label: '职务和职称', name: 'cetCourse.cetExpert.post', width: 120, align: 'left'},
             {label: '授课方式', name: 'cetCourse.teachMethod', formatter: $.jgrid.formatter.MetaType},
             {label: '学时', name: 'cetCourse.period', width: 70},
-            {
-                label: '专题分类', name: 'cetCourse.courseTypeId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return ''
-                var courseTypeMap = ${cm:toJSONObject(courseTypeMap)};
-                return courseTypeMap[cellvalue].name
-            }
-            },
             </c:if>
+            {label: '选课人数上限', name: 'applyLimit'},
             {
                 label: '开始时间',
                 name: 'startTime',
@@ -156,8 +156,8 @@
                 var finishCount = (rowObject.finishCount==undefined)?0:rowObject.finishCount;
                 var selectedCount = (rowObject.selectedCount==undefined)?0:rowObject.selectedCount;
                 return ('<button class="popupBtn btn btn-success btn-xs" data-width="1000" ' +
-                'data-url="${ctx}/cet/cetTrainCourse_trainee?trainCourseId={0}">已签到({1}/{2})</button>')
-                        .format(rowObject.id, finishCount, selectedCount);
+                'data-url="${ctx}/cet/cetTrainCourse_trainee?trainCourseId={0}&projectId={3}">已签到({1}/{2})</button>')
+                        .format(rowObject.id, finishCount, selectedCount, projectId);
             }},
             {label: '编号', name: 'cetCourse.sn', frozen:true},
             {
@@ -177,6 +177,7 @@
                 formatoptions: {url: "${ctx}/cet/cetTrainCourse_changeOrder", grid:'#jqGrid2'}, frozen:true
             },
             {label: '学时', name: 'cetCourse.period', width: 70},
+            {label: '选课人数上限', name: 'applyLimit'},
             {
                 label: '开始时间',
                 name: 'startTime',

@@ -14,7 +14,6 @@
     <result column="teach_method" jdbcType="INTEGER" property="teachMethod" />
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="duration" jdbcType="DECIMAL" property="duration" />
-    <result column="course_type_id" jdbcType="INTEGER" property="courseTypeId" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
@@ -82,7 +81,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, type, num, found_date, name, address, has_summary, expert_id, teach_method, 
-    period, duration, course_type_id, sort_order, remark, is_deleted
+    period, duration, sort_order, remark, is_deleted
   </sql>
   <sql id="Blob_Column_List">
     summary
@@ -140,14 +139,14 @@
       num, found_date, name, 
       address, has_summary, expert_id, 
       teach_method, period, duration, 
-      course_type_id, sort_order, remark, 
-      is_deleted, summary)
+      sort_order, remark, is_deleted, 
+      summary)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{num,jdbcType=INTEGER}, #{foundDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{hasSummary,jdbcType=BIT}, #{expertId,jdbcType=INTEGER}, 
       #{teachMethod,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, #{duration,jdbcType=DECIMAL}, 
-      #{courseTypeId,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{isDeleted,jdbcType=BIT}, #{summary,jdbcType=LONGVARCHAR})
+      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
+      #{summary,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetCourse">
     insert into cet_course
@@ -187,9 +186,6 @@
       </if>
       <if test="duration != null">
         duration,
-      </if>
-      <if test="courseTypeId != null">
-        course_type_id,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -240,9 +236,6 @@
       </if>
       <if test="duration != null">
         #{duration,jdbcType=DECIMAL},
-      </if>
-      <if test="courseTypeId != null">
-        #{courseTypeId,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -303,9 +296,6 @@
       <if test="record.duration != null">
         duration = #{record.duration,jdbcType=DECIMAL},
       </if>
-      <if test="record.courseTypeId != null">
-        course_type_id = #{record.courseTypeId,jdbcType=INTEGER},
-      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -337,7 +327,6 @@
       teach_method = #{record.teachMethod,jdbcType=INTEGER},
       period = #{record.period,jdbcType=DECIMAL},
       duration = #{record.duration,jdbcType=DECIMAL},
-      course_type_id = #{record.courseTypeId,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
@@ -360,7 +349,6 @@
       teach_method = #{record.teachMethod,jdbcType=INTEGER},
       period = #{record.period,jdbcType=DECIMAL},
       duration = #{record.duration,jdbcType=DECIMAL},
-      course_type_id = #{record.courseTypeId,jdbcType=INTEGER},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       is_deleted = #{record.isDeleted,jdbcType=BIT}
@@ -404,9 +392,6 @@
       <if test="duration != null">
         duration = #{duration,jdbcType=DECIMAL},
       </if>
-      <if test="courseTypeId != null">
-        course_type_id = #{courseTypeId,jdbcType=INTEGER},
-      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -435,7 +420,6 @@
       teach_method = #{teachMethod,jdbcType=INTEGER},
       period = #{period,jdbcType=DECIMAL},
       duration = #{duration,jdbcType=DECIMAL},
-      course_type_id = #{courseTypeId,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=BIT},
@@ -455,7 +439,6 @@
       teach_method = #{teachMethod,jdbcType=INTEGER},
       period = #{period,jdbcType=DECIMAL},
       duration = #{duration,jdbcType=DECIMAL},
-      course_type_id = #{courseTypeId,jdbcType=INTEGER},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=BIT}

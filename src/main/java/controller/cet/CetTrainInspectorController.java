@@ -4,9 +4,11 @@ import domain.cet.CetTrain;
 import domain.cet.CetTrainInspector;
 import domain.cet.CetTrainInspectorView;
 import domain.cet.CetTrainInspectorViewExample;
+import domain.cet.CetTrainView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.shiro.SecurityUtils;
@@ -181,7 +183,7 @@ public class CetTrainInspectorController extends CetBaseController {
 
             if(cetTrain.getEvaAnonymous()) {
                 String passwd = cetTrainInspector.getPasswd();
-                if (!SecurityUtils.getSubject().hasRole(RoleConstants.ROLE_ADMIN)) {
+                if (!SecurityUtils.getSubject().hasRole(RoleConstants.ROLE_CET_ADMIN)) {
                     if (cetTrainInspector.getPasswdChangeType() != null) {
                         passwd = "******"; // 本人修改过密码或者管理员重置过密码，则单位管理员不可以看到
                     }
@@ -206,7 +208,7 @@ public class CetTrainInspectorController extends CetBaseController {
         ExportHelper.export(titles, valuesList, filename, response);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequestMapping(value="/cetTrainInspector_abolish", method=RequestMethod.POST)
     @ResponseBody
     public Map cetTrainInspector_abolish(int id, HttpServletRequest request){
@@ -218,7 +220,7 @@ public class CetTrainInspectorController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequestMapping(value="/cetTrainInspector_password_reset", method=RequestMethod.POST)
     @ResponseBody
     public Map cetTrainInspector_password_reset(int id, HttpServletRequest request){
@@ -233,7 +235,7 @@ public class CetTrainInspectorController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
     @RequestMapping(value="/cetTrainInspector_delAbolished", method=RequestMethod.POST)
     @ResponseBody
     public Map cetTrainInspector_del(int id, HttpServletRequest request){
@@ -245,16 +247,16 @@ public class CetTrainInspectorController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    /*@RequiresRoles(RoleConstants.ROLE_ADMIN)
-    @RequestMapping(value="/cetTrainInspector_delAllAbolished", method=RequestMethod.POST)
+    @RequiresRoles(RoleConstants.ROLE_CET_ADMIN)
+    @RequestMapping(value="/cetTrainInspector_batchDel", method=RequestMethod.POST)
     @ResponseBody
-    public Map cetTrainInspector_delAllAbolished(int trainId, HttpServletRequest request){
+    public Map cetTrainInspector_batchDel(int trainId,@RequestParam(value = "ids[]") Integer[] ids, HttpServletRequest request){
 
-        int count = cetTrainInspectorService.delAllAbolished(trainId);
+        cetTrainInspectorService.batchDel(trainId, ids);
 
-        logger.info(addLog(LogConstants.LOG_ADMIN, String.format("删除所有的已作废的参评人账号，总共%s个", count)));
+        logger.info(addLog(LogConstants.LOG_ADMIN, String.format("删除参评人账号，总共%s个", StringUtils.join(ids, ","))));
         return success(FormUtils.SUCCESS);
-    }*/
+    }
 
     @RequiresPermissions("cetTrainInspector:edit")
     @RequestMapping(value = "/cetTrainInspector_gen", method = RequestMethod.POST)
@@ -274,23 +276,22 @@ public class CetTrainInspectorController extends CetBaseController {
     @RequiresPermissions("cetTrainInspector:edit")
     @RequestMapping(value = "/cetTrainInspector_gen_oncampus", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrainInspector_gen_oncampus(int trainId, HttpServletRequest request) throws IOException, InvalidFormatException {
+    public Map do_cetTrainInspector_gen_oncampus(int trainId,  Boolean evaAnonymous,
+                                                 HttpServletRequest request) throws IOException, InvalidFormatException {
 
-        cetTrainInspectorService.generateInspectorOnCampus(trainId);
+        cetTrainInspectorService.generateInspectorOnCampus(trainId, BooleanUtils.isTrue(evaAnonymous));
 
         return success(FormUtils.SUCCESS);
     }
 
-  /*  @RequiresPermissions("cetTrainInspector:edit")
-    @RequestMapping("/cetTrainInspector_au")
-    public String cetTrainInspector_au(Integer id, ModelMap modelMap) {
+    @RequiresPermissions("cetTrainInspector:edit")
+    @RequestMapping("/cetTrainInspector_gen_oncampus")
+    public String cetTrainInspector_gen_oncampus(int trainId, ModelMap modelMap) {
 
-        if (id != null) {
-            TrainInspector cetTrainInspector = cetTrainInspectorMapper.selectByPrimaryKey(id);
-            modelMap.put("cetTrainInspector", cetTrainInspector);
-        }
-        return "cetTrain/cetTrainInspector/cetTrainInspector_au";
+        CetTrainView trainView = cetTrainService.getView(trainId);
+        modelMap.put("cetTrain", trainView);
+
+        return "cet/cetTrainInspector/cetTrainInspector_gen_oncampus";
     }
 
-*/
 }

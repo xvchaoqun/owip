@@ -1,4 +1,42 @@
 
+2018-5-6
+更新 cet_train_view
+
+
+ALTER TABLE `cet_course`
+	DROP COLUMN `course_type_id`,
+	DROP INDEX `FK_cet_course_cet_course_type`,
+	DROP FOREIGN KEY `FK_cet_course_cet_course_type`;
+
+	删除 cet_course_type_view
+
+	ALTER TABLE `cet_course_type`
+	COMMENT='专题分类，针对专题班';
+RENAME TABLE `cet_course_type` TO `cet_project_type`;
+
+ALTER TABLE `cet_project`
+	ADD COLUMN `project_type_id` INT UNSIGNED NULL COMMENT '专题分类' AFTER `name`;
+
+	更新 cet_project_view
+
+ALTER TABLE `cet_course_file`
+	ADD COLUMN `paper_note` VARCHAR(200) NULL DEFAULT NULL COMMENT '纸质学习材料说明' AFTER `has_paper`;
+
+	ALTER TABLE `cet_train_course`
+	ADD COLUMN `apply_limit` INT(10) UNSIGNED NULL COMMENT '选课人数上限' AFTER `teacher`;
+
+	更新 cet_train_course_view
+
+	ALTER TABLE `cet_project_obj`
+	ADD COLUMN `is_graduate` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否结业' AFTER `is_quit`;
+
+ALTER TABLE `cet_project_obj`
+	ADD COLUMN `should_finish_period` DECIMAL(10,1) UNSIGNED NULL COMMENT '应完成学时' AFTER `is_quit`;
+
+
+	更新 cet_project_obj_view, cet_project_obj_cadre_view
+
+
 2018-5-3
 
 ALTER TABLE `crs_post`

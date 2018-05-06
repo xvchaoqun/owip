@@ -3,7 +3,6 @@ package controller.cet;
 import bean.XlsTrainCourse;
 import bean.XlsUpload;
 import domain.cet.CetCourse;
-import domain.cet.CetCourseType;
 import domain.cet.CetExpert;
 import domain.cet.CetProjectPlan;
 import domain.cet.CetTrain;
@@ -40,6 +39,7 @@ import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,8 +74,6 @@ public class CetTrainCourseController extends CetBaseController {
         if(isOnCampus) {
 
             modelMap.put("cls", cls);
-            Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
-            modelMap.put("courseTypeMap", courseTypeMap);
         }
 
         return isOnCampus?"cet/cetTrainCourse/cetTrainCourse_page":"cet/cetTrainCourse/cetTrainCourse_off_page";
@@ -170,9 +168,6 @@ public class CetTrainCourseController extends CetBaseController {
             modelMap.put("cetExpert", cetExpertMapper.selectByPrimaryKey(expertId));
         }
 
-        Map<Integer, CetCourseType> courseTypeMap = cetCourseTypeService.findAll();
-        modelMap.put("courseTypeMap", courseTypeMap);
-
         return "cet/cetTrainCourse/cetTrainCourse_selectCourses";
     }
 
@@ -258,10 +253,13 @@ public class CetTrainCourseController extends CetBaseController {
     // 参训人列表（签到列表）
     @RequiresPermissions("cetTrainCourse:edit")
     @RequestMapping("/cetTrainCourse_trainee")
-    public String cetTrainCourse_trainee(int trainCourseId, ModelMap modelMap) {
+    public String cetTrainCourse_trainee(int trainCourseId, Integer userId,  ModelMap modelMap) {
 
         modelMap.put("cetTrainCourse", cetTrainCourseMapper.selectByPrimaryKey(trainCourseId));
         modelMap.put("cetTraineeTypeMap", cetTraineeTypeService.findAll());
+        if(userId!=null){
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
 
         return "cet/cetTrainCourse/cetTrainCourse_trainee_page";
     }
@@ -326,6 +324,37 @@ public class CetTrainCourseController extends CetBaseController {
 
         modelMap.put("cetTrainCourse", cetTrainCourseMapper.selectByPrimaryKey(trainCourseId));
         return "cet/cetTrainCourse/cetTrainCourse_info";
+    }
+
+    // 补选课报名（实践教学）
+    @RequiresPermissions("cetTrainCourse:edit")
+    @RequestMapping(value = "/cetTrainCourse_applyMsg", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetTrainCourse_applyMsg(
+                               int trainCourseId,
+                               String mobile,
+                               String msg,
+                               HttpServletRequest request) {
+
+        if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            return failed("手机号码有误："+ mobile);
+        }
+
+        Map<String, Integer> result = cetTrainCourseService.sendApplyMsg(trainCourseId, mobile, msg);
+        logger.info(addLog(LogConstants.LOG_CET, "补选课报名：%s-%s", msg, mobile));
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("totalCount", result.get("total"));
+        resultMap.put("successCount", result.get("success"));
+        return resultMap;
+    }
+
+    @RequiresPermissions("cetTrainCourse:edit")
+    @RequestMapping("/cetTrainCourse_applyMsg")
+    public String cetTrainCourse_applyMsg(int trainCourseId, ModelMap modelMap) {
+
+        modelMap.put("cetTrainCourse", cetTrainCourseMapper.selectByPrimaryKey(trainCourseId));
+
+        return "cet/cetTrainCourse/cetTrainCourse_applyMsg";
     }
 
     @RequiresPermissions("cetTrainCourse:del")

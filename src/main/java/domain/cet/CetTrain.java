@@ -14,12 +14,7 @@ public class CetTrain implements Serializable {
 
     public Byte getSwitchStatus() {
 
-        return BaseCetTrain.getSwitchStatus(enrollStatus, startTime, endTime);
-    }
-
-    public String getSwitchStatusText() {
-
-        return BaseCetTrain.getSwitchStatusText(getAutoSwitch(), enrollStatus, startTime, endTime);
+        return BaseCetTrain.getSwitchStatus(id, enrollStatus, startTime, endTime);
     }
 
     private Integer id;

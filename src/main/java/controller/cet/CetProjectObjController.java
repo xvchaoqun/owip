@@ -1,12 +1,17 @@
 package controller.cet;
 
+import controller.global.OpException;
 import domain.cet.CetDiscussGroup;
 import domain.cet.CetPlanCourse;
 import domain.cet.CetProject;
 import domain.cet.CetProjectObj;
+import domain.cet.CetProjectObjCadreView;
 import domain.cet.CetProjectObjCadreViewExample;
+import domain.cet.CetProjectObjView;
+import domain.cet.CetProjectObjViewExample;
 import domain.cet.CetProjectPlan;
 import domain.cet.CetTraineeType;
+import domain.ext.ExtJzg;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -24,15 +29,21 @@ import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
+import sys.utils.DownloadUtils;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -172,6 +183,29 @@ public class CetProjectObjController extends CetBaseController {
                 records = cetProjectObjCadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
                 CommonList commonList = new CommonList(count, pageNo, pageSize);
                 total = commonList.pageNum;
+
+                if(export==1){
+                    if(count==0){
+                        throw new OpException("还没有上传心得体会。");
+                    }
+                    CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+                    Map<String, File> fileMap = new LinkedHashMap<>();
+                    for ( Object record : records) {
+
+                        CetProjectObjCadreView obj = (CetProjectObjCadreView)record;
+                        String wordWrite = obj.getWordWrite();
+                        String pdfWrite = obj.getPdfWrite();
+                        String realname = obj.getRealname();
+
+                        fileMap.put(realname + "("+ obj.getCode() +")" + FileUtils.getExtention(wordWrite),
+                                new File(springProps.uploadPath + wordWrite));
+                        fileMap.put(realname + "("+ obj.getCode() +")" + FileUtils.getExtention(pdfWrite),
+                                new File(springProps.uploadPath + pdfWrite));
+                    }
+
+                    DownloadUtils.zip(fileMap, String.format("[%s]心得体会（%s）", cetProject.getName(),
+                            cetTraineeType.getName()), request, response);
+                }
                 break;
             default:
                 break;
@@ -193,6 +227,34 @@ public class CetProjectObjController extends CetBaseController {
         return;
     }
 
+    // 设置应完成学时
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping("/cetProjectObj_shouldFinishPeriod")
+    public String cetProjectObj_shouldFinishPeriod(@RequestParam(value = "ids[]") int[] ids, ModelMap modelMap) {
+
+        if (ids.length == 1) {
+            modelMap.put("cetProjectObj", cetProjectObjMapper.selectByPrimaryKey(ids[0]));
+        }
+
+        return "cet/cetProjectObj/cetProjectObj_shouldFinishPeriod";
+    }
+
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping(value = "/cetProjectObj_shouldFinishPeriod", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProjectObj_shouldFinishPeriod(@RequestParam(value = "ids[]") Integer[] ids,
+                                      BigDecimal shouldFinishPeriod) {
+
+        if(shouldFinishPeriod!=null && shouldFinishPeriod.compareTo(BigDecimal.ZERO)<=0){
+            return failed("学时数必须大于0");
+        }
+
+        cetProjectObjService.setShouldFinishPeriod(ids, shouldFinishPeriod);
+
+        logger.info(addLog(LogConstants.LOG_PMD, "设置应完成学时-%s-%s",
+                StringUtils.join(ids, ","), shouldFinishPeriod));
+        return success(FormUtils.SUCCESS);
+    }
 
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_quit", method = RequestMethod.POST)
@@ -219,6 +281,30 @@ public class CetProjectObjController extends CetBaseController {
         cetProjectObjService.canQuit(ids, canQuit, trainCourseId);
         logger.info(addLog(LogConstants.LOG_CET, "设置为必选学员/取消必选： %s, %s, %s",
                 StringUtils.join(ids, ","), canQuit, trainCourseId));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    // 自动结业
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping(value = "/cetProjectObj_autoGraduate", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProjectObj_autoGraduate(int projectId, HttpServletRequest request) {
+
+        cetProjectObjService.autoGraduate(projectId);
+        logger.info(addLog(LogConstants.LOG_CET, "自动结业： %s", projectId));
+
+        return success(FormUtils.SUCCESS);
+    }
+    // 手动结业
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping(value = "/cetProjectObj_forceGraduate", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProjectObj_forceGraduate(@RequestParam(value = "ids[]", required = false) Integer[] ids,
+                                        HttpServletRequest request) {
+
+        cetProjectObjService.forceGraduate(ids);
+        logger.info(addLog(LogConstants.LOG_CET, "手动结业： %s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -347,5 +433,62 @@ public class CetProjectObjController extends CetBaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetProjectObj:list")
+    @RequestMapping("/cetProjectObj_selects")
+    @ResponseBody
+    public Map cetProjectObj_selects(Integer pageSize, Integer pageNo,
+                                     int projectId,
+                                     String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CetProjectObjViewExample example = new CetProjectObjViewExample();
+        //example.setOrderByClause("create_time desc");
+        if (StringUtils.isNotBlank(searchStr)) {
+            example.or().andProjectIdEqualTo(projectId).andUsernameLike(searchStr + "%");
+            example.or().andProjectIdEqualTo(projectId).andCodeLike(searchStr + "%");
+            example.or().andProjectIdEqualTo(projectId).andRealnameLike(searchStr + "%");
+        }else{
+            example.createCriteria().andProjectIdEqualTo(projectId);
+        }
+
+        long count = cetProjectObjViewMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CetProjectObjView> uvs = cetProjectObjViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
+        if (null != uvs && uvs.size() > 0) {
+            for (CetProjectObjView uv : uvs) {
+                Map<String, Object> option = new HashMap<>();
+                option.put("id", uv.getUserId() + "");
+                option.put("text", uv.getRealname());
+                option.put("user", userBeanService.get(uv.getUserId()));
+
+                if (StringUtils.isNotBlank(uv.getCode())) {
+                    option.put("code", uv.getCode());
+                    ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
+                    if (extJzg != null) {
+                        option.put("unit", extJzg.getDwmc());
+                    }
+                }
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
     }
 }

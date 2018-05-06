@@ -7,9 +7,10 @@
     <result column="course_id" jdbcType="INTEGER" property="courseId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="teacher" jdbcType="VARCHAR" property="teacher" />
+    <result column="apply_limit" jdbcType="INTEGER" property="applyLimit" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="is_global" jdbcType="INTEGER" property="isGlobal" />
+    <result column="is_global" jdbcType="BIT" property="isGlobal" />
     <result column="eva_table_id" jdbcType="INTEGER" property="evaTableId" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
@@ -47,8 +48,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_id, course_id, name, teacher, start_time, end_time, is_global, eva_table_id, 
-    address, sort_order, selected_count, finish_count, eva_finish_count
+    id, train_id, course_id, name, teacher, apply_limit, start_time, end_time, is_global, 
+    eva_table_id, address, sort_order, selected_count, finish_count, eva_finish_count
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTrainCourseViewExample" resultMap="BaseResultMap">
     select

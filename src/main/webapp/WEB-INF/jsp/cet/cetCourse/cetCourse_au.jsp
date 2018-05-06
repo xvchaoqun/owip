@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 						<input required class="form-control date-picker" name="foundDate"
 							   type="text"
 							   data-date-format="yyyy-mm-dd"
-							   value="${cm:formatDate(cetCourse.foundDate,'yyyy-MM-dd')}"/>
+							   value="${empty cetCourse?_today:cm:formatDate(cetCourse.foundDate,'yyyy-MM-dd')}"/>
                                             <span class="input-group-addon"> <i
 													class="fa fa-calendar bigger-110"></i></span>
 					</div>
@@ -49,7 +49,7 @@ pageEncoding="UTF-8"%>
 			<label class="col-xs-3 control-label">授课方式</label>
 
 			<div class="col-xs-6">
-				<select required data-rel="select2" name="teachMethod" data-placeholder="请选择" data-width="240">
+				<select required data-rel="select2" name="teachMethod" data-placeholder="请选择" data-width="275">
 					<option></option>
 					<c:import url="/metaTypes?__code=mc_cet_teach_method"/>
 				</select>
@@ -72,24 +72,6 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 		</c:if>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">专题分类</label>
-				<div class="col-xs-6">
-					<select required name="courseTypeId" data-rel="select2"
-							data-width="275"
-							data-placeholder="请选择">
-						<option></option>
-						<c:forEach var="courseType" items="${courseTypes}">
-							<option value="${courseType.id}">
-								${courseType.name}
-							</option>
-						</c:forEach>
-					</select>
-					<script>
-						$("#modalForm select[name=courseTypeId]").val("${cetCourse.courseTypeId}");
-					</script>
-				</div>
-			</div>
 
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>

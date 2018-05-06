@@ -23,13 +23,14 @@ left join cet_project_obj cpo on cpo.project_id=cp.id group by cp.id;
 
 DROP VIEW IF EXISTS `cet_project_obj_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_project_obj_view` AS
-select cpo.*, sum(if(ctcv.is_finished, ctcv.period, 0)) as finish_period from cet_project_obj cpo
+select cpo.*, uv.username, uv.code, uv.realname from cet_project_obj cpo
+left join sys_user_view uv on uv.id=cpo.user_id
 left join cet_trainee_course_view ctcv on ctcv.project_id = cpo.project_id and ctcv.user_id=cpo.user_id
 group by cpo.id;
 
 DROP VIEW IF EXISTS `cet_project_obj_cadre_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_project_obj_cadre_view` AS
-select cpov.*, cv.id as cadre_id, cv.code, cv.realname,
+select cpov.*, cv.id as cadre_id,
  cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.dp_type_id, cv.pro_post,
 cv.lp_work_time, cv.mobile, cv.email, cv.status as cadre_status,cv.sort_order as cadre_sort_order from cet_project_obj_view cpov
 left join cadre_view cv on cpov.user_id=cv.user_id;
@@ -66,8 +67,8 @@ left join cet_project_trainee_type cptt on cptt.project_id = cp.id
 left join cet_trainee_type cteet on cptt.trainee_type_id= cteet.id
 left join cet_project_obj cpo on cpo.project_id=cp.id
 left join cet_trainee ctee on ctee.obj_id=cpo.id
-left join cet_trainee_course cteec on cteec.trainee_id=ctee.id
 left join cet_train_course ctc on ctc.train_id=ct.id
+left join cet_trainee_course cteec on cteec.trainee_id=ctee.id and cteec.train_course_id=ctc.id
 group by ct.id;
 
 DROP VIEW IF EXISTS `cet_trainee_view`;

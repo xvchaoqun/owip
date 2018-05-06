@@ -115,11 +115,12 @@ public class CetConstants {
         CET_TRAIN_PUB_STATUS_MAP.put(CET_TRAIN_PUB_STATUS_CANCEL, "取消发布");
     }
 
-    // 培训班 选课状态，0 根据选课时间而定 1 正在选课、2 选课结束、3 暂停选课
+    // 培训班 选课状态，0 根据选课时间而定 1 正在选课、2 选课结束、3 暂停选课 4 未启动选课
     public final static byte CET_TRAIN_ENROLL_STATUS_DEFAULT = 0;
     public final static byte CET_TRAIN_ENROLL_STATUS_OPEN = 1;
     public final static byte CET_TRAIN_ENROLL_STATUS_CLOSED = 2;
     public final static byte CET_TRAIN_ENROLL_STATUS_PAUSE = 3;
+    public final static byte CET_TRAIN_ENROLL_STATUS_NOT_BEGIN = 4;
     public static Map<Byte, String> CET_TRAIN_ENROLL_STATUS_MAP = new LinkedHashMap<Byte, String>();
 
     static {
@@ -128,6 +129,7 @@ public class CetConstants {
         CET_TRAIN_ENROLL_STATUS_MAP.put(CET_TRAIN_ENROLL_STATUS_OPEN, "正在选课");
         CET_TRAIN_ENROLL_STATUS_MAP.put(CET_TRAIN_ENROLL_STATUS_CLOSED, "选课结束");
         CET_TRAIN_ENROLL_STATUS_MAP.put(CET_TRAIN_ENROLL_STATUS_PAUSE, "暂停选课");
+        CET_TRAIN_ENROLL_STATUS_MAP.put(CET_TRAIN_ENROLL_STATUS_NOT_BEGIN, "未启动选课");
     }
 
     // 签到类型， 1 手动签到 2 批量导入 3 刷卡签到

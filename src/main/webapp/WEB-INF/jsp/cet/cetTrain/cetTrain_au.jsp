@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
 			<label class="col-xs-3 control-label">培训班类型</label>
 
 			<div class="col-xs-6">
-				<select required data-rel="select2" name="type" data-placeholder="请选择" data-width="240">
+				<select required data-rel="select2" name="type" data-placeholder="请选择" data-width="275">
 					<option></option>
 					<c:import url="/metaTypes?__code=mc_cet_train_type"/>
 				</select>

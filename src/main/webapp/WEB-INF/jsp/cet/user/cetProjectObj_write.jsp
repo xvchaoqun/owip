@@ -33,39 +33,32 @@
                     <div class="widget-main center">
                         <button class="popupBtn btn btn-primary btn-sm tooltip-success"
                                 data-url="${ctx}/user/cet/cetProjectObj_uploadWrite?id=${cetProjectObj.id}&planId=${cetProjectPlan.id}">
-                            <i class="fa fa-upload"></i> 上传
+                            <i class="fa fa-upload"></i> ${not empty cetProjectObj.pdfWrite?"重新":""}上传
                         </button>
+
+                        <c:if test="${not empty cetProjectObj.pdfWrite}">
+
+                        <div style="text-align: left;padding: 20px 0 10px 0;">已上传心得体会：</div>
+                                        <button class="popupBtn btn btn-sm btn-warning"
+                                                data-url="${ctx}/swf/preview?path=${cm:encodeURI(cetProjectObj.pdfWrite)}&filename=${cm:encodeURI(dispatch.fileName)}">
+                                            <i class="fa fa-search"></i> 预览</button>
+
+                                        <button class='linkBtn btn btn-sm btn-success'
+                                                data-url='${ctx}/attach/download?path=${cm:encodeURI(cetProjectObj.pdfWrite)}&filename=心得体会'>
+                                            <i class="fa fa-download"></i>
+                                            下载PDF
+                                        </button>
+                                        <button class='linkBtn btn btn-sm btn-success'
+                                                data-url='${ctx}/attach/download?path=${cm:encodeURI(cetProjectObj.wordWrite)}&filename=心得体会'>
+                                            <i class="fa fa-download"></i>
+                                            下载WORD
+                                        </button>
+
+                        </c:if>
                     </div>
                 </div>
             </div>
-            <c:if test="${not empty cetProjectObj.pdfWrite}">
 
-                <div class="widget-box" style="width:300px;margin-top: 20px;">
-                    <div class="widget-header">
-                        <h4 class="smaller">
-                           <i class="fa fa-check"></i> 已上传心得体会
-                        </h4>
-                    </div>
-                    <div class="widget-body">
-                        <div class="widget-main center">
-                            <button class="popupBtn btn btn-sm btn-warning"
-                               data-url="${ctx}/swf/preview?path=${cm:encodeURI(cetProjectObj.pdfWrite)}&filename=${cm:encodeURI(dispatch.fileName)}">
-                                <i class="fa fa-search"></i> 预览</button>
-
-                            <button class='linkBtn btn btn-sm btn-success'
-                                    data-url='${ctx}/attach/download?path=${cm:encodeURI(cetProjectObj.pdfWrite)}&filename=心得体会'>
-                                <i class="fa fa-download"></i>
-                                下载PDF
-                            </button>
-                            <button class='linkBtn btn btn-sm btn-success'
-                                    data-url='${ctx}/attach/download?path=${cm:encodeURI(cetProjectObj.wordWrite)}&filename=心得体会'>
-                                <i class="fa fa-download"></i>
-                                下载WORD
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </c:if>
         </div>
     </div>
 </div>

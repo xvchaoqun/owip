@@ -43,6 +43,24 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="name" value="${cetProject.name}">
 				</div>
 			</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">专题分类</label>
+			<div class="col-xs-6">
+				<select required name="projectTypeId" data-rel="select2"
+						data-width="275"
+						data-placeholder="请选择">
+					<option></option>
+					<c:forEach var="projectType" items="${projectTypes}">
+						<option value="${projectType.id}">
+								${projectType.name}
+						</option>
+					</c:forEach>
+				</select>
+				<script>
+					$("#modalForm select[name=projectTypeId]").val("${cetProject.projectTypeId}");
+				</script>
+			</div>
+		</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">参训人员类型</label>
 				<div class="col-xs-9 label-text" id="traineeTypeDiv">
@@ -135,6 +153,7 @@ pageEncoding="UTF-8"%>
             });
         }
     });
+	$('#modalForm [data-rel="select2"]').select2();
 	$.register.date($('.date-picker'));
 	$('textarea.limited').inputlimiter();
 	$.fileInput($("#modalForm input[name=_pdfFilePath]"),{

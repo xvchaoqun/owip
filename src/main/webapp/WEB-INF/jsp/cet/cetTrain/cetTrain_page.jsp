@@ -160,16 +160,17 @@
             {label: '可选课人数', name: 'objCount', width: 90},
             {
                 label: '选课情况',
-                name: 'switchStatusText',
+                name: '_switchStatus',
                 width: 120,
                 formatter: function (cellvalue, options, rowObject) {
-                    var isOpen = (rowObject.switchStatus ==${CET_TRAIN_ENROLL_STATUS_OPEN});
-                    var str = cellvalue;
-                    if (isOpen || rowObject.traineeCount > 0) {
-                        str += "(" + rowObject.traineeCount + ")"
-                        if (isOpen) str = '<span class="text-success bolder">' + str + '</span>'
+
+                    var str = _cMap.CET_TRAIN_ENROLL_STATUS_MAP[rowObject.switchStatus] +
+                            "(" + Math.trimToZero(rowObject.traineeCount) + ")"
+                    if (rowObject.switchStatus ==${CET_TRAIN_ENROLL_STATUS_OPEN}){
+                        str = '<span class="text-success bolder">' + str + '</span>'
                     }
-                    return (str == undefined) ? '-' : str;
+
+                    return str;
                 }
             },
 

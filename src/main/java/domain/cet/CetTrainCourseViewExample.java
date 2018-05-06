@@ -425,6 +425,66 @@ public class CetTrainCourseViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andApplyLimitIsNull() {
+            addCriterion("apply_limit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitIsNotNull() {
+            addCriterion("apply_limit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitEqualTo(Integer value) {
+            addCriterion("apply_limit =", value, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitNotEqualTo(Integer value) {
+            addCriterion("apply_limit <>", value, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitGreaterThan(Integer value) {
+            addCriterion("apply_limit >", value, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitGreaterThanOrEqualTo(Integer value) {
+            addCriterion("apply_limit >=", value, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitLessThan(Integer value) {
+            addCriterion("apply_limit <", value, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitLessThanOrEqualTo(Integer value) {
+            addCriterion("apply_limit <=", value, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitIn(List<Integer> values) {
+            addCriterion("apply_limit in", values, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitNotIn(List<Integer> values) {
+            addCriterion("apply_limit not in", values, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitBetween(Integer value1, Integer value2) {
+            addCriterion("apply_limit between", value1, value2, "applyLimit");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyLimitNotBetween(Integer value1, Integer value2) {
+            addCriterion("apply_limit not between", value1, value2, "applyLimit");
+            return (Criteria) this;
+        }
+
         public Criteria andStartTimeIsNull() {
             addCriterion("start_time is null");
             return (Criteria) this;
@@ -555,52 +615,52 @@ public class CetTrainCourseViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsGlobalEqualTo(Integer value) {
+        public Criteria andIsGlobalEqualTo(Boolean value) {
             addCriterion("is_global =", value, "isGlobal");
             return (Criteria) this;
         }
 
-        public Criteria andIsGlobalNotEqualTo(Integer value) {
+        public Criteria andIsGlobalNotEqualTo(Boolean value) {
             addCriterion("is_global <>", value, "isGlobal");
             return (Criteria) this;
         }
 
-        public Criteria andIsGlobalGreaterThan(Integer value) {
+        public Criteria andIsGlobalGreaterThan(Boolean value) {
             addCriterion("is_global >", value, "isGlobal");
             return (Criteria) this;
         }
 
-        public Criteria andIsGlobalGreaterThanOrEqualTo(Integer value) {
+        public Criteria andIsGlobalGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_global >=", value, "isGlobal");
             return (Criteria) this;
         }
 
-        public Criteria andIsGlobalLessThan(Integer value) {
+        public Criteria andIsGlobalLessThan(Boolean value) {
             addCriterion("is_global <", value, "isGlobal");
             return (Criteria) this;
         }
 
-        public Criteria andIsGlobalLessThanOrEqualTo(Integer value) {
+        public Criteria andIsGlobalLessThanOrEqualTo(Boolean value) {
             addCriterion("is_global <=", value, "isGlobal");
             return (Criteria) this;
         }
 
-        public Criteria andIsGlobalIn(List<Integer> values) {
+        public Criteria andIsGlobalIn(List<Boolean> values) {
             addCriterion("is_global in", values, "isGlobal");
             return (Criteria) this;
         }
 
-        public Criteria andIsGlobalNotIn(List<Integer> values) {
+        public Criteria andIsGlobalNotIn(List<Boolean> values) {
             addCriterion("is_global not in", values, "isGlobal");
             return (Criteria) this;
         }
 
-        public Criteria andIsGlobalBetween(Integer value1, Integer value2) {
+        public Criteria andIsGlobalBetween(Boolean value1, Boolean value2) {
             addCriterion("is_global between", value1, value2, "isGlobal");
             return (Criteria) this;
         }
 
-        public Criteria andIsGlobalNotBetween(Integer value1, Integer value2) {
+        public Criteria andIsGlobalNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_global not between", value1, value2, "isGlobal");
             return (Criteria) this;
         }

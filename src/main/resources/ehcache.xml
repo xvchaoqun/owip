@@ -45,7 +45,7 @@
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
 
-       <cache name="CetCourseType:ALL"
+       <cache name="CetProjectType:ALL"
            eternal="false"
            maxElementsInMemory="2000"
            overflowToDisk="false"
