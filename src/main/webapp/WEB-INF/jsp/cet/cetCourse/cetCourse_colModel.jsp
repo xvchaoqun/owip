@@ -29,10 +29,16 @@
       {label: '主讲人', name: 'cetExpert.realname', frozen:true},
       {label: '所在单位', name: 'cetExpert.unit', width: 300, align: 'left'},
       {label: '职务和职称', name: 'cetExpert.post', width: 120, align: 'left'},
+      <c:if test="${param.type==CET_COURSE_TYPE_OFFLINE}">
       {label: '授课方式', name: 'teachMethod', formatter: $.jgrid.formatter.MetaType},
+      </c:if>
       {label: '学时', name: 'period', width: 70},
       <c:if test="${param.type==CET_COURSE_TYPE_ONLINE}">
       {label: '时长', name: 'duration'},
+      {label: '播放', name: 'duration', formatter: function (cellvalue, options, rowObject){
+          return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="iframe" href="${ctx}/video?url={0}">播放</a>'
+                  .format(encodeURI(rowObject.url), rowObject.name);
+      }},
       </c:if>
       <c:if test="${param.list=='admin'}">
       {label: '详情', name: '_detail', width:'80', formatter: function (cellvalue, options, rowObject) {

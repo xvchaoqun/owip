@@ -67,7 +67,7 @@ public class CetDiscussGroupService extends BaseMapper {
 
         if(addNum == 0) return ;
 
-        byte orderBy = ORDER_BY_DESC;
+        byte orderBy = ORDER_BY_ASC;
 
         CetDiscussGroup entity = cetDiscussGroupMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();

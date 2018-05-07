@@ -275,8 +275,8 @@ public class CetProjectObjService extends BaseMapper {
                 return iCetMapper.getSpecialFinishPeriod(planId, objId);
 
             case CetConstants.CET_PROJECT_PLAN_TYPE_GROUP: // 分组研讨
-                //return iCetMapper.getGroupFinishPeriod(planId, objId);
-                return null;
+                return iCetMapper.getGroupFinishPeriod(planId, objId);
+
             case CetConstants.CET_PROJECT_PLAN_TYPE_WRITE: // 撰写心得体会
                 return iCetMapper.getWriteFinishPeriod(planId, objId);
         }

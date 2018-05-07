@@ -8,6 +8,14 @@
         <result column="is_finished" jdbcType="BIT" property="isFinished" />
     </resultMap>
 
+    <resultMap id="ICetDiscussGroupBaseResultMap" type="persistence.cet.common.ICetDiscussGroup"
+               extends="persistence.cet.CetDiscussGroupMapper.BaseResultMap">
+        <result column="plan_id" jdbcType="INTEGER" property="planId" />
+        <result column="period" jdbcType="DECIMAL" property="period" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="is_finished" jdbcType="BIT" property="isFinished" />
+    </resultMap>
+
     <resultMap id="TrainBaseResultMap" type="persistence.cet.common.ICetTrain"
                extends="persistence.cet.CetTrainViewMapper.BaseResultMap">
         <result column="trainee_id" jdbcType="INTEGER" property="traineeId"/>

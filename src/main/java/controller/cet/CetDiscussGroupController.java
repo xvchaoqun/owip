@@ -76,7 +76,7 @@ public class CetDiscussGroupController extends CetBaseController {
 
         CetDiscussGroupExample example = new CetDiscussGroupExample();
         Criteria criteria = example.createCriteria().andDiscussIdEqualTo(discussId);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
 
         if (StringUtils.isNotBlank(subject)) {
             criteria.andSubjectLike("%" + subject + "%");

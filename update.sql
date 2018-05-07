@@ -1,4 +1,13 @@
 
+
+
+2018-5-8
+ALTER TABLE `cet_course`
+	CHANGE COLUMN `teach_method` `teach_method` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '授课方式，关联元数据，针对线下课程' AFTER `expert_id`,
+	ADD COLUMN `url` VARCHAR(200) NULL DEFAULT NULL COMMENT '视频播放地址，针对线上课程' AFTER `teach_method`;
+
+
+
 2018-5-6
 更新 cet_train_view
 

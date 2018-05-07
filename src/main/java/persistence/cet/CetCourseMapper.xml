@@ -12,6 +12,7 @@
     <result column="has_summary" jdbcType="BIT" property="hasSummary" />
     <result column="expert_id" jdbcType="INTEGER" property="expertId" />
     <result column="teach_method" jdbcType="INTEGER" property="teachMethod" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="duration" jdbcType="DECIMAL" property="duration" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
@@ -81,7 +82,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, type, num, found_date, name, address, has_summary, expert_id, teach_method, 
-    period, duration, sort_order, remark, is_deleted
+    url, period, duration, sort_order, remark, is_deleted
   </sql>
   <sql id="Blob_Column_List">
     summary
@@ -138,15 +139,15 @@
     insert into cet_course (id, year, type, 
       num, found_date, name, 
       address, has_summary, expert_id, 
-      teach_method, period, duration, 
-      sort_order, remark, is_deleted, 
-      summary)
+      teach_method, url, period, 
+      duration, sort_order, remark, 
+      is_deleted, summary)
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{num,jdbcType=INTEGER}, #{foundDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{hasSummary,jdbcType=BIT}, #{expertId,jdbcType=INTEGER}, 
-      #{teachMethod,jdbcType=INTEGER}, #{period,jdbcType=DECIMAL}, #{duration,jdbcType=DECIMAL}, 
-      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
-      #{summary,jdbcType=LONGVARCHAR})
+      #{teachMethod,jdbcType=INTEGER}, #{url,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, 
+      #{duration,jdbcType=DECIMAL}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=BIT}, #{summary,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetCourse">
     insert into cet_course
@@ -180,6 +181,9 @@
       </if>
       <if test="teachMethod != null">
         teach_method,
+      </if>
+      <if test="url != null">
+        url,
       </if>
       <if test="period != null">
         period,
@@ -230,6 +234,9 @@
       </if>
       <if test="teachMethod != null">
         #{teachMethod,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
       </if>
       <if test="period != null">
         #{period,jdbcType=DECIMAL},
@@ -290,6 +297,9 @@
       <if test="record.teachMethod != null">
         teach_method = #{record.teachMethod,jdbcType=INTEGER},
       </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
       <if test="record.period != null">
         period = #{record.period,jdbcType=DECIMAL},
       </if>
@@ -325,6 +335,7 @@
       has_summary = #{record.hasSummary,jdbcType=BIT},
       expert_id = #{record.expertId,jdbcType=INTEGER},
       teach_method = #{record.teachMethod,jdbcType=INTEGER},
+      url = #{record.url,jdbcType=VARCHAR},
       period = #{record.period,jdbcType=DECIMAL},
       duration = #{record.duration,jdbcType=DECIMAL},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -347,6 +358,7 @@
       has_summary = #{record.hasSummary,jdbcType=BIT},
       expert_id = #{record.expertId,jdbcType=INTEGER},
       teach_method = #{record.teachMethod,jdbcType=INTEGER},
+      url = #{record.url,jdbcType=VARCHAR},
       period = #{record.period,jdbcType=DECIMAL},
       duration = #{record.duration,jdbcType=DECIMAL},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -386,6 +398,9 @@
       <if test="teachMethod != null">
         teach_method = #{teachMethod,jdbcType=INTEGER},
       </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
       <if test="period != null">
         period = #{period,jdbcType=DECIMAL},
       </if>
@@ -418,6 +433,7 @@
       has_summary = #{hasSummary,jdbcType=BIT},
       expert_id = #{expertId,jdbcType=INTEGER},
       teach_method = #{teachMethod,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
       period = #{period,jdbcType=DECIMAL},
       duration = #{duration,jdbcType=DECIMAL},
       sort_order = #{sortOrder,jdbcType=INTEGER},
@@ -437,6 +453,7 @@
       has_summary = #{hasSummary,jdbcType=BIT},
       expert_id = #{expertId,jdbcType=INTEGER},
       teach_method = #{teachMethod,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
       period = #{period,jdbcType=DECIMAL},
       duration = #{duration,jdbcType=DECIMAL},
       sort_order = #{sortOrder,jdbcType=INTEGER},

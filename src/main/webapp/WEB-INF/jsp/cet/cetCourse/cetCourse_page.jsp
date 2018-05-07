@@ -118,4 +118,10 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     $('#searchForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+
+    $.register.fancybox(function () {
+        //console.log(this)
+        this.title = '<div class="title">' + this.title + '</div>';
+    });
+
 </script>

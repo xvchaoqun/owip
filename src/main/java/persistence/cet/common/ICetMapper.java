@@ -71,6 +71,15 @@ public interface ICetMapper {
             "and project_id=cpo.project_id and user_id=cpo.user_id)")
     public List<Integer> notApplyUserIds(@Param("trainCourseId") Integer trainCourseId);
 
+    // 培训对象参与的讨论组
+    @ResultMap("persistence.cet.common.ICetMapper.ICetDiscussGroupBaseResultMap")
+    @Select("select cdg.*, cd.period, cd.plan_id, cpo.user_id, cdgo.is_finished from cet_discuss_group_obj cdgo " +
+            "left join cet_project_obj cpo on cpo.id=cdgo.obj_id " +
+            "left join cet_discuss cd on cd.id=cdgo.discuss_id " +
+            "left join cet_discuss_group cdg on cdgo.discuss_group_id=cdg.id " +
+            "where cd.plan_id=#{planId} and cpo.user_id=#{userId} order by cd.sort_order asc, cdg.sort_order asc")
+    public List<ICetDiscussGroup> userDiscussGroup(@Param("planId") Integer planId, @Param("userId") Integer userId);
+
     // 培训班 选择 课程
     List<CetCourse> selectCetTrainCourseList(@Param("trainId") int trainId,
                                              @Param("expertId") Integer expertId,
@@ -142,6 +151,13 @@ public interface ICetMapper {
             "left join cet_course cc on cc.id=cpc.course_id " +
             "where cpc.plan_id=#{planId} and is_finished=1 and obj_id=#{objId}")
     public BigDecimal getSelfFinishPeriod(@Param("planId") int planId,
+                                          @Param("objId") int objId);
+
+    // 获取培训对象在一个培训方案中的已完成学时（针对分组研讨）
+    @Select("select sum(cd.period) from cet_discuss_group_obj cdgo " +
+            "left join cet_discuss cd on cd.id=cdgo.discuss_id " +
+            "where cd.plan_id=#{planId} and cdgo.obj_id=#{objId} and cdgo.is_finished=1")
+    public BigDecimal getGroupFinishPeriod(@Param("planId") int planId,
                                           @Param("objId") int objId);
 
     // 获取培训对象在一个培训方案中的已完成学时（针对上级网上专题）

@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cetCourse!=null}">编辑</c:if><c:if test="${cetCourse==null}">添加</c:if>课程中心</h3>
+    <h3><c:if test="${cetCourse!=null}">编辑</c:if><c:if test="${cetCourse==null}">添加</c:if>${CET_COURSE_TYPE_MAP.get(type)}</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetCourse_au" id="modalForm" method="post">
@@ -45,6 +45,7 @@ pageEncoding="UTF-8"%>
 					</select>
 				</div>
 			</div>
+		<c:if test="${type==CET_COURSE_TYPE_OFFLINE}">
 		<div class="form-group">
 			<label class="col-xs-3 control-label">授课方式</label>
 
@@ -58,6 +59,15 @@ pageEncoding="UTF-8"%>
 				</script>
 			</div>
 		</div>
+		</c:if>
+		<c:if test="${type==CET_COURSE_TYPE_ONLINE}">
+		<div class="form-group">
+			<label class="col-xs-3 control-label">视频地址</label>
+			<div class="col-xs-6">
+				<input required class="form-control" type="text" name="url" value="${cetCourse.url}">
+			</div>
+		</div>
+		</c:if>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">学时</label>
 				<div class="col-xs-6">

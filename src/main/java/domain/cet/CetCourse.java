@@ -72,6 +72,8 @@ public class CetCourse implements Serializable {
 
     private Integer teachMethod;
 
+    private String url;
+
     private BigDecimal period;
 
     private BigDecimal duration;
@@ -164,6 +166,14 @@ public class CetCourse implements Serializable {
 
     public void setTeachMethod(Integer teachMethod) {
         this.teachMethod = teachMethod;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
     }
 
     public BigDecimal getPeriod() {
