@@ -28,6 +28,10 @@ public interface ICetMapper {
             " and cptt.trainee_type_id = ctt.id order by ctt.sort_order asc")
     public List<CetTraineeType> getCetTraineeTypes(@Param("projectId") Integer projectId);
 
+    // 学员列表
+    @Select("select id from cet_project_obj where project_id=#{projectId}")
+    public List<Integer> getCetProjectObjIds(@Param("projectId") Integer projectId);
+
     // 学员的培训列表
     public List<CetProject> selectUserCetProjectList( @Param("userId") Integer userId,
                                                       @Param("projectType") byte projectType,

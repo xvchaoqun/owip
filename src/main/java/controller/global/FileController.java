@@ -236,10 +236,4 @@ public class FileController extends BaseController {
         ImageUtils.displayImage(baos.toByteArray(), response);
         baos.close();
     }
-
-    @RequestMapping(value = "/video")
-    public String video( ModelMap modelMap) throws IOException{
-
-        return "common/video";
-    }
 }

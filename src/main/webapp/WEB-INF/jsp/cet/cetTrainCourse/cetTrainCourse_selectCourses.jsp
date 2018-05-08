@@ -8,7 +8,7 @@
 <div class="modal-body popup-jqgrid" style="padding-top: 0">
     <form class="form-inline search-form" id="searchForm_popup" style="padding-bottom: 0">
         <input type="hidden" name="trainId" value="${cetTrain.id}">
-<c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
+<c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE || cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_ONLINE}">
         <div class="form-group">
             <label>主讲人</label>
             <select data-rel="select2-ajax"
@@ -52,6 +52,9 @@
 <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
     <c:set var="courseType" value="${CET_COURSE_TYPE_OFFLINE}"/>
 </c:if>
+<c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_ONLINE}">
+    <c:set var="courseType" value="${CET_COURSE_TYPE_ONLINE}"/>
+</c:if>
 <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_PRACTICE}">
     <c:set var="courseType" value="${CET_COURSE_TYPE_PRACTICE}"/>
 </c:if>
@@ -87,4 +90,8 @@
         });
     });
 
+    $.register.fancybox(function () {
+        //console.log(this)
+        this.title = '<div class="title">' + this.title + '</div>';
+    });
 </script>

@@ -29,7 +29,8 @@
         </button>
 
         <button class="jqOpenViewBatchBtn btn btn-primary btn-sm"
-                data-url="${ctx}/cet/cetProjectObj_shouldFinishPeriod"
+                data-url="${ctx}/cet/cetProjectObj_shouldFinishPeriod?projectId=${cetProject.id}"
+                data-need-id="false"
                 data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
             设置应完成学时</button>
 
@@ -355,6 +356,11 @@
                 if(cellvalue==undefined) return '-'
                 return cellvalue==rowObject.userId?'本人':rowObject.objInfo.chooseUserName;
             }, frozen: true},
+            <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_ONLINE}">
+            { label: '学习情况',name: 'objInfo.isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return cellvalue?"已学习":"未学习"
+            },frozen: true},
+            </c:if>
             { name: 'traineeId', hidden:true, formatter: function (cellvalue, options, rowObject) {
                 return rowObject.objInfo.traineeId;;
             }},

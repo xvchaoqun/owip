@@ -192,6 +192,7 @@
 <c:set value="<%=CetConstants.CET_DISCUSS_UNIT_TYPE_MAP%>" var="CET_DISCUSS_UNIT_TYPE_MAP"/>
 
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE%>" var="CET_PROJECT_PLAN_TYPE_OFFLINE"/>
+<c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE%>" var="CET_PROJECT_PLAN_TYPE_ONLINE"/>
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_SELF%>" var="CET_PROJECT_PLAN_TYPE_SELF"/>
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_SPECIAL%>" var="CET_PROJECT_PLAN_TYPE_SPECIAL"/>
 <c:set value="<%=CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE%>" var="CET_PROJECT_PLAN_TYPE_PRACTICE"/>

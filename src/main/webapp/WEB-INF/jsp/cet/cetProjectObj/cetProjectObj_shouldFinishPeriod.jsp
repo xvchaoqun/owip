@@ -7,13 +7,22 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetProjectObj_shouldFinishPeriod" id="modalForm" method="post">
+        <input type="hidden" name="projectId" value="${param.projectId}">
         <input type="hidden" name="ids[]" value="${param['ids[]']}">
         <c:set var="num" value='${fn:length(fn:split(param["ids[]"],","))}'/>
-        <c:if test="${num==1}">
+        <c:if test="${not empty param['ids[]'] && num==1}">
         <div class="form-group">
             <label class="col-xs-4 control-label">姓名</label>
             <div class="col-xs-6 label-text">
                 ${cm:getUserById(cetProjectObj.userId).realname}
+            </div>
+        </div>
+        </c:if>
+        <c:if test="${empty param['ids[]']}">
+        <div class="form-group">
+            <label class="col-xs-4 control-label">已选择学员</label>
+            <div class="col-xs-6 label-text">
+                全部
             </div>
         </div>
         </c:if>

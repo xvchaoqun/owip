@@ -188,8 +188,9 @@ public class CetTrainCourseController extends CetBaseController {
 
         Byte[] courseTypes = null;
         if(planType== CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE){
-            courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_OFFLINE,
-                    CetConstants.CET_COURSE_TYPE_ONLINE};
+            courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_OFFLINE};
+        }else if(planType== CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE){
+            courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_ONLINE};
         }else if(planType== CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE){
             courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_PRACTICE};
         }

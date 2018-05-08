@@ -242,14 +242,15 @@ public class CetProjectObjController extends CetBaseController {
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_shouldFinishPeriod", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_shouldFinishPeriod(@RequestParam(value = "ids[]") Integer[] ids,
-                                      BigDecimal shouldFinishPeriod) {
+    public Map do_cetProjectObj_shouldFinishPeriod(int projectId,
+                                                   @RequestParam(value = "ids[]", required = false) Integer[] ids,
+                                                    BigDecimal shouldFinishPeriod) {
 
         if(shouldFinishPeriod!=null && shouldFinishPeriod.compareTo(BigDecimal.ZERO)<=0){
             return failed("学时数必须大于0");
         }
 
-        cetProjectObjService.setShouldFinishPeriod(ids, shouldFinishPeriod);
+        cetProjectObjService.setShouldFinishPeriod(projectId, ids, shouldFinishPeriod);
 
         logger.info(addLog(LogConstants.LOG_PMD, "设置应完成学时-%s-%s",
                 StringUtils.join(ids, ","), shouldFinishPeriod));

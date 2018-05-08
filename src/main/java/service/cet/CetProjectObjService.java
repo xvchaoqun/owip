@@ -265,6 +265,7 @@ public class CetProjectObjService extends BaseMapper {
         byte planType = cetProjectPlan.getType();
         switch (planType){
             case CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE: // 线下培训
+            case CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE: // 线上培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
                 return iCetMapper.getPlanFinishPeriod(planId, objId);
 
@@ -321,7 +322,12 @@ public class CetProjectObjService extends BaseMapper {
 
     // 设置应完成学时
     @Transactional
-    public void setShouldFinishPeriod(Integer[] ids, BigDecimal shouldFinishPeriod) {
+    public void setShouldFinishPeriod(int projectId, Integer[] ids, BigDecimal shouldFinishPeriod) {
+
+        if(ids==null || ids.length==0){
+            List<Integer> objIds = iCetMapper.getCetProjectObjIds(projectId);
+            ids = objIds.toArray(new Integer[]{});
+        }
 
         if(ids==null || ids.length==0) return;
 

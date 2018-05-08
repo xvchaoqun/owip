@@ -62,7 +62,8 @@
         pager: "jqGridPager2",
         url: '${ctx}/cet/cetTrainCourse_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
+            <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE
+            || cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_ONLINE}">
             <c:if test="${cls==1}">
             {
                 label: '选课情况', name: 'selectedCount', formatter: function (cellvalue, options, rowObject) {
@@ -71,6 +72,7 @@
                 'data-url="${ctx}/cet/cetProject_detail_obj?cls=2&projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
             }, frozen:true},
+            <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
             {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {
                 var finishCount = (rowObject.finishCount==undefined)?0:rowObject.finishCount;
                 var selectedCount = (rowObject.selectedCount==undefined)?0:rowObject.selectedCount;
@@ -78,6 +80,7 @@
                 'data-url="${ctx}/cet/cetTrainCourse_trainee?trainCourseId={0}&projectId={3}">已签到({1}/{2})</button>')
                         .format(rowObject.id, finishCount, selectedCount, projectId);
             }},
+            </c:if>
             {label: '课程编号', name: 'cetCourse.sn', frozen:true},
             </c:if>
             {
@@ -86,6 +89,12 @@
                 width: 300,
                 align: 'left', frozen:true
             },
+            <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_ONLINE}">
+            {label: '播放', name: 'duration', width: 60, formatter: function (cellvalue, options, rowObject){
+                return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="iframe" href="${ctx}/cet/cetCourse_video?id={0}">播放</a>'
+                        .format(rowObject.cetCourse.id, rowObject.cetCourse.name);
+            }, frozen:true},
+            </c:if>
             <c:if test="${cls==1}">
             {label: '课程要点', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
 
@@ -125,12 +134,14 @@
                 formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},
             },
-
-            <c:if test="${cls==1}">
+           <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
+           <c:if test="${cls==1}">
             {label: '上课地点', name: 'address', align: 'left', width: 250, formatter: function (cellvalue, options, rowObject) {
                 return (rowObject.cetCourse.type==${CET_COURSE_TYPE_OFFLINE})? $.trim(cellvalue):'-'
             }},
             </c:if>
+            </c:if>
+
             <c:if test="${cls==2}">
             {label: '评估表', name: 'trainEvaTable', width: 200, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
@@ -202,5 +213,10 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
+
+    $.register.fancybox(function () {
+        //console.log(this)
+        this.title = '<div class="title">' + this.title + '</div>';
+    });
 
 </script>

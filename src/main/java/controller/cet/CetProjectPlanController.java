@@ -152,7 +152,7 @@ public class CetProjectPlanController extends CetBaseController {
         switch (type){
 
             case CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE: // 线下培训
-            //case CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE: // 线上培训
+            case CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE: // 线上培训
             case CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE: // 实践教学
                 return "forward:/cet/cetTrain";
 

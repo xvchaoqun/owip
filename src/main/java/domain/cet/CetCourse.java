@@ -17,6 +17,8 @@ public class CetCourse implements Serializable {
 
         String prefix = "C";
         switch (type){
+            case CetConstants.CET_COURSE_TYPE_ONLINE:
+                prefix = "XS"; break;
             case CetConstants.CET_COURSE_TYPE_SELF:
                 prefix = "ZZ"; break;
             case CetConstants.CET_COURSE_TYPE_PRACTICE:

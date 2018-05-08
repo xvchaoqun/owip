@@ -3,6 +3,8 @@ package controller.cet;
 import domain.cet.CetCourse;
 import domain.cet.CetCourseExample;
 import domain.cet.CetCourseExample.Criteria;
+import domain.cet.CetTraineeCourse;
+import domain.cet.CetTraineeCourseView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.tool.jackson.Select2Option;
@@ -320,5 +323,32 @@ public class CetCourseController extends CetBaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    @RequestMapping(value = "/cetCourse_video")
+    public String video(int id, Integer trainCourseId, ModelMap modelMap) throws IOException{
+
+        // 已选课情况下，标记为已学习
+        if(trainCourseId!=null){
+            Integer userId = ShiroHelper.getCurrentUserId();
+            if(userId!=null) {
+                CetTraineeCourseView cetTraineeCourseView = cetTraineeCourseService.getCetTraineeCourseView(userId, trainCourseId);
+
+                if(cetTraineeCourseView!=null && BooleanUtils.isNotTrue(cetTraineeCourseView.getIsFinished())){
+
+                    CetTraineeCourse record = new CetTraineeCourse();
+                    record.setId(cetTraineeCourseView.getId());
+                    record.setIsFinished(true);
+                    record.setSignTime(new Date());
+
+                    cetTraineeCourseMapper.updateByPrimaryKeySelective(record);
+                }
+            }
+        }
+
+        CetCourse cetCourse = cetCourseMapper.selectByPrimaryKey(id);
+        modelMap.put("url", cetCourse.getUrl());
+
+        return "common/video";
     }
 }
