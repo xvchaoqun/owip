@@ -31,7 +31,24 @@ pageEncoding="UTF-8"%>
                         <input required class="form-control" type="text" name="name" value="${cetTrain.name}">
 				</div>
 			</div>
-
+		<div class="form-group" id="_startTime">
+			<label class="col-xs-3 control-label">开班时间</label>
+			<div class="col-xs-6">
+				<div class="input-group">
+					<input class="form-control datetime-picker" required type="text"  name="openTime"
+						   value="${cm:formatDate(cetTrain.openTime, "yyyy-MM-dd HH:mm")}">
+							<span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+                        </span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">开班地点</label>
+			<div class="col-xs-6">
+				<input required class="form-control" type="text" name="openAddress" value="${cetTrain.openAddress}">
+			</div>
+		</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">开课日期</label>
 				<div class="col-xs-6">

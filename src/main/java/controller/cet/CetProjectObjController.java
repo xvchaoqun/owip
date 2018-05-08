@@ -275,11 +275,11 @@ public class CetProjectObjController extends CetBaseController {
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_canQuit", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_canQuit(boolean canQuit, int trainCourseId,
+    public Map do_cetProjectObj_canQuit(boolean canQuit, int trainCourseId, int projectId,
                                         @RequestParam(value = "ids[]", required = false) Integer[] ids,
                                         HttpServletRequest request) {
 
-        cetProjectObjService.canQuit(ids, canQuit, trainCourseId);
+        cetProjectObjService.canQuit(projectId, ids, canQuit, trainCourseId);
         logger.info(addLog(LogConstants.LOG_CET, "设置为必选学员/取消必选： %s, %s, %s",
                 StringUtils.join(ids, ","), canQuit, trainCourseId));
 

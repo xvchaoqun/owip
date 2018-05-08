@@ -75,6 +75,20 @@
     </shiro:hasPermission>
     </c:if>
     <c:if test="${cls==2}">
+    <button data-url="${ctx}/cet/cetProjectObj_canQuit?projectId=${cetProject.id}&canQuit=0&trainCourseId=${param.trainCourseId}"
+            data-title="全部设置为必选"
+            data-msg="确定全部设置为必选？"
+            data-callback="_callback2"
+            class="confirm btn btn-primary btn-sm">
+        <i class="fa fa-check-circle"></i> 全部设置为必选
+    </button>
+    <button data-url="${ctx}/cet/cetProjectObj_canQuit?projectId=${cetProject.id}&canQuit=1&trainCourseId=${param.trainCourseId}"
+            data-title="全部设置为可选"
+            data-msg="确定全部设置为可选？"
+            data-callback="_callback2"
+            class="confirm btn btn-danger btn-sm">
+        <i class="fa fa-times-circle"></i> 全部设置为可选
+    </button>
     <button data-url="${ctx}/cet/cetProjectObj_canQuit?canQuit=0&trainCourseId=${param.trainCourseId}"
             data-title="设置为必选学员"
             data-msg="确定将这{0}个学员设置为必选学员？"

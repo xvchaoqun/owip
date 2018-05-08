@@ -1,5 +1,16 @@
 
 
+2018-5-8
+ALTER TABLE `cet_discuss_group`
+	CHANGE COLUMN `hold_user_id` `hold_user_ids` VARCHAR(100) NULL COMMENT '召集人' AFTER `name`,
+	ADD COLUMN `link_user_ids` VARCHAR(100) NULL COMMENT '联络员' AFTER `hold_user_ids`;
+
+
+ALTER TABLE `cet_train`
+	ADD COLUMN `open_time` DATETIME NULL DEFAULT NULL COMMENT '开班时间' AFTER `end_date`,
+	ADD COLUMN `open_address` VARCHAR(200) NULL COMMENT '开班地点' AFTER `open_time`;
+
+	更新 cet_train_view
 
 2018-5-8
 ALTER TABLE `cet_course`

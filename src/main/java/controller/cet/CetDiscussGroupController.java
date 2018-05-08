@@ -230,13 +230,13 @@ public class CetDiscussGroupController extends CetBaseController {
 
         List<CetDiscussGroup> records = cetDiscussGroupMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"分组讨论|100","召集人|100","研讨主题|100","是否允许修改研讨主题|100","召开时间|100","召开地点|100","负责单位|100","负责单位管理员|100","排序|100","备注|100"};
+        String[] titles = {"分组讨论|100", "研讨主题|100","是否允许修改研讨主题|100","召开时间|100","召开地点|100","负责单位|100","负责单位管理员|100","排序|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetDiscussGroup record = records.get(i);
             String[] values = {
                 record.getDiscussId()+"",
-                            record.getHoldUserId()+"",
+
                             record.getSubject(),
                             record.getSubjectCanModify()+"",
                             DateUtils.formatDate(record.getDiscussTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),

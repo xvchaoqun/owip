@@ -197,11 +197,18 @@ public class CetProjectObjService extends BaseMapper {
     }
 
     // 设置为必选学员/取消必选
-    public void canQuit(Integer[] objIds, boolean canQuit, int trainCourseId) {
+    public void canQuit(int projectId, Integer[] objIds, boolean canQuit, int trainCourseId) {
 
-        CetProjectObjExample example = new CetProjectObjExample();
-        example.createCriteria().andIdIn(Arrays.asList(objIds));
-        List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
+        List<CetProjectObj> cetProjectObjs = null;
+        if(objIds==null || objIds.length==0){
+            CetProjectObjExample example = new CetProjectObjExample();
+            example.createCriteria().andProjectIdEqualTo(projectId).andIsQuitEqualTo(false);
+            cetProjectObjs = cetProjectObjMapper.selectByExample(example);
+        }else {
+            CetProjectObjExample example = new CetProjectObjExample();
+            example.createCriteria().andIdIn(Arrays.asList(objIds));
+            cetProjectObjs = cetProjectObjMapper.selectByExample(example);
+        }
 
         CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
         int trainId = cetTrainCourse.getTrainId();

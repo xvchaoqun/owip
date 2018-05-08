@@ -33,7 +33,7 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-						_stepContentReload();
+                        _detailReload2();
                     }
                 }
             });

@@ -5,7 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="discuss_id" jdbcType="INTEGER" property="discussId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="hold_user_id" jdbcType="INTEGER" property="holdUserId" />
+    <result column="hold_user_ids" jdbcType="VARCHAR" property="holdUserIds" />
+    <result column="link_user_ids" jdbcType="VARCHAR" property="linkUserIds" />
     <result column="subject" jdbcType="VARCHAR" property="subject" />
     <result column="subject_can_modify" jdbcType="BIT" property="subjectCanModify" />
     <result column="discuss_time" jdbcType="TIMESTAMP" property="discussTime" />
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, discuss_id, name, hold_user_id, subject, subject_can_modify, discuss_time, discuss_address, 
-    unit_id, admin_user_id, sort_order, remark
+    id, discuss_id, name, hold_user_ids, link_user_ids, subject, subject_can_modify, 
+    discuss_time, discuss_address, unit_id, admin_user_id, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetDiscussGroupExample" resultMap="BaseResultMap">
     select
@@ -109,15 +110,15 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetDiscussGroup">
     insert into cet_discuss_group (id, discuss_id, name, 
-      hold_user_id, subject, subject_can_modify, 
-      discuss_time, discuss_address, unit_id, 
-      admin_user_id, sort_order, remark
-      )
+      hold_user_ids, link_user_ids, subject, 
+      subject_can_modify, discuss_time, discuss_address, 
+      unit_id, admin_user_id, sort_order, 
+      remark)
     values (#{id,jdbcType=INTEGER}, #{discussId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{holdUserId,jdbcType=INTEGER}, #{subject,jdbcType=VARCHAR}, #{subjectCanModify,jdbcType=BIT}, 
-      #{discussTime,jdbcType=TIMESTAMP}, #{discussAddress,jdbcType=VARCHAR}, #{unitId,jdbcType=INTEGER}, 
-      #{adminUserId,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+      #{holdUserIds,jdbcType=VARCHAR}, #{linkUserIds,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, 
+      #{subjectCanModify,jdbcType=BIT}, #{discussTime,jdbcType=TIMESTAMP}, #{discussAddress,jdbcType=VARCHAR}, 
+      #{unitId,jdbcType=INTEGER}, #{adminUserId,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetDiscussGroup">
     insert into cet_discuss_group
@@ -131,8 +132,11 @@
       <if test="name != null">
         name,
       </if>
-      <if test="holdUserId != null">
-        hold_user_id,
+      <if test="holdUserIds != null">
+        hold_user_ids,
+      </if>
+      <if test="linkUserIds != null">
+        link_user_ids,
       </if>
       <if test="subject != null">
         subject,
@@ -169,8 +173,11 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="holdUserId != null">
-        #{holdUserId,jdbcType=INTEGER},
+      <if test="holdUserIds != null">
+        #{holdUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="linkUserIds != null">
+        #{linkUserIds,jdbcType=VARCHAR},
       </if>
       <if test="subject != null">
         #{subject,jdbcType=VARCHAR},
@@ -216,8 +223,11 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.holdUserId != null">
-        hold_user_id = #{record.holdUserId,jdbcType=INTEGER},
+      <if test="record.holdUserIds != null">
+        hold_user_ids = #{record.holdUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkUserIds != null">
+        link_user_ids = #{record.linkUserIds,jdbcType=VARCHAR},
       </if>
       <if test="record.subject != null">
         subject = #{record.subject,jdbcType=VARCHAR},
@@ -253,7 +263,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       discuss_id = #{record.discussId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
-      hold_user_id = #{record.holdUserId,jdbcType=INTEGER},
+      hold_user_ids = #{record.holdUserIds,jdbcType=VARCHAR},
+      link_user_ids = #{record.linkUserIds,jdbcType=VARCHAR},
       subject = #{record.subject,jdbcType=VARCHAR},
       subject_can_modify = #{record.subjectCanModify,jdbcType=BIT},
       discuss_time = #{record.discussTime,jdbcType=TIMESTAMP},
@@ -275,8 +286,11 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="holdUserId != null">
-        hold_user_id = #{holdUserId,jdbcType=INTEGER},
+      <if test="holdUserIds != null">
+        hold_user_ids = #{holdUserIds,jdbcType=VARCHAR},
+      </if>
+      <if test="linkUserIds != null">
+        link_user_ids = #{linkUserIds,jdbcType=VARCHAR},
       </if>
       <if test="subject != null">
         subject = #{subject,jdbcType=VARCHAR},
@@ -309,7 +323,8 @@
     update cet_discuss_group
     set discuss_id = #{discussId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
-      hold_user_id = #{holdUserId,jdbcType=INTEGER},
+      hold_user_ids = #{holdUserIds,jdbcType=VARCHAR},
+      link_user_ids = #{linkUserIds,jdbcType=VARCHAR},
       subject = #{subject,jdbcType=VARCHAR},
       subject_can_modify = #{subjectCanModify,jdbcType=BIT},
       discuss_time = #{discussTime,jdbcType=TIMESTAMP},

@@ -99,8 +99,8 @@
                 enableDeleteByExample="false">
          </table>-->
 
-        <table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
-        </table>
+        <!--<table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
+        </table>-->
        <!-- <table tableName="cet_course_file" domainObjectName="cet.CetCourseFile" mapperName="cet.CetCourseFileMapper">
         </table>-->
         <!--<table tableName="cet_course_item" domainObjectName="cet.CetCourseItem" mapperName="cet.CetCourseItemMapper">
@@ -146,12 +146,12 @@
         <!--<table tableName="cet_discuss_group_obj" domainObjectName="cet.CetDiscussGroupObj" mapperName="cet.CetDiscussGroupObjMapper">
         </table>-->
 
-        <!--<table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
+        <table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="evaNote" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
-       <!-- <table tableName="cet_train_view" domainObjectName="cet.CetTrainView" mapperName="cet.CetTrainViewMapper"
+        </table>
+        <table tableName="cet_train_view" domainObjectName="cet.CetTrainView" mapperName="cet.CetTrainViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
@@ -161,7 +161,7 @@
                 <columnOverride column="trainee_types" jdbcType="VARCHAR"></columnOverride>
                 <columnOverride column="trainee_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                 <columnOverride column="selected_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>-->
+        </table>
 
         <!--<table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
         </table>-->

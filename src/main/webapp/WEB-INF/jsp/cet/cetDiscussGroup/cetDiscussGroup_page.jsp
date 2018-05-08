@@ -83,7 +83,21 @@
                 label: '排序', align: 'center',formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {grid:'#jqGrid2', url: "${ctx}/cet/cetDiscussGroup_changeOrder"}, frozen: true
             },
-            {label: '召集人', name: 'holdUser.realname', frozen: true},
+            {label: '召集人', name: '_holdUsers',width: 150, formatter: function (cellvalue, options, rowObject) {
+
+                //console.log(rowObject.holdUsers)
+                if(rowObject.holdUsers==undefined) return '-'
+                return $.map(rowObject.holdUsers, function(user){
+                    return user.realname;
+                })
+            }, frozen: true},
+            {label: '联络人', name: '_linkUsers',width: 150, formatter: function (cellvalue, options, rowObject) {
+
+                if(rowObject.linkUsers==undefined) return '-'
+                return $.map(rowObject.linkUsers, function(user){
+                    return user.realname;
+                })
+            }, frozen: true},
             {label: '研讨主题', name: 'subject',width: 250, align:'left', frozen: true},
             <c:if test="${cetDiscuss.unitType!=CET_DISCUSS_UNIT_TYPE_OW}">
             {label: '是否允许修改主题', name: 'subjectCanModify',width: 150, formatter: $.jgrid.formatter.TRUEFALSE},

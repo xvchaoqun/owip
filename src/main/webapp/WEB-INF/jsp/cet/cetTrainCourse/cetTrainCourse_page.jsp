@@ -179,7 +179,7 @@
             },
             {
                 label: '实践教学地点',
-                name: 'cetCourse.name',
+                name: 'cetCourse.address',
                 width: 300,
                 align: 'left', frozen:true
             },

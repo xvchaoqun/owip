@@ -295,63 +295,143 @@ public class CetDiscussGroupExample {
             return (Criteria) this;
         }
 
-        public Criteria andHoldUserIdIsNull() {
-            addCriterion("hold_user_id is null");
+        public Criteria andHoldUserIdsIsNull() {
+            addCriterion("hold_user_ids is null");
             return (Criteria) this;
         }
 
-        public Criteria andHoldUserIdIsNotNull() {
-            addCriterion("hold_user_id is not null");
+        public Criteria andHoldUserIdsIsNotNull() {
+            addCriterion("hold_user_ids is not null");
             return (Criteria) this;
         }
 
-        public Criteria andHoldUserIdEqualTo(Integer value) {
-            addCriterion("hold_user_id =", value, "holdUserId");
+        public Criteria andHoldUserIdsEqualTo(String value) {
+            addCriterion("hold_user_ids =", value, "holdUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andHoldUserIdNotEqualTo(Integer value) {
-            addCriterion("hold_user_id <>", value, "holdUserId");
+        public Criteria andHoldUserIdsNotEqualTo(String value) {
+            addCriterion("hold_user_ids <>", value, "holdUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andHoldUserIdGreaterThan(Integer value) {
-            addCriterion("hold_user_id >", value, "holdUserId");
+        public Criteria andHoldUserIdsGreaterThan(String value) {
+            addCriterion("hold_user_ids >", value, "holdUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andHoldUserIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("hold_user_id >=", value, "holdUserId");
+        public Criteria andHoldUserIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("hold_user_ids >=", value, "holdUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andHoldUserIdLessThan(Integer value) {
-            addCriterion("hold_user_id <", value, "holdUserId");
+        public Criteria andHoldUserIdsLessThan(String value) {
+            addCriterion("hold_user_ids <", value, "holdUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andHoldUserIdLessThanOrEqualTo(Integer value) {
-            addCriterion("hold_user_id <=", value, "holdUserId");
+        public Criteria andHoldUserIdsLessThanOrEqualTo(String value) {
+            addCriterion("hold_user_ids <=", value, "holdUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andHoldUserIdIn(List<Integer> values) {
-            addCriterion("hold_user_id in", values, "holdUserId");
+        public Criteria andHoldUserIdsLike(String value) {
+            addCriterion("hold_user_ids like", value, "holdUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andHoldUserIdNotIn(List<Integer> values) {
-            addCriterion("hold_user_id not in", values, "holdUserId");
+        public Criteria andHoldUserIdsNotLike(String value) {
+            addCriterion("hold_user_ids not like", value, "holdUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andHoldUserIdBetween(Integer value1, Integer value2) {
-            addCriterion("hold_user_id between", value1, value2, "holdUserId");
+        public Criteria andHoldUserIdsIn(List<String> values) {
+            addCriterion("hold_user_ids in", values, "holdUserIds");
             return (Criteria) this;
         }
 
-        public Criteria andHoldUserIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("hold_user_id not between", value1, value2, "holdUserId");
+        public Criteria andHoldUserIdsNotIn(List<String> values) {
+            addCriterion("hold_user_ids not in", values, "holdUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andHoldUserIdsBetween(String value1, String value2) {
+            addCriterion("hold_user_ids between", value1, value2, "holdUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andHoldUserIdsNotBetween(String value1, String value2) {
+            addCriterion("hold_user_ids not between", value1, value2, "holdUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsIsNull() {
+            addCriterion("link_user_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsIsNotNull() {
+            addCriterion("link_user_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsEqualTo(String value) {
+            addCriterion("link_user_ids =", value, "linkUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsNotEqualTo(String value) {
+            addCriterion("link_user_ids <>", value, "linkUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsGreaterThan(String value) {
+            addCriterion("link_user_ids >", value, "linkUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("link_user_ids >=", value, "linkUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsLessThan(String value) {
+            addCriterion("link_user_ids <", value, "linkUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsLessThanOrEqualTo(String value) {
+            addCriterion("link_user_ids <=", value, "linkUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsLike(String value) {
+            addCriterion("link_user_ids like", value, "linkUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsNotLike(String value) {
+            addCriterion("link_user_ids not like", value, "linkUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsIn(List<String> values) {
+            addCriterion("link_user_ids in", values, "linkUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsNotIn(List<String> values) {
+            addCriterion("link_user_ids not in", values, "linkUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsBetween(String value1, String value2) {
+            addCriterion("link_user_ids between", value1, value2, "linkUserIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkUserIdsNotBetween(String value1, String value2) {
+            addCriterion("link_user_ids not between", value1, value2, "linkUserIds");
             return (Criteria) this;
         }
 

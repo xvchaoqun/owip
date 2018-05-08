@@ -6,7 +6,6 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import service.cet.CetShortMsgService;
 
 public class CetTrainBegin implements Job {
@@ -22,7 +21,7 @@ public class CetTrainBegin implements Job {
 
         logger.info("培训班开班前一天通知...");
         try {
-            cetShortMsgService.trainTomorrowCourse(null);
+            cetShortMsgService.trainTomorrow(null);
 
         }catch (Exception ex){
             ex.printStackTrace();

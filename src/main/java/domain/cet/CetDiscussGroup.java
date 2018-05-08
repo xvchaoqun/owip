@@ -1,6 +1,7 @@
 package domain.cet;
 
 import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import persistence.cet.CetDiscussMapper;
 import service.cet.CetPartySchoolService;
@@ -10,13 +11,36 @@ import sys.constants.CetConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CetDiscussGroup implements Serializable {
 
-    public SysUserView getHoldUser(){
-        return CmTag.getUserById(holdUserId);
+    public List<SysUserView> getHoldUsers(){
+        if(StringUtils.isBlank(holdUserIds)) return null;
+
+        List<SysUserView> uvs = new ArrayList<>();
+        for (String _userId : holdUserIds.split(",")) {
+
+            uvs.add(CmTag.getUserById(Integer.valueOf(_userId)));
+        }
+
+        return uvs;
     }
+
+    public List<SysUserView> getLinkUsers(){
+        if(StringUtils.isBlank(linkUserIds)) return null;
+
+        List<SysUserView> uvs = new ArrayList<>();
+        for (String _userId : linkUserIds.split(",")) {
+
+            uvs.add(CmTag.getUserById(Integer.valueOf(_userId)));
+        }
+
+        return uvs;
+    }
+
     public SysUserView getAdminUser(){
         return CmTag.getUserById(adminUserId);
     }
@@ -72,7 +96,9 @@ public class CetDiscussGroup implements Serializable {
 
     private String name;
 
-    private Integer holdUserId;
+    private String holdUserIds;
+
+    private String linkUserIds;
 
     private String subject;
 
@@ -117,12 +143,20 @@ public class CetDiscussGroup implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
-    public Integer getHoldUserId() {
-        return holdUserId;
+    public String getHoldUserIds() {
+        return holdUserIds;
     }
 
-    public void setHoldUserId(Integer holdUserId) {
-        this.holdUserId = holdUserId;
+    public void setHoldUserIds(String holdUserIds) {
+        this.holdUserIds = holdUserIds == null ? null : holdUserIds.trim();
+    }
+
+    public String getLinkUserIds() {
+        return linkUserIds;
+    }
+
+    public void setLinkUserIds(String linkUserIds) {
+        this.linkUserIds = linkUserIds == null ? null : linkUserIds.trim();
     }
 
     public String getSubject() {

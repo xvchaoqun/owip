@@ -25,6 +25,7 @@ import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -124,10 +125,25 @@ public class CetTrainDetailController extends CetBaseController {
 
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_detail/msg_send")
-    public String msg_send(String tplKey, ModelMap modelMap) {
+    public String msg_send(String tplKey, Integer trainId, ModelMap modelMap) {
 
         Map<String, ContentTpl> contentTplMap = contentTplService.codeKeyMap();
         ContentTpl tpl = contentTplMap.get(tplKey);
+
+        if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_1)){
+
+            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+            String trainName = cetTrain.getName();
+            String trainStartDate = DateUtils.formatDate(cetTrain.getStartDate(), DateUtils.YYYY_MM_DD_CHINA);
+
+            String openTime = DateUtils.formatDate(cetTrain.getOpenTime(), "MM月dd日 HH:mm");
+            String openAddress = cetTrain.getOpenAddress();
+            String msg = MessageFormat.format(tpl.getContent(),
+                    trainName, trainStartDate, openTime, openAddress);
+
+            tpl.setContent(msg);
+        }
+
         modelMap.put("contentTpl", tpl);
 
         return "cet/cetTrain/cetTrain_detail/msg_send";
@@ -139,12 +155,12 @@ public class CetTrainDetailController extends CetBaseController {
     public Map do_msg_send(int trainId, String tplKey) {
 
         int successCount = 0;
-        if(StringUtils.equals(tplKey, "ct_cet_msg_1")) {
+        if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_1)) {
 
-            successCount = cetShortMsgService.trainTomorrowCourse(trainId);
+            successCount = cetShortMsgService.trainTomorrow(trainId);
             logger.info(addLog(LogConstants.LOG_CET, "第二天开班通知"));
 
-        }else  if(StringUtils.equals(tplKey, "ct_cet_msg_2")) {
+        }else  if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_2)) {
 
             successCount = cetShortMsgService.todayCourse(trainId);
             logger.info(addLog(LogConstants.LOG_CET, "当天开课通知"));
