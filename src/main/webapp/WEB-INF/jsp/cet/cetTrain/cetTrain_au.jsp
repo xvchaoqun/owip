@@ -115,6 +115,7 @@ pageEncoding="UTF-8"%>
     });
 	$('textarea.limited').inputlimiter();
 	$.register.date($('.date-picker'));
+	$.register.datetime($('.datetime-picker'));
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 </script>
