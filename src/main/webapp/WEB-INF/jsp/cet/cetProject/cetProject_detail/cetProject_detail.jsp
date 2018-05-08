@@ -29,6 +29,12 @@
                 <li>
                     <a href="javascript:;" class="loadPage"
                        data-load-el="#detail-content" data-callback="$.menu.liSelected"
+                       data-url="${ctx}/cet/cetProject_detail_begin?projectId=${param.projectId}">
+                        <i class="green ace-icon fa fa-history bigger-120"></i> 开班仪式和通知</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="loadPage"
+                       data-load-el="#detail-content" data-callback="$.menu.liSelected"
                        data-url="${ctx}/cet/cetProject_detail_setting?projectId=${param.projectId}">
                         <i class="green ace-icon fa fa-history bigger-120"></i> 参数设置</a>
                 </li>

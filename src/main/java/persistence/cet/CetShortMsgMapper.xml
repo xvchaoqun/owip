@@ -3,7 +3,7 @@
 <mapper namespace="persistence.cet.CetShortMsgMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetShortMsg">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="train_id" jdbcType="INTEGER" property="trainId" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="tpl_key" jdbcType="VARCHAR" property="tplKey" />
     <result column="content_tpl_id" jdbcType="INTEGER" property="contentTplId" />
@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, train_id, user_id, tpl_key, content_tpl_id, msg, send_time, success
+    id, record_id, user_id, tpl_key, content_tpl_id, msg, send_time, success
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetShortMsgExample" resultMap="BaseResultMap">
     select
@@ -103,10 +103,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.cet.CetShortMsg">
-    insert into cet_short_msg (id, train_id, user_id, 
+    insert into cet_short_msg (id, record_id, user_id, 
       tpl_key, content_tpl_id, msg, 
       send_time, success)
-    values (#{id,jdbcType=INTEGER}, #{trainId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{tplKey,jdbcType=VARCHAR}, #{contentTplId,jdbcType=INTEGER}, #{msg,jdbcType=VARCHAR}, 
       #{sendTime,jdbcType=TIMESTAMP}, #{success,jdbcType=BIT})
   </insert>
@@ -116,8 +116,8 @@
       <if test="id != null">
         id,
       </if>
-      <if test="trainId != null">
-        train_id,
+      <if test="recordId != null">
+        record_id,
       </if>
       <if test="userId != null">
         user_id,
@@ -142,8 +142,8 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="trainId != null">
-        #{trainId,jdbcType=INTEGER},
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -177,8 +177,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.trainId != null">
-        train_id = #{record.trainId,jdbcType=INTEGER},
+      <if test="record.recordId != null">
+        record_id = #{record.recordId,jdbcType=INTEGER},
       </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
@@ -206,7 +206,7 @@
   <update id="updateByExample" parameterType="map">
     update cet_short_msg
     set id = #{record.id,jdbcType=INTEGER},
-      train_id = #{record.trainId,jdbcType=INTEGER},
+      record_id = #{record.recordId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       tpl_key = #{record.tplKey,jdbcType=VARCHAR},
       content_tpl_id = #{record.contentTplId,jdbcType=INTEGER},
@@ -220,8 +220,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetShortMsg">
     update cet_short_msg
     <set>
-      <if test="trainId != null">
-        train_id = #{trainId,jdbcType=INTEGER},
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
@@ -246,7 +246,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetShortMsg">
     update cet_short_msg
-    set train_id = #{trainId,jdbcType=INTEGER},
+    set record_id = #{recordId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       tpl_key = #{tplKey,jdbcType=VARCHAR},
       content_tpl_id = #{contentTplId,jdbcType=INTEGER},

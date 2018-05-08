@@ -21,7 +21,7 @@ public class CetTrainBegin implements Job {
 
         logger.info("培训班开班前一天通知...");
         try {
-            cetShortMsgService.trainTomorrow(null);
+            cetShortMsgService.projectOpenMsg(null);
 
         }catch (Exception ex){
             ex.printStackTrace();

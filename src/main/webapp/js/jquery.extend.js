@@ -1094,7 +1094,7 @@ $.extend($.register, {
             arrows: false,
             prevEffect: 'none',
             nextEffect: 'none',
-            closeBtn: false,
+            closeBtn: true,
             helpers: {
                 overlay: {
                     closeClick: false,

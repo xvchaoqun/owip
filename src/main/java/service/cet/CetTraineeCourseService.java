@@ -28,7 +28,6 @@ import sys.utils.ContextHelper;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -208,13 +207,6 @@ public class CetTraineeCourseService extends BaseMapper {
 
                 if(cetTrainCourse.getStartTime().before(new Date())){
                     throw new OpException("[{0}]已开课，不可退课。", courseName);
-                }
-
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(cetTrainCourse.getStartTime());
-                cal.add(Calendar.HOUR, -24);
-                if(cal.getTime().before(new Date())){
-                    throw new OpException("开课前一天不可退课。", courseName);
                 }
             }
 

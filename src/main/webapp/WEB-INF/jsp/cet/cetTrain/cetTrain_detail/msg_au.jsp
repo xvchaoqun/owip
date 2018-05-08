@@ -34,6 +34,7 @@ pageEncoding="UTF-8"%>
                 success:function(ret){
                     if(ret.success){
                         _detailReload2();
+                        _detailReload()
                     }
                 }
             });

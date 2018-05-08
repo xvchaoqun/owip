@@ -32,6 +32,10 @@ public interface ICetMapper {
     @Select("select id from cet_project_obj where project_id=#{projectId}")
     public List<Integer> getCetProjectObjIds(@Param("projectId") Integer projectId);
 
+    // 专题培训 - 已选课学员列表
+    @Select("select distinct user_id from cet_trainee_course_view where project_id=#{projectId}")
+    public List<Integer> getCetProjectHasApplyUserIds(@Param("projectId") Integer projectId);
+
     // 学员的培训列表
     public List<CetProject> selectUserCetProjectList( @Param("userId") Integer userId,
                                                       @Param("projectType") byte projectType,

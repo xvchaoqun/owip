@@ -1,5 +1,6 @@
 package controller.cet;
 
+import controller.global.OpException;
 import domain.cet.CetProject;
 import domain.cet.CetProjectExample;
 import domain.cet.CetProjectType;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.ContentTypeUtils;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FileUtils;
@@ -118,7 +120,6 @@ public class CetProjectController extends CetBaseController {
     @ResponseBody
     public Map do_cetProject_au(CetProject record,
                                 @RequestParam(value = "traineeTypeIds[]", required = false) Integer[] traineeTypeIds,
-                                MultipartFile _pdfFilePath,
                                 MultipartFile _wordFilePath,
                                 HttpServletRequest request) throws IOException, InterruptedException {
 
@@ -133,8 +134,6 @@ public class CetProjectController extends CetBaseController {
             return failed("请选择参训人员类型。");
         }
 
-        record.setFileName(_pdfFilePath!=null? FileUtils.getFileName(_pdfFilePath.getOriginalFilename()):null);
-        record.setPdfFilePath(uploadPdf(_pdfFilePath, "cet_project"));
         record.setWordFilePath(upload(_wordFilePath, "cet_project"));
 
         if (id == null) {
@@ -151,16 +150,37 @@ public class CetProjectController extends CetBaseController {
     }
 
     @RequiresPermissions("cetProject:edit")
+    @RequestMapping(value = "/cetProject_upload", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProject_upload(MultipartFile file) throws InterruptedException, IOException {
+
+        String originalFilename = file.getOriginalFilename();
+        String ext = FileUtils.getExtention(originalFilename);
+        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")
+                && !ContentTypeUtils.isFormat(file, "pdf")) {
+            throw new OpException("文件格式错误，请上传pdf文件");
+        }
+
+        String savePath = uploadPdf(file, "cet_project");
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("fileName", file.getOriginalFilename());
+        resultMap.put("pdfFilePath", savePath);
+
+        return resultMap;
+    }
+
+    @RequiresPermissions("cetProject:edit")
     @RequestMapping("/cetProject_au")
     public String cetProject_au(Integer id,
-                                Byte type,
+                                Byte _type,
                                 ModelMap modelMap) {
 
         if (id != null) {
             CetProject cetProject = cetProjectMapper.selectByPrimaryKey(id);
             modelMap.put("cetProject", cetProject);
             if(cetProject!=null){
-                type = cetProject.getType();
+                _type = cetProject.getType();
             }
             Set<Integer> traineeTypeIdSet = cetProjectService.findTraineeTypeIdSet(id);
             modelMap.put("traineeTypeIds", new ArrayList<>(traineeTypeIdSet));
@@ -169,7 +189,7 @@ public class CetProjectController extends CetBaseController {
         Map<Integer, CetProjectType> projectTypeMap = cetProjectTypeService.findAll();
         modelMap.put("projectTypes", projectTypeMap.values());
 
-        modelMap.put("type", type);
+        modelMap.put("type", _type);
 
         Map<Integer, CetTraineeType> traineeTypeMap = cetTraineeTypeService.findAll();
         modelMap.put("traineeTypeMap", traineeTypeMap);

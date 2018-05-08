@@ -3,11 +3,11 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${contentTpl.name}</h3>
+    <h3>${name}</h3>
 </div>
 <div class="modal-body">
     <div class="alert alert-info">
-        ${contentTpl.content}
+        ${content}
     </div>
 </div>
 <div class="modal-footer">
@@ -17,7 +17,7 @@ pageEncoding="UTF-8"%>
 
 <script>
     $("#sendBtn").click(function(){
-        $.post("${ctx}/cet/cetTrain_detail/msg_send", {trainId:'${param.trainId}', tplKey:'${param.tplKey}'},function(ret){
+        $.post("${ctx}/cet/cetTrain_detail/msg_send", {projectId:'${param.projectId}', trainId:'${param.trainId}', tplKey:'${param.tplKey}'},function(ret){
 
           if(ret.success){
               SysMsg.info("成功发送${fn:length(applicants)}条短信。".format(ret.successCount) );

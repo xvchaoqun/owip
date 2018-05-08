@@ -1,5 +1,18 @@
 
+2018-5-9
+ALTER TABLE `cet_project`
+	ADD COLUMN `open_time` DATETIME NULL DEFAULT NULL COMMENT '开班时间' AFTER `end_date`,
+	ADD COLUMN `open_address` VARCHAR(200) NULL DEFAULT NULL COMMENT '开班地点' AFTER `open_time`;
 
+	ALTER TABLE `cet_train`
+	DROP COLUMN `open_time`,
+	DROP COLUMN `open_address`;
+
+		更新 cet_project_view
+			更新 cet_train_view
+
+			ALTER TABLE `cet_short_msg`
+	CHANGE COLUMN `train_id` `record_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联记录' AFTER `id`;
 2018-5-8
 ALTER TABLE `cet_discuss_group`
 	CHANGE COLUMN `hold_user_id` `hold_user_ids` VARCHAR(100) NULL COMMENT '召集人' AFTER `name`,

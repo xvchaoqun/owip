@@ -34,8 +34,9 @@
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
-                        //$("#modal").modal('hide');
-                        _detailReload()
+                        SysMsg.success("设置成功。",function(){
+                            _detailReload()
+                        })
                     }
                 }
             });

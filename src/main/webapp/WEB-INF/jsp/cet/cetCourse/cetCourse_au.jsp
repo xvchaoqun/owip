@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">主讲人</label>
 				<div class="col-xs-6">
-					<select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetExpert_selects"
+					<select ${type==CET_COURSE_TYPE_ONLINE?'':'required'} data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetExpert_selects"
 							name="expertId" data-placeholder="请输入姓名">
 						<option value="${cetCourse.cetExpert.id}">${cetCourse.cetExpert.realname}-${cetCourse.cetExpert.unit}-${cetCourse.cetExpert.post}</option>
 					</select>

@@ -7,6 +7,8 @@
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="open_time" jdbcType="TIMESTAMP" property="openTime" />
+    <result column="open_address" jdbcType="VARCHAR" property="openAddress" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="project_type_id" jdbcType="INTEGER" property="projectTypeId" />
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
@@ -78,8 +80,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, year, start_date, end_date, name, project_type_id, file_name, pdf_file_path, 
-    word_file_path, period, require_period, remark, status, pub_status, create_time
+    id, type, year, start_date, end_date, open_time, open_address, name, project_type_id, 
+    file_name, pdf_file_path, word_file_path, period, require_period, remark, status, 
+    pub_status, create_time
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectExample" resultMap="BaseResultMap">
     select
@@ -116,17 +119,17 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cet_project (type, year, start_date, 
-      end_date, name, project_type_id, 
-      file_name, pdf_file_path, word_file_path, 
-      period, require_period, remark, 
-      status, pub_status, create_time
-      )
+      end_date, open_time, open_address, 
+      name, project_type_id, file_name, 
+      pdf_file_path, word_file_path, period, 
+      require_period, remark, status, 
+      pub_status, create_time)
     values (#{type,jdbcType=TINYINT}, #{year,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, 
-      #{endDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, #{projectTypeId,jdbcType=INTEGER}, 
-      #{fileName,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, 
-      #{period,jdbcType=DECIMAL}, #{requirePeriod,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{pubStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{endDate,jdbcType=DATE}, #{openTime,jdbcType=TIMESTAMP}, #{openAddress,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{projectTypeId,jdbcType=INTEGER}, #{fileName,jdbcType=VARCHAR}, 
+      #{pdfFilePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, #{period,jdbcType=DECIMAL}, 
+      #{requirePeriod,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{pubStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProject">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -145,6 +148,12 @@
       </if>
       <if test="endDate != null">
         end_date,
+      </if>
+      <if test="openTime != null">
+        open_time,
+      </if>
+      <if test="openAddress != null">
+        open_address,
       </if>
       <if test="name != null">
         name,
@@ -192,6 +201,12 @@
       </if>
       <if test="endDate != null">
         #{endDate,jdbcType=DATE},
+      </if>
+      <if test="openTime != null">
+        #{openTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openAddress != null">
+        #{openAddress,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -252,6 +267,12 @@
       <if test="record.endDate != null">
         end_date = #{record.endDate,jdbcType=DATE},
       </if>
+      <if test="record.openTime != null">
+        open_time = #{record.openTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.openAddress != null">
+        open_address = #{record.openAddress,jdbcType=VARCHAR},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
@@ -297,6 +318,8 @@
       year = #{record.year,jdbcType=INTEGER},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
+      open_time = #{record.openTime,jdbcType=TIMESTAMP},
+      open_address = #{record.openAddress,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       project_type_id = #{record.projectTypeId,jdbcType=INTEGER},
       file_name = #{record.fileName,jdbcType=VARCHAR},
@@ -326,6 +349,12 @@
       </if>
       <if test="endDate != null">
         end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="openTime != null">
+        open_time = #{openTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="openAddress != null">
+        open_address = #{openAddress,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -369,6 +398,8 @@
       year = #{year,jdbcType=INTEGER},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
+      open_time = #{openTime,jdbcType=TIMESTAMP},
+      open_address = #{openAddress,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       project_type_id = #{projectTypeId,jdbcType=INTEGER},
       file_name = #{fileName,jdbcType=VARCHAR},

@@ -165,63 +165,63 @@ public class CetShortMsgExample {
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdIsNull() {
-            addCriterion("train_id is null");
+        public Criteria andRecordIdIsNull() {
+            addCriterion("record_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdIsNotNull() {
-            addCriterion("train_id is not null");
+        public Criteria andRecordIdIsNotNull() {
+            addCriterion("record_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdEqualTo(Integer value) {
-            addCriterion("train_id =", value, "trainId");
+        public Criteria andRecordIdEqualTo(Integer value) {
+            addCriterion("record_id =", value, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdNotEqualTo(Integer value) {
-            addCriterion("train_id <>", value, "trainId");
+        public Criteria andRecordIdNotEqualTo(Integer value) {
+            addCriterion("record_id <>", value, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdGreaterThan(Integer value) {
-            addCriterion("train_id >", value, "trainId");
+        public Criteria andRecordIdGreaterThan(Integer value) {
+            addCriterion("record_id >", value, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("train_id >=", value, "trainId");
+        public Criteria andRecordIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("record_id >=", value, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdLessThan(Integer value) {
-            addCriterion("train_id <", value, "trainId");
+        public Criteria andRecordIdLessThan(Integer value) {
+            addCriterion("record_id <", value, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdLessThanOrEqualTo(Integer value) {
-            addCriterion("train_id <=", value, "trainId");
+        public Criteria andRecordIdLessThanOrEqualTo(Integer value) {
+            addCriterion("record_id <=", value, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdIn(List<Integer> values) {
-            addCriterion("train_id in", values, "trainId");
+        public Criteria andRecordIdIn(List<Integer> values) {
+            addCriterion("record_id in", values, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdNotIn(List<Integer> values) {
-            addCriterion("train_id not in", values, "trainId");
+        public Criteria andRecordIdNotIn(List<Integer> values) {
+            addCriterion("record_id not in", values, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdBetween(Integer value1, Integer value2) {
-            addCriterion("train_id between", value1, value2, "trainId");
+        public Criteria andRecordIdBetween(Integer value1, Integer value2) {
+            addCriterion("record_id between", value1, value2, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andTrainIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("train_id not between", value1, value2, "trainId");
+        public Criteria andRecordIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("record_id not between", value1, value2, "recordId");
             return (Criteria) this;
         }
 

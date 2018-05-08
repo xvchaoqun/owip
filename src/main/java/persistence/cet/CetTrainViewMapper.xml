@@ -11,8 +11,6 @@
     <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
-    <result column="open_time" jdbcType="TIMESTAMP" property="openTime" />
-    <result column="open_address" jdbcType="VARCHAR" property="openAddress" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="enroll_status" jdbcType="TINYINT" property="enrollStatus" />
@@ -66,9 +64,9 @@
   </sql>
   <sql id="Base_Column_List">
     id, plan_id, type, is_on_campus, name, has_summary, summary, start_date, end_date, 
-    open_time, open_address, start_time, end_time, enroll_status, pub_status, eva_count, 
-    eva_anonymous, eva_closed, eva_close_time, remark, is_deleted, is_finished, create_time, 
-    year, project_id, course_num, obj_count, trainee_count, trainee_types
+    start_time, end_time, enroll_status, pub_status, eva_count, eva_anonymous, eva_closed, 
+    eva_close_time, remark, is_deleted, is_finished, create_time, year, project_id, course_num, 
+    obj_count, trainee_count, trainee_types
   </sql>
   <sql id="Blob_Column_List">
     eva_note

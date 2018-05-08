@@ -3,15 +3,14 @@ package service.cet;
 import bean.ShortMsgBean;
 import domain.base.ContentTpl;
 import domain.cet.CetCourse;
+import domain.cet.CetProject;
+import domain.cet.CetProjectExample;
 import domain.cet.CetProjectObj;
 import domain.cet.CetShortMsg;
-import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
-import domain.cet.CetTrainExample;
 import domain.cet.CetTrainee;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseExample;
-import domain.cet.CetTraineeExample;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,7 +93,7 @@ public class CetShortMsgService extends BaseMapper {
         CetShortMsg csm = new CetShortMsg();
         csm.setContentTplId(tpl.getId());
         csm.setTplKey(tpl.getCode());
-        csm.setTrainId(trainId);
+        csm.setRecordId(trainId);
         csm.setMsg(msg);
 
         int userId = cetProjectObj.getUserId();
@@ -194,34 +193,27 @@ public class CetShortMsgService extends BaseMapper {
 
 
     /**
-     * 各位老师：您好！[{0}]培训班将于{1}开班。开班仪式将于{2}在{3}举行，请安排好工作按时参加。
+     * 各位老师：您好！ 学校定于{0}至{1}举办{2}。开班仪式将于{3}在{4}举行，请安排好工作按时参加。
      * 联系电话：58806798。谢谢！[系统短信，请勿直接回复]
-     * @param traineeId
      * @return
      */
     @Transactional
-    public boolean sendMsg_1(int traineeId) {
+    public int sendMsg_1(CetProject cetProject) {
 
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_CET_MSG_1);
-        if (tpl == null) return false;
+        if (tpl == null) return 0;
 
-        CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);
-        if (cetTrainee == null) return false;
-        CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(cetTrainee.getObjId());
-        if (cetProjectObj == null) return false;
+        Integer projectId = cetProject.getId();
+        String name = cetProject.getName();
+        String startDate = DateUtils.formatDate(cetProject.getStartDate(), DateUtils.YYYY_MM_DD_CHINA);
+        String endDate = DateUtils.formatDate(cetProject.getEndDate(), DateUtils.YYYY_MM_DD_CHINA);
 
-        Integer trainId = cetTrainee.getTrainId();
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-        String trainName = cetTrain.getName();
-        String trainStartDate = DateUtils.formatDate(cetTrain.getStartDate(), DateUtils.YYYY_MM_DD_CHINA);
+        String openTime = DateUtils.formatDate(cetProject.getOpenTime(), "MM月dd日 HH:mm");
+        String openAddress = cetProject.getOpenAddress();
+        String msg = MessageFormat.format(tpl.getContent(), startDate, endDate,
+                name, openTime, openAddress);
 
-        String openTime = DateUtils.formatDate(cetTrain.getOpenTime(), "MM月dd日 HH:mm");
-        String openAddress = cetTrain.getOpenAddress();
-
-
-        String msg = MessageFormat.format(tpl.getContent(),
-                trainName, trainStartDate,  openTime, openAddress);
-        if (StringUtils.isBlank(msg)) return false;
+        if (StringUtils.isBlank(msg)) return 0;
 
         ShortMsgBean bean = new ShortMsgBean();
         bean.setSender(null);
@@ -233,62 +225,62 @@ public class CetShortMsgService extends BaseMapper {
         CetShortMsg csm = new CetShortMsg();
         csm.setContentTplId(tpl.getId());
         csm.setTplKey(tpl.getCode());
-        csm.setTrainId(trainId);
+        csm.setRecordId(projectId);
         csm.setMsg(msg);
 
-        int userId = cetProjectObj.getUserId();
-        bean.setReceiver(userId);
-        String mobile = userBeanService.getMsgMobile(userId);
-        bean.setMobile(mobile);
-        boolean success = false;
-        try {
-            success = shortMsgService.send(bean, "127.0.0.1");
-        }catch (Exception ex){
-            logger.error("干部教育培训短信发送失败", ex);
+        List<Integer> userIds = iCetMapper.getCetProjectHasApplyUserIds(projectId);
+        int successCount = 0;
+        for (int userId : userIds) {
+
+            bean.setReceiver(userId);
+            String mobile = userBeanService.getMsgMobile(userId);
+            bean.setMobile(mobile);
+            boolean success = false;
+            try {
+                success = shortMsgService.send(bean, "127.0.0.1");
+            }catch (Exception ex){
+                logger.error("干部教育培训短信发送失败", ex);
+            }
+
+            csm.setSendTime(new Date());
+            csm.setUserId(userId);
+            csm.setSuccess(success);
+            cetShortMsgMapper.insertSelective(csm); // 保存日志
+
+            if(success) successCount++;
         }
 
-        csm.setSendTime(new Date());
-        csm.setUserId(userId);
-        csm.setSuccess(success);
-        cetShortMsgMapper.insertSelective(csm); // 保存日志
 
-        return success;
+        return successCount;
     }
 
     // 通知1： 培训班开班前一天通知
-    public int trainTomorrow(Integer trainId) {
+    public int projectOpenMsg(Integer projectId) {
 
         // 获取第二天开班的培训班列表
-        List<CetTrain> cetTrains = new ArrayList<>();
+        List<CetProject> cetProjects = new ArrayList<>();
         {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DAY_OF_MONTH, 1);
-            CetTrainExample example = new CetTrainExample();
-            CetTrainExample.Criteria criteria = example.createCriteria()
-                    .andPubStatusEqualTo(CetConstants.CET_TRAIN_PUB_STATUS_PUBLISHED)
-                    .andIsDeletedEqualTo(false)
-                    .andIsFinishedEqualTo(false);
-            if(trainId!=null){
+            CetProjectExample example = new CetProjectExample();
+            CetProjectExample.Criteria criteria = example.createCriteria()
+                    .andPubStatusEqualTo(CetConstants.CET_PROJECT_PUB_STATUS_PUBLISHED)
+                    .andStatusEqualTo(CetConstants.CET_PROJECT_STATUS_START);
+            if(projectId!=null){
                 // 通知指定班
-                criteria.andIdEqualTo(trainId);
+                criteria.andIdEqualTo(projectId);
             }else {
                 // 通知所有班
                 criteria.andStartDateEqualTo(cal.getTime());
             }
 
-            cetTrains=cetTrainMapper.selectByExample(example);
+            cetProjects=cetProjectMapper.selectByExample(example);
         }
 
         int successCount = 0;
-        for (CetTrain cetTrain : cetTrains) {
+        for (CetProject cetProject : cetProjects) {
 
-            CetTraineeExample example = new CetTraineeExample();
-            example.createCriteria().andTrainIdEqualTo(cetTrain.getId())
-                    .andIsQuitEqualTo(false);
-            List<CetTrainee> cetTrainees = cetTraineeMapper.selectByExample(example);
-            for (CetTrainee cetTrainee : cetTrainees) {
-                if(sendMsg_1(cetTrainee.getId())) successCount++;
-            }
+            successCount += sendMsg_1(cetProject);
         }
         return successCount;
     }

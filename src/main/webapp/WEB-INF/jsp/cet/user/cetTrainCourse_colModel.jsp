@@ -12,8 +12,12 @@
     },
     <c:if test="${param.planType==CET_PROJECT_PLAN_TYPE_ONLINE}">
     {label: '播放', name: 'duration', formatter: function (cellvalue, options, rowObject){
-      return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="iframe" href="${ctx}/cet/cetCourse_video?id={0}&trainCourseId={2}">播放</a>'
-              .format(rowObject.cetCourse.id, rowObject.cetCourse.name, rowObject.id);
+
+      return ('<button class="linkBtn btn btn-xs btn-success" data-url="${ctx}/cet/cetCourse_video?id={0}&trainCourseId={1}" '
+      +' data-target="_blank"><i class="fa fa-play-circle"></i> 播放</button>')
+              .format(rowObject.cetCourse.id, rowObject.id)
+      /*return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="iframe" href="${ctx}/cet/cetCourse_video?id={0}&trainCourseId={2}">播放</a>'
+              .format(rowObject.cetCourse.id, rowObject.cetCourse.name, rowObject.id);*/
     }},
     </c:if>
     {label: '主讲人', name: 'cetCourse.cetExpert.realname'},

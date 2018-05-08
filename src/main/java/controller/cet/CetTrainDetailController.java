@@ -67,10 +67,7 @@ public class CetTrainDetailController extends CetBaseController {
 
         Map<String, ContentTpl> contentTplMap = contentTplService.codeKeyMap();
         List<ContentTpl> tplList = new ArrayList<>();
-        for (String key : ContentTplConstants.CONTENT_TPL_CET_MSG_MAP.keySet()) {
-
-            tplList.add(contentTplMap.get(key));
-        }
+        tplList.add(contentTplMap.get(ContentTplConstants.CONTENT_TPL_CET_MSG_2));
         modelMap.put("tplList", tplList);
 
         return "cet/cetTrain/cetTrain_detail/msg";
@@ -89,7 +86,7 @@ public class CetTrainDetailController extends CetBaseController {
 
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_detail/msg_list")
-    public String msg_list(int trainId, String tplKey,
+    public String msg_list(Integer projectId, Integer trainId, String tplKey,
                                  Integer pageSize, Integer pageNo,
                                  ModelMap modelMap) {
 
@@ -102,7 +99,13 @@ public class CetTrainDetailController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetShortMsgExample example = new CetShortMsgExample();
-        example.createCriteria().andTrainIdEqualTo(trainId).andTplKeyEqualTo(tplKey);
+        CetShortMsgExample.Criteria criteria = example.createCriteria().andTplKeyEqualTo(tplKey);
+        if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_1)) {
+            criteria.andRecordIdEqualTo(projectId);
+        }
+        if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_2)) {
+            criteria.andRecordIdEqualTo(trainId);
+        }
         example.setOrderByClause("send_time desc");
 
         long count = cetShortMsgMapper.countByExample(example);
@@ -125,26 +128,27 @@ public class CetTrainDetailController extends CetBaseController {
 
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_detail/msg_send")
-    public String msg_send(String tplKey, Integer trainId, ModelMap modelMap) {
+    public String msg_send(String tplKey, Integer projectId, ModelMap modelMap) {
 
         Map<String, ContentTpl> contentTplMap = contentTplService.codeKeyMap();
         ContentTpl tpl = contentTplMap.get(tplKey);
+        modelMap.put("name", tpl.getName());
+        modelMap.put("content", tpl.getContent());
 
         if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_1)){
 
-            CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-            String trainName = cetTrain.getName();
-            String trainStartDate = DateUtils.formatDate(cetTrain.getStartDate(), DateUtils.YYYY_MM_DD_CHINA);
+            CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+            String name = cetProject.getName();
+            String startDate = DateUtils.formatDate(cetProject.getStartDate(), DateUtils.YYYY_MM_DD_CHINA);
+            String endDate = DateUtils.formatDate(cetProject.getEndDate(), DateUtils.YYYY_MM_DD_CHINA);
 
-            String openTime = DateUtils.formatDate(cetTrain.getOpenTime(), "MM月dd日 HH:mm");
-            String openAddress = cetTrain.getOpenAddress();
-            String msg = MessageFormat.format(tpl.getContent(),
-                    trainName, trainStartDate, openTime, openAddress);
+            String openTime = DateUtils.formatDate(cetProject.getOpenTime(), "MM月dd日 HH:mm");
+            String openAddress = cetProject.getOpenAddress();
+            String msg = MessageFormat.format(tpl.getContent(), startDate, endDate,
+                    name, openTime, openAddress);
 
-            tpl.setContent(msg);
+            modelMap.put("content", msg);
         }
-
-        modelMap.put("contentTpl", tpl);
 
         return "cet/cetTrain/cetTrain_detail/msg_send";
     }
@@ -152,12 +156,12 @@ public class CetTrainDetailController extends CetBaseController {
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping(value = "/cetTrain_detail/msg_send", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_msg_send(int trainId, String tplKey) {
+    public Map do_msg_send(Integer projectId, Integer trainId, String tplKey) {
 
         int successCount = 0;
         if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_1)) {
 
-            successCount = cetShortMsgService.trainTomorrow(trainId);
+            successCount = cetShortMsgService.projectOpenMsg(projectId);
             logger.info(addLog(LogConstants.LOG_CET, "第二天开班通知"));
 
         }else  if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_2)) {

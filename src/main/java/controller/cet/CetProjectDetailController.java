@@ -1,5 +1,6 @@
 package controller.cet;
 
+import domain.base.ContentTpl;
 import domain.cet.CetDiscuss;
 import domain.cet.CetDiscussGroup;
 import domain.cet.CetPlanCourse;
@@ -10,16 +11,21 @@ import domain.cet.CetTrainCourse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
 import sys.utils.FormUtils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -122,6 +128,42 @@ public class CetProjectDetailController extends CetBaseController {
 
         logger.info(addLog(LogConstants.LOG_CET, "更新专题培训参数设置：%s~%s",
                 cetProject.getName(), requirePeriod));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetProject:edit")
+    @RequestMapping("/cetProject_detail_begin")
+    public String cetProject_detail_begin(int projectId, ModelMap modelMap) {
+
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+        modelMap.put("cetProject", cetProject);
+
+        Map<String, ContentTpl> contentTplMap = contentTplService.codeKeyMap();
+        List<ContentTpl> tplList = new ArrayList<>();
+        tplList.add(contentTplMap.get(ContentTplConstants.CONTENT_TPL_CET_MSG_1));
+        modelMap.put("tplList", tplList);
+
+        return "cet/cetProject/cetProject_detail/cetProject_detail_begin";
+    }
+
+    @RequiresPermissions("cetProject:edit")
+    @RequestMapping(value = "/cetProject_detail_begin", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProject_detail_begin(int projectId, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")Date openTime,
+                                          String openAddress) {
+
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+
+        CetProject record = new CetProject();
+        record.setId(projectId);
+        record.setOpenTime(openTime);
+        record.setOpenAddress(openAddress);
+
+        cetProjectMapper.updateByPrimaryKeySelective(record);
+
+        logger.info(addLog(LogConstants.LOG_CET, "更新开班仪式设置：%s~%s",
+                openTime, openAddress));
 
         return success(FormUtils.SUCCESS);
     }

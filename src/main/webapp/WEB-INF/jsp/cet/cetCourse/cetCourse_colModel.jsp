@@ -26,9 +26,18 @@
           formatoptions: {url: "${ctx}/cet/cetCourse_changeOrder"}, frozen:true
       },
       </c:if>
-      {label: '主讲人', name: 'cetExpert.realname', frozen:true},
-      {label: '所在单位', name: 'cetExpert.unit', width: 300, align: 'left'},
-      {label: '职务和职称', name: 'cetExpert.post', width: 120, align: 'left'},
+      {label: '主讲人', name: 'cetExpert.realname', formatter: function (cellvalue, options, rowObject) {
+          if(rowObject.expertId==undefined) return '-'
+          return cellvalue;
+      }, frozen:true},
+      {label: '所在单位', name: 'cetExpert.unit', formatter: function (cellvalue, options, rowObject) {
+          if(rowObject.expertId==undefined) return '-'
+          return cellvalue;
+      }, width: 300, align: 'left'},
+      {label: '职务和职称', name: 'cetExpert.post', formatter: function (cellvalue, options, rowObject) {
+          if(rowObject.expertId==undefined) return '-'
+          return cellvalue;
+      }, width: 120, align: 'left'},
       <c:if test="${param.type==CET_COURSE_TYPE_OFFLINE}">
       {label: '授课方式', name: 'teachMethod', formatter: $.jgrid.formatter.MetaType},
       </c:if>

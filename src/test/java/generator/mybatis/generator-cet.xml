@@ -69,8 +69,8 @@
         </table>-->
         <!--<table tableName="cet_project" domainObjectName="cet.CetProject" mapperName="cet.CetProjectMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-        <!--<table tableName="cet_project_view" domainObjectName="cet.CetProjectView"
+        </table>
+        <table tableName="cet_project_view" domainObjectName="cet.CetProjectView"
                mapperName="cet.CetProjectViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -146,7 +146,7 @@
         <!--<table tableName="cet_discuss_group_obj" domainObjectName="cet.CetDiscussGroupObj" mapperName="cet.CetDiscussGroupObjMapper">
         </table>-->
 
-        <table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
+       <!-- <table tableName="cet_train" domainObjectName="cet.CetTrain" mapperName="cet.CetTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="evaNote" jdbcType="VARCHAR"></columnOverride>
@@ -161,7 +161,7 @@
                 <columnOverride column="trainee_types" jdbcType="VARCHAR"></columnOverride>
                 <columnOverride column="trainee_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                 <columnOverride column="selected_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>
+        </table>-->
 
         <!--<table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
         </table>-->
@@ -188,8 +188,8 @@
             <columnOverride column="finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="eva_finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
-        <!--<table tableName="cet_short_msg" domainObjectName="cet.CetShortMsg" mapperName="cet.CetShortMsgMapper">
-        </table>-->
+        <table tableName="cet_short_msg" domainObjectName="cet.CetShortMsg" mapperName="cet.CetShortMsgMapper">
+        </table>
         <!--<table tableName="cet_trainee" domainObjectName="cet.CetTrainee" mapperName="cet.CetTraineeMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->

@@ -37,11 +37,6 @@ public class CetTrain implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private Date openTime;
-
-    private String openAddress;
-
     private Date startTime;
 
     private Date endTime;
@@ -140,22 +135,6 @@ public class CetTrain implements Serializable {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public Date getOpenTime() {
-        return openTime;
-    }
-
-    public void setOpenTime(Date openTime) {
-        this.openTime = openTime;
-    }
-
-    public String getOpenAddress() {
-        return openAddress;
-    }
-
-    public void setOpenAddress(String openAddress) {
-        this.openAddress = openAddress == null ? null : openAddress.trim();
     }
 
     public Date getStartTime() {

@@ -8,11 +8,12 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="${not empty param.year ||not empty param.name || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cetProject:edit">
-                    <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/cet/cetProject_au?type=${param.type}">
+                    <button class="openView btn btn-info btn-sm"
+                            data-url="${ctx}/cet/cetProject_au?_type=${param.type}">
                         <i class="fa fa-plus"></i> 添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                        data-url="${ctx}/cet/cetProject_au"
+                            data-open-by="page"
                        data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                         修改</button>
                 </shiro:hasPermission>
