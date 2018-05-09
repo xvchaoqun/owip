@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-    <li>
+    <li class="active">
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
            data-url='${ctx}/crsPost_detail/step3_meeting?id=${param.id}'><i
@@ -16,7 +16,7 @@
                 class="fa fa-calendar-o"></i> 纪监办函询
         </a>
     </li>--%>
-    <li class="active">
+    <li>
         <a href="javascript:;" class="loadPage"
            data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
            data-url='${ctx}/crsPostExpert?id=${param.id}'><i
@@ -39,6 +39,6 @@
     </li>
 </ul>
 <div class="col-xs-12" id="step-body-content-view">
-    <c:import url="${ctx}/crsPostExpert?id=${param.id}"/>
+    <c:import url="${ctx}/crsPost_detail/step3_meeting"/>
 </div>
 <div style="clear: both"></div>
