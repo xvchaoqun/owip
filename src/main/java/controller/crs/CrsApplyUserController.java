@@ -142,7 +142,7 @@ public class CrsApplyUserController extends CrsBaseController {
             CrsApplyUserExample example = new CrsApplyUserExample();
             Criteria criteria = example.createCriteria().andIdIn(Arrays.asList(ids))
                     .andStatusNotEqualTo(CrsConstants.CRS_APPLY_USER_STATUS_FINISH)
-                    .andEndTimeLessThan(new Date());
+                    .andEndTimeGreaterThan(new Date());
 
             crsApplyUserMapper.updateByExampleSelective(record, example);
 
