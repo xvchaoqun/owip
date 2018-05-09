@@ -970,7 +970,7 @@ if ($.jgrid) {
             return cellvalue ? op.on : op.off;
         },
         NoMultiSpace: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return ''
+            if ($.trim(cellvalue)=='') return '--'
             // console.log(cellvalue)
             return $('<p>' + cellvalue.NoMultiSpace() + '</p>').text()
             //return cellvalue.NoMultiSpace();

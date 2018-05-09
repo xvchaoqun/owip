@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.crs.common.ICrsExpert;
 import sys.constants.CisConstants;
-import sys.constants.CrsConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.spring.DateRange;
@@ -59,7 +58,7 @@ public class CrsExpertController extends CrsBaseController {
     public Map selectCadres_tree() throws IOException {
 
         CrsExpertExample example = new CrsExpertExample();
-        example.createCriteria().andStatusNotEqualTo(CrsConstants.CRS_EXPERT_STATUS_DELETE);
+        example.createCriteria();
         List<CrsExpert> crsExperts = crsExpertMapper.selectByExample(example);
         Set<Integer> disabledIdSet = new HashSet<>();
         for (CrsExpert crsExpert : crsExperts) {

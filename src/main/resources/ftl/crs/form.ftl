@@ -104,7 +104,7 @@
 				<w:lvlText w:val=""/>
 				<w:lvlJc w:val="left"/>
 				<w:pPr>
-					<w:ind w:left="1260" w:hanging="420"/>
+					<w:ind w:left="1259" w:hanging="420"/>
 				</w:pPr>
 				<w:rPr>
 					<w:rFonts w:ascii="Wingdings" w:h-ansi="Wingdings" w:hint="default"/>
@@ -277,7 +277,7 @@
 				<w:lvlText w:val=""/>
 				<w:lvlJc w:val="left"/>
 				<w:pPr>
-					<w:ind w:left="3260" w:hanging="420"/>
+					<w:ind w:left="3259" w:hanging="420"/>
 				</w:pPr>
 				<w:rPr>
 					<w:rFonts w:ascii="Wingdings" w:h-ansi="Wingdings" w:hint="default"/>
@@ -378,7 +378,7 @@
 				<w:lvlText w:val=""/>
 				<w:lvlJc w:val="left"/>
 				<w:pPr>
-					<w:ind w:left="3260" w:hanging="420"/>
+					<w:ind w:left="3259" w:hanging="420"/>
 				</w:pPr>
 				<w:rPr>
 					<w:rFonts w:ascii="Wingdings" w:h-ansi="Wingdings" w:hint="default"/>
@@ -586,7 +586,7 @@
 				<w:lvlText w:val=""/>
 				<w:lvlJc w:val="left"/>
 				<w:pPr>
-					<w:ind w:left="3260" w:hanging="420"/>
+					<w:ind w:left="3259" w:hanging="420"/>
 				</w:pPr>
 				<w:rPr>
 					<w:rFonts w:ascii="Wingdings" w:h-ansi="Wingdings" w:hint="default"/>
@@ -1240,7 +1240,7 @@
 				<w:right w:val="none" w:sz="0" wx:bdrwidth="0" w:space="0" w:color="auto"/>
 			</w:divBdr>
 		</w:div>
-		<w:div w:id="225800393">
+		<w:div w:id="225500393">
 			<w:bodyDiv w:val="on"/>
 			<w:marLeft w:val="0"/>
 			<w:marRight w:val="0"/>
@@ -1920,7 +1920,7 @@
 			<wsp:rsid wsp:val="0095296D"/>
 			<wsp:rsid wsp:val="00953D64"/>
 			<wsp:rsid wsp:val="00961179"/>
-			<wsp:rsid wsp:val="00992580"/>
+			<wsp:rsid wsp:val="00992550"/>
 			<wsp:rsid wsp:val="009A53F8"/>
 			<wsp:rsid wsp:val="009A5DD3"/>
 			<wsp:rsid wsp:val="009B4B7E"/>
@@ -2078,20 +2078,20 @@
 						</w:tblBorders>
 					</w:tblPr>
 					<w:tblGrid>
-						<w:gridCol w:w="1311"/>
-						<w:gridCol w:w="990"/>
-						<w:gridCol w:w="425"/>
-						<w:gridCol w:w="563"/>
-						<w:gridCol w:w="851"/>
-						<w:gridCol w:w="169"/>
-						<w:gridCol w:w="991"/>
-						<w:gridCol w:w="258"/>
-						<w:gridCol w:w="1157"/>
-						<w:gridCol w:w="260"/>
-						<w:gridCol w:w="156"/>
-						<w:gridCol w:w="1262"/>
+						<w:gridCol w:w="1447"/>
+						<w:gridCol w:w="893"/>
+						<w:gridCol w:w="320"/>
+						<w:gridCol w:w="656"/>
+						<w:gridCol w:w="849"/>
+						<w:gridCol w:w="255"/>
+						<w:gridCol w:w="897"/>
+						<w:gridCol w:w="255"/>
+						<w:gridCol w:w="1152"/>
+						<w:gridCol w:w="259"/>
+						<w:gridCol w:w="155"/>
+						<w:gridCol w:w="1253"/>
 						<w:gridCol w:w="305"/>
-						<w:gridCol w:w="1563"/>
+						<w:gridCol w:w="1552"/>
 					</w:tblGrid>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="009A5DD3">
 						<w:trPr>
@@ -2101,7 +2101,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="0047784B" wsp:rsidRPr="00D22114" wsp:rsidRDefault="0047784B" wsp:rsidP="00196B91">
@@ -2394,7 +2394,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="0047784B" wsp:rsidRPr="00773E53" wsp:rsidRDefault="00196B91" wsp:rsidP="00196B91">
@@ -2583,7 +2583,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00196B91" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00196B91" wsp:rsidP="00196B91">
@@ -2638,7 +2638,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>参加时间</w:t>
+									<w:t>及加入时间</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -2664,7 +2664,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${bean.growTime!}</w:t>
+									<w:t>${bean.partyName!}${bean.growTime!}</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -2820,7 +2820,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00401152" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00401152" wsp:rsidP="00196B91">
@@ -2981,7 +2981,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vmerge w:val="restart"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -3201,7 +3201,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vmerge/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -3359,7 +3359,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="001343BA" wsp:rsidRPr="00D22114" wsp:rsidRDefault="001343BA" wsp:rsidP="00196B91">
@@ -3532,7 +3532,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="004D72C6" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00927F88">
@@ -3667,7 +3667,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="007810CF" wsp:rsidRPr="00D22114" wsp:rsidRDefault="007810CF" wsp:rsidP="00961179">
@@ -3742,7 +3742,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="0052109C" wsp:rsidRDefault="007F17AD" wsp:rsidP="00FF2118">
@@ -3853,7 +3853,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="00FF2118" wsp:rsidP="00FF2118">
@@ -3944,7 +3944,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="0052109C" wsp:rsidP="00FF2118">
@@ -4083,7 +4083,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="0052109C" wsp:rsidP="00FF2118">
@@ -4235,7 +4235,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00401152" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00852F14" wsp:rsidP="00C9552D">
@@ -4345,7 +4345,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00401152" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00E33871" wsp:rsidP="00000CD6">
@@ -4443,7 +4443,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vmerge w:val="restart"/>
 								<w:textFlow w:val="tb-rl-v"/>
 								<w:vAlign w:val="center"/>
@@ -4569,7 +4569,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vmerge/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -4613,7 +4613,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vmerge w:val="restart"/>
 								<w:textFlow w:val="tb-rl-v"/>
 								<w:vAlign w:val="center"/>
@@ -4654,7 +4654,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="990" w:type="dxa"/>
+								<w:tcW w:w="893" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00092C82" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00092C82" wsp:rsidP="00000CD6">
@@ -4693,7 +4693,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="988" w:type="dxa"/>
+								<w:tcW w:w="995" w:type="dxa"/>
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -4720,7 +4720,7 @@
 										<w:rFonts w:hint="fareast"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>  </w:t>
+									<w:t> </w:t>
 								</w:r>
 								<w:r wsp:rsidRPr="00D22114">
 									<w:rPr>
@@ -4829,7 +4829,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1311" w:type="dxa"/>
+								<w:tcW w:w="1447" w:type="dxa"/>
 								<w:vmerge w:val="restart"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -4855,7 +4855,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="990" w:type="dxa"/>
+								<w:tcW w:w="893" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="002616D5" wsp:rsidRPr="00D22114" wsp:rsidRDefault="002616D5" wsp:rsidP="003E749F">
@@ -4921,7 +4921,7 @@
 										<w:rFonts w:hint="fareast"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>  </w:t>
+									<w:t> </w:t>
 								</w:r>
 								<w:r wsp:rsidRPr="00D22114">
 									<w:rPr>
@@ -4986,7 +4986,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1567" w:type="dxa"/>
+								<w:tcW w:w="1557" w:type="dxa"/>
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -5010,7 +5010,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1563" w:type="dxa"/>
+								<w:tcW w:w="1552" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="002616D5" wsp:rsidRPr="00D22114" wsp:rsidRDefault="002616D5" wsp:rsidP="00092C82">
@@ -5104,8 +5104,8 @@
 					</w:p>
 				</w:ftr>
 				<w:pgSz w:w="11906" w:h="16838" w:code="9"/>
-				<w:pgMar w:top="680" w:right="851" w:bottom="680" w:left="851" w:header="851" w:footer="170" w:gutter="0"/>
-				<w:cols w:space="425"/>
+				<w:pgMar w:top="680" w:right="849" w:bottom="680" w:left="849" w:header="849" w:footer="170" w:gutter="0"/>
+				<w:cols w:space="320"/>
 				<w:docGrid w:type="lines" w:line-pitch="326"/>
 			</w:sectPr>
 		</wx:sect>

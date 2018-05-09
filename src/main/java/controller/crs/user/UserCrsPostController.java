@@ -7,7 +7,6 @@ import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
 import mixin.MixinUtils;
 import mixin.UserCrsPostMixin;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -23,8 +22,6 @@ import shiro.ShiroHelper;
 import sys.constants.CrsConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.ContentTypeUtils;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -158,11 +155,11 @@ public class UserCrsPostController extends CrsBaseController {
         }
 
         String originalFilename = ppt.getOriginalFilename();
-        String ext = FileUtils.getExtention(originalFilename);
+        /*String ext = FileUtils.getExtention(originalFilename);
         if ((!StringUtils.equalsIgnoreCase(ext, ".ppt") && !StringUtils.equalsIgnoreCase(ext, ".pptx"))
                 && !ContentTypeUtils.isFormat(ppt, "ppt")) {
             throw new OpException("文件格式错误，请上传ppt文件");
-        }
+        }*/
 
         //String originalFilename = ppt.getOriginalFilename();
         String savePath = upload(ppt, "crsApplicant_ppt");

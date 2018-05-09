@@ -1,5 +1,8 @@
 
 2018-5-9
+update  crs_post_expert set sort_order=id;
+
+2018-5-9
 ALTER TABLE `cet_project`
 	ADD COLUMN `open_time` DATETIME NULL DEFAULT NULL COMMENT '开班时间' AFTER `end_date`,
 	ADD COLUMN `open_address` VARCHAR(200) NULL DEFAULT NULL COMMENT '开班地点' AFTER `open_time`;

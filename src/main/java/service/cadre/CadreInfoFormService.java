@@ -71,6 +71,8 @@ public class CadreInfoFormService extends BaseMapper {
     @Autowired
     protected CadrePostService cadrePostService;
     @Autowired
+    protected CadreService cadreService;
+    @Autowired
     protected SysConfigService sysConfigService;
 
     // 获取干部信息采集表属性值
@@ -113,6 +115,7 @@ public class CadreInfoFormService extends BaseMapper {
         bean.setProPost(cadre.getProPost());
         bean.setSpecialty(uv.getSpecialty());
 
+        bean.setCadreDpType(cadre.getCadreDpType());
         bean.setGrowTime(cadre.getCadreGrowTime());
 
         // 最高学历
@@ -329,6 +332,9 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("nation", bean.getNation());
         dataMap.put("np", bean.getNativePlace());
         dataMap.put("hp", bean.getHomeplace());
+
+        String partyName = cadreService.getCadreParty(bean.getCadreDpType());// 党派
+        dataMap.put("partyName", partyName);
         dataMap.put("growTime", DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM"));
         dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM"));
 

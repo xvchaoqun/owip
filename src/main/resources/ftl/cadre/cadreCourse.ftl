@@ -9,5 +9,5 @@
 </#if>
 <#if (cadreRewards?size>0)><p>获奖情况：</p></#if>
 <#list cadreRewards as cadreReward>
-<p style="text-indent: 2em">${cadreReward.rewardTime?string("yyyy")}年&nbsp;${cadreReward.name}<#if cadreReward.rank gt 0>(排名第${cadreReward.rank})</#if>${((cadreReward.unit??) || (cadreReward.unit==''))?string('，', '')}${cadreReward.unit!}</p>
+<p style="text-indent: 2em">${cadreReward.rewardTime?string("yyyy")}年，${cadreReward.name}<#if cadreReward.rank gt 0>(排名第${cadreReward.rank})</#if>${((cadreReward.unit??) || (cadreReward.unit==''))?string('，', '')}${cadreReward.unit!}<#if cadreReward_has_next>；</#if><#if !cadreReward_has_next>。</#if></p>
 </#list>

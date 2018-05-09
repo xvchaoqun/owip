@@ -38,7 +38,7 @@
     <result column="ow_grow_time" jdbcType="DATE" property="owGrowTime" />
     <result column="ow_remark" jdbcType="VARCHAR" property="owRemark" />
     <result column="cadre_grow_time" jdbcType="DATE" property="cadreGrowTime" />
-    <result column="cadre_dp_type" jdbcType="DECIMAL" property="cadreDpType" />
+    <result column="cadre_dp_type" jdbcType="INTEGER" property="cadreDpType" />
     <result column="edu_id" jdbcType="INTEGER" property="eduId" />
     <result column="finish_time" jdbcType="DATE" property="finishTime" />
     <result column="learn_style" jdbcType="INTEGER" property="learnStyle" />
@@ -64,8 +64,8 @@
     <result column="is_double" jdbcType="BIT" property="isDouble" />
     <result column="double_unit_id" jdbcType="INTEGER" property="doubleUnitId" />
     <result column="is_principal_post" jdbcType="BIT" property="isPrincipalPost" />
-    <result column="cadre_post_year" jdbcType="BIGINT" property="cadrePostYear" />
-    <result column="admin_level_year" jdbcType="BIGINT" property="adminLevelYear" />
+    <result column="cadre_post_year" jdbcType="INTEGER" property="cadrePostYear" />
+    <result column="admin_level_year" jdbcType="INTEGER" property="adminLevelYear" />
     <result column="np_relate_id" jdbcType="INTEGER" property="npRelateId" />
     <result column="np_id" jdbcType="INTEGER" property="npId" />
     <result column="np_file_name" jdbcType="VARCHAR" property="npFileName" />

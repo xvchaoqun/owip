@@ -2,13 +2,13 @@
 <p>主持科研项目：</p>
 </#if>
 <#list cadreResearchDirects as cadreResearch>
-<p style="text-indent: 2em">${cadreResearch_index+1}、${cadreResearch.name}</p>
+<p style="text-indent: 2em">${cadreResearch_index+1}、${cadreResearch.name}，${cadreResearch.type!}，${cadreResearch.unit!}<#if cadreResearch_has_next>；</#if><#if !cadreResearch_has_next>。</#if></p>
 </#list>
 <#if (cadreResearchIns?size>0)>
 <p>参与科研项目：</p>
 </#if>
 <#list cadreResearchIns as cadreResearch>
-<p style="text-indent: 2em">${cadreResearch_index+1}、${cadreResearch.name}</p>
+<p style="text-indent: 2em">${cadreResearch_index+1}、${cadreResearch.name}，${cadreResearch.type!}，${cadreResearch.unit!}<#if cadreResearch_has_next>；</#if><#if !cadreResearch_has_next>。</#if></p>
 </#list>
 <#if (cadreBooks?size>0)>
 <p>出版著作：</p>
@@ -20,9 +20,9 @@
 <p>发表论文：</p>
 </#if>
 <#list cadrePapers as cadrePaper>
-<p style="text-indent: 2em">${cadrePaper_index+1}、${cadrePaper.name}</p>
+<p style="text-indent: 2em">${cadrePaper_index+1}、${cadrePaper.name}，《${cadrePaper.press!}》<#if cadrePaper_has_next>；</#if><#if !cadrePaper_has_next>。</#if></p>
 </#list>
 <#if (cadreRewards?size>0)><p>获奖情况：</p></#if>
 <#list cadreRewards as cadreReward>
-<p style="text-indent: 2em">${cadreReward.rewardTime?string("yyyy")}年&nbsp;${cadreReward.name}<#if cadreReward.rank gt 0>(排名第${cadreReward.rank})</#if>${((cadreReward.unit??) || (cadreReward.unit==''))?string('，', '')}${cadreReward.unit!}</p>
+<p style="text-indent: 2em">${cadreReward.rewardTime?string("yyyy")}年，${cadreReward.name}<#if cadreReward.rank gt 0>(排名第${cadreReward.rank})</#if>${((cadreReward.unit??) || (cadreReward.unit==''))?string('，', '')}${cadreReward.unit!}<#if cadreReward_has_next>；</#if><#if !cadreReward_has_next>。</#if></p>
 </#list>

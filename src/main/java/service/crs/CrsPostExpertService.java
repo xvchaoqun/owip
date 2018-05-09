@@ -48,7 +48,8 @@ public class CrsPostExpertService extends BaseMapper {
                 record.setPostId(postId);
                 record.setUserId(userId);
                 record.setRole(CrsConstants.CRS_POST_EXPERT_ROLE_HEAD);
-                crsPostExpertMapper.insert(record);
+                record.setSortOrder(getNextSortOrder("crs_post_expert", "post_id=" + record.getPostId()));
+                crsPostExpertMapper.insertSelective(record);
             }
         }
 
@@ -59,7 +60,8 @@ public class CrsPostExpertService extends BaseMapper {
                 record.setPostId(postId);
                 record.setUserId(userId);
                 record.setRole(CrsConstants.CRS_POST_EXPERT_ROLE_LEADER);
-                crsPostExpertMapper.insert(record);
+                record.setSortOrder(getNextSortOrder("crs_post_expert", "post_id=" + record.getPostId()));
+                crsPostExpertMapper.insertSelective(record);
             }
         }
 
@@ -70,7 +72,8 @@ public class CrsPostExpertService extends BaseMapper {
                 record.setPostId(postId);
                 record.setUserId(userId);
                 record.setRole(CrsConstants.CRS_POST_EXPERT_ROLE_MEMBER);
-                crsPostExpertMapper.insert(record);
+                record.setSortOrder(getNextSortOrder("crs_post_expert", "post_id=" + record.getPostId()));
+                crsPostExpertMapper.insertSelective(record);
             }
         }
     }

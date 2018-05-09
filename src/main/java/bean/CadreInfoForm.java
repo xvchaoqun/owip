@@ -31,6 +31,8 @@ public class CadreInfoForm {
     private String nativePlace;
     // 出生地
     private String homeplace;
+    // 党派
+    private Integer cadreDpType;
     // 党派加入时间
     private Date growTime;
     // 参加工作时间
@@ -182,6 +184,14 @@ public class CadreInfoForm {
 
     public void setHomeplace(String homeplace) {
         this.homeplace = homeplace;
+    }
+
+    public Integer getCadreDpType() {
+        return cadreDpType;
+    }
+
+    public void setCadreDpType(Integer cadreDpType) {
+        this.cadreDpType = cadreDpType;
     }
 
     public Date getGrowTime() {

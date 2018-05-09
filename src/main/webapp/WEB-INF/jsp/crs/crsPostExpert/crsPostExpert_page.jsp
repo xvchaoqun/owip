@@ -40,7 +40,7 @@
             }},
             {
                 label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
-                formatoptions:{url: "${ctx}/crsPostExpert_changeOrder"}, frozen: true
+                formatoptions:{url: "${ctx}/crsPostExpert_changeOrder", grid:"#jqGrid2"}, frozen: true
             },
             { label: '备注',name: 'remark'}
         ]

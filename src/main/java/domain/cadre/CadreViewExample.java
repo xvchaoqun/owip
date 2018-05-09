@@ -2462,52 +2462,52 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeEqualTo(Long value) {
+        public Criteria andCadreDpTypeEqualTo(Integer value) {
             addCriterion("cadre_dp_type =", value, "cadreDpType");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeNotEqualTo(Long value) {
+        public Criteria andCadreDpTypeNotEqualTo(Integer value) {
             addCriterion("cadre_dp_type <>", value, "cadreDpType");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeGreaterThan(Long value) {
+        public Criteria andCadreDpTypeGreaterThan(Integer value) {
             addCriterion("cadre_dp_type >", value, "cadreDpType");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeGreaterThanOrEqualTo(Long value) {
+        public Criteria andCadreDpTypeGreaterThanOrEqualTo(Integer value) {
             addCriterion("cadre_dp_type >=", value, "cadreDpType");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeLessThan(Long value) {
+        public Criteria andCadreDpTypeLessThan(Integer value) {
             addCriterion("cadre_dp_type <", value, "cadreDpType");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeLessThanOrEqualTo(Long value) {
+        public Criteria andCadreDpTypeLessThanOrEqualTo(Integer value) {
             addCriterion("cadre_dp_type <=", value, "cadreDpType");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeIn(List<Long> values) {
+        public Criteria andCadreDpTypeIn(List<Integer> values) {
             addCriterion("cadre_dp_type in", values, "cadreDpType");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeNotIn(List<Long> values) {
+        public Criteria andCadreDpTypeNotIn(List<Integer> values) {
             addCriterion("cadre_dp_type not in", values, "cadreDpType");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeBetween(Long value1, Long value2) {
+        public Criteria andCadreDpTypeBetween(Integer value1, Integer value2) {
             addCriterion("cadre_dp_type between", value1, value2, "cadreDpType");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeNotBetween(Long value1, Long value2) {
+        public Criteria andCadreDpTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("cadre_dp_type not between", value1, value2, "cadreDpType");
             return (Criteria) this;
         }
@@ -4132,52 +4132,52 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andCadrePostYearEqualTo(Long value) {
+        public Criteria andCadrePostYearEqualTo(Integer value) {
             addCriterion("cadre_post_year =", value, "cadrePostYear");
             return (Criteria) this;
         }
 
-        public Criteria andCadrePostYearNotEqualTo(Long value) {
+        public Criteria andCadrePostYearNotEqualTo(Integer value) {
             addCriterion("cadre_post_year <>", value, "cadrePostYear");
             return (Criteria) this;
         }
 
-        public Criteria andCadrePostYearGreaterThan(Long value) {
+        public Criteria andCadrePostYearGreaterThan(Integer value) {
             addCriterion("cadre_post_year >", value, "cadrePostYear");
             return (Criteria) this;
         }
 
-        public Criteria andCadrePostYearGreaterThanOrEqualTo(Long value) {
+        public Criteria andCadrePostYearGreaterThanOrEqualTo(Integer value) {
             addCriterion("cadre_post_year >=", value, "cadrePostYear");
             return (Criteria) this;
         }
 
-        public Criteria andCadrePostYearLessThan(Long value) {
+        public Criteria andCadrePostYearLessThan(Integer value) {
             addCriterion("cadre_post_year <", value, "cadrePostYear");
             return (Criteria) this;
         }
 
-        public Criteria andCadrePostYearLessThanOrEqualTo(Long value) {
+        public Criteria andCadrePostYearLessThanOrEqualTo(Integer value) {
             addCriterion("cadre_post_year <=", value, "cadrePostYear");
             return (Criteria) this;
         }
 
-        public Criteria andCadrePostYearIn(List<Long> values) {
+        public Criteria andCadrePostYearIn(List<Integer> values) {
             addCriterion("cadre_post_year in", values, "cadrePostYear");
             return (Criteria) this;
         }
 
-        public Criteria andCadrePostYearNotIn(List<Long> values) {
+        public Criteria andCadrePostYearNotIn(List<Integer> values) {
             addCriterion("cadre_post_year not in", values, "cadrePostYear");
             return (Criteria) this;
         }
 
-        public Criteria andCadrePostYearBetween(Long value1, Long value2) {
+        public Criteria andCadrePostYearBetween(Integer value1, Integer value2) {
             addCriterion("cadre_post_year between", value1, value2, "cadrePostYear");
             return (Criteria) this;
         }
 
-        public Criteria andCadrePostYearNotBetween(Long value1, Long value2) {
+        public Criteria andCadrePostYearNotBetween(Integer value1, Integer value2) {
             addCriterion("cadre_post_year not between", value1, value2, "cadrePostYear");
             return (Criteria) this;
         }
@@ -4192,52 +4192,52 @@ public class CadreViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelYearEqualTo(Long value) {
+        public Criteria andAdminLevelYearEqualTo(Integer value) {
             addCriterion("admin_level_year =", value, "adminLevelYear");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelYearNotEqualTo(Long value) {
+        public Criteria andAdminLevelYearNotEqualTo(Integer value) {
             addCriterion("admin_level_year <>", value, "adminLevelYear");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelYearGreaterThan(Long value) {
+        public Criteria andAdminLevelYearGreaterThan(Integer value) {
             addCriterion("admin_level_year >", value, "adminLevelYear");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelYearGreaterThanOrEqualTo(Long value) {
+        public Criteria andAdminLevelYearGreaterThanOrEqualTo(Integer value) {
             addCriterion("admin_level_year >=", value, "adminLevelYear");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelYearLessThan(Long value) {
+        public Criteria andAdminLevelYearLessThan(Integer value) {
             addCriterion("admin_level_year <", value, "adminLevelYear");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelYearLessThanOrEqualTo(Long value) {
+        public Criteria andAdminLevelYearLessThanOrEqualTo(Integer value) {
             addCriterion("admin_level_year <=", value, "adminLevelYear");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelYearIn(List<Long> values) {
+        public Criteria andAdminLevelYearIn(List<Integer> values) {
             addCriterion("admin_level_year in", values, "adminLevelYear");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelYearNotIn(List<Long> values) {
+        public Criteria andAdminLevelYearNotIn(List<Integer> values) {
             addCriterion("admin_level_year not in", values, "adminLevelYear");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelYearBetween(Long value1, Long value2) {
+        public Criteria andAdminLevelYearBetween(Integer value1, Integer value2) {
             addCriterion("admin_level_year between", value1, value2, "adminLevelYear");
             return (Criteria) this;
         }
 
-        public Criteria andAdminLevelYearNotBetween(Long value1, Long value2) {
+        public Criteria andAdminLevelYearNotBetween(Integer value1, Integer value2) {
             addCriterion("admin_level_year not between", value1, value2, "adminLevelYear");
             return (Criteria) this;
         }

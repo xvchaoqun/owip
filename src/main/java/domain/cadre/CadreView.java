@@ -125,7 +125,7 @@ public class CadreView implements Serializable {
 
     private Date cadreGrowTime;
 
-    private Long cadreDpType;
+    private Integer cadreDpType;
 
     private Integer eduId;
 
@@ -177,9 +177,9 @@ public class CadreView implements Serializable {
 
     private Boolean isPrincipalPost;
 
-    private Long cadrePostYear;
+    private Integer cadrePostYear;
 
-    private Long adminLevelYear;
+    private Integer adminLevelYear;
 
     private Integer npRelateId;
 
@@ -527,11 +527,11 @@ public class CadreView implements Serializable {
         this.cadreGrowTime = cadreGrowTime;
     }
 
-    public Long getCadreDpType() {
+    public Integer getCadreDpType() {
         return cadreDpType;
     }
 
-    public void setCadreDpType(Long cadreDpType) {
+    public void setCadreDpType(Integer cadreDpType) {
         this.cadreDpType = cadreDpType;
     }
 
@@ -735,19 +735,19 @@ public class CadreView implements Serializable {
         this.isPrincipalPost = isPrincipalPost;
     }
 
-    public Long getCadrePostYear() {
+    public Integer getCadrePostYear() {
         return cadrePostYear;
     }
 
-    public void setCadrePostYear(Long cadrePostYear) {
+    public void setCadrePostYear(Integer cadrePostYear) {
         this.cadrePostYear = cadrePostYear;
     }
 
-    public Long getAdminLevelYear() {
+    public Integer getAdminLevelYear() {
         return adminLevelYear;
     }
 
-    public void setAdminLevelYear(Long adminLevelYear) {
+    public void setAdminLevelYear(Integer adminLevelYear) {
         this.adminLevelYear = adminLevelYear;
     }
 

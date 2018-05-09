@@ -183,11 +183,11 @@ public class CadreController extends BaseController {
                            Integer endAge,
                            Integer startDpAge, // 党龄
                            Integer endDpAge, // 党龄
-                           Long startNowPostAge,
-                           Long endNowPostAge,
-                           Long startNowLevelAge,
-                           Long endNowLevelAge,
-                           @RequestParam(required = false, value = "dpTypes") Long[] dpTypes, // 党派
+                           Integer startNowPostAge,
+                           Integer endNowPostAge,
+                           Integer startNowLevelAge,
+                           Integer endNowLevelAge,
+                           @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
 
                            @RequestDateRange DateRange _birth,
                            @RequestDateRange DateRange _cadreGrowTime,
