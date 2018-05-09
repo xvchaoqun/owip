@@ -68,6 +68,9 @@
 <script>
 
     var selectedCetTrainCourses = ${cm:toJSONArray(selectedCetTrainCourses)};
+    var selectedTrainCourseIds = $.map(${cm:toJSONArray(selectedCetTrainCourses)}, function(ctc){
+        return ctc.id;
+    })
     $("#jqGrid2").jqGrid({
         pager: null,
         multiboxonly: true,
@@ -93,7 +96,9 @@
                 if(rowObject.startTime > $.date(new Date(), "yyyy-MM-dd HH:mm")){
                     return "未开课"
                 }else{
-                    return rowObject.isFinished?"已签到":"未上课"
+
+                    return rowObject.isFinished?'${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_ONLINE?"已观看":"已签到"}'
+                            :'${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_ONLINE?"未观看":"未上课"}'
                 }
             }, frozen:true},
             </c:if>

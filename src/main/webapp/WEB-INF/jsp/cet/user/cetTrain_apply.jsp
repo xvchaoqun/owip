@@ -73,7 +73,7 @@
         data: cetTrainCourses,
         colModel: colModel,
         rowattr: function(rowData, currentObj, rowId){
-            //console.log(rowId + " " + $.inArray(rowId, selectedTrainCourseIds));
+            //console.log(rowId + " " + selectedTrainCourseIds + $.inArray(parseInt(rowId), selectedTrainCourseIds));
             if($.inArray(parseInt(rowId), selectedTrainCourseIds)>=0) {
                 return {'class':'info'}
             }
