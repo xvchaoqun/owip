@@ -13,6 +13,13 @@ ALTER TABLE `cet_project`
 
 			ALTER TABLE `cet_short_msg`
 	CHANGE COLUMN `train_id` `record_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联记录' AFTER `id`;
+
+
+	ALTER TABLE `crs_short_msg`
+	CHANGE COLUMN `msg` `msg` TEXT NULL DEFAULT NULL COMMENT '短信内容' AFTER `content_tpl_id`;
+
+ALTER TABLE `cet_short_msg`
+	CHANGE COLUMN `msg` `msg` TEXT NULL DEFAULT NULL COMMENT '短信内容' AFTER `content_tpl_id`;
 2018-5-8
 ALTER TABLE `cet_discuss_group`
 	CHANGE COLUMN `hold_user_id` `hold_user_ids` VARCHAR(100) NULL COMMENT '召集人' AFTER `name`,

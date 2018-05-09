@@ -117,6 +117,7 @@
                                     </button>
                                     <button type="button"
                                             data-url="${ctx}/crsPost_detail/step3_shortMsg_list?postId=${crsPost.id}&tplKey=${tpl.code}"
+                                            data-width="800"
                                             class="popupBtn btn btn-xs btn-info">
                                         <i class="ace-icon fa fa-history"></i>
                                         记录

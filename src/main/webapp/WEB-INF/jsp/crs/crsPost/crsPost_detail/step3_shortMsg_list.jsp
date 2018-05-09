@@ -11,9 +11,9 @@
             <thead>
             <tr>
                 <th>姓名</th>
-                <th>教工号</th>
                 <th>手机</th>
                 <th>内容</th>
+                <th>发送时间</th>
                 <th>发送结果</th>
             </tr>
             </thead>
@@ -22,9 +22,9 @@
                 <c:set var="user" value="${cm:getUserById(crsShortMsg.userId)}"/>
                 <tr>
                     <td>${user.realname}</td>
-                    <td>${user.code}</td>
                     <td>${user.mobile}</td>
-                    <td title="${crsShortMsg.msg}">${cm:substr(crsShortMsg.msg, 0, 15, '...')}</td>
+                    <td title="${crsShortMsg.msg}">${cm:substr(crsShortMsg.msg, 0, 20, '...')}</td>
+                    <td>${cm:formatDate(crsShortMsg.sendTime, "yyyy-MM-dd HH:mm:ss")}</td>
                     <td class="${crsShortMsg.success?"text-success":"text-danger"}">${crsShortMsg.success?"发送成功":"发送失败"}</td>
                 </tr>
             </c:forEach>
