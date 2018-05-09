@@ -74,8 +74,8 @@
                         'data-url="${ctx}/user/cet/cetTrain_apply?trainId={0}"><i class="fa fa-sign-in"></i> 进入</button>')
                         .format(rowObject.id, rowObject.courseCount>0?'btn-primary':'btn-success')
             }, width: 125, frozen: true},
-            {label: '报名状态', name: 'courseCount', formatter: function (cellvalue, options, rowObject) {
-                return cellvalue>0?('已报名('+cellvalue+')'):'-'
+            {label: '已选课数', name: 'courseCount', formatter: function (cellvalue, options, rowObject) {
+                return cellvalue>0?cellvalue:'-'
             }, width: 90, frozen: true},
             {
                 label: '结课状态', name: '_isFinished', width: 80, formatter: function (cellvalue, options, rowObject) {
