@@ -15,9 +15,10 @@
 
       //console.log(rowObject.id + " " + selectedTrainCourseIds + " " + $.inArray(rowObject.id, selectedTrainCourseIds)<0)
       if(selectedTrainCourseIds==undefined || $.inArray(rowObject.id, selectedTrainCourseIds)<0){
-        return '请选课后观看'
+
+        return ('<button class="btn btn-xs btn-success" onClick=\'SysMsg.info("请您选课后观看。")\'><i class="fa fa-play-circle"></i> 播放</button>')
       }
-      return ('<button class="linkBtn btn btn-xs btn-primary" data-url="${ctx}/cet/cetCourse_video?id={0}&trainCourseId={1}" '
+      return ('<button class="linkBtn btn btn-xs btn-success" data-url="${ctx}/cet/cetCourse_video?id={0}&trainCourseId={1}" '
       +' data-target="_blank"><i class="fa fa-play-circle"></i> 播放</button>')
               .format(rowObject.cetCourse.id, rowObject.id)
       /*return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="iframe" href="${ctx}/cet/cetCourse_video?id={0}&trainCourseId={2}">播放</a>'
