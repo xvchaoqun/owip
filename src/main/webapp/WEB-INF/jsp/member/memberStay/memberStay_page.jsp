@@ -459,11 +459,8 @@
             {label: '电子邮箱', name: 'email', width: 200},
             {label: 'QQ号', name: 'qq'},
             {
-                label: '申请保留组织关系起止时间', name: 'mobile', width: 200, formatter: function (cellvalue, options, rowObject) {
-                return
-                $.date(rowObject.saveStartTime, "yyyy-MM")
-                        + "至" +
-                $.date(rowObject.saveEndTime, "yyyy-MM");
+                label: '申请保留组织关系起止时间', name: '_time', width: 200, formatter: function (cellvalue, options, rowObject) {
+                return $.date(rowObject.saveStartTime, "yyyy.MM") + " ~ " + $.date(rowObject.saveEndTime, "yyyy.MM");
             }
             },
             {label: '党费交纳截止时间', name: 'payTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},

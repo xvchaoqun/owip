@@ -7,17 +7,17 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-body">
     <div class="bs-callout bs-callout-warning">
-        <h4>表1：北京师范大学党费缴纳报表.xlsx</h4>
+        <h4>表1：${_sysConfig.schoolName}党费缴纳报表.xlsx</h4>
         <a href="${ctx}/pmd/pmdOw_export?monthId=${pmdMonth.id}"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
     <div class="bs-callout bs-callout-warning">
-        <h4>表2：北京师范大学各党委线上缴纳党费总额.xlsx</h4>
+        <h4>表2：${_sysConfig.schoolName}各党委线上缴纳党费总额.xlsx</h4>
         <a href="${ctx}/pmd/pmdOw_parties_export?monthId=${pmdMonth.id}&isDetail=0"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>
     <div class="bs-callout bs-callout-warning">
-        <h4>表3：北京师范大学各党委线上缴纳党费明细.xlsx</h4>
+        <h4>表3：${_sysConfig.schoolName}各党委线上缴纳党费明细.xlsx</h4>
         <a href="${ctx}/pmd/pmdOw_parties_export?monthId=${pmdMonth.id}&isDetail=1"
            class="btn btn-lg btn-outline"><i class="fa fa-download"></i> 下载汇总表</a>
     </div>

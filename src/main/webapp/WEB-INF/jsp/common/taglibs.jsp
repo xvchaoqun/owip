@@ -1,6 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ page import="sys.shiro.Constants" %>
-<%@ page import="sys.utils.DateUtils" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="sys.constants.*" %>
 <%@ page trimDirectiveWhitespaces="true"  %>

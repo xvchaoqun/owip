@@ -166,14 +166,6 @@ left join cet_train_course ctc on ctc.course_id=cc.id
 left join cet_trainee_course cteec on cteec.train_course_id=ctc.id
 group by ce.id;
 
-DROP VIEW IF EXISTS `cet_course_type_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `cet_course_type_view` AS
-select cct.* , count(distinct cc.id) as course_num, count(distinct cteec.trainee_id) as trainee_num from cet_course_type cct
-left join cet_course cc on cc.course_type_id=cct.id
-left join cet_train_course ctc on ctc.course_id=cc.id
-left join cet_trainee_course cteec on cteec.train_course_id=ctc.id
-group by cct.id;
-
 
 -- 干部任免审批表归档
 DROP VIEW IF EXISTS `sc_ad_archive_view`;

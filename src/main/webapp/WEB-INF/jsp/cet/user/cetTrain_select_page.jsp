@@ -70,8 +70,9 @@
             <c:if test="${module==1}">
             {label: '查看详情和报名', name: '_applyDetail', formatter: function (cellvalue, options, rowObject) {
 
+                //${ctx}/user/cet/cetTrain_apply?trainId={0}
                 return ('<button class="openView btn {1} btn-xs" ' +
-                        'data-url="${ctx}/user/cet/cetTrain_apply?trainId={0}"><i class="fa fa-sign-in"></i> 进入</button>')
+                        'data-url="${ctx}/user/cet/cetTrain_detail?cls=1&trainId={0}"><i class="fa fa-sign-in"></i> 进入</button>')
                         .format(rowObject.id, rowObject.courseCount>0?'btn-primary':'btn-success')
             }, width: 125, frozen: true},
             {label: '已选课数', name: 'courseCount', formatter: function (cellvalue, options, rowObject) {
