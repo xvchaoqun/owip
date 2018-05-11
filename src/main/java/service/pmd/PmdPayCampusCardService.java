@@ -157,7 +157,17 @@ public class PmdPayCampusCardService extends BaseMapper {
             snoIdName = uv.getCode();
         } else {
             // 代缴
-            SysUserView uv = ShiroHelper.getCurrentUser();
+            Integer currentUserId = ShiroHelper.getCurrentUserId();
+            if(currentUserId==null){
+                logger.error("代缴异常，currentUserId = null. 缴费账号{}", pmdMember.getUser().getRealname());
+                throw new OpException("操作失败，请您重新登录系统后再试。");
+            }
+            SysUserView uv = sysUserService.findById(currentUserId);
+            if(uv==null){
+                logger.error("代缴异常，currentUserId={} but uv = null. 缴费账号{}",
+                        currentUserId, pmdMember.getUser().getRealname());
+                throw new OpException("操作失败，请您重新登录系统后再试。");
+            }
             payer = uv.getCode();
             payername = uv.getRealname();
             snoIdName = uv.getCode();
@@ -356,11 +366,20 @@ public class PmdPayCampusCardService extends BaseMapper {
                         logger.error("[党费收缴]处理支付结果异常，缴费月份不存在，订单号：{}", orderNo);
                     } else {
 
+                        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+                        if(currentPmdMonth==null){
+                            logger.error("[党费收缴]当月缴费已关闭，但是收到了缴费成功的通知，订单号：{}", orderNo);
+                        }
+
                         int payMonthId = payMonth.getId();
                         // 用户缴费了，但是支付成功的通知在支部管理员设为延迟缴费之后
                         if (pmdMemberPayView.getMonthId().intValue() == payMonthId
                                 && pmdMemberPayView.getIsDelay()) {
-                            logger.error("[党费收缴]已经设定为延迟缴费，但是当月收到了缴费成功的通知，订单号：{}", orderNo);
+
+                            if(currentPmdMonth!=null && currentPmdMonth.getId()==payMonthId) {
+                                logger.error("[党费收缴]当月缴费记录已经设定为延迟缴费，但是在当月收到了缴费成功的通知，" +
+                                        "有可能是在支付之后但没收到通知消息前管理员设置了延迟缴费，订单号：{}", orderNo);
+                            }
                         }
 
                         // 此笔账单是否补缴

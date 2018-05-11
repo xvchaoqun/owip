@@ -41,7 +41,7 @@ public interface IPmdMapper {
             "where pcm.user_id= u.id and ers.zgh=u.code and ers.rq=#{rq};")
     public List<ExtRetireSalary> extRetireSalaryList(@Param("rq") String salaryMonth);
 
-    @ResultMap("persistence.ext.ExtJzgSalaryMapper.BaseResultMap")
+    @ResultMap("persistence.ext.ExtRetireSalaryMapper.BaseResultMap")
     @Select("select * from ext_retire_salary where zgh=#{zgh} and rq=#{rq}")
     public ExtRetireSalary getExtRetireSalary(@Param("rq") String salaryMonth, @Param("zgh") String code);
 
