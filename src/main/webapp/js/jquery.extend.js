@@ -962,6 +962,11 @@ if ($.jgrid) {
     // 格式化jqGrid字段
     $.jgrid.formatter = {};
     $.extend($.jgrid.formatter, {
+        defaultString: function (cellvalue, options, rowObject) {
+            var op = $.extend({def: '--'}, options.colModel.formatoptions);
+            if ($.trim(cellvalue)=='') return op.def;
+            return cellvalue;
+        },
         TRUEFALSE: function (cellvalue, options, rowObject) {
 
             if (cellvalue == undefined) cellvalue = false;

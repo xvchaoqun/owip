@@ -7,10 +7,11 @@
 </div>
 <div class="modal-body">
     <c:if test="${commonList.recNum>0}">
-        <table class="table table-actived table-striped table-bordered table-hover">
+        <table class="table table-actived table-striped table-bordered table-hover table-center">
             <thead>
             <tr>
                 <th>姓名</th>
+                <th>工号</th>
                 <th>手机</th>
                 <th>内容</th>
                 <th>发送时间</th>

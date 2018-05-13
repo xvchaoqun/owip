@@ -147,6 +147,7 @@ public class CetTrainDetailController extends CetBaseController {
             String msg = MessageFormat.format(tpl.getContent(), startDate, endDate,
                     name, openTime, openAddress);
 
+            modelMap.put("cetProject", cetProject);
             modelMap.put("content", msg);
         }
 

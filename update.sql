@@ -1,4 +1,8 @@
 
+2018-5-13
+ALTER TABLE `cet_course`
+	CHANGE COLUMN `url` `url` VARCHAR(500) NULL DEFAULT NULL COMMENT '视频播放地址，针对线上课程' AFTER `teach_method`;
+
 2018-5-9
 update  crs_post_expert set sort_order=id;
 

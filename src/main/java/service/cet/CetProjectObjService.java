@@ -267,7 +267,7 @@ public class CetProjectObjService extends BaseMapper {
     // 获取培训对象在一个培训方案中已完成的学时
     public BigDecimal getPlanFinishPeriod(CetProjectPlan cetProjectPlan, int objId) {
 
-        int projectId = cetProjectPlan.getProjectId();
+        //int projectId = cetProjectPlan.getProjectId();
         int planId = cetProjectPlan.getId();
         byte planType = cetProjectPlan.getType();
         switch (planType){

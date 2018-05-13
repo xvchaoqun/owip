@@ -16,7 +16,8 @@
 		  <input type="button" id="btnDeselectAll" class="btn btn-danger btn-xs" value="全不选"/>
 	  </div>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-  <a id="add_entity" class="btn btn-primary">确定</a></div>
+  <button id="submitBtn" class="btn btn-primary"
+		  data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">确定</button></div>
   <script>
 	  $("#btnDeselectAll").click(function(){
 		  $("#tree3").dynatree("getRoot").visit(function(node){
@@ -46,7 +47,7 @@
 			});
 		});
 
-		$("#add_entity").click(function(){
+		$("#submitBtn").click(function(){
 
 			$("#modal form").submit();return false;
 		});
@@ -54,6 +55,8 @@
 		$("#modal form").validate({
 
 				submitHandler: function (form) {
+
+					var $btn = $("#submitBtn").button('loading');
 					var userIds = $.map($("#tree3").dynatree("getSelectedNodes"), function(node){
 						if(!node.data.isFolder)
 							return node.data.key;
@@ -66,6 +69,7 @@
 								$("#jqGrid2").trigger("reloadGrid");
 								//SysMsg.success('操作成功。', '成功');
 							}
+							$btn.button('reset');
 						}
 					});
 				}

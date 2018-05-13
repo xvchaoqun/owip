@@ -339,8 +339,8 @@
         $("#searchForm2 .jqSearchBtn").click();
     })
 
-    var period = parseFloat('${cetProject.period}');
-    var requirePeriod = parseFloat('${cetProject.requirePeriod}');
+    //var period = parseFloat('${cetProject.period}');
+    //var requirePeriod = parseFloat('${cetProject.requirePeriod}');
 
     var discussGroupId = '${param.discussGroupId}';
 
@@ -358,7 +358,7 @@
                 return rowObject.finishPeriod
             }, frozen: true},
             {label: '是否结业', name: 'isGraduate',formatter: $.jgrid.formatter.TRUEFALSE, width: 70, frozen: true},
-            {label: '应完成学时数', name: 'shouldFinishPeriod', width: 110, frozen: true},
+            {label: '应完成学时数', name: 'shouldFinishPeriod', formatter: $.jgrid.formatter.defaultString, width: 110, frozen: true},
             </c:if>
             <c:if test="${cls==2}">
             { label: '选课方式',name: '_status', width: 80, formatter: function (cellvalue, options, rowObject) {
@@ -516,8 +516,8 @@
             {label: '已完成学时数', name: 'finishPeriod', width: 110},
             {label: '完成百分比', name: '_finishPercent', width: 110, formatter: function (cellvalue, options, rowObject) {
 
-                if(isNaN(period) || period<=0) return '-';
-                return Math.formatFloat(rowObject.finishPeriod*100/period, 2) + "%";
+                if(isNaN(rowObject.shouldFinishPeriod) || rowObject.shouldFinishPeriod<=0) return '-';
+                return Math.formatFloat(rowObject.finishPeriod*100/rowObject.shouldFinishPeriod, 2) + "%";
             }}/*,
             {label: '是否达到结业要求', name: '_enough', width: 150, formatter: function (cellvalue, options, rowObject) {
 
