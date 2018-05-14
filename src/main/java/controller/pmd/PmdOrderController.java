@@ -6,6 +6,7 @@ import domain.pmd.PmdOrderCampuscardView;
 import domain.pmd.PmdOrderCampuscardViewExample;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -117,7 +119,16 @@ public class PmdOrderController extends PmdBaseController {
     @RequestMapping("/pmdOrderCampuscard_query")
     public String pmdOrderCampuscard_query(String sn, String code, ModelMap modelMap) throws IOException {
 
-        modelMap.put("ret", pmdPayCampusCardService.query(sn, code));
+        String ret = pmdPayCampusCardService.query(sn, code);
+        modelMap.put("ret", ret);
+
+        PmdOrderCampuscard order = pmdOrderCampuscardMapper.selectByPrimaryKey(sn);
+        modelMap.put("order", order);
+
+        String keys = PropertiesUtils.getString("pay.campuscard.keys");
+        modelMap.put("keys",keys);
+        modelMap.put("yek", StringUtils.reverse(keys));
+
 
         return "pmd/pmdOrder/pmdOrderCampuscard_query";
     }
