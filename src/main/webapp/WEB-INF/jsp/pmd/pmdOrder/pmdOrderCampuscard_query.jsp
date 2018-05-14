@@ -19,7 +19,7 @@
             <td class="bg-right">接口返回</td>
             <td style="word-break: break-all">${ret}</td>
         </tr>
-        <c:if test="${not empty ret && !order.isSuccess}">
+        <c:if test="${not empty ret && fn:trim(ret) !='' && !order.isSuccess}">
             <tr>
                 <td class="bg-right">主动同步结果</td>
                 <td>
