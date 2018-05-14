@@ -3,6 +3,7 @@ package controller.sys;
 import bean.LoginUser;
 import controller.BaseController;
 import domain.sys.SysUserView;
+import interceptor.OrderParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -54,7 +55,10 @@ public class SysOnlineLogController extends BaseController {
     @RequiresPermissions("sysOnlineLog:list")
     @RequestMapping("/sysOnlineLog_data")
     @ResponseBody
-    public void sysOnlineLog_data(Integer pageSize, Integer pageNo) throws IOException {
+    public void sysOnlineLog_data(Integer pageSize,
+                                  @RequestParam(defaultValue = "lastAccessTime") String sort,
+                                  @OrderParam(required = false, defaultValue = "desc") String order,
+                                  Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -66,10 +70,15 @@ public class SysOnlineLogController extends BaseController {
 
         List<LoginUser> loginUsers = sysLoginLogService.getLoginUsers();
 
+        boolean _lastAccessTime = StringUtils.equals(sort, "lastAccessTime");
+        int _order = StringUtils.equals(order, "desc")?1:-1;
         Collections.sort(loginUsers, new Comparator<LoginUser>() {
             @Override
             public int compare(LoginUser o1, LoginUser o2) {
-                return o1.getStartTimestamp().before(o2.getStartTimestamp())?1:-1;
+                if(_lastAccessTime)
+                    return _order*(o1.getStartTimestamp().before(o2.getStartTimestamp())?1:-1);
+                else
+                    return _order*(o1.getLastAccessTime().before(o2.getLastAccessTime())?1:-1);
             }
         });
 

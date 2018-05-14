@@ -46,8 +46,8 @@ pageEncoding="UTF-8" %>
                     return role?role.description:null;
                 });
             }, width: 300},
-            { label: '最新操作时间', name: 'lastAccessTime', width: 200 },
-            { label: '登录时间', name: 'startTimestamp', width: 200 },
+            { label: '最新操作时间', name: 'lastAccessTime',sortable:true, width: 200 },
+            { label: '登录时间', name: 'startTimestamp',sortable:true, width: 200 },
             { label:'登录IP', name: 'ip', width: 150},
             { label: '登录地点', name: 'country', width: 120},
             { label: '地区', name: 'area', align:'left', width: 250,formatter: function (cellvalue, options, rowObject) {
