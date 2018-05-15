@@ -70,7 +70,7 @@ public interface ICetMapper {
                                                              @Param("traineeId") Integer traineeId);
 
     // 已选课学员
-    @Select("select user_id from cet_trainee_course_view where train_course_id=#{trainCourseId}")
+    @Select("select user_id from cet_trainee_course_view where train_course_id=#{trainCourseId} order by choose_time asc")
     public List<Integer> applyUserIds(@Param("trainCourseId") Integer trainCourseId);
 
     // 未选课学员

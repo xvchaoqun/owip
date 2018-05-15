@@ -3,6 +3,7 @@ package service.cet;
 import domain.cadre.CadreView;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
+import domain.cet.CetTraineeCourseView;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -34,6 +35,8 @@ public class CetExportService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired
     private CadreService cadreService;
+    @Autowired
+    private CetTraineeCourseService cetTraineeCourseService;
 
     /**
      * 已选课学员统计表.xlsx
@@ -63,6 +66,8 @@ public class CetExportService extends BaseMapper {
             Integer userId = applyUserIds.get(i);
             SysUserView uv = sysUserService.findById(userId);
             CadreView cv = cadreService.dbFindByUserId(userId);
+
+            CetTraineeCourseView teev = cetTraineeCourseService.getCetTraineeCourseView(userId, trainCourseId);
             int column = 0;
             row = sheet.getRow(startRow++);
             // 序号
@@ -84,6 +89,10 @@ public class CetExportService extends BaseMapper {
             // 手机号码
             cell = row.getCell(column++);
             cell.setCellValue(uv.getMobile());
+
+            // 选课时间
+            cell = row.getCell(column++);
+            cell.setCellValue(teev==null?"":DateUtils.formatDate(teev.getChooseTime(), "yyyy-MM-dd HH:mm:ss"));
         }
 
         String fileName = String.format("已选课学员统计表[%s]", courseName);
