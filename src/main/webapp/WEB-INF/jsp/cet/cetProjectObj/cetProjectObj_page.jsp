@@ -89,7 +89,7 @@
             class="confirm btn btn-danger btn-sm">
         <i class="fa fa-times-circle"></i> 全部设置为可选
     </button>
-    <button data-url="${ctx}/cet/cetProjectObj_canQuit?canQuit=0&trainCourseId=${param.trainCourseId}"
+    <button data-url="${ctx}/cet/cetProjectObj_canQuit?projectId=${cetProject.id}&canQuit=0&trainCourseId=${param.trainCourseId}"
             data-title="设置为必选学员"
             data-msg="确定将这{0}个学员设置为必选学员？"
             data-grid-id="#jqGrid2"
@@ -97,7 +97,7 @@
             class="jqBatchBtn btn btn-primary btn-sm">
         <i class="fa fa-check"></i> 设置为必选学员
     </button>
-    <button data-url="${ctx}/cet/cetProjectObj_canQuit?canQuit=1&trainCourseId=${param.trainCourseId}"
+    <button data-url="${ctx}/cet/cetProjectObj_canQuit?projectId=${cetProject.id}&canQuit=1&trainCourseId=${param.trainCourseId}"
             data-title="退出"
             data-msg="确定将这{0}个学员取消必选？"
             data-grid-id="#jqGrid2"
