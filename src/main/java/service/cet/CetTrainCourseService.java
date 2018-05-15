@@ -77,10 +77,13 @@ public class CetTrainCourseService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value = "CetTrainCourses", allEntries = true)
-    public int updateByPrimaryKeySelective(CetTrainCourse record) {
+    public void updateByPrimaryKeySelective(CetTrainCourse record) {
 
         record.setTrainId(null);
-        return cetTrainCourseMapper.updateByPrimaryKeySelective(record);
+        cetTrainCourseMapper.updateByPrimaryKeySelective(record);
+        if(record.getApplyLimit()==null){
+            commonMapper.excuteSql("update cet_train_course set apply_limit=null where id=" + record.getId());
+        }
     }
 
     @Cacheable(value = "CetTrainCourses", key = "#trainId")

@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="space-4"></div>
-<c:set var="_query" value="${not empty param.userId ||not empty param.dpTypes||not empty param.adminLevels
+<c:set var="_query" value="${not empty param.hasChosen ||not empty param.userId ||not empty param.dpTypes||not empty param.adminLevels
                 ||not empty param.postIds || not empty param.code || not empty param.sort}"/>
 <div class="jqgrid-vertical-offset buttons">
     <div class="type-select">
@@ -98,12 +98,12 @@
         <i class="fa fa-check"></i> 设置为必选学员
     </button>
     <button data-url="${ctx}/cet/cetProjectObj_canQuit?projectId=${cetProject.id}&canQuit=1&trainCourseId=${param.trainCourseId}"
-            data-title="退出"
-            data-msg="确定将这{0}个学员取消必选？"
+            data-title="退课"
+            data-msg="确定将这{0}个学员退课？"
             data-grid-id="#jqGrid2"
             data-callback="_callback2"
             class="jqBatchBtn btn btn-danger btn-sm">
-        <i class="fa fa-times"></i> 取消必选
+        <i class="fa fa-times"></i> 退课
     </button>
         <button id="logBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                 data-grid-id="#jqGrid2"
@@ -248,9 +248,23 @@
                 <input type="hidden" name="traineeTypeId" value="${traineeTypeId}">
                 <input type="hidden" name="isQuit" value="${isQuit}">
                 <input type="hidden" name="cls" value="${cls}">
+
+                <c:if test="${cls==2}">
+                <div class="form-group">
+                    <label>是否选课</label>
+                    <select data-rel="select2" data-width="100" name="hasChosen"  data-placeholder="请选择">
+                        <option></option>
+                        <option value="0">未选课</option>
+                        <option value="1">已选课</option>
+                    </select>
+                    <script>
+                        $("#searchForm2 select[name=hasChosen]").val('${param.hasChosen}')
+                    </script>
+                </div>
+                </c:if>
                 <div class="form-group">
                     <label>姓名</label>
-                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetProjectObj_selects?projectId=${cetProject.id}"
+                    <select data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetProjectObj_selects?projectId=${cetProject.id}"
                             data-width="280"
                             name="userId" data-placeholder="请输入账号或姓名或教工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
@@ -512,13 +526,15 @@
             },
             {label: '联系方式', name: 'mobile', width: 120},
             {label: '电子邮箱', name: 'email', width: 250},
-
+            <c:if test="${cls==1}">
             {label: '已完成学时数', name: 'finishPeriod', width: 110},
             {label: '完成百分比', name: '_finishPercent', width: 110, formatter: function (cellvalue, options, rowObject) {
 
                 if(isNaN(rowObject.shouldFinishPeriod) || rowObject.shouldFinishPeriod<=0) return '-';
                 return Math.formatFloat(rowObject.finishPeriod*100/rowObject.shouldFinishPeriod, 2) + "%";
-            }}/*,
+            }}
+            </c:if>
+            /*,
             {label: '是否达到结业要求', name: '_enough', width: 150, formatter: function (cellvalue, options, rowObject) {
 
                 if(isNaN(requirePeriod) || requirePeriod<=0) return '-';

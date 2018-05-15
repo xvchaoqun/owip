@@ -91,11 +91,11 @@ public class CetProjectObjController extends CetBaseController {
             CetPlanCourse cetPlanCourse = cetPlanCourseMapper.selectByPrimaryKey(planCourseId);
             planId = cetPlanCourse.getPlanId();
         }
-        if(planId!=null){
+        if (planId != null) {
             CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
             modelMap.put("cetProjectPlan", cetProjectPlan);
         }
-        if(discussGroupId!=null){
+        if (discussGroupId != null) {
             // 获取所有培训对象的分组情况
             CetDiscussGroup cetDiscussGroup = cetDiscussGroupMapper.selectByPrimaryKey(discussGroupId);
             int discussId = cetDiscussGroup.getDiscussId();
@@ -129,6 +129,7 @@ public class CetProjectObjController extends CetBaseController {
                                    Integer planCourseId, // 培训方案选课页面时传入
                                    Integer discussGroupId, // 选择小组学员页面时传入（分组研讨）
                                    Integer userId,
+                                   Boolean hasChosen, // 是否选课
                                    @RequestParam(required = false, value = "dpTypes") Long[] dpTypes,
                                    @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
                                    @RequestParam(required = false, value = "postIds") Integer[] postIds,
@@ -149,6 +150,11 @@ public class CetProjectObjController extends CetBaseController {
         CetTraineeType cetTraineeType = cetTraineeTypeMapper.selectByPrimaryKey(traineeTypeId);
         String code = cetTraineeType.getCode();
 
+        List<Integer> applyUserIds = null;
+        if (hasChosen != null && trainCourseId != null) {
+            applyUserIds = iCetMapper.applyUserIds(trainCourseId);
+        }
+
         List records = null;
         int count = 0, total = 0;
         switch (code) {
@@ -159,6 +165,20 @@ public class CetProjectObjController extends CetBaseController {
                 CetProjectObjCadreViewExample.Criteria criteria = example.createCriteria().andProjectIdEqualTo(projectId)
                         .andTraineeTypeIdEqualTo(traineeTypeId);
                 example.setOrderByClause("id asc");
+
+                if (hasChosen != null && trainCourseId != null) {
+                    if (hasChosen) {
+                        if (applyUserIds != null && applyUserIds.size() > 0) {
+                            criteria.andUserIdIn(applyUserIds);
+                        } else {
+                            criteria.andIdIsNull();
+                        }
+                    } else {
+                        if (applyUserIds != null && applyUserIds.size() > 0) {
+                            criteria.andUserIdNotIn(applyUserIds);
+                        }
+                    }
+                }
 
                 criteria.andIsQuitEqualTo(isQuit);
                 if (dpTypes != null) {
@@ -184,22 +204,22 @@ public class CetProjectObjController extends CetBaseController {
                 CommonList commonList = new CommonList(count, pageNo, pageSize);
                 total = commonList.pageNum;
 
-                if(export==1){
-                    if(count==0){
+                if (export == 1) {
+                    if (count == 0) {
                         throw new OpException("还没有上传心得体会。");
                     }
                     CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
                     Map<String, File> fileMap = new LinkedHashMap<>();
-                    for ( Object record : records) {
+                    for (Object record : records) {
 
-                        CetProjectObjCadreView obj = (CetProjectObjCadreView)record;
+                        CetProjectObjCadreView obj = (CetProjectObjCadreView) record;
                         String wordWrite = obj.getWordWrite();
                         String pdfWrite = obj.getPdfWrite();
                         String realname = obj.getRealname();
 
-                        fileMap.put(realname + "("+ obj.getCode() +")" + FileUtils.getExtention(wordWrite),
+                        fileMap.put(realname + "(" + obj.getCode() + ")" + FileUtils.getExtention(wordWrite),
                                 new File(springProps.uploadPath + wordWrite));
-                        fileMap.put(realname + "("+ obj.getCode() +")" + FileUtils.getExtention(pdfWrite),
+                        fileMap.put(realname + "(" + obj.getCode() + ")" + FileUtils.getExtention(pdfWrite),
                                 new File(springProps.uploadPath + pdfWrite));
                     }
 
@@ -244,9 +264,9 @@ public class CetProjectObjController extends CetBaseController {
     @ResponseBody
     public Map do_cetProjectObj_shouldFinishPeriod(int projectId,
                                                    @RequestParam(value = "ids[]", required = false) Integer[] ids,
-                                                    BigDecimal shouldFinishPeriod) {
+                                                   BigDecimal shouldFinishPeriod) {
 
-        if(shouldFinishPeriod!=null && shouldFinishPeriod.compareTo(BigDecimal.ZERO)<=0){
+        if (shouldFinishPeriod != null && shouldFinishPeriod.compareTo(BigDecimal.ZERO) <= 0) {
             return failed("学时数必须大于0");
         }
 
@@ -271,7 +291,7 @@ public class CetProjectObjController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 设置为必选学员/取消必选
+    // 设置为必选学员/退课
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_canQuit", method = RequestMethod.POST)
     @ResponseBody
@@ -280,7 +300,7 @@ public class CetProjectObjController extends CetBaseController {
                                         HttpServletRequest request) {
 
         cetProjectObjService.canQuit(projectId, ids, canQuit, trainCourseId);
-        logger.info(addLog(LogConstants.LOG_CET, "设置为必选学员/取消必选： %s, %s, %s",
+        logger.info(addLog(LogConstants.LOG_CET, "设置为必选学员/退课： %s, %s, %s",
                 StringUtils.join(ids, ","), canQuit, trainCourseId));
 
         return success(FormUtils.SUCCESS);
@@ -297,12 +317,13 @@ public class CetProjectObjController extends CetBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
     // 手动结业
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_forceGraduate", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetProjectObj_forceGraduate(@RequestParam(value = "ids[]", required = false) Integer[] ids,
-                                        HttpServletRequest request) {
+                                              HttpServletRequest request) {
 
         cetProjectObjService.forceGraduate(ids);
         logger.info(addLog(LogConstants.LOG_CET, "手动结业： %s", StringUtils.join(ids, ",")));
@@ -370,7 +391,7 @@ public class CetProjectObjController extends CetBaseController {
         String wordWrite = upload(_wordFilePath, "cetProjectObj");
         String pdfWrite = uploadPdf(_pdfFilePath, "cetProjectObj");
 
-        if(StringUtils.isNotBlank(wordWrite) || StringUtils.isNotBlank(pdfWrite)) {
+        if (StringUtils.isNotBlank(wordWrite) || StringUtils.isNotBlank(pdfWrite)) {
 
             CetProjectObj record = new CetProjectObj();
             record.setId(id);
@@ -457,7 +478,7 @@ public class CetProjectObjController extends CetBaseController {
             example.or().andProjectIdEqualTo(projectId).andUsernameLike(searchStr + "%");
             example.or().andProjectIdEqualTo(projectId).andCodeLike(searchStr + "%");
             example.or().andProjectIdEqualTo(projectId).andRealnameLike(searchStr + "%");
-        }else{
+        } else {
             example.createCriteria().andProjectIdEqualTo(projectId);
         }
 

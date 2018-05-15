@@ -109,7 +109,7 @@ public class CetTraineeCourseService extends BaseMapper {
 
         Date now = new Date();
         String ip = ContextHelper.getRealIp();
-
+        Integer currentUserId = ShiroHelper.getCurrentUserId();
         for (Integer trainCourseId : trainCourseIds) {
 
             CetTraineeCourse record = new CetTraineeCourse();
@@ -117,6 +117,7 @@ public class CetTraineeCourseService extends BaseMapper {
             record.setTrainCourseId(trainCourseId);
             record.setIsFinished(false);
             record.setChooseTime(now);
+            record.setChooseUserId(currentUserId);
             record.setIp(ip);
 
             cetTraineeCourseMapper.insertSelective(record);

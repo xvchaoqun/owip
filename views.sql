@@ -121,7 +121,7 @@ left join cet_project cp on cp.id=cpo.project_id
 left join cet_train ct on ct.id=ctee.train_id
 left join cet_train_course ctc on ctc.id=cteec.train_course_id
 left join cet_course cc on cc.id=ctc.course_id
-left join sys_user_view uv on uv.id = cteec.choose_user_id;
+left join sys_user_view uv on uv.id = cteec.choose_user_id order by cpo.id asc;
 
 DROP VIEW IF EXISTS `cet_trainee_course_cadre_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_cadre_view` AS

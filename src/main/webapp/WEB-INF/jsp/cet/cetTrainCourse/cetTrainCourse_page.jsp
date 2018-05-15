@@ -27,12 +27,19 @@
            data-id-name="trainCourseId"><i class="fa fa-send"></i>
             补选课通知</button>
 
-    <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-       data-url="${ctx}/cet/cetTrainCourse_data"
-       data-querystr="trainId=${cetTrain.id}"
-       data-grid-id="#jqGrid2"
-       data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-        <i class="fa fa-download"></i> 导出课程</a>--%>
+        <button class="jqLinkItemBtn btn btn-success btn-sm"
+                data-url="${ctx}/cet/cetTrainCourse_exportChosenObjs"
+                data-grid-id="#jqGrid2"
+                data-id-name="trainCourseId"><i class="fa fa-download"></i>
+            导出已选课学员</button>
+
+
+        <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+           data-url="${ctx}/cet/cetTrainCourse_data"
+           data-querystr="trainId=${cetTrain.id}"
+           data-grid-id="#jqGrid2"
+           data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
+            <i class="fa fa-download"></i> 导出课程</a>--%>
 
         <%--<a class="jqOpenViewBtn btn btn-warning btn-sm"
            data-url="${ctx}/cet/cetTrainCourse_selectObjs"
@@ -71,7 +78,7 @@
                 return ('<button class="openView btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/cet/cetProject_detail_obj?cls=2&projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
-            }, frozen:true},
+            }, width: 120, frozen:true},
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
             {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {
                 var finishCount = (rowObject.finishCount==undefined)?0:rowObject.finishCount;
@@ -119,7 +126,7 @@
             {label: '授课方式', name: 'cetCourse.teachMethod', formatter: $.jgrid.formatter.MetaType},
             {label: '学时', name: 'cetCourse.period', width: 70},
             </c:if>
-            {label: '选课人数上限', name: 'applyLimit'},
+            {label: '选课人数上限', name: 'applyLimit', formatter: $.jgrid.formatter.defaultString},
             {
                 label: '开始时间',
                 name: 'startTime',
@@ -162,7 +169,7 @@
                 return ('<button class="openView btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/cet/cetProject_detail_obj?cls=2&projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
-            }, frozen:true},
+            }, width: 120, frozen:true},
             {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {
                 var finishCount = (rowObject.finishCount==undefined)?0:rowObject.finishCount;
                 var selectedCount = (rowObject.selectedCount==undefined)?0:rowObject.selectedCount;

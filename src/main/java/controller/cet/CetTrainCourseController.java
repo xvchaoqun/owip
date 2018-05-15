@@ -327,6 +327,15 @@ public class CetTrainCourseController extends CetBaseController {
         return "cet/cetTrainCourse/cetTrainCourse_info";
     }
 
+    // 导出已选课学员
+    @RequiresPermissions("cetTrainCourse:edit")
+    @RequestMapping("/cetTrainCourse_exportChosenObjs")
+    public void cetTrainCourse_exportChosenObjs(int trainCourseId, HttpServletResponse response) throws IOException {
+
+        cetExportService.exportChosenObjs(trainCourseId, response);
+        return;
+    }
+
     // 补选课报名（实践教学）
     @RequiresPermissions("cetTrainCourse:edit")
     @RequestMapping(value = "/cetTrainCourse_applyMsg", method = RequestMethod.POST)

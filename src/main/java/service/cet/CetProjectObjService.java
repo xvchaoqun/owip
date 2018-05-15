@@ -196,7 +196,7 @@ public class CetProjectObjService extends BaseMapper {
         }
     }
 
-    // 设置为必选学员/取消必选
+    // 设置为必选学员/退课
     public void canQuit(int projectId, Integer[] objIds, boolean canQuit, int trainCourseId) {
 
         List<CetProjectObj> cetProjectObjs = null;
@@ -234,7 +234,13 @@ public class CetProjectObjService extends BaseMapper {
                     throw new OpException("学员{0}已上课签到，无法操作。", uv.getRealname());
                 }
                 // 可选->可选
-                if (ctc.getCanQuit() && canQuit) continue;
+                if (ctc.getCanQuit() && canQuit){
+                    if(ctc.getChooseUserId()!=null){ // 已选课
+                        // 退课
+                        cetTraineeCourseService.applyItem(userId, trainCourseId, false, true, "退课");
+                    }
+                    continue;
+                }
                 // 必选->必选
                 if (!ctc.getCanQuit() && !canQuit) continue;
                 // 可选->必选

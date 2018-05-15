@@ -21,10 +21,20 @@ import java.util.Map;
 
 public class CetProjectObjCadreView implements Serializable {
 
+    // 只有培训对象页面，需要计算
     public BigDecimal getFinishPeriod(){
 
-        CetProjectObjService cetProjectObjService = CmTag.getBean(CetProjectObjService.class);
-        return cetProjectObjService.getFinishPeriod(projectId, id);
+        HttpServletRequest request = ContextHelper.getRequest();
+        if (request == null) return null;
+        Integer trainCourseId = (Integer) request.getAttribute("trainCourseId");
+        Integer planCourseId = (Integer) request.getAttribute("planCourseId");
+        Integer discussGroupId = (Integer) request.getAttribute("discussGroupId");
+        if (trainCourseId == null && planCourseId == null && discussGroupId==null) {
+
+            CetProjectObjService cetProjectObjService = CmTag.getBean(CetProjectObjService.class);
+            return cetProjectObjService.getFinishPeriod(projectId, id);
+        }
+        return null;
     }
 
     public Map getObjInfo() {

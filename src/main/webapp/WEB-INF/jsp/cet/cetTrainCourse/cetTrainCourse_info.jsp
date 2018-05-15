@@ -11,7 +11,8 @@
         <div class="form-group" id="_name">
             <label class="col-xs-3 control-label">选课人数上限</label>
             <div class="col-xs-6">
-                <input required class="form-control number" type="text" name="applyLimit" value="${cetTrainCourse.applyLimit}">
+                <input class="form-control number" type="text" name="applyLimit" value="${cetTrainCourse.applyLimit}">
+                * 留空则不设上限
             </div>
         </div>
         <div class="form-group" id="_startTime">
