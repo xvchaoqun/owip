@@ -28,7 +28,6 @@
     <result column="course_num" jdbcType="INTEGER" property="courseNum" />
     <result column="obj_count" jdbcType="BIGINT" property="objCount" />
     <result column="trainee_count" jdbcType="INTEGER" property="traineeCount" />
-    <result column="trainee_types" jdbcType="VARCHAR" property="traineeTypes" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.cet.CetTrainView">
     <result column="eva_note" jdbcType="LONGVARCHAR" property="evaNote" />
@@ -66,7 +65,7 @@
     id, plan_id, type, is_on_campus, name, has_summary, summary, start_date, end_date, 
     start_time, end_time, enroll_status, pub_status, eva_count, eva_anonymous, eva_closed, 
     eva_close_time, remark, is_deleted, is_finished, create_time, year, project_id, course_num, 
-    obj_count, trainee_count, trainee_types
+    obj_count, trainee_count
   </sql>
   <sql id="Blob_Column_List">
     eva_note

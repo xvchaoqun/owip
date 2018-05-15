@@ -190,10 +190,10 @@
                         .format(rowObject.id, btnStr, btnCss, iCss);
             }, frozen: true
             },
-            {label: '参训人员类型', name: 'traineeTypes', width: 220, align: 'left'},
-            {label: '开班时间', name: 'openTime', width: 150, formatter: 'date',
+           /* {label: '参训人员类型', name: 'traineeTypes', width: 220, align: 'left'},*/
+            /*{label: '开班时间', name: 'openTime', width: 150, formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'},},
-            {label: '开班地点', name: 'openAddress', width: 220, align: 'left'},
+            {label: '开班地点', name: 'openAddress', width: 220, align: 'left'},*/
             {label: '开课日期', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '结课日期', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '备注', name: 'remark', width: 300}, {hidden: true, name: 'pubStatus'},

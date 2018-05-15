@@ -68,8 +68,6 @@ public class CetTrainView implements Serializable {
 
     private Integer traineeCount;
 
-    private String traineeTypes;
-
     private String evaNote;
 
     private static final long serialVersionUID = 1L;
@@ -280,14 +278,6 @@ public class CetTrainView implements Serializable {
 
     public void setTraineeCount(Integer traineeCount) {
         this.traineeCount = traineeCount;
-    }
-
-    public String getTraineeTypes() {
-        return traineeTypes;
-    }
-
-    public void setTraineeTypes(String traineeTypes) {
-        this.traineeTypes = traineeTypes == null ? null : traineeTypes.trim();
     }
 
     public String getEvaNote() {

@@ -150,7 +150,7 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
             <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="evaNote" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <table tableName="cet_train_view" domainObjectName="cet.CetTrainView" mapperName="cet.CetTrainViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -158,10 +158,10 @@
                 <columnOverride column="summary" jdbcType="VARCHAR"></columnOverride>
                 <columnOverride column="evaNote" jdbcType="VARCHAR"></columnOverride>
                 <columnOverride column="course_num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-                <columnOverride column="trainee_types" jdbcType="VARCHAR"></columnOverride>
+
                 <columnOverride column="trainee_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
                 <columnOverride column="selected_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>-->
+        </table>
 
         <!--<table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
         </table>-->
@@ -188,8 +188,8 @@
             <columnOverride column="finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="eva_finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
-        <table tableName="cet_short_msg" domainObjectName="cet.CetShortMsg" mapperName="cet.CetShortMsgMapper">
-        </table>
+       <!-- <table tableName="cet_short_msg" domainObjectName="cet.CetShortMsg" mapperName="cet.CetShortMsgMapper">
+        </table>-->
         <!--<table tableName="cet_trainee" domainObjectName="cet.CetTrainee" mapperName="cet.CetTraineeMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->

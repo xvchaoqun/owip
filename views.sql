@@ -59,12 +59,10 @@ count(distinct ctc.id) as course_num,
 -- 可选课人数
 count(distinct cpo.id) as obj_count,
 -- 已选课人数
-count(distinct cteec.trainee_id) as trainee_count,
-group_concat(distinct cteet.name order by cteet.sort_order asc) as trainee_types from cet_train ct
+count(distinct cteec.trainee_id) as trainee_count from cet_train ct
 left join cet_project_plan cpp on cpp.id=ct.plan_id
 left join cet_project cp on cp.id = cpp.project_id
 left join cet_project_trainee_type cptt on cptt.project_id = cp.id
-left join cet_trainee_type cteet on cptt.trainee_type_id= cteet.id
 left join cet_project_obj cpo on cpo.project_id=cp.id
 left join cet_trainee ctee on ctee.obj_id=cpo.id
 left join cet_train_course ctc on ctc.train_id=ct.id
