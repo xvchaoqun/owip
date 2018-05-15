@@ -32,7 +32,7 @@
                     else {
                         hash = "#/cadre_view?cadreId={0}&to={1}".format(ret.cadreId, $.trim(to));
                         <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADREINSPECT},${ROLE_CADRERESERVE}">
-                        hash = "#/modifyBaseApply";
+                        hash = "#/modifyBaseApply?admin=0";
                         </shiro:hasAnyRoles>
                     }
                 }

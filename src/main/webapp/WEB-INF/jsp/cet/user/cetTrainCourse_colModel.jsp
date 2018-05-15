@@ -20,7 +20,7 @@
       }
       return ('<button class="linkBtn btn btn-xs btn-success" data-url="${ctx}/cet/cetCourse_video?id={0}&trainCourseId={1}&_={2}" '
       +' data-target="_blank"><i class="fa fa-play-circle"></i> 播放</button>')
-              .format(rowObject.cetCourse.id, rowObject.id, new Date().getTime)
+              .format(rowObject.cetCourse.id, rowObject.id, new Date().getTime())
       /*return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="iframe" href="${ctx}/cet/cetCourse_video?id={0}&trainCourseId={2}">播放</a>'
               .format(rowObject.cetCourse.id, rowObject.cetCourse.name, rowObject.id);*/
     }},

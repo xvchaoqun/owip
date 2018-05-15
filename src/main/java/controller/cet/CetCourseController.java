@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.LogConstants;
@@ -326,7 +327,7 @@ public class CetCourseController extends CetBaseController {
     }
 
     @RequestMapping(value = "/cetCourse_video")
-    public String video(int id, Integer trainCourseId, ModelMap modelMap) throws IOException{
+    public String cetCourse_video(int id, Integer trainCourseId, ModelMap modelMap) throws IOException{
 
         // 已选课情况下，标记为已学习
         if(trainCourseId!=null){
@@ -347,7 +348,7 @@ public class CetCourseController extends CetBaseController {
         }
 
         CetCourse cetCourse = cetCourseMapper.selectByPrimaryKey(id);
-        modelMap.put("url", cetCourse.getUrl());
+        modelMap.put("url", HtmlUtils.htmlUnescape(cetCourse.getUrl()));
 
         return "common/video";
     }

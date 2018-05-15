@@ -207,7 +207,7 @@ public class SysUserController extends BaseController {
                 sysUser.setSalt(encrypt.getSalt());
                 sysUser.setPasswd(encrypt.getPassword());
             }
-            SysUser oldSysUser = sysUserMapper.selectByPrimaryKey(id);
+            //SysUser oldSysUser = sysUserMapper.selectByPrimaryKey(id);
             sysUserService.updateByPrimaryKeySelective(sysUser);
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户：%s", sysUser.getId()));
         }

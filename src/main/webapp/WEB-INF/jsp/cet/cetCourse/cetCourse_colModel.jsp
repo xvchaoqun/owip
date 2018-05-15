@@ -46,7 +46,7 @@
       {label: '时长', name: 'duration'},
       {label: '播放', name: 'duration', formatter: function (cellvalue, options, rowObject){
           return '<a class="various" title="{1}" data-path="{0}" data-fancybox-type="iframe" href="${ctx}/cet/cetCourse_video?id={0}&_={2}">播放</a>'
-                  .format(rowObject.id, rowObject.name, new Date().getTime);
+                  .format(rowObject.id, rowObject.name, new Date().getTime());
       }},
       </c:if>
       <c:if test="${param.list=='admin'}">

@@ -122,6 +122,16 @@ public class SysUserService extends BaseMapper {
             record.setRoleIds(buildRoleIds(RoleConstants.ROLE_GUEST));
         sysUserMapper.insertSelective(record);
 
+        int userId = record.getId();
+        SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
+        if (sysUserInfo == null) {
+            sysUserInfo = new SysUserInfo();
+            sysUserInfo.setUserId(userId);
+            sysUserInfoMapper.insertSelective(sysUserInfo);
+        }
+        if(record.getType()==SystemConstants.USER_TYPE_JZG){
+            addRole(userId, RoleConstants.ROLE_TEACHER);
+        }
         // 如果没添加前使用了账号登录或其他原因，可能导致缓存存在且为NULL
         cacheService.clearUserCache(record);
     }
@@ -236,8 +246,17 @@ public class SysUserService extends BaseMapper {
     @Transactional
     public void updateByPrimaryKeySelective(SysUser user) {
 
-        SysUser _sysUser = sysUserMapper.selectByPrimaryKey(user.getId());
+        int userId = user.getId();
+        SysUser _sysUser = sysUserMapper.selectByPrimaryKey(userId);
         sysUserMapper.updateByPrimaryKeySelective(user);
+
+        if(user.getType()!=null) {
+            if (user.getType() == SystemConstants.USER_TYPE_JZG) {
+                addRole(userId, RoleConstants.ROLE_TEACHER);
+            } else {
+                delRole(userId, RoleConstants.ROLE_TEACHER);
+            }
+        }
 
         cacheService.clearUserCache(_sysUser);
     }

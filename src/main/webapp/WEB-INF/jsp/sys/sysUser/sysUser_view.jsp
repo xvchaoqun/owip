@@ -141,7 +141,8 @@
                         </div>
                         </div>
                             <div>
-                                <img src="${ctx}/qrcode?content=${sysUser.code}&_=<%=new Date().getTime()%>"/>
+                                <c:set var="content" value="${_sysConfig.siteHome}?code=${sysUser.code}"/>
+                                <img src="${ctx}/qrcode?content=${cm:encodeURI(content)}&_=<%=new Date().getTime()%>"/>
                             </div>
                         </div>
                         <div class="clearfix form-actions center">
