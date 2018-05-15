@@ -348,7 +348,10 @@ public class CetCourseController extends CetBaseController {
         }
 
         CetCourse cetCourse = cetCourseMapper.selectByPrimaryKey(id);
-        modelMap.put("url", HtmlUtils.htmlUnescape(cetCourse.getUrl()));
+        if(StringUtils.isNotBlank(cetCourse.getUrl())) {
+            // 去掉html的空格 &nbsp;
+            modelMap.put("url", HtmlUtils.htmlUnescape(cetCourse.getUrl()).replaceAll("\\u00A0", ""));
+        }
 
         return "common/video";
     }

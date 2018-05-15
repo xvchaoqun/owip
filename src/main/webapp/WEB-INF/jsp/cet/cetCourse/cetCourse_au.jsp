@@ -64,7 +64,7 @@ pageEncoding="UTF-8"%>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">视频地址</label>
 			<div class="col-xs-6">
-				<input required class="form-control" type="text" name="url" value="${cetCourse.url}">
+				<input required class="form-control" type="text" name="_url" value="${cetCourse.url}">
 			</div>
 		</div>
 		</c:if>
@@ -102,6 +102,7 @@ pageEncoding="UTF-8"%>
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
+				data:{url: $.trim($("#modalForm input[name=_url]").val())},
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
