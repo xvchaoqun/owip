@@ -1,3 +1,8 @@
+
+2018-5-16
+ALTER TABLE `cet_short_msg`
+	ADD COLUMN `mobile` VARCHAR(20) NULL DEFAULT NULL COMMENT '接收手机号' AFTER `user_id`;
+
 2018-5-15
 更新 cet_train_view
 2018-5-13

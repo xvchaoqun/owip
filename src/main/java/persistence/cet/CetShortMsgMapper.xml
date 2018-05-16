@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="record_id" jdbcType="INTEGER" property="recordId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="tpl_key" jdbcType="VARCHAR" property="tplKey" />
     <result column="content_tpl_id" jdbcType="INTEGER" property="contentTplId" />
     <result column="msg" jdbcType="VARCHAR" property="msg" />
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, record_id, user_id, tpl_key, content_tpl_id, msg, send_time, success
+    id, record_id, user_id, mobile, tpl_key, content_tpl_id, msg, send_time, success
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetShortMsgExample" resultMap="BaseResultMap">
     select
@@ -104,11 +105,13 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetShortMsg">
     insert into cet_short_msg (id, record_id, user_id, 
-      tpl_key, content_tpl_id, msg, 
-      send_time, success)
+      mobile, tpl_key, content_tpl_id, 
+      msg, send_time, success
+      )
     values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{tplKey,jdbcType=VARCHAR}, #{contentTplId,jdbcType=INTEGER}, #{msg,jdbcType=VARCHAR}, 
-      #{sendTime,jdbcType=TIMESTAMP}, #{success,jdbcType=BIT})
+      #{mobile,jdbcType=VARCHAR}, #{tplKey,jdbcType=VARCHAR}, #{contentTplId,jdbcType=INTEGER}, 
+      #{msg,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{success,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetShortMsg">
     insert into cet_short_msg
@@ -121,6 +124,9 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="mobile != null">
+        mobile,
       </if>
       <if test="tplKey != null">
         tpl_key,
@@ -147,6 +153,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="tplKey != null">
         #{tplKey,jdbcType=VARCHAR},
@@ -183,6 +192,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
       <if test="record.tplKey != null">
         tpl_key = #{record.tplKey,jdbcType=VARCHAR},
       </if>
@@ -208,6 +220,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       record_id = #{record.recordId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
       tpl_key = #{record.tplKey,jdbcType=VARCHAR},
       content_tpl_id = #{record.contentTplId,jdbcType=INTEGER},
       msg = #{record.msg,jdbcType=VARCHAR},
@@ -225,6 +238,9 @@
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="tplKey != null">
         tpl_key = #{tplKey,jdbcType=VARCHAR},
@@ -248,6 +264,7 @@
     update cet_short_msg
     set record_id = #{recordId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
+      mobile = #{mobile,jdbcType=VARCHAR},
       tpl_key = #{tplKey,jdbcType=VARCHAR},
       content_tpl_id = #{contentTplId,jdbcType=INTEGER},
       msg = #{msg,jdbcType=VARCHAR},

@@ -163,17 +163,21 @@ public class CetTrainDetailController extends CetBaseController {
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping(value = "/cetTrain_detail/msg_send", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_msg_send(Integer projectId, Integer trainId, String tplKey) {
+    public Map do_msg_send(Integer projectId, Integer trainId, String tplKey, String mobile) {
 
         int successCount = 0;
         if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_1)) {
 
-            successCount = cetShortMsgService.projectOpenMsg(projectId);
+            successCount = cetShortMsgService.projectOpenMsg(projectId, mobile);
             logger.info(addLog(LogConstants.LOG_CET, "第二天开班通知"));
 
         }else  if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_2)) {
 
-            successCount = cetShortMsgService.todayCourse(trainId);
+            if(StringUtils.isNotBlank(mobile)){
+                cetShortMsgService.todayCourseSingle(trainId, mobile);
+            }else {
+                successCount = cetShortMsgService.todayCourse(trainId);
+            }
             logger.info(addLog(LogConstants.LOG_CET, "当天开课通知"));
         }
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);

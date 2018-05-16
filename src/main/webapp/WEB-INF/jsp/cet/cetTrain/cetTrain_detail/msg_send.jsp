@@ -9,6 +9,9 @@ pageEncoding="UTF-8"%>
     <div class="alert alert-info">
         ${content}
     </div>
+    <div>
+        指定接收手机号：<input type="text" id="mobile">（如果填写了，则只给该手机号发送短信）
+    </div>
 </div>
 <c:if test="${param.tplKey=='ct_cet_msg_1'}">
 <div class="modal-footer">
@@ -24,7 +27,8 @@ pageEncoding="UTF-8"%>
         </li>
     </ul></div>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <c:set var="canSend" value="${cetProject.status==CET_PROJECT_STATUS_START && cetProject.pubStatus == CET_PROJECT_PUB_STATUS_PUBLISHED}"/>
+    <c:set var="canSend" value="${cetProject.status==CET_PROJECT_STATUS_START
+    && cetProject.pubStatus == CET_PROJECT_PUB_STATUS_PUBLISHED && cm:compareDate(cetProject.openTime, now)}"/>
     <button id="sendBtn" ${canSend?'':'disabled'}
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 发送中，请不要关闭此窗口"
             class="btn btn-primary">确定发送</button>
@@ -51,14 +55,15 @@ pageEncoding="UTF-8"%>
         </li>
     </ul></div>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <button id="sendBtn" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 发送中，请不要关闭此窗口"
+    <button id="sendBtn" ${(fn:length(todayTrainCourseList)>0)?'':'disabled'}  data-loading-text="<i class='fa fa-spinner fa-spin '></i> 发送中，请不要关闭此窗口"
             class="btn btn-primary">确定发送</button>
 </div>
 </c:if>
 <script>
     $("#sendBtn").click(function(){
         var $btn = $("#sendBtn").button('loading');
-        $.post("${ctx}/cet/cetTrain_detail/msg_send", {projectId:'${param.projectId}', trainId:'${param.trainId}', tplKey:'${param.tplKey}'},function(ret){
+        $.post("${ctx}/cet/cetTrain_detail/msg_send", {projectId:'${param.projectId}',
+            trainId:'${param.trainId}', tplKey:'${param.tplKey}', mobile: $.trim($("#mobile").val())},function(ret){
           if(ret.success){
               SysMsg.info("成功发送{0}条短信。".format(ret.successCount) );
               $("#modal").modal('hide');

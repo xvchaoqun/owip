@@ -1,10 +1,9 @@
 import org.junit.Test;
+import org.springframework.web.util.HtmlUtils;
 import sys.constants.RoleConstants;
 import sys.ip.IPSeeker;
-import sys.utils.DateUtils;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 /**
  * Created by fafa on 2016/8/24.
@@ -30,13 +29,23 @@ public class TTtest {
     public static void main(String[] args) throws UnsupportedEncodingException {
         //System.out.println(DateUtils.formatDateTimeMillis(1500889489690L, DateUtils.YYYY_MM_DD_HH_MM_SS));
 
-        System.out.println(("sc/scss").replaceAll("\\/", "\\."));
+        /*System.out.println(("sc/scss").replaceAll("\\/", "\\."));
 
         System.out.println(DateUtils.parseDate("2017-06", DateUtils.YYYY_MM_DD));
 
         String filename = URLEncoder.encode("[20 17]", "UTF-8");
         filename = filename.replaceAll("\\+", "%20");
-        System.out.println(filename);
+        System.out.println(filename);*/
+
+
+        String str = "贯彻落实党的十<九>大精神，加快推进学校“双一流”建设";
+        str = HtmlUtils.htmlEscape(str);
+        System.out.println(str);
+        System.out.println(HtmlUtils.htmlUnescape(str));
+        str = HtmlUtils.htmlUnescape(str);
+        System.out.println(HtmlUtils.htmlUnescape(str));
+        str = HtmlUtils.htmlUnescape(str);
+        System.out.println(HtmlUtils.htmlUnescape(str));
 
     }
 

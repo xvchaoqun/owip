@@ -11,6 +11,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.web.util.HtmlUtils;
 import sys.utils.PropertiesUtils;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class SendMsgUtils {
         SendMsgResult sendMsgResult = new SendMsgResult();
 
         String url = PropertiesUtils.getString("shortMsg.url");
-        String formStatusData = "{\"mobile\":\"" + mobile + "\", \"content\":\"" + content + "\"}";
+        String formStatusData = "{\"mobile\":\"" + mobile + "\", \"content\":\"" + HtmlUtils.htmlUnescape(content) + "\"}";
 
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost(url);

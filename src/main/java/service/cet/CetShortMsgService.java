@@ -71,6 +71,14 @@ public class CetShortMsgService extends BaseMapper {
         CetTrainCourse cetTrainCourse = cetTraineeCourse.getCetTrainCourse();
         if(cetTrainCourse==null && cetTrainCourse.getStartTime().after(new Date())) return false;
 
+        return sendMsg2(cetTrainCourse, cetProjectObj.getUserId(), null);
+    }
+
+    // userId=null, 则给指定的mobile发送，否则给userId对应的手机号发送
+    private boolean sendMsg2(CetTrainCourse cetTrainCourse, Integer userId, String mobile){
+
+        ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_CET_MSG_2);
+        if (tpl == null) return false;
         String startTime = DateUtils.formatDate(cetTrainCourse.getStartTime(), "MM月dd日 HH:mm");
         String address = cetTrainCourse.getAddress();
         int trainId = cetTrainCourse.getTrainId();
@@ -96,9 +104,11 @@ public class CetShortMsgService extends BaseMapper {
         csm.setRecordId(trainId);
         csm.setMsg(msg);
 
-        int userId = cetProjectObj.getUserId();
-        bean.setReceiver(userId);
-        String mobile = userBeanService.getMsgMobile(userId);
+        if(userId!=null){
+            bean.setReceiver(userId);
+            mobile = userBeanService.getMsgMobile(userId);
+        }
+
         bean.setMobile(mobile);
         boolean success = false;
         try {
@@ -107,6 +117,7 @@ public class CetShortMsgService extends BaseMapper {
             logger.error("干部教育培训短信发送失败", ex);
         }
 
+        csm.setMobile(mobile);
         csm.setSendTime(new Date());
         csm.setUserId(userId);
         csm.setSuccess(success);
@@ -198,7 +209,7 @@ public class CetShortMsgService extends BaseMapper {
      * @return
      */
     @Transactional
-    public int sendMsg_1(CetProject cetProject) {
+    public int sendMsg_1(CetProject cetProject, String mobile) {
 
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_CET_MSG_1);
         if (tpl == null) return 0;
@@ -207,6 +218,11 @@ public class CetShortMsgService extends BaseMapper {
         String name = cetProject.getName();
         String startDate = DateUtils.formatDate(cetProject.getStartDate(), DateUtils.YYYY_MM_DD_CHINA);
         String endDate = DateUtils.formatDate(cetProject.getEndDate(), DateUtils.YYYY_MM_DD_CHINA);
+
+        // 开班仪式时间已过或未设定
+        if(cetProject.getOpenTime()==null || cetProject.getOpenTime().before(new Date())){
+            return 0;
+        }
 
         String openTime = DateUtils.formatDate(cetProject.getOpenTime(), "MM月dd日 HH:mm");
         String openAddress = cetProject.getOpenAddress();
@@ -227,35 +243,53 @@ public class CetShortMsgService extends BaseMapper {
         csm.setTplKey(tpl.getCode());
         csm.setRecordId(projectId);
         csm.setMsg(msg);
-
-        List<Integer> userIds = iCetMapper.getCetProjectHasApplyUserIds(projectId);
         int successCount = 0;
-        for (int userId : userIds) {
+        if(StringUtils.isBlank(mobile)) {
+            List<Integer> userIds = iCetMapper.getCetProjectHasApplyUserIds(projectId);
 
-            bean.setReceiver(userId);
-            String mobile = userBeanService.getMsgMobile(userId);
+            for (int userId : userIds) {
+
+                bean.setReceiver(userId);
+                mobile = userBeanService.getMsgMobile(userId);
+                bean.setMobile(mobile);
+                boolean success = false;
+                try {
+                    success = shortMsgService.send(bean, "127.0.0.1");
+                } catch (Exception ex) {
+                    logger.error("干部教育培训短信发送失败", ex);
+                }
+
+                csm.setSendTime(new Date());
+                csm.setUserId(userId);
+                csm.setSuccess(success);
+                csm.setMobile(mobile);
+                cetShortMsgMapper.insertSelective(csm); // 保存日志
+
+                if (success) successCount++;
+            }
+        }else{
+
             bean.setMobile(mobile);
             boolean success = false;
             try {
                 success = shortMsgService.send(bean, "127.0.0.1");
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 logger.error("干部教育培训短信发送失败", ex);
             }
 
             csm.setSendTime(new Date());
-            csm.setUserId(userId);
             csm.setSuccess(success);
+            csm.setMobile(mobile);
             cetShortMsgMapper.insertSelective(csm); // 保存日志
 
-            if(success) successCount++;
+            if (success) successCount++;
         }
-
 
         return successCount;
     }
 
     // 通知1： 培训班开班前一天通知
-    public int projectOpenMsg(Integer projectId) {
+    public int projectOpenMsg(Integer projectId, String mobile) {
 
         // 获取第二天开班的培训班列表
         List<CetProject> cetProjects = new ArrayList<>();
@@ -280,7 +314,7 @@ public class CetShortMsgService extends BaseMapper {
         int successCount = 0;
         for (CetProject cetProject : cetProjects) {
 
-            successCount += sendMsg_1(cetProject);
+            successCount += sendMsg_1(cetProject, mobile);
         }
         return successCount;
     }
@@ -303,6 +337,20 @@ public class CetShortMsgService extends BaseMapper {
             for (CetTraineeCourse cetTraineeCourse : cetTraineeCourses) {
                 if(sendMsg_2(cetTraineeCourse.getTraineeId(), trainCourseId)) successCount++;
             }
+        }
+        return successCount;
+    }
+
+    // （单独发送，发送当天的课）
+    public int todayCourseSingle(Integer trainId, String mobile){
+
+        // 当天还未开课的课程
+        List<CetTrainCourse> todayTrainCourseList = iCetMapper.getTodayTrainCourseList(trainId);
+
+        int successCount = 0;
+        for (CetTrainCourse cetTrainCourse : todayTrainCourseList) {
+
+            sendMsg2(cetTrainCourse, null, mobile);
         }
         return successCount;
     }

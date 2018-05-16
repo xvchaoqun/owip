@@ -10,6 +10,8 @@ public class CetShortMsg implements Serializable {
 
     private Integer userId;
 
+    private String mobile;
+
     private String tplKey;
 
     private Integer contentTplId;
@@ -44,6 +46,14 @@ public class CetShortMsg implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
     }
 
     public String getTplKey() {
