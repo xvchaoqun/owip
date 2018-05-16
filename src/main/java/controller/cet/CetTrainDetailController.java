@@ -151,6 +151,7 @@ public class CetTrainDetailController extends CetBaseController {
             modelMap.put("cetProject", cetProject);
             modelMap.put("content", msg);
         }else  if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_2)) {
+            // 发送前预览一下待发送的课程
             List<CetTrainCourse> todayTrainCourseList = iCetMapper.getTodayTrainCourseList(trainId);
             modelMap.put("todayTrainCourseList", todayTrainCourseList);
         }
