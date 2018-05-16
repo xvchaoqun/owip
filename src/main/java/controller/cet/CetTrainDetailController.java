@@ -6,6 +6,7 @@ import domain.cet.CetProjectPlan;
 import domain.cet.CetShortMsg;
 import domain.cet.CetShortMsgExample;
 import domain.cet.CetTrain;
+import domain.cet.CetTrainCourse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -128,7 +129,7 @@ public class CetTrainDetailController extends CetBaseController {
 
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_detail/msg_send")
-    public String msg_send(String tplKey, Integer projectId, ModelMap modelMap) {
+    public String msg_send(String tplKey, Integer projectId, Integer trainId, ModelMap modelMap) {
 
         Map<String, ContentTpl> contentTplMap = contentTplService.codeKeyMap();
         ContentTpl tpl = contentTplMap.get(tplKey);
@@ -149,7 +150,11 @@ public class CetTrainDetailController extends CetBaseController {
 
             modelMap.put("cetProject", cetProject);
             modelMap.put("content", msg);
+        }else  if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_2)) {
+            List<CetTrainCourse> todayTrainCourseList = iCetMapper.getTodayTrainCourseList(trainId);
+            modelMap.put("todayTrainCourseList", todayTrainCourseList);
         }
+
 
         return "cet/cetTrain/cetTrain_detail/msg_send";
     }

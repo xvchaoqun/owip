@@ -34,7 +34,17 @@ pageEncoding="UTF-8"%>
 <div class="modal-footer">
     <div class="red text-left padding4">注：<ul>
         <li>
+            包含课程：<br/>
+            <c:forEach items="${todayTrainCourseList}" var="tc">
+                《${tc.cetCourse.name}》, ${cm:formatDate(tc.startTime, "yyyy-MM-dd HH:mm")} ~ ${cm:formatDate(tc.endTime, "yyyy-MM-dd HH:mm")}
+                <br/>
+            </c:forEach>
+        </li>
+        <li>
             只会给当天还未开始上课的课程发送短信；
+        </li>
+        <li>
+            只有未签到的学员能收到短信
         </li>
         <li>
             批量短信发送有一定的延迟，请勿重复点击发送。
