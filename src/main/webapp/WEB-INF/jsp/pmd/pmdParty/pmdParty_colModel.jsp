@@ -54,14 +54,14 @@
       return (rowObject.hasReport)?cellvalue:rowObject.r.memberCount;
     }},
     { label: '线上缴纳<br/>党费总数',name: '_onlinePay', width:80, formatter: function (cellvalue, options, rowObject) {
-      return (rowObject.hasReport)?(rowObject.onlineRealPay + rowObject.onlineRealDelayPay)
-              :(rowObject.r.onlineRealPay + rowObject.r.onlineRealDelayPay);
+      return (rowObject.hasReport)?(rowObject.onlineRealPay + rowObject.onlineRealDelayPay).toFixed(2)
+              :(rowObject.r.onlineRealPay + rowObject.r.onlineRealDelayPay).toFixed(2);
     },cellattr:function(rowId, val, rowObject, cm, rdata) {
       return "class='success bolder'";
     }},
     { label: '现金缴纳<br/>党费总数',name: '_cashPay', width:80, formatter: function (cellvalue, options, rowObject) {
-      return (rowObject.hasReport)?(rowObject.cashRealPay + rowObject.cashRealDelayPay)
-              :(rowObject.r.cashRealPay + rowObject.r.cashRealDelayPay);
+      return (rowObject.hasReport)?(rowObject.cashRealPay + rowObject.cashRealDelayPay).toFixed(2)
+              :(rowObject.r.cashRealPay + rowObject.r.cashRealDelayPay).toFixed(2);
     },cellattr:function(rowId, val, rowObject, cm, rdata) {
       return "class='success bolder'";
     }},
