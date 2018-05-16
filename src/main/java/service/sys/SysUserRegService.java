@@ -199,7 +199,7 @@ public class SysUserRegService extends BaseMapper {
         sysUserInfo.setRealname(realname);
         sysUserInfo.setIdcard(idcard);
         sysUserInfo.setMobile(phone);
-        sysUserInfoMapper.insertSelective(sysUserInfo);
+        sysUserService.insertOrUpdateUserInfoSelective(sysUserInfo);
 
         SysUserReg reg = new SysUserReg();
         reg.setUserId(sysUser.getId());
