@@ -77,21 +77,21 @@
         multiselect:false,
         url: '${ctx}/sysLoginLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '登录账号', name: 'username', width: 150,frozen:true },
-            { label: '系统用户', name: 'user.realname', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '登录账号', name: 'username', width: 120,frozen:true },
+            { label: '系统用户', name: 'user.realname', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.user==undefined)
                     return "";
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.user.id, rowObject.user.realname);
             },frozen:true },
-            { label: '登录时间', name: 'loginTime', width: 180},
+            { label: '登录时间', name: 'loginTime', width: 160},
             { label: '登录IP', name: 'loginIp', width: 150},
             { label: '登录地点', name: 'country', width: 120},
             { label: '地区', name: 'area', align:'left', width: 250,formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.country=='局域网') return '校内';
                 return $.trim(cellvalue);
             }},
-            { label: '上次登录时间', name: 'lastLoginTime', width: 180},
+            { label: '上次登录时间', name: 'lastLoginTime', width: 160},
             { label: '上次登录IP', name: 'lastLoginIp', width: 150},
             { label: '上次登录地点', name: 'lastCountry', width: 120},
             { label: '上次登录地区', name: 'lastArea', align:'left', width: 250,formatter: function (cellvalue, options, rowObject) {
@@ -104,7 +104,7 @@
             { label: '结果', name: 'success', formatter: function (cellvalue, options, rowObject) {
                 return cellvalue?"登录成功":"登录失败";
             }},
-            { label: '备注', name: 'remark', width: 250},
+            { label: '备注', name: 'remark', width: 150},
             { label: '客户端', name: 'agent', width: 550}
         ],
         rowattr: function(rowData, currentObj, rowId)

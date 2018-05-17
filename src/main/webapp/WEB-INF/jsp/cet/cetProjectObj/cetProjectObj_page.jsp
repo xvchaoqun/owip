@@ -75,21 +75,21 @@
     </shiro:hasPermission>
     </c:if>
     <c:if test="${cls==2}">
-    <button data-url="${ctx}/cet/cetProjectObj_canQuit?projectId=${cetProject.id}&canQuit=0&trainCourseId=${param.trainCourseId}"
+    <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=1&trainCourseId=${param.trainCourseId}"
             data-title="全部设置为必选"
             data-msg="确定全部设置为必选？"
             data-callback="_callback2"
             class="confirm btn btn-primary btn-sm">
         <i class="fa fa-check-circle"></i> 全部设置为必选
     </button>
-    <button data-url="${ctx}/cet/cetProjectObj_canQuit?projectId=${cetProject.id}&canQuit=1&trainCourseId=${param.trainCourseId}"
+    <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=2&trainCourseId=${param.trainCourseId}"
             data-title="全部设置为可选"
-            data-msg="确定全部设置为可选？"
+            data-msg="确定全部设置为可选？（注：此操作将把所有的已选课学员重置为未选课，即全部退课）"
             data-callback="_callback2"
-            class="confirm btn btn-danger btn-sm">
+            class="confirm btn btn-warning btn-sm">
         <i class="fa fa-times-circle"></i> 全部设置为可选
     </button>
-    <button data-url="${ctx}/cet/cetProjectObj_canQuit?projectId=${cetProject.id}&canQuit=0&trainCourseId=${param.trainCourseId}"
+    <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=1&trainCourseId=${param.trainCourseId}"
             data-title="设置为必选学员"
             data-msg="确定将这{0}个学员设置为必选学员？"
             data-grid-id="#jqGrid2"
@@ -97,13 +97,36 @@
             class="jqBatchBtn btn btn-primary btn-sm">
         <i class="fa fa-check"></i> 设置为必选学员
     </button>
-    <button data-url="${ctx}/cet/cetProjectObj_canQuit?projectId=${cetProject.id}&canQuit=1&trainCourseId=${param.trainCourseId}"
+    <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=2&trainCourseId=${param.trainCourseId}"
+            data-title="设置为必选学员"
+            data-msg="确定将这{0}个学员设置为必选学员？（注：此操作将把已选课学员重置为未选课，即退课）"
+            data-grid-id="#jqGrid2"
+            data-callback="_callback2"
+            class="jqBatchBtn btn btn-warning btn-sm">
+        <i class="fa fa-times"></i> 设置为可选学员
+    </button>
+    <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=3&trainCourseId=${param.trainCourseId}"
+            data-title="选课"
+            data-msg="确定为这{0}个学员选课？"
+            data-grid-id="#jqGrid2"
+            data-callback="_callback2"
+            class="jqBatchBtn btn btn-success btn-sm">
+        <i class="fa fa-check"></i> 选课
+    </button>
+    <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=4&trainCourseId=${param.trainCourseId}"
             data-title="退课"
             data-msg="确定将这{0}个学员退课？"
             data-grid-id="#jqGrid2"
             data-callback="_callback2"
             class="jqBatchBtn btn btn-danger btn-sm">
         <i class="fa fa-times"></i> 退课
+    </button>
+    <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=4&trainCourseId=${param.trainCourseId}"
+            data-title="全部退课"
+            data-msg="确定全部退课？（注：此操作将把所有的已选课学员重置为未选课，即全部退课）"
+            data-callback="_callback2"
+            class="confirm btn btn-danger btn-sm">
+        <i class="fa fa-times-circle"></i> 全部退课
     </button>
         <button id="logBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                 data-grid-id="#jqGrid2"

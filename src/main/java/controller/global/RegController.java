@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.sys.RegException;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
@@ -65,7 +64,7 @@ public class RegController extends BaseController {
 		if(party==null || partyService.findAll().get(party)==null){
 			return failed("请选择分党委。");
 		}
-		try {
+		/*try {
 			sysUserRegService.reg(username, passwd, type, realname,
 					idcard, phone, party, IpUtils.getRealIp(request));
 		}catch (RegException re){
@@ -74,7 +73,9 @@ public class RegController extends BaseController {
 			ex.printStackTrace();
 			logger.error("注册失败：" + ex.getMessage());
 			return failed("系统错误：" + ex.getMessage());
-		}
+		}*/
+		sysUserRegService.reg(username, passwd, type, realname,
+				idcard, phone, party, IpUtils.getRealIp(request));
 
 		logger.info(String.format("%s 注册成功", username));
 

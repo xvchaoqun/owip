@@ -350,7 +350,9 @@ public class CetShortMsgService extends BaseMapper {
         int successCount = 0;
         for (CetTrainCourse cetTrainCourse : todayTrainCourseList) {
 
-            sendMsg2(cetTrainCourse, null, mobile);
+            if(sendMsg2(cetTrainCourse, null, mobile)){
+                successCount++;
+            }
         }
         return successCount;
     }

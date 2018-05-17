@@ -132,7 +132,7 @@ public class CetTraineeCourseService extends BaseMapper {
 
     // 选课/退课
     @Transactional
-    public void applyItem(int userId, int trainCourseId, boolean isApply, boolean isAdmin, String remark) {
+    public void applyItem(int userId, int trainCourseId, boolean isApply, boolean isAdmin, boolean canQuit, String remark) {
 
         CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
         int trainId = cetTrainCourse.getTrainId();
@@ -169,7 +169,7 @@ public class CetTraineeCourseService extends BaseMapper {
             record.setTraineeId(traineeId);
             record.setTrainCourseId(trainCourseId);
             record.setIsFinished(false);
-            record.setCanQuit(!isAdmin);
+            record.setCanQuit(canQuit);
             record.setChooseTime(now);
             record.setChooseUserId(ShiroHelper.getCurrentUserId());
             record.setIp(ip);
@@ -257,7 +257,7 @@ public class CetTraineeCourseService extends BaseMapper {
             }
 
             //退课
-            applyItem(userId, trainCourseId, false, false, "退课");
+            applyItem(userId, trainCourseId, false, false, true, "退课");
         }
 
         sysApprovalLogService.add(traineeId, userId,

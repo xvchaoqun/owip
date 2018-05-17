@@ -291,17 +291,26 @@ public class CetProjectObjController extends CetBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    // 设置为必选学员/退课
+    /**
+     * 设置为必选学员/退课
+     *
+     * @param opType  1：设置为必选 2：设置为可选 3: 选课  4：退课
+     * @param trainCourseId
+     * @param projectId
+     * @param ids
+     * @param request
+     * @return
+     */
     @RequiresPermissions("cetProjectObj:edit")
-    @RequestMapping(value = "/cetProjectObj_canQuit", method = RequestMethod.POST)
+    @RequestMapping(value = "/cetProjectObj_apply", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_canQuit(boolean canQuit, int trainCourseId, int projectId,
+    public Map do_cetProjectObj_apply(byte opType, int trainCourseId, int projectId,
                                         @RequestParam(value = "ids[]", required = false) Integer[] ids,
                                         HttpServletRequest request) {
 
-        cetProjectObjService.canQuit(projectId, ids, canQuit, trainCourseId);
-        logger.info(addLog(LogConstants.LOG_CET, "设置为必选学员/退课： %s, %s, %s",
-                StringUtils.join(ids, ","), canQuit, trainCourseId));
+        cetProjectObjService.apply(projectId, ids, opType, trainCourseId);
+        logger.info(addLog(LogConstants.LOG_CET, "设置为必选学员/选课/退课： %s, %s, %s",
+                StringUtils.join(ids, ","), opType, trainCourseId));
 
         return success(FormUtils.SUCCESS);
     }

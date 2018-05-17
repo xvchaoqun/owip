@@ -76,9 +76,9 @@ public class SysOnlineLogController extends BaseController {
             @Override
             public int compare(LoginUser o1, LoginUser o2) {
                 if(_lastAccessTime)
-                    return _order*(o1.getStartTimestamp().before(o2.getStartTimestamp())?1:-1);
-                else
                     return _order*(o1.getLastAccessTime().before(o2.getLastAccessTime())?1:-1);
+                else
+                    return _order*(o1.getStartTimestamp().before(o2.getStartTimestamp())?1:-1);
             }
         });
 

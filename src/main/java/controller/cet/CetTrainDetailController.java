@@ -174,7 +174,7 @@ public class CetTrainDetailController extends CetBaseController {
         }else  if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_2)) {
 
             if(StringUtils.isNotBlank(mobile)){
-                cetShortMsgService.todayCourseSingle(trainId, mobile);
+                successCount = cetShortMsgService.todayCourseSingle(trainId, mobile);
             }else {
                 successCount = cetShortMsgService.todayCourse(trainId);
             }

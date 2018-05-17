@@ -229,7 +229,7 @@ public class UserCetTrainController extends CetBaseController {
 
         int userId = ShiroHelper.getCurrentUserId();
         isApply = BooleanUtils.isTrue(isApply);
-        cetTraineeCourseService.applyItem(userId, trainCourseId, isApply, false, (isApply ? "选课" : "退课"));
+        cetTraineeCourseService.applyItem(userId, trainCourseId, isApply, false, true, (isApply ? "选课" : "退课"));
 
         logger.info(addLog(LogConstants.LOG_CET, (isApply ? "选课" : "退课") + "：%s", trainCourseId));
 

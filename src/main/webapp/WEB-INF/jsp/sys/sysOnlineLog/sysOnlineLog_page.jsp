@@ -34,8 +34,8 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/sysOnlineLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             /*{ label: '会话ID', name: 'sid', width: 280,frozen:true },*/
-            { label: '账号', name: 'shiroUser.username', width: 150,frozen:true },
-            { label: '姓名', name: 'shiroUser.realname', width: 120, formatter:function(cellvalue, options, rowObject){
+            { label: '账号', name: 'shiroUser.username', width: 120,frozen:true },
+            { label: '姓名', name: 'shiroUser.realname', formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
                         .format(rowObject.shiroUser.id, rowObject.shiroUser.realname);
             },frozen:true },
@@ -46,8 +46,8 @@ pageEncoding="UTF-8" %>
                     return role?role.description:null;
                 });
             }, width: 300},
-            { label: '最新操作时间', name: 'lastAccessTime',sortable:true, width: 200 },
-            { label: '登录时间', name: 'startTimestamp',sortable:true, width: 200 },
+            { label: '最新操作时间', name: 'lastAccessTime',sortable:true, width: 160 },
+            { label: '登录时间', name: 'startTimestamp',sortable:true, width: 160 },
             { label:'登录IP', name: 'ip', width: 150},
             { label: '登录地点', name: 'country', width: 120},
             { label: '地区', name: 'area', align:'left', width: 250,formatter: function (cellvalue, options, rowObject) {

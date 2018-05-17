@@ -197,7 +197,8 @@ public class CetProjectObjService extends BaseMapper {
     }
 
     // 设置为必选学员/退课
-    public void canQuit(int projectId, Integer[] objIds, boolean canQuit, int trainCourseId) {
+    // opType  1：设置为必选 2：设置为可选 3: 选课  4：退课
+    public void apply(int projectId, Integer[] objIds, byte opType, int trainCourseId) {
 
         List<CetProjectObj> cetProjectObjs = null;
         if(objIds==null || objIds.length==0){
@@ -224,47 +225,61 @@ public class CetProjectObjService extends BaseMapper {
             int traineeId = cetTrainee.getId();
 
             CetTraineeCourseView ctc = trainees.get(userId);
-            if(ctc==null){
-                if(canQuit) continue;
-                // 选课
-                cetTraineeCourseService.applyItem(userId, trainCourseId, true, true, "设为必选课程");
+            if(ctc==null){ // 目前还从未选课?
+                if(opType==1) {
+                    cetTraineeCourseService.applyItem(userId, trainCourseId, true, true, false, "设为必选[管理员]");
+                }else if(opType==3){
+                    cetTraineeCourseService.applyItem(userId, trainCourseId, true, true, true, "选课[管理员]");
+                }
             }else {
                 if (ctc.getIsFinished()) {
                     SysUserView uv = sysUserService.findById(userId);
                     throw new OpException("学员{0}已上课签到，无法操作。", uv.getRealname());
                 }
-                // 可选->可选
-                if (ctc.getCanQuit() && canQuit){
-                    if(ctc.getChooseUserId()!=null){ // 已选课
-                        // 退课
-                        cetTraineeCourseService.applyItem(userId, trainCourseId, false, true, "退课");
+
+                if(!ctc.getCanQuit()){ // 目前是必选
+
+                    if(opType==2) { // 必选->设为可选
+
+                        CetTraineeCourse record = new CetTraineeCourse();
+                        record.setId(ctc.getId());
+                        record.setCanQuit(true);
+                        cetTraineeCourseMapper.updateByPrimaryKeySelective(record);
+
+                        sysApprovalLogService.add(traineeId, userId,
+                                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
+                                "改为可选[管理员]", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                                cetTrainCourse.getCetCourse().getName());
+                    }else if(opType==4){ // 必选->退课
+
+                        cetTraineeCourseService.applyItem(userId, trainCourseId, false, true, true, "设为可选[管理员]");
                     }
-                    continue;
-                }
-                // 必选->必选
-                if (!ctc.getCanQuit() && !canQuit) continue;
-                // 可选->必选
-                if(ctc.getCanQuit() && !canQuit){
+                }else{ // 目前是可选
 
-                    // 修改为必选课
-                    CetTraineeCourse record = new CetTraineeCourse();
-                    record.setId(ctc.getId());
-                    record.setCanQuit(false);
-                    record.setChooseTime(new Date());
-                    record.setChooseUserId(ShiroHelper.getCurrentUserId());
-                    cetTraineeCourseMapper.updateByPrimaryKeySelective(record);
+                    if (opType==4){ // 可选->退课
+                        // 什么情况下都要退课？
+                        cetTraineeCourseService.applyItem(userId, trainCourseId, false, true, true, "退课[管理员]");
+                    }else if (opType==3){ // 可选->选课
 
-                    sysApprovalLogService.add(traineeId, userId,
-                            SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
-                            SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
-                            "修改为必选课程", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
-                            cetTrainCourse.getCetCourse().getName());
-                }
-                // 必选->可选
-                if(!ctc.getCanQuit() && canQuit){
+                        if(ctc.getChooseUserId()==null) { // 未选课的情况下才选课
+                            cetTraineeCourseService.applyItem(userId, trainCourseId, true, true, true, "选课[管理员]");
+                        }
+                    } else if(opType==1){  // 可选->设为必选
 
-                    // 退课
-                    cetTraineeCourseService.applyItem(userId, trainCourseId, false, true, "设为可选课程");
+                        CetTraineeCourse record = new CetTraineeCourse();
+                        record.setId(ctc.getId());
+                        record.setCanQuit(false);
+                        record.setChooseTime(new Date());
+                        record.setChooseUserId(ShiroHelper.getCurrentUserId());
+                        cetTraineeCourseMapper.updateByPrimaryKeySelective(record);
+
+                        sysApprovalLogService.add(traineeId, userId,
+                                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                                SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE,
+                                "改为必选[管理员]", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                                cetTrainCourse.getCetCourse().getName());
+                    }
                 }
             }
         }
