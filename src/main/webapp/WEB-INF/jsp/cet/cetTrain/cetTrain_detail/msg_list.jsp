@@ -11,7 +11,6 @@
             <thead>
             <tr>
                 <th>姓名</th>
-                <th>工号</th>
                 <th>手机</th>
                 <th>内容</th>
                 <th>发送时间</th>
@@ -22,8 +21,7 @@
             <c:forEach items="${cetShortMsgs}" var="cetShortMsg" varStatus="st">
                 <c:set var="user" value="${cm:getUserById(cetShortMsg.userId)}"/>
                 <tr>
-                    <td>${user.realname}</td>
-                    <td>${user.code}</td>
+                    <td>${empty user?'-':user.realname}</td>
                     <td>${cetShortMsg.mobile}</td>
                     <td title="${cetShortMsg.msg}">${cm:substr(cetShortMsg.msg, 0, 20, '...')}</td>
                     <td>${cm:formatDate(cetShortMsg.sendTime, "yyyy-MM-dd HH:mm:ss")}</td>
