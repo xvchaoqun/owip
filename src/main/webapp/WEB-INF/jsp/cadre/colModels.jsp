@@ -429,7 +429,7 @@
 
                 return filesArray.join("，");
             }
-        }, {label: '备注', name: 'remark', width: 180}, {hidden: true, name: 'id'}];
+        }, {label: '备注', name: 'remark', width: 180}, {label: '补充说明', name: 'note', width: 180}, {hidden: true, name: 'id'}];
 
     colModels.cadreBook = [
         {label: '出版日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},

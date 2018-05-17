@@ -98,7 +98,9 @@
                         </c:if>
                     </td>
                     <td data-code="remark">备注</td>
-                    <td colspan="3" class="bg-left">${modify.remark}</td>
+                    <td class="bg-left">${modify.remark}</td>
+                    <td data-code="note">补充说明</td>
+                    <td class="bg-left">${modify.note}</td>
                 </tr>
             </table>
         </div>

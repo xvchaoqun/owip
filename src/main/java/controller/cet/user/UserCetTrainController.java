@@ -12,7 +12,6 @@ import domain.cet.CetTraineeView;
 import domain.cet.CetTraineeViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -206,7 +205,7 @@ public class UserCetTrainController extends CetBaseController {
     }
 
     // 报名
-    @RequiresPermissions("userCetTrain:edit")
+    /*@RequiresPermissions("userCetTrain:edit")
     @RequestMapping(value = "/cetTrain_apply", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetTrain_apply(int trainId,
@@ -219,7 +218,7 @@ public class UserCetTrainController extends CetBaseController {
         logger.info(addLog(LogConstants.LOG_CET, "报名：%s", StringUtils.join(trainCourseIds, ",")));
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     // 选课/退课
     @RequiresPermissions("userCetTrain:edit")

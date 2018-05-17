@@ -132,6 +132,21 @@ public class CetConstants {
         CET_TRAIN_ENROLL_STATUS_MAP.put(CET_TRAIN_ENROLL_STATUS_NOT_BEGIN, "未启动选课");
     }
 
+    // 培训课程 选课/退课状态，0：由培训班的选课时间决定  1： 已关闭选课  2： 已关闭退课  3： 已关闭选课和退课
+    public final static byte CET_TRAIN_COURSE_APPLY_STATUS_DEFAULT = 0;
+    public final static byte CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_APPLY = 1;
+    public final static byte CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_QUIT = 2;
+    public final static byte CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL = 3;
+    public static Map<Byte, String> CET_TRAIN_COURSE_APPLY_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+
+        CET_TRAIN_COURSE_APPLY_STATUS_MAP.put(CET_TRAIN_COURSE_APPLY_STATUS_DEFAULT, "根据选课开关而定");
+        CET_TRAIN_COURSE_APPLY_STATUS_MAP.put(CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_APPLY, "单独关闭选课");
+        CET_TRAIN_COURSE_APPLY_STATUS_MAP.put(CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_QUIT, "单独关闭退课");
+        CET_TRAIN_COURSE_APPLY_STATUS_MAP.put(CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL, "关闭选课和退课");
+    }
+
     // 签到类型， 1 手动签到 2 批量导入 3 刷卡签到
     public final static byte CET_TRAINEE_SIGN_TYPE_MANUAL = 1;
     public final static byte CET_TRAINEE_SIGN_TYPE_IMPORT = 2;

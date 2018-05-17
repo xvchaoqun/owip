@@ -129,7 +129,10 @@ public class CetProjectObjController extends CetBaseController {
                                    Integer planCourseId, // 培训方案选课页面时传入
                                    Integer discussGroupId, // 选择小组学员页面时传入（分组研讨）
                                    Integer userId,
-                                   Boolean hasChosen, // 是否选课
+                                   Boolean hasChosen, // 是否选课 （线下、线上、实践）
+                                   Boolean isCurrentGroup, // 是否本组 （分组讨论）
+                                   Boolean isFinish, // 学习情况 （自主学习）
+                                   Boolean hasUploadWrite, // 是否撰写心得体会
                                    @RequestParam(required = false, value = "dpTypes") Long[] dpTypes,
                                    @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
                                    @RequestParam(required = false, value = "postIds") Integer[] postIds,
@@ -155,6 +158,16 @@ public class CetProjectObjController extends CetBaseController {
             applyUserIds = iCetMapper.applyUserIds(trainCourseId);
         }
 
+        List<Integer> groupUserIds = null;
+        if(isCurrentGroup != null && discussGroupId!=null){
+            groupUserIds = iCetMapper.groupUserIds(discussGroupId);
+        }
+
+        List<Integer> finishUserIds = null;
+        if(isFinish != null && planCourseId!=null){
+            finishUserIds = iCetMapper.finishUserIds(planCourseId);
+        }
+
         List records = null;
         int count = 0, total = 0;
         switch (code) {
@@ -177,6 +190,42 @@ public class CetProjectObjController extends CetBaseController {
                         if (applyUserIds != null && applyUserIds.size() > 0) {
                             criteria.andUserIdNotIn(applyUserIds);
                         }
+                    }
+                }
+                if(isCurrentGroup != null && discussGroupId!=null){
+
+                    if (isCurrentGroup) {
+                        if (groupUserIds != null && groupUserIds.size() > 0) {
+                            criteria.andUserIdIn(groupUserIds);
+                        } else {
+                            criteria.andIdIsNull();
+                        }
+                    } else {
+                        if (groupUserIds != null && groupUserIds.size() > 0) {
+                            criteria.andUserIdNotIn(groupUserIds);
+                        }
+                    }
+                }
+                if(isFinish != null && planCourseId!=null){
+
+                    if (isFinish) {
+                        if (finishUserIds != null && finishUserIds.size() > 0) {
+                            criteria.andUserIdIn(finishUserIds);
+                        } else {
+                            criteria.andIdIsNull();
+                        }
+                    } else {
+                        if (finishUserIds != null && finishUserIds.size() > 0) {
+                            criteria.andUserIdNotIn(finishUserIds);
+                        }
+                    }
+                }
+
+                if(hasUploadWrite!=null){
+                    if(hasUploadWrite){
+                        criteria.andPdfWriteIsNotNull();
+                    }else{
+                        criteria.andPdfWriteIsNull();
                     }
                 }
 

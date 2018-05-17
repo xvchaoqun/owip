@@ -327,6 +327,24 @@ public class CetTrainCourseController extends CetBaseController {
         return "cet/cetTrainCourse/cetTrainCourse_info";
     }
 
+    @RequiresPermissions("cetTrainCourse:edit")
+    @RequestMapping(value = "/cetTrainCourse_applyStatus", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetTrainCourse_applyStatus(CetTrainCourse record, HttpServletRequest request) {
+
+        cetTrainCourseService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(LogConstants.LOG_CET, "更新培训班选课/退课状态：%s", record.getId()));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("cetTrainCourse:edit")
+    @RequestMapping("/cetTrainCourse_applyStatus")
+    public String cetTrainCourse_applyStatus(int trainCourseId, ModelMap modelMap) {
+
+        modelMap.put("cetTrainCourse", cetTrainCourseMapper.selectByPrimaryKey(trainCourseId));
+        return "cet/cetTrainCourse/cetTrainCourse_applyStatus";
+    }
+
     // 导出已选课学员
     @RequiresPermissions("cetTrainCourse:edit")
     @RequestMapping("/cetTrainCourse_exportChosenObjs")

@@ -8,14 +8,20 @@
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_info" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetTrainCourse.id}">
-        <div class="form-group" id="_name">
+        <div class="form-group">
+            <label class="col-xs-3 control-label">课程名称</label>
+            <div class="col-xs-6 label-text">
+                ${cetTrainCourse.cetCourse.name}
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-3 control-label">选课人数上限</label>
             <div class="col-xs-6">
                 <input class="form-control number" type="text" name="applyLimit" value="${cetTrainCourse.applyLimit}">
                 * 留空则不设上限
             </div>
         </div>
-        <div class="form-group" id="_startTime">
+        <div class="form-group">
             <label class="col-xs-3 control-label">开始时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
@@ -27,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <div class="form-group" id="_endTime">
+        <div class="form-group">
             <label class="col-xs-3 control-label">结束时间</label>
             <div class="col-xs-6">
                 <div class="input-group">
@@ -40,7 +46,7 @@
             </div>
         </div>
         <c:if test="${cetTrainCourse.cetCourse.type==CET_COURSE_TYPE_OFFLINE}">
-        <div class="form-group" id="_name">
+        <div class="form-group">
             <label class="col-xs-3 control-label">上课地点</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="address" value="${cetTrainCourse.address}">

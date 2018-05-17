@@ -48,6 +48,8 @@ public class CetTrainCourseView implements Serializable {
 
     private Integer applyLimit;
 
+    private Byte applyStatus;
+
     private Date startTime;
 
     private Date endTime;
@@ -114,6 +116,14 @@ public class CetTrainCourseView implements Serializable {
 
     public void setApplyLimit(Integer applyLimit) {
         this.applyLimit = applyLimit;
+    }
+
+    public Byte getApplyStatus() {
+        return applyStatus;
+    }
+
+    public void setApplyStatus(Byte applyStatus) {
+        this.applyStatus = applyStatus;
     }
 
     public Date getStartTime() {

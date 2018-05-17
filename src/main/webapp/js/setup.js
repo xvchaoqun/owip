@@ -62,8 +62,9 @@ $.jgrid.defaults.gridComplete = function () {
 // 防止冻结列时，挡住部分滚动条
 function _adjustFrozenDivHeight($jqGrid){
     setTimeout(function(){
+        //console.log("---------")
         var $frozenBdiv = $jqGrid.closest(".ui-jqgrid").find(".frozen-bdiv");
-        $frozenBdiv.height($frozenBdiv.height()-3);
+        $frozenBdiv.height($frozenBdiv.height()-1);
     }, 400)
 }
 $(window).on('resize.jqGrid0', function () {

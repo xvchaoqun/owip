@@ -21,6 +21,12 @@
            data-id-name="trainCourseId"><i class="fa fa-edit"></i>
             编辑课程信息</button>
 
+        <button class="jqOpenViewBtn btn btn-success btn-sm"
+           data-url="${ctx}/cet/cetTrainCourse_applyStatus"
+           data-grid-id="#jqGrid2"
+           data-id-name="trainCourseId"><i class="fa fa-hourglass-1"></i>
+            选课/退课状态</button>
+
         <button class="jqOpenViewBtn btn btn-warning btn-sm"
            data-url="${ctx}/cet/cetTrainCourse_applyMsg"
            data-grid-id="#jqGrid2"
@@ -79,6 +85,11 @@
                 'data-url="${ctx}/cet/cetProject_detail_obj?cls=2&projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
             }, width: 120, frozen:true},
+            {
+                label: '选课/退课状态', name: 'applyStatus', formatter: function (cellvalue, options, rowObject) {
+                //if(cellvalue==${CET_TRAIN_COURSE_APPLY_STATUS_DEFAULT}) return '-'
+                return _cMap.CET_TRAIN_COURSE_APPLY_STATUS_MAP[cellvalue];
+            }, width: 130, frozen:true},
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
             {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {
                 var finishCount = (rowObject.finishCount==undefined)?0:rowObject.finishCount;
@@ -103,6 +114,10 @@
             }, frozen:true},
             </c:if>
             <c:if test="${cls==1}">
+            {
+                label: '排序', width: 80, align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                formatoptions: {url: "${ctx}/cet/cetTrainCourse_changeOrder", grid:'#jqGrid2'}, frozen:true
+            },
             {label: '课程要点', name: '_summary', width: 80, formatter: function (cellvalue, options, rowObject) {
 
                 if (rowObject.cetCourse.hasSummary==false) return '-'
@@ -110,16 +125,9 @@
                 return ('<button class="popupBtn btn btn-primary btn-xs" data-width="750" ' +
                 'data-url="${ctx}/cet/cetCourse_summary?id={0}&view=1"><i class="fa fa-search"></i> 查看</button>')
                         .format(rowObject.cetCourse.id);
-            }, frozen:true},
-            <c:if test="${cls==1}">
-            {
-                label: '排序', width: 80, align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
-                formatoptions: {url: "${ctx}/cet/cetTrainCourse_changeOrder", grid:'#jqGrid2'}, frozen:true
-            },
+            }},
             </c:if>
-            </c:if>
-
-            {label: '主讲人', name: 'cetCourse.cetExpert.realname', frozen:true},
+            {label: '主讲人', name: 'cetCourse.cetExpert.realname'},
             <c:if test="${cls==1}">
             {label: '所在单位', name: 'cetCourse.cetExpert.unit', width: 300, align: 'left'},
             {label: '职务和职称', name: 'cetCourse.cetExpert.post', width: 120, align: 'left'},

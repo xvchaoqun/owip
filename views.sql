@@ -53,7 +53,7 @@ group by cc.id ;
 
 DROP VIEW IF EXISTS `cet_train_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_train_view` AS
-select ct.*, cp.year, cpo.project_id,
+select ct.*, cp.year, cpp.project_id,
 -- 课程数量
 count(distinct ctc.id) as course_num,
 -- 可选课人数

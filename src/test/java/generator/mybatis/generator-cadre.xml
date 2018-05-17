@@ -31,7 +31,7 @@
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>
 -->
-         <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
+        <!-- <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
@@ -40,7 +40,7 @@
              <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
              <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
 
-         </table>
+         </table>-->
         <!--  <table tableName="cadre_party" domainObjectName="cadre.CadreParty" mapperName="cadre.CadrePartyMapper">
           </table>-->
 
@@ -115,9 +115,9 @@
         <!-- <table tableName="cadre_work" domainObjectName="cadre.CadreWork">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu">
+        <table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
         <!--<table tableName="cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
         </table>
           <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">

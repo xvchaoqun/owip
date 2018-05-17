@@ -53,6 +53,8 @@ public class CadreEdu implements Serializable {
 
     private String remark;
 
+    private String note;
+
     private Integer sortOrder;
 
     private Byte status;
@@ -233,6 +235,14 @@ public class CadreEdu implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note == null ? null : note.trim();
     }
 
     public Integer getSortOrder() {

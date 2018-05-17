@@ -84,10 +84,23 @@
                 label: '退课', name: '_unApply', width: 90, formatter: function (cellvalue, options, rowObject) {
                 //console.log(options)
                 if(rowObject.isFinished || !rowObject.canQuit) return '-'
+
+                if(rowObject.startTime <= $.date(new Date(), "yyyy-MM-dd HH:mm")){
+                    return "-"
+                }
+                <c:if test="${cetTrain.switchStatus != CET_TRAIN_ENROLL_STATUS_OPEN}">
+                return '-'
+                </c:if>
+                <c:if test="${cetTrain.switchStatus == CET_TRAIN_ENROLL_STATUS_OPEN}">
+                if(rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_QUIT}
+                || rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL}){
+                    return '-'
+                }
                 return ('<button class="confirm btn btn-danger btn-xs" ' +
                 'data-url="${ctx}/user/cet/cetTrain_apply_item?isApply=0&trainCourseId={0}" '
                         +'data-msg="确定退课？（{1}）" data-apply="false" data-callback="_applyReload"><i class="fa fa-minus-circle"></i> 退课</button>')
                         .format(rowObject.id, rowObject.cetCourse.name)
+                </c:if>
             }, frozen:true},
             {label: '必修/选修', width: 90, name:'canQuit', formatter: $.jgrid.formatter.TRUEFALSE,
                 formatoptions:{on:'选修', off:'必修'},frozen:true},
@@ -121,10 +134,23 @@
                 if(rowObject.isFinished) return '-'
                 if(rowObject.applyLimit!=undefined &&
                         rowObject.selectedCount>rowObject.applyLimit){ return '报名已满'}
+
+                if(rowObject.startTime <= $.date(new Date(), "yyyy-MM-dd HH:mm")){
+                    return "-"
+                }
+                <c:if test="${cetTrain.switchStatus != CET_TRAIN_ENROLL_STATUS_OPEN}">
+                return '-'
+                </c:if>
+                <c:if test="${cetTrain.switchStatus == CET_TRAIN_ENROLL_STATUS_OPEN}">
+                if(rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_APPLY}
+                        || rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL}){
+                    return '-'
+                }
                 return ('<button class="confirm btn btn-success btn-xs" ' +
                 'data-url="${ctx}/user/cet/cetTrain_apply_item?isApply=1&trainCourseId={0}" '
                 +'data-msg="确定选课？（{1}）" data-apply="true" data-callback="_applyReload"><i class="fa fa-plus-circle"></i> 选课</button>')
                         .format(rowObject.id, rowObject.cetCourse.name)
+                </c:if>
             }, frozen:true},
             {label: '必修/选修', width: 90, name: 'canQuit', formatter: function (cellvalue, options, rowObject) {
                 return "选修"

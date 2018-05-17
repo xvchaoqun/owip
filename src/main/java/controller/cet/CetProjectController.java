@@ -164,7 +164,7 @@ public class CetProjectController extends CetBaseController {
         String savePath = uploadPdf(file, "cet_project");
 
         Map<String, Object> resultMap = success();
-        resultMap.put("fileName", file.getOriginalFilename());
+        resultMap.put("fileName", FileUtils.getFileName(file.getOriginalFilename()));
         resultMap.put("pdfFilePath", savePath);
 
         return resultMap;

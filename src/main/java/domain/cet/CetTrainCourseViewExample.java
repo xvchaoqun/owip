@@ -485,6 +485,66 @@ public class CetTrainCourseViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andApplyStatusIsNull() {
+            addCriterion("apply_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStatusIsNotNull() {
+            addCriterion("apply_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStatusEqualTo(Byte value) {
+            addCriterion("apply_status =", value, "applyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStatusNotEqualTo(Byte value) {
+            addCriterion("apply_status <>", value, "applyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStatusGreaterThan(Byte value) {
+            addCriterion("apply_status >", value, "applyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("apply_status >=", value, "applyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStatusLessThan(Byte value) {
+            addCriterion("apply_status <", value, "applyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("apply_status <=", value, "applyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStatusIn(List<Byte> values) {
+            addCriterion("apply_status in", values, "applyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStatusNotIn(List<Byte> values) {
+            addCriterion("apply_status not in", values, "applyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStatusBetween(Byte value1, Byte value2) {
+            addCriterion("apply_status between", value1, value2, "applyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andApplyStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("apply_status not between", value1, value2, "applyStatus");
+            return (Criteria) this;
+        }
+
         public Criteria andStartTimeIsNull() {
             addCriterion("start_time is null");
             return (Criteria) this;

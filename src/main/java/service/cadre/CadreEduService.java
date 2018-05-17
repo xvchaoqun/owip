@@ -200,7 +200,7 @@ public class CadreEduService extends BaseMapper {
             // 干部信息本人直接修改数据校验
             CadreEduExample example = new CadreEduExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
-            int count = cadreEduMapper.countByExample(example);
+            long count = cadreEduMapper.countByExample(example);
             if(count!=ids.length){
                 throw new IllegalArgumentException("数据异常");
             }

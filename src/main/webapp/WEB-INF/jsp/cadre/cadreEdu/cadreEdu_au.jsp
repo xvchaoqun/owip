@@ -129,13 +129,13 @@
 				<div class="form-group">
 					<label class="col-xs-4 control-label">学位</label>
 					<div class="col-xs-8">
-						<input disabled class="form-control" placeholder="例子：教育学博士、管理学硕士" type="text" name="degree" value="${cadreEdu.degree}">
+						<input disabled class="form-control" placeholder="例如：教育学博士、管理学硕士" type="text" name="degree" value="${cadreEdu.degree}">
 					</div>
 				</div>
 
 					<div class="form-group">
 						<label class="col-xs-4 control-label">是否为最高学位</label>
-						<div class="col-xs-6">
+						<div class="col-xs-8">
 							<label>
 								<input name="isHighDegree" ${cadreEdu.isHighDegree?"checked":""}  type="checkbox" />
 								<span class="lbl"></span>
@@ -144,19 +144,19 @@
 					</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">学位授予国家</label>
-						<div class="col-xs-6">
+						<div class="col-xs-8">
 							<input class="form-control" type="text" name="degreeCountry" value="${cadreEdu.degreeCountry}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-6 control-label">学位授予单位</label>
-						<div class="col-xs-6">
+						<label class="col-xs-4 control-label">学位授予单位</label>
+						<div class="col-xs-8">
 							<input required class="form-control" type="text" name="degreeUnit" value="${cadreEdu.degreeUnit}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-6 control-label">学位授予日期</label>
-						<div class="col-xs-6">
+						<label class="col-xs-4 control-label">学位授予日期</label>
+						<div class="col-xs-8">
 							<div class="input-group">
 								<input  required class="form-control date-picker" name="degreeTime" type="text"
 										data-date-min-view-mode="1"
@@ -166,8 +166,8 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-6 control-label">导师姓名</label>
-						<div class="col-xs-6">
+						<label class="col-xs-4 control-label">导师姓名</label>
+						<div class="col-xs-8">
 							<input class="form-control" type="text" name="tutorName" value="${cadreEdu.tutorName}">
 						</div>
 					</div>
@@ -178,19 +178,26 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-6 control-label">学历学位证书</label>
-						<div class="col-xs-6 file">
+						<label class="col-xs-4 control-label">学历学位证书</label>
+						<div class="col-xs-8 file">
 							<div class="files">
 								<input class="form-control" type="file" name="_files[]"/>
 								<input class="form-control" type="file" name="_files[]" />
 							</div>
-							<span class="help-block">*每张图片大小不能超过${_uploadMaxSize/(2*1024*1024)}M</span>
+							<span class="help-block">*每张图片大小不能超过${cm:stripTrailingZeros(_uploadMaxSize/(2*1024*1024))}M</span>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-6 control-label">备注</label>
-						<div class="col-xs-6">
-							<textarea class="form-control" name="remark" rows="5">${cadreEdu.remark}</textarea>
+						<label class="col-xs-4 control-label">备注</label>
+						<div class="col-xs-8">
+							<textarea class="form-control" name="remark" rows="2" maxlength="100">${cadreEdu.remark}</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-4 control-label">补充说明</label>
+						<div class="col-xs-8">
+							<textarea class="form-control" name="note" rows="2" maxlength="50"
+									  placeholder="例如：硕博连读、美国哈佛大学联合培养一年等">${cadreEdu.note}</textarea>
 						</div>
 					</div>
 				</div></div>

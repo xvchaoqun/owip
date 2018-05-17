@@ -2,7 +2,8 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="space-4"></div>
-<c:set var="_query" value="${not empty param.hasChosen ||not empty param.userId ||not empty param.dpTypes||not empty param.adminLevels
+<c:set var="_query" value="${not empty param.hasChosen ||not empty param.isCurrentGroup
+ ||not empty param.isFinish||not empty param.hasUploadWrite ||not empty param.userId ||not empty param.dpTypes||not empty param.adminLevels
                 ||not empty param.postIds || not empty param.code || not empty param.sort}"/>
 <div class="jqgrid-vertical-offset buttons">
     <div class="type-select">
@@ -67,7 +68,7 @@
     <shiro:hasPermission name="cetProjectObj:del">
         <button data-url="${ctx}/cet/cetProjectObj_batchDel"
                 data-title="删除"
-                data-msg="确定删除这{0}条数据？（相关数据将全部清除，请谨慎操作）"
+                data-msg="确定删除这{0}条数据？<br/>（相关数据将全部清除，请谨慎操作）"
                 data-grid-id="#jqGrid2"
                 class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-trash"></i> 删除
@@ -77,14 +78,14 @@
     <c:if test="${cls==2}">
     <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=1&trainCourseId=${param.trainCourseId}"
             data-title="全部设置为必选"
-            data-msg="确定全部设置为必选？"
+            data-msg="确定全部设置为必选？<br/>（注：已签到的学员除外）"
             data-callback="_callback2"
             class="confirm btn btn-primary btn-sm">
         <i class="fa fa-check-circle"></i> 全部设置为必选
     </button>
     <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=2&trainCourseId=${param.trainCourseId}"
             data-title="全部设置为可选"
-            data-msg="确定全部设置为可选？（注：此操作将把所有的已选课学员重置为未选课，即全部退课）"
+            data-msg="确定全部设置为可选？<br/>（注：此操作将把所有的已选课但未签到的学员重置为未选课，即退课）"
             data-callback="_callback2"
             class="confirm btn btn-warning btn-sm">
         <i class="fa fa-times-circle"></i> 全部设置为可选
@@ -98,8 +99,8 @@
         <i class="fa fa-check"></i> 设置为必选学员
     </button>
     <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=2&trainCourseId=${param.trainCourseId}"
-            data-title="设置为必选学员"
-            data-msg="确定将这{0}个学员设置为必选学员？（注：此操作将把已选课学员重置为未选课，即退课）"
+            data-title="设置为可选学员"
+            data-msg="确定将这{0}个学员设置为可选学员？<br/>（注：此操作将把已选课但未签到的学员重置为未选课，即退课）"
             data-grid-id="#jqGrid2"
             data-callback="_callback2"
             class="jqBatchBtn btn btn-warning btn-sm">
@@ -115,7 +116,7 @@
     </button>
     <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=4&trainCourseId=${param.trainCourseId}"
             data-title="退课"
-            data-msg="确定将这{0}个学员退课？"
+            data-msg="确定将这{0}个学员退课？<br/>（注：已签到的学员除外）"
             data-grid-id="#jqGrid2"
             data-callback="_callback2"
             class="jqBatchBtn btn btn-danger btn-sm">
@@ -123,7 +124,7 @@
     </button>
     <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=4&trainCourseId=${param.trainCourseId}"
             data-title="全部退课"
-            data-msg="确定全部退课？（注：此操作将把所有的已选课学员重置为未选课，即全部退课）"
+            data-msg="确定全部退课？<br/>（注：此操作将把所有的已选课但未签到的学员重置为未选课，即全部退课）"
             data-callback="_callback2"
             class="confirm btn btn-danger btn-sm">
         <i class="fa fa-times-circle"></i> 全部退课
@@ -282,6 +283,45 @@
                     </select>
                     <script>
                         $("#searchForm2 select[name=hasChosen]").val('${param.hasChosen}')
+                    </script>
+                </div>
+                </c:if>
+                <c:if test="${cls==5}">
+                <div class="form-group">
+                    <label>分组状态</label>
+                    <select data-rel="select2" data-width="100" name="isCurrentGroup"  data-placeholder="请选择">
+                        <option></option>
+                        <option value="0">其他组</option>
+                        <option value="1">本组</option>
+                    </select>
+                    <script>
+                        $("#searchForm2 select[name=groupStatus]").val('${param.groupStatus}')
+                    </script>
+                </div>
+                </c:if>
+                <c:if test="${cls==6}">
+                <div class="form-group">
+                    <label>学习情况</label>
+                    <select data-rel="select2" data-width="100" name="isFinish"  data-placeholder="请选择">
+                        <option></option>
+                        <option value="0">正在进行</option>
+                        <option value="1">已完成</option>
+                    </select>
+                    <script>
+                        $("#searchForm2 select[name=isFinish]").val('${param.isFinish}')
+                    </script>
+                </div>
+                </c:if>
+                <c:if test="${cls==4}">
+                <div class="form-group">
+                    <label>心得体会</label>
+                    <select data-rel="select2" data-width="100" name="hasUploadWrite"  data-placeholder="请选择">
+                        <option></option>
+                        <option value="0">未上传</option>
+                        <option value="1">已上传</option>
+                    </select>
+                    <script>
+                        $("#searchForm2 select[name=hasUploadWrite]").val('${param.hasUploadWrite}')
                     </script>
                 </div>
                 </c:if>

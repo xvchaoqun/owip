@@ -1,4 +1,16 @@
 
+2018-5-17
+ALTER TABLE `cet_train_course`
+	ADD COLUMN `apply_status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0'
+	COMMENT '选课/退课状态，0：由培训班的选课时间决定  1： 已关闭选课  2： 已关闭退课  3： 已关闭选课和退课' AFTER `apply_limit`;
+
+更新 cet_train_course_view
+
+更新 cet_train_view
+
+ALTER TABLE `cadre_edu`
+	ADD COLUMN `note` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他说明' AFTER `remark`;
+
 2018-5-16
 ALTER TABLE `cet_short_msg`
 	ADD COLUMN `mobile` VARCHAR(20) NULL DEFAULT NULL COMMENT '接收手机号' AFTER `user_id`;

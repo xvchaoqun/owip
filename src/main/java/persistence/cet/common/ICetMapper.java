@@ -73,6 +73,16 @@ public interface ICetMapper {
     @Select("select user_id from cet_trainee_course_view where train_course_id=#{trainCourseId} order by choose_time asc")
     public List<Integer> applyUserIds(@Param("trainCourseId") Integer trainCourseId);
 
+    // 已分组学员
+    @Select("select cpo.user_id from cet_discuss_group_obj cdgo, cet_project_obj cpo " +
+            "where cdgo.discuss_group_id=#{discussGroupId} and cdgo.obj_id=cpo.id order by cpo.id asc")
+    public List<Integer> groupUserIds(@Param("discussGroupId") Integer discussGroupId);
+
+    // 已完成学员（自主学习、上级网上专题班）
+    @Select("select cpo.user_id from cet_plan_course_obj cpco, cet_project_obj cpo " +
+            "where cpco.plan_course_id=#{planCourseId} and cpco.obj_id=cpo.id order by cpo.id asc")
+    public List<Integer> finishUserIds(@Param("planCourseId") Integer planCourseId);
+
     // 未选课学员
     @Select("select user_id from cet_project_obj cpo " +
             "where not exists(select 1 from cet_trainee_course_view where train_course_id=#{trainCourseId} " +
@@ -148,7 +158,7 @@ public interface ICetMapper {
             " and cpo.user_id=#{userId}")
     public CetProjectObj getCetProjectObj(@Param("userId") int userId, @Param("trainId") int trainId);
 
-    // 获取培训对象在一个培训方案中的已完成学时（针对线下培训和实践教学）
+    // 获取培训对象在一个培训方案中的已完成学时（针对线下培训、线上培训和实践教学）
     @Select("select sum(finish_period) from cet_trainee_view where plan_id=#{planId} and obj_id=#{objId}")
     public BigDecimal getPlanFinishPeriod(@Param("planId") int planId,
                                           @Param("objId") int objId);

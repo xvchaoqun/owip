@@ -20,8 +20,12 @@
             and c.talent_title is not null
         </if>
     </sql>
+
+    <resultMap id="ICadreEduBaseResultMap" extends="persistence.cadre.CadreEduMapper.BaseResultMap"
+               type="persistence.cadre.common.ICadreEdu" >
+    </resultMap>
     <!--1、查找干部的（境外）学习经历 -->
-    <select id="selectCadreEduList" resultMap="persistence.cadre.CadreEduMapper.IBaseResultMap" parameterType="map">
+    <select id="selectCadreEduList" resultMap="ICadreEduBaseResultMap" parameterType="map">
         select ce.* from cadre_edu ce , cadre c where
         <include refid="statCadreSearchSql" />
         and ce.cadre_id=c.id and ce.school_type =#{schoolType}
@@ -31,8 +35,11 @@
         <include refid="statCadreSearchSql" />
         and ce.cadre_id=c.id and ce.school_type =#{schoolType}
     </select>
+
+    <resultMap id="ICadreWorkBaseResultMap" extends="persistence.cadre.CadreWorkMapper.BaseResultMap"
+               type="persistence.cadre.common.ICadreWork" ></resultMap>
     <!--2、查找干部的工作经历 3、查找（机关）干部的（院系）工作经历 4、查找（院系）干部的（机关）工作经历-->
-    <select id="selectCadreWorkList" resultMap="persistence.cadre.CadreWorkMapper.IBaseResultMap" parameterType="map">
+    <select id="selectCadreWorkList" resultMap="ICadreWorkBaseResultMap" parameterType="map">
         select cw.* from cadre_work cw , cadre_view c where <include refid="statCadreSearchSql" />
         and cw.cadre_id=c.id and cw.work_type =#{workType}
     </select>

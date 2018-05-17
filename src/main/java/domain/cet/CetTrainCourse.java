@@ -32,6 +32,9 @@ public class CetTrainCourse implements Serializable {
     private String teacher;
 
     private Integer applyLimit;
+
+    private Byte applyStatus;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date startTime;
 
@@ -94,6 +97,14 @@ public class CetTrainCourse implements Serializable {
 
     public void setApplyLimit(Integer applyLimit) {
         this.applyLimit = applyLimit;
+    }
+
+    public Byte getApplyStatus() {
+        return applyStatus;
+    }
+
+    public void setApplyStatus(Byte applyStatus) {
+        this.applyStatus = applyStatus;
     }
 
     public Date getStartTime() {

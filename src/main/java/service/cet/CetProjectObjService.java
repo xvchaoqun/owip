@@ -1,6 +1,5 @@
 package service.cet;
 
-import controller.global.OpException;
 import domain.cet.CetProject;
 import domain.cet.CetProjectObj;
 import domain.cet.CetProjectObjExample;
@@ -13,7 +12,6 @@ import domain.cet.CetTrainCourse;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseView;
 import domain.cet.CetTraineeView;
-import domain.sys.SysUserView;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.BigDecimalConverter;
@@ -233,8 +231,9 @@ public class CetProjectObjService extends BaseMapper {
                 }
             }else {
                 if (ctc.getIsFinished()) {
-                    SysUserView uv = sysUserService.findById(userId);
-                    throw new OpException("学员{0}已上课签到，无法操作。", uv.getRealname());
+                    //SysUserView uv = sysUserService.findById(userId);
+                    //throw new OpException("学员{0}已上课签到，无法操作。", uv.getRealname());
+                    continue;
                 }
 
                 if(!ctc.getCanQuit()){ // 目前是必选
