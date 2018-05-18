@@ -84,14 +84,14 @@
                 return ('<button class="openView btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/cet/cetProject_detail_obj?cls=2&projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
-            }, width: 120, frozen:true},
+            }, width: 130, frozen:true},
             {
                 label: '选课/退课状态', name: 'applyStatus', formatter: function (cellvalue, options, rowObject) {
                 //if(cellvalue==${CET_TRAIN_COURSE_APPLY_STATUS_DEFAULT}) return '-'
                 return _cMap.CET_TRAIN_COURSE_APPLY_STATUS_MAP[cellvalue];
             }, width: 130, frozen:true},
             <c:if test="${cetProjectPlan.type==CET_PROJECT_PLAN_TYPE_OFFLINE}">
-            {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {
+            {label: '签到情况', name: '_sign', width: 130, frozen:true, formatter: function (cellvalue, options, rowObject) {
                 var finishCount = (rowObject.finishCount==undefined)?0:rowObject.finishCount;
                 var selectedCount = (rowObject.selectedCount==undefined)?0:rowObject.selectedCount;
                 return ('<button class="popupBtn btn btn-success btn-xs" data-width="1000" ' +
@@ -177,13 +177,13 @@
                 return ('<button class="openView btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/cet/cetProject_detail_obj?cls=2&projectId={0}&trainCourseId={1}">已选课({2}/{3})</button>')
                         .format(projectId, rowObject.id, cellvalue, objCount);
-            }, width: 120, frozen:true},
+            }, width: 130, frozen:true},
             {
                 label: '选课/退课状态', name: 'applyStatus', formatter: function (cellvalue, options, rowObject) {
                 //if(cellvalue==${CET_TRAIN_COURSE_APPLY_STATUS_DEFAULT}) return '-'
                 return _cMap.CET_TRAIN_COURSE_APPLY_STATUS_MAP[cellvalue];
             }, width: 130, frozen:true},
-            {label: '签到情况', name: '_sign', frozen:true, formatter: function (cellvalue, options, rowObject) {
+            {label: '签到情况', name: '_sign', width: 130, frozen:true, formatter: function (cellvalue, options, rowObject) {
                 var finishCount = (rowObject.finishCount==undefined)?0:rowObject.finishCount;
                 var selectedCount = (rowObject.selectedCount==undefined)?0:rowObject.selectedCount;
                 return ('<button class="popupBtn btn btn-success btn-xs" data-width="1000" ' +
