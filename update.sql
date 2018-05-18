@@ -5,7 +5,7 @@
 ALTER TABLE `cadre_work`
 	CHANGE COLUMN `unit` `detail` VARCHAR(100) NULL DEFAULT NULL COMMENT '工作单位及担任职务（或专技职务）' AFTER `end_time`;
 
-update cadre_work set post=null where post = '无' or post='（无职务）' or post='(无职务)';
+update cadre_work set post='' where post = '无' or post='（无职务）' or post='(无职务)';
 update cadre_work set detail = concat(detail, post);
 ALTER TABLE `cadre_work` DROP COLUMN `post`;
 
