@@ -23,7 +23,7 @@ public class CadreInfoController extends BaseController {
     @RequiresPermissions("cadreInfo:edit")
     @RequestMapping(value = "/cadreInfo_updateContent", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreInfo_updateWork(int cadreId, String content, byte type, HttpServletRequest request) {
+    public Map do_cadreInfo_updateContent(int cadreId, String content, byte type, HttpServletRequest request) {
 
         cadreInfoService.insertOrUpdate(cadreId, content, type);
         logger.info(addLog(LogConstants.LOG_ADMIN, "添加/更新干部信息采集：%s, %s, %s", cadreId, content,

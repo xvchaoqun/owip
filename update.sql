@@ -1,4 +1,18 @@
 
+2018-5-18
+先备份 cadre_work
+
+ALTER TABLE `cadre_work`
+	CHANGE COLUMN `unit` `detail` VARCHAR(100) NULL DEFAULT NULL COMMENT '工作单位及担任职务（或专技职务）' AFTER `end_time`;
+
+update cadre_work set post=null where post = '无' or post='（无职务）' or post='(无职务)';
+update cadre_work set detail = concat(detail, post);
+ALTER TABLE `cadre_work` DROP COLUMN `post`;
+
+ALTER TABLE `cadre_work`
+	DROP COLUMN `type_id`,
+	DROP FOREIGN KEY `FK_base_cadre_work_base_meta_type`;
+
 2018-5-17
 ALTER TABLE `cet_train_course`
 	ADD COLUMN `apply_status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0'

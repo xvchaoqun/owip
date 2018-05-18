@@ -40,29 +40,11 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">工作单位</label>
+				<label class="col-xs-4 control-label">工作单位及担任职务（或专技职务）</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="unit" value="${cadreWork.unit}">
+                    <input required class="form-control" type="text" name="detail" value="${cadreWork.detail}">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-4 control-label">行政职务或者专技职务</label>
-				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="post" value="${cadreWork.post}">
-				</div>
-			</div>
-			<%--<div class="form-group">
-				<label class="col-xs-4 control-label">行政级别</label>
-				<div class="col-xs-6">
-                    <select data-rel="select2" name="typeId" data-placeholder="请选择">
-                        <option></option>
-                        <c:import url="/metaTypes?__code=mc_admin_level"/>
-                    </select>
-                    <script type="text/javascript">
-                        $("#modal form select[name=typeId]").val(${cadreWork.typeId});
-                    </script>
-				</div>
-			</div>--%>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">工作类型</label>
 				<div class="col-xs-6">

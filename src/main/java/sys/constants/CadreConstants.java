@@ -138,21 +138,20 @@ public class CadreConstants {
         CADRE_INSPECT_STATUS_MAP.put(CADRE_INSPECT_STATUS_ABOLISH, "已撤销资格");
     }
 
-    // 干部干部信息采集表 类型，1 工作经历 2 兼职情况
+    // 干部干部信息采集表 类型
     public final static byte CADRE_INFO_TYPE_WORK = 1;
     public final static byte CADRE_INFO_TYPE_PARTTIME = 2;
     public final static byte CADRE_INFO_TYPE_TRAIN = 3;
     public final static byte CADRE_INFO_TYPE_TEACH = 4;
-    public final static byte CADRE_INFO_TYPE_REWARD_OTHER = 6;
-
     public final static byte CADRE_INFO_TYPE_RESEARCH = 5;
+    public final static byte CADRE_INFO_TYPE_REWARD_OTHER = 6;
     public final static byte CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY = 7;
     public final static byte CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY = 8;
     public final static byte CADRE_INFO_TYPE_BOOK_SUMMARY = 9;
+    public final static byte CADRE_INFO_TYPE_EDU = 10;
     public final static byte CADRE_INFO_TYPE_PAPER_SUMMARY = 11;
     public final static byte CADRE_INFO_TYPE_RESEARCH_REWARD = 12;
-
-    public final static byte CADRE_INFO_TYPE_EDU = 10;
+    public final static byte CADRE_INFO_TYPE_RM_WORK = 13;
 
     public final static Map<Byte, String> CADRE_INFO_TYPE_MAP = new LinkedHashMap<>();
 
@@ -172,6 +171,7 @@ public class CadreConstants {
         CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH, "科研情况");
 
         CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_EDU, "学习经历");
+        CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RM_WORK, "干部任免审批表简历");
     }
 
     // 干部企业兼职情况  兼职类型 企业兼职or社团兼职or其他

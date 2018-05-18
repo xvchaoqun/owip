@@ -440,8 +440,7 @@
         colModel: [
             {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-            {label: '任职单位', name: 'unit', width: 280, align:'left'},
-            {label: '担任职务', name: 'post', width: 280},
+            {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align:'left'},
             {label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType, width: 200},
             {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 200},
             {

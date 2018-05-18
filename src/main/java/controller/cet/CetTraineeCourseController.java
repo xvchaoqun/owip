@@ -160,16 +160,13 @@ public class CetTraineeCourseController extends CetBaseController {
     @RequiresPermissions("cetTraineeCourse:sign")
     @RequestMapping(value = "/cetTraineeCourse_sign", method = RequestMethod.POST)
     @ResponseBody
-    public Map cetTraineeCourse_sign(@RequestParam(value = "ids[]") Integer[] ids,
+    public Map cetTraineeCourse_sign(Integer trainCourseId, @RequestParam(value = "ids[]", required = false) Integer[] ids,
                                      Boolean sign) {
 
-        if (null != ids && ids.length>0){
-
-            cetTraineeCourseService.sign(ids, BooleanUtils.isTrue(sign), CetConstants.CET_TRAINEE_SIGN_TYPE_MANUAL);
-            logger.info(addLog(LogConstants.LOG_CET,
-                    (BooleanUtils.isTrue(sign)?"签到":"还原") + "：%s",
-                    StringUtils.join(ids, ",")));
-        }
+        cetTraineeCourseService.sign(trainCourseId, ids, BooleanUtils.isTrue(sign), CetConstants.CET_TRAINEE_SIGN_TYPE_MANUAL);
+        logger.info(addLog(LogConstants.LOG_CET,
+                (BooleanUtils.isTrue(sign)?"签到":"还原") + "：%s",
+                StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }
@@ -185,9 +182,10 @@ public class CetTraineeCourseController extends CetBaseController {
         XSSFSheet sheet = workbook.getSheetAt(0);
         List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
 
-        int successCount = cetTraineeCourseService.signImport(trainCourseId, xlsRows);
+        Map<String, Object> retMap = cetTraineeCourseService.signImport(trainCourseId, xlsRows);
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        resultMap.put("successCount", successCount);
+        resultMap.put("successCount", retMap.get("success"));
+        resultMap.put("failedXlsRows", retMap.get("failedXlsRows"));
         resultMap.put("total", xlsRows.size());
 
         return resultMap;

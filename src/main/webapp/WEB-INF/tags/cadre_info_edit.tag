@@ -7,14 +7,18 @@
 <%@ attribute name="notExist" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="toEdit" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="updateName" type="java.lang.String" required="false"%>
+<c:if test="${cm:isPermitted('cadre:adminSelf') || cm:isPermitted('cadre:admin')}">
 <c:if test="${notExist}">
   <c:if test="${toEdit}">
     <a href="javascript:;" class="cadre-info-check-edit" data-url="${editUrl}">编辑</a>
   </c:if>
   <c:if test="${!toEdit && not empty applyUrl}">
+    <c:if test="${cm:isPermitted('modifyTableApply:list')}">
     <a href="javascript:;" class="hashchange" data-url="${applyUrl}">编辑</a>
+    </c:if>
   </c:if>
   <c:if test="${not empty updateName}">
   <input type="checkbox" ${cm:canUpdate(param.cadreId, updateName)?'':'checked'} data-name="${updateName}" name="check" class="cadre-info-check"> 无此类情况
   </c:if>
+</c:if>
 </c:if>

@@ -15,9 +15,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">任职单位</label>
+                <label class="col-xs-4 control-label">工作单位及担任职务（或专技职务）</label>
                 <div class="col-xs-6 label-text">
-                    ${cadreWork.unit}
+                    ${cadreWork.detail}
                 </div>
             </div>
 			<div class="form-group">

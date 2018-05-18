@@ -3,21 +3,35 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3 style="margin: 0">签到页面-${cetTrainCourse.cetCourse.name}</h3>
+    <h3 style="margin: 0">签到页面-${cetTrainCourse.cetCourse.name}
+        (<a href="${ctx}/attach?code=sample_cet_sign_import" target="_blank">下载导入样表.xlsx</a>)
+    </h3>
 </div>
 <div class="modal-body popup-jqgrid" style="padding-top: 0">
     <form class="form-inline search-form" id="popup_searchForm" style="padding-bottom: 0;float: left">
         <input type="hidden" name="trainCourseId" value="${cetTrainCourse.id}">
         <input type="hidden" name="projectId" value="${param.projectId}">
         <div class="form-group">
-            <label>姓名</label>
-            <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cet/cetProjectObj_selects?projectId=${param.projectId}"
+            <select required data-rel="select2-ajax" data-width="230"
+                    data-ajax-url="${ctx}/cet/cetProjectObj_selects?projectId=${param.projectId}"
                     name="userId" data-placeholder="请输入账号或姓名或教工号">
                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
             </select>
         </div>
         <div class="form-group">
-            <c:set var="_query" value="${not empty param.userId}"/>
+            <select data-rel="select2" data-width="150"
+                    name="isFinished" data-placeholder="请选择是否已签到">
+                <option></option>
+                <option value="0">未签到</option>
+                <option value="1">已签到</option>
+            </select>
+            <script>
+                $("#popup_searchForm select[name=isFinished]").val('${param.isFinished}')
+                $('#popup_searchForm [data-rel="select2"]').select2();
+            </script>
+        </div>
+        <div class="form-group">
+            <c:set var="_query" value="${not empty param.userId||not empty param.isFinished}"/>
             <button type="button" data-url="${ctx}/cet/cetTrainCourse_trainee"
                     data-target="#modal .modal-content" data-form="#popup_searchForm"
                     class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找
@@ -32,7 +46,7 @@
                 </button>
             </c:if>
 
-            <button type="button" id="signBtn" data-url="${ctx}/cet/cetTraineeCourse_sign"
+            <%--<button type="button" id="signBtn" data-url="${ctx}/cet/cetTraineeCourse_sign"
                     data-title="签到"
                     data-msg="已选{0}位参训人员，确定签到？（已上课）"
                     data-grid-id="#jqGrid_popup"
@@ -47,32 +61,105 @@
                     data-grid-id="#jqGrid_popup"
                     data-querystr="sign=0"
                     data-callback="_popupReload"
-                    class="jqBatchBtn btn btn-danger btn-sm">
+                    class="jqBatchBtn btn btn-warning btn-sm">
                 <i class="fa fa-times-circle-o"></i> 还原
-            </button>
+            </button>--%>
+            <div class="btn-group">
+                <button id="opBtn" data-toggle="dropdown" class="btn btn-danger btn-sm dropdown-toggle">
+                    <i class="fa fa-cog"></i> 签到操作
+                    <span class="ace-icon fa fa-caret-down icon-on-right"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-warning">
+                    <li>
+                        <a href="javascript:;" id="signBtn" data-url="${ctx}/cet/cetTraineeCourse_sign"
+                           data-title="签到"
+                           data-msg="已选{0}位参训人员，确定签到？（已上课）"
+                           data-grid-id="#jqGrid_popup"
+                           data-querystr="sign=1"
+                           data-callback="_popupReload"
+                           class="jqBatchBtn"><i class="fa fa-arrow-right"></i> 批量签到</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" id="unSignBtn" data-url="${ctx}/cet/cetTraineeCourse_sign"
+                           data-title="还原"
+                           data-msg="已选{0}位参训人员，确定还原？（上课情况将重置为未上课）"
+                           data-grid-id="#jqGrid_popup"
+                           data-querystr="sign=0"
+                           data-callback="_popupReload"
+                           class="jqBatchBtn"><i class="fa fa-arrow-right"></i> 批量还原（未签到）</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="javascript:;" class="confirm"
+                           data-url="${ctx}/cet/cetTraineeCourse_sign?trainCourseId=${param.trainCourseId}&sign=1"
+                           data-callback="_popupReload"
+                           data-title="全部签到"
+                           data-msg="确定全部签到？"><i class="fa fa-arrow-right"></i> 全部签到</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" class="confirm"
+                           data-url="${ctx}/cet/cetTraineeCourse_sign?trainCourseId=${param.trainCourseId}&sign=0"
+                           data-callback="_popupReload"
+                           data-title="全部还原"
+                           data-msg="确定全部还原？（上课情况将全部重置为未上课）"><i class="fa fa-arrow-right"></i> 全部还原（未签到）</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </form>
     <form class="form-inline search-form" id="popup_uploadForm"
           action="${ctx}/cet/cetTraineeCourse_sign_import" method="post" style="padding-bottom: 0;">
         <input type="hidden" name="trainCourseId" value="${cetTrainCourse.id}">
-        <div class="form-group" style="width: 200px;margin-left: 40px;">
-            <div style="margin: 5px;">
+        <div class="form-group" style="width: 200px;margin: 0 10px;">
             <input class="form-control" type="file" name="xlsx" extension="xlsx"/>
-            </div>
         </div>
         <div class="form-group">
         <button id="importBtn" type="button" class="btn btn-primary btn-sm">
             <i class="fa fa-upload"></i> 导入
         </button>
-            (<a href="${ctx}/attach?code=sample_cet_sign_import" target="_blank">导入样表.xlsx</a>)
-        </div>
+            </div>
     </form>
     <table id="jqGrid_popup" class="table-striped"></table>
     <div id="jqGridPager_popup"></div>
 </div>
+<style>
+    #popup_uploadForm label{
+        margin-bottom: 0;
+    }
+</style>
+<script type="text/template" id="failed_tpl">
+    {{if(failedXlsRows.length>=1){}}
+    <div style="color: red;max-height: 150px; overflow-y: auto; font-size: 14px; text-indent: 0px;">
+        <table class="table table-bordered table-condensed table-unhover2 table-center">
+            <thead>
+            <tr>
+                <th colspan="2" style="text-align: center">
+                    {{=failedXlsRows.length}}条失败记录
+                </th>
+            </tr>
+            <tr>
+                <th style="width: 180px;">工号</th>
+                <th>姓名</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{_.each(failedXlsRows, function(r, idx){ }}
+            <tr>
+                <td>{{=r[0]}}</td>
+                <td>{{=r[1]}}</td>
+            </tr>
+            {{});}}
+            </tbody>
+        </table>
+    </div>
+    {{}}}
+</script>
 <jsp:include page="../cetTrainee/cetTrainee_colModel.jsp?type=sign"/>
+
 <script>
     function _popupReload(){
+        $("#opBtn").closest(".btn-group").removeClass("open");
+
         $("#jqGrid_popup").trigger("reloadGrid");
         $("#jqGrid2").trigger("reloadGrid");
     }
@@ -104,8 +191,13 @@
             var rowData = $(grid).getRowData(ids[0]);
             var isFinished = (rowData.isFinished == "true");
 
-            $("#signBtn").prop("disabled", isFinished);
-            $("#unSignBtn").prop("disabled", !isFinished);
+            if(isFinished){
+                $("#signBtn").addClass("disabled");
+                $("#unSignBtn").removeClass("disabled");
+            }else{
+                $("#signBtn").removeClass("disabled");
+                $("#unSignBtn").addClass("disabled");
+            }
         }
     }
 
@@ -133,8 +225,15 @@
 
                         if(ret && ret.successCount>=0){
                             var result = '导入完成，总共{0}条签到记录，其中成功导入{1}条签到记录';
+
+                            //console.log($("#failed_tpl").html())
+                            var failed =  _.template($("#failed_tpl").html().NoMultiSpace())({
+                                failedXlsRows: ret.failedXlsRows
+                            });
+
+
                             _popupReload();
-                            SysMsg.success(result.format(ret.total, ret.successCount), '成功');
+                            SysMsg.success(result.format(ret.total, ret.successCount) + failed, '成功');
                             $('#popup_uploadForm input[type=file]').ace_file_input('reset_input');
                         }
                     }

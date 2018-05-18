@@ -151,6 +151,7 @@
 <c:set value="<%=CadreConstants.CADRE_INFO_TYPE_RESEARCH_REWARD%>" var="CADRE_INFO_TYPE_RESEARCH_REWARD"/>
 
 <c:set value="<%=CadreConstants.CADRE_INFO_TYPE_EDU%>" var="CADRE_INFO_TYPE_EDU"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_RM_WORK%>" var="CADRE_INFO_TYPE_RM_WORK"/>
 <c:set value="<%=CadreConstants.CADRE_INFO_TYPE_MAP%>" var="CADRE_INFO_TYPE_MAP"/>
 
 <c:set value="<%=CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST%>" var="CADRE_INFO_CHECK_RESULT_NOT_EXIST"/>

@@ -1,21 +1,27 @@
 package service.cadre;
 
+import bean.CadreResume;
 import controller.global.OpException;
+import domain.base.MetaType;
+import domain.cadre.CadreEdu;
 import domain.cadre.CadreView;
 import domain.cadre.CadreWork;
 import domain.cadre.CadreWorkExample;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.base.MetaTypeService;
 import service.dispatch.DispatchCadreRelateService;
 import shiro.ShiroHelper;
 import sys.constants.DispatchConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
+import sys.utils.DateUtils;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
@@ -23,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CadreWorkService extends BaseMapper {
@@ -31,6 +38,132 @@ public class CadreWorkService extends BaseMapper {
     private DispatchCadreRelateService dispatchCadreRelateService;
     @Autowired
     private CadreService cadreService;
+    @Autowired
+    private CadreEduService cadreEduService;
+    @Autowired
+    private MetaTypeService metaTypeService;
+
+    // 干部任免审批表简历预览
+    public List<CadreResume> resume(Integer cadreId) {
+
+        List<CadreResume> resumes = new ArrayList<>();
+
+        List<CadreWork> cadreWorks = list(cadreId);
+        for (CadreWork cadreWork : cadreWorks) {
+
+            CadreResume resume = new CadreResume();
+            resume.setIsWork(true);
+            resume.setStartDate(cadreWork.getStartTime());
+            resume.setEndDate(cadreWork.getEndTime());
+            resume.setDetail(cadreWork.getDetail());
+
+            List<CadreWork> subCadreWorks = cadreWork.getSubCadreWorks();
+            if (subCadreWorks != null) {
+                List<CadreResume> subResumes = new ArrayList<>();
+                for (CadreWork subCadreWork : subCadreWorks) {
+
+                    CadreResume subResume = new CadreResume();
+                    subResume.setIsWork(true);
+                    subResume.setStartDate(subCadreWork.getStartTime());
+                    subResume.setEndDate(subCadreWork.getEndTime());
+                    subResume.setDetail(subCadreWork.getDetail());
+
+                    subResumes.add(subResume);
+                }
+                resume.setResumes(subResumes);
+            }
+
+            resumes.add(resume);
+        }
+
+        List<CadreEdu> cadreEdus = cadreEduService.list(cadreId);
+        if (cadreEdus.size() > 0) {
+            Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
+            MetaType fullltimeType = metaTypeMap.get("mt_fullltime");
+            MetaType onjobType = metaTypeMap.get("mt_onjob");
+
+            for (CadreEdu cadreEdu : cadreEdus) {
+
+                CadreResume eduResume = new CadreResume();
+                eduResume.setIsWork(false);
+                eduResume.setStartDate(cadreEdu.getEnrolTime());
+                eduResume.setEndDate(cadreEdu.getFinishTime());
+                String detail = String.format("%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                        StringUtils.trimToEmpty(cadreEdu.getDep()),
+                        StringUtils.trimToEmpty(cadreEdu.getMajor()) + (StringUtils.isNotEmpty(cadreEdu.getMajor())?"专业":""),
+                        (StringUtils.isNotEmpty(cadreEdu.getDegree())?"，":"")+
+                        StringUtils.trimToEmpty(cadreEdu.getDegree()));
+                eduResume.setDetail(detail);
+
+                Integer learnStyle = cadreEdu.getLearnStyle();
+                String enrolTime = DateUtils.formatDate(cadreEdu.getEnrolTime(), "yyyy.MM");
+                String finishTime = DateUtils.formatDate(cadreEdu.getFinishTime(), "yyyy.MM");
+                if (learnStyle.intValue() == fullltimeType.getId()) {
+                    // 全日制学习经历： 根据开始时间将学习经历插入到工作经历之中。
+                    int insertPos = 0;
+                    for (int i = 0; i < resumes.size(); i++) {
+
+                        CadreResume resume = resumes.get(i);
+                        if(resume.isWork()) {
+                            String startDate = DateUtils.formatDate(resume.getStartDate(), "yyyy.MM");
+                            if (enrolTime.compareTo(startDate) <= 0) {
+                                insertPos = i;
+                                break;
+                            }
+                        }
+                    }
+
+                    resumes.add(insertPos, eduResume);
+
+                } else if (learnStyle.intValue() == onjobType.getId()) {
+
+
+                    // 非全日制学习经历： 根据开始时间和结束时间将学习经历插入到某条工作经历的其间之内。
+                    // 第一步： 看结束时间，某条学习经历的结束时间在哪条工作经历之内， 那么这条学习经历就要在这条工作经历的其间。
+                    CadreResume insertResume = null;
+                    for (int i = 0; i < resumes.size(); i++) {
+
+                        CadreResume resume = resumes.get(i);
+                        if(resume.isWork()) {
+                            String startDate = DateUtils.formatDate(resume.getStartDate(), "yyyy.MM");
+                            String endDate = DateUtils.formatDate(resume.getEndDate(), "yyyy.MM");
+
+                            if(finishTime==null && endDate==null){
+                                insertResume = resume;
+                                break;
+                            }else if(finishTime!=null){
+                                if(finishTime.compareTo(startDate)>=0 && (endDate==null || finishTime.compareTo(endDate)<=0)){
+                                    insertResume = resume;
+                                    break;
+                                }
+                            }
+                            insertResume = resume;
+                        }
+                    }
+                    if(insertResume == null){
+                        resumes.add(eduResume);
+                    }else{
+                        List<CadreResume> subResumes = insertResume.getResumes();
+                        if(subResumes==null) subResumes = new ArrayList<>();
+
+                        int insertPos = 0;
+                        for (int i = 0; i < subResumes.size(); i++) {
+                            CadreResume resume = subResumes.get(i);
+                            String startDate = DateUtils.formatDate(resume.getStartDate(), "yyyy.MM");
+                            if (enrolTime.compareTo(startDate) >= 0) {
+                                break;
+                            }
+                            insertPos = i;
+                        }
+
+                        subResumes.add(insertPos, eduResume);
+                    }
+                }
+            }
+        }
+
+        return resumes;
+    }
 
     // 获取树状列表
     public List<CadreWork> list(int cadreId) {
@@ -63,7 +196,7 @@ public class CadreWorkService extends BaseMapper {
             CadreWorkExample example = new CadreWorkExample();
             example.createCriteria().andFidEqualTo(fid)
                     .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-            int subWorkCount = cadreWorkMapper.countByExample(example);
+            int subWorkCount = (int) cadreWorkMapper.countByExample(example);
             CadreWork _mainWork = new CadreWork();
             _mainWork.setId(fid);
             _mainWork.setSubWorkCount(subWorkCount);
@@ -87,10 +220,10 @@ public class CadreWorkService extends BaseMapper {
 
         CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
         Integer fid = cadreWork.getFid();
-        if(fid==null){
+        if (fid == null) {
             throw new OpException("非期间工作经历，不允许转移。");
         }
-        commonMapper.excuteSql("update cadre_work set fid=null where id="+id);
+        commonMapper.excuteSql("update cadre_work set fid=null where id=" + id);
 
         updateSubWorkCount(fid);
     }
@@ -103,7 +236,7 @@ public class CadreWorkService extends BaseMapper {
             // 干部信息本人直接修改数据校验
             CadreWorkExample example = new CadreWorkExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
-            int count = cadreWorkMapper.countByExample(example);
+            long count = cadreWorkMapper.countByExample(example);
             if (count != ids.length) {
                 throw new OpException("数据有误，请稍后再试。");
             }
@@ -301,5 +434,4 @@ public class CadreWorkService extends BaseMapper {
 
         return record;
     }
-
 }

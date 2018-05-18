@@ -26,8 +26,10 @@ import sys.constants.CetConstants;
 import sys.constants.SystemConstants;
 import sys.utils.ContextHelper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -295,11 +297,24 @@ public class CetTraineeCourseService extends BaseMapper {
 
     // 签到/还原
     @Transactional
-    public void sign(Integer[] traineeCourseIds, boolean sign, byte signType) {
+    public void sign(Integer trainCourseId, Integer[] traineeCourseIds, boolean sign, byte signType) {
 
-        for (Integer traineeCourseId : traineeCourseIds) {
+        List<CetTraineeCourse> cetTraineeCourses = null;
+        if(traineeCourseIds==null || traineeCourseIds.length==0){ // 全部签到/全部还原
+            CetTraineeCourseExample example = new CetTraineeCourseExample();
+            example.createCriteria().andTrainCourseIdEqualTo(trainCourseId);
+            cetTraineeCourses = cetTraineeCourseMapper.selectByExample(example);
+        }else{
+            CetTraineeCourseExample example = new CetTraineeCourseExample();
+            example.createCriteria().andIdIn(Arrays.asList(traineeCourseIds));
+            cetTraineeCourses = cetTraineeCourseMapper.selectByExample(example);
+        }
 
-            CetTraineeCourse cetTraineeCourse = cetTraineeCourseMapper.selectByPrimaryKey(traineeCourseId);
+        if(cetTraineeCourses==null || cetTraineeCourses.size()==0) return;
+
+        for (CetTraineeCourse cetTraineeCourse : cetTraineeCourses) {
+
+            Integer traineeCourseId = cetTraineeCourse.getId();
             int traineeId = cetTraineeCourse.getTraineeId();
             CetTrainee cetTrainee = cetTraineeMapper.selectByPrimaryKey(traineeId);
             CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(cetTrainee.getObjId());
@@ -329,22 +344,29 @@ public class CetTraineeCourseService extends BaseMapper {
 
     // 批量签到
     @Transactional
-    public int signImport(int trainCourseId, List<Map<Integer, String>> xlsRows) {
+    public Map<String, Object> signImport(int trainCourseId, List<Map<Integer, String>> xlsRows) {
 
         CetTrainCourse cetTrainCourse = cetTrainCourseMapper.selectByPrimaryKey(trainCourseId);
         Integer trainId = cetTrainCourse.getTrainId();
         String courseName = cetTrainCourse.getCetCourse().getName();
 
         int success = 0;
+        List<Map<Integer, String>> failedXlsRows = new ArrayList<>();
         for (Map<Integer, String> xlsRow : xlsRows) {
 
             String code = StringUtils.trim(xlsRow.get(0));
             if (StringUtils.isBlank(code)) continue;
             SysUserView uv = sysUserService.findByCode(code);
-            if (uv == null) continue;
+            if (uv == null){
+                failedXlsRows.add(xlsRow);
+                continue;
+            }
             int userId = uv.getId();
             CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
-            if (cetTrainee == null) continue;
+            if (cetTrainee == null){
+                failedXlsRows.add(xlsRow);
+                continue;
+            }
             int traineeId = cetTrainee.getId();
 
             CetTraineeCourse record = new CetTraineeCourse();
@@ -354,8 +376,14 @@ public class CetTraineeCourseService extends BaseMapper {
 
             CetTraineeCourseExample example = new CetTraineeCourseExample();
             example.createCriteria().andTraineeIdEqualTo(traineeId)
-                    .andTrainCourseIdEqualTo(trainCourseId).andIsFinishedEqualTo(false);
-            success += cetTraineeCourseMapper.updateByExampleSelective(record, example);
+                    .andTrainCourseIdEqualTo(trainCourseId);
+
+            int ret = cetTraineeCourseMapper.updateByExampleSelective(record, example);
+            if(ret==1) {
+                success++;
+            }else{
+                failedXlsRows.add(xlsRow);
+            }
 
             sysApprovalLogService.add(traineeId, userId,
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
@@ -363,6 +391,9 @@ public class CetTraineeCourseService extends BaseMapper {
                     "签到(导入)", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, courseName);
         }
 
-        return success;
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("success", success);
+        resultMap.put("failedXlsRows", failedXlsRows);
+        return resultMap;
     }
 }

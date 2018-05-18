@@ -34,13 +34,9 @@ public class CadreWork implements Serializable {
 
     private Date endTime;
 
-    private String unit;
+    private String detail;
 
     private Integer unitId;
-
-    private String post;
-
-    private Integer typeId;
 
     private Integer workType;
 
@@ -100,12 +96,12 @@ public class CadreWork implements Serializable {
         this.endTime = endTime;
     }
 
-    public String getUnit() {
-        return unit;
+    public String getDetail() {
+        return detail;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
+    public void setDetail(String detail) {
+        this.detail = detail == null ? null : detail.trim();
     }
 
     public Integer getUnitId() {
@@ -114,22 +110,6 @@ public class CadreWork implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
-    }
-
-    public String getPost() {
-        return post;
-    }
-
-    public void setPost(String post) {
-        this.post = post == null ? null : post.trim();
-    }
-
-    public Integer getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
     }
 
     public Integer getWorkType() {

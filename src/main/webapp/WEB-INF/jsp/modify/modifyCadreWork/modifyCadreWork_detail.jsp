@@ -44,20 +44,16 @@
                     <td class="bg-left">${cm:formatDate(modify.startTime,'yyyy.MM')}</td>
                     <td data-code="endTime">结束日期</td>
                     <td class="bg-left">${cm:formatDate(modify.endTime,'yyyy.MM')}</td>
-                    <td data-code="unit">工作单位</td>
-                    <td class="bg-left">${modify.unit}</td>
+                    <td data-code="unit">工作单位及担任职务（或专技职务）</td>
+                    <td class="bg-left">${modify.detail}</td>
                 </tr>
                 <tr>
-                    <td data-code="post">担任职务或者专技职务</td>
-                    <td class="bg-left">${modify.post}</td>
                     <td data-code="workType">工作类型</td>
                     <td class="bg-left">${cm:getMetaType(modify.workType).name}</td>
                     <td data-code="isCadre">是否担任领导职务</td>
                     <td class="bg-left">${modify.isCadre?"是":"否"}</td>
-                </tr>
-                <tr>
                     <td data-code="remark">备注</td>
-                    <td colspan="5" class="bg-left">${modify.remark}</td>
+                    <td class="bg-left">${modify.remark}</td>
                 </tr>
             </table>
         </div>

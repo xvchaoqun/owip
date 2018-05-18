@@ -14,6 +14,9 @@
             <li class="${type==2?"active":""}">
                 <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
             </li>
+            <li class="${type==3?"active":""}">
+                <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 干部任免审批表简历预览</a>
+            </li>
         </shiro:lacksRole>
 </ul>
 </shiro:hasPermission>
@@ -47,11 +50,6 @@
     <table id="jqGrid_cadreWork" class="jqGrid2"></table>
     <div id="jqGridPager_cadreWork"></div>
 </c:if>
-<c:if test="${type==3}">
-    <div class="space-4"></div>
-    <table id="jqGrid_cadreCrpRecord" class="jqGrid2"></table>
-    <div id="jqGridPager_cadreCrpRecord"></div>
-</c:if>
 <c:if test="${type==2}">
     <div class="space-4"></div>
     <div class="row">
@@ -68,6 +66,54 @@
                             <c:set target='${map}' property='cadreWorks' value='${cadreWorks}'/>
                         </jsp:useBean>
                         ${cm:freemarker(map, '/cadre/cadreWork.ftl')}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="widget-box">
+                <div class="widget-header">
+                    <h4 class="smaller">
+                        最终数据（<span
+                            style="font-weight: bolder; color: red;"
+                            id="saveTime">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
+                    </h4>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main" style="margin-bottom: 10px">
+                        <textarea id="content">${cadreInfo.content}</textarea>
+                        <input type="hidden" name="content">
+                    </div>
+                    <div class="modal-footer center">
+                        <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
+                            <i class="ace-icon fa fa-copy"></i>
+                            同步自动生成的数据
+                        </a>
+                        <input id="saveBtn" type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</c:if>
+<c:if test="${type==3}">
+    <div class="space-4"></div>
+    <div class="row">
+        <div class="col-xs-6 preview-text">
+            <div class="widget-box">
+                <div class="widget-header">
+                    <h4 class="smaller">
+                        初始数据
+                    </h4>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main" style="min-height: 647px" id="orginal">
+                        <jsp:useBean id='map3' class='java.util.HashMap' scope='request'>
+                            <c:set target='${map3}' property='cadreResumes' value='${cadreResumes}'/>
+                        </jsp:useBean>
+                        ${cm:freemarker(map3, '/cadre/cadreResume.ftl')}
                     </div>
                 </div>
             </div>
@@ -185,6 +231,66 @@
         }
     </script>
 </c:if>
+<c:if test="${type==2}">
+    <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
+    <script>
+        var ke = KindEditor.create('#content', {
+            cssPath: "${ctx}/css/ke.css",
+            items: ["source", "|", "fullscreen"],
+            height: '550px',
+            width: '100%'
+        });
+        function updateCadreInfo() {
+            $.post("${ctx}/cadreInfo_updateContent", {
+                cadreId: '${param.cadreId}',
+                content: ke.html(),
+                type: "${CADRE_INFO_TYPE_WORK}"
+            }, function (ret) {
+                if (ret.success) {
+                    _innerPage(2, function () {
+                        $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 保存成功', position:{my:'bottom center'}});
+                    });
+                }
+            });
+        }
+        function copyOrginal() {
+            //console.log($("#orginal").html())
+            ke.html($("#orginal").html());
+            $("#saveTime").html("未保存");
+            $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 复制成功，请点击"保存"按钮进行保存', position:{my:'bottom center'}});
+        }
+    </script>
+</c:if>
+<c:if test="${type==3}">
+    <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
+    <script>
+        var ke = KindEditor.create('#content', {
+            cssPath: "${ctx}/css/ke.css",
+            items: ["source", "|", "fullscreen"],
+            height: '550px',
+            width: '100%'
+        });
+        function updateCadreInfo() {
+            $.post("${ctx}/cadreInfo_updateContent", {
+                cadreId: '${param.cadreId}',
+                content: ke.html(),
+                type: "${CADRE_INFO_TYPE_RM_WORK}"
+            }, function (ret) {
+                if (ret.success) {
+                    _innerPage(3, function () {
+                        $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 保存成功', position:{my:'bottom center'}});
+                    });
+                }
+            });
+        }
+        function copyOrginal() {
+            //console.log($("#orginal").html())
+            ke.html($("#orginal").html());
+            $("#saveTime").html("未保存");
+            $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 复制成功，请点击"保存"按钮进行保存', position:{my:'bottom center'}});
+        }
+    </script>
+</c:if>
 <c:if test="${type==1}">
     <script>
         function _innerPage(type, fn) {
@@ -210,11 +316,7 @@
                 },
                 {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
                 {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-                {label: '工作单位', name: 'unit', width: 280},
-                {label: '担任职务或者专技职务', name: 'post', width: 170},
-                /*     {
-                 label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType
-                 },*/
+                {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align: 'left'},
                 {label: '工作类型', name: 'workType', width: 140, formatter: $.jgrid.formatter.MetaType},
                 {
                     label: '是否担任领导职务',
@@ -317,11 +419,7 @@
                 colModel: [
                     {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
                     {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-                    {label: '工作单位', name: 'unit', width: 200, align: 'left'},
-                    {label: '担任职务或者专技职务', name: 'post', width: 180},
-                    /*{
-                     label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType
-                     },*/
+                    {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380, align: 'left'},
                     {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 120},
                     {
                         label: '是否担任领导职务',
@@ -378,19 +476,5 @@
 
         $('#searchForm [data-rel="select2"]').select2();
         $('[data-rel="tooltip"]').tooltip();
-    </script>
-</c:if>
-
-<c:if test="${type==3}">
-    <script>
-        $("#jqGrid_cadreCrpRecord").jqGrid({
-            multiselect:false,
-            ondblClickRow: function () {
-            },
-            pager: "#jqGridPager_cadreCrpRecord",
-            url: '${ctx}/cadreCrpRecord_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-            colModel: colModels.cadreCrpRecord
-        }).jqGrid("setFrozenColumns");
-        $(window).triggerHandler('resize.jqGrid2');
     </script>
 </c:if>

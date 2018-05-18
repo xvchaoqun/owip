@@ -2,13 +2,12 @@ package persistence.cadre;
 
 import domain.cadre.CadreWork;
 import domain.cadre.CadreWorkExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface CadreWorkMapper {
-    int countByExample(CadreWorkExample example);
+    long countByExample(CadreWorkExample example);
 
     int deleteByExample(CadreWorkExample example);
 

@@ -112,12 +112,12 @@
         </table>-->
         <!-- <table tableName="cadre_post" domainObjectName="cadre.CadrePost" mapperName="cadre.CadrePostMapper">
          </table>-->
-        <!-- <table tableName="cadre_work" domainObjectName="cadre.CadreWork">
+         <table tableName="cadre_work" domainObjectName="cadre.CadreWork" mapperName="cadre.CadreWorkMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>-->
-        <table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
+         </table>
+        <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <!--<table tableName="cadre_under_edu" domainObjectName="cadre.CadreUnderEdu">
         </table>
           <table tableName="cadre_tutor" domainObjectName="cadre.CadreTutor">

@@ -1,5 +1,6 @@
 package controller.cadre;
 
+import bean.CadreResume;
 import controller.BaseController;
 import domain.cadre.CadreInfo;
 import domain.cadre.CadreView;
@@ -66,7 +67,7 @@ public class CadreWorkController extends BaseController {
     @RequiresPermissions("cadreWork:list")
     @RequestMapping("/cadreWork_page")
     public String cadreWork_page(HttpServletResponse response,
-                                 @RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览
+                                 @RequestParam(defaultValue = "1") Byte type, // 1 列表 2 预览 3 干部任免审批表简历预览
                                  @SortParam(required = false, defaultValue = "id", tableName = "cadre_work") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                  Integer cadreId,
@@ -78,6 +79,12 @@ public class CadreWorkController extends BaseController {
             List<CadreWork> cadreWorks = cadreWorkService.list(cadreId);
             modelMap.put("cadreWorks", cadreWorks);
             CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_WORK);
+            modelMap.put("cadreInfo", cadreInfo);
+        }else if(type==3){
+
+            List<CadreResume> cadreResumes = cadreWorkService.resume(cadreId);
+            modelMap.put("cadreResumes", cadreResumes);
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_RM_WORK);
             modelMap.put("cadreInfo", cadreInfo);
         }
 
@@ -125,7 +132,7 @@ public class CadreWorkController extends BaseController {
             return;
         }
 
-        int count = cadreWorkMapper.countByExample(example);
+        long count = cadreWorkMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -394,13 +401,13 @@ public class CadreWorkController extends BaseController {
     public void cadreWork_export(CadreWorkExample example, HttpServletResponse response) {
 
         List<CadreWork> cadreWorks = cadreWorkMapper.selectByExample(example);
-        int rownum = cadreWorkMapper.countByExample(example);
+        long rownum = cadreWorkMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
         XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
 
-        String[] titles = {"所属干部", "开始日期", "结束日期", "工作单位", "担任职务或者专技职务", "行政级别", "院系/机关工作经历"};
+        String[] titles = {"所属干部", "开始日期", "结束日期", "工作单位及担任职务（或专技职务）", "院系/机关工作经历"};
         for (int i = 0; i < titles.length; i++) {
             XSSFCell cell = firstRow.createCell(i);
             cell.setCellValue(titles[i]);
@@ -414,9 +421,7 @@ public class CadreWorkController extends BaseController {
                     cadreWork.getCadreId() + "",
                     DateUtils.formatDate(cadreWork.getStartTime(), "yyyy.MM"),
                     DateUtils.formatDate(cadreWork.getEndTime(), "yyyy.MM"),
-                    cadreWork.getUnit(),
-                    cadreWork.getPost(),
-                    cadreWork.getTypeId() + "",
+                    cadreWork.getDetail(),
                     cadreWork.getWorkType() + ""
             };
 

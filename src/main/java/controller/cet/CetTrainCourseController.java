@@ -268,7 +268,8 @@ public class CetTrainCourseController extends CetBaseController {
     @RequiresPermissions("cetCourse:list")
     @RequestMapping("/cetTrainCourse_trainee_data")
     public void cetTrainCourse_trainee_data(HttpServletResponse response,
-                                                  int trainCourseId, Integer userId,
+                                                  int trainCourseId,
+                                            Integer userId, Boolean isFinished,
                                                   Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -285,6 +286,9 @@ public class CetTrainCourseController extends CetBaseController {
 
         if(userId!=null){
             criteria.andUserIdEqualTo(userId);
+        }
+        if(isFinished!=null){
+            criteria.andIsFinishedEqualTo(isFinished);
         }
 
         long count = cetTraineeCourseViewMapper.countByExample(example);

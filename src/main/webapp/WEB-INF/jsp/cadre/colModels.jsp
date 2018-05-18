@@ -353,11 +353,11 @@
         {
             label: '毕业/在读', width: 90, name: 'isGraduated', formatter: function (cellvalue, options, rowObject) {
             return cellvalue ? "毕业" : "在读";
-        }
+        }, frozen: true
         },
-        {label: '入学时间', name: 'enrolTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 90},
-        {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 90},
-        {label: '是否最高学历', width: 120, name: 'isHighEdu', formatter: $.jgrid.formatter.TRUEFALSE},
+        {label: '入学时间', name: 'enrolTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 90, frozen: true},
+        {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 90, frozen: true},
+        {label: '是否最高学历', width: 120, name: 'isHighEdu', formatter: $.jgrid.formatter.TRUEFALSE, frozen: true},
         {label: '毕业/在读学校', name: 'school', width: 280},
         {label: '院系', name: 'dep', width: 380},
         {label: '所学专业', name: 'major', width: 380},
@@ -446,11 +446,7 @@
     colModels.cadreWork = [
         {label: '开始日期', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
         {label: '结束日期', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-        {label: '工作单位', name: 'unit', width: 280},
-        {label: '担任职务或者专技职务', name: 'post', width: 170},
-        /*     {
-         label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType
-         },*/
+        {label: '工作单位及担任职务（或专技职务）', name: 'detail', width: 380},
         {label: '工作类型', name: 'workType', width: 140, formatter: $.jgrid.formatter.MetaType},
         {label: '是否担任领导职务', name: 'isCadre', width: 150, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '备注', name: 'remark', width: 150},
