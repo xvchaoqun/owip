@@ -46,7 +46,7 @@
 					<label class="col-xs-5 control-label">毕业时间</label>
 					<div class="col-xs-6">
 						<div class="input-group">
-							<input class="form-control date-picker" name="finishTime" type="text"
+							<input required class="form-control date-picker" name="finishTime" type="text"
 								   data-date-min-view-mode="1"
 								   data-date-format="yyyy.mm" value="${cm:formatDate(cadreEdu.finishTime,'yyyy.MM')}" />
 							<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -228,7 +228,7 @@
 			$("input[name=degreeCountry]").val('${cadreEdu.degreeCountry}').prop("disabled", false).attr("required", "required");
 			$("input[name=degreeUnit]").val('${cadreEdu.degreeUnit}').prop("disabled", false).attr("required", "required");
 
-			var finishTime = $("input[name=_finishTime]").val();
+			var finishTime = $("input[name=finishTime]").val();
 			//alert(finishTime)
 			if($.trim($("input[name=degreeTime]").val())==''){
 				var degreeTime = $.trim(finishTime)==''?'':finishTime.format("yyyy.MM");
@@ -275,7 +275,7 @@
 			$("input[name=isHighEdu]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
 			$("input[name='_files[]']").prop("disabled", true);
 
-			$("input[name=_finishTime]").val('').prop("disabled", true).removeAttr("required");
+			$("input[name=finishTime]").val('').prop("disabled", true).removeAttr("required");
 			//$("input[name=schoolLen]").val('').prop("disabled", true).removeAttr("required");
 
 		}else {
@@ -283,7 +283,7 @@
 			$("input[name=isHighEdu]").bootstrapSwitch('disabled', false);
 			$("input[name='_files[]']").prop("disabled", false);
 
-			$("input[name=_finishTime]").prop("disabled", false).attr("required", "required");
+			$("input[name=finishTime]").prop("disabled", false).attr("required", "required");
 			//$("input[name=schoolLen]").prop("disabled", false).attr("required", "required");
 		}
 	}
@@ -317,13 +317,14 @@
 		}
 	});
 
-	$("input[name=_finishTime]").on('changeDate ',function(ev){
+	$("input[name=finishTime]").on('changeDate',function(ev){
 
 		if($("input[name=hasDegree]").bootstrapSwitch("state")) {
-			var $_degreeTime = $("input[name=degreeTime]");
-			if ($_degreeTime.val() == '') {
-				//$_degreeTime.val(ev.date.format("yyyy.MM"));
-				$_degreeTime.datepicker('update', ev.date.format("yyyy.MM"));
+			var $degreeTime = $("input[name=degreeTime]");
+			//console.log("$degreeTime.val()=" + $degreeTime.val())
+			if ($degreeTime.val() == '') {
+				//$degreeTime.val(ev.date.format("yyyy.MM"));
+				$degreeTime.datepicker('update', ev.date.format("yyyy.MM"));
 			}
 		}
 	});
