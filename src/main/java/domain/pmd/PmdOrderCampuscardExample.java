@@ -235,6 +235,136 @@ public class PmdOrderCampuscardExample {
             return (Criteria) this;
         }
 
+        public Criteria andIsBatchIsNull() {
+            addCriterion("is_batch is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBatchIsNotNull() {
+            addCriterion("is_batch is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBatchEqualTo(Boolean value) {
+            addCriterion("is_batch =", value, "isBatch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBatchNotEqualTo(Boolean value) {
+            addCriterion("is_batch <>", value, "isBatch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBatchGreaterThan(Boolean value) {
+            addCriterion("is_batch >", value, "isBatch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBatchGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_batch >=", value, "isBatch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBatchLessThan(Boolean value) {
+            addCriterion("is_batch <", value, "isBatch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBatchLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_batch <=", value, "isBatch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBatchIn(List<Boolean> values) {
+            addCriterion("is_batch in", values, "isBatch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBatchNotIn(List<Boolean> values) {
+            addCriterion("is_batch not in", values, "isBatch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBatchBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_batch between", value1, value2, "isBatch");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBatchNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_batch not between", value1, value2, "isBatch");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthIsNull() {
+            addCriterion("pay_month is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthIsNotNull() {
+            addCriterion("pay_month is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthEqualTo(String value) {
+            addCriterion("pay_month =", value, "payMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthNotEqualTo(String value) {
+            addCriterion("pay_month <>", value, "payMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthGreaterThan(String value) {
+            addCriterion("pay_month >", value, "payMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthGreaterThanOrEqualTo(String value) {
+            addCriterion("pay_month >=", value, "payMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthLessThan(String value) {
+            addCriterion("pay_month <", value, "payMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthLessThanOrEqualTo(String value) {
+            addCriterion("pay_month <=", value, "payMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthLike(String value) {
+            addCriterion("pay_month like", value, "payMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthNotLike(String value) {
+            addCriterion("pay_month not like", value, "payMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthIn(List<String> values) {
+            addCriterion("pay_month in", values, "payMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthNotIn(List<String> values) {
+            addCriterion("pay_month not in", values, "payMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthBetween(String value1, String value2) {
+            addCriterion("pay_month between", value1, value2, "payMonth");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayMonthNotBetween(String value1, String value2) {
+            addCriterion("pay_month not between", value1, value2, "payMonth");
+            return (Criteria) this;
+        }
+
         public Criteria andPaycodeIsNull() {
             addCriterion("paycode is null");
             return (Criteria) this;

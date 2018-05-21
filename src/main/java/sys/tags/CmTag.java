@@ -666,7 +666,6 @@ public class CmTag {
 
     public static List<ApplySelfModifyBean> getApplySelfModifyList(Integer applyId) {
 
-        // getBean("IAbroadMapper")， I要大写？
         IAbroadMapper iAbroadMapper =  getBean(IAbroadMapper.class);
         return iAbroadMapper.getApplySelfModifyList(applyId);
     }
@@ -755,6 +754,33 @@ public class CmTag {
         }
 
         return false;
+    }
+
+    // 如果是两个字的名字，则中间空2个空字符
+    public static String realnameWithEmpty(String realname){
+
+        if(realname.length()==2){
+            realname = realname.charAt(0) + "  " + realname.charAt(1);
+        }
+
+        return realname;
+    }
+
+    // 读取学历名称，用于任免审批表
+    public static String getEduName(int eduId){
+
+        MetaType bk = CmTag.getMetaTypeByCode("mt_edu_bk");
+        MetaType master = CmTag.getMetaTypeByCode("mt_edu_master");
+        MetaType doctor = CmTag.getMetaTypeByCode("mt_edu_doctor");
+
+        if(eduId == bk.getId()){
+            return "大学";
+        }else if(eduId == master.getId() || eduId == doctor.getId()){
+            return "研究生";
+        }
+
+        MetaType edu = CmTag.getMetaType(eduId);
+        return edu.getName();
     }
 
     public static CadreEdu[] getCadreEdus(Integer cadreId) {

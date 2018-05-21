@@ -8,7 +8,6 @@ import domain.cadre.CadreEdu;
 import domain.cadre.CadreFamily;
 import domain.cadre.CadreFamilyAbroad;
 import domain.cadre.CadreFamilyAbroadExample;
-import domain.cadre.CadreFamilyExample;
 import domain.cadre.CadreInfo;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
@@ -27,9 +26,7 @@ import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
-import sys.utils.ImageUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Date;
@@ -69,6 +66,8 @@ public class CadreInfoFormService extends BaseMapper {
     @Autowired
     protected CadreInfoService cadreInfoService;
     @Autowired
+    protected CadreAdformService cadreAdformService;
+    @Autowired
     protected CadrePostService cadrePostService;
     @Autowired
     protected CadreService cadreService;
@@ -78,18 +77,13 @@ public class CadreInfoFormService extends BaseMapper {
     // 获取干部信息采集表属性值
     public CadreInfoForm getCadreInfoForm(int cadreId) {
 
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
+        CadreInfoForm bean = cadreAdformService.getCadreAdform(cadreId);
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         SysUserView uv = cadre.getUser();
 
-        CadreInfoForm bean = new CadreInfoForm();
-        bean.setCadreId(cadreId);
         bean.setCode(uv.getCode());
-        bean.setRealname(uv.getRealname());
-        bean.setGender(uv.getGender());
-        bean.setBirth(cadre.getBirth());
-        bean.setAge(DateUtils.intervalYearsUntilNow(cadre.getBirth()));
+
         // 行政级别
         bean.setAdminLevel(cadre.getTypeId());
         bean.setIdCard(uv.getIdcard());
@@ -100,65 +94,9 @@ public class CadreInfoFormService extends BaseMapper {
         bean.setHomePhone(uv.getHomePhone());
         bean.setEmail(uv.getEmail());
 
-        File avatar = new File(springProps.avatarFolder + uv.getAvatar());
-        if (!avatar.exists()) avatar = new File(springProps.avatarFolder + FILE_SEPARATOR + springProps.defaultAvatar);
-        String base64 = ImageUtils.encodeImgageToBase64(avatar);
-        bean.setAvatar(base64);
-        bean.setNation(cadre.getNation());
-        bean.setNativePlace(cadre.getNativePlace());
         bean.setHousehold(uv.getHousehold());
 
-        bean.setHomeplace(uv.getHomeplace());
-        bean.setWorkTime(cadre.getWorkTime()); // 参加工作时间
-        //bean.setWorkTime(cadre.getWorkTime());
-        bean.setHealth(metaTypeService.getName(uv.getHealth()));
-        bean.setProPost(cadre.getProPost());
-        bean.setSpecialty(uv.getSpecialty());
-
         bean.setCadreDpType(cadre.getCadreDpType());
-        bean.setGrowTime(cadre.getCadreGrowTime());
-
-        // 最高学历
-        /*CadreEdu highEdu = cadreEduService.getHighEdu(cadreId);
-        bean.setDegree(highEdu == null ? null : metaTypeService.getName(highEdu.getEduId()));
-        bean.setSchoolDepMajor(highEdu == null ? null :
-                StringUtils.trimToEmpty(highEdu.getSchool())+
-                        StringUtils.trimToEmpty(highEdu.getDep())
-                        +StringUtils.trimToEmpty(highEdu.getMajor()));*/
-        String _fulltimeEdu = "";
-        String _fulltimeDegreee = "";
-        String _fulltimeMajor = "";
-        String _onjobEdu = "";
-        String _onjobDegree = "";
-        String _onjobMajor = "";
-        CadreEdu[] cadreEdus = cadre.getCadreEdus();
-        CadreEdu fulltimeEdu = cadreEdus[0];
-        CadreEdu onjobEdu = cadreEdus[1];
-        if (fulltimeEdu != null) {
-            Integer eduId = fulltimeEdu.getEduId();
-            //String degree = fulltimeEdu.getDegree();
-            _fulltimeEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-
-            _fulltimeMajor = fulltimeEdu.getSchool() + fulltimeEdu.getDep()
-                    + StringUtils.trimToEmpty(CadreUtils.major(fulltimeEdu.getMajor()));
-            _fulltimeDegreee = fulltimeEdu.getDegree(); // 学位
-        }
-        if (onjobEdu != null) {
-            Integer eduId = onjobEdu.getEduId();
-            //String degree = onjobEdu.getDegree();
-            _onjobEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
-            _onjobMajor = onjobEdu.getSchool() + onjobEdu.getDep()
-                    + StringUtils.trimToEmpty(CadreUtils.major(onjobEdu.getMajor()));
-
-            _onjobDegree = onjobEdu.getDegree();
-        }
-        // 全日制最高学历
-        bean.setEdu(_fulltimeEdu);
-        bean.setDegree(_fulltimeDegreee);
-        bean.setSchoolDepMajor(_fulltimeMajor);
-        bean.setInEdu(_onjobEdu);
-        bean.setInDegree(_onjobDegree);
-        bean.setInSchoolDepMajor(_onjobMajor);
 
         // 硕士导师
         String masterTutor = "";
@@ -178,17 +116,6 @@ public class CadreInfoFormService extends BaseMapper {
 
         bean.setMasterTutor(masterTutor);
         bean.setDoctorTutor(doctorTutor);
-
-        // 主职,现任职务
-        /*CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
-        bean.setPost(mainCadrePost==null?null:mainCadrePost.getPost());*/
-        // 现任职务
-        String schoolName = sysConfigService.getSchoolName();
-        if (!StringUtils.startsWith(cadre.getTitle(), schoolName)) {
-            bean.setPost(schoolName + cadre.getTitle());
-        } else {
-            bean.setPost(cadre.getTitle());
-        }
 
         // 学习经历
         CadreInfo edu = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU);
@@ -287,14 +214,6 @@ public class CadreInfoFormService extends BaseMapper {
         }
 
         {
-            // 社会关系
-            CadreFamilyExample example = new CadreFamilyExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
-            List<CadreFamily> cadreFamilys = cadreFamilyMapper.selectByExampleWithRowbounds(example, new RowBounds(0, 6));
-            bean.setCadreFamilys(cadreFamilys);
-        }
-
-        {
             // 家庭成员海外情况
             CadreFamilyAbroadExample example = new CadreFamilyAbroadExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
@@ -333,7 +252,7 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("np", bean.getNativePlace());
         dataMap.put("hp", bean.getHomeplace());
 
-        String partyName = cadreService.getCadreParty(bean.getCadreDpType());// 党派
+        String partyName = cadreService.getCadreParty(bean.getCadreDpType(), "中共");// 党派
         dataMap.put("partyName", partyName);
         dataMap.put("growTime", DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM"));
         dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM"));

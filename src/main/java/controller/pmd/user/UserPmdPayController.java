@@ -24,6 +24,7 @@ import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.PropertiesUtils;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -163,6 +164,66 @@ public class UserPmdPayController extends PmdBaseController {
 
         PmdOrderCampuscard order = pmdPayCampusCardService.payConfirm(id, isSelfPay);
         logger.info(addLog(LogConstants.LOG_PMD, "支付已确认，跳转至支付页面...%s",
+                JSONUtils.toString(order, false)));
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("order", order);
+
+        // test
+       /* PayNotifyCampusCardBean bean = new PayNotifyCampusCardBean();
+        bean.setPaycode(order.getPaycode());
+        bean.setPayitem("ZZBGZ001");
+        bean.setPayer(order.getPayer());
+        bean.setPayertype(order.getPayertype());
+        bean.setSn(order.getSn());
+        bean.setAmt(order.getAmt());
+        bean.setPaid("true");
+        bean.setPaidtime(DateUtils.getCurrentDateTime("yyyy-MM-dd HH:mm:ss"));
+
+        String sign =  MD5Util.md5Hex(pmdPayCampusCardService.signMd5Str(bean), "utf-8");
+        String ret = "paycode=" + bean.getPaycode() +
+                "&payitem=" + bean.getPayitem() +
+                "&payer=" + bean.getPayer() +
+                "&payertype=" + bean.getPayertype() +
+                "&sn=" + bean.getSn() +
+                "&amt=" + bean.getAmt() +
+                "&paid=" + bean.getPaid() +
+                "&paidtime=" + bean.getPaidtime() +
+                "&sign=" + sign;
+        resultMap.put("ret", ret);*/
+        // test
+
+        return resultMap;
+    }
+
+    // 批量缴费
+    //@RequiresPermissions("userPmdMember:payConfirm")
+    @RequestMapping("/payConfirm_campuscard_batch")
+    public String payConfirm_campuscard_batch(@RequestParam(name = "ids[]")Integer[] ids, boolean isDelay, ModelMap modelMap) {
+
+        BigDecimal duePay = BigDecimal.ZERO;
+        for (Integer id : ids) {
+            PmdMember pmdMember = checkPayAuth(id, false);
+            duePay = duePay.add(pmdMember.getDuePay());
+        }
+        modelMap.put("ids", ids);
+        modelMap.put("duePay", duePay);
+        modelMap.put("pay_url", PropertiesUtils.getString("pay.campuscard.url"));
+
+        return "pmd/user/payConfirm_campuscard_batch";
+    }
+
+    //@RequiresPermissions("userPmdMember:payConfirm")
+    @RequestMapping(value = "/payConfirm_campuscard_batch", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_payConfirm_campuscard_batch(@RequestParam(name = "ids[]")Integer[] ids, boolean isDelay) {
+
+        for (Integer id : ids) {
+            checkPayAuth(id, false);
+        }
+
+        PmdOrderCampuscard order = pmdPayCampusCardService.batchPayConfirm(isDelay, ids);
+        logger.info(addLog(LogConstants.LOG_PMD, "批量缴费支付已确认，跳转至支付页面...%s",
                 JSONUtils.toString(order, false)));
 
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);

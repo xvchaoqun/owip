@@ -253,6 +253,11 @@
                 class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-times"></i> 取消参会
         </button>
+
+        <button class="popupBtn btn btn-primary btn-sm tooltip-success"
+                data-url="${ctx}/cet/cetDiscussGroupObj_import?discussGroupId=${param.discussGroupId}"
+                data-rel="tooltip" data-placement="top"
+                title="从Excel中导入分组和参会情况"><i class="fa fa-upload"></i> 导入</button>
     </c:if>
 </div>
 <div class="space-4"></div>
@@ -295,7 +300,21 @@
                         <option value="1">本组</option>
                     </select>
                     <script>
-                        $("#searchForm2 select[name=groupStatus]").val('${param.groupStatus}')
+                        $("#searchForm2 select[name=isCurrentGroup]").val('${param.isCurrentGroup}')
+                    </script>
+                </div>
+                <div class="form-group">
+                    <label>是否参会</label>
+                    <select data-rel="select2" data-width="100" name="isFinish"  data-placeholder="请选择">
+                        <option></option>
+                        <option value="0">未参会</option>
+                        <option value="1">已参会</option>
+                    </select>
+                    <script>
+                        <c:if test="${not empty param.isFinish}">
+                        $("#searchForm2 select[name=isCurrentGroup]").val('1')
+                        $("#searchForm2 select[name=isFinish]").val('${param.isFinish}')
+                        </c:if>
                     </script>
                 </div>
                 </c:if>

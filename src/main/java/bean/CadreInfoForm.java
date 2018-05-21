@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 干部信息采集表
+ * 干部信息
  */
 public class CadreInfoForm {
 
@@ -48,12 +48,20 @@ public class CadreInfoForm {
     private String edu;
     // 全日制教育-学位
     private String degree;
+    // 全日制教育-毕业院校
+    private String school;
+    // 全日制教育-系及专业
+    private String depMajor;
     // 全日制教育-毕业院校系及专业
     private String schoolDepMajor;
     // 在职教育-最高学历
     private String inEdu;
     // 在职教育-最高学历
     private String inDegree;
+    // 在职教育-毕业院校
+    private String inSchool;
+    // 在职教育-系及专业
+    private String inDepMajor;
     // 在职教育-毕业院校系及专业
     private String inSchoolDepMajor;
 
@@ -74,6 +82,18 @@ public class CadreInfoForm {
     private String depWork;
     // 主要社会或学术兼职
     private String parttime;
+
+    // 拟任职务
+    private String inPost;
+    // 拟免职务
+    private String prePost;
+
+    // 奖惩情况
+    private String reward;
+    // 年度考核结果
+    private String ces;
+    // 任免理由
+    private String reason;
 
     // 学习经历
     private String learnDesc;
@@ -250,6 +270,22 @@ public class CadreInfoForm {
         this.degree = degree;
     }
 
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getDepMajor() {
+        return depMajor;
+    }
+
+    public void setDepMajor(String depMajor) {
+        this.depMajor = depMajor;
+    }
+
     public String getSchoolDepMajor() {
         return schoolDepMajor;
     }
@@ -272,6 +308,22 @@ public class CadreInfoForm {
 
     public void setInDegree(String inDegree) {
         this.inDegree = inDegree;
+    }
+
+    public String getInSchool() {
+        return inSchool;
+    }
+
+    public void setInSchool(String inSchool) {
+        this.inSchool = inSchool;
+    }
+
+    public String getInDepMajor() {
+        return inDepMajor;
+    }
+
+    public void setInDepMajor(String inDepMajor) {
+        this.inDepMajor = inDepMajor;
     }
 
     public String getInSchoolDepMajor() {
@@ -344,6 +396,46 @@ public class CadreInfoForm {
 
     public void setParttime(String parttime) {
         this.parttime = parttime;
+    }
+
+    public String getInPost() {
+        return inPost;
+    }
+
+    public void setInPost(String inPost) {
+        this.inPost = inPost;
+    }
+
+    public String getPrePost() {
+        return prePost;
+    }
+
+    public void setPrePost(String prePost) {
+        this.prePost = prePost;
+    }
+
+    public String getReward() {
+        return reward;
+    }
+
+    public void setReward(String reward) {
+        this.reward = reward;
+    }
+
+    public String getCes() {
+        return ces;
+    }
+
+    public void setCes(String ces) {
+        this.ces = ces;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public String getLearnDesc() {

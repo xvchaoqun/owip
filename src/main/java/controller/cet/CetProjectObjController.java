@@ -131,7 +131,7 @@ public class CetProjectObjController extends CetBaseController {
                                    Integer userId,
                                    Boolean hasChosen, // 是否选课 （线下、线上、实践）
                                    Boolean isCurrentGroup, // 是否本组 （分组讨论）
-                                   Boolean isFinish, // 学习情况 （自主学习）
+                                   Boolean isFinish, // 学习情况 （自主学习）、分组讨论（是否参会）
                                    Boolean hasUploadWrite, // 是否撰写心得体会
                                    @RequestParam(required = false, value = "dpTypes") Long[] dpTypes,
                                    @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
@@ -159,8 +159,9 @@ public class CetProjectObjController extends CetBaseController {
         }
 
         List<Integer> groupUserIds = null;
+        if(isFinish!=null) isCurrentGroup = true;
         if(isCurrentGroup != null && discussGroupId!=null){
-            groupUserIds = iCetMapper.groupUserIds(discussGroupId);
+            groupUserIds = iCetMapper.groupUserIds(discussGroupId, isFinish);
         }
 
         List<Integer> finishUserIds = null;

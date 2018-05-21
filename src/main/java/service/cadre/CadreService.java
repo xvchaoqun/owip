@@ -65,11 +65,11 @@ public class CadreService extends BaseMapper {
     protected MetaTypeService metaTypeService;
 
     // 根据CadreView.cadreDpType，获取干部的党派
-    public String getCadreParty(Integer cadreDpType){
+    public String getCadreParty(Integer cadreDpType, String def){
 
         String partyName = null;// 党派
         if (NumberUtils.intEqual(cadreDpType, 0)) {
-            partyName = "中共";
+            partyName = def;
         } else if (cadreDpType != null) {
             partyName = metaTypeService.getName(cadreDpType.intValue());
         }

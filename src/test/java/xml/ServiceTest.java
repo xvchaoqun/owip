@@ -1,6 +1,6 @@
 package xml;
 
-import bean.CadreAdform;
+import bean.CadreInfoForm;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.dom4j.DocumentException;
@@ -37,7 +37,7 @@ public class ServiceTest {
 		int cadreId = cv.getId();
 
 		FileWriter output = new FileWriter(new File("D:/tmp/zzbrm/"+uv.getRealname()+".lrmx"));
-		CadreAdform adform = cadreAdformService.getCadreAdform(cadreId);
+		CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
 		cadreAdformService.zzb(adform, output);
 	}
 

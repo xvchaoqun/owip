@@ -70,7 +70,7 @@ public class PmdMemberController extends PmdBaseController {
         if (chargeUserId != null) {
             modelMap.put("chargeUser", sysUserService.findById(chargeUserId));
         }
-        if(cls!=6){
+        if (cls != 6) {
             SecurityUtils.getSubject().checkPermission("pmdMember:list");
         }
         if (cls == 5) {
@@ -86,11 +86,11 @@ public class PmdMemberController extends PmdBaseController {
             modelMap.put("pmdMonths", pmdMonths);
 
             return "pmd/pmdMember/pmdMemberList_page";
-        }else if (cls == 3) {
+        } else if (cls == 3) {
             // 分党委管理员（不包含直属党支部）访问，弹出框
             modelMap.put("branch", branchService.findAll().get(branchId));
             return "pmd/pmdMember/pmdMember_party_page";
-        }else if(cls==6){
+        } else if (cls == 6) {
             // 党费代缴列表
             SecurityUtils.getSubject().checkPermission("pmdMember:helpPay");
             return "pmd/pmdMember/pmdMemberHelpPayList_page";
@@ -113,7 +113,7 @@ public class PmdMemberController extends PmdBaseController {
         }
         modelMap.put("canAdmin", canAdmin);
 
-        if(cls==4)
+        if (cls == 4)
             return "pmd/pmdMember/pmdMember_delay_page";
 
         // 支部管理员或直属党支部管理员访问
@@ -138,7 +138,7 @@ public class PmdMemberController extends PmdBaseController {
                                @RequestDateRange DateRange _payTime,
                                Integer pageSize, Integer pageNo) throws IOException {
 
-        if(cls!=6){
+        if (cls != 6) {
             SecurityUtils.getSubject().checkPermission("pmdMember:list");
         }
 
@@ -173,7 +173,7 @@ public class PmdMemberController extends PmdBaseController {
                 } else {
                     criteria.andPartyIdIsNull();
                 }
-            }else{
+            } else {
                 criteria.andPartyIdEqualTo(partyId);
             }
         } else if (cls == 3) {
@@ -188,35 +188,43 @@ public class PmdMemberController extends PmdBaseController {
                 } else {
                     criteria.andPartyIdIsNull();
                 }
-            }else{
+            } else {
                 criteria.andPartyIdEqualTo(partyId).andBranchIdEqualTo(branchId);
             }
-        } else if(cls==5){
+        } else if (cls == 5) {
             SecurityUtils.getSubject().checkPermission("pmdMember:allList");
 
             // 根据订单号查找缴费记录
-            if(StringUtils.isNotBlank(orderNo)){
+            if (StringUtils.isNotBlank(orderNo)) {
                 PmdOrderCampuscard pmdOrderCampuscard = pmdOrderCampuscardMapper.selectByPrimaryKey(orderNo);
-                if(pmdOrderCampuscard!=null){
-                    criteria.andIdEqualTo(pmdOrderCampuscard.getMemberId());
-                }else{
+                if (pmdOrderCampuscard != null) {
+                    if (!pmdOrderCampuscard.getIsBatch()) {
+                        criteria.andIdEqualTo(pmdOrderCampuscard.getMemberId());
+                    } else {
+                        List<Integer> memberIds = iPmdMapper.listOrderMemberIds(orderNo);
+                        if (memberIds.size() > 0)
+                            criteria.andIdIn(memberIds);
+                        else
+                            criteria.andIdIsNull();
+                    }
+                } else {
                     criteria.andIdIsNull();
                 }
             }
 
-            if (_payTime.getStart()!=null) {
+            if (_payTime.getStart() != null) {
                 criteria.andPayTimeGreaterThanOrEqualTo(_payTime.getStart());
             }
 
-            if (_payTime.getEnd()!=null) {
+            if (_payTime.getEnd() != null) {
                 criteria.andPayTimeLessThanOrEqualTo(_payTime.getEnd());
             }
 
-        }else if(cls==6){
+        } else if (cls == 6) {
             // 党费代缴列表
             SecurityUtils.getSubject().checkPermission("pmdMember:helpPay");
             criteria.andChargeUserIdEqualTo(ShiroHelper.getCurrentUserId());
-        }else {
+        } else {
             criteria.andIdIsNull();
         }
 
@@ -279,13 +287,13 @@ public class PmdMemberController extends PmdBaseController {
     @RequiresPermissions("pmdMember:list")
     @RequestMapping("/pmdMember_delay_data")
     public void pmdMember_delay_data(HttpServletResponse response,
-                               @RequestParam(required = false, defaultValue = "1") Byte cls,
-                               int monthId,
-                               Integer partyId,
-                               Integer branchId,
-                               Integer userId,
-                               Boolean hasPay,
-                               Integer pageSize, Integer pageNo) throws IOException {
+                                     @RequestParam(required = false, defaultValue = "1") Byte cls,
+                                     int monthId,
+                                     Integer partyId,
+                                     Integer branchId,
+                                     Integer userId,
+                                     Boolean hasPay,
+                                     Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -295,12 +303,12 @@ public class PmdMemberController extends PmdBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        if(branchId!=null) {
+        if (branchId != null) {
             List<Integer> adminBranchIds = pmdBranchAdminService.getAdminBranchIds(ShiroHelper.getCurrentUserId());
             Set<Integer> adminBranchIdSet = new HashSet<>();
             adminBranchIdSet.addAll(adminBranchIds);
             if (!adminBranchIdSet.contains(branchId)) return;
-        }else{
+        } else {
             // 直属党支部
             List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(ShiroHelper.getCurrentUserId());
             Set<Integer> adminPartyIdSet = new HashSet<>();
@@ -311,7 +319,7 @@ public class PmdMemberController extends PmdBaseController {
         long count = 0;
         List<PmdMemberPayView> pmdMemberPayViews = null;
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
-        if(currentPmdMonth!=null && monthId == currentPmdMonth.getId()) {
+        if (currentPmdMonth != null && monthId == currentPmdMonth.getId()) {
             // 访问当月补缴列表
             count = iPmdMapper.countHistoryDelayMemberList(monthId, partyId, branchId, userId, hasPay);
             if ((pageNo - 1) * pageSize >= count) {
@@ -319,7 +327,7 @@ public class PmdMemberController extends PmdBaseController {
             }
             pmdMemberPayViews = iPmdMapper.selectHistoryDelayMemberList(monthId, partyId, branchId, userId, hasPay,
                     new RowBounds((pageNo - 1) * pageSize, pageSize));
-        }else{
+        } else {
             // 访问往月已补缴列表
             count = iPmdMapper.countHasPayHistoryDelayMemberList(monthId, partyId, branchId, userId);
             if ((pageNo - 1) * pageSize >= count) {
@@ -352,9 +360,9 @@ public class PmdMemberController extends PmdBaseController {
         PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(id);
 
         //如果不是组织部管理员，则要求是本支部管理员才允许删除操作
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)){
-            if(!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
-                    pmdMember.getPartyId(), pmdMember.getBranchId())){
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
+                    pmdMember.getPartyId(), pmdMember.getBranchId())) {
                 throw new UnauthorizedException();
             }
         }
@@ -372,18 +380,18 @@ public class PmdMemberController extends PmdBaseController {
     public Map do_pmdMember_add(int userId, HttpServletRequest request) {
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
-        if(currentPmdMonth==null){
+        if (currentPmdMonth == null) {
             return failed("未开启缴费");
         }
 
         int monthId = currentPmdMonth.getId();
         PmdMember pmdMember = pmdMemberService.get(monthId, userId);
-        if(pmdMember!=null){
+        if (pmdMember != null) {
             return failed(pmdMember.getUser().getRealname() + "已经在缴费列表中，请勿重复添加。");
         }
         Member member = memberService.get(userId);
 
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+        if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
             if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),
                     member.getPartyId(), member.getBranchId())) {
                 throw new UnauthorizedException();
@@ -517,7 +525,7 @@ public class PmdMemberController extends PmdBaseController {
             PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(ids[0]);
             modelMap.put("pmdMember", pmdMember);
             Integer configMemberTypeId = pmdMember.getConfigMemberTypeId();
-            if(configMemberTypeId!=null) {
+            if (configMemberTypeId != null) {
                 PmdConfigMemberType pmdConfigMemberType = pmdConfigMemberTypeService.get(configMemberTypeId);
                 modelMap.put("pmdConfigMemberType", pmdConfigMemberType);
             }
@@ -525,8 +533,8 @@ public class PmdMemberController extends PmdBaseController {
             modelMap.put("pmdConfigMember", pmdConfigMember);
         }
 
-        modelMap.put("configMemberType",  configMemberType);
-        modelMap.put("configMemberTypes",  pmdConfigMemberTypeService.list(configMemberType));
+        modelMap.put("configMemberType", configMemberType);
+        modelMap.put("configMemberTypes", pmdConfigMemberTypeService.list(configMemberType));
 
         return "pmd/pmdMember/pmdMember_selectMemberType";
     }
@@ -535,10 +543,10 @@ public class PmdMemberController extends PmdBaseController {
     @RequestMapping(value = "/pmdMember_selectMemberType", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdMember_selectMemberType(@RequestParam(value = "ids[]") int[] ids,
-                                          Boolean hasSalary, // 学生党员必须设置
-                                          byte configMemberType,
-                                          int configMemberTypeId,
-                                          BigDecimal amount, String remark) {
+                                             Boolean hasSalary, // 学生党员必须设置
+                                             byte configMemberType,
+                                             int configMemberTypeId,
+                                             BigDecimal amount, String remark) {
 
 
         pmdMemberService.selectMemberType(ids, hasSalary, configMemberType, configMemberTypeId, amount, remark);
@@ -552,7 +560,7 @@ public class PmdMemberController extends PmdBaseController {
     @RequiresPermissions("pmdMember:setIsOnlinePay")
     @RequestMapping("/pmdMember_setIsOnlinePay")
     public String pmdMember_setIsOnlinePay(@RequestParam(value = "ids[]") int[] ids,
-                                             ModelMap modelMap) {
+                                           ModelMap modelMap) {
 
         if (ids.length == 1) {
             PmdMember pmdMember = pmdMemberMapper.selectByPrimaryKey(ids[0]);
@@ -566,10 +574,10 @@ public class PmdMemberController extends PmdBaseController {
     @RequestMapping(value = "/pmdMember_setIsOnlinePay", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdMember_setIsOnlinePay(@RequestParam(value = "ids[]") int[] ids,
-                                          Boolean isOnlinePay, String remark) {
+                                           Boolean isOnlinePay, String remark) {
 
 
-        pmdMemberService.setIsOnlinePay(ids, BooleanUtils.isTrue(isOnlinePay) , remark);
+        pmdMemberService.setIsOnlinePay(ids, BooleanUtils.isTrue(isOnlinePay), remark);
 
         logger.info(addLog(LogConstants.LOG_PMD, "修改缴费方式-%s-%s-%s",
                 StringUtils.join(ids, ","), isOnlinePay, remark));
@@ -585,7 +593,7 @@ public class PmdMemberController extends PmdBaseController {
             modelMap.put("pmdMember", pmdMemberMapper.selectByPrimaryKey(ids[0]));
         }
 
-        modelMap.put("pmdNorms",  pmdNormService.list(PmdConstants.PMD_NORM_TYPE_REDUCE, null));
+        modelMap.put("pmdNorms", pmdNormService.list(PmdConstants.PMD_NORM_TYPE_REDUCE, null));
 
         return "pmd/pmdMember/pmdMember_selectReduceNorm";
     }
@@ -594,7 +602,7 @@ public class PmdMemberController extends PmdBaseController {
     @RequestMapping(value = "/pmdMember_selectReduceNorm", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdMember_selectReduceNorm(@RequestParam(value = "ids[]") int[] ids,
-                                          int normId, BigDecimal amount, String remark) {
+                                             int normId, BigDecimal amount, String remark) {
 
 
         pmdMemberService.selectReduceNorm(ids, normId, amount, remark);

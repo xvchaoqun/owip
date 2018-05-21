@@ -71,6 +71,12 @@
                             data-grid-id="#jqGrid2">
                         <i class="fa fa-rmb"></i> 代缴党费
                     </button>
+                    <button id="helpBatchPayBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"
+                            data-url="${ctx}/user/pmd/payConfirm_campuscard_batch"
+                            data-querystr="isDelay=1"
+                            data-grid-id="#jqGrid2">
+                        <i class="fa fa-rmb"></i> 批量代缴党费
+                    </button>
                     <shiro:hasPermission name="pmdMember:setIsOnlinePay">
                     <button id="selectMemberTypeBtn" class="jqOpenViewBatchBtn btn btn-info btn-sm"
                             data-url="${ctx}/pmd/pmdMember_setIsOnlinePay"
@@ -124,5 +130,17 @@
             //console.log(isCurrentMonth)
             $("#delayCashBtn").prop("disabled", hasPay);
         }
+
+        var canBatchPay = true;
+        $.each(ids, function(i, id){
+            var rowData = $(grid).getRowData(id);
+            var hasPay = (rowData.hasPay == "true");
+            if (hasPay) {
+                canBatchPay = false;
+                return;
+            }
+        })
+
+        $("#helpBatchPayBtn").prop("disabled", !canBatchPay || ids.length==1);
     }
 </script>

@@ -1,6 +1,6 @@
 package controller.cadre;
 
-import bean.CadreAdform;
+import bean.CadreInfoForm;
 import controller.BaseController;
 import domain.cadre.CadreView;
 import freemarker.template.TemplateException;
@@ -53,7 +53,7 @@ public class CadreAdformController extends BaseController {
                 "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
         response.setContentType("application/msword;charset=UTF-8");
 
-        CadreAdform adform = cadreAdformService.getCadreAdform(cadreId);
+        CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
         cadreAdformService.process(adform, response.getWriter());
     }
 
@@ -70,7 +70,7 @@ public class CadreAdformController extends BaseController {
                 "attachment;filename=" + new String((filename + ".lrmx").getBytes(), "iso-8859-1"));
         response.setContentType("text/xml;charset=UTF-8");
 
-        CadreAdform adform = cadreAdformService.getCadreAdform(cadreId);
+        CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
         cadreAdformService.zzb(adform, response.getWriter());
     }
 }

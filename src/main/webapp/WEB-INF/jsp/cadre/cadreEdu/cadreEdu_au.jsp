@@ -14,13 +14,13 @@
 				<input type="hidden" name="id" value="${cadreEdu.id}">
 				<div class="form-group">
 					<label class="col-xs-5 control-label">姓名</label>
-					<div class="col-xs-6 label-text">
+					<div class="col-xs-7 label-text">
 						${sysUser.realname}
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">学历</label>
-					<div class="col-xs-6">
+					<div class="col-xs-7">
 						<select required data-rel="select2" name="eduId"
 								data-placeholder="请选择" data-width="162">
 							<option></option>
@@ -33,7 +33,7 @@
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">入学时间</label>
-					<div class="col-xs-6">
+					<div class="col-xs-7">
 						<div class="input-group">
 							<input required class="form-control date-picker" name="enrolTime" type="text"
 								   data-date-min-view-mode="1"
@@ -44,7 +44,7 @@
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">毕业时间</label>
-					<div class="col-xs-6">
+					<div class="col-xs-7">
 						<div class="input-group">
 							<input required class="form-control date-picker" name="finishTime" type="text"
 								   data-date-min-view-mode="1"
@@ -55,13 +55,13 @@
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">毕业/在读</label>
-					<div class="col-xs-6 label-text"  style="font-size: 15px;">
+					<div class="col-xs-7 label-text"  style="font-size: 15px;">
 						<input type="checkbox" class="big" name="isGraduated" ${(cadreEdu==null ||cadreEdu.isGraduated)?"checked":""} data-off-text="在读" data-on-text="毕业"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">是否最高学历</label>
-					<div class="col-xs-6">
+					<div class="col-xs-7">
 						<label>
 							<input name="isHighEdu" ${cadreEdu.isHighEdu?"checked":""}  type="checkbox" />
 							<span class="lbl"></span>
@@ -70,25 +70,25 @@
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">毕业/在读学校</label>
-					<div class="col-xs-6">
+					<div class="col-xs-7">
 						<input required class="form-control" type="text" name="school" value="${cadreEdu.school}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">院系</label>
-					<div class="col-xs-6">
+					<div class="col-xs-7">
 						<input required class="form-control" type="text" name="dep" value="${cadreEdu.dep}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">所学专业</label>
-					<div class="col-xs-6">
+					<div class="col-xs-7">
 						<input required class="form-control" type="text" name="major" value="${cadreEdu.major}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">学校类型</label>
-					<div class="col-xs-6">
+					<div class="col-xs-7">
 						<select required data-rel="select2" name="schoolType"
 								data-placeholder="请选择" data-width="162">
 							<option></option>
@@ -103,7 +103,7 @@
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">学习方式</label>
-					<div class="col-xs-6">
+					<div class="col-xs-7">
 						<select required data-rel="select2" name="learnStyle"
 								data-placeholder="请选择" data-width="162">
 							<option></option>
@@ -116,7 +116,7 @@
 				</div>
 				<div class="form-group">
 					<label class="col-xs-5 control-label">是否获得学位</label>
-					<div class="col-xs-6">
+					<div class="col-xs-7">
 						<label>
 							<input name="hasDegree" ${cadreEdu.hasDegree?"checked":""}  type="checkbox" />
 							<span class="lbl"></span>
@@ -129,7 +129,8 @@
 				<div class="form-group">
 					<label class="col-xs-4 control-label">学位</label>
 					<div class="col-xs-8">
-						<input disabled class="form-control" placeholder="例如：教育学博士、管理学硕士" type="text" name="degree" value="${cadreEdu.degree}">
+						<input disabled class="form-control" type="text" name="degree" value="${cadreEdu.degree}">
+						<span class="help-block">例如：文学学士、管理学硕士、教育学博士</span>
 					</div>
 				</div>
 
@@ -172,8 +173,8 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-6 control-label">导师现所在单位及职务（职称）</label>
-						<div class="col-xs-6">
+						<label class="col-xs-7 control-label">导师现所在单位及职务（职称）</label>
+						<div class="col-xs-5">
 							<input class="form-control" type="text" name="tutorTitle" value="${cadreEdu.tutorTitle}">
 						</div>
 					</div>
@@ -187,19 +188,20 @@
 							<span class="help-block">*每张图片大小不能超过${cm:stripTrailingZeros(_uploadMaxSize/(2*1024*1024))}M</span>
 						</div>
 					</div>
+				<div class="form-group">
+					<label class="col-xs-4 control-label">补充说明</label>
+					<div class="col-xs-8">
+						<input class="form-control" type="text" name="note" maxlength="50" value="${cadreEdu.note}"/>
+						<span class="help-block">例如：硕博连读、美国哈佛大学联合培养一年等</span>
+					</div>
+				</div>
 					<div class="form-group">
 						<label class="col-xs-4 control-label">备注</label>
 						<div class="col-xs-8">
 							<textarea class="form-control" name="remark" rows="2" maxlength="100">${cadreEdu.remark}</textarea>
 						</div>
 					</div>
-					<div class="form-group">
-						<label class="col-xs-4 control-label">补充说明</label>
-						<div class="col-xs-8">
-							<textarea class="form-control" name="note" rows="2" maxlength="50"
-									  placeholder="例如：硕博连读、美国哈佛大学联合培养一年等">${cadreEdu.note}</textarea>
-						</div>
-					</div>
+
 				</div></div>
 	</form>
 </div>
@@ -294,12 +296,23 @@
 
 	function eduIdChange(){
 		var $eduId = $("select[name=eduId]");
-		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_master").id}" || $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_doctor").id}"){
+		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_master").id}"
+				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_doctor").id}"){
 			$("input[name=tutorName]").prop("disabled", false);
 			$("input[name=tutorTitle]").prop("disabled", false);
 		}else{
 			$("input[name=tutorName]").val('').prop("disabled", true);
 			$("input[name=tutorTitle]").val('').prop("disabled", true);
+		}
+
+		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_jxxx").id}"){
+			$("input[name=hasDegree]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$("input[name=isHighEdu]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$("input[name=isHighDegreee]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+		}else{
+			$("input[name=hasDegree]").bootstrapSwitch('disabled', false);
+			$("input[name=isHighEdu]").bootstrapSwitch('disabled', false);
+			$("input[name=isHighDegreee]").bootstrapSwitch('disabled', false);
 		}
 	}
 	$("select[name=eduId]").change(function(){
@@ -308,7 +321,7 @@
 	eduIdChange();
 
 	$("input[name=school]").keyup(function(){
-		console.log($("input[name=hasDegree]").bootstrapSwitch("state"));
+		//console.log($("input[name=hasDegree]").bootstrapSwitch("state"));
 		if($("input[name=hasDegree]").bootstrapSwitch("state")) {
 			var $degreeUnit = $("input[name=degreeUnit]");
 			if ($degreeUnit.val() == '' || $(this).val().startWith($degreeUnit.val())) {

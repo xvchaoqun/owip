@@ -2,8 +2,6 @@ package controller.pmd;
 
 import domain.pmd.PmdOrderCampuscard;
 import domain.pmd.PmdOrderCampuscardExample;
-import domain.pmd.PmdOrderCampuscardView;
-import domain.pmd.PmdOrderCampuscardViewExample;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.pmd.common.IPmdOrderCampuscard;
 import service.pmd.PmdPayCampusCardService;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
@@ -52,6 +51,16 @@ public class PmdOrderController extends PmdBaseController {
     }
 
     @RequiresPermissions("pmdOw:admin")
+    @RequestMapping("/pmdOrderItemList")
+    public String pmdOrderItemList(String sn, ModelMap modelMap) {
+
+        List<Map> orderItems = iPmdMapper.listOrderItems(sn);
+        modelMap.put("orderItems", orderItems);
+
+        return "pmd/pmdOrder/pmdOrderItemList";
+    }
+
+    @RequiresPermissions("pmdOw:admin")
     @RequestMapping("/pmdOrderCampuscard")
     public String pmdOrderCampuscard(int userId, ModelMap modelMap) {
 
@@ -75,21 +84,14 @@ public class PmdOrderController extends PmdBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PmdOrderCampuscardViewExample example = new PmdOrderCampuscardViewExample();
+        PmdOrderCampuscardExample example = new PmdOrderCampuscardExample();
 
         // 查询支付人或缴费人
-        SysUserView uv = sysUserService.findById(userId);
-        String code = uv.getCode();
-        example.or().andMemberUserIdEqualTo(userId);
-        example.or().andPayerEqualTo(code);
-
-        example.setOrderByClause("create_time desc");
-
-        long count = pmdOrderCampuscardViewMapper.countByExample(example);
+        int count = iPmdMapper.countPayList(userId);
         if ((pageNo - 1) * pageSize >= count) {
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<PmdOrderCampuscardView> records = pmdOrderCampuscardViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<IPmdOrderCampuscard> records = iPmdMapper.selectPayList(userId, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();

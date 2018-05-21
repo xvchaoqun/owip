@@ -1,17 +1,32 @@
 package service.cet;
 
+import domain.cet.CetDiscussGroup;
 import domain.cet.CetDiscussGroupObj;
 import domain.cet.CetDiscussGroupObjExample;
+import domain.cet.CetProject;
+import domain.cet.CetProjectObj;
+import domain.sys.SysUserView;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.sys.SysUserService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CetDiscussGroupObjService extends BaseMapper {
+
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private CetProjectObjService cetProjectObjService;
 
     public CetDiscussGroupObj getByDiscussId(Integer objId, int discussId) {
 
@@ -59,5 +74,60 @@ public class CetDiscussGroupObjService extends BaseMapper {
     public int updateByPrimaryKeySelective(CetDiscussGroupObj record){
 
         return cetDiscussGroupObjMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 导入分组/参会结果
+    @Transactional
+    public Map<String, Object>  imports(List<Map<Integer, String>> xlsRows, int discussGroupId, boolean isFinished) {
+
+        CetDiscussGroup cetDiscussGroup = cetDiscussGroupMapper.selectByPrimaryKey(discussGroupId);
+        int discussId = cetDiscussGroup.getDiscussId();
+        CetProject cetProject = iCetMapper.getCetProjectOfDiscussGroup(discussGroupId);
+        int projectId = cetProject.getId();
+        int success = 0;
+        List<Map<Integer, String>> failedXlsRows = new ArrayList<>();
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            String code = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(code)) continue;
+            SysUserView uv = sysUserService.findByCode(code);
+            if (uv == null){
+                failedXlsRows.add(xlsRow);
+                continue;
+            }
+            int userId = uv.getId();
+            CetProjectObj cetProjectObj = cetProjectObjService.get(userId, projectId);
+            if (cetProjectObj == null){
+                failedXlsRows.add(xlsRow);
+                continue;
+            }
+            int objId = cetProjectObj.getId();
+
+            CetDiscussGroupObj record = new CetDiscussGroupObj();
+            record.setDiscussId(discussId);
+            record.setDiscussGroupId(discussGroupId);
+            record.setObjId(cetProjectObj.getId());
+            record.setIsFinished(isFinished);
+
+            CetDiscussGroupObj byDiscussId = getByDiscussId(objId, discussId);
+            int ret = 0;
+            if(byDiscussId!=null){
+                record.setId(byDiscussId.getId());
+                ret = cetDiscussGroupObjMapper.updateByPrimaryKeySelective(record);
+            }else{
+                ret = cetDiscussGroupObjMapper.insertSelective(record);
+            }
+
+            if(ret==1) {
+                success++;
+            }else{
+                failedXlsRows.add(xlsRow);
+            }
+        }
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("success", success);
+        resultMap.put("failedXlsRows", failedXlsRows);
+        return resultMap;
     }
 }

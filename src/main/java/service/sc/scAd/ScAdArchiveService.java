@@ -1,6 +1,6 @@
 package service.sc.scAd;
 
-import bean.CadreAdform;
+import bean.CadreInfoForm;
 import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.cis.CisInspectObj;
@@ -135,14 +135,14 @@ public class ScAdArchiveService extends BaseMapper {
         return scCommitteeVotes;
     }
 
-    public CadreAdform getCadreAdForm(Integer archiveId, Integer[] voteIds) {
+    public CadreInfoForm getCadreAdForm(Integer archiveId, Integer[] voteIds) {
 
         List<ScCommitteeVote> votes = checkVotes(archiveId, voteIds);
 
         return getCadreAdForm(votes);
     }
 
-    public CadreAdform getCadreAdForm(List<ScCommitteeVote> scCommitteeVotes){
+    public CadreInfoForm getCadreAdForm(List<ScCommitteeVote> scCommitteeVotes){
 
         Integer cadreId = null;
         ScCommitteeVote appointVote = null;
@@ -158,7 +158,7 @@ public class ScAdArchiveService extends BaseMapper {
         }
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
-        CadreAdform bean = cadreAdformService.getCadreAdform(cadreId);
+        CadreInfoForm bean = cadreAdformService.getCadreAdform(cadreId);
         bean.setPost(null);
         bean.setInPost(null);
         bean.setPrePost(null);
@@ -185,7 +185,7 @@ public class ScAdArchiveService extends BaseMapper {
     @Transactional
     public void save(Integer archiveId, Integer[] voteIds) {
 
-        CadreAdform cadreAdForm = getCadreAdForm(archiveId, voteIds);
+        CadreInfoForm cadreAdForm = getCadreAdForm(archiveId, voteIds);
 
         ScAdArchiveWithBLOBs record = new ScAdArchiveWithBLOBs();
         record.setId(archiveId);

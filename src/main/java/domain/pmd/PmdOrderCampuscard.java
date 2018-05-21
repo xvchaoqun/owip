@@ -8,6 +8,10 @@ public class PmdOrderCampuscard implements Serializable {
 
     private Integer memberId;
 
+    private Boolean isBatch;
+
+    private String payMonth;
+
     private String paycode;
 
     private String payer;
@@ -52,6 +56,22 @@ public class PmdOrderCampuscard implements Serializable {
 
     public void setMemberId(Integer memberId) {
         this.memberId = memberId;
+    }
+
+    public Boolean getIsBatch() {
+        return isBatch;
+    }
+
+    public void setIsBatch(Boolean isBatch) {
+        this.isBatch = isBatch;
+    }
+
+    public String getPayMonth() {
+        return payMonth;
+    }
+
+    public void setPayMonth(String payMonth) {
+        this.payMonth = payMonth == null ? null : payMonth.trim();
     }
 
     public String getPaycode() {

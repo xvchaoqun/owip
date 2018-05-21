@@ -3,7 +3,7 @@
 <script>
   var colModel = [
     {label: '月份', name: 'payMonth', formatter: 'date', formatoptions: {newformat: 'Y年m月'}, frozen: true},
-    <c:if test="${param.type!='admin'}">
+    <c:if test="${param.type!='admin' && cls!=6}">
     {label: '缴费', name: '_pay', formatter: function (cellvalue, options, rowObject) {
       // 能缴费的情况：已开启缴费 且 党支部未报送  且 还未缴费  且 当月的没有设置为延迟缴费
       if(rowObject.payStatus==0){
@@ -97,8 +97,14 @@
       if(!rowObject.hasPay || !rowObject.isOnlinePay) return '-'
       return cellvalue?"线上缴费":"代缴党费";
     }},
+    <c:if test="${param.type!='admin' && cls==6}">
+    { label: '缴费订单号',name: '_orderNo', width: 180, formatter: function (cellvalue, options, rowObject) {
+      if(rowObject.pmdMemberPayView==undefined) return '-'
+      return $.trim(rowObject.pmdMemberPayView.orderNo);
+    }},
+      </c:if>
     <c:if test="${param.type=='admin'}">
-    { label: '缴费订单号',name: '_orderNo', width: 160, formatter: function (cellvalue, options, rowObject) {
+    { label: '缴费订单号',name: '_orderNo', width: 180, formatter: function (cellvalue, options, rowObject) {
       if(rowObject.pmdMemberPayView==undefined) return '-'
       return $.trim(rowObject.pmdMemberPayView.orderNo);
     }},

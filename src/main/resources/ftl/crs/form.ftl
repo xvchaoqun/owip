@@ -2078,7 +2078,7 @@
 						</w:tblBorders>
 					</w:tblPr>
 					<w:tblGrid>
-						<w:gridCol w:w="1447"/>
+						<w:gridCol w:w="1467"/>
 						<w:gridCol w:w="893"/>
 						<w:gridCol w:w="320"/>
 						<w:gridCol w:w="656"/>
@@ -2101,7 +2101,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="0047784B" wsp:rsidRPr="00D22114" wsp:rsidRDefault="0047784B" wsp:rsidP="00196B91">
@@ -2394,7 +2394,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="0047784B" wsp:rsidRPr="00773E53" wsp:rsidRDefault="00196B91" wsp:rsidP="00196B91">
@@ -2583,7 +2583,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00196B91" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00196B91" wsp:rsidP="00196B91">
@@ -2728,8 +2728,6 @@
 										<w:rFonts w:ascii="宋体" w:h-ansi="宋体"/>
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
-										<w:sz w:val="21"/>
-										<w:sz-cs w:val="21"/>
 									</w:rPr>
 								</w:pPr>
 								<w:r>
@@ -2737,8 +2735,6 @@
 										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast"/>
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
-										<w:sz w:val="21"/>
-										<w:sz-cs w:val="21"/>
 									</w:rPr>
 									<w:t>${bean.workTime!}</w:t>
 								</w:r>
@@ -2820,7 +2816,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00401152" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00401152" wsp:rsidP="00196B91">
@@ -2981,7 +2977,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vmerge w:val="restart"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -3201,7 +3197,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vmerge/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -3359,7 +3355,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="001343BA" wsp:rsidRPr="00D22114" wsp:rsidRDefault="001343BA" wsp:rsidP="00196B91">
@@ -3532,7 +3528,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="004D72C6" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00927F88">
@@ -3667,7 +3663,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="007810CF" wsp:rsidRPr="00D22114" wsp:rsidRDefault="007810CF" wsp:rsidP="00961179">
@@ -3742,7 +3738,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="0052109C" wsp:rsidRDefault="007F17AD" wsp:rsidP="00FF2118">
@@ -3853,7 +3849,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="00FF2118" wsp:rsidP="00FF2118">
@@ -3944,7 +3940,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="0052109C" wsp:rsidP="00FF2118">
@@ -4083,7 +4079,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="0052109C" wsp:rsidP="00FF2118">
@@ -4235,7 +4231,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00401152" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00852F14" wsp:rsidP="00C9552D">
@@ -4345,7 +4341,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
 							<w:p wsp:rsidR="00401152" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00E33871" wsp:rsidP="00000CD6">
@@ -4443,7 +4439,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vmerge w:val="restart"/>
 								<w:textFlow w:val="tb-rl-v"/>
 								<w:vAlign w:val="center"/>
@@ -4569,7 +4565,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vmerge/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -4613,7 +4609,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vmerge w:val="restart"/>
 								<w:textFlow w:val="tb-rl-v"/>
 								<w:vAlign w:val="center"/>
@@ -4829,7 +4825,7 @@
 						</w:trPr>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1447" w:type="dxa"/>
+								<w:tcW w:w="1467" w:type="dxa"/>
 								<w:vmerge w:val="restart"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>

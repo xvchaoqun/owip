@@ -22,12 +22,13 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${crsPostRequire.rules}" var="rule" varStatus="vs">
+                    <c:set var="ruleItemCount" value="${fn:length(rule.ruleItems)}"/>
                     <c:forEach items="${rule.ruleItems}" var="item" varStatus="vs2">
                         <tr>
                             <c:if test="${vs2.first}">
-                                <td rowspan="${fn:length(rule.ruleItems)}" class="idx">
+                                <td rowspan="${ruleItemCount}" class="idx">
                                         ${vs.count}
-                                    <c:if test="${fn:length(rule.ruleItems)>1}">
+                                    <c:if test="${ruleItemCount>1}">
                                         <div class="or">（或）</div>
                                     </c:if>
                                 </td>
@@ -43,7 +44,7 @@
                             </td>
                             <c:if test="${vs2.first}">
                                 <c:set var="_checkBean" value="${checkMap.get(rule.id)}"/>
-                                <td rowspan="${fn:length(rule.ruleItems)}" class="op" data-rule-id="${rule.id}">
+                                <td rowspan="${ruleItemCount}" class="op" data-rule-id="${rule.id}">
                                     <a href="javascript:;" data-status="1"
                                             class="btn btn-xs agree ${(_checkBean!=null && _checkBean.pass)?'disabled':''}">
                                         <i class="fa fa-check-circle"></i> 符合
@@ -59,7 +60,7 @@
                 </c:forEach>
                 <c:set var="ruleCount" value="${fn:length(crsPostRequire.rules)}"/>
                 <tr>
-                    <td>
+                    <td class="idx">
                         ${ruleCount + 1}
                     </td>
                     <td>
@@ -67,10 +68,13 @@
                     </td>
                     <td colspan="3">
                         ${cadre.status==CADRE_STATUS_MIDDLE?"是":"否"}
+                        <c:if test="${cadre.status==CADRE_STATUS_MIDDLE_LEAVE}">
+                            ，离任干部
+                        </c:if>
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="idx">
                         ${ruleCount + 2}
                     </td>
                     <td>
@@ -81,14 +85,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="idx">
                         ${ruleCount + 3}
                     </td>
                     <td>
                         行政级别
                     </td>
                     <td colspan="3">
-                        ${cm:getMetaType(cadre.typeId).name}
+                        <c:if test="${cadre.status==CADRE_STATUS_MIDDLE}">
+                            ${cm:getMetaType(cadre.typeId).name}
+                        </c:if>
+                        <c:if test="${cadre.status!=CADRE_STATUS_MIDDLE}">
+                        无行政级别
+                        </c:if>
                     </td>
                 </tr>
                 </tbody>

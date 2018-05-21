@@ -146,4 +146,14 @@
         select count(cc.id) from cet_course cc
         <include refid="searchPlanCourses"/>
     </select>
+
+    <!-- 查询分组讨论学员 -->
+    <select id="groupUserIds" parameterType="map" resultType="java.lang.Integer">
+        select cpo.user_id from cet_discuss_group_obj cdgo, cet_project_obj cpo
+            where cdgo.discuss_group_id=#{discussGroupId} and cdgo.obj_id=cpo.id
+            <if test="isFinished!=null">
+                and cdgo.is_finished = #{isFinished}
+            </if>
+            order by cpo.id asc
+    </select>
 </mapper>

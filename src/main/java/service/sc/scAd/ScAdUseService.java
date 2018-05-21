@@ -1,6 +1,6 @@
 package service.sc.scAd;
 
-import bean.CadreAdform;
+import bean.CadreInfoForm;
 import domain.sc.scAd.ScAdUse;
 import domain.sc.scAd.ScAdUseExample;
 import org.apache.commons.lang3.BooleanUtils;
@@ -57,7 +57,7 @@ public class ScAdUseService extends BaseMapper {
     public void save(Integer useId) {
 
         ScAdUse scAdUse = scAdUseMapper.selectByPrimaryKey(useId);
-        CadreAdform cadreAdForm = cadreAdformService.getCadreAdform(scAdUse.getCadreId());
+        CadreInfoForm cadreAdForm = cadreAdformService.getCadreAdform(scAdUse.getCadreId());
 
         ScAdUse record = new ScAdUse();
         record.setId(scAdUse.getId());

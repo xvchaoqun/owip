@@ -378,6 +378,7 @@ body {
 .table.table-unhover > tbody > tr > td:nth-of-type(odd) {
     background-color: #f9f9f9;
     text-align: right;
+    white-space: nowrap;
 }
 
 .table.table-unhover2 tbody tr:hover td {

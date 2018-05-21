@@ -1,6 +1,6 @@
 package service.cadre;
 
-import bean.CadreAdform;
+import bean.CadreInfoForm;
 import domain.base.MetaType;
 import domain.cadre.CadreEdu;
 import domain.cadre.CadreFamily;
@@ -33,6 +33,7 @@ import service.sys.SysConfigService;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ImageUtils;
 
@@ -71,17 +72,14 @@ public class CadreAdformService extends BaseMapper{
     protected SysConfigService sysConfigService;
 
     // 获取任免审批表属性值
-    public CadreAdform getCadreAdform(int cadreId){
-
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
+    public CadreInfoForm getCadreAdform(int cadreId){
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         SysUserView uv = cadre.getUser();
 
-        CadreAdform bean = new CadreAdform();
+        CadreInfoForm bean = new CadreInfoForm();
         bean.setCadreId(cadreId);
-        bean.setRealname(uv.getRealname());
-        bean.setRealname(uv.getRealname());
+        bean.setRealname(CmTag.realnameWithEmpty(uv.getRealname()));
         bean.setGender(uv.getGender());
         bean.setIdCard(uv.getIdcard());
         bean.setBirth(cadre.getBirth());
@@ -119,28 +117,40 @@ public class CadreAdformService extends BaseMapper{
         CadreEdu[] cadreEdus = cadre.getCadreEdus();
         CadreEdu fulltimeEdu = cadreEdus[0];
         CadreEdu onjobEdu = cadreEdus[1];
-        if(fulltimeEdu!=null){
-            Integer eduId = fulltimeEdu.getEduId();
-            //String degree = fulltimeEdu.getDegree();
-            _fulltimeEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
 
-            bean.setSchool(fulltimeEdu.getSchool());
-            bean.setDepMajor(StringUtils.trimToEmpty(CadreUtils.major(fulltimeEdu.getMajor())));
-            _fulltimeMajor = bean.getSchool() + bean.getDepMajor();
+        Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
+        MetaType jxxx = codeKeyMap.get("mt_edu_jxxx");
 
-            _fulltimeDegree = fulltimeEdu.getDegree(); // 学位
+        if(fulltimeEdu!=null && fulltimeEdu.getIsGraduated()){
+            if(jxxx!=null && fulltimeEdu.getId().intValue()==jxxx.getId()){
+                // 进修学习不能进入表格
+            }else {
+                Integer eduId = fulltimeEdu.getEduId();
+                //String degree = fulltimeEdu.getDegree();
+                _fulltimeEdu = CmTag.getEduName(eduId) /*+ (degree!=null?degree:"")*/;
+
+                bean.setSchool(fulltimeEdu.getSchool());
+                bean.setDepMajor(StringUtils.trimToEmpty(CadreUtils.major(fulltimeEdu.getMajor())));
+                _fulltimeMajor = bean.getSchool() + bean.getDepMajor();
+
+                _fulltimeDegree = fulltimeEdu.getDegree(); // 学位
+            }
         }
-        if(onjobEdu!=null){
-            Integer eduId = onjobEdu.getEduId();
-            //String degree = onjobEdu.getDegree();
-            _onjobEdu = metaTypeMap.get(eduId).getName() /*+ (degree!=null?degree:"")*/;
+        if(onjobEdu!=null && onjobEdu.getIsGraduated()){
+            if(jxxx!=null && onjobEdu.getId().intValue()==jxxx.getId()){
+                // 进修学习不能进入表格
+            }else {
+                Integer eduId = onjobEdu.getEduId();
+                //String degree = onjobEdu.getDegree();
+                _onjobEdu = CmTag.getEduName(eduId) /*+ (degree!=null?degree:"")*/;
 
-            bean.setInSchool(onjobEdu.getSchool());
-            bean.setInDepMajor(StringUtils.trimToEmpty(CadreUtils.major(onjobEdu.getMajor())));
+                bean.setInSchool(onjobEdu.getSchool());
+                bean.setInDepMajor(StringUtils.trimToEmpty(CadreUtils.major(onjobEdu.getMajor())));
 
-            _onjobMajor =  bean.getInSchool() + bean.getInDepMajor();
+                _onjobMajor = bean.getInSchool() + bean.getInDepMajor();
 
-            _onjobDegree = onjobEdu.getDegree();
+                _onjobDegree = onjobEdu.getDegree();
+            }
         }
         // 全日制最高学历
         bean.setEdu(_fulltimeEdu);
@@ -191,7 +201,7 @@ public class CadreAdformService extends BaseMapper{
     }
 
     // 输出任免审批表
-    public void process(CadreAdform adform, Writer out) throws IOException, TemplateException {
+    public void process(CadreInfoForm adform, Writer out) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("name", adform.getRealname());
@@ -306,7 +316,7 @@ public class CadreAdformService extends BaseMapper{
     }
 
     // 输出中组部任免审批表
-    public void zzb(CadreAdform adform, Writer out) throws IOException, DocumentException {
+    public void zzb(CadreInfoForm adform, Writer out) throws IOException, DocumentException {
 
         Document doc = getZZBTemplate();
 

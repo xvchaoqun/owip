@@ -267,7 +267,7 @@ import persistence.pmd.PmdNormValueMapper;
 import persistence.pmd.PmdNotifyCampuscardMapper;
 import persistence.pmd.PmdNotifyWszfMapper;
 import persistence.pmd.PmdOrderCampuscardMapper;
-import persistence.pmd.PmdOrderCampuscardViewMapper;
+import persistence.pmd.PmdOrderItemMapper;
 import persistence.pmd.PmdPartyAdminMapper;
 import persistence.pmd.PmdPartyMapper;
 import persistence.pmd.PmdPartyViewMapper;
@@ -622,7 +622,7 @@ public class BaseMapper {
     @Autowired(required = false)
     protected PmdOrderCampuscardMapper pmdOrderCampuscardMapper;
     @Autowired(required = false)
-    protected PmdOrderCampuscardViewMapper pmdOrderCampuscardViewMapper;
+    protected PmdOrderItemMapper pmdOrderItemMapper;
     @Autowired(required = false)
     protected PmdNotifyWszfMapper pmdNotifyWszfMapper;
     @Autowired(required = false)

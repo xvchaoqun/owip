@@ -18,9 +18,9 @@ public class ExtYjsService extends BaseMapper {
 
         if(StringUtils.isBlank(code)) return null;
 
-        ExtYjsExample exmaple = new ExtYjsExample();
-        exmaple.createCriteria().andXhEqualTo(code);
-        List<ExtYjs> extYjss = extYjsMapper.selectByExample(exmaple);
+        ExtYjsExample example = new ExtYjsExample();
+        example.createCriteria().andXhEqualTo(code);
+        List<ExtYjs> extYjss = extYjsMapper.selectByExample(example);
         if(extYjss.size()>0) return extYjss.get(0);
         return null;
     }

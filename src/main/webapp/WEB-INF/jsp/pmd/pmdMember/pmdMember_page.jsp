@@ -146,14 +146,18 @@
                                 data-querystr="&isBranchAdmin=1&isSelf=0"
                                 data-id-name="pmdMemberId">
                             <i class="fa fa-rmb"></i> 修改党费应交额</button>
-                        <shiro:hasPermission name="pmdMember:payCash">
-                            <button id="helpPayBtn" class="jqOpenViewBtn btn btn-success btn-sm"
-                                    data-url="${ctx}/user/pmd/payConfirm_campuscard"
-                                    data-querystr="&isSelfPay=0"
-                                    data-grid-id="#jqGrid2">
-                                <i class="fa fa-rmb"></i> 代缴党费
-                            </button>
-                        </shiro:hasPermission>
+                        <button id="helpPayBtn" class="jqOpenViewBtn btn btn-success btn-sm"
+                                data-url="${ctx}/user/pmd/payConfirm_campuscard"
+                                data-querystr="&isSelfPay=0"
+                                data-grid-id="#jqGrid2">
+                            <i class="fa fa-rmb"></i> 代缴党费
+                        </button>
+                        <button id="helpBatchPayBtn" class="jqOpenViewBatchBtn btn btn-success btn-sm"
+                                data-url="${ctx}/user/pmd/payConfirm_campuscard_batch"
+                                data-querystr="isDelay=0"
+                                data-grid-id="#jqGrid2">
+                            <i class="fa fa-rmb"></i> 批量代缴党费
+                        </button>
                         <shiro:hasPermission name="pmdMember:delay">
                             <button id="delayBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                                     data-url="${ctx}/pmd/pmdMember_delay" data-grid-id="#jqGrid2">
@@ -312,6 +316,7 @@
             $(this).data("querystr", querystr);
         });
 
+        $("#helpBatchPayBtn").prop("disabled", !selectMemberTypeBtn || !hasSetDuePay || ids.length==1);
         $("#selectMemberTypeBtn").prop("disabled", !selectMemberTypeBtn || configMemberType==-1);
         $("#selectReduceNormBtn").prop("disabled", needConfirmDuePay|| !selectReduceNormBtn || !hasSetDuePay);
     }

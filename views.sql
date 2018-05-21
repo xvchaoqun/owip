@@ -331,13 +331,6 @@ CREATE ALGORITHM = UNDEFINED VIEW `pmd_branch_view` AS
 select pb.*,pm.pay_month, pm.status as month_status from pmd_branch pb
 left join pmd_month pm on pb.month_id=pm.id;
 
-DROP VIEW IF EXISTS `pmd_order_campuscard_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `pmd_order_campuscard_view` AS
-select poc.*, pm.pay_month, pm.user_id as member_user_id, uv.realname, uv.code from pmd_order_campuscard poc
-left join pmd_member pm on poc.member_id = pm.id
-left join sys_user_view uv on pm.user_id=uv.id;
-
-
 DROP VIEW IF EXISTS `oa_task_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `oa_task_view`
 AS select ot.*, count(distinct otf.id) as file_count,

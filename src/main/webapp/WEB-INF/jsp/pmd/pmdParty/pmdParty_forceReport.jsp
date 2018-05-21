@@ -40,7 +40,7 @@
             <tr>
                 <td>{{=m.user.realname}}</td>
                 <td>{{=m.user.code}}</td>
-                <td>{{=(_cMap.branchMap[m.branchId].name)}}</td>
+                <td>{{=(_cMap.branchMap[m.branchId]==undefined?'':_cMap.branchMap[m.branchId].name)}}</td>
             </tr>
             {{});}}
             </tbody>

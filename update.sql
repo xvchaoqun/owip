@@ -1,4 +1,32 @@
 
+
+ALTER TABLE `pmd_order_campuscard`
+	CHANGE COLUMN `member_id` `member_id` INT(10) UNSIGNED NULL COMMENT '党员缴费记录' AFTER `sn`,
+	ADD COLUMN `is_batch` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否批量缴费，批量缴费时，member_id为空' AFTER `member_id`;
+
+ALTER TABLE `pmd_order_campuscard`
+	ADD INDEX `user_id` (`user_id`),
+	ADD INDEX `is_batch` (`is_batch`);
+
+删除 pmd_order_campuscard_view
+
+ALTER TABLE `pmd_order_campuscard`
+	ADD COLUMN `pay_month` VARCHAR(10) NULL COMMENT '缴费月份，用于批量缴费生成订单号' AFTER `is_batch`,
+	ADD INDEX `pay_month` (`pay_month`);
+
+update pmd_order_campuscard set pay_month = left(sn, 6);
+
+ALTER TABLE `pmd_order_campuscard`
+	CHANGE COLUMN `pay_month` `pay_month` VARCHAR(10) NOT NULL COMMENT '缴费月份，用于批量缴费生成订单号' AFTER `is_batch`;
+
+ALTER TABLE `pmd_member_pay`
+	CHANGE COLUMN `order_no` `order_no` VARCHAR(20) NULL DEFAULT NULL COMMENT '缴费订单号，批量缴费时允许重复' AFTER `member_id`,
+	DROP INDEX `order_no`;
+
+
+update base_meta_type set code='mt_edu_jxxx' where code='mt_edu_jxxi';
+
+
 2018-5-18
 先备份 cadre_work
 

@@ -3,18 +3,41 @@ package persistence.pmd.common;
 import domain.ext.ExtJzgSalary;
 import domain.ext.ExtRetireSalary;
 import domain.pmd.PmdMemberPayView;
+import domain.pmd.PmdOrderCampuscard;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.session.RowBounds;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lm on 2017/6/13.
  */
 public interface IPmdMapper {
+
+    // 批量缴费的记录列表
+    @ResultType(java.util.HashMap.class)
+    @Select("select u.user_id as userId, u.code, u.realname, poi.due_pay as duePay from pmd_order_item poi, pmd_member pm, sys_user_view u " +
+            "where poi.sn=#{sn} and poi.member_id=pm.id and pm.user_id=u.id order by poi.id asc")
+    public List<Map> listOrderItems(@Param("sn") String sn);
+
+    // 批量缴费的记录列表（只返回memberId）
+    @Select("select member_id from pmd_order_item where sn = #{sn} order by id asc")
+    public List<Integer> listOrderMemberIds(@Param("sn") String sn);
+
+    // 查询用户缴费记录
+    public List<IPmdOrderCampuscard> selectPayList(@Param("userId") Integer userId, RowBounds rowBounds);
+    public int countPayList(@Param("userId") Integer userId);
+
+    // 查询缴费记录对应的批量缴费记录（未关闭的）
+    @ResultMap("persistence.pmd.PmdOrderCampuscardMapper.BaseResultMap")
+    @Select("select poc.* from pmd_order_item poi, pmd_order_campuscard poc " +
+            "where poi.member_id=#{memberId} and poc.sn=poi.sn and poc.is_batch=1 and poc.is_closed=0")
+    public List<PmdOrderCampuscard> notClosedBatchOrder(@Param("memberId") int memberId);
 
     // 删除某个支部下的所有未缴费记录
     public void delNotPayMembers(@Param("currentMonthId") int currentMonthId,

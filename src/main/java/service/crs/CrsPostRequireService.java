@@ -34,49 +34,56 @@ public class CrsPostRequireService extends BaseMapper {
 
     public Map<Byte, String> getRealValMap(int userId) {
 
-        CadreView record = cadreService.dbFindByUserId(userId);
+        CadreView cv = cadreService.dbFindByUserId(userId);
 
         Map<Byte, String> resultMap = new HashMap<>();
-        if (record == null) return resultMap;
+        if (cv == null) return resultMap;
 
         Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
 
-        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_XL, metaTypeService.getName(record.getEduId()));
-        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_RZNL, record.getBirth() == null ? "" : DateUtils.calAge(record.getBirth()));
+        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_XL, metaTypeService.getName(cv.getEduId()));
+        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_RZNL, cv.getBirth() == null ? "" : DateUtils.calAge(cv.getBirth()));
 
-        String partyName = cadreService.getCadreParty(record.getCadreDpType());// 党派
-        String partyAddYear = record.getCadreGrowTime() == null ? null : DateUtils.yearOffNow_cn(record.getCadreGrowTime());
+        String partyName = cadreService.getCadreParty(cv.getCadreDpType(), "中共");// 党派
+        String partyAddYear = cv.getCadreGrowTime() == null ? null : DateUtils.yearOffNow_cn(cv.getCadreGrowTime());
 
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZZMM, combineTowString(partyName, partyAddYear));
 
-        String proPostLevel = record.getProPostLevel();
-        String proPostLevelTime = record.getProPostLevelTime() == null ? null : DateUtils.yearOffNow_cn(record.getProPostLevelTime());
-        String proPost = record.getProPost();
-        String proPostTime = record.getProPostTime() == null ? null : DateUtils.yearOffNow_cn(record.getProPostTime());
+        String proPostLevel = cv.getProPostLevel();
+        String proPostLevelTime = cv.getProPostLevelTime() == null ? null : DateUtils.yearOffNow_cn(cv.getProPostLevelTime());
+        String proPost = cv.getProPost();
+        String proPostTime = cv.getProPostTime() == null ? null : DateUtils.yearOffNow_cn(cv.getProPostTime());
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZZJS, combineTowString(proPost, proPostTime)
                 +"<br/>" + combineTowString(proPostLevel, proPostLevelTime));
 
-        String manageLevel = record.getManageLevel();
-        String manageLevelTime = record.getManageLevelTime() == null ? null : DateUtils.yearOffNow_cn(record.getManageLevelTime());
+        String manageLevel = cv.getManageLevel();
+        String manageLevelTime = cv.getManageLevelTime() == null ? null : DateUtils.yearOffNow_cn(cv.getManageLevelTime());
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_GLGW,  combineTowString(manageLevel, manageLevelTime));
 
-        Integer postId = record.getPostId();
+        Integer adminLevelId = cv.getAdminLevelId();
         MetaType mainPost = codeKeyMap.get("mt_admin_level_main");
         MetaType vicePost = codeKeyMap.get("mt_admin_level_vice");
-        String lpWorkTime = record.getLpWorkTime()==null?"":DateUtils.yearOffNow_cn(record.getLpWorkTime());
+        String lpWorkTime = DateUtils.formatDate(cv.getLpWorkTime(), DateUtils.YYYY_MM_DD);
+        String lpWorkTimeOfYear = cv.getLpWorkTime()==null?null:DateUtils.yearOffNow_cn(cv.getLpWorkTime());
 
-        if(postId != null) {
-            if (postId.intValue() == mainPost.getId()) {
-                resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZCJ, lpWorkTime);
-            } else if (postId.intValue() == vicePost.getId()) {
-                resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_FCJ, lpWorkTime);
+        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZCJ, "--");
+        resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_FCJ, "--");
+        if(adminLevelId != null) {
+            if (adminLevelId.intValue() == mainPost.getId()) {
+                String name = mainPost.getName();
+                resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZCJ,
+                        combineTowString(name, lpWorkTime) + "，" +(lpWorkTimeOfYear==null?"--":lpWorkTimeOfYear));
+            } else if (adminLevelId.intValue() == vicePost.getId()) {
+                String name = vicePost.getName();
+                resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_FCJ,
+                        combineTowString(name, lpWorkTime) + "，" +(lpWorkTimeOfYear==null?"--":lpWorkTimeOfYear));
             }
         }
 
-        String workTime = record.getWorkTime()==null?null:DateUtils.yearOffNow_cn(record.getWorkTime());
+        String workTime = cv.getWorkTime()==null?null:DateUtils.yearOffNow_cn(cv.getWorkTime());
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_GZ, workTime);
 
-        String arriveTime = record.getArriveTime()==null?null:DateUtils.yearOffNow_cn(record.getArriveTime());
+        String arriveTime = cv.getArriveTime()==null?null:DateUtils.yearOffNow_cn(cv.getArriveTime());
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_BXGZ, arriveTime);
 
         return resultMap;
@@ -84,17 +91,10 @@ public class CrsPostRequireService extends BaseMapper {
 
     public String combineTowString(String frtStr, String sndStr) {
 
-        frtStr = StringUtils.trimToNull(frtStr);
-        sndStr = StringUtils.trimToNull(sndStr);
-        if (frtStr != null && sndStr != null) {
-            return frtStr += "，" + sndStr;
-        } else if (frtStr != null) {
-            return frtStr;
-        } else if (sndStr != null) {
-            return sndStr;
-        }
+        frtStr = StringUtils.defaultString(frtStr, "--");
+        sndStr = StringUtils.defaultString(sndStr, "--");
 
-        return "";
+        return frtStr + "，" + sndStr;
     }
 
     @Transactional

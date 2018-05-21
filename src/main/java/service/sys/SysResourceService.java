@@ -108,9 +108,9 @@ public class SysResourceService extends BaseMapper{
 
 		SysResource parent = sysResourceMapper.selectByPrimaryKey(id);
 
-		SysResourceExample exmaple = new SysResourceExample();
-		exmaple.createCriteria().andParentIdEqualTo(id);
-		List<SysResource> childs = sysResourceMapper.selectByExample(exmaple);
+		SysResourceExample example = new SysResourceExample();
+		example.createCriteria().andParentIdEqualTo(id);
+		List<SysResource> childs = sysResourceMapper.selectByExample(example);
 		if(childs==null || childs.size()==0) return;
 
 		for (SysResource child : childs) {

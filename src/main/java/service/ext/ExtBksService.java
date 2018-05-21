@@ -18,9 +18,9 @@ public class ExtBksService extends BaseMapper {
 
         if(StringUtils.isBlank(code)) return null;
 
-        ExtBksExample exmaple = new ExtBksExample();
-        exmaple.createCriteria().andXhEqualTo(code);
-        List<ExtBks> extBkss = extBksMapper.selectByExample(exmaple);
+        ExtBksExample example = new ExtBksExample();
+        example.createCriteria().andXhEqualTo(code);
+        List<ExtBks> extBkss = extBksMapper.selectByExample(example);
         if(extBkss.size()>0) return extBkss.get(0);
         return null;
     }

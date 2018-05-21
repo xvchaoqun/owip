@@ -1,6 +1,6 @@
 package controller.sc.scAd;
 
-import bean.CadreAdform;
+import bean.CadreInfoForm;
 import domain.cadre.CadreView;
 import domain.cis.CisInspectObj;
 import domain.sc.scAd.ScAdArchive;
@@ -165,13 +165,13 @@ public class ScAdArchiveController extends ScAdBaseController {
                                       ModelMap modelMap) throws IOException {
 
         // logger.info(addLog(LogConstants.LOG_SC_AD, "预览干部任免审批表：%s"));
-        CadreAdform cadreAdForm = null;
+        CadreInfoForm cadreAdForm = null;
 
         if(voteIds==null || voteIds.length==0){
 
             ScAdArchiveWithBLOBs scAdArchive = scAdArchiveMapper.selectByPrimaryKey(archiveId);
             String adform = scAdArchive.getAdform();
-            cadreAdForm = XmlSerializeUtils.unserialize(adform, CadreAdform.class);
+            cadreAdForm = XmlSerializeUtils.unserialize(adform, CadreInfoForm.class);
         }else {
             cadreAdForm = scAdArchiveService.getCadreAdForm(archiveId, voteIds);
         }
@@ -221,7 +221,7 @@ public class ScAdArchiveController extends ScAdBaseController {
                 "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
         response.setContentType("application/msword;charset=UTF-8");
 
-        CadreAdform bean = XmlSerializeUtils.unserialize(adform, CadreAdform.class);
+        CadreInfoForm bean = XmlSerializeUtils.unserialize(adform, CadreInfoForm.class);
         cadreAdformService.process(bean, response.getWriter());
     }
 

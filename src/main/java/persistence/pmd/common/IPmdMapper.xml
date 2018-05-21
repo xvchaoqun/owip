@@ -2,6 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="persistence.pmd.common.IPmdMapper">
 
+    <resultMap id="IPmdOrderCampuscardBaseResultMap" extends="persistence.pmd.PmdOrderCampuscardMapper.BaseResultMap"
+               type="persistence.pmd.common.IPmdOrderCampuscard" >
+        <result column="member_user_id" jdbcType="INTEGER" property="memberUserId" />
+    </resultMap>
+    <!-- 查询支付记录 -->
+    <select id="selectPayList" parameterType="map" resultMap="IPmdOrderCampuscardBaseResultMap">
+        select poc.*, pm.user_id as member_user_id from pmd_order_campuscard poc
+        left join pmd_member pm on poc.member_id = pm.id
+        where poc.user_id=#{userId} or pm.user_id=#{userId}
+        or exists(select 1 from pmd_order_item poi, pmd_member pm
+        where poi.sn=poc.sn and poi.member_id=pm.id and pm.user_id=#{userId})
+        order by poc.create_time desc
+    </select>
+    <select id="countPayList" parameterType="map" resultType="java.lang.Integer">
+        select count(poc.sn) from pmd_order_campuscard poc
+        left join pmd_member pm on poc.member_id = pm.id
+        where poc.user_id=#{userId} or pm.user_id=#{userId}
+        or exists(select 1 from pmd_order_item poi, pmd_member pm
+        where poi.sn=poc.sn and poi.member_id=pm.id and pm.user_id=#{userId})
+    </select>
+
+
     <!-- 删除某个支部下的所有未缴费记录 -->
     <delete id="delNotPayMembers" parameterType="map">
         delete pmp.* from pmd_member_pay pmp, pmd_member pm where pmp.member_id=pm.id

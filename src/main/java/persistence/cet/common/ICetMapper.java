@@ -74,9 +74,8 @@ public interface ICetMapper {
     public List<Integer> applyUserIds(@Param("trainCourseId") Integer trainCourseId);
 
     // 已分组学员
-    @Select("select cpo.user_id from cet_discuss_group_obj cdgo, cet_project_obj cpo " +
-            "where cdgo.discuss_group_id=#{discussGroupId} and cdgo.obj_id=cpo.id order by cpo.id asc")
-    public List<Integer> groupUserIds(@Param("discussGroupId") Integer discussGroupId);
+    public List<Integer> groupUserIds(@Param("discussGroupId") int discussGroupId,
+                                      @Param("isFinished") Boolean isFinished);
 
     // 已完成学员（自主学习、上级网上专题班）
     @Select("select cpo.user_id from cet_plan_course_obj cpco, cet_project_obj cpo " +
@@ -150,6 +149,12 @@ public interface ICetMapper {
     @Select("select cp.* from cet_project cp, cet_project_plan cpp, cet_train ct " +
             "where ct.id=#{trainId} and ct.plan_id=cpp.id and cpp.project_id=cp.id ")
     public CetProject getCetProject( @Param("trainId") int trainId);
+
+    // 获取分组讨论所在的培训计划
+    @ResultMap("persistence.cet.CetProjectMapper.BaseResultMap")
+    @Select("select cp.* from cet_project cp, cet_project_plan cpp, cet_discuss cd , cet_discuss_group cdg " +
+            "where cdg.id=#{discussGroupId} and cdg.discuss_id=cd.id and cd.plan_id=cpp.id and cpp.project_id=cp.id ")
+    public CetProject getCetProjectOfDiscussGroup( @Param("discussGroupId") int discussGroupId);
 
     // 获取培训对象
     @ResultMap("persistence.cet.CetProjectObjMapper.BaseResultMap")

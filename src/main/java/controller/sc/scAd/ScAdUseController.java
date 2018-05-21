@@ -1,6 +1,6 @@
 package controller.sc.scAd;
 
-import bean.CadreAdform;
+import bean.CadreInfoForm;
 import domain.cadre.CadreView;
 import domain.sc.scAd.ScAdUse;
 import domain.sc.scAd.ScAdUseExample;
@@ -145,11 +145,11 @@ public class ScAdUseController extends ScAdBaseController {
     public String scAdUse_preview(int useId, Boolean view, ModelMap modelMap) throws IOException {
 
         // logger.info(addLog(LogConstants.LOG_SC_AD, "预览干部任免审批表：%s"));
-        CadreAdform cadreAdForm = null;
+        CadreInfoForm cadreAdForm = null;
         ScAdUse scAdUse = scAdUseMapper.selectByPrimaryKey(useId);
         if(BooleanUtils.isTrue(view)){
             String adform = scAdUse.getAdform();
-            cadreAdForm = XmlSerializeUtils.unserialize(adform, CadreAdform.class);
+            cadreAdForm = XmlSerializeUtils.unserialize(adform, CadreInfoForm.class);
         }else {
             cadreAdForm = cadreAdformService.getCadreAdform(scAdUse.getCadreId());
         }
@@ -187,7 +187,7 @@ public class ScAdUseController extends ScAdBaseController {
                 "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
         response.setContentType("application/msword;charset=UTF-8");
 
-        CadreAdform bean = XmlSerializeUtils.unserialize(adform, CadreAdform.class);
+        CadreInfoForm bean = XmlSerializeUtils.unserialize(adform, CadreInfoForm.class);
         cadreAdformService.process(bean, response.getWriter());
     }
 

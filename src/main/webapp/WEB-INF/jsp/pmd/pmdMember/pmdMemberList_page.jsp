@@ -79,7 +79,7 @@ pageEncoding="UTF-8" %>
                             <div class="form-group">
                                 <label>缴费订单号</label>
                                 <input class="form-control search-query" name="orderNo" type="text" value="${param.orderNo}"
-                                       placeholder="请输入缴费订单号">
+                                       placeholder="请输入缴费订单号" style="width: 200px;">
                             </div>
                             <div class="form-group">
                                 <label>缴费月份</label>
@@ -170,13 +170,13 @@ pageEncoding="UTF-8" %>
                                 </script>
                             </div>
                             <div class="form-group">
-                                <label>线上缴费方式</label>
+                                <label>是否代缴</label>
                                 <select data-rel="select2" name="isSelfPay"
-                                        data-width="120"
+                                        data-width="80"
                                         data-placeholder="请选择">
                                     <option></option>
-                                    <option value="0">代缴党费</option>
-                                    <option value="1">线上缴费</option>
+                                    <option value="0">是</option>
+                                    <option value="1">否</option>
                                 </select>
                                 <script>
                                     $("#searchForm select[name=isSelfPay]").val("${param.isSelfPay}")
