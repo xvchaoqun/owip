@@ -1,5 +1,5 @@
 
-
+2018-5-21
 ALTER TABLE `pmd_order_campuscard`
 	CHANGE COLUMN `member_id` `member_id` INT(10) UNSIGNED NULL COMMENT '党员缴费记录' AFTER `sn`,
 	ADD COLUMN `is_batch` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否批量缴费，批量缴费时，member_id为空' AFTER `member_id`;
