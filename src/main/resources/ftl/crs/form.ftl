@@ -2883,7 +2883,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${bean.proPost!}</w:t>
+									<w:t><#if bean.proPost?? || bean.proPostTime??>${bean.proPost!'--'}<w:br/>${bean.proPostTime!'--'}</#if></w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -2893,37 +2893,44 @@
 								<w:gridSpan w:val="3"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
-							<w:p wsp:rsidR="00401152" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00401152" wsp:rsidP="00401152">
+							<w:p wsp:rsidR="00401152" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00401152" wsp:rsidP="00196B91">
 								<w:pPr>
-									<w:ind w:left="-102"/>
 									<w:jc w:val="center"/>
 									<w:outlineLvl w:val="0"/>
+									<w:rPr>
+										<w:spacing w:val="-6"/>
+										<w:w w:val="80"/>
+									</w:rPr>
 								</w:pPr>
 								<w:r wsp:rsidRPr="00D22114">
 									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-										<wx:font wx:val="宋体"/>
-									</w:rPr>
-									<w:t>熟悉专业</w:t>
-								</w:r>
-							</w:p>
-							<w:p wsp:rsidR="00401152" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00401152" wsp:rsidP="00401152">
-								<w:pPr>
-									<w:ind w:left="-102"/>
-									<w:jc w:val="center"/>
-									<w:outlineLvl w:val="0"/>
-									<w:rPr>
-										<w:rFonts w:ascii="宋体" w:h-ansi="宋体"/>
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast"/>
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
+										<w:spacing w:val="-6"/>
+										<w:w w:val="80"/>
 									</w:rPr>
-								</w:pPr>
+									<w:t>管理岗位等级及</w:t>
+								</w:r>
+								<w:r wsp:rsidR="002059A1" wsp:rsidRPr="00D22114">
+									<w:rPr>
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast"/>
+										<wx:font wx:val="宋体"/>
+										<w:b-cs/>
+										<w:spacing w:val="-6"/>
+										<w:w w:val="80"/>
+									</w:rPr>
+									<w:t>评定</w:t>
+								</w:r>
 								<w:r wsp:rsidRPr="00D22114">
 									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
+										<w:rFonts w:ascii="宋体" w:h-ansi="宋体" w:hint="fareast"/>
 										<wx:font wx:val="宋体"/>
+										<w:b-cs/>
+										<w:spacing w:val="-6"/>
+										<w:w w:val="80"/>
 									</w:rPr>
-									<w:t>有何专长</w:t>
+									<w:t>时间</w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -2949,7 +2956,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${bean.specialty!}</w:t>
+									<w:t><#if bean.manageLevel?? || bean.manageLevelTime??>${bean.manageLevel!'--'}<w:br/>${bean.manageLevelTime!'--'}</#if></w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -4072,7 +4079,6 @@
 							</w:tcPr>
 							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="0052109C" wsp:rsidP="00FF2118">
 								<w:pPr>
-									<w:spacing w:line="320" w:line-rule="exact"/>
 									<w:jc w:val="center"/>
 									<w:outlineLvl w:val="0"/>
 									<w:rPr>
@@ -4090,7 +4096,6 @@
 							</w:p>
 							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="0052109C" wsp:rsidP="00FF2118">
 								<w:pPr>
-									<w:spacing w:line="320" w:line-rule="exact"/>
 									<w:jc w:val="center"/>
 									<w:outlineLvl w:val="0"/>
 									<w:rPr>
@@ -4110,7 +4115,6 @@
 							</w:p>
 							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="0052109C" wsp:rsidP="00FF2118">
 								<w:pPr>
-									<w:spacing w:line="320" w:line-rule="exact"/>
 									<w:jc w:val="center"/>
 									<w:outlineLvl w:val="0"/>
 									<w:rPr>
@@ -4128,7 +4132,6 @@
 							</w:p>
 							<w:p wsp:rsidR="0052109C" wsp:rsidRPr="00D22114" wsp:rsidRDefault="0052109C" wsp:rsidP="00FF2118">
 								<w:pPr>
-									<w:spacing w:line="320" w:line-rule="exact"/>
 									<w:jc w:val="center"/>
 									<w:outlineLvl w:val="0"/>
 									<w:rPr>

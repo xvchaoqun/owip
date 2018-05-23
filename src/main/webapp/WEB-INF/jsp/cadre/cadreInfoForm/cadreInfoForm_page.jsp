@@ -160,7 +160,8 @@ td.padding10{
             <td class="td1 center bolder">
                     <span>专业技术职务及评定时间</span>
             </td><td class="td7 center" colspan="4">
-            ${bean.proPost}
+            ${bean.proPost}<br/>
+                ${cm:formatDate(bean.proPostTime, "yyyy.MM")}
         </td><td class="td4 center bolder" colspan="3">
                 <span>熟悉专业</span>
             <div>

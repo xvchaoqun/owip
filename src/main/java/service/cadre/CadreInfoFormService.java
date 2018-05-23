@@ -86,6 +86,9 @@ public class CadreInfoFormService extends BaseMapper {
 
         // 行政级别
         bean.setAdminLevel(cadre.getTypeId());
+        // 管理岗位等级及分级时间
+        bean.setManageLevel(cadre.getManageLevel());
+        bean.setManageLevelTime(cadre.getManageLevelTime());
         bean.setIdCard(uv.getIdcard());
 
         // 联系方式
@@ -258,7 +261,9 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM"));
 
         dataMap.put("health", bean.getHealth());
+        // 专业技术职务及评定时间
         dataMap.put("proPost", bean.getProPost());
+        dataMap.put("proPostTime", DateUtils.formatDate(bean.getProPostTime(), "yyyy.MM"));
         dataMap.put("specialty", bean.getSpecialty());
 
         dataMap.put("degree", bean.getDegree());
@@ -274,6 +279,10 @@ public class CadreInfoFormService extends BaseMapper {
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         MetaType adminLevel = metaTypeMap.get(bean.getAdminLevel());
         dataMap.put("adminLevel", adminLevel == null ? "" : adminLevel.getName());
+
+        // 管理岗位等级及分级时间
+        dataMap.put("manageLevel", bean.getManageLevel());
+        dataMap.put("manageLevelTime", DateUtils.formatDate(bean.getManageLevelTime(), "yyyy.MM"));
         /*
         dataMap.put("adminLevel_1", metaTypeMap.get("mt_admin_level_main").getId());
         dataMap.put("adminLevel_2", metaTypeMap.get("mt_admin_level_vice").getId());
@@ -285,19 +294,19 @@ public class CadreInfoFormService extends BaseMapper {
         //dataMap.put("depWork", "");
 
         dataMap.put("learnDesc", bean.getLearnDesc() == null ? "" :
-                freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc()));
+                freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 440));
         dataMap.put("workDesc", bean.getWorkDesc() == null ? "" :
-                freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc()));
+                freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 440));
         dataMap.put("parttime",
-                freemarkerService.genTitleEditorSegment(bean.getParttime()));
+                freemarkerService.genTitleEditorSegment(bean.getParttime(), true, 440));
         dataMap.put("trainDesc", bean.getTrainDesc() == null ? "" :
-                freemarkerService.genTitleEditorSegment(bean.getTrainDesc()));
+                freemarkerService.genTitleEditorSegment(bean.getTrainDesc(), true, 440));
         dataMap.put("teachDesc", bean.getTeachDesc() == null ? "" :
-                freemarkerService.genTitleEditorSegment(bean.getTeachDesc()));
+                freemarkerService.genTitleEditorSegment(bean.getTeachDesc(), false, 440));
         dataMap.put("researchDesc", bean.getResearchDesc() == null ? "" :
-                freemarkerService.genTitleEditorSegment(bean.getResearchDesc()));
+                freemarkerService.genTitleEditorSegment(bean.getResearchDesc(), false, 440));
         dataMap.put("otherRewardDesc", bean.getOtherRewardDesc() == null ? "" :
-                freemarkerService.genTitleEditorSegment(bean.getOtherRewardDesc()));
+                freemarkerService.genTitleEditorSegment(bean.getOtherRewardDesc(), false, 440));
 
         dataMap.put("mobile", bean.getMobile());
         dataMap.put("phone", bean.getPhone());

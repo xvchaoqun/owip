@@ -123,7 +123,7 @@ public class FreemarkerService {
     }
 
     // 一行末尾带冒号，则认为是标题行。
-    public String genTitleEditorSegment(String content) throws IOException, TemplateException {
+    public String genTitleEditorSegment(String content, boolean needHanging, int line) throws IOException, TemplateException {
 
         String ftlPath = "/common/titleEditor.ftl";
 
@@ -144,6 +144,8 @@ public class FreemarkerService {
 
             Map<String, Object> dataMap = new HashMap<>();
             dataMap.put("dataList", rows);
+            dataMap.put("needHanging", needHanging);
+            dataMap.put("line", line);
 
             result = process(ftlPath, dataMap);
         } else {
@@ -156,6 +158,8 @@ public class FreemarkerService {
                         Map<String, Object> dataMap = new HashMap<>();
                         dataMap.put("title", title);
                         dataMap.put("dataList", rows);
+                        dataMap.put("needHanging", needHanging);
+                        dataMap.put("line", line);
 
                         result += process(ftlPath, dataMap);
                     }
@@ -174,7 +178,7 @@ public class FreemarkerService {
                     List cols = new ArrayList();
                     cols.add(type);
 
-                    for (String col : pStr.split(" ")) {
+                    for (String col : pStr.split(" ")) {
                         cols.add(col.trim());
                     }
                     rows.add(cols);
@@ -185,6 +189,8 @@ public class FreemarkerService {
                 Map<String, Object> dataMap = new HashMap<>();
                 dataMap.put("title", title);
                 dataMap.put("dataList", rows);
+                dataMap.put("needHanging", needHanging);
+                dataMap.put("line", line);
 
                 result += process(ftlPath, dataMap);
             }
@@ -194,7 +200,7 @@ public class FreemarkerService {
     }
 
     // 指定段落标题
-    public String genTitleEditorSegment(String title, String content) throws IOException, TemplateException {
+    public String genTitleEditorSegment(String title, String content, boolean needHanging, int line) throws IOException, TemplateException {
 
         /*String conent = "<p>\n" +
                 "\t1987.09-1991.07&nbsp;内蒙古大学生物学系植物生态学&nbsp;\n" +
@@ -217,12 +223,12 @@ public class FreemarkerService {
             if (StringUtils.contains(style, "5em"))
                 type = 2;
             //String text = HtmlEscapeUtils.getTextFromHTML(pElement.html());
-            String text = HtmlUtils.htmlEscapeDecimal(StringUtils.trimToEmpty(pElement.text()));
+            String text = StringUtils.trimToEmpty(pElement.text());
             List cols = new ArrayList();
             cols.add(type);
 
-            for (String col : text.trim().split(" ")) {
-                cols.add(col.trim());
+            for (String col : text.trim().split(" ")) {
+                cols.add(HtmlUtils.htmlEscapeDecimal(col.trim()));
             }
             rows.add(cols);
 
@@ -238,6 +244,8 @@ public class FreemarkerService {
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("title", title);
         dataMap.put("dataList", rows);
+        dataMap.put("needHanging", needHanging);
+        dataMap.put("line", line);
 
         String ftlPath = "/common/titleEditor.ftl";
         return process(ftlPath, dataMap);

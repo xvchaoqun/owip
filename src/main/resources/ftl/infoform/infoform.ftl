@@ -2968,7 +2968,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${proPost!}</w:t>
+									<w:t><#if proPost?? || proPostTime??>${proPost!'--'}<w:br/>${proPostTime!'--'}</#if></w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -4951,7 +4951,7 @@
 										<w:rFonts w:hint="fareast"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>  </w:t>
+									<w:t> </w:t>
 								</w:r>
 								<w:r wsp:rsidRPr="00D22114">
 									<w:rPr>
@@ -5129,7 +5129,7 @@
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
-							<w:p wsp:rsidR="002616D5" wsp:rsidRPr="00D22114" wsp:rsidRDefault="002616D5" wsp:rsidP="003E749F">
+							<w:p wsp:rsidR="00092C82" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00092C82" wsp:rsidP="00005295">
 								<w:pPr>
 									<w:spacing w:line="240" w:line-rule="exact"/>
 									<w:ind w:left="36"/>
@@ -5152,7 +5152,7 @@
 										<w:rFonts w:hint="fareast"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>  </w:t>
+									<w:t> </w:t>
 								</w:r>
 								<w:r wsp:rsidRPr="00D22114">
 									<w:rPr>

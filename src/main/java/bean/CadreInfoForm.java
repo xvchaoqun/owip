@@ -39,8 +39,10 @@ public class CadreInfoForm {
     private Date workTime;
     // 健康状况
     private String health;
-    // 专业技术职务及评定时间
+    // 专业技术职务
     private String proPost;
+    // 评定时间
+    private Date proPostTime;
     // 熟悉专业有何特长
     private String specialty;
 
@@ -73,6 +75,10 @@ public class CadreInfoForm {
     private String post;
     // 行政级别
     private Integer adminLevel;
+    // 管理岗位等级
+    private String manageLevel;
+    // 管理岗位等级
+    private Date manageLevelTime;
 
     // 身份证号
     private String idCard;
@@ -246,6 +252,14 @@ public class CadreInfoForm {
         this.proPost = proPost;
     }
 
+    public Date getProPostTime() {
+        return proPostTime;
+    }
+
+    public void setProPostTime(Date proPostTime) {
+        this.proPostTime = proPostTime;
+    }
+
     public String getSpecialty() {
         return specialty;
     }
@@ -364,6 +378,22 @@ public class CadreInfoForm {
 
     public void setAdminLevel(Integer adminLevel) {
         this.adminLevel = adminLevel;
+    }
+
+    public String getManageLevel() {
+        return manageLevel;
+    }
+
+    public void setManageLevel(String manageLevel) {
+        this.manageLevel = manageLevel;
+    }
+
+    public Date getManageLevelTime() {
+        return manageLevelTime;
+    }
+
+    public void setManageLevelTime(Date manageLevelTime) {
+        this.manageLevelTime = manageLevelTime;
     }
 
     public String getIdCard() {

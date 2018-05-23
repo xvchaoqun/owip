@@ -395,7 +395,7 @@
 			<w:rPr>
 				<wx:font wx:val="Times New Roman"/>
 				<w:kern w:val="2"/>
-				<w:sz w:val="21"/>
+				<w:sz w:val="24"/>
 				<w:sz-cs w:val="24"/>
 				<w:lang w:val="EN-US" w:fareast="ZH-CN" w:bidi="AR-SA"/>
 			</w:rPr>
@@ -2286,7 +2286,8 @@
 				<w:tr wsp:rsidR="0060451C" wsp:rsidRPr="00E759EF" wsp:rsidTr="00B943F3">
 					<w:trPr>
 						<w:cantSplit/>
-						<w:trHeight w:h-rule="exact" w:val="8957"/>
+						<#--<w:trHeight w:h-rule="exact" w:val="8957"/>-->
+						<w:trHeight w:val="8957"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>
@@ -2336,14 +2337,6 @@
 						</w:tcPr>
 						${learnDesc!}
 						${workDesc!}
-						<w:p wsp:rsidR="009E10B4" wsp:rsidRDefault="009E10B4" wsp:rsidP="00B943F3">
-							<w:pPr>
-								<w:spacing w:line="400" w:line-rule="exact"/>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-							</w:pPr>
-						</w:p>
 					</w:tc>
 				</w:tr>
 			</w:tbl>
@@ -2380,7 +2373,8 @@
 				<w:tr wsp:rsidR="00F43419" wsp:rsidTr="00D03268">
 					<w:trPr>
 						<w:cantSplit/>
-						<w:trHeight w:h-rule="exact" w:val="1229"/>
+						<#--<w:trHeight w:h-rule="exact" w:val="1229"/>-->
+						<w:trHeight w:val="1229"/>
 						<w:jc w:val="center"/>
 					</w:trPr>
 					<w:tc>

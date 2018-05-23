@@ -96,7 +96,9 @@ public class CadreAdformService extends BaseMapper{
         bean.setWorkTime(cadre.getWorkTime()); // 参加工作时间
 
         bean.setHealth(metaTypeService.getName(uv.getHealth()));
+        // 专业技术职务及评定时间
         bean.setProPost(cadre.getProPost());
+        bean.setProPostTime(cadre.getProPostTime());
         bean.setSpecialty(uv.getSpecialty());
 
         bean.setGrowTime(cadre.getCadreGrowTime());
@@ -230,7 +232,7 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("inPost", adform.getInPost());
         dataMap.put("prePost", adform.getPrePost());
         if(adform.getReward()!=null)
-            dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, adform.getReward()));
+            dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, adform.getReward(), false, 360));
         dataMap.put("ces", adform.getCes());
         dataMap.put("reason", adform.getReason());
 
@@ -238,11 +240,11 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("workDesc", "");
 
         if(adform.getLearnDesc()!=null)
-            dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", adform.getLearnDesc()));
+            dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", adform.getLearnDesc(), true, 360));
         if(adform.getWorkDesc()!=null)
-            dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", adform.getWorkDesc()));
+            dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", adform.getWorkDesc(), true, 360));
         if(adform.getTrainDesc()!=null)
-            dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, adform.getTrainDesc()));
+            dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, adform.getTrainDesc(), false, 360));
 
         String family = "";
         List<CadreFamily> cadreFamilys = adform.getCadreFamilys();
