@@ -4,6 +4,7 @@ import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantCheck;
 import domain.crs.CrsApplicantCheckExample;
 import domain.crs.CrsApplicantExample;
+import domain.crs.CrsApplicantWithBLOBs;
 import domain.crs.CrsRequireRule;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -87,7 +88,7 @@ public class CrsApplicantCheckService extends BaseMapper {
 
         CrsApplicant oldRecord = crsApplicantMapper.selectByPrimaryKey(id);
 
-        CrsApplicant record = new CrsApplicant();
+        CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
         record.setInfoCheckStatus(status ? CrsConstants.CRS_APPLICANT_INFO_CHECK_STATUS_PASS :
                 CrsConstants.CRS_APPLICANT_INFO_CHECK_STATUS_UNPASS);
         record.setInfoCheckRemark(remark);
@@ -115,7 +116,7 @@ public class CrsApplicantCheckService extends BaseMapper {
 
         CrsApplicant oldRecord = crsApplicantMapper.selectByPrimaryKey(id);
 
-        CrsApplicant record = new CrsApplicant();
+        CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
         record.setRequireCheckStatus(status ? CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_PASS :
                 CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS);
         record.setRequireCheckRemark(remark);
@@ -143,7 +144,7 @@ public class CrsApplicantCheckService extends BaseMapper {
     @Transactional
     public void requireCheck_back(Integer id) {
 
-        CrsApplicant record = new CrsApplicant();
+        CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
         record.setRequireCheckStatus(CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT);
 
         CrsApplicantExample example = new CrsApplicantExample();
@@ -200,7 +201,7 @@ public class CrsApplicantCheckService extends BaseMapper {
 
         if (specialStatus) {
 
-            CrsApplicant record = new CrsApplicant();
+            CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
             record.setSpecialStatus(true);
             record.setSpecialPdf(specialPdf);
             record.setSpecialRemark(specialRemark);

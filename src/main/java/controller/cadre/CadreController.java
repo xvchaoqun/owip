@@ -10,6 +10,7 @@ import domain.sys.SysUserView;
 import domain.unit.Unit;
 import interceptor.OrderParam;
 import interceptor.SortParam;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -454,6 +455,7 @@ public class CadreController extends BaseController {
     @ResponseBody
     public Map do_cadre_au(Cadre record, HttpServletRequest request) {
 
+        record.setIsCommitteeMember(BooleanUtils.isTrue(record.getIsCommitteeMember()));
         Integer id = record.getId();
         if (id == null) {
             cadreService.insertSelective(record);

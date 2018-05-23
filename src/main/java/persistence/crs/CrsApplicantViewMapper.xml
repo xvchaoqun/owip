@@ -5,7 +5,6 @@
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="report" jdbcType="VARCHAR" property="report" />
     <result column="ppt_name" jdbcType="VARCHAR" property="pptName" />
     <result column="ppt" jdbcType="VARCHAR" property="ppt" />
     <result column="enroll_time" jdbcType="TIMESTAMP" property="enrollTime" />
@@ -27,6 +26,10 @@
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="is_require_check_pass" jdbcType="BOOLEAN" property="isRequireCheckPass" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.crs.CrsApplicantViewWithBLOBs">
+    <result column="career" jdbcType="LONGVARCHAR" property="career" />
+    <result column="report" jdbcType="LONGVARCHAR" property="report" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -58,12 +61,30 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, post_id, report, ppt_name, ppt, enroll_time, is_quit, is_recommend, 
-    recommend_ow, recommend_cadre, recommend_crowd, recommend_pdf, info_check_status, 
-    info_check_remark, require_check_status, require_check_remark, special_status, special_pdf, 
-    special_remark, recommend_first_count, recommend_second_count, sort_order, status, 
-    is_require_check_pass
+    id, user_id, post_id, ppt_name, ppt, enroll_time, is_quit, is_recommend, recommend_ow, 
+    recommend_cadre, recommend_crowd, recommend_pdf, info_check_status, info_check_remark, 
+    require_check_status, require_check_remark, special_status, special_pdf, special_remark, 
+    recommend_first_count, recommend_second_count, sort_order, status, is_require_check_pass
   </sql>
+  <sql id="Blob_Column_List">
+    career, report
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="domain.crs.CrsApplicantViewExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from crs_applicant_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="domain.crs.CrsApplicantViewExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -82,6 +103,22 @@
     select count(*) from crs_applicant_view
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.crs.CrsApplicantViewExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from crs_applicant_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
     </if>
   </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.crs.CrsApplicantViewExample" resultMap="BaseResultMap">

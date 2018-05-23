@@ -32,7 +32,7 @@
         </table>
         <c:if test="${!empty commonList && commonList.pageNum>1 }">
             <wo:page commonList="${commonList}"
-                     uri="${ctx}/cet/cetTrain_detail/msg_list?projectId=${param.projectId}&trainId=${param.trainId}&tplKey=${param.tplKey}"
+                     uri="${ctx}/cet/cetTrain_detail/msg_list?recordId=${param.recordId}&tplKey=${param.tplKey}"
                      target="#modal .modal-content"
                      pageNum="5"
                      model="3"/>

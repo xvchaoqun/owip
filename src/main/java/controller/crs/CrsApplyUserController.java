@@ -48,7 +48,7 @@ public class CrsApplyUserController extends CrsBaseController {
     @RequestMapping("/crsApplyUser_data")
     @ResponseBody
     public void crsApplyUser_data(HttpServletResponse response,
-                                    Integer postId,
+                                    Integer id,
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
@@ -63,8 +63,8 @@ public class CrsApplyUserController extends CrsBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order asc");
 
-        if (postId!=null) {
-            criteria.andPostIdEqualTo(postId);
+        if (id!=null) {
+            criteria.andPostIdEqualTo(id);
         }
 
         long count = crsApplyUserMapper.countByExample(example);

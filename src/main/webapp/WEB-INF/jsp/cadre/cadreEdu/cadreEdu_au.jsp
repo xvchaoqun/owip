@@ -298,11 +298,11 @@
 		var $eduId = $("select[name=eduId]");
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_master").id}"
 				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_doctor").id}"){
-			$("input[name=tutorName]").prop("disabled", false);
-			$("input[name=tutorTitle]").prop("disabled", false);
+			$("input[name=tutorName]").prop("disabled", false).attr("required", "required");
+			$("input[name=tutorTitle]").prop("disabled", false).attr("required", "required");
 		}else{
-			$("input[name=tutorName]").val('').prop("disabled", true);
-			$("input[name=tutorTitle]").val('').prop("disabled", true);
+			$("input[name=tutorName]").val('').prop("disabled", true).removeAttr("required");
+			$("input[name=tutorTitle]").val('').prop("disabled", true).removeAttr("required");
 		}
 
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_jxxx").id}"){

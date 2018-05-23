@@ -175,52 +175,67 @@ public class CetShortMsgExample {
             return (Criteria) this;
         }
 
-        public Criteria andRecordIdEqualTo(Integer value) {
+        public Criteria andRecordIdEqualTo(String value) {
             addCriterion("record_id =", value, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andRecordIdNotEqualTo(Integer value) {
+        public Criteria andRecordIdContain(String value) {
+            addCriterion("find_in_set("+value+", record_id)");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdNotEqualTo(String value) {
             addCriterion("record_id <>", value, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andRecordIdGreaterThan(Integer value) {
+        public Criteria andRecordIdGreaterThan(String value) {
             addCriterion("record_id >", value, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andRecordIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andRecordIdGreaterThanOrEqualTo(String value) {
             addCriterion("record_id >=", value, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andRecordIdLessThan(Integer value) {
+        public Criteria andRecordIdLessThan(String value) {
             addCriterion("record_id <", value, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andRecordIdLessThanOrEqualTo(Integer value) {
+        public Criteria andRecordIdLessThanOrEqualTo(String value) {
             addCriterion("record_id <=", value, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andRecordIdIn(List<Integer> values) {
+        public Criteria andRecordIdLike(String value) {
+            addCriterion("record_id like", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdNotLike(String value) {
+            addCriterion("record_id not like", value, "recordId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRecordIdIn(List<String> values) {
             addCriterion("record_id in", values, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andRecordIdNotIn(List<Integer> values) {
+        public Criteria andRecordIdNotIn(List<String> values) {
             addCriterion("record_id not in", values, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andRecordIdBetween(Integer value1, Integer value2) {
+        public Criteria andRecordIdBetween(String value1, String value2) {
             addCriterion("record_id between", value1, value2, "recordId");
             return (Criteria) this;
         }
 
-        public Criteria andRecordIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andRecordIdNotBetween(String value1, String value2) {
             addCriterion("record_id not between", value1, value2, "recordId");
             return (Criteria) this;
         }
@@ -672,6 +687,76 @@ public class CetShortMsgExample {
 
         public Criteria andSuccessNotBetween(Boolean value1, Boolean value2) {
             addCriterion("success not between", value1, value2, "success");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
     }

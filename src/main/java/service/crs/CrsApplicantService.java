@@ -7,6 +7,7 @@ import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantExample;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsApplicantViewExample;
+import domain.crs.CrsApplicantWithBLOBs;
 import domain.crs.CrsApplyUser;
 import domain.crs.CrsApplyUserExample;
 import domain.crs.CrsPost;
@@ -57,6 +58,23 @@ public class CrsApplicantService extends BaseMapper {
     @Lazy
     private CrsShortMsgService crsShortMsgService;
 
+    // 获取报名权限 （1：报名已结束， 2： 报名未开始  0： 可以报名）
+    public int getPostApplyStatus(CrsPost crsPost, int userId){
+
+        byte switchStatus = crsPost.getSwitchStatus();
+        if( switchStatus != CrsConstants.CRS_POST_ENROLL_STATUS_OPEN){
+            if(switchStatus == CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED) {
+                Set<Integer> canApplyPostIdSet = new HashSet<>(iCrsMapper.canApplyPostIds(userId));
+                if(!canApplyPostIdSet.contains(crsPost.getId()))
+                    return 1;
+            }else {
+                return 2;
+            }
+        }
+
+        return 0;
+    }
+
     // 获得报名人员
     public List<CrsApplicantView> getCrsApplicants(int postId){
 
@@ -91,9 +109,9 @@ public class CrsApplicantService extends BaseMapper {
         return crsApplicantMapper.countByExample(example) > 0;
     }
 
-    // 应聘报名
+    // 保存应聘材料
     @Transactional
-    public void apply(Integer applicantId, int postId, byte status, String report, int userId) {
+    public void apply(Integer applicantId, int postId, byte status, String career, String report, int userId) {
 
         if(!CadreInfoCheckService.perfectCadreInfo(userId)){
             throw new OpException("未通过干部信息完整性校验。");
@@ -103,15 +121,12 @@ public class CrsApplicantService extends BaseMapper {
         if(crsPost==null ||crsPost.getStatus() ==CrsConstants.CRS_POST_STATUS_FINISH){
             throw new OpException("岗位{0}应聘已经结束。", crsPost==null?"":crsPost.getName());
         }
-        byte switchStatus = crsPost.getSwitchStatus();
-        if( switchStatus != CrsConstants.CRS_POST_ENROLL_STATUS_OPEN){
-            if(switchStatus == CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED) {
-                Set<Integer> canApplyPostIdSet = new HashSet<>(iCrsMapper.canApplyPostIds(userId));
-                if(!canApplyPostIdSet.contains(postId))
-                    throw new OpException("岗位{0}应聘报名已结束。", crsPost == null ? "" : crsPost.getName());
-            }else {
-                throw new OpException("岗位{0}应聘还未开始。", crsPost == null ? "" : crsPost.getName());
-            }
+
+        int postApplyStatus = getPostApplyStatus(crsPost, userId);
+        if(postApplyStatus==1){
+            throw new OpException("岗位{0}应聘报名已结束。", crsPost == null ? "" : crsPost.getName());
+        }else if(postApplyStatus == 2){
+            throw new OpException("岗位{0}应聘还未开始。", crsPost == null ? "" : crsPost.getName());
         }
 
         Date meetingTime = crsPost.getMeetingTime();
@@ -127,11 +142,6 @@ public class CrsApplicantService extends BaseMapper {
             throw new OpException("岗位{0}重复应聘。", crsPost==null?"":crsPost.getName());
         }
 
-        if(status!=CrsConstants.CRS_APPLICANT_STATUS_SAVE
-                && status!=CrsConstants.CRS_APPLICANT_STATUS_SUBMIT){
-            throw new OpException("状态异常。");
-        }
-
         if(applicantId==null) {
 
             // 检查报名规则
@@ -139,24 +149,19 @@ public class CrsApplicantService extends BaseMapper {
                 throw new OpException("操作失败：不符合报名规则。");
             }
 
-            CrsApplicant record = new CrsApplicant();
+            CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
             record.setPostId(postId);
             record.setUserId(userId);
             record.setReport(report);
+            record.setCareer(career);
             record.setEnrollTime(new Date());
             record.setIsRecommend(false);
             record.setInfoCheckStatus(CrsConstants.CRS_APPLICANT_INFO_CHECK_STATUS_INIT);
             record.setRequireCheckStatus(CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT); //
             record.setIsQuit(false);
             record.setStatus(status);
-            crsApplicantMapper.insertSelective(record);
 
-            // 更新补报状态为完成（如果存在）
-            CrsApplyUser _record = new CrsApplyUser();
-            _record.setStatus(CrsConstants.CRS_APPLY_USER_STATUS_FINISH);
-            CrsApplyUserExample example = new CrsApplyUserExample();
-            example.createCriteria().andPostIdEqualTo(postId).andUserIdEqualTo(userId);
-            crsApplyUserMapper.updateByExampleSelective(_record, example);
+            crsApplicantMapper.insertSelective(record);
 
             sysApprovalLogService.add(record.getId(), record.getUserId(),
                     (userId == ShiroHelper.getCurrentUserId()) ? SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF
@@ -170,35 +175,45 @@ public class CrsApplicantService extends BaseMapper {
         }else{
 
             CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
-            Assert.isTrue(crsApplicant!=null && crsApplicant.getPostId()==postId
+            Assert.isTrue(crsApplicant != null && crsApplicant.getPostId() == postId
                     && crsApplicant.getUserId()==userId, "数据异常。");
 
-            CrsApplicant record = new CrsApplicant();
+            CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
             record.setId(applicantId);
             record.setReport(report);
-            if(status==CrsConstants.CRS_APPLICANT_STATUS_SUBMIT)
-                record.setStatus(status);
-
+            record.setCareer(career);
+            if(status==CrsConstants.CRS_APPLICANT_STATUS_SUBMIT){
+                record.setStatus(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
+            }
             crsApplicantMapper.updateByPrimaryKeySelective(record);
 
             sysApprovalLogService.add(crsApplicant.getId(), crsApplicant.getUserId(),
                     (userId == ShiroHelper.getCurrentUserId()) ? SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF
                             : SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT,
-                    "更新工作设想和预期目标", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                    (status==CrsConstants.CRS_APPLICANT_STATUS_SUBMIT?"提交":"更新")+"应聘材料", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     JSONUtils.toString(record, MixinUtils.baseMixins(), false));
+        }
+
+        if(status==CrsConstants.CRS_APPLICANT_STATUS_SUBMIT) {
+            // 更新补报状态为完成（如果存在）
+            CrsApplyUser _record = new CrsApplyUser();
+            _record.setStatus(CrsConstants.CRS_APPLY_USER_STATUS_FINISH);
+            CrsApplyUserExample example = new CrsApplyUserExample();
+            example.createCriteria().andPostIdEqualTo(postId).andUserIdEqualTo(userId);
+            crsApplyUserMapper.updateByExampleSelective(_record, example);
         }
     }
 
     // 返回干部的某个岗位的应聘报名记录（正常状态，包含暂存或已提交的报名）
-    public CrsApplicant getAvaliable(int postId, Integer userId){
+    public CrsApplicantWithBLOBs getAvaliable(int postId, Integer userId){
 
         CrsApplicantExample example = new CrsApplicantExample();
         CrsApplicantExample.Criteria criteria = example.createCriteria()
                 .andPostIdEqualTo(postId).andUserIdEqualTo(userId)
                 .andStatusIn(Arrays.asList(CrsConstants.CRS_APPLICANT_STATUS_SAVE,
                         CrsConstants.CRS_APPLICANT_STATUS_SUBMIT));
-        List<CrsApplicant> crsApplicants = crsApplicantMapper.selectByExample(example);
+        List<CrsApplicantWithBLOBs> crsApplicants = crsApplicantMapper.selectByExampleWithBLOBs(example);
         if(crsApplicants.size()==0 || crsApplicants.size()>1) return null;
 
         return crsApplicants.get(0);
@@ -222,7 +237,7 @@ public class CrsApplicantService extends BaseMapper {
         if(crsApplicant==null || crsApplicant.getStatus()!=CrsConstants.CRS_APPLICANT_STATUS_SUBMIT)
             throw new OpException("干部应聘状态异常");
 
-        CrsApplicant record = new CrsApplicant();
+        CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
         record.setId(crsApplicant.getId());
         record.setIsQuit(true);
 
@@ -256,7 +271,7 @@ public class CrsApplicantService extends BaseMapper {
         if(crsApplicant==null || crsApplicant.getStatus()!=CrsConstants.CRS_APPLICANT_STATUS_SUBMIT)
             throw new OpException("干部应聘状态异常");
 
-        CrsApplicant record = new CrsApplicant();
+        CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
         record.setId(crsApplicant.getId());
         record.setIsQuit(false);
 
@@ -322,9 +337,9 @@ public class CrsApplicantService extends BaseMapper {
     }*/
 
     @Transactional
-    public void updateByPrimaryKeySelective(CrsApplicant record) {
+    public void updateByPrimaryKeySelective(CrsApplicantWithBLOBs record) {
 
-        CrsApplicant oldRecord = crsApplicantMapper.selectByPrimaryKey(record.getId());
+        CrsApplicantWithBLOBs oldRecord = crsApplicantMapper.selectByPrimaryKey(record.getId());
 
         //Assert.isTrue(!idDuplicate(record.getId(), record.getPostId(), record.getUserId()), "报名重复");
         record.setPostId(null);
@@ -440,7 +455,7 @@ public class CrsApplicantService extends BaseMapper {
                     commonMapper.upOrder("crs_applicant", whereSql,
                             baseSortOrder, targetEntity.getSortOrder());
 
-                CrsApplicant record = new CrsApplicant();
+                CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
                 record.setId(id);
                 record.setSortOrder(targetEntity.getSortOrder());
                 crsApplicantMapper.updateByPrimaryKeySelective(record);

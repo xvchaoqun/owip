@@ -3,6 +3,7 @@ package controller.crs.user;
 import controller.crs.CrsBaseController;
 import controller.global.OpException;
 import domain.crs.CrsApplicant;
+import domain.crs.CrsApplicantWithBLOBs;
 import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
 import mixin.MixinUtils;
@@ -72,7 +73,7 @@ public class UserCrsPostController extends CrsBaseController {
 
     @RequiresPermissions("userCrsPost:*")
     @RequestMapping("/crsPost_apply")
-    public String crsPost_apply(int postId, ModelMap modelMap) {
+    public String crsPost_apply(int postId, Byte cls, ModelMap modelMap) {
 
         int userId = ShiroHelper.getCurrentUserId();
         /*MemberTeacher memberTeacher = memberTeacherService.get(userId);
@@ -81,8 +82,17 @@ public class UserCrsPostController extends CrsBaseController {
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
         modelMap.put("crsPost", crsPost);
 
-        CrsApplicant crsApplicant = crsApplicantService.getAvaliable(postId, userId);
+        CrsApplicantWithBLOBs crsApplicant = crsApplicantService.getAvaliable(postId, userId);
         modelMap.put("crsApplicant", crsApplicant);
+
+        int postApplyStatus = crsApplicantService.getPostApplyStatus(crsPost, userId);
+        modelMap.put("canApply", postApplyStatus==0);
+
+        if(cls!=null && cls==1){
+            return "crs/user/crsPost_career";
+        }else if(cls!=null && cls==2){
+            return "crs/user/crsPost_report";
+        }
 
         return "crs/user/crsPost_apply";
     }
@@ -90,21 +100,18 @@ public class UserCrsPostController extends CrsBaseController {
     @RequiresPermissions("userCrsPost:*")
     @RequestMapping(value = "/crsPost_apply", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsPost_apply(Integer id, int postId, byte status, String report, HttpServletRequest request) {
+    public Map do_crsPost_apply(Integer id, int postId, byte cls, String content, HttpServletRequest request) {
 
-        crsApplicantService.apply(id, postId, status, report,  ShiroHelper.getCurrentUserId());
-        logger.info(addLog(LogConstants.LOG_USER, "干部应聘报名"));
+        if(cls!=3) {
+            crsApplicantService.apply(id, postId, CrsConstants.CRS_APPLICANT_STATUS_SAVE,
+                    cls == 1 ? content : null, cls == 2 ? content : null, ShiroHelper.getCurrentUserId());
+        }else {
+            crsApplicantService.apply(id, postId, CrsConstants.CRS_APPLICANT_STATUS_SUBMIT,
+                    null, null, ShiroHelper.getCurrentUserId());
+        }
+
+        logger.info(addLog(LogConstants.LOG_USER, "干部应聘报名，{}应聘材料", cls==3?"提交":"保存"));
         return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("userCrsPost:*")
-    @RequestMapping("/crsPost_apply_detail")
-    public String crsPost_apply_detail(int postId, ModelMap modelMap) {
-
-        CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
-        modelMap.put("crsPost", crsPost);
-
-        return "crs/user/crsPost_apply_detail";
     }
 
     @RequiresPermissions("userCrsPost:*")
@@ -164,7 +171,7 @@ public class UserCrsPostController extends CrsBaseController {
         //String originalFilename = ppt.getOriginalFilename();
         String savePath = upload(ppt, "crsApplicant_ppt");
 
-        CrsApplicant record = new CrsApplicant();
+        CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
         record.setId(crsApplicant.getId());
         record.setPptName(originalFilename);
         record.setPpt(savePath);

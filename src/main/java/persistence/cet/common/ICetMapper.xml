@@ -89,6 +89,17 @@
         <include refid="searchUserCetProject"/>
     </select>
 
+    <!--未选课学员-->
+    <select id="notApplyUserIds" parameterType="map" resultType="java.lang.Integer">
+        select user_id from cet_project_obj cpo
+        where not exists(select 1 from cet_trainee_course_view where train_course_id in
+        <foreach collection="trainCourseIds" item="trainCourseId" separator="," open="(" close=")">
+            #{trainCourseId}
+        </foreach>
+        and project_id=cpo.project_id and user_id=cpo.user_id)
+    </select>
+
+
     <sql id="searchTrainCourses">
         <where>
             <!-- 线下培训从线上或线下课程中选择， 实践教学从实践教学课程中选择-->

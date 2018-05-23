@@ -27,12 +27,19 @@
            data-id-name="trainCourseId"><i class="fa fa-hourglass-1"></i>
             选课/退课状态</button>
 
-        <button class="jqOpenViewBtn btn btn-warning btn-sm"
+        <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
            data-url="${ctx}/cet/cetTrainCourse_applyMsg"
            data-grid-id="#jqGrid2"
-           data-id-name="trainCourseId"><i class="fa fa-send"></i>
+           data-ids-name="trainCourseIds[]"><i class="fa fa-send"></i>
             补选课通知</button>
-
+        <button data-url="${ctx}/cet/cetTrain_detail/msg_list?tplKey=cet_tc_apply_msg"
+                data-width="800"
+                data-grid-id="#jqGrid2"
+                data-id-name="recordId"
+                class="jqOpenViewBtn btn btn-info btn-sm">
+            <i class="ace-icon fa fa-history"></i>
+            补选课通知记录
+        </button>
         <button class="jqLinkItemBtn btn btn-success btn-sm"
                 data-url="${ctx}/cet/cetTrainCourse_exportChosenObjs"
                 data-grid-id="#jqGrid2"

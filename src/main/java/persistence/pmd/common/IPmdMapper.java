@@ -29,6 +29,13 @@ public interface IPmdMapper {
     @Select("select member_id from pmd_order_item where sn = #{sn} order by id asc")
     public List<Integer> listOrderMemberIds(@Param("sn") String sn);
 
+    // 查询缴费记录关联的支付记录
+    @ResultMap("persistence.pmd.PmdOrderCampuscardMapper.BaseResultMap")
+    @Select("select * from pmd_order_campuscard where member_id=#{memberId} union " +
+            "select poc.* from pmd_order_campuscard poc, pmd_order_item poi where poi.member_id=#{memberId} and poc.sn=poi.sn " +
+            "order by create_time desc")
+    public List<PmdOrderCampuscard> findRelateOrders(@Param("memberId") Integer memberId);
+
     // 查询用户缴费记录
     public List<IPmdOrderCampuscard> selectPayList(@Param("userId") Integer userId, RowBounds rowBounds);
     public int countPayList(@Param("userId") Integer userId);

@@ -5,7 +5,6 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="report" jdbcType="VARCHAR" property="report" />
     <result column="ppt_name" jdbcType="VARCHAR" property="pptName" />
     <result column="ppt" jdbcType="VARCHAR" property="ppt" />
     <result column="enroll_time" jdbcType="TIMESTAMP" property="enrollTime" />
@@ -26,6 +25,10 @@
     <result column="recommend_second_count" jdbcType="INTEGER" property="recommendSecondCount" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="domain.crs.CrsApplicantWithBLOBs">
+    <result column="career" jdbcType="LONGVARCHAR" property="career" />
+    <result column="report" jdbcType="LONGVARCHAR" property="report" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -86,11 +89,30 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, post_id, report, ppt_name, ppt, enroll_time, is_quit, is_recommend, 
-    recommend_ow, recommend_cadre, recommend_crowd, recommend_pdf, info_check_status, 
-    info_check_remark, require_check_status, require_check_remark, special_status, special_pdf, 
-    special_remark, recommend_first_count, recommend_second_count, sort_order, status
+    id, user_id, post_id, ppt_name, ppt, enroll_time, is_quit, is_recommend, recommend_ow, 
+    recommend_cadre, recommend_crowd, recommend_pdf, info_check_status, info_check_remark, 
+    require_check_status, require_check_remark, special_status, special_pdf, special_remark, 
+    recommend_first_count, recommend_second_count, sort_order, status
   </sql>
+  <sql id="Blob_Column_List">
+    career, report
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="domain.crs.CrsApplicantExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from crs_applicant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" parameterType="domain.crs.CrsApplicantExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -105,9 +127,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from crs_applicant
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -121,28 +145,30 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="domain.crs.CrsApplicant">
+  <insert id="insert" parameterType="domain.crs.CrsApplicantWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into crs_applicant (user_id, post_id, report, 
-      ppt_name, ppt, enroll_time, 
-      is_quit, is_recommend, recommend_ow, 
-      recommend_cadre, recommend_crowd, recommend_pdf, 
-      info_check_status, info_check_remark, require_check_status, 
-      require_check_remark, special_status, special_pdf, 
-      special_remark, recommend_first_count, recommend_second_count, 
-      sort_order, status)
-    values (#{userId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, #{report,jdbcType=VARCHAR}, 
-      #{pptName,jdbcType=VARCHAR}, #{ppt,jdbcType=VARCHAR}, #{enrollTime,jdbcType=TIMESTAMP}, 
-      #{isQuit,jdbcType=BIT}, #{isRecommend,jdbcType=BIT}, #{recommendOw,jdbcType=VARCHAR}, 
-      #{recommendCadre,jdbcType=VARCHAR}, #{recommendCrowd,jdbcType=VARCHAR}, #{recommendPdf,jdbcType=VARCHAR}, 
-      #{infoCheckStatus,jdbcType=TINYINT}, #{infoCheckRemark,jdbcType=VARCHAR}, #{requireCheckStatus,jdbcType=TINYINT}, 
-      #{requireCheckRemark,jdbcType=VARCHAR}, #{specialStatus,jdbcType=BIT}, #{specialPdf,jdbcType=VARCHAR}, 
-      #{specialRemark,jdbcType=VARCHAR}, #{recommendFirstCount,jdbcType=INTEGER}, #{recommendSecondCount,jdbcType=INTEGER}, 
-      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
+    insert into crs_applicant (user_id, post_id, ppt_name, 
+      ppt, enroll_time, is_quit, 
+      is_recommend, recommend_ow, recommend_cadre, 
+      recommend_crowd, recommend_pdf, info_check_status, 
+      info_check_remark, require_check_status, require_check_remark, 
+      special_status, special_pdf, special_remark, 
+      recommend_first_count, recommend_second_count, 
+      sort_order, status, career, 
+      report)
+    values (#{userId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, #{pptName,jdbcType=VARCHAR}, 
+      #{ppt,jdbcType=VARCHAR}, #{enrollTime,jdbcType=TIMESTAMP}, #{isQuit,jdbcType=BIT}, 
+      #{isRecommend,jdbcType=BIT}, #{recommendOw,jdbcType=VARCHAR}, #{recommendCadre,jdbcType=VARCHAR}, 
+      #{recommendCrowd,jdbcType=VARCHAR}, #{recommendPdf,jdbcType=VARCHAR}, #{infoCheckStatus,jdbcType=TINYINT}, 
+      #{infoCheckRemark,jdbcType=VARCHAR}, #{requireCheckStatus,jdbcType=TINYINT}, #{requireCheckRemark,jdbcType=VARCHAR}, 
+      #{specialStatus,jdbcType=BIT}, #{specialPdf,jdbcType=VARCHAR}, #{specialRemark,jdbcType=VARCHAR}, 
+      #{recommendFirstCount,jdbcType=INTEGER}, #{recommendSecondCount,jdbcType=INTEGER}, 
+      #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{career,jdbcType=LONGVARCHAR}, 
+      #{report,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="domain.crs.CrsApplicant">
+  <insert id="insertSelective" parameterType="domain.crs.CrsApplicantWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -153,9 +179,6 @@
       </if>
       <if test="postId != null">
         post_id,
-      </if>
-      <if test="report != null">
-        report,
       </if>
       <if test="pptName != null">
         ppt_name,
@@ -217,6 +240,12 @@
       <if test="status != null">
         status,
       </if>
+      <if test="career != null">
+        career,
+      </if>
+      <if test="report != null">
+        report,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -224,9 +253,6 @@
       </if>
       <if test="postId != null">
         #{postId,jdbcType=INTEGER},
-      </if>
-      <if test="report != null">
-        #{report,jdbcType=VARCHAR},
       </if>
       <if test="pptName != null">
         #{pptName,jdbcType=VARCHAR},
@@ -288,6 +314,12 @@
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
+      <if test="career != null">
+        #{career,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="report != null">
+        #{report,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.crs.CrsApplicantExample" resultType="java.lang.Long">
@@ -307,9 +339,6 @@
       </if>
       <if test="record.postId != null">
         post_id = #{record.postId,jdbcType=INTEGER},
-      </if>
-      <if test="record.report != null">
-        report = #{record.report,jdbcType=VARCHAR},
       </if>
       <if test="record.pptName != null">
         ppt_name = #{record.pptName,jdbcType=VARCHAR},
@@ -371,7 +400,44 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
+      <if test="record.career != null">
+        career = #{record.career,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.report != null">
+        report = #{record.report,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update crs_applicant
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      post_id = #{record.postId,jdbcType=INTEGER},
+      ppt_name = #{record.pptName,jdbcType=VARCHAR},
+      ppt = #{record.ppt,jdbcType=VARCHAR},
+      enroll_time = #{record.enrollTime,jdbcType=TIMESTAMP},
+      is_quit = #{record.isQuit,jdbcType=BIT},
+      is_recommend = #{record.isRecommend,jdbcType=BIT},
+      recommend_ow = #{record.recommendOw,jdbcType=VARCHAR},
+      recommend_cadre = #{record.recommendCadre,jdbcType=VARCHAR},
+      recommend_crowd = #{record.recommendCrowd,jdbcType=VARCHAR},
+      recommend_pdf = #{record.recommendPdf,jdbcType=VARCHAR},
+      info_check_status = #{record.infoCheckStatus,jdbcType=TINYINT},
+      info_check_remark = #{record.infoCheckRemark,jdbcType=VARCHAR},
+      require_check_status = #{record.requireCheckStatus,jdbcType=TINYINT},
+      require_check_remark = #{record.requireCheckRemark,jdbcType=VARCHAR},
+      special_status = #{record.specialStatus,jdbcType=BIT},
+      special_pdf = #{record.specialPdf,jdbcType=VARCHAR},
+      special_remark = #{record.specialRemark,jdbcType=VARCHAR},
+      recommend_first_count = #{record.recommendFirstCount,jdbcType=INTEGER},
+      recommend_second_count = #{record.recommendSecondCount,jdbcType=INTEGER},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT},
+      career = #{record.career,jdbcType=LONGVARCHAR},
+      report = #{record.report,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -381,7 +447,6 @@
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       post_id = #{record.postId,jdbcType=INTEGER},
-      report = #{record.report,jdbcType=VARCHAR},
       ppt_name = #{record.pptName,jdbcType=VARCHAR},
       ppt = #{record.ppt,jdbcType=VARCHAR},
       enroll_time = #{record.enrollTime,jdbcType=TIMESTAMP},
@@ -406,7 +471,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.crs.CrsApplicant">
+  <update id="updateByPrimaryKeySelective" parameterType="domain.crs.CrsApplicantWithBLOBs">
     update crs_applicant
     <set>
       <if test="userId != null">
@@ -414,9 +479,6 @@
       </if>
       <if test="postId != null">
         post_id = #{postId,jdbcType=INTEGER},
-      </if>
-      <if test="report != null">
-        report = #{report,jdbcType=VARCHAR},
       </if>
       <if test="pptName != null">
         ppt_name = #{pptName,jdbcType=VARCHAR},
@@ -478,14 +540,47 @@
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="career != null">
+        career = #{career,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="report != null">
+        report = #{report,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.crs.CrsApplicantWithBLOBs">
+    update crs_applicant
+    set user_id = #{userId,jdbcType=INTEGER},
+      post_id = #{postId,jdbcType=INTEGER},
+      ppt_name = #{pptName,jdbcType=VARCHAR},
+      ppt = #{ppt,jdbcType=VARCHAR},
+      enroll_time = #{enrollTime,jdbcType=TIMESTAMP},
+      is_quit = #{isQuit,jdbcType=BIT},
+      is_recommend = #{isRecommend,jdbcType=BIT},
+      recommend_ow = #{recommendOw,jdbcType=VARCHAR},
+      recommend_cadre = #{recommendCadre,jdbcType=VARCHAR},
+      recommend_crowd = #{recommendCrowd,jdbcType=VARCHAR},
+      recommend_pdf = #{recommendPdf,jdbcType=VARCHAR},
+      info_check_status = #{infoCheckStatus,jdbcType=TINYINT},
+      info_check_remark = #{infoCheckRemark,jdbcType=VARCHAR},
+      require_check_status = #{requireCheckStatus,jdbcType=TINYINT},
+      require_check_remark = #{requireCheckRemark,jdbcType=VARCHAR},
+      special_status = #{specialStatus,jdbcType=BIT},
+      special_pdf = #{specialPdf,jdbcType=VARCHAR},
+      special_remark = #{specialRemark,jdbcType=VARCHAR},
+      recommend_first_count = #{recommendFirstCount,jdbcType=INTEGER},
+      recommend_second_count = #{recommendSecondCount,jdbcType=INTEGER},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      career = #{career,jdbcType=LONGVARCHAR},
+      report = #{report,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.crs.CrsApplicant">
     update crs_applicant
     set user_id = #{userId,jdbcType=INTEGER},
       post_id = #{postId,jdbcType=INTEGER},
-      report = #{report,jdbcType=VARCHAR},
       ppt_name = #{pptName,jdbcType=VARCHAR},
       ppt = #{ppt,jdbcType=VARCHAR},
       enroll_time = #{enrollTime,jdbcType=TIMESTAMP},
@@ -508,6 +603,22 @@
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.crs.CrsApplicantExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from crs_applicant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExampleWithRowbounds" parameterType="domain.crs.CrsApplicantExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

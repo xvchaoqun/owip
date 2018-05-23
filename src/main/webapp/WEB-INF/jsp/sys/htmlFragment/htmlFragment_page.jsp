@@ -90,7 +90,7 @@
         url: '${ctx}/htmlFragment_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: 'ID', name: 'id', frozen:true, width:50 },
-            { label: '名称', name: 'title', width: 250,frozen:true, align:'left' },
+            { label: '名称', name: 'title', width: 450,frozen:true, align:'left' },
             <c:if test="${!_query}">
             { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url:'${ctx}/htmlFragment_changeOrder'},frozen:true },

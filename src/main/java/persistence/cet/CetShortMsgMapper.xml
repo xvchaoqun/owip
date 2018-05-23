@@ -3,7 +3,7 @@
 <mapper namespace="persistence.cet.CetShortMsgMapper">
   <resultMap id="BaseResultMap" type="domain.cet.CetShortMsg">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="record_id" jdbcType="VARCHAR" property="recordId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="tpl_key" jdbcType="VARCHAR" property="tplKey" />
@@ -11,6 +11,7 @@
     <result column="msg" jdbcType="VARCHAR" property="msg" />
     <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
     <result column="success" jdbcType="BIT" property="success" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, record_id, user_id, mobile, tpl_key, content_tpl_id, msg, send_time, success
+    id, record_id, user_id, mobile, tpl_key, content_tpl_id, msg, send_time, success, 
+    remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetShortMsgExample" resultMap="BaseResultMap">
     select
@@ -106,12 +108,12 @@
   <insert id="insert" parameterType="domain.cet.CetShortMsg">
     insert into cet_short_msg (id, record_id, user_id, 
       mobile, tpl_key, content_tpl_id, 
-      msg, send_time, success
-      )
-    values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      msg, send_time, success, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{recordId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
       #{mobile,jdbcType=VARCHAR}, #{tplKey,jdbcType=VARCHAR}, #{contentTplId,jdbcType=INTEGER}, 
-      #{msg,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{success,jdbcType=BIT}
-      )
+      #{msg,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{success,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetShortMsg">
     insert into cet_short_msg
@@ -143,13 +145,16 @@
       <if test="success != null">
         success,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
       <if test="recordId != null">
-        #{recordId,jdbcType=INTEGER},
+        #{recordId,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -172,6 +177,9 @@
       <if test="success != null">
         #{success,jdbcType=BIT},
       </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="domain.cet.CetShortMsgExample" resultType="java.lang.Long">
@@ -187,7 +195,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.recordId != null">
-        record_id = #{record.recordId,jdbcType=INTEGER},
+        record_id = #{record.recordId,jdbcType=VARCHAR},
       </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
@@ -210,6 +218,9 @@
       <if test="record.success != null">
         success = #{record.success,jdbcType=BIT},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -218,14 +229,15 @@
   <update id="updateByExample" parameterType="map">
     update cet_short_msg
     set id = #{record.id,jdbcType=INTEGER},
-      record_id = #{record.recordId,jdbcType=INTEGER},
+      record_id = #{record.recordId,jdbcType=VARCHAR},
       user_id = #{record.userId,jdbcType=INTEGER},
       mobile = #{record.mobile,jdbcType=VARCHAR},
       tpl_key = #{record.tplKey,jdbcType=VARCHAR},
       content_tpl_id = #{record.contentTplId,jdbcType=INTEGER},
       msg = #{record.msg,jdbcType=VARCHAR},
       send_time = #{record.sendTime,jdbcType=TIMESTAMP},
-      success = #{record.success,jdbcType=BIT}
+      success = #{record.success,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -234,7 +246,7 @@
     update cet_short_msg
     <set>
       <if test="recordId != null">
-        record_id = #{recordId,jdbcType=INTEGER},
+        record_id = #{recordId,jdbcType=VARCHAR},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
@@ -257,19 +269,23 @@
       <if test="success != null">
         success = #{success,jdbcType=BIT},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.cet.CetShortMsg">
     update cet_short_msg
-    set record_id = #{recordId,jdbcType=INTEGER},
+    set record_id = #{recordId,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       mobile = #{mobile,jdbcType=VARCHAR},
       tpl_key = #{tplKey,jdbcType=VARCHAR},
       content_tpl_id = #{contentTplId,jdbcType=INTEGER},
       msg = #{msg,jdbcType=VARCHAR},
       send_time = #{sendTime,jdbcType=TIMESTAMP},
-      success = #{success,jdbcType=BIT}
+      success = #{success,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetShortMsgExample" resultMap="BaseResultMap">

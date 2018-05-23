@@ -7,17 +7,39 @@
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetTrainCourse_applyMsg" id="modalForm" method="post">
-        <input type="hidden" name="trainCourseId" value="${cetTrainCourse.id}">
+        <input type="hidden" name="trainCourseIds[]" value="${param["trainCourseIds[]"]}">
         <div class="form-group">
             <label class="col-xs-3 control-label">实践教学名称</label>
             <div class="col-xs-8 label-text">
-                ${cetTrainCourse.cetCourse.name}
+                <c:forEach var="cetTrainCourse" items="${cetTrainCourses}" varStatus="vs">
+                    ${cetTrainCourse.cetCourse.name}
+                    <c:if test="${!vs.last}">
+                        <br/>
+                    </c:if>
+                </c:forEach>
+                <span class="help-block red">（注：* 选择多门课程时，发送范围为没有选其中任何一门课程的学员）</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">发送人数</label>
+            <div class="col-xs-8 label-text">
+                <c:set value="${fn:length(userIds)}" var="num"/>
+                ${num} 人
+                (
+                <c:forEach items="${userIds}" var="userId" varStatus="vs" end="2">
+                    ${cm:getUserById(userId).realname}
+                    <c:if test="${!vs.last}">、</c:if>
+                </c:forEach>
+                <c:if test="${num>3}">
+                    等
+                </c:if>
+                )
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">手机号码</label>
             <div class="col-xs-8">
-                <input class="form-control" type="text" name="mobile">
+                <input class="form-control mobile" type="text" name="mobile">
                 <span class="help-block">* 发送给指定手机号码，留空则发给全部未选课的培训对象</span>
             </div>
         </div>

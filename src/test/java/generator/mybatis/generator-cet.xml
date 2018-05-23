@@ -163,11 +163,11 @@
                 <columnOverride column="selected_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
 
-        <table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
-        </table>
+       <!-- <table tableName="cet_train_course" domainObjectName="cet.CetTrainCourse" mapperName="cet.CetTrainCourseMapper">
+        </table>-->
         <!--<table tableName="cet_train_course_file" domainObjectName="cet.CetTrainCourseFile" mapperName="cet.CetTrainCourseFileMapper">
         </table>-->
-        <table tableName="cet_train_course_view" domainObjectName="cet.CetTrainCourseView" mapperName="cet.CetTrainCourseViewMapper"
+        <!--<table tableName="cet_train_course_view" domainObjectName="cet.CetTrainCourseView" mapperName="cet.CetTrainCourseViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
@@ -177,7 +177,7 @@
             <columnOverride column="selected_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="eva_finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>
+        </table>-->
         <!--<table tableName="cet_train_course_stat_view" domainObjectName="cet.CetTrainCourseStatView"
                mapperName="cet.CetTrainCourseStatViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -187,9 +187,9 @@
             <columnOverride column="finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="eva_finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
-        <!--<table tableName="cet_short_msg" domainObjectName="cet.CetShortMsg" mapperName="cet.CetShortMsgMapper">
+        <table tableName="cet_short_msg" domainObjectName="cet.CetShortMsg" mapperName="cet.CetShortMsgMapper">
             <columnOverride column="msg" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!--<table tableName="cet_trainee" domainObjectName="cet.CetTrainee" mapperName="cet.CetTraineeMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->

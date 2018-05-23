@@ -171,10 +171,11 @@ public class CrsApplicantController extends CrsBaseController {
     @RequiresPermissions("crsApplicant:edit")
     @RequestMapping(value = "/crsApplicant_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsApplicant_au(Integer id, int postId, int userId, String report, HttpServletRequest request) {
+    public Map do_crsApplicant_au(Integer id, int postId, int userId, String career,
+                                  String report, HttpServletRequest request) {
 
         crsApplicantService.apply(id, postId,
-                CrsConstants.CRS_APPLICANT_STATUS_SUBMIT, report, userId);
+                CrsConstants.CRS_APPLICANT_STATUS_SUBMIT, career, report, userId);
         logger.info(addLog(LogConstants.LOG_CRS, "添加报名人员：%s, %s", postId, userId));
 
         return success(FormUtils.SUCCESS);
@@ -197,8 +198,16 @@ public class CrsApplicantController extends CrsBaseController {
     public void crsApplicant_export(int postId, @RequestParam(required = false, value = "ids[]") Integer[] ids,
                                     HttpServletResponse response) throws IOException, TemplateException {
 
+        CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
         //输出文件
-        String filename = sysConfigService.getSchoolName() + "处级干部应聘人报名表";
+        String filename = crsPost.getName();
+        if(ids!=null && ids.length==1){
+            Integer id = ids[0];
+            CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(id);
+            String realname = crsApplicant.getCadre().getRealname();
+            filename += "—" + realname;
+        }
+
         response.reset();
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));

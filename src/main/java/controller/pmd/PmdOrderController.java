@@ -1,7 +1,6 @@
 package controller.pmd;
 
 import domain.pmd.PmdOrderCampuscard;
-import domain.pmd.PmdOrderCampuscardExample;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -39,12 +38,7 @@ public class PmdOrderController extends PmdBaseController {
     @RequestMapping("/pmdOrderCampuscard_orders")
     public String pmdOrderCampuscard_orders(int memberId, ModelMap modelMap) {
 
-        PmdOrderCampuscardExample example = new PmdOrderCampuscardExample();
-        example.createCriteria().andMemberIdEqualTo(memberId);
-        example.setOrderByClause("create_time desc");
-        List<PmdOrderCampuscard> pmdOrderCampuscards =
-                pmdOrderCampuscardMapper.selectByExample(example);
-
+        List<PmdOrderCampuscard> pmdOrderCampuscards = iPmdMapper.findRelateOrders(memberId);
         modelMap.put("pmdOrderCampuscards", pmdOrderCampuscards);
 
         return "/pmd/pmdOrder/pmdOrderCampuscard_orders";
@@ -84,7 +78,7 @@ public class PmdOrderController extends PmdBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        PmdOrderCampuscardExample example = new PmdOrderCampuscardExample();
+        //PmdOrderCampuscardExample example = new PmdOrderCampuscardExample();
 
         // 查询支付人或缴费人
         int count = iPmdMapper.countPayList(userId);

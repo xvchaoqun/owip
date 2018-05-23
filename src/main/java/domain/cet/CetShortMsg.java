@@ -6,7 +6,7 @@ import java.util.Date;
 public class CetShortMsg implements Serializable {
     private Integer id;
 
-    private Integer recordId;
+    private String recordId;
 
     private Integer userId;
 
@@ -22,6 +22,8 @@ public class CetShortMsg implements Serializable {
 
     private Boolean success;
 
+    private String remark;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -32,12 +34,12 @@ public class CetShortMsg implements Serializable {
         this.id = id;
     }
 
-    public Integer getRecordId() {
+    public String getRecordId() {
         return recordId;
     }
 
-    public void setRecordId(Integer recordId) {
-        this.recordId = recordId;
+    public void setRecordId(String recordId) {
+        this.recordId = recordId == null ? null : recordId.trim();
     }
 
     public Integer getUserId() {
@@ -94,5 +96,13 @@ public class CetShortMsg implements Serializable {
 
     public void setSuccess(Boolean success) {
         this.success = success;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 }

@@ -31,6 +31,9 @@
                     <c:if test="${!o.isSuccess && !o.isClosed}">
                         <button class="btn btn-danger btn-xs" onclick="_closeTrade('${o.sn}')">关闭订单</button>
                     </c:if>
+                    <c:if test="${o.isBatch}">
+                        (批量代缴)
+                    </c:if>
                 </td>
             </tr>
         </c:forEach>

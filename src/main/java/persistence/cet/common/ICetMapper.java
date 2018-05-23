@@ -83,10 +83,7 @@ public interface ICetMapper {
     public List<Integer> finishUserIds(@Param("planCourseId") Integer planCourseId);
 
     // 未选课学员
-    @Select("select user_id from cet_project_obj cpo " +
-            "where not exists(select 1 from cet_trainee_course_view where train_course_id=#{trainCourseId} " +
-            "and project_id=cpo.project_id and user_id=cpo.user_id)")
-    public List<Integer> notApplyUserIds(@Param("trainCourseId") Integer trainCourseId);
+    public List<Integer> notApplyUserIds(@Param("trainCourseIds") Integer[] trainCourseIds);
 
     // 培训对象参与的讨论组
     @ResultMap("persistence.cet.common.ICetMapper.ICetDiscussGroupBaseResultMap")

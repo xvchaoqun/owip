@@ -186,6 +186,15 @@
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/crsPost_detail?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             }, frozen: true},
+            {label: '发布状态', name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '-';
+                return _cMap.CRS_POST_PUB_STATUS_MAP[cellvalue];
+            }},
+            <shiro:hasPermission name="crsPost:edit">
+            {label: '发布', name: '_publish', formatter: function (cellvalue, options, rowObject) {
+                return _.template($("#publish_tpl").html().NoMultiSpace())({id: rowObject.id, isPublish:(rowObject.pubStatus==${CRS_POST_PUB_STATUS_PUBLISHED})})
+            }},
+            </shiro:hasPermission>
             {label: '分管工作', name: 'job', width:'300', formatter: $.jgrid.formatter.NoMultiSpace},
             {
                 label: '行政级别', name: 'adminLevel', formatter: function (cellvalue, options, rowObject) {
@@ -240,15 +249,7 @@
                 if (cellvalue == undefined) return '-';
                 return cellvalue ? "已上会" : "未上会";
             }},*/
-            {label: '发布状态', name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return _cMap.CRS_POST_PUB_STATUS_MAP[cellvalue];
-            }},
-            <shiro:hasPermission name="crsPost:edit">
-            {label: '发布', name: '_publish', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#publish_tpl").html().NoMultiSpace())({id: rowObject.id, isPublish:(rowObject.pubStatus==${CRS_POST_PUB_STATUS_PUBLISHED})})
-            }},
-            </shiro:hasPermission>
+
             {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
                 return _cMap.CRS_POST_STATUS_MAP[cellvalue];

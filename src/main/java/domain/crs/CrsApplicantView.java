@@ -27,8 +27,6 @@ public class CrsApplicantView implements Serializable {
 
     private Integer postId;
 
-    private String report;
-
     private String pptName;
 
     private String ppt;
@@ -95,14 +93,6 @@ public class CrsApplicantView implements Serializable {
 
     public void setPostId(Integer postId) {
         this.postId = postId;
-    }
-
-    public String getReport() {
-        return report;
-    }
-
-    public void setReport(String report) {
-        this.report = report == null ? null : report.trim();
     }
 
     public String getPptName() {

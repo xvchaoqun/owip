@@ -87,7 +87,7 @@ public class CetTrainDetailController extends CetBaseController {
 
     @RequiresPermissions("cetTrain:edit")
     @RequestMapping("/cetTrain_detail/msg_list")
-    public String msg_list(Integer projectId, Integer trainId, String tplKey,
+    public String msg_list(Integer recordId, String tplKey,
                                  Integer pageSize, Integer pageNo,
                                  ModelMap modelMap) {
 
@@ -101,11 +101,8 @@ public class CetTrainDetailController extends CetBaseController {
 
         CetShortMsgExample example = new CetShortMsgExample();
         CetShortMsgExample.Criteria criteria = example.createCriteria().andTplKeyEqualTo(tplKey);
-        if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_1)) {
-            criteria.andRecordIdEqualTo(projectId);
-        }
-        if(StringUtils.equals(tplKey, ContentTplConstants.CONTENT_TPL_CET_MSG_2)) {
-            criteria.andRecordIdEqualTo(trainId);
+        if(recordId!=null) {
+            criteria.andRecordIdContain(recordId + "");
         }
         example.setOrderByClause("send_time desc");
 

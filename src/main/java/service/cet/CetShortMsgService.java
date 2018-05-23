@@ -101,7 +101,7 @@ public class CetShortMsgService extends BaseMapper {
         CetShortMsg csm = new CetShortMsg();
         csm.setContentTplId(tpl.getId());
         csm.setTplKey(tpl.getCode());
-        csm.setRecordId(trainId);
+        csm.setRecordId(trainId+"");
         csm.setMsg(msg);
 
         if(userId!=null){
@@ -241,7 +241,7 @@ public class CetShortMsgService extends BaseMapper {
         CetShortMsg csm = new CetShortMsg();
         csm.setContentTplId(tpl.getId());
         csm.setTplKey(tpl.getCode());
-        csm.setRecordId(projectId);
+        csm.setRecordId(projectId+"");
         csm.setMsg(msg);
         int successCount = 0;
         if(StringUtils.isBlank(mobile)) {

@@ -6,7 +6,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import domain.crs.CrsApplicant;
+import domain.crs.CrsApplicantWithBLOBs;
 import domain.crs.CrsCandidate;
 import domain.crs.CrsCandidateExample;
 import domain.crs.CrsPost;
@@ -130,7 +130,7 @@ public class CrsPostService extends BaseMapper {
         List<CrsApplicatStatBean> applicatStatBeans = statBean.getApplicatStatBeans();
         if (applicatStatBeans != null) {
             for (CrsApplicatStatBean applicatStatBean : applicatStatBeans) {
-                CrsApplicant ca = new CrsApplicant();
+                CrsApplicantWithBLOBs ca = new CrsApplicantWithBLOBs();
                 ca.setId(applicatStatBean.getApplicantId());
                 ca.setRecommendFirstCount(applicatStatBean.getFirstCount());
                 ca.setRecommendSecondCount(applicatStatBean.getSecondCount());

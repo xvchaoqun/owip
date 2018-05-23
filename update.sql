@@ -1,4 +1,31 @@
 
+
+2018-5-23
+
+ALTER TABLE `crs_applicant`
+	ADD COLUMN `career` TEXT NULL COMMENT '管理工作经历' AFTER `post_id`;
+
+更新 crs_applicant_view
+
+ALTER TABLE `crs_short_msg`
+	CHANGE COLUMN `tpl_key` `tpl_key` VARCHAR(50) NULL DEFAULT NULL COMMENT '短信模板key，可能是自定义的key（以crs_开头）' AFTER `user_id`,
+	CHANGE COLUMN `content_tpl_id` `content_tpl_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '短信模板ID，自定义key时为空' AFTER `tpl_key`;
+
+ALTER TABLE `cet_short_msg`
+	CHANGE COLUMN `tpl_key` `tpl_key` VARCHAR(50) NULL DEFAULT NULL COMMENT '短信模板key，可能是自定义的key（以crs_开头）' AFTER `mobile`,
+	CHANGE COLUMN `content_tpl_id` `content_tpl_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '短信模板ID，自定义key时为空' AFTER `tpl_key`;
+
+ALTER TABLE `cet_short_msg`
+	ADD COLUMN `remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注' AFTER `success`;
+
+ALTER TABLE `cet_short_msg`
+	CHANGE COLUMN `record_id` `record_id` VARCHAR(50) NULL DEFAULT NULL COMMENT '关联记录，有可能是多条关联（比如：补选课通知）' AFTER `id`;
+
+ALTER TABLE `cet_short_msg`
+	ADD INDEX `record_id` (`record_id`),
+	ADD INDEX `tpl_key` (`tpl_key`);
+
+
 2018-5-21
 ALTER TABLE `pmd_order_campuscard`
 	CHANGE COLUMN `member_id` `member_id` INT(10) UNSIGNED NULL COMMENT '党员缴费记录' AFTER `sn`,

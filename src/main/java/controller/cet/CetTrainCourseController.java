@@ -7,6 +7,7 @@ import domain.cet.CetExpert;
 import domain.cet.CetProjectPlan;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
+import domain.cet.CetTrainCourseExample;
 import domain.cet.CetTrainCourseView;
 import domain.cet.CetTrainCourseViewExample;
 import domain.cet.CetTrainEvaTable;
@@ -358,12 +359,12 @@ public class CetTrainCourseController extends CetBaseController {
         return;
     }
 
-    // 补选课报名（实践教学）
+    // 补选课报名
     @RequiresPermissions("cetTrainCourse:edit")
     @RequestMapping(value = "/cetTrainCourse_applyMsg", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cetTrainCourse_applyMsg(
-                               int trainCourseId,
+                                @RequestParam(value = "trainCourseIds[]") Integer[] trainCourseIds,
                                String mobile,
                                String msg,
                                HttpServletRequest request) {
@@ -372,7 +373,7 @@ public class CetTrainCourseController extends CetBaseController {
             return failed("手机号码有误："+ mobile);
         }
 
-        Map<String, Integer> result = cetTrainCourseService.sendApplyMsg(trainCourseId, mobile, msg);
+        Map<String, Integer> result = cetTrainCourseService.sendApplyMsg(trainCourseIds, mobile, msg);
         logger.info(addLog(LogConstants.LOG_CET, "补选课报名：%s-%s", msg, mobile));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("totalCount", result.get("total"));
@@ -382,9 +383,15 @@ public class CetTrainCourseController extends CetBaseController {
 
     @RequiresPermissions("cetTrainCourse:edit")
     @RequestMapping("/cetTrainCourse_applyMsg")
-    public String cetTrainCourse_applyMsg(int trainCourseId, ModelMap modelMap) {
+    public String cetTrainCourse_applyMsg(@RequestParam(value = "trainCourseIds[]") Integer[] trainCourseIds, ModelMap modelMap) {
 
-        modelMap.put("cetTrainCourse", cetTrainCourseMapper.selectByPrimaryKey(trainCourseId));
+        CetTrainCourseExample example = new CetTrainCourseExample();
+        example.createCriteria().andIdIn(Arrays.asList(trainCourseIds));
+        List<CetTrainCourse> cetTrainCourses = cetTrainCourseMapper.selectByExample(example);
+        modelMap.put("cetTrainCourses", cetTrainCourses);
+
+        List<Integer> userIds = iCetMapper.notApplyUserIds(trainCourseIds);
+        modelMap.put("userIds", userIds);
 
         return "cet/cetTrainCourse/cetTrainCourse_applyMsg";
     }

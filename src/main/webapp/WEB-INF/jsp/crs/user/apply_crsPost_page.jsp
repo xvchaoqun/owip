@@ -9,11 +9,11 @@
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${cls==1}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/user/apply_crsPost?cls=1"><i
-                                class="fa fa-circle-o-notch fa-spin"></i> 应聘岗位</a>
+                                class="fa fa-circle-o-notch fa-spin"></i> 当前应聘岗位</a>
                     </li>
                     <li class="<c:if test="${cls==2}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/user/apply_crsPost?cls=2"><i
-                                class="fa fa-check"></i> 应聘历史记录</a>
+                                class="fa fa-check"></i> 历史应聘岗位</a>
                     </li>
                 </ul>
 
@@ -61,11 +61,16 @@
         url: '${ctx}/user/apply_crsPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             <c:if test="${cls==1}">
-            {label: '应聘详情', name: '_applyDetail',  formatter: function (cellvalue, options, rowObject) {
+            {label: '应聘材料', name: '_applyDetail',  formatter: function (cellvalue, options, rowObject) {
 
-                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply_detail?postId={0}"><i class="fa fa-search"></i> 应聘详情</button>'
+                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply?postId={0}"><i class="fa fa-search"></i> 详情</button>'
                         .format(rowObject.id)
-            }, frozen: true},
+            }, width: 90, frozen: true},
+            {label: '上传应聘PPT', name: '_applyDetail',  formatter: function (cellvalue, options, rowObject) {
+
+                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply_notice?postId={0}"><i class="fa fa-search"></i> 详情</button>'
+                        .format(rowObject.id)
+            }, width: 110, frozen: true},
                 </c:if>
             {
                 label: '编号', name: 'seq', formatter: function (cellvalue, options, rowObject) {
@@ -85,9 +90,9 @@
                                 .format(rowObject.id)
             }},*/
 
-            {label: '干部应聘报名表', name: '_export', width: 150,  formatter: function (cellvalue, options, rowObject) {
+            {label: '干部应聘报名表', name: '_export', width: 125,  formatter: function (cellvalue, options, rowObject) {
 
-                return '<button class="linkBtn btn btn-success btn-xs" ' +
+                return '<button class="linkBtn btn btn-primary btn-xs" ' +
                         'data-url="${ctx}/user/crsApplicant_export?applicantId={0}"><i class="fa fa-download"></i> 导出</button>'
                         .format(rowObject.applicantId)
             }},
@@ -104,9 +109,9 @@
 
                 return "已报名"
             }},
-            {label: '应聘详情', name: '_applyDetail',  formatter: function (cellvalue, options, rowObject) {
+            {label: '应聘材料', name: '_applyDetail',  formatter: function (cellvalue, options, rowObject) {
 
-                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply_detail?postId={0}"><i class="fa fa-search"></i> 应聘详情</button>'
+                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply?postId={0}"><i class="fa fa-search"></i> 详情</button>'
                         .format(rowObject.id)
             }},
             </c:if>

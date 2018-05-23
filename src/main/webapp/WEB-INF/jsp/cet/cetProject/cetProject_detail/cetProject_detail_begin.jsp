@@ -68,7 +68,7 @@
                                         发送
                                     </button>
                                     <button type="button"
-                                            data-url="${ctx}/cet/cetTrain_detail/msg_list?projectId=${param.projectId}&tplKey=${tpl.code}"
+                                            data-url="${ctx}/cet/cetTrain_detail/msg_list?recordId=${param.projectId}&tplKey=${tpl.code}"
                                             data-width="800"
                                             class="popupBtn btn btn-xs btn-info">
                                         <i class="ace-icon fa fa-history"></i>

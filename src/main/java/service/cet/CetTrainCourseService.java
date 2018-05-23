@@ -4,6 +4,7 @@ import bean.ShortMsgBean;
 import bean.XlsTrainCourse;
 import controller.global.OpException;
 import domain.cet.CetCourse;
+import domain.cet.CetShortMsg;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseExample;
@@ -278,8 +279,9 @@ public class CetTrainCourseService extends BaseMapper {
         return resultMap;
     }
 
-    public Map<String, Integer> sendApplyMsg(int trainCourseId, String mobile, String msg) {
+    public Map<String, Integer> sendApplyMsg(Integer[] trainCourseIds, String mobile, String msg) {
 
+        String tplKey = "cet_tc_apply_msg";
         int total = 0;
         int success = 0;
 
@@ -295,13 +297,15 @@ public class CetTrainCourseService extends BaseMapper {
             bean.setMobile(mobile);
             bean.setContent(msg);
 
-            if (shortMsgService.send(bean, ip)) {
+            boolean send = shortMsgService.send(bean, ip);
+            if (send) {
                 total++;
                 success++;
             }
+            saveMsg(tplKey, StringUtils.join(trainCourseIds, ","), null, mobile, msg, send, null);
         } else {
 
-            List<Integer> userIds = iCetMapper.notApplyUserIds(trainCourseId);
+            List<Integer> userIds = iCetMapper.notApplyUserIds(trainCourseIds);
 
 
             if (userIds != null) {
@@ -320,11 +324,13 @@ public class CetTrainCourseService extends BaseMapper {
                         bean.setContent(msg);
 
                         try {
-                            if (shortMsgService.send(bean, ip)) success++;
+                            boolean send = shortMsgService.send(bean, ip);
+
+                            saveMsg(tplKey, StringUtils.join(trainCourseIds, ","), userId, mobile, msg, send, null);
+                            if (send) success++;
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
-
                     }
                 }
             }
@@ -334,6 +340,24 @@ public class CetTrainCourseService extends BaseMapper {
         resultMap.put("success", success);
 
         return resultMap;
+    }
+
+    // 保存自定义短信（tplKeyyi以cet_开头)
+    private void saveMsg(String tplKey, String recordId,
+                         Integer userId, String mobile,
+                         String msg, boolean success, String remark){
+
+        CetShortMsg csm = new CetShortMsg();
+        csm.setContentTplId(null);
+        csm.setTplKey(tplKey);
+        csm.setRecordId(recordId);
+        csm.setMsg(msg);
+        csm.setMobile(mobile);
+        csm.setSendTime(new Date());
+        csm.setUserId(userId);
+        csm.setSuccess(success);
+        csm.setRemark(remark);
+        cetShortMsgMapper.insertSelective(csm); // 保存日志
     }
 
     // key: userId

@@ -3733,7 +3733,7 @@
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00552BC3">
 						<w:trPr>
-							<w:trHeight w:val="7819"/>
+							<w:trHeight w:val="7619"/>
 							<w:jc w:val="center"/>
 						</w:trPr>
 						<w:tc>
@@ -3844,7 +3844,134 @@
 
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00002E50">
 						<w:trPr>
-							<w:trHeight w:val="5235"/>
+							<w:trHeight w:val="5135"/>
+							<w:jc w:val="center"/>
+						</w:trPr>
+						<w:tc>
+							<w:tcPr>
+								<w:tcW w:w="1467" w:type="dxa"/>
+								<w:vAlign w:val="center"/>
+							</w:tcPr>
+							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="00FF2118" wsp:rsidP="00FF2118">
+								<w:pPr>
+									<w:spacing w:line="320" w:line-rule="exact"/>
+									<w:jc w:val="center"/>
+									<w:outlineLvl w:val="0"/>
+									<w:rPr>
+										<w:spacing w:val="40"/>
+									</w:rPr>
+								</w:pPr>
+								<w:r wsp:rsidRPr="00E933BF">
+									<w:rPr>
+										<w:rFonts w:hint="fareast"/>
+										<wx:font wx:val="宋体"/>
+										<w:spacing w:val="40"/>
+									</w:rPr>
+									<w:t>管</w:t>
+								</w:r>
+							</w:p>
+							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="00FF2118" wsp:rsidP="00FF2118">
+								<w:pPr>
+									<w:spacing w:line="320" w:line-rule="exact"/>
+									<w:jc w:val="center"/>
+									<w:outlineLvl w:val="0"/>
+									<w:rPr>
+										<w:spacing w:val="40"/>
+									</w:rPr>
+								</w:pPr>
+								<w:r wsp:rsidRPr="00E933BF">
+									<w:rPr>
+										<w:rFonts w:hint="fareast"/>
+										<wx:font wx:val="宋体"/>
+										<w:spacing w:val="40"/>
+									</w:rPr>
+									<w:t>理</w:t>
+								</w:r>
+							</w:p>
+							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="00FF2118" wsp:rsidP="00FF2118">
+								<w:pPr>
+									<w:spacing w:line="320" w:line-rule="exact"/>
+									<w:jc w:val="center"/>
+									<w:outlineLvl w:val="0"/>
+									<w:rPr>
+										<w:spacing w:val="40"/>
+									</w:rPr>
+								</w:pPr>
+								<w:r wsp:rsidRPr="00E933BF">
+									<w:rPr>
+										<w:rFonts w:hint="fareast"/>
+										<wx:font wx:val="宋体"/>
+										<w:spacing w:val="40"/>
+									</w:rPr>
+									<w:t>工</w:t>
+								</w:r>
+							</w:p>
+							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="00FF2118" wsp:rsidP="00FF2118">
+								<w:pPr>
+									<w:spacing w:line="320" w:line-rule="exact"/>
+									<w:jc w:val="center"/>
+									<w:outlineLvl w:val="0"/>
+									<w:rPr>
+										<w:spacing w:val="40"/>
+									</w:rPr>
+								</w:pPr>
+								<w:r wsp:rsidRPr="00E933BF">
+									<w:rPr>
+										<w:rFonts w:hint="fareast"/>
+										<wx:font wx:val="宋体"/>
+										<w:spacing w:val="40"/>
+									</w:rPr>
+									<w:t>作</w:t>
+								</w:r>
+							</w:p>
+							<w:p wsp:rsidR="00FF2118" wsp:rsidRDefault="00FF2118" wsp:rsidP="00FF2118">
+								<w:pPr>
+									<w:spacing w:line="320" w:line-rule="exact"/>
+									<w:jc w:val="center"/>
+									<w:outlineLvl w:val="0"/>
+									<w:rPr>
+										<w:spacing w:val="40"/>
+									</w:rPr>
+								</w:pPr>
+								<w:r wsp:rsidRPr="00E933BF">
+									<w:rPr>
+										<w:rFonts w:hint="fareast"/>
+										<wx:font wx:val="宋体"/>
+										<w:spacing w:val="40"/>
+									</w:rPr>
+									<w:t>经</w:t>
+								</w:r>
+							</w:p>
+							<w:p wsp:rsidR="0052109C" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00FF2118" wsp:rsidP="00FF2118">
+								<w:pPr>
+									<w:jc w:val="center"/>
+									<w:outlineLvl w:val="0"/>
+								</w:pPr>
+								<w:proofErr w:type="gramStart"/>
+								<w:r wsp:rsidRPr="00E933BF">
+									<w:rPr>
+										<w:rFonts w:hint="fareast"/>
+										<wx:font wx:val="宋体"/>
+										<w:spacing w:val="40"/>
+									</w:rPr>
+									<w:t>历</w:t>
+								</w:r>
+								<w:proofErr w:type="gramEnd"/>
+							</w:p>
+						</w:tc>
+						<w:tc>
+							<w:tcPr>
+								<w:tcW w:w="8950" w:type="dxa"/>
+								<w:gridSpan w:val="13"/>
+								<w:vAlign w:val="top"/>
+							</w:tcPr>
+						${bean.applicantCareer!}
+                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+						</w:tc>
+					</w:tr>
+					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00002E50">
+						<w:trPr>
+							<w:trHeight w:val="5135"/>
 							<w:jc w:val="center"/>
 						</w:trPr>
 						<w:tc>
@@ -3935,7 +4062,7 @@
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00002E50">
 						<w:trPr>
-							<w:trHeight w:val="10149"/>
+							<w:trHeight w:val="5135"/>
 							<w:jc w:val="center"/>
 						</w:trPr>
 						<w:tc>
@@ -4689,7 +4816,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="995" w:type="dxa"/>
+								<w:tcW w:w="1055" w:type="dxa"/>
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
@@ -4730,7 +4857,7 @@
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
-								<w:tcW w:w="1109" w:type="dxa"/>
+								<w:tcW w:w="1049" w:type="dxa"/>
 								<w:gridSpan w:val="2"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>

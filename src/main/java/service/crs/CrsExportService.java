@@ -2,9 +2,9 @@ package service.crs;
 
 import domain.base.MetaType;
 import domain.cadre.CadreView;
-import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsApplicantViewExample;
+import domain.crs.CrsApplicantWithBLOBs;
 import domain.crs.CrsPost;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
@@ -241,12 +241,14 @@ public class CrsExportService extends BaseMapper{
         List applicants = new ArrayList<>();
         for (int id : ids) {
 
-            CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(id);
+            CrsApplicantWithBLOBs crsApplicant = crsApplicantMapper.selectByPrimaryKey(id);
             String postName = crsApplicant.getPost().getName();
             CadreView cadre = crsApplicant.getCadre();
             int cadreId = cadre.getId();
             Map<String, Object> applicantDataMap = cadreInfoFormService.getDataMap(cadreId);
             applicantDataMap.put("postName", postName);
+            applicantDataMap.put("applicantCareer",
+                    freemarkerService.genTextareaSegment(crsApplicant.getCareer(), "/common/textarea.ftl"));
             applicantDataMap.put("applicantReport",
                     freemarkerService.genTextareaSegment(crsApplicant.getReport(), "/common/textarea.ftl"));
 
