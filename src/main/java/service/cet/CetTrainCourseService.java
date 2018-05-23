@@ -306,8 +306,6 @@ public class CetTrainCourseService extends BaseMapper {
         } else {
 
             List<Integer> userIds = iCetMapper.notApplyUserIds(trainCourseIds);
-
-
             if (userIds != null) {
                 total = userIds.size();
                 for (Integer userId : userIds) {
