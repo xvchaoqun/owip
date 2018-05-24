@@ -10,7 +10,7 @@
                     <li class="<c:if test="${type==0}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/unit_layout?type=0"><i class="fa ${type==0?'fa-th-large':'fa-th'}"></i> 校领导班子</a>
                     </li>
-                    <c:forEach var="unitType" items="${unitTypeMap}">
+                    <c:forEach var="unitType" items="${cm:getMetaTypes('mc_unit_type')}">
                     <li class="${type==unitType.key?'active':''}">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/unit_layout?type=${unitType.key}"><i class="fa ${type==unitType.key?'fa-th-large':'fa-th'}"></i> ${unitType.value.name}</a>
                     </li>

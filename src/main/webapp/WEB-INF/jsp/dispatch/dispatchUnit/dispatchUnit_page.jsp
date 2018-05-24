@@ -62,9 +62,7 @@
                                             <label>类型</label>
                                                 <select data-rel="select2" name="typeId" data-placeholder="请选择单位发文类型">
                                                     <option></option>
-                                                    <c:forEach var="dispatchUnitType" items="${dispatchUnitTypeMap}">
-                                                        <option value="${dispatchUnitType.value.id}">${dispatchUnitType.value.name}</option>
-                                                    </c:forEach>
+                                                    <c:import url="/metaTypes?__code=mc_dispatch_unit"/>
                                                 </select>
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=typeId]").val('${param.typeId}');

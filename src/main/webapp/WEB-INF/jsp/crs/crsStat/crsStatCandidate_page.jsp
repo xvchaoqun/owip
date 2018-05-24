@@ -65,17 +65,13 @@
                                           style="width: 250px;">
                                       <option value="-1">非党干部</option>
                                       <option value="0">中共党员</option>
-                                      <c:forEach var="entry" items="${democraticPartyMap}">
-                                          <option value="${entry.key}">${entry.value.name}</option>
-                                      </c:forEach>
+                                      <c:import url="/metaTypes?__code=mc_democratic_party"/>
                                   </select>
                               </div>
                               <div class="form-group">
                                   <label>最高学历</label>
                                   <select class="multiselect" multiple="" name="maxEdus">
-                                      <c:forEach items="${eduMap}" var="entry">
-                                          <option value="${entry.key}">${entry.value.name}</option>
-                                      </c:forEach>
+                                      <c:import url="/metaTypes?__code=mc_edu"/>
                                   </select>
                               </div>
                               <div class="form-group">
@@ -149,14 +145,7 @@
         {label: '民族', name: 'nation', width: 60},
         {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
-        {
-            label: '党派', name: 'cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
-
-            if (cellvalue == 0) return "中共党员"
-            else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
-            return "-";
-        }
-        },
+        {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
         {
             label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '-';

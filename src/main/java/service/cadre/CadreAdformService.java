@@ -37,6 +37,8 @@ import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ImageUtils;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -87,6 +89,17 @@ public class CadreAdformService extends BaseMapper{
 
         File avatar =  new File(springProps.avatarFolder + uv.getAvatar());
         if(!avatar.exists()) avatar = new File(springProps.avatarFolder + FILE_SEPARATOR + springProps.defaultAvatar);
+
+        // 图片默认大小
+        bean.setAvatarWidth(143);
+        bean.setAvatarHeight(198);
+        try {
+            BufferedImage _avatar = ImageIO.read(avatar);
+            bean.setAvatarWidth(_avatar.getWidth());
+            bean.setAvatarHeight(_avatar.getHeight());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String base64 = ImageUtils.encodeImgageToBase64(avatar);
         bean.setAvatar(base64);
         bean.setNation(cadre.getNation());
@@ -101,6 +114,7 @@ public class CadreAdformService extends BaseMapper{
         bean.setProPostTime(cadre.getProPostTime());
         bean.setSpecialty(uv.getSpecialty());
 
+        bean.setCadreDpType(cadre.getCadreDpType());
         bean.setGrowTime(cadre.getCadreGrowTime());
 
         /*// 最高学历
@@ -203,51 +217,56 @@ public class CadreAdformService extends BaseMapper{
     }
 
     // 输出任免审批表
-    public void process(CadreInfoForm adform, Writer out) throws IOException, TemplateException {
+    public void process(CadreInfoForm bean, Writer out) throws IOException, TemplateException {
 
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        dataMap.put("name", adform.getRealname());
-        dataMap.put("gender", SystemConstants.GENDER_MAP.get(adform.getGender()));
-        dataMap.put("birth", DateUtils.formatDate(adform.getBirth(), "yyyy.MM"));
-        dataMap.put("age", adform.getAge());
-        dataMap.put("avatar", adform.getAvatar());
-        dataMap.put("nation", adform.getNation());
-        dataMap.put("nativePlace", adform.getNativePlace());
-        dataMap.put("homeplace", adform.getHomeplace());
-        dataMap.put("growTime", DateUtils.formatDate(adform.getGrowTime(), "yyyy.MM"));
-        dataMap.put("workTime", DateUtils.formatDate(adform.getWorkTime(), "yyyy.MM"));
+        dataMap.put("name", bean.getRealname());
+        dataMap.put("gender", SystemConstants.GENDER_MAP.get(bean.getGender()));
+        dataMap.put("birth", DateUtils.formatDate(bean.getBirth(), "yyyy.MM"));
+        dataMap.put("age", bean.getAge());
+        dataMap.put("avatar", bean.getAvatar());
+        dataMap.put("avatarWidth", bean.getAvatarWidth());
+        dataMap.put("avatarHeight", bean.getAvatarHeight());
+        dataMap.put("nation", bean.getNation());
+        dataMap.put("nativePlace", bean.getNativePlace());
+        dataMap.put("homeplace", bean.getHomeplace());
 
-        dataMap.put("health", adform.getHealth());
-        dataMap.put("proPost", adform.getProPost());
-        dataMap.put("specialty", adform.getSpecialty());
+        String partyName = CmTag.getCadreParty(bean.getCadreDpType(), true, null);// 党派
+        dataMap.put("partyName", partyName);
+        dataMap.put("growTime", DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM"));
+        dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM"));
 
-        dataMap.put("edu", adform.getEdu());
-        dataMap.put("degree", adform.getDegree());
-        dataMap.put("schoolDepMajor", adform.getSchoolDepMajor());
-        dataMap.put("inEdu", adform.getInEdu());
-        dataMap.put("inDegree", adform.getInDegree());
-        dataMap.put("inSchoolDepMajor", adform.getInSchoolDepMajor());
+        dataMap.put("health", bean.getHealth());
+        dataMap.put("proPost", bean.getProPost());
+        dataMap.put("specialty", bean.getSpecialty());
 
-        dataMap.put("post", adform.getPost());
-        dataMap.put("inPost", adform.getInPost());
-        dataMap.put("prePost", adform.getPrePost());
-        if(adform.getReward()!=null)
-            dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, adform.getReward(), false, 360));
-        dataMap.put("ces", adform.getCes());
-        dataMap.put("reason", adform.getReason());
+        dataMap.put("edu", bean.getEdu());
+        dataMap.put("degree", bean.getDegree());
+        dataMap.put("schoolDepMajor", bean.getSchoolDepMajor());
+        dataMap.put("inEdu", bean.getInEdu());
+        dataMap.put("inDegree", bean.getInDegree());
+        dataMap.put("inSchoolDepMajor", bean.getInSchoolDepMajor());
+
+        dataMap.put("post", bean.getPost());
+        dataMap.put("inPost", bean.getInPost());
+        dataMap.put("prePost", bean.getPrePost());
+        if(bean.getReward()!=null)
+            dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(), false, 360));
+        dataMap.put("ces", bean.getCes());
+        dataMap.put("reason", bean.getReason());
 
         dataMap.put("learnDesc", "");
         dataMap.put("workDesc", "");
 
-        if(adform.getLearnDesc()!=null)
-            dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", adform.getLearnDesc(), true, 360));
-        if(adform.getWorkDesc()!=null)
-            dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", adform.getWorkDesc(), true, 360));
-        if(adform.getTrainDesc()!=null)
-            dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, adform.getTrainDesc(), false, 360));
+        if(bean.getLearnDesc()!=null)
+            dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 360));
+        if(bean.getWorkDesc()!=null)
+            dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 360));
+        if(bean.getTrainDesc()!=null)
+            dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, bean.getTrainDesc(), false, 360));
 
         String family = "";
-        List<CadreFamily> cadreFamilys = adform.getCadreFamilys();
+        List<CadreFamily> cadreFamilys = bean.getCadreFamilys();
         int size = cadreFamilys.size();
         for (int i=0; i<5; i++) {
             if(size<=i)

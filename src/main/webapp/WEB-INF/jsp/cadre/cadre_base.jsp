@@ -79,8 +79,8 @@ pageEncoding="UTF-8"%>
 			</tr>
 			<tr>
 				<td>政治面貌</td>
-				<td >
-					${cadre.cadreDpType>0?democraticPartyMap.get(cadre.dpTypeId).name:(cadre.cadreDpType==0)?'中共党员':''}
+				<td>
+					${cm:getCadreParty(cadre.cadreDpType, false, "中共党员")}
 				</td>
 				<td>
 					党派加入时间
@@ -340,7 +340,7 @@ pageEncoding="UTF-8"%>
 						单位属性
 					</td>
 					<td style="min-width: 80px">
-						${unitTypeMap.get(unitMap.get(mainCadrePost.unitId).typeId).name}
+						${cm:getMetaType(unitMap.get(mainCadrePost.unitId).typeId).name}
 					</td>
 
 					<td>
@@ -376,7 +376,7 @@ pageEncoding="UTF-8"%>
 						行政级别
 					</td>
 					<td>
-						${adminLevelMap.get(cadreAdminLevel.adminLevelId).name}
+						${cm:getMetaType(cadreAdminLevel.adminLevelId).name}
 					</td>
 					<td>任现职级时间</td>
 					<td >
@@ -601,13 +601,13 @@ pageEncoding="UTF-8"%>
 						最高学历
 					</td>
 					<td style="min-width: 80px">
-						${eduTypeMap.get(highEdu.eduId).name}
+						${cm:getMetaType(highEdu.eduId).name}
 					</td>
 					<td>
 						学习方式
 					</td>
 					<td style="min-width: 80px">
-						${learnStyleMap.get(highEdu.learnStyle).name}
+						${cm:getMetaType(highEdu.learnStyle).name}
 					</td>
 
 					<td>
@@ -643,7 +643,7 @@ pageEncoding="UTF-8"%>
 					</td>
 					<td>学习方式</td>
 					<td >
-						${learnStyleMap.get(highDegree.learnStyle).name}
+						${cm:getMetaType(highDegree.learnStyle).name}
 					</td>
 					<td>
 						毕业学校
@@ -754,7 +754,7 @@ pageEncoding="UTF-8"%>
 						<tr>
 							<td>政治面貌</td>
 							<td>
-								<c:set var="original" value="${cadre.cadreDpType>0?democraticPartyMap.get(cadre.dpTypeId).name:(cadre.cadreDpType==0)?'中共党员':''}"/>
+								<c:set var="original" value="${cm:getCadreParty(cadre.cadreDpType, false, '中共党员')}"/>
 								<c:if test="${!_needModifyParty}">${original}</c:if>
 								<c:if test="${_needModifyParty}">
 								<select data-rel="select2" name="dpTypeId" data-width="150" data-placeholder="请选择民主党派">

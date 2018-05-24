@@ -58,8 +58,6 @@ public class CadreExportService extends BaseMapper {
     protected BranchService branchService;
     @Autowired
     protected CadrePostService cadrePostService;
-    @Autowired
-    protected CadreService cadreService;
 
     public SXSSFWorkbook export(Byte status, CadreViewExample example, int exportType) {
 
@@ -161,7 +159,7 @@ public class CadreExportService extends BaseMapper {
                 }
             }
 
-            String partyName = cadreService.getCadreParty(record.getCadreDpType(), "中共");// 党派
+            String partyName = CmTag.getCadreParty(record.getCadreDpType(), false, "中共党员");// 党派
             String partyAddTime = DateUtils.formatDate(record.getCadreGrowTime(), DateUtils.YYYY_MM_DD);
 
             String postDispatchCode = ""; // 现职务任命文件

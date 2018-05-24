@@ -31,7 +31,7 @@
                         原职业
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                        ${jobMap.get(memberInflow.originalJob).name}
+                        ${cm:getMetaType(memberInflow.originalJob).name}
                     </td>
                     <td class="bg-right">
                         流入前所在省份

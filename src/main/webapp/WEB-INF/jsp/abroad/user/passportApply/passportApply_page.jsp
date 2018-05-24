@@ -38,7 +38,7 @@ pageEncoding="UTF-8" %>
                         <c:set var="sysUser" value="${cm:getUserById(cadre.userId)}"/>
                         <tr>
                                 <td>${cm:formatDate(passportApply.applyDate,'yyyy-MM-dd')}</td>
-								<td>${passportTypeMap.get(passportApply.classId).name}</td>
+								<td>${cm:getMetaType(passportApply.classId).name}</td>
 								<%--<td>
                                     <button class="openView btn btn-success btn-xs"
                                             data-url="${ctx}/user/abroad/passportApply_confirm?type=view&id=${passportApply.id}">

@@ -215,22 +215,12 @@
             {label: '所在单位', name: 'unit.name', width: 200},
             {label: '现任职务', name: 'post', align: 'left', width: 350},
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
-            {
-                label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.adminLevelMap[cellvalue].name;
-            }
-            },
-            {
-                label: '职务属性', name: 'postId', width: 150, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.postMap[cellvalue].name;
-            }
-            },
+            {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+            {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
             {
                 label: '是否正职', name: 'mainCadrePost.postId', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
-                return _cMap.postMap[cellvalue].boolAttr ? "是" : "否"
+                return _cMap.metaTypeMap[cellvalue].boolAttr ? "是" : "否"
             }
             },
             {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
@@ -239,14 +229,7 @@
             {label: '身份证号', name: 'idcard', width: 150},
             {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
-            {
-                label: '党派', name: 'cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
-
-                if (cellvalue == 0) return "中共党员"
-                else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
-                return "-";
-            }
-            },
+            {label: '党派', name: 'cadreDpType', width: 80, width: 80, formatter: $.jgrid.formatter.cadreParty},
             {
                 label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';

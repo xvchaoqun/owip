@@ -20,8 +20,7 @@
                     <th>${empty metaClass.boolAttr?'布尔属性':metaClass.boolAttr}</th>
                     <shiro:hasRole name="${ROLE_ADMIN}">
                     <th>代码</th>
-
-                    <th>附加属性</th>
+                    <th>${empty metaClass.extraAttr?'附加属性':metaClass.extraAttr}</th>
                     <th>备注</th>
                     </shiro:hasRole>
                     <shiro:hasPermission name="metaType:changeOrder">

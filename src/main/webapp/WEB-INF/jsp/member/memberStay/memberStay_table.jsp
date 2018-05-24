@@ -60,7 +60,7 @@
     人员类别
   </td>
   <td class="bg-left" style="min-width: 80px">
-    ${abroadUserTypeMap.get(memberStay.userType).name}
+    ${cm:getMetaType(memberStay.userType).name}
   </td>
   <td class="bg-right">
     身份证号

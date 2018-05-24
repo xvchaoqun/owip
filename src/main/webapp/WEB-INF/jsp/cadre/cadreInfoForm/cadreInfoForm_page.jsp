@@ -242,7 +242,7 @@ td.padding10{
                 <span>职务级别</span>
         </td><td class="td10 padding10" colspan="3">
                 <span>
-                    ${adminLevelMap.get(bean.adminLevel).name}</span>
+                    ${cm:getMetaType(bean.adminLevel).name}</span>
         </td>
         </tr>
         <tr class="r1">
@@ -476,7 +476,7 @@ td.padding10{
             </td><td class="td17 center" colspan="2">
                 ${cm:formatDate(f.birthday, "yyyy.MM")}
             </td><td class="td18 center">
-                    ${politicalStatusMap.get(f.getPoliticalStatus()).name}
+                    ${cm:getMetaType(f.getPoliticalStatus()).name}
             </td><td class="td19 padding10" colspan="6" >
                     ${f.unit}
             </td>

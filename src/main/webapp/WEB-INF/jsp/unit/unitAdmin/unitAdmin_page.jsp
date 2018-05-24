@@ -25,7 +25,7 @@ pageEncoding="UTF-8" %>
                     <c:forEach items="${unitAdmins}" var="unitAdmin" varStatus="st">
                         <tr>
 								<td>${cm:getUserById(cm:getCadreById(unitAdmin.cadreId).userId).realname}</td>
-                                <td>${postMap.get(unitAdmin.postId).name}</td>
+                                <td>${cm:getMetaType(unitAdmin.postId).name}</td>
                                 <td>
                                     <a href="javascript:;" class="changeOrderBtn" data-id="${unitAdmin.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"

@@ -2378,7 +2378,14 @@
 											<o:lock v:ext="edit" aspectratio="t"/>
 										</v:shapetype>
 										<w:binData w:name="wordml://${bean_index}.jpg" xml:space="preserve">${bean.avatar!}</w:binData>
-										<v:shape id="_x0000_i1051" type="#_x0000_t75" style="width:81pt;height:108pt">
+										<#assign defWidth=81>
+										<#assign defHeight=108>
+										<#if (defWidth*bean.avatarHeight) gt (defHeight*bean.avatarWidth)>
+											<#assign avatarStyle="width:${bean.avatarWidth*defHeight/bean.avatarHeight}pt;height:${defHeight}pt">
+										<#else>
+											<#assign avatarStyle="width:${defWidth}pt;height:${bean.avatarHeight*defWidth/bean.avatarWidth}pt">
+										</#if>
+										<v:shape id="_x0000_i1051" type="#_x0000_t75" style="${avatarStyle}">
 											<v:imagedata src="wordml://${bean_index}.jpg" o:title="1"/>
 										</v:shape>
 									</w:pict>
@@ -3845,7 +3852,7 @@
 							</w:tcPr>
 							${bean.learnDesc!}
 							${bean.workDesc!}
-                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+                            <w:p/>
 						</w:tc>
 					</w:tr>
 

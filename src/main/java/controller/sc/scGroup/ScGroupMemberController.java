@@ -44,8 +44,9 @@ public class ScGroupMemberController extends ScGroupBaseController {
 
     @RequiresPermissions("scGroupMember:list")
     @RequestMapping("/scGroupMember")
-    public String scGroupMember() {
+    public String scGroupMember(@RequestParam(required = false, defaultValue = "1") Boolean isCurrent, ModelMap modelMap) {
 
+        modelMap.put("isCurrent", isCurrent);
         return "sc/scGroup/scGroupMember/scGroupMember_page";
     }
 

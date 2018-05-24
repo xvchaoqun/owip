@@ -1,11 +1,9 @@
 package domain.cadre;
 
-import domain.base.MetaType;
 import domain.sys.SysUserView;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
-import java.util.Map;
 
 public class CadreLeader implements Serializable {
     public SysUserView getUser(){
@@ -16,11 +14,7 @@ public class CadreLeader implements Serializable {
 
         return CmTag.getCadreById(cadreId);
     }
-    public MetaType getLeaderType(){
 
-        Map<Integer, MetaType> leaderTypeMap = CmTag.getMetaTypes("mc_leader_type");
-        return leaderTypeMap.get(typeId);
-    }
     private Integer id;
 
     private Integer cadreId;

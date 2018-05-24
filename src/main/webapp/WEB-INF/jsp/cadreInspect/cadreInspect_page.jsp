@@ -165,14 +165,7 @@ pageEncoding="UTF-8" %>
             {label: '现所在单位', name: 'unit.name', width: 200},
             {label: '现任职务', name: 'post', width: 350},
             {label: '现所在单位及职务', name: 'title', width: 350},
-            {
-                label: '现行政级别',
-                name: 'typeId',
-                formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '';
-                    return _cMap.adminLevelMap[cellvalue].name;
-                }
-            },
+            {label: '现行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
             {label: '现职务属性', name: 'postType.name', width: 150},
             {label: '手机号', name: 'mobile'},
             {label: '办公电话', name: 'phone'},

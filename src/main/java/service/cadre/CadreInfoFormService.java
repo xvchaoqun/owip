@@ -70,8 +70,6 @@ public class CadreInfoFormService extends BaseMapper {
     @Autowired
     protected CadrePostService cadrePostService;
     @Autowired
-    protected CadreService cadreService;
-    @Autowired
     protected SysConfigService sysConfigService;
 
     // 获取干部信息采集表属性值
@@ -98,8 +96,6 @@ public class CadreInfoFormService extends BaseMapper {
         bean.setEmail(uv.getEmail());
 
         bean.setHousehold(uv.getHousehold());
-
-        bean.setCadreDpType(cadre.getCadreDpType());
 
         // 硕士导师
         String masterTutor = "";
@@ -251,11 +247,13 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("a", bean.getAge());
 
         dataMap.put("avatar", bean.getAvatar());
+        dataMap.put("avatarWidth", bean.getAvatarWidth());
+        dataMap.put("avatarHeight", bean.getAvatarHeight());
         dataMap.put("nation", bean.getNation());
         dataMap.put("np", bean.getNativePlace());
         dataMap.put("hp", bean.getHomeplace());
 
-        String partyName = cadreService.getCadreParty(bean.getCadreDpType(), "中共");// 党派
+        String partyName = CmTag.getCadreParty(bean.getCadreDpType(), true, "中共");// 党派
         dataMap.put("partyName", partyName);
         dataMap.put("growTime", DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM"));
         dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM"));

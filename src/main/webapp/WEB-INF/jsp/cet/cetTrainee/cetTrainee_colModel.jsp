@@ -37,23 +37,9 @@
       {label: '工作证号', name: 'code', width: 100, frozen: true},
       {label: '姓名', name: 'realname', width: 120, frozen: true},
       {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
-      {
-          label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-          if (cellvalue == undefined) return '-';
-          return _cMap.adminLevelMap[cellvalue].name;
-      }},
-      {
-          label: '职务属性', name: 'postId', width: 150, formatter: function (cellvalue, options, rowObject) {
-          if (cellvalue == undefined) return '-';
-          return _cMap.postMap[cellvalue].name;
-      }},
-      {
-          label: '党派', name: 'cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
-
-          if (cellvalue == 0) return "中共党员"
-          else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
-          return "-";
-      }},
+      {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+      {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
+      {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
       {label: '专业技术职务', name: 'proPost', width: 120},
       {
           label: '任现职时间',

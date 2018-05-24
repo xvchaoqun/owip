@@ -53,12 +53,12 @@ pageEncoding="UTF-8" %>
                     <td nowrap>${dispatch.year}</td>
                     <td nowrap>${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</td>
                     <td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
-                    <td nowrap>${wayMap.get(dispatchCadre.wayId).name}</td>
+                    <td nowrap>${cm:getMetaType(dispatchCadre.wayId).name}</td>
                     <td nowrap>${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
                     <td nowrap>${cm:getUserById(cm:getCadreById(dispatchCadre.cadreId).userId).realname}</td>
                     <td nowrap>${dispatchCadre.post}</td>
-                    <td nowrap>${postMap.get(dispatchCadre.postId).name}</td>
-                    <td nowrap>${adminLevelMap.get(dispatchCadre.adminLevelId).name}</td>
+                    <td nowrap>${cm:getMetaType(dispatchCadre.postId).name}</td>
+                    <td nowrap>${cm:getMetaType(dispatchCadre.adminLevelId).name}</td>
                     <td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
                     <td nowrap><c:if test="${not empty dispatch.fileName}">
                         <a href="/dispatch_download?id=${dispatch.id}&type=file" target="_blank">下载</a>

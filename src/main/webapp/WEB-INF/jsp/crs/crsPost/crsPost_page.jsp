@@ -196,12 +196,7 @@
             }},
             </shiro:hasPermission>
             {label: '分管工作', name: 'job', width:'300', formatter: $.jgrid.formatter.NoMultiSpace},
-            {
-                label: '行政级别', name: 'adminLevel', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return _cMap.adminLevelMap[cellvalue].name;
-            }
-            },
+            {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '所属单位', name: 'unit.name', width: 200},
             {label: '部门属性', name: 'unit.unitType.name', width: 150},
             {label: '招聘人数', name: 'num', width: 80},

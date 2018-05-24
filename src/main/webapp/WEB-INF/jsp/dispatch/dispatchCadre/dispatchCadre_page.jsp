@@ -88,25 +88,20 @@
                                         <div class="form-group">
                                             <label>任免方式</label>
                                                 <select class="multiselect" multiple="" name="wayId" data-placeholder="请选择">
-                                                    <c:forEach var="way" items="${wayMap}">
-                                                        <option value="${way.value.id}">${way.value.name}</option>
-                                                    </c:forEach>
+                                                    <option></option>
+                                                    <c:import url="/metaTypes?__code=mc_dispatch_cadre_way"/>
                                                 </select>
                                         </div>
                                         <div class="form-group">
                                             <label>任免程序</label>
                                                 <select class="multiselect" multiple="" name="procedureId" data-placeholder="请选择">
-                                                    <c:forEach var="procedure" items="${procedureMap}">
-                                                        <option value="${procedure.value.id}">${procedure.value.name}</option>
-                                                    </c:forEach>
+                                                    <c:import url="/metaTypes?__code=mc_dispatch_cadre_procedure"/>
                                                 </select>
                                         </div>
                                         <div class="form-group">
                                             <label>行政级别</label>
                                                 <select class="multiselect" multiple="" name="adminLevelId" data-placeholder="请选择">
-                                                    <c:forEach var="adminLevel" items="${adminLevelMap}">
-                                                        <option value="${adminLevel.value.id}">${adminLevel.value.name}</option>
-                                                    </c:forEach>
+                                                    <c:import url="/metaTypes?__code=mc_admin_level"/>
                                                 </select>
                                         </div>
                                         <div class="form-group">

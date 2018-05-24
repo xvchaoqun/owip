@@ -81,7 +81,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 行政级别</div>
           <div class="profile-info-value td">
-            <span class="editable">${adminLevelMap.get(cadreAdminLevel.adminLevelId).name}</span>
+            <span class="editable">${cm:getMetaType(cadreAdminLevel.adminLevelId).name}</span>
           </div>
         </div>
 
@@ -90,7 +90,7 @@
 
           <div class="profile-info-value td">
             <span class="editable">
-              ${cadre.cadreDpType>0?democraticPartyMap.get(cadre.dpTypeId).name:(cadre.cadreDpType==0)?'中共党员':''}
+              ${cm:getCadreParty(cadre.cadreDpType, false, '中共党员')}
             </span>
           </div>
         </div>
@@ -137,7 +137,7 @@
           <div class="profile-info-name td"> 最高学历</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${eduTypeMap.get(highEdu.eduId).name}
+              ${cm:getMetaType(highEdu.eduId).name}
             </span>
           </div>
         </div>
@@ -145,7 +145,7 @@
           <div class="profile-info-name td"> 学习方式</div>
           <div class="profile-info-value td">
             <span class="editable">
-              ${learnStyleMap.get(highEdu.learnStyle).name}
+              ${cm:getMetaType(highEdu.learnStyle).name}
             </span>
           </div>
         </div>
@@ -373,7 +373,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 单位属性</div>
           <div class="profile-info-value td">
-            <span class="editable">${unitTypeMap.get(unitMap.get(mainCadrePost.unitId).typeId).name}</span>
+            <span class="editable">${cm:getMetaType(unitMap.get(mainCadrePost.unitId).typeId).name}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -407,7 +407,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 行政级别</div>
           <div class="profile-info-value td">
-            <span class="editable">${adminLevelMap.get(cadreAdminLevel.adminLevelId).name}</span>
+            <span class="editable">${cm:getMetaType(cadreAdminLevel.adminLevelId).name}</span>
           </div>
         </div>
         <div class="profile-info-row">

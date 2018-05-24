@@ -161,9 +161,7 @@
                                                                 style="width: 250px;">
                                                             <option value="-1">非党干部</option>
                                                             <option value="0">中共党员</option>
-                                                            <c:forEach var="entry" items="${democraticPartyMap}">
-                                                                <option value="${entry.key}">${entry.value.name}</option>
-                                                            </c:forEach>
+                                                            <c:import url="/metaTypes?__code=mc_democratic_party"/>
                                                         </select>
                                                     </td>
                                                 </tr>
@@ -171,9 +169,7 @@
                                                     <td class="name">部门属性</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="unitTypes">
-                                                            <c:forEach var="unitType" items="${unitTypeMap}">
-                                                                <option value="${unitType.value.id}">${unitType.value.name}</option>
-                                                            </c:forEach>
+                                                            <c:import url="/metaTypes?__code=mc_unit_type"/>
                                                         </select>
                                                     </td>
                                                     <td class="name">出生日期</td>
@@ -207,7 +203,7 @@
                                                     <td class="name">所在单位</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="unitIds">
-                                                            <c:forEach var="unitType" items="${unitTypeMap}">
+                                                            <c:forEach var="unitType" items="${cm:getMetaTypes('mc_unit_type')}">
                                                                 <optgroup label="${unitType.value.name}">
                                                                     <c:forEach
                                                                             items="${unitListMap.get(unitType.value.id)}"
@@ -243,17 +239,13 @@
                                                     <td class="name">行政级别</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="adminLevels">
-                                                            <c:forEach items="${adminLevelMap}" var="entry">
-                                                                <option value="${entry.key}">${entry.value.name}</option>
-                                                            </c:forEach>
+                                                            <c:import url="/metaTypes?__code=mc_admin_level"/>
                                                         </select>
                                                     </td>
                                                     <td class="name">最高学历</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="maxEdus">
-                                                            <c:forEach items="${eduMap}" var="entry">
-                                                                <option value="${entry.key}">${entry.value.name}</option>
-                                                            </c:forEach>
+                                                            <c:import url="/metaTypes?__code=mc_edu"/>
                                                         </select>
                                                     </td>
                                                     <td class="name">专业技术职务</td>
@@ -269,9 +261,7 @@
                                                     <td class="name">职务属性</td>
                                                     <td class="input">
                                                         <select class="multiselect" multiple="" name="postIds">
-                                                            <c:forEach items="${postMap}" var="entry">
-                                                                <option value="${entry.key}">${entry.value.name}</option>
-                                                            </c:forEach>
+                                                            <c:import url="/metaTypes?__code=mc_post"/>
                                                         </select>
                                                     </td>
                                                     <td class="name">现职务始任年限</td>

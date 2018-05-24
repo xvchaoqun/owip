@@ -115,11 +115,11 @@ pageEncoding="UTF-8"%>
 							<span class="label label-success arrowed-in arrowed-in-right">管理员</span>
 						</c:if>${cm:getUserById(partyMember.userId).realname}</td>
 						<td class="bg-left">
-								${partyMemberPostMap.get(partyMember.postId).name}
+								${cm:getMetaType(partyMember.postId).name}
 						</td>
 						<td class="bg-left">
 							<c:forEach items="${fn:split(type_ids, ',')}" var="typeId">
-								${partyMemberTypeMap.get(typeId).name}
+								${cm:getMetaType(typeId).name}
 							</c:forEach>
 						</td>
 						<td class="bg-left">${cm:formatDate(partyMember.assignDate, "yyyy.MM")}</td>

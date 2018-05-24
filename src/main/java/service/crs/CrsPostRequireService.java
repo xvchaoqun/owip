@@ -16,6 +16,7 @@ import service.base.MetaTypeService;
 import service.cadre.CadreService;
 import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.util.Arrays;
@@ -44,7 +45,7 @@ public class CrsPostRequireService extends BaseMapper {
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_XL, metaTypeService.getName(cv.getEduId()));
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_RZNL, cv.getBirth() == null ? "" : DateUtils.calAge(cv.getBirth()));
 
-        String partyName = cadreService.getCadreParty(cv.getCadreDpType(), "中共");// 党派
+        String partyName = CmTag.getCadreParty(cv.getCadreDpType(), true, "中共");// 党派
         String partyAddYear = cv.getCadreGrowTime() == null ? null : DateUtils.yearOffNow_cn(cv.getCadreGrowTime());
 
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZZMM, combineTowString(partyName, partyAddYear));

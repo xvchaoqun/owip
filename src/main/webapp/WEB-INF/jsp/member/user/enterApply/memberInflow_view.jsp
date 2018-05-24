@@ -41,7 +41,7 @@
           <div class="profile-info-name"> 原职业 </div>
 
           <div class="profile-info-value">
-            <span class="editable" >${jobMap.get(memberInflow.originalJob).name}</span>
+            <span class="editable" >${cm:getMetaType(memberInflow.originalJob).name}</span>
           </div>
         </div>
         <div class="profile-info-row">

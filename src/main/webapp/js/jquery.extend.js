@@ -993,8 +993,15 @@ if ($.jgrid) {
             return $.yearOffNow(cellvalue);
         },
         MetaType: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return ''
+            if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return '-'
             return _cMap.metaTypeMap[cellvalue].name
+        },
+        cadreParty: function (cellvalue, options, rowObject) {
+
+            if (cellvalue == 0) return "中共党员"
+            else if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return '-'
+            else if (cellvalue > 0) return _cMap.metaTypeMap[cellvalue].name
+            else return "-";
         },
         sortOrder: function (cellvalue, options, rowObject) {
             var op = $.extend({grid: ''}, options.colModel.formatoptions);

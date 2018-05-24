@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 					<tr>
 						<td>单位类型</td>
 						<td >
-							${unitTypeMap.get(unit.typeId).name}
+							${cm:getMetaType(unit.typeId).name}
 						</td>
 						<td>
 							成立时间
@@ -103,7 +103,7 @@ pageEncoding="UTF-8"%>
 									${unit.name}
 							</a>
 						</td>
-						<td  class="hidden-480 hidden-xs">${unitTypeMap.get(unit.typeId).name}</td>
+						<td  class="hidden-480 hidden-xs">${cm:getMetaType(unit.typeId).name}</td>
 						<td  class="hidden-480 hidden-xs">${cm:formatDate(unit.workTime, "yyyy-MM-dd")}</td>
 
 						<td  class="hidden-480 hidden-xs">${unit.remark}</td>
@@ -150,7 +150,7 @@ pageEncoding="UTF-8"%>
 									${unit.name}
 							</a>
 						</td>
-						<td  class="hidden-480 hidden-xs">${unitTypeMap.get(unit.typeId).name}</td>
+						<td  class="hidden-480 hidden-xs">${cm:getMetaType(unit.typeId).name}</td>
 						<td  class="hidden-480 hidden-xs">${cm:formatDate(unit.workTime, "yyyy-MM-dd")}</td>
 
 						<td  class="hidden-480 hidden-xs">${unit.remark}</td>

@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
     <div class="widget-body">
         <div class="widget-main">
             <div class="row center"  style="text-align: center;margin: auto; ">
-                <c:forEach items="${passportTypeMap}" var="passportType" varStatus="vs">
+                <c:forEach items="${cm:getMetaTypes('mc_passport_type')}" var="passportType" varStatus="vs">
                     <div style="float: left; ${!vs.last?'padding-right: 100px;':''} ${vs.first?'padding-left: 200px;':''}">
                         <img src="/extend/img/${passportType.value.code}.jpg" width="200">
                         <div style="padding-top: 20px;padding-bottom: 20px;">

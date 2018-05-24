@@ -99,12 +99,7 @@
         },
         {label: '招聘岗位', name: 'name', width: '300', frozen: true},
         {label: '分管工作', name: 'job', width: '300', formatter: $.jgrid.formatter.NoMultiSpace},
-        {
-            label: '行政级别', name: 'adminLevel', formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return _cMap.adminLevelMap[cellvalue].name;
-        }
-        },
+        {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
         {label: '所属单位', name: 'unit.name', width: 200},
         {
             label: '招聘公告', name: 'notice', width: 90, formatter: function (cellvalue, options, rowObject) {

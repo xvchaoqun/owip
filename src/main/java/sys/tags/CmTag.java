@@ -783,6 +783,21 @@ public class CmTag {
         return edu.getName();
     }
 
+    // 根据CadreView.cadreDpType，获取干部的党派
+    public static String getCadreParty(Integer cadreDpType, Boolean returnShortName, String def){
+
+        String partyName = null;// 党派
+        if (NumberUtils.intEqual(cadreDpType, 0)) {
+            partyName = def;
+        } else if (cadreDpType != null) {
+            MetaType metaType = CmTag.getMetaType(cadreDpType.intValue());
+            partyName = BooleanUtils.isTrue(returnShortName)?StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName())
+                    :metaType.getName();
+        }
+
+        return partyName;
+    }
+
     public static CadreEdu[] getCadreEdus(Integer cadreId) {
         return cadreEduService.getByLearnStyle(cadreId);
     }

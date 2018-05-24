@@ -1034,7 +1034,14 @@
 										<o:lock v:ext="edit" aspectratio="t"/>
 									</v:shapetype>
 									<w:binData w:name="wordml://02000001.jpg" xml:space="preserve">${avatar!}</w:binData>
-									<v:shape id="_x0000_i1025" type="#_x0000_t75" style="width:77pt;height:117pt">
+									<#assign defWidth=77>
+									<#assign defHeight=117>
+									<#if (defWidth*avatarHeight) gt (defHeight*avatarWidth)>
+										<#assign avatarStyle="width:${avatarWidth*defHeight/avatarHeight}pt;height:${defHeight}pt">
+									<#else>
+										<#assign avatarStyle="width:${defWidth}pt;height:${avatarHeight*defWidth/avatarWidth}pt">
+									</#if>
+									<v:shape id="_x0000_i1025" type="#_x0000_t75" style="${avatarStyle}">
 										<v:imagedata src="wordml://02000001.jpg" o:title="EPSON002"/>
 									</v:shape>
 								</w:pict>
@@ -1325,7 +1332,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t>${growTime!}</w:t>
+								<w:t><#if partyName??>${partyName}<w:br/></#if>${growTime!}</w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2337,6 +2344,7 @@
 						</w:tcPr>
 						${learnDesc!}
 						${workDesc!}
+                        <w:p/>
 					</w:tc>
 				</w:tr>
 			</w:tbl>

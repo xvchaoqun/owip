@@ -84,9 +84,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-8">
 					<select required class="form-control" name="unitTypeId" data-rel="select2" data-placeholder="请选择单位属性">
 						<option></option>
-						<c:forEach items="${branchUnitTypeMap}" var="unitType">
-							<option value="${unitType.key}">${unitType.value.name}</option>
-						</c:forEach>
+						<c:import url="/metaTypes?__code=mc_branch_unit_type"/>
 					</select>
 					<script>
 						$("#modalForm select[name=unitTypeId]").val('${branch.unitTypeId}');

@@ -65,18 +65,16 @@
                                     <label>职务</label>
                                     <select name="postId" data-rel="select2" data-placeholder="请选择"> 
                                         <option></option>
-                                          <c:forEach items="${partyMemberPostMap}" var="type"> 
-                                            <option value="${type.key}">${type.value.name}</option>
-                                              </c:forEach>  </select> 
+                                         <c:import url="/metaTypes?__code=mc_party_member_post"/>
+                                    </select> 
                                     <script>         $("#searchForm select[name=postId]").val('${param.postId}');     </script>
                                      
                                 </div>
                                 <div class="form-group">
                                     <label>分工</label>
                                     <select name="typeIds" class="multiselect" multiple="" data-placeholder="请选择"> 
-                                          <c:forEach items="${partyMemberTypeMap}" var="type"> 
-                                            <option value="${type.key}">${type.value.name}</option>
-                                              </c:forEach>  </select> 
+                                          <c:import url="/metaTypes?__code=mc_party_member_type"/>
+                                    </select> 
                                 </div>
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
@@ -134,12 +132,7 @@
                 if (cellvalue == undefined) return '';
                 return _cMap.partyMap[cellvalue].name;
             }},
-            {
-                label: '职务', name: 'postId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return _cMap.partyMemberPostMap[cellvalue].name;
-            }
-            },
+            {label: '职务', name: 'postId', formatter:$.jgrid.formatter.MetaType},
             {
                 label: '分工', name: 'typeIds', width: 300, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
@@ -147,7 +140,7 @@
                 var typeIds = cellvalue.split(",");
 
                 typeIds.forEach(function(typeId, i){
-                    typeIdStrs.push(_cMap.partyMemberTypeMap[typeId].name);
+                    typeIdStrs.push($.jgrid.formatter.MetaType(typeId));
                 })
 
                 //console.log(typeIdStrs)
@@ -164,14 +157,7 @@
             {
                 label: '出生日期', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
             },
-            {
-                label: '党派', name: 'cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
-
-                if (cellvalue == 0) return "中共党员"
-                else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
-                return "-";
-            }
-            },
+            {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
             {
                 label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';

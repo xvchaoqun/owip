@@ -40,7 +40,7 @@ pageEncoding="UTF-8" %>
 								<td nowrap>${dispatch.year}</td>
 								<td nowrap>${dispatchTypeMap.get(dispatch.typeId).name}</td>
 								<td nowrap>${dispatch.code}</td>
-                                <td nowrap>${dispatchUnitTypeMap.get(dispatchUnit.typeId).name}</td>
+                                <td nowrap>${cm:getMetaType(dispatchUnit.typeId).name}</td>
                                 <td nowrap><c:if test="${not empty dispatch.fileName}">
                                     <a href="/dispatch_download?id=${dispatch.id}&type=file" target="_blank">下载</a>
                                     <a href="javascript:void(0)" class="openUrl"

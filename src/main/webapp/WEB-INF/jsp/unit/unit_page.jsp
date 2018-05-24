@@ -91,9 +91,7 @@
                                                     <label>单位类型</label>
                                                         <select data-rel="select2" name="typeId" data-placeholder="请选择单位类型">
                                                             <option></option>
-                                                            <c:forEach var="unitType" items="${unitTypeMap}">
-                                                                <option value="${unitType.value.id}">${unitType.value.name}</option>
-                                                            </c:forEach>
+                                                            <c:import url="/metaTypes?__code=mc_unit_type"/>
                                                         </select>
                                                         <script type="text/javascript">
                                                             $("#searchForm select[name=typeId]").val('${param.typeId}');

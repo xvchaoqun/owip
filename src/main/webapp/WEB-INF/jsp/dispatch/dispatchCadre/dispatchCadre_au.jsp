@@ -36,9 +36,7 @@ pageEncoding="UTF-8"%>
                     <div class="col-xs-6">
                         <select required data-rel="select2" name="cadreTypeId" data-placeholder="请选择干部类型">
                             <option></option>
-                            <c:forEach var="cadreType" items="${cadreTypeMap}">
-                                <option value="${cadreType.value.id}">${cadreType.value.name}</option>
-                            </c:forEach>
+                            <c:import url="/metaTypes?__code=mc_dispatch_cadre_type"/>
                         </select>
                         <script type="text/javascript">
                             $("#modalForm select[name=cadreTypeId]").val('${dispatchCadre.cadreTypeId}');
@@ -50,9 +48,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select data-rel="select2" name="wayId" data-placeholder="请选择任免方式">
                         <option></option>
-                        <c:forEach var="way" items="${wayMap}">
-                            <option value="${way.value.id}">${way.value.name}</option>
-                        </c:forEach>
+                        <c:import url="/metaTypes?__code=mc_dispatch_cadre_way"/>
                     </select>
                     <script type="text/javascript">
                         $("#modalForm select[name=wayId]").val('${dispatchCadre.wayId}');
@@ -64,9 +60,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select class="form-control" data-rel="select2" name="procedureId" data-placeholder="请选择任免程序">
                         <option></option>
-                        <c:forEach var="procedure" items="${procedureMap}">
-                            <option value="${procedure.value.id}">${procedure.value.name}</option>
-                        </c:forEach>
+                        <c:import url="/metaTypes?__code=mc_dispatch_cadre_procedure"/>
                     </select>
                     <script type="text/javascript">
                         $("#modalForm select[name=procedureId]").val('${dispatchCadre.procedureId}');
@@ -102,9 +96,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select name="postId" data-rel="select2" data-placeholder="请选择职务属性">
                         <option></option>
-                        <c:forEach items="${postMap}" var="post">
-                            <option value="${post.key}">${post.value.name}</option>
-                        </c:forEach>
+                        <c:import url="/metaTypes?__code=mc_post"/>
                     </select>
                     <script>
                         $("#modalForm select[name=postId]").val('${dispatchCadre.postId}');
@@ -116,9 +108,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                     <select required class="form-control" data-rel="select2" name="adminLevelId" data-placeholder="请选择行政级别">
                         <option></option>
-                        <c:forEach var="adminLevel" items="${adminLevelMap}">
-                            <option value="${adminLevel.value.id}">${adminLevel.value.name}</option>
-                        </c:forEach>
+                        <c:import url="/metaTypes?__code=mc_admin_level"/>
                     </select>
                     <script type="text/javascript">
                         $("#modalForm select[name=adminLevelId]").val('${dispatchCadre.adminLevelId}');

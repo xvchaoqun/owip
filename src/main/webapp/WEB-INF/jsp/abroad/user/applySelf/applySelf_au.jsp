@@ -98,7 +98,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">所需证件</label>
 					<div class="col-xs-9 choice">
-						<c:forEach items="${passportTypeMap}" var="type">
+						<c:forEach items="${cm:getMetaTypes('mc_passport_type')}" var="type">
 							<c:set var="hasPassport" value="${passportMap.get(type.key)!=null}"/>
 							<div>
 							<input ${!hasPassport?'disabled':''} name="_needPassports" type="checkbox" value="${type.key}"> ${type.value.name}

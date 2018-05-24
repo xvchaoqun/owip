@@ -102,8 +102,8 @@
                         <td>${sysUser.code}</td>
                         <td><t:cadre cadreId="${passport.cadreId}" realname="${sysUser.realname}"/></td>
                         <td>${cadre.title}</td>
-                        <td>${postMap.get(cadre.postId).name}</td>
-                        <td>${passportTypeMap.get(passport.classId).name}</td>
+                        <td>${cm:getMetaType(cadre.postId).name}</td>
+                        <td>${cm:getMetaType(passport.classId).name}</td>
                         <td>${passport.code}</td>
                         <td>${passport.authority}</td>
                         <td>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>

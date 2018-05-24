@@ -81,9 +81,9 @@
                                 </c:if>
                             </td>
                             <td>${cadre.nation}</td>
-                            <td>${cadre.cadreDpType>0?democraticPartyMap.get(cadre.dpTypeId).name:(cadre.cadreDpType==0)?'中共党员':''}</td>
+                            <td>${cm:getCadreParty(cadre.cadreDpType, false, '中共党员')}</td>
                             <td>${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}</td>
-                            <td>${eduTypeMap.get(cadre.eduId).name}</td>
+                            <td>${cm:getMetaType(cadre.eduId).name}</td>
                             <td>${cadre.school}</td>
                             <td>${cadre.major}</td>
                             <td>${cm:formatDate(cadre.workTime, "yyyy-MM-dd")}</td>

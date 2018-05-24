@@ -40,7 +40,7 @@
                                         <tbody>
                                         <c:forEach items="${keepPassports}" var="passport" varStatus="st">
                                             <tr>
-                                                <td>${passportTypeMap.get(passport.classId).name}</td>
+                                                <td>${cm:getMetaType(passport.classId).name}</td>
                                                 <td>${passport.code}</td>
                                                 <td>
                                                     <c:if test="${not empty passport.pic}">
@@ -96,7 +96,7 @@
                                         <tbody>
                                         <c:forEach items="${cancelPassports}" var="passport" varStatus="st">
                                             <tr>
-                                                <td>${passportTypeMap.get(passport.classId).name}</td>
+                                                <td>${cm:getMetaType(passport.classId).name}</td>
                                                 <td>${passport.code}</td>
                                                 <td>
                                                     <c:if test="${not empty passport.pic}">
@@ -164,7 +164,7 @@
                                         <tbody>
                                         <c:forEach items="${lostPassports}" var="passport" varStatus="st">
                                             <tr>
-                                                <td>${passportTypeMap.get(passport.classId).name}</td>
+                                                <td>${cm:getMetaType(passport.classId).name}</td>
                                                 <td>${passport.code}</td>
                                                 <td>
                                                     <c:if test="${not empty passport.pic}">

@@ -128,19 +128,16 @@
                                         <label>类别</label>
                                             <select name="typeId" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
-                                                  <c:forEach items="${branchTypeMap}" var="type"> 
-                                                    <option value="${type.key}">${type.value.name}</option>
-                                                      </c:forEach>  </select> 
+                                                <c:import url="/metaTypes?__code=mc_branch_type"/>
+                                            </select> 
                                             <script>         $("#searchForm select[name=typeId]").val('${param.typeId}');     </script>
-                                             
                                     </div>
                                     <div class="form-group">
                                         <label>单位属性</label>
                                             <select name="unitTypeId" data-rel="select2" data-placeholder="请选择所在单位属性"> 
                                                 <option></option>
-                                                  <c:forEach items="${branchUnitTypeMap}" var="unitType"> 
-                                                    <option value="${unitType.key}">${unitType.value.name}</option>
-                                                      </c:forEach>  </select> 
+                                                  <c:import url="/metaTypes?__code=mc_branch_unit_type"/>
+                                            </select> 
                                             <script>         $("#searchForm select[name=unitTypeId]").val('${param.unitTypeId}');     </script>
                                     </div>
                                 <div class="form-group">

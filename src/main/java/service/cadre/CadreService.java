@@ -35,7 +35,6 @@ import sys.constants.AbroadConstants;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
 import sys.utils.JSONUtils;
-import sys.utils.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,19 +62,6 @@ public class CadreService extends BaseMapper {
     private CadreAdLogService cadreAdLogService;
     @Autowired
     protected MetaTypeService metaTypeService;
-
-    // 根据CadreView.cadreDpType，获取干部的党派
-    public String getCadreParty(Integer cadreDpType, String def){
-
-        String partyName = null;// 党派
-        if (NumberUtils.intEqual(cadreDpType, 0)) {
-            partyName = def;
-        } else if (cadreDpType != null) {
-            partyName = metaTypeService.getName(cadreDpType.intValue());
-        }
-
-        return partyName;
-    }
 
     /*
         直接添加干部时执行的检查

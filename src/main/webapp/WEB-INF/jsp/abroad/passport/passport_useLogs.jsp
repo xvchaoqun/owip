@@ -13,7 +13,7 @@
         <div class="widget-toolbar no-border">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="javascript:;">${sysUser.realname}-${passportTypeMap.get(passport.classId).name}使用记录</a>
+                    <a href="javascript:;">${sysUser.realname}-${cm:getMetaType(passport.classId).name}使用记录</a>
                 </li>
             </ul>
         </div>

@@ -21,18 +21,8 @@
         {label: '现任职务', name: 'post', align: 'left', width: 350},
         {label: '是否常委', name: 'isCommitteeMember', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
-        {
-            label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return _cMap.adminLevelMap[cellvalue].name;
-        }
-        },
-        {
-            label: '职务属性', name: 'postId', width: 150, formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return _cMap.postMap[cellvalue].name;
-        }
-        },
+        {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+        {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
         {label: '是否正职', name: 'isPrincipalPost', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         {label: '民族', name: 'nation', width: 60},
@@ -41,14 +31,7 @@
         {label: '身份证号', name: 'idcard', width: 170},
         {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
-        {
-            label: '党派', name: 'cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
-
-            if (cellvalue == 0) return "中共党员"
-            else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
-            return "-";
-        }
-        },
+        {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
         {
             label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '-';
@@ -251,26 +234,9 @@
             formatter: 'date',
             formatoptions: {newformat: 'Y-m-d'}
         },
-        {
-            label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return _cMap.adminLevelMap[cellvalue].name;
-        }
-        },
-        {
-            label: '职务属性', name: 'postId', width: 150, formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return _cMap.postMap[cellvalue].name;
-        }
-        },
-        {
-            label: '党派', name: 'cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
-
-            if (cellvalue == 0) return "中共党员"
-            else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
-            return "-";
-        }
-        },
+        {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+        {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
+        {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
         {
             label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '-';
@@ -305,20 +271,8 @@
         },
         {label: '离任日期', name: 'dispatch.workTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}},
         </c:if>
-        {
-            label: '原行政级别',
-            name: 'typeId',
-            formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.adminLevelMap[cellvalue].name;
-            }
-        },
-        {
-            label: '原职务属性', name: 'postId', width: 150, formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return _cMap.postMap[cellvalue].name;
-        }
-        },
+        {label: '原行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+        {label: '原职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
         {label: '手机号', name: 'mobile', width: 120},
         {label: '办公电话', name: 'phone'},
         {label: '家庭电话', name: 'homePhone'},
@@ -330,20 +284,8 @@
         {label: '姓名', name: 'realname', width: 120, frozen: true},
         {label: '原所在单位', name: 'unit.name', width: 200},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},
-        {
-            label: '原行政级别',
-            name: 'typeId',
-            formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.adminLevelMap[cellvalue].name;
-            }
-        },
-        {
-            label: '原职务属性', name: 'postId', width: 150, formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return _cMap.postMap[cellvalue].name;
-        }
-        },
+        {label: '原行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+        {label: '原职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
         {label: '手机号', name: 'mobile', width: 120},
         {label: '电子邮箱', name: 'email', width: 150}
     ];
@@ -576,12 +518,7 @@
         },
         {label: '姓名', width: 120, name: 'realname'},
         {label: '出生年月', name: 'birthday', formatter: 'date', formatoptions: {newformat: 'Y-m'}},
-        {
-            label: '政治面貌', name: 'politicalStatus', formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '';
-            return _cMap.politicalStatusMap[cellvalue].name
-        }
-        },
+        {label: '政治面貌', name: 'politicalStatus', formatter: $.jgrid.formatter.MetaType},
         {label: '工作单位及职务', name: 'unit', width: 450, align:"left"}, {hidden: true, name: 'id'}
     ];
 
@@ -596,12 +533,7 @@
         },
         {label: '姓名', name: 'cadreFamily.realname'},
         {label: '移居国家', name: 'country', width: 200},
-        {
-            label: '移居类别', name: 'type', formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '';
-            return _cMap.abroadTypeMap[cellvalue].name
-        }
-        },
+        {label: '移居类别', name: 'type', formatter: $.jgrid.formatter.MetaType},
         {label: '移居时间', name: 'abroadTime', formatter: 'date', formatoptions: {newformat: 'Y-m'}},
         {label: '现居住城市', name: 'city', width: 150}, {hidden: true, name: 'id'}
     ];

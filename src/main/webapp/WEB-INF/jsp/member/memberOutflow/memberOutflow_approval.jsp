@@ -67,14 +67,14 @@
                                     <div class="profile-info-name"> 原职业 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${jobMap.get(memberOutflow.originalJob).name}</span>
+                                        <span class="editable" >${cm:getMetaType(memberOutflow.originalJob).name}</span>
                                     </div>
                                 </div>
                                 <div class="profile-info-row">
                                     <div class="profile-info-name"> 外出流向 </div>
 
                                     <div class="profile-info-value">
-                                        <span class="editable" >${flowDirectionMap.get(memberOutflow.direction).name}</span>
+                                        <span class="editable" >${cm:getMetaType(memberOutflow.direction).name}</span>
                                     </div>
                                 </div>
                                 <div class="profile-info-row">

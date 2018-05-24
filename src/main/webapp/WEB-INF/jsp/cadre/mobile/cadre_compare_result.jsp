@@ -32,7 +32,7 @@
       <td>${vs.count}</td>
       <td>${cadre.realname}</td>
       <td style="text-align: left">${cadre.title}</td>
-      <td>${adminLevelMap[cadre.typeId].name}</td>
+      <td>${cm:getMetaType(cadre.typeId).name}</td>
       <td>${GENDER_MAP.get(cadre.gender)}</td>
       <td>${cadre.nation}</td>
       <td>${cm:formatDate(cadre.birth,'yyyy-MM-dd')}</td>
@@ -41,10 +41,10 @@
         ${cm:intervalYearsUntilNow (cadre.birth)}岁
         </c:if>
       </td>
-      <td>${eduTypeMap.get(cadre.eduId).name}</td>
+      <td>${cm:getMetaType(cadre.eduId).name}</td>
       <td>${cadre.major}</td>
       <td>${cm:formatDate(cadre.workTime, "yyyy-MM-dd")}</td>
-      <td>${cadre.cadreDpType>0?democraticPartyMap.get(cadre.dpTypeId).name:(cadre.cadreDpType==0)?'中共党员':''}</td>
+      <td>${cm:getCadreParty(cadre.cadreDpType, false, '中共党员')}</td>
       <td>${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}</td>
       <td>${cadre.proPost}</td>
       <td>${cm:formatDate(cadre.npWorkTime,'yyyy-MM-dd')}</td>

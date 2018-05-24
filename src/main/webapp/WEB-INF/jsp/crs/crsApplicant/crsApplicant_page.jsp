@@ -210,14 +210,7 @@
             {label: '出生时间', name: 'cadre.birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {label: '民族', name: 'cadre.nation', width: 60},
-            {
-                label: '政治面貌', name: 'cadre.cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
-
-                if (cellvalue == 0) return "中共党员"
-                else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.cadre.dpTypeId].name
-                return "-";
-            }
-            },
+            {label: '政治面貌', name: 'cadre.cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
             {
                 label: '党派加入时间',
                 name: 'cadre.cadreGrowTime',

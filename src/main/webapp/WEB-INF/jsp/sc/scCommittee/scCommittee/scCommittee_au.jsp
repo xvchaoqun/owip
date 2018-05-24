@@ -47,7 +47,7 @@
 				</div>
 				<div class="widget-body">
 					<div class="widget-main">
-						<form class="form-horizontal" action="${ctx}/sc/scCommittee_au" id="modalForm" method="post"
+						<form class="form-horizontal" action="${ctx}/sc/scCommittee_au" id="committeeForm" method="post"
 							  enctype="multipart/form-data">
 							<div class="row">
 								<input type="hidden" name="id" value="${scCommittee.id}">
@@ -187,7 +187,7 @@
 </script>
 <script>
 
-	$.fileInput($("#modalForm input[name=_logFile]"),{
+	$.fileInput($("#committeeForm input[name=_logFile]"),{
 		allowExt: ['pdf'],
 		allowMime: ['application/pdf']
 	});
@@ -206,7 +206,7 @@
 
 	function _selectUser(isAbsent) {
 
-		var $select = $("#modalForm select[name=userId"+isAbsent+"]");
+		var $select = $("#committeeForm select[name=userId"+isAbsent+"]");
 		var userId = $.trim($select.val());
 		if (userId == '') {
 			$.tip({
@@ -272,9 +272,9 @@
 				_displayItemList(0)
 				_displayItemList(1)
 			});
-	$.register.user_select($('#modalForm [data-rel="select2-ajax"]'));
+	$.register.user_select($('#committeeForm [data-rel="select2-ajax"]'));
 	$.register.date($('.date-picker'));
-	$('#modalForm [data-rel="select2"]').select2();
+	$('#committeeForm [data-rel="select2"]').select2();
 	$("#upload-file").change(function () {
 		if ($("#upload-file").val() != "") {
 			var $this = $(this);
@@ -288,7 +288,7 @@
 						//console.log(ret)
 						$("#dispatch-file-view").load("${ctx}/swf/preview?type=html&path=" + encodeURI(ret.filePath));
 
-						$("#modalForm input[name=filePath]").val(ret.filePath);
+						$("#committeeForm input[name=filePath]").val(ret.filePath);
 					} else {
 						$("#dispatch-file-view").html(viewHtml)
 					}
@@ -301,13 +301,13 @@
 	});
 
 	$("#submitBtn").click(function () {
-		$("#modalForm").submit();
+		$("#committeeForm").submit();
 		return false;
 	});
-	$("#modalForm").validate({
+	$("#committeeForm").validate({
 		submitHandler: function (form) {
 			if (selectedUsers.length==0) {
-				var $select = $("#modalForm select[name=userId0]");
+				var $select = $("#committeeForm select[name=userId0]");
 				$.tip({
 					$target: $select.closest("div").find(".select2-container"),
 					at: 'top center', my: 'bottom center', type: 'info',

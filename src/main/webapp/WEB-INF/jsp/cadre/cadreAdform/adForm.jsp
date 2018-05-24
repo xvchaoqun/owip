@@ -125,6 +125,9 @@ td.bolder{font-weight: bolder}
         </div>
       </td>
       <td class="td0 center" colspan="2">
+        <c:if test="${bean.cadreDpType>0}">
+          ${cm:getCadreParty(bean.cadreDpType, true, null)}<br/>
+        </c:if>
         ${cm:formatDate(bean.growTime, "yyyy.MM")}
       </td>
       <td class="td2 center bolder">
@@ -369,7 +372,7 @@ td.bolder{font-weight: bolder}
           </c:if>
         </td>
         <td class="td2 center" colspan="2">
-            ${politicalStatusMap.get(f.getPoliticalStatus()).name}
+            ${cm:getMetaType(f.getPoliticalStatus()).name}
         </td>
         <td class="td15 padding10" colspan="2">
             ${f.unit}

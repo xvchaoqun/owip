@@ -17,9 +17,7 @@ pageEncoding="UTF-8"%>
             </select>
             <select data-rel="select2" name="typeId" data-placeholder="请选择类别">
                 <option></option>
-                <c:forEach var="metaType" items="${leaderUnitTypeMap}">
-                    <option value="${metaType.value.id}">${metaType.value.name}</option>
-                </c:forEach>
+                <c:import url="/metaTypes?__code=mc_leader_unit"/>
             </select>
         </div>
         <input type="button" id="submitBtn" class="btn btn-sm btn-primary" value="添加"/>
@@ -46,7 +44,7 @@ pageEncoding="UTF-8"%>
                 <c:forEach items="${cadreLeaderUnits}" var="cadreLeaderUnit" varStatus="st">
                     <tr>
                         <td nowrap>${unitMap.get(cadreLeaderUnit.unitId).name}</td>
-                        <td nowrap>${leaderUnitTypeMap.get(cadreLeaderUnit.typeId).name}</td>
+                        <td nowrap>${cm:getMetaType(cadreLeaderUnit.typeId).name}</td>
                         <c:if test="${commonList.recNum>1}">
                             <td nowrap>
                                 <a href="javascript:;"

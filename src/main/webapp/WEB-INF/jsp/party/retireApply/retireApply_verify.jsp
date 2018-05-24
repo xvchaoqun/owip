@@ -13,9 +13,7 @@ pageEncoding="UTF-8"%>
                 <div class="col-sm-9">
                     <select required name="classId" data-rel="select2" data-placeholder="请选择">
                         <option></option>
-                        <c:forEach items="${partyClassMap}" var="cls">
-                            <option value="${cls.key}">${cls.value.name}</option>
-                        </c:forEach>
+                        <c:import url="/metaTypes?__code=mc_party_class"/>
                     </select>
                     <script>
                         $("#modalForm select[name=classId]").val("${party.classId}")

@@ -248,8 +248,6 @@ public class CacheService extends BaseController{
         // 删除目前不需要的
         cMap.remove("dispatchMap");
         cMap.remove("countryMap");
-        cMap.remove("dispatchCadreMap");
-        cMap.remove("safeBoxMap");
 
         try {
             FileUtils.writerText(CmTag.getJsFolder(), "var _cMap=" + mapper.writeValueAsString(cMap), "metadata.js", false);

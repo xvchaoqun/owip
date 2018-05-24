@@ -33,9 +33,7 @@
     <label class="col-xs-3 control-label">分工</label>
     <div class="col-xs-6">
       <select name="_typeIds" class="multiselect" multiple="" data-placeholder="请选择" style="position: relative"> 
-          <c:forEach items="${partyMemberTypeMap}" var="type"> 
-          <option value="${type.key}">${type.value.name}</option>
-            </c:forEach> 
+          <c:import url="/metaTypes?__code=mc_party_member_type"/>
       </select> 
     </div>
   </div>

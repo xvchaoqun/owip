@@ -18,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import service.BaseMapper;
-import service.base.MetaTypeService;
 import service.cadre.CadreInfoFormService;
-import service.cadre.CadreService;
 import service.common.FreemarkerService;
 import sys.constants.CrsConstants;
 import sys.constants.SystemConstants;
@@ -47,13 +45,9 @@ import java.util.Map;
 public class CrsExportService extends BaseMapper{
 
     @Autowired
-    private MetaTypeService metaTypeService;
-    @Autowired
     private FreemarkerService freemarkerService;
     @Autowired
     private CadreInfoFormService cadreInfoFormService;
-    @Autowired
-    private CadreService cadreService;
 
     /**
      * 党委宣传部副部长兼新闻中心副主任应聘报名统计表.xlsx
@@ -116,7 +110,7 @@ public class CrsExportService extends BaseMapper{
                 cell.setCellValue(StringUtils.trimToEmpty(StringUtils.replace(uv.getNation(), "族", "")));
 
                 // 政治面貌
-                String political = cadreService.getCadreParty(cv.getCadreDpType(), "中共党员");
+                String political = CmTag.getCadreParty(cv.getCadreDpType(), false, "中共党员");
                 cell = row.getCell(column++);
                 cell.setCellValue(StringUtils.trimToEmpty(political));
 

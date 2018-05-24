@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td data-code="politicalStatus">政治面貌</td>
-                    <td class="bg-left">${politicalStatusMap.get(modify.politicalStatus).name}</td>
+                    <td class="bg-left">${cm:getMetaType(modify.politicalStatus).name}</td>
                     <td data-code="unit">工作单位及职务</td>
                     <td colspan="3" class="bg-left">${modify.unit}</td>
                 </tr>

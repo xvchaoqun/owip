@@ -2459,7 +2459,14 @@
 											<o:lock v:ext="edit" aspectratio="t"/>
 										</v:shapetype>
 										<w:binData w:name="wordml://02000001.jpg" xml:space="preserve">${avatar!}</w:binData>
-										<v:shape id="_x0000_i1051" type="#_x0000_t75" style="width:81pt;height:108pt">
+										<#assign defWidth=81>
+										<#assign defHeight=108>
+										<#if (defWidth*avatarHeight) gt (defHeight*avatarWidth)>
+											<#assign avatarStyle="width:${avatarWidth*defHeight/avatarHeight}pt;height:${defHeight}pt">
+										<#else>
+											<#assign avatarStyle="width:${defWidth}pt;height:${avatarHeight*defWidth/avatarWidth}pt">
+										</#if>
+										<v:shape id="_x0000_i1051" type="#_x0000_t75" style="${avatarStyle}">
 											<v:imagedata src="wordml://02000001.jpg" o:title="1"/>
 										</v:shape>
 									</w:pict>
@@ -4020,7 +4027,7 @@
 							</w:tcPr>
 							${learnDesc!}
 							${workDesc!}
-                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+                            <w:p/>
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00002E50">

@@ -37,7 +37,7 @@ pageEncoding="UTF-8"%>
                                 <tbody>
                                 <c:forEach items="${passports}" var="passport" varStatus="st">
                                     <tr>
-                                        <td nowrap>${passportTypeMap.get(passport.classId).name}</td>
+                                        <td nowrap>${cm:getMetaType(passport.classId).name}</td>
                                         <td nowrap>${passport.code}</td>
                                         <td nowrap>${cm:formatDate(passport.issueDate,'yyyy-MM-dd')}</td>
                                         <td nowrap>${cm:formatDate(passport.expiryDate,'yyyy-MM-dd')}</td>

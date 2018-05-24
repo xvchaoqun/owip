@@ -479,59 +479,15 @@ public class BaseController extends BaseMapper {
 
         Map map = new HashMap<>();
 
-        //map.put("sysConfig", CmTag.getSysConfig());
-
         map.put("partyMap", partyService.findAll());
-        map.put("staffTypeMap", metaTypeService.metaTypes("mc_branch_staff_type"));
-        map.put("partyUnitTypeMap", metaTypeService.metaTypes("mc_party_unit_type"));
-        map.put("partyClassMap", metaTypeService.metaTypes("mc_party_class"));
-        map.put("partyMemberPostMap", metaTypeService.metaTypes("mc_party_member_post"));
-        map.put("partyMemberTypeMap", metaTypeService.metaTypes("mc_party_member_type"));
-        map.put("partyTypeMap", metaTypeService.metaTypes("mc_part_type"));
-
         map.put("branchMap", branchService.findAll());
-        map.put("branchTypeMap", metaTypeService.metaTypes("mc_branch_type"));
-        map.put("branchUnitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
-
-        map.put("jobMap", metaTypeService.metaTypes("mc_job"));
-        map.put("flowDirectionMap", metaTypeService.metaTypes("mc_flow_direction"));
-
-        map.put("eduTypeMap", metaTypeService.metaTypes("mc_edu"));
-        map.put("learnStyleMap", metaTypeService.metaTypes("mc_learn_style"));
-        map.put("schoolTypeMap", metaTypeService.metaTypes("mc_school"));
-
-        map.put("abroadUserTypeMap", metaTypeService.metaTypes("mc_abroad_user_type"));
-
-        map.put("eduMap", metaTypeService.metaTypes("mc_edu"));
-
-        map.put("abroadTypeMap", metaTypeService.metaTypes("mc_abroad_type"));
-
-        map.put("politicalStatusMap", metaTypeService.metaTypes("mc_political_status"));
 
         DispatchService dispatchService = CmTag.getBean(DispatchService.class);
         if(dispatchService!=null) map.put("dispatchMap", dispatchService.findAll());
         DispatchTypeService dispatchTypeService = CmTag.getBean(DispatchTypeService.class);
         if(dispatchTypeService!=null) map.put("dispatchTypeMap", dispatchTypeService.findAll());
 
-        map.put("postClassMap", metaTypeService.metaTypes("mc_post_class"));
-        map.put("leaderTypeMap", metaTypeService.metaTypes("mc_leader_type"));
-        map.put("leaderUnitTypeMap", metaTypeService.metaTypes("mc_leader_unit"));
-
-
-        map.put("wayMap", metaTypeService.metaTypes("mc_dispatch_cadre_way"));
-        map.put("cadreTypeMap", metaTypeService.metaTypes("mc_dispatch_cadre_type"));
-        map.put("procedureMap", metaTypeService.metaTypes("mc_dispatch_cadre_procedure"));
-        map.put("postMap", metaTypeService.metaTypes("mc_post"));
         map.put("unitMap", unitService.findAll());
-
-        map.put("democraticPartyMap", metaTypeService.metaTypes("mc_democratic_party"));
-        map.put("unitTypeMap", metaTypeService.metaTypes("mc_unit_type"));
-
-        map.put("passportTypeMap", metaTypeService.metaTypes("mc_passport_type"));
-
-        map.put("dispatchUnitTypeMap", metaTypeService.metaTypes("mc_dispatch_unit"));
-
-        map.put("adminLevelMap", metaTypeService.metaTypes("mc_admin_level"));
 
         map.put("locationMap", locationService.codeMap());
         map.put("countryMap", countryService.findAll());

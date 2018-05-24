@@ -84,7 +84,7 @@
                 <tbody>
                 <c:forEach items="${cadreAdditionalPosts}" var="cadreAdditionalPost" varStatus="st">
                     <tr>
-                        <td nowrap>${postMap.get(cadreAdditionalPost.postId).name}</td>
+                        <td nowrap>${cm:getMetaType(cadreAdditionalPost.postId).name}</td>
                         <td nowrap>
                                 ${unitMap.get(cadreAdditionalPost.unitId).name}
                         </td>

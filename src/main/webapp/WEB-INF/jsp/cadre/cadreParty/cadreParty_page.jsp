@@ -165,18 +165,8 @@
             {label: '所在单位', name: 'unit.name',align:'left',  width: 200},
             {label: '现任职务', name: 'post', align:'left', width: 250},
             {label: '所在单位及职务', name: 'title',  align:'left', width: 350},
-            {
-                label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.adminLevelMap[cellvalue].name;
-            }
-            },
-            {
-                label: '职务属性', name: 'postId', width: 150, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.postMap[cellvalue].name;
-            }
-            },
+            {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+            {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
             {
                 label: '在任情况', name: 'status', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';

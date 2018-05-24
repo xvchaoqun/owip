@@ -84,9 +84,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-8">
 						<select required class="form-control" name="classId" data-rel="select2" data-placeholder="请选择分类">
 							<option></option>
-							<c:forEach items="${partyClassMap}" var="cls">
-								<option value="${cls.key}">${cls.value.name}</option>
-							</c:forEach>
+							<c:import url="/metaTypes?__code=mc_party_class"/>
 						</select>
 						<script>
 							$("#modalForm select[name=classId]").val('${party.classId}');
@@ -111,9 +109,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-8">
 						<select required class="form-control" name="unitTypeId" data-rel="select2" data-placeholder="请选择">
 							<option></option>
-							<c:forEach items="${partyUnitTypeMap}" var="unitType">
-								<option value="${unitType.key}">${unitType.value.name}</option>
-							</c:forEach>
+							<c:import url="/metaTypes?__code=mc_party_unit_type"/>
 						</select>
 						<script>
 							$("#modalForm select[name=unitTypeId]").val('${party.unitTypeId}');

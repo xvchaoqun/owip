@@ -25,6 +25,10 @@ public class CadreInfoForm {
     private Integer age;
     // 头像 base64
     private String avatar;
+
+    private Integer avatarWidth;
+
+    private Integer avatarHeight;
     // 民族
     private String nation;
     // 籍贯
@@ -186,6 +190,22 @@ public class CadreInfoForm {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Integer getAvatarWidth() {
+        return avatarWidth;
+    }
+
+    public void setAvatarWidth(Integer avatarWidth) {
+        this.avatarWidth = avatarWidth;
+    }
+
+    public Integer getAvatarHeight() {
+        return avatarHeight;
+    }
+
+    public void setAvatarHeight(Integer avatarHeight) {
+        this.avatarHeight = avatarHeight;
     }
 
     public String getNation() {

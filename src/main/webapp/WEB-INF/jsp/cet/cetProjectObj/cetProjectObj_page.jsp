@@ -355,17 +355,13 @@
                 <div class="form-group">
                     <label>行政级别</label>
                         <select class="multiselect" multiple="" name="adminLevels">
-                            <c:forEach items="${adminLevelMap}" var="entry">
-                                <option value="${entry.key}">${entry.value.name}</option>
-                            </c:forEach>
+                            <c:import url="/metaTypes?__code=mc_admin_level"/>
                         </select>
                 </div>
                 <div class="form-group">
                     <label>职务属性</label>
                         <select class="multiselect" multiple="" name="postIds">
-                            <c:forEach items="${postMap}" var="entry">
-                                <option value="${entry.key}">${entry.value.name}</option>
-                            </c:forEach>
+                            <c:import url="/metaTypes?__code=mc_post"/>
                         </select>
                 </div>
                 <div class="form-group">
@@ -374,9 +370,7 @@
                             style="width: 250px;">
                         <option value="-1">非党干部</option>
                         <option value="0">中共党员</option>
-                        <c:forEach var="entry" items="${democraticPartyMap}">
-                            <option value="${entry.key}">${entry.value.name}</option>
-                        </c:forEach>
+                        <c:import url="/metaTypes?__code=mc_democratic_party"/>
                     </select>
                 </div>
                 <div class="clearfix form-actions center">
@@ -579,26 +573,9 @@
 
             }, frozen: true},
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
-            {
-                label: '行政级别', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return _cMap.adminLevelMap[cellvalue].name;
-            }},
-            {
-                label: '职务属性', name: 'postId', width: 150, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return _cMap.postMap[cellvalue].name;
-            }},
-            {
-                label: '党派', name: 'cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
-
-                if (cellvalue == 0) return "中共党员"
-                else if (cellvalue > 0){
-                    var dpType = _cMap.metaTypeMap[rowObject.dpTypeId];
-                    return (dpType==undefined)?rowObject.dpTypeId:dpType.name;
-                }
-                return "-";
-            }},
+            {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
+            {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
+            {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
             {label: '专业技术职务', name: 'proPost', width: 120},
             {
                 label: '任现职时间',

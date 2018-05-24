@@ -90,12 +90,7 @@
                 if (cellvalue == undefined) return '';
                 return _cMap.partyMap[cellvalue].name;
             }},
-            {
-                label: '职务', name: 'postId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return _cMap.partyMemberPostMap[cellvalue].name;
-            }
-            },
+            {label: '职务', name: 'postId', formatter:$.jgrid.formatter.MetaType},
             {
                 label: '分工', name: 'typeIds', width: 300, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
@@ -105,7 +100,7 @@
                     var typeId = typeIds[i];
                     //console.log(typeId)
                     if(typeId instanceof Function == false)
-                        typeIdStrs.push(_cMap.partyMemberTypeMap[typeId].name);
+                        typeIdStrs.push($.jgrid.formatter.MetaType(typeId));
                 }
                 //console.log(typeIdStrs)
                 return typeIdStrs.join(",");
@@ -121,14 +116,7 @@
             {
                 label: '出生日期', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
             },
-            {
-                label: '党派', name: 'cadreDpType', width: 80, formatter: function (cellvalue, options, rowObject) {
-
-                if (cellvalue == 0) return "中共党员"
-                else if (cellvalue > 0) return _cMap.metaTypeMap[rowObject.dpTypeId].name
-                return "-";
-            }
-            },
+            {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
             {
                 label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';

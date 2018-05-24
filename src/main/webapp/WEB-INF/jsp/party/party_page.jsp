@@ -117,9 +117,8 @@ pageEncoding="UTF-8" %>
                                         <label>分党委类别</label>
                                             <select name="classId" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
-                                                  <c:forEach items="${partyClassMap}" var="cls"> 
-                                                    <option value="${cls.key}">${cls.value.name}</option>
-                                                      </c:forEach>  </select> 
+                                                  <c:import url="/metaTypes?__code=mc_party_class"/>
+                                            </select> 
                                             <script>         $("#searchForm select[name=classId]").val('${param.classId}');     </script>
                                              
                                     </div>
@@ -146,9 +145,8 @@ pageEncoding="UTF-8" %>
                                         <label>单位属性</label>
                                             <select name="unitTypeId" data-width="120" data-rel="select2" data-placeholder="请选择"> 
                                                 <option></option>
-                                                  <c:forEach items="${partyUnitTypeMap}" var="unitType"> 
-                                                    <option value="${unitType.key}">${unitType.value.name}</option>
-                                                      </c:forEach>  </select> 
+                                                  <c:import url="/metaTypes?__code=mc_party_unit_type"/>
+                                            </select> 
                                             <script>         $("#searchForm select[name=unitTypeId]").val('${param.unitTypeId}');     </script>
                                     </div>
                                 <div class="form-group">

@@ -55,9 +55,7 @@
                                 <select required data-rel="select2" name="cadreTypeId" data-width="220"
                                         data-placeholder="请选择干部类型">
                                     <option></option>
-                                    <c:forEach var="cadreType" items="${cadreTypeMap}">
-                                        <option value="${cadreType.value.id}">${cadreType.value.name}</option>
-                                    </c:forEach>
+                                    <c:import url="/metaTypes?__code=mc_dispatch_cadre_type"/>
                                 </select>
                                 <script type="text/javascript">
                                     $("#voteForm select[name=cadreTypeId]").val('${scCommitteeVote.cadreTypeId}');
@@ -91,9 +89,7 @@
                             <div class="col-xs-6">
                                 <select data-rel="select2" name="wayId" data-width="220" data-placeholder="请选择任免方式">
                                     <option></option>
-                                    <c:forEach var="way" items="${wayMap}">
-                                        <option value="${way.value.id}">${way.value.name}</option>
-                                    </c:forEach>
+                                    <c:import url="/metaTypes?__code=mc_dispatch_cadre_way"/>
                                 </select>
                                 <script type="text/javascript">
                                     $("#voteForm select[name=wayId]").val('${scCommitteeVote.wayId}');
@@ -107,9 +103,7 @@
                                 <select class="form-control" data-rel="select2" data-width="220" name="procedureId"
                                         data-placeholder="请选择任免程序">
                                     <option></option>
-                                    <c:forEach var="procedure" items="${procedureMap}">
-                                        <option value="${procedure.value.id}">${procedure.value.name}</option>
-                                    </c:forEach>
+                                    <c:import url="/metaTypes?__code=mc_dispatch_cadre_procedure"/>
                                 </select>
                                 <script type="text/javascript">
                                     $("#voteForm select[name=procedureId]").val('${scCommitteeVote.procedureId}');
@@ -142,9 +136,7 @@
                             <div class="col-xs-7">
                                 <select required name="postId" data-rel="select2" data-placeholder="请选择职务属性">
                                     <option></option>
-                                    <c:forEach items="${postMap}" var="post">
-                                        <option value="${post.key}">${post.value.name}</option>
-                                    </c:forEach>
+                                    <c:import url="/metaTypes?__code=mc_post"/>
                                 </select>
                                 <script>
                                     $("#voteForm select[name=postId]").val('${scCommitteeVote.postId}');
@@ -158,9 +150,7 @@
                                 <select required class="form-control" data-rel="select2" name="adminLevelId"
                                         data-placeholder="请选择行政级别">
                                     <option></option>
-                                    <c:forEach var="adminLevel" items="${adminLevelMap}">
-                                        <option value="${adminLevel.value.id}">${adminLevel.value.name}</option>
-                                    </c:forEach>
+                                    <c:import url="/metaTypes?__code=mc_admin_level"/>
                                 </select>
                                 <script type="text/javascript">
                                     $("#voteForm select[name=adminLevelId]").val('${scCommitteeVote.adminLevelId}');
@@ -272,8 +262,8 @@
             <c:set value="${cm:getUserById(cm:getCadreById(scCommitteeVote.cadreId).userId)}" var="user"/>
             <tr>
                 <td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(scCommitteeVote.type)}</td>
-                <td nowrap>${wayMap.get(scCommitteeVote.wayId).name}</td>
-                <td nowrap>${procedureMap.get(scCommitteeVote.procedureId).name}</td>
+                <td nowrap>${cm:getMetaType(scCommitteeVote.wayId).name}</td>
+                <td nowrap>${cm:getMetaType(scCommitteeVote.procedureId).name}</td>
                 <td nowrap>${user.realname}</td>
                 <td nowrap>${unitMap.get(scCommitteeVote.unitId).name}</td>
                 <td>

@@ -8,9 +8,9 @@ pageEncoding="UTF-8" %>
                  data-url-page="${ctx}/sc/scGroupMember"
                  data-url-export="${ctx}/sc/scGroupMember_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId ||not empty param.isCurrent || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.userId || not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <c:if test="${param.isCurrent==1}">
+                <c:if test="${isCurrent}">
                 <shiro:hasPermission name="scGroupMember:edit">
                     <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/sc/scGroupMember_au"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -27,7 +27,7 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-share"></i> 转移
                     </button>
                 </c:if>
-                <c:if test="${param.isCurrent!=1}">
+                <c:if test="${!isCurrent}">
                     <button data-url="${ctx}/sc/scGroupMember_transfer?isCurrent=1"
                             data-title="重新任用"
                             data-msg="确定将这{0}个成员转移到小组会现有成员中？"

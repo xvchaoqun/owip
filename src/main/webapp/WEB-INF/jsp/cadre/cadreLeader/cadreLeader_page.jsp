@@ -54,9 +54,7 @@
                                             <label>类别</label>
                                                 <select data-rel="select2" name="typeId" data-placeholder="请选择类别">
                                                     <option></option>
-                                                    <c:forEach var="leaderType" items="${leaderTypeMap}">
-                                                        <option value="${leaderType.value.id}">${leaderType.value.name}</option>
-                                                    </c:forEach>
+                                                    <c:import url="/metaTypes?__code=mc_leader_type"/>
                                                 </select>
                                                 <script type="text/javascript">
                                                     $("#searchForm select[name=typeId]").val('${param.typeId}');
@@ -102,13 +100,8 @@
             <c:if test="${!_query}">
             { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
-            {
-                label: '行政级别', name: 'cadre.typeId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return _cMap.adminLevelMap[cellvalue].name;
-            }
-            },
-            { label: '类别',  name: 'leaderType.name', width: 100 },
+            {label: '行政级别', name: 'cadre.typeId', formatter:$.jgrid.formatter.MetaType},
+            { label: '类别',  name: 'typeId', width: 100, formatter: $.jgrid.formatter.MetaType},
             { label: '分管工作', align:'left', name: 'job', width: 750 }
 
         ]

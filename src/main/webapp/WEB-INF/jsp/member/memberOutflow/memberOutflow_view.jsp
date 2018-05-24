@@ -40,13 +40,13 @@
                         原职业
                     </td>
                     <td class="bg-left" style="min-width: 120px">
-                        ${jobMap.get(memberOutflow.originalJob).name}
+                        ${cm:getMetaType(memberOutflow.originalJob).name}
                     </td>
                 </tr>
                 <tr>
                     <td class="bg-right">外出流向</td>
                     <td class="bg-left">
-                        ${flowDirectionMap.get(memberOutflow.direction).name}
+                        ${cm:getMetaType(memberOutflow.direction).name}
                     </td>
                     <td class="bg-right">
                         流出时间

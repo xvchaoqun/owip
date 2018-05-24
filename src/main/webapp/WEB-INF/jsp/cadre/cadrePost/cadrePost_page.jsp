@@ -205,24 +205,14 @@
         colModel: [
             {label: '职务', name: 'post', width: 180, frozen: true},
             {label: '职务属性', width: 180, name: 'postId', formatter: $.jgrid.formatter.MetaType, frozen: true},
-            {
-                label: '行政级别', name: 'adminLevelId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.adminLevelMap[cellvalue].name
-            }, frozen: true
-            },
+            {label: '行政级别', name: 'adminLevelId', formatter:$.jgrid.formatter.MetaType, frozen: true},
             {
                 label: '是否正职', name: 'postId', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
-                return _cMap.postMap[cellvalue].boolAttr ? "是" : "否"
+                return _cMap.metaTypeMap[cellvalue].boolAttr ? "是" : "否"
             }
             },
-            {
-                label: '职务类别', name: 'postClassId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.postClassMap[cellvalue].name
-            }
-            },
+            {label: '职务类别', name: 'postClassId', formatter: $.jgrid.formatter.MetaType},
             {
                 label: '所在单位', name: 'unitId', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
@@ -330,12 +320,7 @@
             }, frozen: true
             },
             {label: '兼任职务', name: 'post', frozen: true},
-            {
-                label: '职务级别', name: 'adminLevelId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.adminLevelMap[cellvalue].name
-            }, frozen: true
-            },
+            {label: '职务级别', name: 'adminLevelId', formatter:$.jgrid.formatter.MetaType},
             {
                 label: '是否占职数', name: 'isCpc', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
@@ -349,11 +334,7 @@
             },
             </shiro:lacksRole>
             {label: '职务属性', width: 120, name: 'postId', formatter: $.jgrid.formatter.MetaType},
-            {
-                label: '职务类别', name: 'postClassId', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.postClassMap[cellvalue].name
-            }
-            },
+            {label: '职务类别', name: 'postClassId', formatter: $.jgrid.formatter.MetaType},
             {
                 label: '兼任职务任职日期',
                 width: 150,
@@ -464,12 +445,7 @@
         datatype: "local",
         data:${cm:toJSONArray(cadreAdminLevels)},
         colModel: [
-            {
-                label: '行政级别', name: 'adminLevelId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.adminLevelMap[cellvalue].name
-            }
-            },
+            {label: '行政级别', name: 'adminLevelId', formatter:$.jgrid.formatter.MetaType},
             {
                 label: '是否现任职级', width: 120, name: 'isNow', formatter: function (cellvalue, options, rowObject) {
                 return (rowObject.adminLevelId == '${cadre.typeId}') ? "是" : "否";
