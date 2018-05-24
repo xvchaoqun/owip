@@ -1,5 +1,5 @@
 
-
+2018-5-24
 修改民族党派元数据
 
 研究生课程班 mt_edu_sstd3 -> mt_edu_yjskcb
