@@ -126,7 +126,7 @@ td.bolder{font-weight: bolder}
       </td>
       <td class="td0 center" colspan="2">
         <c:if test="${bean.cadreDpType>0}">
-          ${cm:getCadreParty(bean.cadreDpType, true, null)}<br/>
+          ${cm:cadreParty(bean.cadreDpType, true, null)}<br/>
         </c:if>
         ${cm:formatDate(bean.growTime, "yyyy.MM")}
       </td>

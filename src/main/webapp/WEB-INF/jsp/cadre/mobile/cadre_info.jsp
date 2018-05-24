@@ -90,7 +90,7 @@
 
           <div class="profile-info-value td">
             <span class="editable">
-              ${cm:getCadreParty(cadre.cadreDpType, false, '中共党员')}
+              ${cm:cadreParty(cadre.cadreDpType, false, '中共党员')}
             </span>
           </div>
         </div>

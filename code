@@ -84,8 +84,9 @@ ${cm:formatDate(branch.foundTime,'yyyy-MM-dd')}
 
 $.date(rowObject.startTime, "yyyy-MM-dd hh:mm")
 
-$.jgrid.formatter.MetaType
+$.jgrid.formatter.MetaType(typeId)
 
+, formatter:$.jgrid.formatter.MetaType
 
 字数限制
 <textarea required class="form-control limited" type="text" name="reason" rows="5">${memberOutflow.reason}</textarea>

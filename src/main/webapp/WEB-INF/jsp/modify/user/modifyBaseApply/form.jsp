@@ -67,7 +67,7 @@
         <tr>
           <td>政治面貌</td>
           <td>
-            <c:set var="original" value="${cm:getCadreParty(cadre.cadreDpType, false, '中共党员')}"/>
+            <c:set var="original" value="${cm:cadreParty(cadre.cadreDpType, false, '中共党员')}"/>
             <input type="text"
                    data-code="political_status"
                    data-table=""

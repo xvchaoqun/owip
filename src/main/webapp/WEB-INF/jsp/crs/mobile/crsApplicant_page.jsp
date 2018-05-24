@@ -81,7 +81,7 @@
                                 </c:if>
                             </td>
                             <td>${cadre.nation}</td>
-                            <td>${cm:getCadreParty(cadre.cadreDpType, false, '中共党员')}</td>
+                            <td>${cm:cadreParty(cadre.cadreDpType, false, '中共党员')}</td>
                             <td>${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}</td>
                             <td>${cm:getMetaType(cadre.eduId).name}</td>
                             <td>${cadre.school}</td>

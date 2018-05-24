@@ -51,7 +51,7 @@
 		<function-signature>domain.cadre.CadreView getCadreByUserId(java.lang.Integer)</function-signature>
 	</function>
 	<function>
-		<name>getCadreParty</name>
+		<name>cadreParty</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.String getCadreParty(java.lang.Integer,java.lang.Boolean,java.lang.String)</function-signature>
 	</function>

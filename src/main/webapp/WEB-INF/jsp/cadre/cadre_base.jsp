@@ -80,7 +80,7 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td>政治面貌</td>
 				<td>
-					${cm:getCadreParty(cadre.cadreDpType, false, "中共党员")}
+					${cm:cadreParty(cadre.cadreDpType, false, "中共党员")}
 				</td>
 				<td>
 					党派加入时间
@@ -754,7 +754,7 @@ pageEncoding="UTF-8"%>
 						<tr>
 							<td>政治面貌</td>
 							<td>
-								<c:set var="original" value="${cm:getCadreParty(cadre.cadreDpType, false, '中共党员')}"/>
+								<c:set var="original" value="${cm:cadreParty(cadre.cadreDpType, false, '中共党员')}"/>
 								<c:if test="${!_needModifyParty}">${original}</c:if>
 								<c:if test="${_needModifyParty}">
 								<select data-rel="select2" name="dpTypeId" data-width="150" data-placeholder="请选择民主党派">

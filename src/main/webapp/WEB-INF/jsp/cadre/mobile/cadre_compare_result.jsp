@@ -44,7 +44,7 @@
       <td>${cm:getMetaType(cadre.eduId).name}</td>
       <td>${cadre.major}</td>
       <td>${cm:formatDate(cadre.workTime, "yyyy-MM-dd")}</td>
-      <td>${cm:getCadreParty(cadre.cadreDpType, false, '中共党员')}</td>
+      <td>${cm:cadreParty(cadre.cadreDpType, false, '中共党员')}</td>
       <td>${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}</td>
       <td>${cadre.proPost}</td>
       <td>${cm:formatDate(cadre.npWorkTime,'yyyy-MM-dd')}</td>
