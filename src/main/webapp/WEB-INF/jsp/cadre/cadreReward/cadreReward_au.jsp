@@ -17,6 +17,19 @@ pageEncoding="UTF-8"%>
                 ${sysUser.realname}
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">奖励级别</label>
+            <div class="col-xs-6">
+                <select required data-rel="select2" name="rewardLevel"
+                        data-placeholder="请选择">
+                    <option></option>
+                    <c:import url="/metaTypes?__code=mc_reward_level"/>
+                </select>
+                <script type="text/javascript">
+                    $("#modalForm select[name=rewardLevel]").val(${cadreReward.rewardLevel});
+                </script>
+            </div>
+        </div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">获奖年份</label>
 				<div class="col-xs-6">
@@ -37,7 +50,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">颁奖单位</label>
 				<div class="col-xs-6">
-                        <input class="form-control" type="text" name="unit" value="${cadreReward.unit}">
+                        <input required class="form-control" type="text" name="unit" value="${cadreReward.unit}">
 				</div>
 			</div>
             <div class="form-group">
@@ -46,10 +59,19 @@ pageEncoding="UTF-8"%>
                     <input class="form-control" type="file" name="_proof" />
                 </div>
             </div>
-			<div class="form-group">
+            <div class="form-group">
+                <label class="col-xs-3 control-label">是否独立获奖</label>
+                <div class="col-xs-6">
+                    <label>
+                        <input name="isIndependent" ${cadreReward.isIndependent?"checked":""}  type="checkbox" />
+                        <span class="lbl"></span>
+                    </label>
+                </div>
+            </div>
+			<div class="form-group" id="rankDiv">
 				<label class="col-xs-3 control-label">排名</label>
 				<div class="col-xs-6">
-                        第 <input id="spinner" type="text" name="rank" value="${cadreReward.rank}"> 名
+                        第 <input type="text" class="digits" data-rule-min="1" name="rank" style="width: 80px;" value="${cadreReward.rank}"> 名
 				</div>
 			</div>
         <div class="form-group">
@@ -72,7 +94,22 @@ pageEncoding="UTF-8"%>
 <script src="${ctx}/assets/js/fuelux/fuelux.spinner.js"></script>
 <script src="${ctx}/assets/js/ace/elements.spinner.js"></script>
 <script>
-    $('#spinner').ace_spinner({value:0,min:0,max:100,step:1, on_sides: true, icon_up:'ace-icon fa fa-plus bigger-110', icon_down:'ace-icon fa fa-minus bigger-110', btn_up_class:'btn-success' , btn_down_class:'btn-danger'});
+
+    function isIndependentChange(){
+        if($("input[name=isIndependent]").bootstrapSwitch("state")){
+            $("#rankDiv").hide();
+            $("input[name=rank]").removeAttr("required");
+        }else{
+            $("#rankDiv").show();
+            $("input[name=rank]").attr("required", "required");
+        }
+    }
+    $('input[name=isIndependent]').on('switchChange.bootstrapSwitch', function(event, state) {
+        isIndependentChange();
+    });
+    isIndependentChange();
+
+    //$('#spinner').ace_spinner({value:0,min:0,max:100,step:1, on_sides: true, icon_up:'ace-icon fa fa-plus bigger-110', icon_down:'ace-icon fa fa-minus bigger-110', btn_up_class:'btn-success' , btn_down_class:'btn-danger'});
     $.register.date($('.date-picker'));
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({

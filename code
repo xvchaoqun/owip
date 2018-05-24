@@ -98,3 +98,6 @@ autocomplete="off" disableautocomplete
 ,gridComplete:function(){
 	$(this).jqGrid("setFrozenColumns");
 }
+
+jquery-validation
+digits data-rule-min

@@ -789,7 +789,7 @@ public class CmTag {
         String partyName = null;// 党派
         if (NumberUtils.intEqual(cadreDpType, 0)) {
             partyName = def;
-        } else if (cadreDpType != null) {
+        } else if (cadreDpType!=null && cadreDpType>0) {
             MetaType metaType = CmTag.getMetaType(cadreDpType.intValue());
             partyName = BooleanUtils.isTrue(returnShortName)?StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName())
                     :metaType.getName();

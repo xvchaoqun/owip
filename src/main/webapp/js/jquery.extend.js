@@ -993,7 +993,11 @@ if ($.jgrid) {
             return $.yearOffNow(cellvalue);
         },
         MetaType: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return '-'
+
+            var op = $.extend({def: ''}, options.colModel.formatoptions);
+            if ($.trim(cellvalue)=='') return op.def;
+
+            if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return op.def
             return _cMap.metaTypeMap[cellvalue].name
         },
         cadreParty: function (cellvalue, options, rowObject) {

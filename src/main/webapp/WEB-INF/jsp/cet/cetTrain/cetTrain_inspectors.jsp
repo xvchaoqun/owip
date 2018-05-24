@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-3 control-label">生成账号数量</label>
             <div class="col-xs-6">
                 <div class="input-group">
-                    <input ${(cetTrain.evaCount>0&&!cetTrain.evaAnonymous)?'':'required'} class="form-control digits" data-validation="min[${cetTrain.evaCount}]"
+                    <input ${(cetTrain.evaCount>0&&!cetTrain.evaAnonymous)?'':'required'} class="form-control digits" data-rule-min="${cetTrain.evaCount}"
                            type="text" name="count" value="${cetTrain.evaCount}">
                 </div>
             </div>

@@ -13,7 +13,8 @@ public class CadreResume {
     private Date startDate;     // yyyy.MM
     private Date endDate;       // yyyy.MM
     private String detail;      // 描述
-    private List<CadreResume> resumes;  // 其间
+    private List<CadreResume> containResumes;  // 其间（包含）
+    private List<CadreResume> overlapResumes;  // 其间（不包含）
 
     public boolean isWork() {
         return isWork;
@@ -47,11 +48,19 @@ public class CadreResume {
         this.detail = detail;
     }
 
-    public List<CadreResume> getResumes() {
-        return resumes;
+    public List<CadreResume> getContainResumes() {
+        return containResumes;
     }
 
-    public void setResumes(List<CadreResume> resumes) {
-        this.resumes = resumes;
+    public void setContainResumes(List<CadreResume> containResumes) {
+        this.containResumes = containResumes;
+    }
+
+    public List<CadreResume> getOverlapResumes() {
+        return overlapResumes;
+    }
+
+    public void setOverlapResumes(List<CadreResume> overlapResumes) {
+        this.overlapResumes = overlapResumes;
     }
 }

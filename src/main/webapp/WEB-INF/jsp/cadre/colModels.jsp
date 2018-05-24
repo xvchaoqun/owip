@@ -420,9 +420,18 @@
     ];
 
     colModels.cadreReward = [
+        {label: '奖励级别', name: 'rewardLevel', width: 90,
+            formatter: $.jgrid.formatter.MetaType,
+            cellattr: function (rowId, val, rowObject, cm, rdata) {
+            if($.trim(rowObject.rewardLevel)=='')
+                return "class='danger'";
+        }},
         {label: '获奖年份', name: 'rewardTime', formatter: 'date', formatoptions: {newformat: 'Y'}, frozen: true},
         {label: '获得奖项', name: 'name', width: 350},
-        {label: '颁奖单位', name: 'unit', width: 280},
+        {label: '颁奖单位', name: 'unit', width: 280, cellattr: function (rowId, val, rowObject, cm, rdata) {
+            if($.trim(val)=='')
+                return "class='danger'";
+        }},
         {
             label: '获奖证书', name: 'proof', width: 250,
             formatter: function (cellvalue, options, rowObject) {
@@ -431,12 +440,15 @@
                         .format(encodeURI(rowObject.proof), rowObject.proofFilename);
             }
         },
+        {label: '是否独立获奖', name: 'isIndependent', width: 120, formatter: $.jgrid.formatter.TRUEFALSE},
         {
             label: '排名', name: 'rank', formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == 0) return '-';
+            if (rowObject.isIndependent || cellvalue == 0) return '-';
             return '第{0}'.format(cellvalue);
-        }
-        },
+        }, cellattr: function (rowId, val, rowObject, cm, rdata) {
+            if(!rowObject.isIndependent && $.trim(rowObject.rank)=='')
+                return "class='danger'";
+        }},
         {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];
 

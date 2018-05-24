@@ -2,13 +2,12 @@ package persistence.cadre;
 
 import domain.cadre.CadreReward;
 import domain.cadre.CadreRewardExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface CadreRewardMapper {
-    int countByExample(CadreRewardExample example);
+    long countByExample(CadreRewardExample example);
 
     int deleteByExample(CadreRewardExample example);
 

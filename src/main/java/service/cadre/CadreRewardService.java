@@ -6,6 +6,7 @@ import domain.cadre.CadreRewardExample;
 import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,12 +39,16 @@ public class CadreRewardService extends BaseMapper {
     }
 
     @Transactional
-    public int insertSelective(CadreReward record) {
+    public void insertSelective(CadreReward record) {
 
   /*      record.setSortOrder(getNextSortOrder("cadre_reward",
                 "cadre_id=" + record.getCadreId() +" and status="+SystemConstants.RECORD_STATUS_FORMAL));*/
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
-        return cadreRewardMapper.insertSelective(record);
+        cadreRewardMapper.insertSelective(record);
+
+        if(BooleanUtils.isTrue(record.getIsIndependent())){
+            commonMapper.excuteSql("update cadre_reward set rank=null where id="+ record.getId());
+        }
     }
 
     @Transactional
@@ -54,7 +59,7 @@ public class CadreRewardService extends BaseMapper {
             // 干部信息本人直接修改数据校验
             CadreRewardExample example = new CadreRewardExample();
             example.createCriteria().andCadreIdEqualTo(cadreId).andIdIn(Arrays.asList(ids));
-            int count = cadreRewardMapper.countByExample(example);
+            long count = cadreRewardMapper.countByExample(example);
             if (count != ids.length) {
                 throw new IllegalArgumentException("数据异常");
             }
@@ -65,9 +70,12 @@ public class CadreRewardService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadreReward record) {
+    public void updateByPrimaryKeySelective(CadreReward record) {
         record.setStatus(null);
-        return cadreRewardMapper.updateByPrimaryKeySelective(record);
+        cadreRewardMapper.updateByPrimaryKeySelective(record);
+        if(BooleanUtils.isTrue(record.getIsIndependent())){
+            commonMapper.excuteSql("update cadre_reward set rank=null where id="+ record.getId());
+        }
     }
 
     // 更新修改申请的内容（仅允许本人更新自己的申请）

@@ -9,6 +9,7 @@ import domain.cadre.CadreWork;
 import domain.cadre.CadreWorkExample;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
+import freemarker.EduSuffix;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,46 +60,54 @@ public class CadreWorkService extends BaseMapper {
 
             List<CadreWork> subCadreWorks = cadreWork.getSubCadreWorks();
             if (subCadreWorks != null) {
-                List<CadreResume> subResumes = new ArrayList<>();
+                List<CadreResume> containResumes = new ArrayList<>();
+                List<CadreResume> overlayResumes = new ArrayList<>();
                 for (CadreWork subCadreWork : subCadreWorks) {
 
-                    CadreResume subResume = new CadreResume();
-                    subResume.setIsWork(true);
-                    subResume.setStartDate(subCadreWork.getStartTime());
-                    subResume.setEndDate(subCadreWork.getEndTime());
-                    subResume.setDetail(subCadreWork.getDetail());
+                    CadreResume r = new CadreResume();
+                    r.setIsWork(true);
+                    r.setStartDate(subCadreWork.getStartTime());
+                    r.setEndDate(subCadreWork.getEndTime());
+                    r.setDetail(subCadreWork.getDetail());
 
-                    subResumes.add(subResume);
+                    if(DateUtils.between(subCadreWork.getStartTime(), cadreWork.getStartTime(), cadreWork.getEndTime())) {
+                        containResumes.add(r);
+                    }else{
+                        overlayResumes.add(r);
+                    }
                 }
-                resume.setResumes(subResumes);
+                resume.setContainResumes(containResumes);
+                resume.setOverlapResumes(overlayResumes);
             }
 
             resumes.add(resume);
         }
 
-        List<CadreEdu> cadreEdus = cadreEduService.list(cadreId);
+        List<CadreEdu> cadreEdus = cadreEduService.list(cadreId, true);
         if (cadreEdus.size() > 0) {
             Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
-            MetaType fullltimeType = metaTypeMap.get("mt_fullltime");
+            MetaType fulltimeType = metaTypeMap.get("mt_fulltime");
             MetaType onjobType = metaTypeMap.get("mt_onjob");
 
             for (CadreEdu cadreEdu : cadreEdus) {
+
+                Integer learnStyle = cadreEdu.getLearnStyle();
 
                 CadreResume eduResume = new CadreResume();
                 eduResume.setIsWork(false);
                 eduResume.setStartDate(cadreEdu.getEnrolTime());
                 eduResume.setEndDate(cadreEdu.getFinishTime());
-                String detail = String.format("%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
-                        StringUtils.trimToEmpty(cadreEdu.getDep()),
-                        StringUtils.trimToEmpty(cadreEdu.getMajor()) + (StringUtils.isNotEmpty(cadreEdu.getMajor())?"专业":""),
-                        (StringUtils.isNotEmpty(cadreEdu.getDegree())?"，":"")+
-                        StringUtils.trimToEmpty(cadreEdu.getDegree()));
-                eduResume.setDetail(detail);
 
-                Integer learnStyle = cadreEdu.getLearnStyle();
                 String enrolTime = DateUtils.formatDate(cadreEdu.getEnrolTime(), "yyyy.MM");
                 String finishTime = DateUtils.formatDate(cadreEdu.getFinishTime(), "yyyy.MM");
-                if (learnStyle.intValue() == fullltimeType.getId()) {
+                if (learnStyle.intValue() == fulltimeType.getId()) {
+
+                    String detail = String.format("%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                            StringUtils.trimToEmpty(cadreEdu.getDep()),
+                            StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业")),
+                            StringUtils.trimToEmpty(EduSuffix.getEduSuffix(cadreEdu.getEduId())));
+                    eduResume.setDetail(detail);
+
                     // 全日制学习经历： 根据开始时间将学习经历插入到工作经历之中。
                     int insertPos = 0;
                     for (int i = 0; i < resumes.size(); i++) {
@@ -117,6 +126,15 @@ public class CadreWorkService extends BaseMapper {
 
                 } else if (learnStyle.intValue() == onjobType.getId()) {
 
+                    String detail = String.format("在%s%s%s在职%s学习%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
+                            StringUtils.trimToEmpty(cadreEdu.getDep()),
+                            StringUtils.trimToEmpty(StringUtils.appendIfMissing(cadreEdu.getMajor(), "专业")),
+                            StringUtils.trimToEmpty(EduSuffix.getEduSuffix2(cadreEdu.getEduId())),
+                            cadreEdu.getIsGraduated()?"毕业":"",
+                            cadreEdu.getHasDegree()?
+                            String.format("，获%s%s", cadreEdu.getMajor(), cadreEdu.getDegree()):""
+                            );
+                    eduResume.setDetail(detail);
 
                     // 非全日制学习经历： 根据开始时间和结束时间将学习经历插入到某条工作经历的其间之内。
                     // 第一步： 看结束时间，某条学习经历的结束时间在哪条工作经历之内， 那么这条学习经历就要在这条工作经历的其间。
@@ -143,20 +161,40 @@ public class CadreWorkService extends BaseMapper {
                     if(insertResume == null){
                         resumes.add(eduResume);
                     }else{
-                        List<CadreResume> subResumes = insertResume.getResumes();
-                        if(subResumes==null) subResumes = new ArrayList<>();
 
-                        int insertPos = 0;
-                        for (int i = 0; i < subResumes.size(); i++) {
-                            CadreResume resume = subResumes.get(i);
-                            String startDate = DateUtils.formatDate(resume.getStartDate(), "yyyy.MM");
-                            if (enrolTime.compareTo(startDate) >= 0) {
-                                break;
+                        if(DateUtils.between(eduResume.getStartDate(), insertResume.getStartDate(), insertResume.getEndDate())) {
+
+                            List<CadreResume> containResumes = insertResume.getContainResumes();
+                            if (containResumes == null) containResumes = new ArrayList<>();
+
+                            int insertPos = 0;
+                            for (int i = 0; i < containResumes.size(); i++) {
+                                CadreResume resume = containResumes.get(i);
+                                String startDate = DateUtils.formatDate(resume.getStartDate(), "yyyy.MM");
+                                if (enrolTime.compareTo(startDate) >= 0) {
+                                    break;
+                                }
+                                insertPos = i;
                             }
-                            insertPos = i;
-                        }
 
-                        subResumes.add(insertPos, eduResume);
+                            containResumes.add(insertPos, eduResume);
+                        }else{
+
+                            List<CadreResume> overlapResumes = insertResume.getOverlapResumes();
+                            if (overlapResumes == null) overlapResumes = new ArrayList<>();
+
+                            int insertPos = 0;
+                            for (int i = 0; i < overlapResumes.size(); i++) {
+                                CadreResume resume = overlapResumes.get(i);
+                                String startDate = DateUtils.formatDate(resume.getStartDate(), "yyyy.MM");
+                                if (enrolTime.compareTo(startDate) >= 0) {
+                                    break;
+                                }
+                                insertPos = i;
+                            }
+
+                            overlapResumes.add(insertPos, eduResume);
+                        }
                     }
                 }
             }

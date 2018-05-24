@@ -51,11 +51,14 @@ public class CadreEduService extends BaseMapper {
     }
 
     // 查找某个干部的学习经历
-    public List<CadreEdu> list(int cadreId){
+    public List<CadreEdu> list(int cadreId, Boolean isGraduated){
 
         CadreEduExample example = new CadreEduExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId)
-                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);;
+        CadreEduExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        if(isGraduated!=null)
+            criteria.andIsGraduatedEqualTo(isGraduated);
+
         example.setOrderByClause("enrol_time asc");
 
         return cadreEduMapper.selectByExample(example);
@@ -70,7 +73,7 @@ public class CadreEduService extends BaseMapper {
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
 
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
-        MetaType fullltimeType = metaTypeMap.get("mt_fullltime");
+        MetaType fullltimeType = metaTypeMap.get("mt_fulltime");
         MetaType onjobType = metaTypeMap.get("mt_onjob");
 
         CadreEdu[] result = new CadreEdu[2];
@@ -78,7 +81,7 @@ public class CadreEduService extends BaseMapper {
 
             Integer learnStyle = cadreEdu.getLearnStyle();
             if(learnStyle.intValue()==fullltimeType.getId()){
-                result[0] = cadreEdu; // fullltimeEdu
+                result[0] = cadreEdu; // fulltimeEdu
             }else if(learnStyle.intValue()==onjobType.getId()){
                 result[1] = cadreEdu; // onjobEdu
             }

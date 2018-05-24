@@ -119,7 +119,7 @@ public class CadreInfoFormService extends BaseMapper {
         // 学习经历
         CadreInfo edu = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU);
         bean.setLearnDesc((edu == null || StringUtils.isBlank(edu.getContent())) ?
-                freemarkerService.freemarker(cadreEduService.list(cadreId),
+                freemarkerService.freemarker(cadreEduService.list(cadreId, false),
                         "cadreEdus", "/cadre/cadreEdu.ftl") : edu.getContent());
 
         // 工作经历

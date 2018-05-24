@@ -40,6 +40,8 @@
         <div class="widget-main">
             <table class="table  table-unhover table-bordered table-striped">
                 <tr>
+                    <td data-code="rewardTime">奖励级别</td>
+                    <td class="bg-left">${cm:getMetaType(modify.rewardLevel).name}</td>
                     <td data-code="rewardTime">获奖年份</td>
                     <td class="bg-left">${cm:formatDate(modify.rewardTime,'yyyy')}</td>
                     <td data-code="name">获得奖项</td>
@@ -52,11 +54,16 @@
                     <td class="bg-left">
                         <a class="various" data-fancybox-type="image" href="${ctx}/pic?path=${cm:encodeURI(modify.proof)}">${modify.proofFilename}</a>
                     </td>
+                    <td data-code="unit">是否独立获奖</td>
+                    <td class="bg-left">${modify.isIndependent?"是":"否"}</td>
                     <td data-code="rank">排名</td>
                     <td class="bg-left">
-                        <c:if test="${empty modify.rank || modify.rank<=0}">-</c:if>
-                        <c:if test="${modify.rank>0}">第${modify.rank}</c:if>
-                        </td>
+                        <c:if test="${modify.isIndependent}">-</c:if>
+                        <c:if test="${!modify.isIndependent}">
+                            <c:if test="${empty modify.rank || modify.rank<=0}">-</c:if>
+                            <c:if test="${modify.rank>0}">第${modify.rank}</c:if>
+                        </c:if>
+                     </td>
                     <td data-code="remark">备注</td>
                     <td class="bg-left">${modify.remark}</td>
                 </tr>

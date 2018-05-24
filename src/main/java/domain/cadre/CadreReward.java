@@ -8,6 +8,8 @@ public class CadreReward implements Serializable {
 
     private Integer cadreId;
 
+    private Integer rewardLevel;
+
     private Date rewardTime;
 
     private String name;
@@ -19,6 +21,8 @@ public class CadreReward implements Serializable {
     private String proofFilename;
 
     private String remark;
+
+    private Boolean isIndependent;
 
     private Integer rank;
 
@@ -44,6 +48,14 @@ public class CadreReward implements Serializable {
 
     public void setCadreId(Integer cadreId) {
         this.cadreId = cadreId;
+    }
+
+    public Integer getRewardLevel() {
+        return rewardLevel;
+    }
+
+    public void setRewardLevel(Integer rewardLevel) {
+        this.rewardLevel = rewardLevel;
     }
 
     public Date getRewardTime() {
@@ -92,6 +104,14 @@ public class CadreReward implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Boolean getIsIndependent() {
+        return isIndependent;
+    }
+
+    public void setIsIndependent(Boolean isIndependent) {
+        this.isIndependent = isIndependent;
     }
 
     public Integer getRank() {

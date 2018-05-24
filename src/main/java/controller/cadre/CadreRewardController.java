@@ -8,6 +8,7 @@ import domain.cadre.CadreRewardExample.Criteria;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
@@ -103,7 +104,7 @@ public class CadreRewardController extends BaseController {
             return;
         }
 
-        int count = cadreRewardMapper.countByExample(example);
+        long count = cadreRewardMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -157,6 +158,7 @@ public class CadreRewardController extends BaseController {
             record.setProof(savePath);
         }
 
+        record.setIsIndependent(BooleanUtils.isTrue(record.getIsIndependent()));
         if (id == null) {
 
             if (!toApply) {
@@ -234,7 +236,7 @@ public class CadreRewardController extends BaseController {
     public void cadreReward_export(CadreRewardExample example, HttpServletResponse response) {
 
         List<CadreReward> cadreRewards = cadreRewardMapper.selectByExample(example);
-        int rownum = cadreRewardMapper.countByExample(example);
+        long rownum = cadreRewardMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();

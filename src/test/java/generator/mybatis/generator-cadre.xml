@@ -93,11 +93,11 @@
         </table>
         <table tableName="cadre_course" domainObjectName="cadre.CadreCourse">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="cadre_reward" domainObjectName="cadre.CadreReward">
-        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-          <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
         </table>-->
+        <table tableName="cadre_reward" domainObjectName="cadre.CadreReward" mapperName="cadre.CadreRewardMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
+        </table>
         <!--<table tableName="cadre_book" domainObjectName="cadre.CadreBook">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
@@ -112,9 +112,9 @@
         </table>-->
         <!-- <table tableName="cadre_post" domainObjectName="cadre.CadrePost" mapperName="cadre.CadrePostMapper">
          </table>-->
-         <table tableName="cadre_work" domainObjectName="cadre.CadreWork" mapperName="cadre.CadreWorkMapper">
+        <!-- <table tableName="cadre_work" domainObjectName="cadre.CadreWork" mapperName="cadre.CadreWorkMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
+         </table>-->
         <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->

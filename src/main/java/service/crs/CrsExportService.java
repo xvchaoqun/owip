@@ -130,7 +130,7 @@ public class CrsExportService extends BaseMapper{
                     } else if (StringUtils.equals(metaType.getCode(), "mt_edu_master")
                             || StringUtils.equals(metaType.getCode(), "mt_edu_sstd")) {
                         edu += "硕士";
-                    } else if (StringUtils.equals(metaType.getCode(), "mt_edu_sstd3")) {
+                    } else if (StringUtils.equals(metaType.getCode(), "mt_edu_yjskcb")) {
                         edu += "研究生课程班";
                     } else if (StringUtils.equals(metaType.getCode(), "mt_edu_bk")) {
                         edu += "学士";

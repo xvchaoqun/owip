@@ -90,7 +90,7 @@ public class CadreAdformService extends BaseMapper{
         File avatar =  new File(springProps.avatarFolder + uv.getAvatar());
         if(!avatar.exists()) avatar = new File(springProps.avatarFolder + FILE_SEPARATOR + springProps.defaultAvatar);
 
-        // 图片默认大小
+        // 头像默认大小
         bean.setAvatarWidth(143);
         bean.setAvatarHeight(198);
         try {

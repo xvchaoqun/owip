@@ -30,18 +30,25 @@ pageEncoding="UTF-8"%>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-4 control-label">结束日期</label>
-				<div class="col-xs-6">
-                    <div class="input-group" style="width: 120px">
-                        <input class="form-control date-picker" name="_endTime" type="text"
-                               data-date-min-view-mode="1"
-                               data-date-format="yyyy.mm" value="${cm:formatDate(cadreWork.endTime,'yyyy.MM')}" />
+				<div class="col-xs-7">
+                    <div class="input-group date date-picker" style="width: 120px"
+                         data-date-min-view-mode="1"
+                            <c:if test="${not empty param.fid}">
+                                data-date-start-date="'${cm:formatDate(topCadreWork.startTime,'yyyy.MM')}'"
+                                data-date-end-date="'${cm:formatDate(topCadreWork.endTime,'yyyy.MM')}'"
+                            </c:if>
+                         data-date-format="yyyy.mm">
+                        <input ${not empty topCadreWork.endTime?"required":""}  class="form-control" name="_endTime" type="text" value="${cm:formatDate(cadreWork.endTime,'yyyy.MM')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
+                <c:if test="${not empty param.fid}">
+                    <span class="help-block red">注：结束日期要求在主要工作经历的日期范围之内</span>
+                </c:if>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-4 control-label">工作单位及担任职务（或专技职务）</label>
-				<div class="col-xs-6">
+				<label class="col-xs-4 control-label">工作单位及担任职务<br/>（或专技职务）</label>
+				<div class="col-xs-7">
                     <input required class="form-control" type="text" name="detail" value="${cadreWork.detail}">
 				</div>
 			</div>
@@ -78,7 +85,6 @@ pageEncoding="UTF-8"%>
    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="<c:if test="${cadreWork!=null}">确定</c:if><c:if test="${cadreWork==null}">添加</c:if>"/>
 </div>
-
 <script>
     $("#modal :checkbox").bootstrapSwitch();
     $('textarea.limited').inputlimiter();

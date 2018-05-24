@@ -1,5 +1,23 @@
 
 
+修改民族党派元数据
+
+研究生课程班 mt_edu_sstd3 -> mt_edu_yjskcb
+update base_meta_type set code='mt_edu_yjskcb' where code='mt_edu_sstd3';
+全日制教育 mt_fullltime -> mt_fulltime
+update base_meta_type set code='mt_fulltime' where code='mt_fullltime';
+更新了common-utils
+
+ALTER TABLE `cadre_reward`
+	ADD COLUMN `is_independent` TINYINT(1) UNSIGNED NULL DEFAULT '0' COMMENT '是否独立获奖' AFTER `remark`;
+
+update cadre_reward set rank=null where rank=0;
+
+ALTER TABLE `cadre_reward`
+	ADD COLUMN `reward_level` INT(10) UNSIGNED NULL COMMENT '奖励级别' AFTER `cadre_id`;
+
+增加 mc_reward_level
+
 2018-5-23
 
 ALTER TABLE `crs_applicant`

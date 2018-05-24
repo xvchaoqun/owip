@@ -61,7 +61,7 @@ public class CadreEduController extends BaseController {
         modelMap.put("type", type);
         if (type == 2) {
 
-            modelMap.put("cadreEdus", cadreEduService.list(cadreId));
+            modelMap.put("cadreEdus", cadreEduService.list(cadreId, true));
 
             CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU);
             modelMap.put("cadreInfo", cadreInfo);

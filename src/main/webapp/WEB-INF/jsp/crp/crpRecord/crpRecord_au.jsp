@@ -266,7 +266,7 @@
             $("#modalForm textarea[name=presentPost]").val(state.title);
             $("#modalForm input[name=phone]").val(state.mobile);
         }
-        return templateSelection(state);
+        return $.register.templateSelection(state);
     });
     $.register.date($(".date-picker"))
     $('textarea.limited').inputlimiter();
