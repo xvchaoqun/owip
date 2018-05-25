@@ -443,7 +443,8 @@
         {label: '是否独立获奖', name: 'isIndependent', width: 120, formatter: $.jgrid.formatter.TRUEFALSE},
         {
             label: '排名', name: 'rank', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.isIndependent || cellvalue == 0) return '-';
+            if (rowObject.isIndependent) return '-';
+            if (cellvalue == undefined) return '';
             return '第{0}'.format(cellvalue);
         }, cellattr: function (rowId, val, rowObject, cm, rdata) {
             if(!rowObject.isIndependent && $.trim(rowObject.rank)=='')
