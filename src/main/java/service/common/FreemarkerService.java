@@ -125,6 +125,8 @@ public class FreemarkerService {
     // 一行末尾带冒号，则认为是标题行。
     public String genTitleEditorSegment(String content, boolean needHanging, int line) throws IOException, TemplateException {
 
+        if(StringUtils.isBlank(content)) return null;
+
         String ftlPath = "/common/titleEditor.ftl";
 
         String result = "";
@@ -202,6 +204,8 @@ public class FreemarkerService {
     // 指定段落标题
     public String genTitleEditorSegment(String title, String content, boolean needHanging, int line) throws IOException, TemplateException {
 
+        if(StringUtils.isBlank(content)) return null;
+
         /*String conent = "<p>\n" +
                 "\t1987.09-1991.07&nbsp;内蒙古大学生物学系植物生态学&nbsp;\n" +
                 "</p>\n" +
@@ -224,14 +228,41 @@ public class FreemarkerService {
                 type = 2;
             //String text = HtmlEscapeUtils.getTextFromHTML(pElement.html());
             String text = StringUtils.trimToEmpty(pElement.text());
+
+            // 需要换行的期间经历
+            String _text = null;
+            String[] texts = text.split("） （"); // 中间包含一个空格
+            if(texts.length==2){
+                text = texts[0] + "）";
+                _text = "（" + texts[1];
+            }
             List cols = new ArrayList();
             cols.add(type);
 
-            for (String col : text.trim().split(" ")) {
-                cols.add(HtmlUtils.htmlEscapeDecimal(col.trim()));
+            String[] textArray = text.trim().split(" ");
+
+            for (int i=0; i< textArray.length; i++) {
+
+                String col = textArray[i];
+                if(i==0 && col.trim().endsWith("—")){ // 简历中结束时间为空，留7个空格
+                    col = col.trim() + "       ";
+                    cols.add(HtmlUtils.htmlEscapeDecimal(col));
+                }else{
+                    cols.add(HtmlUtils.htmlEscapeDecimal(col.trim()));
+                }
             }
             rows.add(cols);
 
+            if(_text!=null){
+
+                List _cols = new ArrayList();
+                _cols.add(0);
+                _cols.add("               "); // 15个空格
+                for (String col : _text.trim().split(" ")) {
+                    _cols.add(HtmlUtils.htmlEscapeDecimal(col.trim()));
+                }
+                rows.add(_cols);
+            }
         }
 
         if (size == 0) {

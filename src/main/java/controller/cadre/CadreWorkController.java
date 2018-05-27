@@ -84,7 +84,7 @@ public class CadreWorkController extends BaseController {
 
             List<CadreResume> cadreResumes = cadreWorkService.resume(cadreId);
             modelMap.put("cadreResumes", cadreResumes);
-            CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_RM_WORK);
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_RESUME);
             modelMap.put("cadreInfo", cadreInfo);
         }
 

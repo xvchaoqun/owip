@@ -151,7 +151,7 @@ public class CadreConstants {
     public final static byte CADRE_INFO_TYPE_EDU = 10;
     public final static byte CADRE_INFO_TYPE_PAPER_SUMMARY = 11;
     public final static byte CADRE_INFO_TYPE_RESEARCH_REWARD = 12;
-    public final static byte CADRE_INFO_TYPE_RM_WORK = 13;
+    public final static byte CADRE_INFO_TYPE_RESUME = 13;
 
     public final static Map<Byte, String> CADRE_INFO_TYPE_MAP = new LinkedHashMap<>();
 
@@ -171,7 +171,7 @@ public class CadreConstants {
         CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESEARCH, "科研情况");
 
         CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_EDU, "学习经历");
-        CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RM_WORK, "干部任免审批表简历");
+        CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_RESUME, "干部任免审批表简历");
     }
 
     // 干部企业兼职情况  兼职类型 企业兼职or社团兼职or其他

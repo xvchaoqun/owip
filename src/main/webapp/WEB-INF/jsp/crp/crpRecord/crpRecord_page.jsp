@@ -172,7 +172,7 @@
         url: '${ctx}/crpRecord_data?type=${param.type}&isFinished=${isFinished}&callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             <c:if test="${param.type!=CRP_RECORD_TYPE_TRANSFER}">
-            {label: '工作证号', name: 'user.code', width: 100, frozen: true},
+            {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             </c:if>
             {
                 label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
@@ -188,7 +188,7 @@
             <c:if test="${param.type!=CRP_RECORD_TYPE_TRANSFER}">
             {label: '是否现任干部', name: 'isPresentCadre', formatter: $.jgrid.formatter.TRUEFALSE},
             </c:if>
-            {label: '时任职务', name: 'presentPost', width: 250},
+            {label: '时任职务', name: 'presentPost', width: 250, align:'left'},
             {label: '联系电话', name: 'phone', width: 150},
 
             {
@@ -210,8 +210,9 @@
                         ((cellvalue == '${cm:getMetaTypeByCode(postCodeOther).id}') ? ("：" + rowObject.tempPost) : "");
             }, width: 100
             },
-            {label: '挂职项目', name: 'project', width: 300},
-            {label: '挂职单位及所任职务', name: 'title', width: 300},
+            {label: '挂职项目', name: 'project', width: 300, align:'left'},
+            {label: '挂职单位', name: 'unit', width: 200, align:'left'},
+            {label: '所任职务', name: 'post', width: 150, align:'left'},
             {label: '挂职开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
             <c:if test="${!isFinished}">
             {label: '挂职拟结束时间', name: 'endDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},

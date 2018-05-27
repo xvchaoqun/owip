@@ -2342,9 +2342,7 @@
 							<w:gridSpan w:val="8"/>
 							<w:vAlign w:val="top"/>
 						</w:tcPr>
-						${learnDesc!}
-						${workDesc!}
-                        <w:p/>
+						${resumeDesc?default('<w:p/>')}
 					</w:tc>
 				</w:tr>
 			</w:tbl>

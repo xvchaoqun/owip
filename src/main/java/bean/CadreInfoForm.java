@@ -109,6 +109,8 @@ public class CadreInfoForm {
     private String learnDesc;
     // 工作经历
     private String workDesc;
+    // 简历
+    private String resumeDesc;
     // 任职经历
     private String postDesc;
     // 培训情况
@@ -502,6 +504,14 @@ public class CadreInfoForm {
 
     public void setWorkDesc(String workDesc) {
         this.workDesc = workDesc;
+    }
+
+    public String getResumeDesc() {
+        return resumeDesc;
+    }
+
+    public void setResumeDesc(String resumeDesc) {
+        this.resumeDesc = resumeDesc;
     }
 
     public String getPostDesc() {

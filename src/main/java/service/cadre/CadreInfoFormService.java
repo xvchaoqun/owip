@@ -291,20 +291,13 @@ public class CadreInfoFormService extends BaseMapper {
 
         //dataMap.put("depWork", "");
 
-        dataMap.put("learnDesc", bean.getLearnDesc() == null ? "" :
-                freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 440));
-        dataMap.put("workDesc", bean.getWorkDesc() == null ? "" :
-                freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 440));
-        dataMap.put("parttime",
-                freemarkerService.genTitleEditorSegment(bean.getParttime(), true, 440));
-        dataMap.put("trainDesc", bean.getTrainDesc() == null ? "" :
-                freemarkerService.genTitleEditorSegment(bean.getTrainDesc(), true, 440));
-        dataMap.put("teachDesc", bean.getTeachDesc() == null ? "" :
-                freemarkerService.genTitleEditorSegment(bean.getTeachDesc(), false, 440));
-        dataMap.put("researchDesc", bean.getResearchDesc() == null ? "" :
-                freemarkerService.genTitleEditorSegment(bean.getResearchDesc(), false, 440));
-        dataMap.put("otherRewardDesc", bean.getOtherRewardDesc() == null ? "" :
-                freemarkerService.genTitleEditorSegment(bean.getOtherRewardDesc(), false, 440));
+        dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 440));
+        dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 440));
+        dataMap.put("parttime", freemarkerService.genTitleEditorSegment(bean.getParttime(), true, 440));
+        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(bean.getTrainDesc(), true, 440));
+        dataMap.put("teachDesc", freemarkerService.genTitleEditorSegment(bean.getTeachDesc(), false, 440));
+        dataMap.put("researchDesc", freemarkerService.genTitleEditorSegment(bean.getResearchDesc(), false, 440));
+        dataMap.put("otherRewardDesc", freemarkerService.genTitleEditorSegment(bean.getOtherRewardDesc(), false, 440));
 
         dataMap.put("mobile", bean.getMobile());
         dataMap.put("phone", bean.getPhone());

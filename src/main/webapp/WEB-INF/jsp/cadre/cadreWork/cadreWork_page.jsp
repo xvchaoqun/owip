@@ -274,7 +274,7 @@
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
                 content: ke.html(),
-                type: "${CADRE_INFO_TYPE_RM_WORK}"
+                type: "${CADRE_INFO_TYPE_RESUME}"
             }, function (ret) {
                 if (ret.success) {
                     _innerPage(3, function () {

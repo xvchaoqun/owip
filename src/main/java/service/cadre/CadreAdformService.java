@@ -199,6 +199,10 @@ public class CadreAdformService extends BaseMapper{
         CadreInfo work = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_WORK);
         bean.setWorkDesc(work==null?null:work.getContent());
 
+        // 简历
+        CadreInfo resume = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_RESUME);
+        bean.setResumeDesc(resume == null ? null : resume.getContent());
+
         //年度考核结果
         Integer currentYear = DateUtils.getCurrentYear();
         bean.setCes((currentYear-3) + "、"+ (currentYear-2) + "、"+ (currentYear-1) + "年年度考核均为合格。");
@@ -250,20 +254,20 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("post", bean.getPost());
         dataMap.put("inPost", bean.getInPost());
         dataMap.put("prePost", bean.getPrePost());
-        if(bean.getReward()!=null)
-            dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(), false, 360));
+        dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(), false, 360));
         dataMap.put("ces", bean.getCes());
         dataMap.put("reason", bean.getReason());
 
-        dataMap.put("learnDesc", "");
-        dataMap.put("workDesc", "");
+        //dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 360));
+        //dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 360));
 
-        if(bean.getLearnDesc()!=null)
-            dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 360));
-        if(bean.getWorkDesc()!=null)
-            dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 360));
-        if(bean.getTrainDesc()!=null)
-            dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, bean.getTrainDesc(), false, 360));
+        String resumeDesc = freemarkerService.genTitleEditorSegment(null, bean.getResumeDesc(), true, 360);
+        if(StringUtils.isBlank(resumeDesc)){
+            resumeDesc = StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 360))
+                    + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 360));
+        }
+        dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
+        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, bean.getTrainDesc(), false, 360));
 
         String family = "";
         List<CadreFamily> cadreFamilys = bean.getCadreFamilys();

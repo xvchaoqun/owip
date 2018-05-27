@@ -142,11 +142,15 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">挂职单位及所任职务</label>
-
+            <label class="col-xs-4 control-label">挂职单位</label>
             <div class="col-xs-6">
-                <textarea required class="form-control limited" type="text"
-                          name="title" maxlength="100">${crpRecord.title}</textarea>
+                <input required class="form-control" type="text" name="unit" value="${crpRecord.unit}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">所任职务</label>
+            <div class="col-xs-6">
+                <input required class="form-control" type="text" name="post" value="${crpRecord.post}">
             </div>
         </div>
         <div class="form-group">

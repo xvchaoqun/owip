@@ -22,7 +22,7 @@
     <w:pPr>
         <w:spacing w:line="${line}" w:line-rule="exact"/>
         <#if needHanging>
-        <w:ind w:left="1837" w:hanging="1837"/>
+        <w:ind w:left="2000" w:hanging="2000"/>
         </#if>
     </w:pPr>
     <#list row as col>

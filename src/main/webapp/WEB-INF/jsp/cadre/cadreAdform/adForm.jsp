@@ -247,6 +247,7 @@ td.bolder{font-weight: bolder}
         </div>
       </td>
       <td class="td12 padding10" colspan="8" style="vertical-align: top">
+        <c:if test="${empty bean.resumeDesc}">
         <c:if test="${not empty bean.learnDesc}">
           <p style="font-weight: bolder;">学习经历：</p>
           <p>
@@ -259,6 +260,8 @@ td.bolder{font-weight: bolder}
               ${bean.workDesc}
           </p>
         </c:if>
+        </c:if>
+          ${bean.resumeDesc}
       </td>
     </tr>
     </tbody>

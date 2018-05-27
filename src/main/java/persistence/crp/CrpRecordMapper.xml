@@ -13,7 +13,8 @@
     <result column="temp_post_type" jdbcType="INTEGER" property="tempPostType" />
     <result column="temp_post" jdbcType="VARCHAR" property="tempPost" />
     <result column="project" jdbcType="VARCHAR" property="project" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
     <result column="is_finished" jdbcType="BIT" property="isFinished" />
@@ -82,8 +83,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, realname, is_present_cadre, present_post, phone, to_unit_type, to_unit, 
-    temp_post_type, temp_post, project, title, start_date, end_date, is_finished, real_end_date, 
-    type, is_deleted, remark
+    temp_post_type, temp_post, project, unit, post, start_date, end_date, is_finished, 
+    real_end_date, type, is_deleted, remark
   </sql>
   <select id="selectByExample" parameterType="domain.crp.CrpRecordExample" resultMap="BaseResultMap">
     select
@@ -119,17 +120,17 @@
     insert into crp_record (id, user_id, realname, 
       is_present_cadre, present_post, phone, 
       to_unit_type, to_unit, temp_post_type, 
-      temp_post, project, title, 
-      start_date, end_date, is_finished, 
-      real_end_date, type, is_deleted, 
-      remark)
+      temp_post, project, unit, 
+      post, start_date, end_date, 
+      is_finished, real_end_date, type, 
+      is_deleted, remark)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, 
       #{isPresentCadre,jdbcType=BIT}, #{presentPost,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{toUnitType,jdbcType=INTEGER}, #{toUnit,jdbcType=VARCHAR}, #{tempPostType,jdbcType=INTEGER}, 
-      #{tempPost,jdbcType=VARCHAR}, #{project,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{isFinished,jdbcType=BIT}, 
-      #{realEndDate,jdbcType=DATE}, #{type,jdbcType=TINYINT}, #{isDeleted,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR})
+      #{tempPost,jdbcType=VARCHAR}, #{project,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{post,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{isFinished,jdbcType=BIT}, #{realEndDate,jdbcType=DATE}, #{type,jdbcType=TINYINT}, 
+      #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.crp.CrpRecord">
     insert into crp_record
@@ -167,8 +168,11 @@
       <if test="project != null">
         project,
       </if>
-      <if test="title != null">
-        title,
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="post != null">
+        post,
       </if>
       <if test="startDate != null">
         start_date,
@@ -226,8 +230,11 @@
       <if test="project != null">
         #{project,jdbcType=VARCHAR},
       </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        #{post,jdbcType=VARCHAR},
       </if>
       <if test="startDate != null">
         #{startDate,jdbcType=DATE},
@@ -294,8 +301,11 @@
       <if test="record.project != null">
         project = #{record.project,jdbcType=VARCHAR},
       </if>
-      <if test="record.title != null">
-        title = #{record.title,jdbcType=VARCHAR},
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.post != null">
+        post = #{record.post,jdbcType=VARCHAR},
       </if>
       <if test="record.startDate != null">
         start_date = #{record.startDate,jdbcType=DATE},
@@ -336,7 +346,8 @@
       temp_post_type = #{record.tempPostType,jdbcType=INTEGER},
       temp_post = #{record.tempPost,jdbcType=VARCHAR},
       project = #{record.project,jdbcType=VARCHAR},
-      title = #{record.title,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      post = #{record.post,jdbcType=VARCHAR},
       start_date = #{record.startDate,jdbcType=DATE},
       end_date = #{record.endDate,jdbcType=DATE},
       is_finished = #{record.isFinished,jdbcType=BIT},
@@ -381,8 +392,11 @@
       <if test="project != null">
         project = #{project,jdbcType=VARCHAR},
       </if>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="post != null">
+        post = #{post,jdbcType=VARCHAR},
       </if>
       <if test="startDate != null">
         start_date = #{startDate,jdbcType=DATE},
@@ -420,7 +434,8 @@
       temp_post_type = #{tempPostType,jdbcType=INTEGER},
       temp_post = #{tempPost,jdbcType=VARCHAR},
       project = #{project,jdbcType=VARCHAR},
-      title = #{title,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      post = #{post,jdbcType=VARCHAR},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
       is_finished = #{isFinished,jdbcType=BIT},

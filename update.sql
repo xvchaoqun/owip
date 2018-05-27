@@ -1,4 +1,11 @@
 
+2018-5-27
+ALTER TABLE `crp_record`
+	CHANGE COLUMN `temp_post` `temp_post` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他挂职类型，手动录入挂职类型' AFTER `temp_post_type`,
+	CHANGE COLUMN `title` `unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '挂职单位' AFTER `project`,
+	ADD COLUMN `post` VARCHAR(100) NULL DEFAULT NULL COMMENT '所任职务' AFTER `unit`;
+
+
 2018-5-24
 修改民族党派元数据
 

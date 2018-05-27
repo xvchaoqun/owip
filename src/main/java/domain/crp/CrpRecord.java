@@ -41,14 +41,18 @@ public class CrpRecord implements Serializable {
 
     private String project;
 
-    private String title;
+    private String unit;
+
+    private String post;
 
     @DateTimeFormat(pattern = "yyyy-MM")
     private Date startDate;
+
     @DateTimeFormat(pattern = "yyyy-MM")
     private Date endDate;
 
     private Boolean isFinished;
+
     @DateTimeFormat(pattern = "yyyy-MM")
     private Date realEndDate;
 
@@ -148,12 +152,20 @@ public class CrpRecord implements Serializable {
         this.project = project == null ? null : project.trim();
     }
 
-    public String getTitle() {
-        return title;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post == null ? null : post.trim();
     }
 
     public Date getStartDate() {
