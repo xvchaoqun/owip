@@ -313,31 +313,38 @@ public class CadreAdformService extends BaseMapper{
         String str = "";
         //String lineSeparator = System.getProperty("line.separator", "/n");
         for (org.jsoup.nodes.Element pElement : pElements) {
-            String style = pElement.attr("style");
-            int type = 0;
-            if (StringUtils.contains(style, "2em")
-                    || StringUtils.contains(style, "text-indent"))
-                type = 1;
-            if (StringUtils.contains(style, "5em"))
-                type = 2;
 
-            String rowStr = StringUtils.trimToEmpty(pElement.text());
+            String text = StringUtils.trimToEmpty(pElement.text());
             //System.out.println(rowStr);
-            rowStr = rowStr.replaceFirst("[ |\\s]+", "  ").replaceFirst("-", "--");
-            str +=  rowStr + "\r\n";
+
+            str +=  process(text) + "\r\n";
             //System.out.println(rowStr);
         }
 
         if (size == 0) {
-            str += StringUtils.trimToEmpty(doc.text())
-                    .replaceFirst("[ |\\s]+", "  ").replaceFirst("-", "--");
+            str += process(StringUtils.trimToEmpty(doc.text()));
         }
 
-        //str = str.replace("-", "--");
-
-        //System.out.println(str);
-
         return str;
+    }
+
+    private String process(String text){
+
+        // 需要换行的期间经历
+        String[] texts = text.split("） （"); // 中间包含一个空格
+        if(texts.length==2){
+            text = texts[0] + "）\r\n（" + texts[1];
+        }
+
+        String _blankEndDate="";
+        String[] textArray = text.trim().split(" ");
+        if(textArray[0].trim().endsWith("—")){
+            _blankEndDate = "       "; // 简历中结束时间为空，留7个空格
+        }
+
+        text = text.replaceFirst("[ |\\s]+", _blankEndDate + "  ").replaceAll("—", "--");
+
+        return text;
     }
 
     // 输出中组部任免审批表
@@ -371,11 +378,16 @@ public class CadreAdformService extends BaseMapper{
         setNodeText(doc, "NiMianZhiWu", adform.getPrePost());
 
         String jianli = "";
-        if(StringUtils.isNotBlank(adform.getLearnDesc())){
-            jianli += adform.getLearnDesc();
-        }
-        if(StringUtils.isNotBlank(adform.getWorkDesc())){
-            jianli += adform.getWorkDesc();
+        String resumeDesc = adform.getResumeDesc();
+        if(StringUtils.isNotBlank(resumeDesc)){
+            jianli += adform.getResumeDesc();
+        }else {
+            if (StringUtils.isNotBlank(adform.getLearnDesc())) {
+                jianli += adform.getLearnDesc();
+            }
+            if (StringUtils.isNotBlank(adform.getWorkDesc())) {
+                jianli += adform.getWorkDesc();
+            }
         }
 
         setNodeText(doc, "JianLi", html2Paragraphs(jianli));
