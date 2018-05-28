@@ -1,4 +1,6 @@
 
+-- 更新jixiantech
+
 2018-5-28
 ALTER TABLE `crs_post`
 	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '岗位状态，1正在招聘、2完成招聘、3已删除、4 已作废' AFTER `pub_status`;
