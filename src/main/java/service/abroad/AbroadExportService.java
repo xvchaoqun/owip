@@ -1,6 +1,5 @@
 package service.abroad;
 
-import persistence.abroad.common.ApprovalResult;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApprovalLog;
 import domain.abroad.ApproverType;
@@ -10,6 +9,7 @@ import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import persistence.abroad.common.ApprovalResult;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.common.FreemarkerService;
@@ -58,7 +58,7 @@ public class AbroadExportService extends BaseMapper {
         dataMap.put("gender", uv.getGender()==null?"":SystemConstants.GENDER_MAP.get(uv.getGender()));
         dataMap.put("adminLevel", metaTypeService.getName(cadre.getTypeId()));
 
-        dataMap.put("day", DateUtils.getDayCountBetweenDate(applySelf.getStartDate(), applySelf.getEndDate()));
+        //dataMap.put("day", DateUtils.getDayCountBetweenDate(applySelf.getStartDate(), applySelf.getEndDate()));
         dataMap.put("reason", StringUtils.replace(applySelf.getReason(), "+++", ","));
 
         List<String> needPassports = new ArrayList<>();
@@ -125,6 +125,16 @@ public class AbroadExportService extends BaseMapper {
             }
         }
 
+        // 本年度申请记录
+        int currentYear = DateUtils.getYear(applySelf.getApplyDate());
+        List<ApplySelf> applySelfs = applySelfService.getAnnualApplyList(cadreId, currentYear);
+        int applySelfCount = applySelfs.size();
+        for (int i = 0; i < 4 - applySelfCount; i++) {
+            applySelfs.add(new ApplySelf());
+        }
+        dataMap.put("applySelfs", applySelfs);
+        dataMap.put("applySelfCount", applySelfCount);
+
         dataMap.put("hasLeader", hasLeader);
         dataMap.put("leaderName", leaderName);
         dataMap.put("leaderRemark", leaderRemark);
@@ -138,6 +148,6 @@ public class AbroadExportService extends BaseMapper {
         dataMap.put("masterRemark", masterRemark);
         dataMap.put("masterApprovalDate", masterApprovalDate);
 
-        freemarkerService.process("/abroad/apply_self.ftl", dataMap, out);
+        freemarkerService.process("/abroad/apply_self2.ftl", dataMap, out);
     }
 }

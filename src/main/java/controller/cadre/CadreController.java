@@ -64,39 +64,6 @@ public class CadreController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @RequiresPermissions("cadre:list")
-    @RequestMapping("/cadre/search")
-    public String search() {
-
-        return "cadre/cadre_search";
-    }
-
-    @RequiresPermissions("cadre:list")
-    @RequestMapping(value = "/cadre/search", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_search(int cadreId) {
-
-        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
-        String msg = "";
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
-        SysUserView sysUser = cadre.getUser();
-        if (sysUser == null) {
-            msg = "该用户不存在";
-        } else {
-            resultMap.put("realname", sysUser.getRealname());
-
-            if (cadre == null) {
-                msg = "该用户不是干部";
-            } else {
-                resultMap.put("cadreId", cadre.getId());
-                resultMap.put("status", cadre.getStatus());
-            }
-        }
-        resultMap.put("msg", msg);
-
-        return resultMap;
-    }
-
     @RequestMapping("/cadre")
     public String cadre_page(@RequestParam(required = false, defaultValue = CadreConstants.CADRE_STATUS_MIDDLE + "") Byte status,
 

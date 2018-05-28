@@ -186,15 +186,16 @@ public class CrsPostService extends BaseMapper {
         crsPostMapper.insertSelective(record);
     }
 
+    // 假删除/作废
     @Transactional
-    public void batchDel(Integer[] ids) {
+    public void batchDel(Integer[] ids, byte status) {
 
         if (ids == null || ids.length == 0) return;
 
         CrsPostExample example = new CrsPostExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
         CrsPost record = new CrsPost();
-        record.setStatus(CrsConstants.CRS_POST_STATUS_DELETE);
+        record.setStatus(status);
         crsPostMapper.updateByExampleSelective(record, example);
     }
 

@@ -34,10 +34,11 @@ public class CrsConstants {
         CRS_POST_FILE_TYPE_MAP.put(CRS_POST_FILE_TYPE_VIDEO, "视频");
     }
 
-    // 干部招聘 岗位状态，1正在招聘、2完成招聘、3已删除
+    // 干部招聘 岗位状态，1正在招聘、2完成招聘、3已删除 4 已作废
     public final static byte CRS_POST_STATUS_NORMAL = 1;
     public final static byte CRS_POST_STATUS_FINISH = 2;
     public final static byte CRS_POST_STATUS_DELETE = 3;
+    public final static byte CRS_POST_STATUS_ABOLISH = 4;
     public static Map<Byte, String> CRS_POST_STATUS_MAP = new LinkedHashMap<Byte, String>();
 
     static {
@@ -45,6 +46,7 @@ public class CrsConstants {
         CRS_POST_STATUS_MAP.put(CRS_POST_STATUS_NORMAL, "正在招聘");
         CRS_POST_STATUS_MAP.put(CRS_POST_STATUS_FINISH, "完成招聘");
         CRS_POST_STATUS_MAP.put(CRS_POST_STATUS_DELETE, "已删除");
+        CRS_POST_STATUS_MAP.put(CRS_POST_STATUS_ABOLISH, "已作废");
     }
 
     // 干部招聘 招聘类型

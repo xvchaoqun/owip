@@ -34,7 +34,7 @@
                             <shiro:hasPermission name="cadre:list">
                             <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
                                 <a class="popupBtn btn btn-danger btn-sm"
-                                   data-url="${ctx}/cadre/search"><i class="fa fa-search"></i> 查询账号所属干部库</a>
+                                   data-url="${ctx}/cadre_search"><i class="fa fa-search"></i> 查询账号所属干部库</a>
                             </div>
                             </shiro:hasPermission>
                         </ul>
@@ -108,6 +108,10 @@
                                            data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
                                                 class="fa fa-download"></i> 导出家庭成员</a>
                                     </shiro:hasPermission>
+                                    <button class="openView btn btn-primary btn-sm"
+                                            data-url="${ctx}/cadre_search_brief">
+                                        <i class="fa fa-search"></i> 提取简介
+                                    </button>
                                 </c:if>
                                 <shiro:hasPermission name="cadre:del">
                                     <button data-url="${ctx}/cadre_batchDel"

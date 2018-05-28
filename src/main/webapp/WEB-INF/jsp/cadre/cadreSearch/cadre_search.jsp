@@ -54,7 +54,7 @@
   $("#modal #search").click(function(){
     var cadreId = $("#modal select[name=cadreId]").val();
     if(cadreId=='') return;
-    $.post("${ctx}/cadre/search",{cadreId:cadreId},function(ret){
+    $.post("${ctx}/cadre_search",{cadreId:cadreId},function(ret){
         if(ret.success){
 
           var status = $.trim(ret.status);

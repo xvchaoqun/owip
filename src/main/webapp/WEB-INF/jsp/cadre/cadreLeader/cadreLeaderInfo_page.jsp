@@ -26,7 +26,7 @@
                         </li>
                         <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
                             <a class="popupBtn btn btn-danger btn-sm"
-                               data-url="${ctx}/cadre/search"><i class="fa fa-search"></i> 查询账号所属干部库</a>
+                               data-url="${ctx}/cadre_search"><i class="fa fa-search"></i> 查询账号所属干部库</a>
                         </div>
                     </ul>
 

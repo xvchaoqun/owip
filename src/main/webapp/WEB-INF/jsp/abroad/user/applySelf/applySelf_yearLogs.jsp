@@ -56,7 +56,7 @@
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return (function(tdBean){
                     var type = tdBean.tdType;
-                    console.log(type);
+                    //console.log(type);
                     var html = "";
                     switch (type){
                         //not_approval

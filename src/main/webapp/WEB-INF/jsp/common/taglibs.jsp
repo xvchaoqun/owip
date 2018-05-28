@@ -378,6 +378,7 @@
 <c:set value="<%=CrsConstants.CRS_POST_STATUS_NORMAL%>" var="CRS_POST_STATUS_NORMAL"/>
 <c:set value="<%=CrsConstants.CRS_POST_STATUS_FINISH%>" var="CRS_POST_STATUS_FINISH"/>
 <c:set value="<%=CrsConstants.CRS_POST_STATUS_DELETE%>" var="CRS_POST_STATUS_DELETE"/>
+<c:set value="<%=CrsConstants.CRS_POST_STATUS_ABOLISH%>" var="CRS_POST_STATUS_ABOLISH"/>
 
 <c:set value="<%=CrsConstants.CRS_TEMPLATE_TYPE_MAP%>" var="CRS_TEMPLATE_TYPE_MAP"/>
 

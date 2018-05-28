@@ -176,7 +176,7 @@
         height:328,
         url: '${ctx}/crsApplyUser_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '工作证号', name: 'user.code', frozen:true},
+            {label: '工作证号', name: 'user.code', width:110, frozen:true},
             {label: '姓名', name: 'user.realname', frozen:true},
             {label: '补报开始时间', name: 'startTime', width:140, formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},

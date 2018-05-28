@@ -218,7 +218,7 @@ public class CetProjectObjController extends CetBaseController {
                         }
                     } else {
                         if (finishUserIds != null && finishUserIds.size() > 0) {
-                            criteria.andUserIdNotIn(finishUserIds);
+                            criteria.andUserIdIn(finishUserIds);
                         } else {
                             criteria.andIdIsNull();
                         }

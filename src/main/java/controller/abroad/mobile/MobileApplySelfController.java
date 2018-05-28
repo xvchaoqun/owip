@@ -1,11 +1,8 @@
 package controller.abroad.mobile;
 
-import persistence.abroad.common.ApprovalResult;
-import persistence.abroad.common.ApproverTypeBean;
 import controller.abroad.AbroadBaseController;
 import controller.global.OpException;
 import domain.abroad.ApplySelf;
-import domain.abroad.ApplySelfExample;
 import domain.abroad.ApplySelfFile;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
@@ -16,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import persistence.abroad.common.ApprovalResult;
+import persistence.abroad.common.ApproverTypeBean;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.RoleConstants;
@@ -146,17 +145,8 @@ public class MobileApplySelfController extends AbroadBaseController {
 		Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(id);
 		modelMap.put("approvalResultMap", approvalResultMap);
 
-
-		// 本年度的申请记录（只显示审批通过的申请）
-		int year = DateUtils.getCurrentYear();
-		ApplySelfExample example = new ApplySelfExample();
-		ApplySelfExample.Criteria criteria = example.createCriteria().andCadreIdEqualTo(cadreId);
-		criteria.andIsAgreedEqualTo(true);
-		criteria.andApplyDateBetween(DateUtils.parseDate(year + "-01-01 00:00:00", DateUtils.YYYY_MM_DD),
-				DateUtils.parseDate(year + "-12-30 23:59:59", DateUtils.YYYY_MM_DD));
-		example.setOrderByClause("create_time desc");
-		List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
-		modelMap.put("applySelfs", applySelfs);
+		int currentYear = DateUtils.getYear(applySelf.getApplyDate());
+		modelMap.put("applySelfs", applySelfService.getAnnualApplyList(cadreId, currentYear));
 
 		return "abroad/mobile/applySelf_view";
 	}

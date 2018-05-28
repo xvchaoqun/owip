@@ -17,10 +17,11 @@ import java.util.List;
 @Service
 public class CrsApplyUserService extends BaseMapper {
 
-    public boolean idDuplicate(Integer id, int userId){
+    public boolean idDuplicate(Integer id, int userId, int postId){
 
         CrsApplyUserExample example = new CrsApplyUserExample();
-        CrsApplyUserExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+        CrsApplyUserExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId)
+                .andPostIdEqualTo(postId);
         if(id!=null) criteria.andIdNotEqualTo(id);
 
         return crsApplyUserMapper.countByExample(example) > 0;
@@ -37,7 +38,7 @@ public class CrsApplyUserService extends BaseMapper {
 
             record.setId(null);
             record.setUserId(userId);
-            if(idDuplicate(null, record.getUserId())){
+            if(idDuplicate(null, record.getUserId(), record.getPostId())){
                 throw new OpException("补报人员重复：{0}", record.getUser().getRealname());
             }
             record.setSortOrder(getNextSortOrder("crs_apply_user", "post_id=" + record.getPostId()));
@@ -59,7 +60,7 @@ public class CrsApplyUserService extends BaseMapper {
     @Transactional
     public int updateByPrimaryKeySelective(CrsApplyUser record){
         if(record.getUserId()!=null)
-            Assert.isTrue(!idDuplicate(record.getId(), record.getUserId()), "duplicate");
+            Assert.isTrue(!idDuplicate(record.getId(), record.getUserId(), record.getPostId()), "duplicate");
         return crsApplyUserMapper.updateByPrimaryKeySelective(record);
     }
 

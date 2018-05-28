@@ -349,11 +349,15 @@ public class CrsPostController extends CrsBaseController {
     @RequiresPermissions("crsPost:del")
     @RequestMapping(value = "/crsPost_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map crsPost_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map crsPost_batchDel(HttpServletRequest request,
+                                boolean isAbolish,
+                                @RequestParam(value = "ids[]") Integer[] ids,
+                                ModelMap modelMap) {
 
         if (null != ids && ids.length > 0) {
-            crsPostService.batchDel(ids);
-            logger.info(addLog(LogConstants.LOG_CRS, "批量删除岗位[假删除]：%s", StringUtils.join(ids, ",")));
+            crsPostService.batchDel(ids, isAbolish?CrsConstants.CRS_POST_STATUS_ABOLISH:CrsConstants.CRS_POST_STATUS_DELETE);
+            logger.info(addLog(LogConstants.LOG_CRS, "批量删除岗位[%s]：%s", isAbolish?"作废":"假删除",
+                    StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

@@ -18,6 +18,9 @@
                     <li class="<c:if test="${status==CRS_POST_STATUS_FINISH}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/crsPost?status=${CRS_POST_STATUS_FINISH}"><i class="fa fa-check"></i> 完成招聘</a>
                     </li>
+                    <li class="<c:if test="${status==CRS_POST_STATUS_ABOLISH}">active</c:if>">
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/crsPost?status=${CRS_POST_STATUS_ABOLISH}"><i class="fa fa-trash"></i> 已作废</a>
+                    </li>
                     <li class="<c:if test="${status==CRS_POST_STATUS_DELETE}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/crsPost?status=${CRS_POST_STATUS_DELETE}"><i class="fa fa-times"></i> 已删除</a>
                     </li>
@@ -40,12 +43,19 @@
                                     修改</a>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="crsPost:del">
-                                <button data-url="${ctx}/crsPost_batchDel"
+                                <button data-url="${ctx}/crsPost_batchDel?isAbolish=1"
+                                        data-title="作废"
+                                        data-msg="确定作废这{0}条数据？"
+                                        data-grid-id="#jqGrid"
+                                        class="jqBatchBtn btn btn-danger btn-sm">
+                                    <i class="fa fa-trash"></i> 作废
+                                </button>
+                                <button data-url="${ctx}/crsPost_batchDel?isAbolish=0"
                                         data-title="删除"
                                         data-msg="确定删除这{0}条数据？"
                                         data-grid-id="#jqGrid"
                                         class="jqBatchBtn btn btn-danger btn-sm">
-                                    <i class="fa fa-trash"></i> 删除
+                                    <i class="fa fa-times"></i> 删除
                                 </button>
                             </shiro:hasPermission>
                             <button class="popupBtn btn btn-success btn-sm"
