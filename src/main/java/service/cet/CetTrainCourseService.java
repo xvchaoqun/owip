@@ -1,10 +1,8 @@
 package service.cet;
 
-import bean.ShortMsgBean;
 import bean.XlsTrainCourse;
 import controller.global.OpException;
 import domain.cet.CetCourse;
-import domain.cet.CetShortMsg;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseExample;
@@ -12,9 +10,7 @@ import domain.cet.CetTrainCourseFile;
 import domain.cet.CetTrainEvaResultExample;
 import domain.cet.CetTraineeCourseView;
 import domain.cet.CetTraineeCourseViewExample;
-import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -22,11 +18,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
-import service.base.ShortMsgService;
-import service.sys.SysUserService;
-import shiro.ShiroHelper;
-import sys.constants.SystemConstants;
-import sys.utils.ContextHelper;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -40,11 +31,6 @@ public class CetTrainCourseService extends BaseMapper {
 
     @Autowired
     private CetCourseService cetCourseService;
-    @Autowired
-    private SysUserService sysUserService;
-    @Autowired
-    private ShortMsgService shortMsgService;
-
 
     public CetTrainCourse get(int trainId, int courseId) {
 
@@ -277,85 +263,6 @@ public class CetTrainCourseService extends BaseMapper {
         }
 
         return resultMap;
-    }
-
-    public Map<String, Integer> sendApplyMsg(Integer[] trainCourseIds, String mobile, String msg) {
-
-        String tplKey = "cet_tc_apply_msg";
-        int total = 0;
-        int success = 0;
-
-        String ip = ContextHelper.getRealIp();
-        int sendUserId = ShiroHelper.getCurrentUserId();
-        if (StringUtils.isNotBlank(mobile)) {
-
-            // 发送给指定手机号码
-            ShortMsgBean bean = new ShortMsgBean();
-            bean.setSender(sendUserId);
-            bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_CET);
-            bean.setType("补选课报名");
-            bean.setMobile(mobile);
-            bean.setContent(msg);
-
-            boolean send = shortMsgService.send(bean, ip);
-            if (send) {
-                total++;
-                success++;
-            }
-            saveMsg(tplKey, StringUtils.join(trainCourseIds, ","), null, mobile, msg, send, null);
-        } else {
-
-            List<Integer> userIds = iCetMapper.notApplyUserIds(trainCourseIds);
-            if (userIds != null) {
-                total = userIds.size();
-                for (Integer userId : userIds) {
-                    SysUserView uv = sysUserService.findById(userId);
-                    mobile = uv.getMobile();
-                    if (StringUtils.isNotBlank(mobile)) {
-
-                        ShortMsgBean bean = new ShortMsgBean();
-                        bean.setReceiver(userId);
-                        bean.setSender(sendUserId);
-                        bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_CET);
-                        bean.setType("补选课报名");
-                        bean.setMobile(mobile);
-                        bean.setContent(msg);
-
-                        try {
-                            boolean send = shortMsgService.send(bean, ip);
-
-                            saveMsg(tplKey, StringUtils.join(trainCourseIds, ","), userId, mobile, msg, send, null);
-                            if (send) success++;
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                }
-            }
-        }
-        Map<String, Integer> resultMap = new HashMap<>();
-        resultMap.put("total", total);
-        resultMap.put("success", success);
-
-        return resultMap;
-    }
-
-    // 保存自定义短信（tplKeyyi以cet_开头)
-    private void saveMsg(String tplKey, String recordId,
-                         Integer userId, String mobile,
-                         String msg, boolean success, String remark){
-
-        CetShortMsg csm = new CetShortMsg();
-        csm.setContentTplId(null);
-        csm.setTplKey(tplKey);
-        csm.setRecordId(recordId);
-        csm.setMsg(msg);
-        csm.setMobile(mobile);
-        csm.setSendTime(new Date());
-        csm.setUserId(userId);
-        csm.setSuccess(success);
-        csm.setRemark(remark);
-        cetShortMsgMapper.insertSelective(csm); // 保存日志
     }
 
     // key: userId

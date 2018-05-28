@@ -11,6 +11,7 @@ import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainee;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseExample;
+import domain.sys.SysUserView;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,17 +21,22 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.ContentTplService;
 import service.base.ShortMsgService;
+import service.sys.SysUserService;
 import service.sys.UserBeanService;
+import shiro.ShiroHelper;
 import sys.constants.CetConstants;
 import sys.constants.ContentTplConstants;
 import sys.constants.SystemConstants;
+import sys.utils.ContextHelper;
 import sys.utils.DateUtils;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CetShortMsgService extends BaseMapper {
@@ -47,6 +53,8 @@ public class CetShortMsgService extends BaseMapper {
     protected CetCourseService cetCourseService;
     @Autowired
     protected CetTraineeCourseService cetTraineeCourseService;
+    @Autowired
+    protected SysUserService sysUserService;
 
     /**
      * 通知2： 每堂课开课前通知
@@ -355,5 +363,147 @@ public class CetShortMsgService extends BaseMapper {
             }
         }
         return successCount;
+    }
+
+    // 补选课报名通知
+    public Map<String, Integer> sendApplyMsg(Integer[] trainCourseIds, String mobile, String msg) {
+
+        String tplKey = "cet_tc_apply_msg";
+        int total = 0;
+        int success = 0;
+
+        String ip = ContextHelper.getRealIp();
+        int sendUserId = ShiroHelper.getCurrentUserId();
+        if (StringUtils.isNotBlank(mobile)) {
+
+            // 发送给指定手机号码
+            ShortMsgBean bean = new ShortMsgBean();
+            bean.setSender(sendUserId);
+            bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_CET);
+            bean.setType("补选课报名");
+            bean.setMobile(mobile);
+            bean.setContent(msg);
+
+            boolean send = shortMsgService.send(bean, ip);
+            if (send) {
+                total++;
+                success++;
+            }
+            saveMsg(tplKey, StringUtils.join(trainCourseIds, ","), null, mobile, msg, send, null);
+        } else {
+
+            List<Integer> userIds = iCetMapper.notApplyUserIds(trainCourseIds);
+            if (userIds != null) {
+                total = userIds.size();
+                for (Integer userId : userIds) {
+                    SysUserView uv = sysUserService.findById(userId);
+                    mobile = uv.getMobile();
+                    if (StringUtils.isNotBlank(mobile)) {
+
+                        ShortMsgBean bean = new ShortMsgBean();
+                        bean.setReceiver(userId);
+                        bean.setSender(sendUserId);
+                        bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_CET);
+                        bean.setType("补选课报名");
+                        bean.setMobile(mobile);
+                        bean.setContent(msg);
+
+                        try {
+                            boolean send = shortMsgService.send(bean, ip);
+
+                            saveMsg(tplKey, StringUtils.join(trainCourseIds, ","), userId, mobile, msg, send, null);
+                            if (send) success++;
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("total", total);
+        resultMap.put("success", success);
+
+        return resultMap;
+    }
+
+    // 短信提醒（撰写心得体会）
+    public Map<String, Integer> sendUploadWriteMsg(int projectId, Integer[] objIds, String mobile, String msg) {
+
+        String tplKey = "cet_upload_write_msg";
+        int total = 0;
+        int success = 0;
+
+        String ip = ContextHelper.getRealIp();
+        int sendUserId = ShiroHelper.getCurrentUserId();
+        if (StringUtils.isNotBlank(mobile)) {
+
+            // 发送给指定手机号码
+            ShortMsgBean bean = new ShortMsgBean();
+            bean.setSender(sendUserId);
+            bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_CET);
+            bean.setType("撰写心得体会");
+            bean.setMobile(mobile);
+            bean.setContent(msg);
+
+            boolean send = shortMsgService.send(bean, ip);
+            if (send) {
+                total++;
+                success++;
+            }
+            saveMsg(tplKey, projectId+"", null, mobile, msg, send, null);
+        } else {
+
+            List<Integer> userIds = iCetMapper.notUploadWriteUserIds(projectId, objIds);
+            if (userIds != null) {
+                total = userIds.size();
+                for (Integer userId : userIds) {
+                    SysUserView uv = sysUserService.findById(userId);
+                    mobile = uv.getMobile();
+                    if (StringUtils.isNotBlank(mobile)) {
+
+                        ShortMsgBean bean = new ShortMsgBean();
+                        bean.setReceiver(userId);
+                        bean.setSender(sendUserId);
+                        bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_SHORT_CET);
+                        bean.setType("撰写心得体会");
+                        bean.setMobile(mobile);
+                        bean.setContent(msg);
+
+                        try {
+                            boolean send = shortMsgService.send(bean, ip);
+
+                            saveMsg(tplKey, projectId+"", userId, mobile, msg, send, null);
+                            if (send) success++;
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("total", total);
+        resultMap.put("success", success);
+
+        return resultMap;
+    }
+
+    // 保存自定义短信（tplKeyyi以cet_开头)
+    private void saveMsg(String tplKey, String recordId,
+                         Integer userId, String mobile,
+                         String msg, boolean success, String remark){
+
+        CetShortMsg csm = new CetShortMsg();
+        csm.setContentTplId(null);
+        csm.setTplKey(tplKey);
+        csm.setRecordId(recordId);
+        csm.setMsg(msg);
+        csm.setMobile(mobile);
+        csm.setSendTime(new Date());
+        csm.setUserId(userId);
+        csm.setSuccess(success);
+        csm.setRemark(remark);
+        cetShortMsgMapper.insertSelective(csm); // 保存日志
     }
 }

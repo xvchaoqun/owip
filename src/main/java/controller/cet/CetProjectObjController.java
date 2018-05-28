@@ -33,6 +33,7 @@ import sys.utils.DownloadUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -166,7 +167,7 @@ public class CetProjectObjController extends CetBaseController {
 
         List<Integer> finishUserIds = null;
         if(isFinish != null && planCourseId!=null){
-            finishUserIds = iCetMapper.finishUserIds(planCourseId);
+            finishUserIds = iCetMapper.finishUserIds(planCourseId, isFinish);
         }
 
         List records = null;
@@ -218,6 +219,8 @@ public class CetProjectObjController extends CetBaseController {
                     } else {
                         if (finishUserIds != null && finishUserIds.size() > 0) {
                             criteria.andUserIdNotIn(finishUserIds);
+                        } else {
+                            criteria.andIdIsNull();
                         }
                     }
                 }
@@ -473,6 +476,41 @@ public class CetProjectObjController extends CetBaseController {
         modelMap.put("sysUser", sysUserService.findById(userId));
 
         return "cet/cetProjectObj/cetProjectObj_uploadWrite";
+    }
+
+    // 短信提醒（撰写心得体会）
+    @RequiresPermissions("cetProjectObj:list")
+    @RequestMapping(value = "/cetProjectObj_uploadWriteMsg", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProjectObj_uploadWriteMsg(
+            int projectId,
+            @RequestParam(value = "objIds[]", required = false) Integer[] objIds,
+            String mobile,
+            String msg,
+            HttpServletRequest request) {
+
+        if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+            return failed("手机号码有误："+ mobile);
+        }
+
+        Map<String, Integer> result = cetShortMsgService.sendUploadWriteMsg(projectId, objIds, mobile, msg);
+        logger.info(addLog(LogConstants.LOG_CET, "短信提醒（撰写心得体会）：%s-%s-%s",
+                msg, mobile, StringUtils.join(objIds, ",")));
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("totalCount", result.get("total"));
+        resultMap.put("successCount", result.get("success"));
+        return resultMap;
+    }
+
+    @RequiresPermissions("cetProjectObj:list")
+    @RequestMapping("/cetProjectObj_uploadWriteMsg")
+    public String cetProjectObj_uploadWriteMsg(int projectId, @RequestParam(value = "objIds[]", required = false) Integer[] objIds,
+                                               ModelMap modelMap) {
+
+        List<Integer> userIds = iCetMapper.notUploadWriteUserIds(projectId, objIds);
+        modelMap.put("userIds", userIds);
+
+        return "cet/cetProjectObj/cetProjectObj_uploadWriteMsg";
     }
 
     @RequiresPermissions("cetProjectObj:del")

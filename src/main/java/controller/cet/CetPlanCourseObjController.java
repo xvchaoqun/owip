@@ -171,11 +171,11 @@ public class CetPlanCourseObjController extends CetBaseController {
     @RequiresPermissions("cetProjectPlan:edit")
     @RequestMapping(value = "/cetPlanCourseObj_finish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetPlanCourseObj_finish(boolean finish, int planCourseId,
+    public Map do_cetPlanCourseObj_finish(boolean finish, int projectId, int planCourseId,
                                          @RequestParam(value = "ids[]", required = false) Integer[] ids ,
                                          HttpServletRequest request) {
 
-        cetPlanCourseObjService.finish(ids, finish, planCourseId);
+        cetPlanCourseObjService.finish(ids, finish, projectId, planCourseId);
         logger.info(addLog(LogConstants.LOG_CET, "完成自学/未完成自学： %s, %s, %s",
                 StringUtils.join(ids, ","), finish, planCourseId));
 

@@ -98,9 +98,11 @@ public class CetPlanCourseService extends BaseMapper {
 
     // 选择学员/取消选择
     @Transactional
-    public void selectObjs(Integer[] objIds, boolean select, int planCourseId) {
+    public void selectObjs(Integer[] objIds, boolean select, int projectId, int planCourseId) {
 
-        if(objIds==null || objIds.length==0) return ;
+        if(objIds==null || objIds.length==0){
+            objIds = iCetMapper.getCetProjectObjIds(projectId).toArray(new Integer[0]);
+        }
 
         if(select){
             Date chooseTime = new Date();
@@ -121,7 +123,7 @@ public class CetPlanCourseService extends BaseMapper {
 
             CetPlanCourseObjExample example = new CetPlanCourseObjExample();
             example.createCriteria().andPlanCourseIdEqualTo(planCourseId)
-                    .andObjIdIn(Arrays.asList(objIds));
+                    .andObjIdIn(Arrays.asList(objIds)).andIsFinishedEqualTo(false);
             cetPlanCourseObjMapper.deleteByExample(example);
         }
     }

@@ -82,9 +82,11 @@ public class CetPlanCourseObjService extends BaseMapper {
     }
 
     @Transactional
-    public void finish(Integer[] objIds, boolean finish, int planCourseId) {
+    public void finish(Integer[] objIds, boolean finish, int projectId, int planCourseId) {
 
-        if(objIds==null || objIds.length==0) return ;
+        if(objIds==null || objIds.length==0){
+            objIds = iCetMapper.getCetProjectObjIds(projectId).toArray(new Integer[0]);
+        }
 
         CetPlanCourseObjExample example = new CetPlanCourseObjExample();
         example.createCriteria().andPlanCourseIdEqualTo(planCourseId)

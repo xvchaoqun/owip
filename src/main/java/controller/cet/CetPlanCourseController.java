@@ -133,11 +133,11 @@ public class CetPlanCourseController extends CetBaseController {
     @RequiresPermissions("cetProjectPlan:edit")
     @RequestMapping(value = "/cetPlanCourse_selectObjs", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetPlanCourse_selectObjs(boolean select, int planCourseId,
+    public Map do_cetPlanCourse_selectObjs(boolean select, int projectId, int planCourseId,
                                         @RequestParam(value = "ids[]", required = false) Integer[] ids ,
                                         HttpServletRequest request) {
 
-        cetPlanCourseService.selectObjs(ids, select, planCourseId);
+        cetPlanCourseService.selectObjs(ids, select, projectId, planCourseId);
         logger.info(addLog(LogConstants.LOG_CET, "选择学员/取消选择： %s, %s, %s",
                 StringUtils.join(ids, ","), select, planCourseId));
 

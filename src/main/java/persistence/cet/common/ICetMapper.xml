@@ -99,6 +99,21 @@
         and project_id=cpo.project_id and user_id=cpo.user_id)
     </select>
 
+    <!--未上传心得体会学员-->
+    <select id="notUploadWriteUserIds" parameterType="map" resultType="java.lang.Integer">
+        select user_id from cet_project_obj
+        <where>
+            project_id = #{projectId}
+            <if test="objIds != null and objIds.length>0">
+                and id IN
+                <foreach collection="objIds" item="objId" separator="," open="(" close=")">
+                    #{objId}
+                </foreach>
+            </if>
+            and pdf_write is null
+        </where>
+    </select>
+
 
     <sql id="searchTrainCourses">
         <where>
@@ -166,5 +181,14 @@
                 and cdgo.is_finished = #{isFinished}
             </if>
             order by cpo.id asc
+    </select>
+    <!-- 查询学员（自主学习、上级网上专题班）-->
+    <select id="finishUserIds" parameterType="map" resultType="java.lang.Integer">
+        select cpo.user_id from cet_plan_course_obj cpco, cet_project_obj cpo
+        where cpco.plan_course_id=#{planCourseId}
+        <if test="isFinished!=null">
+            and cpco.is_finished = #{isFinished}
+        </if>
+        and cpco.obj_id=cpo.id order by cpo.id asc
     </select>
 </mapper>

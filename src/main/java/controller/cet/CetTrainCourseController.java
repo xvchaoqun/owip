@@ -373,8 +373,8 @@ public class CetTrainCourseController extends CetBaseController {
             return failed("手机号码有误："+ mobile);
         }
 
-        Map<String, Integer> result = cetTrainCourseService.sendApplyMsg(trainCourseIds, mobile, msg);
-        logger.info(addLog(LogConstants.LOG_CET, "补选课报名：%s-%s", msg, mobile));
+        Map<String, Integer> result = cetShortMsgService.sendApplyMsg(trainCourseIds, mobile, msg);
+        logger.info(addLog(LogConstants.LOG_CET, "补选课报名：%s-%s-%s", msg, mobile, StringUtils.join(trainCourseIds, ",")));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);
         resultMap.put("totalCount", result.get("total"));
         resultMap.put("successCount", result.get("success"));

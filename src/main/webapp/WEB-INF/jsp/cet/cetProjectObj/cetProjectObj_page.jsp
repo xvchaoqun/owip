@@ -138,43 +138,25 @@
         </button>
     </c:if>
     <c:if test="${cls==3 || cls==6}">
-    <button data-url="${ctx}/cet/cetPlanCourse_selectObjs?select=1&planCourseId=${param.planCourseId}"
+    <button data-url="${ctx}/cet/cetPlanCourse_selectObjs?projectId=${cetProject.id}&select=1&planCourseId=${param.planCourseId}"
             data-title="选择学员"
-            data-msg="确定将这{0}个学员设置为学员？"
+            data-msg="确定将这{0}个培训对象设置为学员？"
             data-grid-id="#jqGrid2"
             data-callback="_callback2"
             class="jqBatchBtn btn btn-success btn-sm">
         <i class="fa fa-plus"></i> 选择学员
     </button>
-    <button data-url="${ctx}/cet/cetPlanCourse_selectObjs?select=0&planCourseId=${param.planCourseId}"
+    <button data-url="${ctx}/cet/cetPlanCourse_selectObjs?projectId=${cetProject.id}&select=0&planCourseId=${param.planCourseId}"
             data-title="取消选择"
-            data-msg="确定将这{0}个学员取消选择？"
+            data-msg="确定将这{0}个培训对象取消选择？（仅对未完成的学员有效）"
             data-grid-id="#jqGrid2"
             data-callback="_callback2"
-            class="jqBatchBtn btn btn-warning btn-sm">
+            class="jqBatchBtn btn btn-danger btn-sm">
         <i class="fa fa-minus"></i> 取消选择
     </button>
-        <c:if test="${cls==3}">
-        <button class="popupBtn btn btn-primary btn-sm tooltip-success"
-                    data-url="${ctx}/cet/cetPlanCourseObjResult_import?planCourseId=${param.planCourseId}"
-                    data-rel="tooltip" data-placement="top"
-                title="从Excel中导入上传学习情况"><i class="fa fa-upload"></i> 上传学习情况</button>
-        <button id="resultEditBtn" class="jqOpenViewBtn btn btn-info btn-sm"
-                    data-grid-id="#jqGrid2"
-                    data-id-name="objId"
-                    data-url="${ctx}/cet/cetPlanCourseObjResult_au?planCourseId=${param.planCourseId}">
-                <i class="fa fa-edit"></i> 编辑学习情况</button>
-        <button data-url="${ctx}/cet/cetPlanCourseObjResult_clear?planCourseId=${param.planCourseId}"
-                data-title="清除学习情况"
-                data-msg="确定清除这{0}个学员的学习情况？"
-                data-grid-id="#jqGrid2"
-                data-callback="_callback2"
-                class="jqBatchBtn btn btn-warning btn-sm">
-            <i class="fa fa-eraser"></i> 清除学习情况
-        </button>
-        </c:if>
+
         <c:if test="${cls==6}">
-            <button data-url="${ctx}/cet/cetPlanCourseObj_finish?finish=1&planCourseId=${param.planCourseId}"
+            <button data-url="${ctx}/cet/cetPlanCourseObj_finish?projectId=${cetProject.id}&finish=1&planCourseId=${param.planCourseId}"
                     data-title="完成自学"
                     data-msg="确定将这{0}个学员设置为已完成自学？（仅对已选学员有效）"
                     data-grid-id="#jqGrid2"
@@ -182,7 +164,7 @@
                     class="jqBatchBtn btn btn-primary btn-sm">
                 <i class="fa fa-check"></i> 完成自学
             </button>
-            <button data-url="${ctx}/cet/cetPlanCourseObj_finish?finish=0&planCourseId=${param.planCourseId}"
+            <button data-url="${ctx}/cet/cetPlanCourseObj_finish?projectId=${cetProject.id}&finish=0&planCourseId=${param.planCourseId}"
                     data-title="未完成自学"
                     data-msg="确定将这{0}个学员修改为未完成自学？（仅对已选学员有效）"
                     data-grid-id="#jqGrid2"
@@ -198,6 +180,72 @@
                     title="上传学习心得"><i class="fa fa-upload"></i> 上传学习心得</button>
             </c:if>
         </c:if>
+        <div class="btn-group">
+            <button id="opBtn" data-toggle="dropdown" class="btn btn-warning btn-sm dropdown-toggle">
+                <i class="fa fa-cog"></i> 批量操作
+                <span class="ace-icon fa fa-caret-down icon-on-right"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-warning">
+                <li>
+                <a href="javascript:;" data-url="${ctx}/cet/cetPlanCourse_selectObjs?projectId=${cetProject.id}&select=1&planCourseId=${param.planCourseId}"
+                        data-title="选择学员"
+                        data-msg="确定将所有的培训对象设置为学员？"
+                        data-callback="_callback2"
+                        class="confirm">
+                    <i class="fa fa-plus"></i> 选择所有学员
+                </a>
+                </li>
+                <li>
+                <a href="javascript:;" data-url="${ctx}/cet/cetPlanCourse_selectObjs?projectId=${cetProject.id}&select=0&planCourseId=${param.planCourseId}"
+                        data-title="全部取消选择"
+                        data-msg="确定删除所有的学员？（仅对未完成的学员有效）"
+                        data-callback="_callback2"
+                        class="confirm">
+                    <i class="fa fa-minus"></i> 全部取消选择
+                </a>
+                </li>
+                <c:if test="${cls==6}">
+                <li class="divider"></li>
+                <li>
+                <a href="javascript:;" data-url="${ctx}/cet/cetPlanCourseObj_finish?projectId=${cetProject.id}&finish=1&planCourseId=${param.planCourseId}"
+                        data-title="完成自学"
+                        data-msg="确定将所有的学员设置为已完成自学？（仅对已选学员有效）"
+                        data-callback="_callback2"
+                        class="confirm">
+                    <i class="fa fa-check"></i> 全部完成自学
+                </a>
+                </li>
+                <li>
+                <a href="javascript:;" data-url="${ctx}/cet/cetPlanCourseObj_finish?projectId=${cetProject.id}&finish=0&planCourseId=${param.planCourseId}"
+                        data-title="未完成自学"
+                        data-msg="确定将所有的学员修改为未完成自学？（仅对已选学员有效）"
+                        data-callback="_callback2"
+                        class="confirm">
+                    <i class="fa fa-times"></i> 全部未完成自学
+                </a>
+                </li>
+                </c:if>
+            </ul>
+        </div>
+        <c:if test="${cls==3}">
+            <button class="popupBtn btn btn-primary btn-sm tooltip-success"
+                    data-url="${ctx}/cet/cetPlanCourseObjResult_import?planCourseId=${param.planCourseId}"
+                    data-rel="tooltip" data-placement="top"
+                    title="从Excel中导入上传学习情况"><i class="fa fa-upload"></i> 上传学习情况</button>
+            <button id="resultEditBtn" class="jqOpenViewBtn btn btn-info btn-sm"
+                    data-grid-id="#jqGrid2"
+                    data-id-name="objId"
+                    data-url="${ctx}/cet/cetPlanCourseObjResult_au?planCourseId=${param.planCourseId}">
+                <i class="fa fa-edit"></i> 编辑学习情况</button>
+            <button data-url="${ctx}/cet/cetPlanCourseObjResult_clear?planCourseId=${param.planCourseId}"
+                    data-title="清除学习情况"
+                    data-msg="确定清除这{0}个学员的学习情况？"
+                    data-grid-id="#jqGrid2"
+                    data-callback="_callback2"
+                    class="jqBatchBtn btn btn-danger btn-sm">
+                <i class="fa fa-eraser"></i> 清除学习情况
+            </button>
+        </c:if>
     </c:if>
     <c:if test="${cls==4}">
     <button class="jqOpenViewBtn btn btn-primary btn-sm tooltip-success"
@@ -210,7 +258,7 @@
                 data-msg="确定删除这{0}个学员的心得体会？"
                 data-grid-id="#jqGrid2"
                 data-callback="_callback2"
-                class="jqBatchBtn btn btn-warning btn-sm">
+                class="jqBatchBtn btn btn-danger btn-sm">
             <i class="fa fa-eraser"></i> 删除心得体会
         </button>
 
@@ -219,6 +267,19 @@
                 data-search-form-id="#searchForm2"
                 data-url="${ctx}/cet/cetProjectObj_data?projectId=${cetProject.id}"><i class="fa fa-download"></i>
             打包下载</button>
+
+        <button class="jqOpenViewBatchBtn btn btn-warning btn-sm"
+                data-url="${ctx}/cet/cetProjectObj_uploadWriteMsg?projectId=${cetProject.id}"
+                data-grid-id="#jqGrid2"
+                data-need-id="false"
+                data-ids-name="objIds[]"><i class="fa fa-send"></i>
+            短信提醒</button>
+        <button data-url="${ctx}/cet/cetTrain_detail/msg_list?tplKey=cet_upload_write_msg&recordId=${cetProject.id}"
+                data-width="800"
+                class="popupBtn btn btn-info btn-sm">
+            <i class="ace-icon fa fa-history"></i>
+            短信提醒记录
+        </button>
     </c:if>
     <c:if test="${cls==5}">
         <button data-url="${ctx}/cet/cetDiscussGroup_selectObjs?select=1&discussGroupId=${param.discussGroupId}"

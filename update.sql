@@ -1,4 +1,10 @@
 
+2018-5-28
+update cet_plan_course_obj set is_finished=0 where is_finished is null;
+
+ALTER TABLE `cet_plan_course_obj`
+	CHANGE COLUMN `is_finished` `is_finished` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否结业，针对上级网上专题班，是否完成，针对自主学习' AFTER `num`;
+
 2018-5-27
 ALTER TABLE `crp_record`
 	CHANGE COLUMN `temp_post` `temp_post` VARCHAR(100) NULL DEFAULT NULL COMMENT '其他挂职类型，手动录入挂职类型' AFTER `temp_post_type`,

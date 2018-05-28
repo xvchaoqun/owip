@@ -3850,9 +3850,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-							${bean.learnDesc!}
-							${bean.workDesc!}
-                            <w:p/>
+							${bean.resumeDesc?default('<w:p/>')}
 						</w:tc>
 					</w:tr>
 
@@ -3979,8 +3977,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-						${bean.applicantCareer!}
-                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+							${bean.applicantCareer?default('<w:p/>')}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00002E50">
@@ -4070,8 +4067,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-						${bean.teachDesc!}
-                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+						${bean.teachDesc?default('<w:p/>')}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00002E50">
@@ -4163,9 +4159,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-
-						${bean.researchDesc!}
-                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+						${bean.researchDesc?default('<w:p/>')}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00542744" wsp:rsidRPr="00CE6129" wsp:rsidTr="006F28D7">
@@ -4205,8 +4199,7 @@
 								<w:tcW w:w="8950" w:type="dxa"/>
 								<w:gridSpan w:val="13"/>
 							</w:tcPr>
-							${bean.applicantReport!}
-                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+						${bean.applicantReport?default('<w:p/>')}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="005402F3">
@@ -4356,8 +4349,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-						${bean.otherRewardDesc!}
-                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+						${bean.otherRewardDesc?default('<w:p/>')}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00B03368">

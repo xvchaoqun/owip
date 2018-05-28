@@ -78,12 +78,15 @@ public interface ICetMapper {
                                       @Param("isFinished") Boolean isFinished);
 
     // 已完成学员（自主学习、上级网上专题班）
-    @Select("select cpo.user_id from cet_plan_course_obj cpco, cet_project_obj cpo " +
-            "where cpco.plan_course_id=#{planCourseId} and cpco.obj_id=cpo.id order by cpo.id asc")
-    public List<Integer> finishUserIds(@Param("planCourseId") Integer planCourseId);
+    public List<Integer> finishUserIds(@Param("planCourseId") Integer planCourseId,
+                                       @Param("isFinished") Boolean isFinished);
 
     // 未选课学员
     public List<Integer> notApplyUserIds(@Param("trainCourseIds") Integer[] trainCourseIds);
+
+    // 未上传心得体会学员
+    public List<Integer> notUploadWriteUserIds(@Param("projectId") Integer projectId,
+                                              @Param("objIds") Integer[] objIds);
 
     // 培训对象参与的讨论组
     @ResultMap("persistence.cet.common.ICetMapper.ICetDiscussGroupBaseResultMap")

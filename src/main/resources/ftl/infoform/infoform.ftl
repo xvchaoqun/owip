@@ -3917,7 +3917,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
-							${parttime!}
+							${parttime?default('<w:p/>')}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00552BC3">
@@ -4025,9 +4025,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-							${learnDesc!}
-							${workDesc!}
-                            <w:p/>
+							${resumeDesc?default('<w:p/>')}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00002E50">
@@ -4121,8 +4119,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-							${trainDesc!}
-                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+							${trainDesc?default('<w:p/>')}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00002E50">
@@ -4212,8 +4209,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-						${teachDesc!}
-                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+							${teachDesc?default('<w:p/>')}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00002E50">
@@ -4309,9 +4305,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-
-						${researchDesc!}
-                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+						${researchDesc?default('<w:p/>')}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="005402F3">
@@ -4461,8 +4455,7 @@
 								<w:gridSpan w:val="13"/>
 								<w:vAlign w:val="top"/>
 							</w:tcPr>
-						${otherRewardDesc!}
-                            <w:p wsp:rsidR="00F43419" wsp:rsidRDefault="00F43419"/>
+							${otherRewardDesc?default('<w:p/>')}
 						</w:tc>
 					</w:tr>
 					<w:tr wsp:rsidR="00E933BF" wsp:rsidRPr="00D22114" wsp:rsidTr="00B03368">
