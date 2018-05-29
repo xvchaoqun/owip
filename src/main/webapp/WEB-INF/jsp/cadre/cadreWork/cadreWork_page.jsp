@@ -231,36 +231,6 @@
         }
     </script>
 </c:if>
-<c:if test="${type==2}">
-    <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
-    <script>
-        var ke = KindEditor.create('#content', {
-            cssPath: "${ctx}/css/ke.css",
-            items: ["source", "|", "fullscreen"],
-            height: '550px',
-            width: '100%'
-        });
-        function updateCadreInfo() {
-            $.post("${ctx}/cadreInfo_updateContent", {
-                cadreId: '${param.cadreId}',
-                content: ke.html(),
-                type: "${CADRE_INFO_TYPE_WORK}"
-            }, function (ret) {
-                if (ret.success) {
-                    _innerPage(2, function () {
-                        $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 保存成功', position:{my:'bottom center'}});
-                    });
-                }
-            });
-        }
-        function copyOrginal() {
-            //console.log($("#orginal").html())
-            ke.html($("#orginal").html());
-            $("#saveTime").html("未保存");
-            $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 复制成功，请点击"保存"按钮进行保存', position:{my:'bottom center'}});
-        }
-    </script>
-</c:if>
 <c:if test="${type==3}">
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
     <script>

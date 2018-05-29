@@ -477,8 +477,14 @@ public class CpcAllocationService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        XSSFRow row = sheet.getRow(1);
+        XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("school", CmTag.getSysConfig().getSchoolName());
+        cell.setCellValue(str);
+
+        row = sheet.getRow(1);
+        cell = row.getCell(0);
         cell.setCellValue("统计日期：" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
 
         Map<String, List<Integer>> cpcStatDataMap = cpcStat_data();

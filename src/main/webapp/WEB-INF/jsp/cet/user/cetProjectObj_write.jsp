@@ -33,26 +33,19 @@
                     <div class="widget-main center">
                         <button class="popupBtn btn btn-primary btn-sm tooltip-success"
                                 data-url="${ctx}/user/cet/cetProjectObj_uploadWrite?id=${cetProjectObj.id}&planId=${cetProjectPlan.id}">
-                            <i class="fa fa-upload"></i> ${not empty cetProjectObj.pdfWrite?"重新":""}上传
+                            <i class="fa fa-upload"></i> ${not empty cetProjectObj.writeFilePath?"重新":""}上传
                         </button>
 
-                        <c:if test="${not empty cetProjectObj.pdfWrite}">
+                        <c:if test="${not empty cetProjectObj.writeFilePath}">
 
                         <div style="text-align: left;padding: 20px 0 10px 0;">已上传心得体会：</div>
-                                        <button class="popupBtn btn btn-sm btn-warning"
-                                                data-url="${ctx}/swf/preview?path=${cm:encodeURI(cetProjectObj.pdfWrite)}&filename=${cm:encodeURI(dispatch.fileName)}">
-                                            <i class="fa fa-search"></i> 预览</button>
 
                                         <button class='linkBtn btn btn-sm btn-success'
-                                                data-url='${ctx}/attach/download?path=${cm:encodeURI(cetProjectObj.pdfWrite)}&filename=心得体会'>
+                                                data-url='${ctx}/attach/download?path=${cm:encodeURI(cetProjectObj.writeFilePath)}&filename=心得体会'>
                                             <i class="fa fa-download"></i>
-                                            下载PDF
+                                            下载
                                         </button>
-                                        <button class='linkBtn btn btn-sm btn-success'
-                                                data-url='${ctx}/attach/download?path=${cm:encodeURI(cetProjectObj.wordWrite)}&filename=心得体会'>
-                                            <i class="fa fa-download"></i>
-                                            下载WORD
-                                        </button>
+
 
                         </c:if>
                     </div>

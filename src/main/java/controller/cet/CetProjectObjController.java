@@ -13,6 +13,7 @@ import domain.cet.CetProjectPlan;
 import domain.cet.CetTraineeType;
 import domain.ext.ExtJzg;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -227,9 +228,9 @@ public class CetProjectObjController extends CetBaseController {
 
                 if(hasUploadWrite!=null){
                     if(hasUploadWrite){
-                        criteria.andPdfWriteIsNotNull();
+                        criteria.andWriteFilePathIsNotNull();
                     }else{
-                        criteria.andPdfWriteIsNull();
+                        criteria.andWriteFilePathIsNull();
                     }
                 }
 
@@ -266,14 +267,11 @@ public class CetProjectObjController extends CetBaseController {
                     for (Object record : records) {
 
                         CetProjectObjCadreView obj = (CetProjectObjCadreView) record;
-                        String wordWrite = obj.getWordWrite();
-                        String pdfWrite = obj.getPdfWrite();
+                        String writeFilePath = obj.getWriteFilePath();
                         String realname = obj.getRealname();
 
-                        fileMap.put(realname + "(" + obj.getCode() + ")" + FileUtils.getExtention(wordWrite),
-                                new File(springProps.uploadPath + wordWrite));
-                        fileMap.put(realname + "(" + obj.getCode() + ")" + FileUtils.getExtention(pdfWrite),
-                                new File(springProps.uploadPath + pdfWrite));
+                        fileMap.put(realname + "(" + obj.getCode() + ")" + FileUtils.getExtention(writeFilePath),
+                                new File(springProps.uploadPath + writeFilePath));
                     }
 
                     DownloadUtils.zip(fileMap, String.format("[%s]心得体会（%s）", cetProject.getName(),
@@ -446,19 +444,17 @@ public class CetProjectObjController extends CetBaseController {
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping(value = "/cetProjectObj_uploadWrite", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_uploadWrite(int id, MultipartFile _pdfFilePath,
-                                            MultipartFile _wordFilePath,
+    public Map do_cetProjectObj_uploadWrite(int id,
+                                            MultipartFile _writeFilePath,
                                             HttpServletRequest request) throws IOException, InterruptedException {
 
-        String wordWrite = upload(_wordFilePath, "cetProjectObj");
-        String pdfWrite = uploadPdf(_pdfFilePath, "cetProjectObj");
+        String writeFilePath = upload(_writeFilePath, "cetProjectObj");
 
-        if (StringUtils.isNotBlank(wordWrite) || StringUtils.isNotBlank(pdfWrite)) {
+        if (StringUtils.isNotBlank(writeFilePath)) {
 
             CetProjectObj record = new CetProjectObj();
             record.setId(id);
-            record.setWordWrite(wordWrite);
-            record.setPdfWrite(pdfWrite);
+            record.setWriteFilePath(writeFilePath);
             cetProjectObjService.updateByPrimaryKeySelective(record);
 
             logger.info(addLog(LogConstants.LOG_CET, "上传心得体会：%s", record.getId()));
@@ -487,10 +483,15 @@ public class CetProjectObjController extends CetBaseController {
             @RequestParam(value = "objIds[]", required = false) Integer[] objIds,
             String mobile,
             String msg,
+            Boolean addSuffix,
+            String suffix,
             HttpServletRequest request) {
 
         if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
             return failed("手机号码有误："+ mobile);
+        }
+        if(BooleanUtils.isTrue(addSuffix)){
+            msg += StringUtils.trim(suffix);
         }
 
         Map<String, Integer> result = cetShortMsgService.sendUploadWriteMsg(projectId, objIds, mobile, msg);

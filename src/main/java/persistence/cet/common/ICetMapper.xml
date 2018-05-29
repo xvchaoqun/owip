@@ -110,7 +110,7 @@
                     #{objId}
                 </foreach>
             </if>
-            and pdf_write is null
+            and write_file_path is null
         </where>
     </select>
 

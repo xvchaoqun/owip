@@ -10,7 +10,7 @@
     <result column="should_finish_period" jdbcType="DECIMAL" property="shouldFinishPeriod" />
     <result column="is_graduate" jdbcType="BIT" property="isGraduate" />
     <result column="word_write" jdbcType="VARCHAR" property="wordWrite" />
-    <result column="pdf_write" jdbcType="VARCHAR" property="pdfWrite" />
+    <result column="write_file_path" jdbcType="VARCHAR" property="writeFilePath" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="code" jdbcType="VARCHAR" property="code" />
@@ -47,7 +47,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, is_graduate, 
-    word_write, pdf_write, remark, username, code, realname
+    word_write, write_file_path, remark, username, code, realname
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectObjViewExample" resultMap="BaseResultMap">
     select

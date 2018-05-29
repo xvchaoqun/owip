@@ -83,7 +83,7 @@
             <columnOverride column="status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
             <columnOverride column="pub_status" jdbcType="TINYINT" javaType="Byte"></columnOverride>
         </table>-->
-        <!--<table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
+        <table tableName="cet_project_obj" domainObjectName="cet.CetProjectObj" mapperName="cet.CetProjectObjMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
          <table tableName="cet_project_obj_view" domainObjectName="cet.CetProjectObjView"
@@ -97,7 +97,7 @@
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>-->
+         </table>
 
         <!--<table tableName="cet_course" domainObjectName="cet.CetCourse" mapperName="cet.CetCourseMapper">
         </table>-->
@@ -187,9 +187,9 @@
             <columnOverride column="finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="eva_finish_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
-        <table tableName="cet_short_msg" domainObjectName="cet.CetShortMsg" mapperName="cet.CetShortMsgMapper">
+        <!--<table tableName="cet_short_msg" domainObjectName="cet.CetShortMsg" mapperName="cet.CetShortMsgMapper">
             <columnOverride column="msg" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <!--<table tableName="cet_trainee" domainObjectName="cet.CetTrainee" mapperName="cet.CetTraineeMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->

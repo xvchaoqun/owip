@@ -195,7 +195,7 @@ public interface ICetMapper {
     // 获取培训对象在一个培训方案中的已完成学时（针对撰写心得体会）
     @Select("select cpp.period from cet_project_plan cpp " +
             "left join cet_project_obj cpo on cpo.project_id=cpp.project_id " +
-            "where cpp.id=#{planId} and cpo.id=#{objId} and cpo.pdf_write is not null")
+            "where cpp.id=#{planId} and cpo.id=#{objId} and cpo.write_file_path is not null")
     public BigDecimal getWriteFinishPeriod(@Param("planId") int planId,
                                           @Param("objId") int objId);
 

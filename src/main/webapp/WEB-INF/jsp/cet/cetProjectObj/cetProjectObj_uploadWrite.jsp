@@ -15,15 +15,9 @@ pageEncoding="UTF-8"%>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">PDF文件</label>
+            <label class="col-xs-3 control-label">心得体会</label>
             <div class="col-xs-6">
-                <input required class="form-control" type="file" name="_pdfFilePath"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label">WORD文件</label>
-            <div class="col-xs-6">
-                <input required class="form-control" type="file" name="_wordFilePath"/>
+                <input required class="form-control" type="file" name="_writeFilePath"/>
             </div>
         </div>
     </form>
@@ -36,13 +30,9 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
-    $.fileInput($("#modalForm input[name=_pdfFilePath]"),{
-        allowExt: ['pdf'],
-        allowMime: ['application/pdf']
-    });
-    $.fileInput($("#modalForm input[name=_wordFilePath]"),{
-        allowExt: ['doc', 'docx'],
-        allowMime: ['application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+    $.fileInput($("#modalForm input[name=_writeFilePath]"),{
+        allowExt: ['pdf','doc', 'docx'],
+        allowMime: ['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document']
     });
 
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});

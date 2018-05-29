@@ -367,12 +367,16 @@ public class CetTrainCourseController extends CetBaseController {
                                 @RequestParam(value = "trainCourseIds[]") Integer[] trainCourseIds,
                                String mobile,
                                String msg,
+                                Boolean addSuffix,
+                                String suffix,
                                HttpServletRequest request) {
 
         if(StringUtils.isNotBlank(mobile) && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
             return failed("手机号码有误："+ mobile);
         }
-
+        if(BooleanUtils.isTrue(addSuffix)){
+            msg += StringUtils.trim(suffix);
+        }
         Map<String, Integer> result = cetShortMsgService.sendApplyMsg(trainCourseIds, mobile, msg);
         logger.info(addLog(LogConstants.LOG_CET, "补选课报名：%s-%s-%s", msg, mobile, StringUtils.join(trainCourseIds, ",")));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);

@@ -30,7 +30,7 @@ public class CetProjectObj implements Serializable {
 
     private String wordWrite;
 
-    private String pdfWrite;
+    private String writeFilePath;
 
     private String remark;
 
@@ -100,12 +100,12 @@ public class CetProjectObj implements Serializable {
         this.wordWrite = wordWrite == null ? null : wordWrite.trim();
     }
 
-    public String getPdfWrite() {
-        return pdfWrite;
+    public String getWriteFilePath() {
+        return writeFilePath;
     }
 
-    public void setPdfWrite(String pdfWrite) {
-        this.pdfWrite = pdfWrite == null ? null : pdfWrite.trim();
+    public void setWriteFilePath(String writeFilePath) {
+        this.writeFilePath = writeFilePath == null ? null : writeFilePath.trim();
     }
 
     public String getRemark() {

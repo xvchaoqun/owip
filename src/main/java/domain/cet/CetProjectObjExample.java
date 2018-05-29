@@ -595,73 +595,73 @@ public class CetProjectObjExample {
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteIsNull() {
-            addCriterion("pdf_write is null");
+        public Criteria andWriteFilePathIsNull() {
+            addCriterion("write_file_path is null");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteIsNotNull() {
-            addCriterion("pdf_write is not null");
+        public Criteria andWriteFilePathIsNotNull() {
+            addCriterion("write_file_path is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteEqualTo(String value) {
-            addCriterion("pdf_write =", value, "pdfWrite");
+        public Criteria andWriteFilePathEqualTo(String value) {
+            addCriterion("write_file_path =", value, "writeFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteNotEqualTo(String value) {
-            addCriterion("pdf_write <>", value, "pdfWrite");
+        public Criteria andWriteFilePathNotEqualTo(String value) {
+            addCriterion("write_file_path <>", value, "writeFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteGreaterThan(String value) {
-            addCriterion("pdf_write >", value, "pdfWrite");
+        public Criteria andWriteFilePathGreaterThan(String value) {
+            addCriterion("write_file_path >", value, "writeFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteGreaterThanOrEqualTo(String value) {
-            addCriterion("pdf_write >=", value, "pdfWrite");
+        public Criteria andWriteFilePathGreaterThanOrEqualTo(String value) {
+            addCriterion("write_file_path >=", value, "writeFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteLessThan(String value) {
-            addCriterion("pdf_write <", value, "pdfWrite");
+        public Criteria andWriteFilePathLessThan(String value) {
+            addCriterion("write_file_path <", value, "writeFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteLessThanOrEqualTo(String value) {
-            addCriterion("pdf_write <=", value, "pdfWrite");
+        public Criteria andWriteFilePathLessThanOrEqualTo(String value) {
+            addCriterion("write_file_path <=", value, "writeFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteLike(String value) {
-            addCriterion("pdf_write like", value, "pdfWrite");
+        public Criteria andWriteFilePathLike(String value) {
+            addCriterion("write_file_path like", value, "writeFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteNotLike(String value) {
-            addCriterion("pdf_write not like", value, "pdfWrite");
+        public Criteria andWriteFilePathNotLike(String value) {
+            addCriterion("write_file_path not like", value, "writeFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteIn(List<String> values) {
-            addCriterion("pdf_write in", values, "pdfWrite");
+        public Criteria andWriteFilePathIn(List<String> values) {
+            addCriterion("write_file_path in", values, "writeFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteNotIn(List<String> values) {
-            addCriterion("pdf_write not in", values, "pdfWrite");
+        public Criteria andWriteFilePathNotIn(List<String> values) {
+            addCriterion("write_file_path not in", values, "writeFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteBetween(String value1, String value2) {
-            addCriterion("pdf_write between", value1, value2, "pdfWrite");
+        public Criteria andWriteFilePathBetween(String value1, String value2) {
+            addCriterion("write_file_path between", value1, value2, "writeFilePath");
             return (Criteria) this;
         }
 
-        public Criteria andPdfWriteNotBetween(String value1, String value2) {
-            addCriterion("pdf_write not between", value1, value2, "pdfWrite");
+        public Criteria andWriteFilePathNotBetween(String value1, String value2) {
+            addCriterion("write_file_path not between", value1, value2, "writeFilePath");
             return (Criteria) this;
         }
 

@@ -23,13 +23,13 @@
             <div class="widget-body">
                 <div class="widget-main padding-12 no-padding-left no-padding-right no-padding-bottom">
                     <div class="tab-content padding-4" id="step-content">
-                        <div style="width: 500px;float: left">
+                        <div style="width: 450px;float: left">
                             <form class="form-horizontal" id="modalForm">
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">选择干部</label>
 
-                                    <div class="col-xs-9">
-                                        <select name="userId" data-rel="select2-ajax" data-width="270"
+                                    <div class="col-xs-8">
+                                        <select name="userId" data-rel="select2-ajax" data-width="220"
                                                 data-ajax-url="${ctx}/cadre_selects?key=1&type=2"
                                                 data-placeholder="请输入账号或姓名或学工号">
                                             <option></option>

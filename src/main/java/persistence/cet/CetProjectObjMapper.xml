@@ -10,7 +10,7 @@
     <result column="should_finish_period" jdbcType="DECIMAL" property="shouldFinishPeriod" />
     <result column="is_graduate" jdbcType="BIT" property="isGraduate" />
     <result column="word_write" jdbcType="VARCHAR" property="wordWrite" />
-    <result column="pdf_write" jdbcType="VARCHAR" property="pdfWrite" />
+    <result column="write_file_path" jdbcType="VARCHAR" property="writeFilePath" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -73,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, is_graduate, 
-    word_write, pdf_write, remark
+    word_write, write_file_path, remark
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectObjExample" resultMap="BaseResultMap">
     select
@@ -111,11 +111,11 @@
     </selectKey>
     insert into cet_project_obj (project_id, user_id, trainee_type_id, 
       is_quit, should_finish_period, is_graduate, 
-      word_write, pdf_write, remark
+      word_write, write_file_path, remark
       )
     values (#{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{traineeTypeId,jdbcType=INTEGER}, 
       #{isQuit,jdbcType=BIT}, #{shouldFinishPeriod,jdbcType=DECIMAL}, #{isGraduate,jdbcType=BIT}, 
-      #{wordWrite,jdbcType=VARCHAR}, #{pdfWrite,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      #{wordWrite,jdbcType=VARCHAR}, #{writeFilePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetProjectObj">
@@ -145,8 +145,8 @@
       <if test="wordWrite != null">
         word_write,
       </if>
-      <if test="pdfWrite != null">
-        pdf_write,
+      <if test="writeFilePath != null">
+        write_file_path,
       </if>
       <if test="remark != null">
         remark,
@@ -174,8 +174,8 @@
       <if test="wordWrite != null">
         #{wordWrite,jdbcType=VARCHAR},
       </if>
-      <if test="pdfWrite != null">
-        #{pdfWrite,jdbcType=VARCHAR},
+      <if test="writeFilePath != null">
+        #{writeFilePath,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -215,8 +215,8 @@
       <if test="record.wordWrite != null">
         word_write = #{record.wordWrite,jdbcType=VARCHAR},
       </if>
-      <if test="record.pdfWrite != null">
-        pdf_write = #{record.pdfWrite,jdbcType=VARCHAR},
+      <if test="record.writeFilePath != null">
+        write_file_path = #{record.writeFilePath,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -236,7 +236,7 @@
       should_finish_period = #{record.shouldFinishPeriod,jdbcType=DECIMAL},
       is_graduate = #{record.isGraduate,jdbcType=BIT},
       word_write = #{record.wordWrite,jdbcType=VARCHAR},
-      pdf_write = #{record.pdfWrite,jdbcType=VARCHAR},
+      write_file_path = #{record.writeFilePath,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -266,8 +266,8 @@
       <if test="wordWrite != null">
         word_write = #{wordWrite,jdbcType=VARCHAR},
       </if>
-      <if test="pdfWrite != null">
-        pdf_write = #{pdfWrite,jdbcType=VARCHAR},
+      <if test="writeFilePath != null">
+        write_file_path = #{writeFilePath,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -284,7 +284,7 @@
       should_finish_period = #{shouldFinishPeriod,jdbcType=DECIMAL},
       is_graduate = #{isGraduate,jdbcType=BIT},
       word_write = #{wordWrite,jdbcType=VARCHAR},
-      pdf_write = #{pdfWrite,jdbcType=VARCHAR},
+      write_file_path = #{writeFilePath,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

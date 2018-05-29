@@ -50,6 +50,18 @@
                 <span class="help-block">* 短信内容可修改</span>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">是否添加后缀</label>
+            <div class="col-xs-8">
+                <input type="checkbox" class="big" name="addSuffix" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">后缀</label>
+            <div class="col-xs-8">
+                <input class="form-control" type="text" name="suffix" value="（系统短信，请勿直接回复）">
+            </div>
+        </div>
     </form>
 </div>
 <div class="modal-footer">
@@ -58,7 +70,7 @@
 </div>
 
 <script>
-
+    $("#modalForm :checkbox").bootstrapSwitch();
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

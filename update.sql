@@ -1,4 +1,14 @@
 
+
+2018-5-29
+ALTER TABLE `cet_project_obj`
+	CHANGE COLUMN `word_write` `word_write` VARCHAR(200) NULL DEFAULT NULL COMMENT '心得体会，WORD版，（此字段作废）' AFTER `is_graduate`,
+	CHANGE COLUMN `pdf_write` `write_file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '心得体会，pdf或word版' AFTER `word_write`;
+
+更新cet_project_obj_view
+cet_project_obj_cadre_view
+
+
 -- 更新jixiantech
 
 2018-5-28

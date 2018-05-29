@@ -575,28 +575,20 @@
             </c:if>
             <c:if test="${cls==4}">
             {
-                label: '心得体会', width: 200, formatter: function (cellvalue, options, rowObject) {
+                label: '心得体会', width: 90, formatter: function (cellvalue, options, rowObject) {
 
-                var ret = "";
                 var fileName = "心得体会({0})".format(rowObject.realname);
-                var pdfFilePath = rowObject.pdfWrite;
-                if ($.trim(pdfFilePath) != '') {
-                    //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
-                    ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
-                                    .format(encodeURI(pdfFilePath), encodeURI(fileName))
-                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
-                                    .format(encodeURI(pdfFilePath), encodeURI(fileName));
+                var writeFilePath = rowObject.writeFilePath;
+                if ($.trim(writeFilePath) != '') {
+                    //console.log(fileName + " =" + writeFilePath.substr(writeFilePath.indexOf(".")))
+                    return '<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-download"></i> 下载</button>'
+                                    .format(encodeURI(writeFilePath), encodeURI(fileName));
+                }else{
+                   return "未上传"
                 }
-                var wordFilePath = rowObject.wordWrite;
-                if ($.trim(wordFilePath) != '') {
-
-                    ret += '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="linkBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> DOC</button>'
-                            .format(encodeURI(wordFilePath), encodeURI(fileName));
-                }
-                return ret==""?"未上传":ret;
             }, frozen: true},
             { label: '学时',name: '_period', width: 80, formatter: function (cellvalue, options, rowObject) {
-                if ($.trim(rowObject.pdfWrite) == '' && $.trim(rowObject.wordWrite) == '') {
+                if ($.trim(rowObject.writeFilePath) == '') {
                     return 0;
                 }
                 return '${cm:stripTrailingZeros(cetProjectPlan.period)}'

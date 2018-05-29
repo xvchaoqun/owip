@@ -87,8 +87,7 @@ public class UserCetProjectController extends CetBaseController {
     @RequiresPermissions("userCetProject:edit")
     @RequestMapping(value = "/cetProjectObj_uploadWrite", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetProjectObj_uploadWrite(int id, MultipartFile _pdfFilePath,
-                                            MultipartFile _wordFilePath,
+    public Map do_cetProjectObj_uploadWrite(int id, MultipartFile _writeFilePath,
                                             HttpServletRequest request) throws IOException, InterruptedException {
 
         CetProjectObj cetProjectObj = cetProjectObjMapper.selectByPrimaryKey(id);
@@ -96,15 +95,13 @@ public class UserCetProjectController extends CetBaseController {
             throw new UnauthorizedException();
         }
 
-        String wordWrite = upload(_wordFilePath, "cetProjectObj");
-        String pdfWrite = uploadPdf(_pdfFilePath, "cetProjectObj");
+        String writeFilePath = upload(_writeFilePath, "cetProjectObj");
 
-        if(StringUtils.isNotBlank(wordWrite) || StringUtils.isNotBlank(pdfWrite)) {
+        if(StringUtils.isNotBlank(writeFilePath)) {
 
             CetProjectObj record = new CetProjectObj();
             record.setId(id);
-            record.setWordWrite(wordWrite);
-            record.setPdfWrite(pdfWrite);
+            record.setWriteFilePath(writeFilePath);
             cetProjectObjService.updateByPrimaryKeySelective(record);
 
             logger.info(addLog(LogConstants.LOG_CET, "上传心得体会：%s", record.getId()));
