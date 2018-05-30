@@ -32,7 +32,7 @@ public class CetProjectObjCadreView implements Serializable {
         if (trainCourseId == null && planCourseId == null && discussGroupId==null) {
 
             CetProjectObjService cetProjectObjService = CmTag.getBean(CetProjectObjService.class);
-            return cetProjectObjService.getFinishPeriod(projectId, id);
+            return cetProjectObjService.getFinishPeriod(projectId, id).get(0);
         }
         return null;
     }

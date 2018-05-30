@@ -35,6 +35,10 @@
                 data-grid-id="#jqGrid2"><i class="fa fa-edit"></i>
             设置应完成学时</button>
 
+        <button class="linkBtn btn btn-info btn-sm" data-target="_blank"
+                data-url="${ctx}/cet/cetProjectObj_exportFinishPeriod?projectId=${cetProject.id}">
+            <i class="fa fa-download"></i> 导出学时情况</button>
+
         <button data-url="${ctx}/cet/cetProjectObj_autoGraduate?projectId=${cetProject.id}"
                 data-title="自动结业"
                 data-msg="确定自动结业？（根据已设置的达到结业要求的学时数和学员已完成学时数自动计算）"

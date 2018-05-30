@@ -3,13 +3,17 @@ package service.cet;
 import domain.cet.CetProjectPlan;
 import domain.cet.CetProjectPlanExample;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CetProjectPlanService extends BaseMapper {
@@ -24,6 +28,7 @@ public class CetProjectPlanService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value="CetProjectPlans", allEntries = true)
     public void insertSelective(CetProjectPlan record){
 
         Assert.isTrue(!idDuplicate(null, record.getProjectId(), record.getType()), "duplicate");
@@ -32,12 +37,14 @@ public class CetProjectPlanService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value="CetProjectPlans", allEntries = true)
     public void del(Integer id){
 
         cetProjectPlanMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
+    @CacheEvict(value="CetProjectPlans", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -48,10 +55,27 @@ public class CetProjectPlanService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value="CetProjectPlans", allEntries = true)
     public int updateByPrimaryKeySelective(CetProjectPlan record){
+
         if(record.getProjectId()!=null && record.getType()!=null)
             Assert.isTrue(!idDuplicate(record.getId(), record.getProjectId(), record.getType()), "duplicate");
         return cetProjectPlanMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Cacheable(value = "CetProjectPlans", key = "#projectId")
+    public Map<Integer, CetProjectPlan> findAll(int projectId){
+
+        CetProjectPlanExample example = new CetProjectPlanExample();
+        example.createCriteria().andProjectIdEqualTo(projectId);
+        example.setOrderByClause("sort_order asc");
+        List<CetProjectPlan> cetProjectPlans = cetProjectPlanMapper.selectByExample(example);
+        Map<Integer, CetProjectPlan> resultMap = new HashMap<>();
+        for (CetProjectPlan cetProjectPlan : cetProjectPlans) {
+
+            resultMap.put(cetProjectPlan.getId(), cetProjectPlan);
+        }
+        return resultMap;
     }
 
     /**
@@ -60,6 +84,7 @@ public class CetProjectPlanService extends BaseMapper {
      * @param addNum
      */
     @Transactional
+    @CacheEvict(value="CetProjectPlans", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;

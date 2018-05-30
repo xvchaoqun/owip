@@ -1,6 +1,10 @@
 package service.cet;
 
 import domain.cadre.CadreView;
+import domain.cet.CetProject;
+import domain.cet.CetProjectObj;
+import domain.cet.CetProjectObjExample;
+import domain.cet.CetProjectPlan;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTraineeCourseView;
@@ -17,6 +21,7 @@ import org.springframework.web.util.HtmlUtils;
 import service.BaseMapper;
 import service.cadre.CadreService;
 import service.sys.SysUserService;
+import sys.constants.CetConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
@@ -26,7 +31,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CetExportService extends BaseMapper {
@@ -36,8 +43,87 @@ public class CetExportService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
     @Autowired
+    private CetProjectObjService cetProjectObjService;
+    @Autowired
+    private CetProjectPlanService cetProjectPlanService;
+    @Autowired
     private CetTraineeCourseService cetTraineeCourseService;
 
+    /**
+     * 学时情况.xlsx
+     */
+    public void exportFinishPeriod(int projectId, HttpServletResponse response) throws IOException {
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cet/finish_period.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
+        String projectName = cetProject.getName();
+
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("name", projectName);
+        cell.setCellValue(str);
+
+        Map<Integer, CetProjectPlan> projectPlanMap = cetProjectPlanService.findAll(projectId);
+        row = sheet.getRow(1);
+        int column = 5;
+        for (CetProjectPlan cetProjectPlan : projectPlanMap.values()) {
+
+            cell = row.getCell(column++);
+            cell.setCellValue(CetConstants.CET_PROJECT_PLAN_TYPE_MAP.get(cetProjectPlan.getType()));
+        }
+
+
+        CetProjectObjExample example = new CetProjectObjExample();
+        example.createCriteria().andProjectIdEqualTo(projectId);
+        List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
+
+        int startRow = 2;
+        int rowCount = cetProjectObjs.size();
+        ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
+        for (int i = 0; i < rowCount; i++) {
+
+            CetProjectObj cetProjectObj = cetProjectObjs.get(i);
+            SysUserView uv = sysUserService.findById(cetProjectObj.getUserId());
+            CadreView cv = cadreService.dbFindByUserId(cetProjectObj.getUserId());
+
+            column = 0;
+            row = sheet.getRow(startRow++);
+            // 序号
+            cell = row.getCell(column++);
+            cell.setCellValue(i + 1);
+
+            // 姓名
+            cell = row.getCell(column++);
+            cell.setCellValue(uv.getRealname());
+
+            // 工号
+            cell = row.getCell(column++);
+            cell.setCellValue(uv.getCode());
+
+            // 所在单位及职务
+            cell = row.getCell(column++);
+            cell.setCellValue(cv==null?"":StringUtils.trimToEmpty(cv.getTitle()));
+
+            Map<Integer, BigDecimal> periodMap = cetProjectObjService.getFinishPeriod(projectId, cetProjectObj.getId());
+
+            cell = row.getCell(column++);
+            BigDecimal total = periodMap.get(0);
+            cell.setCellValue(total == null ? "" : total.stripTrailingZeros().toPlainString());
+            periodMap.remove(0);
+            for (BigDecimal period : periodMap.values()) {
+                cell = row.getCell(column++);
+                if(cell != null)
+                    cell.setCellValue(period==null?"-":period.stripTrailingZeros().toPlainString());
+            }
+        }
+
+        String fileName = String.format("《%s》学时情况", projectName);
+        ExportHelper.output(wb, fileName + ".xlsx", response);
+    }
     /**
      * 已选课学员统计表.xlsx
      */

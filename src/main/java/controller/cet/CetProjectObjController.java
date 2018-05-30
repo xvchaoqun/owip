@@ -298,6 +298,15 @@ public class CetProjectObjController extends CetBaseController {
         return;
     }
 
+    // 导出学时情况
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping("/cetProjectObj_exportFinishPeriod")
+    public void cetProjectObj_exportFinishPeriod(int projectId, HttpServletResponse response) throws IOException {
+
+        cetExportService.exportFinishPeriod(projectId, response);
+        return;
+    }
+
     // 设置应完成学时
     @RequiresPermissions("cetProjectObj:edit")
     @RequestMapping("/cetProjectObj_shouldFinishPeriod")

@@ -6,7 +6,6 @@ import domain.cet.CetProjectObjExample;
 import domain.cet.CetProjectObjView;
 import domain.cet.CetProjectObjViewExample;
 import domain.cet.CetProjectPlan;
-import domain.cet.CetProjectPlanExample;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTraineeCourse;
@@ -34,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,6 +49,8 @@ public class CetProjectObjService extends BaseMapper {
     private CetTrainCourseService cetTrainCourseService;
     @Autowired
     private CetTraineeCourseService cetTraineeCourseService;
+    @Autowired
+    private CetProjectPlanService cetProjectPlanService;
     @Autowired
     private SysApprovalLogService sysApprovalLogService;
 
@@ -325,26 +327,28 @@ public class CetProjectObjService extends BaseMapper {
             e.printStackTrace();
         }
         int objId = cetProjectObj.getId();
-        cetProjectObj.setFinishPeriod(getFinishPeriod(projectId, objId));
+        cetProjectObj.setFinishPeriod(getFinishPeriod(projectId, objId).get(0));
+
         return cetProjectObj;
     }
 
-    public BigDecimal getFinishPeriod(int projectId, int objId){
+    public Map<Integer, BigDecimal> getFinishPeriod(int projectId, int objId){
 
-        CetProjectPlanExample example = new CetProjectPlanExample();
-        example.createCriteria().andProjectIdEqualTo(projectId);
-        List<CetProjectPlan> cetProjectPlans = cetProjectPlanMapper.selectByExample(example);
+        Map<Integer, BigDecimal> periodMap = new LinkedHashMap<>();
 
+        Map<Integer, CetProjectPlan> cetProjectPlanMap = cetProjectPlanService.findAll(projectId);
         BigDecimal finishPeriod = BigDecimal.ZERO;
-        for (CetProjectPlan cetProjectPlan : cetProjectPlans) {
+        for (CetProjectPlan cetProjectPlan : cetProjectPlanMap.values()) {
 
             BigDecimal planFinishPeriod = getPlanFinishPeriod(cetProjectPlan, objId);
+            periodMap.put(cetProjectPlan.getId(), planFinishPeriod);
             if(planFinishPeriod!=null){
                 finishPeriod = finishPeriod.add(planFinishPeriod);
             }
         }
+        periodMap.put(0, finishPeriod);
 
-        return finishPeriod;
+        return periodMap;
     }
 
     // 设置应完成学时

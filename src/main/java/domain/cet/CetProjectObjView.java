@@ -11,7 +11,7 @@ public class CetProjectObjView implements Serializable {
     public BigDecimal getFinishPeriod(){
 
         CetProjectObjService cetProjectObjService = CmTag.getBean(CetProjectObjService.class);
-        return cetProjectObjService.getFinishPeriod(projectId, id);
+        return cetProjectObjService.getFinishPeriod(projectId, id).get(0);
     }
 
     private Integer id;
