@@ -29,9 +29,9 @@
         <!--<table tableName="pmd_order_campuscard"
                domainObjectName="pmd.PmdOrderCampuscard" mapperName="pmd.PmdOrderCampuscardMapper">
         </table>-->
-        <table tableName="pmd_order_item"
+        <!--<table tableName="pmd_order_item"
                domainObjectName="pmd.PmdOrderItem" mapperName="pmd.PmdOrderItemMapper">
-        </table>
+        </table>-->
         <!--<table tableName="pmd_notify_wszf" domainObjectName="pmd.PmdNotifyWszf" mapperName="pmd.PmdNotifyWszfMapper">
         </table>
         <table tableName="pmd_notify_campuscard"
@@ -41,8 +41,8 @@
         </table>-->
         <!--<table tableName="pmd_norm" domainObjectName="pmd.PmdNorm" mapperName="pmd.PmdNormMapper">
         </table>-->
-        <!--<table tableName="pmd_config_reset" domainObjectName="pmd.PmdConfigReset" mapperName="pmd.PmdConfigResetMapper">
-        </table>-->
+        <table tableName="pmd_config_reset" domainObjectName="pmd.PmdConfigReset" mapperName="pmd.PmdConfigResetMapper">
+        </table>
         <!--<table tableName="pmd_config_member" domainObjectName="pmd.PmdConfigMember" mapperName="pmd.PmdConfigMemberMapper">
         </table>-->
         <!--<table tableName="pmd_config_member_type" domainObjectName="pmd.PmdConfigMemberType" mapperName="pmd.PmdConfigMemberTypeMapper">

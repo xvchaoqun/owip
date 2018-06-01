@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.pmd.PmdConfigReset">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="reset" jdbcType="BIT" property="reset" />
     <result column="salary_month" jdbcType="DATE" property="salaryMonth" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, salary_month, create_time, ip
+    id, user_id, reset, salary_month, create_time, ip
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdConfigResetExample" resultMap="BaseResultMap">
     select
@@ -100,10 +101,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.pmd.PmdConfigReset">
-    insert into pmd_config_reset (id, user_id, salary_month, 
-      create_time, ip)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{salaryMonth,jdbcType=DATE}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR})
+    insert into pmd_config_reset (id, user_id, reset, 
+      salary_month, create_time, ip
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{reset,jdbcType=BIT}, 
+      #{salaryMonth,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.pmd.PmdConfigReset">
     insert into pmd_config_reset
@@ -113,6 +116,9 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="reset != null">
+        reset,
       </if>
       <if test="salaryMonth != null">
         salary_month,
@@ -130,6 +136,9 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="reset != null">
+        #{reset,jdbcType=BIT},
       </if>
       <if test="salaryMonth != null">
         #{salaryMonth,jdbcType=DATE},
@@ -157,6 +166,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.reset != null">
+        reset = #{record.reset,jdbcType=BIT},
+      </if>
       <if test="record.salaryMonth != null">
         salary_month = #{record.salaryMonth,jdbcType=DATE},
       </if>
@@ -175,6 +187,7 @@
     update pmd_config_reset
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
+      reset = #{record.reset,jdbcType=BIT},
       salary_month = #{record.salaryMonth,jdbcType=DATE},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       ip = #{record.ip,jdbcType=VARCHAR}
@@ -187,6 +200,9 @@
     <set>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="reset != null">
+        reset = #{reset,jdbcType=BIT},
       </if>
       <if test="salaryMonth != null">
         salary_month = #{salaryMonth,jdbcType=DATE},
@@ -203,6 +219,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.pmd.PmdConfigReset">
     update pmd_config_reset
     set user_id = #{userId,jdbcType=INTEGER},
+      reset = #{reset,jdbcType=BIT},
       salary_month = #{salaryMonth,jdbcType=DATE},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR}

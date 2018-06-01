@@ -252,6 +252,66 @@ public class PmdConfigResetExample {
             return (Criteria) this;
         }
 
+        public Criteria andResetIsNull() {
+            addCriterion("reset is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResetIsNotNull() {
+            addCriterion("reset is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andResetEqualTo(Boolean value) {
+            addCriterion("reset =", value, "reset");
+            return (Criteria) this;
+        }
+
+        public Criteria andResetNotEqualTo(Boolean value) {
+            addCriterion("reset <>", value, "reset");
+            return (Criteria) this;
+        }
+
+        public Criteria andResetGreaterThan(Boolean value) {
+            addCriterion("reset >", value, "reset");
+            return (Criteria) this;
+        }
+
+        public Criteria andResetGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("reset >=", value, "reset");
+            return (Criteria) this;
+        }
+
+        public Criteria andResetLessThan(Boolean value) {
+            addCriterion("reset <", value, "reset");
+            return (Criteria) this;
+        }
+
+        public Criteria andResetLessThanOrEqualTo(Boolean value) {
+            addCriterion("reset <=", value, "reset");
+            return (Criteria) this;
+        }
+
+        public Criteria andResetIn(List<Boolean> values) {
+            addCriterion("reset in", values, "reset");
+            return (Criteria) this;
+        }
+
+        public Criteria andResetNotIn(List<Boolean> values) {
+            addCriterion("reset not in", values, "reset");
+            return (Criteria) this;
+        }
+
+        public Criteria andResetBetween(Boolean value1, Boolean value2) {
+            addCriterion("reset between", value1, value2, "reset");
+            return (Criteria) this;
+        }
+
+        public Criteria andResetNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("reset not between", value1, value2, "reset");
+            return (Criteria) this;
+        }
+
         public Criteria andSalaryMonthIsNull() {
             addCriterion("salary_month is null");
             return (Criteria) this;

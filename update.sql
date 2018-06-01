@@ -1,5 +1,11 @@
 
+2018-6-1
+ALTER TABLE `pmd_config_reset`
+	ADD COLUMN `reset` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '是否重置支部自行设定的额度' AFTER `user_id`;
 
+
+
+-- 更新北化工
 2018-5-29
 ALTER TABLE `cet_project_obj`
 	CHANGE COLUMN `word_write` `word_write` VARCHAR(200) NULL DEFAULT NULL COMMENT '心得体会，WORD版，（此字段作废）' AFTER `is_graduate`,

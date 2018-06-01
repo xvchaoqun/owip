@@ -2,6 +2,7 @@ package controller.pmd;
 
 import domain.pmd.PmdConfigReset;
 import domain.pmd.PmdConfigResetExample;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -64,9 +65,11 @@ public class PmdConfigResetController extends PmdBaseController {
     @RequiresPermissions("pmdConfigMember:edit")
     @RequestMapping(value = "/pmdConfigReset_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdConfigReset_au(String salaryMonth, HttpServletRequest request) {
+    public Map do_pmdConfigReset_au(String salaryMonth,
+                                    Boolean reset,
+                                    HttpServletRequest request) {
 
-        pmdConfigResetService.reset(salaryMonth);
+        pmdConfigResetService.reset(salaryMonth, BooleanUtils.isTrue(reset));
         logger.info(addLog(LogConstants.LOG_PMD, "党费收缴-设置党费重新计算工资月份：%s", salaryMonth));
 
         return success(FormUtils.SUCCESS);

@@ -26,7 +26,9 @@
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>--%>
-                <a class="popupBtn btn btn-success btn-sm" data-url="${ctx}/pmd/pmdConfigReset"><i
+                <a class="popupBtn btn btn-success btn-sm"
+                   data-width="800"
+                   data-url="${ctx}/pmd/pmdConfigReset"><i
                         class="fa fa-gear"></i> 党费重新计算</a>
                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                         data-open-by="page"

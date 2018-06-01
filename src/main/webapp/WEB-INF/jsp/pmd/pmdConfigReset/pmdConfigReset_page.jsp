@@ -17,7 +17,7 @@
                     <form class="form-horizontal no-footer" action="${ctx}/pmd/pmdConfigReset_au" id="modalForm" method="post">
 
                         <div class="form-group">
-                            <label class="col-xs-3 control-label">选择工资月份</label>
+                            <label class="col-xs-4 control-label">选择工资月份（缴费计算基数）</label>
                             <div class="col-xs-6">
                                 <select required data-rel="select2"
                                         name="salaryMonth" data-placeholder="请选择">
@@ -28,10 +28,22 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-xs-4 control-label">是否重置支部自行设定的额度</label>
+                            <div class="col-xs-6">
+                                <input type="checkbox" class="big" name="reset"/>
+                            </div>
+                        </div>
                         <div class="clearfix form-actions">
                             <div class="text-danger bolder"
-                                 style="font-size: larger;margin-bottom: 5px;">注：两种情况不处理：1、缴费方式已设置为现金缴费。 2、当前缴费月份已缴费或已设置为延迟缴费。</div>
-                            <div class="col-md-offset-3 col-md-9">
+                                 style="font-size: larger;margin-bottom: 5px;">
+                                说明：<br/>
+                                一、两种情况不处理：
+                                1、缴费方式已设置为现金缴费。
+                                2、当前缴费月份已缴费或已设置为延迟缴费。 <br/>
+                                二、如果重置了支部自行设定的额度，那么支部自行设定的额度，需要支部进行确认操作后才可正常缴费（一般用于每年变更缴费工资月份时）
+                            </div>
+                            <div class="center">
                                 <button id="submitBtn" class="btn btn-info btn-sm"
                                         data-loading-text="<i class='fa fa-spinner fa-spin '></i> 同步数据中，请稍后"
                                         type="button">
@@ -58,6 +70,7 @@
                 <thead>
                 <tr>
                     <th class="col-xs-5">工资月份</th>
+                    <th class="col-xs-5">是否重置额度</th>
                     <th class="col-xs-5">操作人</th>
                     <th class="col-xs-5">操作时间</th>
                     <th class="col-xs-5">IP</th>
@@ -68,6 +81,9 @@
                     <c:set value="${cm:getUserById(record.userId)}" var="sysUser"/>
                     <tr>
                         <td nowrap>${cm:formatDate(record.salaryMonth, "yyyy年MM月")}</td>
+                        <td nowrap>
+                            ${record.reset?"是":"否"}
+                        </td>
                         <td nowrap>
                             ${sysUser.realname}
                         </td>
@@ -95,6 +111,7 @@
     </div>
 </div>
 <script>
+    $("#modalForm :checkbox").bootstrapSwitch();
     $('#modalForm [data-rel="select2"]').select2();
     $("#modal #submitBtn").click(function(){$("#modalForm").submit(); return false;})
     $("#modalForm").validate({

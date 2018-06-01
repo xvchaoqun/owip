@@ -2,10 +2,9 @@ package persistence.pmd;
 
 import domain.pmd.PmdConfigReset;
 import domain.pmd.PmdConfigResetExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface PmdConfigResetMapper {
     long countByExample(PmdConfigResetExample example);

@@ -10,6 +10,8 @@ public class PmdConfigReset implements Serializable {
 
     private Integer userId;
 
+    private Boolean reset;
+
     @DateTimeFormat(pattern = "yyyy.MM")
     private Date salaryMonth;
 
@@ -33,6 +35,14 @@ public class PmdConfigReset implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Boolean getReset() {
+        return reset;
+    }
+
+    public void setReset(Boolean reset) {
+        this.reset = reset;
     }
 
     public Date getSalaryMonth() {

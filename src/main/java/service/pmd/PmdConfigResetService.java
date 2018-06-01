@@ -191,7 +191,7 @@ public class PmdConfigResetService extends BaseMapper {
     // 重置党员缴费基本信息，只针对线上缴费，缴费方式已设置为现金缴费的不处理。
     @Transactional
     @CacheEvict(value = "PmdConfigMember", allEntries = true)
-    public void reset(String salaryMonth) {
+    public void reset(String salaryMonth, boolean reset) {
 
         /*{
             PmdConfigMember record = new PmdConfigMember();
@@ -215,40 +215,44 @@ public class PmdConfigResetService extends BaseMapper {
             updateDuePayByRetireSalary(ers);
         }
 
-        // 支部自行设定的额度，需要进行确认，（清除本月已设定的，但未缴费、未延迟缴费的记录的缴费额度）
-        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
-        if(currentPmdMonth!=null){
+        if(reset) {
+            // 支部自行设定的额度，需要进行确认，（清除本月已设定的，但未缴费、未延迟缴费的记录的缴费额度）
+            PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+            if (currentPmdMonth != null) {
 
-            List<Integer> configMemberTypeIdList = new ArrayList<>();
-            List<PmdNorm> pmdNormList = pmdNormService.list(PmdConstants.PMD_NORM_TYPE_PAY,
-                    PmdConstants.PMD_NORM_SET_TYPE_SET);
-            for (PmdNorm pmdNorm : pmdNormList) {
-                int normId = pmdNorm.getId();
-                PmdConfigMemberTypeExample example = new PmdConfigMemberTypeExample();
-                example.createCriteria().andNormIdEqualTo(normId);
-                List<PmdConfigMemberType> pmdConfigMemberTypes = pmdConfigMemberTypeMapper.selectByExample(example);
-                for (PmdConfigMemberType pmdConfigMemberType : pmdConfigMemberTypes) {
-                    configMemberTypeIdList.add(pmdConfigMemberType.getId());
+                List<Integer> configMemberTypeIdList = new ArrayList<>();
+                List<PmdNorm> pmdNormList = pmdNormService.list(PmdConstants.PMD_NORM_TYPE_PAY,
+                        PmdConstants.PMD_NORM_SET_TYPE_SET);
+                for (PmdNorm pmdNorm : pmdNormList) {
+                    int normId = pmdNorm.getId();
+                    PmdConfigMemberTypeExample example = new PmdConfigMemberTypeExample();
+                    example.createCriteria().andNormIdEqualTo(normId);
+                    List<PmdConfigMemberType> pmdConfigMemberTypes = pmdConfigMemberTypeMapper.selectByExample(example);
+                    for (PmdConfigMemberType pmdConfigMemberType : pmdConfigMemberTypes) {
+                        configMemberTypeIdList.add(pmdConfigMemberType.getId());
+                    }
                 }
-            }
 
-            PmdMemberExample example = new PmdMemberExample();
-            example.createCriteria().andMonthIdEqualTo(currentPmdMonth.getId())
-                    .andConfigMemberTypeIdIn(configMemberTypeIdList)
-                    .andHasPayEqualTo(false)
-                    .andIsDelayEqualTo(false)
-                    .andIsOnlinePayEqualTo(true); // 只针对线上缴费
-            List<PmdMember> pmdMembers = pmdMemberMapper.selectByExample(example);
-            for (PmdMember pmdMember : pmdMembers) {
-                pmdConfigMemberService.clearPmdMemberDuePay(pmdMember.getUserId());
+                PmdMemberExample example = new PmdMemberExample();
+                example.createCriteria().andMonthIdEqualTo(currentPmdMonth.getId())
+                        .andConfigMemberTypeIdIn(configMemberTypeIdList)
+                        .andHasPayEqualTo(false)
+                        .andIsDelayEqualTo(false)
+                        .andIsOnlinePayEqualTo(true); // 只针对线上缴费
+                List<PmdMember> pmdMembers = pmdMemberMapper.selectByExample(example);
+                for (PmdMember pmdMember : pmdMembers) {
+                    pmdConfigMemberService.clearPmdMemberDuePay(pmdMember.getUserId());
+                }
             }
         }
 
         PmdConfigReset record = new PmdConfigReset();
         record.setUserId(ShiroHelper.getCurrentUserId());
+        record.setReset(reset);
         record.setSalaryMonth(DateUtils.parseDate(salaryMonth, "yyyyMM"));
         record.setCreateTime(new Date());
         record.setIp(ContextHelper.getRealIp());
+
         pmdConfigResetMapper.insertSelective(record);
     }
 
