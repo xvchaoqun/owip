@@ -3,7 +3,6 @@ package service.cet;
 import domain.cadre.CadreView;
 import domain.cet.CetProject;
 import domain.cet.CetProjectObj;
-import domain.cet.CetProjectObjExample;
 import domain.cet.CetProjectPlan;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
@@ -77,9 +76,8 @@ public class CetExportService extends BaseMapper {
         }
 
 
-        CetProjectObjExample example = new CetProjectObjExample();
-        example.createCriteria().andProjectIdEqualTo(projectId);
-        List<CetProjectObj> cetProjectObjs = cetProjectObjMapper.selectByExample(example);
+        List<CetProjectObj> cetProjectObjs = cetProjectObjService.cetProjectObjs(projectId);
+        Map<Integer, Map<Integer, BigDecimal>> objFinishPeriodMap = cetProjectObjService.getObjFinishPeriodMap(projectId);
 
         int startRow = 2;
         int rowCount = cetProjectObjs.size();
@@ -108,7 +106,7 @@ public class CetExportService extends BaseMapper {
             cell = row.getCell(column++);
             cell.setCellValue(cv==null?"":StringUtils.trimToEmpty(cv.getTitle()));
 
-            Map<Integer, BigDecimal> periodMap = cetProjectObjService.getFinishPeriod(projectId, cetProjectObj.getId());
+            Map<Integer, BigDecimal> periodMap = objFinishPeriodMap.get(cetProjectObj.getId());
 
             cell = row.getCell(column++);
             BigDecimal total = periodMap.get(0);
@@ -117,7 +115,7 @@ public class CetExportService extends BaseMapper {
             for (BigDecimal period : periodMap.values()) {
                 cell = row.getCell(column++);
                 if(cell != null)
-                    cell.setCellValue(period==null?"-":period.stripTrailingZeros().toPlainString());
+                    cell.setCellValue(period==null?"":period.stripTrailingZeros().toPlainString());
             }
         }
 
