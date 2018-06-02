@@ -105,7 +105,8 @@
                 if(!rowObject.isRequireCheckPass
                         && rowObject.requireCheckStatus
                         ==${CRS_APPLICANT_REQUIRE_CHECK_STATUS_UNPASS}) return "资格审核未通过"
-                if(rowObject.isRequireCheckPass) return "参加招聘会"
+                if(rowObject.isRequireCheckPass) return "参加招聘会" + '&nbsp;<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply_notice?postId={0}"><i class="fa fa-search"></i> 详情</button>'
+                                .format(rowObject.id)
 
                 return "已报名"
             }},
