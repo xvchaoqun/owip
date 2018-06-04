@@ -1,6 +1,7 @@
 package service.sys;
 
 import bean.LoginUser;
+import domain.sys.SysConfig;
 import domain.sys.SysLoginLog;
 import domain.sys.SysLoginLogExample;
 import org.apache.ibatis.session.RowBounds;
@@ -8,6 +9,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,30 @@ import java.util.List;
 public class SysLoginLogService extends BaseMapper {
 
     @Autowired
+    private SysConfigService sysConfigService;
+    @Autowired
     private SessionDAO sessionDAO;
+
+    // 给登录用户设置登录超时
+    public void setTimeout(Subject subject){
+
+        if(subject==null) return;
+
+        SysConfig sysConfig = sysConfigService.get();
+        Integer loginTimeout = sysConfig.getLoginTimeout(); // 系统设置的登录超时
+
+        ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
+        if(shiroUser==null) return;
+
+        Integer timeout = shiroUser.getTimeout(); // 给单个用户设置的登录超时
+        if(timeout!=null && timeout>0){
+
+            subject.getSession().setTimeout(timeout*60*1000);
+        }else if(loginTimeout!=null && loginTimeout>0){
+
+            subject.getSession().setTimeout(loginTimeout*60*1000);
+        }
+    }
 
     // 记录当前用户登录日记 , 如果没登录成功，那么userId=null
     public String log(Integer userId, String username, byte type, boolean isSuccess, String remark) {

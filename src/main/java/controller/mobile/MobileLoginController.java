@@ -65,6 +65,8 @@ public class MobileLoginController extends BaseController {
 			successUrl = savedRequest.getRequestUrl();
 		}
 
+		sysLoginLogService.setTimeout(SecurityUtils.getSubject());
+
 		logger.info(sysLoginLogService.log(ShiroHelper.getCurrentUserId(), username,
 				SystemConstants.LOGIN_TYPE_MOBILE, true, "登录成功"));
 

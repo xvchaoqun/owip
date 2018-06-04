@@ -3,6 +3,7 @@ package controller.global;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ThreadContext;
@@ -51,6 +52,8 @@ public class CasController {
                 builder.authenticated(true);
                 WebSubject subject = builder.buildWebSubject();
                 ThreadContext.bind(subject);
+
+                sysLoginLogService.setTimeout(SecurityUtils.getSubject());
 
                 logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
                         SystemConstants.LOGIN_TYPE_CAS, true, "登录成功"));
