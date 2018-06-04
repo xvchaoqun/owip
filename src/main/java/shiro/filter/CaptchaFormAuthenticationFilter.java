@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.SpringProps;
-import service.sys.SysConfigService;
 import service.sys.SysLoginLogService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
@@ -37,8 +36,6 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
 
     @Autowired
     private SysLoginLogService sysLoginLogService;
-    @Autowired
-    private SysConfigService sysConfigService;
     @Autowired
     private SpringProps springProps;
 
