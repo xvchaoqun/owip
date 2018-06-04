@@ -24,6 +24,8 @@ public class SysUserView implements Serializable {
 
     private Boolean locked;
 
+    private Integer timeout;
+
     private Integer userId;
 
     private String realname;
@@ -142,6 +144,14 @@ public class SysUserView implements Serializable {
 
     public void setLocked(Boolean locked) {
         this.locked = locked;
+    }
+
+    public Integer getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Integer timeout) {
+        this.timeout = timeout;
     }
 
     public Integer getUserId() {

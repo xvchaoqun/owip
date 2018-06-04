@@ -236,6 +236,15 @@
                            name="displayLoginMsg" ${(sysConfig.displayLoginMsg)?"checked":""}/>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">账号登录超时（分钟）</label>
+                <div class="col-xs-6">
+                    <input class="form-control digits" type="text" name="loginTimeout" value="${sysConfig.loginTimeout}">
+
+                    <fmt:message key="global.session.timeout" bundle="${spring}" var="_timeout"/>
+                    <span class="help-block">* 留空则使用系统默认的时间（${cm:stripTrailingZeros(_timeout/(60*1000))}分钟）</span>
+                </div>
+            </div>
         </form>
 
         <div class="clearfix form-actions center">

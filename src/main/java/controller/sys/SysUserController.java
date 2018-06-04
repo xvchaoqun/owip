@@ -207,7 +207,10 @@ public class SysUserController extends BaseController {
                 sysUser.setSalt(encrypt.getSalt());
                 sysUser.setPasswd(encrypt.getPassword());
             }
-            //SysUser oldSysUser = sysUserMapper.selectByPrimaryKey(id);
+
+            if(sysUser.getTimeout()==null){
+                commonMapper.excuteSql("update sys_user set timeout=null where id="+ id);
+            }
             sysUserService.updateByPrimaryKeySelective(sysUser);
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新用户：%s", sysUser.getId()));
         }
@@ -234,7 +237,7 @@ public class SysUserController extends BaseController {
     public Map do_sysUserInfo_au(int userId, SysUserInfo record, MultipartFile _avatar) throws IOException {
 
         record.setUserId(userId);
-        SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
+        //SysUser sysUser = sysUserMapper.selectByPrimaryKey(userId);
         String avatar = avatarService.uploadAvatar(_avatar);
         record.setAvatar(avatar);
 
@@ -341,7 +344,7 @@ public class SysUserController extends BaseController {
 		}*/
 
         List<SysUser> sysUsers = sysUserMapper.selectByExample(example);
-        int rownum = sysUserMapper.countByExample(example);
+        long rownum = sysUserMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();

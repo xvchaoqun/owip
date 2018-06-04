@@ -1,6 +1,7 @@
 package shiro.filter;
 
 import controller.BaseController;
+import domain.sys.SysConfig;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.SpringProps;
+import service.sys.SysConfigService;
 import service.sys.SysLoginLogService;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
@@ -36,6 +38,8 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
 
     @Autowired
     private SysLoginLogService sysLoginLogService;
+    @Autowired
+    private SysConfigService sysConfigService;
     @Autowired
     private SpringProps springProps;
 
@@ -129,7 +133,20 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
             JSONUtils.write((HttpServletResponse) response, resultMap);
         }
 
+        SysConfig sysConfig = sysConfigService.get();
+        Integer loginTimeout = sysConfig.getLoginTimeout(); // 系统设置的登录超时
+
         ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
+        Integer timeout = shiroUser.getTimeout(); // 给单个用户设置的登录超时
+
+        if(timeout!=null && timeout>0){
+
+            subject.getSession().setTimeout(timeout*60*1000);
+        }else if(loginTimeout!=null && loginTimeout>0){
+
+            subject.getSession().setTimeout(loginTimeout*60*1000);
+        }
+
         logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
                 SystemConstants.LOGIN_TYPE_NET, true,  "登录成功" + (isRememberMe(request) ? "(下次自动登录)" : "")));
         return false;

@@ -1,4 +1,18 @@
 
+
+2018-6-5
+
+ALTER TABLE `sys_user`
+	ADD COLUMN `timeout` INT UNSIGNED NULL COMMENT '登录超时，单位分钟' AFTER `locked`;
+
+	ALTER TABLE `sys_config`
+	ADD COLUMN `login_timeout` INT UNSIGNED NULL DEFAULT NULL COMMENT '登录超时，单位分钟' AFTER `cadre_template_fs_note`;
+
+更新 sys_user_view
+
+需要清空 ehcache
+
+
 2018-6-4
 
 更新utils

@@ -59,6 +59,8 @@ public class SysConfig implements Serializable {
 
     private String cadreTemplateFsNote;
 
+    private Integer loginTimeout;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -283,5 +285,13 @@ public class SysConfig implements Serializable {
 
     public void setCadreTemplateFsNote(String cadreTemplateFsNote) {
         this.cadreTemplateFsNote = cadreTemplateFsNote == null ? null : cadreTemplateFsNote.trim();
+    }
+
+    public Integer getLoginTimeout() {
+        return loginTimeout;
+    }
+
+    public void setLoginTimeout(Integer loginTimeout) {
+        this.loginTimeout = loginTimeout;
     }
 }

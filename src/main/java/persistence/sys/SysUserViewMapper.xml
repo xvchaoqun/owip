@@ -12,6 +12,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="source" jdbcType="TINYINT" property="source" />
     <result column="locked" jdbcType="BIT" property="locked" />
+    <result column="timeout" jdbcType="INTEGER" property="timeout" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="idcard" jdbcType="VARCHAR" property="idcard" />
@@ -62,8 +63,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, username, passwd, salt, role_ids, code, type, create_time, source, locked, user_id, 
-    realname, idcard, birth, avatar, avatar_upload_time, gender, nation, native_place, 
+    id, username, passwd, salt, role_ids, code, type, create_time, source, locked, timeout, 
+    user_id, realname, idcard, birth, avatar, avatar_upload_time, gender, nation, native_place, 
     homeplace, household, specialty, health, sign, mobile, phone, home_phone, email, 
     msg_title
   </sql>

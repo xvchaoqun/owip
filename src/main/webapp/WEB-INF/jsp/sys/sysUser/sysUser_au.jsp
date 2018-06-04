@@ -48,6 +48,15 @@
 			   <input required class="form-control" type="text" name="code" value="${sysUser.code}">
           </div>
         </div>
+    	<div class="form-group">
+          <label class="col-xs-3 control-label">登录超时(单位分钟)</label>
+          <div class="col-xs-6">
+			   <input class="form-control digits" type="text" name="timeout" value="${sysUser.timeout}">
+
+			  <fmt:message key="global.session.timeout" bundle="${spring}" var="_timeout"/>
+			  <span class="help-block">* 留空则使用系统默认的时间（${not empty _sysConfig.loginTimeout?_sysConfig.loginTimeout:cm:stripTrailingZeros(_timeout/(60*1000))}分钟）</span>
+          </div>
+        </div>
         </form>
   </div>
   <div class="modal-footer">

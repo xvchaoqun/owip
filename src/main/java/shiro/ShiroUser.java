@@ -17,6 +17,7 @@ public class ShiroUser implements Serializable {
     private String code;
     private String realname;
     private Byte type;
+    private Integer timeout; // 登录超时，单位分钟
 
     private transient Set<String> roles;
     // 网站权限
@@ -29,12 +30,16 @@ public class ShiroUser implements Serializable {
     @JsonIgnore
     private transient ApproverTypeBean approverTypeBean; // 干部审批权限
 
-    public ShiroUser(Integer id, String username, String code, String realname, Byte type) {
+    public ShiroUser(Integer id, String username,
+                     String code,
+                     String realname,
+                     Byte type, Integer timeout) {
         this.id = id;
         this.username = username;
         this.code = code;
         this.realname = realname;
         this.type = type;
+        this.timeout = timeout;
     }
 
     public Integer getId() {
@@ -77,6 +82,13 @@ public class ShiroUser implements Serializable {
         this.type = type;
     }
 
+    public Integer getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Integer timeout) {
+        this.timeout = timeout;
+    }
 
     public void setRoles(Set<String> roles) {
 

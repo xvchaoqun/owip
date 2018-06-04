@@ -24,6 +24,8 @@ public class SysUser implements Serializable {
 
     private Boolean locked;
 
+    private Integer timeout;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -104,5 +106,13 @@ public class SysUser implements Serializable {
 
     public void setLocked(Boolean locked) {
         this.locked = locked;
+    }
+
+    public Integer getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Integer timeout) {
+        this.timeout = timeout;
     }
 }

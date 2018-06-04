@@ -49,7 +49,8 @@ public class SysResourceServiceTest {
 
         int userId = 672;//李晓兵
         SysUserView uv = sysUserService.findById(userId);
-        ShiroUser shiroUser = new ShiroUser(userId, uv.getUsername(), uv.getCode(), uv.getRealname(), uv.getType());
+        ShiroUser shiroUser = new ShiroUser(userId, uv.getUsername(),
+                uv.getCode(), uv.getRealname(), uv.getType(), uv.getTimeout());
         Set<String> ownPermissions = shiroUser.getPermissions();
        /* for (String permission : ownPermissions) {
             System.out.println(permission);

@@ -51,6 +51,10 @@ public class SysConfigService extends BaseMapper {
         } else {
             record.setId(sysConfig.getId());
             sysConfigMapper.updateByPrimaryKeySelective(record);
+
+            if(record.getLoginTimeout()==null){
+                commonMapper.excuteSql("update sys_config set login_timeout=null where id="+ sysConfig.getId());
+            }
         }
 
         // 拷贝图片

@@ -2033,6 +2033,66 @@ public class SysConfigExample {
             addCriterion("cadre_template_fs_note not between", value1, value2, "cadreTemplateFsNote");
             return (Criteria) this;
         }
+
+        public Criteria andLoginTimeoutIsNull() {
+            addCriterion("login_timeout is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTimeoutIsNotNull() {
+            addCriterion("login_timeout is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTimeoutEqualTo(Integer value) {
+            addCriterion("login_timeout =", value, "loginTimeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTimeoutNotEqualTo(Integer value) {
+            addCriterion("login_timeout <>", value, "loginTimeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTimeoutGreaterThan(Integer value) {
+            addCriterion("login_timeout >", value, "loginTimeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTimeoutGreaterThanOrEqualTo(Integer value) {
+            addCriterion("login_timeout >=", value, "loginTimeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTimeoutLessThan(Integer value) {
+            addCriterion("login_timeout <", value, "loginTimeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTimeoutLessThanOrEqualTo(Integer value) {
+            addCriterion("login_timeout <=", value, "loginTimeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTimeoutIn(List<Integer> values) {
+            addCriterion("login_timeout in", values, "loginTimeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTimeoutNotIn(List<Integer> values) {
+            addCriterion("login_timeout not in", values, "loginTimeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTimeoutBetween(Integer value1, Integer value2) {
+            addCriterion("login_timeout between", value1, value2, "loginTimeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoginTimeoutNotBetween(Integer value1, Integer value2) {
+            addCriterion("login_timeout not between", value1, value2, "loginTimeout");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

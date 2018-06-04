@@ -43,7 +43,7 @@ public class CasController {
             if (uv != null && BooleanUtils.isFalse(uv.getLocked())) {  // 系统中存在这个用户（且状态正常）才处理
 
                 ShiroUser shiroUser = new ShiroUser(uv.getId(), uv.getUsername(), uv.getCode(),
-                        uv.getRealname(), uv.getType());
+                        uv.getRealname(), uv.getType(), uv.getTimeout());
                 PrincipalCollection principals = new SimplePrincipalCollection(
                         shiroUser, "casRealm");
                 WebSubject.Builder builder = new WebSubject.Builder(request, response);

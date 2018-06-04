@@ -45,7 +45,7 @@ public class ImportTest {
         String code = "T" + RandomStringUtils.randomNumeric(7);
         SysUserExample example = new SysUserExample();
         example.createCriteria().andCodeEqualTo(code);
-        int count = sysUserMapper.countByExample(example);
+        long count = sysUserMapper.countByExample(example);
 
         return (count==0)?code:genCode();
     }

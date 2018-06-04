@@ -156,6 +156,7 @@
         border: none!important;
     }
 </style>
+<fmt:message key="global.session.timeout" bundle="${spring}" var="_timeout"/>
 <script>
     $("#jqGrid").jqGrid({
         //forceFit:true,
@@ -199,6 +200,14 @@
             } },
             { label: '状态', name: 'lockedName', width: 60, formatter:function(cellvalue, options, rowObject){
                 return (rowObject.locked)?"禁用":"正常";
+            } },
+            { label: '登录超时(分钟)', name: 'timeout', width: 120, formatter:function(cellvalue, options, rowObject){
+
+                if(rowObject.timeout>0) return rowObject.timeout;
+                var loginTimeout = parseInt('${_sysConfig.loginTimeout}');
+                if(loginTimeout>0) return loginTimeout;
+
+                return '${cm:stripTrailingZeros(_timeout/(60*1000))}';
             } },
             { label:'创建时间', name: 'createTime', width: 150 },
             {  hidden:true, name: 'locked',formatter:function(cellvalue, options, rowObject){

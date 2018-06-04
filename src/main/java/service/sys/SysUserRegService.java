@@ -156,7 +156,7 @@ public class SysUserRegService extends BaseMapper {
         String code = "ZG" + RandomStringUtils.randomNumeric(6);
         SysUserExample example = new SysUserExample();
         example.createCriteria().andCodeEqualTo(code);
-        int count = sysUserMapper.countByExample(example);
+        long count = sysUserMapper.countByExample(example);
 
         return (count==0)?code:genCode();
     }

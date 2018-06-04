@@ -754,6 +754,66 @@ public class SysUserExample {
             addCriterion("locked not between", value1, value2, "locked");
             return (Criteria) this;
         }
+
+        public Criteria andTimeoutIsNull() {
+            addCriterion("timeout is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeoutIsNotNull() {
+            addCriterion("timeout is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeoutEqualTo(Integer value) {
+            addCriterion("timeout =", value, "timeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeoutNotEqualTo(Integer value) {
+            addCriterion("timeout <>", value, "timeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeoutGreaterThan(Integer value) {
+            addCriterion("timeout >", value, "timeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeoutGreaterThanOrEqualTo(Integer value) {
+            addCriterion("timeout >=", value, "timeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeoutLessThan(Integer value) {
+            addCriterion("timeout <", value, "timeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeoutLessThanOrEqualTo(Integer value) {
+            addCriterion("timeout <=", value, "timeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeoutIn(List<Integer> values) {
+            addCriterion("timeout in", values, "timeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeoutNotIn(List<Integer> values) {
+            addCriterion("timeout not in", values, "timeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeoutBetween(Integer value1, Integer value2) {
+            addCriterion("timeout between", value1, value2, "timeout");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeoutNotBetween(Integer value1, Integer value2) {
+            addCriterion("timeout not between", value1, value2, "timeout");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
