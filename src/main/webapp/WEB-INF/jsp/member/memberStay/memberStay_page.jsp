@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD" value="<%=SystemConstants.JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD%>"/>
+<c:set var="JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL" value="<%=SystemConstants.JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL%>"/>
+<c:set var="MEMBER_STAY_STATUS_BACK" value="<%=MemberConstants.MEMBER_STAY_STATUS_BACK%>"/>
+<c:set var="MEMBER_STAY_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY%>"/>
+<c:set var="MEMBER_STAY_TYPE_ABROAD" value="<%=MemberConstants.MEMBER_STAY_TYPE_ABROAD%>"/>
+<c:set var="MEMBER_STAY_TYPE_INTERNAL" value="<%=MemberConstants.MEMBER_STAY_TYPE_INTERNAL%>"/>
+
 <div class="row">
     <div class="col-xs-12">
 
@@ -183,7 +190,7 @@
 
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog"
-                                        data-querystr="&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY}"
+                                        data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY%>"
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
@@ -302,7 +309,7 @@
                                                 <div class="input-group">
                                                     <select name="status" data-rel="select2" data-placeholder="请选择">
                                                         <option></option>
-                                                        <c:forEach var="_status" items="${MEMBER_STAY_STATUS_MAP}">
+                                                        <c:forEach var="_status" items="<%=MemberConstants.MEMBER_STAY_STATUS_MAP%>">
                                                             <c:if test="${_status.key>MEMBER_STAY_STATUS_BACK && _status.key<MEMBER_STAY_STATUS_OW_VERIFY}">
                                                                 <option value="${_status.key}">${_status.value}</option>
                                                             </c:if>
@@ -559,9 +566,9 @@
             } else if (ids.length == 1) {
 
                 var rowData = $(this).getRowData(ids[0]);
-                $("#branchApprovalBtn").prop("disabled", rowData.status != "${MEMBER_STAY_STATUS_APPLY}");
-                $("#partyApprovalBtn").prop("disabled", rowData.status != "${MEMBER_STAY_STATUS_BRANCH_VERIFY}");
-                $("#odApprovalBtn").prop("disabled", rowData.status != "${MEMBER_STAY_STATUS_PARTY_VERIFY}");
+                $("#branchApprovalBtn").prop("disabled", rowData.status != "<%=MemberConstants.MEMBER_STAY_STATUS_APPLY%>");
+                $("#partyApprovalBtn").prop("disabled", rowData.status != "<%=MemberConstants.MEMBER_STAY_STATUS_BRANCH_VERIFY%>");
+                $("#odApprovalBtn").prop("disabled", rowData.status != "<%=MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY%>");
             } else {
                 $("*[data-count]").each(function () {
                     $(this).prop("disabled", $(this).data("count") == 0);

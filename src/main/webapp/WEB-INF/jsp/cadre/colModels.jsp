@@ -31,20 +31,9 @@
         {label: '身份证号', name: 'idcard', width: 170},
         {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
-        {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
-        {
-            label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return cellvalue.substr(0, 10);
-        }
-        },
-        {
-            label: '党龄', name: '_growBirth', width: 50,
-            formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.cadreGrowTime == undefined) return '-';
-                return $.yearOffNow(rowObject.cadreGrowTime);
-            }
-        },
+        {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
+        {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
+        {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
         {
             label: '参加工作时间', name: 'workTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
         },
@@ -236,13 +225,8 @@
         },
         {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
         {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
-        {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
-        {
-            label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return cellvalue.substr(0, 10);
-        }
-        },
+        {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
+        {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
         {label: '联系方式', name: 'mobile', width: 120},
         {label: '电子邮箱', name: 'email', width: 150}
     ];
@@ -572,7 +556,7 @@
             label: '兼职类型', name: 'type', width: 140, formatter: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '';
             var ret = _cMap.CADRE_COMPANY_TYPE_MAP[cellvalue];
-            if (cellvalue == '${CADRE_COMPANY_TYPE_OTHER}') {
+            if (cellvalue == '<%=CadreConstants.CADRE_COMPANY_TYPE_OTHER%>') {
                 if (rowObject.typeOther != '') {
                     ret = ret + ":" + rowObject.typeOther;
                 }
@@ -622,7 +606,7 @@
         {
             label: '考察主体', name: '_inspectorType', formatter: function (cellvalue, options, rowObject) {
             var type = _cMap.CIS_INSPECTOR_TYPE_MAP[rowObject.inspectorType];
-            if (rowObject.inspectorType == '${CIS_INSPECTOR_TYPE_OTHER}') {
+            if (rowObject.inspectorType == '<%=CisConstants.CIS_INSPECTOR_TYPE_OTHER%>') {
                 type += "：" + rowObject.otherInspectorType;
             }
             return type;
@@ -631,7 +615,7 @@
         {label: '考察组负责人', name: 'chiefInspector.realname', width: 120},
         {
             label: '考察组成员', name: 'inspectors', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.inspectorType == '${CIS_INSPECTOR_TYPE_OTHER}') return '-'
+            if (rowObject.inspectorType == '<%=CisConstants.CIS_INSPECTOR_TYPE_OTHER%>') return '-'
             if (cellvalue == undefined || cellvalue.length == 0) return '';
             var names = []
             cellvalue.forEach(function(inspector, i){
@@ -716,11 +700,11 @@
         {
             label: '委派单位', name: 'toUnitType', formatter: function (cellvalue, options, rowObject) {
 
-            if(rowObject.type=='${CRP_RECORD_TYPE_IN}'){
+            if(rowObject.type=='<%=CrpConstants.CRP_RECORD_TYPE_IN%>'){
                 return rowObject.toUnit;
             }
 
-            if(rowObject.type=='${CRP_RECORD_TYPE_OUT}'){
+            if(rowObject.type=='<%=CrpConstants.CRP_RECORD_TYPE_OUT%>'){
                 if (cellvalue == undefined) return '-';
                 return _cMap.metaTypeMap[cellvalue].name +
                         ((cellvalue == '${cm:getMetaTypeByCode("mt_temppost_out_unit_other").id}') ? ("：" + rowObject.toUnit) : "");
@@ -730,7 +714,7 @@
         {
             label: '挂职类别', name: 'tempPostType', formatter: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '-';
-            var postCodeOther = (rowObject.type=='${CRP_RECORD_TYPE_IN}')?
+            var postCodeOther = (rowObject.type=='<%=CrpConstants.CRP_RECORD_TYPE_IN%>')?
                     '${cm:getMetaTypeByCode("mt_temppost_in_post_other").id}':
                     '${cm:getMetaTypeByCode("mt_temppost_out_post_other").id}';
             return _cMap.metaTypeMap[cellvalue].name +

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
@@ -14,7 +15,7 @@
                     <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/abroad/applySelf_au"><i class="fa fa-plus"></i> 申请因私出国（境）</a>
                     <a class="popupBtn btn btn-info btn-sm"
                        data-width="650"
-                       data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_APPLY_SELF_NOTE}">
+                       data-url="${ctx}/hf_content?code=<%=SystemConstants.HTML_FRAGMENT_APPLY_SELF_NOTE%>">
                         <i class="fa fa-info-circle"></i> 申请说明</a>
                     <button class="jqOpenViewBtn btn btn-warning btn-sm"
                             data-url="${ctx}/user/abroad/applySelf_view"

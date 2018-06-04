@@ -2752,7 +2752,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${growTime!}</w:t>
+									<w:t><#if dpPartyName??>${dpPartyName!}<#if isOw><w:br/>(${owGrowTime!})</#if><#else><#if isOw>${owGrowTime!}</#if></#if></w:t>
 								</w:r>
 							</w:p>
 						</w:tc>

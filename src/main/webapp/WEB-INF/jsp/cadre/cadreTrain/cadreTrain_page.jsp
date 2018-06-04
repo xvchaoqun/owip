@@ -21,7 +21,7 @@
 
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
-           data-url="${ctx}/hf_content?code=${HF_CADRE_TRAIN}">
+           data-url="${ctx}/hf_content?code=hf_cadre_train">
             <i class="fa fa-info-circle"></i> 填写说明</a>
         <shiro:hasPermission name="cadreTrain:edit">
             <button class="popupBtn btn btn-success btn-sm"
@@ -116,7 +116,7 @@
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
                 content: ke.html(),
-                type:"${CADRE_INFO_TYPE_TRAIN}"
+                type:"<%=CadreConstants.CADRE_INFO_TYPE_TRAIN%>"
             }, function (ret) {
                 if (ret.success) {
                     _innerPage(2, function () {

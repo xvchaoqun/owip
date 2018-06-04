@@ -1,6 +1,5 @@
 package service.cadreInspect;
 
-import persistence.dispatch.common.DispatchCadreRelateBean;
 import domain.base.MetaType;
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadrePost;
@@ -24,6 +23,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import persistence.dispatch.common.DispatchCadreRelateBean;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadrePostService;
@@ -35,7 +35,6 @@ import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
-import sys.utils.NumberUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -188,15 +187,10 @@ public class CadreInspectExportService extends BaseMapper {
                 }
             }
 
-            String partyName = "";// 党派
-            String partyAddTime = DateUtils.formatDate(record.getCadreGrowTime(), DateUtils.YYYY_MM_DD);
-
-            if(NumberUtils.longEqual(record.getCadreDpType(), 0L)){
-                partyName = "中共党员";
-            }else if(record.getCadreDpType()!=null ){
-                MetaType metaType = metaTypeMap.get(record.getCadreDpType().intValue());
-                if(metaType!=null) partyName = metaType.getName();
-            }
+            Map<String, String> cadreParty = CmTag.getCadreParty(record.getIsOw(), record.getOwGrowTime(), "中共党员",
+                    record.getDpTypeId(), record.getDpGrowTime(), true);
+            String partyName = cadreParty.get("partyName");
+            String partyAddTime = cadreParty.get("growTime");
 
             String postDispatchCode = ""; // 现职务任命文件
             String postTime = ""; // 任现职时间
@@ -304,8 +298,8 @@ public class CadreInspectExportService extends BaseMapper {
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
 
                     DateUtils.calAge(record.getBirth()),
-                    partyName,
-                    partyAddTime,
+                    StringUtils.trimToEmpty(partyName),
+                    StringUtils.trimToEmpty(partyAddTime),
                     "", //参加工作时间
                     DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD),
 

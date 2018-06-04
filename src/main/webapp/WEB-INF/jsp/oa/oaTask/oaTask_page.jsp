@@ -90,7 +90,7 @@
                                                     data-width="150"
                                                     data-placeholder="请选择">
                                                 <option></option>
-                                                <c:forEach items="${OA_TASK_TYPE_MAP}" var="type">
+                                                <c:forEach items="<%=OaConstants.OA_TASK_TYPE_MAP%>" var="type">
                                                     <option value="${type.key}">${type.value}</option>
                                                 </c:forEach>
                                             </select>

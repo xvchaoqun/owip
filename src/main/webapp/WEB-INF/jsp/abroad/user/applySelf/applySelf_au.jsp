@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
 <div class="tabbable">
 	<ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
 		<div style="margin-bottom: 8px">

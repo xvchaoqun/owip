@@ -80,7 +80,7 @@
             {label: '备注', name: 'remark', width: 500}
         ],
         rowattr: function (rowData, currentObj, rowId) {
-            if (rowData.status == '${VERIFY_STATUS_DEL}') {
+            if (rowData.status == '<%=VerifyConstants.VERIFY_STATUS_DEL%>') {
                 //console.log(rowData)
                 return {'class': 'danger'}
             }

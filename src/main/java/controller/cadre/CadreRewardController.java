@@ -66,6 +66,11 @@ public class CadreRewardController extends BaseController {
 
             CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_REWARD_OTHER);
             modelMap.put("cadreInfo", cadreInfo);
+        }else if (type == 3) {
+
+            modelMap.put("cadreRewards", cadreRewardService.list(cadreId));
+            CadreInfo cadreInfo = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_REWARD);
+            modelMap.put("cadreInfo", cadreInfo);
         }else{
             String name = "reward";
             modelMap.put("canUpdateInfoCheck", cadreInfoCheckService.canUpdateInfoCheck(cadreId, name));

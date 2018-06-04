@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="OW_APPLY_STAGE_MAP" value="<%=OwConstants.OW_APPLY_STAGE_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content">
@@ -113,7 +114,7 @@ pageEncoding="UTF-8" %>
 <script>
     $("#jqGrid").jqGrid({
         multiselect:false,
-        url: "${ctx}/applyApprovalLog_data?callback=?&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY}&${cm:encodeQueryString(pageContext.request.queryString)}",
+        url: "${ctx}/applyApprovalLog_data?callback=?&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY%>&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel: [
             {label: '${type==1?"学生证号":"工作证号"}', name: 'applyUser.code', width: 150, frozen:true},
             {label: '姓名', name: 'applyUser.realname', width: 100, frozen:true},

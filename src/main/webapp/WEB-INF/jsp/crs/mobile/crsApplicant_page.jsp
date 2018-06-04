@@ -81,8 +81,12 @@
                                 </c:if>
                             </td>
                             <td>${cadre.nation}</td>
-                            <td>${cm:cadreParty(cadre.cadreDpType, false, '中共党员')}</td>
-                            <td>${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}</td>
+                            <td>
+                                    ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}
+                            </td>
+                            <td>
+                                    ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}
+                            </td>
                             <td>${cm:getMetaType(cadre.eduId).name}</td>
                             <td>${cadre.school}</td>
                             <td>${cadre.major}</td>

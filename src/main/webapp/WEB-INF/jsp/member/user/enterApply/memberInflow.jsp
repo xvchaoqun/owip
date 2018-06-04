@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="MEMBER_INFLOW_STATUS_BACK" value="<%=MemberConstants.MEMBER_INFLOW_STATUS_BACK%>"/>
+
 <div style="padding-top: 50px;"></div>
 <c:if test="${memberInflow.inflowStatus==MEMBER_INFLOW_STATUS_BACK}">
     <div class="alert alert-danger">

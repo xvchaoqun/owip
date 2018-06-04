@@ -682,7 +682,7 @@ $(document).on("click", ".jqOpenViewBatchBtn", function () {
     var url = $(this).data("url");
     var queryString = $(this).data("querystr");
     if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
-    url += (url.indexOf("?") > 0 ? "&" : "?") + idsName + "=" + ids;
+    url += (url.indexOf("?") > 0 ? "&" : "?") + encodeURI(idsName) + "=" + ids;
 
     if (openBy == 'page') {
         var $container = $("#body-content");
@@ -739,7 +739,7 @@ $(document).on("click", ".jqLinkBtn", function (e) {
     var url = $(this).data("url");
     var queryString = $(this).data("querystr");
     if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
-    url += (url.indexOf("?") > 0 ? "&" : "?") + idsName + "=" + ids;
+    url += (url.indexOf("?") > 0 ? "&" : "?") + encodeURI(idsName) + "=" + ids;
 
     var target = $(this).data("target");
     window.open(url, target || '_self', '');
@@ -799,7 +799,7 @@ $(document).on("click", ".jqExportBtn", function () {
     if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
 
     var searchFormId = $this.data("search-form-id") || "div.myTableDiv #searchForm";
-    location.href = url + (url.indexOf("?") > 0 ? "&" : "?") + "export=1&ids[]=" + ids + "&" + $(searchFormId).serialize();
+    location.href = url + (url.indexOf("?") > 0 ? "&" : "?") + "export=1&"+ encodeURI('ids[]')+"=" + ids + "&" + $(searchFormId).serialize();
 });
 
 // 批量操作 for jqgrid

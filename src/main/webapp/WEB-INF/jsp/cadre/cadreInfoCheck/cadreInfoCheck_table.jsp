@@ -1,5 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="/WEB-INF/jsp/modify/constants.jsp"%>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_RESEARCH%>" var="CADRE_INFO_TYPE_RESEARCH"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY%>" var="CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY%>" var="CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_RESEARCH_REWARD%>" var="CADRE_INFO_TYPE_RESEARCH_REWARD"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_PAPER_SUMMARY%>" var="CADRE_INFO_TYPE_PAPER_SUMMARY"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_BOOK_SUMMARY%>" var="CADRE_INFO_TYPE_BOOK_SUMMARY"/>
+
+<c:set var="CADRE_REWARD_TYPE_OTHER" value="<%=CadreConstants.CADRE_REWARD_TYPE_OTHER%>"/>
+<c:set var="CADRE_REWARD_TYPE_RESEARCH" value="<%=CadreConstants.CADRE_REWARD_TYPE_RESEARCH%>"/>
+<c:set var="CADRE_REWARD_TYPE_TEACH" value="<%=CadreConstants.CADRE_REWARD_TYPE_TEACH%>"/>
+<c:set var="CADRE_RESEARCH_TYPE_DIRECT" value="<%=CadreConstants.CADRE_RESEARCH_TYPE_DIRECT%>"/>
+<c:set var="CADRE_RESEARCH_TYPE_IN" value="<%=CadreConstants.CADRE_RESEARCH_TYPE_IN%>"/>
+
+<c:set value="<%=CadreConstants.CADRE_INFO_CHECK_RESULT_NOT_EXIST%>" var="CADRE_INFO_CHECK_RESULT_NOT_EXIST"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST%>" var="CADRE_INFO_CHECK_RESULT_EXIST"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_CHECK_RESULT_MAP%>" var="CADRE_INFO_CHECK_RESULT_MAP"/>
+
 <c:set var="toEdit" value="${hasDirectModifyCadreAuth || cm:isPermitted(PERMISSION_CADREADMIN)}"/>
 <c:set var="moudleBase" value="${param._auth=='self'?100:0}"/>
 <div class="tabbable" style="margin: 0px 20px; width: 900px">

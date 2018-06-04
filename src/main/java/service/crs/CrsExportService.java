@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,15 +108,18 @@ public class CrsExportService extends BaseMapper{
                 cell = row.getCell(column++);
                 cell.setCellValue(StringUtils.trimToEmpty(StringUtils.replace(uv.getNation(), "族", "")));
 
+                Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(), "中共党员",
+                        cv.getDpTypeId(), cv.getDpGrowTime(), true);
+                String partyName = cadreParty.get("partyName");
+                String partyAddTime = cadreParty.get("growTime");
+
                 // 政治面貌
-                String political = CmTag.getCadreParty(cv.getCadreDpType(), false, "中共党员");
                 cell = row.getCell(column++);
-                cell.setCellValue(StringUtils.trimToEmpty(political));
+                cell.setCellValue(StringUtils.trimToEmpty(partyName));
 
                 // 党派加入时间
-                Date cadreGrowTime = cv.getCadreGrowTime();
                 cell = row.getCell(column++);
-                cell.setCellValue(cadreGrowTime == null ? "" : DateUtils.formatDate(cadreGrowTime, "yyyy.MM"));
+                cell.setCellValue(StringUtils.trimToEmpty(partyAddTime));
 
                 // 最高学历学位
                 String edu = "";

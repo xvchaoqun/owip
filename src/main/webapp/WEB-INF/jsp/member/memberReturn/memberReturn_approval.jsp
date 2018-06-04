@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="MEMBER_RETURN_STATUS_DENY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_DENY%>"/>
+<c:set var="MEMBER_RETURN_STATUS_BRANCH_VERIFY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY%>"/>
+<c:set var="MEMBER_RETURN_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY%>"/>
+
 <div class="modal-body">
 
     <div class="widget-box transparent">
@@ -185,5 +189,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberReturn.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN}"/>
+    <c:import url="/applyApprovalLogs?id=${memberReturn.id}&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN%>"/>
 </div>

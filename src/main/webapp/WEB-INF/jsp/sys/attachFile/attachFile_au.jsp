@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6">
                 <select required name="type" data-placeholder="请选择" class="select2 tag-input-style" data-rel="select2">
                     <option></option>
-                    <c:forEach items="${ATTACH_FILE_TYPE_MAP}" var="_type">
+                    <c:forEach items="<%=SystemConstants.ATTACH_FILE_TYPE_MAP%>" var="_type">
                         <option value="${_type.key}">${_type.value}</option>
                     </c:forEach>
                 </select>

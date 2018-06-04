@@ -130,10 +130,12 @@
          <table tableName="ow_party_member" domainObjectName="party.PartyMember">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <!--   <table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView" mapperName="party.PartyMemberViewMapper"
+           <table tableName="ow_party_member_view" domainObjectName="party.PartyMemberView" mapperName="party.PartyMemberViewMapper"
                   enableInsert="false" enableUpdateByPrimaryKey="false"
                   enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-                  enableDeleteByExample="false"></table>-->
+                  enableDeleteByExample="false">
+               <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+           </table>
         <!-- <table tableName="ow_party_view" domainObjectName="party.PartyView" mapperName="party.PartyViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"

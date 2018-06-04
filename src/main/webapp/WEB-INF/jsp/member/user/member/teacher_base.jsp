@@ -27,7 +27,7 @@
                         性别
                     </td>
                     <td class="bg-left" style="min-width: 80px">
-                        ${GENDER_MALE_MAP.get(memberTeacher.gender)}
+                        ${GENDER_MAP.get(memberTeacher.gender)}
                     </td>
 
                     <td class="bg-right">

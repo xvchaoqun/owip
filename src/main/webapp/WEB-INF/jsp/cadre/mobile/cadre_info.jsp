@@ -90,7 +90,7 @@
 
           <div class="profile-info-value td">
             <span class="editable">
-              ${cm:cadreParty(cadre.cadreDpType, false, '中共党员')}
+              ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}
             </span>
           </div>
         </div>
@@ -100,7 +100,7 @@
 
           <div class="profile-info-value td">
             <span class="editable">
-              ${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}
+              ${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}
             </span>
           </div>
         </div>

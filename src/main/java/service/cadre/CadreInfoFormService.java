@@ -119,7 +119,7 @@ public class CadreInfoFormService extends BaseMapper {
         // 学习经历
         CadreInfo edu = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU);
         bean.setLearnDesc((edu == null || StringUtils.isBlank(edu.getContent())) ?
-                freemarkerService.freemarker(cadreEduService.list(cadreId, false),
+                freemarkerService.freemarker(cadreEduService.list(cadreId, null),
                         "cadreEdus", "/cadre/cadreEdu.ftl") : edu.getContent());
 
         // 工作经历
@@ -253,9 +253,16 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("np", bean.getNativePlace());
         dataMap.put("hp", bean.getHomeplace());
 
-        String partyName = CmTag.getCadreParty(bean.getCadreDpType(), true, "中共");// 党派
-        dataMap.put("partyName", partyName);
-        dataMap.put("growTime", DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM"));
+        dataMap.put("isOw", bean.getIsOw());
+        dataMap.put("owGrowTime", DateUtils.formatDate(bean.getOwGrowTime(), "yyyy.MM"));
+        if(bean.getDpTypeId()!=null && bean.getDpTypeId()>0) {
+            // 民主党派
+            MetaType metaType = CmTag.getMetaType(bean.getDpTypeId());
+            String dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
+            dataMap.put("dpPartyName", dpPartyName);
+            dataMap.put("dpGrowTime", DateUtils.formatDate(bean.getDpGrowTime(), "yyyy.MM"));
+        }
+
         dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM"));
 
         dataMap.put("health", bean.getHealth());
@@ -294,8 +301,10 @@ public class CadreInfoFormService extends BaseMapper {
         //dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 440));
         //dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 440));
 
-        String resumeDesc = StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 440))
-                + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 440));
+        String resumeDesc = StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("学习经历",
+                bean.getLearnDesc(), true, 440, "/common/oldTitleEditor.ftl"))
+                + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("工作经历",
+                bean.getWorkDesc(), true, 440, "/common/oldTitleEditor.ftl"));
         dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
 
         dataMap.put("parttime", freemarkerService.genTitleEditorSegment(bean.getParttime(), true, 440));

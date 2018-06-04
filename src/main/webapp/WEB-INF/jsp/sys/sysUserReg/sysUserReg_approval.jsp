@@ -110,12 +110,14 @@
                                       ${cm:formatDate(sysUserReg.createTime,'yyyy-MM-dd')}
                                   </span>
                                 </li>
+                                <c:set var="USER_REG_STATUS_DENY" value="<%=SystemConstants.USER_REG_STATUS_DENY%>"/>
                                 <c:if test="${sysUserReg.status==USER_REG_STATUS_DENY}">
                                     <li data-step="2" class="active">
                                         <span class="step">1</span>
                                         <span class="title">未通过申请</span>
                                     </li>
                                 </c:if>
+                                <c:set var="USER_REG_STATUS_PASS" value="<%=SystemConstants.USER_REG_STATUS_PASS%>"/>
                                 <li data-step="1"  class="${sysUserReg.status==USER_REG_STATUS_PASS?'complete':''}">
                                     <span class="step">1</span>
                                     <span class="title">分党委党总支直属党支部审核</span>
@@ -166,5 +168,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${sysUserReg.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_USER_REG}"/>
+    <c:import url="/applyApprovalLogs?id=${sysUserReg.id}&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG%>"/>
 </div>

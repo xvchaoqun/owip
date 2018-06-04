@@ -55,7 +55,7 @@
             <div class="col-xs-6">
                 <select required data-rel="select2" name="schoolType" data-placeholder="请选择">
                     <option></option>
-                    <c:forEach items="${CADRE_SCHOOL_TYPE_MAP}" var="schoolType">
+                    <c:forEach items="<%=CadreConstants.CADRE_SCHOOL_TYPE_MAP%>" var="schoolType">
                         <option value="${schoolType.key}">${schoolType.value}</option>
                     </c:forEach>
                 </select>

@@ -35,7 +35,6 @@ import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
-import sys.utils.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -201,25 +200,10 @@ public class PartyMemberService extends BaseMapper {
             SysUserView sysUser = record.getUser();
             Member member = memberService.get(record.getUserId());
 
-            String partyName = "";// 党派
-            String partyAddTime = "";
-
-            if(record.getCadreDpType()!=null && record.getCadreDpType()>0 ){
-
-                MetaType metaType = metaTypeMap.get(record.getCadreDpType().intValue());
-                if(metaType!=null) partyName = metaType.getName();
-                partyAddTime = DateUtils.formatDate(record.getCadreGrowTime(), DateUtils.YYYY_MM_DD);
-
-            }else if(member!=null && member.getStatus()==MemberConstants.MEMBER_STATUS_NORMAL){
-
-                partyName = "中共党员";
-                partyAddTime = DateUtils.formatDate(member.getGrowTime(), DateUtils.YYYY_MM_DD);
-
-            }else if(NumberUtils.longEqual(record.getCadreDpType(), 0L)){
-
-                partyName = "中共党员";
-                partyAddTime = DateUtils.formatDate(record.getCadreGrowTime(), DateUtils.YYYY_MM_DD);
-            }
+            Map<String, String> cadreParty = CmTag.getCadreParty(record.getIsOw(), record.getOwGrowTime(), "中共党员",
+                    record.getDpTypeId(), record.getDpGrowTime(), true);
+            String partyName = cadreParty.get("partyName");
+            String partyAddTime = cadreParty.get("growTime");
 
 
             String partyFullName = ""; // 所属党组织

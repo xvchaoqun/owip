@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/pmd/constants.jsp"%>
 <div class="row">
     <div class="col-xs-12">
 
@@ -24,7 +25,7 @@ pageEncoding="UTF-8" %>
                     <button class="jqOpenViewBtn btn btn-info btn-sm"
                             data-url="${ctx}/sysApprovalLog"
                             data-width="850"
-                            data-querystr="&displayType=1&hideStatus=1&type=${SYS_APPROVAL_LOG_TYPE_PMD_MEMBER}">
+                            data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER%>">
                         <i class="fa fa-history"></i> 操作记录
                     </button>
                     <shiro:hasPermission name="pmdMember:add">

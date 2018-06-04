@@ -44,6 +44,7 @@
                     <i class="ace-icon fa fa-angle-${vs.first?'down':'right'} bigger-110"
                        data-icon-hide="ace-icon fa fa-angle-down"
                        data-icon-show="ace-icon fa fa-angle-right"></i>
+                      <c:set value="<%=ContentTplConstants.CONTENT_TPL_CET_MSG_MAP%>" var="CONTENT_TPL_CET_MSG_MAP"/>
                       ${CONTENT_TPL_CET_MSG_MAP.get(tpl.code)}
                   </a>
                 </h4>

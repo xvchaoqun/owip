@@ -120,7 +120,7 @@
                                         <label>来源</label>
                                             <select name="source" data-placeholder="请选择" class="select2 tag-input-style">
                                                 <option></option>
-                                                <c:forEach items="${USER_SOURCE_MAP}" var="userSource">
+                                                <c:forEach items="<%=SystemConstants.USER_SOURCE_MAP%>" var="userSource">
                                                     <option value="${userSource.key}">${userSource.value}</option>
                                                 </c:forEach>
                                             </select>

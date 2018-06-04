@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="MEMBER_IN_STATUS_BACK" value="<%=MemberConstants.MEMBER_IN_STATUS_BACK%>"/>
+<c:set var="MEMBER_IN_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_IN_STATUS_OW_VERIFY%>"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -71,7 +73,7 @@
                         </c:if>
                     <button class="jqOpenViewBtn btn btn-info btn-sm"
                             data-url="${ctx}/applyApprovalLog"
-                            data-querystr="&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN}"
+                            data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN%>"
                             data-open-by="page">
                         <i class="fa fa-sign-in"></i> 查看审批记录
                     </button>
@@ -132,7 +134,7 @@
                                             <label>类别</label>
                                                 <select required data-rel="select2" name="type" data-placeholder="请选择">
                                                     <option></option>
-                                                    <c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
+                                                    <c:forEach items="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>" var="_type">
                                                         <option value="${_type.key}">${_type.value}</option>
                                                     </c:forEach>
                                                 </select>
@@ -173,7 +175,7 @@
                                     <div class="input-group">
                                         <select name="status" data-rel="select2" data-placeholder="请选择">
                                             <option></option>
-                                            <c:forEach var="_status" items="${MEMBER_IN_STATUS_MAP}">
+                                            <c:forEach var="_status" items="<%=MemberConstants.MEMBER_IN_STATUS_MAP%>">
                                                 <c:if test="${_status.key>MEMBER_IN_STATUS_BACK && _status.key<MEMBER_IN_STATUS_OW_VERIFY}">
                                                     <option value="${_status.key}">${_status.value}</option>
                                                 </c:if>
@@ -325,8 +327,8 @@
                 $("#partyApprovalBtn,#odApprovalBtn").prop("disabled", true);
             } else if (ids.length==1) {
                 var rowData = $(this).getRowData(ids[0]);
-                $("#partyApprovalBtn").prop("disabled", rowData.status != "${MEMBER_IN_STATUS_APPLY}");
-                $("#odApprovalBtn").prop("disabled", rowData.status != "${MEMBER_IN_STATUS_PARTY_VERIFY}");
+                $("#partyApprovalBtn").prop("disabled", rowData.status != "<%=MemberConstants.MEMBER_IN_STATUS_APPLY%>");
+                $("#odApprovalBtn").prop("disabled", rowData.status != "<%=MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY%>");
             } else {
                 $("*[data-count]").each(function(){
                     $(this).prop("disabled", $(this).data("count") == 0);

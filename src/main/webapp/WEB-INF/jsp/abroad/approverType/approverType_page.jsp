@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
@@ -17,12 +18,9 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/abroad/approverType_batchDel"
              data-url-co="${ctx}/abroad/approverType_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <div class="vspace-12"></div>
-                <div class="buttons">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                </div>
-            </t:sort-form>
+            <div class="buttons">
+                <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+            </div>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-striped table-bordered table-hover">

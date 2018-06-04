@@ -121,21 +121,21 @@
     <td class=xl682001 width=201 style='border-top:none;border-left:none;
   width:151pt'>机关职能部处、直属单位、教辅单位、机关党总支、经营性单位</td>
 
-    <t:cpc_stat dataList="${jgList}" unitType="${UNIT_TYPE_ATTR_JG}"/>
+    <t:cpc_stat dataList="${jgList}" unitType="<%=SystemConstants.UNIT_TYPE_ATTR_JG%>"/>
   </tr>
   <tr height=64 style='mso-height-source:userset;height:48.0pt'>
     <td height=64 class=xl642001 width=42 style='height:48.0pt;border-top:none;
   width:32pt'>2</td>
     <td class=xl682001 width=201 style='border-top:none;border-left:none;
   width:151pt'>学部、院、系所</td>
-    <t:cpc_stat dataList="${xyList}" unitType="${UNIT_TYPE_ATTR_XY}"/>
+    <t:cpc_stat dataList="${xyList}" unitType="<%=SystemConstants.UNIT_TYPE_ATTR_XY%>"/>
   </tr>
   <tr height=64 style='mso-height-source:userset;height:48.0pt'>
     <td height=64 class=xl642001 width=42 style='height:48.0pt;border-top:none;
   width:32pt'>3</td>
     <td class=xl682001 width=201 style='border-top:none;border-left:none;
   width:151pt'>附属单位</td>
-    <t:cpc_stat dataList="${fsList}" unitType="${UNIT_TYPE_ATTR_FS}"/>
+    <t:cpc_stat dataList="${fsList}" unitType="<%=SystemConstants.UNIT_TYPE_ATTR_FS%>"/>
   </tr>
   <tr height=64 style='mso-height-source:userset;height:48.0pt'>
     <td colspan=2 height=64 class=xl842001 width=243 style='border-right:1pt solid black;

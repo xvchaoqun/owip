@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=CadreConstants.CADRE_RESERVE_TYPE_SCHOOL%>" var="CADRE_RESERVE_TYPE_SCHOOL"/>
+<c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_NORMAL%>" var="CADRE_RESERVE_STATUS_NORMAL"/>
+<c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_ABOLISH%>" var="CADRE_RESERVE_STATUS_ABOLISH"/>
+<c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_TO_INSPECT%>" var="CADRE_RESERVE_STATUS_TO_INSPECT"/>
+<c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_ASSIGN%>" var="CADRE_RESERVE_STATUS_ASSIGN"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -14,7 +19,7 @@
             ||not empty param.postId ||not empty param.title || not empty param.code }"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <c:forEach var="_type" items="${CADRE_RESERVE_TYPE_MAP}">
+                        <c:forEach var="_type" items="<%=CadreConstants.CADRE_RESERVE_TYPE_MAP%>">
                             <c:if test="${!cm:hasRole(ROLE_ONLY_CADRE_VIEW) || _type.key!=CADRE_RESERVE_TYPE_SCHOOL}">
                             <li class="${status==CADRE_RESERVE_STATUS_NORMAL&&_type.key==reserveType?'active':''}">
                                 <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreReserve?reserveType=${_type.key}">
@@ -23,8 +28,8 @@
                             </li>
                             </c:if>
                         </c:forEach>
-<shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
-<c:forEach var="_status" items="${CADRE_RESERVE_STATUS_MAP}">
+                        <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
+                        <c:forEach var="_status" items="<%=CadreConstants.CADRE_RESERVE_STATUS_MAP%>">
                             <c:if test="${_status.key!=CADRE_RESERVE_STATUS_NORMAL}">
                                 <li class="<c:if test="${status==_status.key}">active</c:if>">
                                     <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreReserve?status=${_status.key}">
@@ -45,7 +50,7 @@
                                 <a class="popupBtn btn btn-danger btn-sm"
                                    data-url="${ctx}/cadreReserve/search"><i class="fa fa-search"></i> 查询账号所属后备干部库</a>
                             </div>
-</shiro:lacksRole>
+                        </shiro:lacksRole>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane in active rownumbers">
@@ -229,20 +234,9 @@
             {label: '身份证号', name: 'idcard', width: 150},
             {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
-            {label: '党派', name: 'cadreDpType', width: 80, width: 80, formatter: $.jgrid.formatter.cadreParty},
-            {
-                label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return cellvalue.substr(0, 10);
-            }
-            },
-            {
-                label: '党龄', name: '_growBirth', width: 50,
-                formatter: function (cellvalue, options, rowObject) {
-                    if (rowObject.cadreGrowTime == undefined) return '-';
-                    return $.yearOffNow(rowObject.cadreGrowTime);
-                }
-            },
+            {label: '党派', name: '_cadreParty', width: 80, width: 80, formatter: $.jgrid.formatter.cadreParty},
+            {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
+            {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
             {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
             {label: '最高学位', name: 'degree'},

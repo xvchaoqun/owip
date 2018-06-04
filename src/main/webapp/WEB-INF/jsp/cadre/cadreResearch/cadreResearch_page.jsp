@@ -1,6 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_RESEARCH%>" var="CADRE_INFO_TYPE_RESEARCH"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY%>" var="CADRE_INFO_TYPE_RESEARCH_IN_SUMMARY"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY%>" var="CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_RESEARCH_REWARD%>" var="CADRE_INFO_TYPE_RESEARCH_REWARD"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_PAPER_SUMMARY%>" var="CADRE_INFO_TYPE_PAPER_SUMMARY"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_BOOK_SUMMARY%>" var="CADRE_INFO_TYPE_BOOK_SUMMARY"/>
+
+<c:set var="CADRE_REWARD_TYPE_RESEARCH" value="<%=CadreConstants.CADRE_REWARD_TYPE_RESEARCH%>"/>
+<c:set var="CADRE_RESEARCH_TYPE_DIRECT" value="<%=CadreConstants.CADRE_RESEARCH_TYPE_DIRECT%>"/>
+<c:set var="CADRE_RESEARCH_TYPE_IN" value="<%=CadreConstants.CADRE_RESEARCH_TYPE_IN%>"/>
 
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==CADRE_INFO_TYPE_RESEARCH_DIRECT_SUMMARY?"active":""}">
@@ -34,7 +44,7 @@
     <div class="buttons" style="position:absolute;left: 750px;">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
-           data-url="${ctx}/hf_content?code=${HF_CADRE_RESEARCH}">
+           data-url="${ctx}/hf_content?code=hf_cadre_research">
             <i class="fa fa-info-circle"></i> 填写说明</a>
     </div>
 </shiro:lacksRole>

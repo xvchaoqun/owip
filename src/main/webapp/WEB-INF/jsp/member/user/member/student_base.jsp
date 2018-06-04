@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 					性别
 				</td>
 				<td class="bg-left" style="min-width: 80px">
-					${GENDER_MALE_MAP.get(memberStudent.gender)}
+					${GENDER_MAP.get(memberStudent.gender)}
 				</td>
 
 				<td class="bg-right">
@@ -64,6 +64,7 @@ pageEncoding="UTF-8"%>
 					同步来源
 				</td>
 				<td class="bg-left" colspan="3">
+					<c:set var="USER_SOURCE_MAP" value="<%=SystemConstants.USER_SOURCE_MAP%>"/>
 					${USER_SOURCE_MAP.get(_user.source)}
 				</td>
 			</tr>

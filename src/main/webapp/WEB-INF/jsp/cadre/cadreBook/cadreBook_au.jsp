@@ -38,7 +38,7 @@ pageEncoding="UTF-8"%>
                 <select required data-rel="select2" name="type"
                         data-placeholder="请选择" data-width="162">
                     <option></option>
-                    <c:forEach items="${CADRE_BOOK_TYPE_MAP}" var="type">
+                    <c:forEach items="<%=CadreConstants.CADRE_BOOK_TYPE_MAP%>" var="type">
                         <option value="${type.key}">${type.value}</option>
                     </c:forEach>
                 </select>

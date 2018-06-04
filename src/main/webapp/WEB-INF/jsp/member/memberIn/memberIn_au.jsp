@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="MEMBER_IN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_IN_STATUS_APPLY%>"/>
+
     <h3><c:if test="${memberIn!=null}">编辑</c:if><c:if test="${memberIn==null}">添加</c:if>组织关系转入
 		<a class="popupBtn btn btn-success btn-xs"
 		   data-width="800"
-		   data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_MEMBER_IN_NOTE_BACK}">
+		   data-url="${ctx}/hf_content?code=<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_BACK%>">
 			<i class="fa fa-info-circle"></i> 申请说明</a>
 	</h3>
 <hr/>
@@ -30,7 +32,7 @@ pageEncoding="UTF-8"%>
 						<div class="col-xs-6">
 							<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="100">
 								<option></option>
-								<c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
+								<c:forEach items="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>" var="_type">
 									<option value="${_type.key}">${_type.value}</option>
 								</c:forEach>
 							</select>

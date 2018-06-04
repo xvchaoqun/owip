@@ -29,7 +29,7 @@
                             <a href="javascript:;" data-url="${ctx}/memberTransfer_view?userId=${param.userId}">校内组织关系转接</a>
                         </li>
                         </shiro:hasPermission>
-                        <c:forEach items="${MEMBER_STAY_TYPE_MAP}" var="entry">
+                        <c:forEach items="<%=MemberConstants.MEMBER_STAY_TYPE_MAP%>" var="entry">
                             <li>
                                 <a href="javascript:;" data-url="${ctx}/memberStay_view?type=${entry.key}&userId=${param.userId}">${entry.value}申请组织关系暂留</a>
                             </li>

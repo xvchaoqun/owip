@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="SYNC_TYPE_JZG" value="<%=SystemConstants.SYNC_TYPE_JZG%>"/>
+<c:set var="SYNC_TYPE_BKS" value="<%=SystemConstants.SYNC_TYPE_BKS%>"/>
+<c:set var="SYNC_TYPE_YJS" value="<%=SystemConstants.SYNC_TYPE_YJS%>"/>
+<c:set var="SYNC_TYPE_ABROAD" value="<%=SystemConstants.SYNC_TYPE_ABROAD%>"/>
+<c:set var="SYNC_TYPE_RETIRE_SALARY" value="<%=SystemConstants.SYNC_TYPE_RETIRE_SALARY%>"/>
+<c:set var="SYNC_TYPE_JZG_SALARY" value="<%=SystemConstants.SYNC_TYPE_JZG_SALARY%>"/>
+
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="myTableDiv"

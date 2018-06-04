@@ -43,7 +43,7 @@
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog"
-                                        data-querystr="&type=${OW_APPLY_APPROVAL_LOG_TYPE_USER_REG}"
+                                        data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG%>"
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
@@ -179,7 +179,7 @@
                 $("#partyApprovalBtn").prop("disabled", true);
             } else if (status) {
                 var rowData = $(this).getRowData(id);
-                $("#partyApprovalBtn").prop("disabled", rowData.status != "${MEMBER_STAY_STATUS_APPLY}");
+                $("#partyApprovalBtn").prop("disabled", rowData.status != "<%=MemberConstants.MEMBER_STAY_STATUS_APPLY%>");
             } else {
                 $("*[data-count]").each(function(){
                     $(this).prop("disabled", $(this).data("count") == 0);

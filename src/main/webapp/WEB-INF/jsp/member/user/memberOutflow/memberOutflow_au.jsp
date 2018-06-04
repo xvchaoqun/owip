@@ -1,12 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fafa
-  Date: 2015/12/7
-  Time: 13:39
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="MEMBER_OUTFLOW_STATUS_BACK" value="<%=MemberConstants.MEMBER_OUTFLOW_STATUS_BACK%>"/>
 <div class="row" style="width: 850px">
 <c:if test="${memberOutflow.status==MEMBER_OUTFLOW_STATUS_BACK}">
     <div class="alert alert-danger">
@@ -36,7 +30,7 @@
                             <div class="col-xs-6">
                                 <select required data-rel="select2" name="orStatus" data-placeholder="请选择">
                                     <option></option>
-                                    <c:forEach items="${OW_OR_STATUS_MAP}" var="_status">
+                                    <c:forEach items="<%=OwConstants.OW_OR_STATUS_MAP%>" var="_status">
                                         <option value="${_status.key}">${_status.value}</option>
                                     </c:forEach>
                                 </select>

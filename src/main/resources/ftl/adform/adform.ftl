@@ -1332,7 +1332,7 @@
 								<w:rPr>
 									<w:sz w:val="24"/>
 								</w:rPr>
-								<w:t><#if partyName??>${partyName}<w:br/></#if>${growTime!}</w:t>
+								<w:t><#if dpPartyName??>${dpPartyName!}<#if isOw><w:br/>(${owGrowTime!})</#if><#else><#if isOw>${owGrowTime!}</#if></#if></w:t>
 							</w:r>
 						</w:p>
 					</w:tc>
@@ -2432,20 +2432,7 @@
 							<w:gridSpan w:val="8"/>
 							<w:vAlign w:val="center"/>
 						</w:tcPr>
-						<w:p wsp:rsidR="00B50428" wsp:rsidRPr="00B50428" wsp:rsidRDefault="00111D53" wsp:rsidP="00C459E5">
-							<w:pPr>
-								<w:snapToGrid w:val="off"/>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-							</w:pPr>
-							<w:r>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
-								${reward!}
-							</w:r>
-						</w:p>
+					    ${reward?default('<w:p/>')}
 					</w:tc>
 				</w:tr>
 				<w:tr wsp:rsidR="00F43419">

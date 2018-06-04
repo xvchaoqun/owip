@@ -67,7 +67,7 @@
     ],
     rowattr: function(rowData, currentObj, rowId)
     {
-      if(rowData.status=='${SYS_APPROVAL_LOG_STATUS_BACK}') {
+      if(rowData.status=='<%=SystemConstants.SYS_APPROVAL_LOG_STATUS_BACK%>') {
         //console.log(rowData)
         return {'class':'danger'}
       }

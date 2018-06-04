@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="OW_APPLY_STAGE_DENY" value="<%=OwConstants.OW_APPLY_STAGE_DENY%>"/>
+
 <div  style="padding-top: 50px;"></div>
 <c:if test="${memberApply.stage==OW_APPLY_STAGE_DENY}">
   <div class="alert alert-danger">

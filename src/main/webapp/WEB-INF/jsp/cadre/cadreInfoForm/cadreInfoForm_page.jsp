@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
+<c:set var="CADRE_FAMILY_TITLE_MAP" value="<%=CadreConstants.CADRE_FAMILY_TITLE_MAP%>"/>
 <style type="text/css">.b1{white-space-collapsing:preserve;}
 .b2{margin: 0.4722222in 0.59097224in 0.4722222in 0.59097224in;}
 .s1{font-weight:bold;}
@@ -142,7 +142,17 @@ td.padding10{
                     <span>参加时间</span>
                 </div>
             </td><td class="td2 center" colspan="2">
-            ${cm:formatDate(bean.growTime, "yyyy.MM")}
+            <c:if test="${bean.dpTypeId>0}">
+                ${cm:getMetaType(bean.dpTypeId).extraAttr}
+                <c:if test="${not empty bean.owGrowTime}"><br/>
+                    （${cm:formatDate(bean.owGrowTime, "yyyy.MM")}）
+                </c:if>
+            </c:if>
+            <c:if test="${empty bean.dpTypeId}">
+                <c:if test="${not empty bean.owGrowTime}">
+                    ${cm:formatDate(bean.owGrowTime, "yyyy.MM")}
+                </c:if>
+            </c:if>
         </td><td class="td3 center bolder" colspan="2">
                 <span>参加工作</span>
             <div>

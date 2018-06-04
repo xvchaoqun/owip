@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="JASPER_PRINT_TYPE_INSIDE" value="<%=SystemConstants.JASPER_PRINT_TYPE_INSIDE%>"/>
+<c:set var="JASPER_PRINT_TYPE_OUTSIDE" value="<%=SystemConstants.JASPER_PRINT_TYPE_OUTSIDE%>"/>
+
 <div class="row">
     <div class="col-xs-12">
 
@@ -111,7 +114,7 @@
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog"
-                                        data-querystr="&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT}"
+                                        data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT%>"
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
@@ -206,7 +209,7 @@
                                                         <label>类别</label>
                                                             <select required data-rel="select2" name="type" data-placeholder="请选择">
                                                                 <option></option>
-                                                                <c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
+                                                                <c:forEach items="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>" var="_type">
                                                                     <option value="${_type.key}">${_type.value}</option>
                                                                 </c:forEach>
                                                             </select>
@@ -241,7 +244,7 @@
                                                 <div class="input-group">
                                                     <select name="status" data-rel="select2" data-placeholder="请选择">
                                                         <option></option>
-                                                        <c:forEach var="_status" items="${MEMBER_OUT_STATUS_MAP}">
+                                                        <c:forEach var="_status" items="<%=MemberConstants.MEMBER_OUT_STATUS_MAP%>">
                                                                 <option value="${_status.key}">${_status.value}</option>
                                                         </c:forEach>
                                                     </select>
@@ -404,13 +407,13 @@
              <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN}">
             { label: '打印', width: 100, formatter:function(cellvalue, options, rowObject){
 
-                if(rowObject.type=="${MEMBER_INOUT_TYPE_INSIDE}"){
+                if(rowObject.type=="<%=MemberConstants.MEMBER_INOUT_TYPE_INSIDE%>"){
                     var html = '<button class="openView btn btn-primary btn-xs"'
                             +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_INSIDE}&ids[]={0}"><i class="fa fa-print"></i> 打印介绍信</button>'
                                     .format(rowObject.id);
                     return html;
                 }
-                if(rowObject.type=="${MEMBER_INOUT_TYPE_OUTSIDE}"){
+                if(rowObject.type=="<%=MemberConstants.MEMBER_INOUT_TYPE_OUTSIDE%>"){
                     var html = '<button class="openView btn btn-warning btn-xs"'
                             +' data-url="${ctx}/report/printPreview?type=${JASPER_PRINT_TYPE_OUTSIDE}&ids[]={0}"><i class="fa fa-print"></i> 介绍信套打</button>'
                                     .format(rowObject.id);
@@ -451,8 +454,8 @@
             } else if (ids.length==1) {
 
                 var rowData = $(this).getRowData(ids[0]);
-                $("#partyApprovalBtn").prop("disabled", rowData.status != "${MEMBER_OUT_STATUS_APPLY}");
-                $("#odApprovalBtn").prop("disabled", rowData.status != "${MEMBER_OUT_STATUS_PARTY_VERIFY}");
+                $("#partyApprovalBtn").prop("disabled", rowData.status != "<%=MemberConstants.MEMBER_OUT_STATUS_APPLY%>");
+                $("#odApprovalBtn").prop("disabled", rowData.status != "<%=MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY%>");
             } else {
                 $("*[data-count]").each(function(){
                     $(this).prop("disabled", $(this).data("count") == 0);

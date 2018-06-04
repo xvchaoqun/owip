@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="../constants.jsp" %>
 <div class="tabbable" style="margin: 10px 20px; width: 900px">
     <div class="space-4"></div>
     <c:if test="${not empty param.partyId}">

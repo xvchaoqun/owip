@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="../constants.jsp" %>
 <jsp:include page="menu.jsp"/>
 
 <div class="row">

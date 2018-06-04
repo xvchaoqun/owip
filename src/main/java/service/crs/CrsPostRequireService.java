@@ -45,8 +45,21 @@ public class CrsPostRequireService extends BaseMapper {
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_XL, metaTypeService.getName(cv.getEduId()));
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_RZNL, cv.getBirth() == null ? "" : DateUtils.calAge(cv.getBirth()));
 
-        String partyName = CmTag.getCadreParty(cv.getCadreDpType(), true, "中共");// 党派
-        String partyAddYear = cv.getCadreGrowTime() == null ? null : DateUtils.yearOffNow_cn(cv.getCadreGrowTime());
+        Map<String, String> cadreParty = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(), "中共",
+                cv.getDpTypeId(), cv.getDpGrowTime(), true);
+        String partyName = cadreParty.get("partyName");
+        String partyAddYear = null;
+        String partyAddTime = cadreParty.get("growTime");
+        if(StringUtils.isNotBlank(partyAddTime)){
+            String[] addTimes = partyAddTime.split(",");
+            if(addTimes.length==1){
+                partyAddYear = StringUtils.equals(addTimes[0], "-")?"-":DateUtils.yearOffNow_cn(DateUtils.parseDate(addTimes[0], "yyyy.MM"));
+            }else if(addTimes.length==2){
+                partyAddYear = (StringUtils.equals(addTimes[0], "-")?"-":DateUtils.yearOffNow_cn(DateUtils.parseDate(addTimes[0], "yyyy.MM")))
+                        + "," +
+                        (StringUtils.equals(addTimes[1], "-")?"-":DateUtils.yearOffNow_cn(DateUtils.parseDate(addTimes[1], "yyyy.MM")));
+            }
+        }
 
         resultMap.put(CrsConstants.CRS_POST_RULE_TYPE_ZZMM, combineTowString(partyName, partyAddYear));
 

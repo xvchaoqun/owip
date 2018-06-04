@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 仅网页端调用
  *
  * */
@@ -994,7 +994,7 @@ if ($.jgrid) {
         },
         MetaType: function (cellvalue, options, rowObject) {
 
-            var op = $.extend({def: ''}, options.colModel.formatoptions);
+            var op = (options==undefined)? {def: ''}:$.extend({def: ''}, options.colModel.formatoptions);
             if ($.trim(cellvalue)=='') return op.def;
 
             if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return op.def
@@ -1002,10 +1002,74 @@ if ($.jgrid) {
         },
         cadreParty: function (cellvalue, options, rowObject) {
 
-            if (cellvalue == 0) return "中共党员"
-            else if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return '-'
-            else if (cellvalue > 0) return _cMap.metaTypeMap[cellvalue].name
-            else return "-";
+            var op = (options==undefined)? {useCadre: false}:$.extend({useCadre: false}, options.colModel.formatoptions);
+            if(op.useCadre){
+                op.isOw = rowObject.cadre.isOw;
+                op.dpTypeId= rowObject.cadre.dpTypeId;
+            }else{
+                op.isOw = rowObject.isOw;
+                op.dpTypeId= rowObject.dpTypeId;
+            }
+            var parties = [];
+            if(op.isOw){
+                parties.push("中共党员");
+            }
+            if(op.dpTypeId>0 && _cMap.metaTypeMap[op.dpTypeId]!=undefined){
+                parties.push(_cMap.metaTypeMap[op.dpTypeId].name);
+            }
+            if(parties.length>0) return parties.join(",");
+
+            return "-"
+        },
+        growTime: function (cellvalue, options, rowObject) {
+
+            var op = (options==undefined)? {useCadre: false}:$.extend({useCadre: false}, options.colModel.formatoptions);
+            if(op.useCadre){
+                op.isOw = rowObject.cadre.isOw;
+                op.owGrowTime= rowObject.cadre.owGrowTime;
+                op.dpTypeId= rowObject.cadre.dpTypeId;
+                op.dpGrowTime= rowObject.cadre.dpGrowTime;
+            }else{
+                op.isOw = rowObject.isOw;
+                op.owGrowTime= rowObject.owGrowTime;
+                op.dpTypeId= rowObject.dpTypeId;
+                op.dpGrowTime= rowObject.dpGrowTime;
+            }
+            var growTimes = [];
+            if(op.isOw){
+                growTimes.push(op.owGrowTime==undefined?"-":op.owGrowTime.substr(0, 10));
+            }
+            if(op.dpTypeId>0){
+                growTimes.push(op.dpGrowTime==undefined?"-":op.dpGrowTime.substr(0, 10));
+            }
+            if(growTimes.length>0) return growTimes.join(",");
+
+            return "-"
+        },
+        growAge: function (cellvalue, options, rowObject) {
+
+            var op = (options==undefined)? {useCadre: false}:$.extend({useCadre: false}, options.colModel.formatoptions);
+            if(op.useCadre){
+                op.isOw = rowObject.cadre.isOw;
+                op.owGrowTime= rowObject.cadre.owGrowTime;
+                op.dpTypeId= rowObject.cadre.dpTypeId;
+                op.dpGrowTime= rowObject.cadre.dpGrowTime;
+            }else{
+                op.isOw = rowObject.isOw;
+                op.owGrowTime= rowObject.owGrowTime;
+                op.dpTypeId= rowObject.dpTypeId;
+                op.dpGrowTime= rowObject.dpGrowTime;
+            }
+            var growAges = [];
+            if(op.isOw){
+                growAges.push(op.owGrowTime==undefined?"-":$.yearOffNow(op.owGrowTime));
+            }
+            if(op.dpTypeId>0){
+                growAges.push(op.dpGrowTime==undefined?"-":$.yearOffNow(op.dpGrowTime));
+            }
+            if(growAges.length>0) return growAges.join(",");
+
+            return "-"
         },
         sortOrder: function (cellvalue, options, rowObject) {
             var op = $.extend({grid: ''}, options.colModel.formatoptions);

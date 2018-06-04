@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
@@ -36,7 +37,7 @@
                             </c:if>
                             <a class="popupBtn btn btn-info btn-sm"
                                data-width="650"
-                               data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_APPLY_SELF_APPROVAL_NOTE}">
+                               data-url="${ctx}/hf_content?code=<%=SystemConstants.HTML_FRAGMENT_APPLY_SELF_APPROVAL_NOTE%>">
                                 <i class="fa fa-info-circle"></i> 审批说明</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

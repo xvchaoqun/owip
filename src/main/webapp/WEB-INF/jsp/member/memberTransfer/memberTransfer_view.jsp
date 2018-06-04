@@ -1,12 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fafa
-  Date: 2015/12/7
-  Time: 13:39
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="MEMBER_TRANSFER_STATUS_MAP" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_MAP%>"/>
 <div class="widget-box">
     <div class="widget-header">
         <h4 class="widget-title"><i class="fa fa-paw blue"></i> 校内组织关系转接申请</h4>

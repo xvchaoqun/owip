@@ -18,15 +18,11 @@ pageEncoding="UTF-8" %>
              data-url-bd="${ctx}/abroad/applicatType_batchDel"
              data-url-co="${ctx}/abroad/applicatType_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <input type="hidden" name="cls" value="${cls}">
-                <div class="vspace-12"></div>
-                <div class="buttons">
-                    <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                    <a class="popupBtn btn btn-danger btn-sm"
-                       data-url="${ctx}/abroad/applicatType/selectCadresEscape"><i class="fa fa-search"></i> 未分配申请人身份的干部（${escapeCount}）</a>
-                </div>
-            </t:sort-form>
+            <div class="buttons">
+                <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                <a class="popupBtn btn btn-danger btn-sm"
+                   data-url="${ctx}/abroad/applicatType/selectCadresEscape"><i class="fa fa-search"></i> 未分配申请人身份的干部（${escapeCount}）</a>
+            </div>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
                 <table class="table table-striped table-bordered table-hover">

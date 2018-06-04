@@ -54,6 +54,8 @@ public class CrsCandidateView implements Serializable {
 
     private Integer unitId;
 
+    private Boolean isCommitteeMember;
+
     private String title;
 
     private Integer dispatchCadreId;
@@ -108,13 +110,11 @@ public class CrsCandidateView implements Serializable {
 
     private Integer owId;
 
+    private Boolean isOw;
+
     private Date owGrowTime;
 
     private String owRemark;
-
-    private Date cadreGrowTime;
-
-    private Long cadreDpType;
 
     private Integer eduId;
 
@@ -428,6 +428,14 @@ public class CrsCandidateView implements Serializable {
         this.unitId = unitId;
     }
 
+    public Boolean getIsCommitteeMember() {
+        return isCommitteeMember;
+    }
+
+    public void setIsCommitteeMember(Boolean isCommitteeMember) {
+        this.isCommitteeMember = isCommitteeMember;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -644,6 +652,14 @@ public class CrsCandidateView implements Serializable {
         this.owId = owId;
     }
 
+    public Boolean getIsOw() {
+        return isOw;
+    }
+
+    public void setIsOw(Boolean isOw) {
+        this.isOw = isOw;
+    }
+
     public Date getOwGrowTime() {
         return owGrowTime;
     }
@@ -658,22 +674,6 @@ public class CrsCandidateView implements Serializable {
 
     public void setOwRemark(String owRemark) {
         this.owRemark = owRemark == null ? null : owRemark.trim();
-    }
-
-    public Date getCadreGrowTime() {
-        return cadreGrowTime;
-    }
-
-    public void setCadreGrowTime(Date cadreGrowTime) {
-        this.cadreGrowTime = cadreGrowTime;
-    }
-
-    public Long getCadreDpType() {
-        return cadreDpType;
-    }
-
-    public void setCadreDpType(Long cadreDpType) {
-        this.cadreDpType = cadreDpType;
     }
 
     public Integer getEduId() {

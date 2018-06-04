@@ -64,18 +64,18 @@
     </select>
     <!-- 党派 (num_1:民主党派 num_2:中共党员)-->
     <select id="cadre_stat_dp" resultMap="BaseResultMap" parameterType="map">
-        select sum(if(cadre_dp_type>0, 1,0)) as num_1, sum(if(cadre_dp_type=0, 1,0)) as num_2 from cadre_view  where status=1
+        select sum(if(dp_type_id>0, 1,0)) as num_1, sum(if(is_ow=1, 1,0)) as num_2 from cadre_view  where status=1
         <include refid="andSql" />
     </select>
     <!-- 党派-行政级别 -->
     <select id="cadre_stat_dp_adminLevel" resultMap="BaseResultMap" parameterType="map">
-       select admin_level_code, sum(if(cadre_dp_type>0, 1,0)) as num_1, sum(if(cadre_dp_type=0, 1,0)) as num_2 from cadre_view  where status=1
+       select admin_level_code, sum(if(dp_type_id>0, 1,0)) as num_1, sum(if(is_ow=1, 1,0)) as num_2 from cadre_view  where status=1
         <include refid="andSql" /> and admin_level_code is not null
         group by admin_level_code
     </select>
     <!-- 党派-性别 -->
     <select id="cadre_stat_dp_gender" resultMap="BaseResultMap" parameterType="map">
-        select gender, sum(if(cadre_dp_type>0, 1,0)) as num_1, sum(if(cadre_dp_type=0, 1,0)) as num_2 from cadre_view  where status=1
+        select gender, sum(if(dp_type_id>0, 1,0)) as num_1, sum(if(is_ow=1, 1,0)) as num_2 from cadre_view  where status=1
         <include refid="andSql" />
          and gender is not null group by gender
     </select>

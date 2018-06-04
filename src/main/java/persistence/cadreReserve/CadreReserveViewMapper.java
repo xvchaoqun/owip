@@ -2,9 +2,8 @@ package persistence.cadreReserve;
 
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
-import org.apache.ibatis.session.RowBounds;
-
 import java.util.List;
+import org.apache.ibatis.session.RowBounds;
 
 public interface CadreReserveViewMapper {
     long countByExample(CadreReserveViewExample example);

@@ -155,7 +155,7 @@
             } else if (ids.length == 1) {
                 var rowData = $(this).getRowData(ids[0]);
                 //console.log(rowData.inspectorType)
-                $("#inspectorEditBtn").prop("disabled", rowData.inspectorType=='${CIS_INSPECTOR_TYPE_OTHER}')
+                $("#inspectorEditBtn").prop("disabled", rowData.inspectorType=='<%=CisConstants.CIS_INSPECTOR_TYPE_OTHER%>')
             } else {
                 $("#inspectorEditBtn").prop("disabled", false);
             }

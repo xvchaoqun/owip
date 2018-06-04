@@ -157,13 +157,8 @@
             {
                 label: '出生日期', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
             },
-            {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
-            {
-                label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return cellvalue.substr(0, 10);
-            }
-            },
+            {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
+            {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
             {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '岗位类别', name: 'postClass'},
             {label: '主岗等级', name: 'mainPostLevel', width: 150},

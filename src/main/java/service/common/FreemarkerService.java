@@ -202,7 +202,8 @@ public class FreemarkerService {
     }
 
     // 指定段落标题
-    public String genTitleEditorSegment(String title, String content, boolean needHanging, int line) throws IOException, TemplateException {
+    public String genTitleEditorSegment(String title, String content,
+                                        boolean needHanging, int line, String ftlPath) throws IOException, TemplateException {
 
         if(StringUtils.isBlank(content)) return null;
 
@@ -278,7 +279,6 @@ public class FreemarkerService {
         dataMap.put("needHanging", needHanging);
         dataMap.put("line", line);
 
-        String ftlPath = "/common/titleEditor.ftl";
         return process(ftlPath, dataMap);
     }
 

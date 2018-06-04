@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${cetDiscuss!=null}">编辑</c:if><c:if test="${cetDiscuss==null}">添加</c:if>分组研讨</h3>

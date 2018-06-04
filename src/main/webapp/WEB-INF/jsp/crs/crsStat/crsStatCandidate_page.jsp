@@ -145,13 +145,8 @@
         {label: '民族', name: 'nation', width: 60},
         {label: '出生时间', name: 'birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
         {label: '年龄', name: 'birth', width: 50, formatter: $.jgrid.formatter.AGE},
-        {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
-        {
-            label: '党派加入时间', name: 'cadreGrowTime', width: 120, formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '-';
-            return cellvalue.substr(0, 10);
-        }
-        },
+        {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
+        {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
         {
             label: '参加工作时间', name: 'workTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
         },

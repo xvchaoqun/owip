@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -202,11 +203,11 @@ public class CadreController extends BaseController {
             criteria.andBirthLessThanOrEqualTo(_birth.getEnd());
         }
         if (_cadreGrowTime.getStart() != null) {
-            criteria.andCadreGrowTimeGreaterThanOrEqualTo(_cadreGrowTime.getStart());
+            criteria.andGrowTimeGreaterThanOrEqualTo(_cadreGrowTime.getStart());
         }
 
         if (_cadreGrowTime.getEnd() != null) {
-            criteria.andCadreGrowTimeLessThanOrEqualTo(_cadreGrowTime.getEnd());
+            criteria.andGrowTimeLessThanOrEqualTo(_cadreGrowTime.getEnd());
         }
 
         if (endAge != null) {
@@ -216,10 +217,10 @@ public class CadreController extends BaseController {
             criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startAge));
         }
         if (endDpAge != null) {
-            criteria.andCadreGrowTimeGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * endDpAge));
+            criteria.andGrowTimeGreaterThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * endDpAge));
         }
         if (startDpAge != null) {
-            criteria.andCadreGrowTimeLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startDpAge));
+            criteria.andGrowTimeLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startDpAge));
         }
 
         if (endNowPostAge != null) {
@@ -257,7 +258,7 @@ public class CadreController extends BaseController {
             criteria.andProPostLevelIn(Arrays.asList(proPostLevels));
         }
         if (dpTypes != null) {
-            criteria.andCadreDpTypeIn(Arrays.asList(dpTypes));
+            criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
         }
 
         if (isPrincipalPost != null) {
@@ -298,7 +299,7 @@ public class CadreController extends BaseController {
             JSONUtils.jsonpAntPathFilters(resultMap, "id", "code", "realname", "gender",
                     "idcard", "birth", "eduId", "proPost", "lpWorkTime",
                     "unit", "unit.unitType", "unit.unitType.name",
-                    "unit.name", "title", "typeId", "postId", "dpTypeId", "cadreDpType", "cadreGrowTime", "mobile", "email");
+                    "unit.name", "title", "typeId", "postId", "dpTypeId", "dpGrowTime", "isOw", "owGrowTime", "mobile", "email");
         }
     }
 

@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
             <div class="col-xs-6">
                 <select required data-rel="select2" class="form-control" name="type" data-placeholder="请选择">
                     <option></option>
-                    <c:forEach var="courseType" items="${CADRE_COURSE_TYPE_MAP}">
+                    <c:forEach var="courseType" items="<%=CadreConstants.CADRE_COURSE_TYPE_MAP%>">
                         <option value="${courseType.key}">${courseType.value}</option>
                     </c:forEach>
                 </select>

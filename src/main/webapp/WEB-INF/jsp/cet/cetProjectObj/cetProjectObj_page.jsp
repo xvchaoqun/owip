@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="space-4"></div>
 <c:set var="_query" value="${not empty param.hasChosen ||not empty param.isCurrentGroup
  ||not empty param.isFinish||not empty param.hasUploadWrite ||not empty param.userId ||not empty param.dpTypes||not empty param.adminLevels
@@ -632,7 +633,7 @@
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
             {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
             {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
-            {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
+            {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
             {label: '专业技术职务', name: 'proPost', width: 120},
             {
                 label: '任现职时间',
@@ -683,7 +684,7 @@
         //console.log("planCourseObjId="+ $.trim(planCourseObjId))
         $("#resultEditBtn,#uploadNoteBtn").prop("disabled", $.trim(planCourseObjId)=='');
 
-        var querystr = "&displayType=1&hideStatus=1&type=${SYS_APPROVAL_LOG_TYPE_CET_TRAINEE}&id="+traineeId;
+        var querystr = "&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE%>&id="+traineeId;
         $("#logBtn").data("querystr", querystr);
 
 

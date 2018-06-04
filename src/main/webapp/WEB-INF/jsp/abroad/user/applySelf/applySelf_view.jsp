@@ -1,13 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fafa
-  Date: 2016/2/27
-  Time: 9:31
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-
+<%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
 <div class="tabbable">
   <ul class="preview title nav nav-tabs padding-12 tab-color-blue background-blue" style="padding-right: 20px">
 

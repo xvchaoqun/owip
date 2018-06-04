@@ -19,7 +19,7 @@
     <div class="buttons" style="position:absolute;left: 360px;">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
-           data-url="${ctx}/hf_content?code=${HF_CADRE_POST}">
+           data-url="${ctx}/hf_content?code=hf_cadre_post">
             <i class="fa fa-info-circle"></i> 填写说明</a>
     </div>
     </shiro:lacksRole>

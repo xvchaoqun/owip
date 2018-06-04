@@ -89,7 +89,7 @@
                                         <select required data-rel="select2"
                                                 name="confirmType" data-placeholder="请选择" data-width="120">
                                             <option></option>
-                                            <c:forEach items="${SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP}" var="_type">
+                                            <c:forEach items="<%=ScConstants.SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP%>" var="_type">
                                                 <option value="${_type.key}">${_type.value}</option>
                                             </c:forEach>
                                         </select>

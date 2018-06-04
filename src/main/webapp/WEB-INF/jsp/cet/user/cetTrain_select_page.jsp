@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
@@ -38,7 +39,7 @@
                                     data-grid-id="#jqGrid"
                                     data-url="${ctx}/sysApprovalLog"
                                     data-width="850"
-                                    data-querystr="&displayType=1&hideStatus=1&type=${SYS_APPROVAL_LOG_TYPE_CET_TRAINEE}">
+                                    data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CET_TRAINEE%>">
                                 <i class="fa fa-history"></i> 操作记录
                             </button>
                             </c:if>

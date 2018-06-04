@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
+<c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW" value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_TW%>"/>
+<c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF" value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_LONG_SELF%>"/>
+<c:set var="CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER" value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_OTHER%>"/>
 
 <div class="row">
     <div class="col-xs-12">
@@ -8,7 +12,7 @@
         <div id="body-content">
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <c:set var="countCacheKeys" value="${CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_SELF}"/>
+                    <c:set var="countCacheKeys" value="<%=CacheConstants.CACHE_KEY_ABROAD_PASSPORT_DRAW_TYPE_SELF%>"/>
                     <c:set var="cacheCount" value="${cm:getMenuCacheCount(countCacheKeys)}"></c:set>
                     <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_SELF}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/passportDraw?type=${ABROAD_PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-credit-card"></i> 因私出国（境）

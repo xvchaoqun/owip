@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
   <li class="${cls==1?'active':''}">
   <a href="javascript:;" class="loadPage" data-url="${ctx}/cet/cetCourse?type=${param.type}&cls=1"><i class="fa fa-share-alt ${cls==1?'fa-1g':''}"></i> 课程列表</a>

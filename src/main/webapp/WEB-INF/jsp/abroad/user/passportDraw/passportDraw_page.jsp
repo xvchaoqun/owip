@@ -1,31 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-
         <div id="body-content">
-            <t:sort-form css="form-inline hidden-sm hidden-xs" id="searchForm">
-                <div class="vspace-12"></div>
-                <div class="jqgrid-vertical-offset buttons">
-                    <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/abroad/passportDraw_select"><i
-                            class="fa fa-plus"></i> 申请使用因私出国（境）证件</a>
-                    <a class="popupBtn btn btn-info btn-sm"
-                       data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_PASSPORT_DRAW_NOTE}">
-                        <i class="fa fa-info-circle"></i> 申请说明</a>
-                </div>
-            </t:sort-form>
+            <div class="jqgrid-vertical-offset buttons">
+                <a class="openView btn btn-success btn-sm" data-url="${ctx}/user/abroad/passportDraw_select"><i
+                        class="fa fa-plus"></i> 申请使用因私出国（境）证件</a>
+                <a class="popupBtn btn btn-info btn-sm"
+                   data-url="${ctx}/hf_content?code=hf_passport_draw_note">
+                    <i class="fa fa-info-circle"></i> 申请说明</a>
+            </div>
             <div class="space-4"></div>
             <div class="tabbable">
                 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_SELF}">active</c:if>">
-                        <a class="hashchange" data-querystr="type=${ABROAD_PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-plane"></i> 因私出国（境）</a>
+                        <a href="javascript:;" class="hashchange" data-querystr="type=${ABROAD_PASSPORT_DRAW_TYPE_SELF}"><i class="fa fa-plane"></i> 因私出国（境）</a>
                     </li>
                     <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">active</c:if>">
-                        <a class="hashchange" data-querystr="type=${ABROAD_PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-ship"></i> 因公赴台、长期因公出国</a>
+                        <a href="javascript:;" class="hashchange" data-querystr="type=${ABROAD_PASSPORT_DRAW_TYPE_TW}"><i class="fa fa-ship"></i> 因公赴台、长期因公出国</a>
                     </li>
                     <li class="<c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_OTHER}">active</c:if>">
-                        <a class="hashchange" data-querystr="type=${ABROAD_PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-share"></i> 处理其他事务</a>
+                        <a href="javascript:;" class="hashchange" data-querystr="type=${ABROAD_PASSPORT_DRAW_TYPE_OTHER}"><i class="fa fa-share"></i> 处理其他事务</a>
                     </li>
                 </ul>
 

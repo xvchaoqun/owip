@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +63,7 @@ public class CrsStatController extends CrsBaseController {
                                     Boolean isFirst,
                                   Integer startAge,
                                   Integer endAge,
-                                  @RequestParam(required = false, value = "dpTypes") Long[] dpTypes, // 党派
+                                  @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes, // 党派
                                   @RequestParam(required = false, value = "maxEdus") Integer[] maxEdus, // 最高学历
                                   Boolean isMiddle, // 是否现任中层干部
                                     Integer pageSize, Integer pageNo) throws IOException {
@@ -93,7 +94,7 @@ public class CrsStatController extends CrsBaseController {
             criteria.andBirthLessThanOrEqualTo(DateUtils.getDateBeforeOrAfterYears(new Date(), -1 * startAge));
         }
         if (dpTypes != null) {
-            criteria.andCadreDpTypeIn(Arrays.asList(dpTypes));
+            criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
         }
         if (maxEdus != null) {
             criteria.andEduIdIn(Arrays.asList(maxEdus));

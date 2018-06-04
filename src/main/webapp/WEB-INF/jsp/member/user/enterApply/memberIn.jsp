@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="MEMBER_IN_STATUS_BACK" value="<%=MemberConstants.MEMBER_IN_STATUS_BACK%>"/>
+
 <div  style="padding-top: 50px;"></div>
 <c:if test="${memberIn.status==MEMBER_IN_STATUS_BACK}">
   <div class="alert alert-danger">
@@ -16,7 +18,7 @@
         组织关系转入
         <a class="popupBtn btn btn-success btn-xs"
            data-width="800"
-           data-url="${ctx}/hf_content?code=${HTML_FRAGMENT_MEMBER_IN_NOTE_BACK}">
+           data-url="${ctx}/hf_content?code=<%=SystemConstants.HTML_FRAGMENT_MEMBER_IN_NOTE_BACK%>">
           <i class="fa fa-info-circle"></i> 申请说明</a>
       </h1>
     </div>
@@ -43,7 +45,7 @@
         <div class="col-xs-6">
           <select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="168">
             <option></option>
-            <c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
+            <c:forEach items="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>" var="_type">
               <option value="${_type.key}">${_type.value}</option>
             </c:forEach>
           </select>
@@ -291,7 +293,7 @@
 
         $('#modalForm select[name=politicalStatus]').change(function(){
           var $input = $("#modalForm  input[name=_positiveTime]");
-          if($(this).val()=='${MEMBER_POLITICAL_STATUS_POSITIVE}') {
+          if($(this).val()=='<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>') {
             $input.attr("required", "required");
           }else {
             $input.removeAttr("required");

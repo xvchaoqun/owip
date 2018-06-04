@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
 <div class="row">
     <div class="col-xs-12">
 
@@ -30,10 +31,10 @@
                     </li>
                     <div class="buttons pull-right" style="top: -3px; right:10px; position: relative">
                         <a class="openView btn btn-success btn-sm"
-                           data-url="${ctx}/htmlFragment_au?editContent=no&code=${HTML_FRAGMENT_APPLY_SELF_NOTE}"><i
+                           data-url="${ctx}/htmlFragment_au?editContent=no&code=<%=SystemConstants.HTML_FRAGMENT_APPLY_SELF_NOTE%>"><i
                                 class="fa fa-plus"></i> 申请说明</a>
                         <a class="openView btn btn-primary btn-sm"
-                           data-url="${ctx}/htmlFragment_au?editContent=no&code=${HTML_FRAGMENT_APPLY_SELF_APPROVAL_NOTE}"><i
+                           data-url="${ctx}/htmlFragment_au?editContent=no&code=<%=SystemConstants.HTML_FRAGMENT_APPLY_SELF_APPROVAL_NOTE%>"><i
                                 class="fa fa-plus"></i> 审批说明</a>
                     </div>
                 </ul>
@@ -74,7 +75,7 @@
                             </button>--%>
                             <button class="jqOpenViewBtn btn btn-info btn-sm"
                                     data-url="${ctx}/sysApprovalLog"
-                                    data-querystr="&type=${SYS_APPROVAL_LOG_TYPE_APPLYSELF}"
+                                    data-querystr="&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF%>"
                                     data-open-by="page">
                                 <i class="fa fa-check-circle-o"></i> 查看操作记录
                             </button>

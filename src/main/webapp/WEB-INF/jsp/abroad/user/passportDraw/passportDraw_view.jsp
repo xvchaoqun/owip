@@ -1,12 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fafa
-  Date: 2016/2/27
-  Time: 9:31
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
+
 <div class="widget-box transparent" id="view-box" style="width: 900px">
   <div class="widget-header">
     <h4 class="widget-title lighter smaller">

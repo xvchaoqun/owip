@@ -1,6 +1,7 @@
 package service.cadre;
 
 import controller.global.OpException;
+import domain.base.MetaType;
 import domain.cadre.CadreReward;
 import domain.cadre.CadreRewardExample;
 import domain.cadre.CadreView;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.base.MetaTypeService;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
@@ -20,15 +22,40 @@ import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CadreRewardService extends BaseMapper {
     @Autowired
     private CadreService cadreService;
+    @Autowired
+    private MetaTypeService metaTypeService;
 
+    // 获取情况（用于任免审批表）
+    public List<CadreReward> list(int cadreId) {
+
+        Map<String, MetaType> codeKeyMap = metaTypeService.codeKeyMap();
+        MetaType gjj = codeKeyMap.get("mc_reward_gjj"); // 国家级
+        MetaType sbj = codeKeyMap.get("mc_reward_sbj"); // 省部级
+        MetaType dtj = codeKeyMap.get("mc_reward_dtj"); // 地厅级
+        List<Integer> rewardLevels = new ArrayList<>();
+        rewardLevels.add(gjj.getId());
+        rewardLevels.add(sbj.getId());
+        rewardLevels.add(dtj.getId());
+
+        CadreRewardExample example = new CadreRewardExample();
+        example.createCriteria().andCadreIdEqualTo(cadreId).andRewardLevelIn(rewardLevels)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        example.setOrderByClause("reward_time asc");
+
+        return cadreRewardMapper.selectByExample(example);
+    }
+
+    // 获取情况
     public List<CadreReward> list(int cadreId, byte rewardType) {
 
         CadreRewardExample example = new CadreRewardExample();

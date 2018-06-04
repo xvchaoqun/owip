@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="CADRE_STAT_HISTORY_TYPE_MAP" value="<%=CadreConstants.CADRE_STAT_HISTORY_TYPE_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
 

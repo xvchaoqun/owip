@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="MEMBER_INFLOW_STATUS_BACK" value="<%=MemberConstants.MEMBER_INFLOW_STATUS_BACK%>"/>
+<c:set var="MEMBER_INFLOW_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY%>"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -98,7 +100,7 @@
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/applyApprovalLog"
-                                        data-querystr="&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW}"
+                                        data-querystr="&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_INFLOW%>"
                                         data-open-by="page">
                                     <i class="fa fa-check-circle-o"></i> 查看审批记录
                                 </button>
@@ -238,7 +240,7 @@
                                                 <div class="input-group">
                                                     <select name="status" data-rel="select2" data-placeholder="请选择">
                                                         <option></option>
-                                                        <c:forEach var="_status" items="${MEMBER_INFLOW_STATUS_MAP}">
+                                                        <c:forEach var="_status" items="<%=MemberConstants.MEMBER_INFLOW_STATUS_MAP%>">
                                                             <c:if test="${_status.key>MEMBER_INFLOW_STATUS_BACK && _status.key<MEMBER_INFLOW_STATUS_PARTY_VERIFY}">
                                                                 <option value="${_status.key}">${_status.value}</option>
                                                             </c:if>
@@ -366,8 +368,8 @@
             } else if (ids.length == 1) {
 
                 var rowData = $(this).getRowData(ids[0]);
-                $("#branchApprovalBtn").prop("disabled", rowData.inflowStatus != "${MEMBER_INFLOW_STATUS_APPLY}");
-                $("#partyApprovalBtn").prop("disabled", rowData.inflowStatus != "${MEMBER_INFLOW_STATUS_BRANCH_VERIFY}");
+                $("#branchApprovalBtn").prop("disabled", rowData.inflowStatus != "<%=MemberConstants.MEMBER_INFLOW_STATUS_APPLY%>");
+                $("#partyApprovalBtn").prop("disabled", rowData.inflowStatus != "<%=MemberConstants.MEMBER_INFLOW_STATUS_BRANCH_VERIFY%>");
             } else {
                 $("*[data-count]").each(function () {
                     $(this).prop("disabled", $(this).data("count") == 0);

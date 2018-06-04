@@ -1,12 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fafa
-  Date: 2016/2/28
-  Time: 10:47
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
 <c:set var="passportType" value="${cm:getMetaType(passport.classId)}"/>
 <div class="modal-header">
   <h3>申请签注(${passportType.name})</h3>

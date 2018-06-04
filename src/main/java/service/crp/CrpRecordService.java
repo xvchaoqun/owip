@@ -10,10 +10,20 @@ import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class CrpRecordService extends BaseMapper {
 
+    // 获取所有的挂职经历
+    public List<CrpRecord> findRecords(int userId){
+
+        CrpRecordExample example = new CrpRecordExample();
+        example.createCriteria().andUserIdEqualTo(userId).andIsDeletedEqualTo(false);
+        example.setOrderByClause("start_date asc");
+
+        return crpRecordMapper.selectByExample(example);
+    }
 
     @Transactional
     public void insertSelective(CrpRecord record) {

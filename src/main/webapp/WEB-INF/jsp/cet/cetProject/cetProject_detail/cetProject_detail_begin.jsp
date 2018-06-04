@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <div style="width: 500px;float: left;margin-right: 25px">
     <div class="widget-box">
         <div class="widget-header">
@@ -82,6 +83,7 @@
                                             <i class="ace-icon fa fa-angle-${vs.first?'down':'right'} bigger-110"
                                                data-icon-hide="ace-icon fa fa-angle-down"
                                                data-icon-show="ace-icon fa fa-angle-right"></i>
+                                            <c:set value="<%=ContentTplConstants.CONTENT_TPL_CET_MSG_MAP%>" var="CONTENT_TPL_CET_MSG_MAP"/>
                                                 ${CONTENT_TPL_CET_MSG_MAP.get(tpl.code)}
                                         </a>
                                     </h4>

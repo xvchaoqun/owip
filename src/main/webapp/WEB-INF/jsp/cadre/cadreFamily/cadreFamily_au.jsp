@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-3">
                     <select required data-rel="select2" name="title" data-placeholder="请选择" data-width="125">
                         <option></option>
-                        <c:forEach var="familyTitle" items="${CADRE_FAMILY_TITLE_MAP}">
+                        <c:forEach var="familyTitle" items="<%=CadreConstants.CADRE_FAMILY_TITLE_MAP%>">
                             <option value="${familyTitle.key}">${familyTitle.value}</option>
                         </c:forEach>
                     </select>

@@ -43,7 +43,7 @@
                         <div class="tab-pane in active rownumbers">
                             <div class="jqgrid-vertical-offset buttons">
                                 <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE}">
-                                    <shiro:hasPermission name="cadre:list">
+                                    <shiro:hasPermission name="cadre:edit">
                                     <button class="jqBatchBtn btn btn-warning btn-sm"
                                             data-title="重新任用"
                                             data-msg="确定重新任用这{0}个干部吗？（添加到考察对象中）"
@@ -108,10 +108,12 @@
                                            data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
                                                 class="fa fa-download"></i> 导出家庭成员</a>
                                     </shiro:hasPermission>
+                                    <shiro:hasPermission name="cadre:list">
                                     <button class="openView btn btn-primary btn-sm"
                                             data-url="${ctx}/cadre_search_brief">
                                         <i class="fa fa-search"></i> 提取简介
                                     </button>
+                                    </shiro:hasPermission>
                                 </c:if>
                                 <shiro:hasPermission name="cadre:del">
                                     <button data-url="${ctx}/cadre_batchDel"
@@ -152,8 +154,8 @@
                                                         <select name="gender" data-width="100" data-rel="select2"
                                                                 data-placeholder="请选择">
                                                             <option></option>
-                                                            <option value="${GENDER_MALE}">男</option>
-                                                            <option value="${GENDER_FEMALE}">女</option>
+                                                            <option value="<%=SystemConstants.GENDER_MALE%>">男</option>
+                                                            <option value="<%=SystemConstants.GENDER_FEMALE%>">女</option>
                                                         </select>
                                                         <script>
                                                             $("#searchForm select[name=gender]").val('${param.gender}');
@@ -312,7 +314,7 @@
                                                     <td class="input">
                                                         <select name="age" data-width="150" data-rel="select2" data-placeholder="请选择">
                                                             <option></option>
-                                                            <c:forEach items="${MEMBER_AGE_MAP}" var="age">
+                                                            <c:forEach items="<%=MemberConstants.MEMBER_AGE_MAP%>" var="age">
                                                                 <option value="${age.key}">${age.value}</option>
                                                             </c:forEach>
                                                         </select>

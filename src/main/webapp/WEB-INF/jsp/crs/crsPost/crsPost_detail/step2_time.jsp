@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/crs/constants.jsp" %>
 <div class="space-4"></div>
 <c:set var="isOpen" value="${crsPost.switchStatus==CRS_POST_ENROLL_STATUS_OPEN}"/>
 <c:set var="isClosed" value="${crsPost.switchStatus==CRS_POST_ENROLL_STATUS_CLOSED}"/>

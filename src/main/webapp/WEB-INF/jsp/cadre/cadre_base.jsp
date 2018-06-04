@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set value="<%=CadreConstants.CADRE_SCHOOL_TYPE_MAP%>" var="CADRE_SCHOOL_TYPE_MAP"/>
+
 <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
 <c:if test="${cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth}">
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
@@ -80,13 +82,13 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td>政治面貌</td>
 				<td>
-					${cm:cadreParty(cadre.cadreDpType, false, "中共党员")}
+					${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}
 				</td>
 				<td>
 					党派加入时间
 				</td>
 				<td>
-					${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}
+						${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}
 				</td>
 
 				<td>国家/地区</td>
@@ -750,11 +752,11 @@ pageEncoding="UTF-8"%>
 									${empty xtJzg.csrq?'':cm:intervalYearsUntilNow(extJzg.csrq)}
 							</td>
 						</tr>
-						<c:set var="_needModifyParty" value="${cadre.cadreDpType<0 && empty member}"/>
+						<c:set var="_needModifyParty" value="${empty cadre.dpTypeId && !cadre.isOw}"/>
 						<tr>
 							<td>政治面貌</td>
 							<td>
-								<c:set var="original" value="${cm:cadreParty(cadre.cadreDpType, false, '中共党员')}"/>
+								<c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}"/>
 								<c:if test="${!_needModifyParty}">${original}</c:if>
 								<c:if test="${_needModifyParty}">
 								<select data-rel="select2" name="dpTypeId" data-width="150" data-placeholder="请选择民主党派">
@@ -770,7 +772,7 @@ pageEncoding="UTF-8"%>
 								党派加入时间
 							</td>
 							<td>
-								<c:set var="original" value="${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}"/>
+								<c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}"/>
 								<c:if test="${!_needModifyParty}">${original}</c:if>
 								<c:if test="${_needModifyParty}">
 								<div class="input-group" style="width: 130px">
@@ -955,7 +957,7 @@ pageEncoding="UTF-8"%>
 		<div class="clearfix form-actions center">
 			<a class="popupBtn btn btn-warning"
 			   data-width="800"
-			   data-url="${ctx}/hf_content?code=${HF_CADRE_BASE_INFO}">
+			   data-url="${ctx}/hf_content?code=hf_cadre_base_info">
 				<i class="fa fa-info-circle"></i> 填写说明</a>
 			&nbsp; &nbsp; &nbsp;
 			<button class="btn btn-info" type="submit">

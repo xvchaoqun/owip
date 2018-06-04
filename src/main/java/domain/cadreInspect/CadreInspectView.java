@@ -62,6 +62,8 @@ public class CadreInspectView implements Serializable {
 
     private Integer unitId;
 
+    private Boolean isCommitteeMember;
+
     private String title;
 
     private Integer dispatchCadreId;
@@ -83,6 +85,8 @@ public class CadreInspectView implements Serializable {
     private String homePhone;
 
     private String email;
+
+    private String code;
 
     private String realname;
 
@@ -114,13 +118,11 @@ public class CadreInspectView implements Serializable {
 
     private Integer owId;
 
+    private Boolean isOw;
+
     private Date owGrowTime;
 
     private String owRemark;
-
-    private Date cadreGrowTime;
-
-    private Long cadreDpType;
 
     private Integer eduId;
 
@@ -314,6 +316,14 @@ public class CadreInspectView implements Serializable {
         this.unitId = unitId;
     }
 
+    public Boolean getIsCommitteeMember() {
+        return isCommitteeMember;
+    }
+
+    public void setIsCommitteeMember(Boolean isCommitteeMember) {
+        this.isCommitteeMember = isCommitteeMember;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -400,6 +410,14 @@ public class CadreInspectView implements Serializable {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     public String getRealname() {
@@ -522,6 +540,14 @@ public class CadreInspectView implements Serializable {
         this.owId = owId;
     }
 
+    public Boolean getIsOw() {
+        return isOw;
+    }
+
+    public void setIsOw(Boolean isOw) {
+        this.isOw = isOw;
+    }
+
     public Date getOwGrowTime() {
         return owGrowTime;
     }
@@ -536,22 +562,6 @@ public class CadreInspectView implements Serializable {
 
     public void setOwRemark(String owRemark) {
         this.owRemark = owRemark == null ? null : owRemark.trim();
-    }
-
-    public Date getCadreGrowTime() {
-        return cadreGrowTime;
-    }
-
-    public void setCadreGrowTime(Date cadreGrowTime) {
-        this.cadreGrowTime = cadreGrowTime;
-    }
-
-    public Long getCadreDpType() {
-        return cadreDpType;
-    }
-
-    public void setCadreDpType(Long cadreDpType) {
-        this.cadreDpType = cadreDpType;
     }
 
     public Integer getEduId() {

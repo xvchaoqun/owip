@@ -1,12 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: fafa
-  Date: 2015/12/7
-  Time: 13:39
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="OW_OR_STATUS_MAP" value="<%=OwConstants.OW_OR_STATUS_MAP%>"/>
+<c:set var="MEMBER_OUTFLOW_STATUS_MAP" value="<%=MemberConstants.MEMBER_OUTFLOW_STATUS_MAP%>"/>
+<c:set var="MEMBER_OUTFLOW_STATUS_APPLY" value="<%=MemberConstants.MEMBER_OUTFLOW_STATUS_APPLY%>"/>
 <div class="row">
 <div class="widget-box">
     <div class="widget-header">

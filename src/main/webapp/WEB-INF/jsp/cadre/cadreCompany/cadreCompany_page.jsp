@@ -7,7 +7,7 @@ pageEncoding="UTF-8" %>
     <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <a class="popupBtn btn btn-warning btn-sm"
        data-width="800"
-       data-url="${ctx}/hf_content?code=${HF_CADRE_COMPANY}">
+       data-url="${ctx}/hf_content?code=hf_cadre_company">
         <i class="fa fa-info-circle"></i> 填写说明</a>
     <shiro:hasPermission name="cadreCompany:edit">
         <button class="popupBtn btn btn-success btn-sm"

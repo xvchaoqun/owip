@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="MEMBER_TRANSFER_STATUS_TO_VERIFY" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY%>"/>
+
 <div style="width: 900px">
     <h3><c:if test="${memberTransfer!=null}">编辑</c:if><c:if test="${memberTransfer==null}">添加</c:if>校内组织关系互转</h3>
 <hr/>

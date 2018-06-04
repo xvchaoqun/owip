@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="MEMBER_QUIT_TYPE_MAP" value="<%=MemberConstants.MEMBER_QUIT_TYPE_MAP%>"/>
+<c:set var="MEMBER_QUIT_STATUS_SELF_BACK" value="<%=MemberConstants.MEMBER_QUIT_STATUS_SELF_BACK%>"/>
+<c:set var="MEMBER_QUIT_STATUS_BACK" value="<%=MemberConstants.MEMBER_QUIT_STATUS_BACK%>"/>
+<c:set var="MEMBER_QUIT_STATUS_BRANCH_VERIFY" value="<%=MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY%>"/>
+<c:set var="MEMBER_QUIT_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_QUIT_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_QUIT_STATUS_OW_VERIFY%>"/>
+
 <div class="modal-body">
 
     <div class="widget-box transparent">
@@ -181,5 +188,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberQuit.userId}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT}"/>
+    <c:import url="/applyApprovalLogs?id=${memberQuit.userId}&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT%>"/>
 </div>

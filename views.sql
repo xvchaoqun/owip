@@ -31,7 +31,7 @@ group by cpo.id;
 DROP VIEW IF EXISTS `cet_project_obj_cadre_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_project_obj_cadre_view` AS
 select cpov.*, cv.id as cadre_id,
- cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.dp_type_id, cv.pro_post,
+ cv.title, cv.type_id, cv.post_id, cv.is_ow, cv.ow_grow_time, cv.dp_grow_time, cv.dp_type_id, cv.pro_post,
 cv.lp_work_time, cv.mobile, cv.email, cv.status as cadre_status,cv.sort_order as cadre_sort_order from cet_project_obj_view cpov
 left join cadre_view cv on cpov.user_id=cv.user_id;
 
@@ -88,7 +88,7 @@ left join cet_course cc on cc.id=ctc.course_id group by ctee.id;
 DROP VIEW IF EXISTS `cet_trainee_cadre_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_cadre_view` AS
 select cteev.*,
-cv.id as cadre_id, cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.pro_post,
+cv.id as cadre_id, cv.code, cv.realname, cv.title, cv.type_id, cv.post_id, cv.is_ow, cv.ow_grow_time, cv.dp_grow_time, cv.dp_type_id, cv.pro_post,
 cv.lp_work_time, cv.mobile, cv.email, cv.status, cv.sort_order as cadre_sort_order from cet_trainee_view cteev
 left join cadre_view cv on cv.user_id=cteev.user_id
 group by cteev.id;
@@ -123,7 +123,7 @@ left join sys_user_view uv on uv.id = cteec.choose_user_id order by cpo.id asc;
 DROP VIEW IF EXISTS `cet_trainee_course_cadre_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cet_trainee_course_cadre_view` AS
 select cteecv.*,
-cv.realname, cv.title, cv.type_id, cv.post_id, cv.cadre_dp_type, cv.dp_type_id, cv.pro_post,
+cv.realname, cv.title, cv.type_id, cv.post_id, cv.is_ow, cv.ow_grow_time, cv.dp_grow_time, cv.dp_type_id, cv.pro_post,
 cv.lp_work_time, cv.mobile, cv.email, cv.status, cv.sort_order as cadre_sort_order
 from cet_trainee_course_view cteecv
 left join cadre_view cv on cteecv.user_id=cv.user_id;
@@ -790,7 +790,6 @@ select opm.*,
 	,`ui`.`birth` AS `birth`
 	,`om`.`party_id` AS `party_id`
 	,`om`.`branch_id` AS `branch_id`
-	,`om`.`grow_time` AS `grow_time`
 	,`om`.`status` AS `member_status`
 	, opmg.party_id as group_party_id
 	, op.unit_id
@@ -805,8 +804,14 @@ select opm.*,
 	,`t`.`manage_level` AS `manage_level`
 	,`t`.`manage_level_time` AS `manage_level_time`
 	,`t`.`arrive_time` AS `arrive_time`
-	, if(isnull(dp.id), if(om.status=1, om.grow_time, ow.grow_time), dp.grow_time) as cadre_grow_time
-	, if(isnull(dp.id), if(!isnull(ow.id) or om.status=1, 0, -1), dp.class_id) as cadre_dp_type
+	, ow.id as ow_id
+	-- 判断是否是中共党员
+	, if(!isnull(ow.id) or om.status=1 or om.status=4, 1, 0) as is_ow
+	-- 优先以党员库中的入党时间为准
+	, if(om.status=1 or om.status=4, om.grow_time, ow.grow_time) as ow_grow_time
+	, ow.remark as ow_remark
+	, dp.grow_time as dp_grow_time
+  , dp.class_id as dp_type_id
 	 from  ow_party_member opm  join ow_party_member_group opmg on opmg.is_present=1 and opmg.is_deleted=0 and opm.group_id=opmg.id
  left join sys_user_info ui on opm.user_id=ui.user_id
  left join ow_member om on opm.user_id=om.user_id

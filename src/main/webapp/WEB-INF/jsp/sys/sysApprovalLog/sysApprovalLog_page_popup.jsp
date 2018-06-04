@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="SYS_APPROVAL_LOG_TYPE_MAP" value="<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_MAP%>"/>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
   <h3><c:if test="${not empty sysUser}">${sysUser.realname}-</c:if>${SYS_APPROVAL_LOG_TYPE_MAP.get(type)}-操作记录</h3>
@@ -30,7 +31,7 @@
     ],
     rowattr: function(rowData, currentObj, rowId)
     {
-      if(rowData.status=='${SYS_APPROVAL_LOG_STATUS_BACK}') {
+      if(rowData.status=='<%=SystemConstants.SYS_APPROVAL_LOG_STATUS_BACK%>') {
         //console.log(rowData)
         return {'class':'danger'}
       }

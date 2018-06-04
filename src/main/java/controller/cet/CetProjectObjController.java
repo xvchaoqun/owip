@@ -135,7 +135,7 @@ public class CetProjectObjController extends CetBaseController {
                                    Boolean isCurrentGroup, // 是否本组 （分组讨论）
                                    Boolean isFinish, // 学习情况 （自主学习）、分组讨论（是否参会）
                                    Boolean hasUploadWrite, // 是否撰写心得体会
-                                   @RequestParam(required = false, value = "dpTypes") Long[] dpTypes,
+                                   @RequestParam(required = false, value = "dpTypes") Integer[] dpTypes,
                                    @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
                                    @RequestParam(required = false, value = "postIds") Integer[] postIds,
                                    int traineeTypeId,
@@ -236,7 +236,7 @@ public class CetProjectObjController extends CetBaseController {
 
                 criteria.andIsQuitEqualTo(isQuit);
                 if (dpTypes != null) {
-                    criteria.andCadreDpTypeIn(Arrays.asList(dpTypes));
+                    criteria.andDpTypeIdIn(new HashSet<>(Arrays.asList(dpTypes)));
                 }
                 if (postIds != null) {
                     criteria.andPostIdIn(Arrays.asList(postIds));

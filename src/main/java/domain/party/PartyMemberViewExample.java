@@ -1431,66 +1431,6 @@ public class PartyMemberViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andGrowTimeIsNull() {
-            addCriterion("grow_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeIsNotNull() {
-            addCriterion("grow_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("grow_time =", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("grow_time <>", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("grow_time >", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("grow_time >=", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeLessThan(Date value) {
-            addCriterionForJDBCDate("grow_time <", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("grow_time <=", value, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("grow_time in", values, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("grow_time not in", values, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("grow_time between", value1, value2, "growTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrowTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("grow_time not between", value1, value2, "growTime");
-            return (Criteria) this;
-        }
-
         public Criteria andMemberStatusIsNull() {
             addCriterion("member_status is null");
             return (Criteria) this;
@@ -2391,123 +2331,373 @@ public class PartyMemberViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andCadreGrowTimeIsNull() {
-            addCriterion("cadre_grow_time is null");
+        public Criteria andOwIdIsNull() {
+            addCriterion("ow_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andCadreGrowTimeIsNotNull() {
-            addCriterion("cadre_grow_time is not null");
+        public Criteria andOwIdIsNotNull() {
+            addCriterion("ow_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCadreGrowTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("cadre_grow_time =", value, "cadreGrowTime");
+        public Criteria andOwIdEqualTo(Integer value) {
+            addCriterion("ow_id =", value, "owId");
             return (Criteria) this;
         }
 
-        public Criteria andCadreGrowTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("cadre_grow_time <>", value, "cadreGrowTime");
+        public Criteria andOwIdNotEqualTo(Integer value) {
+            addCriterion("ow_id <>", value, "owId");
             return (Criteria) this;
         }
 
-        public Criteria andCadreGrowTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("cadre_grow_time >", value, "cadreGrowTime");
+        public Criteria andOwIdGreaterThan(Integer value) {
+            addCriterion("ow_id >", value, "owId");
             return (Criteria) this;
         }
 
-        public Criteria andCadreGrowTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("cadre_grow_time >=", value, "cadreGrowTime");
+        public Criteria andOwIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ow_id >=", value, "owId");
             return (Criteria) this;
         }
 
-        public Criteria andCadreGrowTimeLessThan(Date value) {
-            addCriterionForJDBCDate("cadre_grow_time <", value, "cadreGrowTime");
+        public Criteria andOwIdLessThan(Integer value) {
+            addCriterion("ow_id <", value, "owId");
             return (Criteria) this;
         }
 
-        public Criteria andCadreGrowTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("cadre_grow_time <=", value, "cadreGrowTime");
+        public Criteria andOwIdLessThanOrEqualTo(Integer value) {
+            addCriterion("ow_id <=", value, "owId");
             return (Criteria) this;
         }
 
-        public Criteria andCadreGrowTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("cadre_grow_time in", values, "cadreGrowTime");
+        public Criteria andOwIdIn(List<Integer> values) {
+            addCriterion("ow_id in", values, "owId");
             return (Criteria) this;
         }
 
-        public Criteria andCadreGrowTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("cadre_grow_time not in", values, "cadreGrowTime");
+        public Criteria andOwIdNotIn(List<Integer> values) {
+            addCriterion("ow_id not in", values, "owId");
             return (Criteria) this;
         }
 
-        public Criteria andCadreGrowTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("cadre_grow_time between", value1, value2, "cadreGrowTime");
+        public Criteria andOwIdBetween(Integer value1, Integer value2) {
+            addCriterion("ow_id between", value1, value2, "owId");
             return (Criteria) this;
         }
 
-        public Criteria andCadreGrowTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("cadre_grow_time not between", value1, value2, "cadreGrowTime");
+        public Criteria andOwIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("ow_id not between", value1, value2, "owId");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeIsNull() {
-            addCriterion("cadre_dp_type is null");
+        public Criteria andIsOwIsNull() {
+            addCriterion("is_ow is null");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeIsNotNull() {
-            addCriterion("cadre_dp_type is not null");
+        public Criteria andIsOwIsNotNull() {
+            addCriterion("is_ow is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeEqualTo(Long value) {
-            addCriterion("cadre_dp_type =", value, "cadreDpType");
+        public Criteria andIsOwEqualTo(Boolean value) {
+            addCriterion("is_ow =", value, "isOw");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeNotEqualTo(Long value) {
-            addCriterion("cadre_dp_type <>", value, "cadreDpType");
+        public Criteria andIsOwNotEqualTo(Boolean value) {
+            addCriterion("is_ow <>", value, "isOw");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeGreaterThan(Long value) {
-            addCriterion("cadre_dp_type >", value, "cadreDpType");
+        public Criteria andIsOwGreaterThan(Boolean value) {
+            addCriterion("is_ow >", value, "isOw");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeGreaterThanOrEqualTo(Long value) {
-            addCriterion("cadre_dp_type >=", value, "cadreDpType");
+        public Criteria andIsOwGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_ow >=", value, "isOw");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeLessThan(Long value) {
-            addCriterion("cadre_dp_type <", value, "cadreDpType");
+        public Criteria andIsOwLessThan(Boolean value) {
+            addCriterion("is_ow <", value, "isOw");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeLessThanOrEqualTo(Long value) {
-            addCriterion("cadre_dp_type <=", value, "cadreDpType");
+        public Criteria andIsOwLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_ow <=", value, "isOw");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeIn(List<Long> values) {
-            addCriterion("cadre_dp_type in", values, "cadreDpType");
+        public Criteria andIsOwIn(List<Boolean> values) {
+            addCriterion("is_ow in", values, "isOw");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeNotIn(List<Long> values) {
-            addCriterion("cadre_dp_type not in", values, "cadreDpType");
+        public Criteria andIsOwNotIn(List<Boolean> values) {
+            addCriterion("is_ow not in", values, "isOw");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeBetween(Long value1, Long value2) {
-            addCriterion("cadre_dp_type between", value1, value2, "cadreDpType");
+        public Criteria andIsOwBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_ow between", value1, value2, "isOw");
             return (Criteria) this;
         }
 
-        public Criteria andCadreDpTypeNotBetween(Long value1, Long value2) {
-            addCriterion("cadre_dp_type not between", value1, value2, "cadreDpType");
+        public Criteria andIsOwNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_ow not between", value1, value2, "isOw");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwGrowTimeIsNull() {
+            addCriterion("ow_grow_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwGrowTimeIsNotNull() {
+            addCriterion("ow_grow_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwGrowTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("ow_grow_time =", value, "owGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwGrowTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("ow_grow_time <>", value, "owGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwGrowTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("ow_grow_time >", value, "owGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwGrowTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("ow_grow_time >=", value, "owGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwGrowTimeLessThan(Date value) {
+            addCriterionForJDBCDate("ow_grow_time <", value, "owGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwGrowTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("ow_grow_time <=", value, "owGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwGrowTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("ow_grow_time in", values, "owGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwGrowTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("ow_grow_time not in", values, "owGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwGrowTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("ow_grow_time between", value1, value2, "owGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwGrowTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("ow_grow_time not between", value1, value2, "owGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkIsNull() {
+            addCriterion("ow_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkIsNotNull() {
+            addCriterion("ow_remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkEqualTo(String value) {
+            addCriterion("ow_remark =", value, "owRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkNotEqualTo(String value) {
+            addCriterion("ow_remark <>", value, "owRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkGreaterThan(String value) {
+            addCriterion("ow_remark >", value, "owRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("ow_remark >=", value, "owRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkLessThan(String value) {
+            addCriterion("ow_remark <", value, "owRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkLessThanOrEqualTo(String value) {
+            addCriterion("ow_remark <=", value, "owRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkLike(String value) {
+            addCriterion("ow_remark like", value, "owRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkNotLike(String value) {
+            addCriterion("ow_remark not like", value, "owRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkIn(List<String> values) {
+            addCriterion("ow_remark in", values, "owRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkNotIn(List<String> values) {
+            addCriterion("ow_remark not in", values, "owRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkBetween(String value1, String value2) {
+            addCriterion("ow_remark between", value1, value2, "owRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andOwRemarkNotBetween(String value1, String value2) {
+            addCriterion("ow_remark not between", value1, value2, "owRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpGrowTimeIsNull() {
+            addCriterion("dp_grow_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpGrowTimeIsNotNull() {
+            addCriterion("dp_grow_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpGrowTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("dp_grow_time =", value, "dpGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpGrowTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("dp_grow_time <>", value, "dpGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpGrowTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("dp_grow_time >", value, "dpGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpGrowTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("dp_grow_time >=", value, "dpGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpGrowTimeLessThan(Date value) {
+            addCriterionForJDBCDate("dp_grow_time <", value, "dpGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpGrowTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("dp_grow_time <=", value, "dpGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpGrowTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("dp_grow_time in", values, "dpGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpGrowTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("dp_grow_time not in", values, "dpGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpGrowTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("dp_grow_time between", value1, value2, "dpGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpGrowTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("dp_grow_time not between", value1, value2, "dpGrowTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdIsNull() {
+            addCriterion("dp_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdIsNotNull() {
+            addCriterion("dp_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdEqualTo(Integer value) {
+            addCriterion("dp_type_id =", value, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdNotEqualTo(Integer value) {
+            addCriterion("dp_type_id <>", value, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdGreaterThan(Integer value) {
+            addCriterion("dp_type_id >", value, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dp_type_id >=", value, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdLessThan(Integer value) {
+            addCriterion("dp_type_id <", value, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("dp_type_id <=", value, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdIn(List<Integer> values) {
+            addCriterion("dp_type_id in", values, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdNotIn(List<Integer> values) {
+            addCriterion("dp_type_id not in", values, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("dp_type_id between", value1, value2, "dpTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDpTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("dp_type_id not between", value1, value2, "dpTypeId");
             return (Criteria) this;
         }
     }

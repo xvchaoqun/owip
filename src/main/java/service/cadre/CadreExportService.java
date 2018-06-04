@@ -159,8 +159,10 @@ public class CadreExportService extends BaseMapper {
                 }
             }
 
-            String partyName = CmTag.getCadreParty(record.getCadreDpType(), false, "中共党员");// 党派
-            String partyAddTime = DateUtils.formatDate(record.getCadreGrowTime(), DateUtils.YYYY_MM_DD);
+            Map<String, String> cadreParty = CmTag.getCadreParty(record.getIsOw(), record.getOwGrowTime(), "中共党员",
+                    record.getDpTypeId(), record.getDpGrowTime(), true);
+            String partyName = cadreParty.get("partyName");
+            String partyAddTime = cadreParty.get("growTime");
 
             String postDispatchCode = ""; // 现职务任命文件
             String postTime = ""; // 任现职时间
@@ -294,8 +296,8 @@ public class CadreExportService extends BaseMapper {
                     DateUtils.formatDate(record.getBirth(), DateUtils.YYYY_MM_DD),
 
                     record.getBirth()==null?"":DateUtils.yearOffNow(record.getBirth())+"",
-                    partyName,
-                    partyAddTime,
+                    StringUtils.trimToEmpty(partyName),
+                    StringUtils.trimToEmpty(partyAddTime),
                     DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYY_MM_DD), //参加工作时间
                     DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD),
 

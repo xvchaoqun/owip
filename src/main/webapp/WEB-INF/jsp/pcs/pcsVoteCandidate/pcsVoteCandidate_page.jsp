@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="../constants.jsp" %>
 <div class="multi-row-head-table myTableDiv"
      data-url-page="${ctx}/pcsVoteGroup_data"
      data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">

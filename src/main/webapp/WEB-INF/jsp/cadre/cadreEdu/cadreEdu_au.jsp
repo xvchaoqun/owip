@@ -92,7 +92,7 @@
 						<select required data-rel="select2" name="schoolType"
 								data-placeholder="请选择" data-width="162">
 							<option></option>
-							<c:forEach items="${CADRE_SCHOOL_TYPE_MAP}" var="schoolType">
+							<c:forEach items="<%=CadreConstants.CADRE_SCHOOL_TYPE_MAP%>" var="schoolType">
 								<option value="${schoolType.key}">${schoolType.value}</option>
 							</c:forEach>
 						</select>
@@ -259,7 +259,8 @@
 	function schoolTypeChange(){
 		if($("input[name=hasDegree]").bootstrapSwitch("state")){
 			var $schoolType = $("select[name=schoolType]");
-			if($schoolType.val()=='${CADRE_SCHOOL_TYPE_THIS_SCHOOL}' || $schoolType.val()=='${CADRE_SCHOOL_TYPE_DOMESTIC}'){
+			if($schoolType.val()=='<%=CadreConstants.CADRE_SCHOOL_TYPE_THIS_SCHOOL%>'
+					|| $schoolType.val()=='<%=CadreConstants.CADRE_SCHOOL_TYPE_DOMESTIC%>'){
 				$("input[name=degreeCountry]").val('中国').prop("disabled", true).removeAttr("required");
 			}else{
 				$("input[name=degreeCountry]").prop("disabled", false).attr("required", "required");

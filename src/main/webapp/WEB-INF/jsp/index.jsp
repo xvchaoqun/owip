@@ -33,7 +33,7 @@
         <div class="navbar-header pull-left hidden-md hidden-lg ">
             <a href="${ctx}/" class="navbar-brand">
                 <small style="cursor: pointer;">
-                    ${_plantform_short_name}
+                    ${cm:getSysConfig().siteShortName}
                 </small>
             </a>
         </div>

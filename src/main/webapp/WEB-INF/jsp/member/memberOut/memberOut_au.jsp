@@ -76,7 +76,7 @@ pageEncoding="UTF-8"%>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="type" data-placeholder="请选择"  >
 							<option></option>
-							<c:forEach items="${MEMBER_INOUT_TYPE_MAP}" var="_type">
+							<c:forEach items="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>" var="_type">
 								<option value="${_type.key}">${_type.value}</option>
 							</c:forEach>
 						</select>

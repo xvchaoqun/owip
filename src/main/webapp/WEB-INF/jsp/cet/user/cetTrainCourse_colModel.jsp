@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <script>
   <c:if test="${param.planType==CET_PROJECT_PLAN_TYPE_OFFLINE || param.planType==CET_PROJECT_PLAN_TYPE_ONLINE}">
   var colModel = [

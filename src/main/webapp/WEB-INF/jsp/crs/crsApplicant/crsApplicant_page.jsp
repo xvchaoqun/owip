@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/crs/constants.jsp" %>
 <div class="space-4"></div>
 <c:set var="_query"
        value="${not empty param.userId ||not empty param.enrollTime || not empty param.code || not empty param.sort}"/>
@@ -78,7 +79,7 @@
             data-grid-id="#jqGrid2"
             data-url="${ctx}/sysApprovalLog"
             data-width="850"
-            data-querystr="&displayType=1&type=${SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT}">
+            data-querystr="&displayType=1&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_CRS_APPLICANT%>">
         <i class="fa fa-history"></i> 操作记录
     </button>
 <c:if test="${cls==2 || cls==3}">
@@ -210,16 +211,8 @@
             {label: '出生时间', name: 'cadre.birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},
             {label: '民族', name: 'cadre.nation', width: 60},
-            {label: '政治面貌', name: 'cadre.cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
-            {
-                label: '党派加入时间',
-                name: 'cadre.cadreGrowTime',
-                width: 120,
-                formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '-';
-                    return cellvalue.substr(0, 10);
-                }
-            },
+            {label: '政治面貌', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty, formatoptions:{useCadre:true}},
+            {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime, formatoptions:{useCadre:true}},
             {label: '最高学历', name: 'cadre.eduId', formatter: $.jgrid.formatter.MetaType},
             {label: '毕业学校', name: 'cadre.school', width: 150},
             {label: '所学专业', name: 'cadre.major', width: 180, align: 'left'},

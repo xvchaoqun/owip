@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<%@ include file="/WEB-INF/jsp/crs/constants.jsp" %>
 <div class="row" style="width: 1050px">
 <div class="tabbable">
     <c:if test="${param.type!='detail'}">

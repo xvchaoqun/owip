@@ -39,7 +39,7 @@
       {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
       {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},
       {label: '职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
-      {label: '党派', name: 'cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
+      {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
       {label: '专业技术职务', name: 'proPost', width: 120},
       {
           label: '任现职时间',

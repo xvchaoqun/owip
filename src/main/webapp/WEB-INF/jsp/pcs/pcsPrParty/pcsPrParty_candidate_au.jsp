@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="../constants.jsp" %>
+<c:set var="GENDER_MALE" value="<%=SystemConstants.GENDER_MALE%>"/>
+<c:set var="GENDER_FEMALE" value="<%=SystemConstants.GENDER_FEMALE%>"/>
 <div class="row">
     <div class="col-xs-12">
         <h4 class="widget-title lighter smaller"
@@ -71,7 +74,7 @@
                                                 <i class="fa fa-users"></i> ${_type.value}</span>
                                                 <span style="margin-left: 20px">
                                                 <select id="select${_type.key}" data-rel="select2-ajax"
-                                                        data-ajax-url="${ctx}/member_selects?noAuth=1&partyId=${pcsPartyView.id}&type=${_memberType}&isRetire=${_isRetire}&politicalStatus=${MEMBER_POLITICAL_STATUS_POSITIVE}&status=${_status}"
+                                                        data-ajax-url="${ctx}/member_selects?noAuth=1&partyId=${pcsPartyView.id}&type=${_memberType}&isRetire=${_isRetire}&politicalStatus=<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>&status=${_status}"
                                                         data-placeholder="请输入账号或姓名或学工号">
                                                     <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                                                 </select>

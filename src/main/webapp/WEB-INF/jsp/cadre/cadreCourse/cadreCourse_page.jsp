@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="CADRE_REWARD_TYPE_TEACH" value="<%=CadreConstants.CADRE_REWARD_TYPE_TEACH%>"/>
 
 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
@@ -20,7 +21,7 @@
     <div class="buttons" style="position:absolute;left: 500px;">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
-           data-url="${ctx}/hf_content?code=${HF_CADRE_COURSE}">
+           data-url="${ctx}/hf_content?code=hf_cadre_course">
             <i class="fa fa-info-circle"></i> 填写说明</a>
     </div>
 </shiro:lacksRole>
@@ -163,7 +164,7 @@
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
                 content: ke.html(),
-                type: "${CADRE_INFO_TYPE_TEACH}"
+                type: "<%=CadreConstants.CADRE_INFO_TYPE_TEACH%>"
             }, function (ret) {
                 if (ret.success) {
                     _innerPage(3, function () {

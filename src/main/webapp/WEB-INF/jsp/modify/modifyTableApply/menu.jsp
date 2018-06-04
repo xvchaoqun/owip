@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/modify/constants.jsp"%>
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
   <shiro:hasAnyRoles name="${ROLE_CADRE},${ROLE_CADRERESERVE}">
     <li class="${cls==0?"active":""}">

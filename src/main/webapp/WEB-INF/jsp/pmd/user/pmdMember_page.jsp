@@ -14,7 +14,7 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-width="850"
-                   data-url="${ctx}/hf_content?code=${HF_PMD_MEMBER}">
+                   data-url="${ctx}/hf_content?code=hf_pmd_member">
                     <i class="fa fa-info-circle"></i> 使用说明</a>
 
                 <c:if test="${canSetSalary}">

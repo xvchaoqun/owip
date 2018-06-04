@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=CisConstants.CIS_INSPECTOR_TYPE_OW%>" var="CIS_INSPECTOR_TYPE_OW"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${cisInspectObj!=null}">编辑</c:if><c:if test="${cisInspectObj==null}">添加</c:if>干部考察材料</h3>
@@ -69,7 +70,7 @@
             <div class="col-xs-6">
                 <select required data-rel="select2" name="inspectorType" data-placeholder="请选择"  data-width="270">
                     <option></option>
-                    <c:forEach var="type" items="${CIS_INSPECTOR_TYPE_MAP}">
+                    <c:forEach var="type" items="<%=CisConstants.CIS_INSPECTOR_TYPE_MAP%>">
                     <option value="${type.key}">${type.value}</option>
                     </c:forEach>
                 </select>
@@ -127,7 +128,7 @@
 
     function inspectorTypeChange(){
         var $inspectorType = $("select[name=inspectorType]");
-        if($inspectorType.val()=="${CIS_INSPECTOR_TYPE_OTHER}"){
+        if($inspectorType.val()=="<%=CisConstants.CIS_INSPECTOR_TYPE_OTHER%>"){
             $("#otherInspectorTypeDiv").show();
             $("input[name=otherInspectorType]").attr("required", "required");
         }else{

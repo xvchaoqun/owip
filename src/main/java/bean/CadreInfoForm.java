@@ -35,10 +35,16 @@ public class CadreInfoForm {
     private String nativePlace;
     // 出生地
     private String homeplace;
-    // 党派
-    private Integer cadreDpType;
-    // 党派加入时间
-    private Date growTime;
+
+    // 民主党派类别
+    private Integer dpTypeId;
+    // 民主党派加入时间
+    private Date dpGrowTime;
+    // 是否中共党员
+    private Boolean isOw;
+    // 中共党员加入时间
+    private Date owGrowTime;
+
     // 参加工作时间
     private Date workTime;
     // 健康状况
@@ -234,20 +240,36 @@ public class CadreInfoForm {
         this.homeplace = homeplace;
     }
 
-    public Integer getCadreDpType() {
-        return cadreDpType;
+    public Integer getDpTypeId() {
+        return dpTypeId;
     }
 
-    public void setCadreDpType(Integer cadreDpType) {
-        this.cadreDpType = cadreDpType;
+    public void setDpTypeId(Integer dpTypeId) {
+        this.dpTypeId = dpTypeId;
     }
 
-    public Date getGrowTime() {
-        return growTime;
+    public Date getDpGrowTime() {
+        return dpGrowTime;
     }
 
-    public void setGrowTime(Date growTime) {
-        this.growTime = growTime;
+    public void setDpGrowTime(Date dpGrowTime) {
+        this.dpGrowTime = dpGrowTime;
+    }
+
+    public Boolean getIsOw() {
+        return isOw;
+    }
+
+    public void setIsOw(Boolean isOw) {
+        this.isOw = isOw;
+    }
+
+    public Date getOwGrowTime() {
+        return owGrowTime;
+    }
+
+    public void setOwGrowTime(Date owGrowTime) {
+        this.owGrowTime = owGrowTime;
     }
 
     public Date getWorkTime() {

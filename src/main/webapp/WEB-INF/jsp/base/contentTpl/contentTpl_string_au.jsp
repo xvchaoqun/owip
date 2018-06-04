@@ -21,7 +21,7 @@ pageEncoding="UTF-8"%>
                     <select required name="type" data-rel="select2" data-width="200"
                             data-placeholder="请选择">
                         <option></option>
-                        <c:forEach items="${CONTENT_TPL_TYPE_MAP}" var="type">
+                        <c:forEach items="<%=ContentTplConstants.CONTENT_TPL_TYPE_MAP%>" var="type">
                             <option value="${type.key}">${type.value}</option>
                         </c:forEach>
                     </select>
@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
                     <select required name="engine" data-rel="select2" data-width="200"
                             data-placeholder="请选择">
                         <option></option>
-                        <c:forEach items="${CONTENT_TPL_ENGINE_MAP}" var="type">
+                        <c:forEach items="<%=ContentTplConstants.CONTENT_TPL_ENGINE_MAP%>" var="type">
                             <option value="${type.key}">${type.value}</option>
                         </c:forEach>
                     </select>

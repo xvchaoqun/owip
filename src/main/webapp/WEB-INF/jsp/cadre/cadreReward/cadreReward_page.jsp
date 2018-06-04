@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="CADRE_REWARD_TYPE_OTHER" value="<%=CadreConstants.CADRE_REWARD_TYPE_OTHER%>"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_REWARD_OTHER%>" var="CADRE_INFO_TYPE_REWARD_OTHER"/>
+<c:set value="<%=CadreConstants.CADRE_INFO_TYPE_REWARD%>" var="CADRE_INFO_TYPE_REWARD"/>
+
 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
     <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
@@ -9,6 +13,9 @@
     </li>
     <li class="${type==2?"active":""}">
         <a href="javascript:" onclick="_innerPage(2)"><i class="fa fa-flag"></i> 预览</a>
+    </li>
+    <li class="${type==3?"active":""}">
+        <a href="javascript:" onclick="_innerPage(3)"><i class="fa fa-flag"></i> 干部任免审批表奖惩情况预览</a>
     </li>
 </ul>
     </shiro:lacksRole>
@@ -20,7 +27,7 @@
         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
-           data-url="${ctx}/hf_content?code=${HF_CADRE_REWARD}">
+           data-url="${ctx}/hf_content?code=hf_cadre_reward">
             <i class="fa fa-info-circle"></i> 填写说明</a>
         <shiro:hasPermission name="cadreReward:edit">
             <a class="popupBtn btn btn-success btn-sm"
@@ -100,7 +107,87 @@
         </div>
     </div>
 </c:if>
+<c:if test="${type==3}">
+    <div class="space-4"></div>
+    <div class="row">
+        <div class="col-xs-6 preview-text">
+            <div class="widget-box">
+                <div class="widget-header">
+                    <h4 class="smaller">
+                        初始数据
+                    </h4>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main" style="min-height: 647px" id="orginal">
+                        <jsp:useBean id='map3' class='java.util.HashMap' scope='request'>
+                            <c:set target='${map3}' property='cadreRewards' value='${cadreRewards}'/>
+                        </jsp:useBean>
+                        ${cm:freemarker(map3, '/cadre/cadreReward.ftl')}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="widget-box">
+                <div class="widget-header">
+                    <h4 class="smaller">
+                        最终数据（<span
+                            style="font-weight: bolder; color: red;"
+                            id="saveTime">最近保存时间：${empty cadreInfo.lastSaveDate?"未保存":cm:formatDate(cadreInfo.lastSaveDate, "yyyy-MM-dd HH:mm")}</span>）
+                    </h4>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main" style="margin-bottom: 10px">
+                        <textarea id="content">${cadreInfo.content}</textarea>
+                        <input type="hidden" name="content">
+                    </div>
+                    <div class="modal-footer center">
+                        <a href="javascript:" onclick="copyOrginal()" class="btn btn-sm btn-success">
+                            <i class="ace-icon fa fa-copy"></i>
+                            同步自动生成的数据
+                        </a>
+                        <input id="saveBtn" type="button" onclick="updateCadreInfo()" class="btn btn-primary" value="保存"/>
 
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</c:if>
+
+<c:if test="${type==3}">
+    <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
+    <script>
+
+        var ke = KindEditor.create('#content', {
+            cssPath:"${ctx}/css/ke.css",
+            items : ["source", "|", "fullscreen"],
+            height: '550px',
+            width: '100%'
+        });
+        function updateCadreInfo() {
+            $.post("${ctx}/cadreInfo_updateContent", {
+                cadreId: '${param.cadreId}',
+                content: ke.html(),
+                type:"${CADRE_INFO_TYPE_REWARD}"
+            }, function (ret) {
+                if (ret.success) {
+
+                    _innerPage(2, function () {
+                        $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 保存成功', position:{my:'bottom center'}});
+                    });
+                }
+            });
+        }
+        function copyOrginal() {
+            //console.log($("#orginal").html())
+            ke.html($("#orginal").html());
+            $("#saveTime").html("未保存");
+            $("#saveBtn").tip({content: '<i class="fa fa-check-circle green"></i> 复制成功，请点击"保存"按钮进行保存', position:{my:'bottom center'}});
+        }
+    </script>
+</c:if>
 <c:if test="${type==2}">
 
     <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>

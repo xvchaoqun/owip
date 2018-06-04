@@ -20,7 +20,7 @@
         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
         <a class="popupBtn btn btn-warning btn-sm"
            data-width="800"
-           data-url="${ctx}/hf_content?code=${HF_CADRE_PARTTIME}">
+           data-url="${ctx}/hf_content?code=hf_cadre_parttime">
             <i class="fa fa-info-circle"></i> 填写说明</a>
         <shiro:hasPermission name="cadreParttime:edit">
             <button class="popupBtn btn btn-success btn-sm"
@@ -114,7 +114,7 @@
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
                 content: ke.html(),
-                type: "${CADRE_INFO_TYPE_PARTTIME}"
+                type: "<%=CadreConstants.CADRE_INFO_TYPE_PARTTIME%>"
             }, function (ret) {
                 if (ret.success) {
                     _innerPage(2, function () {

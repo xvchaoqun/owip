@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="MEMBER_RETURN_STATUS_DENY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_DENY%>"/>
+
 <div  style="padding-top: 50px;"></div>
 <c:if test="${memberReturn.status==MEMBER_RETURN_STATUS_DENY}">
   <div class="alert alert-danger">
@@ -213,7 +215,7 @@
 
         $('#modalForm select[name=politicalStatus]').change(function(){
           var $input = $("#modalForm  input[name=_positiveTime]");
-          if($(this).val()=='${MEMBER_POLITICAL_STATUS_POSITIVE}') {
+          if($(this).val()=='<%=MemberConstants.MEMBER_POLITICAL_STATUS_POSITIVE%>') {
             //$input.closest(".form-group").addClass("has-error");
             $input.attr("required", "required");
           }else {

@@ -35,7 +35,7 @@
                                             <label>类别</label>
                                                 <select name="typeId" data-placeholder="请选择类别">
                                                     <option></option>
-                                                    <c:forEach var="logType" items="${LOG_MAP}">
+                                                    <c:forEach var="logType" items="<%=LogConstants.LOG_MAP%>">
                                                         <option value="${logType.key}">${logType.value}</option>
                                                     </c:forEach>
                                                 </select>

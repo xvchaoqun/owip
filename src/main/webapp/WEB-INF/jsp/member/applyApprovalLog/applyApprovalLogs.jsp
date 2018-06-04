@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="OW_APPLY_APPROVAL_LOG_STATUS_MAP" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_STATUS_MAP%>"/>
 <div class="col-xs-offset-1">
   <div class="widget-box widget-color-blue collapsed">
     <!-- #section:custom/widget-box.options -->

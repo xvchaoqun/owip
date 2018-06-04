@@ -41,9 +41,9 @@ public class CetTraineeCourseCadreView implements Serializable {
 
     private Integer projectId;
 
-    private String chooseUserName;
-
     private String code;
+
+    private String chooseUserName;
 
     private String realname;
 
@@ -53,7 +53,11 @@ public class CetTraineeCourseCadreView implements Serializable {
 
     private Integer postId;
 
-    private Long cadreDpType;
+    private Boolean isOw;
+
+    private Date owGrowTime;
+
+    private Date dpGrowTime;
 
     private Integer dpTypeId;
 
@@ -215,20 +219,20 @@ public class CetTraineeCourseCadreView implements Serializable {
         this.projectId = projectId;
     }
 
-    public String getChooseUserName() {
-        return chooseUserName;
-    }
-
-    public void setChooseUserName(String chooseUserName) {
-        this.chooseUserName = chooseUserName == null ? null : chooseUserName.trim();
-    }
-
     public String getCode() {
         return code;
     }
 
     public void setCode(String code) {
         this.code = code == null ? null : code.trim();
+    }
+
+    public String getChooseUserName() {
+        return chooseUserName;
+    }
+
+    public void setChooseUserName(String chooseUserName) {
+        this.chooseUserName = chooseUserName == null ? null : chooseUserName.trim();
     }
 
     public String getRealname() {
@@ -263,12 +267,28 @@ public class CetTraineeCourseCadreView implements Serializable {
         this.postId = postId;
     }
 
-    public Long getCadreDpType() {
-        return cadreDpType;
+    public Boolean getIsOw() {
+        return isOw;
     }
 
-    public void setCadreDpType(Long cadreDpType) {
-        this.cadreDpType = cadreDpType;
+    public void setIsOw(Boolean isOw) {
+        this.isOw = isOw;
+    }
+
+    public Date getOwGrowTime() {
+        return owGrowTime;
+    }
+
+    public void setOwGrowTime(Date owGrowTime) {
+        this.owGrowTime = owGrowTime;
+    }
+
+    public Date getDpGrowTime() {
+        return dpGrowTime;
+    }
+
+    public void setDpGrowTime(Date dpGrowTime) {
+        this.dpGrowTime = dpGrowTime;
     }
 
     public Integer getDpTypeId() {

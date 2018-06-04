@@ -62,6 +62,7 @@ pageEncoding="UTF-8"%>
 					来源
 				</td>
 				<td  class="bg-left">
+					<c:set var="USER_SOURCE_MAP" value="<%=SystemConstants.USER_SOURCE_MAP%>"/>
 					${USER_SOURCE_MAP.get(sysUser.source)}
 				</td>
 				<td class="bg-right">组织关系状态</td>

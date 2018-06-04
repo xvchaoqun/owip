@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="MEMBER_IN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_IN_STATUS_APPLY%>"/>
+<c:set var="MEMBER_IN_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_IN_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_IN_STATUS_OW_VERIFY%>"/>
+<c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>"/>
+
 <div class="row">
   <div class="col-xs-12">
 

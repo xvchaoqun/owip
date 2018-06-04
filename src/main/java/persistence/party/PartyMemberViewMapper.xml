@@ -22,7 +22,6 @@
     <result column="birth" jdbcType="DATE" property="birth" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
-    <result column="grow_time" jdbcType="DATE" property="growTime" />
     <result column="member_status" jdbcType="TINYINT" property="memberStatus" />
     <result column="group_party_id" jdbcType="INTEGER" property="groupPartyId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
@@ -37,8 +36,12 @@
     <result column="manage_level" jdbcType="VARCHAR" property="manageLevel" />
     <result column="manage_level_time" jdbcType="DATE" property="manageLevelTime" />
     <result column="arrive_time" jdbcType="DATE" property="arriveTime" />
-    <result column="cadre_grow_time" jdbcType="DATE" property="cadreGrowTime" />
-    <result column="cadre_dp_type" jdbcType="DECIMAL" property="cadreDpType" />
+    <result column="ow_id" jdbcType="INTEGER" property="owId" />
+    <result column="is_ow" jdbcType="BOOLEAN" property="isOw" />
+    <result column="ow_grow_time" jdbcType="DATE" property="owGrowTime" />
+    <result column="ow_remark" jdbcType="VARCHAR" property="owRemark" />
+    <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
+    <result column="dp_type_id" jdbcType="INTEGER" property="dpTypeId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,9 +75,10 @@
   <sql id="Base_Column_List">
     id, group_id, user_id, type_ids, post_id, assign_date, office_phone, mobile, is_admin, 
     sort_order, msg_title, email, realname, gender, nation, native_place, idcard, birth, 
-    party_id, branch_id, grow_time, member_status, group_party_id, unit_id, party_sort_order, 
-    post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, pro_post_level_time, 
-    pro_post, manage_level, manage_level_time, arrive_time, cadre_grow_time, cadre_dp_type
+    party_id, branch_id, member_status, group_party_id, unit_id, party_sort_order, post_class, 
+    sub_post_class, main_post_level, pro_post_time, pro_post_level, pro_post_level_time, 
+    pro_post, manage_level, manage_level_time, arrive_time, ow_id, is_ow, ow_grow_time, 
+    ow_remark, dp_grow_time, dp_type_id
   </sql>
   <select id="selectByExample" parameterType="domain.party.PartyMemberViewExample" resultMap="BaseResultMap">
     select

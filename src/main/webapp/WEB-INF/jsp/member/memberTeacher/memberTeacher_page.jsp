@@ -110,7 +110,7 @@
                                                 <label>年龄</label>
                                                     <select name="age" data-width="150" data-rel="select2" data-placeholder="请选择">
                                                         <option></option>
-                                                        <c:forEach items="${MEMBER_AGE_MAP}" var="age">
+                                                        <c:forEach items="<%=MemberConstants.MEMBER_AGE_MAP%>" var="age">
                                                             <option value="${age.key}">${age.value}</option>
                                                         </c:forEach>
                                                     </select>

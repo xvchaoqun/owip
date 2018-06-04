@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 						<select required data-rel="select2" name="type" data-placeholder="请选择"  data-width="270">
 							<option></option>
-							<c:forEach items="${CIS_EVALUATE_TYPE_MAP}" var="type">
+							<c:forEach items="<%=CisConstants.CIS_EVALUATE_TYPE_MAP%>" var="type">
 								<option value="${type.key}">${type.value}</option>
 							</c:forEach>
 						</select>

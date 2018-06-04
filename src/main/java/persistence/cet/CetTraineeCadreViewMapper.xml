@@ -22,7 +22,10 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="cadre_dp_type" jdbcType="DECIMAL" property="cadreDpType" />
+    <result column="is_ow" jdbcType="BOOLEAN" property="isOw" />
+    <result column="ow_grow_time" jdbcType="DATE" property="owGrowTime" />
+    <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
+    <result column="dp_type_id" jdbcType="INTEGER" property="dpTypeId" />
     <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
     <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
@@ -62,8 +65,8 @@
   <sql id="Base_Column_List">
     id, train_id, obj_id, is_quit, remark, user_id, trainee_type_id, project_id, obj_is_quit, 
     plan_id, total_period, finish_period, course_count, finish_count, cadre_id, code, 
-    realname, title, type_id, post_id, cadre_dp_type, pro_post, lp_work_time, mobile, 
-    email, status, cadre_sort_order
+    realname, title, type_id, post_id, is_ow, ow_grow_time, dp_grow_time, dp_type_id, 
+    pro_post, lp_work_time, mobile, email, status, cadre_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeCadreViewExample" resultMap="BaseResultMap">
     select

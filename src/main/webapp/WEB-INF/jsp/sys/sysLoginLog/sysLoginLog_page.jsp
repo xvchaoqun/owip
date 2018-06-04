@@ -38,7 +38,7 @@
                                             <label>类别</label>
                                             <select name="type" data-rel="select2" data-placeholder="请选择">
                                                 <option></option>
-                                                <c:forEach items="${LOGIN_TYPE_MAP}" var="entity">
+                                                <c:forEach items="<%=SystemConstants.LOGIN_TYPE_MAP%>" var="entity">
                                                     <option value="${entity.key}">${entity.value}</option>
                                                 </c:forEach>
                                             </select>

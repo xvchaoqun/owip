@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
                 <select required data-rel="select2" name="type"
                         data-placeholder="请选择" data-width="162">
                     <option></option>
-                    <c:forEach items="${CADRE_COMPANY_TYPE_MAP}" var="type">
+                    <c:forEach items="<%=CadreConstants.CADRE_COMPANY_TYPE_MAP%>" var="type">
                         <option value="${type.key}">${type.value}</option>
                     </c:forEach>
                 </select>
@@ -124,7 +124,7 @@ pageEncoding="UTF-8"%>
 
     function typeChange(){
 
-        if($("#modalForm select[name=type]").val() == '${CADRE_COMPANY_TYPE_OTHER}'){
+        if($("#modalForm select[name=type]").val() == '<%=CadreConstants.CADRE_COMPANY_TYPE_OTHER%>'){
             $("#typeOtherDiv").show();
             $("#modalForm input[name=typeOther]").attr("required", "required");
         }else{

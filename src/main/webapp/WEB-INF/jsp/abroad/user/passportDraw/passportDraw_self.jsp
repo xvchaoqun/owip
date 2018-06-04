@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
 <div class="widget-box transparent">
   <div class="widget-header widget-header-flat">
     <h4 class="widget-title lighter">
@@ -38,7 +39,7 @@
               <tr>
                 <td class="center">
                   <label class="pos-rel">
-                    <input type="checkbox" value="${applySelf.id}" class="ace">
+                    <input type="checkbox" data-apply-id="${applySelf.id}" class="ace">
                     <span class="lbl"></span>
                   </label>
                 </td>
@@ -97,7 +98,8 @@
   });
 $("#apply").click(function(){
     var $applyId = $("input[type=checkbox]:checked");
-    var applyId = $applyId.val();
+    var applyId = $applyId.data('apply-id');
+    //alert(applyId)
     if(applyId==undefined || applyId=='' || parseInt(applyId)==NaN){
       SysMsg.info("请选择一个行程");
       return;

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="MEMBER_RETURN_STATUS_APPLY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_APPLY%>"/>
 <div class="row">
   <div class="col-xs-12">
 

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="MEMBER_QUIT_STATUS_APPLY" value="<%=MemberConstants.MEMBER_QUIT_STATUS_APPLY%>"/>
+
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${memberQuit!=null}">编辑</c:if><c:if test="${memberQuit==null}">添加</c:if>党员出党</h3>
@@ -31,7 +33,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
                         <select required class="form-control" data-rel="select2" name="type" data-placeholder="请选择">
                             <option></option>
-                            <c:forEach items="${MEMBER_QUIT_TYPE_MAP}" var="quitType">
+                            <c:forEach items="<%=MemberConstants.MEMBER_QUIT_TYPE_MAP%>" var="quitType">
                                 <option value="${quitType.key}">${quitType.value}</option>
                             </c:forEach>
                         </select>

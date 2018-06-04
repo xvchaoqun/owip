@@ -59,7 +59,7 @@
                                                     data-width="150"
                                                     data-placeholder="请选择">
                                                 <option></option>
-                                                <c:forEach items="${OA_TASK_TYPE_MAP}" var="type">
+                                                <c:forEach items="<%=OaConstants.OA_TASK_TYPE_MAP%>" var="type">
                                                     <option value="${type.key}">${type.value}</option>
                                                 </c:forEach>
                                             </select>
@@ -135,7 +135,7 @@
             {
                 label: '撤回', name: '_op', formatter: function (cellvalue, options, rowObject) {
 
-                if (rowObject.status == '${OA_TASK_USER_STATUS_PASS}') return '-'
+                if (rowObject.status == '<%=OaConstants.OA_TASK_USER_STATUS_PASS%>') return '-'
 
                 return '<button class="confirm btn btn-warning btn-xs" data-msg="确定撤回？" data-callback="_reload"' +
                         'data-url="${ctx}/user/oa/oaTaskUser_back?taskId={0}"><i class="fa fa-reply"></i> 撤回</button>'

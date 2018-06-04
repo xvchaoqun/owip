@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=CrpConstants.CRP_RECORD_TYPE_IN%>" var="CRP_RECORD_TYPE_IN"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -70,7 +71,7 @@
             {label: '性别', name: 'cadre.gender', width: 50, formatter: $.jgrid.formatter.GENDER},
             {label: '出生时间', name: 'cadre.birth', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '年龄', name: 'cadre.birth', width: 50, formatter: $.jgrid.formatter.AGE},
-            {label: '党派', name: 'cadre.cadreDpType', width: 80, formatter: $.jgrid.formatter.cadreParty},
+            {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty, formatoptions:{useCadre:true}},
             {label: '专业技术职务', name: 'cadre.proPost', width: 120},
             <c:if test="${param.type==1}">
             // 最高学历、最高学位、国（境）外学历、入学时间、毕业时间、毕业/在读学校、院系、所学专业。

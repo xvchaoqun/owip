@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/modify/constants.jsp"%>
 <div class="widget-box transparent">
   <div class="widget-header widget-header-flat">
     <h4 class="widget-title lighter">
@@ -67,7 +68,7 @@
         <tr>
           <td>政治面貌</td>
           <td>
-            <c:set var="original" value="${cm:cadreParty(cadre.cadreDpType, false, '中共党员')}"/>
+            <c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}"/>
             <input type="text"
                    data-code="political_status"
                    data-table=""
@@ -81,7 +82,7 @@
             党派加入时间
           </td>
           <td>
-            <c:set var="original" value="${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}"/>
+            <c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}"/>
             <div class="input-group" style="width: 150px">
               <input class="form-control date-picker" type="text"
                      data-date-format="yyyy-mm-dd"

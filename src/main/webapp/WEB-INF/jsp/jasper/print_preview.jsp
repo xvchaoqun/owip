@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="JASPER_PRINT_TYPE_INSIDE" value="<%=SystemConstants.JASPER_PRINT_TYPE_INSIDE%>"/>
+<c:set var="JASPER_PRINT_TYPE_OUTSIDE" value="<%=SystemConstants.JASPER_PRINT_TYPE_OUTSIDE%>"/>
+<c:set var="JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD" value="<%=SystemConstants.JASPER_PRINT_TYPE_MEMBER_STAY_ABROAD%>"/>
+<c:set var="JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL" value="<%=SystemConstants.JASPER_PRINT_TYPE_MEMBER_STAY_INTERNAL%>"/>
+<c:set var="MEMBER_STAY_TYPE_ABROAD" value="<%=MemberConstants.MEMBER_STAY_TYPE_ABROAD%>"/>
+<c:set var="MEMBER_STAY_TYPE_INTERNAL" value="<%=MemberConstants.MEMBER_STAY_TYPE_INTERNAL%>"/>
+
 <div class="row passport_apply">
     <div class="preview">
         <c:if test="${param.type==JASPER_PRINT_TYPE_INSIDE}">

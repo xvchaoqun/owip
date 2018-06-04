@@ -61,7 +61,7 @@
                                             <label>认定类别</label>
                                             <select name="type" data-rel="select2" data-placeholder="请选择" data-width="270">
                                                 <option></option>
-                                                <c:forEach items="${VERIFY_AGE_TYPE_MAP}" var="entity">
+                                                <c:forEach items="<%=VerifyConstants.VERIFY_AGE_TYPE_MAP%>" var="entity">
                                                     <option value="${entity.key}">${entity.value}</option>
                                                 </c:forEach>
                                             </select>

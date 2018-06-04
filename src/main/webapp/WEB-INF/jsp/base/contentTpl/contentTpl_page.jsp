@@ -13,12 +13,12 @@
             <div class="jqgrid-vertical-offset  buttons">
                 <shiro:hasPermission name="contentTpl:edit">
                     <a class="popupBtn btn btn-success btn-sm"
-                       data-url="${ctx}/contentTpl_au?contentType=${CONTENT_TPL_CONTENT_TYPE_STRING}">
+                       data-url="${ctx}/contentTpl_au?contentType=<%=ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_STRING%>">
                         <i class="fa fa-plus"></i> 添加普通文本
                     </a>
                     <a class="popupBtn btn btn-info btn-sm"
                        data-width="900"
-                       data-url="${ctx}/contentTpl_au?contentType=${CONTENT_TPL_CONTENT_TYPE_HTML}">
+                       data-url="${ctx}/contentTpl_au?contentType=<%=ContentTplConstants.CONTENT_TPL_CONTENT_TYPE_HTML%>">
                         <i class="fa fa-plus"></i> 添加HTML文本
                     </a>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"

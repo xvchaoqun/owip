@@ -76,7 +76,7 @@
             }},
             {label: '审核情况', name: 'status', formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
-                if(cellvalue=='${OA_TASK_USER_STATUS_INIT}'){
+                if(cellvalue=='<%=OaConstants.OA_TASK_USER_STATUS_INIT%>'){
                     return '<button class="popupBtn btn btn-primary btn-xs"' +
                             'data-url="${ctx}/oa/oaTaskUser_check?taskId={0}&taskUserIds[]={1}"><i class="fa fa-check-square-o"></i> 审核</button>'
                                     .format(rowObject.taskId, rowObject.userId)
@@ -85,7 +85,7 @@
                 return _cMap.OA_TASK_USER_STATUS_MAP[cellvalue];
             }},
             { label: '短信提醒',name: '_sendMsg', formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.status=='${OA_TASK_USER_STATUS_DENY}')
+                if(rowObject.status=='<%=OaConstants.OA_TASK_USER_STATUS_DENY%>')
                     return ('<button class="popupBtn btn btn-warning btn-xs" ' +
                     'data-url="${ctx}/oa/oaTaskUser_denyMsg?id={0}"><i class="fa fa-send"></i> 短信提醒</button>')
                             .format(rowObject.id);

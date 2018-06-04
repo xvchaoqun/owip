@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="CADRE_FAMILY_TITLE_MAP" value="<%=CadreConstants.CADRE_FAMILY_TITLE_MAP%>"/>
+
 <style type="text/css">.b1{white-space-collapsing:preserve;}
 .b2{margin: 0.4722222in 0.5395833in 0.39375in 0.39375in;}
 .s1{font-weight:bold;}
@@ -125,10 +127,17 @@ td.bolder{font-weight: bolder}
         </div>
       </td>
       <td class="td0 center" colspan="2">
-        <c:if test="${bean.cadreDpType>0}">
-          ${cm:cadreParty(bean.cadreDpType, true, null)}<br/>
+        <c:if test="${bean.dpTypeId>0}">
+          ${cm:getMetaType(bean.dpTypeId).extraAttr}
+          <c:if test="${not empty bean.owGrowTime}"><br/>
+            （${cm:formatDate(bean.owGrowTime, "yyyy.MM")}）
+          </c:if>
         </c:if>
-        ${cm:formatDate(bean.growTime, "yyyy.MM")}
+        <c:if test="${empty bean.dpTypeId}">
+          <c:if test="${not empty bean.owGrowTime}">
+            ${cm:formatDate(bean.owGrowTime, "yyyy.MM")}
+          </c:if>
+        </c:if>
       </td>
       <td class="td2 center bolder">
         <span class="s2">参加工作</span>
@@ -247,7 +256,7 @@ td.bolder{font-weight: bolder}
         </div>
       </td>
       <td class="td12 padding10" colspan="8" style="vertical-align: top">
-        <c:if test="${empty bean.resumeDesc}">
+        <%--<c:if test="${empty bean.resumeDesc}">
         <c:if test="${not empty bean.learnDesc}">
           <p style="font-weight: bolder;">学习经历：</p>
           <p>
@@ -260,7 +269,7 @@ td.bolder{font-weight: bolder}
               ${bean.workDesc}
           </p>
         </c:if>
-        </c:if>
+        </c:if>--%>
           ${bean.resumeDesc}
       </td>
     </tr>

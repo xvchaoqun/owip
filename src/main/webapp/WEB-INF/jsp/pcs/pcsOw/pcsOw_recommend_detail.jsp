@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="../constants.jsp" %>
 <c:set var="user" value="${cm:getUserById(param.userId)}"/>
 <div class="row">
   <div class="col-xs-12">

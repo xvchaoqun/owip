@@ -119,13 +119,11 @@ public class CadreView implements Serializable {
 
     private Integer owId;
 
+    private Boolean isOw;
+
     private Date owGrowTime;
 
     private String owRemark;
-
-    private Date cadreGrowTime;
-
-    private Integer cadreDpType;
 
     private Integer eduId;
 
@@ -503,6 +501,14 @@ public class CadreView implements Serializable {
         this.owId = owId;
     }
 
+    public Boolean getIsOw() {
+        return isOw;
+    }
+
+    public void setIsOw(Boolean isOw) {
+        this.isOw = isOw;
+    }
+
     public Date getOwGrowTime() {
         return owGrowTime;
     }
@@ -517,22 +523,6 @@ public class CadreView implements Serializable {
 
     public void setOwRemark(String owRemark) {
         this.owRemark = owRemark == null ? null : owRemark.trim();
-    }
-
-    public Date getCadreGrowTime() {
-        return cadreGrowTime;
-    }
-
-    public void setCadreGrowTime(Date cadreGrowTime) {
-        this.cadreGrowTime = cadreGrowTime;
-    }
-
-    public Integer getCadreDpType() {
-        return cadreDpType;
-    }
-
-    public void setCadreDpType(Integer cadreDpType) {
-        this.cadreDpType = cadreDpType;
     }
 
     public Integer getEduId() {

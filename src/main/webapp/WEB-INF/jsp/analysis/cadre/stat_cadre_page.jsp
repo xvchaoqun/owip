@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="UNIT_TYPE_ATTR_MAP" value="<%=SystemConstants.UNIT_TYPE_ATTR_MAP%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div class="tabbable">
@@ -8,13 +9,13 @@
                     <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type="><i class="fa fa-signal"></i> 所有中层干部</a>
                 </li>
                 <li class="<c:if test="${param.type=='jg'}">active</c:if>">
-                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type=${UNIT_TYPE_ATTR_JG}"><i class="fa fa-signal"></i> 机关及直属单位</a>
+                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type=<%=SystemConstants.UNIT_TYPE_ATTR_JG%>"><i class="fa fa-signal"></i> 机关及直属单位</a>
                 </li>
                 <li class="<c:if test="${param.type=='xy'}">active</c:if>">
-                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type=${UNIT_TYPE_ATTR_XY}"><i class="fa fa-signal"></i> 学部、院、系所</a>
+                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type=<%=SystemConstants.UNIT_TYPE_ATTR_XY%>"><i class="fa fa-signal"></i> 学部、院、系所</a>
                 </li>
                 <li class="<c:if test="${param.type=='fs'}">active</c:if>">
-                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type=${UNIT_TYPE_ATTR_FS}"><i class="fa fa-signal"></i> 附属单位</a>
+                    <a href="javascript:;" class="loadPage" data-mask-el="#statTable" data-url="${ctx}/stat_cadre?type=<%=SystemConstants.UNIT_TYPE_ATTR_FS%>"><i class="fa fa-signal"></i> 附属单位</a>
                 </li>
 
                 <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">

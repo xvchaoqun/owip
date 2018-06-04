@@ -1,5 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="MEMBER_STAY_STATUS_BACK" value="<%=MemberConstants.MEMBER_STAY_STATUS_BACK%>"/>
+<c:set var="MEMBER_STAY_TYPE_ABROAD" value="<%=MemberConstants.MEMBER_STAY_TYPE_ABROAD%>"/>
+<c:set var="MEMBER_STAY_TYPE_INTERNAL" value="<%=MemberConstants.MEMBER_STAY_TYPE_INTERNAL%>"/>
+<c:set var="MEMBER_STAY_TYPE_MAP" value="<%=MemberConstants.MEMBER_STAY_TYPE_MAP%>"/>
+
 <div class="row" style="width: 900px">
 
     <c:if test="${memberStay.type==hasSubmitType && memberStay.status<=MEMBER_STAY_STATUS_BACK}">
@@ -199,7 +204,7 @@
                                         <select required data-rel="select2" name="abroadType" data-placeholder="请选择"
                                                 data-width="100%">
                                             <option></option>
-                                            <c:forEach items="${MEMBER_STAY_ABROAD_TYPE_MAP_MAP}" var="_type">
+                                            <c:forEach items="<%=MemberConstants.MEMBER_STAY_ABROAD_TYPE_MAP_MAP%>" var="_type">
                                                 <option value="${_type.key}">${_type.value}</option>
                                             </c:forEach>
                                         </select>

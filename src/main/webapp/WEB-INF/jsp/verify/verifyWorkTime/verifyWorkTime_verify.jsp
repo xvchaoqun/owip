@@ -15,7 +15,7 @@
                         <div class="col-xs-6">
                             <select required name="type" data-rel="select2" data-placeholder="请选择" data-width="270">
                                 <option></option>
-                                <c:forEach items="${VERIFY_WORK_TIME_TYPE_MAP}" var="entity">
+                                <c:forEach items="<%=VerifyConstants.VERIFY_WORK_TIME_TYPE_MAP%>" var="entity">
                                     <option value="${entity.key}">${entity.value}</option>
                                 </c:forEach>
                             </select>

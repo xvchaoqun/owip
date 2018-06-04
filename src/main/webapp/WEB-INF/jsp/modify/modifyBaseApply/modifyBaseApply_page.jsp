@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/modify/constants.jsp"%>
 <div class="row">
     <div class="col-xs-12">
 
@@ -31,7 +32,7 @@
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==1}">
-                                <shiro:hasPermission name="${PERMISSION_CADREADMINSELF}">
+                                <shiro:hasPermission name="<%=SystemConstants.PERMISSION_CADREADMINSELF%>">
                                     <a class="openView btn btn-success btn-sm"
                                        data-url="${ctx}/user/modifyBaseApply_au"
                                        data-open-by="page"><i class="fa fa-edit"></i> 修改申请</a>

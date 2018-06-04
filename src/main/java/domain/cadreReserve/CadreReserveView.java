@@ -54,8 +54,6 @@ public class CadreReserveView implements Serializable {
 
     private String username;
 
-    private String code;
-
     private Integer id;
 
     private Integer userId;
@@ -65,6 +63,8 @@ public class CadreReserveView implements Serializable {
     private Integer postId;
 
     private Integer unitId;
+
+    private Boolean isCommitteeMember;
 
     private String title;
 
@@ -87,6 +87,8 @@ public class CadreReserveView implements Serializable {
     private String homePhone;
 
     private String email;
+
+    private String code;
 
     private String realname;
 
@@ -118,13 +120,11 @@ public class CadreReserveView implements Serializable {
 
     private Integer owId;
 
+    private Boolean isOw;
+
     private Date owGrowTime;
 
     private String owRemark;
-
-    private Date cadreGrowTime;
-
-    private Long cadreDpType;
 
     private Integer eduId;
 
@@ -286,14 +286,6 @@ public class CadreReserveView implements Serializable {
         this.username = username == null ? null : username.trim();
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
-    }
-
     public Integer getId() {
         return id;
     }
@@ -332,6 +324,14 @@ public class CadreReserveView implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
+    }
+
+    public Boolean getIsCommitteeMember() {
+        return isCommitteeMember;
+    }
+
+    public void setIsCommitteeMember(Boolean isCommitteeMember) {
+        this.isCommitteeMember = isCommitteeMember;
     }
 
     public String getTitle() {
@@ -420,6 +420,14 @@ public class CadreReserveView implements Serializable {
 
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
     public String getRealname() {
@@ -542,6 +550,14 @@ public class CadreReserveView implements Serializable {
         this.owId = owId;
     }
 
+    public Boolean getIsOw() {
+        return isOw;
+    }
+
+    public void setIsOw(Boolean isOw) {
+        this.isOw = isOw;
+    }
+
     public Date getOwGrowTime() {
         return owGrowTime;
     }
@@ -556,22 +572,6 @@ public class CadreReserveView implements Serializable {
 
     public void setOwRemark(String owRemark) {
         this.owRemark = owRemark == null ? null : owRemark.trim();
-    }
-
-    public Date getCadreGrowTime() {
-        return cadreGrowTime;
-    }
-
-    public void setCadreGrowTime(Date cadreGrowTime) {
-        this.cadreGrowTime = cadreGrowTime;
-    }
-
-    public Long getCadreDpType() {
-        return cadreDpType;
-    }
-
-    public void setCadreDpType(Long cadreDpType) {
-        this.cadreDpType = cadreDpType;
     }
 
     public Integer getEduId() {

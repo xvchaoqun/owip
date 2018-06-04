@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
 <c:set var="_query" value="${not empty param.realname || not empty param.status}"/>
 <div class="space-4"></div>
 <div class="jqgrid-vertical-offset buttons">

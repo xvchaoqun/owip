@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">用户</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2-ajax"
-							data-ajax-url="${ctx}/memberInflow_selects?hasOutApply=0&status=${MEMBER_INFLOW_STATUS_PARTY_VERIFY}"
+							data-ajax-url="${ctx}/memberInflow_selects?hasOutApply=0&status=<%=MemberConstants.MEMBER_INFLOW_STATUS_PARTY_VERIFY%>"
 							name="userId" data-placeholder="请输入账号或姓名或学工号">
 						<option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
 					</select>

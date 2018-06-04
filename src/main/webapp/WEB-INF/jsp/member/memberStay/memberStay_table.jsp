@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="MEMBER_STAY_ABROAD_TYPE_MAP_MAP" value="<%=MemberConstants.MEMBER_STAY_ABROAD_TYPE_MAP_MAP%>"/>
+<c:set var="MEMBER_STAY_STATUS_MAP" value="<%=MemberConstants.MEMBER_STAY_STATUS_MAP%>"/>
+<c:set var="MEMBER_STAY_STATUS_APPLY" value="<%=MemberConstants.MEMBER_STAY_STATUS_APPLY%>"/>
+<c:set var="MEMBER_STAY_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY%>"/>
+<c:set var="MEMBER_STAY_TYPE_ABROAD" value="<%=MemberConstants.MEMBER_STAY_TYPE_ABROAD%>"/>
+<c:set var="MEMBER_STAY_TYPE_INTERNAL" value="<%=MemberConstants.MEMBER_STAY_TYPE_INTERNAL%>"/>
+
 <tbody>
 <tr>
   <td class="bg-right"  style="width: 100px" >

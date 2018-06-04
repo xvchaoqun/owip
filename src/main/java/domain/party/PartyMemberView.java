@@ -51,8 +51,6 @@ public class PartyMemberView implements Serializable {
 
     private Integer branchId;
 
-    private Date growTime;
-
     private Byte memberStatus;
 
     private Integer groupPartyId;
@@ -81,9 +79,17 @@ public class PartyMemberView implements Serializable {
 
     private Date arriveTime;
 
-    private Date cadreGrowTime;
+    private Integer owId;
 
-    private Long cadreDpType;
+    private Boolean isOw;
+
+    private Date owGrowTime;
+
+    private String owRemark;
+
+    private Date dpGrowTime;
+
+    private Integer dpTypeId;
 
     private static final long serialVersionUID = 1L;
 
@@ -247,14 +253,6 @@ public class PartyMemberView implements Serializable {
         this.branchId = branchId;
     }
 
-    public Date getGrowTime() {
-        return growTime;
-    }
-
-    public void setGrowTime(Date growTime) {
-        this.growTime = growTime;
-    }
-
     public Byte getMemberStatus() {
         return memberStatus;
     }
@@ -367,19 +365,51 @@ public class PartyMemberView implements Serializable {
         this.arriveTime = arriveTime;
     }
 
-    public Date getCadreGrowTime() {
-        return cadreGrowTime;
+    public Integer getOwId() {
+        return owId;
     }
 
-    public void setCadreGrowTime(Date cadreGrowTime) {
-        this.cadreGrowTime = cadreGrowTime;
+    public void setOwId(Integer owId) {
+        this.owId = owId;
     }
 
-    public Long getCadreDpType() {
-        return cadreDpType;
+    public Boolean getIsOw() {
+        return isOw;
     }
 
-    public void setCadreDpType(Long cadreDpType) {
-        this.cadreDpType = cadreDpType;
+    public void setIsOw(Boolean isOw) {
+        this.isOw = isOw;
+    }
+
+    public Date getOwGrowTime() {
+        return owGrowTime;
+    }
+
+    public void setOwGrowTime(Date owGrowTime) {
+        this.owGrowTime = owGrowTime;
+    }
+
+    public String getOwRemark() {
+        return owRemark;
+    }
+
+    public void setOwRemark(String owRemark) {
+        this.owRemark = owRemark == null ? null : owRemark.trim();
+    }
+
+    public Date getDpGrowTime() {
+        return dpGrowTime;
+    }
+
+    public void setDpGrowTime(Date dpGrowTime) {
+        this.dpGrowTime = dpGrowTime;
+    }
+
+    public Integer getDpTypeId() {
+        return dpTypeId;
+    }
+
+    public void setDpTypeId(Integer dpTypeId) {
+        this.dpTypeId = dpTypeId;
     }
 }

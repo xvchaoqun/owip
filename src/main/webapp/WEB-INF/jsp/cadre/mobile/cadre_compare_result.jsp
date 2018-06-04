@@ -44,8 +44,8 @@
       <td>${cm:getMetaType(cadre.eduId).name}</td>
       <td>${cadre.major}</td>
       <td>${cm:formatDate(cadre.workTime, "yyyy-MM-dd")}</td>
-      <td>${cm:cadreParty(cadre.cadreDpType, false, '中共党员')}</td>
-      <td>${cm:formatDate(cadre.cadreGrowTime,'yyyy-MM-dd')}</td>
+      <td>${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}</td>
+      <td>${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}</td>
       <td>${cadre.proPost}</td>
       <td>${cm:formatDate(cadre.npWorkTime,'yyyy-MM-dd')}</td>
       <td>${cadre.adminLevelYear==0?'未满一年':cadre.adminLevelYear}</td>

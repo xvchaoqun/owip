@@ -27,7 +27,7 @@
             <div class="jqgrid-vertical-offset buttons">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-width="800"
-                   data-url="${ctx}/hf_content?code=${HF_CADRE_WORK}">
+                   data-url="${ctx}/hf_content?code=hf_cadre_work">
                     <i class="fa fa-info-circle"></i> 填写说明</a>
                 <shiro:hasPermission name="cadreWork:edit">
                     <a class="popupBtn btn btn-success btn-sm"
@@ -214,7 +214,7 @@
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
                 content: ke.html(),
-                type: "${CADRE_INFO_TYPE_WORK}"
+                type: "<%=CadreConstants.CADRE_INFO_TYPE_WORK%>"
             }, function (ret) {
                 if (ret.success) {
                     _innerPage(2, function () {
@@ -244,7 +244,7 @@
             $.post("${ctx}/cadreInfo_updateContent", {
                 cadreId: '${param.cadreId}',
                 content: ke.html(),
-                type: "${CADRE_INFO_TYPE_RESUME}"
+                type: "<%=CadreConstants.CADRE_INFO_TYPE_RESUME%>"
             }, function (ret) {
                 if (ret.success) {
                     _innerPage(3, function () {

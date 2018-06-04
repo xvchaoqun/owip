@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-
+<%@ include file="/WEB-INF/jsp/pmd/constants.jsp"%>
 <div class="widget-box transparent" id="useLogs">
     <div class="widget-header">
         <c:if test="${param.backToPartyList==1}">
@@ -205,7 +205,7 @@
                             data-grid-id="#jqGrid2"
                             data-url="${ctx}/sysApprovalLog"
                             data-width="850"
-                            data-querystr="&displayType=1&hideStatus=1&type=${SYS_APPROVAL_LOG_TYPE_PMD_MEMBER}">
+                            data-querystr="&displayType=1&hideStatus=1&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER%>">
                         <i class="fa fa-history"></i> 操作记录
                     </button>
                 </div>

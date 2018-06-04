@@ -32,10 +32,11 @@ SELECT c.*
 	, dp.grow_time as dp_grow_time
 	, dp.remark as dp_remark
 	, ow.id as ow_id
-	, ow.grow_time as ow_grow_time
+	-- 判断是否是中共党员
+	, if(!isnull(ow.id) or om.status=1 or om.status=4, 1, 0) as is_ow
+	-- 优先以党员库中的入党时间为准
+	, if(om.status=1 or om.status=4, om.grow_time, ow.grow_time) as ow_grow_time
 	, ow.remark as ow_remark
-	, if(isnull(dp.id), if(om.status=1 or om.status=4, om.grow_time, ow.grow_time), dp.grow_time) as cadre_grow_time
-	, if(isnull(dp.id), if(!isnull(ow.id) or om.status=1 or om.status=4, 0, -1), dp.class_id) as cadre_dp_type
 	,`max_ce`.`edu_id` AS `edu_id`
 	,`max_ce`.`finish_time` AS `finish_time`
 	,`max_ce`.`learn_style` AS `learn_style`

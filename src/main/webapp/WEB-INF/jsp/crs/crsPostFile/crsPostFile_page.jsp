@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/crs/constants.jsp" %>
 <div class="space-4"></div>
 <div class="row" style="width: 1490px">
     <div style="width: 480px;float: left;margin-right: 25px">

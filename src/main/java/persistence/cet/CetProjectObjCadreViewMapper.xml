@@ -19,7 +19,9 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="cadre_dp_type" jdbcType="DECIMAL" property="cadreDpType" />
+    <result column="is_ow" jdbcType="BOOLEAN" property="isOw" />
+    <result column="ow_grow_time" jdbcType="DATE" property="owGrowTime" />
+    <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
     <result column="dp_type_id" jdbcType="INTEGER" property="dpTypeId" />
     <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
     <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
@@ -60,8 +62,8 @@
   <sql id="Base_Column_List">
     id, project_id, user_id, trainee_type_id, is_quit, should_finish_period, is_graduate, 
     word_write, write_file_path, remark, username, code, realname, cadre_id, title, type_id, 
-    post_id, cadre_dp_type, dp_type_id, pro_post, lp_work_time, mobile, email, cadre_status, 
-    cadre_sort_order
+    post_id, is_ow, ow_grow_time, dp_grow_time, dp_type_id, pro_post, lp_work_time, mobile, 
+    email, cadre_status, cadre_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetProjectObjCadreViewExample" resultMap="BaseResultMap">
     select

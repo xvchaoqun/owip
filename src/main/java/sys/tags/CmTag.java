@@ -97,6 +97,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -783,19 +784,39 @@ public class CmTag {
         return edu.getName();
     }
 
-    // 根据CadreView.cadreDpType，获取干部的党派
-    public static String getCadreParty(Integer cadreDpType, Boolean returnShortName, String def){
-
+    // 获取干部的党派
+    public static Map<String, String> getCadreParty(Boolean isOw, Date owGrowTime,
+                                                    String defaultOwName,
+                                                    Integer dpTypeId,
+                                                    Date dpGrowTime,
+                                                    Boolean useDpShortName){
         String partyName = null;// 党派
-        if (NumberUtils.intEqual(cadreDpType, 0)) {
-            partyName = def;
-        } else if (cadreDpType!=null && cadreDpType>0) {
-            MetaType metaType = CmTag.getMetaType(cadreDpType.intValue());
-            partyName = BooleanUtils.isTrue(returnShortName)?StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName())
-                    :metaType.getName();
+        String partyAddTime = null; // 入党时间
+
+        if(isOw){
+
+            partyName = defaultOwName;
+            partyAddTime = (owGrowTime==null)?"-":DateUtils.formatDate(owGrowTime, "yyyy.MM");
         }
 
-        return partyName;
+        if(dpTypeId!=null && dpTypeId>0){
+
+            MetaType metaType = CmTag.getMetaType(dpTypeId);
+            partyName = ((partyName!=null)?(partyName+","):"")
+                    + (useDpShortName?StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName()):metaType.getName());
+
+            if(isOw){
+                partyAddTime = partyAddTime+"," + ((dpGrowTime == null)?"-":DateUtils.formatDate(dpGrowTime, "yyyy.MM"));
+            }else{
+                partyAddTime = (dpGrowTime == null)?"-":DateUtils.formatDate(dpGrowTime, "yyyy.MM");
+            }
+        }
+
+        Map<String, String> resultMap = new HashMap<>();
+        resultMap.put("partyName", partyName);
+        resultMap.put("growTime", partyAddTime);
+
+        return resultMap;
     }
 
     public static CadreEdu[] getCadreEdus(Integer cadreId) {

@@ -149,7 +149,11 @@ public class CetProjectObjCadreView implements Serializable {
 
     private Integer postId;
 
-    private Long cadreDpType;
+    private Boolean isOw;
+
+    private Date owGrowTime;
+
+    private Date dpGrowTime;
 
     private Integer dpTypeId;
 
@@ -303,12 +307,28 @@ public class CetProjectObjCadreView implements Serializable {
         this.postId = postId;
     }
 
-    public Long getCadreDpType() {
-        return cadreDpType;
+    public Boolean getIsOw() {
+        return isOw;
     }
 
-    public void setCadreDpType(Long cadreDpType) {
-        this.cadreDpType = cadreDpType;
+    public void setIsOw(Boolean isOw) {
+        this.isOw = isOw;
+    }
+
+    public Date getOwGrowTime() {
+        return owGrowTime;
+    }
+
+    public void setOwGrowTime(Date owGrowTime) {
+        this.owGrowTime = owGrowTime;
+    }
+
+    public Date getDpGrowTime() {
+        return dpGrowTime;
+    }
+
+    public void setDpGrowTime(Date dpGrowTime) {
+        this.dpGrowTime = dpGrowTime;
     }
 
     public Integer getDpTypeId() {

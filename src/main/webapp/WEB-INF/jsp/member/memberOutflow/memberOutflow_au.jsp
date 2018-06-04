@@ -83,7 +83,7 @@ pageEncoding="UTF-8"%>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="orStatus" data-placeholder="请选择">
 						<option></option>
-						<c:forEach items="${OW_OR_STATUS_MAP}" var="_status">
+						<c:forEach items="<%=OwConstants.OW_OR_STATUS_MAP%>" var="_status">
 							<option value="${_status.key}">${_status.value}</option>
 						</c:forEach>
 					</select>

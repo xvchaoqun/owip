@@ -11,6 +11,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-2 control-label">类型</label>
 				<div class="col-xs-6 label-text">
+                    <c:set value="<%=ContentTplConstants.CONTENT_TPL_CRS_MSG_MAP%>" var="CONTENT_TPL_CRS_MSG_MAP"/>
 					${CONTENT_TPL_CRS_MSG_MAP.get(contentTpl.code)}
 				</div>
 			</div>

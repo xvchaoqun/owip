@@ -24,7 +24,7 @@
             <div class="col-xs-4">
                 <select required data-rel="select2" name="type" data-placeholder="请选择" data-width="125">
                     <option></option>
-                    <c:forEach var="entity" items="${DISPATCH_WORK_FILE_TYPE_MAP}">
+                    <c:forEach var="entity" items="<%=DispatchConstants.DISPATCH_WORK_FILE_TYPE_MAP%>">
                         <c:if test="${(param.type<=10 && entity.key<=10) || (param.type>10 && entity.key>10)}">
                         <c:if test="${entity.key!=param.type}">
                         <option value="${entity.key}">${entity.value}</option>

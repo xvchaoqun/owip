@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<%@ include file="/WEB-INF/jsp/pmd/constants.jsp"%>
 <div class="row">
     <div class="col-xs-12">
 
@@ -12,7 +13,7 @@ pageEncoding="UTF-8" %>
             <div class="jqgrid-vertical-offset buttons">
                 <a class="popupBtn btn btn-warning btn-sm"
                    data-width="800"
-                   data-url="${ctx}/hf_content?code=${HF_PMD_BRANCH}">
+                   data-url="${ctx}/hf_content?code=hf_pmd_branch">
                     <i class="fa fa-info-circle"></i> 操作说明</a>
                 <%--<shiro:hasPermission name="pmdBranch:edit">
                     <a class="popupBtn btn btn-info btn-sm"  data-url="${ctx}/pmdBranch_au"><i class="fa fa-plus"></i> 添加</a>

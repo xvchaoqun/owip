@@ -1,4 +1,21 @@
 
+2018-6-4
+
+更新utils
+
+更新 cadre_view， 去掉了cadre_dp_type和cadre_grow_time字段，增加is_ow字段
+
+更新 cadre_inspect_view , cadre_reserve_view
+
+cet_project_obj_cadre_view, cet_trainee_cadre_view, cet_trainee_course_cadre_view, crs_candidate_view
+ow_party_member_view
+
+-- cadre:list -> cadre:listMenu
+UPDATE `sys_resource` SET `permission`='cadre:listMenu' WHERE  `id`=90;
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (109, 0, '基本信息（完整列表）', '', 'function', '', NULL, 88, '0/1/88/', 1, 'cadre:list', NULL, NULL, 1, NULL);
+
+修改 两个干部管理员角色的权限
+
 2018-6-1
 ALTER TABLE `pmd_config_reset`
 	ADD COLUMN `reset` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '是否重置支部自行设定的额度' AFTER `user_id`;

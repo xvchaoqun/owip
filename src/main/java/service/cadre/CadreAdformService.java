@@ -71,6 +71,10 @@ public class CadreAdformService extends BaseMapper{
     @Autowired
     protected CadrePostService cadrePostService;
     @Autowired
+    protected CadreWorkService cadreWorkService;
+    @Autowired
+    protected CadreRewardService cadreRewardService;
+    @Autowired
     protected SysConfigService sysConfigService;
 
     // 获取任免审批表属性值
@@ -114,8 +118,10 @@ public class CadreAdformService extends BaseMapper{
         bean.setProPostTime(cadre.getProPostTime());
         bean.setSpecialty(uv.getSpecialty());
 
-        bean.setCadreDpType(cadre.getCadreDpType());
-        bean.setGrowTime(cadre.getCadreGrowTime());
+        bean.setDpTypeId(cadre.getDpTypeId());
+        bean.setDpGrowTime(cadre.getDpGrowTime());
+        bean.setIsOw(cadre.getIsOw());
+        bean.setOwGrowTime(cadre.getOwGrowTime());
 
         /*// 最高学历
         CadreEdu highEdu = cadreEduService.getHighEdu(cadreId);
@@ -191,9 +197,15 @@ public class CadreAdformService extends BaseMapper{
         // 学习经历
         CadreInfo edu = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU);
         bean.setLearnDesc(edu==null?null:edu.getContent());
-        // 奖惩情况，暂时同步其他奖励
-        CadreInfo reward = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_REWARD_OTHER);
-        bean.setReward(reward == null ? null : reward.getContent());
+
+        // 奖惩情况
+        CadreInfo reward = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_REWARD);
+        String _reward = (reward == null) ? null :reward.getContent();
+        if(StringUtils.isBlank(_reward)){
+            _reward = freemarkerService.freemarker(cadreRewardService.list(cadreId),
+                    "cadreRewards", "/cadre/cadreReward.ftl");
+        }
+        bean.setReward(StringUtils.trimToNull(_reward));
 
         // 工作经历
         CadreInfo work = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_WORK);
@@ -201,7 +213,12 @@ public class CadreAdformService extends BaseMapper{
 
         // 简历
         CadreInfo resume = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_RESUME);
-        bean.setResumeDesc(resume == null ? null : resume.getContent());
+        String _resume = (resume == null) ? null :resume.getContent();
+        if(StringUtils.isBlank(_resume)){
+            _resume = freemarkerService.freemarker(cadreWorkService.resume(bean.getCadreId()),
+                    "cadreResumes", "/cadre/cadreResume.ftl");
+        }
+        bean.setResumeDesc(StringUtils.trimToNull(_resume));
 
         //年度考核结果
         Integer currentYear = DateUtils.getCurrentYear();
@@ -235,9 +252,16 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("nativePlace", bean.getNativePlace());
         dataMap.put("homeplace", bean.getHomeplace());
 
-        String partyName = CmTag.getCadreParty(bean.getCadreDpType(), true, null);// 党派
-        dataMap.put("partyName", partyName);
-        dataMap.put("growTime", DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM"));
+        dataMap.put("isOw", bean.getIsOw());
+        dataMap.put("owGrowTime", DateUtils.formatDate(bean.getOwGrowTime(), "yyyy.MM"));
+        if(bean.getDpTypeId()!=null && bean.getDpTypeId()>0) {
+            // 民主党派
+            MetaType metaType = CmTag.getMetaType(bean.getDpTypeId());
+            String dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
+            dataMap.put("dpPartyName", dpPartyName);
+            dataMap.put("dpGrowTime", DateUtils.formatDate(bean.getDpGrowTime(), "yyyy.MM"));
+        }
+
         dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM"));
 
         dataMap.put("health", bean.getHealth());
@@ -254,20 +278,20 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("post", bean.getPost());
         dataMap.put("inPost", bean.getInPost());
         dataMap.put("prePost", bean.getPrePost());
-        dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(), false, 360));
+        dataMap.put("reward", freemarkerService.genTitleEditorSegment(null, bean.getReward(), false, 360, "/common/titleEditor.ftl"));
         dataMap.put("ces", bean.getCes());
         dataMap.put("reason", bean.getReason());
 
         //dataMap.put("learnDesc", freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 360));
         //dataMap.put("workDesc", freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 360));
 
-        String resumeDesc = freemarkerService.genTitleEditorSegment(null, bean.getResumeDesc(), true, 360);
-        if(StringUtils.isBlank(resumeDesc)){
+        String resumeDesc = freemarkerService.genTitleEditorSegment(null, bean.getResumeDesc(), true, 360, "/common/titleEditor.ftl");
+        /*if(StringUtils.isBlank(resumeDesc)){
             resumeDesc = StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("学习经历", bean.getLearnDesc(), true, 360))
                     + StringUtils.trimToEmpty(freemarkerService.genTitleEditorSegment("工作经历", bean.getWorkDesc(), true, 360));
-        }
+        }*/
         dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
-        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, bean.getTrainDesc(), false, 360));
+        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(null, bean.getTrainDesc(), false, 360, "/common/titleEditor.ftl"));
 
         String family = "";
         List<CadreFamily> cadreFamilys = bean.getCadreFamilys();
@@ -358,7 +382,21 @@ public class CadreAdformService extends BaseMapper{
         setNodeText(doc, "MinZu", adform.getNation());
         setNodeText(doc, "JiGuan", adform.getNativePlace());
         setNodeText(doc, "ChuShengDi", adform.getHomeplace());
-        setNodeText(doc, "RuDangShiJian", DateUtils.formatDate(adform.getGrowTime(), "yyyyMM"));
+
+        String dpPartyName = null;
+        if(adform.getDpTypeId()!=null && adform.getDpTypeId()>0){
+            MetaType metaType = CmTag.getMetaType(adform.getDpTypeId());
+            dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
+        }
+        String owGrowTime = DateUtils.formatDate(adform.getOwGrowTime(), "yyyyMM");
+        if(owGrowTime==null && dpPartyName!=null){
+            setNodeText(doc, "RuDangShiJian", dpPartyName);
+        }else if(owGrowTime!=null && dpPartyName==null){
+            setNodeText(doc, "RuDangShiJian", owGrowTime);
+        }else if(owGrowTime!=null && dpPartyName!=null){
+            setNodeText(doc, "RuDangShiJian", owGrowTime+"；" + dpPartyName);
+        }
+
         setNodeText(doc, "CanJiaGongZuoShiJian", DateUtils.formatDate(adform.getWorkTime(), "yyyyMM"));
         setNodeText(doc, "JianKangZhuangKuang", adform.getHealth());
         setNodeText(doc, "ZhuanYeJiShuZhiWu", adform.getProPost());

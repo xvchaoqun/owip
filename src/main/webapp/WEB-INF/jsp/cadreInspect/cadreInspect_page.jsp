@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=CadreConstants.CADRE_INSPECT_STATUS_NORMAL%>" var="CADRE_INSPECT_STATUS_NORMAL"/>
+<c:set value="<%=CadreConstants.CADRE_INSPECT_STATUS_ASSIGN%>" var="CADRE_INSPECT_STATUS_ASSIGN"/>
+<c:set value="<%=CadreConstants.CADRE_INSPECT_STATUS_ABOLISH%>" var="CADRE_INSPECT_STATUS_ABOLISH"/>
 <div class="row">
     <div class="col-xs-12">
 
@@ -16,7 +19,7 @@ pageEncoding="UTF-8" %>
 
         <div class="tabbable">
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                <c:forEach var="_status" items="${CADRE_INSPECT_STATUS_MAP}">
+                <c:forEach var="_status" items="<%=CadreConstants.CADRE_INSPECT_STATUS_MAP%>">
                     <li class="<c:if test="${status==_status.key}">active</c:if>">
                         <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreInspect?status=${_status.key}">
                             <c:if test="${_status.key==CADRE_INSPECT_STATUS_ABOLISH}">

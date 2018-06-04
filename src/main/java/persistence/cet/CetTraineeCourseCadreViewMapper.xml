@@ -20,13 +20,15 @@
     <result column="period" jdbcType="DECIMAL" property="period" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
-    <result column="choose_user_name" jdbcType="VARCHAR" property="chooseUserName" />
     <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="choose_user_name" jdbcType="VARCHAR" property="chooseUserName" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
-    <result column="cadre_dp_type" jdbcType="DECIMAL" property="cadreDpType" />
+    <result column="is_ow" jdbcType="BOOLEAN" property="isOw" />
+    <result column="ow_grow_time" jdbcType="DATE" property="owGrowTime" />
+    <result column="dp_grow_time" jdbcType="DATE" property="dpGrowTime" />
     <result column="dp_type_id" jdbcType="INTEGER" property="dpTypeId" />
     <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
     <result column="lp_work_time" jdbcType="DATE" property="lpWorkTime" />
@@ -67,8 +69,9 @@
   <sql id="Base_Column_List">
     id, trainee_id, train_course_id, can_quit, is_finished, sign_time, sign_type, remark, 
     choose_time, choose_user_id, ip, train_id, trainee_type_id, user_id, course_id, period, 
-    year, project_id, choose_user_name, code, realname, title, type_id, post_id, cadre_dp_type, 
-    dp_type_id, pro_post, lp_work_time, mobile, email, status, cadre_sort_order
+    year, project_id, code, choose_user_name, realname, title, type_id, post_id, is_ow, 
+    ow_grow_time, dp_grow_time, dp_type_id, pro_post, lp_work_time, mobile, email, status, 
+    cadre_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetTraineeCourseCadreViewExample" resultMap="BaseResultMap">
     select
