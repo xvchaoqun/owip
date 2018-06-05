@@ -315,6 +315,11 @@ $.fn.extend({
 var _modal_width;
 (function ($) {
     $.extend({
+        reloadMetaData: function(){
+            $.getJSON(ctx+ "/cache/flush_metadata_JSON",function(){
+                location.reload();
+            })
+        },
         // 左div float时，保证左div高度不小于右div高度
         adjustLeftFloatDivHeight:function($leftFloatDiv){
             $.each($leftFloatDiv, function(i, e){
