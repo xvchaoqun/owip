@@ -1,11 +1,9 @@
 package service.abroad;
 
-import persistence.abroad.common.ApplySelfSearchBean;
-import persistence.abroad.common.ApprovalResult;
-import persistence.abroad.common.ApprovalTdBean;
-import persistence.abroad.common.ApproverTypeBean;
 import bean.ShortMsgBean;
 import controller.global.OpException;
+import domain.abroad.AbroadAdditionalPost;
+import domain.abroad.AbroadAdditionalPostExample;
 import domain.abroad.ApplicatCadre;
 import domain.abroad.ApplicatCadreExample;
 import domain.abroad.ApplySelf;
@@ -27,8 +25,6 @@ import domain.abroad.PassportDrawExample;
 import domain.base.ContentTpl;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
-import domain.cadre.CadreAdditionalPost;
-import domain.cadre.CadreAdditionalPostExample;
 import domain.cadre.CadreExample;
 import domain.cadre.CadreLeader;
 import domain.cadre.CadreView;
@@ -44,6 +40,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import persistence.abroad.common.ApplySelfSearchBean;
+import persistence.abroad.common.ApprovalResult;
+import persistence.abroad.common.ApprovalTdBean;
+import persistence.abroad.common.ApproverTypeBean;
 import service.BaseMapper;
 import service.SpringProps;
 import service.base.ContentTplService;
@@ -90,6 +90,8 @@ public class ApplySelfService extends BaseMapper {
     private CadreService cadreService;
     @Autowired
     private CadreCommonService cadreCommonService;
+    @Autowired
+    private AbroadAdditionalPostService abroadAdditionalPostService;
     @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
@@ -144,7 +146,7 @@ public class ApplySelfService extends BaseMapper {
                         _users.add(_cadre.getUser());
                 }
 
-                List<CadreView> additionalPost = cadreCommonService.findAdditionalPost(cadre.getUnitId());
+                List<CadreView> additionalPost = abroadAdditionalPostService.findAdditionalPost(cadre.getUnitId());
                 for (CadreView _cadre : additionalPost) {
                     if (_cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
                             || _cadre.getStatus()== CadreConstants.CADRE_STATUS_LEADER){
@@ -791,10 +793,10 @@ public class ApplySelfService extends BaseMapper {
         }
         {
             // 兼任职务所在单位
-            CadreAdditionalPostExample example = new CadreAdditionalPostExample();
+            AbroadAdditionalPostExample example = new AbroadAdditionalPostExample();
             example.createCriteria().andCadreIdEqualTo(cadre.getId());
-            List<CadreAdditionalPost> cPosts = cadreAdditionalPostMapper.selectByExample(example);
-            for (CadreAdditionalPost cPost : cPosts) {
+            List<AbroadAdditionalPost> cPosts = abroadAdditionalPostMapper.selectByExample(example);
+            for (AbroadAdditionalPost cPost : cPosts) {
                 MetaType postType = metaTypeMap.get(cPost.getPostId());
                 if (postType.getBoolAttr()) {
                     unitIds.add(cPost.getUnitId());

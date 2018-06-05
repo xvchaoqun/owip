@@ -532,6 +532,20 @@ where p.is_deleted=0 order by p.sort_order desc;
 DROP VIEW IF EXISTS `abroad_passport_apply_view`;
 CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `abroad_passport_apply_view` AS
 select apa.`*` , ap.id as passport_id, ap.code from abroad_passport_apply apa  left join abroad_passport ap on ap.apply_id=apa.id ;
+
+DROP VIEW IF EXISTS `abroad_additional_post_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `abroad_additional_post_view` AS
+select aap.*, c.code, c.realname, c.title, c.status as cadre_status, c.sort_order as cadre_sort_order, u.sort_order as unit_sort_order from abroad_additional_post aap
+left join cadre_view c on aap.cadre_id=c.id
+left join unit u on aap.unit_id=u.id ;
+
+
+DROP VIEW IF EXISTS `cla_additional_post_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cla_additional_post_view` AS
+select cap.*, c.code, c.realname, c.title, c.status as cadre_status, c.sort_order as cadre_sort_order, u.sort_order as unit_sort_order from cla_additional_post cap
+left join cadre_view c on cap.cadre_id=c.id
+left join unit u on cap.unit_id=u.id ;
+
 -- ----------------------------
 --  View definition for `cadre_inspect_view`
 -- ----------------------------

@@ -68,8 +68,9 @@
                 $(form).ajaxSubmit({
                     success:function(ret){
                         if(ret.success){
-							openView("${param.classId}", "${param.pageNo}");
-                            //SysMsg.success('操作成功。', '成功');
+							$.reloadMetaData(function(){
+								openView("${param.classId}", "${param.pageNo}");
+							});
                         }
                     }
                 });

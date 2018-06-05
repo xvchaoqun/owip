@@ -38,7 +38,7 @@ public class PartyExportService extends BaseMapper {
     public XSSFWorkbook toXlsx() throws IOException {
 
         List<PartyStaticView> records = partyStaticViewMapper.selectByExample(new PartyStaticViewExample());
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/party_stat_template.xlsx"));
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/party/party_stat_template.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
@@ -54,7 +54,7 @@ public class PartyExportService extends BaseMapper {
             ExcelUtils.copyRowsToEnd(wb, sheet, cpRow, rowCount - 1);
 
         int startRow = cpRow;
-        
+
         for (int i = 0; i < rowCount; i++) {
 
             PartyStaticView p = records.get(i);

@@ -1,16 +1,16 @@
-package domain.cadre;
+package domain.cla;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CadreAdditionalPostExample {
+public class ClaApproverBlackListExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CadreAdditionalPostExample() {
+    public ClaApproverBlackListExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -224,123 +224,63 @@ public class CadreAdditionalPostExample {
             return (Criteria) this;
         }
 
-        public Criteria andPostIdIsNull() {
-            addCriterion("post_id is null");
+        public Criteria andApproverTypeIdIsNull() {
+            addCriterion("approver_type_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdIsNotNull() {
-            addCriterion("post_id is not null");
+        public Criteria andApproverTypeIdIsNotNull() {
+            addCriterion("approver_type_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdEqualTo(Integer value) {
-            addCriterion("post_id =", value, "postId");
+        public Criteria andApproverTypeIdEqualTo(Integer value) {
+            addCriterion("approver_type_id =", value, "approverTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdNotEqualTo(Integer value) {
-            addCriterion("post_id <>", value, "postId");
+        public Criteria andApproverTypeIdNotEqualTo(Integer value) {
+            addCriterion("approver_type_id <>", value, "approverTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdGreaterThan(Integer value) {
-            addCriterion("post_id >", value, "postId");
+        public Criteria andApproverTypeIdGreaterThan(Integer value) {
+            addCriterion("approver_type_id >", value, "approverTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("post_id >=", value, "postId");
+        public Criteria andApproverTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("approver_type_id >=", value, "approverTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdLessThan(Integer value) {
-            addCriterion("post_id <", value, "postId");
+        public Criteria andApproverTypeIdLessThan(Integer value) {
+            addCriterion("approver_type_id <", value, "approverTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdLessThanOrEqualTo(Integer value) {
-            addCriterion("post_id <=", value, "postId");
+        public Criteria andApproverTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("approver_type_id <=", value, "approverTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdIn(List<Integer> values) {
-            addCriterion("post_id in", values, "postId");
+        public Criteria andApproverTypeIdIn(List<Integer> values) {
+            addCriterion("approver_type_id in", values, "approverTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdNotIn(List<Integer> values) {
-            addCriterion("post_id not in", values, "postId");
+        public Criteria andApproverTypeIdNotIn(List<Integer> values) {
+            addCriterion("approver_type_id not in", values, "approverTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdBetween(Integer value1, Integer value2) {
-            addCriterion("post_id between", value1, value2, "postId");
+        public Criteria andApproverTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("approver_type_id between", value1, value2, "approverTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andPostIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("post_id not between", value1, value2, "postId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdIsNull() {
-            addCriterion("unit_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdIsNotNull() {
-            addCriterion("unit_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdEqualTo(Integer value) {
-            addCriterion("unit_id =", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdNotEqualTo(Integer value) {
-            addCriterion("unit_id <>", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdGreaterThan(Integer value) {
-            addCriterion("unit_id >", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("unit_id >=", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdLessThan(Integer value) {
-            addCriterion("unit_id <", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdLessThanOrEqualTo(Integer value) {
-            addCriterion("unit_id <=", value, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdIn(List<Integer> values) {
-            addCriterion("unit_id in", values, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdNotIn(List<Integer> values) {
-            addCriterion("unit_id not in", values, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdBetween(Integer value1, Integer value2) {
-            addCriterion("unit_id between", value1, value2, "unitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("unit_id not between", value1, value2, "unitId");
+        public Criteria andApproverTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("approver_type_id not between", value1, value2, "approverTypeId");
             return (Criteria) this;
         }
 

@@ -1,7 +1,5 @@
 package sys.tags;
 
-import persistence.abroad.common.ApplySelfModifyBean;
-import persistence.abroad.common.ApproverTypeBean;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApprovalLog;
 import domain.abroad.Passport;
@@ -10,7 +8,6 @@ import domain.abroad.PassportDrawFile;
 import domain.abroad.SafeBox;
 import domain.base.MetaClass;
 import domain.base.MetaType;
-import domain.cadre.CadreAdditionalPost;
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadreEdu;
 import domain.cadre.CadreFamily;
@@ -45,6 +42,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import persistence.abroad.PassportMapper;
+import persistence.abroad.common.ApplySelfModifyBean;
+import persistence.abroad.common.ApproverTypeBean;
 import persistence.abroad.common.IAbroadMapper;
 import persistence.sys.HtmlFragmentMapper;
 import service.abroad.ApplySelfService;
@@ -53,7 +52,6 @@ import service.abroad.PassportDrawService;
 import service.abroad.SafeBoxService;
 import service.base.MetaClassService;
 import service.base.MetaTypeService;
-import service.cadre.CadreAdditionalPostService;
 import service.cadre.CadreAdminLevelService;
 import service.cadre.CadreEduService;
 import service.cadre.CadreFamilyService;
@@ -128,7 +126,6 @@ public class CmTag {
     static BranchService branchService = context.getBean(BranchService.class);
     static BranchMemberService branchMemberService = context.getBean(BranchMemberService.class);
 
-    static CadreAdditionalPostService cadreAdditionalPostService = context.getBean(CadreAdditionalPostService.class);
     static CadreEduService cadreEduService = context.getBean(CadreEduService.class);
 
     public static <T> T getBean(Class<T> cls){
@@ -422,11 +419,6 @@ public class CmTag {
     public static CadreView getCadreByUserId(Integer userId) {
 
         return cadreService.dbFindByUserId(userId);
-    }
-
-    public static List<CadreAdditionalPost> getCadreAdditionalPosts(Integer cadreId) {
-
-        return cadreAdditionalPostService.findCadrePosts(cadreId);
     }
 
     // 主职

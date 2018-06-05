@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="jdbc.properties"/>
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${jdbc_driverClassName}"
+                        connectionURL="${jdbc_url}" userId="${jdbc_username}"
+                        password="${jdbc_password}" />
+        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <!--干部请假审批-->
+         <!--<table tableName="cla_applicat_type" domainObjectName="cla.ClaApplicatType" mapperName="cla.ClaApplicatTypeMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+         </table>
+        <table tableName="cla_apply_file" domainObjectName="cla.ClaApplyFile" mapperName="cla.ClaApplyFileMapper">
+        </table>
+          <table tableName="cla_apply" domainObjectName="cla.ClaApply" mapperName="cla.ClaApplyMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          </table>
+         <table tableName="cla_apply_modify" domainObjectName="cla.ClaApplyModify" mapperName="cla.ClaApplyModifyMapper">
+         </table>
+         <table tableName="cla_approval_log" domainObjectName="cla.ClaApprovalLog" mapperName="cla.ClaApprovalLogMapper">
+         </table>
+
+         <table tableName="cla_applicat_cadre" domainObjectName="cla.ClaApplicatCadre" mapperName="cla.ClaApplicatCadreMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+         </table>
+        <table tableName="cla_approval_order" domainObjectName="cla.ClaApprovalOrder" mapperName="cla.ClaApprovalOrderMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cla_approver" domainObjectName="cla.ClaApprover" mapperName="cla.ClaApproverMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+         <table tableName="cla_approver_black_list" domainObjectName="cla.ClaApproverBlackList" mapperName="cla.ClaApproverBlackListMapper">
+         </table>
+        <table tableName="cla_approver_type" domainObjectName="cla.ClaApproverType" mapperName="cla.ClaApproverTypeMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="cla_additional_post" domainObjectName="cla.ClaAdditionalPost"
+               mapperName="cla.ClaAdditionalPostMapper">
+        </table>-->
+
+        <table tableName="cla_additional_post_view" domainObjectName="cla.ClaAdditionalPostView"
+               mapperName="cla.ClaAdditionalPostViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>
+    </context>
+</generatorConfiguration>

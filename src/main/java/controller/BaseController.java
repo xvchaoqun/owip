@@ -28,7 +28,6 @@ import service.base.MetaTypeService;
 import service.base.ShortMsgService;
 import service.base.ShortMsgTplService;
 import service.base.SitemapService;
-import service.cadre.CadreAdditionalPostService;
 import service.cadre.CadreAdminLevelService;
 import service.cadre.CadreBookService;
 import service.cadre.CadreCommonService;
@@ -213,8 +212,6 @@ public class BaseController extends BaseMapper {
     protected CadreReserveService cadreReserveService;
     @Autowired
     protected CadreReserveExportService cadreReserveExportService;
-    @Autowired
-    protected CadreAdditionalPostService cadreAdditionalPostService;
 
     @Autowired
     protected CrpRecordService crpRecordService;

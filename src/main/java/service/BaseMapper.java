@@ -2,6 +2,8 @@ package service;
 
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import persistence.abroad.AbroadAdditionalPostMapper;
+import persistence.abroad.AbroadAdditionalPostViewMapper;
 import persistence.abroad.ApplicatCadreMapper;
 import persistence.abroad.ApplicatTypeMapper;
 import persistence.abroad.ApplySelfFileMapper;
@@ -32,7 +34,6 @@ import persistence.base.SitemapMapper;
 import persistence.base.SitemapRoleMapper;
 import persistence.base.common.IBaseMapper;
 import persistence.cadre.CadreAdLogMapper;
-import persistence.cadre.CadreAdditionalPostMapper;
 import persistence.cadre.CadreAdminLevelMapper;
 import persistence.cadre.CadreBookMapper;
 import persistence.cadre.CadreCompanyMapper;
@@ -410,8 +411,6 @@ public class BaseMapper {
     protected CetCourseItemMapper cetCourseItemMapper;
     @Autowired(required = false)
     protected CetProjectTypeMapper cetProjectTypeMapper;
-    /*@Autowired(required = false)
-    protected CetProjectTypeViewMapper cetProjectTypeViewMapper;*/
     @Autowired(required = false)
     protected CetExpertMapper cetExpertMapper;
     @Autowired(required = false)
@@ -546,7 +545,6 @@ public class BaseMapper {
     @Autowired(required = false)
     protected ScCommitteeOtherVoteViewMapper scCommitteeOtherVoteViewMapper;
 
-
     /**
      * 干部选拔-纪委函询管理
      */
@@ -566,7 +564,6 @@ public class BaseMapper {
     protected ScLetterReplyItemMapper scLetterReplyItemMapper;
     @Autowired(required = false)
     protected ScLetterReplyItemViewMapper scLetterReplyItemViewMapper;
-
 
     /**
      * 干部选拔-个人有关事项
@@ -701,6 +698,10 @@ public class BaseMapper {
     protected ApplySelfFileMapper applySelfFileMapper;
     @Autowired(required = false)
     protected ApprovalLogMapper approvalLogMapper;
+    @Autowired(required = false)
+    protected AbroadAdditionalPostMapper abroadAdditionalPostMapper;
+    @Autowired(required = false)
+    protected AbroadAdditionalPostViewMapper abroadAdditionalPostViewMapper;
     @Autowired(required = false)
     protected PassportMapper passportMapper;
     @Autowired(required = false)
@@ -857,8 +858,6 @@ public class BaseMapper {
     protected CadreLeaderMapper cadreLeaderMapper;
     @Autowired(required = false)
     protected CadreLeaderUnitMapper cadreLeaderUnitMapper;
-    @Autowired(required = false)
-    protected CadreAdditionalPostMapper cadreAdditionalPostMapper;
     @Autowired(required = false)
     protected CadreMapper cadreMapper;
     @Autowired(required = false)

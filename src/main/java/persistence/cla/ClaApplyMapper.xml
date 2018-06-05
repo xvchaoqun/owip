@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.cla.ClaApplyMapper">
+  <resultMap id="BaseResultMap" type="domain.cla.ClaApply">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="apply_date" jdbcType="DATE" property="applyDate" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="destination" jdbcType="VARCHAR" property="destination" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="peer_staff" jdbcType="VARCHAR" property="peerStaff" />
+    <result column="is_back" jdbcType="BIT" property="isBack" />
+    <result column="real_start_time" jdbcType="TIMESTAMP" property="realStartTime" />
+    <result column="real_end_time" jdbcType="TIMESTAMP" property="realEndTime" />
+    <result column="real_remark" jdbcType="VARCHAR" property="realRemark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="approval_remark" jdbcType="VARCHAR" property="approvalRemark" />
+    <result column="is_finish" jdbcType="BIT" property="isFinish" />
+    <result column="flow_node" jdbcType="INTEGER" property="flowNode" />
+    <result column="flow_nodes" jdbcType="VARCHAR" property="flowNodes" />
+    <result column="flow_users" jdbcType="VARCHAR" property="flowUsers" />
+    <result column="is_agreed" jdbcType="BIT" property="isAgreed" />
+    <result column="is_modify" jdbcType="BIT" property="isModify" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, cadre_id, apply_date, type, start_time, end_time, destination, reason, peer_staff, 
+    is_back, real_start_time, real_end_time, real_remark, create_time, ip, status, approval_remark, 
+    is_finish, flow_node, flow_nodes, flow_users, is_agreed, is_modify, is_deleted, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.cla.ClaApplyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cla_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cla_apply
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cla_apply
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.cla.ClaApplyExample">
+    delete from cla_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.cla.ClaApply">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cla_apply (cadre_id, apply_date, type, 
+      start_time, end_time, destination, 
+      reason, peer_staff, is_back, 
+      real_start_time, real_end_time, real_remark, 
+      create_time, ip, status, 
+      approval_remark, is_finish, flow_node, 
+      flow_nodes, flow_users, is_agreed, 
+      is_modify, is_deleted, remark
+      )
+    values (#{cadreId,jdbcType=INTEGER}, #{applyDate,jdbcType=DATE}, #{type,jdbcType=TINYINT}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{destination,jdbcType=VARCHAR}, 
+      #{reason,jdbcType=VARCHAR}, #{peerStaff,jdbcType=VARCHAR}, #{isBack,jdbcType=BIT}, 
+      #{realStartTime,jdbcType=TIMESTAMP}, #{realEndTime,jdbcType=TIMESTAMP}, #{realRemark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, 
+      #{approvalRemark,jdbcType=VARCHAR}, #{isFinish,jdbcType=BIT}, #{flowNode,jdbcType=INTEGER}, 
+      #{flowNodes,jdbcType=VARCHAR}, #{flowUsers,jdbcType=VARCHAR}, #{isAgreed,jdbcType=BIT}, 
+      #{isModify,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="domain.cla.ClaApply">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cla_apply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cadreId != null">
+        cadre_id,
+      </if>
+      <if test="applyDate != null">
+        apply_date,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="destination != null">
+        destination,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="peerStaff != null">
+        peer_staff,
+      </if>
+      <if test="isBack != null">
+        is_back,
+      </if>
+      <if test="realStartTime != null">
+        real_start_time,
+      </if>
+      <if test="realEndTime != null">
+        real_end_time,
+      </if>
+      <if test="realRemark != null">
+        real_remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="approvalRemark != null">
+        approval_remark,
+      </if>
+      <if test="isFinish != null">
+        is_finish,
+      </if>
+      <if test="flowNode != null">
+        flow_node,
+      </if>
+      <if test="flowNodes != null">
+        flow_nodes,
+      </if>
+      <if test="flowUsers != null">
+        flow_users,
+      </if>
+      <if test="isAgreed != null">
+        is_agreed,
+      </if>
+      <if test="isModify != null">
+        is_modify,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cadreId != null">
+        #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null">
+        #{applyDate,jdbcType=DATE},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="destination != null">
+        #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="peerStaff != null">
+        #{peerStaff,jdbcType=VARCHAR},
+      </if>
+      <if test="isBack != null">
+        #{isBack,jdbcType=BIT},
+      </if>
+      <if test="realStartTime != null">
+        #{realStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realEndTime != null">
+        #{realEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realRemark != null">
+        #{realRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="approvalRemark != null">
+        #{approvalRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="isFinish != null">
+        #{isFinish,jdbcType=BIT},
+      </if>
+      <if test="flowNode != null">
+        #{flowNode,jdbcType=INTEGER},
+      </if>
+      <if test="flowNodes != null">
+        #{flowNodes,jdbcType=VARCHAR},
+      </if>
+      <if test="flowUsers != null">
+        #{flowUsers,jdbcType=VARCHAR},
+      </if>
+      <if test="isAgreed != null">
+        #{isAgreed,jdbcType=BIT},
+      </if>
+      <if test="isModify != null">
+        #{isModify,jdbcType=BIT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.cla.ClaApplyExample" resultType="java.lang.Long">
+    select count(*) from cla_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cla_apply
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cadreId != null">
+        cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyDate != null">
+        apply_date = #{record.applyDate,jdbcType=DATE},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.destination != null">
+        destination = #{record.destination,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reason != null">
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.peerStaff != null">
+        peer_staff = #{record.peerStaff,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isBack != null">
+        is_back = #{record.isBack,jdbcType=BIT},
+      </if>
+      <if test="record.realStartTime != null">
+        real_start_time = #{record.realStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.realEndTime != null">
+        real_end_time = #{record.realEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.realRemark != null">
+        real_remark = #{record.realRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=BIT},
+      </if>
+      <if test="record.approvalRemark != null">
+        approval_remark = #{record.approvalRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isFinish != null">
+        is_finish = #{record.isFinish,jdbcType=BIT},
+      </if>
+      <if test="record.flowNode != null">
+        flow_node = #{record.flowNode,jdbcType=INTEGER},
+      </if>
+      <if test="record.flowNodes != null">
+        flow_nodes = #{record.flowNodes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowUsers != null">
+        flow_users = #{record.flowUsers,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAgreed != null">
+        is_agreed = #{record.isAgreed,jdbcType=BIT},
+      </if>
+      <if test="record.isModify != null">
+        is_modify = #{record.isModify,jdbcType=BIT},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cla_apply
+    set id = #{record.id,jdbcType=INTEGER},
+      cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      apply_date = #{record.applyDate,jdbcType=DATE},
+      type = #{record.type,jdbcType=TINYINT},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      destination = #{record.destination,jdbcType=VARCHAR},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      peer_staff = #{record.peerStaff,jdbcType=VARCHAR},
+      is_back = #{record.isBack,jdbcType=BIT},
+      real_start_time = #{record.realStartTime,jdbcType=TIMESTAMP},
+      real_end_time = #{record.realEndTime,jdbcType=TIMESTAMP},
+      real_remark = #{record.realRemark,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=BIT},
+      approval_remark = #{record.approvalRemark,jdbcType=VARCHAR},
+      is_finish = #{record.isFinish,jdbcType=BIT},
+      flow_node = #{record.flowNode,jdbcType=INTEGER},
+      flow_nodes = #{record.flowNodes,jdbcType=VARCHAR},
+      flow_users = #{record.flowUsers,jdbcType=VARCHAR},
+      is_agreed = #{record.isAgreed,jdbcType=BIT},
+      is_modify = #{record.isModify,jdbcType=BIT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cla.ClaApply">
+    update cla_apply
+    <set>
+      <if test="cadreId != null">
+        cadre_id = #{cadreId,jdbcType=INTEGER},
+      </if>
+      <if test="applyDate != null">
+        apply_date = #{applyDate,jdbcType=DATE},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="destination != null">
+        destination = #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="peerStaff != null">
+        peer_staff = #{peerStaff,jdbcType=VARCHAR},
+      </if>
+      <if test="isBack != null">
+        is_back = #{isBack,jdbcType=BIT},
+      </if>
+      <if test="realStartTime != null">
+        real_start_time = #{realStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realEndTime != null">
+        real_end_time = #{realEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realRemark != null">
+        real_remark = #{realRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="approvalRemark != null">
+        approval_remark = #{approvalRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="isFinish != null">
+        is_finish = #{isFinish,jdbcType=BIT},
+      </if>
+      <if test="flowNode != null">
+        flow_node = #{flowNode,jdbcType=INTEGER},
+      </if>
+      <if test="flowNodes != null">
+        flow_nodes = #{flowNodes,jdbcType=VARCHAR},
+      </if>
+      <if test="flowUsers != null">
+        flow_users = #{flowUsers,jdbcType=VARCHAR},
+      </if>
+      <if test="isAgreed != null">
+        is_agreed = #{isAgreed,jdbcType=BIT},
+      </if>
+      <if test="isModify != null">
+        is_modify = #{isModify,jdbcType=BIT},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.cla.ClaApply">
+    update cla_apply
+    set cadre_id = #{cadreId,jdbcType=INTEGER},
+      apply_date = #{applyDate,jdbcType=DATE},
+      type = #{type,jdbcType=TINYINT},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      destination = #{destination,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      peer_staff = #{peerStaff,jdbcType=VARCHAR},
+      is_back = #{isBack,jdbcType=BIT},
+      real_start_time = #{realStartTime,jdbcType=TIMESTAMP},
+      real_end_time = #{realEndTime,jdbcType=TIMESTAMP},
+      real_remark = #{realRemark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      approval_remark = #{approvalRemark,jdbcType=VARCHAR},
+      is_finish = #{isFinish,jdbcType=BIT},
+      flow_node = #{flowNode,jdbcType=INTEGER},
+      flow_nodes = #{flowNodes,jdbcType=VARCHAR},
+      flow_users = #{flowUsers,jdbcType=VARCHAR},
+      is_agreed = #{isAgreed,jdbcType=BIT},
+      is_modify = #{isModify,jdbcType=BIT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cla.ClaApplyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cla_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

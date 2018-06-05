@@ -2,7 +2,6 @@ package domain.abroad;
 
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
-import sys.constants.AbroadConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -10,10 +9,6 @@ import java.util.Date;
 import java.util.Map;
 
 public class ApplySelf implements Serializable {
-
-    public String getTypeName(){
-        return AbroadConstants.ABROAD_APPLY_SELF_DATE_TYPE_MAP.get(type);
-    }
 
     private CadreView cadreView;
     private SysUserView sysUserView;

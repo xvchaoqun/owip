@@ -27,7 +27,7 @@
         <!-- <table tableName="abroad_applicat_type" domainObjectName="abroad.ApplicatType">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <!--<table tableName="abroad_apply_self_file" domainObjectName="Aabroad.pplySelfFile">
+        <!--<table tableName="abroad_apply_self_file" domainObjectName="abroad.ApplySelfFile">
         </table>-->
         <!--  <table tableName="abroad_apply_self" domainObjectName="abroad.ApplySelf" mapperName="abroad.ApplySelfMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -51,6 +51,18 @@
         <!--<table tableName="abroad_approver_type" domainObjectName="abroad.ApproverType">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
+
+        <!--<table tableName="abroad_additional_post" domainObjectName="abroad.AbroadAdditionalPost"
+                mapperName="abroad.AbroadAdditionalPostMapper">
+       </table>-->
+
+        <table tableName="abroad_additional_post_view" domainObjectName="abroad.AbroadAdditionalPostView"
+               mapperName="abroad.AbroadAdditionalPostViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>
+
         <!--<table tableName="abroad_passport_draw" domainObjectName="abroad.PassportDraw" mapperName="abroad.PassportDrawMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->

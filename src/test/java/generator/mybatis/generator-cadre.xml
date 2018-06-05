@@ -24,9 +24,6 @@
         </javaClientGenerator>
 
         <!--干部库-->
-        <!-- <table tableName="cadre_additional_post" domainObjectName="cadre.CadreAdditionalPost">
-        </table>-->
-
          <!-- <table tableName="cadre" domainObjectName="cadre.Cadre" mapperName="cadre.CadreMapper">
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>

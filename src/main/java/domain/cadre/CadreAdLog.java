@@ -9,7 +9,6 @@ import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 public class CadreAdLog implements Serializable {
@@ -37,11 +36,6 @@ public class CadreAdLog implements Serializable {
 
         Map<Integer, MetaType> postMap = CmTag.getMetaTypes("mc_post");
         return postMap.get(postId);
-    }
-    // 兼审单位
-    public List<CadreAdditionalPost> getCadreAdditionalPosts(){
-
-        return CmTag.getCadreAdditionalPosts(id);
     }
     // 离任文件
     public Dispatch getDispatch(){

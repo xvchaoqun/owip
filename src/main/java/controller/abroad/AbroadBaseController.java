@@ -2,6 +2,7 @@ package controller.abroad;
 
 import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import service.abroad.AbroadAdditionalPostService;
 import service.abroad.AbroadExportService;
 import service.abroad.AbroadShortMsgService;
 import service.abroad.ApplicatTypeService;
@@ -32,6 +33,9 @@ public class AbroadBaseController extends BaseController {
     protected ApproverBlackListService approverBlackListService;
     @Autowired
     protected ApproverTypeService approverTypeService;
+
+    @Autowired
+    protected AbroadAdditionalPostService abroadAdditionalPostService;
 
     @Autowired
     protected PassportDrawService passportDrawService;

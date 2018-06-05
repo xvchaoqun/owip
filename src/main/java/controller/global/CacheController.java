@@ -58,7 +58,10 @@ public class CacheController extends BaseController {
     @ResponseBody
     public Map flush_metadata_JSON() {
 
-        cacheService.flushMetadata();
-        return success();
+        Map metadata = cacheService.flushMetadata();
+        Map<String, Object> resultMap = success();
+        resultMap.put("metadata", metadata);
+
+        return resultMap;
     }
 }

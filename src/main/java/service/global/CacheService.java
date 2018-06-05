@@ -188,7 +188,7 @@ public class CacheService extends BaseController{
     }
 
     // 刷新基础js数据
-    public void flushMetadata() {
+    public Map flushMetadata() {
 
         /*Map map = new HashMap();
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
@@ -255,6 +255,8 @@ public class CacheService extends BaseController{
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+
+        return cMap;
     }
 
     @Caching(evict = {

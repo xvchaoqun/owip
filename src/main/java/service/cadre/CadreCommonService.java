@@ -1,31 +1,19 @@
 package service.cadre;
 
-import domain.abroad.ApproverBlackList;
-import domain.abroad.ApproverType;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
-import domain.cadre.CadreAdditionalPost;
-import domain.cadre.CadreAdditionalPostExample;
 import domain.cadre.CadreExample;
 import domain.cadre.CadreView;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.sys.SysUserView;
-import domain.unit.Unit;
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
-import service.abroad.ApproverBlackListService;
-import service.abroad.ApproverTypeService;
 import service.base.MetaTypeService;
-import service.cadreReserve.CadreReserveService;
 import service.dispatch.DispatchService;
 import service.sys.SysUserService;
-import service.unit.UnitService;
 import sys.constants.CadreConstants;
-import sys.service.ApplicationContextSupport;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
@@ -43,40 +31,14 @@ import java.util.Set;
 @Service
 public class CadreCommonService extends BaseMapper {
 
-
     @Autowired
     private MetaTypeService metaTypeService;
     @Autowired
     private SysUserService sysUserService;
-    @Autowired
-    private UnitService unitService;
     @Autowired(required = false)
     private DispatchService dispatchService;
-    @Autowired
-    private CadreAdditionalPostService cadreAdditionalPostService;
-    @Autowired
-    private CadreService cadreService;
-    @Autowired
-    private CadreReserveService cadreReserveService;
 
-    // 获取某个单位下的兼审正职
-    public List<CadreView> findAdditionalPost(int unitId) {
-
-        List<CadreView> cadreList = new ArrayList<>();
-        Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
-        CadreAdditionalPostExample example = new CadreAdditionalPostExample();
-        example.createCriteria().andUnitIdEqualTo(unitId);
-        List<CadreAdditionalPost> cPosts = cadreAdditionalPostMapper.selectByExample(example);
-        for (CadreAdditionalPost cPost : cPosts) {
-            MetaType postType = metaTypeMap.get(cPost.getPostId());
-            if (postType.getBoolAttr()) {
-                cadreList.add(CmTag.getCadreById(cPost.getCadreId()));
-            }
-        }
-        return cadreList;
-    }
-
-    // 查找某个单位的正职(不包括兼任职务的干部)
+    // 查找某个单位的正职
     public List<Cadre> findMainPost(int unitId) {
 
         List<Cadre> cadreList = new ArrayList<>();
@@ -140,7 +102,7 @@ public class CadreCommonService extends BaseMapper {
         return getTree(cadreList, cadreStatusList, selectIdSet, disabledIdSet, true, true, false);
     }
 
-    // 因私申请人中的干部选择，（职务属性-干部 Set<cadreId>） , 用于审批人身份时disabledIdSet=null
+    // 干部选择，（职务属性-干部 Set<cadreId>） , 用于审批人身份时disabledIdSet=null
     public TreeNode getTree(Set<CadreView> cadreList, // 干部列表
                             Set<Byte> cadreStatusList, // 干部库类别过滤
                             Set<Integer> selectIdSet, // 已选干部
@@ -225,154 +187,6 @@ public class CadreCommonService extends BaseMapper {
                 titleChildren.add(node);
             }
             titleNode.title = entry.getKey() + String.format("(%s", selectCount > 0 ? selectCount + "/" : "") + entryValue.size() + "人)";
-            rootChildren.add(titleNode);
-        }
-        return root;
-    }
-
-    class CadrePostBean {
-        private int cadreId;
-        private int postId;
-        private boolean additional;
-
-        public CadrePostBean(int cadreId, int postId, boolean additional) {
-            this.cadreId = cadreId;
-            this.postId = postId;
-            this.additional = additional;
-        }
-
-        public int getCadreId() {
-            return cadreId;
-        }
-
-        public void setCadreId(int cadreId) {
-            this.cadreId = cadreId;
-        }
-
-        public int getPostId() {
-            return postId;
-        }
-
-        public void setPostId(int postId) {
-            this.postId = postId;
-        }
-
-        public boolean isAdditional() {
-            return additional;
-        }
-
-        public void setAdditional(boolean additional) {
-            this.additional = additional;
-        }
-    }
-
-    // 本单位正职列表（审批人，包括兼任职务）
-    public TreeNode getMainPostCadreTree() {
-
-        TreeNode root = new TreeNode();
-        root.title = "现任干部库";
-        root.expand = true;
-        root.isFolder = true;
-        root.hideCheckbox = true;
-        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
-        root.children = rootChildren;
-
-        Map<Integer, CadreView> cadreMap = cadreService.findAll();
-        Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
-        // 职务属性-干部
-        Map<Integer, List<CadrePostBean>> unitIdCadresMap = new LinkedHashMap<>();
-
-        for (CadreView cadre : cadreMap.values()) {
-            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
-                    || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                    && BooleanUtils.isTrue(postMap.get(cadre.getPostId()).getBoolAttr())) {
-                List<CadrePostBean> list = null;
-                Integer unitId = cadre.getUnitId();
-                if (unitIdCadresMap.containsKey(unitId)) {
-                    list = unitIdCadresMap.get(unitId);
-                }
-                if (null == list) list = new ArrayList<>();
-                CadrePostBean bean = new CadrePostBean(cadre.getId(), cadre.getPostId(), false);
-                list.add(bean);
-
-                unitIdCadresMap.put(unitId, list);
-            }
-        }
-        Map<String, CadreAdditionalPost> cadreAdditionalPostMap = cadreAdditionalPostService.findAll();
-        for (CadreAdditionalPost cPost : cadreAdditionalPostMap.values()) {
-            CadreView cadre = cadreMap.get(cPost.getCadreId());
-            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
-                    || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                    && BooleanUtils.isTrue(postMap.get(cPost.getPostId()).getBoolAttr())) {
-                List<CadrePostBean> list = null;
-                Integer unitId = cPost.getUnitId();
-                if (unitIdCadresMap.containsKey(unitId)) {
-                    list = unitIdCadresMap.get(unitId);
-                }
-                if (null == list) list = new ArrayList<>();
-                CadrePostBean bean = new CadrePostBean(cPost.getCadreId(),
-                        cPost.getPostId(), true);
-                list.add(bean);
-
-                unitIdCadresMap.put(unitId, list);
-            }
-        }
-
-        // 排序
-        Map<Integer, Unit> unitMap = unitService.findAll();
-        Map<String, List<CadrePostBean>> unitCadresMap = new LinkedHashMap<>();
-        for (Unit unit : unitMap.values()) {
-            if (unitIdCadresMap.containsKey(unit.getId()))
-                unitCadresMap.put(unit.getName(), unitIdCadresMap.get(unit.getId()));
-        }
-
-        ApplicationContext context = ApplicationContextSupport.getContext();
-        ApproverBlackListService approverBlackListService = context.getBean(ApproverBlackListService.class);
-        ApproverTypeService approverTypeService = context.getBean(ApproverTypeService.class);
-
-        // 本单位正职身份
-        ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
-        Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(mainPostApproverType.getId());
-        for (Map.Entry<String, List<CadrePostBean>> entry : unitCadresMap.entrySet()) {
-
-            List<CadrePostBean> entryValue = entry.getValue();
-            TreeNode titleNode = new TreeNode();
-
-
-            titleNode.isFolder = true;
-            titleNode.hideCheckbox = true;
-            titleNode.unselectable = true;
-            List<TreeNode> titleChildren = new ArrayList<TreeNode>();
-            titleNode.children = titleChildren;
-
-            int blackCount = 0;
-            for (CadrePostBean bean : entryValue) {
-
-                int cadreId = bean.getCadreId();
-                TreeNode node = new TreeNode();
-                CadreView cadre = cadreMap.get(cadreId);
-                SysUserView uv = sysUserService.findById(cadre.getUserId());
-                node.title = uv.getRealname() + "-" + postMap.get(bean.getPostId()).getName() +
-                        (bean.additional ? "(兼审单位)" : "");
-
-                if (bean.additional) {
-                    node.unselectable = true;
-                } else {
-                    node.key = cadreId + "";
-                }
-                node.select = true;
-
-                // 本单位正职黑名单
-                if (!bean.additional && blackListMap.get(cadreId) != null) {
-                    node.select = false;
-                    blackCount++;
-                }
-
-                titleChildren.add(node);
-            }
-
-            int selectCount = entryValue.size() - blackCount;
-            titleNode.title = entry.getKey() + String.format("(%s", selectCount > 0 ? selectCount + "/" : "") + entryValue.size() + ")";
             rootChildren.add(titleNode);
         }
         return root;

@@ -244,6 +244,22 @@
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
 
+    <cache name="AbroadAdditionalPost:ALL"
+           eternal="false"
+           maxElementsInMemory="100"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
+    <cache name="AbroadAdditionalPost"
+           eternal="false"
+           maxElementsInMemory="100"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
 
     <cache name="UnitAdmin:ALL"
            eternal="false"
@@ -399,23 +415,6 @@
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
     <cache name="Cadre:ALL"
-           eternal="false"
-           maxElementsInMemory="100"
-           overflowToDisk="false"
-           diskPersistent="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="300"
-           memoryStoreEvictionPolicy="LRU"/>
-
-    <cache name="CadreAdditionalPost:ALL"
-           eternal="false"
-           maxElementsInMemory="100"
-           overflowToDisk="false"
-           diskPersistent="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="300"
-           memoryStoreEvictionPolicy="LRU"/>
-    <cache name="CadreAdditionalPost"
            eternal="false"
            maxElementsInMemory="100"
            overflowToDisk="false"

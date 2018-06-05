@@ -162,7 +162,10 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-						$.reloadMetaData();
+						$.reloadMetaData(function(){
+							$("#modal").modal("hide")
+							$("#jqGrid").trigger("reloadGrid");
+						});
                     }
                 }
             });

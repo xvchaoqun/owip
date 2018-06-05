@@ -52,12 +52,6 @@
                                             data-url="${ctx}/cadre_leave">
                                         <i class="fa fa-edit"></i> 离任
                                     </button>
-                                    <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/cadre_additional_post" data-rel="tooltip"
-                                            data-placement="bottom"
-                                            title="添加职务——仅用于因私出国（境）审批人身份设定">
-                                        <i class="fa fa-plus"></i> 因私出国境兼审单位
-                                    </button>
                                 </c:if>
                                 <a class="popupBtn btn btn-primary btn-sm tooltip-success"
                                    data-url="${ctx}/cadre_import?status=${status}"

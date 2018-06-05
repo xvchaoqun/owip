@@ -1,8 +1,8 @@
-package domain.cadre;
+package domain.abroad;
 
 import java.io.Serializable;
 
-public class CadreAdditionalPost implements Serializable {
+public class AbroadAdditionalPost implements Serializable {
     private Integer id;
 
     private Integer cadreId;

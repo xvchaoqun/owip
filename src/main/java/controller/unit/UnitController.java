@@ -12,17 +12,21 @@ import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.unit.UnitExportService;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -43,6 +47,8 @@ public class UnitController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    private UnitExportService unitExportService;
 
     // 基本信息
     @RequiresPermissions("unit:info")
@@ -110,7 +116,9 @@ public class UnitController extends BaseController {
         }
 
         if (export == 1) {
-            unit_export(example, response);
+
+            XSSFWorkbook wb = unitExportService.toXlsx(example);
+            ExportHelper.output(wb, CmTag.getSysConfig().getSchoolName() + "单位一览表.xlsx", response);
             return;
         }
 
@@ -218,28 +226,6 @@ public class UnitController extends BaseController {
         unitService.changeOrder(id, status, addNum);
         logger.info(addLog(LogConstants.LOG_ADMIN, "单位调序：%s, %s", id, addNum));
         return success(FormUtils.SUCCESS);
-    }
-
-    public void unit_export(UnitExample example, HttpServletResponse response) {
-
-        List<Unit> records = unitMapper.selectByExample(example);
-        int rownum = records.size();
-        String[] titles = {"单位编号","单位名称","单位类型","成立时间","单位网址","备注"};
-        List<String[]> valuesList = new ArrayList<>();
-        for (int i = 0; i < rownum; i++) {
-            Unit record = records.get(i);
-            String[] values = {
-                    record.getCode(),
-                    record.getName(),
-                    metaTypeService.getName(record.getTypeId()),
-                    DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
-                    record.getUrl(),
-                    record.getRemark()
-            };
-            valuesList.add(values);
-        }
-        String fileName = "单位_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.export(titles, valuesList, fileName, response);
     }
 
     @RequiresPermissions("unit:history")

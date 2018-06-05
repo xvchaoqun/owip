@@ -47,7 +47,7 @@ public class ApproverTypeController extends AbroadBaseController {
 
         if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT) { // 本单位正职
 
-            resultMap.put("tree", cadreCommonService.getMainPostCadreTree());
+            resultMap.put("tree", abroadAdditionalPostService.getMainPostCadreTree());
 
         }else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) { // 分管校领导
 

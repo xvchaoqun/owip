@@ -1,5 +1,22 @@
 
 
+创建视图 cla_additional_post_view
+
+
+2018-6-5
+
+ALTER TABLE `cadre_additional_post`
+	COMMENT='因私出国境审批兼审单位（不能和现有单位重复）';
+RENAME TABLE `cadre_additional_post` TO `abroad_additional_post`;
+
+-- select * from sys_resource where permission like '%cadreAdditionalPost%';
+delete from sys_resource where permission like '%cadreAdditionalPost%';
+因私新增二级菜单 兼审单位管理
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (289, 0, '兼审单位管理', '', 'url', '', '/abroad/abroadAdditionalPost', 284, '0/1/284/', 1, 'abroadAdditionalPost:*', NULL, NULL, 1, 120);
+
+
+创建视图 abroad_additional_post_view
+
 2018-6-5
 
 ALTER TABLE `sys_user`

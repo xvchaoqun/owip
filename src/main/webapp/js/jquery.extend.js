@@ -315,9 +315,13 @@ $.fn.extend({
 var _modal_width;
 (function ($) {
     $.extend({
-        reloadMetaData: function(){
-            $.getJSON(ctx+ "/cache/flush_metadata_JSON",function(){
-                location.reload();
+        reloadMetaData: function(fn){
+            $.getJSON(ctx+ "/cache/flush_metadata_JSON",function(ret){
+                //alert(typeof fn)
+                if(ret.success && $.isJson(ret.metadata)){
+                    _cMap = ret.metadata;
+                }
+                if (typeof fn == 'function') fn();
             })
         },
         // 左div float时，保证左div高度不小于右div高度

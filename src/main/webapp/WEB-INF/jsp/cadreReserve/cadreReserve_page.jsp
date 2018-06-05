@@ -345,18 +345,6 @@
             },
             <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
             {
-                label: '因私出国境兼审单位',
-                width: 150,
-                name: 'additional',
-                formatter: function (cellvalue, options, rowObject) {
-                    var cadreAdditionalPosts = rowObject.cadreAdditionalPosts;
-                    if (cadreAdditionalPosts.length == 0) return '';
-                    return '<button class="popupBtn btn btn-xs btn-warning"' +
-                            'data-url="${ctx}/cadre_additional_post?id={0}"><i class="fa fa-search"></i> 查看</button>'
-                                    .format(rowObject.id);
-                }
-            },
-            {
                 label: '短信称谓', name: 'msgTitle', width: 80, formatter: function (cellvalue, options, rowObject) {
                 // 短信称谓
                 var msgTitle = $.trim(cellvalue);

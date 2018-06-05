@@ -1,6 +1,5 @@
 package domain.cadreInspect;
 
-import domain.cadre.CadreAdditionalPost;
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadrePost;
 import domain.dispatch.Dispatch;
@@ -11,7 +10,6 @@ import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 public class CadreInspectView implements Serializable {
     public SysUserView getUser(){
@@ -27,10 +25,6 @@ public class CadreInspectView implements Serializable {
     // 现任职务
     public CadreAdminLevel getPresentAdminLevel() {
         return CmTag.getPresentByCadreId(id);
-    }
-    // 兼审单位
-    public List<CadreAdditionalPost> getCadreAdditionalPosts(){
-        return CmTag.getCadreAdditionalPosts(id);
     }
 
     // 离任文件

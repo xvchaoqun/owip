@@ -165,7 +165,8 @@ public class XlsUpload {
             if (null != cell) {
                 cadreRow.setPost(getCell(cell));
             }
-            cell = row.getCell(5);
+
+            cell = row.getCell(6);
             if (null != cell) {
                 cadreRow.setRemark(getCell(cell));
             }

@@ -36,7 +36,7 @@ public class StatPartyMemberService extends BaseMapper {
     // 导出 某个分党委的委员及分工统计表
     public XSSFWorkbook toXlsx(int groupId) throws IOException {
 
-        InputStream is = getClass().getResourceAsStream("/xlsx/party_member_template.xlsx");
+        InputStream is = getClass().getResourceAsStream("/xlsx/party/party_member_template.xlsx");
         XSSFWorkbook wb=new XSSFWorkbook(is);
 
         renderSheetData(wb, groupId);

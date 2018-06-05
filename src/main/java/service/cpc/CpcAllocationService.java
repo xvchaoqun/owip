@@ -101,7 +101,7 @@ public class CpcAllocationService extends BaseMapper {
     // 导出
     public XSSFWorkbook cpcInfo_Xlsx() throws IOException {
 
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cpc_template.xlsx"));
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cpc/cpc_template.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
@@ -473,7 +473,7 @@ public class CpcAllocationService extends BaseMapper {
 
     public XSSFWorkbook cpcStat_Xlsx() throws IOException {
 
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cpc_stat_template.xlsx"));
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cpc/cpc_stat_template.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 

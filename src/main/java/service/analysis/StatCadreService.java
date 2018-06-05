@@ -35,7 +35,7 @@ public class StatCadreService extends BaseMapper {
     // 导出
     public XSSFWorkbook toXlsx() throws IOException {
 
-        InputStream is = getClass().getResourceAsStream("/xlsx/cadre_template.xlsx");
+        InputStream is = getClass().getResourceAsStream("/xlsx/cadre/cadre_template.xlsx");
         XSSFWorkbook wb=new XSSFWorkbook(is);
 
         renderSheetData(wb, null); // 汇总
