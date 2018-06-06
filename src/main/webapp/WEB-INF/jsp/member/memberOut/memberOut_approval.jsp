@@ -5,6 +5,7 @@
 <c:set var="MEMBER_OUT_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY%>"/>
 <c:set var="MEMBER_OUT_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY%>"/>
 <c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>"/>
+<c:set var="OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT%>"/>
 
 <div class="modal-body">
 
@@ -247,5 +248,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberOut.id}&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT%>"/>
+    <c:import url="/applyApprovalLogs?id=${memberOut.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUT}"/>
 </div>

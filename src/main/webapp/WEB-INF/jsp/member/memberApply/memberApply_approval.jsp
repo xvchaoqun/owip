@@ -9,6 +9,7 @@
 <c:set var="OW_APPLY_STAGE_PLAN" value="<%=OwConstants.OW_APPLY_STAGE_PLAN%>"/>
 <c:set var="OW_APPLY_STAGE_DRAW" value="<%=OwConstants.OW_APPLY_STAGE_DRAW%>"/>
 <c:set var="OW_APPLY_STAGE_GROW" value="<%=OwConstants.OW_APPLY_STAGE_GROW%>"/>
+<c:set var="OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY%>"/>
 
 <div class="modal-body">
 
@@ -302,5 +303,5 @@
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
 
-<c:import url="/applyApprovalLogs?idName=userId&userId=${memberApply.userId}&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY%>"/>
+<c:import url="/applyApprovalLogs?idName=userId&userId=${memberApply.userId}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY}"/>
 </div>

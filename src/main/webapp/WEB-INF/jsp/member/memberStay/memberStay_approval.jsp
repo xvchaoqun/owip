@@ -7,6 +7,7 @@
 <c:set var="MEMBER_STAY_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY%>"/>
 <c:set var="MEMBER_STAY_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY%>"/>
 <c:set var="MEMBER_STAY_TYPE_MAP" value="<%=MemberConstants.MEMBER_STAY_TYPE_MAP%>"/>
+<c:set var="OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY%>"/>
 
 <div class="modal-body">
 
@@ -128,5 +129,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberStay.id}&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY%>"/>
+    <c:import url="/applyApprovalLogs?id=${memberStay.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_STAY}"/>
 </div>

@@ -5,6 +5,7 @@
 <c:set var="MEMBER_OUTFLOW_STATUS_BACK" value="<%=MemberConstants.MEMBER_OUTFLOW_STATUS_BACK%>"/>
 <c:set var="MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY" value="<%=MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY%>"/>
 <c:set var="MEMBER_OUTFLOW_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_OUTFLOW_STATUS_PARTY_VERIFY%>"/>
+<c:set var="OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW%>"/>
 
 <div class="modal-body">
 
@@ -207,5 +208,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberOutflow.id}&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW%>"/>
+    <c:import url="/applyApprovalLogs?id=${memberOutflow.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_OUTFLOW}"/>
 </div>

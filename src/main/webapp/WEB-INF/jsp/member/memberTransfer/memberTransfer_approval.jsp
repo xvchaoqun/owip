@@ -5,6 +5,7 @@
 <c:set var="MEMBER_TRANSFER_STATUS_BACK" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_BACK%>"/>
 <c:set var="MEMBER_TRANSFER_STATUS_FROM_VERIFY" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_FROM_VERIFY%>"/>
 <c:set var="MEMBER_TRANSFER_STATUS_TO_VERIFY" value="<%=MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY%>"/>
+<c:set var="OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER%>"/>
 
 <div class="modal-body">
 
@@ -165,5 +166,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberTransfer.id}&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER%>"/>
+    <c:import url="/applyApprovalLogs?id=${memberTransfer.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_TRANSFER}"/>
 </div>

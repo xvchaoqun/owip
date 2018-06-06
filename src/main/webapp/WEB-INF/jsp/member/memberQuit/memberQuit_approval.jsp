@@ -7,6 +7,7 @@
 <c:set var="MEMBER_QUIT_STATUS_BRANCH_VERIFY" value="<%=MemberConstants.MEMBER_QUIT_STATUS_BRANCH_VERIFY%>"/>
 <c:set var="MEMBER_QUIT_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_QUIT_STATUS_PARTY_VERIFY%>"/>
 <c:set var="MEMBER_QUIT_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_QUIT_STATUS_OW_VERIFY%>"/>
+<c:set var="OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT%>"/>
 
 <div class="modal-body">
 
@@ -188,5 +189,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberQuit.userId}&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT%>"/>
+    <c:import url="/applyApprovalLogs?id=${memberQuit.userId}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_QUIT}"/>
 </div>

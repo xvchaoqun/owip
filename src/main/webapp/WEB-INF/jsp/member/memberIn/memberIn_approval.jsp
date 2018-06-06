@@ -6,6 +6,7 @@
 <c:set var="MEMBER_IN_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY%>"/>
 <c:set var="MEMBER_IN_STATUS_OW_VERIFY" value="<%=MemberConstants.MEMBER_IN_STATUS_OW_VERIFY%>"/>
 <c:set var="MEMBER_INOUT_TYPE_MAP" value="<%=MemberConstants.MEMBER_INOUT_TYPE_MAP%>"/>
+<c:set var="OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN%>"/>
 
 <div class="modal-body">
 
@@ -270,5 +271,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberIn.id}&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN%>"/>
+    <c:import url="/applyApprovalLogs?id=${memberIn.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_IN}"/>
 </div>

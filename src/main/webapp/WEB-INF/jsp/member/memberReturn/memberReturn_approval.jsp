@@ -4,6 +4,7 @@
 <c:set var="MEMBER_RETURN_STATUS_DENY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_DENY%>"/>
 <c:set var="MEMBER_RETURN_STATUS_BRANCH_VERIFY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY%>"/>
 <c:set var="MEMBER_RETURN_STATUS_PARTY_VERIFY" value="<%=MemberConstants.MEMBER_RETURN_STATUS_PARTY_VERIFY%>"/>
+<c:set var="OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN%>"/>
 
 <div class="modal-body">
 
@@ -189,5 +190,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${memberReturn.id}&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN%>"/>
+    <c:import url="/applyApprovalLogs?id=${memberReturn.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_RETURN}"/>
 </div>

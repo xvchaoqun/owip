@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
+<c:set var="OW_APPLY_APPROVAL_LOG_TYPE_USER_REG" value="<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG%>"/>
 <div class="modal-body">
 
     <div class="widget-box transparent">
@@ -168,5 +169,5 @@
             </div><!-- /.widget-main -->
         </div><!-- /.widget-body -->
     </div><!-- /.widget-box -->
-    <c:import url="/applyApprovalLogs?id=${sysUserReg.id}&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_USER_REG%>"/>
+    <c:import url="/applyApprovalLogs?id=${sysUserReg.id}&type=${OW_APPLY_APPROVAL_LOG_TYPE_USER_REG}"/>
 </div>
