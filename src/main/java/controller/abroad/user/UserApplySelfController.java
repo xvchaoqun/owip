@@ -1,6 +1,5 @@
 package controller.abroad.user;
 
-import persistence.abroad.common.ApprovalResult;
 import controller.abroad.AbroadBaseController;
 import controller.global.OpException;
 import domain.abroad.ApplySelf;
@@ -29,15 +28,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import persistence.abroad.common.ApprovalResult;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.helper.AbroadHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
-import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -189,7 +189,7 @@ public class UserApplySelfController extends AbroadBaseController {
         if (id != null) {
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(id);
 
-            Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(applySelf.getId());
+            Integer firstTrialStatus = AbroadHelper.getAdminFirstTrialStatus(applySelf.getId());
             if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
                     || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许删除
                 return failed("只有新提交的申请可以撤销");
@@ -291,7 +291,7 @@ public class UserApplySelfController extends AbroadBaseController {
         }else{
 
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(record.getId());
-            Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(record.getId());
+            Integer firstTrialStatus = AbroadHelper.getAdminFirstTrialStatus(record.getId());
             if(applySelf.getCadreId().intValue() != cadreId.intValue()
                 || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新
                return failed("不允许更新");
@@ -335,7 +335,7 @@ public class UserApplySelfController extends AbroadBaseController {
         CadreView cadre = cadreService.dbFindByUserId(userId);
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfFile.getApplyId());
 
-        Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(applySelf.getId());
+        Integer firstTrialStatus = AbroadHelper.getAdminFirstTrialStatus(applySelf.getId());
         if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
                 || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许删除
            return failed("不允许删除");
@@ -362,7 +362,7 @@ public class UserApplySelfController extends AbroadBaseController {
             modelMap.put("applySelf", applySelf);
 
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
-            Integer firstTrialStatus = CmTag.getAdminFirstTrialStatus(id);
+            Integer firstTrialStatus = AbroadHelper.getAdminFirstTrialStatus(id);
             if(applySelf.getCadreId().intValue() != cadre.getId().intValue()
                     || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新
                 throw new OpException("不允许更新");

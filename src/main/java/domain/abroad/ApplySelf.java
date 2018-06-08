@@ -2,6 +2,7 @@ package domain.abroad;
 
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import sys.helper.AbroadHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -33,7 +34,7 @@ public class ApplySelf implements Serializable {
 
     public Map getApprovalTdBeanMap(){
 
-        return CmTag.getApprovalTdBeanMap(id);
+        return AbroadHelper.getApprovalTdBeanMap(id);
     }
     private Integer id;
 

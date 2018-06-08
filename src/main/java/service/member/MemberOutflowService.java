@@ -21,7 +21,7 @@ import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.SystemConstants;
-import sys.tags.CmTag;
+import sys.helper.PartyHelper;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -326,8 +326,8 @@ public class MemberOutflowService extends BaseMapper {
         for (int userId : userIds) {
 
             MemberOutflow memberOutflow = memberOutflowMapper.selectByPrimaryKey(userId);
-            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberOutflow.getPartyId(), memberOutflow.getBranchId());
-            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberOutflow.getPartyId());
+            Boolean presentBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, memberOutflow.getPartyId(), memberOutflow.getBranchId());
+            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberOutflow.getPartyId());
 
             if(memberOutflow.getStatus() >= MemberConstants.MEMBER_OUTFLOW_STATUS_BRANCH_VERIFY){ // 支部审核通过后，只有分党委才有打回的权限
                 if(!presentPartyAdmin) throw new UnauthorizedException();

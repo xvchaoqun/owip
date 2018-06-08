@@ -2,6 +2,7 @@ package domain.cet;
 
 import service.cet.CetCourseService;
 import service.cet.CetTraineeCourseService;
+import sys.helper.CetHelper;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 
@@ -33,7 +34,7 @@ public class CetTrainCourseView implements Serializable {
     public CetTrainEvaTable getTrainEvaTable(){
 
         if(evaTableId==null) return null;
-        return CmTag.getCetTrainEvaTable(evaTableId);
+        return CetHelper.getCetTrainEvaTable(evaTableId);
     }
 
     private Integer id;

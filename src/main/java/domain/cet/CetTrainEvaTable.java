@@ -1,6 +1,6 @@
 package domain.cet;
 
-import sys.tags.CmTag;
+import sys.helper.CetHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class CetTrainEvaTable implements Serializable {
     // 返回有序的评估内容列表，即一级指标列表
     public List<CetTrainEvaNorm> getNorms(){
 
-        Map<Integer, CetTrainEvaNorm> trainEvaTableNorms = CmTag.getCetTrainEvaNorms(id);
+        Map<Integer, CetTrainEvaNorm> trainEvaTableNorms = CetHelper.getCetTrainEvaNorms(id);
         return new ArrayList<>(trainEvaTableNorms.values());
     }
 
@@ -33,7 +33,7 @@ public class CetTrainEvaTable implements Serializable {
 
     public List<CetTrainEvaRank> getRanks(){
 
-        Map<Integer, CetTrainEvaRank> trainEvaTableRanks = CmTag.getCetTrainEvaRanks(id);
+        Map<Integer, CetTrainEvaRank> trainEvaTableRanks = CetHelper.getCetTrainEvaRanks(id);
         return new ArrayList<>(trainEvaTableRanks.values());
     }
 

@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 import persistence.cla.common.ClaApproverTypeBean;
 import service.BaseMapper;
 import sys.constants.CadreConstants;
-import sys.tags.CmTag;
+import sys.helper.ClaHelper;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -25,7 +25,7 @@ public class ClaApproverService extends BaseMapper {
     // 判断一个用户（非干部管理员）是否有干部请假审批权限
     public boolean hasApproveAuth(int userId){
 
-        ClaApproverTypeBean approverTypeBean = CmTag.getClaApproverTypeBean(userId);
+        ClaApproverTypeBean approverTypeBean = ClaHelper.getClaApproverTypeBean(userId);
         if(approverTypeBean==null) return false;
         CadreView cadre = approverTypeBean.getCadre();
         if ((cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE

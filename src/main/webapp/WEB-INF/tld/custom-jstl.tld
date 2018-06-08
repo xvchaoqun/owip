@@ -127,7 +127,7 @@
 	</function>
 	<function>
 		<name>displayParty</name>
-		<function-class>sys.tags.CmTag</function-class>
+		<function-class>sys.helper.PartyHelper</function-class>
 		<function-signature>java.lang.String displayParty(java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
 	<function>
@@ -152,12 +152,12 @@
 	</function>
 	<function>
 		<name>isDirectBranch</name>
-		<function-class>sys.tags.CmTag</function-class>
+		<function-class>sys.helper.PartyHelper</function-class>
 		<function-signature>java.lang.Boolean isDirectBranch(java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>getApplyStatus</name>
-		<function-class>sys.tags.CmTag</function-class>
+		<function-class>sys.helper.PartyHelper</function-class>
 		<function-signature>java.lang.String getApplyStatus(domain.member.MemberApplyView)</function-signature>
 	</function>
 
@@ -171,41 +171,47 @@
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.String getDispatchCode(java.lang.Integer,java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
-	<function>
-		<name>getAdminFirstTrialStatus</name>
-		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>java.lang.Integer getAdminFirstTrialStatus(java.lang.Integer)</function-signature>
-	</function>
+
+	<!--干部请假审批-->
 	<function>
 		<name>getClaAdminFirstTrialStatus</name>
-		<function-class>sys.tags.CmTag</function-class>
+		<function-class>sys.helper.ClaHelper</function-class>
 		<function-signature>java.lang.Integer getClaAdminFirstTrialStatus(java.lang.Integer)</function-signature>
 	</function>
 	<function>
-		<name>findApprovalLogs</name>
-		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>java.util.List findApprovalLogs(java.lang.Integer)</function-signature>
-	</function>
-	<function>
 		<name>findClaApprovalLogs</name>
-		<function-class>sys.tags.CmTag</function-class>
+		<function-class>sys.helper.ClaHelper</function-class>
 		<function-signature>java.util.List findClaApprovalLogs(java.lang.Integer)</function-signature>
 	</function>
 	<function>
+		<name>getClaApprovalLog</name>
+		<function-class>sys.helper.ClaHelper</function-class>
+		<function-signature>domain.cla.ClaApprovalLog getClaApprovalLog(java.lang.Integer,java.lang.Integer)</function-signature>
+	</function>
+
+	<!--因私出国境-->
+	<function>
+		<name>getAdminFirstTrialStatus</name>
+		<function-class>sys.helper.AbroadHelper</function-class>
+		<function-signature>java.lang.Integer getAdminFirstTrialStatus(java.lang.Integer)</function-signature>
+	</function>
+
+	<function>
+		<name>findApprovalLogs</name>
+		<function-class>sys.helper.AbroadHelper</function-class>
+		<function-signature>java.util.List findApprovalLogs(java.lang.Integer)</function-signature>
+	</function>
+	<function>
 		<name>getPassport</name>
-		<function-class>sys.tags.CmTag</function-class>
+		<function-class>sys.helper.AbroadHelper</function-class>
 		<function-signature>domain.abroad.Passport getPassport(java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>getApprovalLog</name>
-		<function-class>sys.tags.CmTag</function-class>
+		<function-class>sys.helper.AbroadHelper</function-class>
 		<function-signature>domain.abroad.ApprovalLog getApprovalLog(java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
-	<function>
-		<name>getClaApprovalLog</name>
-		<function-class>sys.tags.CmTag</function-class>
-		<function-signature>domain.cla.ClaApprovalLog getClaApprovalLog(java.lang.Integer,java.lang.Integer)</function-signature>
-	</function>
+
 	<function>
 		<name>toJSONObject</name>
 		<function-class>sys.tags.CmTag</function-class>
@@ -226,10 +232,10 @@
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>domain.sys.HtmlFragment getHtmlFragment(java.lang.String)</function-signature>
 	</function>
-	<!--train -->
+	<!--干部教育培训 -->
 	<function>
 		<name>evaIsClosed</name>
-		<function-class>sys.tags.CmTag</function-class>
+		<function-class>sys.helper.CetHelper</function-class>
 		<function-signature>java.lang.Integer evaIsClosed(java.lang.Integer)</function-signature>
 	</function>
 

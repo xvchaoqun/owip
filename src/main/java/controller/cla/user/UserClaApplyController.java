@@ -30,10 +30,10 @@ import sys.constants.ClaConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.helper.ClaHelper;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
-import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
@@ -165,7 +165,7 @@ public class UserClaApplyController extends ClaBaseController {
         if (id != null) {
             ClaApply claApply = claApplyMapper.selectByPrimaryKey(id);
 
-            Integer firstTrialStatus = CmTag.getClaAdminFirstTrialStatus(claApply.getId());
+            Integer firstTrialStatus = ClaHelper.getClaAdminFirstTrialStatus(claApply.getId());
             if(claApply.getCadreId().intValue() != cadre.getId().intValue()
                     || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许删除
                 return failed("只有新提交的申请可以撤销");
@@ -246,7 +246,7 @@ public class UserClaApplyController extends ClaBaseController {
         }else{
 
             ClaApply claApply = claApplyMapper.selectByPrimaryKey(record.getId());
-            Integer firstTrialStatus = CmTag.getClaAdminFirstTrialStatus(record.getId());
+            Integer firstTrialStatus = ClaHelper.getClaAdminFirstTrialStatus(record.getId());
             if(claApply.getCadreId().intValue() != cadreId.intValue()
                 || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新
                return failed("不允许更新");
@@ -290,7 +290,7 @@ public class UserClaApplyController extends ClaBaseController {
         CadreView cadre = cadreService.dbFindByUserId(userId);
         ClaApply claApply = claApplyMapper.selectByPrimaryKey(claApplyFile.getApplyId());
 
-        Integer firstTrialStatus = CmTag.getClaAdminFirstTrialStatus(claApply.getId());
+        Integer firstTrialStatus = ClaHelper.getClaAdminFirstTrialStatus(claApply.getId());
         if(claApply.getCadreId().intValue() != cadre.getId().intValue()
                 || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许删除
            return failed("不允许删除");
@@ -317,7 +317,7 @@ public class UserClaApplyController extends ClaBaseController {
             modelMap.put("claApply", claApply);
 
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
-            Integer firstTrialStatus = CmTag.getClaAdminFirstTrialStatus(id);
+            Integer firstTrialStatus = ClaHelper.getClaAdminFirstTrialStatus(id);
             if(claApply.getCadreId().intValue() != cadre.getId().intValue()
                     || (firstTrialStatus!=null&&firstTrialStatus==1)){ // 没有初审或初审未通过时才允许更新
                 throw new OpException("不允许更新");

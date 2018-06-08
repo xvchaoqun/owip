@@ -1,6 +1,6 @@
 package domain.crs;
 
-import sys.tags.CmTag;
+import sys.helper.CrsHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Map;
 public class CrsPostRequire implements Serializable {
 
     public List<CrsRequireRule> getRules(){
-        Map<Integer, CrsRequireRule> crsRequireRules = CmTag.getCrsRequireRules(id);
+        Map<Integer, CrsRequireRule> crsRequireRules = CrsHelper.getCrsRequireRules(id);
         return new ArrayList<>(crsRequireRules.values());
     }
 

@@ -1,6 +1,6 @@
 package domain.crs;
 
-import sys.tags.CmTag;
+import sys.helper.CrsHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class CrsApplicantAdjustView implements Serializable {
             ids.add(Integer.parseInt(postIdStr));
         }
 
-        return CmTag.getCrsPost(ids);
+        return CrsHelper.getCrsPost(ids);
     }
 
     public List<CrsPost> getAfterPosts(){
@@ -28,7 +28,7 @@ public class CrsApplicantAdjustView implements Serializable {
             ids.add(Integer.parseInt(postIdStr));
         }
 
-        return CmTag.getCrsPost(ids);
+        return CrsHelper.getCrsPost(ids);
     }
 
     private Integer id;

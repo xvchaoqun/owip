@@ -36,6 +36,7 @@ import sys.constants.CadreConstants;
 import sys.constants.PcsConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 
 import java.util.ArrayList;
@@ -528,7 +529,7 @@ public class SysUserService extends BaseMapper {
                 List<Integer> adminPartyIdList = partyMemberAdminService.adminPartyIdList(userId);
                 boolean hasAdminParty = false;
                 for (Integer adminPartyId : adminPartyIdList) {
-                    if (!CmTag.isDirectBranch(adminPartyId)) {
+                    if (!PartyHelper.isDirectBranch(adminPartyId)) {
                         hasAdminParty = true;
                         break;
                     }
@@ -546,7 +547,7 @@ public class SysUserService extends BaseMapper {
                 List<Integer> adminPartyIds = pmdPartyAdminService.getAdminPartyIds(userId);
                 boolean hasAdminParty = false;
                 for (Integer adminPartyId : adminPartyIds) {
-                    if(!CmTag.isDirectBranch(adminPartyId)){
+                    if(!PartyHelper.isDirectBranch(adminPartyId)){
                         hasAdminParty=true;
                         break;
                     }

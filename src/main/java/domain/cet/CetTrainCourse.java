@@ -2,6 +2,7 @@ package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import service.cet.CetCourseService;
+import sys.helper.CetHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -18,7 +19,7 @@ public class CetTrainCourse implements Serializable {
     public CetTrainEvaTable getTrainEvaTable(){
 
         if(evaTableId==null) return null;
-        return CmTag.getCetTrainEvaTable(evaTableId);
+        return CetHelper.getCetTrainEvaTable(evaTableId);
     }
 
     private Integer id;

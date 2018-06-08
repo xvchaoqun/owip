@@ -27,6 +27,7 @@ import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
+import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
@@ -326,7 +327,7 @@ public class MemberInService extends BaseMapper {
                 VerifyAuth<MemberIn> verifyAuth = checkVerityAuth2(id);
                 memberIn = verifyAuth.entity;
                 boolean isParty = verifyAuth.isParty;
-                Boolean isPartyGeneralBranch = CmTag.isPartyGeneralBranch(memberIn.getPartyId());
+                Boolean isPartyGeneralBranch = PartyHelper.isPartyGeneralBranch(memberIn.getPartyId());
 
                 hasReceipt = (hasReceipt==null)?false:hasReceipt;
                 if (isParty || isPartyGeneralBranch) { // 分党委、党总支审核，需要跳过下一步的组织部审核
@@ -356,7 +357,7 @@ public class MemberInService extends BaseMapper {
         for (int userId : userIds) {
 
             MemberIn memberIn = memberInMapper.selectByPrimaryKey(userId);
-            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberIn.getPartyId());
+            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberIn.getPartyId());
 
             if(memberIn.getStatus() >= MemberConstants.MEMBER_IN_STATUS_PARTY_VERIFY){
                 if(!odAdmin) throw new UnauthorizedException();

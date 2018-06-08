@@ -19,7 +19,7 @@ import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.tags.CmTag;
+import sys.helper.PartyHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -352,7 +352,7 @@ public class MemberOutService extends BaseMapper {
         for (int userId : userIds) {
 
             MemberOut memberOut = memberOutMapper.selectByPrimaryKey(userId);
-            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberOut.getPartyId());
+            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberOut.getPartyId());
 
             if (memberOut.getStatus() >= MemberConstants.MEMBER_OUT_STATUS_PARTY_VERIFY) {
                 if (!odAdmin) throw new UnauthorizedException();

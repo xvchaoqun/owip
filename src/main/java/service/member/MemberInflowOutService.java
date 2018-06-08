@@ -17,7 +17,7 @@ import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.tags.CmTag;
+import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 
 import java.util.List;
@@ -282,8 +282,8 @@ public class MemberInflowOutService extends BaseMapper {
         for (int userId : userIds) {
 
             MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(userId);
-            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberInflow.getPartyId(), memberInflow.getBranchId());
-            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberInflow.getPartyId());
+            Boolean presentBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, memberInflow.getPartyId(), memberInflow.getBranchId());
+            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberInflow.getPartyId());
 
             if(memberInflow.getOutStatus() >= MemberConstants.MEMBER_INFLOW_OUT_STATUS_BRANCH_VERIFY){
                 if(!presentPartyAdmin) throw new UnauthorizedException();

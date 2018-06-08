@@ -1,6 +1,7 @@
 package domain.member;
 
 import domain.sys.SysUserView;
+import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ public class MemberApplyView implements Serializable {
         return CmTag.getUserById(userId);
     }
     public String getApplyStatus(){
-        return CmTag.getApplyStatus(this);
+        return PartyHelper.getApplyStatus(this);
     }
     private Integer userId;
 

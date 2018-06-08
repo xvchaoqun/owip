@@ -4,6 +4,7 @@ import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import sys.constants.AbroadConstants;
+import sys.helper.AbroadHelper;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -35,17 +36,17 @@ public class PassportDraw implements Serializable {
     }
 
     public Passport getPassport(){
-        return CmTag.getPassport(passportId);
+        return AbroadHelper.getPassport(passportId);
     }
 
     public List<PassportDrawFile> getFiles(){
 
-        return CmTag.getPassportDrawFiles(id);
+        return AbroadHelper.getPassportDrawFiles(id);
     }
 
     public MetaType getPassportClass(){
 
-        Passport passport = CmTag.getPassport(passportId);
+        Passport passport = AbroadHelper.getPassport(passportId);
         Map<Integer, MetaType> passportClassMap = CmTag.getMetaTypes("mc_passport_type");
         return passportClassMap.get(passport.getClassId());
     }
@@ -53,7 +54,7 @@ public class PassportDraw implements Serializable {
     public ApplySelf getApplySelf(){
 
         if(type== AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_SELF && applyId!=null)
-            return CmTag.getApplySelf(applyId);
+            return AbroadHelper.getApplySelf(applyId);
         return null;
     }
     public String getStatusName(){

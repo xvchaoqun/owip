@@ -18,7 +18,7 @@ import service.party.MemberService;
 import service.party.PartyService;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
-import sys.tags.CmTag;
+import sys.helper.PartyHelper;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -278,8 +278,8 @@ public class MemberReturnService extends BaseMapper {
         for (int userId : userIds) {
 
             MemberReturn memberReturn = memberReturnMapper.selectByPrimaryKey(userId);
-            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberReturn.getPartyId(), memberReturn.getBranchId());
-            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberReturn.getPartyId());
+            Boolean presentBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, memberReturn.getPartyId(), memberReturn.getBranchId());
+            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberReturn.getPartyId());
 
             if(memberReturn.getStatus() >= MemberConstants.MEMBER_RETURN_STATUS_BRANCH_VERIFY){
                 if(!presentPartyAdmin) throw new UnauthorizedException();

@@ -19,7 +19,7 @@ import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.tags.CmTag;
+import sys.helper.PartyHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -300,8 +300,8 @@ public class MemberTransferService extends BaseMapper {
             MemberTransfer memberTransfer = memberTransferMapper.selectByPrimaryKey(userId);
 
             if(notAdmin) {
-                Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberTransfer.getPartyId());
-                Boolean presentToPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberTransfer.getToPartyId());
+                Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberTransfer.getPartyId());
+                Boolean presentToPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberTransfer.getToPartyId());
 
                 if (memberTransfer.getStatus() >= MemberConstants.MEMBER_TRANSFER_STATUS_TO_VERIFY) {
                     if (!presentToPartyAdmin) throw new UnauthorizedException();

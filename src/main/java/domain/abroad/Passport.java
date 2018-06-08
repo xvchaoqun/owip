@@ -6,6 +6,7 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import sys.constants.AbroadConstants;
+import sys.helper.AbroadHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -46,13 +47,13 @@ public class Passport implements Serializable {
     }
     public SafeBox getSafeBox(){
 
-        return CmTag.getSafeBoxMap().get(safeBoxId);
+        return AbroadHelper.getSafeBoxMap().get(safeBoxId);
     }
 
     public String getRefuseReturnReason(){
 
         if(BooleanUtils.isTrue(isLent)){
-            PassportDraw passportDraw = CmTag.getRefuseReturnPassportDraw(id);
+            PassportDraw passportDraw = AbroadHelper.getRefuseReturnPassportDraw(id);
             if(passportDraw!=null)
                 return StringUtils.defaultIfBlank(passportDraw.getReturnRemark(), "拒不交回");
         }

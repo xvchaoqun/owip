@@ -2,6 +2,7 @@ package domain.crs;
 
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.helper.CrsHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ public class CrsApplyUser implements Serializable {
     }
 
     public CrsPost getPost(){
-        return CmTag.getCrsPost(postId);
+        return CrsHelper.getCrsPost(postId);
     }
 
     private Integer id;

@@ -3,6 +3,7 @@ package domain.cla;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.helper.ClaHelper;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
@@ -35,7 +36,7 @@ public class ClaApply implements Serializable {
 
     public Map getApprovalTdBeanMap(){
 
-        return CmTag.getClaApprovalTdBeanMap(id);
+        return ClaHelper.getClaApprovalTdBeanMap(id);
     }
 
     private Integer id;

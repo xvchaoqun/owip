@@ -370,7 +370,7 @@ import persistence.unit.UnitTransferMapper;
 import persistence.verify.VerifyAgeMapper;
 import persistence.verify.VerifyWorkTimeMapper;
 import shiro.ShiroHelper;
-import sys.tags.CmTag;
+import sys.helper.PartyHelper;
 
 import java.io.File;
 
@@ -1230,9 +1230,9 @@ public class BaseMapper {
         int loginUserId = ShiroHelper.getCurrentUserId();
         verifyAuth.entity = entity;
 
-        verifyAuth.isBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, partyId, branchId);
-        verifyAuth.isPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, partyId);
-        verifyAuth.isDirectBranch = CmTag.isDirectBranch(partyId);
+        verifyAuth.isBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, partyId, branchId);
+        verifyAuth.isPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, partyId);
+        verifyAuth.isDirectBranch = PartyHelper.isDirectBranch(partyId);
         if (!verifyAuth.isBranchAdmin && (!verifyAuth.isDirectBranch || !verifyAuth.isPartyAdmin)) { // 不是党支部管理员， 也不是直属党支部管理员
             throw new UnauthorizedException();
         }
@@ -1248,12 +1248,12 @@ public class BaseMapper {
         int loginUserId = ShiroHelper.getCurrentUserId();
         verifyAuth.entity = entity;
 
-        if (!CmTag.isPresentPartyAdmin(loginUserId, partyId)) {
+        if (!PartyHelper.isPresentPartyAdmin(loginUserId, partyId)) {
             throw new UnauthorizedException();
         }
-        verifyAuth.isParty = CmTag.isParty(partyId);
-        verifyAuth.isPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, partyId);
-        verifyAuth.isDirectBranch = CmTag.isDirectBranch(partyId);
+        verifyAuth.isParty = PartyHelper.isParty(partyId);
+        verifyAuth.isPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, partyId);
+        verifyAuth.isDirectBranch = PartyHelper.isDirectBranch(partyId);
         return verifyAuth;
     }
 

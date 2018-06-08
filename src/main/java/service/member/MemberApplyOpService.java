@@ -18,7 +18,7 @@ import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.tags.CmTag;
+import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 
 import java.util.Date;
@@ -689,7 +689,7 @@ public class MemberApplyOpService extends BaseMapper {
 
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
-            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
+            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
             if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN) && !presentPartyAdmin) {
                 throw new UnauthorizedException();
             }
@@ -723,7 +723,7 @@ public class MemberApplyOpService extends BaseMapper {
         int loginUserId = ShiroHelper.getCurrentUserId();
         for (int userId : userIds) {
             MemberApply memberApply = memberApplyService.get(userId);
-            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
+            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberApply.getPartyId());
             if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ODADMIN) && !presentPartyAdmin) {
                 throw new UnauthorizedException();
             }

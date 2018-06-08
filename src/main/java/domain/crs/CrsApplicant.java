@@ -2,6 +2,7 @@ package domain.crs;
 
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import sys.helper.CrsHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -18,7 +19,7 @@ public class CrsApplicant implements Serializable {
     }
 
     public CrsPost getPost(){
-        return CmTag.getCrsPost(postId);
+        return CrsHelper.getCrsPost(postId);
     }
 
     private Integer id;

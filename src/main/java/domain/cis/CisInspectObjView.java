@@ -1,6 +1,7 @@
 package domain.cis;
 
 import domain.cadre.CadreView;
+import sys.helper.CisHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -15,12 +16,12 @@ public class CisInspectObjView implements Serializable {
     }
     public CisInspectorView getChiefInspector(){
 
-        return CmTag.getCisInspector(chiefInspectorId);
+        return CisHelper.getCisInspector(chiefInspectorId);
     }
 
     public List<CisInspectorView> getInspectors(){
 
-        return CmTag.getCisInspectors(id);
+        return CisHelper.getCisInspectors(id);
     }
 
     private Integer id;

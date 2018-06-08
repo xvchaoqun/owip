@@ -22,7 +22,7 @@ import shiro.ShiroHelper;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
-import sys.tags.CmTag;
+import sys.helper.PartyHelper;
 import sys.utils.DateUtils;
 
 import java.util.Arrays;
@@ -389,8 +389,8 @@ public class MemberStayService extends BaseMapper {
         for (int id : ids) {
 
             MemberStay memberStay = memberStayMapper.selectByPrimaryKey(id);
-            Boolean presentPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, memberStay.getPartyId());
-            Boolean presentBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, memberStay.getPartyId(), memberStay.getBranchId());
+            Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberStay.getPartyId());
+            Boolean presentBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, memberStay.getPartyId(), memberStay.getBranchId());
 
             if (memberStay.getStatus() >= MemberConstants.MEMBER_STAY_STATUS_PARTY_VERIFY) {
                 if (!odAdmin) throw new UnauthorizedException();

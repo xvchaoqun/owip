@@ -1,11 +1,5 @@
 package sys.tags;
 
-import domain.abroad.ApplySelf;
-import domain.abroad.ApprovalLog;
-import domain.abroad.Passport;
-import domain.abroad.PassportDraw;
-import domain.abroad.PassportDrawFile;
-import domain.abroad.SafeBox;
 import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.CadreAdminLevel;
@@ -13,48 +7,24 @@ import domain.cadre.CadreEdu;
 import domain.cadre.CadreFamily;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
-import domain.cet.CetTrainEvaNorm;
-import domain.cet.CetTrainEvaRank;
-import domain.cet.CetTrainEvaTable;
-import domain.cis.CisInspectorView;
-import domain.cla.ClaApply;
-import domain.cla.ClaApprovalLog;
-import domain.crs.CrsPost;
-import domain.crs.CrsRequireRule;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreRelate;
 import domain.dispatch.DispatchType;
 import domain.dispatch.DispatchUnit;
-import domain.member.MemberApply;
-import domain.member.MemberApplyView;
 import domain.modify.ModifyCadreAuth;
-import domain.party.Branch;
-import domain.party.Party;
 import domain.party.RetireApply;
 import domain.sys.HtmlFragment;
 import domain.sys.SysConfig;
 import domain.sys.SysResource;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-import persistence.abroad.PassportMapper;
-import persistence.abroad.common.ApplySelfModifyBean;
-import persistence.abroad.common.ApproverTypeBean;
-import persistence.abroad.common.IAbroadMapper;
-import persistence.cla.common.ClaApplyModifyBean;
-import persistence.cla.common.ClaApproverTypeBean;
-import persistence.cla.common.IClaMapper;
 import persistence.sys.HtmlFragmentMapper;
-import service.abroad.ApplySelfService;
-import service.abroad.ApprovalLogService;
-import service.abroad.PassportDrawService;
-import service.abroad.SafeBoxService;
 import service.base.MetaClassService;
 import service.base.MetaTypeService;
 import service.cadre.CadreAdminLevelService;
@@ -63,16 +33,6 @@ import service.cadre.CadreFamilyService;
 import service.cadre.CadreInfoCheckService;
 import service.cadre.CadrePostService;
 import service.cadre.CadreService;
-import service.cet.CetTrainCourseService;
-import service.cet.CetTrainEvaNormService;
-import service.cet.CetTrainEvaRankService;
-import service.cet.CetTrainEvaTableService;
-import service.cis.CisInspectObjService;
-import service.cis.CisInspectorService;
-import service.cla.ClaApplyService;
-import service.cla.ClaApprovalLogService;
-import service.crs.CrsPostService;
-import service.crs.CrsRequireRuleService;
 import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchService;
@@ -81,16 +41,11 @@ import service.dispatch.DispatchUnitService;
 import service.global.CacheService;
 import service.member.RetireApplyService;
 import service.modify.ModifyCadreAuthService;
-import service.party.BranchMemberService;
-import service.party.BranchService;
-import service.party.PartyMemberService;
-import service.party.PartyService;
 import service.sys.HtmlFragmentService;
 import service.sys.SysConfigService;
 import service.sys.SysResourceService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
-import sys.constants.OwConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
@@ -98,8 +53,6 @@ import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -119,20 +72,16 @@ public class CmTag {
     static SysConfigService sysConfigService = context.getBean(SysConfigService.class);
 
     static SysUserService sysUserService = context.getBean(SysUserService.class);
-    static CadreService cadreService = context.getBean(CadreService.class);
-    static CadrePostService cadrePostService = context.getBean(CadrePostService.class);
-    static CadreAdminLevelService cadreAdminLevelService = context.getBean(CadreAdminLevelService.class);
-    static CadreFamilyService cadreFamilyService = context.getBean(CadreFamilyService.class);
     static SysResourceService sysResourceService = context.getBean(SysResourceService.class);
     static MetaTypeService metaTypeService = context.getBean(MetaTypeService.class);
     static MetaClassService metaClassService = context.getBean(MetaClassService.class);
 
     static UnitService unitService = context.getBean(UnitService.class);
-    static PartyService partyService = context.getBean(PartyService.class);
-    static PartyMemberService partyMemberService = context.getBean(PartyMemberService.class);
-    static BranchService branchService = context.getBean(BranchService.class);
-    static BranchMemberService branchMemberService = context.getBean(BranchMemberService.class);
 
+    static CadreService cadreService = context.getBean(CadreService.class);
+    static CadrePostService cadrePostService = context.getBean(CadrePostService.class);
+    static CadreAdminLevelService cadreAdminLevelService = context.getBean(CadreAdminLevelService.class);
+    static CadreFamilyService cadreFamilyService = context.getBean(CadreFamilyService.class);
     static CadreEduService cadreEduService = context.getBean(CadreEduService.class);
 
     public static <T> T getBean(Class<T> cls){
@@ -212,106 +161,6 @@ public class CmTag {
     public static HtmlFragment getHtmlFragment(Integer id) {
 
         return htmlFragmentMapper.selectByPrimaryKey(id);
-    }
-
-    // 用于jsp页面显示党组织名称
-    public static String displayParty(Integer partyId, Integer branchId) {
-
-        String html = "<span class=\"{0}\">{1}<span><span class=\"{2}\">{3}<span>";
-        Party party = null;
-        Branch branch = null;
-        if (partyId != null) {
-            Map<Integer, Party> partyMap = partyService.findAll();
-            party = partyMap.get(partyId);
-        }
-        if (branchId != null) {
-            Map<Integer, Branch> branchMap = branchService.findAll();
-            branch = branchMap.get(branchId);
-        }
-
-        return MessageFormat.format(html, (party != null && party.getIsDeleted()) ? "delete" : "", party != null ? party.getName() : "",
-                (branch != null && branch.getIsDeleted()) ? "delete" : "", branch != null ? (party != null ? " - " : "") + branch.getName() : "");
-    }
-
-    public static String getApplyStatus(MemberApplyView memberApplyView) {
-
-        MemberApply memberApply = new MemberApply();
-        try {
-            PropertyUtils.copyProperties(memberApply, memberApplyView);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-
-        return getApplyStatus(memberApply);
-    }
-    public static String getApplyStatus(MemberApply memberApply) {
-        String stage = "";
-        switch (memberApply.getStage()) {
-            case OwConstants.OW_APPLY_STAGE_INIT:
-                stage = "待支部审核";
-                break;
-            case OwConstants.OW_APPLY_STAGE_DENY:
-                stage = "申请未通过";
-                break;
-            case OwConstants.OW_APPLY_STAGE_PASS:
-                stage = "申请通过，待支部确定为入党积极分子";
-                break;
-            case OwConstants.OW_APPLY_STAGE_ACTIVE:
-                if (memberApply.getCandidateStatus() == null || memberApply.getCandidateTime() == null) {
-                    stage = "待支部确定为发展对象";
-                } else if (memberApply.getCandidateStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
-                    stage = "支部已提交，待分党委审核";
-                } else if (memberApply.getCandidateStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
-                    stage = "已审核";
-                }
-                break;
-            case OwConstants.OW_APPLY_STAGE_CANDIDATE:
-                if (memberApply.getPlanStatus() == null || memberApply.getPlanTime() == null) {
-                    stage = "待支部列入发展计划";
-                } else if (memberApply.getPlanStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
-                    stage = "支部已提交，待分党委审核";
-                } else if (memberApply.getPlanStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
-                    stage = "已审核";
-                }
-                break;
-            case OwConstants.OW_APPLY_STAGE_PLAN:
-                if (memberApply.getDrawStatus() == null || memberApply.getDrawTime() == null) {
-                    stage = "待分党委提交领取志愿书";
-                } /*else if (memberApply.getDrawStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
-                    stage = "待分党委审核";
-                } else if (memberApply.getDrawStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
-                    stage = "已审核";
-                }*/
-                break;
-            case OwConstants.OW_APPLY_STAGE_DRAW:
-                if (memberApply.getGrowStatus() == null) {
-                    stage = "待组织部审核";
-                } else if (memberApply.getGrowStatus() == OwConstants.OW_APPLY_STATUS_OD_CHECKED) {
-                    stage = "组织部已审核，待支部发展为预备党员";
-                } else if (memberApply.getGrowStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
-                    stage = "支部已提交，待分党委审核";
-                }
-                break;
-            case OwConstants.OW_APPLY_STAGE_GROW:
-                if (memberApply.getPositiveStatus() == null || memberApply.getPositiveTime() == null) {
-                    stage = "待支部提交预备党员转正";
-                } else if (memberApply.getPositiveStatus() == OwConstants.OW_APPLY_STATUS_UNCHECKED) {
-                    stage = "支部已提交，待分党委审核";
-                } else if (memberApply.getPositiveStatus() == OwConstants.OW_APPLY_STATUS_CHECKED) {
-                    stage = "分党委已审核，待组织部审核";
-                } else if (memberApply.getPositiveStatus() == OwConstants.OW_APPLY_STATUS_OD_CHECKED) {
-                    stage = "已审核";
-                }
-                break;
-            case OwConstants.OW_APPLY_STAGE_POSITIVE:
-                stage = "已转正";
-                break;
-        }
-        return stage;
     }
 
     public static List<SysResource> getSysResourcePath(Integer id, Boolean isMobile) {
@@ -485,35 +334,6 @@ public class CmTag {
         return unitService.findAll().get(unitId);
     }
 
-    public static Party getParty(Integer partyId) {
-
-        return partyService.findAll().get(partyId);
-    }
-
-    public static Boolean isPresentBranchAdmin(Integer userId, Integer partyId, Integer branchId) {
-        return branchMemberService.isPresentAdmin(userId, partyId, branchId);
-    }
-
-    public static Boolean isPresentPartyAdmin(Integer userId, Integer partyId) {
-        return partyMemberService.isPresentAdmin(userId, partyId);
-    }
-
-    // 是否直属党支部
-    public static Boolean isDirectBranch(Integer partyId) {
-        if (partyId == null) return false;
-        return partyService.isDirectBranch(partyId);
-    }
-
-    // 是否分党委
-    public static Boolean isParty(Integer partyId) {
-        return partyService.isParty(partyId);
-    }
-
-    // 是否党总支
-    public static Boolean isPartyGeneralBranch(Integer partyId) {
-        return partyService.isPartyGeneralBranch(partyId);
-    }
-
     public static Unit findUnitByCode(String code) {
 
         return unitService.findUnitByCode(StringUtils.trim(code));
@@ -649,136 +469,6 @@ public class CmTag {
         return cadreInfoCheckService.cadreRewardCheck(cadreId, type);
     }
 
-    /**
-     * 干部请假审批
-     */
-
-    public static ClaApproverTypeBean getClaApproverTypeBean(Integer userId) {
-
-        ClaApplyService claApplyService = getBean(ClaApplyService.class);
-        if(claApplyService==null) return null;
-
-        return claApplyService.getApproverTypeBean(userId);
-    }
-
-    public static ClaApply getClaApply(Integer applyId) {
-
-        ClaApplyService claApplyService = getBean(ClaApplyService.class);
-        if(claApplyService==null) return null;
-        return claApplyService.get(applyId);
-    }
-
-    public static List<ClaApplyModifyBean> getClaApplyModifyList(Integer applyId) {
-
-        IClaMapper iClaMapper =  getBean(IClaMapper.class);
-        return iClaMapper.getApplyModifyList(applyId);
-    }
-
-    // 获取初审结果
-    public static Integer getClaAdminFirstTrialStatus(Integer applyId) {
-
-        ClaApprovalLogService claApprovalLogService = getBean(ClaApprovalLogService.class);
-        return claApprovalLogService.getAdminFirstTrialStatus(applyId);
-    }
-
-    public static Map getClaApprovalTdBeanMap(Integer applySelfId) {
-
-        ClaApplyService claApplyService = getBean(ClaApplyService.class);
-        if(claApplyService==null) return null;
-        return claApplyService.getApprovalTdBeanMap(applySelfId);
-    }
-
-    public static ClaApprovalLog getClaApprovalLog(Integer applySelfId, Integer approverTypeId) {
-
-        ClaApprovalLogService claApprovalLogService = getBean(ClaApprovalLogService.class);
-        return claApprovalLogService.getApprovalLog(applySelfId, approverTypeId);
-    }
-
-    // 获取审批log
-    public static List<ClaApprovalLog> findClaApprovalLogs(Integer applyId) {
-
-        ClaApprovalLogService claApprovalLogService = getBean(ClaApprovalLogService.class);
-        return claApprovalLogService.findByApplyId(applyId);
-    }
-
-
-    /**
-     * 因私出国境
-     */
-    public static ApproverTypeBean getApproverTypeBean(Integer userId) {
-
-        ApplySelfService applySelfService = getBean(ApplySelfService.class);
-        if(applySelfService==null) return null;
-
-        return applySelfService.getApproverTypeBean(userId);
-    }
-
-    public static ApplySelf getApplySelf(Integer applyId) {
-
-        ApplySelfService applySelfService = getBean(ApplySelfService.class);
-        if(applySelfService==null) return null;
-        return applySelfService.get(applyId);
-    }
-
-    public static List<ApplySelfModifyBean> getApplySelfModifyList(Integer applyId) {
-
-        IAbroadMapper iAbroadMapper =  getBean(IAbroadMapper.class);
-        return iAbroadMapper.getApplySelfModifyList(applyId);
-    }
-
-    // 获取因私出国申请记录 初审 结果
-    public static Integer getAdminFirstTrialStatus(Integer applyId) {
-
-        ApprovalLogService approvalLogService = getBean(ApprovalLogService.class);
-        return approvalLogService.getAdminFirstTrialStatus(applyId);
-    }
-
-    public static Map getApprovalTdBeanMap(Integer applySelfId) {
-
-        ApplySelfService applySelfService = getBean(ApplySelfService.class);
-        if(applySelfService==null) return null;
-        return applySelfService.getApprovalTdBeanMap(applySelfId);
-    }
-
-    public static ApprovalLog getApprovalLog(Integer applySelfId, Integer approverTypeId) {
-
-        ApprovalLogService approvalLogService = getBean(ApprovalLogService.class);
-        return approvalLogService.getApprovalLog(applySelfId, approverTypeId);
-    }
-
-    // 获取因私出国申请记录 的评审log
-    public static List<ApprovalLog> findApprovalLogs(Integer applyId) {
-
-        ApprovalLogService approvalLogService = getBean(ApprovalLogService.class);
-        return approvalLogService.findByApplyId(applyId);
-    }
-
-    public static Map<Integer, SafeBox> getSafeBoxMap() {
-
-        SafeBoxService safeBoxService = getBean(SafeBoxService.class);
-        return safeBoxService.findAll();
-    }
-
-    // 证件
-    public static Passport getPassport(Integer id) {
-
-        PassportMapper passportMapper = getBean(PassportMapper.class);
-        return passportMapper.selectByPrimaryKey(id);
-    }
-
-    // 拒绝归还证件借出记录
-    public static PassportDraw getRefuseReturnPassportDraw(Integer passportId) {
-
-        PassportDrawService passportDrawService = getBean(PassportDrawService.class);
-        return passportDrawService.getRefuseReturnPassportDraw(passportId);
-    }
-
-    public static List<PassportDrawFile> getPassportDrawFiles(Integer id) {
-
-        PassportDrawService passportDrawService = getBean(PassportDrawService.class);
-        return passportDrawService.getPassportDrawFiles(id);
-    }
-
     // 判断干部是否拥有直接修改本人干部信息的权限
     public static Boolean hasDirectModifyCadreAuth(Integer cadreId) {
 
@@ -876,67 +566,6 @@ public class CmTag {
 
     public static CadreEdu[] getCadreEdus(Integer cadreId) {
         return cadreEduService.getByLearnStyle(cadreId);
-    }
-
-    public static List<CisInspectorView> getCisInspectors(Integer objId) {
-
-        CisInspectObjService cisInspectObjService = getBean(CisInspectObjService.class);
-        return cisInspectObjService.getInspectors(objId);
-    }
-
-    public static CisInspectorView getCisInspector(Integer id) {
-
-        CisInspectorService cisInspectorService = getBean(CisInspectorService.class);
-        return cisInspectorService.getInspector(id);
-    }
-
-    public static CetTrainEvaTable getCetTrainEvaTable(Integer evaTableId) {
-
-        CetTrainEvaTableService CetTrainEvaTableService = getBean(CetTrainEvaTableService.class);
-
-        return CetTrainEvaTableService.findAll().get(evaTableId);
-    }
-
-    public static Map<Integer, CetTrainEvaNorm> getCetTrainEvaNorms(Integer evaTableId) {
-
-        CetTrainEvaNormService cetTrainEvaNormService = getBean(CetTrainEvaNormService.class);
-
-        return cetTrainEvaNormService.findAll(evaTableId);
-    }
-
-    public static Map<Integer, CetTrainEvaRank> getCetTrainEvaRanks(Integer evaTableId) {
-
-        CetTrainEvaRankService CetTrainEvaRankService = getBean(CetTrainEvaRankService.class);
-
-        return CetTrainEvaRankService.findAll(evaTableId);
-    }
-
-    public static Integer evaIsClosed(Integer courseId) {
-
-        CetTrainCourseService cetTrainCourseService = getBean(CetTrainCourseService.class);
-
-        return cetTrainCourseService.evaIsClosed(courseId);
-    }
-
-
-    public static Map<Integer, CrsRequireRule> getCrsRequireRules(Integer postRequireId) {
-
-        CrsRequireRuleService crsRequireRuleService = getBean(CrsRequireRuleService.class);
-
-        return crsRequireRuleService.findAll(postRequireId);
-    }
-
-    public static CrsPost getCrsPost(Integer id) {
-
-        CrsPostService crsPostService = getBean(CrsPostService.class);
-
-        return crsPostService.get(id);
-    }
-
-    public static List<CrsPost> getCrsPost(List<Integer> ids) {
-
-        CrsPostService crsPostService = getBean(CrsPostService.class);
-        return crsPostService.get(ids);
     }
 
     public static String getShortPic(String picPath) {

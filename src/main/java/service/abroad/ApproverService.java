@@ -1,6 +1,5 @@
 package service.abroad;
 
-import persistence.abroad.common.ApproverTypeBean;
 import domain.abroad.Approver;
 import domain.abroad.ApproverExample;
 import domain.cadre.CadreView;
@@ -10,9 +9,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import persistence.abroad.common.ApproverTypeBean;
 import service.BaseMapper;
 import sys.constants.CadreConstants;
-import sys.tags.CmTag;
+import sys.helper.AbroadHelper;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -25,7 +25,7 @@ public class ApproverService extends BaseMapper {
     // 判断一个用户（非干部管理员）是否有因私出国境审批权限
     public boolean hasApproveAuth(int userId){
 
-        ApproverTypeBean approverTypeBean = CmTag.getApproverTypeBean(userId);
+        ApproverTypeBean approverTypeBean = AbroadHelper.getApproverTypeBean(userId);
         if(approverTypeBean==null) return false;
         CadreView cadre = approverTypeBean.getCadre();
         if ((cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE

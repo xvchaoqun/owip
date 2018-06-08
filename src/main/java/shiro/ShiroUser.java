@@ -3,6 +3,8 @@ package shiro;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import persistence.abroad.common.ApproverTypeBean;
 import persistence.cla.common.ClaApproverTypeBean;
+import sys.helper.AbroadHelper;
+import sys.helper.ClaHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -115,13 +117,13 @@ public class ShiroUser implements Serializable {
 
     public ApproverTypeBean getApproverTypeBean() {
 
-        if (approverTypeBean == null) approverTypeBean = CmTag.getApproverTypeBean(id);
+        if (approverTypeBean == null) approverTypeBean = AbroadHelper.getApproverTypeBean(id);
         return approverTypeBean;
     }
 
     public ClaApproverTypeBean getClaApproverTypeBean() {
 
-        if (claApproverTypeBean == null) claApproverTypeBean = CmTag.getClaApproverTypeBean(id);
+        if (claApproverTypeBean == null) claApproverTypeBean = ClaHelper.getClaApproverTypeBean(id);
         return claApproverTypeBean;
     }
 

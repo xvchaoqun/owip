@@ -3,6 +3,7 @@ package domain.pmd;
 import persistence.pmd.common.IPmdMapper;
 import persistence.pmd.common.PmdReportBean;
 import service.pmd.PmdPartyService;
+import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -16,7 +17,7 @@ public class PmdPartyView implements Serializable {
         if(hasReport) return null;
 
         IPmdMapper iPmdMapper = CmTag.getBean(IPmdMapper.class);
-        if(CmTag.isDirectBranch(partyId))
+        if(PartyHelper.isDirectBranch(partyId))
             return iPmdMapper.getBranchPmdReportBean(monthId, partyId, null);
 
         return iPmdMapper.getPartyPmdReportBean(monthId, partyId);

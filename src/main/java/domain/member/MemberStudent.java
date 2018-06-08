@@ -1,6 +1,7 @@
 package domain.member;
 
 import domain.party.Party;
+import sys.helper.PartyHelper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -8,7 +9,7 @@ import java.util.Date;
 
 public class MemberStudent implements Serializable {
     public String getParty(){
-        Party party = CmTag.getParty(partyId);
+        Party party = PartyHelper.getParty(partyId);
         return party!=null?party.getName():null;
     }
     private Date createTime;

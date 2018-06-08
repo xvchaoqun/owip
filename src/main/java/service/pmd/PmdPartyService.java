@@ -17,7 +17,7 @@ import persistence.pmd.common.PmdReportBean;
 import service.BaseMapper;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
-import sys.tags.CmTag;
+import sys.helper.PartyHelper;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -65,7 +65,7 @@ public class PmdPartyService extends BaseMapper {
         // 保存数据汇总
         PmdReportBean r = null;
         // 如果是直属党支部
-        if(CmTag.isDirectBranch(partyId)){
+        if(PartyHelper.isDirectBranch(partyId)){
             // 党员总数和本月应交党费数已经在启动缴费月份时保存
             /*record.setMemberCount(null);
             record.setDuePay(null);*/
@@ -107,7 +107,7 @@ public class PmdPartyService extends BaseMapper {
         }
 
         // 如果是直属党支部
-        if(CmTag.isDirectBranch(parytId)){
+        if(PartyHelper.isDirectBranch(parytId)){
             // 如果存在 没有支付且没有设置为延迟缴费， 则不可报送
             PmdMemberExample example = new PmdMemberExample();
             example.createCriteria().andMonthIdEqualTo(monthId)

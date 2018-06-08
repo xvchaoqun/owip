@@ -29,8 +29,8 @@ import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
 import sys.constants.RoleConstants;
+import sys.helper.PartyHelper;
 import sys.shiro.CurrentUser;
-import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -458,8 +458,8 @@ public class MemberController extends MemberBaseController {
             Integer partyId = member.getPartyId();
             Integer branchId = member.getBranchId();
             Integer loginUserId = loginUser.getId();
-            boolean isBranchAdmin = CmTag.isPresentBranchAdmin(loginUserId, partyId, branchId);
-            boolean isPartyAdmin = CmTag.isPresentPartyAdmin(loginUserId, partyId);
+            boolean isBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, partyId, branchId);
+            boolean isPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, partyId);
             if(!isBranchAdmin && !isPartyAdmin){
                 throw new UnauthorizedException();
             }
