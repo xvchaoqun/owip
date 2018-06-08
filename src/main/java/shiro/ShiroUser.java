@@ -1,7 +1,8 @@
 package shiro;
 
-import persistence.abroad.common.ApproverTypeBean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import persistence.abroad.common.ApproverTypeBean;
+import persistence.cla.common.ClaApproverTypeBean;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -28,7 +29,9 @@ public class ShiroUser implements Serializable {
     private transient Set<String> mPermissions;
 
     @JsonIgnore
-    private transient ApproverTypeBean approverTypeBean; // 干部审批权限
+    private transient ApproverTypeBean approverTypeBean; // 干部因私审批权限
+    @JsonIgnore
+    private transient ClaApproverTypeBean claApproverTypeBean; // 干部请假审批权限
 
     public ShiroUser(Integer id, String username,
                      String code,
@@ -114,6 +117,12 @@ public class ShiroUser implements Serializable {
 
         if (approverTypeBean == null) approverTypeBean = CmTag.getApproverTypeBean(id);
         return approverTypeBean;
+    }
+
+    public ClaApproverTypeBean getClaApproverTypeBean() {
+
+        if (claApproverTypeBean == null) claApproverTypeBean = CmTag.getClaApproverTypeBean(id);
+        return claApproverTypeBean;
     }
 
 }

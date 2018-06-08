@@ -63,7 +63,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "${tablePrefix}${tablesqlname}") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                 <#list searchColumnBeans as column>
-                                    <#if column.type=="varchar"||column.type=="text"||column.type=="datetime"||column.type=="date">String<#elseif column.type=="int">Integer</#if> ${tbn(column.name, "tableName")},
+                                    <#if column.type=="varchar"||column.type=="text">String<#elseif column.type=="datetime"||column.type=="date">Date<#elseif column.type=="int">Integer<#elseif column.type=="tinyint">Byte</#if> ${tbn(column.name, "tableName")},
                                 </#list>
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -78,13 +78,17 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
         pageNo = Math.max(1, pageNo);
 
         ${TableName}Example example = new ${TableName}Example();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(true);
+        Criteria criteria = example.createCriteria()<#if tableColumnsMap['status']??>.andStatusEqualTo(true)</#if>;
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         <#list searchColumnBeans as column>
-        <#if column.type=="int">
+        <#if column.type=="int" || column.type=="tinyint">
         if (${tbn(column.name, "tableName")}!=null) {
             criteria.and${tbn(column.name, "TableName")}EqualTo(${tbn(column.name, "tableName")});
+        }
+        <#elseif column.type=="datetime"||column.type=="date">
+        if (${tbn(column.name, "tableName")}!=null) {
+        criteria.and${tbn(column.name, "TableName")}GreaterThan(${tbn(column.name, "tableName")});
         }
         <#else>
         if (StringUtils.isNotBlank(${tbn(column.name, "tableName")})) {
@@ -131,7 +135,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
             return failed("添加重复");
         }
         if (${tbn(key, "tableName")} == null) {
-            record.setStatus(true);
+            <#if tableColumnsMap['status']??>record.setStatus(true);</#if>
             ${tableName}Service.insertSelective(record);
             logger.info(addLog( ${logType}, "添加${cnTableName}：%s", record.get${tbn(key, "TableName")}()));
         } else {

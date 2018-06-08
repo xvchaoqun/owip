@@ -6,7 +6,7 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.abroad.PassportDrawService;
+import service.abroad.AbroadShortMsgService;
 
 /**
  * Created by lm on 2017/9/17.
@@ -16,14 +16,14 @@ public class PassportDrawReturnMsg implements Job {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private PassportDrawService passportDrawService;
+    private AbroadShortMsgService abroadShortMsgService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         logger.debug("领取证件之后催交证件短信通知...");
         try {
-            passportDrawService.sendReturnMsg();
+            abroadShortMsgService.sendReturnMsg();
         }catch (Exception ex){
             ex.printStackTrace();
         }

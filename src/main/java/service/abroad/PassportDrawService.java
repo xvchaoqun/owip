@@ -23,9 +23,6 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.joda.time.DateTime;
-import org.joda.time.Period;
-import org.joda.time.PeriodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,50 +53,6 @@ public class PassportDrawService extends BaseMapper {
     @Autowired
     protected AbroadShortMsgService abroadShortMsgService;
     private Logger logger = LoggerFactory.getLogger(getClass());
-
-    /*
-    自动发送，发送时间为上午10点，每三天发一次，直到将证件交回。
-	比如，应交组织部日期为2016年9月1日，那么从第二天9月2日开始发，每三天发一次，直到交回证件为止。
-	 */
-    public void sendReturnMsg() {
-
-        logger.debug("====领取证件之后催交证件短信通知...start====");
-        int count = 0;
-        Date today = new Date();
-        // 查找已领取证件，但还未归还（该证件昨天应归还）的记录
-        PassportDrawExample example = new PassportDrawExample();
-        example.createCriteria().andIsDeletedEqualTo(false).
-                andDrawStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW)
-                .andUsePassportNotEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN) // 拒不交回不需要短信提醒
-                .andReturnDateLessThan(today);
-        List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
-        for (PassportDraw passportDraw : passportDraws) {
-
-            Passport passport = passportDraw.getPassport();
-            if (passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP
-                    || (passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL
-                    && passport.getCancelConfirm() == false)) { // 集中管理的 或 未确认的取消集中管理证件，才需要短信提醒
-
-                Date returnDate = passportDraw.getReturnDate(); // 应归还时间
-                Period p = new Period(new DateTime(returnDate), new DateTime(today), PeriodType.days());
-                int days = p.getDays();
-                if ((days - 1) % 3 == 0) {  // 间隔第1,4,7...天应发短信提醒
-
-                    ShortMsgBean shortMsgBean = abroadShortMsgService.getShortMsgBean(null, null, "passportDrawReturn", passportDraw.getId());
-                    try {
-                        boolean ret = shortMsgService.send(shortMsgBean, "127.0.0.1");
-                        logger.info(String.format("系统发送短信[%s]：%s", ret ? "成功" : "失败", shortMsgBean.getContent()));
-                        if (ret) count++;
-                    } catch (Exception ex) {
-                        logger.error("领取证件之后催交证件短信失败", ex);
-                    }
-                }
-            }
-        }
-        logger.info(String.format("领取证件之后催交证件短信通知，发送成功%s/%s条", count, passportDraws.size()));
-
-        logger.debug("====领取证件之后催交证件短信通知...end====");
-    }
 
     // 拒绝归还证件借出记录
     public PassportDraw getRefuseReturnPassportDraw(int passportId) {

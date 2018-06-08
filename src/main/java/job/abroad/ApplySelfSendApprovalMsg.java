@@ -6,7 +6,7 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import service.abroad.ApplySelfService;
+import service.abroad.AbroadShortMsgService;
 
 /**
  * Created by lm on 2017/9/17.
@@ -16,14 +16,14 @@ public class ApplySelfSendApprovalMsg implements Job {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private ApplySelfService applySelfService;
+    private AbroadShortMsgService abroadShortMsgService;
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
 
         logger.info("因私审批自动通知下一个审批人...");
         try {
-            applySelfService.sendApprovalMsg();
+            abroadShortMsgService.sendApprovalMsg();
 
         }catch (Exception ex){
             ex.printStackTrace();

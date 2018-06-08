@@ -73,6 +73,20 @@ public class CadreConstants {
 
     }
 
+    // 后备干部产生方式 1 学校党委推荐、 2 学校组织部门推荐、 3 所在单位推荐、4 所在基层党组织推荐
+    public final static byte CADRE_RESERVE_ORIGIN_WAY_XXDWTJ = 1;
+    public final static byte CADRE_RESERVE_ORIGIN_WAY_ZZBTJ = 2;
+    public final static byte CADRE_RESERVE_ORIGIN_WAY_SZDWTJ = 3;
+    public final static byte CADRE_RESERVE_ORIGIN_WAY_DZZTJ = 4;
+    public final static Map<Byte, String> CADRE_RESERVE_ORIGIN_WAY_MAP = new LinkedHashMap<>();
+
+    static {
+        CADRE_RESERVE_ORIGIN_WAY_MAP.put(CADRE_RESERVE_ORIGIN_WAY_XXDWTJ, "学校党委推荐");
+        CADRE_RESERVE_ORIGIN_WAY_MAP.put(CADRE_RESERVE_ORIGIN_WAY_ZZBTJ, "学校组织部门推荐");
+        CADRE_RESERVE_ORIGIN_WAY_MAP.put(CADRE_RESERVE_ORIGIN_WAY_SZDWTJ, "所在单位推荐");
+        CADRE_RESERVE_ORIGIN_WAY_MAP.put(CADRE_RESERVE_ORIGIN_WAY_DZZTJ, "所在基层党组织推荐");
+    }
+
     // 后备干部库类别
     public final static byte CADRE_RESERVE_TYPE_SCHOOL = 1;
     public final static byte CADRE_RESERVE_TYPE_ADMIN_CHIEF = 2;
@@ -86,15 +100,9 @@ public class CadreConstants {
         CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_CHIEF, "机关正处级");
         CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_VICE, "机关副处级");
         CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_CHIEF, "院系正处级");
-        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_VICE, "学院副处级");
+        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_VICE, "院系副处级");
     }
-    /*static {
-        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_SCHOOL, "校级后备干部库");
-        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_CHIEF, "机关正处级后备干部库");
-        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_VICE, "机关副处级后备干部库");
-        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_CHIEF, "学院正级后备干部库");
-        CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_VICE, "学院副处级后备干部库");
-    }*/
+
 
     // 后备干部库状态 1 后备干部 2 后备干部已使用 3 已撤销资格
     public final static byte CADRE_RESERVE_STATUS_NORMAL = 1;

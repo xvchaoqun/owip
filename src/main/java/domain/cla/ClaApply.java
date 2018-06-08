@@ -1,9 +1,43 @@
 package domain.cla;
 
+import domain.cadre.CadreView;
+import domain.sys.SysUserView;
+import org.springframework.format.annotation.DateTimeFormat;
+import sys.tags.CmTag;
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 
 public class ClaApply implements Serializable {
+
+    private CadreView cadreView;
+    private SysUserView sysUserView;
+
+    public SysUserView getUser(){
+
+        if(sysUserView==null) {
+            CadreView cadre = getCadre();
+            sysUserView = CmTag.getUserById(cadre.getUserId());
+        }
+
+        return sysUserView;
+    }
+    public CadreView getCadre(){
+
+        if(cadreView==null){
+            cadreView = CmTag.getCadreById(cadreId);
+        }
+
+        return cadreView;
+    }
+
+    public Map getApprovalTdBeanMap(){
+
+        return CmTag.getClaApprovalTdBeanMap(id);
+    }
+
     private Integer id;
 
     private Integer cadreId;
@@ -12,8 +46,10 @@ public class ClaApply implements Serializable {
 
     private Byte type;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM)
     private Date startTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM)
     private Date endTime;
 
     private String destination;
@@ -24,8 +60,10 @@ public class ClaApply implements Serializable {
 
     private Boolean isBack;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM)
     private Date realStartTime;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM)
     private Date realEndTime;
 
     private String realRemark;

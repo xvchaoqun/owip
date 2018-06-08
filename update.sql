@@ -1,6 +1,40 @@
 
+2018-6-8
 
+-- 新增模块 干部请假
 创建视图 cla_additional_post_view
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (800, 0, '干部请假申请', '', 'menu', 'fa fa-sign-out', NULL, 1, '0/1/', 0, 'cla:user', NULL, NULL, 1, 7260);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (801, 0, '请假申请', '', 'url', '', '/user/cla/claApply', 800, '0/1/800/', 1, 'userClaApply:*', NULL, NULL, 1, 400);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (805, 0, '干部请假审批', '', 'menu', 'fa fa-calendar-check-o', NULL, 1, '0/1/', 0, 'cla:admin', '40', '1,10', 1, 7250);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (806, 0, '干部请假审批(管理员)', '管理员、干部管理员', 'url', '', '/cla/claApply', 805, '0/1/805/', 0, 'claApply:list', '40', '1,10', 1, 300);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (807, 0, '添加/修改', NULL, 'function', '', NULL, 806, '0/1/805/806/', 1, 'claApply:edit', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (808, 0, '删除', NULL, 'function', '', NULL, 806, '0/1/805/806/', 1, 'claApply:del', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (809, 0, '下载', NULL, 'function', '', NULL, 806, '0/1/805/806/', 1, 'claApply:download', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (810, 0, '审批', NULL, 'function', '', NULL, 806, '0/1/805/806/', 1, 'claApply:approval', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (811, 0, '详情', NULL, 'function', '', '/cla/claApply_view', 806, '0/1/805/806/', 1, 'claApply:view', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (812, 0, '干部请假审批', '具有审批权限的干部拥有', 'url', '', '/cla/claApplyList', 805, '0/1/805/', 1, 'claApply:approvalList', NULL, NULL, 1, 300);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (814, 0, '申请说明', NULL, 'function', '', '/cla/claApply_note', 806, '0/1/805/806/', 1, 'claApply:note', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (815, 0, '查看变更记录', '', 'function', '', NULL, 806, '0/1/805/806/', 1, 'claApply:modifyLog', NULL, NULL, 1, NULL);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (820, 0, '审批权限管理', '', 'url', '', '/cla/claApprovalAuth', 805, '0/1/805/', 1, 'claApprovalAuth:*', NULL, NULL, 1, 100);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (821, 0, '兼审单位管理', '', 'url', '', '/cla/claAdditionalPost', 805, '0/1/805/', 1, 'claAdditionalPost:*', NULL, NULL, 1, 120);
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (825, 1, '干部请假审批', '干部管理员', 'url', 'fa fa-calendar-check-o', '/m/cla/claApply', 692, '0/692/', 1, 'm:claApply:*', NULL, NULL, 1, 1500);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (826, 1, '干部请假审批', '有审批权限的干部', 'url', 'fa fa-calendar-check-o', '/m/cla/claApplyList', 692, '0/692/', 1, 'm:claApplyList:*', NULL, NULL, 1, 1400);
+
+ALTER TABLE `sys_resource` AUTO_INCREMENT=830;
+
+增加 ct_cla_apply_submit_info   ct_cla_apply_pass_info， 设定审批人
+
+ct_cla_apply_pass  ct_cla_apply_unpass
+
+还有 ct_cla_apply_approval_unit_1 等6条短信模块
+
+
+新建表 cadre_reserve_origin
+
+UPDATE `sys_resource` SET url='/cadreReserveOrigin', `permission`='cadreReserveOrigin:*' WHERE  `permission`='cadreReserveBorn:list';
 
 
 2018-6-5

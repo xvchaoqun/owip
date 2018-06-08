@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import service.abroad.ApplySelfService;
+import service.abroad.AbroadShortMsgService;
 import service.party.MemberService;
 
 /**
@@ -18,7 +18,7 @@ public class ServiceTest {
     @Autowired
     MemberService memberService;
     @Autowired
-    ApplySelfService applySelfService;
+    AbroadShortMsgService abroadShortMsgService;
 
     @Test
     public void changeParty(){
@@ -27,6 +27,6 @@ public class ServiceTest {
 
     @Test
     public void sendApprovalMsg(){
-        applySelfService.sendApprovalMsg();
+        abroadShortMsgService.sendApprovalMsg();
     }
 }

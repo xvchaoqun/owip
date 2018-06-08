@@ -88,7 +88,6 @@
                                         <div class="form-group">
                                             <label>任免方式</label>
                                                 <select class="multiselect" multiple="" name="wayId" data-placeholder="请选择">
-                                                    <option></option>
                                                     <c:import url="/metaTypes?__code=mc_dispatch_cadre_way"/>
                                                 </select>
                                         </div>

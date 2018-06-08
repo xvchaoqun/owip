@@ -37,4 +37,8 @@ public interface CountMapper {
     @Select("select count(*) from abroad_taiwan_record where handle_type is null and passport_code is null and end_date<=now()  and is_deleted=0")
     public int taiwanRecordHandleType();
 
+    // 干部请假（管理员）申请数量
+    @Select("select count(*) from cla_apply where status=1 and is_finish=0 and flow_node in(-1,0) and is_deleted=0")
+    public int claApply();
+
 }

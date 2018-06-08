@@ -32,6 +32,10 @@
 			<bean class="interceptor.AbroadSessionInterceptor"/>
 		</mvc:interceptor>
 		<mvc:interceptor>
+			<mvc:mapping path="/**/cla/**"/>
+			<bean class="interceptor.ClaSessionInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
 			<mvc:mapping path="/**/pmd/**"/>
 			<bean class="interceptor.PmdSessionInterceptor"/>
 		</mvc:interceptor>

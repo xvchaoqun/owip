@@ -3,7 +3,7 @@ package bean;
 public class ColumnBean {
 
 	public String name;
-	public String type; // varchar,int,datetime,text
+	public String type; // varchar,int,tinyint, date,datetime,text
 	public long length;
 	public String comments;
 	

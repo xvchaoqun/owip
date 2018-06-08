@@ -46,8 +46,6 @@ public class AbroadAdditionalPostService extends BaseMapper {
     @Autowired
     private ApproverTypeService approverTypeService;
     @Autowired
-    private  AbroadAdditionalPostService abroadAdditionalPostService;
-    @Autowired
     private SysUserService sysUserService;
 
     // 获取某个单位下的兼审正职
@@ -136,25 +134,23 @@ public class AbroadAdditionalPostService extends BaseMapper {
             }
         }
 
-        if(abroadAdditionalPostService!=null) {
-            Map<String, AbroadAdditionalPost> abroadAdditionalPostMap = findAll();
-            for (AbroadAdditionalPost cPost : abroadAdditionalPostMap.values()) {
-                CadreView cadre = cadreMap.get(cPost.getCadreId());
-                if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
-                        || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
-                        && BooleanUtils.isTrue(postMap.get(cPost.getPostId()).getBoolAttr())) {
-                    List<CadrePostBean> list = null;
-                    Integer unitId = cPost.getUnitId();
-                    if (unitIdCadresMap.containsKey(unitId)) {
-                        list = unitIdCadresMap.get(unitId);
-                    }
-                    if (null == list) list = new ArrayList<>();
-                    CadrePostBean bean = new CadrePostBean(cPost.getCadreId(),
-                            cPost.getPostId(), true);
-                    list.add(bean);
-
-                    unitIdCadresMap.put(unitId, list);
+        Map<String, AbroadAdditionalPost> abroadAdditionalPostMap = findAll();
+        for (AbroadAdditionalPost cPost : abroadAdditionalPostMap.values()) {
+            CadreView cadre = cadreMap.get(cPost.getCadreId());
+            if ((cadre.getStatus() == CadreConstants.CADRE_STATUS_MIDDLE
+                    || cadre.getStatus() == CadreConstants.CADRE_STATUS_LEADER)
+                    && BooleanUtils.isTrue(postMap.get(cPost.getPostId()).getBoolAttr())) {
+                List<CadrePostBean> list = null;
+                Integer unitId = cPost.getUnitId();
+                if (unitIdCadresMap.containsKey(unitId)) {
+                    list = unitIdCadresMap.get(unitId);
                 }
+                if (null == list) list = new ArrayList<>();
+                CadrePostBean bean = new CadrePostBean(cPost.getCadreId(),
+                        cPost.getPostId(), true);
+                list.add(bean);
+
+                unitIdCadresMap.put(unitId, list);
             }
         }
 

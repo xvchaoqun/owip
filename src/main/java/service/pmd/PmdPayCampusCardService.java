@@ -201,11 +201,11 @@ public class PmdPayCampusCardService extends BaseMapper {
                     || !StringUtils.equals(newOrder.getCommnet(), oldOrder.getCommnet())
                     || !StringUtils.equals(newOrder.getSnoIdName(), oldOrder.getSnoIdName())) {
 
-                logger.info("订单{}已关闭或信息变更，生成新订单号", oldOrderNo);
+                logger.info("原订单({})已关闭或信息变更，生成新订单号", oldOrderNo);
                 orderIsNotExist = true;
             }
         } else {
-            logger.info("订单{}信息不存在，生成订单号", oldOrderNo);
+            logger.info("原订单({})信息不存在，生成订单号", oldOrderNo);
             orderIsNotExist = true;
         }
 

@@ -39,6 +39,26 @@ public class ContentTplConstants {
     // 内容模板（与数据库中代码对应）
     public final static String CONTENT_TPL_FIND_PASS = "ct_find_pass"; // 密码找回模板
 
+    /**干部请假 **/
+    public final static String CONTENT_TPL_CLA_APPLY_SUBMIT_INFO = "ct_cla_apply_submit_info"; // 干部提交请假申请，通知管理员
+    public final static String CONTENT_TPL_CLA_APPLY_PASS_INFO = "ct_cla_apply_pass_info"; // 干部请假申请通过全部领导审批，通知管理员
+    public final static String CONTENT_TPL_CLA_APPLY_PASS = "ct_cla_apply_pass";
+    public final static String CONTENT_TPL_CLA_APPLY_UNPASS = "ct_cla_apply_unpass";
+
+    public final static String CONTENT_TPL_CLA_APPLY_BACK = "ct_cla_apply_back"; // 干部销假提醒
+
+    // 本单位正职（一人）审批通知
+    public final static String CONTENT_TPL_CLA_APPLY_APPROVAL_UNIT_1 = "ct_cla_apply_approval_unit_1";
+    // 本单位正职（多人）审批通知
+    public final static String CONTENT_TPL_CLA_APPLY_APPROVAL_UNIT_2 = "ct_cla_apply_approval_unit_2";
+    // 分管校领导审批通知
+    public final static String CONTENT_TPL_CLA_APPLY_APPROVAL_LEADER = "ct_cla_apply_approval_leader";
+    // 书记审批通知
+    public final static String CONTENT_TPL_CLA_APPLY_APPROVAL_SECRETARY = "ct_cla_apply_approval_secretary";
+    // 校长审批通知
+    public final static String CONTENT_TPL_CLA_APPLY_APPROVAL_MASTER = "ct_cla_apply_approval_master";
+
+
     /**因私出国境**/
     public final static String CONTENT_TPL_APPLYSELF_SUBMIT_INFO = "ct_applyself_submit_info"; // 干部提交因私申请，通知管理员
     public final static String CONTENT_TPL_APPLYSELF_PASS_INFO = "ct_applyself_pass_info"; // 干部因私申请通过全部领导审批，通知管理员

@@ -47,6 +47,7 @@ pageEncoding="UTF-8"%>
         }
     });
     //$("#modalForm :checkbox").bootstrapSwitch();
+    //$.register.user_select($('[data-rel="select2-ajax"]'));
     //$('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$('textarea.limited').inputlimiter();

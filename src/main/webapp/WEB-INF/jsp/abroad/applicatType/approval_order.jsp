@@ -19,7 +19,7 @@
                         <div class="form-group">
                             <label class="col-xs-3 control-label">审批人身份</label>
                             <div class="col-xs-6">
-                                <select name="approverTypeId" data-rel="select2" data-placeholder="请选择"> 
+                                <select required name="approverTypeId" data-rel="select2" data-placeholder="请选择"> 
                                     <option></option>
                                       <c:forEach items="${approverTypeMap}" var="type"> 
                                         <option value="${type.key}">${type.value.name}</option>

@@ -67,6 +67,7 @@ import persistence.cadre.common.StatCadreMapper;
 import persistence.cadreInspect.CadreInspectMapper;
 import persistence.cadreInspect.CadreInspectViewMapper;
 import persistence.cadreReserve.CadreReserveMapper;
+import persistence.cadreReserve.CadreReserveOriginMapper;
 import persistence.cadreReserve.CadreReserveViewMapper;
 import persistence.cet.CetColumnCourseMapper;
 import persistence.cet.CetColumnCourseViewMapper;
@@ -127,6 +128,19 @@ import persistence.cis.CisInspectorViewMapper;
 import persistence.cis.CisObjInspectorMapper;
 import persistence.cis.CisObjUnitMapper;
 import persistence.cis.common.ICisMapper;
+import persistence.cla.ClaAdditionalPostMapper;
+import persistence.cla.ClaAdditionalPostViewMapper;
+import persistence.cla.ClaApplicatCadreMapper;
+import persistence.cla.ClaApplicatTypeMapper;
+import persistence.cla.ClaApplyFileMapper;
+import persistence.cla.ClaApplyMapper;
+import persistence.cla.ClaApplyModifyMapper;
+import persistence.cla.ClaApprovalLogMapper;
+import persistence.cla.ClaApprovalOrderMapper;
+import persistence.cla.ClaApproverBlackListMapper;
+import persistence.cla.ClaApproverMapper;
+import persistence.cla.ClaApproverTypeMapper;
+import persistence.cla.common.IClaMapper;
 import persistence.common.CommonMapper;
 import persistence.common.IExtMapper;
 import persistence.common.IPartyMapper;
@@ -672,6 +686,34 @@ public class BaseMapper {
     protected OaTaskUserFileMapper oaTaskUserFileMapper;
 
     /**
+     * 干部请假审批
+     */
+    @Autowired(required = false)
+    protected ClaApplicatCadreMapper claApplicatCadreMapper;
+    @Autowired(required = false)
+    protected ClaApplicatTypeMapper claApplicatTypeMapper;
+    @Autowired(required = false)
+    protected ClaApprovalOrderMapper claApprovalOrderMapper;
+    @Autowired(required = false)
+    protected ClaApproverMapper claApproverMapper;
+    @Autowired(required = false)
+    protected ClaApproverBlackListMapper claApproverBlackListMapper;
+    @Autowired(required = false)
+    protected ClaApproverTypeMapper claApproverTypeMapper;
+    @Autowired(required = false)
+    protected ClaApplyMapper claApplyMapper;
+    @Autowired(required = false)
+    protected ClaApplyModifyMapper claApplyModifyMapper;
+    @Autowired(required = false)
+    protected ClaApplyFileMapper claApplyFileMapper;
+    @Autowired(required = false)
+    protected ClaApprovalLogMapper claApprovalLogMapper;
+    @Autowired(required = false)
+    protected ClaAdditionalPostMapper claAdditionalPostMapper;
+    @Autowired(required = false)
+    protected ClaAdditionalPostViewMapper claAdditionalPostViewMapper;
+
+    /**
      * 因私出国境
      */
     @Autowired(required = false)
@@ -874,6 +916,8 @@ public class BaseMapper {
     protected CadreReserveMapper cadreReserveMapper;
     @Autowired(required = false)
     protected CadreReserveViewMapper cadreReserveViewMapper;
+    @Autowired(required = false)
+    protected CadreReserveOriginMapper cadreReserveOriginMapper;
     @Autowired(required = false)
     protected CadreStatHistoryMapper cadreStatHistoryMapper;
 
@@ -1105,6 +1149,8 @@ public class BaseMapper {
     protected IPropertyMapper IPropertyMapper;
     @Autowired(required = false)
     protected IAbroadMapper iAbroadMapper;
+    @Autowired(required = false)
+    protected IClaMapper iClaMapper;
     @Autowired(required = false)
     protected ICadreMapper iCadreMapper;
     @Autowired(required = false)

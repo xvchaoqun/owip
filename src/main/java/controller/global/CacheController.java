@@ -64,4 +64,15 @@ public class CacheController extends BaseController {
 
         return resultMap;
     }
+
+    // 刷新数量缓存
+    @RequiresPermissions("sysConfig:cache")
+    @RequestMapping("/flush_count")
+    @ResponseBody
+    public Map flush_count() {
+
+        cacheService.refreshCacheCounts();
+
+        return success();
+    }
 }

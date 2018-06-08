@@ -1,8 +1,33 @@
 package domain.cla;
 
+import domain.cadre.CadreView;
+import domain.sys.SysUserView;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 
 public class ClaApprover implements Serializable {
+
+    private CadreView cadreView;
+    private SysUserView sysUserView;
+    public SysUserView getUser(){
+
+        if(sysUserView==null) {
+            CadreView cadre = getCadre();
+            sysUserView = CmTag.getUserById(cadre.getUserId());
+        }
+
+        return sysUserView;
+    }
+    public CadreView getCadre(){
+
+        if(cadreView==null){
+            cadreView = CmTag.getCadreById(cadreId);
+        }
+
+        return cadreView;
+    }
+
     private Integer id;
 
     private Integer cadreId;

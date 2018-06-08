@@ -502,7 +502,10 @@
         }
         },
         {label: '姓名', width: 120, name: 'realname'},
-        {label: '出生年月', name: 'birthday', formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {label: '出生年月', name: 'birthday', formatter: 'date', formatoptions: {newformat: 'Y-m'}, cellattr: function (rowId, val, rowObject, cm, rdata) {
+            if($.trimHtml(val)=='')
+                return "class='danger'";
+        }},
         {label: '政治面貌', name: 'politicalStatus', formatter: $.jgrid.formatter.MetaType},
         {label: '工作单位及职务', name: 'unit', width: 450, align:"left"}, {hidden: true, name: 'id'}
     ];
@@ -580,13 +583,7 @@
     ];
 
     colModels.cisInspectObj = [
-        {
-            label: '编号', name: 'seq', formatter: function (cellvalue, options, rowObject) {
-            var type = _cMap.metaTypeMap[rowObject.typeId].name;
-            return type + "[" + rowObject.year + "]" + rowObject.seq + "号";
-
-        }, width: 180, frozen: true
-        },
+        {label: '编号', name: 'sn', width: 180, frozen: true},
         {label: '考察日期', name: 'inspectDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
         {label: '工作证号', name: 'cadre.code', frozen: true},
         {label: '考察对象', name: 'cadre.realname', frozen: true},

@@ -260,6 +260,7 @@ public class SystemConstants {
     public final static byte SYS_APPROVAL_LOG_TYPE_PMD_MEMBER = 3; // 党费收缴
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_TRAINEE = 4; // 干部教育培训-参训人
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ = 5; // 干部教育培训-培训对象
+    public final static byte SYS_APPROVAL_LOG_TYPE_CLA_APPLY = 6; // 干部请假审批人员
 
     public final static Map<Byte, String> SYS_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 
@@ -269,12 +270,14 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_PMD_MEMBER, "党费收缴");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_TRAINEE, "参训人");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ, "培训对象");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CLA_APPLY, "干部请假");
     }
 
     // 操作人类别, 0本人 1 干部管理员 2 因私审批人员
     public final static byte SYS_APPROVAL_LOG_USER_TYPE_SELF = 0; // 本人
     public final static byte SYS_APPROVAL_LOG_USER_TYPE_CADRE = 1; // 干部管理员
     public final static byte SYS_APPROVAL_LOG_USER_TYPE_APPLYSELF = 2; // 因私审批人员
+    public final static byte SYS_APPROVAL_LOG_USER_TYPE_CLA_APPLY = 3; // 干部请假审批人员
     public final static byte SYS_APPROVAL_LOG_USER_TYPE_NOT_SELF = 5;// 他人操作
     public final static byte SYS_APPROVAL_LOG_USER_TYPE_ADMIN = 10;// 后台操作
     public final static Map<Byte, String> SYS_APPROVAL_LOG_USER_TYPE_MAP = new LinkedHashMap<>();
@@ -283,6 +286,7 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_SELF, "本人");
         SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_CADRE, "干部管理员");
         SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_APPLYSELF, "因私审批人员");
+        SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_CLA_APPLY, "干部请假审批人员");
         SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_ADMIN, "后台操作");
         SYS_APPROVAL_LOG_USER_TYPE_MAP.put(SYS_APPROVAL_LOG_USER_TYPE_NOT_SELF, "他人操作");
     }

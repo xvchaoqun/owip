@@ -35,6 +35,7 @@ ajax
 <select data-rel="select2-ajax" data-ajax--url="${ctx}/unit_selects" name="unitId" data-placeholder="请选择">
 <option value="${unit.id}">${unit.name}</option>
 </select>
+$.register.user_select($('[data-rel="select2-ajax"]'));
 
 <select data-rel="select2" name="eduId" data-placeholder="请选择">
 	<option></option>
@@ -47,10 +48,15 @@ ajax
 modelMap.put("unitTypeMap", metaTypeService.metaTypes("mc_branch_unit_type"));
 
 
+, formatter: function (cellvalue, options, rowObject) {
+            if (cellvalue == undefined) return '-';
+            return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
+        }
+
 <select required data-rel="select2" name="type" data-placeholder="请选择">
 	<option></option>
-	<c:forEach items="${MEMBER_FLOW_TYPE_MAP}" var="_type">
-		<option value="${_type.key}">${_type.value}</option>
+	<c:forEach items="${MEMBER_FLOW_TYPE_MAP}" var="entity">
+		<option value="${entity.key}">${entity.value}</option>
 	</c:forEach>
 </select>
 <script>

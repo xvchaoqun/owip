@@ -98,6 +98,8 @@ public class CacheService extends BaseController{
         countCache.put(CacheConstants.CACHE_KEY_ABROAD_APPLY_SELF, countMapper.abroadApplySelf());
         countCache.put(CacheConstants.CACHE_KEY_TAIWAN_RECORD_HANDLE_TYPE, countMapper.taiwanRecordHandleType());
 
+        countCache.put(CacheConstants.CACHE_KEY_CLA_APPLY, countMapper.claApply());
+
         {
             // 特殊党员干部库-已存在于党员信息库（用于提醒管理员删除）
             CadreViewExample example = new CadreViewExample();

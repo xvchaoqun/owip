@@ -1,0 +1,19 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "cadreReserve",
+  "resFolder": "cadreReserve",
+  "tables": [
+    {
+      "table": "cadre_reserve_origin",
+      "key": "id",
+      "searchColumns": "way,user_id,reserve_type,recommend_unit,recommend_date",
+      "showColumns": "add_time,way,user_id,reserve_type,recommend_unit,recommend_date,word_file,pdf_file,obj_id,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_CADRERESERVE",
+      "ignore": false
+    }
+  ]
+}

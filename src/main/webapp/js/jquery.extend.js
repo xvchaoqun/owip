@@ -315,6 +315,9 @@ $.fn.extend({
 var _modal_width;
 (function ($) {
     $.extend({
+        trimHtml:function(html){
+            return $.trim($('<div/>').html(html).text());
+        },
         reloadMetaData: function(fn){
             $.getJSON(ctx+ "/cache/flush_metadata_JSON",function(ret){
                 //alert(typeof fn)
@@ -501,7 +504,7 @@ var _modal_width;
 
             if (cadreId > 0 && $.trim(realname) != '') {
 
-                if( $.inArray("cadre:view", _permissions) >= 0 ) {
+                if( $.inArray("cadre:admin", _permissions) >= 0 && $.inArray("cadre:view", _permissions) >= 0 ) {
                     if (target != undefined) {
                         return ('<a href="{3}/#{3}/cadre_view?cadreId={0}" target="{1}">{2}</a>')
                             .format(cadreId, target, realname, ctx);
@@ -856,6 +859,35 @@ var _modal_width;
                     .format(encodeURI(filepath), encodeURI(filename), hrefLabel, ctx, cls, type || '');
             } else
                 return $.trim(plainText);
+        },
+        button:{
+            confirm:function(params){
+                params = $.extend({
+                    style:'btn-default',
+                    title:'',
+                    msg:'',
+                    callback:"",
+                    url:'',
+                    icon:'',
+                    label:''
+                }, params);
+                return ('<button class="confirm btn {0} btn-xs" ' +
+                'data-title="{1}" data-msg="{2}" data-callback="{3}" ' +
+                'data-url="{4}" ><i class="fa {5}"></i> {6}</button>')
+                    .format(params.style, params.title, params.msg,
+                    params.callback, params.url, params.icon, params.label )
+            },
+            modal:function(params){
+                params = $.extend({
+                    style:'btn-default',
+                    url:'',
+                    icon:'',
+                    label:''
+                }, params);
+                return ('<button class="popupBtn btn {0} btn-xs" ' +
+                'data-url="{1}" ><i class="fa {2}"></i> {3}</button>')
+                    .format(params.style, params.url, params.icon, params.label )
+            }
         }
     });
 
@@ -888,7 +920,6 @@ var _modal_width;
             var $this = $(this);
             return $this.showLoading(options);
         },
-
         unmask: function () {
             var $this = $(this);
             return $this.hideLoading();
@@ -971,6 +1002,13 @@ if ($.jgrid) {
     // 格式化jqGrid字段
     $.jgrid.formatter = {};
     $.extend($.jgrid.formatter, {
+        MAP:function(cellvalue, options, rowObject){
+            if (cellvalue == undefined) return '-';
+            var op = $.extend({map: null}, options.colModel.formatoptions);
+            if(op.map==undefined || op.map ==null) return '-'
+
+            return op.map[cellvalue];
+        },
         defaultString: function (cellvalue, options, rowObject) {
             var op = $.extend({def: '--'}, options.colModel.formatoptions);
             if ($.trim(cellvalue)=='') return op.def;

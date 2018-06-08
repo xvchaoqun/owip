@@ -43,6 +43,8 @@ public class CacheConstants {
     public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY = 33;
     public final static byte CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD = 34;
 
+    public final static byte CACHE_KEY_CLA_APPLY = 40;
+
     public final static Map<Byte, String> CACHE_KEY_MAP = new LinkedHashMap<>();
 
     static {
@@ -78,5 +80,7 @@ public class CacheConstants {
         CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_POSTWORK, "工勤岗位过程信息-干部信息修改申请");
         CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILY, "家庭成员信息-干部信息修改申请");
         CACHE_KEY_MAP.put(CACHE_KEY_MODIFY_TABLE_APPLY_MODULE_CADRE_FAMILYABROAD, "家庭成员移居国(境)外的情况-干部信息修改申请");
+
+        CACHE_KEY_MAP.put(CACHE_KEY_CLA_APPLY, "干部请假审批（管理员）");
     }
 }

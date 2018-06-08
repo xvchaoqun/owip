@@ -111,7 +111,7 @@ public class ApplySelfController extends AbroadBaseController {
             approvalTime = new Date();
         }
 
-        applySelfService.approval(approvalUserId, applySelfId, approvalTypeId, pass, approvalTime, remark);
+        approvalLogService.approval(approvalUserId, applySelfId, approvalTypeId, pass, approvalTime, remark);
 
         if (BooleanUtils.isNotTrue(isAdmin)) {
             //if (springProps.applySelfSendApprovalMsg) {
@@ -125,7 +125,7 @@ public class ApplySelfController extends AbroadBaseController {
             if ((dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY)
                     && (nowTime.compareTo("0830") >= 0 && nowTime.compareTo("1730") <= 0)) {
 
-                Map<String, Integer> resultMap = applySelfService.sendApprovalMsg(applySelfId);
+                Map<String, Integer> resultMap = abroadShortMsgService.sendApprovalMsg(applySelfId);
                 logger.info("【因私审批】在指定时间自动发送给下一个审批人，结果:" + JSONUtils.toString(resultMap, MixinUtils.baseMixins(), false));
             }
             //}

@@ -108,11 +108,11 @@ public class ApprovalLogController extends BaseController {
         if (id == null) {
             record.setStatus(false);
             record.setCreateTime(new Date());
-            approvalLogService.insertSelective(record);
+            claApprovalLogService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_ABROAD, "添加因私出国审批记录：%s", record.getId()));
         } else {
 
-            approvalLogService.updateByPrimaryKeySelective(record);
+            claApprovalLogService.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_ABROAD, "更新因私出国审批记录：%s", record.getId()));
         }
 
@@ -137,7 +137,7 @@ public class ApprovalLogController extends BaseController {
 
         if (id != null) {
 
-            approvalLogService.del(id);
+            claApprovalLogService.del(id);
             logger.info(addLog(LogConstants.LOG_ABROAD, "删除因私出国审批记录：%s", id));
         }
         return success(FormUtils.SUCCESS);
@@ -150,7 +150,7 @@ public class ApprovalLogController extends BaseController {
 
 
         if (null != ids && ids.length>0){
-            approvalLogService.batchDel(ids);
+            claApprovalLogService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_ABROAD, "批量删除因私出国审批记录：%s", StringUtils.join(ids, ",")));
         }
 

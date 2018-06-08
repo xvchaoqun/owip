@@ -17,6 +17,8 @@ import domain.cet.CetTrainEvaNorm;
 import domain.cet.CetTrainEvaRank;
 import domain.cet.CetTrainEvaTable;
 import domain.cis.CisInspectorView;
+import domain.cla.ClaApply;
+import domain.cla.ClaApprovalLog;
 import domain.crs.CrsPost;
 import domain.crs.CrsRequireRule;
 import domain.dispatch.Dispatch;
@@ -45,6 +47,9 @@ import persistence.abroad.PassportMapper;
 import persistence.abroad.common.ApplySelfModifyBean;
 import persistence.abroad.common.ApproverTypeBean;
 import persistence.abroad.common.IAbroadMapper;
+import persistence.cla.common.ClaApplyModifyBean;
+import persistence.cla.common.ClaApproverTypeBean;
+import persistence.cla.common.IClaMapper;
 import persistence.sys.HtmlFragmentMapper;
 import service.abroad.ApplySelfService;
 import service.abroad.ApprovalLogService;
@@ -64,6 +69,8 @@ import service.cet.CetTrainEvaRankService;
 import service.cet.CetTrainEvaTableService;
 import service.cis.CisInspectObjService;
 import service.cis.CisInspectorService;
+import service.cla.ClaApplyService;
+import service.cla.ClaApprovalLogService;
 import service.crs.CrsPostService;
 import service.crs.CrsRequireRuleService;
 import service.dispatch.DispatchCadreRelateService;
@@ -453,14 +460,6 @@ public class CmTag {
         return sysUserService.findByUsername(username);
     }
 
-    public static ApproverTypeBean getApproverTypeBean(Integer userId) {
-
-        ApplySelfService applySelfService = getBean(ApplySelfService.class);
-        if(applySelfService==null) return null;
-
-        return applySelfService.getApproverTypeBean(userId);
-    }
-
     public static Set<String> findRoles(String username) {
 
         return sysUserService.findRoles(username);
@@ -650,6 +649,70 @@ public class CmTag {
         return cadreInfoCheckService.cadreRewardCheck(cadreId, type);
     }
 
+    /**
+     * 干部请假审批
+     */
+
+    public static ClaApproverTypeBean getClaApproverTypeBean(Integer userId) {
+
+        ClaApplyService claApplyService = getBean(ClaApplyService.class);
+        if(claApplyService==null) return null;
+
+        return claApplyService.getApproverTypeBean(userId);
+    }
+
+    public static ClaApply getClaApply(Integer applyId) {
+
+        ClaApplyService claApplyService = getBean(ClaApplyService.class);
+        if(claApplyService==null) return null;
+        return claApplyService.get(applyId);
+    }
+
+    public static List<ClaApplyModifyBean> getClaApplyModifyList(Integer applyId) {
+
+        IClaMapper iClaMapper =  getBean(IClaMapper.class);
+        return iClaMapper.getApplyModifyList(applyId);
+    }
+
+    // 获取初审结果
+    public static Integer getClaAdminFirstTrialStatus(Integer applyId) {
+
+        ClaApprovalLogService claApprovalLogService = getBean(ClaApprovalLogService.class);
+        return claApprovalLogService.getAdminFirstTrialStatus(applyId);
+    }
+
+    public static Map getClaApprovalTdBeanMap(Integer applySelfId) {
+
+        ClaApplyService claApplyService = getBean(ClaApplyService.class);
+        if(claApplyService==null) return null;
+        return claApplyService.getApprovalTdBeanMap(applySelfId);
+    }
+
+    public static ClaApprovalLog getClaApprovalLog(Integer applySelfId, Integer approverTypeId) {
+
+        ClaApprovalLogService claApprovalLogService = getBean(ClaApprovalLogService.class);
+        return claApprovalLogService.getApprovalLog(applySelfId, approverTypeId);
+    }
+
+    // 获取审批log
+    public static List<ClaApprovalLog> findClaApprovalLogs(Integer applyId) {
+
+        ClaApprovalLogService claApprovalLogService = getBean(ClaApprovalLogService.class);
+        return claApprovalLogService.findByApplyId(applyId);
+    }
+
+
+    /**
+     * 因私出国境
+     */
+    public static ApproverTypeBean getApproverTypeBean(Integer userId) {
+
+        ApplySelfService applySelfService = getBean(ApplySelfService.class);
+        if(applySelfService==null) return null;
+
+        return applySelfService.getApproverTypeBean(userId);
+    }
+
     public static ApplySelf getApplySelf(Integer applyId) {
 
         ApplySelfService applySelfService = getBean(ApplySelfService.class);
@@ -675,6 +738,12 @@ public class CmTag {
         ApplySelfService applySelfService = getBean(ApplySelfService.class);
         if(applySelfService==null) return null;
         return applySelfService.getApprovalTdBeanMap(applySelfId);
+    }
+
+    public static ApprovalLog getApprovalLog(Integer applySelfId, Integer approverTypeId) {
+
+        ApprovalLogService approvalLogService = getBean(ApprovalLogService.class);
+        return approvalLogService.getApprovalLog(applySelfId, approverTypeId);
     }
 
     // 获取因私出国申请记录 的评审log
@@ -708,12 +777,6 @@ public class CmTag {
 
         PassportDrawService passportDrawService = getBean(PassportDrawService.class);
         return passportDrawService.getPassportDrawFiles(id);
-    }
-
-    public static ApprovalLog getApprovalLog(Integer applySelfId, Integer approverTypeId) {
-
-        ApprovalLogService approvalLogService = getBean(ApprovalLogService.class);
-        return approvalLogService.getApprovalLog(applySelfId, approverTypeId);
     }
 
     // 判断干部是否拥有直接修改本人干部信息的权限

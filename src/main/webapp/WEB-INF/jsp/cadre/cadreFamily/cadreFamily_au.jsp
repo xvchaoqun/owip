@@ -40,7 +40,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">出生年月</label>
 				<div class="col-xs-3">
                     <div class="input-group">
-                        <input class="form-control date-picker" name="_birthday" type="text"
+                        <input required class="form-control date-picker" name="_birthday" type="text"
                                data-date-min-view-mode="1"
                                data-date-format="yyyy-mm" value="${cm:formatDate(cadreFamily.birthday,'yyyy-MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>

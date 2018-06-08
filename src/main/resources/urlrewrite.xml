@@ -57,4 +57,23 @@
 		<from casesensitive="true">^/m/abroad/applySelf_approval$</from>
 		<to>/abroad/applySelf_approval</to>
 	</rule>
+
+	<rule>
+		<note>干部请假短信通知弹出框</note>
+		<condition type="method">GET</condition>
+		<from>^/m/cla/shortMsg_view$</from>
+		<to>/cla/shortMsg_view</to>
+	</rule>
+	<rule>
+		<note>干部请假短信通知</note>
+		<condition type="method">POST</condition>
+		<from>^/m/cla/shortMsg$</from>
+		<to>/cla/shortMsg</to>
+	</rule>
+	<rule>
+		<note>干部请假提交审批结果</note>
+		<condition type="method">POST</condition>
+		<from casesensitive="true">^/m/cla/claApply_approval$</from>
+		<to>/cla/claApply_approval</to>
+	</rule>
 </urlrewrite>

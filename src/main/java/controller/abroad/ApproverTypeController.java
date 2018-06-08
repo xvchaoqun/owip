@@ -76,7 +76,7 @@ public class ApproverTypeController extends AbroadBaseController {
         }else{ // 其他审批身份
 
             Set<Integer> selectIdSet = approverTypeService.findApproverCadreIds(id);
-            //Set<Integer> disabledIdSet = approverTypeService.findApproverCadreIds(null);
+            //Set<Integer> disabledIdSet = claApproverTypeService.findApproverCadreIds(null);
             //disabledIdSet.removeAll(selectIdSet);
             TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
                     AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, null);

@@ -143,9 +143,11 @@
                   审批意见：${approvalLog.remark}<br/>
                   <c:if test="${!justView}">审批人：${sysUser.realname}<br/></c:if>
                   审批时间：${cm:formatDate(approvalLog.createTime,'yyyy-MM-dd')}
+                  <shiro:hasRole name="${ROLE_CADREADMIN}">
                   &nbsp;<button type="button" class="popupBtn btn btn-primary btn-xs"
                           data-url="${ctx}/abroad/applySelf_approval_direct_au?applySelfId=${applySelf.id}&approvalLogId=${approvalLog.id}&approvalTypeId=${result.key}&type=${param.type}">
                     <i class="fa fa-edit"></i> 修改</button>
+                  </shiro:hasRole>
                 </c:if>
               </td>
             </tr>

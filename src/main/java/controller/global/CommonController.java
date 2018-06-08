@@ -163,6 +163,11 @@ public class CommonController extends BaseController {
                 Map<String, String> option = new HashMap<>();
                 SysUserView uv = sysUserService.findById(cadre.getUserId());
                 option.put("id", (key == 0) ? (cadre.getId() + "") : (cadre.getUserId() + ""));
+                if(key == 0) {
+                    option.put("userId", cadre.getUserId() + "");
+                }else{
+                    option.put("cadreId", cadre.getId() + "");
+                }
                 option.put("text", uv.getRealname());
                 option.put("mobile", uv.getMobile());
                 option.put("title", cadre.getTitle());

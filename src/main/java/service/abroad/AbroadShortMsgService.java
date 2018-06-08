@@ -3,6 +3,7 @@ package service.abroad;
 import bean.ShortMsgBean;
 import domain.abroad.ApplySelf;
 import domain.abroad.ApplySelfExample;
+import domain.abroad.ApproverType;
 import domain.abroad.Passport;
 import domain.abroad.PassportApply;
 import domain.abroad.PassportApplyExample;
@@ -13,9 +14,13 @@ import domain.base.ContentTpl;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.cache.CacheManager;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +45,8 @@ import sys.utils.RequestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.MessageFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +61,8 @@ public class AbroadShortMsgService extends BaseMapper {
     private UserBeanService userBeanService;
     @Autowired
     private CadreService cadreService;
+    @Autowired
+    private ApplySelfService applySelfService;
 
     @Autowired
     private ContentTplService contentTplService;
@@ -317,6 +326,175 @@ public class AbroadShortMsgService extends BaseMapper {
                 });
             }
         }
+    }
+
+    /**
+     * 仅用于定时任务，给需要审批的人员发短信
+     *
+     * 如果领导没有审批，那么从第二天开始，每天早上8点发送一次
+     */
+    public void sendApprovalMsg(){
+
+        logger.debug("====因私审批短信通知...start====");
+        int success = 0, total = 0; // 成功条数，总条数
+        //Date today = new Date();
+
+        ApplySelfExample example = new ApplySelfExample();
+        example.createCriteria().andIsDeletedEqualTo(false) // 没有删除
+                .andStatusEqualTo(true) // 已经提交的
+                .andIsFinishEqualTo(false) // 还未完成审批的
+                .andFlowNodeGreaterThan(0); // 当前不是组织部审批的
+        List<ApplySelf> applySelfs = applySelfMapper.selectByExample(example);
+
+        for (ApplySelf applySelf : applySelfs) {
+
+            Map<String, Integer> resultMap = sendApprovalMsg(applySelf.getId());
+            success += resultMap.get("success");
+            total += resultMap.get("total");
+        }
+
+        logger.debug(String.format("====因私审批短信通知，发送成功%s/%s条...end====", success, total));
+    }
+
+    /**
+     * 给一条申请记录的下一步审批人发短信
+     * @param applySelfId
+     * @return 发送短信的数目
+     */
+    public Map<String, Integer> sendApprovalMsg(int applySelfId){
+
+        int success = 0, total = 0; // 成功条数，总条数
+        Map<String, Integer> resultMap = new HashMap<String, Integer>();
+        resultMap.put("id", applySelfId);
+        resultMap.put("success", success);
+        resultMap.put("total", total);
+
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
+        if(applySelf.getIsDeleted() || !applySelf.getStatus()
+                || applySelf.getIsFinish() || applySelf.getFlowNode()<=0){
+            return resultMap;
+        }
+
+        SysUserView applyUser = applySelf.getUser();
+        Integer flowNode = applySelf.getFlowNode();
+        ApproverType approverType = approverTypeMapper.selectByPrimaryKey(flowNode);
+        Byte type = approverType.getType();
+        List<SysUserView> approvers = applySelfService.findApprovers(applySelf.getCadreId(), flowNode);
+        int size = approvers.size();
+        String key = null; // 短信模板代码
+        if(size>0) {
+            if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT) { // 本单位正职审批
+
+                if (size > 1) { // 多个正职审批
+                    key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2;
+                } else{ // 单个正职审批
+                    key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1;
+                }
+            } else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {  // 校领导审批
+
+                key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_LEADER;
+            } else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_SECRETARY) { // 书记审批
+
+                key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_SECRETARY;
+            } else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_MASTER) { // 校长审批
+
+                key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_MASTER;
+            }
+
+            // 校验用，以防万一
+            if(size>1 && !StringUtils.equals(key, ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2)){
+                logger.error("因私审批系统发送短信异常："
+                        + JSONUtils.toString(applySelf, MixinUtils.baseMixins(), false));
+                return resultMap;
+            }
+        }
+        if(key != null){
+            for (SysUserView approver : approvers) {
+
+                int userId = approver.getId();
+                String mobile = userBeanService.getMsgMobile(userId);
+                String msgTitle = userBeanService.getMsgTitle(userId);
+                ShortMsgBean bean = new ShortMsgBean();
+                bean.setSender(null);
+                bean.setReceiver(userId);
+                ContentTpl tpl = shortMsgService.getTpl(key);
+                String msgTpl = tpl.getContent();
+                bean.setRelateId(tpl.getId());
+                bean.setRelateType(SystemConstants.SHORT_MSG_RELATE_TYPE_CONTENT_TPL);
+                bean.setType(tpl.getName());
+                String msg = null;
+                switch (key){
+                    case ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1:
+                    case ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2:
+                        msg = MessageFormat.format(msgTpl, msgTitle, applyUser.getRealname());
+                        break;
+                    default:
+                        CadreView applyCadre = cadreService.dbFindByUserId(applyUser.getId());
+                        msg = MessageFormat.format(msgTpl, msgTitle, applyCadre.getTitle(), applyUser.getRealname());
+                        break;
+                }
+                bean.setContent(msg);
+                bean.setMobile(mobile);
+                try {
+                    total++;
+                    boolean ret = shortMsgService.send(bean, "127.0.0.1");
+                    logger.info(String.format("系统发送短信[%s]：%s", ret ? "成功" : "失败", bean.getContent()));
+
+                    if(ret) success++;
+                }catch (Exception ex){
+                    logger.error("因私审批系统发送短信失败", ex);
+                }
+            }
+        }
+
+        resultMap.put("success", success);
+        resultMap.put("total", total);
+
+        return resultMap;
+    }
+
+    /*
+    自动发送，发送时间为上午10点，每三天发一次，直到将证件交回。
+	比如，应交组织部日期为2016年9月1日，那么从第二天9月2日开始发，每三天发一次，直到交回证件为止。
+	 */
+    public void sendReturnMsg() {
+
+        logger.debug("====领取证件之后催交证件短信通知...start====");
+        int count = 0;
+        Date today = new Date();
+        // 查找已领取证件，但还未归还（该证件昨天应归还）的记录
+        PassportDrawExample example = new PassportDrawExample();
+        example.createCriteria().andIsDeletedEqualTo(false).
+                andDrawStatusEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_DRAW_STATUS_DRAW)
+                .andUsePassportNotEqualTo(AbroadConstants.ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN) // 拒不交回不需要短信提醒
+                .andReturnDateLessThan(today);
+        List<PassportDraw> passportDraws = passportDrawMapper.selectByExample(example);
+        for (PassportDraw passportDraw : passportDraws) {
+
+            Passport passport = passportDraw.getPassport();
+            if (passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP
+                    || (passport.getType() == AbroadConstants.ABROAD_PASSPORT_TYPE_CANCEL
+                    && passport.getCancelConfirm() == false)) { // 集中管理的 或 未确认的取消集中管理证件，才需要短信提醒
+
+                Date returnDate = passportDraw.getReturnDate(); // 应归还时间
+                Period p = new Period(new DateTime(returnDate), new DateTime(today), PeriodType.days());
+                int days = p.getDays();
+                if ((days - 1) % 3 == 0) {  // 间隔第1,4,7...天应发短信提醒
+
+                    ShortMsgBean shortMsgBean = getShortMsgBean(null, null, "passportDrawReturn", passportDraw.getId());
+                    try {
+                        boolean ret = shortMsgService.send(shortMsgBean, "127.0.0.1");
+                        logger.info(String.format("系统发送短信[%s]：%s", ret ? "成功" : "失败", shortMsgBean.getContent()));
+                        if (ret) count++;
+                    } catch (Exception ex) {
+                        logger.error("领取证件之后催交证件短信失败", ex);
+                    }
+                }
+            }
+        }
+        logger.info(String.format("领取证件之后催交证件短信通知，发送成功%s/%s条", count, passportDraws.size()));
+
+        logger.debug("====领取证件之后催交证件短信通知...end====");
     }
 
     public ShortMsgBean getShortMsgBean(Integer sender, Integer receiver, String type, Integer id){

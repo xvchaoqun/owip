@@ -14,8 +14,11 @@ public class LogConstants {
     public static final int LOG_USER = 30; // 用户操作
     public static final int LOG_MEMBER = 40; // 党员信息
     public static final int LOG_CADRE = 50; // 干部信息
+
+    public static final int LOG_CADRERESERVE = 53; // 后备干部信息
     //public static final int LOG_MEMBER = "mt_log_member_apply"; // 申请入党
     public static final int LOG_ABROAD = 60; // 因私出国
+    public static final int LOG_CLA = 65; // 干部请假
     public static final int LOG_PCS = 70; // 党代会
     public static final int LOG_OA = 80; // 协同办公
     public static final int LOG_PMD = 90; // 党费收缴
@@ -39,7 +42,10 @@ public class LogConstants {
         LOG_MAP.put(LOG_MEMBER, "党员信息");
         LOG_MAP.put(LOG_CADRE, "干部信息");
 
+        LOG_MAP.put(LOG_CADRERESERVE, "后备干部信息");
+
         LOG_MAP.put(LOG_ABROAD, "因私出国");
+        LOG_MAP.put(LOG_CLA, "干部请假");
         LOG_MAP.put(LOG_PCS, "党代会");
         LOG_MAP.put(LOG_OA, "协同办公");
         LOG_MAP.put(LOG_PMD, "党费收缴");

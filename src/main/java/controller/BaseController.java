@@ -59,6 +59,7 @@ import service.cadre.CadreWorkService;
 import service.cadreInspect.CadreInspectExportService;
 import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveExportService;
+import service.cadreReserve.CadreReserveOriginService;
 import service.cadreReserve.CadreReserveService;
 import service.cpc.CpcAllocationService;
 import service.crp.CrpRecordService;
@@ -210,6 +211,8 @@ public class BaseController extends BaseMapper {
     protected CadreInspectExportService cadreInspectExportService;
     @Autowired
     protected CadreReserveService cadreReserveService;
+    @Autowired
+    protected CadreReserveOriginService cadreReserveOriginService;
     @Autowired
     protected CadreReserveExportService cadreReserveExportService;
 

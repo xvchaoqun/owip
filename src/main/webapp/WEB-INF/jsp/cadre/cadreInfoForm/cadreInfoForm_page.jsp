@@ -73,7 +73,7 @@ td.padding10{
 <div style="position: absolute; top:25px; left:10px;">
     <a class="btn btn-primary" href="${ctx}/cadreInfoForm_download?cadreId=${param.cadreId}">
         <i class="ace-icon fa fa-download "></i>
-        下载
+        下载(WORD)
     </a>
 </div>
 <div>

@@ -177,9 +177,19 @@
 		<function-signature>java.lang.Integer getAdminFirstTrialStatus(java.lang.Integer)</function-signature>
 	</function>
 	<function>
+		<name>getClaAdminFirstTrialStatus</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.Integer getClaAdminFirstTrialStatus(java.lang.Integer)</function-signature>
+	</function>
+	<function>
 		<name>findApprovalLogs</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.util.List findApprovalLogs(java.lang.Integer)</function-signature>
+	</function>
+	<function>
+		<name>findClaApprovalLogs</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.util.List findClaApprovalLogs(java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>getPassport</name>
@@ -190,6 +200,11 @@
 		<name>getApprovalLog</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>domain.abroad.ApprovalLog getApprovalLog(java.lang.Integer,java.lang.Integer)</function-signature>
+	</function>
+	<function>
+		<name>getClaApprovalLog</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>domain.cla.ClaApprovalLog getClaApprovalLog(java.lang.Integer,java.lang.Integer)</function-signature>
 	</function>
 	<function>
 		<name>toJSONObject</name>

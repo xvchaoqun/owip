@@ -48,13 +48,14 @@ public class TplParser {
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-dispatch.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-modify.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cadre.json";
+		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cadreReserve.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cis.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-crp.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cpc.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-train.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-partySchool.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cet.json";
-		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-crs.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-crs.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-oa.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-pmd.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-scMatter.json";
@@ -127,7 +128,7 @@ public class TplParser {
 			List<ColumnBean> listPageTableColumns= dbOperator.getTableColumns(tablePrefix + tablename, schema, listPageShowColumns, true);
 			genPageJsp(resFolder, tablename, key,  cnTableName , searchColumnBeans, listPageTableColumns, outpath4Page );
 
-			genController(folder, resFolder, tablePrefix, tablename, key, searchColumnBeans, logType, cnTableName, listPageTableColumns, cpath);
+			genController(folder, resFolder, tablePrefix, tablename, key, tableColumnsMap, searchColumnBeans, logType, cnTableName, listPageTableColumns, cpath);
 
 			String savePageExcludeColumns = tableNode.path("excludeEditColumns").getTextValue();
 			List<ColumnBean> savePageTableColumns= dbOperator.getTableColumns(tablePrefix + tablename, schema, savePageExcludeColumns, false);
@@ -136,20 +137,23 @@ public class TplParser {
 		}
 	}
 	
-	public static void genController(String folder, String resFolder, String tablePrefix, String tablesqlname, String key, List<ColumnBean> searchColumnBeans,
+	public static void genController(String folder, String resFolder, String tablePrefix, String tablesqlname, String key,
+									 Map<String, ColumnBean> tableColumnsMap,
+									 List<ColumnBean> searchColumnBeans,
 									 String logType, String cnTableName, List<ColumnBean> tableColumns, String outpath) throws IOException, TemplateException{
 		
 		String curPath = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\";
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
 		cfg.setDirectoryForTemplateLoading(new File(curPath));
 		cfg.setSharedVariable("tbn", new TableNameMethod());
-		
+
 		Map root = new HashMap();
 		root.put("folder", folder);
 		root.put("resFolder", resFolder);
 		root.put("tablePrefix", tablePrefix);
 		root.put("tablesqlname", StringUtils.lowerCase(tablesqlname));
 		root.put("key",  StringUtils.lowerCase(key));
+		root.put("tableColumnsMap",  tableColumnsMap);
 		root.put("searchColumnBeans",  searchColumnBeans);
 		root.put("cnTableName", cnTableName);
 		root.put("tableColumns", tableColumns);

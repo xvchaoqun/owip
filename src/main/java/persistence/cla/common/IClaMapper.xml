@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="persistence.cla.common.IClaMapper">
+
+    <!-- 以下是有审核权限的干部读取干部请假申请列表， 分为待审批、已审批-->
+    <sql id="Where_selectNotApproval">
+        where
+        aas.is_deleted=0 and
+        <if test="approverTypeUnitIdListMap == null and approverTypePostIdListMap == null">
+            aas.id=-1
+        </if>
+        <if test="approverTypeUnitIdListMap != null || approverTypePostIdListMap != null">
+            aas.cadre_id=bc.id and aas.status=1 and aas.is_finish=0 and (
+            <if test="approverTypeUnitIdListMap != null"> <!--当前审批身份为本单位正职，则查询当前操作人所属单位可以审批的记录-->
+                <foreach collection="approverTypeUnitIdListMap" index="approverTypeId" item="unitIdList" separator="or">
+                    ( aas.flow_node = #{approverTypeId} and bc.unit_id in
+                    <foreach collection="unitIdList" item="unitId" separator="," open="(" close=")">
+                        #{unitId}
+                    </foreach>
+                    )
+                </foreach>
+            </if>
+            <if test="approverTypePostIdListMap != null">
+                <if test="approverTypeUnitIdListMap != null">or</if>
+                <!--根据后台设定的审批身份顺序，则查询当前操作人的职务属性所属身份可以审批的记录-->
+                <foreach collection="approverTypePostIdListMap" index="approverTypeId" item="postIdList" separator="or">
+                    (aas.flow_node = #{approverTypeId} and bc.post_id in
+                    <foreach collection="postIdList" item="postId" separator="," open="(" close=")">
+                        #{postId}
+                    </foreach>
+                    )
+                </foreach>
+            </if>
+            )
+        </if>
+        <if test="searchBean!=null">
+            <if test="searchBean.cadreId!=null">
+                and aas.cadre_id=#{searchBean.cadreId}
+            </if>
+            <if test="searchBean.type!=null">
+                and aas.type=#{searchBean.type}
+            </if>
+            <if test="searchBean.applyDateStart!=null">
+                and aas.apply_date>=#{searchBean.applyDateStart}
+            </if>
+            <if test="searchBean.applyDateEnd!=null">
+                and aas.apply_date<![CDATA[<=]]>#{searchBean.applyDateEnd}
+            </if>
+        </if>
+    </sql>
+    <!--待审批-->
+    <select id="selectNotApprovalList" resultMap="persistence.cla.ClaApplyMapper.BaseResultMap" parameterType="map">
+        select aas.* from cla_apply aas, cadre bc
+        <include refid="Where_selectNotApproval"/>
+        order by aas.create_time desc
+    </select>
+    <select id="countNotApproval" parameterType="map" resultType="java.lang.Integer">
+        select count(aas.id) from cla_apply aas, cadre bc
+        <include refid="Where_selectNotApproval"/>
+    </select>
+    <sql id="Where_hasApprovalList">
+        where aas.is_deleted=0 and aas.cadre_id=bc.id and aas.status=1
+        and (
+        concat(',',aas.flow_users,',') like '%,${flowUserId},%'
+        <if test="approverTypeUnitIdListMap != null">
+            or
+            <foreach collection="approverTypeUnitIdListMap" index="approverTypeId" item="unitIdList" separator="or">
+                ( concat(',',aas.flow_nodes,',') like '%,${approverTypeId},%' and bc.unit_id in
+                <foreach collection="unitIdList" item="unitId" separator="," open="(" close=")">
+                    #{unitId}
+                </foreach>
+                )
+            </foreach>
+        </if>
+        <if test="approverTypePostIdListMap != null">
+            or
+            <foreach collection="approverTypePostIdListMap" index="approverTypeId" item="postIdList" separator="or">
+                (concat(',',aas.flow_nodes,',') like '%,${approverTypeId},%' and bc.post_id in
+                <foreach collection="postIdList" item="postId" separator="," open="(" close=")">
+                    #{postId}
+                </foreach>
+                )
+            </foreach>
+        </if>
+        )
+        <if test="searchBean!=null">
+            <if test="searchBean.cadreId!=null">
+                and aas.cadre_id=#{searchBean.cadreId}
+            </if>
+            <if test="searchBean.type!=null">
+                and aas.type=#{searchBean.type}
+            </if>
+            <if test="searchBean.applyDateStart!=null">
+                and aas.apply_date>=#{searchBean.applyDateStart}
+            </if>
+            <if test="searchBean.applyDateEnd!=null">
+                and aas.apply_date<![CDATA[<=]]>#{searchBean.applyDateEnd}
+            </if>
+        </if>
+    </sql>
+    <!-- 已审批 -->
+    <select id="selectHasApprovalList" resultMap="persistence.cla.ClaApplyMapper.BaseResultMap" parameterType="map">
+        select aas.* from cla_apply aas, cadre bc
+        <include refid="Where_hasApprovalList"/>
+        order by aas.create_time desc
+    </select>
+    <select id="countHasApproval" parameterType="map" resultType="java.lang.Integer">
+        select count(aas.id) from cla_apply aas, cadre bc
+        <include refid="Where_hasApprovalList"/>
+    </select>
+</mapper>
