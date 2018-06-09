@@ -41,7 +41,7 @@ public class AvatarController extends BaseController {
         ImageUtils.displayImage(FileUtils.getBytes(_path), response);
     }
 
-    @RequestMapping("/avatar/{username}")
+    @RequestMapping("/avatar/{username:.+}")
     public void avatar(@PathVariable String username,
                        @RequestParam(defaultValue = "0", required = false)boolean m,// m=1 移动端
                        HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-<meta name="description" content="组织工作管理与服务一体化平台"/>
+<meta name="description" content="${_sysConfig.siteName}"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no"/>
 <meta name="format-detection" content="telephone=no"/>
 <link rel="shortcut icon" href="${ctx}/img/favicon64.ico?_=${cm:lastModified(cm:getAbsolutePath('/img/favicon64.ico'))}" type="image/x-icon">

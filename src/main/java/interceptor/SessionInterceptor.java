@@ -11,7 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import controller.cet.CetSessionUtils;
+import sys.helper.CetHelper;
 import sys.utils.HttpRequestDeviceUtils;
 import sys.utils.IpUtils;
 import sys.utils.RequestUtils;
@@ -45,7 +45,7 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
             if(StringUtils.equalsIgnoreCase(servletPath, "/m/cet/login")){
                 return true;
             }else{
-                CetTrainInspector trainInspector = CetSessionUtils.getTrainInspector(request);
+                CetTrainInspector trainInspector = CetHelper.getTrainInspector(request);
                 if(trainInspector==null){
                     WebUtils.issueRedirect(request, response, "/m/cet/login");
                     return false;

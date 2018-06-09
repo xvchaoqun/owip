@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import persistence.cet.common.ICetTrainCourse;
-import controller.cet.CetSessionUtils;
+import sys.helper.CetHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class MobileTrainIndexController extends CetBaseController {
 	@RequestMapping("/index_page")
 	public String index_page(HttpServletRequest request, ModelMap modelMap) {
 
-		CetTrainInspector trainInspector = CetSessionUtils.getTrainInspector(request);
+		CetTrainInspector trainInspector = CetHelper.getTrainInspector(request);
 		Integer trainId = trainInspector.getTrainId();
 		CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
 

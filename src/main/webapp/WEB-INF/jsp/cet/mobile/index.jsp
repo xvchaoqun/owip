@@ -28,7 +28,7 @@
 					<!-- #section:basics/navbar.layout.brand -->
 					<a href="javascript:;" class="navbar-brand">
 						<span style="font-size: 16px; font-weight: bold">
-							组织工作一体化平台
+							${_sysConfig.mobilePlantformName}
 						</span>
 					</a>
 				</div>

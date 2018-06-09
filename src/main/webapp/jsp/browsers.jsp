@@ -5,8 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="shortcut icon" type="image/x-icon" href="${ctx}/img/favicon.ico">
     <title>${param.type=='unsupport'?'您的浏览器不支持访问':'推荐浏览器下载'}</title>
-    <meta name="Keywords" content="组工系统">
-    <meta name="Description" content="专注组工系统">
     <link rel="stylesheet" href="${ctx}/extend/css/browsers.css">
     <c:if test="${param.type=='unsupport'}">
     <!--[if gte IE 9]> -->
@@ -47,7 +45,7 @@
         <c:if test="${param.type!='unsupport'}">
         <p><a href="${ctx}/">点击此处返回系统</a></p>
         </c:if>
-        <p>&copy; Copyright  组织工作管理与服务一体化平台</p>
+        <p>&copy; Copyright  ${_plantform_name}</p>
     </div>
 </div>
 <!--[if !IE]> -->

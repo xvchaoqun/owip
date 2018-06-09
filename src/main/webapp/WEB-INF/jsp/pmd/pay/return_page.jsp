@@ -87,7 +87,7 @@
               </a>
               <a href="${ctx}/#/user/pmd/pmdMember" class="btn btn-success">
                 <i class="fa fa-reply"></i>
-                返回组工系统</a>
+                返回${_plantform_short_name}</a>
             </div>
           </form>
         </div>

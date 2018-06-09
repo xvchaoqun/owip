@@ -11,7 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import controller.cet.CetSessionUtils;
+import sys.helper.CetHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class MobileTrainLoginController extends CetBaseController {
                     return "cet/mobile/login";
                 }
                 logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), u, true, "扫码登录成功"));
-                CetSessionUtils.setTrainInspector(request, trainInspector);
+                CetHelper.setTrainInspector(request, trainInspector);
             } else if (trainId != null) {
 
                 CetTrain train = cetTrainMapper.selectByPrimaryKey(trainId);
@@ -52,7 +52,7 @@ public class MobileTrainLoginController extends CetBaseController {
             return "cet/mobile/login";
         }
 
-        CetTrainInspector trainInspector = CetSessionUtils.getTrainInspector(request);
+        CetTrainInspector trainInspector = CetHelper.getTrainInspector(request);
         if (trainInspector != null) {
             return "redirect:/m/cet/index";
         }
@@ -72,7 +72,7 @@ public class MobileTrainLoginController extends CetBaseController {
                 return failed("账号或密码错误");
             }
 
-            CetSessionUtils.setTrainInspector(request, trainInspector);
+            CetHelper.setTrainInspector(request, trainInspector);
             logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), username, true, "登录成功"));
         }else if (trainId != null) {
             CetTrain train = cetTrainMapper.selectByPrimaryKey(trainId);
@@ -84,7 +84,7 @@ public class MobileTrainLoginController extends CetBaseController {
             }
             logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), mobile, true,
                     String.format("【%s】，评课账号【%s】登录成功", train.getName(), mobile)));
-            CetSessionUtils.setTrainInspector(request, trainInspector);
+            CetHelper.setTrainInspector(request, trainInspector);
         }
 
         return success("登入成功");
@@ -93,7 +93,7 @@ public class MobileTrainLoginController extends CetBaseController {
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request) {
 
-        CetTrainInspector trainInspector = CetSessionUtils.trainInspector_logout(request);
+        CetTrainInspector trainInspector = CetHelper.trainInspector_logout(request);
 
         logger.debug("logout success. {}", (trainInspector != null) ? trainInspector.getUsername() : "");
 

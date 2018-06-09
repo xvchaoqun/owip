@@ -30,7 +30,7 @@
     <div class="navbar-header pull-left hidden-md hidden-lg ">
       <a href="index" class="navbar-brand">
         <small  style="cursor: pointer;" onclick="location.href='${ctx}/'">
-          组工系统
+          ${_plantform_short_name}
         </small>
       </a>
     </div>

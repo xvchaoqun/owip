@@ -36,8 +36,8 @@ pageEncoding="UTF-8" %>
             /*{ label: '会话ID', name: 'sid', width: 280,frozen:true },*/
             { label: '账号', name: 'shiroUser.username', width: 120,frozen:true },
             { label: '姓名', name: 'shiroUser.realname', formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
-                        .format(rowObject.shiroUser.id, rowObject.shiroUser.realname);
+
+                return $.user(rowObject.shiroUser.id, rowObject.shiroUser.realname)
             },frozen:true },
             { label: '角色', name: 'shiroUser.roles', align:'left', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '-'

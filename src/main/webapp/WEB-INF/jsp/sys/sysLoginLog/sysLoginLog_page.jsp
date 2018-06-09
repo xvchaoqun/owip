@@ -79,10 +79,8 @@
         colModel: [
             { label: '登录账号', name: 'username', width: 120,frozen:true },
             { label: '系统用户', name: 'user.realname', formatter:function(cellvalue, options, rowObject){
-                if(rowObject.user==undefined)
-                    return "";
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
-                        .format(rowObject.user.id, rowObject.user.realname);
+
+                return $.user(rowObject.userId, rowObject.user.realname)
             },frozen:true },
             { label: '登录时间', name: 'loginTime', width: 160},
             { label: '登录IP', name: 'loginIp', width: 150},

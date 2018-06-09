@@ -175,7 +175,7 @@ public class SysUserController extends BaseController {
 
         if (sysUser.getUsername() != null) {
             if (!FormUtils.usernameFormatRight(sysUser.getUsername())) {
-                return formValidError("username", "用户名由5-20位的字母、下划线和数字组成，且不能以数字或下划线开头。");
+                return formValidError("username", "用户名由4-19位的字母、下划线和数字组成，且不能以数字或下划线开头。");
             }
             if (sysUserService.idDuplicate(id, sysUser.getUsername(), sysUser.getCode())) {
 

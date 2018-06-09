@@ -96,8 +96,7 @@ pageEncoding="UTF-8" %>
             { label: '上传路径',name: 'path', width: 200},
             { label: '备注',name: 'remark', width: 200},
             { label: '上传人',  name: 'user.realname', formatter:function(cellvalue, options, rowObject){
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/sysUser_view?userId={0}">{1}</a>'
-                        .format(rowObject.user.id, rowObject.user.realname);
+                return $.user(rowObject.userId, cellvalue);
             }},
             { label: '上传时间',name: 'createTime', width: 150}
         ]
