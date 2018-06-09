@@ -11,7 +11,7 @@
 <c:if test="${!param.__includePage}">
 <html>
 <head>
-    <title>系统错误</title>
+    <title>系统异常</title>
   <link rel="stylesheet" href="${ctx}/assets/css/bootstrap.css" />
   <link rel="stylesheet" href="${ctx}/assets/css/font-awesome.css" />
 </head>
@@ -28,7 +28,7 @@
 						<i class="ace-icon fa fa-sitemap"></i>
 						500
 					</span>
-          系统错误
+          系统异常
         </h1>
         <hr />
         <div style="/*padding-left: 50px*/">
@@ -37,7 +37,7 @@
 
             <li style="color: red;font-weight: bolder">${exception}</li>
             <li>
-              <h3><i class="ace-icon fa fa-hand-o-right blue"></i> 请联系系统管理员</h3>
+              <h3><i class="ace-icon fa fa-hand-o-right blue"></i> 系统内部错误，请稍后再试</h3>
             </li>
 
           </ul>
