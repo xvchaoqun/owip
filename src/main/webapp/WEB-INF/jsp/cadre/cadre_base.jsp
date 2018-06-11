@@ -709,18 +709,18 @@ pageEncoding="UTF-8"%>
 								姓名
 							</td>
 							<td class="bg-left" style="min-width: 150px;">
-									${extJzg.xm}
+									${uv.realname}
 							</td>
 
 							<td class="bg-right">
 								工作证号
 							</td>
 							<td class="bg-left" style="min-width: 150px;">
-									${extJzg.zgh}
+									${uv.code}
 							</td>
 							<td class="bg-right">性别</td>
 							<td class="bg-left" style="min-width: 150px;">
-									${extJzg.xb}
+									${GENDER_MAP.get(uv.gender)}
 							</td>
 
 						</tr>
@@ -739,17 +739,17 @@ pageEncoding="UTF-8"%>
 								民族
 							</td>
 							<td class="bg-left">
-									${extJzg.mz}
+									${uv.nation}
 							</td>
 							<td class="bg-right">出生日期</td>
 							<td class="bg-left">
-									${cm:formatDate(extJzg.csrq,'yyyy-MM-dd')}
+									${cm:formatDate(uv.birth,'yyyy-MM-dd')}
 							</td>
 							<td class="bg-right">
 								年龄
 							</td>
 							<td class="bg-left">
-									${empty xtJzg.csrq?'':cm:intervalYearsUntilNow(extJzg.csrq)}
+									${empty uv.birth?'':cm:intervalYearsUntilNow(uv.birth)}
 							</td>
 						</tr>
 						<c:set var="_needModifyParty" value="${empty cadre.dpTypeId && !cadre.isOw}"/>
@@ -812,6 +812,9 @@ pageEncoding="UTF-8"%>
 							</td>
 							<td style="min-width: 100px">
 								<input required type="text" name="nativePlace" value="${uv.nativePlace}">
+								<div class="inline-block">
+									格式：“河北保定”或“北京海淀”
+								</div>
 							</td>
 							<td>出生地</td>
 							<td>
