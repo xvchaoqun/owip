@@ -686,12 +686,12 @@ where c.user_id = u.id and c.status = 1 and ui.user_id = u.id;
 -- ----------------------------
 DROP VIEW IF EXISTS `ext_member_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ext_member_view` AS
-select u.code as sid, ui.realname, om.political_status, om.grow_time, if(bmt.code='mt_direct_branch', op.code, ob.code) as branch_code
-from sys_user u, sys_user_info ui, ow_member om
+select u.code as sid, u.realname, u.type, om.status, om.political_status, om.grow_time, if(bmt.code='mt_direct_branch', op.code, ob.code) as branch_code
+from ow_member om
+left join sys_user_view u on om.user_id=u.id
 left join ow_party op on om.party_id=op.id
 left join base_meta_type bmt on op.class_id = bmt.id
-left join ow_branch ob on om.branch_id=ob.id
-where om.status=1 and om.user_id=u.id and ui.user_id=u.id;
+left join ow_branch ob on om.branch_id=ob.id;
 
 -- 出国暂留当做转出
 -- select u.code as sid, ui.realname, om.status, om.`type`, om.political_status  from sys_user u, sys_user_info ui, ow_member om
