@@ -1,4 +1,43 @@
 
+
+
+-- 同步西安交大
+
+2018-6-13
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `country` VARCHAR(50) NULL DEFAULT NULL COMMENT '国家/地区' AFTER `realname`,
+	ADD COLUMN `idcard_type` VARCHAR(50) NULL DEFAULT NULL COMMENT '证件类型' AFTER `country`,
+	CHANGE COLUMN `idcard` `idcard` VARCHAR(100) NULL DEFAULT NULL COMMENT '证件号码' AFTER `idcard_type`;
+
+update sys_user_info ui, sys_teacher_info ti set ui.country=ti.country where ui.user_id=ti.user_id;
+
+update sys_user_info ui, ext_jzg ej, sys_user u set ui.country=ej.gj where u.code=ej.zgh and ui.user_id=u.id;
+
+ALTER TABLE `sys_teacher_info`
+	DROP COLUMN `country`;
+
+update sys_user_info ui , ext_jzg ej , sys_user u set ui.idcard_type=ej.name where ui.user_id=u.id and u.code=ej.zgh;
+
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '所在单位，人事信息' AFTER `mobile`;
+
+update sys_user_info ui, sys_teacher_info ti set ui.unit=ti.ext_unit where ui.user_id=ti.user_id;
+
+	update sys_user_info ui , ext_jzg ej , sys_user u set ui.unit=ej.dwmc where ui.user_id=u.id and u.code=ej.zgh;
+
+ALTER TABLE `sys_teacher_info`
+	DROP COLUMN `ext_unit`;
+
+更新 sys_user_view
+ow_member_teacher
+pcs_candidate_view
+
+
+
+
+
+-- 同步西安交大
+
 2018-6-8
 
 -- 新增模块 干部请假

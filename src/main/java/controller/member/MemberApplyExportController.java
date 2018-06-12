@@ -339,12 +339,12 @@ public class MemberApplyExportController extends MemberBaseController {
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
                     ageRange, // 年龄范围
                     uv.getNation(),
-                    record==null?"":record.getCountry(), // 国家/地区
+                    record==null?"":uv.getCountry(), // 国家/地区
                     uv.getIdcard(), // 证件号码
                     stage, // 发展程度
                     partyId==null?"":partyMap.get(partyId).getName(),
                     branchId==null?"":branchMap.get(branchId).getName(),
-                    record==null?"":record.getExtUnit(), // 所在单位
+                    record==null?"":uv.getUnit(), // 所在单位
                     DateUtils.formatDate(memberApply.getApplyTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(memberApply.getActiveTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(memberApply.getCandidateTime(), DateUtils.YYYY_MM_DD),
@@ -354,7 +354,7 @@ public class MemberApplyExportController extends MemberBaseController {
                     record==null?"":record.getManageLevel(), // 管理岗位等级
                     adminLevel, // 任职级别 -- 行政级别
                     post, // 行政职务 -- 职务
-                    record==null?"":record.getExtUnit(),
+                    record==null?"":uv.getUnit(),
                     record==null?"":record.getEducation(), // 学历
                     record==null?"":record.getSchool(), // 学历毕业学校
                     record==null?"":record.getDegreeSchool(), // 学位授予学校
@@ -433,13 +433,12 @@ public class MemberApplyExportController extends MemberBaseController {
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
                     ageRange, // 年龄范围
                     userBean==null?"":userBean.getNation(),
-                    record==null?"":record.getCountry(), // 国家/地区
+                    record==null?"":userBean.getCountry(), // 国家/地区
                     userBean==null?"":userBean.getIdcard(), // 证件号码
-                    //extJzg.getZzmm(), // 政治面貌
                     memberTeacher==null?"":MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(memberTeacher.getPoliticalStatus()),
                     partyId==null?"":partyMap.get(partyId).getName(),
                     branchId==null?"":branchMap.get(branchId).getName(),
-                    record==null?"":record.getExtUnit(), // 所在单位
+                    record==null?"":userBean.getUnit(), // 所在单位
                     memberTeacher==null?"":DateUtils.formatDate(memberTeacher.getGrowTime(), DateUtils.YYYY_MM_DD),
                     record==null?"":DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
                     record==null?"":record.getProPost(),

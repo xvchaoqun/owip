@@ -414,11 +414,12 @@ where op.is_deleted=0 and op.class_id=bmt.id and bmt.code='mt_direct_branch' ord
 
 DROP VIEW IF EXISTS `pcs_candidate_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pcs_candidate_view` AS
-SELECT pc.*, omt.code, omt.realname, c.title, omt.ext_unit, omt.gender,
+SELECT pc.*, omt.code, omt.realname, c.title, ui.unit as ext_unit, omt.gender,
  omt.nation, omt.native_place, omt.birth, omt.grow_time, omt.work_time, omt.pro_post,
 pr.party_id, pr.branch_id, pr.config_id, pr.stage
 from pcs_candidate pc
 left join ow_member_teacher omt on omt.user_id = pc.user_id
+left join sys_user_info ui on ui.user_id=pc.user_id
 left join cadre c on c.user_id = pc.user_id and c.status in(1, 6)
 , pcs_recommend pr where pc.recommend_id=pr.id;
 

@@ -93,7 +93,7 @@ pageEncoding="UTF-8"%>
 
 				<td>国家/地区</td>
 				<td>
-				${extJzg.gj}
+				${uv.country}
 				</td>
 			</tr>
 			<tr>
@@ -106,13 +106,13 @@ pageEncoding="UTF-8"%>
 
 				<td>证件类型</td>
 				<td >
-					${extJzg.name}
+					${uv.idcardType}
 				</td>
 				<td>
 					证件号码
 				</td>
 				<td>
-					${extJzg.sfzh}
+					${uv.idcard}
 				</td>
 			</tr>
 			<tr>
@@ -216,7 +216,7 @@ pageEncoding="UTF-8"%>
 						所在单位
 					</td>
 					<td style="min-width: 80px">
-						${extJzg.dwmc}
+						${uv.unit}
 					</td>
 					<td>编制类别</td>
 					<td >
@@ -784,7 +784,7 @@ pageEncoding="UTF-8"%>
 
 							<td>国家/地区</td>
 							<td>
-									${extJzg.gj}
+									${uv.country}
 							</td>
 						</tr>
 						<tr>
@@ -797,13 +797,13 @@ pageEncoding="UTF-8"%>
 
 							<td>证件类型</td>
 							<td>
-									${extJzg.name}
+									${uv.idcardType}
 							</td>
 							<td>
 								证件号码
 							</td>
 							<td>
-									${extJzg.sfzh}
+									${uv.idcard}
 							</td>
 						</tr>
 						<tr>

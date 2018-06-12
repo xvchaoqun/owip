@@ -83,7 +83,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">所在单位</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="extUnit" value="${teacher.extUnit}">
+						<input class="form-control" type="text" name="unit" value="${sysUser.unit}">
 					</div>
 				</div>
 

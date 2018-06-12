@@ -54,24 +54,27 @@ public class UserBeanService extends BaseMapper {
 
     public UserBean get(int userId) {
 
-        SysUserView sysUser = sysUserService.findById(userId);
+        SysUserView uv = sysUserService.findById(userId);
 
         UserBean userBean = new UserBean();
         userBean.setUserId(userId);
-        userBean.setUsername(sysUser.getUsername());
-        userBean.setCode(sysUser.getCode());
-        userBean.setAvatar(sysUser.getAvatar());
-        userBean.setType(sysUser.getType());
-        userBean.setMobile(sysUser.getMobile());
-        userBean.setGender(sysUser.getGender());
-        userBean.setRealname(sysUser.getRealname());
-        userBean.setIdcard(sysUser.getIdcard());
-        userBean.setNation(sysUser.getNation());
-        userBean.setNativePlace(sysUser.getNativePlace());
-        userBean.setBirth(sysUser.getBirth());
-        userBean.setGender(sysUser.getGender());
-        userBean.setIdcard(sysUser.getIdcard());
-        userBean.setRealname(sysUser.getRealname());
+        userBean.setUsername(uv.getUsername());
+        userBean.setCode(uv.getCode());
+        userBean.setAvatar(uv.getAvatar());
+        userBean.setType(uv.getType());
+        userBean.setMobile(uv.getMobile());
+        userBean.setGender(uv.getGender());
+        userBean.setRealname(uv.getRealname());
+        userBean.setIdcard(uv.getIdcard());
+        userBean.setNation(uv.getNation());
+        userBean.setNativePlace(uv.getNativePlace());
+        userBean.setBirth(uv.getBirth());
+        userBean.setGender(uv.getGender());
+        userBean.setIdcard(uv.getIdcard());
+        userBean.setRealname(uv.getRealname());
+
+        userBean.setCountry(uv.getCountry());
+        userBean.setUnit(uv.getUnit());
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(userId);
         if(cadre!=null){

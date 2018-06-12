@@ -7,7 +7,6 @@ import domain.cadre.Cadre;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
 import domain.ext.ExtBks;
-import domain.ext.ExtJzg;
 import domain.ext.ExtYjs;
 import domain.member.Member;
 import domain.member.MemberInflow;
@@ -75,10 +74,7 @@ public class CommonController extends BaseController {
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
                     if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
-                        if (extJzg != null) {
-                            option.put("unit", extJzg.getDwmc());
-                        }
+                        option.put("unit", uv.getUnit());
                     }
                     if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
                         ExtBks extBks = extBksService.getByCode(uv.getCode());
@@ -174,10 +170,7 @@ public class CommonController extends BaseController {
                 option.put("status", cadre.getStatus() + "");
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
-                    ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
-                    if (extJzg != null) {
-                        option.put("unit", extJzg.getDwmc());
-                    }
+                    option.put("unit", uv.getUnit());
                 }
                 if (abroad) {
 
@@ -231,10 +224,7 @@ public class CommonController extends BaseController {
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
                     if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
-                        if (extJzg != null) {
-                            option.put("unit", extJzg.getDwmc());
-                        }
+                        option.put("unit", uv.getUnit());
                     }
                     if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
                         ExtBks extBks = extBksService.getByCode(uv.getCode());
@@ -296,10 +286,7 @@ public class CommonController extends BaseController {
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
                     if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
-                        if (extJzg != null) {
-                            option.put("unit", extJzg.getDwmc());
-                        }
+                        option.put("unit", uv.getUnit());
                     }
                     if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
                         ExtBks extBks = extBksService.getByCode(uv.getCode());
@@ -381,10 +368,7 @@ public class CommonController extends BaseController {
                 if (StringUtils.isNotBlank(userBean.getCode())) {
                     option.put("code", userBean.getCode());
                     if (userBean.getType() == SystemConstants.USER_TYPE_JZG) {
-                        ExtJzg extJzg = extJzgService.getByCode(userBean.getCode());
-                        if (extJzg != null) {
-                            option.put("unit", extJzg.getDwmc());
-                        }
+                        option.put("unit", userBean.getUnit());
                     }
                     if (userBean.getType() == SystemConstants.USER_TYPE_BKS) {
                         ExtBks extBks = extBksService.getByCode(userBean.getCode());
@@ -471,10 +455,7 @@ public class CommonController extends BaseController {
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
                     if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
-                        if (extJzg != null) {
-                            option.put("unit", extJzg.getDwmc());
-                        }
+                        option.put("unit", uv.getUnit());
                     }
                     if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
                         ExtBks extBks = extBksService.getByCode(uv.getCode());
@@ -542,10 +523,7 @@ public class CommonController extends BaseController {
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
                     if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
-                        if (extJzg != null) {
-                            option.put("unit", extJzg.getDwmc());
-                        }
+                        option.put("unit", uv.getUnit());
                     }
                     if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
                         ExtBks extBks = extBksService.getByCode(uv.getCode());
@@ -603,10 +581,7 @@ public class CommonController extends BaseController {
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
                     if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
-                        if (extJzg != null) {
-                            option.put("unit", extJzg.getDwmc());
-                        }
+                        option.put("unit", uv.getUnit());
                     }
                     if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
                         ExtBks extBks = extBksService.getByCode(uv.getCode());

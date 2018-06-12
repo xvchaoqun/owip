@@ -26,6 +26,8 @@ public class UserBean implements Serializable {
     public String idcard;
     public String nativePlace; // 籍贯
     public String mobile; // 联系电话
+    private String country; // 所在国家
+    private String unit; // 所在单位
 
     //+++++++以下是党员基础信息
     public Byte politicalStatus; // 政治面貌
@@ -130,6 +132,22 @@ public class UserBean implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public Byte getPoliticalStatus() {

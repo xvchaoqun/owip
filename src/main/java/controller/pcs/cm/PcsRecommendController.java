@@ -6,6 +6,7 @@ import domain.member.MemberTeacher;
 import domain.pcs.PcsAdmin;
 import domain.pcs.PcsCandidateView;
 import domain.pcs.PcsConfig;
+import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -223,13 +224,13 @@ public class PcsRecommendController extends PcsBaseController {
 
                 MemberTeacher memberTeacher = memberTeacherService.get(userId);
                 CadreView cv = cadreService.dbFindByUserId(userId);
-
+                SysUserView uv = cv.getUser();
                 PcsCandidateView candidate = new PcsCandidateView();
                 candidate.setUserId(memberTeacher.getUserId());
                 candidate.setCode(memberTeacher.getCode());
                 candidate.setRealname(memberTeacher.getRealname());
                 candidate.setTitle(cv==null?null:cv.getTitle());
-                candidate.setExtUnit(memberTeacher.getExtUnit());
+                candidate.setExtUnit(uv.getUnit());
                 candidate.setGender(memberTeacher.getGender());
                 candidate.setNation(memberTeacher.getNation());
                 candidate.setBirth(memberTeacher.getBirth());

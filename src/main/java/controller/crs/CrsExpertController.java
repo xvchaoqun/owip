@@ -5,9 +5,6 @@ import domain.crs.CrsExpert;
 import domain.crs.CrsExpertExample;
 import domain.crs.CrsExpertView;
 import domain.crs.CrsExpertViewExample;
-import domain.ext.ExtBks;
-import domain.ext.ExtJzg;
-import domain.ext.ExtYjs;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -295,22 +292,7 @@ public class CrsExpertController extends CrsBaseController {
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
                     if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
-                        if (extJzg != null) {
-                            option.put("unit", extJzg.getDwmc());
-                        }
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
-                        ExtBks extBks = extBksService.getByCode(uv.getCode());
-                        if (extBks != null) {
-                            option.put("unit", extBks.getYxmc());
-                        }
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_YJS) {
-                        ExtYjs extYjs = extYjsService.getByCode(uv.getCode());
-                        if (extYjs != null) {
-                            option.put("unit", extYjs.getYxsmc());
-                        }
+                        option.put("unit", uv.getUnit());
                     }
                 }
 

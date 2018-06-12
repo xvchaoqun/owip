@@ -493,7 +493,7 @@ public class BranchController extends BaseController {
                         partyId==null?"":partyMap.get(partyId).getName(),
                         branchId==null?"":branchMap.get(branchId).getName(),
                         //unitMap.get(record.getUnitId()).getName(),
-                        extJzg==null?"":extJzg.getDwmc(),
+                        extJzg==null?"":uv.getUnit(),
                         member==null?"":DateUtils.formatDate(member.getGrowTime(), DateUtils.YYYY_MM_DD),
                         extJzg==null?"":DateUtils.formatDate(extJzg.getLxrq(), DateUtils.YYYY_MM_DD), // 到校日期
                         "", // 专业技术职务

@@ -22,18 +22,18 @@
             姓名
           </td>
           <td class="bg-left" style="min-width: 150px;">
-            ${extJzg.xm}
+            ${uv.realname}
           </td>
 
           <td class="bg-right">
             工作证号
           </td>
           <td class="bg-left" style="min-width: 150px;">
-            ${extJzg.zgh}
+            ${uv.code}
           </td>
           <td class="bg-right">性别</td>
           <td class="bg-left" style="min-width: 150px;">
-            ${extJzg.xb}
+              ${GENDER_MAP.get(uv.gender)}
           </td>
 
         </tr>
@@ -52,17 +52,17 @@
             民族
           </td>
           <td class="bg-left">
-            ${extJzg.mz}
+              ${uv.nation}
           </td>
           <td class="bg-right">出生日期</td>
           <td class="bg-left">
-            ${cm:formatDate(extJzg.csrq,'yyyy-MM-dd')}
+              ${cm:formatDate(uv.birth,'yyyy-MM-dd')}
           </td>
           <td class="bg-right">
             年龄
           </td>
           <td class="bg-left">
-            ${empty xtJzg.csrq?'':cm:intervalYearsUntilNow(extJzg.csrq)}
+              ${uv.birth==null?'':cm:intervalYearsUntilNow(uv.birth)}
           </td>
         </tr>
         <tr>
@@ -100,7 +100,7 @@
 
           <td>国家/地区</td>
           <td>
-            ${extJzg.gj}
+            ${uv.country}
           </td>
         </tr>
         <tr>
@@ -113,13 +113,13 @@
 
           <td>证件类型</td>
           <td>
-            ${extJzg.name}
+            ${uv.idcardType}
           </td>
           <td>
             证件号码
           </td>
           <td>
-            ${extJzg.sfzh}
+            ${uv.idcard}
           </td>
         </tr>
         <tr>

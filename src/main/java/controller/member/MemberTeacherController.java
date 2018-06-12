@@ -7,6 +7,7 @@ import domain.member.MemberTeacherExample;
 import domain.member.MemberTeacherExample.Criteria;
 import domain.party.Branch;
 import domain.party.Party;
+import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import mixin.MemberTeacherMixin;
 import mixin.MixinUtils;
@@ -315,6 +316,7 @@ public class MemberTeacherController extends MemberBaseController {
                     ageRange = MemberConstants.MEMBER_AGE_MAP.get(memberAgeRange);
             }
             CadreView cadre = cadreService.dbFindByUserId(record.getUserId());
+            SysUserView uv = sysUserService.findById(record.getUserId());
             String post = record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record.getPostLevel(); // 任职级别 -- 行政级别
             if(cadre!=null && (cadre.getStatus()== CadreConstants.CADRE_STATUS_MIDDLE
@@ -336,12 +338,12 @@ public class MemberTeacherController extends MemberBaseController {
                     birth!=null?DateUtils.intervalYearsUntilNow(birth) + "":"",
                     ageRange, // 年龄范围
                     record.getNation(),
-                    record.getCountry(),// 国家/地区
+                    uv.getCountry(),// 国家/地区
                     record.getIdcard(), // 证件号码
                     MemberConstants.MEMBER_POLITICAL_STATUS_MAP.get(record.getPoliticalStatus()),
                     partyId==null?"":partyMap.get(partyId).getName(),
                     branchId==null?"":branchMap.get(branchId).getName(),
-                    record.getExtUnit(), // 所在单位
+                    uv.getUnit(), // 所在单位
                     DateUtils.formatDate(record.getGrowTime(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(record.getArriveTime(), DateUtils.YYYY_MM_DD), // 到校日期
                     record.getProPost(), // 专业技术职务

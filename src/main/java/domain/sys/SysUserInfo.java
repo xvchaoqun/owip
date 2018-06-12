@@ -8,6 +8,10 @@ public class SysUserInfo implements Serializable {
 
     private String realname;
 
+    private String country;
+
+    private String idcardType;
+
     private String idcard;
 
     private Date birth;
@@ -34,6 +38,8 @@ public class SysUserInfo implements Serializable {
 
     private String mobile;
 
+    private String unit;
+
     private String phone;
 
     private String homePhone;
@@ -58,6 +64,22 @@ public class SysUserInfo implements Serializable {
 
     public void setRealname(String realname) {
         this.realname = realname == null ? null : realname.trim();
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
+
+    public String getIdcardType() {
+        return idcardType;
+    }
+
+    public void setIdcardType(String idcardType) {
+        this.idcardType = idcardType == null ? null : idcardType.trim();
     }
 
     public String getIdcard() {
@@ -162,6 +184,14 @@ public class SysUserInfo implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
     }
 
     public String getPhone() {

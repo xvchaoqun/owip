@@ -2,6 +2,13 @@
 <!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN" "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 <!-- Configuration file for UrlRewriteFilter http://www.tuckey.org/urlrewrite/ -->
 <urlrewrite>
+
+	<rule>
+		<note>cas</note>
+		<condition type="method">GET</condition>
+		<from>^/m/cas</from>
+		<to>/cas</to>
+	</rule>
 	<!-- 如果服务器使用了nginx动静分离，此处应该创建软链接 -->
 	<rule>
 		<note>字体</note>

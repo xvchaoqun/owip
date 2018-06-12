@@ -69,7 +69,7 @@
         <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="sessionDAO" ref="sessionDAO"/>
-       <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
         <property name="sessionIdCookie" ref="sessionIdCookie"/>
     </bean>
 
@@ -114,16 +114,20 @@
     </bean>
     <bean id="currentUserFilter" class="shiro.filter.CurrentUserFilter"></bean>
     <bean id="cadreAuthFilter" class="shiro.filter.CadreAuthFilter"></bean>
+    <bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+        <property name="redirectUrl" value="${logout.redirectUrl}" />
+    </bean>
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/login"/>
+        <property name="loginUrl" value="${shiro.loginUrl}"/>
         <property name="filters">
             <util:map>
                 <entry key="authc" value-ref="formAuthenticationFilter"/>
                 <entry key="currentUser" value-ref="currentUserFilter"/>
                 <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
                 <entry key="cadreAuth" value-ref="cadreAuthFilter"/>
+                <entry key="logout" value-ref="logoutFilter" />
             </util:map>
         </property>
         <property name="filterChainDefinitions">
@@ -146,6 +150,7 @@
                 /find_pass/** = anon
                 /monitor = anon
                 /cas = anon
+                /m/cas = anon
                 /reg = anon
                 /login = authc
                 /logout = logout

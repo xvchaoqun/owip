@@ -22,9 +22,7 @@
     <result column="post_class" jdbcType="VARCHAR" property="postClass" />
     <result column="sub_post_class" jdbcType="VARCHAR" property="subPostClass" />
     <result column="main_post_level" jdbcType="VARCHAR" property="mainPostLevel" />
-    <result column="country" jdbcType="VARCHAR" property="country" />
     <result column="from_type" jdbcType="VARCHAR" property="fromType" />
-    <result column="ext_unit" jdbcType="VARCHAR" property="extUnit" />
     <result column="on_job" jdbcType="VARCHAR" property="onJob" />
     <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
     <result column="pro_post_time" jdbcType="DATE" property="proPostTime" />
@@ -105,8 +103,8 @@
   <sql id="Base_Column_List">
     user_id, ext_phone, education, degree, degree_time, major, school, school_type, degree_school, 
     arrive_time, work_time, work_start_time, work_break, regular_time, authorized_type, 
-    staff_type, staff_status, post_class, sub_post_class, main_post_level, country, from_type, 
-    ext_unit, on_job, pro_post, pro_post_time, pro_post_level, pro_post_level_time, title_level, 
+    staff_type, staff_status, post_class, sub_post_class, main_post_level, from_type, 
+    on_job, pro_post, pro_post_time, pro_post_level, pro_post_level_time, title_level, 
     manage_level, manage_level_time, office_level, post, post_level, talent_type, talent_title, 
     address, marital_status, is_retire, retire_time, is_honor_retire, create_time, apply_time, 
     member_source, source, positive_time, active_time, political_status, transfer_time, 

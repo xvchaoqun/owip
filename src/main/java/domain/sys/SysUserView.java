@@ -30,6 +30,10 @@ public class SysUserView implements Serializable {
 
     private String realname;
 
+    private String country;
+
+    private String idcardType;
+
     private String idcard;
 
     private Date birth;
@@ -55,6 +59,8 @@ public class SysUserView implements Serializable {
     private String sign;
 
     private String mobile;
+
+    private String unit;
 
     private String phone;
 
@@ -170,6 +176,22 @@ public class SysUserView implements Serializable {
         this.realname = realname == null ? null : realname.trim();
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
+
+    public String getIdcardType() {
+        return idcardType;
+    }
+
+    public void setIdcardType(String idcardType) {
+        this.idcardType = idcardType == null ? null : idcardType.trim();
+    }
+
     public String getIdcard() {
         return idcard;
     }
@@ -272,6 +294,14 @@ public class SysUserView implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit == null ? null : unit.trim();
     }
 
     public String getPhone() {

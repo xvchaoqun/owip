@@ -627,9 +627,12 @@ public class SyncService extends BaseMapper {
                     StringUtils.trim(extJzg.getXmpy())));
             ui.setGender(NumberUtils.toByte(extJzg.getXbm()));
             ui.setBirth(extJzg.getCsrq());
+            ui.setIdcardType(extJzg.getName());
             ui.setIdcard(StringUtils.trim(extJzg.getSfzh()));
             ui.setNativePlace(extJzg.getJg());
             ui.setNation(extJzg.getMz());
+            ui.setCountry(extJzg.getGj());
+            ui.setUnit(extJzg.getDwmc());
             //ui.setEmail(extJzg.getDzxx());
 
             // 手机号码为空才同步20161102  （手机号不同步人事库 20160616修改）
@@ -641,7 +644,6 @@ public class SyncService extends BaseMapper {
             //+++++++++++++ 同步后面一系列属性
 
             teacher.setExtPhone(extJzg.getYddh());
-            teacher.setExtUnit(extJzg.getDwmc());
             teacher.setEducation(extJzg.getZhxlmc());
             teacher.setDegree(extJzg.getZhxw());
             //teacher.setDegreeTime(); 学位授予日期

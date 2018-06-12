@@ -3,7 +3,6 @@ package controller.pcs.proposal;
 import controller.pcs.PcsBaseController;
 import domain.base.MetaType;
 import domain.ext.ExtBks;
-import domain.ext.ExtJzg;
 import domain.ext.ExtYjs;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrCandidateView;
@@ -524,10 +523,7 @@ public class PcsProposalController extends PcsBaseController {
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
                     if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
-                        if (extJzg != null) {
-                            option.put("unit", extJzg.getDwmc());
-                        }
+                        option.put("unit", uv.getUnit());
                     }
                     if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
                         ExtBks extBks = extBksService.getByCode(uv.getCode());

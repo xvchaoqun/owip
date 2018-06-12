@@ -109,7 +109,7 @@
 
           <div class="profile-info-value td">
             <span class="editable">
-              ${extJzg.sfzh}
+              ${uv.idcard}
             </span>
           </div>
         </div>
@@ -205,7 +205,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 所在单位</div>
           <div class="profile-info-value td">
-            <span class="editable">${extJzg.dwmc}</span>
+            <span class="editable">${uv.unit}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -262,12 +262,7 @@
             <span class="editable">${fn:substringBefore(extJzg.glqsrq, ' ')}</span>
           </div>
         </div>
-        <%--<div class="profile-info-row">
-          <div class="profile-info-name td"> 间断工龄</div>
-          <div class="profile-info-value td">
-            <span class="editable">${extJzg.jdgl}</span>
-          </div>
-        </div>--%>
+
         <div class="profile-info-row">
           <div class="profile-info-name td"> 到校时间</div>
           <div class="profile-info-value td">
@@ -280,12 +275,7 @@
             <span class="editable">${cm:formatDate(teacherInfo.workTime, "yyyy-MM-dd")}</span>
           </div>
         </div>
-        <%--<div class="profile-info-row">
-          <div class="profile-info-name td"> 转正定级时间</div>
-          <div class="profile-info-value td">
-            <span class="editable">${fn:substringBefore(extJzg.zzdjsj, ' ')}</span>
-          </div>
-        </div>--%>
+
         <div class="profile-info-row">
           <div class="profile-info-name td"> 人才/荣誉称号 </div>
           <div class="profile-info-value td">

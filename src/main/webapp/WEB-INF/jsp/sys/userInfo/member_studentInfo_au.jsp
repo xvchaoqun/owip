@@ -82,7 +82,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">教育类别</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="extUnit" value="${student.eduCategory}">
+						<input class="form-control" type="text" name="eduCategory" value="${student.eduCategory}">
 					</div>
 				</div>
 

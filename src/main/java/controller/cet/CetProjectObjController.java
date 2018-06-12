@@ -1,5 +1,6 @@
 package controller.cet;
 
+import bean.UserBean;
 import controller.global.OpException;
 import domain.cet.CetDiscussGroup;
 import domain.cet.CetPlanCourse;
@@ -11,7 +12,6 @@ import domain.cet.CetProjectObjView;
 import domain.cet.CetProjectObjViewExample;
 import domain.cet.CetProjectPlan;
 import domain.cet.CetTraineeType;
-import domain.ext.ExtJzg;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -594,23 +594,19 @@ public class CetProjectObjController extends CetBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CetProjectObjView> uvs = cetProjectObjViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CetProjectObjView> ovs = cetProjectObjViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
-        if (null != uvs && uvs.size() > 0) {
-            for (CetProjectObjView uv : uvs) {
-                Map<String, Object> option = new HashMap<>();
-                option.put("id", uv.getUserId() + "");
-                option.put("text", uv.getRealname());
-                option.put("user", userBeanService.get(uv.getUserId()));
+        if (null != ovs && ovs.size() > 0) {
+            for (CetProjectObjView ov : ovs) {
 
-                if (StringUtils.isNotBlank(uv.getCode())) {
-                    option.put("code", uv.getCode());
-                    ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
-                    if (extJzg != null) {
-                        option.put("unit", extJzg.getDwmc());
-                    }
-                }
+                Map<String, Object> option = new HashMap<>();
+                option.put("id", ov.getUserId() + "");
+                option.put("text", ov.getRealname());
+                UserBean userBean = userBeanService.get(ov.getUserId());
+                option.put("user", userBean);
+                option.put("code", ov.getCode());
+                option.put("unit", userBean.getUnit());
                 options.add(option);
             }
         }

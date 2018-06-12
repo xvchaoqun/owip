@@ -109,6 +109,11 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
                     WebUtils.issueRedirect(request, response, "/m/login");
                     return false;
                 }
+                if(servletPath.startsWith("/cas")){
+                    WebUtils.issueRedirect(request, response, "/m/cas");
+                    return false;
+                }
+
                 if (!servletPath.startsWith("/m/")) { // 移动端
                     //WebUtils.issueRedirect(request, response, "/m/abroad/index");
                     WebUtils.issueRedirect(request, response, "/m/index");

@@ -44,11 +44,7 @@ public class TeacherInfo implements Serializable {
 
     private String mainPostLevel;
 
-    private String country;
-
     private String fromType;
-
-    private String extUnit;
 
     private String onJob;
 
@@ -248,28 +244,12 @@ public class TeacherInfo implements Serializable {
         this.mainPostLevel = mainPostLevel == null ? null : mainPostLevel.trim();
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country == null ? null : country.trim();
-    }
-
     public String getFromType() {
         return fromType;
     }
 
     public void setFromType(String fromType) {
         this.fromType = fromType == null ? null : fromType.trim();
-    }
-
-    public String getExtUnit() {
-        return extUnit;
-    }
-
-    public void setExtUnit(String extUnit) {
-        this.extUnit = extUnit == null ? null : extUnit.trim();
     }
 
     public String getOnJob() {

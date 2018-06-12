@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="domain.sys.SysUserInfo">
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="idcard_type" jdbcType="VARCHAR" property="idcardType" />
     <result column="idcard" jdbcType="VARCHAR" property="idcard" />
     <result column="birth" jdbcType="DATE" property="birth" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
@@ -17,6 +19,7 @@
     <result column="health" jdbcType="INTEGER" property="health" />
     <result column="sign" jdbcType="VARCHAR" property="sign" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="home_phone" jdbcType="VARCHAR" property="homePhone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
@@ -81,9 +84,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, realname, idcard, birth, avatar, avatar_upload_time, gender, nation, native_place, 
-    homeplace, household, specialty, health, sign, mobile, phone, home_phone, email, 
-    msg_title
+    user_id, realname, country, idcard_type, idcard, birth, avatar, avatar_upload_time, 
+    gender, nation, native_place, homeplace, household, specialty, health, sign, mobile, 
+    unit, phone, home_phone, email, msg_title
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysUserInfoExample" resultMap="BaseResultMap">
     select
@@ -116,18 +119,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.sys.SysUserInfo">
-    insert into sys_user_info (user_id, realname, idcard, 
-      birth, avatar, avatar_upload_time, 
-      gender, nation, native_place, 
-      homeplace, household, specialty, 
-      health, sign, mobile, 
+    insert into sys_user_info (user_id, realname, country, 
+      idcard_type, idcard, birth, 
+      avatar, avatar_upload_time, gender, 
+      nation, native_place, homeplace, 
+      household, specialty, health, 
+      sign, mobile, unit, 
       phone, home_phone, email, 
       msg_title)
-    values (#{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, 
-      #{birth,jdbcType=DATE}, #{avatar,jdbcType=VARCHAR}, #{avatarUploadTime,jdbcType=TIMESTAMP}, 
-      #{gender,jdbcType=TINYINT}, #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, 
-      #{homeplace,jdbcType=VARCHAR}, #{household,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, 
-      #{health,jdbcType=INTEGER}, #{sign,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{idcardType,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, 
+      #{avatar,jdbcType=VARCHAR}, #{avatarUploadTime,jdbcType=TIMESTAMP}, #{gender,jdbcType=TINYINT}, 
+      #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{homeplace,jdbcType=VARCHAR}, 
+      #{household,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, #{health,jdbcType=INTEGER}, 
+      #{sign,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{msgTitle,jdbcType=VARCHAR})
   </insert>
@@ -139,6 +144,12 @@
       </if>
       <if test="realname != null">
         realname,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="idcardType != null">
+        idcard_type,
       </if>
       <if test="idcard != null">
         idcard,
@@ -179,6 +190,9 @@
       <if test="mobile != null">
         mobile,
       </if>
+      <if test="unit != null">
+        unit,
+      </if>
       <if test="phone != null">
         phone,
       </if>
@@ -198,6 +212,12 @@
       </if>
       <if test="realname != null">
         #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardType != null">
+        #{idcardType,jdbcType=VARCHAR},
       </if>
       <if test="idcard != null">
         #{idcard,jdbcType=VARCHAR},
@@ -238,6 +258,9 @@
       <if test="mobile != null">
         #{mobile,jdbcType=VARCHAR},
       </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
       <if test="phone != null">
         #{phone,jdbcType=VARCHAR},
       </if>
@@ -266,6 +289,12 @@
       </if>
       <if test="record.realname != null">
         realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.country != null">
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardType != null">
+        idcard_type = #{record.idcardType,jdbcType=VARCHAR},
       </if>
       <if test="record.idcard != null">
         idcard = #{record.idcard,jdbcType=VARCHAR},
@@ -306,6 +335,9 @@
       <if test="record.mobile != null">
         mobile = #{record.mobile,jdbcType=VARCHAR},
       </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
       <if test="record.phone != null">
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
@@ -327,6 +359,8 @@
     update sys_user_info
     set user_id = #{record.userId,jdbcType=INTEGER},
       realname = #{record.realname,jdbcType=VARCHAR},
+      country = #{record.country,jdbcType=VARCHAR},
+      idcard_type = #{record.idcardType,jdbcType=VARCHAR},
       idcard = #{record.idcard,jdbcType=VARCHAR},
       birth = #{record.birth,jdbcType=DATE},
       avatar = #{record.avatar,jdbcType=VARCHAR},
@@ -340,6 +374,7 @@
       health = #{record.health,jdbcType=INTEGER},
       sign = #{record.sign,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       home_phone = #{record.homePhone,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
@@ -353,6 +388,12 @@
     <set>
       <if test="realname != null">
         realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardType != null">
+        idcard_type = #{idcardType,jdbcType=VARCHAR},
       </if>
       <if test="idcard != null">
         idcard = #{idcard,jdbcType=VARCHAR},
@@ -393,6 +434,9 @@
       <if test="mobile != null">
         mobile = #{mobile,jdbcType=VARCHAR},
       </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
       <if test="phone != null">
         phone = #{phone,jdbcType=VARCHAR},
       </if>
@@ -411,6 +455,8 @@
   <update id="updateByPrimaryKey" parameterType="domain.sys.SysUserInfo">
     update sys_user_info
     set realname = #{realname,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      idcard_type = #{idcardType,jdbcType=VARCHAR},
       idcard = #{idcard,jdbcType=VARCHAR},
       birth = #{birth,jdbcType=DATE},
       avatar = #{avatar,jdbcType=VARCHAR},
@@ -424,6 +470,7 @@
       health = #{health,jdbcType=INTEGER},
       sign = #{sign,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       home_phone = #{homePhone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},

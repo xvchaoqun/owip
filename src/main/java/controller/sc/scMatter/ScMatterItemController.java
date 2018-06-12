@@ -1,6 +1,6 @@
 package controller.sc.scMatter;
 
-import domain.ext.ExtJzg;
+import bean.UserBean;
 import domain.sc.scMatter.ScMatterItem;
 import domain.sc.scMatter.ScMatterItemView;
 import domain.sc.scMatter.ScMatterItemViewExample;
@@ -215,14 +215,12 @@ public class ScMatterItemController extends ScMatterBaseController {
                 Map<String, Object> option = new HashMap<>();
                 option.put("id", uv.getUserId() + "");
                 option.put("text", uv.getRealname());
-                option.put("user", userBeanService.get(uv.getUserId()));
+                UserBean userBean = userBeanService.get(uv.getUserId());
+                option.put("user", userBean);
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
-                    ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
-                    if (extJzg != null) {
-                        option.put("unit", extJzg.getDwmc());
-                    }
+                    option.put("unit", userBean.getUnit());
                 }
                 options.add(option);
             }

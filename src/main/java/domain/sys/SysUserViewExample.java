@@ -972,6 +972,146 @@ public class SysUserViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andCountryIsNull() {
+            addCriterion("country is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryIsNotNull() {
+            addCriterion("country is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryEqualTo(String value) {
+            addCriterion("country =", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNotEqualTo(String value) {
+            addCriterion("country <>", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryGreaterThan(String value) {
+            addCriterion("country >", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryGreaterThanOrEqualTo(String value) {
+            addCriterion("country >=", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryLessThan(String value) {
+            addCriterion("country <", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryLessThanOrEqualTo(String value) {
+            addCriterion("country <=", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryLike(String value) {
+            addCriterion("country like", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNotLike(String value) {
+            addCriterion("country not like", value, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryIn(List<String> values) {
+            addCriterion("country in", values, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNotIn(List<String> values) {
+            addCriterion("country not in", values, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryBetween(String value1, String value2) {
+            addCriterion("country between", value1, value2, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andCountryNotBetween(String value1, String value2) {
+            addCriterion("country not between", value1, value2, "country");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeIsNull() {
+            addCriterion("idcard_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeIsNotNull() {
+            addCriterion("idcard_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeEqualTo(String value) {
+            addCriterion("idcard_type =", value, "idcardType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeNotEqualTo(String value) {
+            addCriterion("idcard_type <>", value, "idcardType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeGreaterThan(String value) {
+            addCriterion("idcard_type >", value, "idcardType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("idcard_type >=", value, "idcardType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeLessThan(String value) {
+            addCriterion("idcard_type <", value, "idcardType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeLessThanOrEqualTo(String value) {
+            addCriterion("idcard_type <=", value, "idcardType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeLike(String value) {
+            addCriterion("idcard_type like", value, "idcardType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeNotLike(String value) {
+            addCriterion("idcard_type not like", value, "idcardType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeIn(List<String> values) {
+            addCriterion("idcard_type in", values, "idcardType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeNotIn(List<String> values) {
+            addCriterion("idcard_type not in", values, "idcardType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeBetween(String value1, String value2) {
+            addCriterion("idcard_type between", value1, value2, "idcardType");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdcardTypeNotBetween(String value1, String value2) {
+            addCriterion("idcard_type not between", value1, value2, "idcardType");
+            return (Criteria) this;
+        }
+
         public Criteria andIdcardIsNull() {
             addCriterion("idcard is null");
             return (Criteria) this;
@@ -1839,6 +1979,76 @@ public class SysUserViewExample {
 
         public Criteria andMobileNotBetween(String value1, String value2) {
             addCriterion("mobile not between", value1, value2, "mobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIsNull() {
+            addCriterion("unit is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIsNotNull() {
+            addCriterion("unit is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitEqualTo(String value) {
+            addCriterion("unit =", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNotEqualTo(String value) {
+            addCriterion("unit <>", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitGreaterThan(String value) {
+            addCriterion("unit >", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitGreaterThanOrEqualTo(String value) {
+            addCriterion("unit >=", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitLessThan(String value) {
+            addCriterion("unit <", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitLessThanOrEqualTo(String value) {
+            addCriterion("unit <=", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitLike(String value) {
+            addCriterion("unit like", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNotLike(String value) {
+            addCriterion("unit not like", value, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIn(List<String> values) {
+            addCriterion("unit in", values, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNotIn(List<String> values) {
+            addCriterion("unit not in", values, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitBetween(String value1, String value2) {
+            addCriterion("unit between", value1, value2, "unit");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNotBetween(String value1, String value2) {
+            addCriterion("unit not between", value1, value2, "unit");
             return (Criteria) this;
         }
 

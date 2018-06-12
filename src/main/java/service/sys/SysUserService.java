@@ -72,7 +72,7 @@ public class SysUserService extends BaseMapper {
         if (type == SystemConstants.USER_TYPE_JZG) {
             ExtJzg extJzg = extJzgService.getByCode(code);
             if (extJzg != null) {
-                unit = extJzg.getDwmc();
+                unit = uv.getUnit();
                 if (StringUtils.isNotBlank(extJzg.getYjxk())) unit += "-" + extJzg.getYjxk();
             }
 
@@ -180,11 +180,7 @@ public class SysUserService extends BaseMapper {
             }
         }
         if (source == SystemConstants.USER_SOURCE_YJS) {
-                    /*ExtYjs extYjs = extYjsService.getByCode(code);
-                    if(extYjs!=null){
-                        //record.setNativePlace(extYjs.get);
-                        //record.getHousehold(extJzg.getc);
-                    }*/
+
         }
         return null;
     }

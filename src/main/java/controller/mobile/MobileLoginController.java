@@ -16,6 +16,7 @@ import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
 import sys.shiro.CurrentUser;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -82,7 +83,7 @@ public class MobileLoginController extends BaseController {
 
 		logger.debug("logout success. {}", (loginUser != null) ? loginUser.getUsername() : "");
 
-		return "redirect:/m/index";
+		return "redirect:"+ PropertiesUtils.getString("logout.mobile.redirectUrl");
 	}
 
 }
