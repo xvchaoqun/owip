@@ -1,14 +1,14 @@
 package service.ext;
 
 import bean.ColumnBean;
-import domain.sys.SysUserSync;
+import domain.sys.SysSync;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import persistence.sys.SysUserSyncMapper;
+import persistence.sys.SysSyncMapper;
 import sys.utils.JSONUtils;
 
 import javax.sql.DataSource;
@@ -27,7 +27,7 @@ public abstract class Source {
     private Logger logger = LoggerFactory.getLogger(getClass());
     protected static Connection conn;
     @Autowired
-    public SysUserSyncMapper sysUserSyncMapper;
+    public SysSyncMapper sysSyncMapper;
 
     public Connection initConn() {
 
@@ -87,7 +87,7 @@ public abstract class Source {
                 }
 
                 if(syncId!=null) {
-                    SysUserSync _sync = sysUserSyncMapper.selectByPrimaryKey(syncId);
+                    SysSync _sync = sysSyncMapper.selectByPrimaryKey(syncId);
                     if (_sync.getIsStop()) {
                         break; // 强制结束
                     }
@@ -186,7 +186,7 @@ public abstract class Source {
                 }
 
                 if(syncId!=null) {
-                    SysUserSync _sync = sysUserSyncMapper.selectByPrimaryKey(syncId);
+                    SysSync _sync = sysSyncMapper.selectByPrimaryKey(syncId);
                     if (_sync.getIsStop()) {
                         break; // 强制结束
                     }

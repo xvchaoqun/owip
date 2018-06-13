@@ -3,8 +3,7 @@ package domain.sys;
 import java.io.Serializable;
 import java.util.Date;
 
-public class SysUserSync implements Serializable {
-
+public class SysSync implements Serializable {
     private Integer id;
 
     private Byte type;

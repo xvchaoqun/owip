@@ -11,8 +11,8 @@ import domain.ext.ExtYjsExample;
 import domain.sys.StudentInfo;
 import domain.sys.SysUser;
 import domain.sys.SysUserInfo;
-import domain.sys.SysUserSync;
-import domain.sys.SysUserSyncExample;
+import domain.sys.SysSync;
+import domain.sys.SysSyncExample;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -63,11 +63,11 @@ public class SyncService extends BaseMapper {
 
     public boolean lastSyncIsNotStop(byte type) {
 
-        SysUserSyncExample example = new SysUserSyncExample();
+        SysSyncExample example = new SysSyncExample();
         example.createCriteria()
                 .andTypeEqualTo(type).andIsStopEqualTo(false);
 
-        return sysUserSyncMapper.countByExample(example) > 0;
+        return sysSyncMapper.countByExample(example) > 0;
     }
 
     // 同步在职工资信息
@@ -77,25 +77,25 @@ public class SyncService extends BaseMapper {
             throw new OpException("上一次同步仍在进行中");
         }
 
-        SysUserSync sysUserSync = new SysUserSync();
+        SysSync sysSync = new SysSync();
         if (!autoStart) {
-            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
+            sysSync.setUserId(ShiroHelper.getCurrentUserId());
         }
-        sysUserSync.setAutoStart(autoStart);
-        sysUserSync.setAutoStop(false);
-        sysUserSync.setStartTime(new Date());
-        sysUserSync.setType(SystemConstants.SYNC_TYPE_JZG_SALARY);
-        sysUserSync.setIsStop(false);
+        sysSync.setAutoStart(autoStart);
+        sysSync.setAutoStop(false);
+        sysSync.setStartTime(new Date());
+        sysSync.setType(SystemConstants.SYNC_TYPE_JZG_SALARY);
+        sysSync.setIsStop(false);
 
-        sysUserSync.setCurrentCount(0);
-        sysUserSync.setCurrentPage(0);
+        sysSync.setCurrentCount(0);
+        sysSync.setCurrentPage(0);
 
-        sysUserSync.setInsertCount(0);
-        sysUserSync.setUpdateCount(0);
+        sysSync.setInsertCount(0);
+        sysSync.setUpdateCount(0);
 
-        insertSelective(sysUserSync);
+        insertSelective(sysSync);
 
-        int syncId = sysUserSync.getId();
+        int syncId = sysSync.getId();
 
         // 先从学校导入数据
         int ret = 0;
@@ -106,7 +106,7 @@ public class SyncService extends BaseMapper {
             throw new OpException("教职工工资信息同步出错：" + ex.getMessage());
         }
 
-        SysUserSync record = new SysUserSync();
+        SysSync record = new SysSync();
         record.setId(syncId);
         record.setTotalCount(ret);
 
@@ -123,24 +123,24 @@ public class SyncService extends BaseMapper {
         if (lastSyncIsNotStop(SystemConstants.SYNC_TYPE_RETIRE_SALARY)) {
             throw new OpException("上一次同步仍在进行中");
         }
-        SysUserSync sysUserSync = new SysUserSync();
+        SysSync sysSync = new SysSync();
         if (!autoStart) {
-            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
+            sysSync.setUserId(ShiroHelper.getCurrentUserId());
         }
-        sysUserSync.setAutoStart(autoStart);
-        sysUserSync.setAutoStop(false);
-        sysUserSync.setStartTime(new Date());
-        sysUserSync.setType(SystemConstants.SYNC_TYPE_RETIRE_SALARY);
-        sysUserSync.setIsStop(false);
+        sysSync.setAutoStart(autoStart);
+        sysSync.setAutoStop(false);
+        sysSync.setStartTime(new Date());
+        sysSync.setType(SystemConstants.SYNC_TYPE_RETIRE_SALARY);
+        sysSync.setIsStop(false);
 
-        sysUserSync.setCurrentCount(0);
-        sysUserSync.setCurrentPage(0);
-        sysUserSync.setInsertCount(0);
-        sysUserSync.setUpdateCount(0);
+        sysSync.setCurrentCount(0);
+        sysSync.setCurrentPage(0);
+        sysSync.setInsertCount(0);
+        sysSync.setUpdateCount(0);
 
-        insertSelective(sysUserSync);
+        insertSelective(sysSync);
 
-        int syncId = sysUserSync.getId();
+        int syncId = sysSync.getId();
         // 先从学校导入数据
         int ret = 0;
         try {
@@ -150,7 +150,7 @@ public class SyncService extends BaseMapper {
             throw new OpException("离退休工资信息同步出错：" + ex.getMessage());
         }
 
-        SysUserSync record = new SysUserSync();
+        SysSync record = new SysSync();
         record.setId(syncId);
         record.setTotalCount(ret);
         record.setEndTime(new Date());
@@ -167,25 +167,25 @@ public class SyncService extends BaseMapper {
             throw new OpException("上一次同步仍在进行中");
         }
 
-        SysUserSync sysUserSync = new SysUserSync();
+        SysSync sysSync = new SysSync();
         if (!autoStart) {
-            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
+            sysSync.setUserId(ShiroHelper.getCurrentUserId());
         }
-        sysUserSync.setAutoStart(autoStart);
-        sysUserSync.setAutoStop(false);
-        sysUserSync.setStartTime(new Date());
-        sysUserSync.setType(SystemConstants.SYNC_TYPE_ABROAD);
-        sysUserSync.setIsStop(false);
+        sysSync.setAutoStart(autoStart);
+        sysSync.setAutoStop(false);
+        sysSync.setStartTime(new Date());
+        sysSync.setType(SystemConstants.SYNC_TYPE_ABROAD);
+        sysSync.setIsStop(false);
 
-        sysUserSync.setCurrentCount(0);
-        sysUserSync.setCurrentPage(0);
+        sysSync.setCurrentCount(0);
+        sysSync.setCurrentPage(0);
 
-        sysUserSync.setInsertCount(0);
-        sysUserSync.setUpdateCount(0);
+        sysSync.setInsertCount(0);
+        sysSync.setUpdateCount(0);
 
-        insertSelective(sysUserSync);
+        insertSelective(sysSync);
 
-        int syncId = sysUserSync.getId();
+        int syncId = sysSync.getId();
 
         // 先从学校导入数据
         try {
@@ -199,7 +199,7 @@ public class SyncService extends BaseMapper {
         int pageSize = 200;
         int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
 
-        SysUserSync record = new SysUserSync();
+        SysSync record = new SysSync();
         record.setId(syncId);
 
         record.setTotalCount(count);
@@ -261,26 +261,26 @@ public class SyncService extends BaseMapper {
             throw new OpException("上一次同步仍在进行中");
         }
 
-        SysUserSync sysUserSync = new SysUserSync();
+        SysSync sysSync = new SysSync();
         if (!autoStart) {
-            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
+            sysSync.setUserId(ShiroHelper.getCurrentUserId());
         }
-        sysUserSync.setAutoStart(autoStart);
-        sysUserSync.setAutoStop(false);
-        sysUserSync.setStartTime(new Date());
-        sysUserSync.setType(SystemConstants.SYNC_TYPE_JZG);
-        sysUserSync.setIsStop(false);
+        sysSync.setAutoStart(autoStart);
+        sysSync.setAutoStop(false);
+        sysSync.setStartTime(new Date());
+        sysSync.setType(SystemConstants.SYNC_TYPE_JZG);
+        sysSync.setIsStop(false);
 
-        sysUserSync.setCurrentCount(0);
-        sysUserSync.setCurrentPage(0);
-        //sysUserSync.setTotalCount(count);
-        //sysUserSync.setTotalPage(pageNo);
-        sysUserSync.setInsertCount(0);
-        sysUserSync.setUpdateCount(0);
+        sysSync.setCurrentCount(0);
+        sysSync.setCurrentPage(0);
+        //sysSync.setTotalCount(count);
+        //sysSync.setTotalPage(pageNo);
+        sysSync.setInsertCount(0);
+        sysSync.setUpdateCount(0);
 
-        insertSelective(sysUserSync);
+        insertSelective(sysSync);
 
-        int syncId = sysUserSync.getId();
+        int syncId = sysSync.getId();
 
         // 先从学校导入数据
         try {
@@ -312,7 +312,7 @@ public class SyncService extends BaseMapper {
                 if (ret == 0) updateCount++;
             }
 
-            SysUserSync record = new SysUserSync();
+            SysSync record = new SysSync();
             record.setId(syncId);
             record.setInsertCount(insertCount);
             record.setUpdateCount(updateCount);
@@ -321,7 +321,7 @@ public class SyncService extends BaseMapper {
             record.setCurrentCount(((i + 1) * pageSize > count) ? count : (i + 1) * pageSize);
             record.setCurrentPage(i + 1);
             try {
-                SysUserSync _sync = sysUserSyncMapper.selectByPrimaryKey(sysUserSync.getId());
+                SysSync _sync = sysSyncMapper.selectByPrimaryKey(sysSync.getId());
                 if (_sync.getIsStop()) {
                     return; // 强制结束
                 }
@@ -331,8 +331,8 @@ public class SyncService extends BaseMapper {
             }
         }
 
-        SysUserSync record = new SysUserSync();
-        record.setId(sysUserSync.getId());
+        SysSync record = new SysSync();
+        record.setId(sysSync.getId());
         record.setEndTime(new Date());
         record.setAutoStop(true);
         record.setIsStop(true);
@@ -388,25 +388,25 @@ public class SyncService extends BaseMapper {
             throw new OpException("上一次同步仍在进行中");
         }
 
-        SysUserSync sysUserSync = new SysUserSync();
+        SysSync sysSync = new SysSync();
         if (!autoStart) {
-            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
+            sysSync.setUserId(ShiroHelper.getCurrentUserId());
         }
-        sysUserSync.setAutoStart(autoStart);
-        sysUserSync.setAutoStop(false);
-        sysUserSync.setStartTime(new Date());
-        sysUserSync.setType(SystemConstants.SYNC_TYPE_YJS);
-        sysUserSync.setIsStop(false);
+        sysSync.setAutoStart(autoStart);
+        sysSync.setAutoStop(false);
+        sysSync.setStartTime(new Date());
+        sysSync.setType(SystemConstants.SYNC_TYPE_YJS);
+        sysSync.setIsStop(false);
 
-        sysUserSync.setCurrentCount(0);
-        sysUserSync.setCurrentPage(0);
+        sysSync.setCurrentCount(0);
+        sysSync.setCurrentPage(0);
 
-        sysUserSync.setInsertCount(0);
-        sysUserSync.setUpdateCount(0);
+        sysSync.setInsertCount(0);
+        sysSync.setUpdateCount(0);
 
-        insertSelective(sysUserSync);
+        insertSelective(sysSync);
 
-        int syncId = sysUserSync.getId();
+        int syncId = sysSync.getId();
 
         // 先从学校导入数据
         try {
@@ -440,7 +440,7 @@ public class SyncService extends BaseMapper {
                 if (ret == 0) updateCount++;
             }
 
-            SysUserSync record = new SysUserSync();
+            SysSync record = new SysSync();
             record.setId(syncId);
             record.setInsertCount(insertCount);
             record.setUpdateCount(updateCount);
@@ -449,7 +449,7 @@ public class SyncService extends BaseMapper {
             record.setCurrentCount(((i + 1) * pageSize > count) ? count : (i + 1) * pageSize);
             record.setCurrentPage(i + 1);
             try {
-                SysUserSync _sync = sysUserSyncMapper.selectByPrimaryKey(sysUserSync.getId());
+                SysSync _sync = sysSyncMapper.selectByPrimaryKey(sysSync.getId());
                 if (_sync.getIsStop()) {
                     return; // 强制结束
                 }
@@ -459,8 +459,8 @@ public class SyncService extends BaseMapper {
             }
         }
 
-        SysUserSync record = new SysUserSync();
-        record.setId(sysUserSync.getId());
+        SysSync record = new SysSync();
+        record.setId(sysSync.getId());
         record.setEndTime(new Date());
         record.setAutoStop(true);
         record.setIsStop(true);
@@ -518,25 +518,25 @@ public class SyncService extends BaseMapper {
             throw new OpException("上一次同步仍在进行中");
         }
 
-        SysUserSync sysUserSync = new SysUserSync();
+        SysSync sysSync = new SysSync();
         if (!autoStart) {
-            sysUserSync.setUserId(ShiroHelper.getCurrentUserId());
+            sysSync.setUserId(ShiroHelper.getCurrentUserId());
         }
-        sysUserSync.setAutoStart(autoStart);
-        sysUserSync.setAutoStop(false);
-        sysUserSync.setStartTime(new Date());
-        sysUserSync.setType(SystemConstants.SYNC_TYPE_BKS);
-        sysUserSync.setIsStop(false);
+        sysSync.setAutoStart(autoStart);
+        sysSync.setAutoStop(false);
+        sysSync.setStartTime(new Date());
+        sysSync.setType(SystemConstants.SYNC_TYPE_BKS);
+        sysSync.setIsStop(false);
 
-        sysUserSync.setCurrentCount(0);
-        sysUserSync.setCurrentPage(0);
+        sysSync.setCurrentCount(0);
+        sysSync.setCurrentPage(0);
 
-        sysUserSync.setInsertCount(0);
-        sysUserSync.setUpdateCount(0);
+        sysSync.setInsertCount(0);
+        sysSync.setUpdateCount(0);
 
-        insertSelective(sysUserSync);
+        insertSelective(sysSync);
 
-        int syncId = sysUserSync.getId();
+        int syncId = sysSync.getId();
 
         // 先从学校导入数据
         try {
@@ -569,7 +569,7 @@ public class SyncService extends BaseMapper {
                 if (ret == 0) updateCount++;
             }
 
-            SysUserSync record = new SysUserSync();
+            SysSync record = new SysSync();
             record.setId(syncId);
             record.setInsertCount(insertCount);
             record.setUpdateCount(updateCount);
@@ -578,7 +578,7 @@ public class SyncService extends BaseMapper {
             record.setCurrentCount(((i + 1) * pageSize > count) ? count : (i + 1) * pageSize);
             record.setCurrentPage(i + 1);
             try {
-                SysUserSync _sync = sysUserSyncMapper.selectByPrimaryKey(sysUserSync.getId());
+                SysSync _sync = sysSyncMapper.selectByPrimaryKey(sysSync.getId());
                 if (_sync.getIsStop()) {
                     return; // 强制结束
                 }
@@ -588,8 +588,8 @@ public class SyncService extends BaseMapper {
             }
         }
 
-        SysUserSync record = new SysUserSync();
-        record.setId(sysUserSync.getId());
+        SysSync record = new SysSync();
+        record.setId(sysSync.getId());
         record.setEndTime(new Date());
         record.setAutoStop(true);
         record.setIsStop(true);
@@ -811,16 +811,16 @@ public class SyncService extends BaseMapper {
     }
 
     @Transactional
-    public int insertSelective(SysUserSync record) {
+    public int insertSelective(SysSync record) {
 
         Assert.isTrue(!lastSyncIsNotStop(record.getType()), "last sync is not stop.");
-        return sysUserSyncMapper.insertSelective(record);
+        return sysSyncMapper.insertSelective(record);
     }
 
     @Transactional
     public void del(Integer id) {
 
-        sysUserSyncMapper.deleteByPrimaryKey(id);
+        sysSyncMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
@@ -828,26 +828,26 @@ public class SyncService extends BaseMapper {
 
         if (ids == null || ids.length == 0) return;
 
-        SysUserSyncExample example = new SysUserSyncExample();
+        SysSyncExample example = new SysSyncExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        sysUserSyncMapper.deleteByExample(example);
+        sysSyncMapper.deleteByExample(example);
     }
 
     @Transactional
     public void stopSync(byte type){
 
-        SysUserSync record = new SysUserSync();
+        SysSync record = new SysSync();
         record.setIsStop(true);
         record.setEndTime(new Date());
         record.setAutoStop(false);
 
-        SysUserSyncExample example = new SysUserSyncExample();
+        SysSyncExample example = new SysSyncExample();
         example.createCriteria().andTypeEqualTo(type).andIsStopEqualTo(false);
-        sysUserSyncMapper.updateByExampleSelective(record, example);
+        sysSyncMapper.updateByExampleSelective(record, example);
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(SysUserSync record) {
-        return sysUserSyncMapper.updateByPrimaryKeySelective(record);
+    public int updateByPrimaryKeySelective(SysSync record) {
+        return sysSyncMapper.updateByPrimaryKeySelective(record);
     }
 }

@@ -7,12 +7,10 @@ import domain.ext.ExtJzg;
 import domain.ext.ExtJzgExample;
 import domain.ext.ExtYjs;
 import domain.ext.ExtYjsExample;
-import domain.sys.SysUserSync;
-import domain.sys.SysUserSyncExample;
-import domain.sys.SysUserSyncExample.Criteria;
+import domain.sys.SysSync;
+import domain.sys.SysSyncExample;
+import domain.sys.SysSyncExample.Criteria;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -55,14 +53,14 @@ public class SyncController extends BaseController {
     private ExtYjsImport extYjsImport;
 
     // 同步学校信息（系统不存在账号插入，已存在的更新）
-    @RequiresPermissions("sysUserSync:edit")
+    @RequiresPermissions("sysSync:edit")
     @RequestMapping("/sync_user_byCode")
     public String sync_user_byCode() {
 
-        return "sys/sysUserSync/sync_user_byCode";
+        return "sys/sysSync/sync_user_byCode";
     }
 
-    @RequiresPermissions("sysUserSync:edit")
+    @RequiresPermissions("sysSync:edit")
     @RequestMapping(value = "/sync_user_byCode", method = RequestMethod.POST)
     @ResponseBody
     public Map sync_user_byCode(String code) {
@@ -106,7 +104,7 @@ public class SyncController extends BaseController {
     }
 
     // 同步学校用户信息（系统已存在该账号）
-    @RequiresPermissions("sysUserSync:edit")
+    @RequiresPermissions("sysSync:edit")
     @RequestMapping(value = "/sync_user", method = RequestMethod.POST)
     @ResponseBody
     public Map sync_user(Integer userId) {
@@ -141,7 +139,7 @@ public class SyncController extends BaseController {
     }
 
     // 同步学校信息（批量）
-    @RequiresPermissions("sysUserSync:edit")
+    @RequiresPermissions("sysSync:edit")
     @RequestMapping("/sync_user_batch")
     @ResponseBody
     public Map sync_user_batch(int type) {
@@ -169,7 +167,7 @@ public class SyncController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("sysUserSync:list")
+    @RequiresPermissions("sysSync:list")
     @RequestMapping("/sync_status")
     @ResponseBody
     public Map sync_status() {
@@ -182,18 +180,16 @@ public class SyncController extends BaseController {
         return map;
     }
 
-    @RequiresPermissions("sysUserSync:list")
-    @RequestMapping("/sysUserSync")
-    public String sysUserSync() {
+    @RequiresPermissions("sysSync:list")
+    @RequestMapping("/sysSync")
+    public String sysSync() {
 
-        return "sys/sysUserSync/sysUserSync_page";
+        return "sys/sysSync/sysSync_page";
     }
-    @RequiresPermissions("sysUserSync:list")
-    @RequestMapping("/sysUserSync_data")
+    @RequiresPermissions("sysSync:list")
+    @RequestMapping("/sysSync_data")
     @ResponseBody
-    public void sysUserSync_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "start_time", tableName = "sys_user_sync") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
+    public void sysSync_data(HttpServletResponse response,
                                     Integer userId,
                                      Byte type,
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -206,9 +202,9 @@ public class SyncController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        SysUserSyncExample example = new SysUserSyncExample();
+        SysSyncExample example = new SysSyncExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("start_time desc");
 
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
@@ -217,17 +213,17 @@ public class SyncController extends BaseController {
             criteria.andTypeEqualTo(type);
         }
 
-        int count = sysUserSyncMapper.countByExample(example);
+        long count = sysSyncMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<SysUserSync> sysUserSyncs = sysUserSyncMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<SysSync> sysSyncs = sysSyncMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
-        resultMap.put("rows", sysUserSyncs);
+        resultMap.put("rows", sysSyncs);
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);
@@ -238,12 +234,12 @@ public class SyncController extends BaseController {
 
     }
 
-    @RequiresPermissions("sysUserSync:edit")
+    @RequiresPermissions("sysSync:edit")
     @RequestMapping(value = "/sync_stop", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUserSync_au(int id,  HttpServletRequest request) {
+    public Map do_sysSync_au(int id,  HttpServletRequest request) {
 
-        SysUserSync record = new SysUserSync();
+        SysSync record = new SysSync();
         record.setId(id);
         record.setIsStop(true);
         record.setEndTime(new Date());
@@ -254,21 +250,21 @@ public class SyncController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("sysUserSync:edit")
-    @RequestMapping("/sysUserSync_au")
-    public String sysUserSync_au(Integer id, ModelMap modelMap) {
+    @RequiresPermissions("sysSync:edit")
+    @RequestMapping("/sysSync_au")
+    public String sysSync_au(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-            SysUserSync sysUserSync = sysUserSyncMapper.selectByPrimaryKey(id);
-            modelMap.put("sysUserSync", sysUserSync);
+            SysSync sysSync = sysSyncMapper.selectByPrimaryKey(id);
+            modelMap.put("sysSync", sysSync);
         }
-        return "sys/sysUserSync/sysUserSync_au";
+        return "sys/sysSync/sysSync_au";
     }
 
-    @RequiresPermissions("sysUserSync:del")
-    @RequestMapping(value = "/sysUserSync_del", method = RequestMethod.POST)
+    @RequiresPermissions("sysSync:del")
+    @RequestMapping(value = "/sysSync_del", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUserSync_del(HttpServletRequest request, Integer id) {
+    public Map do_sysSync_del(HttpServletRequest request, Integer id) {
 
         if (id != null) {
 
@@ -278,8 +274,8 @@ public class SyncController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("sysUserSync:del")
-    @RequestMapping(value = "/sysUserSync_batchDel", method = RequestMethod.POST)
+    @RequiresPermissions("sysSync:del")
+    @RequestMapping(value = "/sysSync_batchDel", method = RequestMethod.POST)
     @ResponseBody
     public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 

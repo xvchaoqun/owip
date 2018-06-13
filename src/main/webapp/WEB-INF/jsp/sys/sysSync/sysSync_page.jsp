@@ -82,7 +82,7 @@
 <script>
     $("#jqGrid").jqGrid({
         multiselect:false,
-        url: '${ctx}/sysUserSync_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
+        url: '${ctx}/sysSync_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '类型',align:'center', name: 'type', width: 200, formatter:function(cellvalue, options, rowObject){
                 return _cMap.SYNC_TYPE_MAP[cellvalue];

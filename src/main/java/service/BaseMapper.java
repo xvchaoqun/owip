@@ -357,7 +357,7 @@ import persistence.sys.SysRoleMapper;
 import persistence.sys.SysUserInfoMapper;
 import persistence.sys.SysUserMapper;
 import persistence.sys.SysUserRegMapper;
-import persistence.sys.SysUserSyncMapper;
+import persistence.sys.SysSyncMapper;
 import persistence.sys.SysUserViewMapper;
 import persistence.sys.TeacherInfoMapper;
 import persistence.unit.HistoryUnitMapper;
@@ -1116,7 +1116,7 @@ public class BaseMapper {
     @Autowired(required = false)
     protected SysApprovalLogMapper sysApprovalLogMapper;
     @Autowired(required = false)
-    protected SysUserSyncMapper sysUserSyncMapper;
+    protected SysSyncMapper sysSyncMapper;
     @Autowired(required = false)
     protected SysLogMapper sysLogMapper;
     @Autowired(required = false)
