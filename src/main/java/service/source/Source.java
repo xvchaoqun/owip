@@ -224,10 +224,10 @@ public abstract class Source {
             String dataType = rs.getString("data_type");
             int length = rs.getInt("data_length");
 
-            if (org.apache.commons.lang3.StringUtils.equalsIgnoreCase(columnName, "ID")
-                    || org.apache.commons.lang3.StringUtils.equalsIgnoreCase(columnName, "status")) continue;
+            if (StringUtils.equalsIgnoreCase(columnName, "ID")
+                    || StringUtils.equalsIgnoreCase(columnName, "status")) continue;
 
-            columnBeans.add(new ColumnBean(org.apache.commons.lang3.StringUtils.lowerCase(columnName), dataType, length, null));
+            columnBeans.add(new ColumnBean(StringUtils.lowerCase(columnName), dataType, length, null));
         }
 
         return columnBeans;

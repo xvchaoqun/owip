@@ -220,7 +220,7 @@ public class HtmlFragmentController extends BaseController {
         HtmlFragmentExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause(" sort_order desc");
 
-        if(org.apache.commons.lang.StringUtils.isNotBlank(searchStr)){
+        if(StringUtils.isNotBlank(searchStr)){
             criteria.andTitleLike("%" + searchStr + "%");
             example.or(example.createCriteria().andRemarkLike("%" + searchStr + "%"));
         }

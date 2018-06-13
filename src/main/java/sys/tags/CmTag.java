@@ -41,6 +41,7 @@ import service.dispatch.DispatchUnitService;
 import service.global.CacheService;
 import service.member.RetireApplyService;
 import service.modify.ModifyCadreAuthService;
+import service.source.ExtService;
 import service.sys.HtmlFragmentService;
 import service.sys.SysConfigService;
 import service.sys.SysResourceService;
@@ -75,6 +76,8 @@ public class CmTag {
     static SysResourceService sysResourceService = context.getBean(SysResourceService.class);
     static MetaTypeService metaTypeService = context.getBean(MetaTypeService.class);
     static MetaClassService metaClassService = context.getBean(MetaClassService.class);
+
+    static ExtService extService = context.getBean(ExtService.class);
 
     static UnitService unitService = context.getBean(UnitService.class);
 
@@ -326,7 +329,7 @@ public class CmTag {
 
     public static String getUserUnit(Integer userId) {
 
-        return sysUserService.getUnit(userId);
+        return extService.getUnit(userId);
     }
 
     public static Unit getUnit(Integer unitId) {

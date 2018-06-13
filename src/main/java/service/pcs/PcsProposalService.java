@@ -129,7 +129,7 @@ public class PcsProposalService extends BaseMapper {
 
         List<Integer> inviteUserIdList = new ArrayList<>();
         String inviteUserIds = pcsProposal.getInviteUserIds();
-        if (org.apache.commons.lang3.StringUtils.isNotBlank(inviteUserIds)) {
+        if (StringUtils.isNotBlank(inviteUserIds)) {
             String[] _inviteUserIds = inviteUserIds.split(",");
             for (String inviteUserId : _inviteUserIds) {
                 inviteUserIdList.add(Integer.valueOf(inviteUserId));
@@ -154,7 +154,7 @@ public class PcsProposalService extends BaseMapper {
 
         List<Integer> userIdList = new ArrayList<>();
         String seconderIds = pcsProposal.getSeconderIds();
-        if (org.apache.commons.lang3.StringUtils.isNotBlank(seconderIds)) {
+        if (StringUtils.isNotBlank(seconderIds)) {
             String[] _seconderIds = seconderIds.split(",");
             for (String seconderId : _seconderIds) {
                 userIdList.add(Integer.valueOf(seconderId));

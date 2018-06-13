@@ -2,8 +2,6 @@ package controller.pcs.proposal;
 
 import controller.pcs.PcsBaseController;
 import domain.base.MetaType;
-import domain.ext.ExtBks;
-import domain.ext.ExtYjs;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrCandidateView;
 import domain.pcs.PcsPrCandidateViewExample;
@@ -32,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.PcsConstants;
-import sys.constants.SystemConstants;
 import sys.tool.jackson.Select2Option;
 import sys.tool.paging.CommonList;
 import sys.utils.ContextHelper;
@@ -522,21 +519,7 @@ public class PcsProposalController extends PcsBaseController {
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
-                    if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        option.put("unit", uv.getUnit());
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
-                        ExtBks extBks = extBksService.getByCode(uv.getCode());
-                        if (extBks != null) {
-                            option.put("unit", extBks.getYxmc());
-                        }
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_YJS) {
-                        ExtYjs extYjs = extYjsService.getByCode(uv.getCode());
-                        if (extYjs != null) {
-                            option.put("unit", extYjs.getYxsmc());
-                        }
-                    }
+                    option.put("unit", extService.getUnit(uv.getUserId()));
                 }
                 options.add(option);
             }

@@ -65,9 +65,7 @@ import service.cpc.CpcAllocationService;
 import service.crp.CrpRecordService;
 import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
-import service.ext.ExtBksService;
-import service.ext.ExtJzgService;
-import service.ext.ExtYjsService;
+import service.source.ExtService;
 import service.global.CacheService;
 import service.party.BranchMemberAdminService;
 import service.party.BranchMemberGroupService;
@@ -255,11 +253,7 @@ public class BaseController extends BaseMapper {
     protected StudentInfoService studentService;
 
     @Autowired
-    protected ExtJzgService extJzgService;
-    @Autowired
-    protected ExtYjsService extYjsService;
-    @Autowired
-    protected ExtBksService extBksService;
+    protected ExtService extService;
     @Autowired
     protected SyncService syncService;
 
@@ -516,7 +510,7 @@ public class BaseController extends BaseMapper {
         modelMap.put("teacherInfo", teacherInfo);
 
         // 人事信息
-        ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
+        ExtJzg extJzg = extService.getExtJzg(uv.getCode());
         modelMap.put("extJzg", extJzg);
 
         CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);

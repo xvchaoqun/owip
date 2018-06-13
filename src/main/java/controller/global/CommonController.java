@@ -6,8 +6,6 @@ import domain.abroad.Passport;
 import domain.cadre.Cadre;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
-import domain.ext.ExtBks;
-import domain.ext.ExtYjs;
 import domain.member.Member;
 import domain.member.MemberInflow;
 import domain.sys.SysUserView;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.abroad.PassportService;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 
 import java.io.IOException;
@@ -73,21 +70,7 @@ public class CommonController extends BaseController {
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
-                    if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        option.put("unit", uv.getUnit());
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
-                        ExtBks extBks = extBksService.getByCode(uv.getCode());
-                        if (extBks != null) {
-                            option.put("unit", extBks.getYxmc());
-                        }
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_YJS) {
-                        ExtYjs extYjs = extYjsService.getByCode(uv.getCode());
-                        if (extYjs != null) {
-                            option.put("unit", extYjs.getYxsmc());
-                        }
-                    }
+                    option.put("unit", extService.getUnit(uv.getUserId()));
                 }
                 options.add(option);
             }
@@ -223,21 +206,7 @@ public class CommonController extends BaseController {
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
-                    if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        option.put("unit", uv.getUnit());
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
-                        ExtBks extBks = extBksService.getByCode(uv.getCode());
-                        if (extBks != null) {
-                            option.put("unit", extBks.getYxmc());
-                        }
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_YJS) {
-                        ExtYjs extYjs = extYjsService.getByCode(uv.getCode());
-                        if (extYjs != null) {
-                            option.put("unit", extYjs.getYxsmc());
-                        }
-                    }
+                    option.put("unit", extService.getUnit(uv.getUserId()));
                 }
                 options.add(option);
             }
@@ -285,21 +254,7 @@ public class CommonController extends BaseController {
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
-                    if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        option.put("unit", uv.getUnit());
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
-                        ExtBks extBks = extBksService.getByCode(uv.getCode());
-                        if (extBks != null) {
-                            option.put("unit", extBks.getYxmc());
-                        }
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_YJS) {
-                        ExtYjs extYjs = extYjsService.getByCode(uv.getCode());
-                        if (extYjs != null) {
-                            option.put("unit", extYjs.getYxsmc());
-                        }
-                    }
+                    option.put("unit", extService.getUnit(uv.getUserId()));
                 }
                 options.add(option);
             }
@@ -367,21 +322,7 @@ public class CommonController extends BaseController {
 
                 if (StringUtils.isNotBlank(userBean.getCode())) {
                     option.put("code", userBean.getCode());
-                    if (userBean.getType() == SystemConstants.USER_TYPE_JZG) {
-                        option.put("unit", userBean.getUnit());
-                    }
-                    if (userBean.getType() == SystemConstants.USER_TYPE_BKS) {
-                        ExtBks extBks = extBksService.getByCode(userBean.getCode());
-                        if (extBks != null) {
-                            option.put("unit", extBks.getYxmc());
-                        }
-                    }
-                    if (userBean.getType() == SystemConstants.USER_TYPE_YJS) {
-                        ExtYjs extYjs = extYjsService.getByCode(userBean.getCode());
-                        if (extYjs != null) {
-                            option.put("unit", extYjs.getYxsmc());
-                        }
-                    }
+                    option.put("unit", extService.getUnit(userBean.getUserId()));
                 }
                 options.add(option);
             }
@@ -454,21 +395,7 @@ public class CommonController extends BaseController {
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
-                    if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        option.put("unit", uv.getUnit());
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
-                        ExtBks extBks = extBksService.getByCode(uv.getCode());
-                        if (extBks != null) {
-                            option.put("unit", extBks.getYxmc());
-                        }
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_YJS) {
-                        ExtYjs extYjs = extYjsService.getByCode(uv.getCode());
-                        if (extYjs != null) {
-                            option.put("unit", extYjs.getYxsmc());
-                        }
-                    }
+                    option.put("unit", extService.getUnit(uv.getUserId()));
                 }
                 options.add(option);
             }
@@ -522,21 +449,7 @@ public class CommonController extends BaseController {
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
-                    if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        option.put("unit", uv.getUnit());
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
-                        ExtBks extBks = extBksService.getByCode(uv.getCode());
-                        if (extBks != null) {
-                            option.put("unit", extBks.getYxmc());
-                        }
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_YJS) {
-                        ExtYjs extYjs = extYjsService.getByCode(uv.getCode());
-                        if (extYjs != null) {
-                            option.put("unit", extYjs.getYxsmc());
-                        }
-                    }
+                    option.put("unit", extService.getUnit(uv.getUserId()));
                 }
                 options.add(option);
             }
@@ -580,21 +493,7 @@ public class CommonController extends BaseController {
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
-                    if (uv.getType() == SystemConstants.USER_TYPE_JZG) {
-                        option.put("unit", uv.getUnit());
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_BKS) {
-                        ExtBks extBks = extBksService.getByCode(uv.getCode());
-                        if (extBks != null) {
-                            option.put("unit", extBks.getYxmc());
-                        }
-                    }
-                    if (uv.getType() == SystemConstants.USER_TYPE_YJS) {
-                        ExtYjs extYjs = extYjsService.getByCode(uv.getCode());
-                        if (extYjs != null) {
-                            option.put("unit", extYjs.getYxsmc());
-                        }
-                    }
+                    option.put("unit", extService.getUnit(uv.getUserId()));
                 }
                 options.add(option);
             }

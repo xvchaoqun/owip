@@ -2,7 +2,6 @@ package controller.modify.user;
 
 import controller.modify.ModifyBaseController;
 import domain.cadre.CadreView;
-import domain.ext.ExtJzg;
 import domain.modify.ModifyBaseApply;
 import domain.sys.SysUserView;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -36,10 +35,6 @@ public class UserModifyBaseApplyController extends ModifyBaseController{
         int userId = loginUser.getId();
         CadreView cadre = cadreService.dbFindByUserId(userId);
         modelMap.put("cadre", cadre);
-
-        // 人事信息
-        ExtJzg extJzg = extJzgService.getByCode(loginUser.getCode());
-        modelMap.put("extJzg", extJzg);
 
         ModifyBaseApply mba = modifyBaseApplyService.get(userId);
         if(mba!=null) {

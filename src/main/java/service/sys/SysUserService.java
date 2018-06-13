@@ -1,12 +1,8 @@
 package service.sys;
 
-import persistence.abroad.common.ApproverTypeBean;
 import controller.global.OpException;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
-import domain.ext.ExtBks;
-import domain.ext.ExtJzg;
-import domain.ext.ExtYjs;
 import domain.pcs.PcsAdmin;
 import domain.sys.SysResource;
 import domain.sys.SysRole;
@@ -21,12 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import persistence.abroad.common.ApproverTypeBean;
 import service.BaseMapper;
 import service.abroad.ApplySelfService;
 import service.abroad.ApproverService;
-import service.ext.ExtBksService;
-import service.ext.ExtJzgService;
-import service.ext.ExtYjsService;
+import service.source.ExtService;
 import service.global.CacheService;
 import service.party.PartyMemberAdminService;
 import service.pcs.PcsAdminService;
@@ -54,43 +49,8 @@ public class SysUserService extends BaseMapper {
     private SysResourceService sysResourceService;
     @Autowired
     private CacheService cacheService;
-
     @Autowired
-    protected ExtJzgService extJzgService;
-    @Autowired
-    protected ExtYjsService extYjsService;
-    @Autowired
-    protected ExtBksService extBksService;
-
-    // 获取用户所在的学校人事库或学生库中的单位名称
-    public String getUnit(int userId) {
-
-        SysUserView uv = findById(userId);
-        String code = uv.getCode();
-        Byte type = uv.getType();
-        String unit = null;
-        if (type == SystemConstants.USER_TYPE_JZG) {
-            ExtJzg extJzg = extJzgService.getByCode(code);
-            if (extJzg != null) {
-                unit = uv.getUnit();
-                if (StringUtils.isNotBlank(extJzg.getYjxk())) unit += "-" + extJzg.getYjxk();
-            }
-
-        } else if (type == SystemConstants.USER_TYPE_YJS) {
-            ExtYjs extYjs = extYjsService.getByCode(code);
-            if (extYjs != null) {
-                unit = extYjs.getYxsmc();
-                if (StringUtils.isNotBlank(extYjs.getYjfxmc())) unit += "-" + extYjs.getYjfxmc();
-            }
-        } else if (type == SystemConstants.USER_TYPE_BKS) {
-            ExtBks extBks = extBksService.getByCode(code);
-            if (extBks != null) {
-                unit = extBks.getYxmc();
-                if (StringUtils.isNotBlank(extBks.getZymc())) unit += "-" + extBks.getZymc();
-            }
-        }
-        return unit;
-    }
+    private ExtService extService;
 
     @Transactional
     public void changeRoleGuestToMember(int userId) {
@@ -145,44 +105,20 @@ public class SysUserService extends BaseMapper {
         if (sysUserInfo == null) {
 
             if (StringUtils.isBlank(record.getNativePlace())) {
-                record.setNativePlace(getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
+                record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
             }
 
             sysUserInfoMapper.insertSelective(record);
         } else {
 
             if (StringUtils.isBlank(record.getNativePlace())) {
-                record.setNativePlace(getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
+                record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
             }
 
             sysUserInfoMapper.updateByPrimaryKeySelective(record);
         }
 
         cacheService.clearUserCache(_sysUser);
-    }
-
-    // 照片、籍贯、 出生地、户籍地： 这四个字段只从人事库同步一次， 之后就不
-    // 再同步这个信息了。 然后可以对这四个字段进行编辑。
-
-    // 籍贯
-    private String getExtNativePlace(byte source, String code) {
-
-        if (source == SystemConstants.USER_SOURCE_JZG) {
-            ExtJzg extJzg = extJzgService.getByCode(code);
-            if (extJzg != null) {
-                return extJzg.getJg();
-            }
-        }
-        if (source == SystemConstants.USER_SOURCE_BKS) {
-            ExtBks extBks = extBksService.getByCode(code);
-            if (extBks != null) {
-                return extBks.getSf();
-            }
-        }
-        if (source == SystemConstants.USER_SOURCE_YJS) {
-
-        }
-        return null;
     }
 
     public SysUser dbFindById(int id) {

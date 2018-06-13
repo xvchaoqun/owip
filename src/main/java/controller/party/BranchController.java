@@ -462,7 +462,7 @@ public class BranchController extends BaseController {
             if (branchSecretary.size() > 0) {
                 Integer userId = branchSecretary.get(0).getUserId();
                 SysUserView uv = sysUserService.findById(userId);
-                ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
+                ExtJzg extJzg = extService.getExtJzg(uv.getCode());
                 Date birth = (extJzg!=null)?extJzg.getCsrq():null;
                 String ageRange = "";
                 if(birth!=null){

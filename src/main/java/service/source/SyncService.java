@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.ext.ExtService;
 import service.sys.SysUserService;
 import shiro.PasswordHelper;
 import shiro.ShiroHelper;
