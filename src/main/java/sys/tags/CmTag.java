@@ -41,7 +41,7 @@ import service.dispatch.DispatchUnitService;
 import service.global.CacheService;
 import service.member.RetireApplyService;
 import service.modify.ModifyCadreAuthService;
-import service.source.ExtService;
+import service.ext.ExtService;
 import service.sys.HtmlFragmentService;
 import service.sys.SysConfigService;
 import service.sys.SysResourceService;

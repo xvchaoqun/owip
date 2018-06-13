@@ -1,4 +1,4 @@
-package service.source;
+package service.ext;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,13 +8,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
-public class BnuRetireSalaryImportTest {
+public class BnuJzgImportTest {
 
     @Autowired
-    public ExtRetireSalaryImport extRetireSalaryImport;
+    public ExtJzgImport extJzgImport;
     @Test
-    public void excute() throws Exception {
-
-        extRetireSalaryImport.excute(null);
+    public void excute(){
+        extJzgImport.excute(null);
     }
+
+    @Test
+    public void byCode(){
+
+        extJzgImport.byCode("11132018004");
+    }
+
 }

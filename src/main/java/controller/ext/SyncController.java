@@ -1,4 +1,4 @@
-package controller.sys;
+package controller.ext;
 
 import controller.BaseController;
 import domain.ext.ExtBks;
@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.source.ExtBksImport;
-import service.source.ExtJzgImport;
-import service.source.ExtYjsImport;
+import service.ext.ExtBksImport;
+import service.ext.ExtJzgImport;
+import service.ext.ExtYjsImport;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class SysUserSyncController extends BaseController {
+public class SyncController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired

@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.member.MemberApplyService;
-import service.source.SyncService;
+import service.ext.SyncService;
 import service.sys.LogService;
 import service.sys.SysUserService;
 import shiro.ShiroHelper;
