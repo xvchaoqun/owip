@@ -37,6 +37,11 @@ show grants for data@219.224.19.33;
 GRANT SELECT ON `owip`.`ext_branch_view` TO 'data'@'172.16.214.21' identified by '!@#dataQAZ';
 GRANT SELECT ON `owip`.`ext_member_view` TO 'data'@'172.16.214.21' identified by '!@#dataQAZ';
 GRANT SELECT ON `owip`.`ext_cadre_view` TO 'data'@'172.16.214.21' identified by '!@#dataQAZ';
+
+# lxxt 20180615
+GRANT SELECT ON `owip`.`ext_branch_view` TO 'lxxt'@'219.224.19.48' identified by 'lxxt!@#QAZ';
+GRANT SELECT ON `owip`.`ext_member_view` TO 'lxxt'@'219.224.19.48' identified by 'lxxt!@#QAZ';
+
 flush privileges;
 
 ############

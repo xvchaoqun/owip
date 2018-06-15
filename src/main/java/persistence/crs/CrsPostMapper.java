@@ -2,9 +2,11 @@ package persistence.crs;
 
 import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
-import java.util.List;
+import domain.crs.CrsPostWithBLOBs;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface CrsPostMapper {
     long countByExample(CrsPostExample example);
@@ -13,21 +15,29 @@ public interface CrsPostMapper {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(CrsPost record);
+    int insert(CrsPostWithBLOBs record);
 
-    int insertSelective(CrsPost record);
+    int insertSelective(CrsPostWithBLOBs record);
+
+    List<CrsPostWithBLOBs> selectByExampleWithBLOBsWithRowbounds(CrsPostExample example, RowBounds rowBounds);
+
+    List<CrsPostWithBLOBs> selectByExampleWithBLOBs(CrsPostExample example);
 
     List<CrsPost> selectByExampleWithRowbounds(CrsPostExample example, RowBounds rowBounds);
 
     List<CrsPost> selectByExample(CrsPostExample example);
 
-    CrsPost selectByPrimaryKey(Integer id);
+    CrsPostWithBLOBs selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") CrsPost record, @Param("example") CrsPostExample example);
+    int updateByExampleSelective(@Param("record") CrsPostWithBLOBs record, @Param("example") CrsPostExample example);
+
+    int updateByExampleWithBLOBs(@Param("record") CrsPostWithBLOBs record, @Param("example") CrsPostExample example);
 
     int updateByExample(@Param("record") CrsPost record, @Param("example") CrsPostExample example);
 
-    int updateByPrimaryKeySelective(CrsPost record);
+    int updateByPrimaryKeySelective(CrsPostWithBLOBs record);
+
+    int updateByPrimaryKeyWithBLOBs(CrsPostWithBLOBs record);
 
     int updateByPrimaryKey(CrsPost record);
 }

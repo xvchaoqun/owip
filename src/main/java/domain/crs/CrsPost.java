@@ -89,10 +89,6 @@ public class CrsPost implements Serializable {
 
     private String notice;
 
-    private String requirement;
-
-    private String qualification;
-
     private Integer postRequireId;
 
     private Date startTime;
@@ -104,8 +100,6 @@ public class CrsPost implements Serializable {
     private Date meetingTime;
 
     private String meetingAddress;
-
-    private String meetingNotice;
 
     private Date reportDeadline;
 
@@ -126,8 +120,6 @@ public class CrsPost implements Serializable {
     private Byte pubStatus;
 
     private Byte status;
-
-    private String meetingSummary;
 
     private Integer statGiveCount;
 
@@ -221,22 +213,6 @@ public class CrsPost implements Serializable {
         this.notice = notice == null ? null : notice.trim();
     }
 
-    public String getRequirement() {
-        return requirement;
-    }
-
-    public void setRequirement(String requirement) {
-        this.requirement = requirement == null ? null : requirement.trim();
-    }
-
-    public String getQualification() {
-        return qualification;
-    }
-
-    public void setQualification(String qualification) {
-        this.qualification = qualification == null ? null : qualification.trim();
-    }
-
     public Integer getPostRequireId() {
         return postRequireId;
     }
@@ -283,14 +259,6 @@ public class CrsPost implements Serializable {
 
     public void setMeetingAddress(String meetingAddress) {
         this.meetingAddress = meetingAddress == null ? null : meetingAddress.trim();
-    }
-
-    public String getMeetingNotice() {
-        return meetingNotice;
-    }
-
-    public void setMeetingNotice(String meetingNotice) {
-        this.meetingNotice = meetingNotice == null ? null : meetingNotice.trim();
     }
 
     public Date getReportDeadline() {
@@ -371,14 +339,6 @@ public class CrsPost implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
-    }
-
-    public String getMeetingSummary() {
-        return meetingSummary;
-    }
-
-    public void setMeetingSummary(String meetingSummary) {
-        this.meetingSummary = meetingSummary == null ? null : meetingSummary.trim();
     }
 
     public Integer getStatGiveCount() {

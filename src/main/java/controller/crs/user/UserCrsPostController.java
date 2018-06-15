@@ -6,6 +6,7 @@ import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantWithBLOBs;
 import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
+import domain.crs.CrsPostWithBLOBs;
 import mixin.MixinUtils;
 import mixin.UserCrsPostMixin;
 import org.apache.ibatis.session.RowBounds;
@@ -50,11 +51,22 @@ public class UserCrsPostController extends CrsBaseController {
     }
 
     @RequiresPermissions("userCrsPost:*")
+    @RequestMapping("/crsPost_postDuty")
+    public String crsPost_postDuty(int postId, ModelMap modelMap) {
+
+        CrsPostWithBLOBs crsPost = crsPostMapper.selectByPrimaryKey(postId);
+        modelMap.put("title", String.format("[%s]岗位职责", crsPost.getName()));
+        modelMap.put("content", crsPost.getPostDuty());
+
+        return "common/popup_note";
+    }
+
+    @RequiresPermissions("userCrsPost:*")
     @RequestMapping("/crsPost_requirement")
     public String crsPost_requirement(int postId, ModelMap modelMap) {
 
-        CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
-        modelMap.put("title", crsPost.getName() + "基本条件");
+        CrsPostWithBLOBs crsPost = crsPostMapper.selectByPrimaryKey(postId);
+        modelMap.put("title", String.format("[%s]基本条件", crsPost.getName()));
         modelMap.put("content", crsPost.getRequirement());
 
         return "common/popup_note";
@@ -64,8 +76,8 @@ public class UserCrsPostController extends CrsBaseController {
     @RequestMapping("/crsPost_qualification")
     public String crsPost_qualification(int postId, ModelMap modelMap) {
 
-        CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
-        modelMap.put("title", crsPost.getName() + "任职资格");
+        CrsPostWithBLOBs crsPost = crsPostMapper.selectByPrimaryKey(postId);
+        modelMap.put("title", String.format("[%s]任职资格", crsPost.getName()));
         modelMap.put("content", crsPost.getQualification());
 
         return "common/popup_note";
@@ -214,7 +226,7 @@ public class UserCrsPostController extends CrsBaseController {
         CrsPostExample.Criteria criteria = example.createCriteria()
                 .andPubStatusEqualTo(CrsConstants.CRS_POST_PUB_STATUS_PUBLISHED)
                 .andStatusEqualTo(CrsConstants.CRS_POST_STATUS_NORMAL); // 读取已发布、正在招聘的岗位
-        example.setOrderByClause("create_time desc");
+        example.setOrderByClause("type asc, year desc, seq asc");
 
         long count = crsPostMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {

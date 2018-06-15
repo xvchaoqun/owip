@@ -5,6 +5,7 @@ pageEncoding="UTF-8"%>
     <form class="form-horizontal" action="${ctx}/crsPost_templateContent" id="templateContentForm" method="post">
         <input type="hidden" name="id" value="${crsPost.id}">
         <input type="hidden" name="type" value="${param.type}">
+        <c:if test="${param.type!=CRS_TEMPLATE_TYPE_POST_DUTY}">
         <div class="form-group">
             <div class="col-xs-6">
                 <select data-rel="select2" name="templateId" data-placeholder="请选择通用模板">
@@ -15,6 +16,7 @@ pageEncoding="UTF-8"%>
                 </select>
             </div>
         </div>
+        </c:if>
         <div class="form-group">
             <div class="col-xs-6">
                 <input type="hidden" name="content">
@@ -22,6 +24,7 @@ pageEncoding="UTF-8"%>
                 ${param.type==CRS_TEMPLATE_TYPE_BASE?crsPost.requirement:""}
                 ${param.type==CRS_TEMPLATE_TYPE_POST?crsPost.qualification:""}
                 ${param.type==CRS_TEMPLATE_TYPE_MEETINGNOTICE?crsPost.meetingNotice:""}
+                ${param.type==CRS_TEMPLATE_TYPE_POST_DUTY?crsPost.postDuty:""}
                 </textarea>
             </div>
         </div>

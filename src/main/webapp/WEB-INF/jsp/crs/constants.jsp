@@ -9,6 +9,7 @@
 <c:set value="<%=CrsConstants.CRS_TEMPLATE_TYPE_BASE%>" var="CRS_TEMPLATE_TYPE_BASE"/>
 <c:set value="<%=CrsConstants.CRS_TEMPLATE_TYPE_POST%>" var="CRS_TEMPLATE_TYPE_POST"/>
 <c:set value="<%=CrsConstants.CRS_TEMPLATE_TYPE_MEETINGNOTICE%>" var="CRS_TEMPLATE_TYPE_MEETINGNOTICE"/>
+<c:set value="<%=CrsConstants.CRS_TEMPLATE_TYPE_POST_DUTY%>" var="CRS_TEMPLATE_TYPE_POST_DUTY"/>
 
 <c:set value="<%=CrsConstants.CRS_POST_TYPE_MAP%>" var="CRS_POST_TYPE_MAP"/>
 

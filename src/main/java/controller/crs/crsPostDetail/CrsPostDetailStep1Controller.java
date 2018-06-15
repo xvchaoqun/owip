@@ -3,6 +3,7 @@ package controller.crs.crsPostDetail;
 import controller.crs.CrsBaseController;
 import domain.crs.CrsPost;
 import domain.crs.CrsPostRequire;
+import domain.crs.CrsPostWithBLOBs;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,17 @@ public class CrsPostDetailStep1Controller extends CrsBaseController {
     }
 
     @RequiresPermissions("crsPost:list")
+    @RequestMapping("/crsPost_detail/step1_postDuty")
+    public String step1_postDuty(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            CrsPost crsPost = crsPostMapper.selectByPrimaryKey(id);
+            modelMap.put("crsPost", crsPost);
+        }
+        return "crs/crsPost/crsPost_detail/step1_postDuty";
+    }
+
+    @RequiresPermissions("crsPost:list")
     @RequestMapping("/crsPost_detail/step1_require")
     public String step1_require(Integer id, ModelMap modelMap) {
 
@@ -85,7 +97,7 @@ public class CrsPostDetailStep1Controller extends CrsBaseController {
     @ResponseBody
     public Map do_step1_require_au(int id, int postRequireId, HttpServletRequest request) {
 
-        CrsPost record = new CrsPost();
+        CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setId(id);
         record.setPostRequireId(postRequireId);
         crsPostService.updateByPrimaryKeySelective(record);

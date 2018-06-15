@@ -2,6 +2,7 @@ package controller.crs.crsPostDetail;
 
 import controller.crs.CrsBaseController;
 import domain.crs.CrsPost;
+import domain.crs.CrsPostWithBLOBs;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,7 @@ public class CrsPostDetailStep2Controller extends CrsBaseController {
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(id);
 
-        CrsPost record = new CrsPost();
+        CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setId(id);
         record.setStartTime(startTime);
         record.setEndTime(endTime);
@@ -67,7 +68,7 @@ public class CrsPostDetailStep2Controller extends CrsBaseController {
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(id);
 
-        CrsPost record = new CrsPost();
+        CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setId(id);
         record.setEnrollStatus(enrollStatus);
 

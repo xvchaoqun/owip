@@ -12,6 +12,13 @@
   <li>
     <a href="javascript:;" class="loadPage"
        data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
+       data-url='${ctx}/crsPost_detail/step1_postDuty?id=${param.id}'><i
+            class="fa fa-hand-rock-o"></i> 岗位职责
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="loadPage"
+       data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
        data-url='${ctx}/crsPost_detail/step1_base?id=${param.id}'><i
             class="fa fa-calendar-o"></i> 基本条件
     </a>

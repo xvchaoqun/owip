@@ -6,6 +6,7 @@ import domain.crs.CrsApplicantView;
 import domain.crs.CrsApplicantViewExample;
 import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
+import domain.crs.CrsPostWithBLOBs;
 import domain.crs.CrsShortMsg;
 import domain.crs.CrsShortMsgExample;
 import org.apache.ibatis.session.RowBounds;
@@ -98,7 +99,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
                                 String meetingAddress,
                                 HttpServletRequest request) {
 
-        CrsPost record = new CrsPost();
+        CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setId(id);
         record.setMeetingTime(meetingTime);
         record.setMeetingAddress(meetingAddress);
@@ -250,7 +251,7 @@ public class CrsPostDetailStep3Controller extends CrsBaseController {
     public Map do_step3_finish(int postId) throws Exception {
 
 
-        CrsPost record = new CrsPost();
+        CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setMeetingStatus(true);
         record.setStatus(CrsConstants.CRS_POST_STATUS_FINISH);
 

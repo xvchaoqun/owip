@@ -6,6 +6,7 @@ import domain.crs.CrsPostExample;
 import domain.crs.CrsPostExample.Criteria;
 import domain.crs.CrsPostExpert;
 import domain.crs.CrsPostExpertExample;
+import domain.crs.CrsPostWithBLOBs;
 import domain.crs.CrsTemplate;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -156,7 +157,7 @@ public class CrsPostController extends CrsBaseController {
     @RequiresPermissions("crsPost:edit")
     @RequestMapping(value = "/crsPost_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsPost_au(CrsPost record, HttpServletRequest request) {
+    public Map do_crsPost_au(CrsPostWithBLOBs record, HttpServletRequest request) {
 
         Integer id = record.getId();
 
@@ -228,7 +229,7 @@ public class CrsPostController extends CrsBaseController {
 
         String savePath = uploadFile(file);
 
-        CrsPost record = new CrsPost();
+        CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setId(id);
         record.setNotice(savePath);
         crsPostService.updateByPrimaryKeySelective(record);
@@ -260,7 +261,7 @@ public class CrsPostController extends CrsBaseController {
     @ResponseBody
     public Map do_crsPost_templateContent(Integer id, byte type, String content) {
 
-        CrsPost record = new CrsPost();
+        CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setId(id);
         if (type == CrsConstants.CRS_TEMPLATE_TYPE_BASE) {
             record.setRequirement(content);
@@ -268,6 +269,8 @@ public class CrsPostController extends CrsBaseController {
             record.setQualification(content);
         } else if (type == CrsConstants.CRS_TEMPLATE_TYPE_MEETINGNOTICE) {
             record.setMeetingNotice(content);
+        } else if (type == CrsConstants.CRS_TEMPLATE_TYPE_POST_DUTY) {
+            record.setPostDuty(content);
         }
 
         crsPostService.updateByPrimaryKeySelective(record);
@@ -294,7 +297,7 @@ public class CrsPostController extends CrsBaseController {
     @ResponseBody
     public Map do_crsPost_meetingSummary(Integer id, String meetingSummary) {
 
-        CrsPost record = new CrsPost();
+        CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setId(id);
         record.setMeetingSummary(meetingSummary);
 
@@ -313,7 +316,7 @@ public class CrsPostController extends CrsBaseController {
         if (id != null) {
 
             publish = BooleanUtils.isTrue(publish);
-            CrsPost record = new CrsPost();
+            CrsPostWithBLOBs record = new CrsPostWithBLOBs();
             record.setId(id);
             record.setPubStatus(publish ? CrsConstants.CRS_POST_PUB_STATUS_PUBLISHED
                     : CrsConstants.CRS_POST_PUB_STATUS_CANCEL);
@@ -336,7 +339,7 @@ public class CrsPostController extends CrsBaseController {
         if (id != null) {
 
             closed = BooleanUtils.isTrue(closed);
-            CrsPost record = new CrsPost();
+            CrsPostWithBLOBs record = new CrsPostWithBLOBs();
             record.setId(id);
             record.setPptUploadClosed(closed);
 
@@ -377,12 +380,12 @@ public class CrsPostController extends CrsBaseController {
 
     public void crsPost_export(CrsPostExample example, HttpServletResponse response) {
 
-        List<CrsPost> records = crsPostMapper.selectByExample(example);
+        List<CrsPostWithBLOBs> records = crsPostMapper.selectByExampleWithBLOBs(example);
         int rownum = records.size();
         String[] titles = {"年度", "招聘岗位", "行政级别", "所属单位", "基本条件", "任职资格", "报名情况", "常委会情况", "备注", "状态"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            CrsPost record = records.get(i);
+            CrsPostWithBLOBs record = records.get(i);
             String[] values = {
                     record.getYear() + "",
                     record.getName(),

@@ -11,6 +11,7 @@ import domain.crs.CrsCandidate;
 import domain.crs.CrsCandidateExample;
 import domain.crs.CrsPost;
 import domain.crs.CrsPostExample;
+import domain.crs.CrsPostWithBLOBs;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -96,7 +97,7 @@ public class CrsPostService extends BaseMapper {
         CrsPostStatBean statBean = gson.fromJson(jsonResult, CrsPostStatBean.class);
 
         int postId = statBean.getPostId();
-        CrsPost cp = new CrsPost();
+        CrsPostWithBLOBs cp = new CrsPostWithBLOBs();
         cp.setId(postId);
         cp.setStatGiveCount(statBean.getStatGiveCount());
         cp.setStatBackCount(statBean.getStatBackCount());
@@ -170,7 +171,7 @@ public class CrsPostService extends BaseMapper {
     }
 
     @Transactional
-    public void insertSelective(CrsPost record) {
+    public void insertSelective(CrsPostWithBLOBs record) {
 
         if (record.getSeq() == null) {
             record.setSeq(genSeq(record.getType(), record.getYear()));
@@ -194,7 +195,7 @@ public class CrsPostService extends BaseMapper {
 
         CrsPostExample example = new CrsPostExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
-        CrsPost record = new CrsPost();
+        CrsPostWithBLOBs record = new CrsPostWithBLOBs();
         record.setStatus(status);
         crsPostMapper.updateByExampleSelective(record, example);
     }
@@ -211,7 +212,7 @@ public class CrsPostService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CrsPost record) {
+    public int updateByPrimaryKeySelective(CrsPostWithBLOBs record) {
 
         return crsPostMapper.updateByPrimaryKeySelective(record);
     }

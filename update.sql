@@ -1,4 +1,5 @@
 
+
 2018-6-15
 ALTER TABLE `sys_user_sync`
 	COMMENT='数据同步日志';
@@ -14,6 +15,8 @@ ALTER TABLE `abroad_approval_log`
 ALTER TABLE `abroad_approval_log`
 	ADD COLUMN `file_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '批件名称' AFTER `file_path`;
 
+ALTER TABLE `crs_post`
+	ADD COLUMN `post_duty` TEXT NULL COMMENT '岗位职责' AFTER `notice`;
 
 -- 同步西安交大
 
