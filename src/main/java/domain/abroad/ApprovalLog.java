@@ -18,6 +18,10 @@ public class ApprovalLog implements Serializable {
 
     private String remark;
 
+    private String filePath;
+
+    private String fileName;
+
     private Date createTime;
 
     private String ip;
@@ -78,6 +82,22 @@ public class ApprovalLog implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath == null ? null : filePath.trim();
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName == null ? null : fileName.trim();
     }
 
     public Date getCreateTime() {

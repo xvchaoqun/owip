@@ -11,10 +11,14 @@ import domain.cet.CetTrainCourse;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseView;
 import domain.cet.CetTraineeView;
+import domain.sys.SysUserView;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.BigDecimalConverter;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +46,8 @@ import java.util.Set;
 
 @Service
 public class CetProjectObjService extends BaseMapper {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private SysUserService sysUserService;
@@ -295,6 +301,49 @@ public class CetProjectObjService extends BaseMapper {
                 }
             }
         }
+    }
+
+    // 导入选课情况
+    //@Transactional 此处不可使用事务
+    public Map<String, Object> imports(List<Map<Integer, String>> xlsRows, int projectId, int trainCourseId) {
+
+        int success = 0;
+        List<Map<Integer, String>> failedXlsRows = new ArrayList<>();
+        for (Map<Integer, String> xlsRow : xlsRows) {
+
+            String code = StringUtils.trim(xlsRow.get(0));
+            if (StringUtils.isBlank(code)) continue;
+            SysUserView uv = sysUserService.findByCode(code);
+            if (uv == null){
+                failedXlsRows.add(xlsRow);
+                continue;
+            }
+            int userId = uv.getId();
+            CetProjectObj cetProjectObj = get(userId, projectId);
+            if (cetProjectObj == null || BooleanUtils.isTrue(cetProjectObj.getIsQuit())){
+                failedXlsRows.add(xlsRow);
+                continue;
+            }
+            boolean isQuit = StringUtils.equals(xlsRow.get(2), "退课"); // 留空默认选课
+            boolean canQuit = StringUtils.equals(xlsRow.get(3), "是"); // 留空默认不允许退课，即必选
+
+            try {
+                if (isQuit) {
+                    cetTraineeCourseService.applyItem(userId, trainCourseId, false, true, true, "导入退课[管理员]");
+                } else {
+                    cetTraineeCourseService.applyItem(userId, trainCourseId, true, true, canQuit, "导入选课[管理员]");
+                }
+                success++;
+            }catch (Exception ex){
+                logger.warn("导入选课情况出错：" + ex.getMessage());
+                failedXlsRows.add(xlsRow);
+            }
+        }
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("success", success);
+        resultMap.put("failedXlsRows", failedXlsRows);
+        return resultMap;
     }
 
     // 获取培训对象在一个培训方案中已完成的学时

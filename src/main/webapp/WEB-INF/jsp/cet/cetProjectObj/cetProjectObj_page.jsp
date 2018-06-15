@@ -95,6 +95,11 @@
             class="confirm btn btn-warning btn-sm">
         <i class="fa fa-times-circle"></i> 全部设置为可选
     </button>
+    <button class="popupBtn btn btn-info btn-sm tooltip-success"
+            data-url="${ctx}/cet/cetProjectObj_import?projectId=${cetProject.id}&trainCourseId=${param.trainCourseId}"
+            data-rel="tooltip" data-placement="top"
+            title="从Excel中导入选课情况"><i class="fa fa-upload"></i> 导入选课情况</button>
+
     <button data-url="${ctx}/cet/cetProjectObj_apply?projectId=${cetProject.id}&opType=1&trainCourseId=${param.trainCourseId}"
             data-title="设置为必选学员"
             data-msg="确定将这{0}个学员设置为必选学员？"

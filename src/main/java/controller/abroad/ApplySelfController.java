@@ -95,15 +95,22 @@ public class ApplySelfController extends AbroadBaseController {
                                      boolean pass, String remark,
                                      Boolean isAdmin, // 干部管理员直接审批
                                       Integer approvalUserId, // 干部管理员直接审批时，选择的审批人
+                                      MultipartFile _filePath,
                                       @DateTimeFormat(pattern = "yyyy-MM-dd") Date approvalTime, // 干部管理员直接审批时可修改时间
-                                     HttpServletRequest request) {
+                                     HttpServletRequest request) throws IOException, InterruptedException {
 
         //int userId = ShiroHelper.getCurrentUserId();
 
+        String filePath = null;
+        String fileName = null;
         if(BooleanUtils.isTrue(isAdmin)){
             SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CADREADMIN);
             if(approvalTime==null) approvalTime = new Date();
             if(approvalUserId==null) approvalUserId = ShiroHelper.getCurrentUserId();
+            if(_filePath!=null) {
+                filePath = uploadPdfOrImage(_filePath, "applySelf_approval");
+                fileName = FileUtils.getFileName(_filePath.getOriginalFilename());
+            }
         }else{
             approvalUserId = ShiroHelper.getCurrentUserId();
             if (!applySelfService.canApproval(approvalUserId, applySelfId, approvalTypeId))
@@ -111,7 +118,7 @@ public class ApplySelfController extends AbroadBaseController {
             approvalTime = new Date();
         }
 
-        approvalLogService.approval(approvalUserId, applySelfId, approvalTypeId, pass, approvalTime, remark);
+        approvalLogService.approval(approvalUserId, applySelfId, approvalTypeId, pass, approvalTime, remark, filePath, fileName);
 
         if (BooleanUtils.isNotTrue(isAdmin)) {
             //if (springProps.applySelfSendApprovalMsg) {
@@ -154,7 +161,9 @@ public class ApplySelfController extends AbroadBaseController {
                                                int applySelfId,
                                                int approvalLogId,
                                                @DateTimeFormat(pattern = "yyyy-MM-dd") Date approvalTime,
-                                               String remark, ModelMap modelMap) {
+                                               String remark,
+                                               MultipartFile _filePath,
+                                               ModelMap modelMap) throws IOException, InterruptedException {
 
 
         ApprovalLog approvalLog = approvalLogMapper.selectByPrimaryKey(approvalLogId);
@@ -165,6 +174,11 @@ public class ApplySelfController extends AbroadBaseController {
         record.setId(approvalLogId);
         record.setCreateTime(approvalTime);
         record.setRemark(remark);
+        if(_filePath!=null) {
+            record.setFilePath(uploadPdfOrImage(_filePath, "applySelf_approval"));
+            record.setFileName(FileUtils.getFileName(_filePath.getOriginalFilename()));
+        }
+
         approvalLogMapper.updateByPrimaryKeySelective(record);
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);

@@ -157,7 +157,7 @@ public class ApprovalLogService extends BaseMapper {
                          int approvalTypeId,
                          boolean pass,
                          Date approvalTime, // 审批时间
-                         String remark){
+                         String remark, String filePath, String fileName){
 
         Map<Integer, ApprovalResult> approvalResultMap = applySelfService.getApprovalResultMap(applySelfId);
         Integer result = approvalResultMap.get(approvalTypeId).getValue();
@@ -226,6 +226,8 @@ public class ApprovalLogService extends BaseMapper {
         record.setUserId(opUserId);
         record.setCreateTime(approvalTime);
         record.setIp(ContextHelper.getRealIp());
+        record.setFilePath(filePath);
+        record.setFileName(fileName);
 
         doApproval(record);
     }

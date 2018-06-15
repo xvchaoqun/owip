@@ -41,7 +41,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label"><th>${empty metaClass.extraAttr?'附加属性':metaClass.extraAttr}</th></label>
+				<label class="col-xs-3 control-label">${empty metaClass.extraAttr?'附加属性':metaClass.extraAttr}</label>
 				<div class="col-xs-6">
 						<textarea class="form-control" name="extraAttr">${metaType.extraAttr}</textarea>
 				</div>

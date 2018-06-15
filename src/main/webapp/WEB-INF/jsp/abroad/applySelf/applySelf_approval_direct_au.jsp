@@ -25,6 +25,12 @@
         <textarea class="form-control limited" name="remark">${approvalLog.remark}</textarea>
       </div>
     </div>
+    <div class="form-group">
+      <label class="col-xs-3 control-label">上传批件</label>
+      <div class="col-xs-6">
+        <input  class="form-control" type="file" name="_filePath" />
+      </div>
+    </div>
   </form>
 </div>
 <div class="modal-footer">
@@ -32,7 +38,12 @@
   <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>
 <script>
-  $.register.date($('.date-picker'))
+  $.fileInput($('input[name=_filePath]'), {
+    no_file: '请上传pdf或图片文件...',
+    allowExt: ['pdf', 'jpg', 'jpeg', 'png', 'gif'],
+    allowMime: ['application/pdf', 'image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+  });
+$.register.date($('.date-picker'))
   $("#submitBtn").click(function(){
     $("#modalForm").submit(); return false;
   });

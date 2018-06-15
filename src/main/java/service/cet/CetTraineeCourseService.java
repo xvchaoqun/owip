@@ -223,7 +223,7 @@ public class CetTraineeCourseService extends BaseMapper {
         } else {
 
             if (cetTraineeCourse == null) {
-                throw new OpException("课程不存在。");
+                throw new OpException("退课异常，已选课程中无此课程。");
             }
 
             String courseName = cetTrainCourse.getCetCourse().getName();

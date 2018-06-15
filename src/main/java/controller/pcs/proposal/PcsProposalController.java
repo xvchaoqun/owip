@@ -263,7 +263,7 @@ public class PcsProposalController extends PcsBaseController {
         for (MultipartFile _file : _files) {
 
             String originalFilename = _file.getOriginalFilename();
-            String savePath = savePdfOrImage(_file, "pcsProposal");
+            String savePath = uploadPdfOrImage(_file, "pcsProposal");
 
             PcsProposalFile file = new PcsProposalFile();
             file.setUserId(ShiroHelper.getCurrentUserId());

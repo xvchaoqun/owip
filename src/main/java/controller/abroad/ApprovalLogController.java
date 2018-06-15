@@ -69,7 +69,7 @@ public class ApprovalLogController extends BaseController {
             return null;
         }
 
-        int count = approvalLogMapper.countByExample(example);
+        long count = approvalLogMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -160,7 +160,7 @@ public class ApprovalLogController extends BaseController {
     public void approvalLog_export(ApprovalLogExample example, HttpServletResponse response) {
 
         List<ApprovalLog> approvalLogs = approvalLogMapper.selectByExample(example);
-        int rownum = approvalLogMapper.countByExample(example);
+        long rownum = approvalLogMapper.countByExample(example);
 
         XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();

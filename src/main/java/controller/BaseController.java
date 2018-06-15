@@ -397,7 +397,7 @@ public class BaseController extends BaseMapper {
         return upload(file, saveFolder, "pic", sImgWidth, sImgHeight);
     }
 
-    public String savePdfOrImage(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
+    public String uploadPdfOrImage(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
 
         if (StringUtils.indexOfAny(file.getContentType(), "pdf", "image")==-1) {
             throw new FileFormatException("文件格式错误，请上传pdf或图片文件");

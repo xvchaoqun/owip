@@ -2,13 +2,12 @@ package persistence.abroad;
 
 import domain.abroad.ApprovalLog;
 import domain.abroad.ApprovalLogExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface ApprovalLogMapper {
-    int countByExample(ApprovalLogExample example);
+    long countByExample(ApprovalLogExample example);
 
     int deleteByExample(ApprovalLogExample example);
 

@@ -141,6 +141,7 @@
                 <c:if test="${not empty approvalLog}">
                   <c:set var="sysUser" value="${cm:getUserById(approvalLog.userId)}"/>
                   审批意见：${approvalLog.remark}<br/>
+                  <c:if test="${not empty approvalLog.filePath}">批件： <t:preview filePath="${approvalLog.filePath}" fileName="${approvalLog.fileName}" label="查看"/><br/></c:if>
                   <c:if test="${!justView}">审批人：${sysUser.realname}<br/></c:if>
                   审批时间：${cm:formatDate(approvalLog.createTime,'yyyy-MM-dd')}
                   <shiro:hasRole name="${ROLE_CADREADMIN}">
@@ -186,4 +187,9 @@
     $.loadModal("${ctx}/abroad/applySelf_approval?applySelfId=${applySelf.id}&approvalTypeId=${param.approvalTypeId}&pass=0");
   });
 </c:if>
+$.register.fancybox(function () {
+  //console.log(this)
+  this.title = '<div class="title">' + this.title + '<div class="download">【<a href="${ctx}/attach/download?path={0}" target="_blank">点击下载</a>】</div></div>'
+                  .format($(this.element).data('path'));
+});
 </script>

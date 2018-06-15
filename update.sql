@@ -4,7 +4,16 @@ ALTER TABLE `sys_user_sync`
 	COMMENT='数据同步日志';
 RENAME TABLE `sys_user_sync` TO `sys_sync`;
 
-sysUserSync:edit ->sysSync:edit
+update sys_resource set permission='sysSync:*' where permission='sysUserSync:*';
+
+文件夹 jsp/sysUserSync -> jsp/sysSync
+
+ALTER TABLE `abroad_approval_log`
+	ADD COLUMN `file_path` VARCHAR(200) NULL COMMENT '批件' AFTER `remark`;
+
+ALTER TABLE `abroad_approval_log`
+	ADD COLUMN `file_name` VARCHAR(100) NULL DEFAULT NULL COMMENT '批件名称' AFTER `file_path`;
+
 
 -- 同步西安交大
 

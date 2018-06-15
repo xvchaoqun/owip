@@ -1,6 +1,7 @@
 package controller.cet;
 
 import bean.UserBean;
+import bean.XlsUpload;
 import controller.global.OpException;
 import domain.cet.CetDiscussGroup;
 import domain.cet.CetPlanCourse;
@@ -16,6 +17,10 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
@@ -373,6 +379,38 @@ public class CetProjectObjController extends CetBaseController {
                 StringUtils.join(ids, ","), opType, trainCourseId));
 
         return success(FormUtils.SUCCESS);
+    }
+
+    // 导入选课情况
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping("/cetProjectObj_import")
+    public String cetProjectObj_import() {
+
+        return "cet/cetProjectObj/cetProjectObj_import";
+    }
+
+    @RequiresPermissions("cetProjectObj:edit")
+    @RequestMapping(value="/cetProjectObj_import", method=RequestMethod.POST)
+    @ResponseBody
+    public Map do_cetProjectObj_import(int projectId, int trainCourseId,
+                                            HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+
+        Map<String, Object> retMap = cetProjectObjService.imports(xlsRows, projectId, trainCourseId);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", retMap.get("success"));
+        resultMap.put("failedXlsRows", retMap.get("failedXlsRows"));
+        resultMap.put("total", xlsRows.size());
+
+        return resultMap;
     }
 
     // 自动结业
