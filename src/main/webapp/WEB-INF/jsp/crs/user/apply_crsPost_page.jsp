@@ -119,21 +119,25 @@
             </c:if>
             {label: '分管工作', name: 'job', width: '300', formatter: $.jgrid.formatter.NoMultiSpace},
             {label: '岗位职责', name: 'postDuty', width: 90, formatter: function (cellvalue, options, rowObject) {
+                if ($.trim(cellvalue) == '') return '--'
+
                 return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/user/crsPost_postDuty?postId={0}">查看</a>'
                         .format(rowObject.id)
             }},
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
             {label: '所属单位', name: 'unit.name', width: 200},
             {label: '招聘公告', name: 'notice', width: 90, formatter: function (cellvalue, options, rowObject) {
-                if ($.trim(rowObject.notice) == '') return '-'
+                if ($.trim(cellvalue) == '') return '--'
                     return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
                             .format(encodeURI(rowObject.notice), encodeURI(rowObject.name+"招聘公告.pdf"))
             }},
             {label: '基本条件', name: 'requirement', width: 90, formatter: function (cellvalue, options, rowObject) {
+                if ($.trim(cellvalue) == '') return '--'
                 return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/user/crsPost_requirement?postId={0}">查看</a>'
                         .format(rowObject.id)
             }},
             {label: '任职资格', name: 'qualification', width: 90, formatter: function (cellvalue, options, rowObject) {
+                if ($.trim(cellvalue) == '') return '--'
                 return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/user/crsPost_qualification?postId={0}">查看</a>'
                         .format(rowObject.id)
             }},

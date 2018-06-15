@@ -233,7 +233,7 @@ public class UserCrsPostController extends CrsBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<CrsPost> records = crsPostMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<CrsPostWithBLOBs> records = crsPostMapper.selectByExampleWithBLOBsWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();

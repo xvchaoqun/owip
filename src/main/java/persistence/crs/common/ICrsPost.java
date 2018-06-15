@@ -1,8 +1,8 @@
 package persistence.crs.common;
 
-import domain.crs.CrsPost;
+import domain.crs.CrsPostWithBLOBs;
 
-public class ICrsPost extends CrsPost {
+public class ICrsPost extends CrsPostWithBLOBs {
 
     private Integer applicantId;
     private Boolean applicantIsQuit;

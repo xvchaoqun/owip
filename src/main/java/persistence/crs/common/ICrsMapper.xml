@@ -8,7 +8,7 @@
     </resultMap>
 
     <resultMap id="PostBaseResultMap" type="persistence.crs.common.ICrsPost"
-               extends="persistence.crs.CrsPostMapper.BaseResultMap">
+               extends="persistence.crs.CrsPostMapper.ResultMapWithBLOBs">
         <result column="applicant_id" jdbcType="INTEGER" property="applicantId"/>
         <result column="applicant_is_quit" jdbcType="BIT" property="applicantIsQuit"/>
         <result column="info_check_status" jdbcType="TINYINT" property="infoCheckStatus"/>
