@@ -206,9 +206,9 @@
                 return _.template($("#publish_tpl").html().NoMultiSpace())({id: rowObject.id, isPublish:(rowObject.pubStatus==${CRS_POST_PUB_STATUS_PUBLISHED})})
             }},
             </shiro:hasPermission>
-            {label: '分管工作', name: 'job', width:'300', formatter: $.jgrid.formatter.NoMultiSpace},
+            {label: '分管工作', name: 'job', width:'300', align:'left', formatter: $.jgrid.formatter.NoMultiSpace},
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
-            {label: '所属单位', name: 'unit.name', width: 200},
+            {label: '所属单位', name: 'unit.name', width: 200, align:'left'},
             {label: '部门属性', name: 'unit.unitType.name', width: 150},
             {label: '招聘人数', name: 'num', width: 80},
 

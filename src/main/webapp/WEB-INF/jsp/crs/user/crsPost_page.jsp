@@ -91,14 +91,14 @@
 
             }, width: 180, frozen: true
             },
-            {label: '招聘岗位', name: 'name', width: '300', frozen: true},
-            {label: '分管工作', name: 'job', width: '300', formatter: $.jgrid.formatter.NoMultiSpace},
+            {label: '招聘岗位', name: 'name', width: '300', frozen: true, align:'left'},
+            {label: '分管工作', name: 'job', width: '300', align:'left', formatter: $.jgrid.formatter.NoMultiSpace},
             {label: '岗位职责', name: 'postDuty', width: 90, formatter: function (cellvalue, options, rowObject) {
                 return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/user/crsPost_postDuty?postId={0}">查看</a>'
                         .format(rowObject.id)
             }},
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
-            {label: '所属单位', name: 'unit.name', width: 200},
+            {label: '所属单位', name: 'unit.name', width: 200, align:'left'},
             {label: '招聘公告', name: 'notice', width: 90, formatter: function (cellvalue, options, rowObject) {
                 if ($.trim(rowObject.notice) == '') return '-'
                     return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
