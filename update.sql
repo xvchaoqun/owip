@@ -1,5 +1,5 @@
 
-
+2018-6-15
 ALTER TABLE `sys_user_sync`
 	COMMENT='数据同步日志';
 RENAME TABLE `sys_user_sync` TO `sys_sync`;
