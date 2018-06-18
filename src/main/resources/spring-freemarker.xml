@@ -10,7 +10,7 @@
         <!-- 编码设置 -->
         <property name="freemarkerSettings">
             <props>
-                <prop key="template_update_delay">0</prop><!--刷新模板的周期，单位为秒  -->
+                <prop key="template_update_delay">3600</prop><!--刷新模板的周期，单位为秒  -->
                 <prop key="default_encoding">UTF-8</prop><!--模板的编码格式  -->
                 <prop key="locale">UTF-8</prop><!--本地化设置  -->
                 <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
