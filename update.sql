@@ -22,7 +22,7 @@ ALTER TABLE `sys_user_sync`
 	COMMENT='数据同步日志';
 RENAME TABLE `sys_user_sync` TO `sys_sync`;
 
-update sys_resource set permission='sysSync:*' where permission='sysUserSync:*';
+update sys_resource set url='/sysSync', permission='sysSync:*' where permission='sysUserSync:*';
 
 文件夹 jsp/sysUserSync -> jsp/sysSync
 

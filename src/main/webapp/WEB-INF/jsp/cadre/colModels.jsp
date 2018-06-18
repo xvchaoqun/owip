@@ -90,14 +90,14 @@
         {label: '岗位类别', name: 'postClass'},
         {label: '主岗等级', name: 'mainPostLevel', width: 150},
         {label: '专业技术职务', name: 'proPost', width: 120},
-        {label: '专技职务评定时间', name: 'proPostTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+        {label: '专技职务评定时间', name: 'proPostTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
         {label: '专技岗位等级', name: 'proPostLevel', width: 150},
         {
             label: '专技岗位分级时间',
             name: 'proPostLevelTime',
             width: 130,
             formatter: 'date',
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m'}
         },
         {label: '管理岗位等级', name: 'manageLevel', width: 150},
         {
@@ -105,7 +105,7 @@
             name: 'manageLevelTime',
             width: 130,
             formatter: 'date',
-            formatoptions: {newformat: 'Y-m-d'}
+            formatoptions: {newformat: 'Y.m'}
         },
         {
             label: '现职务任命文件',
