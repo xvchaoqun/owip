@@ -9,12 +9,13 @@ import domain.ext.ExtJzgExample;
 import domain.ext.ExtYjs;
 import domain.ext.ExtYjsExample;
 import domain.sys.StudentInfo;
-import domain.sys.SysUser;
-import domain.sys.SysUserInfo;
 import domain.sys.SysSync;
 import domain.sys.SysSyncExample;
+import domain.sys.SysUser;
+import domain.sys.SysUserInfo;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -31,7 +32,9 @@ import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.shiro.SaltPassword;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
+import sys.utils.SqlUtils;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -664,17 +667,8 @@ public class SyncService extends BaseMapper {
             if(StringUtils.isNotBlank(extJzg.getZzdjsj())) // 转正定级时间
                 teacher.setRegularTime(DateUtils.parseDate(extJzg.getZzdjsj(), DateUtils.YYYY_MM_DD));
             teacher.setOnJob(extJzg.getSfzg());
-            teacher.setProPost(extJzg.getZc()); //专业技术职务
-            if(StringUtils.isNotBlank(extJzg.getZyjszwpdsj())) // 专技职务评定时间
-                teacher.setProPostTime(DateUtils.parseDate(extJzg.getZyjszwpdsj(), DateUtils.YYYY_MM_DD));
-            teacher.setProPostLevel(extJzg.getZjgwdj()); // 专技岗位等级
-            if(StringUtils.isNotBlank(extJzg.getZjgwfjsj())) // 专技岗位分级时间
-                teacher.setProPostLevelTime(DateUtils.parseDate(extJzg.getZjgwfjsj(), DateUtils.YYYY_MM_DD));
+            teacher.setPersonnelStatus(extJzg.getRszf());
             //teacher.setTitleLevel(extJzg.get); // 职称级别
-            teacher.setManageLevel(extJzg.getGlgwdj()); // 管理岗位等级
-            if(StringUtils.isNotBlank(extJzg.getGlgwfjsj()))// 管理岗位分级时间
-                teacher.setManageLevelTime(DateUtils.parseDate(extJzg.getGlgwfjsj(), DateUtils.YYYY_MM_DD));
-            teacher.setOfficeLevel(extJzg.getGqgwdjmc());  // 工勤岗位等级
             //teacher.setPost(extJzg.getXzjb());  行政职务
             // teacher.setPostLevel(); 任职级别
             teacher.setTalentTitle(extJzg.getRcch());
@@ -701,6 +695,26 @@ public class SyncService extends BaseMapper {
             teacherInfoMapper.insertSelective(teacher);
         else
             teacherInfoMapper.updateByPrimaryKeySelective(teacher);
+
+        // 干部档案页默认同步人事库信息，不启用系统本身的岗位过程信息
+        if(BooleanUtils.isNotTrue(CmTag.getSysConfig().getUseCadrePost())) {
+
+            String proPost = SqlUtils.toParamValue(extJzg.getZc());
+            String proPostTime = SqlUtils.toParamValue(extJzg.getZyjszwpdsj());
+            String proPostLevel = SqlUtils.toParamValue(extJzg.getZjgwdj());
+            String proPostLevelTime = SqlUtils.toParamValue(extJzg.getZjgwfjsj());
+            String manageLevel = SqlUtils.toParamValue(extJzg.getGlgwdj());
+            String manageLevelTime = SqlUtils.toParamValue(extJzg.getGlgwfjsj());
+            String officeLevel = SqlUtils.toParamValue(extJzg.getGqgwdjmc());
+            String officeLevelTime = SqlUtils.toParamValue(extJzg.getGqgwfjsj());
+
+            commonMapper.excuteSql(String.format("update sys_teacher_info set pro_post=%s, " +
+                            "pro_post_time=%s, pro_post_level=%s, pro_post_level_time=%s," +
+                            "manage_level=%s, manage_level_time=%s, office_level=%s,office_level_time=%s where user_id=%s",
+                    proPost, proPostTime, proPostLevel, proPostLevelTime, manageLevel, manageLevelTime,
+                    officeLevel, officeLevelTime, userId));
+
+        }
     }
 
     // 同步学生党员信息

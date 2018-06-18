@@ -148,7 +148,7 @@
         {label: '党派', name: '_cadreParty', width: 80, formatter: $.jgrid.formatter.cadreParty},
         {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
         {
-            label: '参加工作时间', name: 'workTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
+            label: '参加工作时间', name: 'workTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}
         },
         {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
         {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},

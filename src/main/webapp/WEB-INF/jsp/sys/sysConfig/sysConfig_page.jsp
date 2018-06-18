@@ -236,6 +236,24 @@
                            name="displayLoginMsg" ${(sysConfig.displayLoginMsg)?"checked":""}/>
                 </div>
             </div>
+
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">是否启用干部的岗位过程信息</label>
+                    <div class="col-xs-6">
+                        <input type="checkbox" class="big"
+                               name="useCadrePost" ${(sysConfig.useCadrePost)?"checked":""}/>
+                        <shiro:hasRole name="${ROLE_ADMIN}">
+                        <button type="button" style="display: ${sysConfig.useCadrePost?'':'none'}"
+                                data-title="同步系统岗位过程信息"
+                                data-msg="确定同步？（将所有干部的当前岗位过程信息，同步为系统已设置的数据。）"
+                                data-url="${ctx}/cadrePostInfo_snyc"
+                                data-callback="_reload"
+                                id="syncAllCadrePostBtn" class="confirm btn btn-success btn-sm">
+                            <i class="fa fa-refresh"></i> 同步系统岗位过程信息</button>
+                        </shiro:hasRole>
+                    </div>
+                </div>
+
             <div class="form-group">
                 <label class="col-xs-3 control-label">账号登录超时（分钟）</label>
                 <div class="col-xs-6">

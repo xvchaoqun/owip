@@ -221,7 +221,7 @@
                 name: 'cadre.workStartTime',
                 width: 120,
                 formatter: 'date',
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m'}
             },
             {label: '到校时间', name: 'cadre.arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '专业技术职务', name: 'cadre.proPost', width: 120},

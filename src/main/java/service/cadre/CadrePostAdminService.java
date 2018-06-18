@@ -1,21 +1,28 @@
 package service.cadre;
 
 import controller.global.OpException;
+import domain.cadre.Cadre;
 import domain.cadre.CadrePostAdmin;
 import domain.cadre.CadrePostAdminExample;
 import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
+import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.base.MetaTypeService;
+import service.global.CacheService;
 import shiro.ShiroHelper;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
+import sys.utils.DateUtils;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -24,11 +31,67 @@ import java.util.List;
 @Service
 public class CadrePostAdminService extends BaseMapper {
 
+    @Autowired
+    private MetaTypeService metaTypeService;
+    @Autowired
+    private CacheService cacheService;
+
+    // 是否已有当前管理岗位
+    public boolean idDuplicate(Integer id, int cadreId){
+
+        CadrePostAdminExample example = new CadrePostAdminExample();
+        CadrePostAdminExample.Criteria criteria = example.createCriteria()
+                .andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL)
+                .andIsCurrentEqualTo(true);
+        if(id!=null){
+            criteria.andIdNotEqualTo(id);
+        }
+        return cadrePostAdminMapper.countByExample(example)>0;
+    }
+
+    public void syncPost(CadrePostAdmin record){
+
+        if(BooleanUtils.isTrue(CmTag.getSysConfig().getUseCadrePost())) {
+
+            Cadre cadre = cadreMapper.selectByPrimaryKey(record.getCadreId());
+            int userId = cadre.getUserId();
+            String manageLevel = SqlUtils.toParamValue(metaTypeService.getName(record.getLevel()));
+            String manageLevelTime = SqlUtils.toParamValue(DateUtils.formatDate(record.getGradeTime(), DateUtils.YYYY_MM_DD));
+
+            commonMapper.excuteSql(String.format("update sys_teacher_info set manage_level=%s, " +
+                            "manage_level_time=%s where user_id=%s",
+                    manageLevel, manageLevelTime, userId));
+
+            cacheService.clearCadreCache();
+        }
+    }
+
+    // 一次性同步所有的系统设定的当前岗位，作为干部档案页的岗位信息
     @Transactional
-    public int insertSelective(CadrePostAdmin record) {
+    public void syncAllCadrePost(){
+
+        CadrePostAdminExample example = new CadrePostAdminExample();
+        example.createCriteria()
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL)
+                .andIsCurrentEqualTo(true);
+        List<CadrePostAdmin> records = cadrePostAdminMapper.selectByExample(example);
+        for (CadrePostAdmin record : records) {
+            syncPost(record);
+        }
+    }
+
+    @Transactional
+    public void insertSelective(CadrePostAdmin record) {
+
+        if(record.getIsCurrent() && idDuplicate(null, record.getCadreId())) {
+            throw new OpException("已经存在当前管理岗位。");
+        }
 
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
-        return cadrePostAdminMapper.insertSelective(record);
+        cadrePostAdminMapper.insertSelective(record);
+        if(record.getIsCurrent()){
+            syncPost(record);
+        }
     }
 
     @Transactional
@@ -51,10 +114,18 @@ public class CadrePostAdminService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadrePostAdmin record) {
+    public void updateByPrimaryKeySelective(CadrePostAdmin record) {
+
+        if(record.getIsCurrent() && idDuplicate(record.getId(), record.getCadreId())) {
+            throw new OpException("已经存在当前管理岗位。");
+        }
 
         record.setStatus(null);
-        return cadrePostAdminMapper.updateByPrimaryKeySelective(record);
+        cadrePostAdminMapper.updateByPrimaryKeySelective(record);
+
+        if(record.getIsCurrent()){
+            syncPost(record);
+        }
     }
 
     // 更新修改申请的内容（仅允许本人更新自己的申请）
@@ -163,17 +234,28 @@ public class CadrePostAdminService extends BaseMapper {
                 modify.setId(null);
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
+                if(modify.getIsCurrent() && idDuplicate(null, modify.getCadreId())) {
+                    throw new OpException("已经存在当前管理岗位。");
+                }
+
                 cadrePostAdminMapper.insertSelective(modify); // 插入新纪录
                 record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
-
+                if(modify.getIsCurrent()){
+                    syncPost(modify);
+                }
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
                 CadrePostAdmin modify = cadrePostAdminMapper.selectByPrimaryKey(modifyId);
                 modify.setId(originalId);
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
+                if(modify.getIsCurrent() && idDuplicate(originalId, modify.getCadreId())) {
+                    throw new OpException("已经存在当前管理岗位。");
+                }
                 cadrePostAdminMapper.updateByPrimaryKey(modify); // 覆盖原纪录
-
+                if(modify.getIsCurrent()){
+                    syncPost(modify);
+                }
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
 
                 // 更新最后删除的记录内容

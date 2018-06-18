@@ -155,7 +155,7 @@
                 width: 120,
                 sortable: true,
                 formatter: 'date',
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m'}
             }*/,{
                 label: '所在单位及职务',
                 name: '_title',

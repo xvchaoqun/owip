@@ -63,6 +63,8 @@ public class SysConfigController extends BaseController {
         record.setQrLogo(upload(_qrLogo, folder));
 
         record.setDisplayLoginMsg(BooleanUtils.isTrue(record.getDisplayLoginMsg()));
+        record.setUseCadrePost(BooleanUtils.isTrue(record.getUseCadrePost()));
+
         sysConfigService.insertOrUpdate(record);
         logger.info(addLog(LogConstants.LOG_ADMIN, "更新系统配置：%s", record.getId()));
 

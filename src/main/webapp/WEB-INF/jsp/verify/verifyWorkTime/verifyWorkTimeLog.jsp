@@ -64,8 +64,8 @@
                 return _cMap.VERIFY_WORK_TIME_TYPE_MAP[cellvalue]
             }
             },
-            {label: '认定前参加工作时间', width: 180, name: 'oldWorkTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '认定后参加工作时间', width: 180, name: 'verifyWorkTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '认定前参加工作时间', width: 180, name: 'oldWorkTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+            {label: '认定后参加工作时间', width: 180, name: 'verifyWorkTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             {label: '材料名称', name: 'materialName', width: 200},
             {label: '形成时间', name: 'materialTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
@@ -73,7 +73,7 @@
                 width: 150,
                 name: 'materialWorkTime',
                 formatter: 'date',
-                formatoptions: {newformat: 'Y-m-d'}
+                formatoptions: {newformat: 'Y.m'}
             },
             {label: '形成时间', name: 'adTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '备注', name: 'remark', width: 500}

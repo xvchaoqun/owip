@@ -108,8 +108,8 @@
                 if (cellvalue == undefined) return '-';
                 return _cMap.VERIFY_WORK_TIME_TYPE_MAP[cellvalue]
             }},
-            {label: '认定前参加工作时间', width: 180, name: 'oldWorkTime',formatter: 'date',formatoptions: {newformat: 'Y-m-d'}},
-            {label: '认定后参加工作时间', width: 180, name: 'verifyWorkTime',formatter: 'date',formatoptions: {newformat: 'Y-m-d'}},
+            {label: '认定前参加工作时间', width: 180, name: 'oldWorkTime',formatter: 'date',formatoptions: {newformat: 'Y.m'}},
+            {label: '认定后参加工作时间', width: 180, name: 'verifyWorkTime',formatter: 'date',formatoptions: {newformat: 'Y.m'}},
             {label: '认定', name: '_verify', formatter: function (cellvalue, options, rowObject) {
                 if ($.trim(rowObject.oldBirth)=='')
                     return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/verifyWorkTime_verify?id={0}"><i class="fa fa-check"></i> 认定</button>'

@@ -220,13 +220,13 @@ pageEncoding="UTF-8"%>
 					</td>
 					<td>编制类别</td>
 					<td >
-							${extJzg.bzlx}
+							${teacherInfo.authorizedType}
 					</td>
 					<td>
 						人员分类
 					</td>
 					<td>
-							${extJzg.rylx}
+							${teacherInfo.staffType}
 					</td>
 				</tr>
 				<tr>
@@ -234,19 +234,19 @@ pageEncoding="UTF-8"%>
 						人员状态
 					</td>
 					<td>
-							${extJzg.ryzt}
+							${teacherInfo.staffStatus}
 					</td>
 					<td >
 						在岗情况
 					</td>
 					<td>
-							${extJzg.sfzg}
+							${teacherInfo.onJob}
 					</td>
 					<td >
 						人事转否
 					</td>
 					<td>
-							${extJzg.rszf}
+							${teacherInfo.personnelStatus}
 					</td>
 				</tr>
 				<tr>
@@ -259,13 +259,13 @@ pageEncoding="UTF-8"%>
 						岗位子类别
 					</td>
 					<td>
-						${extJzg.gwzlbmc}
+						${teacherInfo.subPostClass}
 					</td>
 					<td >
 						主岗等级
 					</td>
 					<td>
-							${extJzg.zgdjmmc}
+							${teacherInfo.mainPostLevel}
 					</td>
 				</tr>
 				<tr>
@@ -273,11 +273,11 @@ pageEncoding="UTF-8"%>
 						工龄起算日期
 					</td>
 					<td>
-							${fn:substringBefore(extJzg.glqsrq, ' ')}
+							${cm:formatDate(teacherInfo.workStartTime, "yyyy-MM-dd")}
 					</td>
 					<td>间断工龄</td>
 					<td >
-							${extJzg.jdgl}
+							${teacherInfo.workBreak}
 					</td>
 					<td>
 						到校时间
@@ -290,13 +290,13 @@ pageEncoding="UTF-8"%>
 
 					<td>参加工作时间</td>
 					<td >
-							${cm:formatDate(teacherInfo.workTime, "yyyy-MM-dd")}
+							${cm:formatDate(teacherInfo.workTime, "yyyy.MM")}
 					</td>
 					<td >
 						转正定级时间
 					</td>
 					<td colspan="3">
-							${fn:substringBefore(extJzg.zzdjsj, ' ')}
+							${cm:formatDate(teacherInfo.regularTime, "yyyy-MM-dd")}
 					</td>
 
 				</tr>
@@ -501,7 +501,7 @@ pageEncoding="UTF-8"%>
 						专业技术职务评定时间
 					</td>
 					<td  style="min-width: 80px"  class="bg-left">
-							${fn:substringBefore(extJzg.zyjszwpdsj, ' ')}
+							${cm:formatDate(teacherInfo.proPostTime, "yyyy.MM")}
 					</td>
 				</tr>
 				<tr>
@@ -513,7 +513,7 @@ pageEncoding="UTF-8"%>
 						专业技术职务分级时间
 					</td>
 					<td>
-							${fn:substringBefore(extJzg.zjgwfjsj, ' ')}
+							${cm:formatDate(teacherInfo.proPostLevelTime, "yyyy.MM")}
 					</td>
 
 				</tr>
@@ -539,7 +539,7 @@ pageEncoding="UTF-8"%>
 						管理岗位分级时间
 					</td>
 					<td  class="bg-left">
-							${fn:substringBefore(extJzg.glgwfjsj, ' ')}
+							${cm:formatDate(teacherInfo.manageLevelTime, "yyyy.MM")}
 					</td>
 				</tr>
 
@@ -559,13 +559,13 @@ pageEncoding="UTF-8"%>
 						工勤岗位等级
 					</td>
 					<td  class="bg-left">
-							${extJzg.gqgwdjmc}
+							${teacherInfo.officeLevel}
 					</td>
 					<td  class="bg-right">
 						工勤岗位分级时间
 					</td>
 					<td  class="bg-left">
-							${fn:substringBefore(extJzg.gqgwfjsj, ' ')}
+							${cm:formatDate(teacherInfo.officeLevelTime, "yyyy.MM")}
 					</td>
 				</tr>
 				<%--<tr>
@@ -874,11 +874,13 @@ pageEncoding="UTF-8"%>
 								参加工作时间
 							</td>
 							<td title="${hasVerifyWorkTime?'已根据您的档案记载对参加工作时间进行了组织认定':''}">
-								<c:set var="original" value="${cm:formatDate(cadre.workTime,'yyyy-MM-dd')}"/>
+								<c:set var="original" value="${cm:formatDate(cadre.workTime,'yyyy.MM')}"/>
 								<c:if test="${hasVerifyWorkTime}">${original}</c:if>
 								<c:if test="${!hasVerifyWorkTime}">
 									<div class="input-group" style="width: 130px">
-										<input class="form-control date-picker" type="text" name="_workTime" data-date-format="yyyy-mm-dd" value="${original}"/>
+										<input class="form-control date-picker" type="text" name="_workTime"
+											   data-date-min-view-mode="1"
+											   data-date-format="yyyy.mm" value="${original}"/>
 										<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 									</div>
 								</c:if>

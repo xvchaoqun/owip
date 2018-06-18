@@ -43,7 +43,7 @@
       </td>
       <td>${cm:getMetaType(cadre.eduId).name}</td>
       <td>${cadre.major}</td>
-      <td>${cm:formatDate(cadre.workTime, "yyyy-MM-dd")}</td>
+      <td>${cm:formatDate(cadre.workTime, "yyyy.MM")}</td>
       <td>${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}</td>
       <td>${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}</td>
       <td>${cadre.proPost}</td>

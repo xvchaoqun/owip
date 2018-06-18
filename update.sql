@@ -1,4 +1,21 @@
 
+2018-6-18
+
+ALTER TABLE `sys_teacher_info`
+	ADD COLUMN `office_level_time` DATE NULL DEFAULT NULL COMMENT '工勤岗位分级时间' AFTER `office_level`;
+
+ALTER TABLE `sys_teacher_info`
+	ADD COLUMN `personnel_status` VARCHAR(50) NULL DEFAULT NULL COMMENT '人事转否' AFTER `on_job`;
+
+	更新 ow_member_teacher
+
+ALTER TABLE `sys_config`
+	ADD COLUMN `use_cadre_post` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否启用干部的岗位过程信息' AFTER `display_login_msg`;
+
+ALTER TABLE `cadre_post_pro`
+	CHANGE COLUMN `post_level` `post_level` VARCHAR(20) NOT NULL COMMENT '职级' AFTER `type`;
+
+更新工具包
 
 2018-6-15
 ALTER TABLE `sys_user_sync`

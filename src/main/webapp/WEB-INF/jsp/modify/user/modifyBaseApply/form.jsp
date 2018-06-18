@@ -234,12 +234,13 @@
                         参加工作时间
                     </td>
                     <td title="${hasVerifyWorkTime?'已根据您的档案记载对参加工作时间进行了组织认定':''}">
-                        <c:set var="original" value="${cm:formatDate(cadre.workTime,'yyyy-MM-dd')}"/>
+                        <c:set var="original" value="${cm:formatDate(cadre.workTime,'yyyy.MM')}"/>
                         <c:if test="${hasVerifyWorkTime}">${original}</c:if>
                         <c:if test="${!hasVerifyWorkTime}">
                         <div class="input-group" style="width: 150px">
                             <input class="form-control date-picker" type="text"
-                                   data-date-format="yyyy-mm-dd"
+                                   data-date-min-view-mode="1"
+                                   data-date-format="yyyy.mm"
                                    data-code="work_time"
                                    data-table="sys_teacher_info"
                                    data-table-id-name="user_id"

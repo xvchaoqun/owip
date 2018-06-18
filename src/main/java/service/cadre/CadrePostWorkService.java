@@ -1,21 +1,28 @@
 package service.cadre;
 
 import controller.global.OpException;
+import domain.cadre.Cadre;
 import domain.cadre.CadrePostWork;
 import domain.cadre.CadrePostWorkExample;
 import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
+import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.base.MetaTypeService;
+import service.global.CacheService;
 import shiro.ShiroHelper;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
+import sys.utils.DateUtils;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
+import sys.utils.SqlUtils;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -24,11 +31,67 @@ import java.util.List;
 @Service
 public class CadrePostWorkService extends BaseMapper {
 
+    @Autowired
+    private MetaTypeService metaTypeService;
+    @Autowired
+    private CacheService cacheService;
+
+    // 是否已有当前工勤岗位
+    public boolean idDuplicate(Integer id, int cadreId){
+
+        CadrePostWorkExample example = new CadrePostWorkExample();
+        CadrePostWorkExample.Criteria criteria = example.createCriteria()
+                .andCadreIdEqualTo(cadreId).andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL)
+                .andIsCurrentEqualTo(true);
+        if(id!=null){
+            criteria.andIdNotEqualTo(id);
+        }
+        return cadrePostWorkMapper.countByExample(example)>0;
+    }
+
+    public void syncPost(CadrePostWork record){
+
+        if(BooleanUtils.isTrue(CmTag.getSysConfig().getUseCadrePost())) {
+
+            Cadre cadre = cadreMapper.selectByPrimaryKey(record.getCadreId());
+            int userId = cadre.getUserId();
+            String officeLevel = SqlUtils.toParamValue(metaTypeService.getName(record.getLevel()));
+            String officeLevelTime = SqlUtils.toParamValue(DateUtils.formatDate(record.getGradeTime(), DateUtils.YYYY_MM_DD));
+
+            commonMapper.excuteSql(String.format("update sys_teacher_info set office_level=%s, " +
+                            "office_level_time=%s where user_id=%s",
+                    officeLevel, officeLevelTime, userId));
+
+            cacheService.clearCadreCache();
+        }
+    }
+
+    // 一次性同步所有的系统设定的当前岗位，作为干部档案页的岗位信息
     @Transactional
-    public int insertSelective(CadrePostWork record) {
+    public void syncAllCadrePost(){
+
+        CadrePostWorkExample example = new CadrePostWorkExample();
+        example.createCriteria()
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL)
+                .andIsCurrentEqualTo(true);
+        List<CadrePostWork> records = cadrePostWorkMapper.selectByExample(example);
+        for (CadrePostWork record : records) {
+            syncPost(record);
+        }
+    }
+
+    @Transactional
+    public void insertSelective(CadrePostWork record) {
+
+        if(record.getIsCurrent() && idDuplicate(null, record.getCadreId())) {
+            throw new OpException("已经存在当前工勤岗位。");
+        }
 
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
-        return cadrePostWorkMapper.insertSelective(record);
+        cadrePostWorkMapper.insertSelective(record);
+        if(record.getIsCurrent()){
+            syncPost(record);
+        }
     }
 
     @Transactional
@@ -51,10 +114,18 @@ public class CadrePostWorkService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadrePostWork record) {
+    public void updateByPrimaryKeySelective(CadrePostWork record) {
+
+        if(record.getIsCurrent() && idDuplicate(record.getId(), record.getCadreId())) {
+            throw new OpException("已经存在当前工勤岗位。");
+        }
 
         record.setStatus(null);
-        return cadrePostWorkMapper.updateByPrimaryKeySelective(record);
+        cadrePostWorkMapper.updateByPrimaryKeySelective(record);
+
+        if(record.getIsCurrent()){
+            syncPost(record);
+        }
     }
 
     // 更新修改申请的内容（仅允许本人更新自己的申请）
@@ -163,8 +234,15 @@ public class CadrePostWorkService extends BaseMapper {
                 modify.setId(null);
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
+                if(modify.getIsCurrent() && idDuplicate(null, modify.getCadreId())) {
+                    throw new OpException("已经存在当前工勤岗位。");
+                }
+
                 cadrePostWorkMapper.insertSelective(modify); // 插入新纪录
                 record.setOriginalId(modify.getId()); // 添加申请，更新原纪录ID
+                if(modify.getIsCurrent()){
+                    syncPost(modify);
+                }
 
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_MODIFY) {
 
@@ -172,7 +250,14 @@ public class CadrePostWorkService extends BaseMapper {
                 modify.setId(originalId);
                 modify.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
 
+                if(modify.getIsCurrent() && idDuplicate(originalId, modify.getCadreId())) {
+                    throw new OpException("已经存在当前工勤岗位。");
+                }
+
                 cadrePostWorkMapper.updateByPrimaryKey(modify); // 覆盖原纪录
+                if(modify.getIsCurrent()){
+                    syncPost(modify);
+                }
 
             } else if (type == ModifyConstants.MODIFY_TABLE_APPLY_TYPE_DELETE) {
 

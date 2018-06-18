@@ -89,10 +89,10 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
-       <!-- <table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
+        <table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
             <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+        </table>
         <!-- <table tableName="sys_config_login_msg" domainObjectName="sys.SysConfigLoginMsg" mapperName="sys.SysConfigLoginMsgMapper">
              <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
          </table>-->
@@ -147,9 +147,9 @@
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
         </table>-->
 
-        <table tableName="sys_sync" domainObjectName="sys.SysSync" mapperName="sys.SysSyncMapper">
+        <!--<table tableName="sys_sync" domainObjectName="sys.SysSync" mapperName="sys.SysSyncMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
            <!--<table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
            </table>-->
 

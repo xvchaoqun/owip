@@ -1964,6 +1964,66 @@ public class SysConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andUseCadrePostIsNull() {
+            addCriterion("use_cadre_post is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCadrePostIsNotNull() {
+            addCriterion("use_cadre_post is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCadrePostEqualTo(Boolean value) {
+            addCriterion("use_cadre_post =", value, "useCadrePost");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCadrePostNotEqualTo(Boolean value) {
+            addCriterion("use_cadre_post <>", value, "useCadrePost");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCadrePostGreaterThan(Boolean value) {
+            addCriterion("use_cadre_post >", value, "useCadrePost");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCadrePostGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("use_cadre_post >=", value, "useCadrePost");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCadrePostLessThan(Boolean value) {
+            addCriterion("use_cadre_post <", value, "useCadrePost");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCadrePostLessThanOrEqualTo(Boolean value) {
+            addCriterion("use_cadre_post <=", value, "useCadrePost");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCadrePostIn(List<Boolean> values) {
+            addCriterion("use_cadre_post in", values, "useCadrePost");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCadrePostNotIn(List<Boolean> values) {
+            addCriterion("use_cadre_post not in", values, "useCadrePost");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCadrePostBetween(Boolean value1, Boolean value2) {
+            addCriterion("use_cadre_post between", value1, value2, "useCadrePost");
+            return (Criteria) this;
+        }
+
+        public Criteria andUseCadrePostNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("use_cadre_post not between", value1, value2, "useCadrePost");
+            return (Criteria) this;
+        }
+
         public Criteria andCadreTemplateFsNoteIsNull() {
             addCriterion("cadre_template_fs_note is null");
             return (Criteria) this;

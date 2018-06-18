@@ -35,7 +35,7 @@
         {label: '党派加入时间', name: '_growTime', width: 120, formatter: $.jgrid.formatter.growTime},
         {label: '党龄', name: '_growAge', width: 50, formatter: $.jgrid.formatter.growAge},
         {
-            label: '参加工作时间', name: 'workTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}
+            label: '参加工作时间', name: 'workTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}
         },
         {label: '到校时间', name: 'arriveTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
         {label: '最高学历', name: 'eduId', formatter: $.jgrid.formatter.MetaType},
@@ -463,9 +463,9 @@
         {label: '岗位类别', width: 120, name: 'type', formatter: $.jgrid.formatter.MetaType},
         {label: '职级', name: 'postLevel'},
         {label: '专业技术职务', name: 'post', width: 250, formatter: $.jgrid.formatter.MetaType},
-        {label: '专技职务任职时间', name: 'holdTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {label: '专技职务任职时间', name: 'holdTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
         {label: '专技岗位等级', name: 'level', width: 160, formatter: $.jgrid.formatter.MetaType},
-        {label: '专技岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {label: '专技岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
         {label: '专技岗位备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];
 
@@ -474,7 +474,7 @@
             return cellvalue ? "是" : "否";
         }},
         {label: '管理岗位等级', name: 'level', width: 150, formatter: $.jgrid.formatter.MetaType},
-        {label: '管理岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {label: '管理岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
         {label: '管理岗位备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];
 
@@ -483,7 +483,7 @@
             return cellvalue ? "是" : "否";
         }},
         {label: '工勤岗位等级', name: 'level', width: 150, formatter: $.jgrid.formatter.MetaType},
-        {label: '工勤岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {label: '工勤岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
         {label: '工勤岗位备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];
 
@@ -502,7 +502,7 @@
         }
         },
         {label: '姓名', width: 120, name: 'realname'},
-        {label: '出生年月', name: 'birthday', formatter: 'date', formatoptions: {newformat: 'Y-m'}, cellattr: function (rowId, val, rowObject, cm, rdata) {
+        {label: '出生年月', name: 'birthday', formatter: 'date', formatoptions: {newformat: 'Y.m'}, cellattr: function (rowId, val, rowObject, cm, rdata) {
             if($.trimHtml(val)=='')
                 return "class='danger'";
         }},
@@ -522,7 +522,7 @@
         {label: '姓名', name: 'cadreFamily.realname'},
         {label: '移居国家', name: 'country', width: 200},
         {label: '移居类别', name: 'type', formatter: $.jgrid.formatter.MetaType},
-        {label: '移居时间', name: 'abroadTime', formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+        {label: '移居时间', name: 'abroadTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
         {label: '现居住城市', name: 'city', width: 150}, {hidden: true, name: 'id'}
     ];
 
@@ -708,7 +708,7 @@
         },
         {label: '挂职项目', name: 'project', width: 300},
         {label: '挂职单位及所任职务', name: 'title', width: 300},
-        {label: '挂职开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
-        {label: '挂职结束时间', name: 'endDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}}
+        {label: '挂职开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
+        {label: '挂职结束时间', name: 'endDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}}
     ];
 </script>

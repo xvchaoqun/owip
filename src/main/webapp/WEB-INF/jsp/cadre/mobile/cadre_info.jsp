@@ -211,31 +211,31 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 编制类别</div>
           <div class="profile-info-value td">
-            <span class="editable">${extJzg.bzlx}</span>
+            <span class="editable">${teacherInfo.authorizedType}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 人员分类</div>
           <div class="profile-info-value td">
-            <span class="editable">${extJzg.rylx}</span>
+            <span class="editable">${teacherInfo.staffType}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 人员状态</div>
           <div class="profile-info-value td">
-            <span class="editable">${extJzg.ryzt}</span>
+            <span class="editable">${teacherInfo.staffStatus}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 在岗情况</div>
           <div class="profile-info-value td">
-            <span class="editable">${extJzg.sfzg}</span>
+            <span class="editable">${teacherInfo.onJob}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 人事转否</div>
           <div class="profile-info-value td">
-            <span class="editable">${extJzg.rszf}</span>
+            <span class="editable">${teacherInfo.personnelStatus}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -247,19 +247,19 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 岗位子类别</div>
           <div class="profile-info-value td">
-            <span class="editable">${extJzg.gwzlbmc}</span>
+            <span class="editable">${teacherInfo.subPostClass}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 主岗等级</div>
           <div class="profile-info-value td">
-            <span class="editable">${extJzg.zgdjmmc}</span>
+            <span class="editable">${teacherInfo.mainPostLevel}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 工龄起算日期</div>
           <div class="profile-info-value td">
-            <span class="editable">${fn:substringBefore(extJzg.glqsrq, ' ')}</span>
+            <span class="editable">${cm:formatDate(teacherInfo.workStartTime, "yyyy-MM-dd")}</span>
           </div>
         </div>
 
@@ -272,7 +272,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 参加工作时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${cm:formatDate(teacherInfo.workTime, "yyyy-MM-dd")}</span>
+            <span class="editable">${cm:formatDate(teacherInfo.workTime, "yyyy.MM")}</span>
           </div>
         </div>
 
@@ -301,7 +301,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 专技职务评定时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${fn:substringBefore(extJzg.zyjszwpdsj, ' ')}</span>
+            <span class="editable">${cm:formatDate(teacherInfo.proPostTime, "yyyy.MM")}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -313,7 +313,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 专技职务分级时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${fn:substringBefore(extJzg.zjgwfjsj, ' ')}</span>
+            <span class="editable">${cm:formatDate(teacherInfo.proPostLevelTime, "yyyy.MM")}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -328,7 +328,7 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 管理岗位分级时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${fn:substringBefore(extJzg.glgwfjsj, ' ')}</span>
+            <span class="editable">${cm:formatDate(teacherInfo.manageLevelTime, "yyyy.MM")}</span>
           </div>
         </div>
         <div class="profile-info-row">
@@ -337,13 +337,13 @@
         <div class="profile-info-row">
           <div class="profile-info-name td"> 工勤岗位等级</div>
           <div class="profile-info-value td">
-            <span class="editable">${extJzg.gqgwdjmc}</span>
+            <span class="editable">${teacherInfo.officeLevel}</span>
           </div>
         </div>
         <div class="profile-info-row">
           <div class="profile-info-name td"> 工勤岗位分级时间</div>
           <div class="profile-info-value td">
-            <span class="editable">${fn:substringBefore(extJzg.gqgwfjsj, ' ')}</span>
+            <span class="editable">${cm:formatDate(teacherInfo.officeLevelTime, "yyyy.MM")}</span>
           </div>
         </div>
         </div>

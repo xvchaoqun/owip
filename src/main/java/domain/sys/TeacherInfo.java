@@ -48,6 +48,8 @@ public class TeacherInfo implements Serializable {
 
     private String onJob;
 
+    private String personnelStatus;
+
     private String proPost;
 
     private Date proPostTime;
@@ -63,6 +65,8 @@ public class TeacherInfo implements Serializable {
     private Date manageLevelTime;
 
     private String officeLevel;
+
+    private Date officeLevelTime;
 
     private String post;
 
@@ -260,6 +264,14 @@ public class TeacherInfo implements Serializable {
         this.onJob = onJob == null ? null : onJob.trim();
     }
 
+    public String getPersonnelStatus() {
+        return personnelStatus;
+    }
+
+    public void setPersonnelStatus(String personnelStatus) {
+        this.personnelStatus = personnelStatus == null ? null : personnelStatus.trim();
+    }
+
     public String getProPost() {
         return proPost;
     }
@@ -322,6 +334,14 @@ public class TeacherInfo implements Serializable {
 
     public void setOfficeLevel(String officeLevel) {
         this.officeLevel = officeLevel == null ? null : officeLevel.trim();
+    }
+
+    public Date getOfficeLevelTime() {
+        return officeLevelTime;
+    }
+
+    public void setOfficeLevelTime(Date officeLevelTime) {
+        this.officeLevelTime = officeLevelTime;
     }
 
     public String getPost() {

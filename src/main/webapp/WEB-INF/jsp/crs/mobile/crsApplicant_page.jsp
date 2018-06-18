@@ -90,7 +90,7 @@
                             <td>${cm:getMetaType(cadre.eduId).name}</td>
                             <td>${cadre.school}</td>
                             <td>${cadre.major}</td>
-                            <td>${cm:formatDate(cadre.workTime, "yyyy-MM-dd")}</td>
+                            <td>${cm:formatDate(cadre.workTime, "yyyy.MM")}</td>
                             <td>${cm:formatDate(cadre.arriveTime, "yyyy-MM-dd")}</td>
                             <td>${cadre.proPost}</td>
                             <td>${cm:formatDate(cadre.proPostTime, "yyyy-MM-dd")}</td>

@@ -46,7 +46,7 @@ public class CadreBaseInfoController extends BaseController {
                                   MultipartFile _avatar,
                                   Integer dpTypeId,
                                   @DateTimeFormat(pattern = "yyyy-MM-dd") Date _dpAddTime,
-                                  @DateTimeFormat(pattern = "yyyy-MM-dd") Date _workTime,
+                                  @DateTimeFormat(pattern = "yyyy.MM") Date _workTime,
                                   String nativePlace,
                                   String homeplace,
                                   String household,

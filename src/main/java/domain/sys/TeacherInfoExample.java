@@ -1612,6 +1612,76 @@ public class TeacherInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andPersonnelStatusIsNull() {
+            addCriterion("personnel_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusIsNotNull() {
+            addCriterion("personnel_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusEqualTo(String value) {
+            addCriterion("personnel_status =", value, "personnelStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusNotEqualTo(String value) {
+            addCriterion("personnel_status <>", value, "personnelStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusGreaterThan(String value) {
+            addCriterion("personnel_status >", value, "personnelStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("personnel_status >=", value, "personnelStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusLessThan(String value) {
+            addCriterion("personnel_status <", value, "personnelStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusLessThanOrEqualTo(String value) {
+            addCriterion("personnel_status <=", value, "personnelStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusLike(String value) {
+            addCriterion("personnel_status like", value, "personnelStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusNotLike(String value) {
+            addCriterion("personnel_status not like", value, "personnelStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusIn(List<String> values) {
+            addCriterion("personnel_status in", values, "personnelStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusNotIn(List<String> values) {
+            addCriterion("personnel_status not in", values, "personnelStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusBetween(String value1, String value2) {
+            addCriterion("personnel_status between", value1, value2, "personnelStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPersonnelStatusNotBetween(String value1, String value2) {
+            addCriterion("personnel_status not between", value1, value2, "personnelStatus");
+            return (Criteria) this;
+        }
+
         public Criteria andProPostIsNull() {
             addCriterion("pro_post is null");
             return (Criteria) this;
@@ -2139,6 +2209,66 @@ public class TeacherInfoExample {
 
         public Criteria andOfficeLevelNotBetween(String value1, String value2) {
             addCriterion("office_level not between", value1, value2, "officeLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelTimeIsNull() {
+            addCriterion("office_level_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelTimeIsNotNull() {
+            addCriterion("office_level_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("office_level_time =", value, "officeLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("office_level_time <>", value, "officeLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("office_level_time >", value, "officeLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("office_level_time >=", value, "officeLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelTimeLessThan(Date value) {
+            addCriterionForJDBCDate("office_level_time <", value, "officeLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("office_level_time <=", value, "officeLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("office_level_time in", values, "officeLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("office_level_time not in", values, "officeLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("office_level_time between", value1, value2, "officeLevelTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andOfficeLevelTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("office_level_time not between", value1, value2, "officeLevelTime");
             return (Criteria) this;
         }
 

@@ -57,6 +57,8 @@ public class SysConfig implements Serializable {
 
     private Boolean displayLoginMsg;
 
+    private Boolean useCadrePost;
+
     private String cadreTemplateFsNote;
 
     private Integer loginTimeout;
@@ -277,6 +279,14 @@ public class SysConfig implements Serializable {
 
     public void setDisplayLoginMsg(Boolean displayLoginMsg) {
         this.displayLoginMsg = displayLoginMsg;
+    }
+
+    public Boolean getUseCadrePost() {
+        return useCadrePost;
+    }
+
+    public void setUseCadrePost(Boolean useCadrePost) {
+        this.useCadrePost = useCadrePost;
     }
 
     public String getCadreTemplateFsNote() {

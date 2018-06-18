@@ -47,7 +47,8 @@
                                 <div class="col-xs-6">
                                     <div class="input-group">
                                         <input class="form-control date-picker" name="_materialWorkTime" type="text"
-                                               data-date-format="yyyy-mm-dd" value="${cm:formatDate(verifyWorkTime.materialWorkTime,'yyyy-MM-dd')}"/>
+                                               data-date-min-view-mode="1"
+                                               data-date-format="yyyy.mm" value="${cm:formatDate(verifyWorkTime.materialWorkTime,'yyyy.MM')}"/>
                                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                     </div>
                                 </div>
@@ -70,7 +71,8 @@
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input class="form-control date-picker" name="_oldWorkTime" type="text"
-                                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(verifyWorkTime.oldWorkTime,'yyyy-MM-dd')}"/>
+                                           data-date-min-view-mode="1"
+                                           data-date-format="yyyy.mm" value="${cm:formatDate(verifyWorkTime.oldWorkTime,'yyyy.MM')}"/>
                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                 </div>
                             </div>
@@ -82,7 +84,8 @@
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <input required class="form-control date-picker" name="_verifyWorkTime" type="text"
-                                       data-date-format="yyyy-mm-dd" value="${cm:formatDate(verifyWorkTime.verifyWorkTime,'yyyy-MM-dd')}"/>
+                                       data-date-min-view-mode="1"
+                                       data-date-format="yyyy.mm" value="${cm:formatDate(verifyWorkTime.verifyWorkTime,'yyyy.MM')}"/>
                                 <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                             </div>
                         </div>
