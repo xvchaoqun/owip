@@ -3,6 +3,7 @@ package service.cadre;
 import bean.CadreResume;
 import controller.global.OpException;
 import domain.base.MetaType;
+import domain.cadre.Cadre;
 import domain.cadre.CadreEdu;
 import domain.cadre.CadreView;
 import domain.cadre.CadreWork;
@@ -148,9 +149,9 @@ public class CadreWorkService extends BaseMapper {
         }
 
 
-        CadreView cv = cadreService.findAll().get(cadreId);
+        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
         // 挂职经历
-        List<CrpRecord> crpRecords = crpRecordService.findRecords(cv.getUserId());
+        List<CrpRecord> crpRecords = crpRecordService.findRecords(cadre.getUserId());
         for (CrpRecord crpRecord : crpRecords) {
 
             String detail = String.format("在%s挂职任%s", crpRecord.getUnit(), crpRecord.getPost());
