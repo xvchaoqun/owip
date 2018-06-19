@@ -289,7 +289,7 @@ public class CadreWorkService extends BaseMapper {
         updateSubWorkCount(record.getFid()); // 必须放插入之后
     }
 
-    // 转移期间工作经历
+    // 期间工作经历转移至主要工作经历
     @Transactional
     public void transfer(Integer id) {
 
@@ -299,6 +299,31 @@ public class CadreWorkService extends BaseMapper {
             throw new OpException("非期间工作经历，不允许转移。");
         }
         commonMapper.excuteSql("update cadre_work set fid=null where id=" + id);
+
+        updateSubWorkCount(fid);
+    }
+
+    // 主要工作经历修改为期间工作经历
+    @Transactional
+    public void transferToSubWork(int id, int fid) {
+
+        CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
+        if (cadreWork.getFid() != null) {
+            throw new OpException("非主要工作经历，不允许转移。");
+        }
+        if(cadreWork.getSubWorkCount()>0){
+            throw new OpException("存在期间工作经历，不允许转移。");
+        }
+
+        CadreWork topCadreWork = cadreWorkMapper.selectByPrimaryKey(fid);
+        if(topCadreWork==null || topCadreWork.getFid()!=null){
+            throw new OpException("主要工作经历信息有误。");
+        }
+
+        CadreWork record = new CadreWork();
+        record.setId(id);
+        record.setFid(fid);
+        cadreWorkMapper.updateByPrimaryKeySelective(record);
 
         updateSubWorkCount(fid);
     }

@@ -13,9 +13,19 @@ import java.util.Arrays;
 @Service
 public class TeacherInfoService extends BaseMapper {
 
+    // 不存在则创建
     public TeacherInfo get(int userId){
 
-        return teacherInfoMapper.selectByPrimaryKey(userId);
+        TeacherInfo teacherInfo = teacherInfoMapper.selectByPrimaryKey(userId);
+
+        if(teacherInfo==null){
+            teacherInfo = new TeacherInfo();
+            teacherInfo.setUserId(userId);
+            teacherInfo.setIsRetire(false);
+            teacherInfoMapper.insertSelective(teacherInfo);
+        }
+
+        return teacherInfo;
     }
 
     public boolean idDuplicate(Integer userId){

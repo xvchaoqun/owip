@@ -5,6 +5,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadreFamily;
 import domain.cadre.CadreLeader;
 import domain.cadre.CadrePost;
+import domain.cadre.CadreWork;
 import domain.crp.CrpRecord;
 import domain.sys.SysUserView;
 import org.apache.ibatis.annotations.Param;
@@ -14,6 +15,7 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 import sys.constants.CadreConstants;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -40,6 +42,14 @@ public interface ICadreMapper {
     int countCadreEduList(@Param("schoolType") byte schoolType,
                           @Param("searchBean") CadreCategorySearchBean searchBean);
 
+    // 主要工作经历修改为其间工作经历（根据某条主要工作经历的起始时间，查看可以转移至的主要工作经历）
+    @ResultMap("persistence.cadre.CadreWorkMapper.BaseResultMap")
+    @Select("select * from cadre_work where cadre_id=#{cadreId} and fid is null and id!=#{id} and " +
+            "start_time <= #{startTime} and (end_time is null or end_time >= #{startTime});")
+    List<CadreWork> findTopCadreWorks(@Param("id") int id,
+                                      @Param("cadreId") int cadreId, @Param("startTime") Date startTime);
+
+    /* 分类查找干部工作经历 */
     List<ICadreWork> selectCadreWorkList(@Param("workType") int workType,
                                          @Param("searchBean") CadreCategorySearchBean searchBean, RowBounds rowBounds);
     int countCadreWorkList(@Param("workType") int workType,

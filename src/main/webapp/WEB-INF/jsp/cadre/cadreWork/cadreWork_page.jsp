@@ -160,7 +160,7 @@
 <script type="text/template" id="switch_tpl">
     <button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id}}, this)"
             data-id="{{=id}}"><i class="fa fa-folder-o"></i>
-        <span>查看期间工作</span>({{=count}})
+        <span>查看期间工作</span>({{=subWorkCount}})
     </button>
 </script>
 <script type="text/template" id="op_tpl">
@@ -169,16 +169,21 @@
             data-url="${ctx}/cadreWork_au?id={{=id}}&cadreId={{=cadreId}}&&fid={{=parentRowKey}}"><i
             class="fa fa-edit"></i> 编辑
     </button>
-    {{if(parentRowKey>0){}}
     <shiro:hasRole name="${ROLE_CADREADMIN}">
+    {{if(parentRowKey>0){}}
     <button class="confirm btn btn-xs btn-info"
             data-msg="确定转移至主要工作经历？"
             data-callback="_callback"
             data-url="${ctx}/cadreWork_transfer?id={{=id}}&cadreId={{=cadreId}}"><i
             class="fa fa-reply"></i> 转移
     </button>
-    </shiro:hasRole>
+    {{}else if(subWorkCount==0){}}
+        <button class="popupBtn btn btn-xs btn-info"
+                data-url="${ctx}/cadreWork_transferToSubWork?id={{=id}}&cadreId={{=cadreId}}"><i
+                class="fa fa-reply"></i> 转移
+        </button>
     {{}}}
+    </shiro:hasRole>
 </shiro:hasPermission>
 <shiro:hasPermission name="cadreWork:del">
     <button class="confirm btn btn-xs btn-danger"
@@ -280,7 +285,7 @@
                     if (rowObject.subWorkCount == 0) return '-';
                     return _.template($("#switch_tpl").html().NoMultiSpace())({
                         id: rowObject.id,
-                        count: rowObject.subWorkCount
+                        subWorkCount: rowObject.subWorkCount
                     });
                 }, width: 130
                 },
@@ -316,8 +321,8 @@
                     label: '操作', name: 'op', formatter: function (cellvalue, options, rowObject) {
                     //alert(rowObject.id)
                     return _.template($("#op_tpl").html().NoMultiSpace())
-                    ({id: rowObject.id, parentRowKey: null, cadreId: rowObject.cadreId})
-                }, width: 150
+                    ({id: rowObject.id, parentRowKey: null, subWorkCount: rowObject.subWorkCount, cadreId: rowObject.cadreId})
+                }, width: ${cm:hasRole(ROLE_CADREADMIN)?200:150}
                 }
         </shiro:lacksRole>
         </c:if>

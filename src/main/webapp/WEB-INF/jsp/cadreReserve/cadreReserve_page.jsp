@@ -78,7 +78,7 @@
                                             data-title="撤销后备干部"
                                             data-msg="确认撤销该后备干部？"
                                             class="jqItemBtn btn btn-danger btn-sm">
-                                        <i class="fa fa-reply"></i> 撤销
+                                        <i class="fa fa-times"></i> 撤销
                                     </button>
                                     <shiro:hasPermission name="cadreReserve:edit">
                                         <a class="popupBtn btn btn-primary btn-sm tooltip-success"
@@ -100,6 +100,12 @@
                                        data-msg="确定删除这{0}条记录吗？（该考察对象的关联数据都将删除，不可恢复。）"><i class="fa fa-trash"></i> 删除</button>
                                 </c:if>
                                 <c:if test="${status==CADRE_RESERVE_STATUS_ABOLISH}">
+                                    <button data-url="${ctx}/cadreReserve_unAbolish"
+                                            data-title="返回后备干部库"
+                                            data-msg="确认返回后备干部库？"
+                                            class="jqItemBtn btn btn-success btn-sm">
+                                        <i class="fa fa-reply"></i> 返回后备干部库
+                                    </button>
                                     <button class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/cadreReserve_batchDel" data-title="删除"
                                        data-msg="确定删除这{0}条记录吗？"><i class="fa fa-trash"></i> 删除</button>

@@ -16,6 +16,7 @@ import service.global.CacheService;
 import shiro.ShiroHelper;
 import sys.constants.ModifyConstants;
 import sys.utils.ContextHelper;
+import sys.utils.DateUtils;
 import sys.utils.IpUtils;
 
 import java.util.Date;
@@ -93,6 +94,14 @@ public class ModifyBaseItemService extends BaseMapper {
 
         {
             if(BooleanUtils.isTrue(status) && StringUtils.isNotBlank(tableName)){
+
+                if(StringUtils.equals("work_time", mbi.getCode())){
+                    String modifyValue = mbi.getModifyValue();
+                    if(modifyValue!=null){
+                        Date date = DateUtils.parseDate(modifyValue, "yyyy.MM");
+                        mbi.setModifyValue(DateUtils.formatDate(date, DateUtils.YYYY_MM_DD));
+                    }
+                }
 
                 // 更新数据库内容，主键值必须是用户ID
                 boolean needSingleQuotes = (mbi.getType()!=ModifyConstants.MODIFY_BASE_ITEM_TYPE_INT);

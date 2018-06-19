@@ -325,6 +325,16 @@ public class CadreReserveController extends BaseController {
 
         return success(FormUtils.SUCCESS);
     }
+    @RequiresPermissions("cadreReserve:abolish")
+    @RequestMapping(value = "/cadreReserve_unAbolish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cadreReserve_unAbolish(HttpServletRequest request, Integer id, ModelMap modelMap) {
+
+        cadreReserveService.unAbolish(id);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "返回后备干部库：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
 
     @RequiresPermissions("cadreReserve:del")
     @RequestMapping(value = "/cadreReserve_batchDel", method = RequestMethod.POST)

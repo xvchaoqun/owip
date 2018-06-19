@@ -331,8 +331,34 @@ public class CadreWorkController extends BaseController {
         if (id != null) {
 
             cadreWorkService.transfer(id);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "转移期间工作经历：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "转移其间工作经历至主要工作经历：%s", id));
         }
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequestMapping("/cadreWork_transferToSubWork")
+    public String cadreWork_transferToSubWork(int id, ModelMap modelMap) {
+
+        CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
+        modelMap.put("cadreWork", cadreWork);
+        if(cadreWork.getFid()==null && cadreWork.getSubWorkCount()==0) {
+            Date startTime = cadreWork.getStartTime();
+            List<CadreWork> topCadreWorks = iCadreMapper.findTopCadreWorks(id, cadreWork.getCadreId(), startTime);
+            modelMap.put("topCadreWorks", topCadreWorks);
+        }
+
+        return "cadre/cadreWork/cadreWork_transferToSubWork";
+    }
+
+    @RequiresRoles(RoleConstants.ROLE_CADREADMIN)
+    @RequestMapping(value = "/cadreWork_transferToSubWork", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadreWork_transferToSubWork(int id, int fid) {
+
+        cadreWorkService.transferToSubWork(id, fid);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "转移主要工作经历至其间工作经历：%s", id));
+
         return success(FormUtils.SUCCESS);
     }
 

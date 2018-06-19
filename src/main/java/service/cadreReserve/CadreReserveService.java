@@ -356,6 +356,52 @@ public class CadreReserveService extends BaseMapper {
         cadreReserveMapper.updateByPrimaryKeySelective(record);
     }
 
+    // 拉回 已撤销的后备干部
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "UserPermissions", allEntries = true),
+            @CacheEvict(value = "Cadre:ALL", allEntries = true)
+    })
+    public void unAbolish(Integer id) {
+
+        if (id == null) return;
+        CadreReserve cadreReserve = cadreReserveMapper.selectByPrimaryKey(id);
+        int cadreId = cadreReserve.getCadreId();
+        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+
+        // 只有撤销状态的后备干部，才可以拉回来
+        if(cadreReserve.getStatus() != CadreConstants.CADRE_RESERVE_STATUS_ABOLISH){
+            throw new IllegalArgumentException("后备干部"+cadre.getUser().getRealname()+"状态异常:" + cadreReserve.getStatus());
+        }
+
+        // 经过了后备干部或考察对象[非干部]的撤销操作的情况，需要更新信息并放入后备干部库
+        if(cadre.getStatus()==CadreConstants.CADRE_STATUS_INSPECT
+                || cadre.getStatus()==CadreConstants.CADRE_STATUS_RESERVE) {
+            Cadre cadreRecord = new Cadre();
+            cadreRecord.setId(cadreId);
+            cadreRecord.setStatus(CadreConstants.CADRE_STATUS_RESERVE);
+            cadreMapper.updateByPrimaryKeySelective(cadreRecord);
+        }else{
+            // 现任干部库、离任干部库的情况 不更新干部信息
+        }
+
+        CadreReserve record = new CadreReserve();
+        record.setId(cadreReserve.getId());
+        record.setType(cadreReserve.getType());
+        record.setSortOrder(getNextSortOrder(TABLE_NAME,
+                "status=" + CadreConstants.CADRE_RESERVE_STATUS_NORMAL + " and type="+record.getType()));
+        record.setCadreId(cadreId);
+        record.setStatus(CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
+        cadreReserveMapper.updateByPrimaryKeySelective(record);
+
+        // 添加后备干部角色
+        sysUserService.addRole(cadre.getUserId(), RoleConstants.ROLE_CADRERESERVE);
+
+        // 记录任免日志
+        cadreAdLogService.addLog(cadreId, "返回后备干部库",
+                CadreConstants.CADRE_AD_LOG_MODULE_RESERVE, record.getId());
+    }
+
     @Transactional
     @Caching(evict= {
             @CacheEvict(value = "UserPermissions", allEntries = true),
