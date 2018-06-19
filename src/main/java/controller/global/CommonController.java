@@ -206,7 +206,7 @@ public class CommonController extends BaseController {
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());
-                    option.put("unit", extService.getUnit(uv.getUserId()));
+                    option.put("unit", extService.getUnit(uv.getId()));
                 }
                 options.add(option);
             }
