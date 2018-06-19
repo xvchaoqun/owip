@@ -64,7 +64,6 @@ public class CasController {
             }
         }
 
-
-        return "redirect:/login";
+        return "redirect:/jsp/unauthorized.jsp";
     }
 }
