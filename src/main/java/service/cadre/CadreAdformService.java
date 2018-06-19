@@ -189,7 +189,7 @@ public class CadreAdformService extends BaseMapper{
         // 现任职务
         String schoolName = sysConfigService.getSchoolName();
         if(!StringUtils.startsWith(cadre.getTitle(), schoolName)){
-            bean.setPost(schoolName + cadre.getTitle());
+            bean.setPost(schoolName + StringUtils.trimToEmpty(cadre.getTitle()));
         }else{
             bean.setPost(cadre.getTitle());
         }
