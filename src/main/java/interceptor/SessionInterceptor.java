@@ -40,14 +40,14 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
         });
 
         String servletPath = request.getServletPath();
-        if(servletPath.startsWith("/m/cet/")){
+        if(servletPath.startsWith("/m/cet_eva")){
 
-            if(StringUtils.equalsIgnoreCase(servletPath, "/m/cet/login")){
+            if(StringUtils.equalsIgnoreCase(servletPath, "/m/cet_eva/login")){
                 return true;
             }else{
                 CetTrainInspector trainInspector = CetHelper.getTrainInspector(request);
                 if(trainInspector==null){
-                    WebUtils.issueRedirect(request, response, "/m/cet/login");
+                    WebUtils.issueRedirect(request, response, "/m/cet_eva/login");
                     return false;
                 }
                 return true;

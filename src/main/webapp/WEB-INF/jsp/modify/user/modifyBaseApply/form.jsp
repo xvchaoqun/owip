@@ -82,7 +82,14 @@
             党派加入时间
           </td>
           <td>
-            <c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}"/>
+              <c:choose>
+                  <c:when test="${cadre.dpTypeId>0}">
+                      <c:set var="original" value="${cm:formatDate(cadre.dpGrowTime, 'yyyy-MM-dd')}"/>
+                  </c:when>
+                  <c:when test="${cadre.isOw}">
+                      <c:set var="original" value="${cm:formatDate(cadre.owGrowTime, 'yyyy-MM-dd')}"/>
+                  </c:when>
+              </c:choose>
             <div class="input-group" style="width: 150px">
               <input class="form-control date-picker" type="text"
                      data-date-format="yyyy-mm-dd"

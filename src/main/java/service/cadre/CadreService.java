@@ -348,6 +348,16 @@ public class CadreService extends BaseMapper {
             cadrePartyMapper.insertSelective(record);
         else
             cadrePartyMapper.updateByPrimaryKeySelective(record);
+
+        int userId = record.getUserId();
+        CadreView cv = dbFindByUserId(userId);
+        if(cv==null){
+            // 不在干部库中，需要添加为临时干部
+            Cadre _cadre  = new Cadre();
+            _cadre.setUserId(userId);
+            _cadre.setStatus(CadreConstants.CADRE_STATUS_NOT_CADRE);
+            insertSelective(_cadre);
+        }
     }
 
     @Transactional

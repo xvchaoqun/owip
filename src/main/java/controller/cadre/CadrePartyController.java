@@ -3,7 +3,6 @@ package controller.cadre;
 import bean.XlsUpload;
 import controller.BaseController;
 import domain.cadre.CadreParty;
-import domain.cadre.CadrePartyExample;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.sys.SysUserView;
@@ -126,15 +125,7 @@ public class CadrePartyController extends BaseController {
         return;
     }
 
-    public boolean idDuplicate(Integer id, int userId, byte type){
 
-        CadrePartyExample example = new CadrePartyExample();
-        CadrePartyExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId)
-                .andTypeEqualTo(type);
-        if(id!=null) criteria.andIdNotEqualTo(id);
-
-        return cadrePartyMapper.countByExample(example) > 0;
-    }
 
     @RequiresPermissions("cadreParty:edit")
     @RequestMapping(value = "/cadreParty_au", method = RequestMethod.POST)
@@ -142,7 +133,7 @@ public class CadrePartyController extends BaseController {
     public Map do_cadreParty_au(CadreParty record,
                                 HttpServletRequest request) {
 
-        if(idDuplicate(record.getId(), record.getUserId(), record.getType())){
+        if(cadrePartyService.idDuplicate(record.getId(), record.getUserId(), record.getType())){
 
             return failed("添加重复");
         }

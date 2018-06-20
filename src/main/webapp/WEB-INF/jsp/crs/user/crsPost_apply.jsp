@@ -21,7 +21,7 @@
         <div class="tab-pane in active">
             <c:set value="${cm:getHtmlFragment('hf_crs_apply').content}" var="note"/>
             <c:if test="${not empty note}">
-            <div class="alert alert-warning" style="font-size: 24px;padding: 30px;">
+            <div class="alert alert-warning" style="font-size: 24px;">
                 ${note}
             </div>
             </c:if>

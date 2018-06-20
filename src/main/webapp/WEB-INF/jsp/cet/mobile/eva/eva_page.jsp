@@ -3,7 +3,7 @@
 
 <ul class="preview title nav nav-tabs tab-color-blue background-blue"
     style="padding: 10px;margin-bottom: 10px!important; font-size: larger;font-weight: bolder">
-    ${tc.name}
+    ${empty tc.name?tc.cetCourse.name:tc.name}
 </ul>
 <div class="tabbable">
     <ul class="nav nav-tabs" id="myTab">
@@ -14,14 +14,19 @@
             </a>
         </li>
         <div class="buttons pull-right" style="margin-bottom: 8px;margin-left: 10px; ">
-            <a href="${ctx}/m/cet/index" class="btn btn-xs btn-success">
+            <a href="${ctx}/m/cet_eva/index" class="btn btn-xs btn-success">
                 <i class="ace-icon fa fa-reply"></i>
                 返回
             </a>
         </div>
     </ul>
     <div class="tab-content">
-       <c:import url="/m/cet/eva_page_next?trainCourseId=${param.trainCourseId}"/>
+        <c:if test="${empty trainEvaTable}">
+            <div style="padding: 100px 0">该课程还没有分配课程评估表，暂时不能测评</div>
+        </c:if>
+        <c:if test="${not empty trainEvaTable}">
+            <c:import url="/m/cet_eva/eva_page_next?trainCourseId=${param.trainCourseId}"/>
+        </c:if>
     </div>
 </div>
 <style>
@@ -67,9 +72,9 @@
         }*/
         //alert(feedback)
         //var score = $("#score").slider("value");
-        $.post("${ctx}/m/cet/eva", {feedback: feedback,id:id}, function (ret) {
+        $.post("${ctx}/m/cet_eva/eva", {feedback: feedback,id:id}, function (ret) {
             if (ret.success) {
-                location.href = "${ctx}/m/cet/index";
+                location.href = "${ctx}/m/cet_eva/index";
             }
         });
     };
@@ -98,7 +103,7 @@
             //return;
             var step = $(this).data("step");
             var lastStep = $(this).data("last-step");
-            $(".tab-content").load("${ctx}/m/cet/eva_page_next?trainCourseId=${tc.id}&step=" +step+"&lastStep="+lastStep+"&lastRankId=" + rankId);
+            $(".tab-content").load("${ctx}/m/cet_eva/eva_page_next?trainCourseId=${tc.id}&step=" +step+"&lastStep="+lastStep+"&lastRankId=" + rankId);
         }
     })
 
@@ -112,19 +117,19 @@
             }
             var step = $(this).data("step");
             var lastStep = $(this).data("last-step");
-            $(".tab-content").load("${ctx}/m/cet/eva_page_next?trainCourseId=${tc.id}&step=" +step+"&lastStep="+lastStep+"&lastRankId=" + rankId);
+            $(".tab-content").load("${ctx}/m/cet_eva/eva_page_next?trainCourseId=${tc.id}&step=" +step+"&lastStep="+lastStep+"&lastRankId=" + rankId);
         }
     })
 
     $.register.m_click(".first-step", function () {
         if (!$(this).prop("disabled")) {
-            $(".tab-content").load("${ctx}/m/cet/eva_page_next?trainCourseId=${tc.id}&step=1");
+            $(".tab-content").load("${ctx}/m/cet_eva/eva_page_next?trainCourseId=${tc.id}&step=1");
         }
     })
     $.register.m_click(".max-step", function () {
         if (!$(this).prop("disabled")) {
             var maxStep = $(this).data("max-step");
-            $(".tab-content").load("${ctx}/m/cet/eva_page_next?trainCourseId=${tc.id}&step=" + maxStep);
+            $(".tab-content").load("${ctx}/m/cet_eva/eva_page_next?trainCourseId=${tc.id}&step=" + maxStep);
         }
     })
 

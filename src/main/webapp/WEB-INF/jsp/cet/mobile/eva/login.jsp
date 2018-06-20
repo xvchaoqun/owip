@@ -108,10 +108,10 @@
 					$passwd.focus();
 					return;
 				}
-				$.post("${ctx}/m/cet/login",{username:$.trim($username.val()), password:$passwd.val()},function(data){
+				$.post("${ctx}/m/cet_eva/login",{username:$.trim($username.val()), password:$passwd.val()},function(data){
 
 					if(data.success){
-						location.href = "${ctx}/m/cet/index";
+						location.href = "${ctx}/m/cet_eva/index";
 					}
 				});
 				</c:if>
@@ -121,10 +121,10 @@
 					$mobile.focus();
 					return;
 				}
-				$.post("${ctx}/m/cet/login",{mobile:$.trim($mobile.val()), trainId:'${train.id}'},function(data){
+				$.post("${ctx}/m/cet_eva/login",{mobile:$.trim($mobile.val()), trainId:'${train.id}'},function(data){
 
 					if(data.success){
-						location.href = "${ctx}/m/cet/index";
+						location.href = "${ctx}/m/cet_eva/index";
 					}
 				});
 				</c:if>

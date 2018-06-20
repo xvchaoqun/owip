@@ -18,22 +18,22 @@
                         <c:set var="tic" value="${ticMap.get(tc.id)}"></c:set>
                         <c:set var="evaIsClosed" value="${cm:evaIsClosed(tc.id)}"></c:set>
                         <div class="infobox ${tic.status==CET_TRAIN_INSPECTOR_COURSE_STATUS_FINISH?'infobox-grey':'infobox-blue2'}">
-                            <div class="infobox-icon">
+                            <%--<div class="infobox-icon">
                                 <i class="ace-icon fa ${tic.status==CET_TRAIN_INSPECTOR_COURSE_STATUS_FINISH?'fa-check-square-o':'fa-history'}"></i>
-                            </div>
-                            <div class="infobox-data">
-                                    <table class="course-list">
+                            </div>--%>
+                            <div class="infobox-data" style="width: 100%">
+                                    <table class="course-list" style="width: 100%">
                                     <tr>
                                         <td class="name ${tic.status==CET_TRAIN_INSPECTOR_COURSE_STATUS_FINISH?'finish':''}">
-                                            ${cm:substr(cetTrain.isOnCampus?tc.cetCourse.name:tc.name, 0, 11, '')}
+                                            ${cetTrain.isOnCampus?tc.cetCourse.name:tc.name}
                                         </td>
-                                        <td style="padding-left: 10px;">
+                                        <td class="status">
                                             <c:if test="${tic.status==CET_TRAIN_INSPECTOR_COURSE_STATUS_FINISH}">
                                                 已完成测评
                                             </c:if>
                                             <c:if test="${tic.status!=CET_TRAIN_INSPECTOR_COURSE_STATUS_FINISH}">
                                                 <c:if test="${evaIsClosed==0}">
-                                                    <button class="ahref btn btn-success btn-xs"  data-url="${ctx}/m/cet/eva?trainCourseId=${tc.id}"><i class="fa fa-hand-o-right"></i> 测评</button>
+                                                    <button class="ahref btn btn-success btn-xs"  data-url="${ctx}/m/cet_eva/eva?trainCourseId=${tc.id}"><i class="fa fa-hand-o-right"></i> 测评</button>
                                                 </c:if>
                                                 <c:if test="${evaIsClosed==1}">
                                                     已关闭评课
@@ -61,9 +61,6 @@
                                         </td>
                                     </tr>
                                 </table>
-
-
-
                             </div>
                         </div>
                     </c:forEach>
@@ -77,11 +74,19 @@
     </div>
 </div>
 <style>
+    .infobox{
+        height: auto;
+    }
     .course-list .name{
         font-weight: bold;
-        color: black
+        color: black;
     }
     .course-list .name.finish{
         color: grey;
+    }
+    .course-list .status{
+        text-align: right;
+        padding-left:10px;
+        white-space: nowrap;
     }
 </style>

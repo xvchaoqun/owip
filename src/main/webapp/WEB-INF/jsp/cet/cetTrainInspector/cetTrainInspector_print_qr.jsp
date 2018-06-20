@@ -20,11 +20,11 @@
 			<td></td>
 			<td align="left">
 				<fmt:message key="site.train.login" bundle="${spring}" var="loginUrl"/>
-				<c:set var="loginUrl" value="${loginUrl}?trainId=${cetTrain.id}"></c:set>
+				<c:set var="loginUrl" value="${loginUrl}?trainId=${cetTrain.id}" scope="request"></c:set>
 				<img src="${ctx}/qrcode?content=${cm:encodeURI(loginUrl)}" style="width: 400px;margin: 20px"/>
-				<%--<%
+				<%
 					System.out.println(request.getAttribute("loginUrl"));
-				%>--%>
+				%>
 			</td>
 		</tr>
 		<tr>

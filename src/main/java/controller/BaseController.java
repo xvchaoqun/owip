@@ -43,6 +43,7 @@ import service.cadre.CadreLeaderService;
 import service.cadre.CadreLeaderUnitService;
 import service.cadre.CadrePaperService;
 import service.cadre.CadreParttimeService;
+import service.cadre.CadrePartyService;
 import service.cadre.CadrePostAdminService;
 import service.cadre.CadrePostProService;
 import service.cadre.CadrePostService;
@@ -66,6 +67,7 @@ import service.crp.CrpRecordService;
 import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
 import service.ext.ExtService;
+import service.ext.SyncService;
 import service.global.CacheService;
 import service.party.BranchMemberAdminService;
 import service.party.BranchMemberGroupService;
@@ -80,7 +82,6 @@ import service.party.PartyMemberGroupService;
 import service.party.PartyMemberService;
 import service.party.PartyService;
 import service.partySchool.PartySchoolService;
-import service.ext.SyncService;
 import service.sys.AttachFileService;
 import service.sys.AvatarService;
 import service.sys.FeedbackService;
@@ -213,6 +214,8 @@ public class BaseController extends BaseMapper {
     protected CadreReserveOriginService cadreReserveOriginService;
     @Autowired
     protected CadreReserveExportService cadreReserveExportService;
+    @Autowired
+    protected CadrePartyService cadrePartyService;
 
     @Autowired
     protected CrpRecordService crpRecordService;

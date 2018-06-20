@@ -752,20 +752,17 @@ pageEncoding="UTF-8"%>
 									${empty uv.birth?'':cm:intervalYearsUntilNow(uv.birth)}
 							</td>
 						</tr>
-						<c:set var="_needModifyParty" value="${empty cadre.dpTypeId && !cadre.isOw}"/>
 						<tr>
 							<td>政治面貌</td>
 							<td>
 								<c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('partyName')}"/>
-								<c:if test="${!_needModifyParty}">${original}</c:if>
-								<c:if test="${_needModifyParty}">
-								<select data-rel="select2" name="dpTypeId" data-width="150" data-placeholder="请选择民主党派">
+								<c:if test="${member!=null}">${original}</c:if>
+								<c:if test="${member==null}">
+								<select data-rel="select2" name="dpTypeId" data-width="150" data-placeholder="请选择">
 									<option></option>
+									<option value="0">中共党员</option>
 									<jsp:include page="/metaTypes?__code=mc_democratic_party"/>
 								</select>
-								<script type="text/javascript">
-									$("#modalForm select[name=dpTypeId]").val(${cadre.dpTypeId});
-								</script>
 								</c:if>
 							</td>
 							<td>
@@ -773,13 +770,29 @@ pageEncoding="UTF-8"%>
 							</td>
 							<td>
 								<c:set var="original" value="${cm:cadreParty(cadre.isOw, cadre.owGrowTime, '中共党员', cadre.dpTypeId, cadre.dpGrowTime, false).get('growTime')}"/>
-								<c:if test="${!_needModifyParty}">${original}</c:if>
-								<c:if test="${_needModifyParty}">
+								<c:if test="${member!=null}">${original}</c:if>
+								<c:if test="${member==null}">
 								<div class="input-group" style="width: 130px">
-									<input class="form-control date-picker" type="text" name="_dpAddTime" data-date-format="yyyy-mm-dd" value="${original}"/>
+									<input class="form-control date-picker" type="text" name="_dpAddTime" data-date-format="yyyy-mm-dd"/>
 									<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 								</div>
 								</c:if>
+								<script type="text/javascript">
+									<c:choose>
+									<c:when test="${cadre.dpTypeId>0}">
+									$("#modalForm select[name=dpTypeId]").val(${cadre.dpTypeId});
+									$("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.dpGrowTime, "yyyy-MM-dd")}');
+									</c:when>
+									<c:when test="${cadre.isOw}">
+									$("#modalForm select[name=dpTypeId]").val(0);
+									$("#modalForm input[name=_dpAddTime]").val('${cm:formatDate(cadre.owGrowTime, "yyyy-MM-dd")}');
+									</c:when>
+									</c:choose>
+									$("#modalForm select[name=dpTypeId]").on("change",function(){
+										var val = $.trim($(this).val());
+										$("#modalForm input[name=_dpAddTime]").prop("required", val.length>0 && val >= 0);
+									}).change();
+								</script>
 							</td>
 
 							<td>国家/地区</td>
@@ -937,7 +950,7 @@ pageEncoding="UTF-8"%>
 								手机号
 							</td>
 							<td style="min-width: 80px">
-								<input type="text" class="mobile" name="mobile" value="${uv.mobile}">
+								<input required type="text" class="mobile" name="mobile" value="${uv.mobile}">
 							</td>
 							<td>
 								办公电话
@@ -1013,7 +1026,7 @@ pageEncoding="UTF-8"%>
 				return ;
 			}
 			if($("select[name=dpTypeId]").val()=='' && $("input[name=_dpAddTime]").val()!=""){
-				SysMsg.info("请选择民主党派");
+				SysMsg.info("请选择政治面貌");
 				return ;
 			}
 			$(form).ajaxSubmit({

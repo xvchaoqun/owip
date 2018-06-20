@@ -11,6 +11,7 @@ import java.util.Set;
 public class CadreConstants {
 
     // 干部库类别
+    public final static byte CADRE_STATUS_NOT_CADRE = 0; // 非干部（添加到党员干部库时，需要初始化到干部库）
     public final static byte CADRE_STATUS_INSPECT = 2;
     public final static byte CADRE_STATUS_RESERVE = 5;
     public final static byte CADRE_STATUS_MIDDLE_LEAVE = 3;
@@ -25,6 +26,7 @@ public class CadreConstants {
     public final static Set<Byte> CADRE_STATUS_LEAVE_SET = new HashSet<>(); // 离任干部角色对应的所有状态
 
     static {
+        CADRE_STATUS_MAP.put(CADRE_STATUS_NOT_CADRE, "非干部"); // 无角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_INSPECT, "考察对象"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_RESERVE, "后备干部库"); // 非干部角色
         CADRE_STATUS_MAP.put(CADRE_STATUS_MIDDLE_LEAVE, "离任中层干部");

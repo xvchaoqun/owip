@@ -8,7 +8,7 @@
     {
       label: '课程名称',
       name: 'cetCourse.name',
-      width: 300,
+      width: 400,
       align: 'left', frozen:true
     },
     <c:if test="${param.planType==CET_PROJECT_PLAN_TYPE_ONLINE}">
@@ -26,27 +26,27 @@
               .format(rowObject.cetCourse.id, rowObject.cetCourse.name, rowObject.id);*/
     }},
     </c:if>
-    {label: '学时', name: 'cetCourse.period', width: 70},
+    {label: '学时', name: 'cetCourse.period', width: 60},
     {
       label: '开始时间',
       name: 'startTime',
-      width: 150, formatter: function (cellvalue, options, rowObject){
+      width: 130, formatter: function (cellvalue, options, rowObject){
         if(cellvalue==undefined) return '--'
         return $.date(cellvalue, "yyyy-MM-dd hh:mm");
     }},
     {
       label: '结束时间',
       name: 'endTime',
-      width: 150, formatter: function (cellvalue, options, rowObject){
+      width: 130, formatter: function (cellvalue, options, rowObject){
       if(cellvalue==undefined) return '--'
       return $.date(cellvalue, "yyyy-MM-dd hh:mm");
     }},
     <c:if test="${param.planType==CET_PROJECT_PLAN_TYPE_OFFLINE}">
-    {label: '上课地点', name: 'address', width: 300},
+    {label: '上课地点', name: 'address', width: 200, align:'left'},
     </c:if>
-    {label: '主讲人', name: 'cetCourse.cetExpert.realname'},
-    {label: '所在单位', name: 'cetCourse.cetExpert.unit', width: 300, align: 'left'},
-    {label: '职务和职称', name: 'cetCourse.cetExpert.post', width: 120, align: 'left'},
+    {label: '主讲人', name: 'cetCourse.cetExpert.realname', width: 90},
+    {label: '所在单位', name: 'cetCourse.cetExpert.unit', width: 200, align: 'left'},
+    {label: '职务和职称', name: 'cetCourse.cetExpert.post', width: 200, align: 'left'},
     /*{label: '授课方式', name: 'cetCourse.teachMethod', formatter: $.jgrid.formatter.MetaType},*/
   ]
   </c:if>

@@ -131,7 +131,9 @@ public class CadreInspectService extends BaseMapper {
                 cadreId = cadre.getId();
 
                 // 已经在干部库中的情况，如果后备干部[非干部]撤销了，需要更新为考察对象
-                if(cadre.getStatus()== CadreConstants.CADRE_STATUS_RESERVE) {
+                if(cadre.getStatus()== CadreConstants.CADRE_STATUS_NOT_CADRE
+                    || cadre.getStatus()== CadreConstants.CADRE_STATUS_RECRUIT
+                    || cadre.getStatus()== CadreConstants.CADRE_STATUS_RESERVE) {
                     cadreRecord = new Cadre();
                     cadreRecord.setId(cadreId);
                     cadreRecord.setStatus(CadreConstants.CADRE_STATUS_INSPECT);
@@ -161,11 +163,13 @@ public class CadreInspectService extends BaseMapper {
 
         CadreInspect cadreInspect = cadreInspectMapper.selectByPrimaryKey(record.getId());
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreInspect.getCadreId());
-        if (cadre.getStatus() == CadreConstants.CADRE_STATUS_INSPECT) {
+        if (cadre.getStatus()== CadreConstants.CADRE_STATUS_NOT_CADRE
+                || cadre.getStatus()== CadreConstants.CADRE_STATUS_RECRUIT
+                || cadre.getStatus() == CadreConstants.CADRE_STATUS_INSPECT) {
 
             cadreRecord.setId(cadre.getId());
             cadreRecord.setUserId(null);
-            cadreRecord.setStatus(cadre.getStatus());
+            cadreRecord.setStatus(CadreConstants.CADRE_STATUS_INSPECT);
             cadreService.updateByPrimaryKeySelective(cadreRecord);
         }
 

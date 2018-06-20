@@ -14,7 +14,8 @@
                 <label class="col-xs-3 control-label">账号</label>
 
                 <div class="col-xs-6">
-                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/cadre_selects?key=1&type=0"
+                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                            data-width="272"
                             name="userId" data-placeholder="请输入账号或姓名或学工号">
                         <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
                     </select>

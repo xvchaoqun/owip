@@ -6,7 +6,15 @@
 <div class="widget-box" style="width: 750px">
     <div class="widget-header">
         <h4 class="smaller">
+            <c:if test="${not empty crsPost.notice}">
+                <a href="javascript:;" data-dismiss="modal" class="pirntBtn btn btn-info btn-xs"
+                   data-url="${ctx}/pdf?path=${cm:encodeURI(crsPost.notice)}"><i class="fa fa-print"></i> 打印</a>
+                &nbsp;
+                <a href="${ctx}/attach/download?path=${cm:encodeURI(crsPost.notice)}&filename=招聘公告（${crsPost.name}）"
+                   class="btn btn-primary btn-xs"><i class="fa fa-download"></i> 下载</a>
+            </c:if>
             <div class="pull-right" style="margin-right: 10px">
+
 <shiro:hasPermission name="crsPost:edit">
                 <form action="${ctx}/crsPost_uploadNotice"
                       enctype="multipart/form-data" method="post"

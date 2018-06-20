@@ -1,4 +1,4 @@
-package controller.cet.mobile;
+package controller.cet.mobile.eva;
 
 import controller.cet.CetBaseController;
 import domain.cet.CetTrain;
@@ -18,8 +18,8 @@ import java.io.IOException;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/m/cet")
-public class MobileTrainLoginController extends CetBaseController {
+@RequestMapping("/m/cet_eva")
+public class MobileCetEvaLoginController extends CetBaseController {
 
 
     public Logger logger = LoggerFactory.getLogger(getClass());
@@ -35,7 +35,7 @@ public class MobileTrainLoginController extends CetBaseController {
                 if (trainInspector == null) {
                     logger.info(sysLoginLogService.trainInspectorLoginlog(null, u, false, "扫码登录失败，账号或密码错误"));
                     modelMap.put("error", "扫码登录失败，账号或密码错误");
-                    return "cet/mobile/login";
+                    return "cet/mobile/eva/login";
                 }
                 logger.info(sysLoginLogService.trainInspectorLoginlog(trainInspector.getId(), u, true, "扫码登录成功"));
                 CetHelper.setTrainInspector(request, trainInspector);
@@ -43,20 +43,20 @@ public class MobileTrainLoginController extends CetBaseController {
 
                 CetTrain train = cetTrainMapper.selectByPrimaryKey(trainId);
                 modelMap.put("train", train);
-                return "cet/mobile/login";
+                return "cet/mobile/eva/login";
             }
 
         } catch (Exception ex) {
 
             modelMap.put("error", ex.getMessage());
-            return "cet/mobile/login";
+            return "cet/mobile/eva/login";
         }
 
         CetTrainInspector trainInspector = CetHelper.getTrainInspector(request);
         if (trainInspector != null) {
-            return "redirect:/m/cet/index";
+            return "redirect:/m/cet_eva/index";
         }
-        return "cet/mobile/login";
+        return "cet/mobile/eva/login";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -97,7 +97,7 @@ public class MobileTrainLoginController extends CetBaseController {
 
         logger.debug("logout success. {}", (trainInspector != null) ? trainInspector.getUsername() : "");
 
-        return "redirect:/m/cet/index";
+        return "redirect:/m/cet_eva/index";
     }
 
 }

@@ -44,7 +44,7 @@
 							</a>
 							<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 								<li>
-									<a href="${ctx}/m/cet/logout">
+									<a href="${ctx}/m/cet_eva/logout">
 										<i class="ace-icon fa fa-power-off"></i>
 										安全退出
 									</a>
@@ -93,7 +93,7 @@
 						<ul class="breadcrumb">
 							<li>
 								<i class="ace-icon fa fa-home home-icon"></i>
-								<a href="${ctx}/m/cet/index">首页</a>
+								<a href="${ctx}/m/cet_eva/index">首页</a>
 							</li>
 							<c:forEach var="breadcumb" items="${breadcumbs}" varStatus="vs">
 								<li class="${vs.last?'active':''}">

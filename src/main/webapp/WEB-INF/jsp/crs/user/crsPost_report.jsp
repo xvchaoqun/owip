@@ -19,7 +19,7 @@
         <div class="tab-pane in active">
             <c:set value="${cm:getHtmlFragment('hf_crs_apply_report').content}" var="note"/>
             <c:if test="${not empty note}">
-                <div class="alert alert-warning" style="font-size: 24px;padding: 30px;">
+                <div class="alert alert-warning" style="font-size: 24px;">
                         ${note}
                 </div>
             </c:if>
@@ -36,6 +36,8 @@
                            name="content" class="limited" rows="18" maxlength="1100" style="width:1026px">${crsApplicant.report}</textarea>
             </form>
             <div class="modal-footer center" >
+                <div class="pull-left" style="position: absolute; font-size: 16pt">
+                    您已输入<span id="strCount" style="font-size: 20pt;font-weight: bolder">0</span>个字。</div>
                 <button type="button" ${canApply?"":"disabled"} id="submitBtn" data-loading-text="提交中..."  data-success-text="已保存成功" autocomplete="off"
                        class="btn btn-success btn-lg"><i class="fa fa-check"></i> 保存</button>
             </div>
@@ -63,7 +65,10 @@
     }
 </style>
 <script>
-    $('textarea.limited').inputlimiter();
+    $('textarea.limited').on('input propertychange', function() {
+        var str = $(this).val().replace(/\s/g, "");
+        $("#strCount").html(str.length)
+    }).trigger("propertychange");
     $("#submitBtn").click(function(){$("#applyForm").submit();return false;});
     $("#applyForm").validate({
         submitHandler: function (form) {

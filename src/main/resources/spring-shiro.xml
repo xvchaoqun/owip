@@ -138,7 +138,7 @@
                 /mobile/fonts/** = anon
                 /mobile/js/** = anon
                 /mobile/css/** = anon
-                /m/cet/** = anon
+                /m/cet_eva/** = anon
                 /m/login = anon
                 /m/logout = anon
 

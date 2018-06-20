@@ -1,4 +1,4 @@
-package controller.cet.mobile;
+package controller.cet.mobile.eva;
 
 import persistence.cet.common.TrainTempData;
 import controller.cet.CetBaseController;
@@ -28,15 +28,15 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/m/cet")
-public class MobileTrainEvaController extends CetBaseController {
+@RequestMapping("/m/cet_eva")
+public class MobileCetEvaController extends CetBaseController {
 
     public Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/eva")
     public String next() {
 
-        return "cet/mobile/index";
+        return "cet/mobile/eva/index";
     }
 
     @RequestMapping("/eva_page")
@@ -51,11 +51,12 @@ public class MobileTrainEvaController extends CetBaseController {
 
         Map<Integer, CetTrainEvaTable> evaTableMap = cetTrainEvaTableService.findAll();
         CetTrainEvaTable trainEvaTable = evaTableMap.get(trainCourse.getEvaTableId());
-        if(trainEvaTable==null){
+        /*if(trainEvaTable==null){
             throw new OpException("该课程还没有分配课程评估表，不可以进行测评");
-        }
+        }*/
+        modelMap.put("trainEvaTable", trainEvaTable);
 
-        return "cet/mobile/eva_page";
+        return "cet/mobile/eva/eva_page";
     }
 
     @RequestMapping("/eva_page_next")
@@ -151,7 +152,7 @@ public class MobileTrainEvaController extends CetBaseController {
             modelMap.put("step", step);
         }*/
 
-        return "cet/mobile/eva_page_next";
+        return "cet/mobile/eva/eva_page_next";
     }
 
     @RequestMapping(value = "/eva", method = RequestMethod.POST)

@@ -61,16 +61,38 @@ public class CadreBaseInfoController extends BaseController {
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         int userId = cadre.getUserId();
         Member member = memberService.get(userId);
-        if(cadre.getDpId()==null && member==null) {
-            if(dpTypeId!=null && _dpAddTime!=null){
+        if(member==null) {
+            if(dpTypeId!=null && dpTypeId>=0 && _dpAddTime!=null){
+
                 CadreParty record = new CadreParty();
                 record.setUserId(userId);
-                record.setType(CadreConstants.CADRE_PARTY_TYPE_DP);
-                record.setClassId(dpTypeId);
+                if(dpTypeId>0) {
+                    // 直接修改为民主党派时，先删除中共党员
+                    cadrePartyService.del(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
+                    CadreParty cadreParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+                    if(cadreParty!=null){
+                        record.setId(cadreParty.getId());
+                        logger.info(addLog(LogConstants.LOG_ADMIN, "更新为民主党派：%s ", cadreId));
+                    }
+                    record.setType(CadreConstants.CADRE_PARTY_TYPE_DP);
+                    record.setClassId(dpTypeId);
+                }else if(dpTypeId==0){
+                    // 直接修改为中共党员时，先删除民主党派
+                    cadrePartyService.del(userId, CadreConstants.CADRE_PARTY_TYPE_DP);
+                    CadreParty cadreParty = cadrePartyService.get(userId, CadreConstants.CADRE_PARTY_TYPE_OW);
+                    if(cadreParty!=null){
+                        record.setId(cadreParty.getId());
+                        logger.info(addLog(LogConstants.LOG_ADMIN, "更新为中共党员：%s ", cadreId));
+                    }
+
+                    record.setType(CadreConstants.CADRE_PARTY_TYPE_OW);
+                }
                 record.setGrowTime(_dpAddTime);
-                record.setRemark("干部本人添加");
+                record.setRemark(ShiroHelper.getCurrentUserId()==userId?"干部本人添加":"");
 
                 cadreService.addOrUPdateCadreParty(record);
+            }else{
+                cadrePartyService.del(userId, null);
             }
         }
 
