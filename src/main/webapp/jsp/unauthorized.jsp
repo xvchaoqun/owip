@@ -27,9 +27,8 @@
           <div class="space"></div>
           <ul class="list-unstyled spaced inline bigger-110 margin-15 ">
             <li>
-              <h3><i class="ace-icon fa fa-arrow-right"></i> 请确认您的账号<c:if test="${not empty param.username}">[${param.username}]</c:if>是否有访问权限</h3>
+              <h3><i class="ace-icon fa fa-arrow-right"></i> 请确认您的账号(${param.username})是否有访问权限</h3>
             </li>
-
           </ul>
         </div>
         <hr />
