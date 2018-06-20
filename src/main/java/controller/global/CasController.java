@@ -1,8 +1,8 @@
 package controller.global;
 
 import domain.sys.SysUserView;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
@@ -64,6 +64,6 @@ public class CasController {
             }
         }
 
-        return "redirect:/jsp/unauthorized.jsp";
+        return "redirect:/jsp/unauthorized.jsp?username="+ StringUtils.trimToEmpty(username);
     }
 }

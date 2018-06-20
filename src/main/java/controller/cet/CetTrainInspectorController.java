@@ -4,7 +4,6 @@ import domain.cet.CetTrain;
 import domain.cet.CetTrainInspector;
 import domain.cet.CetTrainInspectorView;
 import domain.cet.CetTrainInspectorViewExample;
-import domain.cet.CetTrainView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -276,22 +275,11 @@ public class CetTrainInspectorController extends CetBaseController {
     @RequiresPermissions("cetTrainInspector:edit")
     @RequestMapping(value = "/cetTrainInspector_gen_oncampus", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cetTrainInspector_gen_oncampus(int trainId,  Boolean evaAnonymous,
-                                                 HttpServletRequest request) throws IOException, InvalidFormatException {
+    public Map do_cetTrainInspector_gen_oncampus(int trainId, HttpServletRequest request) throws IOException, InvalidFormatException {
 
-        cetTrainInspectorService.generateInspectorOnCampus(trainId, BooleanUtils.isTrue(evaAnonymous));
+        cetTrainInspectorService.generateInspectorOnCampus(trainId);
 
         return success(FormUtils.SUCCESS);
-    }
-
-    @RequiresPermissions("cetTrainInspector:edit")
-    @RequestMapping("/cetTrainInspector_gen_oncampus")
-    public String cetTrainInspector_gen_oncampus(int trainId, ModelMap modelMap) {
-
-        CetTrainView trainView = cetTrainService.getView(trainId);
-        modelMap.put("cetTrain", trainView);
-
-        return "cet/cetTrainInspector/cetTrainInspector_gen_oncampus";
     }
 
 }
