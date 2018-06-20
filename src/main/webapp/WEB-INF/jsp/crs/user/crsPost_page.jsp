@@ -9,7 +9,7 @@
         <div id="body-content" class="myTableDiv">
             <div class="jqgrid-vertical-offset buttons">
                 <a class="popupBtn btn btn-info btn-sm"
-                   data-width="650"
+                   data-width="800"
                    data-url="${ctx}/hf_content?code=hf_crs_note">
                     <i class="fa fa-search"></i> 应聘程序</a>
                 <a class="popupBtn btn btn-warning btn-sm"
