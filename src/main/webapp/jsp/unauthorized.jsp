@@ -34,10 +34,6 @@
         <hr />
         <div class="space"></div>
         <div class="center">
-          <a href="javascript:history.go(-1)" class="btn btn-primary">
-            <i class="ace-icon fa fa-reply"></i>
-            返回
-          </a>
           <a href="${ctx}/logout" class="btn btn-success">
             <i class="ace-icon fa fa-power-off"></i>
             安全退出
