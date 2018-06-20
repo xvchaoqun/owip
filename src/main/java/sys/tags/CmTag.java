@@ -540,6 +540,8 @@ public class CmTag {
                                                     Boolean useDpShortName){
         String partyName = null;// 党派
         String partyAddTime = null; // 入党时间
+        isOw = BooleanUtils.isTrue(isOw);
+        useDpShortName = BooleanUtils.isTrue(useDpShortName);
 
         if(isOw){
 
