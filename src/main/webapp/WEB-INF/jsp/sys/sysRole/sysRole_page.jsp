@@ -26,9 +26,9 @@
                         data-msg="确定修改该角色为系统自动维护(设置后不允许手动给某个账号指定该角色）">
                     <i class="fa fa-lock"></i> 系统自动设定
                 </button>
-                <button class="jqItemBtn btn btn-danger btn-sm"
+                <button class="jqBatchBtn btn btn-danger btn-sm"
                         data-url="${ctx}/sysRole_del" data-title="删除"
-                        data-msg="确定删除这个角色吗？" data-callback="_reload"><i class="fa fa-trash"></i> 删除</button>
+                        data-msg="确定删除这{0}个角色吗？" data-callback="_reload"><i class="fa fa-trash"></i> 删除</button>
             </div>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>

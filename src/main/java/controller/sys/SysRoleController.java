@@ -172,13 +172,13 @@ public class SysRoleController extends BaseController {
 	@RequiresRoles(RoleConstants.ROLE_ADMIN)
 	@RequestMapping(value="/sysRole_del", method=RequestMethod.POST)
 	@ResponseBody
-	public Map do_sysRole_del(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
+	public Map do_sysRole_del(@CurrentUser SysUserView loginUser,
+							  @RequestParam(value = "ids[]") Integer[] ids,
+							  HttpServletRequest request) {
 		
-		if(id!=null){
-			sysRoleService.del(id);
-			logger.info(addLog(LogConstants.LOG_ADMIN, "删除角色：%s", id));
-		}
-		
+		sysRoleService.batchDel(ids);
+		logger.info(addLog(LogConstants.LOG_ADMIN, "删除角色：%s", StringUtils.join(ids, ",")));
+
 		return success(FormUtils.SUCCESS);
 	}
 

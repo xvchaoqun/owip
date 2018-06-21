@@ -2,8 +2,8 @@ package service.member;
 
 import bean.UserBean;
 import domain.member.MemberOut;
-import domain.member.MemberStay;
-import domain.member.MemberStayExample;
+import domain.member.MemberStayView;
+import domain.member.MemberStayViewExample;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.StudentInfo;
@@ -27,7 +27,6 @@ import service.sys.TeacherInfoService;
 import service.sys.UserBeanService;
 import sys.constants.MemberConstants;
 import sys.constants.SystemConstants;
-import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -54,11 +53,9 @@ public class MemberStayExportService extends BaseMapper {
     protected MemberOutService memberOutService;
 
     // 汇总导出
-    public SXSSFWorkbook toXlsx(byte type) {
+    public SXSSFWorkbook toXlsx(byte type, MemberStayViewExample example, String title) {
 
-        MemberStayExample example = new MemberStayExample();
-        example.createCriteria().andTypeEqualTo(type).andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY);
-        List<MemberStay> records = memberStayMapper.selectByExample(example);
+        List<MemberStayView> records = memberStayViewMapper.selectByExample(example);
         int count = records.size();
 
         int rowNum = 0;
@@ -82,10 +79,7 @@ public class MemberStayExportService extends BaseMapper {
             font.setFontHeight((short) 350);
             cellStyle.setFont(font);
             headerCell.setCellStyle(cellStyle);
-            if(type == MemberConstants.MEMBER_STAY_TYPE_ABROAD)
-                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + "出国（境）毕业生党员组织关系暂留汇总表");
-            else
-                headerCell.setCellValue(CmTag.getSysConfig().getSchoolName() + "非出国（境）毕业生党员组织关系暂留汇总表");
+            headerCell.setCellValue(title);
             sheet.addMergedRegion(ExcelTool.getCellRangeAddress(rowNum, 0, rowNum, 9));
             rowNum++;
         }
@@ -181,7 +175,7 @@ public class MemberStayExportService extends BaseMapper {
         //Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         for (int i = 0; i < count; i++) {
 
-            MemberStay record = records.get(i);
+            MemberStayView record = records.get(i);
             int userId = record.getUserId();
             StudentInfo student = studentService.get(userId);
             UserBean u = userBeanService.get(userId);
@@ -221,7 +215,7 @@ public class MemberStayExportService extends BaseMapper {
                         partyId == null ? "" : partyMap.get(partyId).getName(),
 
                         toBranchId == null ? "" : branchMap.get(toBranchId).getName(),
-                        DateUtils.formatDate(record.getStartTime(), "yyyy.MM"),
+                        DateUtils.formatDate(record.getSaveStartTime(), "yyyy.MM"),
                         DateUtils.formatDate(record.getOverDate(), "yyyy.MM"),
                         record.getCountry(),
                         record.getSchool(),

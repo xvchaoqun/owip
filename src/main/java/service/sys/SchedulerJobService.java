@@ -16,6 +16,7 @@ import persistence.sys.SchedulerJobMapper;
 import service.BaseMapper;
 import sys.quartz.QuartzManager;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -155,10 +156,17 @@ public class SchedulerJobService  extends BaseMapper {
     }
 
     @Transactional
-    public void del(Integer id) {
+    public void batchDel(Integer[] ids) {
 
-        stopJob(id);
-        schedulerJobMapper.deleteByPrimaryKey(id);
+        if(ids==null || ids.length==0) return ;
+
+        for (Integer id : ids) {
+            stopJob(id);
+        }
+
+        SchedulerJobExample example = new SchedulerJobExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        schedulerJobMapper.deleteByExample(example);
     }
 
     public void changeOrder(int id, int addNum) {

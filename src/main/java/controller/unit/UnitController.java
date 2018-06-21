@@ -207,7 +207,7 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:del")
     @RequestMapping(value = "/unit_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map unit_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
         if (null != ids){
             

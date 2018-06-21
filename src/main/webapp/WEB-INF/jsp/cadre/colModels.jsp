@@ -618,12 +618,15 @@
         /*{label: '谈话人数', name: 'talkUserCount'},*/
         {
             label: '考察材料', name: 'summary', formatter: function (cellvalue, options, rowObject) {
-            if (rowObject.summary && rowObject.summary != '')
-                return '<button class="openView btn btn-info btn-xs" data-url="${ctx}cisInspectObj_summary?objId={0}"><i class="fa fa-search"></i> 查看</button>'
-                                .format(rowObject.id)
-                        + '&nbsp;<button class="linkBtn btn btn-success btn-xs" data-url="${ctx}/cisInspectObj_summary_export?objId={0}"><i class="fa fa-download"></i> 导出</button>'
+            if (rowObject.summary && rowObject.summary != ''){
+                var str = '';
+                <c:if test="${empty type}">
+                str +='<button class="openView btn btn-info btn-xs" data-url="${ctx}cisInspectObj_summary?objId={0}"><i class="fa fa-search"></i> 查看</button>'
+                        .format(rowObject.id) + "&nbsp;";
+                </c:if>
+                return  str + '<button class="linkBtn btn btn-success btn-xs" data-url="${ctx}/cisInspectObj_summary_export?objId={0}"><i class="fa fa-download"></i> 导出</button>'
                                 .format(rowObject.id);
-            else return '<button class="openView btn btn-primary btn-xs" data-url="${ctx}cisInspectObj_summary?objId={0}"><i class="fa fa-edit"></i> 编辑</button>'
+            } else return '<button class="openView btn btn-primary btn-xs" data-url="${ctx}cisInspectObj_summary?objId={0}"><i class="fa fa-edit"></i> 编辑</button>'
                     .format(rowObject.id)
         }, width: 150
         },

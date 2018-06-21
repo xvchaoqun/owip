@@ -17,9 +17,9 @@
                 <button id="stopBtn" class="jqItemBtn btn btn-warning btn-sm"
                    data-url="${ctx}/schedulerJob_stop" data-title="暂停定时任务"
                    data-msg="确定暂停这个定时任务吗？" data-callback="_reload"><i class="fa fa-dot-circle-o"></i> 暂停任务</button>
-                <button class="jqItemBtn btn btn-danger btn-sm"
+                <button class="jqBatchBtn btn btn-danger btn-sm"
                    data-url="${ctx}/schedulerJob_del" data-title="删除定时任务"
-                   data-msg="确定删除这个定时任务吗？" data-callback="_reload"><i class="fa fa-trash"></i> 删除</button>
+                   data-msg="确定删除这{0}个定时任务吗？" data-callback="_reload"><i class="fa fa-trash"></i> 删除</button>
             </div>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>

@@ -132,13 +132,10 @@ public class SchedulerJobController extends BaseController {
     @RequiresPermissions("schedulerJob:del")
     @RequestMapping(value="/schedulerJob_del", method=RequestMethod.POST)
     @ResponseBody
-    public Map do_schedulerJob_del(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {
+    public Map do_schedulerJob_del(@RequestParam(value = "ids[]") Integer[] ids) {
 
-        if(id!=null){
-            SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
-            schedulerJobService.del(id);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "删除定时任务：%s", JSONUtils.toString(schedulerJob, false)));
-        }
+        schedulerJobService.batchDel(ids);
+        logger.info(addLog(LogConstants.LOG_ADMIN, "删除定时任务：%s", StringUtils.join(ids, ",")));
 
         return success(FormUtils.SUCCESS);
     }

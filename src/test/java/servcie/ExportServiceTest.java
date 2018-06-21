@@ -1,7 +1,6 @@
 package servcie;
 
 import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
@@ -14,7 +13,6 @@ import org.springframework.util.ResourceUtils;
 import service.analysis.StatCadreService;
 import service.member.MemberStayExportService;
 import service.party.PartyExportService;
-import sys.constants.MemberConstants;
 import sys.utils.ExcelUtils;
 import sys.utils.ExportHelper;
 
@@ -199,7 +197,7 @@ public class ExportServiceTest {
     @Test
     public void memberStayExportService() throws IOException {
 
-        SXSSFWorkbook wb = memberStayExportService.toXlsx(MemberConstants.MEMBER_STAY_TYPE_ABROAD);
+       /* SXSSFWorkbook wb = memberStayExportService.toXlsx(MemberConstants.MEMBER_STAY_TYPE_ABROAD);
         FileOutputStream output = new FileOutputStream(new File("D:/tmp/test222.xlsx"));
 
         wb.write(output);
@@ -209,7 +207,7 @@ public class ExportServiceTest {
         output = new FileOutputStream(new File("D:/tmp/test222.xlsx"));
 
         wb.write(output);
-        output.close();
+        output.close();*/
     }
 
 }

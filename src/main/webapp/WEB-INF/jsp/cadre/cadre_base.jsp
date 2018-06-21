@@ -731,8 +731,8 @@ pageEncoding="UTF-8"%>
 									<input type="file" name="_avatar" id="_avatar"/>
 								</div>
 								<div>
-									<a href="javascrip:;" class="btn btn-xs btn-primary" onclick='$("#_avatar").click()'>
-										<i class="fa fa-upload"></i> 重传</a>
+									<button type="button" class="btn btn-xs btn-primary" onclick='$("#_avatar").click()'>
+										<i class="fa fa-upload"></i> 重传</button>
 								</div>
 							</td>
 							<td class="bg-right">

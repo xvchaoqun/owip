@@ -15,7 +15,7 @@
             <div class="myTableDiv"
                  data-url-au="${ctx}/memberStay_au"
                  data-url-page="${ctx}/memberStay?type=${param.type}"
-                 data-url-export="${ctx}/memberStay_data"
+                 data-url-export="${ctx}/memberStay_data?type=${param.type}"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.userId ||not empty param.partyId 
                 || not empty param.status ||not empty param.isBack

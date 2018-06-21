@@ -705,30 +705,32 @@ public class PmdPayCampusCardService extends BaseMapper {
             logger.error("[党费收缴]处理支付结果异常，缴费月份不存在，订单号：{}", orderNo);
         } else {
 
+            int payMonthId = payMonth.getId();
             PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
-            if(currentPmdMonth==null){
-                logger.error("[党费收缴]当月缴费已关闭，但是收到了缴费成功的通知，订单号：{}", orderNo);
+            if(currentPmdMonth==null){ // 再次确定当月还未结算
+                logger.error("[党费收缴]缴费已关闭，但是收到了缴费成功的通知，订单号：{}", orderNo);
+                //return ; // 因为数据已报送，所以不允许更新??? 但是不更新的话，用户看不到成功的结果
             }
 
-            int payMonthId = payMonth.getId();
-            // 用户缴费了，但是支付成功的通知在支部管理员设为延迟缴费之后
-            if (pmdMemberPayView.getMonthId().intValue() == payMonthId
-                    && pmdMemberPayView.getIsDelay()) {
-
-                if(currentPmdMonth!=null && currentPmdMonth.getId()==payMonthId) {
-                    logger.error("[党费收缴]当月缴费记录已经设定为延迟缴费，但是在当月收到了缴费成功的通知，" +
-                            "有可能是在支付之后但没收到通知消息前管理员设置了延迟缴费，订单号：{}", orderNo);
-                }
+            // 收到支付通知时，要求订单的缴费月份必须是当前系统设定的缴费月份，否则不允许更新。（注：订单号是由当时的缴费月份生成的）
+            if(payMonthId != currentPmdMonth.getId()) {
+                logger.error("[党费收缴]处理支付结果异常，缴费月份和当前缴费月份不同，不允许缴费，订单号：{}", orderNo);
+                //return;  // 为了本人页面正常显示支付成功，这里需要放行
             }
 
             // 此笔账单是否补缴
             boolean isDelay = StringUtils.equals(orderNo.substring(6, 7), "1");
             if (isDelay && payStatus != 2) {
+                // 按理不会发生此情况？
                 logger.error("[党费收缴]处理支付结果异常，补缴状态异常，订单号：{}", orderNo);
             } else {
 
-                if (!isDelay) {
-                    // 缴费时，需更新快照
+                if(payStatus==0){
+                    logger.error("[党费收缴]处理支付结果异常，订单不允许缴费(当月已关闭缴费或当月已设置为延迟缴费)，订单号：{}", orderNo);
+                }
+
+                if (!isDelay && payStatus!=0) {
+                    // 当月正常缴费时，需更新快照
                     PmdMember record = new PmdMember();
                     record.setId(memberId);
                     record.setHasPay(true);
@@ -739,11 +741,19 @@ public class PmdPayCampusCardService extends BaseMapper {
 
                     PmdMemberExample example = new PmdMemberExample();
                     example.createCriteria().andIdEqualTo(memberId)
-                            .andHasPayEqualTo(false);
+                            .andHasPayEqualTo(false)
+                            .andIsDelayEqualTo(isDelay); // 确保延迟状态一致，防止管理员改变了状态
+                    /* 支付通知时，以下情况不允许更新快照：
+                            1、原订单是正常缴费，缴费当月未收到支付通知，接着在当月管理员它设置为了延迟或强制延迟报送了，
+                            在后面的月份又收到了通知（其实前面的payStatus已判断了）
+                            2、原订单是补缴，补缴当月未收到支付通知，在后面的月份又收到了通知（前面已判断，但未阻止）
+                    */
                     if (pmdMemberMapper.updateByExampleSelective(record, example) == 0) {
-                        throw new OpException("更新快照失败");
+
+                        logger.error("[党费收缴]处理支付结果异常，更新快照失败，订单号：{}", orderNo);
                     }
                 }
+
                 PmdMemberPay record = new PmdMemberPay();
                 record.setMemberId(memberId);
                 record.setHasPay(true);
@@ -764,13 +774,15 @@ public class PmdPayCampusCardService extends BaseMapper {
                 example.createCriteria().andMemberIdEqualTo(memberId)
                         .andHasPayEqualTo(false);
                 if (pmdMemberPayMapper.updateByExampleSelective(record, example) == 0) {
+
+                    logger.error("[党费收缴]处理支付结果异常，更新账单失败，订单号：{}", orderNo);
                     throw new OpException("更新账单失败");
                 }
 
                 sysApprovalLogService.add(pmdMember.getId(), userId,
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF,
                         SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
-                        "线上缴费成功", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+                        "线上缴费成功通知", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, orderNo);
             }
         }
     }

@@ -36,7 +36,6 @@ import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -46,7 +45,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,12 +113,15 @@ public class MemberStayController extends MemberBaseController {
 
         if(export==2){
 
-            SXSSFWorkbook wb = memberStayExportService.toXlsx(type);
-            String fileName = CmTag.getSysConfig().getSchoolName() + "出国（境）毕业生党员组织关系暂留汇总表";
-            if(type == MemberConstants.MEMBER_STAY_TYPE_INTERNAL)
-                fileName = CmTag.getSysConfig().getSchoolName() +"非出国（境）毕业生党员组织关系暂留汇总表";
+            MemberStayViewExample example = new MemberStayViewExample();
+            example.createCriteria().andTypeEqualTo(type).andStatusEqualTo(MemberConstants.MEMBER_STAY_STATUS_OW_VERIFY);
 
-            ExportHelper.output(wb, fileName + ".xlsx", response);
+            String title = CmTag.getSysConfig().getSchoolName() + "出国（境）毕业生党员组织关系暂留汇总表";
+            if(type == MemberConstants.MEMBER_STAY_TYPE_INTERNAL)
+                title = CmTag.getSysConfig().getSchoolName() +"非出国（境）毕业生党员组织关系暂留汇总表";
+
+            SXSSFWorkbook wb = memberStayExportService.toXlsx(type, example, title);
+            ExportHelper.output(wb, title + ".xlsx", response);
             return null;
         }
 
@@ -290,7 +291,13 @@ public class MemberStayController extends MemberBaseController {
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            memberStay_export(type, example, response);
+
+            String title = "出国（境）毕业生党员组织关系暂留表";
+            if(type == MemberConstants.MEMBER_STAY_TYPE_INTERNAL)
+                title = "非出国（境）毕业生党员组织关系暂留表";
+
+            SXSSFWorkbook wb = memberStayExportService.toXlsx(type, example, title);
+            ExportHelper.output(wb, title + ".xlsx", response);
             return;
         }
 
@@ -655,7 +662,7 @@ public class MemberStayController extends MemberBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void memberStay_export(byte type, MemberStayViewExample example, HttpServletResponse response) {
+    /*public void memberStay_export(byte type, MemberStayViewExample example, HttpServletResponse response) {
 
         List<MemberStayView> records = memberStayViewMapper.selectByExample(example);
         int rownum = records.size();
@@ -684,6 +691,6 @@ public class MemberStayController extends MemberBaseController {
         String fileName = String.format("党员申请组织关系暂留(%s)_", MemberConstants.MEMBER_STAY_TYPE_MAP.get(type))
                 + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
-    }
+    }*/
 
 }

@@ -1305,9 +1305,6 @@
 						<w:tcPr>
 							<w:tcW w:w="8992" w:type="dxa"/>
 							<w:gridSpan w:val="4"/>
-							<w:tcBorders>
-								<w:bottom w:val="nil"/>
-							</w:tcBorders>
 							<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
 						</w:tcPr>
                         ${info!}
@@ -1357,12 +1354,6 @@
 						<w:tcPr>
 							<w:tcW w:w="8992" w:type="dxa"/>
 							<w:gridSpan w:val="4"/>
-							<w:tcBorders>
-								<w:top w:val="nil"/>
-								<w:left w:val="single" w:sz="4" wx:bdrwidth="10" w:space="0" w:color="auto"/>
-								<w:bottom w:val="single" w:sz="4" wx:bdrwidth="10" w:space="0" w:color="auto"/>
-								<w:right w:val="single" w:sz="4" wx:bdrwidth="10" w:space="0" w:color="auto"/>
-							</w:tcBorders>
 							<w:shd w:val="clear" w:color="auto" w:fill="auto"/>
 							<w:vAlign w:val="bottom"/>
 						</w:tcPr>

@@ -10,10 +10,16 @@ import java.util.List;
 
 public class CisInspectObjView implements Serializable {
 
+    public String getSn(){
+        String type = CmTag.getMetaType(typeId).getName();
+        return String.format("%s[%s]%s号", type, year, seq);
+    }
+
     public CadreView getCadre(){
 
         return CmTag.getCadreById(cadreId);
     }
+
     public CisInspectorView getChiefInspector(){
 
         return CisHelper.getCisInspector(chiefInspectorId);

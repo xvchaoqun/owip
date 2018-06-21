@@ -149,6 +149,7 @@
                     }
                 })
                 $(this).closest("tr").remove();
+                getCopyStr();
             });
 
     function getCopyStr() {

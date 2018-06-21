@@ -16,6 +16,7 @@ import service.global.CacheService;
 import sys.tool.tree.TreeNode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -40,9 +41,13 @@ public class SysRoleService extends BaseMapper {
 	}
 
 	@Transactional
-	public void del(Integer id){
+	public void batchDel(Integer[] ids){
 
-		sysRoleMapper.deleteByPrimaryKey(id);
+		if(ids==null || ids.length==0) return ;
+
+		SysRoleExample example = new SysRoleExample();
+		example.createCriteria().andIdIn(Arrays.asList(ids));
+		sysRoleMapper.deleteByExample(example);
 
 		cacheService.clearRoleCache();
 	}

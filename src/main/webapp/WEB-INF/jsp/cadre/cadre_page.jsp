@@ -68,7 +68,7 @@
                                     <shiro:hasPermission name="cadre:edit">
                                         <button class="jqOpenViewBtn btn btn-success btn-sm"
                                                 data-url="${ctx}/cadre_promote">
-                                            <i class="fa fa-edit"></i> 提任
+                                            <i class="fa fa-level-up"></i> 提任校领导
                                         </button>
                                     </shiro:hasPermission>
                                     <shiro:hasPermission name="cadre:leave">
@@ -76,7 +76,7 @@
                                                 data-width="700"
                                                 data-url="${ctx}/cadre_leave"
                                                 data-querystr="&status=${CADRE_STATUS_MIDDLE_LEAVE}">
-                                            <i class="fa fa-edit"></i> 离任
+                                            <i class="fa fa-sign-out"></i> 离任
                                         </button>
                                     </shiro:hasPermission>
                                 </c:if>
