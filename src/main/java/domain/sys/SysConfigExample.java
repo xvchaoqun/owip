@@ -2024,6 +2024,66 @@ public class SysConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andHasPartyModuleIsNull() {
+            addCriterion("has_party_module is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPartyModuleIsNotNull() {
+            addCriterion("has_party_module is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPartyModuleEqualTo(Boolean value) {
+            addCriterion("has_party_module =", value, "hasPartyModule");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPartyModuleNotEqualTo(Boolean value) {
+            addCriterion("has_party_module <>", value, "hasPartyModule");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPartyModuleGreaterThan(Boolean value) {
+            addCriterion("has_party_module >", value, "hasPartyModule");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPartyModuleGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_party_module >=", value, "hasPartyModule");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPartyModuleLessThan(Boolean value) {
+            addCriterion("has_party_module <", value, "hasPartyModule");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPartyModuleLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_party_module <=", value, "hasPartyModule");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPartyModuleIn(List<Boolean> values) {
+            addCriterion("has_party_module in", values, "hasPartyModule");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPartyModuleNotIn(List<Boolean> values) {
+            addCriterion("has_party_module not in", values, "hasPartyModule");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPartyModuleBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_party_module between", value1, value2, "hasPartyModule");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasPartyModuleNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_party_module not between", value1, value2, "hasPartyModule");
+            return (Criteria) this;
+        }
+
         public Criteria andCadreTemplateFsNoteIsNull() {
             addCriterion("cadre_template_fs_note is null");
             return (Criteria) this;

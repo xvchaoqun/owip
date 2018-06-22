@@ -73,6 +73,18 @@ body.mob-safari .navbar-fixed-top+.main-container .sidebar.responsive {
     margin: 0px!important;
 }
 
+.modal .msg.title{
+    font-size: 14pt;
+    font-weight: bolder;
+}
+
+.modal .msg.info{
+    margin: 10px 0;
+    font-size: 14pt;
+    font-weight: bolder;
+    text-indent: 2em;
+}
+
 .btn{
     border-radius: 8px;
 }

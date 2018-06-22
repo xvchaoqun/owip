@@ -60,8 +60,8 @@
 
                 if(rowObject.switchStatus!='${CRS_POST_ENROLL_STATUS_OPEN}') {
                     if (rowObject.endTime != null) {
-                        var nowTime = $.date(new Date(), 'yyyy-MM-dd hh:mm');
-                        var endTime = $.date(rowObject.endTime, 'yyyy-MM-dd hh:mm');
+                        var nowTime = $.date(new Date(), 'yyyy-MM-dd HH:mm');
+                        var endTime = $.date(rowObject.endTime, 'yyyy-MM-dd HH:mm');
                         //console.log(nowTime + "--" + endTime);
                         if (endTime < nowTime) {
                             if(!canApply) return '报名结束'

@@ -15,6 +15,7 @@
 <c:set value="${cm:getSysConfig()}" var="_sysConfig"/>
 <c:set value="${_sysConfig.siteName}" var="_plantform_name"/>
 <c:set value="${_sysConfig.siteShortName}" var="_plantform_short_name"/>
+<c:set value="${_sysConfig.hasPartyModule}" var="_hasPartyModule"/>
 <c:set value="<%=new Date()%>" var="now"/>
 <c:set value="${cm:formatDate(now,'yyyy-MM-dd')}" var="_today"/>
 <c:set value="${cm:formatDate(now,'yyyy')}" var="_thisYear"/>

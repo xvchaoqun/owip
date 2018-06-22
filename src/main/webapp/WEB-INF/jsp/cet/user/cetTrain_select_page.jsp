@@ -109,7 +109,7 @@
             {label: '选课截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
                 if(rowObject.enrollStatus==${CET_TRAIN_ENROLL_STATUS_DEFAULT}){
-                    return $.date(cellvalue, "yyyy-MM-dd hh:mm");
+                    return $.date(cellvalue, "yyyy-MM-dd HH:mm");
                 }
                 return '-'
             }},

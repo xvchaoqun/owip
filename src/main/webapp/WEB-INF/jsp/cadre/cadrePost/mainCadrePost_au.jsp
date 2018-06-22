@@ -10,23 +10,25 @@
         <input type="hidden" name="id" value="${cadrePost.id}">
         <input type="hidden" name="isMainPost" value="1">
             <div class="form-group">
-                <label class="col-xs-4 control-label">姓名</label>
+                <label class="col-xs-3 control-label">姓名</label>
                 <div class="col-xs-6 label-text">
                     ${sysUser.realname}
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">职务</label>
+                <label class="col-xs-3 control-label">职务</label>
 
                 <div class="col-xs-6">
                     <input required class="form-control" type="text" name="post" value="${cadrePost.post}">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">职务属性</label>
+                <label class="col-xs-3 control-label">职务属性</label>
 
                 <div class="col-xs-6">
-                    <select required data-rel="select2" name="postId" data-placeholder="请选择">
+                    <select required data-rel="select2" name="postId"
+                            data-width="272"
+                            data-placeholder="请选择">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_post"/>
                     </select>
@@ -36,9 +38,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">行政级别</label>
+                <label class="col-xs-3 control-label">行政级别</label>
                 <div class="col-xs-6">
-                    <select required data-rel="select2" name="adminLevelId" data-placeholder="请选择">
+                    <select required data-rel="select2" name="adminLevelId"
+                            data-width="272" data-placeholder="请选择">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_admin_level"/>
                     </select>
@@ -48,9 +51,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">职务类别</label>
+                <label class="col-xs-3 control-label">职务类别</label>
                 <div class="col-xs-6">
-                    <select required data-rel="select2" name="postClassId" data-placeholder="请选择">
+                    <select required data-rel="select2" name="postClassId"
+                            data-width="272" data-placeholder="请选择">
                         <option></option>
                         <c:import url="/metaTypes?__code=mc_post_class"/>
                     </select>
@@ -60,17 +64,18 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">所在单位</label>
+                <label class="col-xs-3 control-label">所在单位</label>
 
                 <div class="col-xs-6">
-                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+                    <select required data-rel="select2-ajax"
+                            data-width="272" data-ajax-url="${ctx}/unit_selects"
                             name="unitId" data-placeholder="请选择所属单位">
                         <option value="${unit.id}">${unit.name}</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">是否双肩挑</label>
+                <label class="col-xs-3 control-label">是否双肩挑</label>
 
                 <div class="col-xs-6">
                     <label>
@@ -80,11 +85,12 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-4 control-label">双肩挑单位</label>
+                <label class="col-xs-3 control-label">双肩挑单位</label>
 
                 <div class="col-xs-6">
                     <select data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
-                            name="doubleUnitId" data-placeholder="请选择所属单位">
+                            name="doubleUnitId"
+                            data-width="272" data-placeholder="请选择所属单位">
                         <option value="${doubleUnit.id}">${doubleUnit.name}</option>
                     </select>
                 </div>

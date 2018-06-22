@@ -251,9 +251,7 @@ pageEncoding="UTF-8" %>
                 return cellvalue>=1?"是":"否";
             }},
             { label:'简称', name: 'shortName', align:'left', width: 180},
-            { label:'所属单位', name: 'unitId', width: 180, formatter:function(cellvalue, options, rowObject){
-                return _cMap.unitMap[cellvalue].name;
-            }},
+            { label:'所属单位', name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},
             { label: '分党委类别', name: 'classId', formatter: $.jgrid.formatter.MetaType},
             { label: '组织类别', name: 'typeId', width: 180, formatter: $.jgrid.formatter.MetaType},
             { label: '所在单位属性', name: 'unitTypeId', width: 110 , formatter: $.jgrid.formatter.MetaType},

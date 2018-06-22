@@ -11,6 +11,7 @@ import domain.cadre.CadrePartyExample;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.cadreInspect.CadreInspect;
+import domain.modify.ModifyCadreAuth;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import domain.unit.Unit;
@@ -28,6 +29,7 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveService;
+import service.modify.ModifyCadreAuthService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import shiro.ShiroHelper;
@@ -62,6 +64,8 @@ public class CadreService extends BaseMapper {
     private CadreAdLogService cadreAdLogService;
     @Autowired
     protected MetaTypeService metaTypeService;
+    @Autowired(required = false)
+    protected ModifyCadreAuthService modifyCadreAuthService;
 
     /*
         直接添加干部时执行的检查
@@ -259,11 +263,6 @@ public class CadreService extends BaseMapper {
         Assert.isTrue(record.getStatus() != null && record.getStatus() != CadreConstants.CADRE_STATUS_RESERVE
                 && record.getStatus() != CadreConstants.CADRE_STATUS_INSPECT, "wrong status"); // 非后备干部、考察对象
 
-        if(CadreConstants.CADRE_STATUS_SET.contains(record.getStatus())){
-            // 添加干部身份
-            sysUserService.addRole(userId, RoleConstants.ROLE_CADRE);
-        }
-
         record.setSortOrder(getNextSortOrder(TABLE_NAME, "status=" + record.getStatus()));
         CadreView cadre = dbFindByUserId(userId);
         if (cadre == null) {
@@ -274,6 +273,22 @@ public class CadreService extends BaseMapper {
             // 考察对象或后备干部被撤销时，干部信息仍然在库中，现在是覆盖更新
             record.setId(cadre.getId());
             cadreMapper.updateByPrimaryKeySelective(record);
+        }
+
+        if(CadreConstants.CADRE_STATUS_SET.contains(record.getStatus())){
+            // 添加干部身份
+            sysUserService.addRole(userId, RoleConstants.ROLE_CADRE);
+
+            // 删除直接修改信息的权限（如果有的话）
+            if(modifyCadreAuthService!=null && cadre!=null){
+
+                List<ModifyCadreAuth> modifyCadreAuths = modifyCadreAuthService.findAll(cadre.getId());
+                List<Integer> idList = new ArrayList<>();
+                for (ModifyCadreAuth modifyCadreAuth : modifyCadreAuths) {
+                    idList.add(modifyCadreAuth.getId());
+                }
+                modifyCadreAuthService.batchDel(idList.toArray(new Integer[]{}));
+            }
         }
 
         // 记录任免日志

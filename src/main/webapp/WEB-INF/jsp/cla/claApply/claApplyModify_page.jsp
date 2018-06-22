@@ -37,7 +37,7 @@
           record.day = $.dayDiff(record.startTime, record.endTime)
         }
         if (cm.name == 'startTime' || cm.name == 'endTime') {
-          record[cm.name] = $.date(record[cm.name], "yyyy-MM-dd hh:mm")
+          record[cm.name] = $.date(record[cm.name], "yyyy-MM-dd HH:mm")
           //console.log(record[cm.name])
         }
         if (rowId != record.id && $.trim(val) != $.trim(record[cm.name])) {

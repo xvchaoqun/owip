@@ -27,6 +27,10 @@
                         <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
                             <a class="popupBtn btn btn-danger btn-sm"
                                data-url="${ctx}/cadre_search"><i class="fa fa-search"></i> 查询账号所属干部库</a>
+                            <shiro:hasPermission name="cadre:edit">
+                                <button type="button" class="popupBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/cadre_transfer"><i class="fa fa-recycle"></i> 干部库转移</button>
+                            </shiro:hasPermission>
                         </div>
                     </ul>
 

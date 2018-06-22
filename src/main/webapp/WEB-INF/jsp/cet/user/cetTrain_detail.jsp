@@ -132,10 +132,10 @@
             {
                 label: '选课', name: '_apply', width: 90, formatter: function (cellvalue, options, rowObject) {
                 //console.log(options)
-                if(rowObject.isFinished) return '-'
                 if(rowObject.applyLimit!=undefined &&
                         rowObject.selectedCount>rowObject.applyLimit){ return '报名已满'}
 
+                //console.log($.date(rowObject.startTime, "yyyy-MM-dd HH:mm"))
                 if(rowObject.startTime <= $.date(new Date(), "yyyy-MM-dd HH:mm")){
                     return "-"
                 }
@@ -147,6 +147,7 @@
                         || rowObject.applyStatus==${CET_TRAIN_COURSE_APPLY_STATUS_CLOSE_ALL}){
                     return '-'
                 }
+
                 return ('<button class="confirm btn btn-success btn-xs" ' +
                 'data-url="${ctx}/user/cet/cetTrain_apply_item?isApply=1&trainCourseId={0}" '
                 +'data-msg="确定选课？（{1}）" data-apply="true" data-callback="_applyReload"><i class="fa fa-plus-circle"></i> 选课</button>')

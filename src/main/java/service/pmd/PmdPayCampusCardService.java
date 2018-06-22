@@ -712,12 +712,6 @@ public class PmdPayCampusCardService extends BaseMapper {
                 //return ; // 因为数据已报送，所以不允许更新??? 但是不更新的话，用户看不到成功的结果
             }
 
-            // 收到支付通知时，要求订单的缴费月份必须是当前系统设定的缴费月份，否则不允许更新。（注：订单号是由当时的缴费月份生成的）
-            if(payMonthId != currentPmdMonth.getId()) {
-                logger.error("[党费收缴]处理支付结果异常，缴费月份和当前缴费月份不同，不允许缴费，订单号：{}", orderNo);
-                //return;  // 为了本人页面正常显示支付成功，这里需要放行
-            }
-
             // 此笔账单是否补缴
             boolean isDelay = StringUtils.equals(orderNo.substring(6, 7), "1");
             if (isDelay && payStatus != 2) {
@@ -729,8 +723,14 @@ public class PmdPayCampusCardService extends BaseMapper {
                     logger.error("[党费收缴]处理支付结果异常，订单不允许缴费(当月已关闭缴费或当月已设置为延迟缴费)，订单号：{}", orderNo);
                 }
 
-                if (!isDelay && payStatus!=0) {
-                    // 当月正常缴费时，需更新快照
+                // 收到支付通知时，要求订单的缴费月份必须是当前系统设定的缴费月份，否则不允许更新。（注：订单号是由当时的缴费月份生成的）
+                if(payMonthId != currentPmdMonth.getId()) {
+                    logger.error("[党费收缴]处理支付结果异常，缴费月份和当前缴费月份不同，不允许缴费，订单号：{}", orderNo);
+                    //return;  // 为了本人页面正常显示支付成功，这里需要放行
+                }
+
+                if (!isDelay && payStatus!=0 && payMonthId == currentPmdMonth.getId()) {
+                    // 当月正常缴费时（非补缴），才需更新快照
                     PmdMember record = new PmdMember();
                     record.setId(memberId);
                     record.setHasPay(true);

@@ -99,7 +99,7 @@
                 formatoptions: {on: '校内单位', off:'校外单位'}},
             {label: '使用单位', name: '_unit', width:200, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.isOnCampus){
-                    return _cMap.unitMap[rowObject.unitId].name
+                    return $.jgrid.formatter.unit(rowObject.unitId)
                 }
                 return rowObject.outUnit;
             }},

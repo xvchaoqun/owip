@@ -7,7 +7,6 @@ import domain.cet.CetProjectPlan;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseExample;
-import domain.cet.CetTrainCourseView;
 import domain.cet.CetTraineeView;
 import domain.cet.CetTraineeViewExample;
 import mixin.MixinUtils;
@@ -254,28 +253,7 @@ public class UserCetTrainController extends CetBaseController {
     public String cetTrain_detail(int trainId,
                                   ModelMap modelMap) {
 
-        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
-        modelMap.put("cetTrain", cetTrain);
-        Integer planId = cetTrain.getPlanId();
-        CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
-        modelMap.put("cetProjectPlan", cetProjectPlan);
-        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(cetProjectPlan.getProjectId());
-        modelMap.put("cetProject", cetProject);
-
-        int userId = ShiroHelper.getCurrentUserId();
-        CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
-        if (cetTrainee == null) {
-            throw new UnauthorizedException();
-        }
-        modelMap.put("cetTrainee", cetTrainee);
-
-        int traineeId = cetTrainee.getId();
-
-        List<ICetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
-        List<CetTrainCourseView> unSelectedCetTrainCourses = iCetMapper.unSelectedCetTrainCourses(trainId, traineeId);
-
-        modelMap.put("selectedCetTrainCourses", selectedCetTrainCourses);
-        modelMap.put("unSelectedCetTrainCourses", unSelectedCetTrainCourses);
+        cetTraineeCourseService.trainDetail(trainId, modelMap);
 
         return "cet/user/cetTrain_detail";
     }

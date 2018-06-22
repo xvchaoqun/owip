@@ -50,11 +50,13 @@ pageEncoding="UTF-8"%>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">项目类型
-                <a href="javascript:;" class="tip" style="margin-top: 5px;"><i class="fa fa-question-circle blue fa-lg"></i> </a></label>
+               </label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="type" value="${cadreResearch.type}">
             </div>
-
+            <div class="col-xs-2" style="margin-top: 7px; padding-left: 0">
+                <a href="javascript:;" class="tip" style="margin-top: 5px;"><i class="fa fa-question-circle blue fa-lg"></i> </a>
+            </div>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">委托单位</label>

@@ -1,9 +1,12 @@
 package service.cet;
 
 import controller.global.OpException;
+import domain.cet.CetProject;
 import domain.cet.CetProjectObj;
+import domain.cet.CetProjectPlan;
 import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
+import domain.cet.CetTrainCourseView;
 import domain.cet.CetTrainee;
 import domain.cet.CetTraineeCourse;
 import domain.cet.CetTraineeCourseExample;
@@ -17,6 +20,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 import persistence.cet.common.ICetTrainCourse;
 import service.BaseMapper;
 import service.sys.SysApprovalLogService;
@@ -126,6 +130,33 @@ public class CetTraineeCourseService extends BaseMapper {
 
             throw new OpException(str);
         }
+    }
+
+    // 参训人课程列表（用于网页、手机选课页面）
+    public void trainDetail(int trainId, ModelMap modelMap){
+
+        CetTrain cetTrain = cetTrainMapper.selectByPrimaryKey(trainId);
+        modelMap.put("cetTrain", cetTrain);
+        Integer planId = cetTrain.getPlanId();
+        CetProjectPlan cetProjectPlan = cetProjectPlanMapper.selectByPrimaryKey(planId);
+        modelMap.put("cetProjectPlan", cetProjectPlan);
+        CetProject cetProject = cetProjectMapper.selectByPrimaryKey(cetProjectPlan.getProjectId());
+        modelMap.put("cetProject", cetProject);
+
+        int userId = ShiroHelper.getCurrentUserId();
+        CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
+        if (cetTrainee == null) {
+            throw new UnauthorizedException();
+        }
+        modelMap.put("cetTrainee", cetTrainee);
+
+        int traineeId = cetTrainee.getId();
+
+        List<ICetTrainCourse> selectedCetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);
+        List<CetTrainCourseView> unSelectedCetTrainCourses = iCetMapper.unSelectedCetTrainCourses(trainId, traineeId);
+
+        modelMap.put("selectedCetTrainCourses", selectedCetTrainCourses);
+        modelMap.put("unSelectedCetTrainCourses", unSelectedCetTrainCourses);
     }
 
     //参训人员报名

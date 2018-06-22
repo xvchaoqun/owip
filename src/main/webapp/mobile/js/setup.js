@@ -70,7 +70,9 @@ $.register.m_click(".popView", function () {
     var url = $(this).data("url");
     $.loadModal(url, $(this).data("width"), $(this).data("direction"));
 })
-
+$.register.m_click(".confirm", function () {
+    $.confirm(this);
+})
 // 内页展示
 $.register.m_click(".openView", function () {
     var $this = $(this);

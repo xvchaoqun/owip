@@ -32,7 +32,7 @@
                 function _syncResult() {
                     var ret = ${ret};
                     if ($.isJson(ret) && ret.paid) {
-                        ret.paidtime = $.date(eval('new ' + (ret.paidtime.replace(/\//g, ''))), "yyyy-MM-dd hh:mm:ss")
+                        ret.paidtime = $.date(eval('new ' + (ret.paidtime.replace(/\//g, ''))), "yyyy-MM-dd HH:mm:ss")
                         //console.log("ret.paidtime=" + ret.paidtime)
                         var signStr = '${keys}' + ret.paycode + ret.sn + ret.amt + ret.payer + ret.paid + ret.paidtime + '${yek}';
                         var sign = $.md5(signStr)

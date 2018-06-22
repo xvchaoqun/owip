@@ -71,7 +71,9 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
+                        $.reloadMetaData(function(){
+                            page_reload();
+                        });
                         //SysMsg.success('操作成功。', '成功');
                     }
                 }

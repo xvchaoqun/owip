@@ -25,6 +25,7 @@ import service.sys.SysUserService;
 import service.unit.UnitService;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
+import sys.tags.CmTag;
 
 import java.util.Arrays;
 import java.util.List;
@@ -133,6 +134,11 @@ public class CadreReserveService extends BaseMapper {
 
         // 添加后备干部角色
         sysUserService.addRole(userId, RoleConstants.ROLE_CADRERESERVE);
+
+        SysUserView uv = sysUserService.findById(userId);
+        if(CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRERECRUIT)){
+            sysUserService.delRole(userId, RoleConstants.ROLE_CADREINSPECT);
+        }
 
         Integer cadreId = null;
         {

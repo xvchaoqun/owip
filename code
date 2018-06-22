@@ -107,3 +107,9 @@ autocomplete="off" disableautocomplete
 
 jquery-validation
 digits data-rule-min
+
+更新缓存
+$.reloadMetaData(function(){
+	$("#modal").modal("hide")
+	$("#jqGrid").trigger("reloadGrid");
+});

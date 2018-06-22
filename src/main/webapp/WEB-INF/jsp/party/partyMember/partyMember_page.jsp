@@ -82,10 +82,7 @@
                 else
                     return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定设置该委员为管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-success btn-xs">设为管理员</button>'.format(rowObject.id);
             }},
-            {label: '所在单位', name: 'unitId', width: 350,align:'left',formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.unitMap[cellvalue].name;
-            }},
+            {label: '所在单位', name: 'unitId', width: 350,align:'left', formatter: $.jgrid.formatter.unit},
             {label: '所属分党委', name: 'groupPartyId', width: 400, align:'left',formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
                 return _cMap.partyMap[cellvalue].name;

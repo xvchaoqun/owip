@@ -30,6 +30,7 @@
     <result column="login_msg" jdbcType="VARCHAR" property="loginMsg" />
     <result column="display_login_msg" jdbcType="BIT" property="displayLoginMsg" />
     <result column="use_cadre_post" jdbcType="BIT" property="useCadrePost" />
+    <result column="has_party_module" jdbcType="BIT" property="hasPartyModule" />
     <result column="cadre_template_fs_note" jdbcType="VARCHAR" property="cadreTemplateFsNote" />
     <result column="login_timeout" jdbcType="INTEGER" property="loginTimeout" />
   </resultMap>
@@ -96,7 +97,7 @@
     school_login_url, school_email, site_copyright, site_home, site_keywords, site_description, 
     site_name, site_short_name, mobile_plantform_name, mobile_title, favicon, logo, logo_white, 
     login_bg, login_top, login_top_bg_color, apple_icon, screen_icon, qr_logo, login_msg, 
-    display_login_msg, use_cadre_post, cadre_template_fs_note, login_timeout
+    display_login_msg, use_cadre_post, has_party_module, cadre_template_fs_note, login_timeout
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">
     select
@@ -138,8 +139,8 @@
       logo_white, login_bg, login_top, 
       login_top_bg_color, apple_icon, screen_icon, 
       qr_logo, login_msg, display_login_msg, 
-      use_cadre_post, cadre_template_fs_note, login_timeout
-      )
+      use_cadre_post, has_party_module, cadre_template_fs_note, 
+      login_timeout)
     values (#{id,jdbcType=INTEGER}, #{xssIgnoreUri,jdbcType=VARCHAR}, #{uploadMaxSize,jdbcType=INTEGER}, 
       #{shortMsgUrl,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{schoolShortName,jdbcType=VARCHAR}, 
       #{schoolLoginUrl,jdbcType=VARCHAR}, #{schoolEmail,jdbcType=VARCHAR}, #{siteCopyright,jdbcType=VARCHAR}, 
@@ -149,8 +150,8 @@
       #{logoWhite,jdbcType=VARCHAR}, #{loginBg,jdbcType=VARCHAR}, #{loginTop,jdbcType=VARCHAR}, 
       #{loginTopBgColor,jdbcType=VARCHAR}, #{appleIcon,jdbcType=VARCHAR}, #{screenIcon,jdbcType=VARCHAR}, 
       #{qrLogo,jdbcType=VARCHAR}, #{loginMsg,jdbcType=VARCHAR}, #{displayLoginMsg,jdbcType=BIT}, 
-      #{useCadrePost,jdbcType=BIT}, #{cadreTemplateFsNote,jdbcType=VARCHAR}, #{loginTimeout,jdbcType=INTEGER}
-      )
+      #{useCadrePost,jdbcType=BIT}, #{hasPartyModule,jdbcType=BIT}, #{cadreTemplateFsNote,jdbcType=VARCHAR}, 
+      #{loginTimeout,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysConfig">
     insert into sys_config
@@ -238,6 +239,9 @@
       </if>
       <if test="useCadrePost != null">
         use_cadre_post,
+      </if>
+      <if test="hasPartyModule != null">
+        has_party_module,
       </if>
       <if test="cadreTemplateFsNote != null">
         cadre_template_fs_note,
@@ -330,6 +334,9 @@
       </if>
       <if test="useCadrePost != null">
         #{useCadrePost,jdbcType=BIT},
+      </if>
+      <if test="hasPartyModule != null">
+        #{hasPartyModule,jdbcType=BIT},
       </if>
       <if test="cadreTemplateFsNote != null">
         #{cadreTemplateFsNote,jdbcType=VARCHAR},
@@ -432,6 +439,9 @@
       <if test="record.useCadrePost != null">
         use_cadre_post = #{record.useCadrePost,jdbcType=BIT},
       </if>
+      <if test="record.hasPartyModule != null">
+        has_party_module = #{record.hasPartyModule,jdbcType=BIT},
+      </if>
       <if test="record.cadreTemplateFsNote != null">
         cadre_template_fs_note = #{record.cadreTemplateFsNote,jdbcType=VARCHAR},
       </if>
@@ -473,6 +483,7 @@
       login_msg = #{record.loginMsg,jdbcType=VARCHAR},
       display_login_msg = #{record.displayLoginMsg,jdbcType=BIT},
       use_cadre_post = #{record.useCadrePost,jdbcType=BIT},
+      has_party_module = #{record.hasPartyModule,jdbcType=BIT},
       cadre_template_fs_note = #{record.cadreTemplateFsNote,jdbcType=VARCHAR},
       login_timeout = #{record.loginTimeout,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -563,6 +574,9 @@
       <if test="useCadrePost != null">
         use_cadre_post = #{useCadrePost,jdbcType=BIT},
       </if>
+      <if test="hasPartyModule != null">
+        has_party_module = #{hasPartyModule,jdbcType=BIT},
+      </if>
       <if test="cadreTemplateFsNote != null">
         cadre_template_fs_note = #{cadreTemplateFsNote,jdbcType=VARCHAR},
       </if>
@@ -601,6 +615,7 @@
       login_msg = #{loginMsg,jdbcType=VARCHAR},
       display_login_msg = #{displayLoginMsg,jdbcType=BIT},
       use_cadre_post = #{useCadrePost,jdbcType=BIT},
+      has_party_module = #{hasPartyModule,jdbcType=BIT},
       cadre_template_fs_note = #{cadreTemplateFsNote,jdbcType=VARCHAR},
       login_timeout = #{loginTimeout,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

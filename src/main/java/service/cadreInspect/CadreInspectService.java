@@ -7,6 +7,7 @@ import domain.cadre.CadreView;
 import domain.cadreInspect.CadreInspect;
 import domain.cadreInspect.CadreInspectExample;
 import domain.cadreReserve.CadreReserve;
+import domain.modify.ModifyCadreAuth;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.apache.commons.lang3.BooleanUtils;
@@ -21,12 +22,14 @@ import service.BaseMapper;
 import service.cadre.CadreAdLogService;
 import service.cadre.CadreService;
 import service.cadreReserve.CadreReserveService;
+import service.modify.ModifyCadreAuthService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,6 +46,8 @@ public class CadreInspectService extends BaseMapper {
     private CadreAdLogService cadreAdLogService;
     @Autowired
     private UnitService unitService;
+    @Autowired(required = false)
+    protected ModifyCadreAuthService modifyCadreAuthService;
 
     // 直接添加考察对象时执行检查
     public void directAddCheck(Integer id, int userId) {
@@ -105,10 +110,10 @@ public class CadreInspectService extends BaseMapper {
         // 检查
         directAddCheck(record.getId(), userId);
 
-        SysUserView uv = sysUserService.findById(userId);
         // 添加考察对象角色
         sysUserService.addRole(userId, RoleConstants.ROLE_CADREINSPECT);
 
+        SysUserView uv = sysUserService.findById(userId);
         if(CmTag.hasRole(uv.getUsername(), RoleConstants.ROLE_CADRERECRUIT)){
             sysUserService.delRole(userId, RoleConstants.ROLE_CADREINSPECT);
         }
@@ -283,6 +288,17 @@ public class CadreInspectService extends BaseMapper {
 
         // 改变账号角色，考核对象->干部
         sysUserService.changeRole(cadre.getUserId(), RoleConstants.ROLE_CADREINSPECT, RoleConstants.ROLE_CADRE);
+
+        // 删除直接修改信息的权限（如果有的话）
+        if(modifyCadreAuthService!=null && cadre!=null){
+
+            List<ModifyCadreAuth> modifyCadreAuths = modifyCadreAuthService.findAll(cadre.getId());
+            List<Integer> idList = new ArrayList<>();
+            for (ModifyCadreAuth modifyCadreAuth : modifyCadreAuths) {
+                idList.add(modifyCadreAuth.getId());
+            }
+            modifyCadreAuthService.batchDel(idList.toArray(new Integer[]{}));
+        }
 
         return cadreMapper.selectByPrimaryKey(cadre.getId());
     }

@@ -331,15 +331,13 @@
                 label: '双肩挑单位',
                 name: 'mainCadrePost.doubleUnitId',
                 width: 150,
-                formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == undefined) return '';
-                    return _cMap.unitMap[cellvalue].name
-                }
+                formatter: $.jgrid.formatter.unit
             },
             {label: '联系方式', name: 'mobile'},
             /*{ label: '办公电话', name: 'phone' },
              { label: '家庭电话', name: 'homePhone' },*/
             {label: '电子邮箱', name: 'email', width: 150},
+            <c:if test="${_hasPartyModule}">
             {
                 label: '所属党组织',
                 name: 'partyId',
@@ -349,6 +347,7 @@
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }
             },
+            </c:if>
             <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
             {
                 label: '短信称谓', name: 'msgTitle', width: 80, formatter: function (cellvalue, options, rowObject) {

@@ -1035,6 +1035,14 @@ if ($.jgrid) {
             if (cellvalue == undefined) return ''
             return _cMap.GENDER_MAP[cellvalue];
         },
+        unit: function (cellvalue, options, rowObject) {
+            //return cellvalue;
+            if (cellvalue == undefined) return '-'
+            var name = null;
+            var unit = _cMap.unitMap[cellvalue];
+            if(unit!=undefined) name=unit.name;
+            return $.trim(name)==''?'-':name;
+        },
         AGE: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '';
             return $.yearOffNow(cellvalue);

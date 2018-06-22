@@ -184,8 +184,8 @@
             {label: '补报结束时间', name: 'endTime', width:140, formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i', newformat: 'Y-m-d H:i'}},
             {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject){
-                var nowTime = $.date(new Date(), 'yyyy-MM-dd hh:mm');
-                var endTime = $.date(rowObject.endTime, 'yyyy-MM-dd hh:mm');
+                var nowTime = $.date(new Date(), 'yyyy-MM-dd HH:mm');
+                var endTime = $.date(rowObject.endTime, 'yyyy-MM-dd HH:mm');
                 if (endTime < nowTime) {
                     return '关闭补报窗口'
                 }

@@ -64,7 +64,7 @@
             }},
             {label: '学时', name: 'cetCourse.period', width: 70},
             { label: '学习时间',name: '_time', width: 280, formatter: function (cellvalue, options, rowObject) {
-                return '{0} ~ {1}'.format($.date(rowObject.startTime, "yyyy-MM-dd hh:mm"), $.date(rowObject.endTime, "yyyy-MM-dd hh:mm"))
+                return '{0} ~ {1}'.format($.date(rowObject.startTime, "yyyy-MM-dd HH:mm"), $.date(rowObject.endTime, "yyyy-MM-dd HH:mm"))
             }},
             {name: 'needNote', hidden:true},
             </c:if>
@@ -80,7 +80,7 @@
                         .format(rowObject.cetCourse.id)
             }},*/
             { label: '学习时间',name: '_time', width: 280, formatter: function (cellvalue, options, rowObject) {
-                return '{0} ~ {1}'.format($.date(rowObject.startTime, "yyyy-MM-dd hh:mm"), $.date(rowObject.endTime, "yyyy-MM-dd hh:mm"))
+                return '{0} ~ {1}'.format($.date(rowObject.startTime, "yyyy-MM-dd HH:mm"), $.date(rowObject.endTime, "yyyy-MM-dd HH:mm"))
             }},
             {label: '附件', name: '_file', formatter: function (cellvalue, options, rowObject) {
                 var str = "";

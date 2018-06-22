@@ -14,9 +14,7 @@
       },
       </c:if>
       {
-          label: '调阅单位', width: 200, name: 'unitId', formatter: function (cellvalue, options, rowObject) {
-          return _cMap.unitMap[cellvalue].name
-      }, frozen: true
+          label: '调阅单位', width: 200, name: 'unitId', formatter: $.jgrid.formatter.unit, frozen: true
       },
 <c:if test="${param.cls!=-1}">
       {

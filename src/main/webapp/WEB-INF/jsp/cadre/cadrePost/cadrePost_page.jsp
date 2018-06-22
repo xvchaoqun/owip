@@ -214,10 +214,7 @@
             },
             {label: '职务类别', name: 'postClassId', formatter: $.jgrid.formatter.MetaType},
             {
-                label: '所在单位', name: 'unitId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.unitMap[cellvalue].name
-            }, width: 250
+                label: '所在单位', name: 'unitId', formatter: $.jgrid.formatter.unit, width: 250
             },
             {
                 label: '任职日期',
@@ -295,10 +292,8 @@
             },
             {
                 label: '双肩挑单位', name: 'doubleUnitId', width: 150, formatter: function (cellvalue, options, rowObject) {
-
                 if (!rowObject.isDouble) return '-'
-                if (cellvalue == undefined) return '';
-                return _cMap.unitMap[cellvalue].name
+                return $.jgrid.formatter.unit(cellvalue)
             }
             }
         ]
@@ -315,9 +310,7 @@
         url: '${ctx}/cadrePost_data?${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
-                label: '兼任单位', width: 200, name: 'unitId', formatter: function (cellvalue, options, rowObject) {
-                return _cMap.unitMap[cellvalue].name
-            }, frozen: true
+                label: '兼任单位', width: 200, name: 'unitId', formatter: $.jgrid.formatter.unit, frozen: true
             },
             {label: '兼任职务', name: 'post', frozen: true},
             {label: '职务级别', name: 'adminLevelId', formatter:$.jgrid.formatter.MetaType},
@@ -425,10 +418,7 @@
             {label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType, width: 200},
             {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 200},
             {
-                label: '对应现运行单位', name: 'unitId', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '';
-                return _cMap.unitMap[cellvalue].name
-            }, width: 200
+                label: '对应现运行单位', name: 'unitId', formatter: $.jgrid.formatter.unit, width: 200
             }
         ]
     });

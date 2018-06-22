@@ -83,4 +83,10 @@
 		<from casesensitive="true">^/m/cla/claApply_approval$</from>
 		<to>/cla/claApply_approval</to>
 	</rule>
+	<rule>
+		<note>选课/退课</note>
+		<condition type="method">POST</condition>
+		<from casesensitive="true">^/m/cet/cetTrain_apply_item$</from>
+		<to>/user/cet/cetTrain_apply_item</to>
+	</rule>
 </urlrewrite>

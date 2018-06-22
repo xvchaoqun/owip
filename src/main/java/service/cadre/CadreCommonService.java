@@ -65,15 +65,18 @@ public class CadreCommonService extends BaseMapper {
 
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
 
-        List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreList(cadreId, type);
-        Map<Integer, Dispatch> dispatchMap = dispatchService.findAll();
-        Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
         TreeNode root = new TreeNode();
         root.title = "选择离任文件";
         root.expand = true;
         root.isFolder = true;
         root.hideCheckbox = true;
         root.children = new ArrayList<TreeNode>();
+
+        if(iDispatchMapper==null) return root;
+        List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreList(cadreId, type);
+        Map<Integer, Dispatch> dispatchMap = dispatchService.findAll();
+        Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
+
         for (DispatchCadre dispatchCadre : dispatchCadres) {
 
             Dispatch dispatch = dispatchMap.get(dispatchCadre.getDispatchId());

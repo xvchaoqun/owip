@@ -94,9 +94,7 @@
             {label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.id, cellvalue);}, frozen: true},
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
-            { label: '兼审单位', name: 'unitId', width: 350, formatter: function (cellvalue, options, rowObject) {
-                return _cMap.unitMap[cellvalue].name;
-            }},
+            { label: '兼审单位', name: 'unitId', width: 350, formatter: $.jgrid.formatter.unit},
             {label: '兼审单位职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},
             { label: '备注', name: 'remark', width: 300 },
         ]

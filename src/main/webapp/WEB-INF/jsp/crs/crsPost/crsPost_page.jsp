@@ -217,9 +217,9 @@
                 var str = "";
                 var applicantCount = rowObject.applicants.length;
                 if(rowObject.autoSwitch){
-                    var nowTime = $.date(new Date(), 'yyyy-MM-dd hh:mm');
-                    var startTime = $.date(rowObject.startTime, 'yyyy-MM-dd hh:mm');
-                    var endTime = $.date(rowObject.endTime, 'yyyy-MM-dd hh:mm');
+                    var nowTime = $.date(new Date(), 'yyyy-MM-dd HH:mm');
+                    var startTime = $.date(rowObject.startTime, 'yyyy-MM-dd HH:mm');
+                    var endTime = $.date(rowObject.endTime, 'yyyy-MM-dd HH:mm');
                     //console.log(startTime + " " + endTime + " "  +new Date().getTime())
                     if(startTime > nowTime){
                         str = '未开启报名';
@@ -245,7 +245,7 @@
             }},
             {label: '报名截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
-                return $.date(cellvalue, "yyyy-MM-dd hh:mm");
+                return $.date(cellvalue, "yyyy-MM-dd HH:mm");
             }},
             {label: '招聘会情况', name: 'meetingStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';

@@ -3,7 +3,6 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="row">
     <div class="col-xs-12">
-
         <div id="body-content" class="myTableDiv"
              data-url-au="${ctx}/unit_au"
              data-url-page="${ctx}/unit"
@@ -15,15 +14,7 @@
             <c:set var="_query" value="${not empty param.code ||not empty param.name
             ||not empty param.typeId || not empty param.sort}"/>
             <div class="tabbable">
-                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                    <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/unit?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 正在运转单位</a>
-                    </li>
-                    <li  class="<c:if test="${status==2}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/unit?status=2"><i class="fa fa-history"></i> 历史单位</a>
-                    </li>
-                </ul>
-
+                <jsp:include page="menu.jsp"/>
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">

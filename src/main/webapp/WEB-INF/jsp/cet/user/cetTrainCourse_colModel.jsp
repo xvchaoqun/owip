@@ -32,14 +32,14 @@
       name: 'startTime',
       width: 130, formatter: function (cellvalue, options, rowObject){
         if(cellvalue==undefined) return '--'
-        return $.date(cellvalue, "yyyy-MM-dd hh:mm");
+        return $.date(cellvalue, "yyyy-MM-dd HH:mm");
     }},
     {
       label: '结束时间',
       name: 'endTime',
       width: 130, formatter: function (cellvalue, options, rowObject){
       if(cellvalue==undefined) return '--'
-      return $.date(cellvalue, "yyyy-MM-dd hh:mm");
+      return $.date(cellvalue, "yyyy-MM-dd HH:mm");
     }},
     <c:if test="${param.planType==CET_PROJECT_PLAN_TYPE_OFFLINE}">
     {label: '上课地点', name: 'address', width: 200, align:'left'},

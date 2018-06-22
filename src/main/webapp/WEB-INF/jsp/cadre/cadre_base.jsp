@@ -97,13 +97,14 @@ pageEncoding="UTF-8"%>
 				</td>
 			</tr>
 			<tr>
+				<c:if test="${_hasPartyModule}">
 				<td >
 					所在党组织
 				</td>
 				<td>
 					${cm:displayParty(member.partyId, member.branchId)}
 				</td>
-
+				</c:if>
 				<td>证件类型</td>
 				<td >
 					${uv.idcardType}
@@ -111,7 +112,7 @@ pageEncoding="UTF-8"%>
 				<td>
 					证件号码
 				</td>
-				<td>
+				<td colspan="${_hasPartyModule?'':3}">
 					${uv.idcard}
 				</td>
 			</tr>

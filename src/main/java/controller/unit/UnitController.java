@@ -1,5 +1,6 @@
 package controller.unit;
 
+import bean.SchoolUnit;
 import controller.BaseController;
 import domain.base.MetaType;
 import domain.unit.HistoryUnit;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.ext.ExtUnitService;
 import service.unit.UnitExportService;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -49,6 +51,8 @@ public class UnitController extends BaseController {
 
     @Autowired
     private UnitExportService unitExportService;
+    @Autowired
+    private ExtUnitService extUnitService;
 
     // 基本信息
     @RequiresPermissions("unit:info")
@@ -75,9 +79,24 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:list")
     @RequestMapping("/unit")
     public String unit(@RequestParam(required = false, defaultValue = "1")Byte status,
-                            ModelMap modelMap) {
+                       @RequestParam(required = false, defaultValue = "0") int export,
+                            ModelMap modelMap, HttpServletResponse response) throws IOException {
 
         modelMap.put("status", status);
+        if(status==3) {
+
+            if(export==1){
+
+                XSSFWorkbook wb = unitExportService.exportSchoolUnits();
+                ExportHelper.output(wb, "学校单位列表.xlsx", response);
+                return null;
+            }
+            List<SchoolUnit> schoolUnits = extUnitService.getSchoolUnits();
+            modelMap.put("schoolUnits", schoolUnits);
+
+            return "unit/school_units";
+        }
+
         return "unit/unit_page";
     }
     @RequiresPermissions("unit:list")

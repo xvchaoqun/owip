@@ -63,6 +63,7 @@ public class SysConfigController extends BaseController {
         record.setQrLogo(upload(_qrLogo, folder));
 
         record.setDisplayLoginMsg(BooleanUtils.isTrue(record.getDisplayLoginMsg()));
+        record.setHasPartyModule(BooleanUtils.isTrue(record.getHasPartyModule()));
         record.setUseCadrePost(BooleanUtils.isTrue(record.getUseCadrePost()));
 
         sysConfigService.insertOrUpdate(record);

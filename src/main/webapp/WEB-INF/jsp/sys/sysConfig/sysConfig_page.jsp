@@ -80,8 +80,10 @@
             </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">附属单位说明(用于中层干部统计表格)</label>
+
                 <div class="col-xs-6">
-                    <textarea class="form-control" name="cadreTemplateFsNote">${sysConfig.cadreTemplateFsNote}</textarea>
+                    <textarea class="form-control"
+                              name="cadreTemplateFsNote">${sysConfig.cadreTemplateFsNote}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -137,18 +139,19 @@
             </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">移动端平台Title</label>
+
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="mobileTitle"
                            value="${sysConfig.mobileTitle}">
                 </div>
             </div>
-                <div class="form-group">
-                    <label class="col-xs-3 control-label">favicon.ico, ICO格式（48*48）</label>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">favicon.ico, ICO格式（48*48）</label>
 
-                    <div class="col-xs-6">
-                        <input type="file" name="_favicon" id="_favicon"/>
-                    </div>
+                <div class="col-xs-6">
+                    <input type="file" name="_favicon" id="_favicon"/>
                 </div>
+            </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">登录页LOGO（269*58，PNG格式）</label>
 
@@ -174,7 +177,8 @@
                 <label class="col-xs-3 control-label">登录页顶部背景色</label>
 
                 <div class="col-xs-6">
-                    <input style="width: 100px;background-color: ${sysConfig.loginTopBgColor}" class="form-control" type="text" name="loginTopBgColor"
+                    <input style="width: 100px;background-color: ${sysConfig.loginTopBgColor}" class="form-control"
+                           type="text" name="loginTopBgColor"
                            value="${sysConfig.loginTopBgColor}">
                 </div>
             </div>
@@ -185,26 +189,27 @@
                     <input type="file" name="_loginBg" id="_loginBg"/>
                 </div>
             </div>
-                <div class="form-group">
-                    <label class="col-xs-3 control-label">iphone桌面图标, ICO格式</label>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">iphone桌面图标, ICO格式</label>
 
-                    <div class="col-xs-6">
-                        <input type="file" name="_appleIcon" id="_appleIcon"/>
-                    </div>
+                <div class="col-xs-6">
+                    <input type="file" name="_appleIcon" id="_appleIcon"/>
                 </div>
-                <div class="form-group">
-                    <label class="col-xs-3 control-label">iphone桌面图标，PNG格式</label>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">iphone桌面图标，PNG格式</label>
 
-                    <div class="col-xs-6">
-                        <input type="file" name="_screenIcon" id="_screenIcon"/>
-                    </div>
+                <div class="col-xs-6">
+                    <input type="file" name="_screenIcon" id="_screenIcon"/>
                 </div>
-                <div class="form-group">
-                    <label class="col-xs-3 control-label">二维码LOGO（90*90，PNG格式）</label>
-                    <div class="col-xs-6">
-                        <input type="file" name="_qrLogo" id="_qrLogo"/>
-                    </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">二维码LOGO（90*90，PNG格式）</label>
+
+                <div class="col-xs-6">
+                    <input type="file" name="_qrLogo" id="_qrLogo"/>
                 </div>
+            </div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">登录页公告</label>
 
@@ -236,28 +241,38 @@
                            name="displayLoginMsg" ${(sysConfig.displayLoginMsg)?"checked":""}/>
                 </div>
             </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">是否存在党建模块</label>
+                <div class="col-xs-6">
+                    <input type="checkbox" class="big"
+                           name="hasPartyModule" ${(sysConfig.hasPartyModule)?"checked":""}/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">是否启用干部的岗位过程信息</label>
 
-                <div class="form-group">
-                    <label class="col-xs-3 control-label">是否启用干部的岗位过程信息</label>
-                    <div class="col-xs-6">
-                        <input type="checkbox" class="big"
-                               name="useCadrePost" ${(sysConfig.useCadrePost)?"checked":""}/>
-                        <shiro:hasRole name="${ROLE_ADMIN}">
+                <div class="col-xs-6">
+                    <input type="checkbox" class="big"
+                           name="useCadrePost" ${(sysConfig.useCadrePost)?"checked":""}/>
+                    <shiro:hasRole name="${ROLE_ADMIN}">
                         <button type="button" style="display: ${sysConfig.useCadrePost?'':'none'}"
                                 data-title="同步系统岗位过程信息"
                                 data-msg="确定同步？（将所有干部的当前岗位过程信息，同步为系统已设置的数据。）"
                                 data-url="${ctx}/cadrePostInfo_snyc"
                                 data-callback="_reload"
                                 id="syncAllCadrePostBtn" class="confirm btn btn-success btn-sm">
-                            <i class="fa fa-refresh"></i> 同步系统岗位过程信息</button>
-                        </shiro:hasRole>
-                    </div>
+                            <i class="fa fa-refresh"></i> 同步系统岗位过程信息
+                        </button>
+                    </shiro:hasRole>
                 </div>
+            </div>
 
             <div class="form-group">
                 <label class="col-xs-3 control-label">账号登录超时（分钟）</label>
+
                 <div class="col-xs-6">
-                    <input class="form-control digits" type="text" name="loginTimeout" value="${sysConfig.loginTimeout}">
+                    <input class="form-control digits" type="text" name="loginTimeout"
+                           value="${sysConfig.loginTimeout}">
 
                     <fmt:message key="global.session.timeout" bundle="${spring}" var="_timeout"/>
                     <span class="help-block">* 留空则使用系统默认的时间（${cm:stripTrailingZeros(_timeout/(60*1000))}分钟）</span>
@@ -302,7 +317,7 @@
         previewHeight: 48,
         allowExt: ['ico'],
         allowMime: ['image/x-icon'],
-        value:'${ctx}/favicon.ico?_=<%=new Date().getTime()%>'
+        value: '${ctx}/favicon.ico?_=<%=new Date().getTime()%>'
     });
 
     $.fileInput($("#_logo"), {
@@ -316,7 +331,7 @@
         previewHeight: 58,
         allowExt: ['png'],
         allowMime: ['image/png'],
-        value:'${ctx}/pic?path=${cm:encodeURI(sysConfig.logo)}&_=<%=new Date().getTime()%>'
+        value: '${ctx}/pic?path=${cm:encodeURI(sysConfig.logo)}&_=<%=new Date().getTime()%>'
     });
 
     $.fileInput($("#_logoWhite"), {
@@ -330,7 +345,7 @@
         previewHeight: 58,
         allowExt: ['png'],
         allowMime: ['image/png'],
-        value:'${ctx}/pic?path=${cm:encodeURI(sysConfig.logoWhite)}&_=<%=new Date().getTime()%>'
+        value: '${ctx}/pic?path=${cm:encodeURI(sysConfig.logoWhite)}&_=<%=new Date().getTime()%>'
     });
 
     $.fileInput($("#_loginTop"), {
@@ -344,7 +359,7 @@
         previewHeight: 50,
         allowExt: ['jpg'],
         allowMime: ['image/jpg', 'image/jpeg'],
-        value:'${ctx}/pic?path=${cm:encodeURI(sysConfig.loginTop)}&_=<%=new Date().getTime()%>'
+        value: '${ctx}/pic?path=${cm:encodeURI(sysConfig.loginTop)}&_=<%=new Date().getTime()%>'
     });
 
     $.fileInput($("#_loginBg"), {
@@ -358,7 +373,7 @@
         previewHeight: 200,
         allowExt: ['jpg'],
         allowMime: ['image/jpg', 'image/jpeg'],
-        value:'${ctx}/pic?path=${cm:encodeURI(cm:getShortPic(sysConfig.loginBg))}&_=<%=new Date().getTime()%>'
+        value: '${ctx}/pic?path=${cm:encodeURI(cm:getShortPic(sysConfig.loginBg))}&_=<%=new Date().getTime()%>'
     });
     $.fileInput($("#_appleIcon"), {
         style: 'well',
@@ -371,7 +386,7 @@
         previewHeight: 64,
         allowExt: ['ico'],
         allowMime: ['image/x-icon'],
-        value:'${ctx}/img/favicon64.ico?_=<%=new Date().getTime()%>'
+        value: '${ctx}/img/favicon64.ico?_=<%=new Date().getTime()%>'
     });
 
     $.fileInput($("#_screenIcon"), {
@@ -385,7 +400,7 @@
         previewHeight: 64,
         allowExt: ['png'],
         allowMime: ['image/png'],
-        value:'${ctx}/pic?path=${cm:encodeURI(sysConfig.screenIcon)}&_=<%=new Date().getTime()%>'
+        value: '${ctx}/pic?path=${cm:encodeURI(sysConfig.screenIcon)}&_=<%=new Date().getTime()%>'
     });
     $.fileInput($("#_qrLogo"), {
         style: 'well',
@@ -398,7 +413,7 @@
         previewHeight: 90,
         allowExt: ['png'],
         allowMime: ['image/png'],
-        value:'${ctx}/pic?path=${cm:encodeURI(sysConfig.qrLogo)}&_=<%=new Date().getTime()%>'
+        value: '${ctx}/pic?path=${cm:encodeURI(sysConfig.qrLogo)}&_=<%=new Date().getTime()%>'
     });
 
     var ke = KindEditor.create('#loginMsg', {

@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import service.cadre.CadreService;
 import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.DispatchConstants;
@@ -456,6 +457,38 @@ public class CadreController extends BaseController {
         }
 
         return "cadre/cadre_au";
+    }
+
+    // 干部库转移
+    @RequiresPermissions("cadre:edit")
+    @RequestMapping("/cadre_transfer")
+    public String cadre_transfer() {
+
+        return "cadre/cadre_transfer";
+    }
+
+    @RequiresPermissions("cadre:edit")
+    @RequestMapping(value = "/cadre_transfer", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_cadre_transfer(int cadreId, byte status) {
+
+        Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
+        byte cadreStatus = cadre.getStatus();
+        if(!CadreConstants.CADRE_STATUS_SET.contains(cadreStatus) ||
+                !CadreConstants.CADRE_STATUS_SET.contains(status)){
+            return failed("不允许转移。");
+        }
+        if(cadreStatus == status){
+            return failed("不允许转移至相同的干部库。");
+        }
+
+        Cadre record = new Cadre();
+        record.setId(cadre.getId());
+        record.setStatus(status);
+        record.setSortOrder(getNextSortOrder(CadreService.TABLE_NAME, "status=" + status));
+        cadreService.updateByPrimaryKeySelective(record);
+
+        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("cadre:del")

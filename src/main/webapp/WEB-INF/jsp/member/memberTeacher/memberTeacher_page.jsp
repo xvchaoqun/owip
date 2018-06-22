@@ -325,9 +325,7 @@
             { label:'退休时间', name: 'retireTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'是否离休', name: 'isHonorRetire', width: 100, formatter:$.jgrid.formatter.TRUEFALSE},
             </c:if>
-            { label:'所在单位',  name: 'unitId', width: 180, formatter:function(cellvalue, options, rowObject){
-                return _cMap.unitMap[cellvalue].name;
-            }},
+            { label:'所在单位',  name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},
             {hidden:true, key:true, name:'userId'},{hidden: true, name: 'partyId'}, {hidden: true, name: 'source'}
         ],onSelectRow: function (id, status) {
             saveJqgridSelected("#"+this.id);
