@@ -2,7 +2,6 @@ package controller;
 
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
-import domain.ext.ExtJzg;
 import domain.party.Branch;
 import domain.party.Party;
 import domain.sys.SysUserView;
@@ -511,10 +510,6 @@ public class BaseController extends BaseMapper {
 
         TeacherInfo teacherInfo = teacherService.get(uv.getUserId());
         modelMap.put("teacherInfo", teacherInfo);
-
-        // 人事信息
-        ExtJzg extJzg = extService.getExtJzg(uv.getCode());
-        modelMap.put("extJzg", extJzg);
 
         CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
         // 主职,现任职务

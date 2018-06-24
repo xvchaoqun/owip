@@ -36,7 +36,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">成立时间</label>
 				<div class="col-xs-6">
                     <div class="input-group">
-                        <input  class="form-control date-picker required" name="_workTime"
+                        <input  class="form-control date-picker" name="_workTime"
                                type="text" data-date-format="yyyy-mm-dd"
                                value="${cm:formatDate(unit.workTime, "yyyy-MM-dd")}"/>
                         <span class="input-group-addon">

@@ -21,7 +21,7 @@
                         <%-- <th width="100">单位ID</th>--%>
                         <th width="100">单位编码</th>
                         <th>单位名称</th>
-                        <th>类型</th>
+                        <th width="150">类型</th>
                         <th>上级单位</th>
                         <%--<th width="100">成立时间</th>--%>
                         <th>备注</th>
@@ -33,7 +33,7 @@
                             <td>${vs.count}</td>
                                 <%--<td>${record.id}</td>--%>
                             <td>${record.code}</td>
-                            <td>${record.name}</td>
+                            <td style="text-align: left">${record.name}</td>
                             <td>${record.type}</td>
                             <td>${record.top}</td>
                                 <%--<td>${cm:formatDate(record.workTime, "yyyy-MM-dd")}</td>--%>

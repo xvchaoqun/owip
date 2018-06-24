@@ -6,7 +6,7 @@ public class ColumnBean {
 	public String type; // varchar,int,tinyint, date,datetime,text
 	public long length;
 	public String comments;
-	
+
 	public ColumnBean(String name, String type, long length, String comments) {
 		super();
 		this.name = name;
@@ -26,7 +26,7 @@ public class ColumnBean {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	public long getLength() {
 		return length;
 	}
@@ -39,5 +39,14 @@ public class ColumnBean {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "ColumnBean{" +
+				"name='" + name + '\'' +
+				", type='" + type + '\'' +
+				", length=" + length +
+				", comments='" + comments + '\'' +
+				'}';
+	}
 }

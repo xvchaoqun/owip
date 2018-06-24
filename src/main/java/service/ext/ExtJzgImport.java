@@ -24,24 +24,27 @@ public class ExtJzgImport extends Source {
     public ExtJzgMapper extJzgMapper;
     public String schema = PropertiesUtils.getString("ext_jzg_schema");
     public String tableName = PropertiesUtils.getString("ext_jzg_tableName");
+    public String key = PropertiesUtils.getString("ext_jzg_key");
 
     public void byCode(String code) {
 
         logger.info("更新教职工账号库基本信息:" + code);
-        excute(schema, tableName, String.format("where zgh='%s'", code));
+        excute(schema, tableName, String.format("where "+ key +"='%s'", code));
     }
 
     public void excute(Integer syncId){
         logger.info("更新教职工账号库基本信息");
         long startTime=System.currentTimeMillis();
-        excute(schema, tableName, "order by zgh", syncId);
+        excute(schema, tableName, "order by " + key, syncId);
         long endTime=System.currentTimeMillis();
         logger.info("更新教职工账号库基本信息程序运行时间： " + (endTime - startTime) + "ms");
     }
 
     public void update(Map<String, Object> map, ResultSet rs) throws SQLException {
 
-        String zgh = StringUtils.trimToEmpty(rs.getString("zgh"));
+        String zgh = StringUtils.trimToEmpty(map.get(key).toString());
+        map.put("zgh", zgh);
+
         /*if(zgh.startsWith("113120180")){
             logger.info("zgh=========" + rs.getString("zgh"));
         }*/
@@ -52,10 +55,9 @@ public class ExtJzgImport extends Source {
         example.createCriteria().andZghEqualTo(zgh);
         List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
         if (extJzges.size() > 0) {
-            extJzg.setId(extJzges.get(0).getId());
             extJzgMapper.updateByExample(extJzg, example);
         } else {
-           extJzgMapper.insert(extJzg);
+            extJzgMapper.insert(extJzg);
            /* if(StringUtils.equals("11312018031", zgh))
                     logger.info("插入=========" + rs.getString("zgh"));*/
         }

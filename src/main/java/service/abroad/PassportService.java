@@ -15,6 +15,8 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,8 @@ import java.util.Map;
 
 @Service
 public class PassportService extends BaseMapper {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private SysUserService sysUserService;
@@ -58,7 +62,11 @@ public class PassportService extends BaseMapper {
             SysUserView uv = sysUserService.findByCode(userCode);
             if (uv == null) throw new OpException("工作证号{0}不存在", userCode);
             CadreView cadre = cadreService.dbFindByUserId(uv.getId());
-            if (cadre == null) throw new OpException("工作证号：{0} 姓名：{1} 不是干部", userCode, uv.getRealname());
+            if (cadre == null){
+                logger.error("工作证号：{} 姓名：{} 不是干部", userCode, uv.getRealname());
+                continue;
+                //throw new OpException("工作证号：{0} 姓名：{1} 不是干部", userCode, uv.getRealname());
+            }
             record.setCadreId(cadre.getId());
             record.setType(type);
 

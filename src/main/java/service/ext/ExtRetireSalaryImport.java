@@ -57,7 +57,6 @@ public class ExtRetireSalaryImport extends Source {
         example.createCriteria().andZghEqualTo(rs.getString("zgh")).andRqEqualTo(rs.getString("rq"));
         List<ExtRetireSalary> records = extRetireSalaryMapper.selectByExample(example);
         if (records.size() > 0) {
-            record.setId(records.get(0).getId());
             extRetireSalaryMapper.updateByExample(record, example);
         } else {
             extRetireSalaryMapper.insert(record);

@@ -40,7 +40,6 @@ public class ExtAbroadImport extends Source {
         example.createCriteria().andLshEqualTo(rs.getString("lsh"));
         List<ExtAbroad> extAbroads = extAbroadMapper.selectByExample(example);
         if (extAbroads.size() > 0) {
-            extAbroad.setId(extAbroads.get(0).getId());
             extAbroadMapper.updateByExample(extAbroad, example);
         } else {
             extAbroadMapper.insert(extAbroad);

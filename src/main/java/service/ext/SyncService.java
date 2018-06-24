@@ -603,8 +603,6 @@ public class SyncService extends BaseMapper {
         }
     }
 
-
-
     // 同步教职工信息
     public  void snycTeacherInfo(int userId, SysUserView uv){
 
@@ -618,8 +616,6 @@ public class SyncService extends BaseMapper {
 
         ExtJzg extJzg = extService.getExtJzg(code);
         if(extJzg!=null){
-
-            //SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(userId);
 
             // 基本信息
             SysUserInfo ui = new SysUserInfo();

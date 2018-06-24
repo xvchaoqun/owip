@@ -20,8 +20,8 @@
   </div>
   <div class="modal-footer">
   <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-  <input id="submitBtn" type="button" class="btn btn-primary" value="确定"
-		 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"/>
+	  <button id="submitBtn" type="button" class="btn btn-primary"
+			  data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">确定</button>
   </div>
 
   <script>

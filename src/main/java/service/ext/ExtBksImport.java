@@ -47,7 +47,6 @@ public class ExtBksImport extends Source {
         example.createCriteria().andXhEqualTo(rs.getString("xh"));
         List<ExtBks> extBkses = extBksMapper.selectByExample(example);
         if (extBkses.size() > 0) {
-            extBks.setId(extBkses.get(0).getId());
             extBksMapper.updateByExample(extBks, example);
         } else {
             extBksMapper.insert(extBks);

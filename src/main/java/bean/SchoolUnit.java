@@ -88,4 +88,18 @@ public class SchoolUnit {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+    @Override
+    public String toString() {
+        return "SchoolUnit{" +
+                "id='" + id + '\'' +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", top='" + top + '\'' +
+                ", workTime=" + workTime +
+                ", url='" + url + '\'' +
+                ", remark='" + remark + '\'' +
+                '}';
+    }
 }

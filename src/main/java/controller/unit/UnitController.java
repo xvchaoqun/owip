@@ -1,6 +1,7 @@
 package controller.unit;
 
 import bean.SchoolUnit;
+import bean.XlsUpload;
 import controller.BaseController;
 import domain.base.MetaType;
 import domain.unit.HistoryUnit;
@@ -8,11 +9,12 @@ import domain.unit.HistoryUnitExample;
 import domain.unit.Unit;
 import domain.unit.UnitExample;
 import domain.unit.UnitExample.Criteria;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.ext.ExtUnitService;
 import service.unit.UnitExportService;
 import sys.constants.LogConstants;
@@ -103,8 +107,6 @@ public class UnitController extends BaseController {
     @RequestMapping("/unit_data")
     @ResponseBody
     public void unit_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "unit") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                  @RequestParam(required = false, defaultValue = "1")Byte status,
                                     String code,
                                     String name,
@@ -122,7 +124,7 @@ public class UnitController extends BaseController {
 
         UnitExample example = new UnitExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(status);
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("sort_order asc");
 
         if (StringUtils.isNotBlank(code)) {
             criteria.andCodeLike("%" + code + "%");
@@ -307,7 +309,7 @@ public class UnitController extends BaseController {
         UnitExample example = new UnitExample();
         Criteria criteria = example.createCriteria();
         if(status!=null) criteria.andStatusEqualTo(status);
-        example.setOrderByClause("status asc, sort_order desc");
+        example.setOrderByClause("status asc, sort_order asc");
 
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");
@@ -326,7 +328,7 @@ public class UnitController extends BaseController {
             for(Unit unit:units){
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", unit.getName());
-                option.put("del", unit.getStatus()==SystemConstants.UNIT_STATUS_HISTORY);
+                option.put("del", unit.getStatus()== SystemConstants.UNIT_STATUS_HISTORY);
                 option.put("id", unit.getId());
                 option.put("type", unitTypeMap.get(unit.getTypeId()).getName());
                 options.add(option);
@@ -336,6 +338,37 @@ public class UnitController extends BaseController {
         Map resultMap = success();
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
+        return resultMap;
+    }
+
+    // 导入单位
+    @RequiresPermissions("unit:edit")
+    @RequestMapping("/unit_import")
+    public String unit_import() {
+
+        return "unit/unit_import";
+    }
+
+    @RequiresPermissions("unit:edit")
+    @RequestMapping(value="/unit_import", method=RequestMethod.POST)
+    @ResponseBody
+    public Map do_unit_import(HttpServletRequest request) throws InvalidFormatException, IOException {
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile xlsx = multipartRequest.getFile("xlsx");
+
+        OPCPackage pkg = OPCPackage.open(xlsx.getInputStream());
+        XSSFWorkbook workbook = new XSSFWorkbook(pkg);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        List<Map<Integer, String>> xlsRows = XlsUpload.getXlsRows(sheet);
+
+
+        Map<String, Object> retMap = unitService.imports(xlsRows);
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("successCount", retMap.get("success"));
+        resultMap.put("failedXlsRows", retMap.get("failedXlsRows"));
+        resultMap.put("total", xlsRows.size());
+
         return resultMap;
     }
 }

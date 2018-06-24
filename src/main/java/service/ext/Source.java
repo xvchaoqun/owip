@@ -3,6 +3,9 @@ package service.ext;
 import bean.ColumnBean;
 import domain.sys.SysSync;
 import org.apache.commons.lang.StringUtils;
+import org.mybatis.extend.interceptor.Dialect;
+import org.mybatis.extend.interceptor.MySQLDialect;
+import org.mybatis.extend.interceptor.OracleDialect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import persistence.sys.SysSyncMapper;
 import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -28,8 +32,25 @@ public abstract class Source {
     protected static Connection conn;
     @Autowired
     public SysSyncMapper sysSyncMapper;
+    protected static Dialect dialect = null;
 
     public Connection initConn() {
+
+        Dialect.Type databaseType = null;
+        try {
+            databaseType = Dialect.Type.valueOf(PropertiesUtils.getString("ext_dialect").toUpperCase());
+        } catch (Exception e) {
+            // ignore
+        }
+
+        switch (databaseType) {
+            case ORACLE:
+                dialect = new OracleDialect();
+                break;
+            case MYSQL:
+                dialect = new MySQLDialect();
+                break;
+        }
 
         if (null == conn) {
             try {
@@ -57,7 +78,7 @@ public abstract class Source {
         Map<String, Object> map = new HashMap<>();
 
         try {
-            List<ColumnBean> columnBeans = getTableColumns(tableName);
+            List<ColumnBean> columnBeans = getTableColumns(schema, tableName);
 
             String tbl = String.format("%s.%s", schema, tableName);
             int count = 0;
@@ -72,7 +93,7 @@ public abstract class Source {
             logger.info(String.format("总数：%s， 每页%s条， 总%s页", count, pageSize, pageNo));
             for (int i = 1; i <= pageNo; i++) {
                 logger.info(String.format("总数：%s， 每页%s条， 总%s页， 当前第%s页", count, pageSize, pageNo, i));
-                String sql = getLimitString("select * from " + tbl, (i - 1) * pageSize, pageSize);
+                String sql = dialect.getLimitString("select * from " + tbl, (i - 1) * pageSize, pageSize);
                 //stat = conn.createStatement();
                 rs = stat.executeQuery(sql);
                 while (rs != null && rs.next()) {
@@ -115,7 +136,7 @@ public abstract class Source {
         Map<String, Object> map = new HashMap<>();
         int i = 0;
         try {
-            List<ColumnBean> columnBeans = getTableColumns(tableName);
+            List<ColumnBean> columnBeans = getTableColumns(schema, tableName);
             String tbl = String.format("%s.%s", schema, tableName);
             String sql = "select * from " + tbl +(StringUtils.isNotBlank(searchStr)?" " + searchStr:"");
             stat = conn.createStatement();
@@ -155,7 +176,7 @@ public abstract class Source {
         Map<String, Object> map = new HashMap<>();
         int ret = 0;
         try {
-            List<ColumnBean> columnBeans = getTableColumns(tableName);
+            List<ColumnBean> columnBeans = getTableColumns(schema, tableName);
             String tbl = String.format("%s.%s", schema, tableName);
             searchStr = (StringUtils.isNotBlank(searchStr)?" " + searchStr:"");
             int count = 0;
@@ -170,7 +191,7 @@ public abstract class Source {
             logger.info(String.format("总数：%s， 每页%s条， 总%s页", count, pageSize, pageNo));
             for (int i = 1; i <= pageNo; i++) {
                 logger.info(String.format("总数：%s， 每页%s条， 总%s页， 当前第%s页", count, pageSize, pageNo, i));
-                String sql = getLimitString("select * from " + tbl + searchStr, (i - 1) * pageSize, pageSize);
+                String sql = dialect.getLimitString("select * from " + tbl + searchStr, (i - 1) * pageSize, pageSize);
 
                 rs = stat.executeQuery(sql);
                 while (rs != null && rs.next()) {
@@ -208,14 +229,13 @@ public abstract class Source {
     }
 
     // 读取oracle表的字段信息
-    public List<ColumnBean> getTableColumns(String tablename) throws Exception {
+    public List<ColumnBean> getTableColumns(String schema, String tablename) throws Exception {
 
         List<ColumnBean> columnBeans = new ArrayList<ColumnBean>();
 
         Statement stat = null;
         ResultSet rs = null;
-        String sql = " select * from all_tab_columns  where Table_Name="
-                + " upper('" + tablename + "')";
+        String sql = dialect.getTableColumnSql(schema, tablename);
         stat = conn.createStatement();
         logger.info("sql=" + sql);
         rs = stat.executeQuery(sql);
@@ -231,19 +251,5 @@ public abstract class Source {
         }
 
         return columnBeans;
-    }
-
-    public String getLimitString(String sql, int offset, int limit) {
-
-        sql = sql.trim();
-        StringBuffer pagingSelect = new StringBuffer(sql.length() + 100);
-
-        pagingSelect.append("select * from ( select row_.*, rownum rownum_ from ( ");
-
-        pagingSelect.append(sql);
-
-        pagingSelect.append(" ) row_ ) where rownum_ > ").append(offset).append(" and rownum_ <= ").append(offset + limit);
-
-        return pagingSelect.toString();
     }
 }

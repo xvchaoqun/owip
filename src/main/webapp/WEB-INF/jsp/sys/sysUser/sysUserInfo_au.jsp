@@ -71,7 +71,7 @@
 
                 <div class="col-xs-6">
                     <input class="form-control" type="text" name="nativePlace" value="${ui.nativePlace}">
-                    <span class="help-block">* 研究生不同步籍贯</span>
+                    <%--<span class="help-block">* 研究生不同步籍贯</span>--%>
                 </div>
             </div>
             <div class="form-group">

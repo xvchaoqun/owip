@@ -307,7 +307,7 @@ public class CadreService extends BaseMapper {
         for (XlsCadre uRow : cadres) {
 
             Cadre record = new Cadre();
-            String userCode = uRow.getUserCode();
+            String userCode = StringUtils.trim(uRow.getUserCode());
             SysUserView uv = sysUserService.findByCode(userCode);
             if (uv == null) throw new OpException("工作证号：" + userCode + "不存在");
             int userId = uv.getId();

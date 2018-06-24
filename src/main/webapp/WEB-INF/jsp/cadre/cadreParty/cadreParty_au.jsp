@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${(empty cadreParty)?"添加":"更新"}${type==1?'民主党派':'特殊党员'}干部</h3>
+    <h3>${(empty cadreParty)?"添加":"更新"}${type==1?'民主党派':'党员'}干部</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreParty_au" id="modalForm" method="post">
@@ -61,7 +61,7 @@
             <div class="col-xs-6">
                 <div class="input-group" style="width: 150px">
                     <input class="form-control date-picker" name="growTime" type="text"
-                           data-date-format="yyyy-mm-dd" value="${cm:formatDate(cadreParty.growTime,'yyyy-MM-dd')}"/>
+                           data-date-format="yyyy.mm" value="${cm:formatDate(cadreParty.growTime,'yyyy.MM')}"/>
                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                 </div>
             </div>

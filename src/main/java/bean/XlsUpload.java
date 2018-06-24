@@ -33,7 +33,7 @@ public class XlsUpload {
         if (null == rowTitle)
             return passportRows;
         int cellCount = rowTitle.getLastCellNum() - rowTitle.getFirstCellNum();
-        if (cellCount != passportXLSColumnCount)
+        if (cellCount < passportXLSColumnCount)
             return passportRows;
 
         for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getLastRowNum(); i++) {
@@ -116,7 +116,7 @@ public class XlsUpload {
         if (null == rowTitle)
             return cadreRows;
         int cellCount = rowTitle.getLastCellNum() - rowTitle.getFirstCellNum();
-        if (cellCount != cadreXLSColumnCount)
+        if (cellCount < cadreXLSColumnCount)
             return cadreRows;
 
         for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getLastRowNum(); i++) {
@@ -323,7 +323,7 @@ public class XlsUpload {
         if (null == rowTitle)
             return rows;
         int cellCount = rowTitle.getLastCellNum() - rowTitle.getFirstCellNum();
-        if (cellCount != userXLSColumnCount)
+        if (cellCount < userXLSColumnCount)
             return rows;
 
         for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getLastRowNum(); i++) {
@@ -383,7 +383,7 @@ public class XlsUpload {
         if (null == rowTitle)
             return rows;
         int cellCount = rowTitle.getLastCellNum() - rowTitle.getFirstCellNum();
-        if (cellCount != trainCourseXLSColumnCount)
+        if (cellCount < trainCourseXLSColumnCount)
             return rows;
 
         for (int i = sheet.getFirstRowNum() + 1; i <= sheet.getLastRowNum(); i++) {

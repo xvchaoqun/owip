@@ -162,6 +162,7 @@ public class CrsApplicantService extends BaseMapper {
             record.setStatus(status);
 
             crsApplicantMapper.insertSelective(record);
+            applicantId = record.getId();
 
             sysApprovalLogService.add(record.getId(), record.getUserId(),
                     (userId == ShiroHelper.getCurrentUserId()) ? SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF
@@ -170,8 +171,6 @@ public class CrsApplicantService extends BaseMapper {
                     "应聘报名", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
                     JSONUtils.toString(record, MixinUtils.baseMixins(), false));
 
-            // 短信通知管理员
-            crsShortMsgService.sendApplySubmitMsgToAdmin(record.getId(), ContextHelper.getRealIp());
         }else{
 
             CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
@@ -196,6 +195,9 @@ public class CrsApplicantService extends BaseMapper {
         }
 
         if(status==CrsConstants.CRS_APPLICANT_STATUS_SUBMIT) {
+            // 短信通知管理员
+            crsShortMsgService.sendApplySubmitMsgToAdmin(applicantId, ContextHelper.getRealIp());
+
             // 更新补报状态为完成（如果存在）
             CrsApplyUser _record = new CrsApplyUser();
             _record.setStatus(CrsConstants.CRS_APPLY_USER_STATUS_FINISH);

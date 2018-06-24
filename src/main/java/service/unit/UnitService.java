@@ -18,6 +18,8 @@ import sys.tool.tree.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -36,7 +38,7 @@ public class UnitService extends BaseMapper {
         UnitExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
         if(type!=null)
             criteria.andTypeIdEqualTo(type);
-        example.setOrderByClause(" sort_order desc");
+        example.setOrderByClause(" sort_order asc");
         return unitMapper.selectByExample(example);
     }
 
@@ -79,7 +81,7 @@ public class UnitService extends BaseMapper {
 
         UnitExample example = new UnitExample();
         example.createCriteria().andStatusEqualTo(status);
-        example.setOrderByClause(" sort_order desc");
+        example.setOrderByClause(" sort_order asc");
         List<Unit> units = unitMapper.selectByExample(example);
         for (Unit unit : units) {
             List<Unit> list = null;
@@ -195,7 +197,7 @@ public class UnitService extends BaseMapper {
 
         UnitExample example = new UnitExample();
         example.createCriteria()/*.andStatusEqualTo(SystemConstants.UNIT_STATUS_RUN)*/;
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("sort_order asc");
         List<Unit> unites = unitMapper.selectByExample(example);
         Map<Integer, Unit> map = new LinkedHashMap<>();
         for (Unit unit : unites) {
@@ -221,7 +223,7 @@ public class UnitService extends BaseMapper {
         Integer baseSortOrder = entity.getSortOrder();
 
         UnitExample example = new UnitExample();
-        if (addNum > 0) {
+        if (addNum < 0) {
 
             example.createCriteria().andStatusEqualTo(status).andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
@@ -236,7 +238,7 @@ public class UnitService extends BaseMapper {
 
             Unit targetEntity = overEntities.get(overEntities.size()-1);
 
-            if (addNum > 0)
+            if (addNum < 0)
                 commonMapper.downOrder("unit", "status=" + status, baseSortOrder, targetEntity.getSortOrder());
             else
                 commonMapper.upOrder("unit", "status=" + status, baseSortOrder, targetEntity.getSortOrder());
@@ -246,5 +248,65 @@ public class UnitService extends BaseMapper {
             record.setSortOrder(targetEntity.getSortOrder());
             unitMapper.updateByPrimaryKeySelective(record);
         }
+    }
+
+    // 导入单位
+    @Transactional
+    @CacheEvict(value="Unit:ALL", allEntries = true)
+    public Map<String, Object> imports(List<Map<Integer, String>> xlsRows) {
+
+            int success = 0;
+            List<Map<Integer, String>> failedXlsRows = new ArrayList<>();
+            for (Map<Integer, String> xlsRow : xlsRows) {
+
+                String code = StringUtils.trim(xlsRow.get(0));
+                String name = StringUtils.trim(xlsRow.get(1));
+                String type = StringUtils.trim(xlsRow.get(2));
+                if (StringUtils.isBlank(code)
+                        || StringUtils.isBlank(name)
+                        || StringUtils.isBlank(type)){
+                    failedXlsRows.add(xlsRow);
+                    continue;
+                }
+
+                MetaType unitType = metaTypeService.findByName("mc_unit_type", type);
+                if(unitType==null){
+                    failedXlsRows.add(xlsRow);
+                    continue;
+                }
+
+                Unit _unit = findUnitByCode(code);
+
+                Unit record = new Unit();
+                record.setCode(code);
+                record.setName(name);
+                record.setTypeId(unitType.getId());
+                String workTime = xlsRow.get(3);
+                System.out.println(workTime);
+                //record.setWorkTime();
+                record.setUrl(xlsRow.get(4));
+                record.setRemark(xlsRow.get(5));
+                int ret = 0;
+                if(_unit==null) {
+                    record.setCreateTime(new Date());
+                    record.setStatus(SystemConstants.UNIT_STATUS_RUN);
+                    record.setSortOrder(getNextSortOrder("unit", "status=" + SystemConstants.UNIT_STATUS_RUN));
+                    ret = insertSelective(record);
+                }else{
+                    record.setId(_unit.getId());
+                    updateByPrimaryKeySelective(record);
+                }
+
+                if(ret==1) {
+                    success++;
+                }else{
+                    failedXlsRows.add(xlsRow);
+                }
+            }
+
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("success", success);
+            resultMap.put("failedXlsRows", failedXlsRows);
+            return resultMap;
     }
 }

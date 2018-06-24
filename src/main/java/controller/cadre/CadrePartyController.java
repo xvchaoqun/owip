@@ -60,14 +60,14 @@ public class CadrePartyController extends BaseController {
     @RequiresPermissions("cadreParty:list")
     @RequestMapping("/cadreParty_data")
     public void cadreParty_data(HttpServletResponse response,
-                           byte type,
-                           Byte status,
-                           Integer userId,
-                           Integer typeId,
-                           Integer postId,
-                           Integer dpTypeId,
-                           String title,
-                           Integer pageSize, Integer pageNo) throws IOException {
+                                byte type,
+                                Byte status,
+                                Integer userId,
+                                Integer typeId,
+                                Integer postId,
+                                Integer dpTypeId,
+                                String title,
+                                Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -197,14 +197,14 @@ public class CadrePartyController extends BaseController {
         for (Map<Integer, String> xlsRow : xlsRows) {
 
             String _code = StringUtils.trimToNull(xlsRow.get(0));
-            String _growTime = StringUtils.trimToNull(xlsRow.get(1));
+            String _growTime = StringUtils.trimToNull(xlsRow.get(2));
             if(_code == null) continue;
             SysUserView uv = sysUserService.findByCode(_code);
             if(uv==null) continue;
             CadreParty record = new CadreParty();
             record.setUserId(uv.getId());
             record.setType(CadreConstants.CADRE_PARTY_TYPE_OW);
-            record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYY_MM_DD));
+            record.setGrowTime(DateUtils.parseDate(_growTime, "yyyy.MM"));
             records.add(record);
         }
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);

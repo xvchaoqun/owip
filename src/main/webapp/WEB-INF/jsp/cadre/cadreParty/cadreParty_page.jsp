@@ -21,10 +21,10 @@
                                        data-url="${ctx}/cadreParty_au?type=${type}"><i class="fa fa-plus"></i> 添加</a>
                                 </shiro:hasPermission>
                                 <c:if test="${type==2}">
-                                <a class="popupBtn btn btn-warning btn-sm tooltip-success"
-                                   data-url="${ctx}/cadreParty_import"
-                                   data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
-                                    批量导入</a>
+                                    <a class="popupBtn btn btn-warning btn-sm tooltip-success"
+                                       data-url="${ctx}/cadreParty_import"
+                                       data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i>
+                                        批量导入</a>
                                 </c:if>
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/cadreParty_au">
@@ -144,11 +144,12 @@
             },
             <c:if test="${type==1}">
             {label: '民主党派', name: 'dpTypeId', formatter: $.jgrid.formatter.MetaType},
-            {label: '党派加入时间', name: 'dpGrowTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, width: 120},
+            {label: '党派加入时间', name: 'dpGrowTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 120},
             {label: '担任党派职务', name: 'dpPost',align:'left',  width: 250},
             </c:if>
             <c:if test="${type==2}">
-            {label: '党派加入时间', name: 'owGrowTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, width: 120},
+            {label: '党派加入时间', name: 'owGrowTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 120},
+            <c:if test="${_hasPartyModule}">
             {
                 label: '是否存在于党员信息库', width: 180, name: 'memberStatus', formatter: function (cellvalue, options, rowObject) {
                 var str = "否";
@@ -160,6 +161,7 @@
             }, cellattr:function(rowId, val, rowObject, cm, rdata) {
                 return ($.trim(rowObject.memberStatus)=='')?"":"class='danger'";
             }},
+            </c:if>
             </c:if>
             {label: '部门属性', name: 'unit.unitType.name', width: 150},
             {label: '所在单位', name: 'unit.name',align:'left',  width: 200},

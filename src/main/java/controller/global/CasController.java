@@ -4,6 +4,7 @@ import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ThreadContext;
@@ -18,6 +19,7 @@ import service.sys.SysUserService;
 import shiro.ShiroUser;
 import sys.CasUtils;
 import sys.constants.SystemConstants;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,10 +37,24 @@ public class CasController {
     @Autowired
     private SysLoginLogService sysLoginLogService;
 
+    @RequestMapping("/cas_test")
+    public String cas_test(String username, HttpServletRequest request, HttpServletResponse response) {
+
+        if(!PropertiesUtils.getBoolean("devMode")){
+            throw new UnauthorizedException();
+        }
+        return casLogin(username, request, response);
+    }
+
     @RequestMapping("/cas")
     public String cas(HttpServletRequest request, HttpServletResponse response) {
 
         String username = CasUtils.getUsername(request);
+        return casLogin(username, request, response);
+    }
+
+    private String casLogin(String username, HttpServletRequest request, HttpServletResponse response){
+
         if (StringUtils.isNotBlank(username)) {
             SysUserView uv = sysUserService.findByUsername(username);
             if (uv != null && BooleanUtils.isFalse(uv.getLocked())) {  // 系统中存在这个用户（且状态正常）才处理
