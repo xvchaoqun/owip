@@ -687,8 +687,9 @@ where c.user_id = u.id and c.status = 1 and ui.user_id = u.id;
 -- ----------------------------
 DROP VIEW IF EXISTS `ext_member_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ext_member_view` AS
-select u.code as sid, u.realname, u.type, om.status, om.political_status, om.grow_time, if(bmt.code='mt_direct_branch', op.code, ob.code) as branch_code
+select u.code as sid, u.realname, om.type, if(oms.status=3, 4, om.status) as status, om.political_status, om.grow_time, if(bmt.code='mt_direct_branch', op.code, ob.code) as branch_code
 from ow_member om
+left join ow_member_stay oms on oms.user_id=om.user_id
 left join sys_user_view u on om.user_id=u.id
 left join ow_party op on om.party_id=op.id
 left join base_meta_type bmt on op.class_id = bmt.id
