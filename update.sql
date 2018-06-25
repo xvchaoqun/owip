@@ -1,9 +1,13 @@
 
+
+
+
+20180625
+hf_cadre_famliy -> hf_cadre_family
+
 20180625
 ALTER TABLE `cadre_family`
 	ADD COLUMN `with_god` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否去世' AFTER `birthday`;
-
-
 
 20180625
 ALTER TABLE `unit`
@@ -14,8 +18,6 @@ select max(sort_order) from unit into @max;
 update unit set sort_order = @max - sort_order + 1;
 
 更新 utils
-
-
 
 20180622
 ALTER TABLE `sys_config`

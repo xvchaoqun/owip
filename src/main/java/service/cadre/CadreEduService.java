@@ -64,11 +64,13 @@ public class CadreEduService extends BaseMapper {
         return cadreEduMapper.selectByExample(example);
     }
 
-    // 获取全日制教育、在职教育
+    // 获取全日制教育、在职教育（仅读取已毕业的记录）
     public CadreEdu[] getByLearnStyle(int cadreId){
 
         CadreEduExample example = new CadreEduExample();
-        example.createCriteria().andCadreIdEqualTo(cadreId);
+        example.createCriteria().andCadreIdEqualTo(cadreId)
+                .andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL)
+                .andIsGraduatedEqualTo(true);
         example.setOrderByClause("enrol_time asc"); // 按时间顺序排序，取时间最晚的
         List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
 

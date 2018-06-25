@@ -97,32 +97,14 @@ public class SysUserService extends BaseMapper {
         cacheService.clearUserCache(record);
     }
 
-    // 籍贯只同步第一次
     @Transactional
     public void insertOrUpdateUserInfoSelective(SysUserInfo record) {
 
         SysUser _sysUser = dbFindById(record.getUserId());
         SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(record.getUserId());
         if (sysUserInfo == null) {
-
-            record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
             sysUserInfoMapper.insertSelective(record);
         } else {
-
-            if (StringUtils.isBlank(sysUserInfo.getNativePlace())) {
-                record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
-            }else{
-                record.setNativePlace(null);
-            }
-            if(StringUtils.isNotBlank(sysUserInfo.getEmail())){
-                record.setEmail(null);
-            }
-            if(StringUtils.isNotBlank(sysUserInfo.getMobile())){
-                record.setMobile(null);
-            }
-            if(StringUtils.isNotBlank(sysUserInfo.getHomePhone())){
-                record.setHomePhone(null);
-            }
             sysUserInfoMapper.updateByPrimaryKeySelective(record);
         }
 

@@ -155,7 +155,7 @@
     </tr>
     </c:if>
     <tr>
-        <td rowspan="3">
+        <td rowspan="2">
             学习经历
         </td>
         <td>最高学历</td>
@@ -171,7 +171,7 @@
                                toEdit="${toEdit}"/>
         </td>
     </tr>
-    <tr>
+    <%--<tr>
         <td>最高学位</td>
         <td>
             <c:set var="result" value="${cm:cadreInfoCheck(param.cadreId, null, 6)}"/>
@@ -184,7 +184,7 @@
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}"/>
         </td>
-    </tr>
+    </tr>--%>
     <tr>
         <td>硕士和博士导师信息</td>
         <td>

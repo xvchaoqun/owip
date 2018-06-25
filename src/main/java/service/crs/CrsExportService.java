@@ -196,8 +196,10 @@ public class CrsExportService extends BaseMapper{
                         list.add(bean.getRecommendOw().trim());
                     if (StringUtils.isNotBlank(bean.getRecommendCadre()))
                         list.add(bean.getRecommendCadre().trim());
-                    if (StringUtils.isNotBlank(bean.getRecommendCrowd()))
-                        list.add(bean.getRecommendCrowd().trim());
+                    if (StringUtils.isNotBlank(bean.getRecommendCrowd())){
+                        //list.add(bean.getRecommendCrowd().trim());
+                        list.add("群众推荐");
+                    }
                     recommend = StringUtils.join(list, ",");
                 } else {
                     recommend = "个人报名";

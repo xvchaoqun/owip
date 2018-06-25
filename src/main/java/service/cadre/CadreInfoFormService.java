@@ -271,6 +271,7 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("proPostTime", DateUtils.formatDate(bean.getProPostTime(), "yyyy.MM"));
         dataMap.put("specialty", bean.getSpecialty());
 
+        dataMap.put("edu", bean.getEdu());
         dataMap.put("degree", bean.getDegree());
         dataMap.put("schoolDepMajor", bean.getSchoolDepMajor());
         dataMap.put("inDegree", bean.getInDegree());

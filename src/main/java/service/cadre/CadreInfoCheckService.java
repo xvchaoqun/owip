@@ -71,7 +71,7 @@ public class CadreInfoCheckService extends BaseMapper {
         // 最高学历
         if(notComplete(CmTag.cadreInfoCheck(cadreId, null, 5))) return false;
         // 最高学位
-        if(notComplete(CmTag.cadreInfoCheck(cadreId, null, 6))) return false;
+        //if(notComplete(CmTag.cadreInfoCheck(cadreId, null, 6))) return false;
         // 硕士和博士导师信息
         if(notComplete(CmTag.cadreInfoCheck(cadreId, null, 9))) return false;
 

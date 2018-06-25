@@ -45,11 +45,13 @@
                 <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i class="fa fa-user"></i>
                     <span>${_user.realname}<c:if test="${_user.code!=_user.realname}">(${_user.code})</c:if></span></a>
             </li>
+        <c:if test="${!_hideHelp}">
             <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
                 <li class="<c:if test="${_path=='/help'}">active</c:if>">
                     <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
                 </li>
             </shiro:hasAnyRoles>
+        </c:if>
             <shiro:hasPermission name="shortMsgTpl:*">
                 <li>
                     <a href="javascript:;" class="hashchange" data-url="${ctx}/shortMsgTpl"><i class="fa fa-send"></i> 定向短信</a>
@@ -69,11 +71,13 @@
                     <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i class="fa fa-user"></i> 个人信息
                     </a>
                 </li>
+                <c:if test="${!_hideHelp}">
                 <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
                     <li class="<c:if test="${_path=='/help'}">active</c:if>">
                         <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
                     </li>
                 </shiro:hasAnyRoles>
+                </c:if>
                 <shiro:hasPermission name="shortMsgTpl:*">
                     <li>
                         <a href="javascript:;" class="hashchange" data-url="${ctx}/shortMsgTpl"><i class="fa fa-send"></i> 定向短信</a>

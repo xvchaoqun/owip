@@ -680,6 +680,7 @@ public class SyncService extends BaseMapper {
             //teacher.setRetireTime(); 退休时间
             teacher.setIsHonorRetire(StringUtils.equals(extJzg.getSfzg(), "离休"));
 
+            syncFilter(ui);
             sysUserService.insertOrUpdateUserInfoSelective(ui);
         }
 
@@ -764,6 +765,7 @@ public class SyncService extends BaseMapper {
                 student.setSyncSource(SystemConstants.USER_SOURCE_BKS);
                 student.setXjStatus(extBks.getXjzt());
 
+                syncFilter(ui);
                 sysUserService.insertOrUpdateUserInfoSelective(ui);
             }
         }
@@ -806,6 +808,7 @@ public class SyncService extends BaseMapper {
                 student.setSyncSource(SystemConstants.USER_SOURCE_YJS);
                 student.setXjStatus(extYjs.getZt());
 
+                syncFilter(ui);
                 sysUserService.insertOrUpdateUserInfoSelective(ui);
             }
         }
@@ -814,6 +817,34 @@ public class SyncService extends BaseMapper {
             studentInfoMapper.insertSelective(student);
         else
             studentInfoMapper.updateByPrimaryKeySelective(student);
+    }
+
+    // 同步信息过滤（部分信息只同步第一次）
+    public void syncFilter(SysUserInfo record){
+
+        SysUser _sysUser = sysUserService.dbFindById(record.getUserId());
+        SysUserInfo sysUserInfo = sysUserInfoMapper.selectByPrimaryKey(record.getUserId());
+
+        if (sysUserInfo == null) {
+
+            record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
+        } else {
+
+            if (StringUtils.isBlank(sysUserInfo.getNativePlace())) {
+                record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
+            }else{
+                record.setNativePlace(null);
+            }
+            if(StringUtils.isNotBlank(sysUserInfo.getEmail())){
+                record.setEmail(null);
+            }
+            if(StringUtils.isNotBlank(sysUserInfo.getMobile())){
+                record.setMobile(null);
+            }
+            if(StringUtils.isNotBlank(sysUserInfo.getHomePhone())){
+                record.setHomePhone(null);
+            }
+        }
     }
 
     @Transactional

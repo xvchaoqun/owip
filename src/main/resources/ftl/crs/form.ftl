@@ -2671,7 +2671,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t>${bean.partyName!}${bean.growTime!}</w:t>
+									<w:t><#if bean.isOw>中共党员<w:br/>${bean.owGrowTime!}<#else>${bean.dpPartyName!}<w:br/>${bean.dpGrowTime!}</#if></w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
@@ -3122,18 +3122,36 @@
 								<w:gridSpan w:val="5"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
-							<w:p wsp:rsidR="00401152" wsp:rsidRPr="00D22114" wsp:rsidRDefault="008D54BD" wsp:rsidP="00CD2BC8">
-								<w:pPr>
-									<w:jc w:val="center"/>
-									<w:outlineLvl w:val="0"/>
-								</w:pPr>
-								<w:r>
-									<w:rPr>
-										<w:rFonts w:hint="fareast"/>
-									</w:rPr>
-									<w:t>${bean.degree!}</w:t>
-								</w:r>
-							</w:p>
+							<w:p wsp:rsidR="004F66D3" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
+							<w:pPr>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${bean.edu!}</w:t>
+							</w:r>
+						</w:p>
+							<#if bean.degree??>
+                                <w:p wsp:rsidR="00123E1F" wsp:rsidRPr="0042663B" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
+							<w:pPr>
+								<w:rPr>
+									<w:sz w:val="24"/>
+								</w:rPr>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${bean.degree!}</w:t>
+							</w:r>
+						</w:p>
+							</#if>
 						</w:tc>
 						<w:tc>
 							<w:tcPr>

@@ -14,6 +14,15 @@ update base_content_tpl set content = replace(content, '64434910、64434910', '6
 update base_content_tpl set content = replace(content, 'zzbgz.bnu.edu.cn', 'zzgz.buct.edu.cn');
 update base_content_tpl set content = replace(content, '主楼A306', '行政楼216');
 
+-- 更新系统说明
+select title,content from sys_html_fragment where content like '%师范%'
+update sys_html_fragment set content = replace(content, '北京师范大学', '西安交通大学');
+update sys_html_fragment set content = replace(content, '18612987573', '13800000000');
+update sys_html_fragment set content = replace(content, '58808302', '88888888');
+update sys_html_fragment set content = replace(content, '58806879', '88888888');
+update sys_html_fragment set content = replace(content, '64434910', '88888888');
+update sys_html_fragment set content = replace(content, 'zzbgz.bnu.edu.cn', 'gbgz.xjtu.edu.cn');
+
 -- 处理空格和换行
 UPDATE cadre SET  title = REPLACE(REPLACE(title, CHAR(10), ''), CHAR(13), '');
 UPDATE cadre SET  post = REPLACE(REPLACE(post, CHAR(10), ''), CHAR(13), '');

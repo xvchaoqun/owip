@@ -43,11 +43,13 @@
           <a href="${ctx}/#/profile"><i class="fa fa-user"></i>
             ${_user.realname}（${_user.code}）</a>
         </li>
+        <c:if test="${!_hideHelp}">
         <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">
           <li class="<c:if test="${_path=='/help'}">active</c:if>">
             <a href="${ctx}/help"><i class="ace-icon fa fa-question-circle"></i> 帮助文档</a>
           </li>
         </shiro:hasAnyRoles>
+        </c:if>
         <li>
           <a href="${ctx}/logout"><i class="ace-icon fa fa-power-off"></i> 退出</a>
         </li>

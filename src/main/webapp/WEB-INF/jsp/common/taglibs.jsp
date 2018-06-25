@@ -22,6 +22,7 @@
 
 <fmt:setBundle basename="spring" var="spring"/>
 <fmt:message key="upload.maxSize" bundle="${spring}" var="_uploadMaxSize"/>
+<fmt:message key="sys.help.hide" bundle="${spring}" var="_hideHelp"/>
 
 <c:set var="CURRENT_USER" value="<%=Constants.CURRENT_USER%>"/>
 <c:set var="_user" value="${requestScope[CURRENT_USER]}"/>
