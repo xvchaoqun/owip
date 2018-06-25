@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ExtJzg implements Serializable {
-    private Integer id;
-
     private String zgh;
 
     private String xm;
@@ -193,14 +191,6 @@ public class ExtJzg implements Serializable {
     private String rcch;
 
     private static final long serialVersionUID = 1L;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getZgh() {
         return zgh;

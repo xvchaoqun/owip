@@ -89,10 +89,10 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
 
-        <table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
+       <!-- <table tableName="sys_config" domainObjectName="sys.SysConfig" mapperName="sys.SysConfigMapper">
             <columnOverride column="xss_ignore_uri" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
         <!-- <table tableName="sys_config_login_msg" domainObjectName="sys.SysConfigLoginMsg" mapperName="sys.SysConfigLoginMsgMapper">
              <columnOverride column="login_msg" jdbcType="VARCHAR"></columnOverride>
          </table>-->
@@ -153,12 +153,12 @@
            <!--<table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
            </table>-->
 
-        <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks">
-        </table>-->
-       <!-- <table tableName="ext_jzg" domainObjectName="ext.ExtJzg" mapperName="ext.ExtJzgMapper">
-        </table>-->
-        <!--<table tableName="ext_yjs" domainObjectName="ext.ExtYjs">
-        </table>-->
+        <table tableName="ext_bks" domainObjectName="ext.ExtBks" mapperName="ext.ExtBksMapper">
+        </table>
+        <table tableName="ext_jzg" domainObjectName="ext.ExtJzg" mapperName="ext.ExtJzgMapper">
+        </table>
+        <table tableName="ext_yjs" domainObjectName="ext.ExtYjs" mapperName="ext.ExtYjsMapper">
+        </table>
         <!--<table tableName="ext_abroad" domainObjectName="ext.ExtAbroad">
         </table>-->
         <!--<table tableName="ext_retire_salary" domainObjectName="ext.ExtRetireSalary"  mapperName="ext.ExtRetireSalaryMapper">

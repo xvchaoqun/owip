@@ -2,17 +2,16 @@ package persistence.ext;
 
 import domain.ext.ExtYjs;
 import domain.ext.ExtYjsExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface ExtYjsMapper {
-    int countByExample(ExtYjsExample example);
+    long countByExample(ExtYjsExample example);
 
     int deleteByExample(ExtYjsExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String xh);
 
     int insert(ExtYjs record);
 
@@ -22,7 +21,7 @@ public interface ExtYjsMapper {
 
     List<ExtYjs> selectByExample(ExtYjsExample example);
 
-    ExtYjs selectByPrimaryKey(Integer id);
+    ExtYjs selectByPrimaryKey(String xh);
 
     int updateByExampleSelective(@Param("record") ExtYjs record, @Param("example") ExtYjsExample example);
 

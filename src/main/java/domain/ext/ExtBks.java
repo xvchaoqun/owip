@@ -3,8 +3,6 @@ package domain.ext;
 import java.io.Serializable;
 
 public class ExtBks implements Serializable {
-    private Integer id;
-
     private String xh;
 
     private String xm;
@@ -90,14 +88,6 @@ public class ExtBks implements Serializable {
     private String xjzt;
 
     private static final long serialVersionUID = 1L;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getXh() {
         return xh;

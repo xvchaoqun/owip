@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="persistence.ext.ExtJzgMapper">
   <resultMap id="BaseResultMap" type="domain.ext.ExtJzg">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="zgh" jdbcType="VARCHAR" property="zgh" />
+    <id column="zgh" jdbcType="VARCHAR" property="zgh" />
     <result column="xm" jdbcType="VARCHAR" property="xm" />
     <result column="xbm" jdbcType="VARCHAR" property="xbm" />
     <result column="xb" jdbcType="VARCHAR" property="xb" />
@@ -158,13 +157,13 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, zgh, xm, xbm, xb, dwdm, dwmc, yjxkm, yjxk, lxrq, gwlx, gwlbm, gwlb, zcm, zc, 
-    gwjbm, gwjb, rclxm, rclx, rcchm, xyjgm, xyjg, gjm, gj, zhxwm, zhxw, zhxl, zhxlmc, 
-    xlbyxx, xwsyxx, xzjbm, xzjb, sfzgm, sfzg, ryztm, ryzt, rylxm, rylx, bzlxm, bzlx, 
-    csrq, rszfm, rszf, sfnxz, sfzjlx, name, sfzh, yddh, dzxx, bgdh, jtdh, zjgjm, zjgwdj, 
-    glgjm, glgwdj, empid, jg, zzmm, zw, zwmc, mz, xkmlm, xkml, ejxkm, ejxk, xmpy, poxm, 
-    ryxxshzt, tbrq, jzdw1, jzdw2, batch_num, basic_active_id, domain_code, basic_active_type, 
-    szzdw1, szzdw2, glqsrq, jdgl, gwzlbm, gwzlbmc, zgdjm, zgdjmmc, zzdjsj, zjgwdjm, zjgwdjmc, 
+    zgh, xm, xbm, xb, dwdm, dwmc, yjxkm, yjxk, lxrq, gwlx, gwlbm, gwlb, zcm, zc, gwjbm, 
+    gwjb, rclxm, rclx, rcchm, xyjgm, xyjg, gjm, gj, zhxwm, zhxw, zhxl, zhxlmc, xlbyxx, 
+    xwsyxx, xzjbm, xzjb, sfzgm, sfzg, ryztm, ryzt, rylxm, rylx, bzlxm, bzlx, csrq, rszfm, 
+    rszf, sfnxz, sfzjlx, name, sfzh, yddh, dzxx, bgdh, jtdh, zjgjm, zjgwdj, glgjm, glgwdj, 
+    empid, jg, zzmm, zw, zwmc, mz, xkmlm, xkml, ejxkm, ejxk, xmpy, poxm, ryxxshzt, tbrq, 
+    jzdw1, jzdw2, batch_num, basic_active_id, domain_code, basic_active_type, szzdw1, 
+    szzdw2, glqsrq, jdgl, gwzlbm, gwzlbmc, zgdjm, zgdjmmc, zzdjsj, zjgwdjm, zjgwdjmc, 
     zyjszwpdsj, zjgwfjsj, glgwdjm, glgwfjsj, gqgwdjm, gqgwfjsj, gqgwdjmc
   </sql>
   <sql id="Blob_Column_List">
@@ -200,17 +199,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from ext_jzg
-    where id = #{id,jdbcType=INTEGER}
+    where zgh = #{zgh,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from ext_jzg
-    where id = #{id,jdbcType=INTEGER}
+    where zgh = #{zgh,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="domain.ext.ExtJzgExample">
     delete from ext_jzg
@@ -219,71 +218,68 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.ext.ExtJzg">
-    insert into ext_jzg (id, zgh, xm, 
-      xbm, xb, dwdm, dwmc, 
-      yjxkm, yjxk, lxrq, gwlx, 
-      gwlbm, gwlb, zcm, zc, 
-      gwjbm, gwjb, rclxm, 
-      rclx, rcchm, xyjgm, 
-      xyjg, gjm, gj, zhxwm, 
-      zhxw, zhxl, zhxlmc, 
-      xlbyxx, xwsyxx, xzjbm, 
-      xzjb, sfzgm, sfzg, 
-      ryztm, ryzt, rylxm, 
-      rylx, bzlxm, bzlx, 
-      csrq, rszfm, rszf, sfnxz, 
-      sfzjlx, name, sfzh, 
-      yddh, dzxx, bgdh, jtdh, 
-      zjgjm, zjgwdj, glgjm, 
-      glgwdj, empid, jg, 
-      zzmm, zw, zwmc, mz, 
-      xkmlm, xkml, ejxkm, 
-      ejxk, xmpy, poxm, ryxxshzt, 
-      tbrq, jzdw1, jzdw2, 
-      batch_num, basic_active_id, domain_code, 
-      basic_active_type, szzdw1, szzdw2, 
-      glqsrq, jdgl, gwzlbm, 
-      gwzlbmc, zgdjm, zgdjmmc, 
-      zzdjsj, zjgwdjm, zjgwdjmc, 
-      zyjszwpdsj, zjgwfjsj, glgwdjm, 
-      glgwfjsj, gqgwdjm, gqgwfjsj, 
-      gqgwdjmc, rcch)
-    values (#{id,jdbcType=INTEGER}, #{zgh,jdbcType=VARCHAR}, #{xm,jdbcType=VARCHAR}, 
-      #{xbm,jdbcType=VARCHAR}, #{xb,jdbcType=VARCHAR}, #{dwdm,jdbcType=VARCHAR}, #{dwmc,jdbcType=VARCHAR}, 
-      #{yjxkm,jdbcType=VARCHAR}, #{yjxk,jdbcType=VARCHAR}, #{lxrq,jdbcType=DATE}, #{gwlx,jdbcType=VARCHAR}, 
-      #{gwlbm,jdbcType=VARCHAR}, #{gwlb,jdbcType=VARCHAR}, #{zcm,jdbcType=VARCHAR}, #{zc,jdbcType=VARCHAR}, 
-      #{gwjbm,jdbcType=VARCHAR}, #{gwjb,jdbcType=VARCHAR}, #{rclxm,jdbcType=VARCHAR}, 
-      #{rclx,jdbcType=VARCHAR}, #{rcchm,jdbcType=VARCHAR}, #{xyjgm,jdbcType=VARCHAR}, 
-      #{xyjg,jdbcType=VARCHAR}, #{gjm,jdbcType=VARCHAR}, #{gj,jdbcType=VARCHAR}, #{zhxwm,jdbcType=VARCHAR}, 
-      #{zhxw,jdbcType=VARCHAR}, #{zhxl,jdbcType=VARCHAR}, #{zhxlmc,jdbcType=VARCHAR}, 
-      #{xlbyxx,jdbcType=VARCHAR}, #{xwsyxx,jdbcType=VARCHAR}, #{xzjbm,jdbcType=VARCHAR}, 
-      #{xzjb,jdbcType=VARCHAR}, #{sfzgm,jdbcType=VARCHAR}, #{sfzg,jdbcType=VARCHAR}, 
-      #{ryztm,jdbcType=VARCHAR}, #{ryzt,jdbcType=VARCHAR}, #{rylxm,jdbcType=VARCHAR}, 
-      #{rylx,jdbcType=VARCHAR}, #{bzlxm,jdbcType=VARCHAR}, #{bzlx,jdbcType=VARCHAR}, 
-      #{csrq,jdbcType=DATE}, #{rszfm,jdbcType=VARCHAR}, #{rszf,jdbcType=VARCHAR}, #{sfnxz,jdbcType=VARCHAR}, 
-      #{sfzjlx,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sfzh,jdbcType=VARCHAR}, 
-      #{yddh,jdbcType=VARCHAR}, #{dzxx,jdbcType=VARCHAR}, #{bgdh,jdbcType=VARCHAR}, #{jtdh,jdbcType=VARCHAR}, 
-      #{zjgjm,jdbcType=VARCHAR}, #{zjgwdj,jdbcType=VARCHAR}, #{glgjm,jdbcType=VARCHAR}, 
-      #{glgwdj,jdbcType=VARCHAR}, #{empid,jdbcType=VARCHAR}, #{jg,jdbcType=VARCHAR}, 
-      #{zzmm,jdbcType=VARCHAR}, #{zw,jdbcType=VARCHAR}, #{zwmc,jdbcType=VARCHAR}, #{mz,jdbcType=VARCHAR}, 
-      #{xkmlm,jdbcType=VARCHAR}, #{xkml,jdbcType=VARCHAR}, #{ejxkm,jdbcType=VARCHAR}, 
-      #{ejxk,jdbcType=VARCHAR}, #{xmpy,jdbcType=VARCHAR}, #{poxm,jdbcType=VARCHAR}, #{ryxxshzt,jdbcType=VARCHAR}, 
-      #{tbrq,jdbcType=VARCHAR}, #{jzdw1,jdbcType=VARCHAR}, #{jzdw2,jdbcType=VARCHAR}, 
-      #{batchNum,jdbcType=VARCHAR}, #{basicActiveId,jdbcType=VARCHAR}, #{domainCode,jdbcType=VARCHAR}, 
-      #{basicActiveType,jdbcType=VARCHAR}, #{szzdw1,jdbcType=VARCHAR}, #{szzdw2,jdbcType=VARCHAR}, 
-      #{glqsrq,jdbcType=VARCHAR}, #{jdgl,jdbcType=VARCHAR}, #{gwzlbm,jdbcType=VARCHAR}, 
-      #{gwzlbmc,jdbcType=VARCHAR}, #{zgdjm,jdbcType=VARCHAR}, #{zgdjmmc,jdbcType=VARCHAR}, 
-      #{zzdjsj,jdbcType=VARCHAR}, #{zjgwdjm,jdbcType=VARCHAR}, #{zjgwdjmc,jdbcType=VARCHAR}, 
-      #{zyjszwpdsj,jdbcType=VARCHAR}, #{zjgwfjsj,jdbcType=VARCHAR}, #{glgwdjm,jdbcType=VARCHAR}, 
-      #{glgwfjsj,jdbcType=VARCHAR}, #{gqgwdjm,jdbcType=VARCHAR}, #{gqgwfjsj,jdbcType=VARCHAR}, 
-      #{gqgwdjmc,jdbcType=VARCHAR}, #{rcch,jdbcType=LONGVARCHAR})
+    insert into ext_jzg (zgh, xm, xbm, 
+      xb, dwdm, dwmc, yjxkm, 
+      yjxk, lxrq, gwlx, gwlbm, 
+      gwlb, zcm, zc, gwjbm, 
+      gwjb, rclxm, rclx, 
+      rcchm, xyjgm, xyjg, 
+      gjm, gj, zhxwm, zhxw, 
+      zhxl, zhxlmc, xlbyxx, 
+      xwsyxx, xzjbm, xzjb, 
+      sfzgm, sfzg, ryztm, 
+      ryzt, rylxm, rylx, 
+      bzlxm, bzlx, csrq, rszfm, 
+      rszf, sfnxz, sfzjlx, 
+      name, sfzh, yddh, dzxx, 
+      bgdh, jtdh, zjgjm, 
+      zjgwdj, glgjm, glgwdj, 
+      empid, jg, zzmm, zw, 
+      zwmc, mz, xkmlm, xkml, 
+      ejxkm, ejxk, xmpy, 
+      poxm, ryxxshzt, tbrq, 
+      jzdw1, jzdw2, batch_num, 
+      basic_active_id, domain_code, basic_active_type, 
+      szzdw1, szzdw2, glqsrq, 
+      jdgl, gwzlbm, gwzlbmc, 
+      zgdjm, zgdjmmc, zzdjsj, 
+      zjgwdjm, zjgwdjmc, zyjszwpdsj, 
+      zjgwfjsj, glgwdjm, glgwfjsj, 
+      gqgwdjm, gqgwfjsj, gqgwdjmc, 
+      rcch)
+    values (#{zgh,jdbcType=VARCHAR}, #{xm,jdbcType=VARCHAR}, #{xbm,jdbcType=VARCHAR}, 
+      #{xb,jdbcType=VARCHAR}, #{dwdm,jdbcType=VARCHAR}, #{dwmc,jdbcType=VARCHAR}, #{yjxkm,jdbcType=VARCHAR}, 
+      #{yjxk,jdbcType=VARCHAR}, #{lxrq,jdbcType=DATE}, #{gwlx,jdbcType=VARCHAR}, #{gwlbm,jdbcType=VARCHAR}, 
+      #{gwlb,jdbcType=VARCHAR}, #{zcm,jdbcType=VARCHAR}, #{zc,jdbcType=VARCHAR}, #{gwjbm,jdbcType=VARCHAR}, 
+      #{gwjb,jdbcType=VARCHAR}, #{rclxm,jdbcType=VARCHAR}, #{rclx,jdbcType=VARCHAR}, 
+      #{rcchm,jdbcType=VARCHAR}, #{xyjgm,jdbcType=VARCHAR}, #{xyjg,jdbcType=VARCHAR}, 
+      #{gjm,jdbcType=VARCHAR}, #{gj,jdbcType=VARCHAR}, #{zhxwm,jdbcType=VARCHAR}, #{zhxw,jdbcType=VARCHAR}, 
+      #{zhxl,jdbcType=VARCHAR}, #{zhxlmc,jdbcType=VARCHAR}, #{xlbyxx,jdbcType=VARCHAR}, 
+      #{xwsyxx,jdbcType=VARCHAR}, #{xzjbm,jdbcType=VARCHAR}, #{xzjb,jdbcType=VARCHAR}, 
+      #{sfzgm,jdbcType=VARCHAR}, #{sfzg,jdbcType=VARCHAR}, #{ryztm,jdbcType=VARCHAR}, 
+      #{ryzt,jdbcType=VARCHAR}, #{rylxm,jdbcType=VARCHAR}, #{rylx,jdbcType=VARCHAR}, 
+      #{bzlxm,jdbcType=VARCHAR}, #{bzlx,jdbcType=VARCHAR}, #{csrq,jdbcType=DATE}, #{rszfm,jdbcType=VARCHAR}, 
+      #{rszf,jdbcType=VARCHAR}, #{sfnxz,jdbcType=VARCHAR}, #{sfzjlx,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{sfzh,jdbcType=VARCHAR}, #{yddh,jdbcType=VARCHAR}, #{dzxx,jdbcType=VARCHAR}, 
+      #{bgdh,jdbcType=VARCHAR}, #{jtdh,jdbcType=VARCHAR}, #{zjgjm,jdbcType=VARCHAR}, 
+      #{zjgwdj,jdbcType=VARCHAR}, #{glgjm,jdbcType=VARCHAR}, #{glgwdj,jdbcType=VARCHAR}, 
+      #{empid,jdbcType=VARCHAR}, #{jg,jdbcType=VARCHAR}, #{zzmm,jdbcType=VARCHAR}, #{zw,jdbcType=VARCHAR}, 
+      #{zwmc,jdbcType=VARCHAR}, #{mz,jdbcType=VARCHAR}, #{xkmlm,jdbcType=VARCHAR}, #{xkml,jdbcType=VARCHAR}, 
+      #{ejxkm,jdbcType=VARCHAR}, #{ejxk,jdbcType=VARCHAR}, #{xmpy,jdbcType=VARCHAR}, 
+      #{poxm,jdbcType=VARCHAR}, #{ryxxshzt,jdbcType=VARCHAR}, #{tbrq,jdbcType=VARCHAR}, 
+      #{jzdw1,jdbcType=VARCHAR}, #{jzdw2,jdbcType=VARCHAR}, #{batchNum,jdbcType=VARCHAR}, 
+      #{basicActiveId,jdbcType=VARCHAR}, #{domainCode,jdbcType=VARCHAR}, #{basicActiveType,jdbcType=VARCHAR}, 
+      #{szzdw1,jdbcType=VARCHAR}, #{szzdw2,jdbcType=VARCHAR}, #{glqsrq,jdbcType=VARCHAR}, 
+      #{jdgl,jdbcType=VARCHAR}, #{gwzlbm,jdbcType=VARCHAR}, #{gwzlbmc,jdbcType=VARCHAR}, 
+      #{zgdjm,jdbcType=VARCHAR}, #{zgdjmmc,jdbcType=VARCHAR}, #{zzdjsj,jdbcType=VARCHAR}, 
+      #{zjgwdjm,jdbcType=VARCHAR}, #{zjgwdjmc,jdbcType=VARCHAR}, #{zyjszwpdsj,jdbcType=VARCHAR}, 
+      #{zjgwfjsj,jdbcType=VARCHAR}, #{glgwdjm,jdbcType=VARCHAR}, #{glgwfjsj,jdbcType=VARCHAR}, 
+      #{gqgwdjm,jdbcType=VARCHAR}, #{gqgwfjsj,jdbcType=VARCHAR}, #{gqgwdjmc,jdbcType=VARCHAR}, 
+      #{rcch,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.ext.ExtJzg">
     insert into ext_jzg
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="zgh != null">
         zgh,
       </if>
@@ -565,9 +561,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="zgh != null">
         #{zgh,jdbcType=VARCHAR},
       </if>
@@ -858,9 +851,6 @@
   <update id="updateByExampleSelective" parameterType="map">
     update ext_jzg
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
       <if test="record.zgh != null">
         zgh = #{record.zgh,jdbcType=VARCHAR},
       </if>
@@ -1147,8 +1137,7 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update ext_jzg
-    set id = #{record.id,jdbcType=INTEGER},
-      zgh = #{record.zgh,jdbcType=VARCHAR},
+    set zgh = #{record.zgh,jdbcType=VARCHAR},
       xm = #{record.xm,jdbcType=VARCHAR},
       xbm = #{record.xbm,jdbcType=VARCHAR},
       xb = #{record.xb,jdbcType=VARCHAR},
@@ -1247,8 +1236,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update ext_jzg
-    set id = #{record.id,jdbcType=INTEGER},
-      zgh = #{record.zgh,jdbcType=VARCHAR},
+    set zgh = #{record.zgh,jdbcType=VARCHAR},
       xm = #{record.xm,jdbcType=VARCHAR},
       xbm = #{record.xbm,jdbcType=VARCHAR},
       xb = #{record.xb,jdbcType=VARCHAR},
@@ -1347,9 +1335,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="domain.ext.ExtJzg">
     update ext_jzg
     <set>
-      <if test="zgh != null">
-        zgh = #{zgh,jdbcType=VARCHAR},
-      </if>
       <if test="xm != null">
         xm = #{xm,jdbcType=VARCHAR},
       </if>
@@ -1627,12 +1612,11 @@
         rcch = #{rcch,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where zgh = #{zgh,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="domain.ext.ExtJzg">
     update ext_jzg
-    set zgh = #{zgh,jdbcType=VARCHAR},
-      xm = #{xm,jdbcType=VARCHAR},
+    set xm = #{xm,jdbcType=VARCHAR},
       xbm = #{xbm,jdbcType=VARCHAR},
       xb = #{xb,jdbcType=VARCHAR},
       dwdm = #{dwdm,jdbcType=VARCHAR},
@@ -1724,12 +1708,11 @@
       gqgwfjsj = #{gqgwfjsj,jdbcType=VARCHAR},
       gqgwdjmc = #{gqgwdjmc,jdbcType=VARCHAR},
       rcch = #{rcch,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where zgh = #{zgh,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="domain.ext.ExtJzg">
     update ext_jzg
-    set zgh = #{zgh,jdbcType=VARCHAR},
-      xm = #{xm,jdbcType=VARCHAR},
+    set xm = #{xm,jdbcType=VARCHAR},
       xbm = #{xbm,jdbcType=VARCHAR},
       xb = #{xb,jdbcType=VARCHAR},
       dwdm = #{dwdm,jdbcType=VARCHAR},
@@ -1820,7 +1803,7 @@
       gqgwdjm = #{gqgwdjm,jdbcType=VARCHAR},
       gqgwfjsj = #{gqgwfjsj,jdbcType=VARCHAR},
       gqgwdjmc = #{gqgwdjmc,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where zgh = #{zgh,jdbcType=VARCHAR}
   </update>
   <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="domain.ext.ExtJzgExample" resultMap="ResultMapWithBLOBs">
     select

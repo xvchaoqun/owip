@@ -2,17 +2,16 @@ package persistence.ext;
 
 import domain.ext.ExtJzg;
 import domain.ext.ExtJzgExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface ExtJzgMapper {
     long countByExample(ExtJzgExample example);
 
     int deleteByExample(ExtJzgExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String zgh);
 
     int insert(ExtJzg record);
 
@@ -26,7 +25,7 @@ public interface ExtJzgMapper {
 
     List<ExtJzg> selectByExample(ExtJzgExample example);
 
-    ExtJzg selectByPrimaryKey(Integer id);
+    ExtJzg selectByPrimaryKey(String zgh);
 
     int updateByExampleSelective(@Param("record") ExtJzg record, @Param("example") ExtJzgExample example);
 
