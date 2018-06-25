@@ -501,8 +501,12 @@
         }
         },
         {label: '姓名', width: 120, name: 'realname'},
-        {label: '出生年月', name: 'birthday', formatter: 'date', formatoptions: {newformat: 'Y.m'}, cellattr: function (rowId, val, rowObject, cm, rdata) {
-            if($.trimHtml(val)=='')
+        {label: '出生年月', name: 'birthday', formatter: function (cellvalue, options, rowObject) {
+            if(rowObject.withGod) return '-'
+            return $.date(cellvalue, "yyyy.MM");
+        },
+            cellattr: function (rowId, val, rowObject, cm, rdata) {
+            if(!rowObject.withGod && $.trimHtml(val)=='')
                 return "class='danger'";
         }},
         {label: '政治面貌', name: 'politicalStatus', formatter: $.jgrid.formatter.MetaType},

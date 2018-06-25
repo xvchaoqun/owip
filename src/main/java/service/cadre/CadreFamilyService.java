@@ -7,6 +7,7 @@ import domain.cadre.CadreFamilyExample;
 import domain.cadre.CadreView;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -70,7 +71,9 @@ public class CadreFamilyService extends BaseMapper {
     public int insertSelective(CadreFamily record){
 
         addCheck(record.getCadreId(), record.getTitle());
-
+        if(BooleanUtils.isTrue(record.getWithGod())){
+            record.setBirthday(null);
+        }
         record.setStatus(SystemConstants.RECORD_STATUS_FORMAL);
         return cadreFamilyMapper.insertSelective(record);
     }
@@ -107,14 +110,18 @@ public class CadreFamilyService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(CadreFamily record){
+    public void updateByPrimaryKeySelective(CadreFamily record){
 
         if(record.getTitle()!=null)
             updateCheck(record.getId(), record.getCadreId(), record.getTitle());
 
         record.setCadreId(null);
         record.setStatus(null);
-        return cadreFamilyMapper.updateByPrimaryKeySelective(record);
+        cadreFamilyMapper.updateByPrimaryKeySelective(record);
+
+        if(BooleanUtils.isTrue(record.getWithGod())){
+            commonMapper.excuteSql("update cadre_family set birthday=null where id="+ record.getId());
+        }
     }
 
     // 更新修改申请的内容（仅允许本人更新自己的申请）

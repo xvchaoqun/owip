@@ -1,0 +1,15 @@
+
+
+
+
+-- 统一修改干部的称谓
+update sys_user_info ui, cadre c set ui.msg_title=concat(left(ui.realname,1), '老师') where  ui.user_id=c.user_id;
+
+-- 更新短信内容
+update base_content_tpl set content = replace(content, '18612987573', '13581513455');
+update base_content_tpl set content = replace(content, '58808302，58806879', '64434910');
+update base_content_tpl set content = replace(content, '58806879', '64434910');
+update base_content_tpl set content = replace(content, '58808302', '64434910');
+update base_content_tpl set content = replace(content, '64434910、64434910', '64434910');
+update base_content_tpl set content = replace(content, 'zzbgz.bnu.edu.cn', 'zzgz.buct.edu.cn');
+update base_content_tpl set content = replace(content, '主楼A306', '行政楼216');

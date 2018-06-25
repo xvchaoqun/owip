@@ -40,12 +40,18 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label">出生年月</label>
 				<div class="col-xs-3">
                     <div class="input-group">
-                        <input required class="form-control date-picker" name="_birthday" type="text"
-                               data-date-min-view-mode="1"
-                               data-date-format="yyyy-mm" value="${cm:formatDate(cadreFamily.birthday,'yyyy-MM')}" />
+                        <input ${cadreFamily.withGod?'disabled':'required'}
+                                class="form-control date-picker" name="_birthday" type="text"
+                                data-date-min-view-mode="1" data-date-format="yyyy-mm"
+                                value="${cm:formatDate(cadreFamily.birthday,'yyyy-MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
 				</div>
+                <div class="col-xs-3" style="padding-left: 0px">
+                    <input type="checkbox" name="withGod"
+                           ${cadreFamily.withGod?'checked':''}
+                           style="width: 15px;height: 15px;margin-top: 8px; vertical-align: -2px"> 去世
+                </div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">政治面貌</label>
@@ -82,7 +88,13 @@ pageEncoding="UTF-8"%>
 <script>
 
     $.register.date($('.date-picker'));
-
+    $("#modalForm input[name=withGod]").click(function(){
+        if($(this).is(":checked")){
+            $("input[name=_birthday]").val('').prop("disabled", true).removeAttr("required");
+        }else{
+            $("input[name=_birthday]").prop("disabled", false).attr("required", "required");
+        }
+    });
     $("#modal form").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({

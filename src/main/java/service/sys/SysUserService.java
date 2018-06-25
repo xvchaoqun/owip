@@ -111,6 +111,17 @@ public class SysUserService extends BaseMapper {
 
             if (StringUtils.isBlank(sysUserInfo.getNativePlace())) {
                 record.setNativePlace(extService.getExtNativePlace(_sysUser.getSource(), _sysUser.getCode()));
+            }else{
+                record.setNativePlace(null);
+            }
+            if(StringUtils.isNotBlank(sysUserInfo.getEmail())){
+                record.setEmail(null);
+            }
+            if(StringUtils.isNotBlank(sysUserInfo.getMobile())){
+                record.setMobile(null);
+            }
+            if(StringUtils.isNotBlank(sysUserInfo.getHomePhone())){
+                record.setHomePhone(null);
             }
             sysUserInfoMapper.updateByPrimaryKeySelective(record);
         }

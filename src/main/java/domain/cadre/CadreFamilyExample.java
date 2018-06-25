@@ -442,6 +442,66 @@ public class CadreFamilyExample {
             return (Criteria) this;
         }
 
+        public Criteria andWithGodIsNull() {
+            addCriterion("with_god is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWithGodIsNotNull() {
+            addCriterion("with_god is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWithGodEqualTo(Boolean value) {
+            addCriterion("with_god =", value, "withGod");
+            return (Criteria) this;
+        }
+
+        public Criteria andWithGodNotEqualTo(Boolean value) {
+            addCriterion("with_god <>", value, "withGod");
+            return (Criteria) this;
+        }
+
+        public Criteria andWithGodGreaterThan(Boolean value) {
+            addCriterion("with_god >", value, "withGod");
+            return (Criteria) this;
+        }
+
+        public Criteria andWithGodGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("with_god >=", value, "withGod");
+            return (Criteria) this;
+        }
+
+        public Criteria andWithGodLessThan(Boolean value) {
+            addCriterion("with_god <", value, "withGod");
+            return (Criteria) this;
+        }
+
+        public Criteria andWithGodLessThanOrEqualTo(Boolean value) {
+            addCriterion("with_god <=", value, "withGod");
+            return (Criteria) this;
+        }
+
+        public Criteria andWithGodIn(List<Boolean> values) {
+            addCriterion("with_god in", values, "withGod");
+            return (Criteria) this;
+        }
+
+        public Criteria andWithGodNotIn(List<Boolean> values) {
+            addCriterion("with_god not in", values, "withGod");
+            return (Criteria) this;
+        }
+
+        public Criteria andWithGodBetween(Boolean value1, Boolean value2) {
+            addCriterion("with_god between", value1, value2, "withGod");
+            return (Criteria) this;
+        }
+
+        public Criteria andWithGodNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("with_god not between", value1, value2, "withGod");
+            return (Criteria) this;
+        }
+
         public Criteria andPoliticalStatusIsNull() {
             addCriterion("political_status is null");
             return (Criteria) this;

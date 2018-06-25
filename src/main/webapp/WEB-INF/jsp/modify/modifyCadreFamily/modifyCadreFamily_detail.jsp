@@ -48,7 +48,10 @@
                     <td data-code="realname">姓名</td>
                     <td class="bg-left">${modify.realname}</td>
                     <td data-code="birthday">出生年月</td>
-                    <td class="bg-left">${cm:formatDate(modify.birthday,'yyyy.MM')}</td>
+                    <td class="bg-left">
+                    <c:if test="${modify.withGod}">已去世</c:if>
+                    <c:if test="${!modify.withGod}">${cm:formatDate(modify.birthday,'yyyy.MM')}</c:if>
+                    </td>
                 </tr>
                 <tr>
                     <td data-code="politicalStatus">政治面貌</td>
@@ -129,7 +132,10 @@
 <script>
     <c:if test="${mta.type==MODIFY_TABLE_APPLY_TYPE_MODIFY}">
     var modify = ${cm:toJSONObject(modify)};
-    var original = ${mta.originalJson}
+    var original = ${mta.originalJson};
+    if(modify.withGod && !original.withGod){
+        modify.birthday='已去世';
+    }
     $("td[data-code]").each(function(){
         var $this = $(this);
         var code = $this.data("code");

@@ -7,6 +7,7 @@
     <result column="title" jdbcType="TINYINT" property="title" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="with_god" jdbcType="BIT" property="withGod" />
     <result column="political_status" jdbcType="INTEGER" property="politicalStatus" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cadre_id, title, realname, birthday, political_status, unit, status
+    id, cadre_id, title, realname, birthday, with_god, political_status, unit, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreFamilyExample" resultMap="BaseResultMap">
     select
@@ -107,11 +108,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into cadre_family (cadre_id, title, realname, 
-      birthday, political_status, unit, 
-      status)
+      birthday, with_god, political_status, 
+      unit, status)
     values (#{cadreId,jdbcType=INTEGER}, #{title,jdbcType=TINYINT}, #{realname,jdbcType=VARCHAR}, 
-      #{birthday,jdbcType=DATE}, #{politicalStatus,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT})
+      #{birthday,jdbcType=DATE}, #{withGod,jdbcType=BIT}, #{politicalStatus,jdbcType=INTEGER}, 
+      #{unit,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreFamily">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -130,6 +131,9 @@
       </if>
       <if test="birthday != null">
         birthday,
+      </if>
+      <if test="withGod != null">
+        with_god,
       </if>
       <if test="politicalStatus != null">
         political_status,
@@ -153,6 +157,9 @@
       </if>
       <if test="birthday != null">
         #{birthday,jdbcType=DATE},
+      </if>
+      <if test="withGod != null">
+        #{withGod,jdbcType=BIT},
       </if>
       <if test="politicalStatus != null">
         #{politicalStatus,jdbcType=INTEGER},
@@ -189,6 +196,9 @@
       <if test="record.birthday != null">
         birthday = #{record.birthday,jdbcType=DATE},
       </if>
+      <if test="record.withGod != null">
+        with_god = #{record.withGod,jdbcType=BIT},
+      </if>
       <if test="record.politicalStatus != null">
         political_status = #{record.politicalStatus,jdbcType=INTEGER},
       </if>
@@ -210,6 +220,7 @@
       title = #{record.title,jdbcType=TINYINT},
       realname = #{record.realname,jdbcType=VARCHAR},
       birthday = #{record.birthday,jdbcType=DATE},
+      with_god = #{record.withGod,jdbcType=BIT},
       political_status = #{record.politicalStatus,jdbcType=INTEGER},
       unit = #{record.unit,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT}
@@ -232,6 +243,9 @@
       <if test="birthday != null">
         birthday = #{birthday,jdbcType=DATE},
       </if>
+      <if test="withGod != null">
+        with_god = #{withGod,jdbcType=BIT},
+      </if>
       <if test="politicalStatus != null">
         political_status = #{politicalStatus,jdbcType=INTEGER},
       </if>
@@ -250,6 +264,7 @@
       title = #{title,jdbcType=TINYINT},
       realname = #{realname,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
+      with_god = #{withGod,jdbcType=BIT},
       political_status = #{politicalStatus,jdbcType=INTEGER},
       unit = #{unit,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT}

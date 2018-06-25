@@ -25,8 +25,8 @@
                 <value>(persistence|service|controller)\.dispatch\..*</value>
 
                 <!--与modify模块有关联-->
-                <value>(persistence|service|controller)\.crs\..*</value>
-                <value>(persistence|service|controller)\.modify\..*</value>
+               <!-- <value>(persistence|service|controller)\.crs\..*</value>
+                <value>(persistence|service|controller)\.modify\..*</value>-->
             </list>
         </property>
     </bean>

@@ -54,9 +54,9 @@
        <!-- <table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="cadre_reserve_origin" domainObjectName="cadreReserve.CadreReserveOrigin"
+       <!-- <table tableName="cadre_reserve_origin" domainObjectName="cadreReserve.CadreReserveOrigin"
                mapperName="cadreReserve.CadreReserveOriginMapper">
-        </table>
+        </table>-->
 
             <!-- <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
              mapperName="cadreReserve.CadreReserveViewMapper"
@@ -129,11 +129,11 @@
         <!--<table tableName="cadre_family_abroad" domainObjectName="cadre.CadreFamilyAbroad"
                mapperName="cadre.CadreFamilyAbroadMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <table tableName="cadre_family" domainObjectName="cadre.CadreFamily"
                mapperName="cadre.CadreFamilyMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
         <!--<table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro"
                mapperName="cadre.CadrePostProMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>

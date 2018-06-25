@@ -14,6 +14,8 @@ public class CadreFamily implements Serializable {
 
     private Date birthday;
 
+    private Boolean withGod;
+
     private Integer politicalStatus;
 
     private String unit;
@@ -60,6 +62,14 @@ public class CadreFamily implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public Boolean getWithGod() {
+        return withGod;
+    }
+
+    public void setWithGod(Boolean withGod) {
+        this.withGod = withGod;
     }
 
     public Integer getPoliticalStatus() {

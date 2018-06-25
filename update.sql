@@ -1,5 +1,11 @@
 
 20180625
+ALTER TABLE `cadre_family`
+	ADD COLUMN `with_god` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否去世' AFTER `birthday`;
+
+
+
+20180625
 ALTER TABLE `unit`
 	CHANGE COLUMN `work_time` `work_time` DATETIME NULL COMMENT '成立时间' AFTER `type_id`;
 
