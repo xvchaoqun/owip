@@ -13,3 +13,10 @@ update base_content_tpl set content = replace(content, '58808302', '64434910');
 update base_content_tpl set content = replace(content, '64434910、64434910', '64434910');
 update base_content_tpl set content = replace(content, 'zzbgz.bnu.edu.cn', 'zzgz.buct.edu.cn');
 update base_content_tpl set content = replace(content, '主楼A306', '行政楼216');
+
+-- 处理空格和换行
+UPDATE cadre SET  title = REPLACE(REPLACE(title, CHAR(10), ''), CHAR(13), '');
+UPDATE cadre SET  post = REPLACE(REPLACE(post, CHAR(10), ''), CHAR(13), '');
+-- 导入后干部逆序
+select max(sort_order) from cadre into @max;
+update cadre set sort_order = @max - sort_order + 1;
