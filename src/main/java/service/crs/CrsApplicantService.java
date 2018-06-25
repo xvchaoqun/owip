@@ -75,12 +75,12 @@ public class CrsApplicantService extends BaseMapper {
         return 0;
     }
 
-    // 获得报名人员
+    // 获得报名人员（未退出的）
     public List<CrsApplicantView> getCrsApplicants(int postId){
 
         CrsApplicantViewExample example = new CrsApplicantViewExample();
         example.createCriteria().andPostIdEqualTo(postId)
-                .andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
+                .andStatusEqualTo(CrsConstants.CRS_APPLICANT_STATUS_SUBMIT).andIsQuitEqualTo(false);
 
         return crsApplicantViewMapper.selectByExample(example);
     }

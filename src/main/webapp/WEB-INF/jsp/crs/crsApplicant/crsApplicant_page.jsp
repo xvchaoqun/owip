@@ -42,6 +42,11 @@
            data-url="${ctx}/crsApplicant_special"><i class="fa fa-star"></i> 破格</a>
     </c:if>
     <c:if test="${cls==2 || cls==3}">
+        <button class="jqOpenViewBtn btn btn-info btn-sm"
+                data-grid-id="#jqGrid2"  data-width="1000"
+                data-url="${ctx}/crsApplicant_requireCheck?view=1"
+                data-id-name="applicantId"><i class="fa fa-search"></i> 资格审核情况
+        </button>
         <button id="unSpecialBtn" class="jqItemBtn btn btn-primary btn-sm"
                 data-title="重新审核"
                 data-msg="确定重新审核？"
@@ -83,6 +88,15 @@
         <i class="fa fa-history"></i> 操作记录
     </button>
 <c:if test="${cls==2 || cls==3}">
+    <button class="jqOpenViewBtn btn btn-info btn-sm"
+            data-grid-id="#jqGrid2"  data-width="800"
+            data-url="${ctx}/crsApplicant_career"><i class="fa fa-search"></i> 管理工作经历
+    </button>
+    <button class="jqOpenViewBtn btn btn-info btn-sm"
+            data-grid-id="#jqGrid2"  data-width="800"
+            data-url="${ctx}/crsApplicant_report"><i class="fa fa-search"></i> 工作设想和预期目标
+    </button>
+
     <div class="btn-group">
         <button data-toggle="dropdown" class="btn btn-success btn-sm dropdown-toggle">
             <i class="fa fa-download"></i> 导出  <span class="caret"></span>

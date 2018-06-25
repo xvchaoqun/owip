@@ -1,9 +1,17 @@
 package domain.cadre;
 
+import sys.constants.CadreConstants;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CadreBook implements Serializable {
+    // for freemarker
+    public String getTypeStr(){
+        if(type!=null)
+            return CadreConstants.CADRE_BOOK_TYPE_MAP.get(type);
+        return null;
+    }
     private Integer id;
 
     private Integer cadreId;

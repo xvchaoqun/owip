@@ -123,8 +123,13 @@
     </form>
 </div>
 <div class="modal-footer">
+    <c:if test="${param.view==1}">
+    <a href="#" data-dismiss="modal" class="btn btn-default">关闭</a>
+    </c:if>
+    <c:if test="${param.view!=1}">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
     <input type="submit" class="btn btn-primary" value="确定"/>
+    </c:if>
 </div>
 <style>
     #checkTable .idx, #checkTable .op {
@@ -158,8 +163,11 @@
         color: darkgreen;
     }
 </style>
-<script>
 
+<script>
+    $("#modal :checkbox").bootstrapSwitch();
+
+    <c:if test="${param.view!=1}">
     $("#checkTable .op .agree, #checkTable .op .disagree").click(function () {
         var $this = $(this);
         var ruleId = $this.closest("td").data("rule-id");
@@ -175,7 +183,6 @@
         });
     });
 
-    $("#modal :checkbox").bootstrapSwitch();
     $("#modalForm").validate({
         submitHandler: function (form) {
 
@@ -208,4 +215,5 @@
             });
         }
     });
+    </c:if>
 </script>

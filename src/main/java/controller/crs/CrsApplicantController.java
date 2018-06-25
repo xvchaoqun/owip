@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.crs.CrsApplicant;
 import domain.crs.CrsApplicantView;
 import domain.crs.CrsApplicantViewExample;
+import domain.crs.CrsApplicantWithBLOBs;
 import domain.crs.CrsPost;
 import freemarker.template.TemplateException;
 import mixin.MixinUtils;
@@ -215,6 +216,29 @@ public class CrsApplicantController extends CrsBaseController {
 
         crsExportService.process(postId, ids, response.getWriter());
     }
+
+    @RequiresPermissions("crsApplicant:edit")
+    @RequestMapping("/crsApplicant_career")
+    public String crsApplicant_career(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            CrsApplicantWithBLOBs crsApplicant = crsApplicantMapper.selectByPrimaryKey(id);
+            modelMap.put("crsApplicant", crsApplicant);
+        }
+        return "crs/crsApplicant/crsApplicant_career";
+    }
+
+    @RequiresPermissions("crsApplicant:edit")
+    @RequestMapping("/crsApplicant_report")
+    public String crsApplicant_report(Integer id, ModelMap modelMap) {
+
+        if (id != null) {
+            CrsApplicantWithBLOBs crsApplicant = crsApplicantMapper.selectByPrimaryKey(id);
+            modelMap.put("crsApplicant", crsApplicant);
+        }
+        return "crs/crsApplicant/crsApplicant_report";
+    }
+
 
     @RequiresPermissions("crsApplicant:edit")
     @RequestMapping("/crsApplicant_recommend")

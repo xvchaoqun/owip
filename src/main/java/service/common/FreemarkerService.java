@@ -57,6 +57,7 @@ public class FreemarkerService {
             StringWriter writer = new StringWriter();
             FreeMarkerConfigurer freeMarkerConfigurer = CmTag.getBean(FreeMarkerConfigurer.class);
             Configuration cf = freeMarkerConfigurer.getConfiguration();
+            cf.setAPIBuiltinEnabled(true);
             Template tp = cf.getTemplate(ftlPath);
             tp.process(dataMap, writer);
             return StringUtils.trimToNull(writer.toString());

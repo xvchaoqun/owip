@@ -1,11 +1,11 @@
 <#if (bksCadreCourses?size>0)>
-<p>本科生课程：<#list bksCadreCourses as course>${course.name}<#if course_has_next>、</#if></#list></p>
+<p>本科生课程：</p><p><#list bksCadreCourses as course>《${course.name}》<#if course_has_next>、</#if></#list></p>
 </#if>
 <#if (ssCadreCourses?size>0)>
-<p>硕士生课程：<#list ssCadreCourses as course>${course.name}<#if course_has_next>、</#if></#list></p>
+<p>硕士生课程：</p><p><#list ssCadreCourses as course>《${course.name}》<#if course_has_next>、</#if></#list></p>
 </#if>
 <#if (bsCadreCourses?size>0)>
-<p>博士生课程：<#list bsCadreCourses as course>${course.name}<#if course_has_next>、</#if></#list></p>
+<p>博士生课程：</p><p><#list bsCadreCourses as course>《${course.name}》<#if course_has_next>、</#if></#list></p>
 </#if>
 <#if (cadreRewards?size>0)><p>获奖情况：</p></#if>
 <#list cadreRewards as cadreReward>

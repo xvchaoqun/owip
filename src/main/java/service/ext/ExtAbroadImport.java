@@ -35,14 +35,15 @@ public class ExtAbroadImport extends Source {
     public void update(Map<String, Object> map, ResultSet rs) throws SQLException {
 
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-        ExtAbroad extAbroad = gson.fromJson(JSONUtils.toString(map), ExtAbroad.class);
+        ExtAbroad record = gson.fromJson(JSONUtils.toString(map), ExtAbroad.class);
         ExtAbroadExample example = new ExtAbroadExample();
         example.createCriteria().andLshEqualTo(rs.getString("lsh"));
-        List<ExtAbroad> extAbroads = extAbroadMapper.selectByExample(example);
-        if (extAbroads.size() > 0) {
-            extAbroadMapper.updateByExample(extAbroad, example);
+        List<ExtAbroad> records = extAbroadMapper.selectByExample(example);
+        if (records.size() > 0) {
+            record.setId(records.get(0).getId());
+            extAbroadMapper.updateByExample(record, example);
         } else {
-            extAbroadMapper.insert(extAbroad);
+            extAbroadMapper.insert(record);
         }
     }
 

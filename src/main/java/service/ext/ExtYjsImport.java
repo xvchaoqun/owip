@@ -46,7 +46,6 @@ public class ExtYjsImport extends Source {
         example.createCriteria().andXhEqualTo(rs.getString("xh"));
         List<ExtYjs> extYjses = extYjsMapper.selectByExample(example);
         if (extYjses.size() > 0) {
-            extYjs.setId(extYjses.get(0).getId());
             extYjsMapper.updateByExample(extYjs, example);
         } else {
             extYjsMapper.insert(extYjs);

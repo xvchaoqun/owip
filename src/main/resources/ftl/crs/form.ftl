@@ -3124,9 +3124,7 @@
 							</w:tcPr>
 							<w:p wsp:rsidR="004F66D3" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
 							<w:pPr>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
+								<w:jc w:val="center"/>
 							</w:pPr>
 							<w:r>
 								<w:rPr>
@@ -3139,9 +3137,7 @@
 							<#if bean.degree??>
                                 <w:p wsp:rsidR="00123E1F" wsp:rsidRPr="0042663B" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
 							<w:pPr>
-								<w:rPr>
-									<w:sz w:val="24"/>
-								</w:rPr>
+								<w:jc w:val="center"/>
 							</w:pPr>
 							<w:r>
 								<w:rPr>
@@ -3209,7 +3205,7 @@
 							<w:p wsp:rsidR="00401152" wsp:rsidRPr="00D22114" wsp:rsidRDefault="008D54BD" wsp:rsidP="00CD2BC8">
 								<w:pPr>
 									<w:ind w:left-chars="13" w:left="31"/>
-									<w:jc w:val="center"/>
+									<w:jc w:val="left"/>
 									<w:outlineLvl w:val="0"/>
 								</w:pPr>
 								<w:r>

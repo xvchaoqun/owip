@@ -55,6 +55,7 @@ public class ExtJzgSalaryImport extends Source {
         example.createCriteria().andZghEqualTo(rs.getString("zgh")).andRqEqualTo(rs.getString("rq"));
         List<ExtJzgSalary> records = extJzgSalaryMapper.selectByExample(example);
         if (records.size() > 0) {
+            record.setId(records.get(0).getId());
             extJzgSalaryMapper.updateByExample(record, example);
         } else {
             extJzgSalaryMapper.insert(record);

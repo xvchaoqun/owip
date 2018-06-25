@@ -1,6 +1,24 @@
 
 
+ALTER TABLE `ext_yjs`
+	DROP COLUMN `id`,
+	DROP INDEX `xh`;
+	ALTER TABLE `ext_yjs`
+	ADD PRIMARY KEY (`xh`);
 
+	ALTER TABLE `ext_jzg`
+	DROP COLUMN `id`,
+	DROP INDEX `zgh`;
+
+	ALTER TABLE `ext_jzg`
+	ADD PRIMARY KEY (`zgh`);
+
+	ALTER TABLE `ext_bks`
+	DROP COLUMN `id`,
+	DROP INDEX `xh`;
+	ALTER TABLE `ext_bks`
+	CHANGE COLUMN `xh` `xh` VARCHAR(100) NOT NULL COMMENT '学号' FIRST,
+	ADD PRIMARY KEY (`xh`);
 
 20180625
 hf_cadre_famliy -> hf_cadre_family

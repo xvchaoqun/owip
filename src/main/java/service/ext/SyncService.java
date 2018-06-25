@@ -422,7 +422,7 @@ public class SyncService extends BaseMapper {
         int insertCount = 0;
         int updateCount = 0;
 
-        int count = extYjsMapper.countByExample(new ExtYjsExample());
+        int count = (int) extYjsMapper.countByExample(new ExtYjsExample());
         int pageSize = 200;
         int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
 
@@ -552,7 +552,7 @@ public class SyncService extends BaseMapper {
         int insertCount = 0;
         int updateCount = 0;
 
-        int count = extBksMapper.countByExample(new ExtBksExample());
+        int count = (int) extBksMapper.countByExample(new ExtBksExample());
         int pageSize = 200;
         int pageNo = count / pageSize + (count % pageSize > 0 ? 1 : 0);
 
