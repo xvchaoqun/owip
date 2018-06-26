@@ -6,7 +6,13 @@
     <h3>管理工作经历（${crsApplicant.user.realname}）</h3>
   </div>
   <div class="modal-body">
-    <pre style="white-space: pre-wrap">${crsApplicant.career}</pre>
+    <pre style="white-space: pre-wrap;font-size: 14pt">${crsApplicant.career}</pre>
   </div>
   <div class="modal-footer">
+    <div class="pull-left" style="position: absolute; font-size: 16pt">
+      总共<span id="strCount" style="font-size: 20pt;font-weight: bolder">0</span>个字。</div>
   <a href="javascript:;" data-dismiss="modal" class="btn btn-info">关闭</a></div>
+<script>
+  var str = $("pre").text().replace(/\s/g, "");
+  $("#strCount").html(str.length)
+</script>
