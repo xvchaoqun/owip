@@ -38,7 +38,7 @@
             <div class="modal-footer center" >
                 <div class="pull-left" style="position: absolute; font-size: 16pt">
                     您已输入<span id="strCount" style="font-size: 20pt;font-weight: bolder">0</span>个字。</div>
-                <button type="button" ${canApply?"":"disabled"} id="submitBtn" data-loading-text="提交中..."  data-success-text="已保存成功" autocomplete="off"
+                <button type="button" ${canModify?"":"disabled"} id="submitBtn" data-loading-text="提交中..."  data-success-text="已保存成功" autocomplete="off"
                        class="btn btn-success btn-lg"><i class="fa fa-check"></i> 保存</button>
             </div>
         </div>

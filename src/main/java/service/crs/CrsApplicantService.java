@@ -124,7 +124,9 @@ public class CrsApplicantService extends BaseMapper {
 
         int postApplyStatus = getPostApplyStatus(crsPost, userId);
         if(postApplyStatus==1){
-            throw new OpException("岗位{0}应聘报名已结束。", crsPost == null ? "" : crsPost.getName());
+            if(status==CrsConstants.CRS_APPLICANT_STATUS_SUBMIT) { // 报名结束后，还可以修改报名材料
+                throw new OpException("岗位{0}应聘报名已结束。", crsPost == null ? "" : crsPost.getName());
+            }
         }else if(postApplyStatus == 2){
             throw new OpException("岗位{0}应聘还未开始。", crsPost == null ? "" : crsPost.getName());
         }

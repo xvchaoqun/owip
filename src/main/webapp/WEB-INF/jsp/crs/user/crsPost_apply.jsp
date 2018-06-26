@@ -52,7 +52,7 @@
                             <c:if test="${not empty crsApplicant.career}">
                                 <button class="openView btn btn-primary btn-sm"
                                         data-url="/user/crsPost_apply?postId=${crsPost.id}&cls=1"><i class="fa fa-${canApply?"edit":"search"}"></i>
-                                        ${canApply?"修   改":"查   看"}</button>
+                                        ${canModify?"修   改":"查   看"}</button>
                             </c:if>
                         </td>
                     </tr>
@@ -70,7 +70,7 @@
                             <c:if test="${not empty crsApplicant.report}">
                                 <button class="openView btn btn-primary btn-sm"
                                         data-url="/user/crsPost_apply?postId=${crsPost.id}&cls=2"><i class="fa fa-${canApply?"edit":"search"}"></i>
-                                        ${canApply?"修   改":"查   看"}</button>
+                                        ${canModify?"修   改":"查   看"}</button>
                             </c:if>
                         </td>
                     </tr>
