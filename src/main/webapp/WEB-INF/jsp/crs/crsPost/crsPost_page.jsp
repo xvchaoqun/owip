@@ -263,25 +263,28 @@
                 })
                 return "未审核({0}) 通过({1}) 未通过({2})".format(unCheck, pass, unpass)
             }},
+            {label: '招聘会情况', name: 'meetingStatus', width: 130, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.pubStatus!='${CRS_POST_PUB_STATUS_PUBLISHED}') return '-'
+                if (cellvalue == undefined) return '-';
+                if(cellvalue) return '已召开'
+                if(rowObject.meetingApplyCount>0) {
+                    var pass = 0;
+                    var applicants = rowObject.applicants;
+                    $.each(applicants, function (i, a) {
+                        if (a.isRequireCheckPass) {
+                            pass++
+                        }
+                    })
+                    return pass >= rowObject.meetingApplyCount ? '<span class="text text-success">达到人数要求</span>' : '<span class="text text-danger">未达到人数要求</span>';
+                }
+                return '-'
+            }},
             {label: '报名截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
                 return $.date(cellvalue, "yyyy-MM-dd HH:mm");
             }},
             {label: '所属单位', name: 'unit.name', width: 200, align:'left'},
             {label: '部门属性', name: 'unit.unitType.name', width: 150},
-            {label: '招聘会情况', name: 'meetingStatus', width: 130, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.pubStatus!='${CRS_POST_PUB_STATUS_PUBLISHED}') return '-'
-                if (cellvalue == undefined) return '-';
-                if(cellvalue) return '已召开'
-                var pass= 0;
-                var applicants = rowObject.applicants;
-                $.each(applicants, function(i, a){
-                    if(a.isRequireCheckPass){
-                        pass++
-                    }
-                })
-                return pass>=3 ? '<span class="text text-success">达到人数要求</span>' : '<span class="text text-danger">未达到人数要求</span>';
-            }},
             /*{label: '常委会情况', name: 'committeeStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
                 return cellvalue ? "已上会" : "未上会";
