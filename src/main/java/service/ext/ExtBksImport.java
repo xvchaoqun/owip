@@ -36,7 +36,7 @@ public class ExtBksImport extends Source {
 
     @Autowired
     public ExtBksMapper extBksMapper;
-    public String schema = "licdc_zg";
+    public String schema = "ICDC_VIEW";
     public String tableName = "v_bks_xjjbsjxx";
 
     public void update(Map<String, Object> map, ResultSet rs) throws SQLException {
