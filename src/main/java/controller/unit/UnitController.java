@@ -1,6 +1,5 @@
 package controller.unit;
 
-import bean.SchoolUnit;
 import bean.XlsUpload;
 import controller.BaseController;
 import domain.base.MetaType;
@@ -95,8 +94,7 @@ public class UnitController extends BaseController {
                 ExportHelper.output(wb, "学校单位列表.xlsx", response);
                 return null;
             }
-            List<SchoolUnit> schoolUnits = extUnitService.getSchoolUnits();
-            modelMap.put("schoolUnits", schoolUnits);
+            modelMap.put("schoolUnits", extUnitService.getSchoolUnitMap().values());
 
             return "unit/school_units";
         }

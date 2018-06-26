@@ -20,6 +20,7 @@ import sys.utils.ExcelUtils;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,7 +82,7 @@ public class UnitExportService extends BaseMapper{
 
     public XSSFWorkbook exportSchoolUnits() throws IOException {
 
-        List<SchoolUnit> records = extUnitService.getSchoolUnits();
+        List<SchoolUnit> records = new ArrayList<>(extUnitService.getSchoolUnitMap().values());
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/unit/school_unit.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
