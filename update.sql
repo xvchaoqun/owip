@@ -1,4 +1,7 @@
 
+
+
+== 更新 西交大、北化工
 20180626
 ALTER TABLE `ext_yjs`
 	DROP COLUMN `id`,
