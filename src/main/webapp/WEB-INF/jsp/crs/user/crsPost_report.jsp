@@ -33,7 +33,7 @@
                 <input type="hidden" name="id" value="${crsApplicant.id}">
                 <input type="hidden" name="cls" value="2"/>
                  <textarea data-my="center" data-at="center center" required placeholder="请在此输入您的工作设想和预期目标（报名截止前可修改）"
-                           name="content" class="limited" rows="18" maxlength="1100" style="width:1026px">${crsApplicant.report}</textarea>
+                           name="content" rows="18" style="width:1026px">${crsApplicant.report}</textarea>
             </form>
             <div class="modal-footer center" >
                 <div class="pull-left" style="position: absolute; font-size: 16pt">
@@ -65,7 +65,7 @@
     }
 </style>
 <script>
-    $('textarea.limited').on('input propertychange', function() {
+    $('textarea').on('input propertychange', function() {
         var str = $(this).val().replace(/\s/g, "");
         $("#strCount").html(str.length)
     }).trigger("propertychange");

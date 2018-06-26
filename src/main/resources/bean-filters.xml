@@ -14,7 +14,7 @@
 
                 <value>(persistence|service|controller)\.cis\..*</value>
 
-                <!--<value>(persistence|service|controller)\.cet\..*</value>-->
+                <value>(persistence|service|controller)\.cet\..*</value>
                 <value>(persistence|service|controller)\.abroad\..*</value>
                 <value>(persistence|service|controller)\.cla\..*</value>
                 <value>(persistence|service|controller)\.pcs\..*</value>
