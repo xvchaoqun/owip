@@ -190,6 +190,20 @@ public class ApplySelfController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
+    //清除审批记录
+    @RequiresPermissions("applySelf:approval")
+    @RequestMapping(value = "/applySelf_clearApproval", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_applySelf_clearApproval(HttpServletRequest request, Integer id) {
+
+        if (id != null) {
+
+            applySelfService.clearApproval(id);
+            logger.info(addLog(LogConstants.LOG_ABROAD, "因私出国申请清除审批记录：%s", id));
+        }
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("applySelf:download")
     @RequestMapping("/applySelf_download")
     public void applySelf_download(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -548,19 +562,6 @@ public class ApplySelfController extends AbroadBaseController {
         return "abroad/applySelf/applySelf_change";
     }
 
-    /*@RequiresPermissions("applySelf:del")
-    @RequestMapping(value = "/applySelf_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_applySelf_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            applySelfService.del(id);
-            logger.info(addLog(LogConstants.LOG_ABROAD, "删除因私出国申请：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
-    }
-*/
     // 逻辑删除
     @RequiresPermissions("applySelf:del")
     @RequestMapping(value = "/applySelf_batchDel", method = RequestMethod.POST)

@@ -52,8 +52,8 @@ public class CacheController extends BaseController {
         return success();
     }
 
-    // 刷新元数据缓存
-    @RequiresPermissions("sysConfig:cache")
+    // 刷新元数据缓存 所有登录的账号均有权限操作
+    //@RequiresPermissions("sysConfig:cache")
     @RequestMapping("/flush_metadata_JSON")
     @ResponseBody
     public Map flush_metadata_JSON() {

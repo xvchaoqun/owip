@@ -52,7 +52,7 @@
                             <c:if test="${status==0||status==1}">
                                 <shiro:hasPermission name="applySelf:edit">
                                     <button class="jqOpenViewBtn btn btn-success btn-sm"
-                                            data-url="${ctx}/abroad/applySelf_change" data-open-by="page">
+                                            data-url="${ctx}/abroad/applySelf_clearApproval" data-open-by="page">
                                         <i class="fa fa-edit"></i> 行程变更
                                     </button>
                                 </shiro:hasPermission>
@@ -67,7 +67,14 @@
                             <button id="detailBtn" class="btn btn-warning btn-sm">
                                 <i class="fa fa-info-circle"></i> 详情
                             </button>
-
+                            <c:if test="${status==0}">
+                                <button class="jqItemBtn btn btn-danger btn-sm"
+                                        data-title="清除审批记录"
+                                        data-msg="确定清除审批记录？（即重置到申请状态，此操作不可恢复，请谨慎操作）"
+                                        data-url="${ctx}/abroad/applySelf_clearApproval" data-open-by="page">
+                                    <i class="fa fa-eraser"></i> 清除审批记录
+                                </button>
+                            </c:if>
                             <%--<button data-url="${ctx}/abroad/applySelf_view"
                                     data-open-by="page"
                                     class="jqOpenViewBtn btn btn-warning btn-sm">

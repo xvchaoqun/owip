@@ -261,7 +261,8 @@
                         unpass++;
                     }
                 })
-                return "未审核({0}) 通过({1}) 未通过({2})".format(unCheck, pass, unpass)
+                return '未审核({0}) <span class="text {3}">通过({1})</span> 未通过({2})'
+                        .format(unCheck, pass, unpass, pass >= rowObject.meetingApplyCount ? 'text-success':'text-danger')
             }},
             {label: '招聘会情况', name: 'meetingStatus', width: 130, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.pubStatus!='${CRS_POST_PUB_STATUS_PUBLISHED}') return '-'

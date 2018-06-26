@@ -46,12 +46,14 @@ import service.base.MetaTypeService;
 import service.base.ShortMsgService;
 import service.cadre.CadreCommonService;
 import service.cadre.CadreService;
+import service.sys.SysApprovalLogService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.AbroadConstants;
 import sys.constants.CadreConstants;
 import sys.constants.ContentTplConstants;
+import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -99,6 +101,8 @@ public class ApplySelfService extends BaseMapper {
     protected UserBeanService userBeanService;
     @Autowired
     protected SpringProps springProps;
+    @Autowired
+    protected SysApprovalLogService sysApprovalLogService;
 
     // 查找审批人
     public List<SysUserView> findApprovers(int cadreId/*被审批干部*/, int approvalTypeId) {
@@ -758,6 +762,25 @@ public class ApplySelfService extends BaseMapper {
         }
 
         return false;
+    }
+
+    // 清除审批记录
+    @Transactional
+    public void clearApproval(int applySelfId){
+
+        ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
+
+        ApprovalLogExample example = new ApprovalLogExample();
+        example.createCriteria().andApplyIdEqualTo(applySelfId);
+        approvalLogMapper.deleteByExample(example);
+
+        commonMapper.excuteSql("update abroad_apply_self set status=1, is_finish=0, flow_node=-1, " +
+                "flow_nodes=null where id=" + applySelfId);
+
+        sysApprovalLogService.add(applySelfId, applySelf.getUser().getUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF,
+                "清除审批记录", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
     /*public boolean canApproval(int userId, int applySelfId, int approvalTypeId) {
