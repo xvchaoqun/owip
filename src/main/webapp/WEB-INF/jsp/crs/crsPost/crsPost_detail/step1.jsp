@@ -30,6 +30,13 @@
             class="fa fa-tasks"></i> 任职资格
     </a>
   </li>
+  <li>
+    <a href="javascript:;" class="loadPage"
+       data-load-el="#step-body-content-view" data-callback="$.menu.liSelected"
+       data-url='${ctx}/crsPost_detail/step1_meetingApplyCount?id=${param.id}'><i
+            class="fa fa-tasks"></i> 招聘会人数要求
+    </a>
+  </li>
 </ul>
 <div class="col-xs-12" id="step-body-content-view" <%--style="min-height: 500px;"--%>>
 <c:import url="${ctx}/crsPost_detail/step1_notice?id=${param.id}"/>

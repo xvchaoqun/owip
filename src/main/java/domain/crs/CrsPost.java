@@ -25,7 +25,8 @@ public class CrsPost implements Serializable {
             Map<String, Object> applicant = new HashMap<>();
             applicant.put("userId", crsApplicant.getUserId());
             applicant.put("realname", crsApplicant.getUser().getRealname());
-
+            applicant.put("requireCheckStatus", crsApplicant.getRequireCheckStatus());
+            applicant.put("isRequireCheckPass", crsApplicant.getIsRequireCheckPass());
             applicants.add(applicant);
         }
 
@@ -96,6 +97,8 @@ public class CrsPost implements Serializable {
     private Date endTime;
 
     private Byte enrollStatus;
+
+    private Integer meetingApplyCount;
 
     private Date meetingTime;
 
@@ -243,6 +246,14 @@ public class CrsPost implements Serializable {
 
     public void setEnrollStatus(Byte enrollStatus) {
         this.enrollStatus = enrollStatus;
+    }
+
+    public Integer getMeetingApplyCount() {
+        return meetingApplyCount;
+    }
+
+    public void setMeetingApplyCount(Integer meetingApplyCount) {
+        this.meetingApplyCount = meetingApplyCount;
     }
 
     public Date getMeetingTime() {

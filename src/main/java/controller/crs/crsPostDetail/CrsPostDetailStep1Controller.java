@@ -105,4 +105,28 @@ public class CrsPostDetailStep1Controller extends CrsBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
+    @RequiresPermissions("crsPost:list")
+    @RequestMapping("/crsPost_detail/step1_meetingApplyCount")
+    public String step1_meetingApplyCount(int id, ModelMap modelMap) {
+
+        CrsPost crsPost = crsPostMapper.selectByPrimaryKey(id);
+        modelMap.put("crsPost", crsPost);
+
+        return "crs/crsPost/crsPost_detail/step1_meetingApplyCount";
+    }
+
+    @RequiresPermissions("crsPost:edit")
+    @RequestMapping(value = "/crsPost_detail/step1_meetingApplyCount", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_step1_meetingApplyCount(int id, int meetingApplyCount, HttpServletRequest request) {
+
+        CrsPostWithBLOBs record = new CrsPostWithBLOBs();
+        record.setId(id);
+        record.setMeetingApplyCount(meetingApplyCount);
+        crsPostService.updateByPrimaryKeySelective(record);
+        logger.info(addLog(LogConstants.LOG_CRS, "更新岗位招聘会人数要求：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
 }

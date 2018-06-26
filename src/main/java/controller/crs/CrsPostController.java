@@ -311,21 +311,23 @@ public class CrsPostController extends CrsBaseController {
     @RequiresPermissions("crsPost:edit")
     @RequestMapping(value = "/crsPost_publish", method = RequestMethod.POST)
     @ResponseBody
-    public Map crsPost_publish(HttpServletRequest request, Integer id, Boolean publish, ModelMap modelMap) {
+    public Map crsPost_publish(HttpServletRequest request,
+                               @RequestParam(value = "ids[]") Integer[] ids,
+                               Boolean publish, ModelMap modelMap) {
 
-        if (id != null) {
+        if (null != ids && ids.length > 0) {
 
             publish = BooleanUtils.isTrue(publish);
             CrsPostWithBLOBs record = new CrsPostWithBLOBs();
-            record.setId(id);
             record.setPubStatus(publish ? CrsConstants.CRS_POST_PUB_STATUS_PUBLISHED
                     : CrsConstants.CRS_POST_PUB_STATUS_CANCEL);
-            /*if (!publish) {
-                record.setStatus(CrsConstants.CRS_POST_STATUS_DELETE);
-            }*/
 
-            crsPostService.updateByPrimaryKeySelective(record);
-            logger.info(addLog(LogConstants.LOG_CRS, (BooleanUtils.isTrue(publish) ? "发布" : "取消发布") + "岗位：%s", id));
+            CrsPostExample example = new CrsPostExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            crsPostMapper.updateByExampleSelective(record, example);
+
+            logger.info(addLog(LogConstants.LOG_CRS, (BooleanUtils.isTrue(publish) ? "发布" : "取消发布") + "岗位：%s",
+                    StringUtils.join(ids, ",")));
         }
         return success(FormUtils.SUCCESS);
     }

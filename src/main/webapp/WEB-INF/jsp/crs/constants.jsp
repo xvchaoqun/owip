@@ -44,6 +44,8 @@
 <c:set value="<%=CrsConstants.CRS_APPLICANT_STATUS_SUBMIT%>" var="CRS_APPLICANT_STATUS_SUBMIT"/>
 <c:set value="<%=CrsConstants.CRS_APPLICANT_STATUS_DELETE%>" var="CRS_APPLICANT_STATUS_DELETE"/>
 
+<c:set value="<%=CrsConstants.CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT%>" var="CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT"/>
+
 <c:set value="<%=CrsConstants.CRS_POST_STATUS_MAP%>" var="CRS_POST_STATUS_MAP"/>
 <c:set value="<%=CrsConstants.CRS_POST_STATUS_NORMAL%>" var="CRS_POST_STATUS_NORMAL"/>
 <c:set value="<%=CrsConstants.CRS_POST_STATUS_FINISH%>" var="CRS_POST_STATUS_FINISH"/>

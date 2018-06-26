@@ -42,6 +42,20 @@
                                    data-grid-id="#jqGrid"
                                    ><i class="fa fa-edit"></i>
                                     修改</a>
+                                <button data-url="${ctx}/crsPost_publish?publish=1"
+                                        data-title="发布"
+                                        data-msg="确定发布这{0}个岗位？"
+                                        data-grid-id="#jqGrid"
+                                        class="jqBatchBtn btn btn-success btn-sm">
+                                    <i class="fa fa-check-circle-o"></i> 发布
+                                </button>
+                                <button data-url="${ctx}/crsPost_publish?publish=0"
+                                        data-title="取消发布"
+                                        data-msg="确定取消发布这{0}个岗位？"
+                                        data-grid-id="#jqGrid"
+                                        class="jqBatchBtn btn btn-warning btn-sm">
+                                    <i class="fa fa-times-circle-o"></i> 取消发布
+                                </button>
                             </shiro:hasPermission>
                             <shiro:hasPermission name="crsPost:del">
                                 <button data-url="${ctx}/crsPost_batchDel?isAbolish=1"
@@ -155,12 +169,6 @@
     </div>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
-<script  type="text/template" id="publish_tpl">
-    <button class="confirm btn btn-{{=isPublish?'danger':'success'}} btn-xs"
-            data-msg="{{=isPublish?'确定取消发布？':'确定发布？'}}" data-callback="_reload"
-    data-url="${ctx}/crsPost_publish?id={{=id}}&publish={{=isPublish?0:1}}">
-        <i class="fa fa-{{=isPublish?'times':'check'}}"></i> {{=isPublish?'取消发布':'发布'}}</button>
-</script>
 <style>
     .tooltip-inner{
         text-align: left;
@@ -197,23 +205,12 @@
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/crsPost_detail?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             }, frozen: true},
-            {label: '发布状态', name: 'pubStatus', formatter: function (cellvalue, options, rowObject) {
-                if (cellvalue == undefined) return '-';
-                return _cMap.CRS_POST_PUB_STATUS_MAP[cellvalue];
-            }},
-            <shiro:hasPermission name="crsPost:edit">
-            {label: '发布', name: '_publish', formatter: function (cellvalue, options, rowObject) {
-                return _.template($("#publish_tpl").html().NoMultiSpace())({id: rowObject.id, isPublish:(rowObject.pubStatus==${CRS_POST_PUB_STATUS_PUBLISHED})})
-            }},
-            </shiro:hasPermission>
             {label: '分管工作', name: 'job', width:'300', align:'left', formatter: $.jgrid.formatter.NoMultiSpace},
             {label: '行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
-            {label: '所属单位', name: 'unit.name', width: 200, align:'left'},
-            {label: '部门属性', name: 'unit.unitType.name', width: 150},
             {label: '招聘人数', name: 'num', width: 80},
-
             {label: '报名状态', name: 'enrollStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
+
                 var str = "";
                 var applicantCount = rowObject.applicants.length;
                 if(rowObject.autoSwitch){
@@ -234,7 +231,16 @@
                     str = _cMap.CRS_POST_ENROLL_STATUS_MAP[cellvalue] + '({0})'.format(applicantCount);
                 }
 
-                return str;
+                var style = "";
+                if(rowObject.meetingApplyCount>0){
+                    if(applicantCount>=rowObject.meetingApplyCount){
+                        style="text-success bolder";
+                    }else{
+                        style="text-danger bolder";
+                    }
+                }
+
+                return '<span class="text '+ style +'">' + str + '</span>';
             }, cellattr: function (rowId, val, rawObject, cm, rdata) {
                 var applicants = $.map(rawObject.applicants, function(val, i){
                     return val.realname;
@@ -243,19 +249,47 @@
                     return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="'
                         + applicants +'"';
             }},
+            {label: '资格审核情况', name: '_requireCheck', width: 200, formatter: function (cellvalue, options, rowObject) {
+                var unCheck= 0, pass= 0, unpass=0;
+                var applicants = rowObject.applicants;
+                $.each(applicants, function(i, a){
+                    if(a.requireCheckStatus=='${CRS_APPLICANT_REQUIRE_CHECK_STATUS_INIT}'){
+                        unCheck++;
+                    }else if(a.isRequireCheckPass){
+                        pass++
+                    }else{
+                        unpass++;
+                    }
+                })
+                return "未审核({0}) 通过({1}) 未通过({2})".format(unCheck, pass, unpass)
+            }},
             {label: '报名截止时间', name: 'endTime', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
                 return $.date(cellvalue, "yyyy-MM-dd HH:mm");
             }},
-            {label: '招聘会情况', name: 'meetingStatus', formatter: function (cellvalue, options, rowObject) {
+            {label: '所属单位', name: 'unit.name', width: 200, align:'left'},
+            {label: '部门属性', name: 'unit.unitType.name', width: 150},
+            {label: '招聘会情况', name: 'meetingStatus', width: 130, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.pubStatus!='${CRS_POST_PUB_STATUS_PUBLISHED}') return '-'
                 if (cellvalue == undefined) return '-';
-                return cellvalue ? "已召开" : "未召开";
+                if(cellvalue) return '已召开'
+                var pass= 0;
+                var applicants = rowObject.applicants;
+                $.each(applicants, function(i, a){
+                    if(a.isRequireCheckPass){
+                        pass++
+                    }
+                })
+                return pass>=3 ? '<span class="text text-success">达到人数要求</span>' : '<span class="text text-danger">未达到人数要求</span>';
             }},
             /*{label: '常委会情况', name: 'committeeStatus', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '-';
                 return cellvalue ? "已上会" : "未上会";
             }},*/
-
+            {label: '发布状态', name: 'pubStatus', width:90, formatter: function (cellvalue, options, rowObject) {
+                if (cellvalue == undefined) return '-';
+                return _cMap.CRS_POST_PUB_STATUS_MAP[cellvalue];
+            }},
             {label: '状态', name: 'status', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
                 return _cMap.CRS_POST_STATUS_MAP[cellvalue];

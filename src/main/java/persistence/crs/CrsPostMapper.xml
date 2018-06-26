@@ -16,6 +16,7 @@
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="enroll_status" jdbcType="TINYINT" property="enrollStatus" />
+    <result column="meeting_apply_count" jdbcType="INTEGER" property="meetingApplyCount" />
     <result column="meeting_time" jdbcType="TIMESTAMP" property="meetingTime" />
     <result column="meeting_address" jdbcType="VARCHAR" property="meetingAddress" />
     <result column="report_deadline" jdbcType="TIMESTAMP" property="reportDeadline" />
@@ -101,10 +102,10 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, type, seq, name, job, admin_level, unit_id, num, notice, post_require_id, 
-    start_time, end_time, enroll_status, meeting_time, meeting_address, report_deadline, 
-    quit_deadline, ppt_deadline, ppt_upload_closed, meeting_status, committee_status, 
-    remark, create_time, pub_status, status, stat_give_count, stat_back_count, stat_file, 
-    stat_file_name, stat_date
+    start_time, end_time, enroll_status, meeting_apply_count, meeting_time, meeting_address, 
+    report_deadline, quit_deadline, ppt_deadline, ppt_upload_closed, meeting_status, 
+    committee_status, remark, create_time, pub_status, status, stat_give_count, stat_back_count, 
+    stat_file, stat_file_name, stat_date
   </sql>
   <sql id="Blob_Column_List">
     post_duty, requirement, qualification, meeting_notice, meeting_summary
@@ -162,26 +163,28 @@
       seq, name, job, admin_level, 
       unit_id, num, notice, 
       post_require_id, start_time, end_time, 
-      enroll_status, meeting_time, meeting_address, 
-      report_deadline, quit_deadline, ppt_deadline, 
-      ppt_upload_closed, meeting_status, committee_status, 
-      remark, create_time, pub_status, 
-      status, stat_give_count, stat_back_count, 
-      stat_file, stat_file_name, stat_date, 
-      post_duty, requirement, qualification, 
-      meeting_notice, meeting_summary)
+      enroll_status, meeting_apply_count, meeting_time, 
+      meeting_address, report_deadline, quit_deadline, 
+      ppt_deadline, ppt_upload_closed, meeting_status, 
+      committee_status, remark, create_time, 
+      pub_status, status, stat_give_count, 
+      stat_back_count, stat_file, stat_file_name, 
+      stat_date, post_duty, requirement, 
+      qualification, meeting_notice, meeting_summary
+      )
     values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{seq,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{adminLevel,jdbcType=INTEGER}, 
       #{unitId,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{notice,jdbcType=VARCHAR}, 
       #{postRequireId,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{enrollStatus,jdbcType=TINYINT}, #{meetingTime,jdbcType=TIMESTAMP}, #{meetingAddress,jdbcType=VARCHAR}, 
-      #{reportDeadline,jdbcType=TIMESTAMP}, #{quitDeadline,jdbcType=TIMESTAMP}, #{pptDeadline,jdbcType=TIMESTAMP}, 
-      #{pptUploadClosed,jdbcType=BIT}, #{meetingStatus,jdbcType=BIT}, #{committeeStatus,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{pubStatus,jdbcType=TINYINT}, 
-      #{status,jdbcType=TINYINT}, #{statGiveCount,jdbcType=INTEGER}, #{statBackCount,jdbcType=INTEGER}, 
-      #{statFile,jdbcType=VARCHAR}, #{statFileName,jdbcType=VARCHAR}, #{statDate,jdbcType=DATE}, 
-      #{postDuty,jdbcType=LONGVARCHAR}, #{requirement,jdbcType=LONGVARCHAR}, #{qualification,jdbcType=LONGVARCHAR}, 
-      #{meetingNotice,jdbcType=LONGVARCHAR}, #{meetingSummary,jdbcType=LONGVARCHAR})
+      #{enrollStatus,jdbcType=TINYINT}, #{meetingApplyCount,jdbcType=INTEGER}, #{meetingTime,jdbcType=TIMESTAMP}, 
+      #{meetingAddress,jdbcType=VARCHAR}, #{reportDeadline,jdbcType=TIMESTAMP}, #{quitDeadline,jdbcType=TIMESTAMP}, 
+      #{pptDeadline,jdbcType=TIMESTAMP}, #{pptUploadClosed,jdbcType=BIT}, #{meetingStatus,jdbcType=BIT}, 
+      #{committeeStatus,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{pubStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{statGiveCount,jdbcType=INTEGER}, 
+      #{statBackCount,jdbcType=INTEGER}, #{statFile,jdbcType=VARCHAR}, #{statFileName,jdbcType=VARCHAR}, 
+      #{statDate,jdbcType=DATE}, #{postDuty,jdbcType=LONGVARCHAR}, #{requirement,jdbcType=LONGVARCHAR}, 
+      #{qualification,jdbcType=LONGVARCHAR}, #{meetingNotice,jdbcType=LONGVARCHAR}, #{meetingSummary,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.crs.CrsPostWithBLOBs">
     insert into crs_post
@@ -227,6 +230,9 @@
       </if>
       <if test="enrollStatus != null">
         enroll_status,
+      </if>
+      <if test="meetingApplyCount != null">
+        meeting_apply_count,
       </if>
       <if test="meetingTime != null">
         meeting_time,
@@ -337,6 +343,9 @@
       </if>
       <if test="enrollStatus != null">
         #{enrollStatus,jdbcType=TINYINT},
+      </if>
+      <if test="meetingApplyCount != null">
+        #{meetingApplyCount,jdbcType=INTEGER},
       </if>
       <if test="meetingTime != null">
         #{meetingTime,jdbcType=TIMESTAMP},
@@ -457,6 +466,9 @@
       <if test="record.enrollStatus != null">
         enroll_status = #{record.enrollStatus,jdbcType=TINYINT},
       </if>
+      <if test="record.meetingApplyCount != null">
+        meeting_apply_count = #{record.meetingApplyCount,jdbcType=INTEGER},
+      </if>
       <if test="record.meetingTime != null">
         meeting_time = #{record.meetingTime,jdbcType=TIMESTAMP},
       </if>
@@ -544,6 +556,7 @@
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       enroll_status = #{record.enrollStatus,jdbcType=TINYINT},
+      meeting_apply_count = #{record.meetingApplyCount,jdbcType=INTEGER},
       meeting_time = #{record.meetingTime,jdbcType=TIMESTAMP},
       meeting_address = #{record.meetingAddress,jdbcType=VARCHAR},
       report_deadline = #{record.reportDeadline,jdbcType=TIMESTAMP},
@@ -586,6 +599,7 @@
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       enroll_status = #{record.enrollStatus,jdbcType=TINYINT},
+      meeting_apply_count = #{record.meetingApplyCount,jdbcType=INTEGER},
       meeting_time = #{record.meetingTime,jdbcType=TIMESTAMP},
       meeting_address = #{record.meetingAddress,jdbcType=VARCHAR},
       report_deadline = #{record.reportDeadline,jdbcType=TIMESTAMP},
@@ -648,6 +662,9 @@
       </if>
       <if test="enrollStatus != null">
         enroll_status = #{enrollStatus,jdbcType=TINYINT},
+      </if>
+      <if test="meetingApplyCount != null">
+        meeting_apply_count = #{meetingApplyCount,jdbcType=INTEGER},
       </if>
       <if test="meetingTime != null">
         meeting_time = #{meetingTime,jdbcType=TIMESTAMP},
@@ -733,6 +750,7 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       enroll_status = #{enrollStatus,jdbcType=TINYINT},
+      meeting_apply_count = #{meetingApplyCount,jdbcType=INTEGER},
       meeting_time = #{meetingTime,jdbcType=TIMESTAMP},
       meeting_address = #{meetingAddress,jdbcType=VARCHAR},
       report_deadline = #{reportDeadline,jdbcType=TIMESTAMP},
@@ -772,6 +790,7 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       enroll_status = #{enrollStatus,jdbcType=TINYINT},
+      meeting_apply_count = #{meetingApplyCount,jdbcType=INTEGER},
       meeting_time = #{meetingTime,jdbcType=TIMESTAMP},
       meeting_address = #{meetingAddress,jdbcType=VARCHAR},
       report_deadline = #{reportDeadline,jdbcType=TIMESTAMP},

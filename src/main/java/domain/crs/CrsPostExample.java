@@ -1002,6 +1002,66 @@ public class CrsPostExample {
             return (Criteria) this;
         }
 
+        public Criteria andMeetingApplyCountIsNull() {
+            addCriterion("meeting_apply_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyCountIsNotNull() {
+            addCriterion("meeting_apply_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyCountEqualTo(Integer value) {
+            addCriterion("meeting_apply_count =", value, "meetingApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyCountNotEqualTo(Integer value) {
+            addCriterion("meeting_apply_count <>", value, "meetingApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyCountGreaterThan(Integer value) {
+            addCriterion("meeting_apply_count >", value, "meetingApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("meeting_apply_count >=", value, "meetingApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyCountLessThan(Integer value) {
+            addCriterion("meeting_apply_count <", value, "meetingApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyCountLessThanOrEqualTo(Integer value) {
+            addCriterion("meeting_apply_count <=", value, "meetingApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyCountIn(List<Integer> values) {
+            addCriterion("meeting_apply_count in", values, "meetingApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyCountNotIn(List<Integer> values) {
+            addCriterion("meeting_apply_count not in", values, "meetingApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyCountBetween(Integer value1, Integer value2) {
+            addCriterion("meeting_apply_count between", value1, value2, "meetingApplyCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andMeetingApplyCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("meeting_apply_count not between", value1, value2, "meetingApplyCount");
+            return (Criteria) this;
+        }
+
         public Criteria andMeetingTimeIsNull() {
             addCriterion("meeting_time is null");
             return (Criteria) this;

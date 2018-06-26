@@ -1,5 +1,5 @@
 
-
+20180626
 ALTER TABLE `ext_yjs`
 	DROP COLUMN `id`,
 	DROP INDEX `xh`;
@@ -19,6 +19,10 @@ ALTER TABLE `ext_yjs`
 	ALTER TABLE `ext_bks`
 	CHANGE COLUMN `xh` `xh` VARCHAR(100) NOT NULL COMMENT '学号' FIRST,
 	ADD PRIMARY KEY (`xh`);
+
+	ALTER TABLE `crs_post`
+	ADD COLUMN `meeting_apply_count` INT UNSIGNED NULL COMMENT '招聘会人数要求' AFTER `enroll_status`;
+
 
 20180625
 hf_cadre_famliy -> hf_cadre_family
