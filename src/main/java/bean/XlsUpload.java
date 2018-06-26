@@ -626,7 +626,8 @@ public class XlsUpload {
         } else if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {
             return String.valueOf(cell.getBooleanCellValue());
         } else if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
-            return cell.getCellFormula();
+            //return cell.getCellFormula();
+            return cell.getStringCellValue();
         } else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
             short format = cell.getCellStyle().getDataFormat();
             //System.out.println("format:"+format+";;;;;value:"+cell.getNumericCellValue());
