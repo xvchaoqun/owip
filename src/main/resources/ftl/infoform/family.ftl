@@ -24,7 +24,7 @@
         </w:tcPr>
         <w:p wsp:rsidR="00B03368" wsp:rsidRPr="00D22114" wsp:rsidRDefault="008803C6" wsp:rsidP="00CD38F3">
             <w:pPr>
-                <w:spacing w:line="240" w:line-rule="exact"/>
+                <w:spacing w:line="280" w:line-rule="exact"/>
                 <w:ind w:left-chars="10" w:left="24"/>
                 <w:jc w:val="center"/>
                 <w:outlineLvl w:val="0"/>
@@ -49,7 +49,7 @@
         </w:tcPr>
         <w:p wsp:rsidR="00B03368" wsp:rsidRPr="00D22114" wsp:rsidRDefault="008803C6" wsp:rsidP="00B03368">
             <w:pPr>
-                <w:spacing w:line="240" w:line-rule="exact"/>
+                <w:spacing w:line="280" w:line-rule="exact"/>
                 <w:ind w:left-chars="10" w:left="24"/>
                 <w:jc w:val="center"/>
                 <w:outlineLvl w:val="0"/>
@@ -74,7 +74,7 @@
         </w:tcPr>
         <w:p wsp:rsidR="00B03368" wsp:rsidRPr="00D22114" wsp:rsidRDefault="008803C6" wsp:rsidP="00620654">
             <w:pPr>
-                <w:spacing w:line="240" w:line-rule="exact"/>
+                <w:spacing w:line="280" w:line-rule="exact"/>
                 <w:ind w:left-chars="10" w:left="24"/>
                 <w:jc w:val="center"/>
                 <w:outlineLvl w:val="0"/>
@@ -98,7 +98,7 @@
         </w:tcPr>
         <w:p wsp:rsidR="00B03368" wsp:rsidRPr="00D22114" wsp:rsidRDefault="008803C6" wsp:rsidP="00CD38F3">
             <w:pPr>
-                <w:spacing w:line="240" w:line-rule="exact"/>
+                <w:spacing w:line="280" w:line-rule="exact"/>
                 <w:ind w:left-chars="10" w:left="24"/>
                 <w:jc w:val="center"/>
                 <w:outlineLvl w:val="0"/>
@@ -123,7 +123,7 @@
         </w:tcPr>
         <w:p wsp:rsidR="00B03368" wsp:rsidRPr="00D22114" wsp:rsidRDefault="008803C6" wsp:rsidP="00620654">
             <w:pPr>
-                <w:spacing w:line="240" w:line-rule="exact"/>
+                <w:spacing w:line="280" w:line-rule="exact"/>
                 <w:ind w:left-chars="10" w:left="24"/>
                 <w:jc w:val="left"/>
                 <w:outlineLvl w:val="0"/>
