@@ -95,7 +95,7 @@ public class UserCrsPostController extends CrsBaseController {
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
         modelMap.put("crsPost", crsPost);
         Date reportDeadline = crsPost.getReportDeadline();
-        modelMap.put("canModify", reportDeadline==null || reportDeadline.before(new Date()));
+        modelMap.put("canModify", reportDeadline==null || reportDeadline.after(new Date()));
 
         CrsApplicantWithBLOBs crsApplicant = crsApplicantService.getAvaliable(postId, userId);
         modelMap.put("crsApplicant", crsApplicant);

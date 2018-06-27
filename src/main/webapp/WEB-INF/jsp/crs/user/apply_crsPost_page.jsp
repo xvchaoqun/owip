@@ -67,11 +67,11 @@
                 return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply?postId={0}"><i class="fa fa-search"></i> 详情</button>'
                         .format(rowObject.id)
             }, width: 90, frozen: true},
-            {label: '上传应聘PPT', name: '_applyDetail',  formatter: function (cellvalue, options, rowObject) {
+            {label: '招聘会公告、上传应聘PPT', name: '_applyDetail',  formatter: function (cellvalue, options, rowObject) {
 
                 return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/user/crsPost_apply_notice?postId={0}"><i class="fa fa-search"></i> 详情</button>'
                         .format(rowObject.id)
-            }, width: 110, frozen: true},
+            }, width: 220, frozen: true},
                 </c:if>
             {
                 label: '编号', name: 'seq', formatter: function (cellvalue, options, rowObject) {
@@ -144,11 +144,11 @@
             {label: '招聘人数', name: 'num', width: 90},
             {label: '应聘截止时间', name: 'endTime', width: 150, formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}},
-            {label: '招聘会召开时间', name: 'meetingTime', width: 150,  formatter: function (cellvalue, options, rowObject) {
+            /*{label: '招聘会召开时间', name: 'meetingTime', width: 150,  formatter: function (cellvalue, options, rowObject) {
                 if($.trim(cellvalue) == '') return '待定'
 
                 return cellvalue;
-            }}
+            }}*/
         ]
     }).jqGrid("setFrozenColumns");
     $.initNavGrid("jqGrid", "jqGridPager");
