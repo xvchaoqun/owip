@@ -8,7 +8,6 @@ import domain.cadre.CadreEdu;
 import domain.cadre.CadreFamily;
 import domain.cadre.CadreFamilyAbroad;
 import domain.cadre.CadreFamilyAbroadExample;
-import domain.cadre.CadreInfo;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import freemarker.template.TemplateException;
@@ -63,8 +62,8 @@ public class CadreInfoFormService extends BaseMapper {
     protected CadreBookService cadreBookService;
     @Autowired
     protected MetaTypeService metaTypeService;
-    @Autowired
-    protected CadreInfoService cadreInfoService;
+    /*@Autowired
+    protected CadreInfoService cadreInfoService;*/
     @Autowired
     protected CadreAdformService cadreAdformService;
     @Autowired
@@ -117,30 +116,36 @@ public class CadreInfoFormService extends BaseMapper {
         bean.setDoctorTutor(doctorTutor);
 
         // 学习经历
-        CadreInfo edu = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU);
+        /*CadreInfo edu = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_EDU);
         bean.setLearnDesc((edu == null || StringUtils.isBlank(edu.getContent())) ?
                 freemarkerService.freemarker(cadreEduService.list(cadreId, null),
-                        "cadreEdus", "/cadre/cadreEdu.ftl") : edu.getContent());
+                        "cadreEdus", "/cadre/cadreEdu.ftl") : edu.getContent());*/
+        bean.setLearnDesc(freemarkerService.freemarker(cadreEduService.list(cadreId, null),
+                "cadreEdus", "/cadre/cadreEdu.ftl"));
 
         // 工作经历
-        CadreInfo work = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_WORK);
+        /*CadreInfo work = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_WORK);
         bean.setWorkDesc((work == null || StringUtils.isBlank(work.getContent())) ?
                 freemarkerService.freemarker(cadreWorkService.list(cadreId),
-                        "cadreWorks", "/cadre/cadreWork.ftl") : work.getContent());
+                        "cadreWorks", "/cadre/cadreWork.ftl") : work.getContent());*/
+        bean.setWorkDesc(freemarkerService.freemarker(cadreWorkService.list(cadreId),
+                "cadreWorks", "/cadre/cadreWork.ftl"));
 
         // 社会或学术兼职
-        CadreInfo parttime = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_PARTTIME);
+        /*CadreInfo parttime = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_PARTTIME);
         String _parttime = null;
         if (parttime == null || StringUtils.isBlank(parttime.getContent())) {
             _parttime = freemarkerService.freemarker(cadreParttimeService.list(cadreId),
                     "cadreParttimes", "/cadre/cadreParttime.ftl");
         } else {
             _parttime = StringUtils.trim(parttime.getContent());
-        }
+        }*/
+        String _parttime = freemarkerService.freemarker(cadreParttimeService.list(cadreId),
+                "cadreParttimes", "/cadre/cadreParttime.ftl");
         bean.setParttime(_parttime == null ? "无" : _parttime);
 
         // 培训情况
-        CadreInfo train = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN);
+        /*CadreInfo train = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_TRAIN);
         String _train = null;
         if (train == null || StringUtils.isBlank(train.getContent())) {
 
@@ -148,11 +153,13 @@ public class CadreInfoFormService extends BaseMapper {
                     "cadreTrains", "/cadre/cadreTrain.ftl");
         } else {
             _train = StringUtils.trim(train.getContent());
-        }
+        }*/
+        String _train = freemarkerService.freemarker(cadreTrainService.list(cadreId),
+                "cadreTrains", "/cadre/cadreTrain.ftl");
         bean.setTrainDesc(_train == null ? "无" : _train);
 
         // 教学情况
-        CadreInfo teach = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_TEACH);
+        /*CadreInfo teach = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_TEACH);
         String _teach = null;
         if (teach == null || StringUtils.isBlank(teach.getContent())) {
 
@@ -165,12 +172,22 @@ public class CadreInfoFormService extends BaseMapper {
             _teach = freemarkerService.freemarker(dataMap, "/cadre/cadreCourse.ftl");
         } else {
             _teach = StringUtils.trim(teach.getContent());
+        }*/
+        String _teach = null;
+        {
+            Map<String, Object> dataMap = new HashMap<>();
+            dataMap.put("bksCadreCourses", cadreCourseService.list(cadreId, CadreConstants.CADRE_COURSE_TYPE_BKS));
+            dataMap.put("ssCadreCourses", cadreCourseService.list(cadreId, CadreConstants.CADRE_COURSE_TYPE_SS));
+            dataMap.put("bsCadreCourses", cadreCourseService.list(cadreId, CadreConstants.CADRE_COURSE_TYPE_BS));
+            dataMap.put("cadreRewards", cadreRewardService.list(cadreId, CadreConstants.CADRE_REWARD_TYPE_TEACH));
+
+            _teach = freemarkerService.freemarker(dataMap, "/cadre/cadreCourse.ftl");
         }
         bean.setTeachDesc(_teach == null ? "无" : _teach);
 
 
         // 科研情况
-        CadreInfo research = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_RESEARCH);
+        /*CadreInfo research = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_RESEARCH);
         String _research = null;
         if (research == null || StringUtils.isBlank(research.getContent())) {
 
@@ -184,11 +201,23 @@ public class CadreInfoFormService extends BaseMapper {
             _research = freemarkerService.freemarker(dataMap, "/cadre/cadreResearch.ftl");
         } else {
             _research = StringUtils.trim(research.getContent());
+        }*/
+        String _research = null;
+        {
+
+            Map<String, Object> dataMap = new HashMap<>();
+            dataMap.put("cadreResearchDirects", cadreResearchService.list(cadreId, CadreConstants.CADRE_RESEARCH_TYPE_DIRECT));
+            dataMap.put("cadreResearchIns", cadreResearchService.list(cadreId, CadreConstants.CADRE_RESEARCH_TYPE_IN));
+            dataMap.put("cadreBooks", cadreBookService.list(cadreId));
+            dataMap.put("cadrePapers", cadrePaperService.list(cadreId));
+            dataMap.put("cadreRewards", cadreRewardService.list(cadreId, CadreConstants.CADRE_REWARD_TYPE_RESEARCH));
+
+            _research = freemarkerService.freemarker(dataMap, "/cadre/cadreResearch.ftl");
         }
         bean.setResearchDesc(_research == null ? "无" : _research);
 
         // 其他奖励情况
-        CadreInfo otherReward = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_REWARD_OTHER);
+        /*CadreInfo otherReward = cadreInfoService.get(cadreId, CadreConstants.CADRE_INFO_TYPE_REWARD_OTHER);
         String _otherReward = null;
         if (otherReward == null || StringUtils.isBlank(otherReward.getContent())) {
 
@@ -196,7 +225,9 @@ public class CadreInfoFormService extends BaseMapper {
                     "cadreRewards", "/cadre/cadreReward.ftl");
         } else {
             _otherReward = StringUtils.trim(otherReward.getContent());
-        }
+        }*/
+        String _otherReward = freemarkerService.freemarker(cadreRewardService.list(cadreId, CadreConstants.CADRE_REWARD_TYPE_OTHER),
+                "cadreRewards", "/cadre/cadreReward.ftl");
         bean.setOtherRewardDesc(_otherReward == null ? "无" : _otherReward);
 
         {
@@ -308,11 +339,11 @@ public class CadreInfoFormService extends BaseMapper {
                 bean.getWorkDesc(), true, 440, "/common/oldTitleEditor.ftl"));
         dataMap.put("resumeDesc", StringUtils.trimToNull(resumeDesc));
 
-        dataMap.put("parttime", freemarkerService.genTitleEditorSegment(bean.getParttime(), true, 440));
-        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(bean.getTrainDesc(), true, 440));
-        dataMap.put("teachDesc", freemarkerService.genTitleEditorSegment(bean.getTeachDesc(), false, 440));
-        dataMap.put("researchDesc", freemarkerService.genTitleEditorSegment(bean.getResearchDesc(), false, 440));
-        dataMap.put("otherRewardDesc", freemarkerService.genTitleEditorSegment(bean.getOtherRewardDesc(), false, 440));
+        dataMap.put("parttime", freemarkerService.genTitleEditorSegment(bean.getParttime(), true, false, 440));
+        dataMap.put("trainDesc", freemarkerService.genTitleEditorSegment(bean.getTrainDesc(), true, false, 440));
+        dataMap.put("teachDesc", freemarkerService.genTitleEditorSegment(bean.getTeachDesc(), false, false, 440));
+        dataMap.put("researchDesc", freemarkerService.genTitleEditorSegment(bean.getResearchDesc(), false, true, 440));
+        dataMap.put("otherRewardDesc", freemarkerService.genTitleEditorSegment(bean.getOtherRewardDesc(), false, false, 440));
 
         dataMap.put("mobile", bean.getMobile());
         dataMap.put("phone", bean.getPhone());

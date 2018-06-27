@@ -124,7 +124,9 @@ public class FreemarkerService {
     }
 
     // 一行末尾带冒号，则认为是标题行。
-    public String genTitleEditorSegment(String content, boolean needHanging, int line) throws IOException, TemplateException {
+    // needHanging: 从第二行开始进行缩进
+    // 非标题行行首空4个空格
+    public String genTitleEditorSegment(String content, boolean needHanging, boolean needWhiteSpace, int line) throws IOException, TemplateException {
 
         if(StringUtils.isBlank(content)) return null;
 
@@ -148,6 +150,7 @@ public class FreemarkerService {
             Map<String, Object> dataMap = new HashMap<>();
             dataMap.put("dataList", rows);
             dataMap.put("needHanging", needHanging);
+            dataMap.put("needWhiteSpace", needWhiteSpace);
             dataMap.put("line", line);
 
             result = process(ftlPath, dataMap);
@@ -162,6 +165,7 @@ public class FreemarkerService {
                         dataMap.put("title", title);
                         dataMap.put("dataList", rows);
                         dataMap.put("needHanging", needHanging);
+                        dataMap.put("needWhiteSpace", needWhiteSpace);
                         dataMap.put("line", line);
 
                         result += process(ftlPath, dataMap);
@@ -193,6 +197,7 @@ public class FreemarkerService {
                 dataMap.put("title", title);
                 dataMap.put("dataList", rows);
                 dataMap.put("needHanging", needHanging);
+                dataMap.put("needWhiteSpace", needWhiteSpace);
                 dataMap.put("line", line);
 
                 result += process(ftlPath, dataMap);

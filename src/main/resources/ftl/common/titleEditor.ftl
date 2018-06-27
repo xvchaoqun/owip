@@ -28,7 +28,7 @@
     <#list row as col>
     <#if col_index!=0>
     <w:r>
-        <w:t>${col}</w:t>
+        <w:t><#if needWhiteSpace>    </#if>${col}</w:t>
     </w:r>
     <#if col_has_next>
         <w:r>

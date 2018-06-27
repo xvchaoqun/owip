@@ -91,12 +91,12 @@
                                 .format(rowObject.id)
             }},*/
 
-            {label: '干部应聘报名表', name: '_export', width: 125,  formatter: function (cellvalue, options, rowObject) {
+            /*{label: '干部应聘报名表', name: '_export', width: 125,  formatter: function (cellvalue, options, rowObject) {
 
                 return '<button class="linkBtn btn btn-primary btn-xs" ' +
                         'data-url="${ctx}/user/crsApplicant_export?applicantId={0}"><i class="fa fa-download"></i> 导出</button>'
                         .format(rowObject.applicantId)
-            }},
+            }},*/
             </c:if>
             <c:if test="${cls==2}">
             {label: '应聘情况', name: '_apply', width: 150, formatter: function (cellvalue, options, rowObject) {

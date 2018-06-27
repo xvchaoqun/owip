@@ -8,7 +8,7 @@
 <p>参与科研项目：</p>
 </#if>
 <#list cadreResearchIns as cadreResearch>
-<p style="text-indent: 2em"><#if (cadreResearchDirects?size>1)>${cadreResearch_index+1}、</#if>《${cadreResearch.name!}》，${cadreResearch.type!}，${cadreResearch.unit!}<#if cadreResearch_has_next>；</#if><#if !cadreResearch_has_next>。</#if></p>
+<p style="text-indent: 2em"><#if (cadreResearchIns?size>1)>${cadreResearch_index+1}、</#if>《${cadreResearch.name!}》，${cadreResearch.type!}，${cadreResearch.unit!}<#if cadreResearch_has_next>；</#if><#if !cadreResearch_has_next>。</#if></p>
 </#list>
 <#if (cadreBooks?size>0)>
 <p>出版著作：</p>

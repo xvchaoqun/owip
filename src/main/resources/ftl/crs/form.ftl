@@ -2671,7 +2671,7 @@
 										<wx:font wx:val="宋体"/>
 										<w:b-cs/>
 									</w:rPr>
-									<w:t><#if bean.isOw>中共党员<w:br/>${bean.owGrowTime!}<#else>${bean.dpPartyName!}<w:br/>${bean.dpGrowTime!}</#if></w:t>
+									<w:t><#if bean.isOw>中共<w:br/>${bean.owGrowTime!}<#else>${bean.dpPartyName!}<w:br/>${bean.dpGrowTime!}</#if></w:t>
 								</w:r>
 							</w:p>
 						</w:tc>
