@@ -16,6 +16,12 @@
             </select>
         </div>
     </div>
+    <div class="form-group">
+        <label class="col-xs-3 control-label">当前登录状态</label>
+        <div class="col-xs-6 label-text" id="loginStatus">
+
+        </div>
+    </div>
     </form>
 </div>
 <div class="modal-footer">
@@ -34,6 +40,13 @@
     $select.on("change",function(){
         var entity = $(this).select2("data")[0];
         username = entity.user.username;
+        $("#loginStatus").html("");
+        $.getJSON("${ctx}/sysLogin_status",{username: username},function(ret){
+            if(ret.success){
+                $("#loginStatus").html(ret.isOnline?'<span class="text text-danger bolder larger">在线</span>'
+                        :'<span class="text text-success">离线</span>');
+            }
+        })
     });
     $("#submitBtn").click(function(){
         if($.trim(username)!=''){

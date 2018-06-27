@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.Escape;
+import sys.utils.FormUtils;
 import sys.utils.HtmlEscapeUtils;
 import sys.utils.JSONUtils;
 
@@ -38,6 +39,16 @@ public class SysLoginLogController extends BaseController {
 	public String sysLogin_switch(ModelMap modelMap) {
 
 		return "sys/sysLoginLog/sysLogin_switch";
+	}
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequestMapping("/sysLogin_status")
+	@ResponseBody
+	public Map sysLogin_status(String username) {
+
+		Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+		resultMap.put("isOnline", sysLoginLogService.isOnline(username));
+
+		return resultMap;
 	}
 
 	@RequiresPermissions("sysLoginLog:list")

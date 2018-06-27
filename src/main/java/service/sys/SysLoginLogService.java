@@ -4,6 +4,7 @@ import bean.LoginUser;
 import domain.sys.SysConfig;
 import domain.sys.SysLoginLog;
 import domain.sys.SysLoginLogExample;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -161,5 +162,23 @@ public class SysLoginLogService extends BaseMapper {
         }
 
         return loginUsers;
+    }
+
+    // 获取用户登录状态
+    public boolean isOnline(String username) {
+
+        Collection<Session> sessions = sessionDAO.getActiveSessions();
+
+        for (Session session : sessions) {
+            OnlineSession onlineSession = (OnlineSession) session;
+            PrincipalCollection principals = (PrincipalCollection) onlineSession.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+            if (principals != null) {
+                ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
+                if(StringUtils.equals(username, shiroUser.getUsername())){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
