@@ -49,7 +49,6 @@ import service.cadre.CadreService;
 import service.sys.SysApprovalLogService;
 import service.sys.UserBeanService;
 import shiro.ShiroHelper;
-import shiro.ShiroUser;
 import sys.constants.AbroadConstants;
 import sys.constants.CadreConstants;
 import sys.constants.ContentTplConstants;
@@ -283,14 +282,14 @@ public class ApplySelfService extends BaseMapper {
             ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
             ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
 
-            ApproverTypeBean approverTypeBean = null;
-            ShiroUser shiroUser = ShiroHelper.getShiroUser();
+            ApproverTypeBean approverTypeBean = getApproverTypeBean(userId);
+            /*ShiroUser shiroUser = ShiroHelper.getShiroUser();
             if(shiroUser!=null) {
                 approverTypeBean = shiroUser.getApproverTypeBean();
             }else {
                 // 用于 api 接口调用
                 approverTypeBean = getApproverTypeBean(userId);
-            }
+            }*/
 
             if (approverTypeBean != null) {
                 if (approverTypeBean.getMainPostUnitIds().size()>0) {
@@ -571,7 +570,7 @@ public class ApplySelfService extends BaseMapper {
         //Integer postId = cadre.getPostId();
         Set<Integer> needApprovalTypeSet = new HashSet<>();
 
-        if(applySelf.getIsFinish()){
+        if (applySelf.getIsFinish()){
 
             String flowNodes = applySelf.getFlowNodes();
             String[] _approverTypeIds = flowNodes.split(",");

@@ -359,7 +359,13 @@
                 }, function (ret) {
                     if (ret.success) {
                         var realnames = $.map(ret.approvers, function (item, idx) {
-                            return item.realname;
+
+                            if(approvalTypeId>0) {
+                                return ('<a href="#/abroad/applySelfList?userId={0}" target="_blank">{1}</a>')
+                                        .format(item.userId, item.realname);
+                            }else{
+                                return item.realname;
+                            }
                         });
                         var text = realnames.join("，");
                         if (ret.uv) {

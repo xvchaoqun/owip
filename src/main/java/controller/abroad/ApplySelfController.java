@@ -432,14 +432,21 @@ public class ApplySelfController extends AbroadBaseController {
     }
 
     // 非管理员  审批人身份 审批记录
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
-    @RequiresPermissions("applySelf:approvalList")
+    //@RequiresRoles(RoleConstants.ROLE_CADRE)
+    //@RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList")
-    public String applySelfList(// 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
+    public String applySelfList(Integer userId, // 审批人
+                                // 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
                                 @RequestParam(required = false, defaultValue = "0") int status,
                                 Integer cadreId, ModelMap modelMap) {
 
         modelMap.put("status", status);
+
+        if(userId==null){
+            SecurityUtils.getSubject().checkPermission("applySelf:approvalList");
+        }else{
+            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CADREADMIN);
+        }
 
         if (cadreId != null) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
@@ -452,19 +459,25 @@ public class ApplySelfController extends AbroadBaseController {
     }
 
     // 非管理员  审批人身份 审批记录
-    @RequiresRoles(RoleConstants.ROLE_CADRE)
-    @RequiresPermissions("applySelf:approvalList")
+    //@RequiresRoles(RoleConstants.ROLE_CADRE)
+    //@RequiresPermissions("applySelf:approvalList")
     @RequestMapping("/applySelfList_data")
-    public void applySelfList_data(@CurrentUser SysUserView loginUser, HttpServletResponse response,
+    public void applySelfList_data(Integer userId, // 审批人
+                                   HttpServletResponse response,
                                    Integer cadreId,
                                    @RequestDateRange DateRange _applyDate,
                                    Byte type, // 出行时间范围
                                    // 流程状态，（查询者所属审批人身份的审批状态，1：已审批(通过或不通过)或0：未审批）
                                    @RequestParam(required = false, defaultValue = "0") int status,
                                    Integer pageSize, Integer pageNo, HttpServletRequest request) throws IOException {
+        if(userId==null){
+            userId = ShiroHelper.getCurrentUserId();
+            SecurityUtils.getSubject().checkPermission("applySelf:approvalList");
+        }else{
+            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_CADREADMIN);
+        }
 
-
-        Map map = applySelfService.findApplySelfList(loginUser.getId(), cadreId, _applyDate,
+        Map map = applySelfService.findApplySelfList(userId, cadreId, _applyDate,
                 type, status, pageNo, springProps.pageSize);
         CommonList commonList = (CommonList) map.get("commonList");
 

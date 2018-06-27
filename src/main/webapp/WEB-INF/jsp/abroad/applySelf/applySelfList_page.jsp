@@ -13,10 +13,12 @@
             <div class="tabbable">
                 <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${status==0}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelfList?status=0"><i class="fa fa-circle-o"></i> 待审批</a>
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/abroad/applySelfList?status=0&userId=${param.userId}"><i class="fa fa-circle-o"></i> 待审批</a>
                     </li>
                     <li class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/applySelfList?status=1"><i class="fa fa-check"></i> 已审批</a>
+                        <a href="javascript:;" class="loadPage"
+                           data-url="${ctx}/abroad/applySelfList?status=1&userId=${param.userId}"><i class="fa fa-check"></i> 已审批</a>
                     </li>
                 </ul>
 
