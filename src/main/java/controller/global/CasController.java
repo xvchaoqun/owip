@@ -16,8 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import service.sys.SysLoginLogService;
 import service.sys.SysUserService;
+import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.CasUtils;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.utils.PropertiesUtils;
 
@@ -40,20 +42,26 @@ public class CasController {
     @RequestMapping("/cas_test")
     public String cas_test(String username, HttpServletRequest request, HttpServletResponse response) {
 
+        boolean lackRoleAdmin = ShiroHelper.lackRole(RoleConstants.ROLE_ADMIN);
         if(!PropertiesUtils.getBoolean("devMode")){
-            throw new UnauthorizedException();
+            if(lackRoleAdmin) { // 允许系统管理员在登录状态下登录别的账号，且不产生登录记录
+                throw new UnauthorizedException();
+            }else{
+                logger.info("{}切换账号登录{}", ShiroHelper.getCurrentUsername(), username);
+            }
         }
-        return casLogin(username, request, response);
+
+        return casLogin(username, lackRoleAdmin, request, response);
     }
 
     @RequestMapping("/cas")
     public String cas(HttpServletRequest request, HttpServletResponse response) {
 
         String username = CasUtils.getUsername(request);
-        return casLogin(username, request, response);
+        return casLogin(username, true, request, response);
     }
 
-    private String casLogin(String username, HttpServletRequest request, HttpServletResponse response){
+    private String casLogin(String username, boolean hasLoginLog, HttpServletRequest request, HttpServletResponse response){
 
         if (StringUtils.isNotBlank(username)) {
             SysUserView uv = sysUserService.findByUsername(username);
@@ -71,8 +79,10 @@ public class CasController {
 
                 sysLoginLogService.setTimeout(SecurityUtils.getSubject());
 
-                logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
-                        SystemConstants.LOGIN_TYPE_CAS, true, "登录成功"));
+                if(hasLoginLog) {
+                    logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
+                            SystemConstants.LOGIN_TYPE_CAS, true, "登录成功"));
+                }
                 return "redirect:/";
             } else {
                 logger.info(sysLoginLogService.log(null, username,

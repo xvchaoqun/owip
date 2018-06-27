@@ -8,12 +8,14 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.Escape;
 import sys.utils.HtmlEscapeUtils;
@@ -29,6 +31,14 @@ import java.util.Map;
 public class SysLoginLogController extends BaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
+
+	// 切换账号登录
+	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequestMapping("/sysLogin_switch")
+	public String sysLogin_switch(ModelMap modelMap) {
+
+		return "sys/sysLoginLog/sysLogin_switch";
+	}
 
 	@RequiresPermissions("sysLoginLog:list")
 	@RequestMapping("/sysLoginLog")
