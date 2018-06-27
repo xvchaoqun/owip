@@ -569,28 +569,41 @@ public class ApplySelfService extends BaseMapper {
         Integer cadreId = applySelf.getCadreId();
         //CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         //Integer postId = cadre.getPostId();
-
-        Integer applicatTypeId = null;
-        {   // 查询申请人身份
-            ApplicatCadreExample example = new ApplicatCadreExample();
-            example.createCriteria().andCadreIdEqualTo(cadreId);
-            List<ApplicatCadre> applicatCadres = applicatCadreMapper.selectByExample(example);
-            if(applicatCadres.size()==0){
-                logger.error("===========数据异常，干部没有任何身份: cadreId="+cadreId);
-                return approvalResultMap;// 异常情况，不允许申请人没有任何身份
-            }
-            ApplicatCadre applicatCadre = applicatCadres.get(0);
-            applicatTypeId = applicatCadre.getTypeId();
-        }
         Set<Integer> needApprovalTypeSet = new HashSet<>();
-        List<ApprovalOrder> approvalOrders = null;
-        {  // 所需要的审批人身份列表
-            ApprovalOrderExample example = new ApprovalOrderExample();
-            example.createCriteria().andApplicatTypeIdEqualTo(applicatTypeId);
-            example.setOrderByClause("sort_order desc");
-            approvalOrders = approvalOrderMapper.selectByExample(example);
-            for (ApprovalOrder approvalOrder : approvalOrders) {
-                needApprovalTypeSet.add(approvalOrder.getApproverTypeId());
+
+        if(applySelf.getIsFinish()){
+
+            String flowNodes = applySelf.getFlowNodes();
+            String[] _approverTypeIds = flowNodes.split(",");
+            for (String _approverTypeId : _approverTypeIds) {
+                int approverTypeId = Integer.valueOf(_approverTypeId);
+                if(approverTypeId>0){
+                    needApprovalTypeSet.add(approverTypeId);
+                }
+            }
+
+        }else {
+            Integer applicatTypeId = null;
+            {   // 查询申请人身份
+                ApplicatCadreExample example = new ApplicatCadreExample();
+                example.createCriteria().andCadreIdEqualTo(cadreId);
+                List<ApplicatCadre> applicatCadres = applicatCadreMapper.selectByExample(example);
+                if (applicatCadres.size() == 0) {
+                    logger.error("===========数据异常，干部没有任何身份: cadreId=" + cadreId);
+                    return approvalResultMap;// 异常情况，不允许申请人没有任何身份
+                }
+                ApplicatCadre applicatCadre = applicatCadres.get(0);
+                applicatTypeId = applicatCadre.getTypeId();
+            }
+            List<ApprovalOrder> approvalOrders = null;
+            {  // 所需要的审批人身份列表
+                ApprovalOrderExample example = new ApprovalOrderExample();
+                example.createCriteria().andApplicatTypeIdEqualTo(applicatTypeId);
+                example.setOrderByClause("sort_order desc");
+                approvalOrders = approvalOrderMapper.selectByExample(example);
+                for (ApprovalOrder approvalOrder : approvalOrders) {
+                    needApprovalTypeSet.add(approvalOrder.getApproverTypeId());
+                }
             }
         }
 

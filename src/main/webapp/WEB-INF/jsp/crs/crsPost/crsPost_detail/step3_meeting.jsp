@@ -22,7 +22,7 @@
 
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <input class="form-control datetime-picker" required type="text" name="meetingTime"
+                                    <input class="form-control datetime-picker" type="text" name="meetingTime"
                                            value="${cm:formatDate(crsPost.meetingTime, "yyyy-MM-dd HH:mm")}">
 							<span class="input-group-addon">
                             <i class="fa fa-calendar bigger-110"></i>
@@ -34,7 +34,7 @@
                             <label class="col-xs-4 control-label">地点</label>
 
                             <div class="col-xs-6">
-                                <input required class="form-control" type="text" name="meetingAddress"
+                                <input class="form-control" type="text" name="meetingAddress"
                                        value="${crsPost.meetingAddress}">
                             </div>
                         </div>
@@ -44,7 +44,7 @@
 
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <input class="form-control datetime-picker" required type="text" name="reportDeadline"
+                                    <input class="form-control datetime-picker" type="text" name="reportDeadline"
                                            value="${cm:formatDate(crsPost.reportDeadline, "yyyy-MM-dd HH:mm")}">
 							<span class="input-group-addon">
                             <i class="fa fa-calendar bigger-110"></i>
@@ -57,7 +57,7 @@
 
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <input class="form-control datetime-picker" required type="text" name="quitDeadline"
+                                    <input class="form-control datetime-picker" type="text" name="quitDeadline"
                                            value="${cm:formatDate(crsPost.quitDeadline, "yyyy-MM-dd HH:mm")}">
 							    <span class="input-group-addon">
                                 <i class="fa fa-calendar bigger-110"></i>
@@ -70,7 +70,7 @@
 
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <input class="form-control datetime-picker" required type="text" name="pptDeadline"
+                                    <input class="form-control datetime-picker" type="text" name="pptDeadline"
                                            value="${cm:formatDate(crsPost.pptDeadline, "yyyy-MM-dd HH:mm")}">
 							    <span class="input-group-addon">
                                 <i class="fa fa-calendar bigger-110"></i>
