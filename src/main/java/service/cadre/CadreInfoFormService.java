@@ -303,9 +303,10 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("specialty", bean.getSpecialty());
 
         dataMap.put("edu", bean.getEdu());
-        dataMap.put("degree", bean.getDegree());
+        dataMap.put("degree", StringUtils.trimToNull(bean.getDegree()));
         dataMap.put("schoolDepMajor", bean.getSchoolDepMajor());
-        dataMap.put("inDegree", bean.getInDegree());
+        dataMap.put("inEdu", bean.getInEdu());
+        dataMap.put("inDegree", StringUtils.trimToNull(bean.getInDegree()));
         dataMap.put("inSchoolDepMajor", bean.getInSchoolDepMajor());
 
         dataMap.put("masterTutor", bean.getMasterTutor());

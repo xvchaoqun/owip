@@ -3294,6 +3294,19 @@
 								<w:gridSpan w:val="5"/>
 								<w:vAlign w:val="center"/>
 							</w:tcPr>
+							<w:p wsp:rsidR="004F66D3" wsp:rsidRDefault="00B943F3" wsp:rsidP="00B943F3">
+							<w:pPr>
+								<w:jc w:val="center"/>
+							</w:pPr>
+							<w:r>
+								<w:rPr>
+									<wx:font wx:val="宋体"/>
+									<w:sz w:val="24"/>
+								</w:rPr>
+								<w:t>${bean.inEdu!}</w:t>
+							</w:r>
+						</w:p>
+							<#if bean.inDegree??>
 							<w:p wsp:rsidR="001343BA" wsp:rsidRPr="00D22114" wsp:rsidRDefault="004C2D3F" wsp:rsidP="00CD2BC8">
 								<w:pPr>
 									<w:jc w:val="center"/>
@@ -3306,6 +3319,7 @@
 									<w:t>${bean.inDegree!}</w:t>
 								</w:r>
 							</w:p>
+							</#if>
 						</w:tc>
 						<w:tc>
 							<w:tcPr>
@@ -3363,7 +3377,7 @@
 							<w:p wsp:rsidR="001343BA" wsp:rsidRPr="00D22114" wsp:rsidRDefault="00893A92" wsp:rsidP="00644E8B">
 								<w:pPr>
 									<w:ind w:left-chars="13" w:left="31"/>
-									<w:jc w:val="center"/>
+									<w:jc w:val="left"/>
 									<w:outlineLvl w:val="0"/>
 								</w:pPr>
 								<w:r>
@@ -4728,7 +4742,7 @@
 							<w:p wsp:rsidR="000D6C29" wsp:rsidRPr="00D22114" wsp:rsidRDefault="000D6C29" wsp:rsidP="00D27E90">
 								<w:pPr>
 									<w:ind w:left="-100"/>
-									<w:jc w:val="center"/>
+									<w:jc w:val="left"/>
 									<w:outlineLvl w:val="0"/>
 									<w:rPr>
 										<w:b-cs/>

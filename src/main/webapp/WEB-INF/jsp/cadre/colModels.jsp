@@ -342,18 +342,18 @@
 
                 return filesArray.join("，");
             }
-        }, {label: '备注', name: 'remark', width: 180}, {label: '补充说明', name: 'note', width: 180}, {hidden: true, name: 'id'}];
+        }, {label: '备注', name: 'remark', width: 180, align:'left'}, {label: '补充说明', name: 'note', width: 180}, {hidden: true, name: 'id'}];
 
     colModels.cadreBook = [
         {label: '出版日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-        {label: '著作名称', name: 'name', width: 350},
-        {label: '出版社', name: 'publisher', width: 280},
+        {label: '著作名称', name: 'name', width: 350, align:'left'},
+        {label: '出版社', name: 'publisher', width: 280, align:'left'},
         {
             label: '类型', name: 'type', width: 120, formatter: function (cellvalue, options, rowObject) {
             return _cMap.CADRE_BOOK_TYPE_MAP[cellvalue]
         }
         },
-        {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
+        {label: '备注', name: 'remark', width: 350, align:'left'}, {hidden: true, name: 'id'}
     ];
 
     colModels.cadreWork = [
@@ -378,16 +378,16 @@
 
     colModels.cadrePaper = [
         {label: '发表日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-        {label: '论文题目', name: 'name', width: 350},
-        {label: '期刊名称', name: 'press', width: 250},
-        {label: '论文', name: 'fileName', width: 150},
+        {label: '论文题目', name: 'name', width: 650, align:'left'},
+        {label: '期刊名称', name: 'press', width: 350, align:'left'},
+        /*{label: '论文', name: 'fileName', width: 150},*/
         {
-            label: '预览', formatter: function (cellvalue, options, rowObject) {
+            label: '预览', width: 70, formatter: function (cellvalue, options, rowObject) {
 
             return $.swfPreview(rowObject.filePath, rowObject.fileName, "预览");
         }
         },
-        {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
+        {label: '备注', name: 'remark', width: 150, align:'left'}, {hidden: true, name: 'id'}
     ];
 
     colModels.cadreReward = [
@@ -398,8 +398,8 @@
                 return "class='danger'";
         }},
         {label: '获奖年份', name: 'rewardTime', formatter: 'date', formatoptions: {newformat: 'Y'}, frozen: true},
-        {label: '获得奖项', name: 'name', width: 350},
-        {label: '颁奖单位', name: 'unit', width: 280, cellattr: function (rowId, val, rowObject, cm, rdata) {
+        {label: '获得奖项', name: 'name', width: 350, align:'left'},
+        {label: '颁奖单位', name: 'unit', width: 280, align:'left', cellattr: function (rowId, val, rowObject, cm, rdata) {
             if($.trim(val)=='')
                 return "class='danger'";
         }},
@@ -441,18 +441,18 @@
             formatoptions: {newformat: 'Y.m'},
             frozen: true
         },
-        {label: '项目名称', name: 'name', width: 250},
-        {label: '项目类型', name: 'type', width: 250},
-        {label: '委托单位', name: 'unit', width: 250},
-        {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
+        {label: '项目名称', name: 'name', width: 450, align:'left'},
+        {label: '项目类型', name: 'type', width: 400, align:'left'},
+        {label: '委托单位', name: 'unit', width: 300, align:'left'},
+        {label: '备注', name: 'remark', width: 250}, {hidden: true, name: 'id'}
     ];
 
     colModels.cadreParttime = [
         {label: '起始时间', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, frozen: true},
         {label: '结束时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, frozen: true},
-        {label: '兼职单位', name: 'unit', width: 280},
-        {label: '兼任职务', name: 'post', width: 280},
-        {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
+        {label: '兼职单位', name: 'unit', width: 380, align:'left'},
+        {label: '兼任职务', name: 'post', width: 280, align:'left'},
+        {label: '备注', name: 'remark', width: 150, align:'left'}, {hidden: true, name: 'id'}
     ];
 
     colModels.cadrePostPro = [
@@ -489,7 +489,7 @@
     colModels.cadreTrain = [
         {label: '起始时间', name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '结束时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}, frozen: true},
-        {label: '培训内容', name: 'content', width: 350},
+        {label: '培训内容', name: 'content', width: 550, align:'left'},
         {label: '主办单位', name: 'unit', width: 280},
         {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
     ];
@@ -535,7 +535,7 @@
             return _cMap.CADRE_COURSE_TYPE_MAP[cellvalue]
         }
         },
-        {label: '课程名称', name: 'name', width: 550},
+        {label: '课程名称', name: 'name', width: 550, align:'left'},
         <c:if test="${param._sort ne 'no' && (cm:isPermitted(PERMISSION_CADREADMIN) || hasDirectModifyCadreAuth)}">
         {
             label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder,
