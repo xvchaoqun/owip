@@ -30,6 +30,7 @@ pageEncoding="UTF-8"%>
             <label class="col-xs-3 control-label">论文题目</label>
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${cadrePaper.name}">
+                <span class="help-block">注：不要加书名号。</span>
             </div>
         </div>
         <div class="form-group">

@@ -35,6 +35,7 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-3 control-label" style="padding-top: 100px">课程名称（多门课程以#号分隔）</label>
 				<div class="col-xs-8">
                         <textarea required class="form-control" name="names" rows="10"></textarea>
+                    <span class="help-block">注：不要加书名号。</span>
 				</div>
 			</div>
         </c:if>
@@ -43,6 +44,7 @@ pageEncoding="UTF-8"%>
                 <label class="col-xs-3 control-label" >课程名称</label>
                 <div class="col-xs-6">
                     <input required class="form-control" type="text" name="name" value="${cadreCourse.name}">
+                    <span class="help-block">注：不要加书名号。</span>
                 </div>
             </div>
         </c:if>
