@@ -545,6 +545,76 @@ public class CrsApplicantViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andQuitProofIsNull() {
+            addCriterion("quit_proof is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofIsNotNull() {
+            addCriterion("quit_proof is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofEqualTo(String value) {
+            addCriterion("quit_proof =", value, "quitProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofNotEqualTo(String value) {
+            addCriterion("quit_proof <>", value, "quitProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofGreaterThan(String value) {
+            addCriterion("quit_proof >", value, "quitProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofGreaterThanOrEqualTo(String value) {
+            addCriterion("quit_proof >=", value, "quitProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofLessThan(String value) {
+            addCriterion("quit_proof <", value, "quitProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofLessThanOrEqualTo(String value) {
+            addCriterion("quit_proof <=", value, "quitProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofLike(String value) {
+            addCriterion("quit_proof like", value, "quitProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofNotLike(String value) {
+            addCriterion("quit_proof not like", value, "quitProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofIn(List<String> values) {
+            addCriterion("quit_proof in", values, "quitProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofNotIn(List<String> values) {
+            addCriterion("quit_proof not in", values, "quitProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofBetween(String value1, String value2) {
+            addCriterion("quit_proof between", value1, value2, "quitProof");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitProofNotBetween(String value1, String value2) {
+            addCriterion("quit_proof not between", value1, value2, "quitProof");
+            return (Criteria) this;
+        }
+
         public Criteria andIsRecommendIsNull() {
             addCriterion("is_recommend is null");
             return (Criteria) this;

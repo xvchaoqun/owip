@@ -504,14 +504,20 @@ $(document).on("click", ".loadPage", function () {
 $(document).on("click", ".openView", function () {
     var $this = $(this);
     $this.attr("disabled", "disabled");
-    $.loadView({url:$this.data("url"), callback:function () {
+
+    var $hide = $($(this).data("hide-el") || "#body-content");
+    var $show = $($(this).data("load-el") || "#body-content-view");
+
+    $.loadView({url:$this.data("url"), $hide:$hide, $show:$show, callback:function () {
         $this.removeAttr("disabled");
     }});
 });
 // 隐藏内页
 $(document).on("click", ".hideView", function () {
 
-    $.hideView($(this).data("url"))
+    $.hideView({url:$(this).data("url"),
+        hideEl:$(this).data("hide-el"),
+        loadEl:$(this).data("load-el")})
 });
 
 // 打开弹出框modal
@@ -640,8 +646,9 @@ $(document).on("click", ".jqOpenViewBtn", function (e) {
     if(id>0) url += (url.indexOf("?") > 0 ? "&" : "?") + idName + "=" + id;
 
     if (openBy == 'page') {
+        var hideEl = $(this).data("hide-el");
         var loadEl = $(this).data("load-el");
-        var $hide = $(loadEl || "#body-content");
+        var $hide = $(hideEl || loadEl || "#body-content");// hideEl不传，loadEl传时，在当前级别加载页面
         var $show = $(loadEl || "#body-content-view");
         /*
         $maskEl.mask();

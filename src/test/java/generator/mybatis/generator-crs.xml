@@ -26,13 +26,8 @@
 
 
         <!--干部招聘-->
-        <table tableName="crs_post" domainObjectName="crs.CrsPost" mapperName="crs.CrsPostMapper">
-            <!--<columnOverride column="post_duty" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="requirement" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="qualification" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="meeting_notice" jdbcType="VARCHAR"></columnOverride>
-            <columnOverride column="meeting_summary" jdbcType="VARCHAR"></columnOverride>-->
-        </table>
+        <!--<table tableName="crs_post" domainObjectName="crs.CrsPost" mapperName="crs.CrsPostMapper">
+        </table>-->
         <!--<table tableName="crs_candidate" domainObjectName="crs.CrsCandidate" mapperName="crs.CrsCandidateMapper">
         </table>-->
        <!-- <table tableName="crs_candidate_view" domainObjectName="crs.CrsCandidateView" mapperName="crs.CrsCandidateViewMapper"
@@ -53,7 +48,7 @@
         <!-- <table tableName="crs_post_file" domainObjectName="crs.CrsPostFile"  mapperName="crs.CrsPostFileMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <!--<table tableName="crs_applicant" domainObjectName="crs.CrsApplicant"  mapperName="crs.CrsApplicantMapper">
+        <table tableName="crs_applicant" domainObjectName="crs.CrsApplicant"  mapperName="crs.CrsApplicantMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="crs_applicant_view" domainObjectName="crs.CrsApplicantView"  mapperName="crs.CrsApplicantViewMapper"
@@ -61,7 +56,7 @@
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="is_require_check_pass" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>-->
+        </table>
         <!-- <table tableName="crs_applicant_stat_view" domainObjectName="crs.CrsApplicantStatView"
                 mapperName="crs.CrsApplicantStatViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"

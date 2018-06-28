@@ -86,7 +86,8 @@
                 </c:if>
                 <c:if test="${not empty crsApplicant}">
                     <button type="button" class="openView btn btn-primary btn-lg"
-                            data-url="${ctx}/user/crsApplicant_preview?applicantId=${crsApplicant.id}&ret=1">
+                            data-hide-el="#body-content-view" data-load-el="#body-content-view2"
+                            data-url="${ctx}/user/crsApplicant_preview?applicantId=${crsApplicant.id}&hideView2=1">
                         <i class="fa fa-search"></i> 预览干部应聘报名表
                     </button>
                 </c:if>

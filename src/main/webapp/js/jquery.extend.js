@@ -756,12 +756,22 @@ var _modal_width;
             })
         },
         // 关闭副区域，如果传入了url，则刷新主区域
-        hideView: function (pageUrl) {
-            $("#body-content-view").fadeOut("fast", function () {
-                if ($.trim(pageUrl) != '') {
-                    $.hashchange('', pageUrl);
+        hideView: function (params) {
+            var _params = {};
+            if(!$.isJson(params)){
+                _params.url= params;
+            }else{
+                _params = $.extend({}, params);
+            }
+            //console.log("_params=" + JSON.stringify(_params))
+            var $hide = $(_params.hideEl || "#body-content-view");
+            var $show = $(_params.loadEl || "#body-content");
+
+            $hide.fadeOut("fast", function () {
+                if ($.trim(_params.url) != '') {
+                    $.hashchange('', _params.url);
                 } else {
-                    $("#body-content").show(0, function () {
+                    $show.show(0, function () {
                         $(window).resize(); // 解决jqgrid不显示的问题
                     });
                 }

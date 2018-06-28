@@ -36,6 +36,8 @@ public class CrsApplicant implements Serializable {
 
     private Boolean isQuit;
 
+    private String quitProof;
+
     private Boolean isRecommend;
 
     private String recommendOw;
@@ -124,6 +126,14 @@ public class CrsApplicant implements Serializable {
 
     public void setIsQuit(Boolean isQuit) {
         this.isQuit = isQuit;
+    }
+
+    public String getQuitProof() {
+        return quitProof;
+    }
+
+    public void setQuitProof(String quitProof) {
+        this.quitProof = quitProof == null ? null : quitProof.trim();
     }
 
     public Boolean getIsRecommend() {

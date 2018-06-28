@@ -13,6 +13,7 @@ import domain.crs.CrsApplyUserExample;
 import domain.crs.CrsPost;
 import domain.modify.ModifyCadreAuth;
 import mixin.MixinUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -233,16 +234,17 @@ public class CrsApplicantService extends BaseMapper {
 
     // 退出竞聘
     @Transactional
-    public void quit(int postId, Integer userId) {
+    public void quit(int postId, Integer userId, String quitProof) {
 
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
-        Date meetingTime = crsPost.getMeetingTime();
+        // Date meetingTime = crsPost.getMeetingTime();
         Date quitDeadline = crsPost.getQuitDeadline();
 
-        if(quitDeadline!=null && DateUtils.compareDate(new Date(), quitDeadline)){
-            throw new OpException("招聘会于{0}召开，{1}之后不可退出。",
-                    DateUtils.formatDate(meetingTime, "yyyy年MM月dd日 HH点"),
-                    DateUtils.formatDate(quitDeadline, "yyyy年MM月dd日 HH点"));
+        if(!ShiroHelper.isPermitted("crsPost:list")) {
+            if (quitDeadline != null && DateUtils.compareDate(new Date(), quitDeadline)) {
+                throw new OpException("退出竞聘截止时间为{0}，现在时间已过，不可退出。",
+                        DateUtils.formatDate(quitDeadline, "yyyy年MM月dd日 HH点"));
+            }
         }
 
         CrsApplicant crsApplicant = getAvaliable(postId, userId);
@@ -252,8 +254,14 @@ public class CrsApplicantService extends BaseMapper {
         CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
         record.setId(crsApplicant.getId());
         record.setIsQuit(true);
+        record.setQuitProof(StringUtils.trimToNull(quitProof));
 
         crsApplicantMapper.updateByPrimaryKeySelective(record);
+
+        if(StringUtils.isBlank(quitProof)){
+            // 可能之前退出过，所以要清空之前的退出申请文件（如果有的话）
+            commonMapper.excuteSql("update crs_applicant set quit_proof=null where id=" + crsApplicant.getId());
+        }
 
         sysApprovalLogService.add(record.getId(), userId,
                 (userId.intValue()==ShiroHelper.getCurrentUserId())?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF

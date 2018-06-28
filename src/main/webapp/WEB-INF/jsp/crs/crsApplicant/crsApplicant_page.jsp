@@ -57,13 +57,10 @@
     </c:if>
     <c:if test="${cls!=4}">
         <button data-url="${ctx}/user/crsPost_quit"
-                data-title="退出"
-                data-msg="确定退出竞聘？"
                 data-grid-id="#jqGrid2"
                 data-id-name="applicantId"
                 data-querystr="postId=${param.postId}"
-                data-callback="_stepReload"
-                class="jqItemBtn btn btn-danger btn-sm">
+                class="jqOpenViewBtn btn btn-danger btn-sm">
             <i class="fa fa-minus-circle"></i> 退出
         </button>
     </c:if>
@@ -95,6 +92,11 @@
     <button class="jqOpenViewBtn btn btn-info btn-sm"
             data-grid-id="#jqGrid2"  data-width="1000"
             data-url="${ctx}/crsApplicant_report"><i class="fa fa-search"></i> 工作设想和预期目标
+    </button>
+    <button class="jqOpenViewBtn btn btn-info btn-sm"
+            data-open-by="page" data-hide-el="#body-content-view" data-load-el="#body-content-view2"
+            data-grid-id="#jqGrid2"
+            data-url="${ctx}/user/crsApplicant_preview?hideView2=1" data-id-name="applicantId"><i class="fa fa-search"></i> 预览报名表
     </button>
 </c:if>
     <c:if test="${cls==2 || cls==3}">
@@ -191,6 +193,12 @@
         rownumbers: true,
         url: '${ctx}/crsApplicant_data?callback=?&cls=${cls}&postId=${param.postId}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            <c:if test="${cls==4}">
+            { label: '退出申请', width: 90, formatter:function(cellvalue, options, rowObject){
+                if($.trim(rowObject.quitProof)=='') return '-'
+                return $.swfPreview(rowObject.quitProof, "退出申请", "查看");
+            }},
+            </c:if>
             {
                 label: '报名时间', name: 'enrollTime', width: 150, formatter: 'date',
                 formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i'}, frozen: true

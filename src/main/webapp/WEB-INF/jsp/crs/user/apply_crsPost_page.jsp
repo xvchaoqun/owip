@@ -48,6 +48,7 @@
             </div>
         </div>
         <div id="body-content-view"></div>
+        <div id="body-content-view2"></div>
     </div>
 </div>
 <script>

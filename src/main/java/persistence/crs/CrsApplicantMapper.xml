@@ -9,6 +9,7 @@
     <result column="ppt" jdbcType="VARCHAR" property="ppt" />
     <result column="enroll_time" jdbcType="TIMESTAMP" property="enrollTime" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
+    <result column="quit_proof" jdbcType="VARCHAR" property="quitProof" />
     <result column="is_recommend" jdbcType="BIT" property="isRecommend" />
     <result column="recommend_ow" jdbcType="VARCHAR" property="recommendOw" />
     <result column="recommend_cadre" jdbcType="VARCHAR" property="recommendCadre" />
@@ -89,10 +90,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, post_id, ppt_name, ppt, enroll_time, is_quit, is_recommend, recommend_ow, 
-    recommend_cadre, recommend_crowd, recommend_pdf, info_check_status, info_check_remark, 
-    require_check_status, require_check_remark, special_status, special_pdf, special_remark, 
-    recommend_first_count, recommend_second_count, sort_order, status
+    id, user_id, post_id, ppt_name, ppt, enroll_time, is_quit, quit_proof, is_recommend, 
+    recommend_ow, recommend_cadre, recommend_crowd, recommend_pdf, info_check_status, 
+    info_check_remark, require_check_status, require_check_remark, special_status, special_pdf, 
+    special_remark, recommend_first_count, recommend_second_count, sort_order, status
   </sql>
   <sql id="Blob_Column_List">
     career, report
@@ -151,20 +152,20 @@
     </selectKey>
     insert into crs_applicant (user_id, post_id, ppt_name, 
       ppt, enroll_time, is_quit, 
-      is_recommend, recommend_ow, recommend_cadre, 
-      recommend_crowd, recommend_pdf, info_check_status, 
-      info_check_remark, require_check_status, require_check_remark, 
-      special_status, special_pdf, special_remark, 
-      recommend_first_count, recommend_second_count, 
+      quit_proof, is_recommend, recommend_ow, 
+      recommend_cadre, recommend_crowd, recommend_pdf, 
+      info_check_status, info_check_remark, require_check_status, 
+      require_check_remark, special_status, special_pdf, 
+      special_remark, recommend_first_count, recommend_second_count, 
       sort_order, status, career, 
       report)
     values (#{userId,jdbcType=INTEGER}, #{postId,jdbcType=INTEGER}, #{pptName,jdbcType=VARCHAR}, 
       #{ppt,jdbcType=VARCHAR}, #{enrollTime,jdbcType=TIMESTAMP}, #{isQuit,jdbcType=BIT}, 
-      #{isRecommend,jdbcType=BIT}, #{recommendOw,jdbcType=VARCHAR}, #{recommendCadre,jdbcType=VARCHAR}, 
-      #{recommendCrowd,jdbcType=VARCHAR}, #{recommendPdf,jdbcType=VARCHAR}, #{infoCheckStatus,jdbcType=TINYINT}, 
-      #{infoCheckRemark,jdbcType=VARCHAR}, #{requireCheckStatus,jdbcType=TINYINT}, #{requireCheckRemark,jdbcType=VARCHAR}, 
-      #{specialStatus,jdbcType=BIT}, #{specialPdf,jdbcType=VARCHAR}, #{specialRemark,jdbcType=VARCHAR}, 
-      #{recommendFirstCount,jdbcType=INTEGER}, #{recommendSecondCount,jdbcType=INTEGER}, 
+      #{quitProof,jdbcType=VARCHAR}, #{isRecommend,jdbcType=BIT}, #{recommendOw,jdbcType=VARCHAR}, 
+      #{recommendCadre,jdbcType=VARCHAR}, #{recommendCrowd,jdbcType=VARCHAR}, #{recommendPdf,jdbcType=VARCHAR}, 
+      #{infoCheckStatus,jdbcType=TINYINT}, #{infoCheckRemark,jdbcType=VARCHAR}, #{requireCheckStatus,jdbcType=TINYINT}, 
+      #{requireCheckRemark,jdbcType=VARCHAR}, #{specialStatus,jdbcType=BIT}, #{specialPdf,jdbcType=VARCHAR}, 
+      #{specialRemark,jdbcType=VARCHAR}, #{recommendFirstCount,jdbcType=INTEGER}, #{recommendSecondCount,jdbcType=INTEGER}, 
       #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{career,jdbcType=LONGVARCHAR}, 
       #{report,jdbcType=LONGVARCHAR})
   </insert>
@@ -191,6 +192,9 @@
       </if>
       <if test="isQuit != null">
         is_quit,
+      </if>
+      <if test="quitProof != null">
+        quit_proof,
       </if>
       <if test="isRecommend != null">
         is_recommend,
@@ -265,6 +269,9 @@
       </if>
       <if test="isQuit != null">
         #{isQuit,jdbcType=BIT},
+      </if>
+      <if test="quitProof != null">
+        #{quitProof,jdbcType=VARCHAR},
       </if>
       <if test="isRecommend != null">
         #{isRecommend,jdbcType=BIT},
@@ -352,6 +359,9 @@
       <if test="record.isQuit != null">
         is_quit = #{record.isQuit,jdbcType=BIT},
       </if>
+      <if test="record.quitProof != null">
+        quit_proof = #{record.quitProof,jdbcType=VARCHAR},
+      </if>
       <if test="record.isRecommend != null">
         is_recommend = #{record.isRecommend,jdbcType=BIT},
       </if>
@@ -420,6 +430,7 @@
       ppt = #{record.ppt,jdbcType=VARCHAR},
       enroll_time = #{record.enrollTime,jdbcType=TIMESTAMP},
       is_quit = #{record.isQuit,jdbcType=BIT},
+      quit_proof = #{record.quitProof,jdbcType=VARCHAR},
       is_recommend = #{record.isRecommend,jdbcType=BIT},
       recommend_ow = #{record.recommendOw,jdbcType=VARCHAR},
       recommend_cadre = #{record.recommendCadre,jdbcType=VARCHAR},
@@ -451,6 +462,7 @@
       ppt = #{record.ppt,jdbcType=VARCHAR},
       enroll_time = #{record.enrollTime,jdbcType=TIMESTAMP},
       is_quit = #{record.isQuit,jdbcType=BIT},
+      quit_proof = #{record.quitProof,jdbcType=VARCHAR},
       is_recommend = #{record.isRecommend,jdbcType=BIT},
       recommend_ow = #{record.recommendOw,jdbcType=VARCHAR},
       recommend_cadre = #{record.recommendCadre,jdbcType=VARCHAR},
@@ -491,6 +503,9 @@
       </if>
       <if test="isQuit != null">
         is_quit = #{isQuit,jdbcType=BIT},
+      </if>
+      <if test="quitProof != null">
+        quit_proof = #{quitProof,jdbcType=VARCHAR},
       </if>
       <if test="isRecommend != null">
         is_recommend = #{isRecommend,jdbcType=BIT},
@@ -557,6 +572,7 @@
       ppt = #{ppt,jdbcType=VARCHAR},
       enroll_time = #{enrollTime,jdbcType=TIMESTAMP},
       is_quit = #{isQuit,jdbcType=BIT},
+      quit_proof = #{quitProof,jdbcType=VARCHAR},
       is_recommend = #{isRecommend,jdbcType=BIT},
       recommend_ow = #{recommendOw,jdbcType=VARCHAR},
       recommend_cadre = #{recommendCadre,jdbcType=VARCHAR},
@@ -585,6 +601,7 @@
       ppt = #{ppt,jdbcType=VARCHAR},
       enroll_time = #{enrollTime,jdbcType=TIMESTAMP},
       is_quit = #{isQuit,jdbcType=BIT},
+      quit_proof = #{quitProof,jdbcType=VARCHAR},
       is_recommend = #{isRecommend,jdbcType=BIT},
       recommend_ow = #{recommendOw,jdbcType=VARCHAR},
       recommend_cadre = #{recommendCadre,jdbcType=VARCHAR},

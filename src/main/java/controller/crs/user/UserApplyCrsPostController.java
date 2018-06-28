@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import persistence.crs.common.ICrsPost;
 import service.cadre.CadreInfoFormService;
 import shiro.ShiroHelper;
@@ -224,11 +225,26 @@ public class UserApplyCrsPostController extends CrsBaseController {
         crsExportService.process(crsApplicant.getPostId(), new Integer[]{applicantId}, response.getWriter());
     }
 
+    //目前仅用于管理员退出界面
+    @RequestMapping("/crsPost_quit")
+    public String crsPost_quit(int postId, Integer applicantId, ModelMap modelMap) {
+
+        if(applicantId == null){
+            SecurityUtils.getSubject().checkPermission("userApplyCrsPost:edit");
+        }else{
+            SecurityUtils.getSubject().checkPermission("crsPost:list"); // 招聘管理 权限
+        }
+
+        return "crs/user/crsPost_quit";
+    }
+
     // 管理员也拥有该权限
     //@RequiresPermissions("userApplyCrsPost:edit")
     @RequestMapping(value = "/crsPost_quit", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_crsPost_quit(int postId, Integer applicantId, HttpServletRequest request) {
+    public Map do_crsPost_quit(int postId, Integer applicantId,
+                               MultipartFile _quitProof,
+                               HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer userId = null;
         if(applicantId == null){
@@ -240,7 +256,12 @@ public class UserApplyCrsPostController extends CrsBaseController {
             userId = crsApplicant.getUserId();
         }
 
-        crsApplicantService.quit(postId, userId);
+        String quitProof = null;
+        if(_quitProof!=null && !_quitProof.isEmpty()){
+            quitProof = uploadPdf(_quitProof, "crsPost");
+        }
+
+        crsApplicantService.quit(postId, userId, quitProof);
 
         logger.info(addLog(LogConstants.LOG_USER, "干部招聘-退出竞聘"));
         return success(FormUtils.SUCCESS);

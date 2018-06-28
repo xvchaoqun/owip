@@ -9,6 +9,7 @@
     <result column="ppt" jdbcType="VARCHAR" property="ppt" />
     <result column="enroll_time" jdbcType="TIMESTAMP" property="enrollTime" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
+    <result column="quit_proof" jdbcType="VARCHAR" property="quitProof" />
     <result column="is_recommend" jdbcType="BIT" property="isRecommend" />
     <result column="recommend_ow" jdbcType="VARCHAR" property="recommendOw" />
     <result column="recommend_cadre" jdbcType="VARCHAR" property="recommendCadre" />
@@ -61,10 +62,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, post_id, ppt_name, ppt, enroll_time, is_quit, is_recommend, recommend_ow, 
-    recommend_cadre, recommend_crowd, recommend_pdf, info_check_status, info_check_remark, 
-    require_check_status, require_check_remark, special_status, special_pdf, special_remark, 
-    recommend_first_count, recommend_second_count, sort_order, status, is_require_check_pass
+    id, user_id, post_id, ppt_name, ppt, enroll_time, is_quit, quit_proof, is_recommend, 
+    recommend_ow, recommend_cadre, recommend_crowd, recommend_pdf, info_check_status, 
+    info_check_remark, require_check_status, require_check_remark, special_status, special_pdf, 
+    special_remark, recommend_first_count, recommend_second_count, sort_order, status, 
+    is_require_check_pass
   </sql>
   <sql id="Blob_Column_List">
     career, report
