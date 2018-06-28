@@ -39,7 +39,7 @@
                 <table class="table table-condensed table-bordered table-unhover2 table-center" style="margin: 20px 0">
                     <tbody>
                     <tr>
-                        <td class="title">应聘材料1：填写管理工作经历</td>
+                        <td class="title">应聘材料1：管理工作经历</td>
                         <td>
                         ${empty crsApplicant.career?'<span class="text-danger">未填写</span>':'已保存'}
                         </td>
@@ -57,7 +57,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="title">应聘材料2：填写工作设想和预期目标</td>
+                        <td class="title">应聘材料2：工作设想和预期目标</td>
                         <td>
                                 ${empty crsApplicant.report?'<span class="text-danger">未填写</span>':'已保存'}
                         </td>
@@ -76,15 +76,29 @@
                     </tr>
                     </tbody>
                 </table>
-                <c:if test="${crsApplicant.status!=CRS_APPLICANT_STATUS_SUBMIT}">
+
                 <div class="modal-footer center">
+                <c:if test="${empty crsApplicant}">
+                    <button type="button" class="btn btn-primary btn-lg"
+                            onclick="SysMsg.info('请填写报名材料后预览')">
+                        <i class="fa fa-search"></i> 预览干部应聘报名表
+                    </button>
+                </c:if>
+                <c:if test="${not empty crsApplicant}">
+                    <button type="button" class="openView btn btn-primary btn-lg"
+                            data-url="${ctx}/user/crsApplicant_preview?applicantId=${crsApplicant.id}&ret=1">
+                        <i class="fa fa-search"></i> 预览干部应聘报名表
+                    </button>
+                </c:if>
+                <c:if test="${crsApplicant.status!=CRS_APPLICANT_STATUS_SUBMIT}">
                     <button type="button"
                         ${(!canApply || empty crsApplicant.report||empty crsApplicant.career)?"disabled":""}
                             id="submitBtn" data-loading-text="提交中..."  data-success-text="已提交成功" autocomplete="off"
                            class="btn btn-success btn-lg"><i class="fa fa-angle-double-right"></i> 应聘材料全部保存后，点击此处报名
                         <i class="fa fa-angle-double-left"></i> </button>
-                </div>
                 </c:if>
+                </div>
+
             </c:if>
         </div>
     </div>

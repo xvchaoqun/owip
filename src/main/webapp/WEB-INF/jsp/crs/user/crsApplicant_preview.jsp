@@ -502,7 +502,9 @@ td.padding10 {
         <div class="widget-box transparent">
             <div class="widget-header">
                 <h4 class="widget-title lighter smaller">
-                    <a href="javascript:" class="hideView btn btn-xs btn-success">
+                    <a href="javascript:"
+                       <c:if test="${param.ret==1}">data-url="${ctx}/user/crsPost_apply?postId=${crsApplicant.postId}"</c:if>
+                       class="${param.ret==1?'openView':'hideView'} btn btn-xs btn-success">
                         <i class="ace-icon fa fa-backward"></i>
                         返回</a>
                 </h4>
