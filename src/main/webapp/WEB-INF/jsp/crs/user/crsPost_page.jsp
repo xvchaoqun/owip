@@ -40,7 +40,7 @@
         $("#jqGrid").trigger("reloadGrid");
     }
     var hasApplys = [];
-    var canApplyPostIds = [];
+    var canAfterApplyPostIds = [];
     $("#jqGrid").jqGrid({
         multiselect:false,
         rownumbers: true,
@@ -56,7 +56,7 @@
                     //console.log(hasApply + " " + applicant.isQuit)
                     if(hasApply) return false;
                 })
-                var canApply = ($.inArray(rowObject.id, canApplyPostIds)>=0)
+                var canApply = ($.inArray(rowObject.id, canAfterApplyPostIds)>=0)
 
                 if(rowObject.switchStatus!='${CRS_POST_ENROLL_STATUS_OPEN}') {
                     if (rowObject.endTime != null) {
@@ -122,7 +122,7 @@
         beforeProcessing:function(data, status, xhr){
             //console.log(data)
             hasApplys = data.hasApplys;
-            canApplyPostIds = data.canApplyPostIds;
+            canAfterApplyPostIds = data.canAfterApplyPostIds;
         }
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(window).triggerHandler('resize.jqGrid');

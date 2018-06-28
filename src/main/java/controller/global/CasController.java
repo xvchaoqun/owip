@@ -42,9 +42,10 @@ public class CasController {
     @RequestMapping("/cas_test")
     public String cas_test(String username, HttpServletRequest request, HttpServletResponse response) {
 
-        boolean lackRoleAdmin = ShiroHelper.lackRole(RoleConstants.ROLE_ADMIN);
+        boolean lackRoleAdmin = !ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN,
+                RoleConstants.ROLE_ADMIN1);
         if(!PropertiesUtils.getBoolean("devMode")){
-            if(lackRoleAdmin) { // 允许系统管理员在登录状态下登录别的账号，且不产生登录记录
+            if(lackRoleAdmin) { // 允许系统管理员、管理员在登录状态下登录别的账号，且不产生登录记录
                 throw new UnauthorizedException();
             }else{
                 logger.info("{}切换账号登录{}", ShiroHelper.getCurrentUsername(), username);

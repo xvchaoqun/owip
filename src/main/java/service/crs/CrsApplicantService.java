@@ -58,14 +58,20 @@ public class CrsApplicantService extends BaseMapper {
     @Lazy
     private CrsShortMsgService crsShortMsgService;
 
+    // 是否可以补报名
+    public boolean canAfterApply(int userId, int postId){
+
+        Set<Integer> canAfterApplyPostIdSet = new HashSet<>(iCrsMapper.canAfterApplyPostIds(userId));
+        return canAfterApplyPostIdSet.contains(postId);
+    }
+
     // 获取报名权限 （1：报名已结束， 2： 报名未开始  0： 可以报名）
     public int getPostApplyStatus(CrsPost crsPost, int userId){
 
         byte switchStatus = crsPost.getSwitchStatus();
         if( switchStatus != CrsConstants.CRS_POST_ENROLL_STATUS_OPEN){
             if(switchStatus == CrsConstants.CRS_POST_ENROLL_STATUS_CLOSED) {
-                Set<Integer> canApplyPostIdSet = new HashSet<>(iCrsMapper.canApplyPostIds(userId));
-                if(!canApplyPostIdSet.contains(crsPost.getId()))
+                if(!canAfterApply(userId, crsPost.getId()))
                     return 1;
             }else {
                 return 2;
@@ -124,7 +130,7 @@ public class CrsApplicantService extends BaseMapper {
 
         int postApplyStatus = getPostApplyStatus(crsPost, userId);
         if(postApplyStatus==1){
-            if(status==CrsConstants.CRS_APPLICANT_STATUS_SUBMIT) { // 报名结束后，还可以修改报名材料
+            if(status==CrsConstants.CRS_APPLICANT_STATUS_SUBMIT) { // 报名结束后，不可提交报名，但还可以修改报名材料
                 throw new OpException("岗位{0}应聘报名已结束。", crsPost == null ? "" : crsPost.getName());
             }
         }else if(postApplyStatus == 2){
@@ -134,7 +140,9 @@ public class CrsApplicantService extends BaseMapper {
         Date meetingTime = crsPost.getMeetingTime();
         Date reportDeadline = crsPost.getReportDeadline();
 
-        if(reportDeadline!=null && DateUtils.compareDate(new Date(), reportDeadline)){
+        if(reportDeadline!=null
+                && DateUtils.compareDate(new Date(), reportDeadline)
+                && !canAfterApply(userId, postId)){
             throw new OpException("招聘会于{0}召开，{1}之后不可修改应聘材料。",
                     DateUtils.formatDate(meetingTime, "yyyy年MM月dd日 HH点"),
                     DateUtils.formatDate(reportDeadline, "yyyy年MM月dd日 HH点"));

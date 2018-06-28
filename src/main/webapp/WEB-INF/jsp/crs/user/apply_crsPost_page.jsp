@@ -90,7 +90,11 @@
                         'data-url="${ctx}/user/crsPost_reApply?postId={0}"><i class="fa fa-hand-pointer-o"></i> 重新报名</button>'
                                 .format(rowObject.id)
             }},*/
+            {label: '干部应聘报名表', name: '_preview',  formatter: function (cellvalue, options, rowObject) {
 
+                return '<button class="openView btn btn-primary btn-xs" data-url="${ctx}/user/crsApplicant_preview?applicantId={0}"><i class="fa fa-search"></i> 预览</button>'
+                        .format(rowObject.applicantId)
+            }, width: 125},
             /*{label: '干部应聘报名表', name: '_export', width: 125,  formatter: function (cellvalue, options, rowObject) {
 
                 return '<button class="linkBtn btn btn-primary btn-xs" ' +

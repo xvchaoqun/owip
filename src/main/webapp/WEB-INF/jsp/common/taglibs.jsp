@@ -14,6 +14,7 @@
 <c:set var="_path" value="${fn:escapeXml(requestScope['javax.servlet.forward.servlet_path'])}"/>
 <c:set value="${cm:getSysConfig()}" var="_sysConfig"/>
 <c:set value="${_sysConfig.siteName}" var="_plantform_name"/>
+<c:set value="${_sysConfig.schoolName}" var="_school"/>
 <c:set value="${_sysConfig.siteShortName}" var="_plantform_short_name"/>
 <c:set value="${_sysConfig.hasPartyModule}" var="_hasPartyModule"/>
 <c:set value="<%=new Date()%>" var="now"/>

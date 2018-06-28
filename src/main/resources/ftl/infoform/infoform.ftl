@@ -5265,42 +5265,6 @@
 					</w:tr>
 					${familyAbroads!}
 				</w:tbl>
-				<w:p wsp:rsidR="00005295" wsp:rsidRPr="00644E8B" wsp:rsidRDefault="00961179" wsp:rsidP="00E6709B">
-					<w:r>
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<wx:font wx:val="宋体"/>
-						</w:rPr>
-						<w:t>注：此表填好后，</w:t>
-					</w:r>
-					<w:r wsp:rsidR="00005295">
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<wx:font wx:val="宋体"/>
-						</w:rPr>
-						<w:t>请</w:t>
-					</w:r>
-					<w:r>
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<wx:font wx:val="宋体"/>
-						</w:rPr>
-						<w:t>发组织部干部信箱（</w:t>
-					</w:r>
-					<w:r>
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-						</w:rPr>
-						<w:t>${schoolEmail!}</w:t>
-					</w:r>
-					<w:r>
-						<w:rPr>
-							<w:rFonts w:hint="fareast"/>
-							<wx:font wx:val="宋体"/>
-						</w:rPr>
-						<w:t>）。</w:t>
-					</w:r>
-				</w:p>
 			</wx:sub-section>
 			<w:sectPr wsp:rsidR="00005295" wsp:rsidRPr="00644E8B" wsp:rsidSect="00E933BF">
 				<w:ftr w:type="odd">

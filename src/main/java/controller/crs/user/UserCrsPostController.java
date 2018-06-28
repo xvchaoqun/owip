@@ -95,7 +95,8 @@ public class UserCrsPostController extends CrsBaseController {
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
         modelMap.put("crsPost", crsPost);
         Date reportDeadline = crsPost.getReportDeadline();
-        modelMap.put("canModify", reportDeadline==null || reportDeadline.after(new Date()));
+        modelMap.put("canModify", reportDeadline==null ||
+                reportDeadline.after(new Date()) || crsApplicantService.canAfterApply(userId, postId));
 
         CrsApplicantWithBLOBs crsApplicant = crsApplicantService.getAvaliable(postId, userId);
         modelMap.put("crsApplicant", crsApplicant);
@@ -250,8 +251,8 @@ public class UserCrsPostController extends CrsBaseController {
         List<Map> hasApplys = iCrsMapper.hasApplyPosts(userId, CrsConstants.CRS_APPLICANT_STATUS_SUBMIT);
         resultMap.put("hasApplys", hasApplys);
         // 可补报岗位
-        List<Integer> canApplyPostIds = iCrsMapper.canApplyPostIds(userId);
-        resultMap.put("canApplyPostIds", canApplyPostIds);
+        List<Integer> canAfterApplyPostIds = iCrsMapper.canAfterApplyPostIds(userId);
+        resultMap.put("canAfterApplyPostIds", canAfterApplyPostIds);
 
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
         baseMixins.put(CrsPost.class, UserCrsPostMixin.class);

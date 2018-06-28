@@ -125,8 +125,8 @@
     <div class="panel panel-default" style="margin-bottom: 10px">
         <div class="panel-heading">
             <h3 class="panel-title"><span class="text-success bolder">
-                <i class="fa fa-list"></i>   补报名</span>
-                <span style="padding-left: 250px;">
+                <i class="fa fa-list"></i>   补报名(或修改报名材料)</span>
+                <span style="padding-left: 120px;">
                 <button data-url="${ctx}/crsApplyUser_au?postId=${param.id}"
                     class="popupBtn btn btn-info btn-sm">
                 <i class="fa fa-plus-circle"></i> 添加</button>

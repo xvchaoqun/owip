@@ -2,6 +2,7 @@ package controller.crs.user;
 
 import controller.crs.CrsBaseController;
 import domain.crs.CrsApplicant;
+import domain.crs.CrsApplicantWithBLOBs;
 import domain.crs.CrsPost;
 import domain.sys.SysApprovalLog;
 import domain.sys.SysApprovalLogExample;
@@ -14,6 +15,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import persistence.crs.common.ICrsPost;
+import service.cadre.CadreInfoFormService;
 import shiro.ShiroHelper;
 import sys.constants.CrsConstants;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -46,6 +50,9 @@ import java.util.Map;
 public class UserApplyCrsPostController extends CrsBaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    CadreInfoFormService cadreInfoFormService;
 
     @RequiresPermissions("userApplyCrsPost:list")
     @RequestMapping("/apply_crsPost")
@@ -176,6 +183,25 @@ public class UserApplyCrsPostController extends CrsBaseController {
         result.put("hasDirectModifyCadreAuth", hasDirectModifyCadreAuth);
 
         return result;
+    }
+
+    // 预览应聘人报名表
+    //@RequiresPermissions("userApplyCrsPost:list")
+    @RequestMapping("/crsApplicant_preview")
+    public String crsApplicant_preview(int applicantId, ModelMap modelMap) {
+
+        CrsApplicantWithBLOBs crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
+        modelMap.put("crsApplicant", crsApplicant);
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
+            SecurityUtils.getSubject().checkPermission("userApplyCrsPost:list");
+            if (crsApplicant == null || crsApplicant.getUserId().intValue() != ShiroHelper.getCurrentUserId()) {
+                throw new UnauthorizedException();
+            }
+        }
+        int cadreId = crsApplicant.getCadre().getId();
+        modelMap.put("bean", cadreInfoFormService.getCadreInfoForm(cadreId));
+
+        return "crs/user/crsApplicant_preview";
     }
 
     // 导出应聘人报名表

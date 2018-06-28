@@ -62,5 +62,5 @@ public interface ICrsMapper {
 
     // 可补报岗位
     @Select("select post_id from crs_apply_user where user_id=#{userId} and status=1 and now() between start_time and end_time")
-    public List<Integer> canApplyPostIds(@Param("userId") Integer userId);
+    public List<Integer> canAfterApplyPostIds(@Param("userId") Integer userId);
 }
