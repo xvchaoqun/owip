@@ -139,17 +139,22 @@ $(window).on('resize.jqGrid2', function () {
         }
 
         $jqgrid.jqGrid('setGridWidth', gridWidth);
-        var height = 0;
-        $("#body-content-view .jqgrid-vertical-offset").each(function () {
-            height += $(this).height();
-            //console.log("---"+$("#body-content-view").is(":visible"))
-            //console.log("---"+height)
-        });
+        var height = 0, navHeight=0;
+        var _thisGrid = this;
+        $("#body-content-view, #body-content-view2").each(function(){
+            if($(this).is(":visible") && $(this).find(_thisGrid).length>0) {
+                $(".jqgrid-vertical-offset", this).each(function () {
+                    height += $(this).height();
+                    //console.log(this.id + "---" + $("#body-content-view").is(":visible"))
+                    //console.log(this.id + "---" + height)
+                });
 
-        var navHeight = $(".nav.nav-tabs", "#body-content-view").height();
-        navHeight = navHeight > 0 ? (navHeight + 10) : navHeight;
-        if (navHeight == null) navHeight = 0;
-        //console.log("navHeight---"+navHeight)
+                navHeight = $(".nav.nav-tabs", this).height();
+                navHeight = navHeight > 0 ? (navHeight + 10) : navHeight;
+                if (navHeight == null) navHeight = 0;
+                //console.log(this.id + "--navHeight---" + navHeight)
+            }
+        });
 
         var gridHeight = $(window).height() - 330 - height - navHeight;
 

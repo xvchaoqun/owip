@@ -272,29 +272,6 @@
 	});
 	schoolTypeChange();
 
-	function isGraduatedChange(){
-		if(!$("input[name=isGraduated]").bootstrapSwitch("state")) {
-			$("input[name=hasDegree]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
-			$("input[name=isHighEdu]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
-			$("input[name='_files[]']").prop("disabled", true);
-
-			$("input[name=finishTime]").val('').prop("disabled", true).removeAttr("required");
-			//$("input[name=schoolLen]").val('').prop("disabled", true).removeAttr("required");
-
-		}else {
-			$("input[name=hasDegree]").bootstrapSwitch('disabled', false);
-			$("input[name=isHighEdu]").bootstrapSwitch('disabled', false);
-			$("input[name='_files[]']").prop("disabled", false);
-
-			$("input[name=finishTime]").prop("disabled", false).attr("required", "required");
-			//$("input[name=schoolLen]").prop("disabled", false).attr("required", "required");
-		}
-	}
-	$('input[name=isGraduated]').on('switchChange.bootstrapSwitch', function(event, state) {
-		isGraduatedChange();
-	});
-	isGraduatedChange();
-
 	function eduIdChange(){
 		var $eduId = $("select[name=eduId]");
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_master").id}"
@@ -320,6 +297,31 @@
 		eduIdChange();
 	});
 	eduIdChange();
+
+	function isGraduatedChange(){
+		if(!$("input[name=isGraduated]").bootstrapSwitch("state")) {
+			$("input[name=hasDegree]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$("input[name=isHighEdu]").bootstrapSwitch("state", false).bootstrapSwitch('disabled', true);
+			$("input[name='_files[]']").prop("disabled", true);
+
+			$("input[name=finishTime]").val('').prop("disabled", true).removeAttr("required");
+			//$("input[name=schoolLen]").val('').prop("disabled", true).removeAttr("required");
+
+		}else {
+			$("input[name=hasDegree]").bootstrapSwitch('disabled', false);
+			$("input[name=isHighEdu]").bootstrapSwitch('disabled', false);
+			$("input[name='_files[]']").prop("disabled", false);
+
+			$("input[name=finishTime]").prop("disabled", false).attr("required", "required");
+			//$("input[name=schoolLen]").prop("disabled", false).attr("required", "required");
+		}
+	}
+	$('input[name=isGraduated]').on('switchChange.bootstrapSwitch', function(event, state) {
+		isGraduatedChange();
+	});
+	isGraduatedChange();
+
+
 
 	$("input[name=school]").keyup(function(){
 		//console.log($("input[name=hasDegree]").bootstrapSwitch("state"));
