@@ -110,7 +110,7 @@ pageEncoding="UTF-8" %>
         <div id="body-content-view"></div>
     </div>
 </div>
-<jsp:include page="/WEB-INF/jsp/pmd/pmdMember/pmdMember_colModel.jsp"/>
+<jsp:include page="/WEB-INF/jsp/pmd/pmdMember/pmdMember_colModel.jsp?self=1"/>
 <script>
     $.register.date($('.date-picker'));
     $("#jqGrid").jqGrid({

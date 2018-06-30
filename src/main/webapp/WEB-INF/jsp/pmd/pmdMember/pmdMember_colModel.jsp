@@ -32,8 +32,14 @@
       }, frozen: true},
     { label: '缴费状态',name: '_hasPay', formatter: function (cellvalue, options, rowObject) {
         if(!rowObject.isOnlinePay) return '-'
-      return rowObject.pmdMemberPayView.hasPay?('<span class="text-success">'+ (rowObject.pmdMemberPayView.isDelay?'补缴已确认':'缴费已确认') + '</span>')
-              :'<span class="text-danger">未缴费</span>';
+        <c:if test="${param.self!=1}">
+        return rowObject.pmdMemberPayView.hasPay?('<span class="text-success">'+ (rowObject.pmdMemberPayView.isDelay?'补缴已确认':'缴费已确认') + '</span>')
+                :'<span class="text-danger">未缴费</span>';
+        </c:if>
+        <c:if test="${param.self==1}">
+        return rowObject.hasPay?('<span class="text-success">'+ (rowObject.isDelay?'补缴已确认':'缴费已确认') + '</span>')
+                :'<span class="text-danger">未缴费</span>';
+        </c:if>
     }, frozen: true},
     { label: '按时/延迟缴费',name: '_isDelay', width: 120, formatter: function (cellvalue, options, rowObject) {
 
