@@ -99,7 +99,7 @@ public class ExceptionHandlerController {
         return resultMap;
     }
 
-    @ExceptionHandler({RuntimeException.class, FileNotFoundException.class, OpException.class})
+    @ExceptionHandler({Exception.class, FileNotFoundException.class, OpException.class})
     @ResponseBody
     public ModelAndView resolveException(HttpServletRequest request, Exception ex) {
 

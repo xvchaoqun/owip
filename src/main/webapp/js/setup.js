@@ -505,8 +505,13 @@ $(document).on("click", ".openView", function () {
     var $this = $(this);
     $this.attr("disabled", "disabled");
 
-    var $hide = $($(this).data("hide-el") || "#body-content");
-    var $show = $($(this).data("load-el") || "#body-content-view");
+    var hideEl = $(this).data("hide-el");
+    var loadEl = $(this).data("load-el");
+    if($.trim(hideEl)=='#') hideEl=undefined;
+    if($.trim(loadEl)=='#') loadEl=undefined;
+
+    var $hide = $(hideEl || "#body-content");
+    var $show = $(loadEl || "#body-content-view");
 
     $.loadView({url:$this.data("url"), $hide:$hide, $show:$show, callback:function () {
         $this.removeAttr("disabled");
@@ -1105,6 +1110,20 @@ $(document).on("blur keyup keydown paste change", "input.num, input.float", func
         }
     }
 });
+
+// 禁止textarea回车换行
+$(document).on('keydown input propertychange', 'textarea.noEnter',function(event){
+    //console.log("type=" + event.type + " which =" +event.which )
+    if (event.which == 13) {
+        if (window.event) {
+            window.event.returnValue = false;
+        } else {
+            event.preventDefault(); //for firefox
+        }
+    }
+    // 去掉回车换行
+    $(this).val($(this).val().replace(/[\r\n]/g, ""));
+})
 
 // 搜索框响应回车事件
 $(document).on("select2:close", '#searchForm [data-rel="select2"], #searchForm [data-rel="select2-ajax"]', function () {

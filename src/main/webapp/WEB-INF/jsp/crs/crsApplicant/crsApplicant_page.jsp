@@ -96,7 +96,8 @@
     <button class="jqOpenViewBtn btn btn-info btn-sm"
             data-open-by="page" data-hide-el="#body-content-view" data-load-el="#body-content-view2"
             data-grid-id="#jqGrid2"
-            data-url="${ctx}/user/crsApplicant_preview?hideView2=1" data-id-name="applicantId"><i class="fa fa-search"></i> 预览报名表
+            data-url="${ctx}/user/crsApplicant_preview?loadEl=body-content-view&hideEl=body-content-view2"
+            data-id-name="applicantId"><i class="fa fa-search"></i> 预览报名表
     </button>
 </c:if>
     <c:if test="${cls==2 || cls==3}">
@@ -207,7 +208,8 @@
             {label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
 
                 if(rowObject.cadre==undefined) return cellvalue;
-                return $.cadre(rowObject.cadre.id, cellvalue, "_blank");
+                return $.cadre(rowObject.cadre.id, cellvalue, {loadId:'body-content-view2',
+                    hideId:'body-content-view'});
 
             }, frozen: true},
             <c:if test="${cls==2}">

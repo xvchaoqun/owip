@@ -699,6 +699,7 @@ br.xs-100 {
 .modal .modal-body {
     max-height: 600px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .modal .modal-header, .modal-footer.draggable {

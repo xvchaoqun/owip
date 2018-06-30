@@ -680,7 +680,9 @@
 			</div></div></div>
 	<c:if test="${param._auth!='self'}">
 		<div class="clearfix form-actions center">
-			<button class="hideView btn btn-default" type="button">
+			<button class="hideView btn btn-default"
+					data-load-el="#${param.loadEl}" data-hide-el="#${param.hideEl}"
+					type="button">
 				<i class="ace-icon fa fa-undo"></i>
 				返回
 			</button>

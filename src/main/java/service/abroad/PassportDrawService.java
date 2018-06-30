@@ -31,8 +31,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 import service.base.ShortMsgService;
+import service.sys.SysApprovalLogService;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.xlsx.ExcelTool;
 import sys.utils.ContextHelper;
@@ -52,6 +54,9 @@ public class PassportDrawService extends BaseMapper {
     protected ShortMsgService shortMsgService;
     @Autowired
     protected AbroadShortMsgService abroadShortMsgService;
+    @Autowired
+    protected SysApprovalLogService sysApprovalLogService;
+
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     // 拒绝归还证件借出记录
@@ -121,6 +126,14 @@ public class PassportDrawService extends BaseMapper {
             PassportDraw record = new PassportDraw();
             record.setIsDeleted(true);
             passportDrawMapper.updateByExampleSelective(record, example);
+
+            for (Integer id : ids) {
+                PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+                sysApprovalLogService.add(record.getId(), passportDraw.getCadre().getUserId(),
+                        SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                        SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
+                        "删除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+            }
         }
     }
 
@@ -135,6 +148,14 @@ public class PassportDrawService extends BaseMapper {
         PassportDraw record = new PassportDraw();
         record.setIsDeleted(false);
         passportDrawMapper.updateByExampleSelective(record, example);
+
+        for (Integer id : ids) {
+            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+            sysApprovalLogService.add(record.getId(), passportDraw.getCadre().getUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
+                    "找回", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+        }
     }
 
 
@@ -154,6 +175,11 @@ public class PassportDrawService extends BaseMapper {
         _record.setId(passport.getId());
         _record.setIsLent(true);
         passportMapper.updateByPrimaryKeySelective(_record);
+
+        sysApprovalLogService.add(record.getId(), passportDraw.getCadre().getUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
+                "领取证件", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
     // 归还证件
@@ -162,9 +188,10 @@ public class PassportDrawService extends BaseMapper {
 
         updateByPrimaryKeySelective(record);
 
+        PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
+
         if(record.getUsePassport() != AbroadConstants.ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN) {
             // 将证件标记为未借出
-            PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
             Passport passport = passportMapper.selectByPrimaryKey(passportDraw.getPassportId());
             if (!passport.getIsLent()) {
                 throw new OpException("该证件未借出");
@@ -174,10 +201,21 @@ public class PassportDrawService extends BaseMapper {
             _record.setIsLent(false);
             passportMapper.updateByPrimaryKeySelective(_record);
 
+            sysApprovalLogService.add(record.getId(), passportDraw.getCadre().getUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
+                    "归还证件", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+
             // 归还证件后通知本人
             ShortMsgBean shortMsgBean = abroadShortMsgService.getShortMsgBean(ShiroHelper.getCurrentUserId(),
                     null, "passportDrawReturnSuccess", passportDraw.getId());
             shortMsgService.send(shortMsgBean, IpUtils.getRealIp(ContextHelper.getRequest()));
+        }else{
+
+            sysApprovalLogService.add(record.getId(), passportDraw.getCadre().getUserId(),
+                    SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                    SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
+                    "拒不交回证件", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
         }
     }
 
@@ -185,6 +223,12 @@ public class PassportDrawService extends BaseMapper {
     public void resetReturnPassport(int id) {
 
         iAbroadMapper.resetReturnPassport(id);
+
+        PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
+        sysApprovalLogService.add(id, passportDraw.getCadre().getUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
+                "重置归还状态", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
     }
 
     @Transactional

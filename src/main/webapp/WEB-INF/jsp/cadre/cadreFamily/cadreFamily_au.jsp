@@ -15,7 +15,6 @@
                     <input type="hidden" name="_isUpdate" value="${param._isUpdate}">
                     <input type="hidden" name="applyId" value="${param.applyId}">
                     <input type="hidden" name="id" value="${cadreFamily.id}">
-
                     <div class="form-group">
                         <label class="col-xs-4 control-label">姓名</label>
 
@@ -25,7 +24,6 @@
                     </div>
                     <div class="form-group">
                         <label class="col-xs-4 control-label">称谓</label>
-
                         <div class="col-xs-3">
                             <select required data-rel="select2" name="title" data-placeholder="请选择" data-width="125">
                                 <option></option>
@@ -40,16 +38,14 @@
                     </div>
                     <div class="form-group">
                         <label class="col-xs-4 control-label">姓名</label>
-
-                        <div class="col-xs-3">
+                        <div class="col-xs-4">
                             <input required class="form-control" type="text" name="realname"
                                    value="${cadreFamily.realname}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-xs-4 control-label">出生年月</label>
-
-                        <div class="col-xs-3">
+                        <div class="col-xs-4">
                             <div class="input-group">
                                 <input ${cadreFamily.withGod?'disabled':'required'}
                                         class="form-control date-picker" name="_birthday" type="text"
@@ -66,9 +62,7 @@
                     </div>
                     <div class="form-group">
                         <label class="col-xs-4 control-label">政治面貌</label>
-
                         <div class="col-xs-6">
-
                             <select required data-rel="select2" name="politicalStatus" data-placeholder="请选择"
                                     data-width="125">
                                 <option></option>
@@ -83,7 +77,8 @@
                     <div class="form-group">
                         <label class="col-xs-4 control-label">工作单位及职务</label>
                         <div class="col-xs-8">
-                            <input required class="form-control" type="text" name="unit" value="${cadreFamily.unit}">
+                            <textarea required class="form-control noEnter" rows="3" maxlength="100"
+                                      name="unit">${cadreFamily.unit}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -103,9 +98,7 @@
     <input type="submit" class="btn btn-primary"
            value="<c:if test="${cadreFamily!=null}">确定</c:if><c:if test="${cadreFamily==null}">添加</c:if>"/>
 </div>
-
 <script>
-
     $.register.date($('.date-picker'));
     $("#modalForm input[name=withGod]").click(function () {
         if ($(this).is(":checked")) {

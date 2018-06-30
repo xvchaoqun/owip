@@ -13,7 +13,7 @@
     <div class="widget-toolbar no-border">
       <ul class="nav nav-tabs">
         <li class="active">
-          <a href="javascript:"><c:if test="${not empty sysUser}">${sysUser.realname}-</c:if>${SYS_APPROVAL_LOG_TYPE_MAP.get(type)}-审核记录</a>
+          <a href="javascript:"><c:if test="${not empty sysUser}">${sysUser.realname}-</c:if>${SYS_APPROVAL_LOG_TYPE_MAP.get(type)}-操作记录</a>
         </li>
       </ul>
     </div>

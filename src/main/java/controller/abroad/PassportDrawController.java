@@ -31,6 +31,7 @@ import sys.constants.AbroadConstants;
 import sys.constants.ContentTplConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -89,6 +90,13 @@ public class PassportDrawController extends AbroadBaseController {
         record.setIp(IpUtils.getRealIp(request));
 
         passportDrawService.updateByPrimaryKeySelective(record);
+
+        PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
+        sysApprovalLogService.add(record.getId(), passportDraw.getCadre().getUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
+                "审核", SystemConstants.SYS_APPROVAL_LOG_STATUS_PASS, null);
+
         logger.info(addLog(LogConstants.LOG_ABROAD, "批准申请使用证件（通过）：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);
@@ -111,6 +119,13 @@ public class PassportDrawController extends AbroadBaseController {
         record.setIp(IpUtils.getRealIp(request));
 
         passportDrawService.updateByPrimaryKeySelective(record);
+
+        PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(record.getId());
+        sysApprovalLogService.add(record.getId(), passportDraw.getCadre().getUserId(),
+                SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
+                "审核", SystemConstants.SYS_APPROVAL_LOG_STATUS_DENY, null);
+
         logger.info(addLog(LogConstants.LOG_ABROAD, "批准申请使用证件（未通过）：%s", record.getId()));
 
         return success(FormUtils.SUCCESS);

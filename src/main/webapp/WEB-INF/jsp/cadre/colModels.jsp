@@ -510,7 +510,7 @@
                 return "class='danger'";
         }},
         {label: '政治面貌', name: 'politicalStatus', formatter: $.jgrid.formatter.MetaType},
-        {label: '工作单位及职务', name: 'unit', width: 450, align:"left"}, {hidden: true, name: 'id'}
+        {label: '工作单位及职务', name: 'unit', width: 650, align:"left"}, {hidden: true, name: 'id'}
     ];
 
     colModels.cadreFamilyAbroad = [

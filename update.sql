@@ -1,4 +1,10 @@
 
+
+20180630
+ALTER TABLE `cadre_family`
+	CHANGE COLUMN `unit` `unit` VARCHAR(200) NULL DEFAULT NULL COMMENT '工作单位及职务' AFTER `political_status`;
+
+
 20180628
 ALTER TABLE `crs_applicant`
 	ADD COLUMN `quit_pdf` VARCHAR(100) NULL DEFAULT NULL COMMENT '退出申请' AFTER `is_quit`;

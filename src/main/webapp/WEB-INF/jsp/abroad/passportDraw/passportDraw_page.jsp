@@ -73,7 +73,12 @@
                                         class="jqItemBtn btn btn-info btn-sm">
                                     <i class="fa fa-reply"></i> 重置归还状态
                                 </button>
-
+                                <button class="jqOpenViewBtn btn btn-info btn-sm"
+                                        data-url="${ctx}/sysApprovalLog"
+                                        data-querystr="&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW%>"
+                                        data-open-by="page">
+                                    <i class="fa fa-search"></i> 操作记录
+                                </button>
                                 <shiro:hasPermission name="passportDraw:del">
                                     <button id="delBtn" class="jqBatchBtn btn btn-danger btn-sm"
                                             data-rel="tooltip" data-placement="top" title="证件未领取才可以删除"

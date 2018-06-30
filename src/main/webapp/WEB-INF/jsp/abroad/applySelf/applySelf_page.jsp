@@ -84,7 +84,7 @@
                                     data-url="${ctx}/sysApprovalLog"
                                     data-querystr="&type=<%=SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF%>"
                                     data-open-by="page">
-                                <i class="fa fa-check-circle-o"></i> 查看操作记录
+                                <i class="fa fa-search"></i> 操作记录
                             </button>
 
                             <a class="jqExportBtn btn btn-info btn-sm tooltip-success"

@@ -144,9 +144,8 @@ public class CrsApplicantService extends BaseMapper {
         if(reportDeadline!=null
                 && DateUtils.compareDate(new Date(), reportDeadline)
                 && !canAfterApply(userId, postId)){
-            throw new OpException("招聘会于{0}召开，{1}之后不可修改应聘材料。",
-                    DateUtils.formatDate(meetingTime, "yyyy年MM月dd日 HH点"),
-                    DateUtils.formatDate(reportDeadline, "yyyy年MM月dd日 HH点"));
+            throw new OpException("上传材料截止时间为{0}，现在时间已过，不可退出。",
+                    DateUtils.formatDate(reportDeadline, "yyyy年MM月dd日 HH:mm"));
         }
 
         if(idDuplicate(applicantId, postId, userId)){
@@ -243,7 +242,7 @@ public class CrsApplicantService extends BaseMapper {
         if(!ShiroHelper.isPermitted("crsPost:list")) {
             if (quitDeadline != null && DateUtils.compareDate(new Date(), quitDeadline)) {
                 throw new OpException("退出竞聘截止时间为{0}，现在时间已过，不可退出。",
-                        DateUtils.formatDate(quitDeadline, "yyyy年MM月dd日 HH点"));
+                        DateUtils.formatDate(quitDeadline, "yyyy年MM月dd日 HH:mm"));
             }
         }
 

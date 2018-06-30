@@ -165,9 +165,9 @@ public class CrsShortMsgService extends BaseMapper {
     private void sendPptMsg(SysUserView uv, CrsPost crsPost) {
 
         String postName = crsPost.getName();
-        String meetingTime = DateUtils.formatDate(crsPost.getMeetingTime(), "yyyy年MM月dd日 HH点");
+        String meetingTime = DateUtils.formatDate(crsPost.getMeetingTime(), "yyyy年MM月dd日 HH:mm");
         String meetingAddress = crsPost.getMeetingAddress();
-        String pptDeadline = DateUtils.formatDate(crsPost.getPptDeadline(), "yyyy年MM月dd日 HH点");
+        String pptDeadline = DateUtils.formatDate(crsPost.getPptDeadline(), "yyyy年MM月dd日 HH:mm");
 
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_CRS_PPT_MSG);
         try {
@@ -197,7 +197,7 @@ public class CrsShortMsgService extends BaseMapper {
     private void sendPptUrgeMsg(SysUserView uv, CrsPost crsPost) {
 
         String postName = crsPost.getName();
-        String meetingTime = DateUtils.formatDate(crsPost.getMeetingTime(), "yyyy年MM月dd日 HH点");
+        String meetingTime = DateUtils.formatDate(crsPost.getMeetingTime(), "yyyy年MM月dd日 HH:mm");
         String meetingAddress = crsPost.getMeetingAddress();
 
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_CRS_PPT_URGE_MSG);

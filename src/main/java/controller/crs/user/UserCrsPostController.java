@@ -155,13 +155,6 @@ public class UserCrsPostController extends CrsBaseController {
             SecurityUtils.getSubject().checkPermission("userCrsPost:*");
 
             CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
-            /*Date meetingTime = crsPost.getMeetingTime();
-            Date pptDeadline = crsPost.getPptDeadline();
-            if(meetingTime!=null && DateUtils.compareDate(new Date(), meetingTime)){
-                throw new OpException("招聘会于{0}召开，{1}之后不可上传应聘PPT。",
-                        DateUtils.formatDate(meetingTime, "yyyy年MM月dd日 HH点"),
-                        DateUtils.formatDate(pptDeadline, "yyyy年MM月dd日 HH点"));
-            }*/
 
             if(crsPost.getPptUploadClosed()){
                 throw new OpException("上传应聘PPT通道已关闭");

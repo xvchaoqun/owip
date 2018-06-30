@@ -495,6 +495,7 @@ td.padding10 {
         border: none;
         white-space: pre-wrap;
         font-size: inherit;
+        font-family: inherit;
  }
 </style>
 <div class="row">
@@ -503,7 +504,7 @@ td.padding10 {
             <div class="widget-header">
                 <h4 class="widget-title lighter smaller">
                     <a href="javascript:"
-                       <c:if test="${param.hideView2==1}">data-load-el="#body-content-view" data-hide-el="#body-content-view2"</c:if>
+                       data-load-el="#${param.loadEl}" data-hide-el="#${param.hideEl}"
                        class="hideView btn btn-xs btn-success">
                         <i class="ace-icon fa fa-backward"></i>
                         返回</a>

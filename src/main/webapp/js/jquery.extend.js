@@ -500,18 +500,29 @@ var _modal_width;
             return '<span class="{0}">{1}</span>'
                 .format(del ? "delete" : "", str);
         },
-        cadre: function (cadreId, realname, target) {
+        cadre: function (cadreId, realname, params) {
 
-            if (cadreId > 0 && $.trim(realname) != '') {
+            if(cadreId==undefined || cadreId<=0){
+                console.log("illegal cadreId:" + cadreId);
+                return ;
+            }
 
-                if( $.inArray("cadre:admin", _permissions) >= 0 && $.inArray("cadre:view", _permissions) >= 0 ) {
-                    if (target != undefined) {
-                        return ('<a href="{3}/#{3}/cadre_view?cadreId={0}" target="{1}">{2}</a>')
-                            .format(cadreId, target, realname, ctx);
-                    } else {
-                        return '<a href="javascript:;" class="openView" data-url="{2}/cadre_view?cadreId={0}">{1}</a>'
-                            .format(cadreId, realname, ctx);
-                    }
+            if( $.trim(realname) != ''
+                && $.inArray("cadre:admin", _permissions) >= 0
+                && $.inArray("cadre:view", _permissions) >= 0 ) {
+
+                if (params=='_blank') {
+                    return ('<a href="{2}/#{2}/cadre_view?cadreId={0}" target="_blank">{1}</a>')
+                        .format(cadreId, realname, ctx);
+                } else if($.isJson(params) && params.hideId!=undefined &&  params.loadId!=undefined ){
+
+                    return ('<a href="javascript:;" class="openView" data-hide-el="#{3}"  data-load-el="#{4}" ' +
+                        'data-url="{2}/cadre_view?cadreId={0}&hideEl={4}&loadEl={3}">{1}</a>')
+                        .format(cadreId, realname, ctx, params.hideId, params.loadId);
+
+                } else {
+                    return '<a href="javascript:;" class="openView" data-url="{2}/cadre_view?cadreId={0}">{1}</a>'
+                        .format(cadreId, realname, ctx);
                 }
             }
 
@@ -763,6 +774,9 @@ var _modal_width;
             }else{
                 _params = $.extend({}, params);
             }
+            if($.trim(_params.hideEl)=='#') _params.hideEl=undefined;
+            if($.trim(_params.loadEl)=='#') _params.loadEl=undefined;
+
             //console.log("_params=" + JSON.stringify(_params))
             var $hide = $(_params.hideEl || "#body-content-view");
             var $show = $(_params.loadEl || "#body-content");

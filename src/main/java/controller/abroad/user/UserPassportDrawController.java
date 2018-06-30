@@ -32,6 +32,7 @@ import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
+import sys.constants.SystemConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -312,11 +313,15 @@ public class UserPassportDrawController extends AbroadBaseController {
                                   String remark,
                                   HttpServletRequest request) {
 
+        boolean isSelf = false;
         if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
+            isSelf = true;
         }
+
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId);
         Passport passport = passportMapper.selectByPrimaryKey(passportId);
@@ -335,6 +340,11 @@ public class UserPassportDrawController extends AbroadBaseController {
 
         passportDrawService.insertSelective(record);
         logger.info(addLog(LogConstants.LOG_ABROAD, "申请使用证件（因私出国）：%s", record.getId()));
+
+        sysApprovalLogService.add(record.getId(), cadre.getUserId(),
+                isSelf?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
+                "申请使用证件", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
 
         // 给干部管理员发短信提醒
         abroadShortMsgService.sendPassportDrawSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
@@ -373,11 +383,12 @@ public class UserPassportDrawController extends AbroadBaseController {
                                        @RequestParam(value = "_files[]") MultipartFile[] _files,
                                        @RequestParam(required = false, defaultValue = "0")boolean needSign,
                                        HttpServletRequest request) {
-
+        boolean isSelf = false;
         if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
+            isSelf = true;
         }
 
         if(type==null || (type != AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_TW
@@ -443,6 +454,12 @@ public class UserPassportDrawController extends AbroadBaseController {
         logger.info(addLog(LogConstants.LOG_ABROAD, "申请使用证件（%s）：%s",
                 AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP.get(type), record.getId()));
 
+        sysApprovalLogService.add(record.getId(), cadre.getUserId(),
+                isSelf?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
+                "申请使用证件", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED,
+                AbroadConstants.ABROAD_PASSPORT_DRAW_TYPE_MAP.get(type));
+
         // 给干部管理员发短信提醒
         abroadShortMsgService.sendPassportDrawSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
 
@@ -482,11 +499,14 @@ public class UserPassportDrawController extends AbroadBaseController {
                                      String remark,
                                      HttpServletRequest request) {
 
+        boolean isSelf = false;
         if(cadreId==null || ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)){
             // 确认干部只能提交自己的申请
             CadreView cadre = cadreService.dbFindByUserId(ShiroHelper.getCurrentUserId());
             cadreId = cadre.getId();
+            isSelf = true;
         }
+
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
 
         Passport passport = passportMapper.selectByPrimaryKey(passportId);
@@ -530,6 +550,11 @@ public class UserPassportDrawController extends AbroadBaseController {
 
         passportDrawService.insertSelective(record);
         logger.info(addLog(LogConstants.LOG_ABROAD, "申请使用证件（处理其他事务）：%s", record.getId()));
+
+        sysApprovalLogService.add(record.getId(), cadre.getUserId(),
+                isSelf?SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_SELF:SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+                SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
+                "申请使用证件", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
 
         // 给干部管理员发短信提醒
         abroadShortMsgService.sendPassportDrawSubmitMsgToCadreAdmin(record.getId(), IpUtils.getRealIp(request));
