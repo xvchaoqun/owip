@@ -1,5 +1,6 @@
 package sys.tags;
 
+import domain.base.ContentTpl;
 import domain.base.MetaClass;
 import domain.base.MetaType;
 import domain.cadre.CadreAdminLevel;
@@ -25,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import persistence.sys.HtmlFragmentMapper;
+import service.base.ContentTplService;
 import service.base.MetaClassService;
 import service.base.MetaTypeService;
 import service.cadre.CadreAdminLevelService;
@@ -70,6 +72,7 @@ public class CmTag {
     static CacheService cacheService = context.getBean(CacheService.class);
     static HtmlFragmentService htmlFragmentService = context.getBean(HtmlFragmentService.class);
     static HtmlFragmentMapper htmlFragmentMapper = context.getBean(HtmlFragmentMapper.class);
+    static ContentTplService contentTplService = context.getBean(ContentTplService.class);
     static SysConfigService sysConfigService = context.getBean(SysConfigService.class);
 
     static SysUserService sysUserService = context.getBean(SysUserService.class);
@@ -154,6 +157,11 @@ public class CmTag {
         }
 
         return null;
+    }
+
+    public static ContentTpl getContentTpl(String code) {
+
+        return contentTplService.codeKeyMap().get(code);
     }
 
     public static HtmlFragment getHtmlFragment(String code) {

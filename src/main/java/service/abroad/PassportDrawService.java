@@ -215,7 +215,7 @@ public class PassportDrawService extends BaseMapper {
             sysApprovalLogService.add(record.getId(), passportDraw.getCadre().getUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
-                    "拒不交回证件", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
+                    "拒不交回证件", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, record.getReturnRemark());
         }
     }
 

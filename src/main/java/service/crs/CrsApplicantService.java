@@ -120,10 +120,6 @@ public class CrsApplicantService extends BaseMapper {
     @Transactional
     public void apply(Integer applicantId, int postId, byte status, String career, String report, int userId) {
 
-        if(!CadreInfoCheckService.perfectCadreInfo(userId)){
-            throw new OpException("未通过干部信息完整性校验。");
-        }
-
         CrsPost crsPost = crsPostMapper.selectByPrimaryKey(postId);
         if(crsPost==null ||crsPost.getStatus() ==CrsConstants.CRS_POST_STATUS_FINISH){
             throw new OpException("岗位{0}应聘已经结束。", crsPost==null?"":crsPost.getName());
@@ -153,6 +149,10 @@ public class CrsApplicantService extends BaseMapper {
         }
 
         if(applicantId==null) {
+
+            if (!CadreInfoCheckService.perfectCadreInfo(userId)) {
+                throw new OpException("未通过干部信息完整性校验。");
+            }
 
             // 检查报名规则
             if(!crsApplyRuleService.canApply(userId, postId)){
@@ -185,7 +185,13 @@ public class CrsApplicantService extends BaseMapper {
 
             CrsApplicant crsApplicant = crsApplicantMapper.selectByPrimaryKey(applicantId);
             Assert.isTrue(crsApplicant != null && crsApplicant.getPostId() == postId
-                    && crsApplicant.getUserId()==userId, "数据异常。");
+                    && crsApplicant.getUserId() == userId, "数据异常。");
+
+            // 只要报名成功了，上传PPT的时候无需再次检查是否信息都全。只要报名成功了，就可以上传PPT。
+            if (crsApplicant.getStatus() == CrsConstants.CRS_APPLICANT_STATUS_SAVE
+                    && !CadreInfoCheckService.perfectCadreInfo(userId)) {
+                throw new OpException("未通过干部信息完整性校验。");
+            }
 
             CrsApplicantWithBLOBs record = new CrsApplicantWithBLOBs();
             record.setId(applicantId);

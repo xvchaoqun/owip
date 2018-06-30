@@ -35,11 +35,16 @@ pageEncoding="UTF-8"%>
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
-                    if(ret.success){
+                   /* if(ret.success){
                         $("#modal").modal('hide');
                         $.loadView("${ctx}/user/cet/cetProjectPlan_detail?planId=${param.planId}");
                     }
-                    $btn.button('reset');
+                    $btn.button('reset');*/
+
+                    if(ret.success){
+                        $("#modal").modal('hide');
+                        $.loadView("${ctx}/user/cet/cetProjectPlan?projectId=${param.projectId}");
+                    }
                 }
             });
         }

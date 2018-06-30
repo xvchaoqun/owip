@@ -12,13 +12,13 @@
 
             <div class="col-sm-12">
                 <div class="jqgrid-vertical-offset buttons">
-                    <shiro:hasRole name="${ROLE_ADMIN}">
+                    <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ADMIN1}">
                         <button type="button"
                                 data-url="${ctx}/sysLogin_switch"
                                 class="popupBtn btn btn-info btn-sm">
                             <i class="fa fa-refresh"></i> 切换账号
                         </button>
-                    </shiro:hasRole>
+                    </shiro:hasAnyRoles>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                     <div class="widget-header">

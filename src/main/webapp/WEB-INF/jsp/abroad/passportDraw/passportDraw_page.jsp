@@ -70,7 +70,7 @@
                                 <button id="resetDrawStatusBtn" data-url="${ctx}/abroad/reset_passportDraw_return"
                                         data-title="重置归还状态"
                                         data-msg="确认重置该证件为未归还状态？"
-                                        class="jqItemBtn btn btn-info btn-sm">
+                                        class="jqItemBtn btn btn-primary btn-sm">
                                     <i class="fa fa-reply"></i> 重置归还状态
                                 </button>
                                 <button class="jqOpenViewBtn btn btn-info btn-sm"
@@ -426,7 +426,10 @@
             {label: '实交组织部日期', align: 'center', name: 'realReturnDate', width: 130,formatter: function (cellvalue, options, rowObject) {
 
                 if(rowObject.usePassport=='${ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN}'){
-                    return '-'
+
+                    return '<button data-url="${ctx}/abroad/passportDraw_return?id={0}" class="openView btn btn-default btn-xs">'
+                                    .format(rowObject.id)
+                            + '<i class="fa fa-reply"></i> 重新交回</button>'
                 }
 
                 if(rowObject.drawStatus != '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}' &&

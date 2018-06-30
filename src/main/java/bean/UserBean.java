@@ -18,6 +18,7 @@ public class UserBean implements Serializable {
     public String avatar;
     public String username;
     public String realname;
+    public Boolean locked;
 
     public Byte type; // 类别：教师、学生
     public Byte gender;
@@ -76,6 +77,14 @@ public class UserBean implements Serializable {
 
     public void setRealname(String realname) {
         this.realname = realname;
+    }
+
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
     }
 
     public Byte getType() {

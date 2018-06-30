@@ -67,7 +67,6 @@
                         </div>
                         <div class="form-group">
                             <label class="col-xs-4 control-label">上传应聘PPT截止时间</label>
-
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input class="form-control datetime-picker" type="text" name="pptDeadline"
@@ -77,10 +76,21 @@
                                 </span>
                                 </div>
                             </div>
+
                         </div>
                         <div class="modal-footer center">
+
                             <%--<a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>--%>
                             <input type="submit" class="btn btn-primary" value="更新"/>
+
+                            <div style="text-align: left; padding-top: 10px">
+                                注：短信提醒上传应聘PPT的规则如下：<br/>如果设置了招聘会时间、地点和上传应聘PPT截止时间，并且启动了[上传应聘ppt提醒]定时任务时，会发送如下短信：<br/>
+                                <div style="color: red">
+                                    1.截止时间前1天（24小时），给还没有上传的应聘人发送一次<br/>
+                                    2.截止时间前1个小时，给还没有上传的应聘人发送一次<br/>
+                                    3.截止时间刚到，给还没有上传的应聘人发送一次，后面的4小时内每过2个小时再催一次(共两次)<br/>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>

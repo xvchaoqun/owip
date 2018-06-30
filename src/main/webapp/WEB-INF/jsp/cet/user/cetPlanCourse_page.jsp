@@ -56,7 +56,7 @@
                         "学习心得({0})".format(rowObject.realname), '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
             },frozen: true},
             {label: '编号', name: 'cetCourse.sn'},
-            {label: '名称', name: 'cetCourse.name', width: 300, align: 'left'},
+            {label: '名称', name: 'cetCourse.name', width: 450, align: 'left'},
             {label: '学习内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return ('<button type="button" data-url="${ctx}/cet/cetCourseFile?view=1&courseId={0}" ' +
                 'class="popupBtn btn btn-xs btn-success"><i class="ace-icon fa fa-search"></i> 详情</button>')

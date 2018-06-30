@@ -37,9 +37,25 @@
                 </small>
             </a>
         </div>
-
     </div>
     <div class="navbar-buttons navbar-header pull-right" role="navigation">
+        <div style="position: absolute;top:10px;right: 35px;float: right;font-size: 14px">
+            <c:if test="${empty sessionScope._switchUser}">
+            <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ADMIN1}">
+                <a href="javascript:;"
+                   data-url="${ctx}/sysLogin_switch"
+                   class="popupBtn">
+                    <i class="fa fa-refresh"></i> 切换账号
+                </a>
+            </shiro:hasAnyRoles>
+            </c:if>
+            <c:if test="${not empty sessionScope._switchUser}">
+                <a href="${ctx}/sysLogin_switch_back">
+                    <i class="fa fa-reply"></i> 返回主账号
+                </a>
+            </c:if>
+        </div>
+
         <ul class="nav nav-pills hidden-xs hidden-sm hidden-md" style="margin-left: 0px">
             <li class="">
                 <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i class="fa fa-user"></i>

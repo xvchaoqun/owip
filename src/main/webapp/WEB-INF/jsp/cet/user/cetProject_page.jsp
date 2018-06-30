@@ -74,7 +74,7 @@ pageEncoding="UTF-8" %>
             { label: '培训时间',name: 'startDate', width: 200, formatter: function (cellvalue, options, rowObject) {
                 return '{0} ~ {1}'.format($.date(rowObject.startDate, "yyyy-MM-dd"), $.date(rowObject.endDate, "yyyy-MM-dd"))
             }, frozen: true},
-            { label: '培训班名称',name: 'name', width: 300, frozen: true},
+            { label: '培训班名称',name: 'name', width: 400, align:'left', frozen: true},
             {
                 label: '培训方案', width: 90,formatter: function (cellvalue, options, rowObject) {
                 var pdfFilePath = rowObject.pdfFilePath;

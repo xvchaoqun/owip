@@ -72,8 +72,14 @@
                                 </div>
                             </div>
                             <div class="modal-footer center" style="margin-top: 22px;">
-                                <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-                                <input type="submit" class="btn btn-primary" value="确定"/>
+                                <input type="submit" class="btn btn-primary" value="更新"/>
+                                <div style="text-align: left;padding-top: 10px;">
+                                    注：如果设置了报名结束时间，并且启动了[报名截止通知领导]定时任务时，会短信通知领导：<br/>
+                                    <div style="color: red">
+                                        ${cm:getContentTpl("ct_crs_apply_end").content}
+                                    </div>
+                                </div>
+
                             </div>
                         </form>
                 </div>

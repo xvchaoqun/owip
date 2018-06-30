@@ -52,17 +52,31 @@ public class CasController {
             }
         }
 
-        return casLogin(username, lackRoleAdmin, request, response);
+        String _switchUser = ShiroHelper.getCurrentUsername();
+        return casLogin(username, lackRoleAdmin, request, response, _switchUser);
+    }
+
+    // 切换回主账号
+    @RequestMapping("/sysLogin_switch_back")
+    public String sysLogin_switch_back(HttpServletRequest request, HttpServletResponse response) {
+
+        String switchUser = (String) request.getSession().getAttribute("_switchUser");
+        if(StringUtils.isBlank(switchUser))
+            throw  new UnauthorizedException();
+
+        return casLogin(switchUser, false, request, response, null);
     }
 
     @RequestMapping("/cas")
     public String cas(HttpServletRequest request, HttpServletResponse response) {
 
         String username = CasUtils.getUsername(request);
-        return casLogin(username, true, request, response);
+        return casLogin(username, true, request, response, null);
     }
 
-    private String casLogin(String username, boolean hasLoginLog, HttpServletRequest request, HttpServletResponse response){
+    private String casLogin(String username, boolean hasLoginLog,
+                            HttpServletRequest request, HttpServletResponse response,
+                            String _switchUser){
 
         if (StringUtils.isNotBlank(username)) {
             SysUserView uv = sysUserService.findByUsername(username);
@@ -84,6 +98,12 @@ public class CasController {
                     logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
                             SystemConstants.LOGIN_TYPE_CAS, true, "登录成功"));
                 }
+                if(StringUtils.isNotBlank(_switchUser)){
+                    SecurityUtils.getSubject().getSession().setAttribute("_switchUser", _switchUser);
+                }else{
+                    SecurityUtils.getSubject().getSession().removeAttribute("_switchUser");
+                }
+
                 return "redirect:/";
             } else {
                 logger.info(sysLoginLogService.log(null, username,

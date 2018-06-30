@@ -169,6 +169,13 @@ public class CrsShortMsgService extends BaseMapper {
         String meetingAddress = crsPost.getMeetingAddress();
         String pptDeadline = DateUtils.formatDate(crsPost.getPptDeadline(), "yyyy年MM月dd日 HH:mm");
 
+        // 如果没有设置招聘会相关信息，则不发送短信
+        if(StringUtils.isBlank(meetingTime)
+                || StringUtils.isBlank(meetingAddress)
+                || StringUtils.isBlank(pptDeadline)){
+            return;
+        }
+
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_CRS_PPT_MSG);
         try {
             int userId = uv.getId();
@@ -199,6 +206,12 @@ public class CrsShortMsgService extends BaseMapper {
         String postName = crsPost.getName();
         String meetingTime = DateUtils.formatDate(crsPost.getMeetingTime(), "yyyy年MM月dd日 HH:mm");
         String meetingAddress = crsPost.getMeetingAddress();
+
+        // 如果没有设置招聘会相关信息，则不发送短信
+        if(StringUtils.isBlank(meetingTime)
+                || StringUtils.isBlank(meetingAddress)){
+            return;
+        }
 
         ContentTpl tpl = shortMsgService.getTpl(ContentTplConstants.CONTENT_TPL_CRS_PPT_URGE_MSG);
         try {

@@ -72,6 +72,7 @@ public class UserBeanService extends BaseMapper {
         userBean.setGender(uv.getGender());
         userBean.setIdcard(uv.getIdcard());
         userBean.setRealname(uv.getRealname());
+        userBean.setLocked(uv.getLocked());
 
         userBean.setCountry(uv.getCountry());
         userBean.setUnit(uv.getUnit());

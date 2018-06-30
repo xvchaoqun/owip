@@ -25,32 +25,39 @@
     </form>
 </div>
 <div class="modal-footer">
-    <div style="text-align: left;margin-bottom: 10px;">注：
+
+    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
+    <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
+
+    <div style="text-align: left;margin-bottom: 10px;padding-top: 10px;">注：
         <br/>
         <div style="color: red">1、如果账号已经登录状态，会踢出该账号。</div>
         <div>2、此操作不产生登录日志。</div>
         3、切换后的账号，如有业务操作，会产生操作日志
     </div>
-    <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
 </div>
 <script>
-    var username;
+    var user;
     var $select = $.register.user_select($('#modal select[name=userId]'));
     $select.on("change",function(){
         var entity = $(this).select2("data")[0];
-        username = entity.user.username;
+        user = entity.user;
         $("#loginStatus").html("");
-        $.getJSON("${ctx}/sysLogin_status",{username: username},function(ret){
+        $.getJSON("${ctx}/sysLogin_status",{username: user.username},function(ret){
             if(ret.success){
-                $("#loginStatus").html(ret.isOnline?'<span class="text text-danger bolder larger">在线</span>'
-                        :'<span class="text text-success">离线</span>');
+                if(user.locked){
+                    $("#loginStatus").html("禁用账号");
+                }else {
+                    $("#loginStatus").html(ret.isOnline ? '<span class="text text-danger bolder larger">在线</span>'
+                            : '<span class="text text-success">离线</span>');
+                }
             }
         })
     });
     $("#submitBtn").click(function(){
-        if($.trim(username)!=''){
-            location.href="${ctx}/cas_test?username="+ username;
+        user = user || {};
+        if(!user.locked && $.trim(user.username)!=''){
+            location.href="${ctx}/cas_test?username="+ user.username;
         }
     })
 </script>
