@@ -704,6 +704,99 @@ public class PmdMonthService extends BaseMapper {
         return partyIdSet;
     }
 
+    // 给当前缴费月份新增缴费党委
+    @Transactional
+    public void addParty(int partyId){
+
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if(currentPmdMonth==null) return;
+        int monthId = currentPmdMonth.getId();
+        {
+            PmdPayParty record = new PmdPayParty();
+            record.setPartyId(partyId);
+            record.setMonthId(monthId);
+            pmdPayPartyMapper.insertSelective(record);
+        }
+
+        Party party = partyMapper.selectByPrimaryKey(partyId);
+        String partyName = party.getName();
+        boolean directBranch = partyService.isDirectBranch(partyId);
+
+        List<Branch> branchList = null;
+        if(!directBranch){
+            // 同步支部信息
+            BranchExample example = new BranchExample();
+            example.createCriteria().andPartyIdEqualTo(partyId).andIsDeletedEqualTo(false);
+            branchList = branchMapper.selectByExample(example);
+            for (Branch branch : branchList) {
+
+                int branchId = branch.getId();
+                PmdBranch record = new PmdBranch();
+                record.setMonthId(monthId);
+                record.setPartyId(partyId);
+                record.setBranchId(branchId);
+                record.setPartyName(partyName);
+                record.setBranchName(branch.getName());
+                record.setSortOrder(party.getSortOrder());
+                record.setHasReport(false);
+
+                pmdBranchMapper.insertSelective(record);
+
+                PmdPayBranch _record = new PmdPayBranch();
+                _record.setBranchId(branchId);
+                _record.setPartyId(partyId);
+                _record.setMonthId(monthId);
+                pmdPayBranchMapper.insertSelective(_record);
+            }
+        }
+
+        {
+            // 同步分党委信息
+            PmdParty record = new PmdParty();
+            record.setMonthId(monthId);
+            record.setPartyId(partyId);
+            record.setIsDirectBranch(false);
+            record.setPartyName(partyName);
+            record.setSortOrder(party.getSortOrder());
+            record.setHasReport(false);
+            // 党支部数
+            //record.setBranchCount(branchList == null ? 0 : branchList.size());
+
+            // 直属党支部特殊处理
+            if (directBranch) {
+                record.setIsDirectBranch(true);
+                record.setBranchCount(1);
+            }
+
+            pmdPartyMapper.insertSelective(record);
+        }
+
+        // 直属党支部特殊处理
+        if (directBranch) {
+            // 同步党员（直属党支部）
+            MemberExample example = new MemberExample();
+            example.createCriteria().andStatusEqualTo(MemberConstants.MEMBER_STATUS_NORMAL)
+                    .andPartyIdEqualTo(partyId).andBranchIdIsNull();
+            List<Member> members = memberMapper.selectByExample(example);
+            for (Member member : members) {
+                addOrResetMember(null, currentPmdMonth, member);
+            }
+
+        } else {
+
+            List<Integer> branchIdList = iPmdMapper.branchIdList(monthId, partyId);
+            for (Integer branchId : branchIdList) {
+
+                addBranch(partyId, branchId, currentPmdMonth);
+            }
+        }
+
+        PmdMonth record = new PmdMonth();
+        record.setId(monthId);
+        record.setPartyCount(currentPmdMonth.getPartyCount()+1);
+        pmdMonthMapper.updateByPrimaryKeySelective(record);
+    }
+
     // 设置缴费分党委（只可编辑未启动缴费）
     @Transactional
     public void updatePartyIds(int monthId, Integer[] partyIds) {
@@ -769,8 +862,9 @@ public class PmdMonthService extends BaseMapper {
             pmdPayBranchMapper.deleteByExample(example);
         }
 
-        Set<Integer> allPayBranchIdSet = pmdPayBranchService.getAllPayBranchIdSet(null).keySet();
         for (int partyId : selectedPartyIdSet) {
+
+            Set<Integer> allPayBranchIdSet = pmdPayBranchService.getAllPayBranchIdSet(partyId).keySet();
             Party party = partyMapper.selectByPrimaryKey(partyId);
             String partyName = party.getName();
             List<Branch> branchList = null;
@@ -800,7 +894,6 @@ public class PmdMonthService extends BaseMapper {
                         _record.setMonthId(monthId);
                         pmdPayBranchMapper.insertSelective(_record);
                     }
-
                 }
             }
 

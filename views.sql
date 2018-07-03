@@ -319,7 +319,7 @@ from pmd_pay_branch ppb
 left join ow_branch ob on ppb.branch_id=ob.id
 left join ow_party op on ppb.party_id=op.id
 left join pmd_branch_admin pba on pba.branch_id=ppb.branch_id
-group by ppb.branch_id;
+group by ppb.party_id, ppb.branch_id;
 
 DROP VIEW IF EXISTS `pmd_party_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `pmd_party_view` AS

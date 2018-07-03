@@ -1,7 +1,10 @@
 package controller.pmd;
 
+import domain.party.Party;
+import domain.party.PartyExample;
 import domain.pmd.PmdMonth;
 import domain.pmd.PmdMonthExample;
+import domain.pmd.PmdPayParty;
 import mixin.MixinUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -24,6 +27,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -129,6 +133,33 @@ public class PmdMonthController extends PmdBaseController {
         pmdMonthService.updatePartyIds(monthId, partyIds);
 
         logger.info(addLog(LogConstants.LOG_PMD, "设置/更新缴费月份的分党委"));
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pmdMonth:edit")
+    @RequestMapping("/pmdMonth_addParty")
+    public String pmdMonth_addParty(ModelMap modelMap) {
+
+        // 全部已设定的
+        Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet();
+
+        PartyExample example = new PartyExample();
+        example.createCriteria().andIsDeletedEqualTo(false).andIdNotIn(new ArrayList<>(allPayPartyIdSet.keySet()));
+        example.setOrderByClause(" sort_order desc");
+        List<Party> partyList = partyMapper.selectByExample(example);
+        modelMap.put("partyList", partyList);
+
+        return "pmd/pmdMonth/pmdMonth_addParty";
+    }
+
+    @RequiresPermissions("pmdMonth:edit")
+    @RequestMapping(value = "/pmdMonth_addParty", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdMonth_addParty(int partyId, HttpServletRequest request) {
+
+        pmdMonthService.addParty(partyId);
+
+        logger.info(addLog(LogConstants.LOG_PMD, "新增缴费党委， %s", partyId));
         return success(FormUtils.SUCCESS);
     }
 

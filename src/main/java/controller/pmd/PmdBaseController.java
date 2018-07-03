@@ -18,6 +18,7 @@ import service.pmd.PmdNormValueService;
 import service.pmd.PmdPartyAdminService;
 import service.pmd.PmdPartyService;
 import service.pmd.PmdPayCampusCardService;
+import service.pmd.PmdPayPartyService;
 import service.pmd.PmdPayService;
 import service.pmd.PmdPayWszfService;
 import service.pmd.PmdSendMsgService;
@@ -35,6 +36,8 @@ public class PmdBaseController extends BaseController {
     protected PmdPartyService pmdPartyService;
     @Autowired
     protected PmdBranchService pmdBranchService;
+    @Autowired
+    protected PmdPayPartyService pmdPayPartyService;
     @Autowired
     protected PmdPartyAdminService pmdPartyAdminService;
     @Autowired

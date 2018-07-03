@@ -2,17 +2,16 @@ package persistence.pmd;
 
 import domain.pmd.PmdPayBranch;
 import domain.pmd.PmdPayBranchExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface PmdPayBranchMapper {
     long countByExample(PmdPayBranchExample example);
 
     int deleteByExample(PmdPayBranchExample example);
 
-    int deleteByPrimaryKey(Integer branchId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(PmdPayBranch record);
 
@@ -22,7 +21,7 @@ public interface PmdPayBranchMapper {
 
     List<PmdPayBranch> selectByExample(PmdPayBranchExample example);
 
-    PmdPayBranch selectByPrimaryKey(Integer branchId);
+    PmdPayBranch selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") PmdPayBranch record, @Param("example") PmdPayBranchExample example);
 

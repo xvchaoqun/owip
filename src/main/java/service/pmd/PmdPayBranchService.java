@@ -15,13 +15,12 @@ import java.util.Map;
 public class PmdPayBranchService extends BaseMapper {
 
     // <BranchId, PmdPayBranch>
-    public Map<Integer, PmdPayBranch> getAllPayBranchIdSet(Integer partyId){
+    public Map<Integer, PmdPayBranch> getAllPayBranchIdSet(int partyId){
 
         Map<Integer, PmdPayBranch> resultMap = new HashMap<>();
         PmdPayBranchExample example = new PmdPayBranchExample();
-        if(partyId!=null){
-            example.createCriteria().andPartyIdEqualTo(partyId);
-        }
+        example.createCriteria().andPartyIdEqualTo(partyId);
+
         List<PmdPayBranch> pmdPayParties = pmdPayBranchMapper.selectByExample(example);
 
         for (PmdPayBranch pmdPayBranch : pmdPayParties) {

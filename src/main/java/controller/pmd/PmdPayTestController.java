@@ -45,12 +45,14 @@ public class PmdPayTestController extends PmdBaseController {
 
     /**
      *
+     * 删除缴费支部：
      delete from pmd_member_pay where member_id in(select id from pmd_member where branch_id  not in(1152,1157,1164,1168) and has_pay=0);
 
      delete from pmd_member where branch_id  not in(1152,1157,1164,1168) and has_pay=0;
 
      delete from pmd_branch where branch_id  not in(1152,1157,1164,1168);
      */
+    // 新增缴费支部
     //@RequestMapping("/ab")
     public void ab( HttpServletResponse response) throws IOException {
 
@@ -62,14 +64,13 @@ public class PmdPayTestController extends PmdBaseController {
         example.createCriteria().andCodeEqualTo(brachCode).andIsDeletedEqualTo(false);
         List<Branch> branchList = branchMapper.selectByExample(example);
         Branch branch = branchList.get(0);
-
+        Integer partyId = branch.getPartyId();
         int monthId = currentMonth.getId();
-        Party party = partyService.findAll().get(branch.getPartyId());
-        int partyId = party.getId();
+        Party party = partyService.findAll().get(partyId);
         int branchId = branch.getId();
         String partyName = party.getName();
 
-        Set<Integer> allPayBranchIdSet = pmdPayBranchService.getAllPayBranchIdSet(null).keySet();
+        Set<Integer> allPayBranchIdSet = pmdPayBranchService.getAllPayBranchIdSet(partyId).keySet();
         PmdBranch record = new PmdBranch();
         record.setMonthId(monthId);
         record.setPartyId(partyId);

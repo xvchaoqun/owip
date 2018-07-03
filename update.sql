@@ -1,4 +1,17 @@
 
+20180703
+
+ALTER TABLE `pmd_pay_branch`
+	DROP PRIMARY KEY;
+
+	ALTER TABLE `pmd_pay_branch`
+	ADD COLUMN `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID' FIRST,
+	ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `pmd_pay_branch`
+	ADD UNIQUE INDEX `branch_id_party_id` (`branch_id`, `party_id`);
+
+更新 pmd_pay_branch_view
 
 20180630
 ALTER TABLE `cadre_family`

@@ -3,6 +3,8 @@ package domain.pmd;
 import java.io.Serializable;
 
 public class PmdPayBranchView implements Serializable {
+    private Integer id;
+
     private Integer branchId;
 
     private Integer partyId;
@@ -22,6 +24,14 @@ public class PmdPayBranchView implements Serializable {
     private Integer partySortOrder;
 
     private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getBranchId() {
         return branchId;

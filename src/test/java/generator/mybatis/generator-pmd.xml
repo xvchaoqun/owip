@@ -41,8 +41,8 @@
         </table>-->
         <!--<table tableName="pmd_norm" domainObjectName="pmd.PmdNorm" mapperName="pmd.PmdNormMapper">
         </table>-->
-        <table tableName="pmd_config_reset" domainObjectName="pmd.PmdConfigReset" mapperName="pmd.PmdConfigResetMapper">
-        </table>
+        <!--<table tableName="pmd_config_reset" domainObjectName="pmd.PmdConfigReset" mapperName="pmd.PmdConfigResetMapper">
+        </table>-->
         <!--<table tableName="pmd_config_member" domainObjectName="pmd.PmdConfigMember" mapperName="pmd.PmdConfigMemberMapper">
         </table>-->
         <!--<table tableName="pmd_config_member_type" domainObjectName="pmd.PmdConfigMemberType" mapperName="pmd.PmdConfigMemberTypeMapper">
@@ -72,9 +72,17 @@
                domainObjectName="pmd.PmdPartyView" mapperName="pmd.PmdPartyViewMapper">
         </table>-->
        <!-- <table tableName="pmd_pay_party" domainObjectName="pmd.PmdPayParty" mapperName="pmd.PmdPayPartyMapper">
-        </table>
-        <table tableName="pmd_pay_branch" domainObjectName="pmd.PmdPayBranch" mapperName="pmd.PmdPayBranchMapper">
         </table>-->
+        <table tableName="pmd_pay_branch" domainObjectName="pmd.PmdPayBranch" mapperName="pmd.PmdPayBranchMapper">
+        </table>
+        <table tableName="pmd_pay_branch_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="pmd.PmdPayBranchView" mapperName="pmd.PmdPayBranchViewMapper">
+            <columnOverride column="admin_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>
+
         <!--<table tableName="pmd_branch" domainObjectName="pmd.PmdBranch" mapperName="pmd.PmdBranchMapper">
         </table>
         <table tableName="pmd_branch_view"
@@ -89,14 +97,8 @@
                enableDeleteByExample="false"
                domainObjectName="pmd.PmdPayPartyView" mapperName="pmd.PmdPayPartyViewMapper">
             <columnOverride column="admin_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>
-        <table tableName="pmd_pay_branch_view"
-               enableInsert="false" enableUpdateByPrimaryKey="false"
-               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
-               enableDeleteByExample="false"
-               domainObjectName="pmd.PmdPayBranchView" mapperName="pmd.PmdPayBranchViewMapper">
-            <columnOverride column="admin_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
+
 
         <!--<table tableName="pmd_party_admin" domainObjectName="pmd.PmdPartyAdmin" mapperName="pmd.PmdPartyAdminMapper">
         </table>

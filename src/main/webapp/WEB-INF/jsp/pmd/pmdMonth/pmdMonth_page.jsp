@@ -27,8 +27,7 @@
                                 <button id="updateBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/pmd/pmdMonth_au"
                                    data-grid-id="#jqGrid"
-                                        data-width="400"
-                                   ><i class="fa fa-edit"></i>
+                                        data-width="400"><i class="fa fa-edit"></i>
                                     修改</button>
                                 <button id="selectPartiesBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/pmd/pmdMonth_selectParties"
@@ -42,6 +41,12 @@
                                         data-url="${ctx}/pmd/pmdSendMsg_notifyPartyAdmins"
                                         ><i class="fa fa-send"></i> 通知党委管理员
                                 </button>
+                                <c:if test="${not empty _pmdMonth}">
+                                    <button class="popupBtn btn btn-info btn-sm"
+                                            data-url="${ctx}/pmd/pmdMonth_addParty">
+                                        <i class="fa fa-edit"></i> 新增缴费党委
+                                    </button>
+                                </c:if>
                             </shiro:hasPermission>
                         </div>
                         <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

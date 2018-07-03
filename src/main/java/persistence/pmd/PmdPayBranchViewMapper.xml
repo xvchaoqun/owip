@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="persistence.pmd.PmdPayBranchViewMapper">
   <resultMap id="BaseResultMap" type="domain.pmd.PmdPayBranchView">
+    <result column="id" jdbcType="INTEGER" property="id" />
     <result column="branch_id" jdbcType="INTEGER" property="branchId" />
     <result column="party_id" jdbcType="INTEGER" property="partyId" />
     <result column="month_id" jdbcType="INTEGER" property="monthId" />
@@ -42,7 +43,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    branch_id, party_id, month_id, name, is_deleted, admin_count, party_name, party_is_delete, 
+    id, branch_id, party_id, month_id, name, is_deleted, admin_count, party_name, party_is_delete, 
     party_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdPayBranchViewExample" resultMap="BaseResultMap">
