@@ -23,7 +23,7 @@
 				<c:set var="loginUrl" value="${loginUrl}?trainId=${cetTrain.id}" scope="request"></c:set>
 				<img src="${ctx}/qrcode?content=${cm:encodeURI(loginUrl)}" style="width: 400px;margin: 20px"/>
 				<%
-					System.out.println(request.getAttribute("loginUrl"));
+					//System.out.println(request.getAttribute("loginUrl"));
 				%>
 			</td>
 		</tr>
