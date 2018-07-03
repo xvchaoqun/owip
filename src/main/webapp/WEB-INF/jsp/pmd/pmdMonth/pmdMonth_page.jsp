@@ -162,12 +162,12 @@
             }
             },*/
             {
-                label: '党员总数', name: 'memberCount', width:80, formatter: function (cellvalue, options, rowObject) {
+                label: '已报送党委<br/>党员总数', name: 'memberCount',formatter: function (cellvalue, options, rowObject) {
                 if (_isInit(rowObject))  return "-";
                 return _isEnd(rowObject) ? cellvalue : rowObject.r.memberCount;
             }
             },
-            { label: '线上缴纳<br/>党费总数',name: '_onlinePay', width:80, formatter: function (cellvalue, options, rowObject) {
+            { label: '线上缴纳<br/>党费总数',name: '_onlinePay', width:90, formatter: function (cellvalue, options, rowObject) {
                 if (_isInit(rowObject))  return "-";
                 return _isEnd(rowObject)?(rowObject.onlineRealPay + rowObject.onlineRealDelayPay).toFixed(2)
                         :(rowObject.r.onlineRealPay + rowObject.r.onlineRealDelayPay).toFixed(2);
