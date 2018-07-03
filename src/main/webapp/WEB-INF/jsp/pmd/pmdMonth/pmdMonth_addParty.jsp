@@ -22,10 +22,12 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${unit!=null}">确定</c:if><c:if test="${unit==null}">添加</c:if>"/>
+    <button id="submitBtn" type="button" class="btn btn-primary"
+           data-loading-text="<i class='fa fa-spinner fa-spin '></i> 操作中，请稍后"> 确定</button>
 </div>
 <script>
-    $("#modal form").validate({
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+    $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){
