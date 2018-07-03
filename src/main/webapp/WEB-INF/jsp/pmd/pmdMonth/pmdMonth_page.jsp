@@ -44,7 +44,7 @@
                                 <c:if test="${not empty _pmdMonth}">
                                     <button class="popupBtn btn btn-info btn-sm"
                                             data-url="${ctx}/pmd/pmdMonth_addParty">
-                                        <i class="fa fa-edit"></i> 新增缴费党委
+                                        <i class="fa fa-plus"></i> 新增缴费党委
                                     </button>
                                 </c:if>
                             </shiro:hasPermission>
