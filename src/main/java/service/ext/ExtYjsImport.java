@@ -20,7 +20,7 @@ public class ExtYjsImport extends Source {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     public ExtYjsMapper extYjsMapper;
-    public String schema = "licdc_yjs";
+    public String schema = "ICDC_VIEW";
     public String tableName = "v_yjs_yjsxjjbxx";
 
     public void byCode(String code) {

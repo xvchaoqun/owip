@@ -129,7 +129,7 @@ public class PassportDrawService extends BaseMapper {
 
             for (Integer id : ids) {
                 PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
-                sysApprovalLogService.add(record.getId(), passportDraw.getCadre().getUserId(),
+                sysApprovalLogService.add(id, passportDraw.getCadre().getUserId(),
                         SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                         SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
                         "删除", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);
@@ -151,7 +151,7 @@ public class PassportDrawService extends BaseMapper {
 
         for (Integer id : ids) {
             PassportDraw passportDraw = passportDrawMapper.selectByPrimaryKey(id);
-            sysApprovalLogService.add(record.getId(), passportDraw.getCadre().getUserId(),
+            sysApprovalLogService.add(id, passportDraw.getCadre().getUserId(),
                     SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW,
                     "找回", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);

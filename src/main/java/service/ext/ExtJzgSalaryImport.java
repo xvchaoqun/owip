@@ -23,10 +23,10 @@ public class ExtJzgSalaryImport extends Source {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     public ExtJzgSalaryMapper extJzgSalaryMapper;
-    public String schema = "licdc_zg";
+    public String schema = "ICDC_VIEW";
     public String tableName = "v_zzry_gz_dydf";
 
-    public int excute(Integer syncId){
+    public int excute(int syncId){
 
         String rq = DateUtils.formatDate(new Date(), "yyyyMM");
         logger.info("同步({})在职工资信息", rq);

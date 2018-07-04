@@ -12,6 +12,7 @@ import persistence.ext.ExtRetireSalaryMapper;
 import sys.utils.DateUtils;
 import sys.utils.JSONUtils;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -24,7 +25,7 @@ public class ExtRetireSalaryImport extends Source {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     public ExtRetireSalaryMapper extRetireSalaryMapper;
-    public String schema = "licdc_zg";
+    public String schema = "ICDC_VIEW";
     public String tableName = "v_cjc_ltxf";
 
     public void byCode(String code) {
@@ -37,6 +38,16 @@ public class ExtRetireSalaryImport extends Source {
 
         logger.info("同步最新两个月的离退休费信息:" + code);
         excute(schema, tableName, String.format("where zgh='%s' and (rq='%s' or rq='%s')", code, lastRq, rq));
+    }
+
+    // 同步某个月的工资
+    public int excute(String rq){
+        System.out.println(String.format("同步%s月离退休信息", rq));
+        long startTime=System.currentTimeMillis();
+        int ret = excute(schema, tableName, String.format("where rq='%s'", rq), null);
+        long endTime=System.currentTimeMillis();
+        System.out.println(String.format("同步%s月离退休信息运行时间： " + (endTime - startTime) + "ms", rq));
+        return ret;
     }
 
     public int excute(Integer syncId){
@@ -55,6 +66,10 @@ public class ExtRetireSalaryImport extends Source {
         ExtRetireSalary record = gson.fromJson(JSONUtils.toString(map), ExtRetireSalary.class);
         ExtRetireSalaryExample example = new ExtRetireSalaryExample();
         example.createCriteria().andZghEqualTo(rs.getString("zgh")).andRqEqualTo(rs.getString("rq"));
+
+        BigDecimal ltxf = record.getLtxf();
+        if(ltxf==null || ltxf.compareTo(BigDecimal.valueOf(0)) <= 0) return;
+
         List<ExtRetireSalary> records = extRetireSalaryMapper.selectByExample(example);
         if (records.size() > 0) {
             record.setId(records.get(0).getId());

@@ -2,6 +2,9 @@
 
 select * from licdc_zg.v_zzry_gz_dydf t;--党员工资详情
 
+-- 查询oracle数据表信息
+select owner, column_name, data_type,data_length from all_tab_columns  where Table_Name=upper('v_cjc_ltxf');
+
 
 ### 查询某个党委的离退休费
 select m.code, m.realname, s.ltxf from ow_member_teacher m

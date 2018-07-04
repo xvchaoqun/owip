@@ -448,7 +448,7 @@ public class PmdMonthService extends BaseMapper {
 
         int monthId = pmdMonth.getId();
         int userId = member.getUserId();
-        //SysUserView uv = sysUserService.findById(userId);
+        SysUserView uv = sysUserService.findById(userId);
 
         /**
          * 读取党员缴费分类
@@ -554,6 +554,17 @@ public class PmdMonthService extends BaseMapper {
             record.setHasReset(true);
 
             pmdConfigMemberService.insertSelective(record);
+
+            // 更新新加入缴费党员的计算工资
+            String salaryMonth = DateUtils.formatDate(pmdConfigResetService.getSalaryMonth(), "yyyyMM");
+            if(salaryMonth!=null) {
+
+                ExtJzgSalary ejs = iPmdMapper.getExtJzgSalary(salaryMonth, uv.getCode());
+                pmdConfigResetService.updateDuePayByJzgSalary(ejs);
+                // 也可能是离退休老师
+                ExtRetireSalary ers = iPmdMapper.getExtRetireSalary(salaryMonth, uv.getCode());
+                pmdConfigResetService.updateDuePayByRetireSalary(ers);
+            }
         }
 
         Integer _pmdMemberId = null;

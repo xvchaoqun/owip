@@ -79,7 +79,10 @@ public abstract class Source {
 
         try {
             List<ColumnBean> columnBeans = getTableColumns(schema, tableName);
-
+            if(columnBeans.size()==0){
+                logger.error("出错：无法读取数据表字段。{}.{}", schema, tableName);
+                return ;
+            }
             String tbl = String.format("%s.%s", schema, tableName);
             int count = 0;
             String countSql = "select count(*) from " + tbl;
@@ -137,6 +140,10 @@ public abstract class Source {
         int i = 0;
         try {
             List<ColumnBean> columnBeans = getTableColumns(schema, tableName);
+            if(columnBeans.size()==0){
+                logger.error("出错：无法读取数据表字段。{}.{}", schema, tableName);
+                return -1;
+            }
             String tbl = String.format("%s.%s", schema, tableName);
             String sql = "select * from " + tbl +(StringUtils.isNotBlank(searchStr)?" " + searchStr:"");
             stat = conn.createStatement();
@@ -177,6 +184,10 @@ public abstract class Source {
         int ret = 0;
         try {
             List<ColumnBean> columnBeans = getTableColumns(schema, tableName);
+            if(columnBeans.size()==0){
+                logger.error("出错：无法读取数据表字段。{}.{}", schema, tableName);
+                return -1;
+            }
             String tbl = String.format("%s.%s", schema, tableName);
             searchStr = (StringUtils.isNotBlank(searchStr)?" " + searchStr:"");
             int count = 0;

@@ -21,7 +21,7 @@ public class ExtAbroadImport extends Source {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     public ExtAbroadMapper extAbroadMapper;
-    public String schema = "licdc_zg";
+    public String schema = "ICDC_VIEW";
     public String tableName = "v_rs_jzg_cgjxx";
 
     public void excute(Integer syncId){

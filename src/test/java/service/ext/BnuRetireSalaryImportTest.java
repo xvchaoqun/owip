@@ -15,6 +15,7 @@ public class BnuRetireSalaryImportTest {
     @Test
     public void excute() throws Exception {
 
-        extRetireSalaryImport.excute(null);
+        String rq = "201804";
+        extRetireSalaryImport.excute(rq);
     }
 }
