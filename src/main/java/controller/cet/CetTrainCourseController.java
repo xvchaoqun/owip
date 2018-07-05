@@ -175,7 +175,7 @@ public class CetTrainCourseController extends CetBaseController {
     @RequiresPermissions("cetCourse:list")
     @RequestMapping("/cetTrainCourse_selectCourses_data")
     public void cetTrainCourse_selectCourses_data(HttpServletResponse response,
-                                                  int trainId, byte planType,
+                                                  int trainId, Byte planType,
                                                   Integer expertId, String name,
                                                   Integer pageSize, Integer pageNo)  throws IOException{
 
@@ -188,12 +188,14 @@ public class CetTrainCourseController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         Byte[] courseTypes = null;
-        if(planType== CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE){
-            courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_OFFLINE};
-        }else if(planType== CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE){
-            courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_ONLINE};
-        }else if(planType== CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE){
-            courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_PRACTICE};
+        if(planType!=null) {
+            if (planType == CetConstants.CET_PROJECT_PLAN_TYPE_OFFLINE) {
+                courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_OFFLINE};
+            } else if (planType == CetConstants.CET_PROJECT_PLAN_TYPE_ONLINE) {
+                courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_ONLINE};
+            } else if (planType == CetConstants.CET_PROJECT_PLAN_TYPE_PRACTICE) {
+                courseTypes = new Byte[]{CetConstants.CET_COURSE_TYPE_PRACTICE};
+            }
         }
 
         int count = iCetMapper.countCetTrainCourseList(trainId, expertId, name, courseTypes);

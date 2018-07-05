@@ -60,6 +60,7 @@ public class PmdMemberController extends PmdBaseController {
             @RequestParam(required = false, defaultValue = "1") Byte cls,
             Integer userId,
             Integer chargeUserId,
+            Integer monthId,
             Integer partyId,
             Integer branchId, ModelMap modelMap) {
 
@@ -97,20 +98,20 @@ public class PmdMemberController extends PmdBaseController {
         }
 
         // 判断当前管理员是否允许操作
-        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
-        boolean canAdmin = false;
-        if (currentPmdMonth != null) {
-            boolean hasReport;
-            int monthId = currentPmdMonth.getId();
-            if (branchId != null) {
-                PmdBranch pmdBranch = pmdBranchService.get(monthId, partyId, branchId);
-                hasReport = pmdBranch.getHasReport();
-            } else {
-                PmdParty pmdParty = pmdPartyService.get(monthId, partyId);
-                hasReport = pmdParty.getHasReport();
-            }
-            canAdmin = (hasReport == false);
+        if(monthId==null) {
+            PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+            monthId = currentPmdMonth.getId();
         }
+        boolean canAdmin = false;
+        boolean hasReport;
+        if (branchId != null) {
+            PmdBranch pmdBranch = pmdBranchService.get(monthId, partyId, branchId);
+            hasReport = pmdBranch.getHasReport();
+        } else {
+            PmdParty pmdParty = pmdPartyService.get(monthId, partyId);
+            hasReport = pmdParty.getHasReport();
+        }
+        canAdmin = (hasReport == false);
         modelMap.put("canAdmin", canAdmin);
 
         if (cls == 4)

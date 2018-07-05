@@ -5,6 +5,8 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.cache.Cache;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ThreadContext;
@@ -33,7 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 public class CasController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
-
+    @Autowired
+    protected CacheManager cacheManager;
     @Autowired
     private SysUserService sysUserService;
     @Autowired
@@ -63,6 +66,10 @@ public class CasController {
         String switchUser = (String) request.getSession().getAttribute("_switchUser");
         if(StringUtils.isBlank(switchUser))
             throw  new UnauthorizedException();
+
+        // 防止被切换的账号登录时，踢出主账号 (但不能避免切换回来之前，被踢出)
+        Cache<Object, Object> cache = cacheManager.getCache("shiro-kickout-session");
+        cache.remove(ShiroHelper.getCurrentUsername());
 
         return casLogin(switchUser, false, request, response, null);
     }
