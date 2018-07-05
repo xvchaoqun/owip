@@ -1,4 +1,8 @@
 
+20180705
+ALTER TABLE `cet_train`
+	CHANGE COLUMN `name` `name` VARCHAR(200) NOT NULL COMMENT '培训班名称' AFTER `is_on_campus`;
+
 20180703
 
 ALTER TABLE `pmd_pay_branch`
