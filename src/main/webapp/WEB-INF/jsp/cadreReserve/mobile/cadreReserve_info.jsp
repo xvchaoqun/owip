@@ -184,14 +184,14 @@
             </span>
           </div>
         </div>
-<c:if test="${not empty cadre}">
-        <div class="profile-info-row">
-          <div class="profile-info-name">
-            <button class="popView btn btn-success btn-block btn-sm" data-direction="bottom"
-                    data-url="${ctx}/m/cadreAdform?mobile=1&cadreId=${cadre.id}"><i class="fa fa-search"></i> 干部任免审批表</button>
+        <c:if test="${not empty cadre}">
+          <div class="profile-info-row">
+            <div class="profile-info-name">
+              <button class="popView btn btn-success btn-block btn-sm" data-direction="bottom"
+                      data-url="${ctx}/m/cadreAdform?mobile=1&cadreId=${cadre.id}"><i class="fa fa-search"></i> 干部任免审批表</button>
+            </div>
           </div>
-          </div>
-  </c:if>
+        </c:if>
         <%--<div class="profile-info-row">
           <div class="profile-info-name"> 干部任免审批表</div>
           <div class="profile-info-value center">

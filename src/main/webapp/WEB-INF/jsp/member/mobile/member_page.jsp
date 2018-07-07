@@ -19,7 +19,7 @@
 <script>
 
     $("#result").load("${ctx}/m/member_info");
-    var $select = $.register.ajax_select($('select[name=userId]'),{allowClear: false,
+    var $select = $.register.user_select($('select[name=userId]'),{allowClear: false,
         templateResult: $.register.formatState,
         templateSelection: $.register.formatState});
     $select.on("change",function(){

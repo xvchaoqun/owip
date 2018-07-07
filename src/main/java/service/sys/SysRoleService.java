@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.global.CacheService;
+import shiro.ShiroHelper;
+import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
 
 import java.util.ArrayList;
@@ -170,7 +172,9 @@ public class SysRoleService extends BaseMapper {
 		
 		SysRoleExample example2 = new SysRoleExample();
 		List<SysRole> sysRoles = sysRoleMapper.selectByExample(example2);
-		
+
+		boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+
 		for(SysRole sysRole:sysRoles){
 			
 			TreeNode node2 = new TreeNode();
@@ -179,7 +183,7 @@ public class SysRoleService extends BaseMapper {
 			node2.expand = false;
 			node2.isFolder = false;
 			node2.hideCheckbox = false;
-			if(checkIsSysHold && BooleanUtils.isTrue(sysRole.getIsSysHold())) {
+			if(checkIsSysHold && BooleanUtils.isTrue(sysRole.getIsSysHold()) && !superAccount) {
 				node2.unselectable = true;
 				node2.addClass = "unselectable";
 			}

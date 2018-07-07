@@ -1,6 +1,5 @@
 package controller.global;
 
-import bean.UserBean;
 import controller.BaseController;
 import domain.abroad.Passport;
 import domain.cadre.Cadre;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.abroad.PassportService;
+import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
 import sys.service.ApplicationContextSupport;
@@ -42,6 +42,7 @@ public class CommonController extends BaseController {
     @RequestMapping("/sysUser_selects")
     @ResponseBody
     public Map sysUser_selects(@RequestParam(required = false, value = "types") Byte[] types,
+                               @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
                                Integer pageSize, Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -60,16 +61,39 @@ public class CommonController extends BaseController {
         }
         List<SysUserView> uvs = iSysMapper.selectUserList(searchStr, types, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
+        boolean isAdmin = ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_ADMIN1,
+                RoleConstants.ROLE_CADREADMIN, RoleConstants.ROLE_CET_ADMIN, RoleConstants.ROLE_PARTYADMIN);
+
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
         if (null != uvs && uvs.size() > 0) {
             for (SysUserView uv : uvs) {
                 Map<String, Object> option = new HashMap<>();
                 option.put("id", uv.getId() + "");
                 option.put("text", uv.getRealname());
-                option.put("user", userBeanService.get(uv.getId()));
+
+                option.put("username", uv.getUsername());
+                option.put("code", uv.getCode());
+                option.put("locked", uv.getLocked());
+                option.put("realname", uv.getRealname());
+                option.put("gender", uv.getGender());
+                option.put("birth", uv.getBirth());
+                option.put("nation", uv.getNation());
+
+                if(isAdmin) {
+                    option.put("mobile", uv.getMobile());
+                }
+
+                if(needPrivate) {
+                    Member member = memberService.get(uv.getId());
+                    if (member != null) {
+                        option.put("politicalStatus", member.getPoliticalStatus());
+                        option.put("idcard", uv.getIdcard());
+                    }
+                }
+
+                //option.put("user", userBeanService.get(uv.getId()));
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
-                    option.put("code", uv.getCode());
                     option.put("unit", extService.getUnit(uv.getUserId()));
                 }
                 options.add(option);
@@ -315,14 +339,14 @@ public class CommonController extends BaseController {
         if (null != crvs && crvs.size() > 0) {
             for (CadreReserveView crv : crvs) {
                 Map<String, Object> option = new HashMap<>();
-                option.put("id", crv.getId() + "");  // cadreId
+                option.put("id", crv.getId() + "");  // 此id就是cadreId
                 option.put("text", crv.getRealname());
-                UserBean userBean = userBeanService.get(crv.getUserId());
-                option.put("user", userBean);
+                //UserBean userBean = userBeanService.get(crv.getUserId());
+                //option.put("user", userBean);
 
-                if (StringUtils.isNotBlank(userBean.getCode())) {
-                    option.put("code", userBean.getCode());
-                    option.put("unit", extService.getUnit(userBean.getUserId()));
+                if (StringUtils.isNotBlank(crv.getCode())) {
+                    option.put("code", crv.getCode());
+                    option.put("unit", extService.getUnit(crv.getUserId()));
                 }
                 options.add(option);
             }
@@ -345,6 +369,7 @@ public class CommonController extends BaseController {
                               Byte politicalStatus,
                               @RequestParam(required = false, value = "status") Byte[] status, // 党员状态
                               Boolean noAuth, // 默认需要读取权限
+                              @RequestParam(defaultValue = "0", required = false) boolean needPrivate,
                               Integer pageNo,
                               String searchStr) throws IOException {
 
@@ -391,10 +416,22 @@ public class CommonController extends BaseController {
                 SysUserView uv = sysUserService.findById(member.getUserId());
                 option.put("id", member.getUserId() + "");
                 option.put("text", uv.getRealname());
-                option.put("user", userBeanService.get(member.getUserId()));
+
+                option.put("username", uv.getUsername());
+                option.put("locked", uv.getLocked());
+                option.put("code", uv.getCode());
+                option.put("realname", uv.getRealname());
+                option.put("gender", uv.getGender());
+                option.put("birth", uv.getBirth());
+                option.put("nation", uv.getNation());
+
+                if(needPrivate) {
+                    option.put("idcard", uv.getIdcard());
+                    option.put("politicalStatus", member.getPoliticalStatus());
+                }
+                //option.put("user", userBeanService.get(member.getUserId()));
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
-                    option.put("code", uv.getCode());
                     option.put("unit", extService.getUnit(uv.getUserId()));
                 }
                 options.add(option);
@@ -445,7 +482,7 @@ public class CommonController extends BaseController {
                 SysUserView uv = sysUserService.findById(m.getUserId());
                 option.put("id", m.getUserId() + "");
                 option.put("text", uv.getRealname());
-                option.put("user", userBeanService.get(m.getUserId()));
+                //option.put("user", userBeanService.get(m.getUserId()));
 
                 if (StringUtils.isNotBlank(uv.getCode())) {
                     option.put("code", uv.getCode());

@@ -54,11 +54,14 @@ import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
 import sys.utils.JSONUtils;
 import sys.utils.NumberUtils;
+import sys.utils.PropertiesUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +109,17 @@ public class CmTag {
     public static SysConfig getSysConfig() {
 
         return sysConfigService.get();
+    }
+
+    public static Boolean isSuperAccount(String username){
+
+        String users = PropertiesUtils.getString("sys.auth.super");
+        if(StringUtils.isBlank(users)) return false;
+
+        Set<String> userSet = new HashSet<>();
+        userSet.addAll(Arrays.asList(users.split(",")));
+
+        return userSet.contains(username);
     }
 
     public static String toJSONObject(Object obj) {

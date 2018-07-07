@@ -40,8 +40,7 @@
     var user;
     var $select = $.register.user_select($('#modal select[name=userId]'));
     $select.on("change",function(){
-        var entity = $(this).select2("data")[0];
-        user = entity.user;
+        user = $(this).select2("data")[0];
         $("#loginStatus").html("");
         $.getJSON("${ctx}/sysLogin_status",{username: user.username},function(ret){
             if(ret.success){

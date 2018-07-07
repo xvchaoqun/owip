@@ -1,4 +1,4 @@
-package controller.cadre.mobile;
+package controller.cadreReserve.mobile;
 
 import controller.BaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -12,15 +12,15 @@ import service.cadre.CadreAdformService;
 
 @Controller
 @RequestMapping("/m")
-public class MobileCadreAdFormController extends BaseController {
+public class MobileCadreReserveAdFormController extends BaseController {
 
 	public Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private CadreAdformService cadreAdformService;
 
-	@RequiresPermissions("m:cadre:view")
-	@RequestMapping("/cadreAdform")
-	public String cadreAdform(int cadreId, ModelMap modelMap) {
+	@RequiresPermissions("m:cadreReserve:view")
+	@RequestMapping("/cadreReserveAdform")
+	public String cadreReserveAdform(int cadreId, ModelMap modelMap) {
 
 		modelMap.put("bean", cadreAdformService.getCadreAdform(cadreId));
 

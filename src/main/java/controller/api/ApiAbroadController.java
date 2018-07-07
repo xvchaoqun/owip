@@ -36,8 +36,8 @@ public class ApiAbroadController extends BaseController {
                         request.getRequestURI(),
                         request.getMethod(),
                         JSONUtils.toString(request.getParameterMap(), false),
-                        RequestUtils.getUserAgent(request), IpUtils.getRealIp(request)),
-                JSONUtils.toString(result, false));
+                        RequestUtils.getUserAgent(request), IpUtils.getRealIp(request),
+                JSONUtils.toString(result, false)));
     }
 
     @NeedSign

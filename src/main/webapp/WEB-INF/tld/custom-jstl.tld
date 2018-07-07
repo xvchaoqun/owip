@@ -16,6 +16,11 @@
 		<function-signature>domain.sys.SysConfig getSysConfig()</function-signature>
 	</function>
 	<function>
+		<name>isSuperAccount</name>
+		<function-class>sys.tags.CmTag</function-class>
+		<function-signature>java.lang.Boolean isSuperAccount(java.lang.String)</function-signature>
+	</function>
+	<function>
 		<name>canUpdate</name>
 		<function-class>sys.tags.CmTag</function-class>
 		<function-signature>java.lang.Boolean canUpdate(java.lang.Integer,java.lang.String)</function-signature>

@@ -7,7 +7,7 @@
   <div class="ace-settings-box clearfix" id="ace-settings-box">
     <div style="height: 35px;margin: 15px 0px;">
       <select data-rel="select2-ajax"
-              data-ajax-url="${ctx}/m/cadre_selects?types=${CADRE_STATUS_MIDDLE}" data-width="300"
+              data-ajax-url="${ctx}/m/cadreReserve_selects" data-width="300"
               name="cadreId" data-placeholder="请输入账号或姓名或学工号">
         <option></option>
       </select>
@@ -22,12 +22,12 @@
 <script src="/assets/js/ace/ace.settings.js"></script>
 <script>
 
-  $("#result").load("${ctx}/m/cadre_info");
+  $("#result").load("${ctx}/m/cadreReserve_info");
   var $select = $.register.user_select($('select[name=cadreId]'),{allowClear: false,
     templateResult: $.register.formatState,
     templateSelection: $.register.formatState});
   $select.on("change",function(){
-    $("#result").load("${ctx}/m/cadre_info?cadreId="+ $(this).val());
+    $("#result").load("${ctx}/m/cadreReserve_info?cadreId="+ $(this).val());
     $("#btn-scroll-up").click();
     $('#ace-settings-box').toggleClass('open');
   })

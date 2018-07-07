@@ -58,8 +58,8 @@
 
         <ul class="nav nav-pills hidden-xs hidden-sm hidden-md" style="margin-left: 0px">
             <li class="">
-                <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i class="fa fa-user"></i>
-                    <span>${_user.realname}<c:if test="${_user.code!=_user.realname}">(${_user.code})</c:if></span></a>
+                <a href="javascript:;" class="hashchange" data-url="${ctx}/profile"><i class="fa fa-user ${cm:isSuperAccount(_user.username)?'blue':''}"></i>
+                    <span class="${cm:isSuperAccount(_user.username)?'blue':''}">${_user.realname}<c:if test="${_user.code!=_user.realname}">(${_user.code})</c:if></span></a>
             </li>
         <c:if test="${!_hideHelp}">
             <shiro:hasAnyRoles name="${ROLE_ADMIN},${ROLE_ODADMIN},${ROLE_PARTYADMIN},${ROLE_BRANCHADMIN}">

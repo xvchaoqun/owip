@@ -66,7 +66,7 @@ pageEncoding="UTF-8"%>
 						<c:if test="${empty userBean}">
 						<div class="col-xs-6">
 							<select required data-rel="select2-ajax"
-									data-ajax-url="${ctx}/sysUser_selects"
+									data-ajax-url="${ctx}/sysUser_selects?needPrivate=1"
 									name="userId" data-placeholder="请输入账号或姓名或学工号">
 								<option value="${userBean.userId}">${userBean.realname}</option>
 							</select>
@@ -309,13 +309,12 @@ pageEncoding="UTF-8"%>
 	$select.on("change",function(){
 		var entity = $(this).select2("data")[0];
 		if(entity && entity.id && entity.id>0) {
-			console.log(entity);
-			var gender = entity.user.gender || '';
+			var gender = entity.gender || '';
 			var birth = '';
-			if (entity.user.birth && entity.user.birth != '')
-				birth = $.date(entity.user.birth, "yyyy-MM-dd");
-			var nation = entity.user.nation || '';
-			var idcard = entity.user.idcard || '';
+			if (entity.birth && entity.birth != '')
+				birth = $.date(entity.birth, "yyyy-MM-dd");
+			var nation = entity.nation || '';
+			var idcard = entity.idcard || '';
 
 			$("#modalForm input[name=gender]").val(_cMap.GENDER_MAP[gender]);
 			$("#modalForm input[name=birth]").val(birth);
