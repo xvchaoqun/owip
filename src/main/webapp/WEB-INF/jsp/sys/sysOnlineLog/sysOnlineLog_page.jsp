@@ -18,7 +18,7 @@ pageEncoding="UTF-8" %>
                        data-msg="确定踢出这{0}个用户吗？（不能将自己踢下线）"><i class="fa fa-power-off"></i> 踢下线</a>
                 </shiro:hasPermission>
                 </shiro:hasAnyRoles>
-                当前在线${_onlineCount}人；历史最高在线<span style="font-size: 20pt;font-weight: bolder">${_most.onlineCount}</span>人，发生在${cm:formatDate(_most.createTime, "yyyy-MM-dd HH:mm:ss")}。
+                当前在线${_onlineCount}人；历史最高在线<span style="font-size: 20pt;font-weight: bolder">${_most.onlineCount}</span>人，发生在${cm:formatDate(_most.createTime, "yyyy-MM-dd HH:mm")}。
             </div>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"> </table>
