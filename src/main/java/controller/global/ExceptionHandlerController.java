@@ -108,9 +108,12 @@ public class ExceptionHandlerController {
             msg = "文件不存在";
         } else if (ex instanceof OpException) {
             msg = ex.getMessage();
+        }else if(ex instanceof IOException){
+            logger.warn(getMsg(request, ex));
         }else{
             logger.error(getMsg(request, ex), ex);
         }
+
         //ex.printStackTrace();
         // request.getMethod().equals("GET")  防止sslvpn.xxx.edu.cn 访问地址报错
         if (!HttpUtils.isAjaxRequest(request) && request.getMethod().equalsIgnoreCase("GET")) {
