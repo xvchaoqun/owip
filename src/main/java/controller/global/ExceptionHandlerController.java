@@ -109,6 +109,7 @@ public class ExceptionHandlerController {
         } else if (ex instanceof OpException) {
             msg = ex.getMessage();
         }else if(ex instanceof IOException){
+            // org.apache.catalina.connector.ClientAbortException ??
             logger.warn(getMsg(request, ex));
         }else{
             logger.error(getMsg(request, ex), ex);
