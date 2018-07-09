@@ -31,6 +31,7 @@ public class LogConstants {
     public static final int LOG_SC_PUBLIC = 160; // 干部选拔任用-干部任前公示
     public static final int LOG_SC_DISPATCH = 170; // 干部选拔任用-文件起草签发
     public static final int LOG_SC_AD = 180; // 干部选拔任用-干部任免审批表
+    public static final int LOG_SC_PASSPORT = 190; // 干部选拔任用-新提任干部交证件
 
     public static final int LOG_CET = 190; // 干部教育培训
 

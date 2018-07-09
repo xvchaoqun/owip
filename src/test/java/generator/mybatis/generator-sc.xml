@@ -25,6 +25,13 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
+        <!--干部选拔-新提任干部交证件-->
+        <table tableName="sc_passport_hand" domainObjectName="sc.scPassport.ScPassportHand"
+               mapperName="sc.scPassport.ScPassportHandMapper">
+        </table>
+        <table tableName="sc_passport" domainObjectName="sc.scPassport.ScPassport"
+               mapperName="sc.scPassport.ScPassportMapper">
+        </table>
         <!--干部选拔-干部任免审批表-->
         <!--<table tableName="sc_ad_archive" domainObjectName="sc.scAd.ScAdArchive"
                mapperName="sc.scAd.ScAdArchiveMapper">
@@ -206,13 +213,13 @@
                mapperName="sc.scLetter.ScLetterReplyMapper">
                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="sc_letter_reply_view"
+        <!--<table tableName="sc_letter_reply_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scLetter.ScLetterReplyView"
                mapperName="sc.scLetter.ScLetterReplyViewMapper">
-        </table>
+        </table>-->
         <!--
         <table tableName="sc_letter_reply_item" domainObjectName="sc.scLetter.ScLetterReplyItem"
                mapperName="sc.scLetter.ScLetterReplyItemMapper">

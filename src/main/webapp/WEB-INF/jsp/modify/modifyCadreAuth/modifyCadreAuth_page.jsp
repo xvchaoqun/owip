@@ -7,7 +7,7 @@ pageEncoding="UTF-8" %>
         <div id="body-content" class="myTableDiv"
              data-url-page="${ctx}/modifyCadreAuth"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.cadreId || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.cadreId || not empty param.cadreStatus || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="modifyCadreAuth:edit">
                     <a class="openView btn btn-success btn-sm"
@@ -24,6 +24,13 @@ pageEncoding="UTF-8" %>
                             data-msg="确定删除这{0}条数据？"
                             class="jqBatchBtn btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> 删除
+                    </button>
+                    <button data-url="${ctx}/modifyCadreAuth_remove?status[]=${CADRE_STATUS_MIDDLE},${CADRE_STATUS_LEADER},${CADRE_STATUS_MIDDLE_LEAVE},${CADRE_STATUS_LEADER_LEAVE}"
+                            data-title="一键清理"
+                            data-msg="确定一键清理“现任/离任干部库”中的干部？"
+                            data-callback="_refresh"
+                            class="confirm btn btn-warning btn-sm">
+                        <i class="fa fa-trash"></i> 一键清理
                     </button>
                 </shiro:hasPermission>
             </div>
@@ -47,6 +54,16 @@ pageEncoding="UTF-8" %>
                                 <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>所属干部库</label>
+                            <select class="multiselect" multiple="" name="cadreStatus">
+                                <c:forEach items="${CADRE_STATUS_MAP}" var="entity">
+                                    <c:if test="${entity.key>0}">
+                                    <option value="${entity.key}">${entity.value}</option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+                        </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
 
@@ -67,7 +84,14 @@ pageEncoding="UTF-8" %>
         <div id="body-content-view"></div>
     </div>
 </div>
+<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css"/>
 <script>
+    $.register.multiselect($('#searchForm select[name=cadreStatus]'), ${cm:toJSONArray(selectCadreStatus)});
+
+    function _refresh(){
+        $("#jqGrid").trigger("reloadGrid");
+    }
     $("#jqGrid").jqGrid({
         url: '${ctx}/modifyCadreAuth_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [

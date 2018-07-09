@@ -16,7 +16,10 @@
   <input type="submit" class="btn btn-primary" value="修改"/></div>
   <style>
 	ul.dynatree-container{border: none;}
-</style>
+	  .unselectable .dynatree-title{
+		  background-color: lightgoldenrodyellow;
+	  }
+  </style>
   <script>
 
 	$(function(){

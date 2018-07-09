@@ -183,8 +183,9 @@ public class SysRoleService extends BaseMapper {
 			node2.expand = false;
 			node2.isFolder = false;
 			node2.hideCheckbox = false;
-			if(checkIsSysHold && BooleanUtils.isTrue(sysRole.getIsSysHold()) && !superAccount) {
-				node2.unselectable = true;
+			if(checkIsSysHold && BooleanUtils.isTrue(sysRole.getIsSysHold())) {
+
+				if(!superAccount) node2.unselectable = true;
 				node2.addClass = "unselectable";
 			}
 			node2.children = new ArrayList<TreeNode>();

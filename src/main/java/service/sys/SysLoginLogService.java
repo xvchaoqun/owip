@@ -165,7 +165,7 @@ public class SysLoginLogService extends BaseMapper {
     }
 
     // 获取用户登录状态
-    public boolean isOnline(String username) {
+    public OnlineSession getOnlineSession(String username) {
 
         Collection<Session> sessions = sessionDAO.getActiveSessions();
 
@@ -175,10 +175,10 @@ public class SysLoginLogService extends BaseMapper {
             if (principals != null) {
                 ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
                 if(StringUtils.equals(username, shiroUser.getUsername())){
-                    return true;
+                    return onlineSession;
                 }
             }
         }
-        return false;
+        return null;
     }
 }

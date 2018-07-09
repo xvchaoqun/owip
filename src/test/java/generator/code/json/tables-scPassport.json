@@ -1,0 +1,28 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "sc/scPassport",
+  "resFolder": "sc",
+  "tables": [
+    {
+      "table": "sc_passport_hand",
+      "key": "id",
+      "searchColumns": "user_id",
+      "showColumns": "user_id,appoint_date,add_type,status,is_keep,add_time,remark",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_SC_PASSPORT",
+      "ignore": false
+    },
+    {
+      "table": "sc_passport",
+      "key": "id",
+      "searchColumns": "hand_id,class_id",
+      "showColumns": "hand_id,class_id,is_exist,keep_date,code,pic,authority,issue_date,expiry_date,safe_box_id,hand_time,remark",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_SC_PASSPORT",
+      "ignore": false
+    }
+  ]
+}

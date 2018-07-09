@@ -23,10 +23,12 @@ import shiro.ShiroUser;
 import sys.CasUtils;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Set;
 
 /**
  * Created by fafa on 2016/6/9.
@@ -51,6 +53,15 @@ public class CasController {
             if(lackRoleAdmin) { // 允许系统管理员、管理员在登录状态下登录别的账号，且不产生登录记录
                 throw new UnauthorizedException();
             }else{
+
+                boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+                if(!superAccount) {
+                    Set<String> roles = sysUserService.findRoles(username);
+                    if (roles.contains(RoleConstants.ROLE_ADMIN) || roles.contains(RoleConstants.ROLE_ADMIN1)) {
+                        throw new UnauthorizedException();
+                    }
+                }
+
                 logger.info("{}切换账号登录{}", ShiroHelper.getCurrentUsername(), username);
             }
         }

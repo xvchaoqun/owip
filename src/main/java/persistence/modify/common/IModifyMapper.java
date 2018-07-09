@@ -1,17 +1,27 @@
 package persistence.modify.common;
 
+import domain.modify.ModifyCadreAuth;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 import persistence.cadre.common.ICadreInfoCheck;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by lm on 2017/6/13.
  */
 public interface IModifyMapper {
+
+    public List<ModifyCadreAuth> selectModifyCadreAuthList(@Param("cadreId") Integer cadreId,
+                                                           @Param("statusList") Byte[] statusList, RowBounds rowBounds);
+    int countModifyCadreAuthList(@Param("cadreId") Integer cadreId,
+                                 @Param("statusList") Byte[] statusList);
+    // 删除指定类型的干部直接修改的权限
+    public void removeAllCadres(@Param("cadreStatusSet") Set<Byte> cadreStatusSet);
 
     @Select("select cadre_id from modify_cadre_auth where is_unlimited=1 or " +
             "(is_unlimited=0 and ( (curdate() between start_time and end_time) " +

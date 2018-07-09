@@ -48,7 +48,7 @@ public class TplParser {
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-dispatch.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-modify.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cadre.json";
-		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cadreReserve.json";
+		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cadreReserve.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cis.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-crp.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-cpc.json";
@@ -65,6 +65,7 @@ public class TplParser {
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-scPublic.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-scDispatch.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-scAd.json";
+		String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-scPassport.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-pcs.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-verify.json";
 		//String pathname = System.getProperty("user.dir")+ "\\src\\test\\java\\generator\\code\\json\\tables-base.json";

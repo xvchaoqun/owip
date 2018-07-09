@@ -339,6 +339,8 @@ import persistence.sc.scMatter.ScMatterItemViewMapper;
 import persistence.sc.scMatter.ScMatterMapper;
 import persistence.sc.scMatter.ScMatterTransferMapper;
 import persistence.sc.scMatter.ScMatterUserViewMapper;
+import persistence.sc.scPassport.ScPassportHandMapper;
+import persistence.sc.scPassport.ScPassportMapper;
 import persistence.sc.scPublic.ScPublicMapper;
 import persistence.sc.scPublic.ScPublicUserMapper;
 import persistence.sc.scPublic.ScPublicViewMapper;
@@ -354,10 +356,10 @@ import persistence.sys.SysLoginLogMapper;
 import persistence.sys.SysOnlineStaticMapper;
 import persistence.sys.SysResourceMapper;
 import persistence.sys.SysRoleMapper;
+import persistence.sys.SysSyncMapper;
 import persistence.sys.SysUserInfoMapper;
 import persistence.sys.SysUserMapper;
 import persistence.sys.SysUserRegMapper;
-import persistence.sys.SysSyncMapper;
 import persistence.sys.SysUserViewMapper;
 import persistence.sys.TeacherInfoMapper;
 import persistence.unit.HistoryUnitMapper;
@@ -481,6 +483,14 @@ public class BaseMapper {
     protected CetTrainInspectorViewMapper cetTrainInspectorViewMapper;
     @Autowired(required = false)
     protected CetTrainInspectorCourseMapper cetTrainInspectorCourseMapper;
+
+    /**
+     * 干部选拔-新提任干部交证件
+     */
+    @Autowired(required = false)
+    protected ScPassportHandMapper scPassportHandMapper;
+    @Autowired(required = false)
+    protected ScPassportMapper scPassportMapper;
 
     /**
      * 干部选拔-干部任免审批表

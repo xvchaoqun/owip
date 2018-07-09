@@ -2,8 +2,6 @@ package controller.modify;
 
 import domain.cadre.CadreView;
 import domain.modify.ModifyCadreAuth;
-import domain.modify.ModifyCadreAuthExample;
-import domain.modify.ModifyCadreAuthExample.Criteria;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,8 +27,10 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -41,12 +41,18 @@ public class ModifyCadreAuthController extends ModifyBaseController {
 
     @RequiresPermissions("modifyCadreAuth:list")
     @RequestMapping("/modifyCadreAuth")
-    public String modifyCadreAuth(Integer cadreId, ModelMap modelMap) {
+    public String modifyCadreAuth(Integer cadreId,
+                                  @RequestParam(required = false, value = "cadreStatus") Byte[] cadreStatus,
+                                  ModelMap modelMap) {
 
         if(cadreId!=null) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadre", cadre);
             modelMap.put("sysUser", cadre.getUser());
+        }
+
+        if (cadreStatus != null) {
+            modelMap.put("selectCadreStatus", Arrays.asList(cadreStatus));
         }
 
         return "modify/modifyCadreAuth/modifyCadreAuth_page";
@@ -55,7 +61,9 @@ public class ModifyCadreAuthController extends ModifyBaseController {
     @RequiresPermissions("modifyCadreAuth:list")
     @RequestMapping("/modifyCadreAuth_data")
     public void modifyCadreAuth_data(HttpServletResponse response,
-                                    Integer cadreId, Integer pageSize, Integer pageNo)  throws IOException{
+                                    Integer cadreId,
+                                     @RequestParam(required = false, value = "cadreStatus") Byte[] cadreStatus,
+                                     Integer pageSize, Integer pageNo)  throws IOException{
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -65,20 +73,14 @@ public class ModifyCadreAuthController extends ModifyBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        ModifyCadreAuthExample example = new ModifyCadreAuthExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("add_time desc");
-
-        if (cadreId!=null) {
-            criteria.andCadreIdEqualTo(cadreId);
-        }
-
-        int count = modifyCadreAuthMapper.countByExample(example);
+        int count = iModifyMapper.countModifyCadreAuthList(cadreId, cadreStatus);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ModifyCadreAuth> modifyCadreAuths = modifyCadreAuthMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        List<ModifyCadreAuth> modifyCadreAuths = iModifyMapper.selectModifyCadreAuthList(cadreId, cadreStatus,
+                new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -163,6 +165,17 @@ public class ModifyCadreAuthController extends ModifyBaseController {
 
         modifyCadreAuthService.batchAdd(cadreIds, start, end, isUnlimited);
         logger.info(addLog(LogConstants.LOG_ADMIN, "批量添加干部信息修改权限设置：%s", StringUtils.join(cadreIds, ",")));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("modifyCadreAuth:edit")
+    @RequestMapping(value = "/modifyCadreAuth_remove", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_modifyCadreAuth_remove(@RequestParam(value = "status[]", required = false) Byte[] status) {
+
+        iModifyMapper.removeAllCadres(new HashSet<>(Arrays.asList(status)));
+        logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除干部信息修改权限：%s", StringUtils.join(status, ",")));
 
         return success(FormUtils.SUCCESS);
     }

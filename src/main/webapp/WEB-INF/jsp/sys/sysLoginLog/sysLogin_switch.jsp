@@ -27,7 +27,7 @@
 <div class="modal-footer">
 
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input id="submitBtn" type="button" class="btn btn-primary" value="确定"/>
+    <input id="submitBtn" type="button" disabled class="linkBtn btn btn-primary" value="确定"/>
 
     <div style="text-align: left;margin-bottom: 10px;padding-top: 10px;">注：
         <br/>
@@ -42,21 +42,38 @@
     $select.on("change",function(){
         user = $(this).select2("data")[0];
         $("#loginStatus").html("");
-        $.getJSON("${ctx}/sysLogin_status",{username: user.username},function(ret){
+        $.getJSON("${ctx}/sysLogin_switch_status",{username: user.username},function(ret){
             if(ret.success){
-                if(user.locked){
+                if(!ret.canSwitch){
+                    $("#loginStatus").html("该账号无法切换");
+                }else if(user.locked){
                     $("#loginStatus").html("禁用账号");
                 }else {
-                    $("#loginStatus").html(ret.isOnline ? '<span class="text text-danger bolder larger">在线</span>'
+                    var isOnline = (ret.onlineSession!=undefined);
+
+                    $("#loginStatus").html(isOnline ? ('<table><tr><td><span class="text text-danger bolder larger">在线</span></td></tr>' +
+                    '<tr><td>登录时间：{0}</td></tr><tr><td>最新操作时间：{1}</td></tr></table>')
+                            .format($.date(ret.onlineSession.startTimestamp, 'yyyy-MM-dd HH:mm:ss'),
+                            $.date(ret.onlineSession.lastAccessTime, 'yyyy-MM-dd HH:mm:ss'))
                             : '<span class="text text-success">离线</span>');
+                }
+
+                if(ret.canSwitch && !user.locked && $.trim(user.username)!=''){
+                    $("#submitBtn").data("url", "${ctx}/cas_test?username="+ user.username)
+                            .prop("disabled", false);
+                }else{
+                    $("#submitBtn").prop("disabled", true);
                 }
             }
         })
     });
-    $("#submitBtn").click(function(){
+   /* $("#submitBtn").click(function(){
         user = user || {};
-        if(!user.locked && $.trim(user.username)!=''){
+        if(canSwitch && !user.locked && $.trim(user.username)!=''){
             location.href="${ctx}/cas_test?username="+ user.username;
+            $(this).prop("disabled", false);
+        }else{
+            $(this).prop("disabled", true);
         }
-    })
+    })*/
 </script>
