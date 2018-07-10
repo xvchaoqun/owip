@@ -46,7 +46,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div style="float: left;font-size: 14pt;margin-bottom: 20px;" id="resultDiv">
+                        <div style="float: left;font-size: 14pt" id="resultDiv">
                         </div>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
     </div>
 </div>
 <div class="modal-footer center">
-    <button id="copyBtn" class="btn btn-success" data-clipboard-target="#resultDiv"><i class="fa fa-copy"></i> 复制到剪贴板</button>
+    <button id="copyBtn" class="btn btn-success"><i class="fa fa-copy"></i> 复制到剪贴板</button>
 </div>
 <script type="text/template" id="itemListTpl">
     <table id="itemTable" class="table table-striped table-bordered table-condensed table-unhover2 table-center">
@@ -79,32 +79,20 @@
         </tbody>
     </table>
 </script>
-<script src="${ctx}/extend/js/clipboard.min.js"></script>
+<script src="${ctx}/extend/js/ZeroClipboard.min.js"></script>
 <script>
-
-    var clipboard = new ClipboardJS('#copyBtn');
-    clipboard.on('success', function(e) {
-        //console.info('Action:', e.action);
-        //console.info('Text:', e.text);
-        //console.info('Trigger:', e.trigger);
-        e.clearSelection();
-        if($.trim(e.text)!='') {
-            $.tip({
-                $target: $("#copyBtn"),
-                at: 'bottom center', my: 'top center', type: 'success',
-                msg: "内容已经复制剪贴板，请粘贴。"
-            })
-        }
+    ZeroClipboard.config({swfPath: '${ctx}/extend/js/ZeroClipboard.swf'});
+    var clip = new ZeroClipboard($("#copyBtn"));
+    clip.on('ready', function () {
+        this.on( 'copy', function(event) {
+            event.clipboardData.setData('text/plain', $("#resultDiv").text().replaceAll("\\s+", "\n"));
+        } );
+        this.on('aftercopy', function (event) {
+            SysMsg.success('内容已经复制剪贴板');
+        });
     });
-
-    clipboard.on('error', function(e) {
-        //console.error('Action:', e.action);
-        //console.error('Trigger:', e.trigger);
-        $.tip({
-            $target:$("#copyBtn"),
-            at: 'top center', my: 'bottom center',
-            msg: "复制失败，请使用Ctrl+C复制。"
-        })
+    clip.on('error', function (event) {
+        ZeroClipboard.destroy();
     });
 
     $.register.user_select($('[data-rel="select2-ajax"]'));
@@ -172,7 +160,8 @@
         $.post("${ctx}/cadre_search_brief", {userIds: userIds}, function (ret) {
 
             $("#resultDiv").html(ret);
-            //clip.setData("设置用于复制的文本内容");
+            clip.setData("设置用于复制的文本内容");
+
         })
 
     }
