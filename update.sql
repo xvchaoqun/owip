@@ -1,3 +1,7 @@
+20180710
+ALTER TABLE `cet_train_course`
+	CHANGE COLUMN `name` `name` VARCHAR(200) NULL DEFAULT NULL COMMENT '名称，直接创建的课程名称（包括专题班测评名称）' AFTER `course_id`;
+
 
 20180705
 ALTER TABLE `cet_train`

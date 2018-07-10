@@ -99,7 +99,7 @@ pageEncoding="UTF-8"%>
 		}else{
 
 			$("#_name label").html("课程名称");
-			$("#_name input").val("${cetTrainCourse.name}");
+			$("#_name input").val($.trimHtml("${cetTrainCourse.name}"));
 			$("#_teacher").show();
 			$("#_teacher input").attr("required", "required");
 			$("#_startTime label").html("开始时间");
