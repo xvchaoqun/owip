@@ -25,6 +25,7 @@
             <div id="jqGridPager"></div>
         </div>
         <div id="body-content-view"></div>
+            <div id="body-content-view2"></div>
         </c:if>
         <c:if test="${postCount==0}">
         <div class="well well-lg" >
