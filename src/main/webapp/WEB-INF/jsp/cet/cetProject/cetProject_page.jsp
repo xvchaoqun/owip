@@ -45,10 +45,10 @@ pageEncoding="UTF-8" %>
                         ><i class="fa fa-dot-circle-o"></i>
                     结束
                 </button>
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/cet/cetProject_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>
+                    <i class="fa fa-download"></i> 导出</button>--%>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
