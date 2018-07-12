@@ -21,7 +21,7 @@
                        data-grid-id="#jqGrid_cadreWork"
                        data-url="${ctx}/cadreWork_au"
                        data-id-name="fid"
-                       data-querystr="&toApply=1&cadreId=${cadre.id}"><i class="fa fa-plus"></i>
+                       data-querystr="module=${param.module}&toApply=1&cadreId=${cadre.id}"><i class="fa fa-plus"></i>
                         添加期间工作</a>
                         <button data-url="${ctx}/user/modifyTableApply_del"
                                 data-title="删除"
