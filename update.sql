@@ -1,3 +1,8 @@
+
+20180710
+提任-> mt_dispatch_cadre_way_promote
+
+
 20180710
 ALTER TABLE `cet_train_course`
 	CHANGE COLUMN `name` `name` VARCHAR(200) NULL DEFAULT NULL COMMENT '名称，直接创建的课程名称（包括专题班测评名称）' AFTER `course_id`;

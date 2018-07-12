@@ -1366,7 +1366,7 @@ $.extend($.register, {
         $dispatchTypeSelect.on("change", function () {
             $dispatchSelect.val(null).trigger("change");
         });
-        $dispatchSelect.select2({
+        return $dispatchSelect.select2({
             templateResult: $.register.formatState,
             ajax: {
                 dataType: 'json',
@@ -1389,19 +1389,7 @@ $.extend($.register, {
                 },
                 cache: true
             }
-        }).on("change", function () {
-            var id = $(this).val();
-            if (id > 0) {
-                $("#body-content-view").load(ctx + "/dispatch_cadres?dispatchId=" + id);
-                /*$("#dispatch-file-view").load(ctx + "/swf_preview?way=3&id=" + id + "&type=file");
-                 $("#dispatch-cadres-view").load(ctx + "/dispatch_cadres_admin?dispatchId=" + id);
-
-                 var dispatchType = $(this).select2("data")[0]['type']||'';
-                 var year = $(this).select2("data")[0]['year']||'';
-                 $dispatchTypeSelect.val(dispatchType);
-                 $year.val(year);*/
-            }
-        });
+        })
     },
     // 分党委、党支部select2联动
     party_branch_select: function ($container, branchDivId, mt_direct_branch_id,

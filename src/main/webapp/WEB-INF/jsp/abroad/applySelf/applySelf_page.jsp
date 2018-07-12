@@ -52,7 +52,7 @@
                             <c:if test="${status==0||status==1}">
                                 <shiro:hasPermission name="applySelf:edit">
                                     <button class="jqOpenViewBtn btn btn-success btn-sm"
-                                            data-url="${ctx}/abroad/applySelf_clearApproval" data-open-by="page">
+                                            data-url="${ctx}/abroad/applySelf_change" data-open-by="page">
                                         <i class="fa fa-edit"></i> 行程变更
                                     </button>
                                 </shiro:hasPermission>

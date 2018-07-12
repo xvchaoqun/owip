@@ -1,9 +1,20 @@
 package domain.sc.scPassport;
 
+import domain.abroad.SafeBox;
+import org.springframework.format.annotation.DateTimeFormat;
+import sys.helper.AbroadHelper;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class ScPassport implements Serializable {
+
+    public SafeBox getSafeBox(){
+
+        if(safeBoxId==null) return null;
+        return AbroadHelper.getSafeBoxMap().get(safeBoxId);
+    }
+
     private Integer id;
 
     private Integer handId;
@@ -12,6 +23,7 @@ public class ScPassport implements Serializable {
 
     private Boolean isExist;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date keepDate;
 
     private String code;
@@ -20,8 +32,10 @@ public class ScPassport implements Serializable {
 
     private String authority;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date issueDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date expiryDate;
 
     private Integer safeBoxId;

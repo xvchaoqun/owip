@@ -67,8 +67,10 @@ public class EduSuffix implements TemplateDirectiveModel {
             case "mt_edu_master":
             case "mt_edu_yjskcb":
             case "mt_edu_sstd":
-            case "mt_edu_doctor":
                 suffix = "研究生";
+                break;
+            case "mt_edu_doctor":
+                suffix = "博士研究生";
                 break;
         }
 

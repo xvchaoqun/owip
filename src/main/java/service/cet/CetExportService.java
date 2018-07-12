@@ -112,10 +112,13 @@ public class CetExportService extends BaseMapper {
             BigDecimal total = periodMap.get(0);
             cell.setCellValue(total == null ? "" : total.stripTrailingZeros().toPlainString());
             periodMap.remove(0);
-            for (BigDecimal period : periodMap.values()) {
+
+            for (CetProjectPlan cetProjectPlan : projectPlanMap.values()) {
                 cell = row.getCell(column++);
-                if(cell != null)
-                    cell.setCellValue(period==null?"":period.stripTrailingZeros().toPlainString());
+                if(cell != null) {
+                    BigDecimal period = periodMap.get(cetProjectPlan.getId());
+                    cell.setCellValue(period == null ? "" : period.stripTrailingZeros().toPlainString());
+                }
             }
         }
 

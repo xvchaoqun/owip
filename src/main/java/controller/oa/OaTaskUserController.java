@@ -198,7 +198,7 @@ public class OaTaskUserController extends OaBaseController {
     @RequiresPermissions("oaTaskUser:unreportMsg")
     @RequestMapping(value = "/oaTaskUser_unreportMsg", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_oaTaskUser_unreportMsg(int taskId, String msg, HttpServletResponse response) throws IOException {
+    public void do_oaTaskUser_unreportMsg(int taskId, String msg, HttpServletResponse response) throws IOException {
 
         Map<String, Object> result = oaTaskUserService.sendUnReportMsg(taskId, msg);
         logger.info(addLog(LogConstants.LOG_OA, "短信催促未报送对象：%s", taskId));
@@ -213,7 +213,7 @@ public class OaTaskUserController extends OaBaseController {
         baseMixins.put(SysUserView.class, OptionMixin.class);
         JSONUtils.write(response, resultMap, "success", "msg", "totalCount", "successCount",
                 "failedUsers", "failedUsers.id", "failedUsers.realname", "failedUsers.mobile");
-        return resultMap;
+        //return resultMap;
     }
 
     @RequiresPermissions("oaTaskUser:unreportMsg")

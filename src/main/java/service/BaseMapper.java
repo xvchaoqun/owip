@@ -341,6 +341,7 @@ import persistence.sc.scMatter.ScMatterTransferMapper;
 import persistence.sc.scMatter.ScMatterUserViewMapper;
 import persistence.sc.scPassport.ScPassportHandMapper;
 import persistence.sc.scPassport.ScPassportMapper;
+import persistence.sc.scPassport.ScPassportMsgMapper;
 import persistence.sc.scPublic.ScPublicMapper;
 import persistence.sc.scPublic.ScPublicUserMapper;
 import persistence.sc.scPublic.ScPublicViewMapper;
@@ -491,6 +492,9 @@ public class BaseMapper {
     protected ScPassportHandMapper scPassportHandMapper;
     @Autowired(required = false)
     protected ScPassportMapper scPassportMapper;
+
+    @Autowired(required = false)
+    protected ScPassportMsgMapper scPassportMsgMapper;
 
     /**
      * 干部选拔-干部任免审批表

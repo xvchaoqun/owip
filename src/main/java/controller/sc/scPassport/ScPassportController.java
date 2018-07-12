@@ -3,7 +3,9 @@ package controller.sc.scPassport;
 import domain.sc.scPassport.ScPassport;
 import domain.sc.scPassport.ScPassportExample;
 import domain.sc.scPassport.ScPassportExample.Criteria;
+import domain.sc.scPassport.ScPassportHand;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import service.abroad.SafeBoxService;
 import sys.constants.LogConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -40,7 +45,10 @@ public class ScPassportController extends ScPassportBaseController {
 
     @RequiresPermissions("scPassport:list")
     @RequestMapping("/scPassport")
-    public String scPassport() {
+    public String scPassport(int handId, ModelMap modelMap) {
+
+        ScPassportHand scPassportHand = scPassportHandMapper.selectByPrimaryKey(handId);
+        modelMap.put("scPassportHand", scPassportHand);
 
         return "sc/scPassport/scPassport/scPassport_page";
     }
@@ -104,9 +112,19 @@ public class ScPassportController extends ScPassportBaseController {
     @RequiresPermissions("scPassport:edit")
     @RequestMapping(value = "/scPassport_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_scPassport_au(ScPassport record, HttpServletRequest request) {
+    public Map do_scPassport_au(ScPassport record,
+                                MultipartFile _pic,
+                                HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
+        record.setIsExist(BooleanUtils.isTrue(record.getIsExist()));
+
+        if(scPassportService.idDuplicate(record.getId(), record.getHandId(), record.getClassId())){
+            return failed("添加重复。");
+        }
+        if (_pic != null && !_pic.isEmpty()) {
+            record.setPic(uploadPic(_pic, "scPassport", 100, 200));
+        }
 
         if (id == null) {
             
@@ -123,26 +141,20 @@ public class ScPassportController extends ScPassportBaseController {
 
     @RequiresPermissions("scPassport:edit")
     @RequestMapping("/scPassport_au")
-    public String scPassport_au(Integer id, ModelMap modelMap) {
+    public String scPassport_au(Integer id, Integer handId, ModelMap modelMap) {
 
         if (id != null) {
             ScPassport scPassport = scPassportMapper.selectByPrimaryKey(id);
             modelMap.put("scPassport", scPassport);
+            handId = scPassport.getHandId();
         }
+        modelMap.put("handId", handId);
+
+        SafeBoxService safeBoxService = CmTag.getBean(SafeBoxService.class);
+        if(safeBoxService!=null)
+            modelMap.put("safeBoxMap", safeBoxService.findAll());
+
         return "sc/scPassport/scPassport/scPassport_au";
-    }
-
-    @RequiresPermissions("scPassport:del")
-    @RequestMapping(value = "/scPassport_del", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_scPassport_del(HttpServletRequest request, Integer id) {
-
-        if (id != null) {
-
-            scPassportService.del(id);
-            logger.info(addLog( LogConstants.LOG_SC_PASSPORT, "删除上交证件信息：%s", id));
-        }
-        return success(FormUtils.SUCCESS);
     }
 
     @RequiresPermissions("scPassport:del")

@@ -2,6 +2,7 @@ package service.sc.scPassport;
 
 import domain.sc.scPassport.ScPassport;
 import domain.sc.scPassport.ScPassportExample;
+import org.apache.shiro.util.Assert;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
@@ -11,16 +12,22 @@ import java.util.Arrays;
 @Service
 public class ScPassportService extends BaseMapper {
 
-    @Transactional
-    public void insertSelective(ScPassport record){
+    public boolean idDuplicate(Integer id, int handId, int classId){
 
-        scPassportMapper.insertSelective(record);
+        ScPassportExample example = new ScPassportExample();
+        ScPassportExample.Criteria criteria = example.createCriteria()
+                .andHandIdEqualTo(handId)
+                .andClassIdEqualTo(classId);
+        if(id!=null) criteria.andIdNotEqualTo(id);
+
+        return scPassportMapper.countByExample(example) > 0;
     }
 
     @Transactional
-    public void del(Integer id){
+    public void insertSelective(ScPassport record){
 
-        scPassportMapper.deleteByPrimaryKey(id);
+        Assert.isTrue(!idDuplicate(null, record.getHandId(), record.getClassId()), "duplicated");
+        scPassportMapper.insertSelective(record);
     }
 
     @Transactional
@@ -35,6 +42,8 @@ public class ScPassportService extends BaseMapper {
 
     @Transactional
     public int updateByPrimaryKeySelective(ScPassport record){
+
+        Assert.isTrue(!idDuplicate(record.getId(), record.getHandId(), record.getClassId()), "duplicated");
 
         return scPassportMapper.updateByPrimaryKeySelective(record);
     }

@@ -3,6 +3,7 @@ package controller.sc.scPassport;
 import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.sc.scPassport.ScPassportHandService;
+import service.sc.scPassport.ScPassportMsgService;
 import service.sc.scPassport.ScPassportService;
 
 public class ScPassportBaseController extends BaseController {
@@ -11,5 +12,7 @@ public class ScPassportBaseController extends BaseController {
     protected ScPassportService scPassportService;
     @Autowired
     protected ScPassportHandService scPassportHandService;
+    @Autowired
+    protected ScPassportMsgService scPassportMsgService;
 
 }

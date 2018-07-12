@@ -26,12 +26,17 @@
         </javaClientGenerator>
 
         <!--干部选拔-新提任干部交证件-->
-        <table tableName="sc_passport_hand" domainObjectName="sc.scPassport.ScPassportHand"
+        <!--<table tableName="sc_passport_hand" domainObjectName="sc.scPassport.ScPassportHand"
                mapperName="sc.scPassport.ScPassportHandMapper">
-        </table>
-        <table tableName="sc_passport" domainObjectName="sc.scPassport.ScPassport"
+        </table>-->
+        <!--<table tableName="sc_passport" domainObjectName="sc.scPassport.ScPassport"
                mapperName="sc.scPassport.ScPassportMapper">
+        </table>-->
+        <table tableName="sc_passport_msg" domainObjectName="sc.scPassport.ScPassportMsg"
+               mapperName="sc.scPassport.ScPassportMsgMapper">
+            <columnOverride column="msg" jdbcType="VARCHAR"></columnOverride>
         </table>
+
         <!--干部选拔-干部任免审批表-->
         <!--<table tableName="sc_ad_archive" domainObjectName="sc.scAd.ScAdArchive"
                mapperName="sc.scAd.ScAdArchiveMapper">

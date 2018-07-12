@@ -86,6 +86,7 @@ public class CetTrainInspectorController extends CetBaseController {
         CetTrainInspectorViewExample example = new CetTrainInspectorViewExample();
         CetTrainInspectorViewExample.Criteria criteria = example.createCriteria().andTrainIdEqualTo(trainId);
         //example.setOrderByClause(" type asc, create_time desc");
+        example.setOrderByClause("id asc");
 
         if (export == 1) {
             if(ids!=null && ids.length>0)

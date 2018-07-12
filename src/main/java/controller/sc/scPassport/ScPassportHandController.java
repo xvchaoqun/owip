@@ -1,5 +1,7 @@
 package controller.sc.scPassport;
 
+import domain.cadre.CadreView;
+import domain.dispatch.DispatchCadre;
 import domain.sc.scPassport.ScPassportHand;
 import domain.sc.scPassport.ScPassportHandExample;
 import domain.sc.scPassport.ScPassportHandExample.Criteria;
@@ -15,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
+import sys.constants.ScConstants;
 import sys.tool.paging.CommonList;
+import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -29,8 +34,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/sc")
@@ -40,7 +48,15 @@ public class ScPassportHandController extends ScPassportBaseController {
 
     @RequiresPermissions("scPassportHand:list")
     @RequestMapping("/scPassportHand")
-    public String scPassportHand() {
+    public String scPassportHand(@RequestParam(required = false, defaultValue = "1") Byte cls,
+                                 Integer cadreId,
+                                 ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+        if(cadreId!=null){
+            CadreView cadreView = cadreService.findAll().get(cadreId);
+            modelMap.put("cadre", cadreView);
+        }
 
         return "sc/scPassport/scPassportHand/scPassportHand_page";
     }
@@ -49,10 +65,11 @@ public class ScPassportHandController extends ScPassportBaseController {
     @RequestMapping("/scPassportHand_data")
     @ResponseBody
     public void scPassportHand_data(HttpServletResponse response,
-                                    Integer userId,
-                                 @RequestParam(required = false, defaultValue = "0") int export,
-                                 @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
-                                 Integer pageSize, Integer pageNo)  throws IOException{
+                                    @RequestParam(required = false, defaultValue = "1") Byte cls,
+                                    Integer cadreId,
+                                    @RequestParam(required = false, defaultValue = "0") int export,
+                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
+                                    Integer pageSize, Integer pageNo) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -66,12 +83,24 @@ public class ScPassportHandController extends ScPassportBaseController {
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("add_time desc");
 
-        if (userId!=null) {
-            criteria.andUserIdEqualTo(userId);
+        switch (cls) {
+            case 1:
+                criteria.andStatusEqualTo(ScConstants.SC_PASSPORTHAND_STATUS_UNHAND);
+                break;
+            case 2:
+                criteria.andStatusEqualTo(ScConstants.SC_PASSPORTHAND_STATUS_HAND);
+                break;
+            case 3:
+                criteria.andStatusEqualTo(ScConstants.SC_PASSPORTHAND_STATUS_ABOLISH);
+                break;
+        }
+
+        if (cadreId != null) {
+            criteria.andCadreIdEqualTo(cadreId);
         }
 
         if (export == 1) {
-            if(ids!=null && ids.length>0)
+            if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
             scPassportHand_export(example, response);
             return;
@@ -82,7 +111,7 @@ public class ScPassportHandController extends ScPassportBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ScPassportHand> records= scPassportHandMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<ScPassportHand> records = scPassportHandMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -106,11 +135,11 @@ public class ScPassportHandController extends ScPassportBaseController {
 
         if (id == null) {
             scPassportHandService.insertSelective(record);
-            logger.info(addLog( LogConstants.LOG_SC_PASSPORT, "添加新提任干部交证件：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_PASSPORT, "添加新提任干部交证件：%s", record.getId()));
         } else {
 
             scPassportHandService.updateByPrimaryKeySelective(record);
-            logger.info(addLog( LogConstants.LOG_SC_PASSPORT, "更新新提任干部交证件：%s", record.getId()));
+            logger.info(addLog(LogConstants.LOG_SC_PASSPORT, "更新新提任干部交证件：%s", record.getId()));
         }
 
         return success(FormUtils.SUCCESS);
@@ -127,16 +156,63 @@ public class ScPassportHandController extends ScPassportBaseController {
         return "sc/scPassport/scPassportHand/scPassportHand_au";
     }
 
-    @RequiresPermissions("scPassportHand:del")
-    @RequestMapping(value = "/scPassportHand_del", method = RequestMethod.POST)
+    @RequiresPermissions("scPassportHand:edit")
+    @RequestMapping(value = "/scPassportHand_unabolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_scPassportHand_del(HttpServletRequest request, Integer id) {
+    public Map do_scPassportHand_unabolish(int id, HttpServletRequest request) {
+
+        scPassportHandService.unabolish(id);
+        logger.info(addLog(LogConstants.LOG_SC_PASSPORT, "取消撤销新提任干部交证件：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("scPassportHand:edit")
+    @RequestMapping(value = "/scPassportHand_unhand", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scPassportHand_unhand(int id, HttpServletRequest request) {
+
+        scPassportHandService.unhand(id);
+        logger.info(addLog(LogConstants.LOG_SC_PASSPORT,
+                "转移至未交证件：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("scPassportHand:edit")
+    @RequestMapping(value = "/scPassportHand_abolish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scPassportHand_abolish(int id, String remark, HttpServletRequest request) {
+
+        scPassportHandService.abolish(id, remark);
+        logger.info(addLog(LogConstants.LOG_SC_PASSPORT,
+                "撤销新提任干部交证件：%s，%s", id, remark));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("scPassportHand:edit")
+    @RequestMapping("/scPassportHand_abolish")
+    public String scPassportHand_abolish(Integer id, ModelMap modelMap) {
 
         if (id != null) {
-
-            scPassportHandService.del(id);
-            logger.info(addLog( LogConstants.LOG_SC_PASSPORT, "删除新提任干部交证件：%s", id));
+            ScPassportHand scPassportHand = scPassportHandMapper.selectByPrimaryKey(id);
+            modelMap.put("scPassportHand", scPassportHand);
         }
+        return "sc/scPassport/scPassportHand/scPassportHand_abolish";
+    }
+
+    @RequiresPermissions("scPassportHand:edit")
+    @RequestMapping(value = "/scPassportHand_import", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scPassportHand_import(HttpServletRequest request, Integer handId) {
+
+        if (handId != null) {
+
+            scPassportHandService.importPassport(handId);
+            logger.info(addLog(LogConstants.LOG_SC_PASSPORT, "新提任干部证件入库：%s", handId));
+        }
+
         return success(FormUtils.SUCCESS);
     }
 
@@ -146,30 +222,88 @@ public class ScPassportHandController extends ScPassportBaseController {
     public Map scPassportHand_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
-        if (null != ids && ids.length>0){
+        if (null != ids && ids.length > 0) {
             scPassportHandService.batchDel(ids);
-            logger.info(addLog( LogConstants.LOG_SC_PASSPORT, "批量删除新提任干部交证件：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog(LogConstants.LOG_SC_PASSPORT, "批量删除新提任干部交证件：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    // 从任免文件中提取新提任干部
+    @RequiresPermissions("scPassportHand:edit")
+    @RequestMapping("/scPassportHand_dispatch_draw")
+    @ResponseBody
+    public void scPassportHand_dispatch_draw(int dispatchId, HttpServletResponse response) throws IOException {
+
+        List<DispatchCadre> dispatchCadres = scPassportHandService.draw(dispatchId);
+
+        JSONUtils.write(response, dispatchCadres, "id", "user", "user.code", "user.realname",
+                "dispatch","dispatch.dispatchCode");
+    }
+    @RequiresPermissions("scPassportHand:edit")
+    @RequestMapping("/scPassportHand_dispatch")
+    public String scPassportHand_dispatch(ModelMap modelMap) throws IOException {
+
+        return "sc/scPassport/scPassportHand/scPassportHand_dispatch";
+    }
+
+    @RequiresPermissions("scPassportHand:edit")
+    @RequestMapping(value = "/scPassportHand_dispatch", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scPassportHand_dispatch(@RequestParam(value = "dispatchCadreIds[]", required = false) Integer[] dispatchCadreIds) {
+
+        scPassportHandService.addDispatchCadres(dispatchCadreIds);
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("scPassportHand:edit")
+    @RequestMapping("/scPassportHand_selectCadres")
+    public String scPassportHand_selectCadres(ModelMap modelMap) throws IOException {
+
+        return "sc/scPassport/scPassportHand/scPassportHand_selectCadres";
+    }
+
+    @RequiresPermissions("scPassportHand:edit")
+    @RequestMapping(value = "/scPassportHand_selectCadres", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scPassportHand_selectCadres(@RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
+
+        scPassportHandService.addCadres(cadreIds);
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("scPassportHand:edit")
+    @RequestMapping("/scPassportHand_selectCadres_tree")
+    @ResponseBody
+    public Map scPassportHand_selectCadres_tree() throws IOException {
+
+        Set<Byte> cadreStatusList = new HashSet(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
+                CadreConstants.CADRE_STATUS_LEADER));
+        TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
+                cadreStatusList, null, null, true, true, false);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
     }
 
     public void scPassportHand_export(ScPassportHandExample example, HttpServletResponse response) {
 
         List<ScPassportHand> records = scPassportHandMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"关联账号|100","新提任日期|100","添加方式|100","备注|100","状态|100","证件是否已入库|100","添加时间|100"};
+        String[] titles = {"关联账号|100", "新提任日期|100", "添加方式|100", "备注|100", "状态|100", "证件是否已入库|100", "添加时间|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ScPassportHand record = records.get(i);
             String[] values = {
-                record.getUserId()+"",
-                            DateUtils.formatDate(record.getAppointDate(), DateUtils.YYYY_MM_DD),
-                            record.getAddType()+"",
-                            record.getRemark(),
-                            record.getStatus()+"",
-                            record.getIsKeep()+"",
-                            DateUtils.formatDate(record.getAddTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
+                    record.getCadreId() + "",
+                    DateUtils.formatDate(record.getAppointDate(), DateUtils.YYYY_MM_DD),
+                    record.getAddType() + "",
+                    record.getRemark(),
+                    record.getStatus() + "",
+                    record.getIsKeep() + "",
+                    DateUtils.formatDate(record.getAddTime(), DateUtils.YYYY_MM_DD_HH_MM_SS)
             };
             valuesList.add(values);
         }

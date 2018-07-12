@@ -244,6 +244,7 @@ public class SystemConstants {
     public final static byte SHORT_MSG_RELATE_TYPE_SHORT_PCS = 3; // 党代会
     public final static byte SHORT_MSG_RELATE_TYPE_SHORT_OA = 4; // 协同办公
     public final static byte SHORT_MSG_RELATE_TYPE_SHORT_CET = 5; // 干部教育培训
+    public final static byte SHORT_MSG_RELATE_TYPE_SHORT_SC_PASSPORT = 6; // 干部选拔任用-新任干部提交证件
     public final static Map<Byte, String> SHORT_MSG_RELATE_TYPE_MAP = new LinkedHashMap<>();
 
     static {
@@ -252,6 +253,7 @@ public class SystemConstants {
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_PCS, "党代会");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_OA, "协同办公");
         SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_CET, "干部教育培训");
+        SHORT_MSG_RELATE_TYPE_MAP.put(SHORT_MSG_RELATE_TYPE_SHORT_SC_PASSPORT, "干部选拔任用-新任干部提交证件");
     }
 
     // 操作记录类型

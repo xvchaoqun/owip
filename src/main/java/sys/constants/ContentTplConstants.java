@@ -159,4 +159,6 @@ public class ContentTplConstants {
     /** 干部选拨 **/
     // 干部任前公示结束确认提醒
     public final static String CONTENT_TPL_SC_PUBLIC_FINISH_CONFIRM = "ct_sc_public_finish_confirm";
+    // 新提任处级干部交证件通知
+    public final static String CONTENT_TPL_SC_PASSPORT_MSG = "ct_sc_passport_msg";
 }

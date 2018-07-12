@@ -9,6 +9,33 @@ import java.util.Map;
 public class ScConstants {
 
     /**
+     * 新提任干部交证件
+     */
+    // 添加方式，1 自动识别  2 从干部库中选择 3 从任免文件中提取
+    public final static byte SC_PASSPORTHAND_ADDTYPE_AUTO = 1;
+    public final static byte SC_PASSPORTHAND_ADDTYPE_CADRE = 2;
+    public final static byte SC_PASSPORTHAND_ADDTYPE_DISPATCH = 3;
+    public final static Map<Byte, String> SC_PASSPORTHAND_ADDTYPE_MAP = new LinkedHashMap();
+
+    static {
+        SC_PASSPORTHAND_ADDTYPE_MAP.put(SC_PASSPORTHAND_ADDTYPE_AUTO, "自动识别");
+        SC_PASSPORTHAND_ADDTYPE_MAP.put(SC_PASSPORTHAND_ADDTYPE_CADRE, "从干部库中选择");
+        SC_PASSPORTHAND_ADDTYPE_MAP.put(SC_PASSPORTHAND_ADDTYPE_DISPATCH, "从任免文件中提取");
+    }
+
+    // 状态，1 未交证件 2 已交证件  3 已撤销
+    public final static byte SC_PASSPORTHAND_STATUS_UNHAND = 1;
+    public final static byte SC_PASSPORTHAND_STATUS_HAND = 2;
+    public final static byte SC_PASSPORTHAND_STATUS_ABOLISH = 3;
+    public final static Map<Byte, String> SC_PASSPORTHAND_STATUS_MAP = new LinkedHashMap();
+
+    static {
+        SC_PASSPORTHAND_STATUS_MAP.put(SC_PASSPORTHAND_STATUS_UNHAND, "未交证件");
+        SC_PASSPORTHAND_STATUS_MAP.put(SC_PASSPORTHAND_STATUS_HAND, "已交证件");
+        SC_PASSPORTHAND_STATUS_MAP.put(SC_PASSPORTHAND_STATUS_ABOLISH, "已撤销");
+    }
+
+    /**
      * 个人有关事项
      */
     // 认定结果 1 如实填报 2 漏报 3 瞒报
