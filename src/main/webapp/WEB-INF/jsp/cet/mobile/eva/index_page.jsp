@@ -54,7 +54,7 @@
                                                     ${cm:formatDate(tc.startTime, "yyyy-MM-dd HH:mm")}
                                                         </c:if>
                                                 <c:if test="${!tc.isGlobal}">
-                                                    ${cm:substr(cetTrain.isOnCampus?tc.cetCourse.cetExpert.realname:tc.teacher, 0, 10, '')}&nbsp;&nbsp;<c:if test="${not empty tc.startTime}"> ${cm:formatDate(tc.startTime, "HH:mm")}~${cm:formatDate(tc.endTime, "HH:mm")}</c:if>
+                                                    ${cm:substr(cetTrain.isOnCampus?tc.cetCourse.cetExpert.realname:tc.teacher, 0, 20, '')}&nbsp;&nbsp;<c:if test="${not empty tc.startTime}"> ${cm:formatDate(tc.startTime, "HH:mm")}~${cm:formatDate(tc.endTime, "HH:mm")}</c:if>
                                                 &nbsp;&nbsp;${cm:formatDate(tc.startTime, "yyyy-MM-dd")}
                                                 </c:if>
                                         </span>
