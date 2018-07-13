@@ -58,7 +58,7 @@
                             : '<span class="text text-success">离线</span>');
                 }
 
-                if(ret.canSwitch && !user.locked && $.trim(user.username)!=''){
+                if(ret.canSwitch && !user.locked && $.trim(user.username)!='' && $.trim(user.username)!='${_user.username}'){
                     $("#submitBtn").data("url", "${ctx}/cas_test?username="+ user.username)
                             .prop("disabled", false);
                 }else{
