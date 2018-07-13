@@ -74,7 +74,10 @@ public class UnitController extends BaseController {
 
     @RequiresPermissions("unit:info")
     @RequestMapping("/unit_view")
-    public String unit_show_page(HttpServletResponse response,  ModelMap modelMap) {
+    public String unit_view(HttpServletResponse response, int id, ModelMap modelMap) {
+
+        Unit unit = unitMapper.selectByPrimaryKey(id);
+        modelMap.put("unit", unit);
 
         return "unit/unit_view";
     }
@@ -141,7 +144,7 @@ public class UnitController extends BaseController {
             return;
         }
 
-        int count = unitMapper.countByExample(example);
+        long count = unitMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -163,12 +166,15 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:edit")
     @RequestMapping(value = "/unit_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unit_au(Unit record, String _workTime, HttpServletRequest request) {
+    public Map do_unit_au(Unit record,
+                          MultipartFile _file,
+                          String _workTime, HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
         if(StringUtils.isNotBlank(_workTime)){
             record.setWorkTime(DateUtils.parseDate(_workTime, DateUtils.YYYY_MM_DD));
         }
+        record.setFilePath(uploadPdf(_file, "unit"));
 
         if (unitService.idDuplicate(id, record.getCode())) {
             return failed("单位编码重复");
@@ -313,7 +319,7 @@ public class UnitController extends BaseController {
             criteria.andNameLike("%"+searchStr+"%");
         }
 
-        int count = unitMapper.countByExample(example);
+        long count = unitMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);

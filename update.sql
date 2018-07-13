@@ -1,4 +1,10 @@
 
+20180714
+ALTER TABLE `unit`
+	ADD COLUMN `file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '成立文件，pdf文档' AFTER `work_time`,
+	CHANGE COLUMN `url` `url` VARCHAR(200) NULL DEFAULT NULL COMMENT '单位网址，弃用' AFTER `file_path`;
+
+
 20180710
 提任-> mt_dispatch_cadre_way_promote
 

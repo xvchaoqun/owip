@@ -25,6 +25,8 @@ public class Unit implements Serializable {
 
     private Date workTime;
 
+    private String filePath;
+
     private String url;
 
     private String remark;
@@ -75,6 +77,14 @@ public class Unit implements Serializable {
 
     public void setWorkTime(Date workTime) {
         this.workTime = workTime;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath == null ? null : filePath.trim();
     }
 
     public String getUrl() {

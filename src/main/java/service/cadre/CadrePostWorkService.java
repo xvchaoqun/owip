@@ -5,6 +5,7 @@ import domain.cadre.Cadre;
 import domain.cadre.CadrePostWork;
 import domain.cadre.CadrePostWorkExample;
 import domain.cadre.CadreView;
+import domain.ext.ExtJzg;
 import domain.modify.ModifyTableApply;
 import domain.modify.ModifyTableApplyExample;
 import org.apache.commons.lang3.BooleanUtils;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.base.MetaTypeService;
+import service.ext.ExtService;
 import service.global.CacheService;
 import shiro.ShiroHelper;
 import sys.constants.ModifyConstants;
@@ -35,6 +37,8 @@ public class CadrePostWorkService extends BaseMapper {
     private MetaTypeService metaTypeService;
     @Autowired
     private CacheService cacheService;
+    @Autowired
+    private ExtService extService;
 
     // 是否已有当前工勤岗位
     public boolean idDuplicate(Integer id, int cadreId){
@@ -51,7 +55,10 @@ public class CadrePostWorkService extends BaseMapper {
 
     public void syncPost(CadrePostWork record){
 
-        if(BooleanUtils.isTrue(CmTag.getSysConfig().getUseCadrePost())) {
+        CadreView cv = CmTag.getCadreById(record.getCadreId());
+        ExtJzg extJzg = extService.getExtJzg(cv.getCode());
+
+        if(BooleanUtils.isTrue(CmTag.getSysConfig().getUseCadrePost()) || extJzg == null) {
 
             Cadre cadre = cadreMapper.selectByPrimaryKey(record.getCadreId());
             int userId = cadre.getUserId();

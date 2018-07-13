@@ -120,14 +120,17 @@
         url: '${ctx}/unit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '单位编号', name: 'code', width: 80,frozen:true },
-            { label: '单位名称', name: 'name', width: 350,formatter:function(cellvalue, options, rowObject){
+            { label: '单位名称', name: 'name', width: 350, align:'left', formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id={0}">{1}</a>'
                         .format(rowObject.id, cellvalue);
             },frozen:true },
             <c:if test="${!_query}">
             { label:'排序',align:'center', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
-            { label: '单位类型', name: 'unitType.name', width: 250,frozen:true  },
+            { label: '单位类型', name: 'typeId', width: 250,frozen:true, formatter: $.jgrid.formatter.MetaType },
+            {label: '成立文件', name: 'filePath', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return $.swfPreview(cellvalue, rowObject.name + "-成立文件", "查看");
+            }},
             { label: '成立时间', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '备注', align:'left', name: 'remark', width: 500 }
         ]}).jqGrid("setFrozenColumns");

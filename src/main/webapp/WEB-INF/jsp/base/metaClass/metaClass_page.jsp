@@ -90,7 +90,7 @@
         //forceFit:true,
         url: '${ctx}/metaClass_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '名称', name: 'name', width: 250,frozen:true },
+            { label: '名称', name: 'name', width: 250,frozen:true,align:'left' },
             { label: '所属一级目录', name: 'firstLevel', width: 200,frozen:true },
             { label: '所属二级目录', name: 'secondLevel', width: 200,frozen:true },
             <shiro:hasRole name="${ROLE_ADMIN}">

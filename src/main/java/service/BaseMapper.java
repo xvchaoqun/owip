@@ -369,6 +369,7 @@ import persistence.unit.UnitAdminMapper;
 import persistence.unit.UnitCadreTransferGroupMapper;
 import persistence.unit.UnitCadreTransferMapper;
 import persistence.unit.UnitMapper;
+import persistence.unit.UnitPostMapper;
 import persistence.unit.UnitTransferMapper;
 import persistence.verify.VerifyAgeMapper;
 import persistence.verify.VerifyWorkTimeMapper;
@@ -857,11 +858,6 @@ public class BaseMapper {
     @Autowired(required = false)
     protected OrgAdminMapper orgAdminMapper;
 
-    @Autowired(required = false)
-    protected UnitAdminGroupMapper unitAdminGroupMapper;
-    @Autowired(required = false)
-    protected UnitAdminMapper unitAdminMapper;
-
     /**
      * 干部库
      */
@@ -1074,12 +1070,6 @@ public class BaseMapper {
      * 发文
      */
     @Autowired(required = false)
-    protected UnitTransferMapper unitTransferMapper;
-    @Autowired(required = false)
-    protected UnitCadreTransferGroupMapper unitCadreTransferGroupMapper;
-    @Autowired(required = false)
-    protected UnitCadreTransferMapper unitCadreTransferMapper;
-    @Autowired(required = false)
     protected DispatchMapper dispatchMapper;
     @Autowired(required = false)
     protected DispatchViewMapper dispatchViewMapper;
@@ -1105,11 +1095,24 @@ public class BaseMapper {
     protected StatCadreMapper statCadreMapper;
 
     @Autowired(required = false)
+    protected PartySchoolMapper partySchoolMapper;
+
+    @Autowired(required = false)
     protected HistoryUnitMapper historyUnitMapper;
     @Autowired(required = false)
     protected UnitMapper unitMapper;
     @Autowired(required = false)
-    protected PartySchoolMapper partySchoolMapper;
+    protected UnitPostMapper unitPostMapper;
+    @Autowired(required = false)
+    protected UnitTransferMapper unitTransferMapper;
+    @Autowired(required = false)
+    protected UnitCadreTransferGroupMapper unitCadreTransferGroupMapper;
+    @Autowired(required = false)
+    protected UnitCadreTransferMapper unitCadreTransferMapper;
+    @Autowired(required = false)
+    protected UnitAdminGroupMapper unitAdminGroupMapper;
+    @Autowired(required = false)
+    protected UnitAdminMapper unitAdminMapper;
 
     /**
      * 干部信息修改申请

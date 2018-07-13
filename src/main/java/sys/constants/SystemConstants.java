@@ -126,6 +126,11 @@ public class SystemConstants {
     public static final byte UNIT_STATUS_RUN = 1;
     public static final byte UNIT_STATUS_HISTORY = 2;
 
+    //岗位状态，1 正常 2 已撤销 3 已删除
+    public static final byte UNIT_POST_STATUS_NORMAL = 1;
+    public static final byte UNIT_POST_STATUS_ABOLISH = 2;
+    public static final byte UNIT_POST_STATUS_DELETE = 3;
+
     // 单位类型附加属性
     public final static String UNIT_TYPE_ATTR_XY = "xy";
     public final static String UNIT_TYPE_ATTR_JG = "jg";

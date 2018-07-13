@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.unit.UnitPostMapper">
+  <resultMap id="BaseResultMap" type="domain.unit.UnitPost">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="code" jdbcType="INTEGER" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="is_principal_post" jdbcType="BIT" property="isPrincipalPost" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
+    <result column="post_class" jdbcType="INTEGER" property="postClass" />
+    <result column="is_cpc" jdbcType="BIT" property="isCpc" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="abolish_time" jdbcType="TIMESTAMP" property="abolishTime" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, unit_id, code, name, job, is_principal_post, admin_level, post_type, post_class, 
+    is_cpc, status, abolish_time, sort_order, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.unit.UnitPostExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from unit_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from unit_post
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from unit_post
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.unit.UnitPostExample">
+    delete from unit_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.unit.UnitPost">
+    insert into unit_post (id, unit_id, code, 
+      name, job, is_principal_post, 
+      admin_level, post_type, post_class, 
+      is_cpc, status, abolish_time, 
+      sort_order, remark)
+    values (#{id,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{code,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{isPrincipalPost,jdbcType=BIT}, 
+      #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, #{postClass,jdbcType=INTEGER}, 
+      #{isCpc,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{abolishTime,jdbcType=TIMESTAMP}, 
+      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.unit.UnitPost">
+    insert into unit_post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="job != null">
+        job,
+      </if>
+      <if test="isPrincipalPost != null">
+        is_principal_post,
+      </if>
+      <if test="adminLevel != null">
+        admin_level,
+      </if>
+      <if test="postType != null">
+        post_type,
+      </if>
+      <if test="postClass != null">
+        post_class,
+      </if>
+      <if test="isCpc != null">
+        is_cpc,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="abolishTime != null">
+        abolish_time,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrincipalPost != null">
+        #{isPrincipalPost,jdbcType=BIT},
+      </if>
+      <if test="adminLevel != null">
+        #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="postType != null">
+        #{postType,jdbcType=INTEGER},
+      </if>
+      <if test="postClass != null">
+        #{postClass,jdbcType=INTEGER},
+      </if>
+      <if test="isCpc != null">
+        #{isCpc,jdbcType=BIT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="abolishTime != null">
+        #{abolishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.unit.UnitPostExample" resultType="java.lang.Long">
+    select count(*) from unit_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update unit_post
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.job != null">
+        job = #{record.job,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isPrincipalPost != null">
+        is_principal_post = #{record.isPrincipalPost,jdbcType=BIT},
+      </if>
+      <if test="record.adminLevel != null">
+        admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.postType != null">
+        post_type = #{record.postType,jdbcType=INTEGER},
+      </if>
+      <if test="record.postClass != null">
+        post_class = #{record.postClass,jdbcType=INTEGER},
+      </if>
+      <if test="record.isCpc != null">
+        is_cpc = #{record.isCpc,jdbcType=BIT},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.abolishTime != null">
+        abolish_time = #{record.abolishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update unit_post
+    set id = #{record.id,jdbcType=INTEGER},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      job = #{record.job,jdbcType=VARCHAR},
+      is_principal_post = #{record.isPrincipalPost,jdbcType=BIT},
+      admin_level = #{record.adminLevel,jdbcType=INTEGER},
+      post_type = #{record.postType,jdbcType=INTEGER},
+      post_class = #{record.postClass,jdbcType=INTEGER},
+      is_cpc = #{record.isCpc,jdbcType=BIT},
+      status = #{record.status,jdbcType=TINYINT},
+      abolish_time = #{record.abolishTime,jdbcType=TIMESTAMP},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.unit.UnitPost">
+    update unit_post
+    <set>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null">
+        job = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrincipalPost != null">
+        is_principal_post = #{isPrincipalPost,jdbcType=BIT},
+      </if>
+      <if test="adminLevel != null">
+        admin_level = #{adminLevel,jdbcType=INTEGER},
+      </if>
+      <if test="postType != null">
+        post_type = #{postType,jdbcType=INTEGER},
+      </if>
+      <if test="postClass != null">
+        post_class = #{postClass,jdbcType=INTEGER},
+      </if>
+      <if test="isCpc != null">
+        is_cpc = #{isCpc,jdbcType=BIT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="abolishTime != null">
+        abolish_time = #{abolishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.unit.UnitPost">
+    update unit_post
+    set unit_id = #{unitId,jdbcType=INTEGER},
+      code = #{code,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      is_principal_post = #{isPrincipalPost,jdbcType=BIT},
+      admin_level = #{adminLevel,jdbcType=INTEGER},
+      post_type = #{postType,jdbcType=INTEGER},
+      post_class = #{postClass,jdbcType=INTEGER},
+      is_cpc = #{isCpc,jdbcType=BIT},
+      status = #{status,jdbcType=TINYINT},
+      abolish_time = #{abolishTime,jdbcType=TIMESTAMP},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.unit.UnitPostExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from unit_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -3,7 +3,6 @@ package service.dispatch;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchExample;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -19,8 +18,6 @@ import java.util.Map;
 @Service
 public class DispatchService extends BaseMapper {
 
-    @Autowired
-    private DispatchTypeService dispatchTypeService;
     public static String CODE_REG_STR = ".*\\[\\d{4}\\]([\\d.]*)号";
     // String numStr = PatternUtils.withdraw(CODE_REG_STR, code);
     // String numStr = NumberUtils.frontCompWithZore(num, 2);

@@ -46,9 +46,9 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">单位网址</label>
+				<label class="col-xs-3 control-label">成立文件</label>
 				<div class="col-xs-6">
-                        <input class="form-control url"  type="text" name="url" value="${unit.url}">
+                    <input class="form-control" type="file" name="_file"/>
 				</div>
 			</div>
 			<div class="form-group">
@@ -61,13 +61,21 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input type="submit" class="btn btn-primary" value="<c:if test="${unit!=null}">确定</c:if><c:if test="${unit==null}">添加</c:if>"/>
+    <button id="submitBtn" type="button" class="btn btn-primary"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+        <c:if test="${unit!=null}">确定</c:if><c:if test="${unit==null}">添加</c:if></button>
 </div>
 <script>
     $('textarea.limited').inputlimiter();
-
+    $.fileInput($('#modalForm input[name=_file]'),{
+        no_file: '请选择pdf文件 ...',
+        allowExt: ['pdf'],
+        allowMime: ['application/pdf']
+    });
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modal form").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
@@ -76,6 +84,7 @@ pageEncoding="UTF-8"%>
                         });
                         //SysMsg.success('操作成功。', '成功');
                     }
+                    $btn.button('reset');
                 }
             });
         }

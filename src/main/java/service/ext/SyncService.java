@@ -689,8 +689,8 @@ public class SyncService extends BaseMapper {
         else
             teacherInfoMapper.updateByPrimaryKeySelective(teacher);
 
-        // 干部档案页默认同步人事库信息，不启用系统本身的岗位过程信息
-        if(BooleanUtils.isNotTrue(CmTag.getSysConfig().getUseCadrePost())) {
+        // 干部档案页默认同步人事库信息，不启用系统本身的岗位过程信息； 如果是系统注册账号，则不同步人事库信息
+        if(BooleanUtils.isNotTrue(CmTag.getSysConfig().getUseCadrePost()) && extJzg!=null) {
 
             String proPost = SqlUtils.toParamValue(extJzg.getZc());
             String proPostTime = SqlUtils.toParamValue(extJzg.getZyjszwpdsj());

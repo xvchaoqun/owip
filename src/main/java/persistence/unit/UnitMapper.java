@@ -8,7 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import java.util.List;
 
 public interface UnitMapper {
-    int countByExample(UnitExample example);
+    long countByExample(UnitExample example);
 
     int deleteByExample(UnitExample example);
 

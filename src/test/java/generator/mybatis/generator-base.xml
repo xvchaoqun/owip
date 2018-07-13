@@ -60,29 +60,31 @@
         <!--<table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
         </table>-->
 
-        <!-- <table tableName="unit" domainObjectName="unit.Unit">
+         <table tableName="unit" domainObjectName="unit.Unit" mapperName="unit.UnitMapper">
+                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+                <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
+         </table>
+        <table tableName="unit_post" domainObjectName="unit.UnitPost" mapperName="unit.UnitPostMapper">
+        </table>
+        <!--<table tableName="unit_history_unit" domainObjectName="unit.HistoryUnit">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-             <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
-         </table>
-         <table tableName="unit_history_unit" domainObjectName="unit.HistoryUnit">
-         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
-         <table tableName="unit_transfer" domainObjectName="unit.UnitTransfer">
-         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
-       </table>
-         <table tableName="unit_admin_group" domainObjectName="unit.UnitAdminGroup">
-         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
-         <table tableName="unit_admin" domainObjectName="unit.UnitAdmin">
-         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
-         <table tableName="unit_cadre_transfer" domainObjectName="unit.UnitCadreTransfer">
-         </table>
-         <table tableName="unit_cadre_transfer_group" domainObjectName="unit.UnitCadreTransferGroup">
-         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
-         -->
+        </table>
+        <table tableName="unit_transfer" domainObjectName="unit.UnitTransfer">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+      </table>
+        <table tableName="unit_admin_group" domainObjectName="unit.UnitAdminGroup">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="unit_admin" domainObjectName="unit.UnitAdmin">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="unit_cadre_transfer" domainObjectName="unit.UnitCadreTransfer">
+        </table>
+        <table tableName="unit_cadre_transfer_group" domainObjectName="unit.UnitCadreTransferGroup">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        -->
         <!--二级党校-->
         <!--<table tableName="party_school" domainObjectName="partySchool.PartySchool"
                mapperName="partySchool.PartySchoolMapper">
@@ -153,12 +155,12 @@
            <!--<table tableName="sys_scheduler_job" domainObjectName="sys.SchedulerJob"  mapperName="sys.SchedulerJobMapper">
            </table>-->
 
-        <table tableName="ext_bks" domainObjectName="ext.ExtBks" mapperName="ext.ExtBksMapper">
+        <!--<table tableName="ext_bks" domainObjectName="ext.ExtBks" mapperName="ext.ExtBksMapper">
         </table>
         <table tableName="ext_jzg" domainObjectName="ext.ExtJzg" mapperName="ext.ExtJzgMapper">
         </table>
         <table tableName="ext_yjs" domainObjectName="ext.ExtYjs" mapperName="ext.ExtYjsMapper">
-        </table>
+        </table>-->
         <!--<table tableName="ext_abroad" domainObjectName="ext.ExtAbroad">
         </table>-->
         <!--<table tableName="ext_retire_salary" domainObjectName="ext.ExtRetireSalary"  mapperName="ext.ExtRetireSalaryMapper">

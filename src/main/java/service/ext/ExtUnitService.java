@@ -1,14 +1,12 @@
 package service.ext;
 
 import bean.SchoolUnit;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -24,7 +22,7 @@ public class ExtUnitService extends Source {
 
         Map<String, SchoolUnit> unitMap = new LinkedHashMap<>();
 
-        initConn();
+        /*initConn();
         Statement stat = null;
         ResultSet rs = null;
 
@@ -49,7 +47,7 @@ public class ExtUnitService extends Source {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        }
+        }*/
 
         return unitMap;
     }

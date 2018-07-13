@@ -101,6 +101,7 @@ import service.unit.UnitAdminGroupService;
 import service.unit.UnitAdminService;
 import service.unit.UnitCadreTransferGroupService;
 import service.unit.UnitCadreTransferService;
+import service.unit.UnitPostService;
 import service.unit.UnitService;
 import service.unit.UnitTransferService;
 import shiro.PasswordHelper;
@@ -144,10 +145,6 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected MemberService memberService;
 
-    @Autowired
-    protected UnitAdminGroupService unitAdminGroupService;
-    @Autowired
-    protected UnitAdminService unitAdminService;
     @Autowired
     protected CadrePostService cadrePostService;
     @Autowired
@@ -228,11 +225,17 @@ public class BaseController extends BaseMapper {
     protected UnitCadreTransferService unitCadreTransferService;
     @Autowired
     protected UnitCadreTransferGroupService unitCadreTransferGroupService;
-
     @Autowired
     protected HistoryUnitService historyUnitService;
     @Autowired
     protected UnitService unitService;
+    @Autowired
+    protected UnitPostService unitPostService;
+    @Autowired
+    protected UnitAdminGroupService unitAdminGroupService;
+    @Autowired
+    protected UnitAdminService unitAdminService;
+
     @Autowired
     protected PartySchoolService partySchoolService;
     @Autowired

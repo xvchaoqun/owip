@@ -97,7 +97,8 @@ $.jgrid.formatter.MetaType(typeId)
 字数限制
 <textarea required class="form-control limited" type="text" name="reason" rows="5">${memberOutflow.reason}</textarea>
 $('textarea.limited').inputlimiter();
-
+不能换行
+textarea.noEnter
 
 autocomplete="off" disableautocomplete
 

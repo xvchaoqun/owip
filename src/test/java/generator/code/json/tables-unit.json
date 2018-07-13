@@ -1,0 +1,100 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "unit",
+  "resFolder": "",
+  "tables": [
+    {
+      "table": "unit_post",
+      "key": "id",
+      "searchColumns": "unit_id,name,admin_level,post_type,post_class",
+      "showColumns": "code,name,job,is_principal_post,admin_level,post_type,post_class,is_cpc,status,sort_order,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": false
+    },
+    {
+      "table": "unit_admin_group",
+      "key": "id",
+      "searchColumns": "name",
+      "showColumns": "fid,name,is_present,tran_time,actual_tran_time,appoint_time",
+      "excludeEditColumns": "id, sort_order",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
+      "table": "unit_admin",
+      "key": "id",
+      "searchColumns": "cadre_id",
+      "showColumns": "group_id,cadre_id,post_id,is_admin",
+      "excludeEditColumns": "id, sort_order",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
+      "table": "unit_transfer",
+      "key": "id",
+      "searchColumns": "unit_id,subject",
+      "showColumns": "unit_id,subject,content,pub_time",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
+      "table": "unit_transfer_item",
+      "key": "id",
+      "searchColumns": "transfer_id,dispatch_unit_id",
+      "showColumns": "transfer_id,dispatch_unit_id",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
+      "table": "unit_cadre_transfer_group",
+      "key": "id",
+      "searchColumns": "unit_id,name",
+      "showColumns": "unit_id,name",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
+      "table": "unit_cadre_transfer",
+      "key": "id",
+      "searchColumns": "group_id,cadre_id,appoint_time,dismiss_time",
+      "showColumns": "group_id,cadre_id,name, post_id, appoint_time,dismiss_time,remark",
+      "excludeEditColumns": "id,sort_order",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
+      "table": "unit_cadre_transfer_item",
+      "key": "id",
+      "searchColumns": "transfer_id,dispatch_cadre_id",
+      "showColumns": "transfer_id,dispatch_cadre_id",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
+      "table": "history_unit",
+      "key": "id",
+      "searchColumns": "unit_id",
+      "showColumns": "old_unit_id",
+      "excludeEditColumns": "id,sort_order,create_time",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": true
+    },
+    {
+      "table": "unit",
+      "key": "id",
+      "searchColumns": "code,name,type_id",
+      "showColumns": "code,name,type_id,work_time,url,remark",
+      "excludeEditColumns": "id,create_time,sort_order,status",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": true
+    }
+  ]
+}
