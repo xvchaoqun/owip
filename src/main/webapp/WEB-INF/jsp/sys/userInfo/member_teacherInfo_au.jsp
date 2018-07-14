@@ -70,7 +70,7 @@ pageEncoding="UTF-8"%>
 				<div class="form-group">
 					<label class="col-xs-3 control-label">国家/地区</label>
 					<div class="col-xs-6">
-						<input class="form-control" type="text" name="country" value="${teacher.country}">
+						<input class="form-control" type="text" name="country" value="${sysUser.country}">
 					</div>
 				</div>
 				<div class="form-group">
