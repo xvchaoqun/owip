@@ -29,7 +29,7 @@ public class ScPassportHandService extends BaseMapper {
 
     @Autowired
     private CadreService cadreService;
-    @Autowired
+    @Autowired(required = false)
     private PassportService passportService;
 
     @Transactional

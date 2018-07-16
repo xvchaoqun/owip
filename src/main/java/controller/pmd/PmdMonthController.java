@@ -91,7 +91,7 @@ public class PmdMonthController extends PmdBaseController {
         return;
     }
 
-    @RequiresPermissions("pmdMonth:edit")
+    /*@RequiresPermissions("pmdMonth:edit")
     @RequestMapping(value = "/pmdMonth_create", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdMonth_create(HttpServletRequest request) {
@@ -100,15 +100,17 @@ public class PmdMonthController extends PmdBaseController {
 
         logger.info(addLog(LogConstants.LOG_PMD, "新建缴费月份"));
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     // 更新未启动的月份
     @RequiresPermissions("pmdMonth:edit")
     @RequestMapping("/pmdMonth_au")
-    public String pmdMonth_au(int id, ModelMap modelMap) {
+    public String pmdMonth_au(Integer id, ModelMap modelMap) {
 
-        PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(id);
-        modelMap.put("pmdMonth", pmdMonth);
+        if(id!=null) {
+            PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(id);
+            modelMap.put("pmdMonth", pmdMonth);
+        }
 
         return "pmd/pmdMonth/pmdMonth_au";
     }
@@ -116,9 +118,9 @@ public class PmdMonthController extends PmdBaseController {
     @RequiresPermissions("pmdMonth:edit")
     @RequestMapping(value = "/pmdMonth_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMonth_au(int id, @DateTimeFormat(pattern = "yyyy-MM") Date month, HttpServletRequest request) {
+    public Map do_pmdMonth_au(Integer id, @DateTimeFormat(pattern = "yyyy-MM") Date month, HttpServletRequest request) {
 
-        pmdMonthService.update(id, month);
+        pmdMonthService.addOrUpdate(id, month);
 
         logger.info(addLog(LogConstants.LOG_PMD, "修改缴费月份"));
         return success(FormUtils.SUCCESS);

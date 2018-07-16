@@ -370,6 +370,7 @@ import persistence.unit.UnitCadreTransferGroupMapper;
 import persistence.unit.UnitCadreTransferMapper;
 import persistence.unit.UnitMapper;
 import persistence.unit.UnitPostMapper;
+import persistence.unit.UnitPostViewMapper;
 import persistence.unit.UnitTransferMapper;
 import persistence.verify.VerifyAgeMapper;
 import persistence.verify.VerifyWorkTimeMapper;
@@ -1103,6 +1104,8 @@ public class BaseMapper {
     protected UnitMapper unitMapper;
     @Autowired(required = false)
     protected UnitPostMapper unitPostMapper;
+    @Autowired(required = false)
+    protected UnitPostViewMapper unitPostViewMapper;
     @Autowired(required = false)
     protected UnitTransferMapper unitTransferMapper;
     @Autowired(required = false)

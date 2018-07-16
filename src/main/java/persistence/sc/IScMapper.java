@@ -62,4 +62,8 @@ public interface IScMapper {
     @Select("select scv.* from sc_committee_vote_view scv where scv.cadre_id = #{cadreId} " +
             "and not exists(select 1 from sc_ad_archive_vote where vote_id=scv.id and archive_id != #{archiveId}) order by scv.id desc")
     public List<ScCommitteeVoteView> selectScAdVotes(@Param("archiveId") int archiveId, @Param("cadreId") int cadreId);
+
+    @Select("select sph.dispatch_cadre_id from sc_passport_hand sph, dispatch_cadre dc " +
+            "where sph.dispatch_cadre_id=dc.id and dc.dispatch_id=#{dispatchId}")
+    public List<Integer> getScPassportHandList(@Param("dispatchId") int dispatchId);
 }

@@ -1,15 +1,20 @@
 package controller.unit;
 
 import controller.BaseController;
+import domain.unit.Unit;
 import domain.unit.UnitPost;
 import domain.unit.UnitPostExample;
 import domain.unit.UnitPostExample.Criteria;
+import domain.unit.UnitPostView;
+import domain.unit.UnitPostViewExample;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +55,14 @@ public class UnitPostController extends BaseController {
 
     @RequiresPermissions("unitPost:list")
     @RequestMapping("/unitPost")
-    public String unitPost() {
+    public String unitPost(@RequestParam(required = false, defaultValue = "1")Byte cls, Integer unitId, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+
+        if(unitId!=null){
+            Unit unit = unitService.findAll().get(unitId);
+            modelMap.put("unit", unit);
+        }
 
         return "unit/unitPost/unitPost_page";
     }
@@ -77,9 +89,9 @@ public class UnitPostController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        UnitPostExample example = new UnitPostExample();
-        Criteria criteria = example.createCriteria();
-
+        UnitPostViewExample example = new UnitPostViewExample();
+        UnitPostViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("unit_sort_order asc, sort_order desc");
         if(cls==1){
             criteria.andStatusEqualTo(SystemConstants.UNIT_POST_STATUS_NORMAL);
         }else if(cls==2){
@@ -113,12 +125,12 @@ public class UnitPostController extends BaseController {
             return;
         }
 
-        long count = unitPostMapper.countByExample(example);
+        long count = unitPostViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<UnitPost> records= unitPostMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<UnitPostView> records= unitPostViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -140,10 +152,14 @@ public class UnitPostController extends BaseController {
 
         Integer id = record.getId();
 
+        record.setIsPrincipalPost(BooleanUtils.isTrue(record.getIsPrincipalPost()));
+        record.setIsCpc(BooleanUtils.isTrue(record.getIsCpc()));
+
         if (unitPostService.idDuplicate(id, record.getCode())) {
             return failed("添加重复");
         }
         if (id == null) {
+            record.setStatus(SystemConstants.UNIT_POST_STATUS_NORMAL);
             unitPostService.insertSelective(record);
             logger.info(addLog( LogConstants.LOG_ADMIN, "添加干部岗位库：%s", record.getId()));
         } else {
@@ -169,16 +185,35 @@ public class UnitPostController extends BaseController {
         return "unit/unitPost/unitPost_au";
     }
 
-    @RequiresPermissions("unitPost:del")
-    @RequestMapping(value = "/unitPost_del", method = RequestMethod.POST)
+    @RequiresPermissions("unitPost:edit")
+    @RequestMapping("/unitPost_abolish")
+    public String unitPost_abolish(int id, ModelMap modelMap) {
+
+        UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
+        modelMap.put("unitPost", unitPost);
+
+        return "unit/unitPost/unitPost_abolish";
+    }
+
+    @RequiresPermissions("unitPost:edit")
+    @RequestMapping(value = "/unitPost_abolish", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unitPost_del(HttpServletRequest request, Integer id) {
+    public Map do_unitPost_abolish(HttpServletRequest request, int id,
+                                   @DateTimeFormat(pattern="yyyy-MM-dd")Date abolishDate) {
 
-        if (id != null) {
+        unitPostService.abolish(id, abolishDate);
+        logger.info(addLog( LogConstants.LOG_ADMIN, "撤销干部岗位：%s", id));
 
-            unitPostService.del(id);
-            logger.info(addLog( LogConstants.LOG_ADMIN, "删除干部岗位库：%s", id));
-        }
+        return success(FormUtils.SUCCESS);
+    }
+    @RequiresPermissions("unitPost:edit")
+    @RequestMapping(value = "/unitPost_unabolish", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_unitPost_unabolish(HttpServletRequest request, int id) {
+
+        unitPostService.unabolish(id);
+        logger.info(addLog( LogConstants.LOG_ADMIN, "返回现有干部岗位：%s", id));
+
         return success(FormUtils.SUCCESS);
     }
 
@@ -187,10 +222,9 @@ public class UnitPostController extends BaseController {
     @ResponseBody
     public Map unitPost_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
-
         if (null != ids && ids.length>0){
             unitPostService.batchDel(ids);
-            logger.info(addLog( LogConstants.LOG_ADMIN, "批量删除干部岗位库：%s", StringUtils.join(ids, ",")));
+            logger.info(addLog( LogConstants.LOG_ADMIN, "批量删除干部岗位：%s", StringUtils.join(ids, ",")));
         }
 
         return success(FormUtils.SUCCESS);
@@ -202,18 +236,18 @@ public class UnitPostController extends BaseController {
     public Map do_unitPost_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
         unitPostService.changeOrder(id, addNum);
-        logger.info(addLog( LogConstants.LOG_ADMIN, "干部岗位库调序：%s,%s", id, addNum));
+        logger.info(addLog( LogConstants.LOG_ADMIN, "干部岗位调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
 
-    public void unitPost_export(UnitPostExample example, HttpServletResponse response) {
+    public void unitPost_export(UnitPostViewExample example, HttpServletResponse response) {
 
-        List<UnitPost> records = unitPostMapper.selectByExample(example);
+        List<UnitPostView> records = unitPostViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"岗位编号|100","岗位名称|100","分管工作|100","是否正职|100","行政级别|100","职务属性|100","职务类别|100","是否占干部职数|100","状态|100","排序|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            UnitPost record = records.get(i);
+            UnitPostView record = records.get(i);
             String[] values = {
                 record.getCode()+"",
                             record.getName(),

@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class UnitPostExample {
+public class UnitPostViewExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public UnitPostExample() {
+    public UnitPostViewExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -1009,6 +1009,266 @@ public class UnitPostExample {
 
         public Criteria andRemarkNotBetween(String value1, String value2) {
             addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameIsNull() {
+            addCriterion("unit_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameIsNotNull() {
+            addCriterion("unit_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameEqualTo(String value) {
+            addCriterion("unit_name =", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameNotEqualTo(String value) {
+            addCriterion("unit_name <>", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameGreaterThan(String value) {
+            addCriterion("unit_name >", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameGreaterThanOrEqualTo(String value) {
+            addCriterion("unit_name >=", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameLessThan(String value) {
+            addCriterion("unit_name <", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameLessThanOrEqualTo(String value) {
+            addCriterion("unit_name <=", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameLike(String value) {
+            addCriterion("unit_name like", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameNotLike(String value) {
+            addCriterion("unit_name not like", value, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameIn(List<String> values) {
+            addCriterion("unit_name in", values, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameNotIn(List<String> values) {
+            addCriterion("unit_name not in", values, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameBetween(String value1, String value2) {
+            addCriterion("unit_name between", value1, value2, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitNameNotBetween(String value1, String value2) {
+            addCriterion("unit_name not between", value1, value2, "unitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeIsNull() {
+            addCriterion("unit_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeIsNotNull() {
+            addCriterion("unit_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeEqualTo(String value) {
+            addCriterion("unit_code =", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotEqualTo(String value) {
+            addCriterion("unit_code <>", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeGreaterThan(String value) {
+            addCriterion("unit_code >", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("unit_code >=", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeLessThan(String value) {
+            addCriterion("unit_code <", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeLessThanOrEqualTo(String value) {
+            addCriterion("unit_code <=", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeLike(String value) {
+            addCriterion("unit_code like", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotLike(String value) {
+            addCriterion("unit_code not like", value, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeIn(List<String> values) {
+            addCriterion("unit_code in", values, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotIn(List<String> values) {
+            addCriterion("unit_code not in", values, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeBetween(String value1, String value2) {
+            addCriterion("unit_code between", value1, value2, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitCodeNotBetween(String value1, String value2) {
+            addCriterion("unit_code not between", value1, value2, "unitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdIsNull() {
+            addCriterion("unit_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdIsNotNull() {
+            addCriterion("unit_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdEqualTo(Integer value) {
+            addCriterion("unit_type_id =", value, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdNotEqualTo(Integer value) {
+            addCriterion("unit_type_id <>", value, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdGreaterThan(Integer value) {
+            addCriterion("unit_type_id >", value, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("unit_type_id >=", value, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdLessThan(Integer value) {
+            addCriterion("unit_type_id <", value, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("unit_type_id <=", value, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdIn(List<Integer> values) {
+            addCriterion("unit_type_id in", values, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdNotIn(List<Integer> values) {
+            addCriterion("unit_type_id not in", values, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("unit_type_id between", value1, value2, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("unit_type_id not between", value1, value2, "unitTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitSortOrderIsNull() {
+            addCriterion("unit_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitSortOrderIsNotNull() {
+            addCriterion("unit_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitSortOrderEqualTo(Integer value) {
+            addCriterion("unit_sort_order =", value, "unitSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitSortOrderNotEqualTo(Integer value) {
+            addCriterion("unit_sort_order <>", value, "unitSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitSortOrderGreaterThan(Integer value) {
+            addCriterion("unit_sort_order >", value, "unitSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("unit_sort_order >=", value, "unitSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitSortOrderLessThan(Integer value) {
+            addCriterion("unit_sort_order <", value, "unitSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("unit_sort_order <=", value, "unitSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitSortOrderIn(List<Integer> values) {
+            addCriterion("unit_sort_order in", values, "unitSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitSortOrderNotIn(List<Integer> values) {
+            addCriterion("unit_sort_order not in", values, "unitSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("unit_sort_order between", value1, value2, "unitSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("unit_sort_order not between", value1, value2, "unitSortOrder");
             return (Criteria) this;
         }
     }

@@ -16,19 +16,17 @@
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="pmdMonth:edit">
-                                <button class="confirm btn btn-success btn-sm"
+                                <button id="addBtn" class="popupBtn btn btn-success btn-sm"
                                     ${(not empty _pmdMonth||not empty realThisMonth)?'disabled':''}
-                                        data-title="新建"
-                                        data-msg="确定新建缴费月份？"
-                                        data-callback="_createCallback"
-                                        data-url="${ctx}/pmd/pmdMonth_create"><i
-                                        class="fa fa-plus"></i> 新建
+                                        data-width="400"
+                                        data-url="${ctx}/pmd/pmdMonth_au"><i
+                                        class="fa fa-plus"></i> 新建缴费月份
                                 </button>
                                 <button id="updateBtn" class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/pmd/pmdMonth_au"
                                    data-grid-id="#jqGrid"
                                         data-width="400"><i class="fa fa-edit"></i>
-                                    修改</button>
+                                    修改缴费月份</button>
                                 <button id="selectPartiesBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                                         data-url="${ctx}/pmd/pmdMonth_selectParties"
                                         data-id-name="monthId"
@@ -94,10 +92,7 @@
 </div>
 
 <script>
-    function _createCallback(btn) {
-        $(btn).prop("disabled", true);
-        $("#jqGrid").trigger("reloadGrid");
-    }
+
     function _isEnd(rowObject) {
         return rowObject.status == '${PMD_MONTH_STATUS_END}'
     }

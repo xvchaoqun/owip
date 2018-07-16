@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -307,7 +308,7 @@ public class CpcAllocationService extends BaseMapper {
         MetaType noneMetaType = metaTypeMap.get("mt_admin_level_none");
 
         Map<Integer, Unit> _unitMap = unitService.findAll();
-        Map<Integer, Unit> unitMap = new HashMap<>();
+        Map<Integer, Unit> unitMap = new LinkedHashMap<>();
         if(_unitId!=null){
             unitMap.put(_unitId, _unitMap.get(_unitId));
         }else{

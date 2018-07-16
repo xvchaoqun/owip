@@ -3,7 +3,7 @@ package domain.unit;
 import java.io.Serializable;
 import java.util.Date;
 
-public class UnitPost implements Serializable {
+public class UnitPostView implements Serializable {
     private Integer id;
 
     private Integer unitId;
@@ -31,6 +31,14 @@ public class UnitPost implements Serializable {
     private Integer sortOrder;
 
     private String remark;
+
+    private String unitName;
+
+    private String unitCode;
+
+    private Integer unitTypeId;
+
+    private Integer unitSortOrder;
 
     private static final long serialVersionUID = 1L;
 
@@ -144,5 +152,37 @@ public class UnitPost implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName == null ? null : unitName.trim();
+    }
+
+    public String getUnitCode() {
+        return unitCode;
+    }
+
+    public void setUnitCode(String unitCode) {
+        this.unitCode = unitCode == null ? null : unitCode.trim();
+    }
+
+    public Integer getUnitTypeId() {
+        return unitTypeId;
+    }
+
+    public void setUnitTypeId(Integer unitTypeId) {
+        this.unitTypeId = unitTypeId;
+    }
+
+    public Integer getUnitSortOrder() {
+        return unitSortOrder;
+    }
+
+    public void setUnitSortOrder(Integer unitSortOrder) {
+        this.unitSortOrder = unitSortOrder;
     }
 }

@@ -4,8 +4,20 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+            <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
+                <li class="<c:if test="${cls==1}">active</c:if>">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/unitPost?cls=1"><i
+                            class="fa fa-circle-o-notch"></i> 现有处级岗位</a>
+                </li>
+                <li class="<c:if test="${cls==2}">active</c:if>">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/unitPost?cls=2"><i class="fa fa-history"></i> 撤销处级岗位</a>
+                </li>
+            </ul>
+            <div class="space-4"></div>
             <c:set var="_query" value="${not empty param.unitId ||not empty param.name ||not empty param.adminLevel ||not empty param.postType ||not empty param.postClass || not empty param.code || not empty param.sort}"/>
-            <div class="jqgrid-vertical-offset buttons">
+            <%--<div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="unitPost:edit">
                     <button class="popupBtn btn btn-info btn-sm"
                             data-url="${ctx}/unitPost_au">
@@ -28,7 +40,7 @@ pageEncoding="UTF-8" %>
                    data-url="${ctx}/unitPost_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                     <i class="fa fa-download"></i> 导出</button>
-            </div>
+            </div>--%>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
@@ -44,8 +56,13 @@ pageEncoding="UTF-8" %>
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
                             <label>所属单位</label>
-                            <input class="form-control search-query" name="unitId" type="text" value="${param.unitId}"
-                                   placeholder="请输入所属单位">
+                            <select name="unitId" data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+                                    data-placeholder="请选择所属内设机构">
+                                <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                            </select>
+                            <script>
+                                $.register.del_select($("#searchForm select[name=unitId]"), 250)
+                            </script>
                         </div>
                         <div class="form-group">
                             <label>岗位名称</label>
@@ -54,27 +71,45 @@ pageEncoding="UTF-8" %>
                         </div>
                         <div class="form-group">
                             <label>行政级别</label>
-                            <input class="form-control search-query" name="adminLevel" type="text" value="${param.adminLevel}"
-                                   placeholder="请输入行政级别">
+                            <select required class="form-control" data-rel="select2" name="adminLevel"
+                                    data-placeholder="请选择行政级别">
+                                <option></option>
+                                <option value="${cm:getMetaTypeByCode('mt_admin_level_main').id}">正处级</option>
+                                <option value="${cm:getMetaTypeByCode('mt_admin_level_vice').id}">副处级</option>
+                                <option value="${cm:getMetaTypeByCode('mt_admin_level_none').id}">无行政级别</option>
+                            </select>
+                            <script type="text/javascript">
+                                $("#searchForm select[name=adminLevel]").val('${param.adminLevel}');
+                            </script>
                         </div>
                         <div class="form-group">
                             <label>职务属性</label>
-                            <input class="form-control search-query" name="postType" type="text" value="${param.postType}"
-                                   placeholder="请输入职务属性">
+                            <select name="postType" data-rel="select2" data-placeholder="请选择职务属性">
+                                <option></option>
+                                <c:import url="/metaTypes?__code=mc_post"/>
+                            </select>
+                            <script>
+                                $("#searchForm select[name=postType]").val('${param.postType}');
+                            </script>
                         </div>
                         <div class="form-group">
                             <label>职务类别</label>
-                            <input class="form-control search-query" name="postClass" type="text" value="${param.postClass}"
-                                   placeholder="请输入职务类别">
+                            <select required data-rel="select2" name="postClass" data-placeholder="请选择">
+                                <option></option>
+                                <c:import url="/metaTypes?__code=mc_post_class"/>
+                            </select>
+                            <script type="text/javascript">
+                                $("#searchForm select[name=postClass]").val(${param.postClass});
+                            </script>
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
-                                   data-url="${ctx}/unitPost"
+                                   data-url="${ctx}/unitPost?cls=${cls}"
                                    data-target="#page-content"
                                    data-form="#searchForm"><i class="fa fa-search"></i> 查找</a>
                                 <c:if test="${_query}">&nbsp;
                                     <button type="button" class="resetBtn btn btn-warning btn-sm"
-                                            data-url="${ctx}/unitPost"
+                                            data-url="${ctx}/unitPost?cls=${cls}"
                                             data-target="#page-content">
                                         <i class="fa fa-reply"></i> 重置
                                     </button>
@@ -91,31 +126,17 @@ pageEncoding="UTF-8" %>
         <div id="body-content-view"></div>
     </div>
 </div>
+<jsp:include page="colModel.jsp?list=0"/>
 <script>
     $("#jqGrid").jqGrid({
         rownumbers:true,
         url: '${ctx}/unitPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-                { label: '岗位编号',name: 'code'},
-                { label: '岗位名称',name: 'name'},
-                { label: '分管工作',name: 'job'},
-                { label: '是否正职',name: 'isPrincipalPost'},
-                { label: '行政级别',name: 'adminLevel'},
-                { label: '职务属性',name: 'postType'},
-                { label: '职务类别',name: 'postClass'},
-                { label: '是否占干部职数',name: 'isCpc'},
-                { label: '状态',name: 'status'},
-                <c:if test="${!_query}">
-                { label:'排序',align:'center', formatter: $.jgrid.formatter.sortOrder,
-                    formatoptions:{url:'${ctx}/unitPost_changeOrder'},frozen:true },
-                </c:if>
-                { label: '备注',name: 'remark'}
-        ]
+        colModel: colModel
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
+    $('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
 </script>

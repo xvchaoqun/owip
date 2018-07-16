@@ -942,26 +942,6 @@ public class PmdMonthService extends BaseMapper {
         return pmdMonthMapper.countByExample(example) > 0;
     }
 
-    // 新建缴费月份（当前月）
-    @Transactional
-    public void create() {
-
-        Date now = new Date();
-        if (getMonth(now) != null) {
-            throw new OpException("已经创建了当前缴费月份。");
-        }
-
-        Date payMonth = DateUtils.getFirstDateOfMonth(now);
-
-        PmdMonth record = new PmdMonth();
-        record.setPayMonth(payMonth);
-        record.setStatus(PmdConstants.PMD_MONTH_STATUS_INIT);
-        record.setCreateUserId(ShiroHelper.getCurrentUserId());
-        record.setCreateTime(now);
-
-        pmdMonthMapper.insertSelective(record);
-    }
-
     // 树形选择分党委（状态正常的）
     public TreeNode getPartyTree(int monthId) {
 
@@ -1033,35 +1013,73 @@ public class PmdMonthService extends BaseMapper {
         return pmdMonthMapper.updateByPrimaryKeySelective(record);
     }
 
-    // 修改缴费月份
+    // 新建缴费月份（当前月）
     @Transactional
-    public void update(int id, Date month) {
+    public void create() {
 
-        PmdMonth pmdMonth = getMonth(month);
-        if(pmdMonth!=null && pmdMonth.getId()!=id){
+        Date now = new Date();
+        if (getMonth(now) != null) {
             throw new OpException("缴费月份重复。");
         }
 
-        PmdMonth _pmdMonth = pmdMonthMapper.selectByPrimaryKey(id);
-        if(_pmdMonth.getStatus()!=PmdConstants.PMD_MONTH_STATUS_INIT){
-
-            throw new OpException("只能修改未启动的缴费月份。");
-        }
-
-        {
-            PmdMonthExample example = new PmdMonthExample();
-            example.createCriteria().andIdNotEqualTo(id)
-                    .andPayMonthGreaterThanOrEqualTo(DateUtils.getFirstDateOfMonth(month));
-            if(pmdMonthMapper.countByExample(example)>0){
-
-                throw new OpException("缴费月份有误。");
-            }
-        }
+        Date payMonth = DateUtils.getFirstDateOfMonth(now);
 
         PmdMonth record = new PmdMonth();
-        record.setId(id);
-        record.setPayMonth(month);
+        record.setPayMonth(payMonth);
+        record.setStatus(PmdConstants.PMD_MONTH_STATUS_INIT);
+        record.setCreateUserId(ShiroHelper.getCurrentUserId());
+        record.setCreateTime(now);
 
-        pmdMonthMapper.updateByPrimaryKeySelective(record);
+        pmdMonthMapper.insertSelective(record);
+    }
+
+    // 新建/修改缴费月份
+    @Transactional
+    public void addOrUpdate(Integer id, Date month) {
+
+        PmdMonth pmdMonth = getMonth(month);
+        if(id==null){
+            if (getMonth(month) != null) {
+                throw new OpException("缴费月份重复。");
+            }
+
+            Date payMonth = DateUtils.getFirstDateOfMonth(month);
+
+            PmdMonth record = new PmdMonth();
+            record.setPayMonth(payMonth);
+            record.setStatus(PmdConstants.PMD_MONTH_STATUS_INIT);
+            record.setCreateUserId(ShiroHelper.getCurrentUserId());
+            record.setCreateTime(month);
+
+            pmdMonthMapper.insertSelective(record);
+        }else {
+
+
+            if (pmdMonth != null && pmdMonth.getId() != id) {
+                throw new OpException("缴费月份重复。");
+            }
+
+            PmdMonth _pmdMonth = pmdMonthMapper.selectByPrimaryKey(id);
+            if (_pmdMonth.getStatus() != PmdConstants.PMD_MONTH_STATUS_INIT) {
+
+                throw new OpException("只能修改未启动的缴费月份。");
+            }
+
+            {
+                PmdMonthExample example = new PmdMonthExample();
+                example.createCriteria().andIdNotEqualTo(id)
+                        .andPayMonthGreaterThanOrEqualTo(DateUtils.getFirstDateOfMonth(month));
+                if (pmdMonthMapper.countByExample(example) > 0) {
+
+                    throw new OpException("缴费月份有误。");
+                }
+            }
+
+            PmdMonth record = new PmdMonth();
+            record.setId(id);
+            record.setPayMonth(month);
+
+            pmdMonthMapper.updateByPrimaryKeySelective(record);
+        }
     }
 }

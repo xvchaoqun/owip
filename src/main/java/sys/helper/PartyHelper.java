@@ -81,11 +81,7 @@ public class PartyHelper {
         MemberApply memberApply = new MemberApply();
         try {
             PropertyUtils.copyProperties(memberApply, memberApplyView);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
 

@@ -139,3 +139,8 @@ DROP VIEW IF EXISTS `ow_member_abroad_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ow_member_abroad_view` AS
 select ea.`*`, m.user_id, u.realname, u.code, u.gender, m.party_id, m.branch_id
 from ext_abroad ea , sys_user_view u, ow_member m where ea.gzzh=u.code and u.id=m.user_id ;
+
+DROP VIEW IF EXISTS `unit_post_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `unit_post_view` AS
+select up.*, u.name as unit_name, u.code as unit_code, u.type_id as unit_type_id, u.sort_order as unit_sort_order
+from unit_post up left join unit u on up.unit_id=u.id ;

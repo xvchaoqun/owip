@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="domain.unit.UnitPost">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
-    <result column="code" jdbcType="INTEGER" property="code" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="job" jdbcType="VARCHAR" property="job" />
     <result column="is_principal_post" jdbcType="BIT" property="isPrincipalPost" />
@@ -13,7 +13,7 @@
     <result column="post_class" jdbcType="INTEGER" property="postClass" />
     <result column="is_cpc" jdbcType="BIT" property="isCpc" />
     <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="abolish_time" jdbcType="TIMESTAMP" property="abolishTime" />
+    <result column="abolish_date" jdbcType="DATE" property="abolishDate" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -77,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, unit_id, code, name, job, is_principal_post, admin_level, post_type, post_class, 
-    is_cpc, status, abolish_time, sort_order, remark
+    is_cpc, status, abolish_date, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitPostExample" resultMap="BaseResultMap">
     select
@@ -113,12 +113,12 @@
     insert into unit_post (id, unit_id, code, 
       name, job, is_principal_post, 
       admin_level, post_type, post_class, 
-      is_cpc, status, abolish_time, 
+      is_cpc, status, abolish_date, 
       sort_order, remark)
-    values (#{id,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{code,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{isPrincipalPost,jdbcType=BIT}, 
       #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, #{postClass,jdbcType=INTEGER}, 
-      #{isCpc,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{abolishTime,jdbcType=TIMESTAMP}, 
+      #{isCpc,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{abolishDate,jdbcType=DATE}, 
       #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.unit.UnitPost">
@@ -157,8 +157,8 @@
       <if test="status != null">
         status,
       </if>
-      <if test="abolishTime != null">
-        abolish_time,
+      <if test="abolishDate != null">
+        abolish_date,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -175,7 +175,7 @@
         #{unitId,jdbcType=INTEGER},
       </if>
       <if test="code != null">
-        #{code,jdbcType=INTEGER},
+        #{code,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -201,8 +201,8 @@
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
-      <if test="abolishTime != null">
-        #{abolishTime,jdbcType=TIMESTAMP},
+      <if test="abolishDate != null">
+        #{abolishDate,jdbcType=DATE},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -228,7 +228,7 @@
         unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
       <if test="record.code != null">
-        code = #{record.code,jdbcType=INTEGER},
+        code = #{record.code,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -254,8 +254,8 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
-      <if test="record.abolishTime != null">
-        abolish_time = #{record.abolishTime,jdbcType=TIMESTAMP},
+      <if test="record.abolishDate != null">
+        abolish_date = #{record.abolishDate,jdbcType=DATE},
       </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -272,7 +272,7 @@
     update unit_post
     set id = #{record.id,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
-      code = #{record.code,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       job = #{record.job,jdbcType=VARCHAR},
       is_principal_post = #{record.isPrincipalPost,jdbcType=BIT},
@@ -281,7 +281,7 @@
       post_class = #{record.postClass,jdbcType=INTEGER},
       is_cpc = #{record.isCpc,jdbcType=BIT},
       status = #{record.status,jdbcType=TINYINT},
-      abolish_time = #{record.abolishTime,jdbcType=TIMESTAMP},
+      abolish_date = #{record.abolishDate,jdbcType=DATE},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -295,7 +295,7 @@
         unit_id = #{unitId,jdbcType=INTEGER},
       </if>
       <if test="code != null">
-        code = #{code,jdbcType=INTEGER},
+        code = #{code,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -321,8 +321,8 @@
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="abolishTime != null">
-        abolish_time = #{abolishTime,jdbcType=TIMESTAMP},
+      <if test="abolishDate != null">
+        abolish_date = #{abolishDate,jdbcType=DATE},
       </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
@@ -336,7 +336,7 @@
   <update id="updateByPrimaryKey" parameterType="domain.unit.UnitPost">
     update unit_post
     set unit_id = #{unitId,jdbcType=INTEGER},
-      code = #{code,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       job = #{job,jdbcType=VARCHAR},
       is_principal_post = #{isPrincipalPost,jdbcType=BIT},
@@ -345,7 +345,7 @@
       post_class = #{postClass,jdbcType=INTEGER},
       is_cpc = #{isCpc,jdbcType=BIT},
       status = #{status,jdbcType=TINYINT},
-      abolish_time = #{abolishTime,jdbcType=TIMESTAMP},
+      abolish_date = #{abolishDate,jdbcType=DATE},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

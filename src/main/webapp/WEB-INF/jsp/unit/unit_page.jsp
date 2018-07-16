@@ -15,7 +15,7 @@
             ||not empty param.typeId || not empty param.sort}"/>
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
-                <div class="tab-content">
+                <div class="<shiro:hasPermission name="unitPost:*">multi-row-head-table </shiro:hasPermission>tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <c:if test="${status==1}">
@@ -119,6 +119,10 @@
         //forceFit:true,
         url: '${ctx}/unit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            { label: '详情', name: '_detail', width: 80, formatter:function(cellvalue, options, rowObject){
+                return '<button class="openView btn btn-success btn-xs" data-url="${ctx}/unit_view?id={0}"><i class="fa fa-search"></i> {1}</button>'
+                        .format(rowObject.id, '详情');
+            },frozen:true },
             { label: '单位编号', name: 'code', width: 80,frozen:true },
             { label: '单位名称', name: 'name', width: 350, align:'left', formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id={0}">{1}</a>'
@@ -127,11 +131,18 @@
             <c:if test="${!_query}">
             { label:'排序',align:'center', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
-            { label: '单位类型', name: 'typeId', width: 250,frozen:true, formatter: $.jgrid.formatter.MetaType },
+            { label: '单位类型', name: 'typeId', width: 250, formatter: $.jgrid.formatter.MetaType },
+            <shiro:hasPermission name="unitPost:*">
+            { label: '正职<br/>岗位数', name: 'postStat.main', width: 80},
+            { label: '副职<br/>岗位数', name: 'postStat.vice', width: 80},
+            { label: '正处级<br/>干部职数', name: 'postStat.mainCpc', width: 80},
+            { label: '副处级<br/>干部职数', name: 'postStat.viceCpc', width: 80},
+            { label: '无行政级别<br/>干部职数', name: 'postStat.noneCpc', width: 90},
+            </shiro:hasPermission>
+            { label: '成立时间', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '成立文件', name: 'filePath', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return $.swfPreview(cellvalue, rowObject.name + "-成立文件", "查看");
             }},
-            { label: '成立时间', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '备注', align:'left', name: 'remark', width: 500 }
         ]}).jqGrid("setFrozenColumns");
 

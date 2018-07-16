@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.unit.UnitPostViewMapper">
+  <resultMap id="BaseResultMap" type="domain.unit.UnitPostView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="is_principal_post" jdbcType="BIT" property="isPrincipalPost" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="post_type" jdbcType="INTEGER" property="postType" />
+    <result column="post_class" jdbcType="INTEGER" property="postClass" />
+    <result column="is_cpc" jdbcType="BIT" property="isCpc" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="abolish_date" jdbcType="DATE" property="abolishDate" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+    <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
+    <result column="unit_type_id" jdbcType="INTEGER" property="unitTypeId" />
+    <result column="unit_sort_order" jdbcType="INTEGER" property="unitSortOrder" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, unit_id, code, name, job, is_principal_post, admin_level, post_type, post_class, 
+    is_cpc, status, abolish_date, sort_order, remark, unit_name, unit_code, unit_type_id, 
+    unit_sort_order
+  </sql>
+  <select id="selectByExample" parameterType="domain.unit.UnitPostViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from unit_post_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="domain.unit.UnitPostViewExample" resultType="java.lang.Long">
+    select count(*) from unit_post_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.unit.UnitPostViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from unit_post_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

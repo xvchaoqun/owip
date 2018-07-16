@@ -25,55 +25,65 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">分管工作</label>
 				<div class="col-xs-6">
-                        <textarea class="form-control" name="job">${unitPost.job}</textarea>
+                        <textarea class="noEnter form-control" name="job">${unitPost.job}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">是否正职</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="isPrincipalPost" value="${unitPost.isPrincipalPost}">
+					<input type="checkbox" class="big" name="isPrincipalPost" ${unitPost.isPrincipalPost?"checked":""}/>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">行政级别</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="adminLevel" value="${unitPost.adminLevel}">
+					<select required class="form-control" data-rel="select2" name="adminLevel"
+							data-width="272" data-placeholder="请选择行政级别">
+						<option></option>
+						<option value="${cm:getMetaTypeByCode('mt_admin_level_main').id}">正处级</option>
+						<option value="${cm:getMetaTypeByCode('mt_admin_level_vice').id}">副处级</option>
+						<option value="${cm:getMetaTypeByCode('mt_admin_level_none').id}">无行政级别</option>
+					</select>
+					<script type="text/javascript">
+						$("#modalForm select[name=adminLevel]").val('${unitPost.adminLevel}');
+					</script>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">职务属性</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="postType" value="${unitPost.postType}">
+					<select required name="postType" data-rel="select2" data-width="272" data-placeholder="请选择职务属性">
+						<option></option>
+						<c:import url="/metaTypes?__code=mc_post"/>
+					</select>
+					<script>
+						$("#modalForm select[name=postType]").val('${unitPost.postType}');
+					</script>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">职务类别</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="postClass" value="${unitPost.postClass}">
+					<select required data-rel="select2" name="postClass"
+							data-width="272" data-placeholder="请选择">
+						<option></option>
+						<c:import url="/metaTypes?__code=mc_post_class"/>
+					</select>
+					<script type="text/javascript">
+						$("#modal form select[name=postClass]").val(${unitPost.postClass});
+					</script>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">是否占干部职数</label>
 				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="isCpc" value="${unitPost.isCpc}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">状态</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="status" value="${unitPost.status}">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">撤销时间</label>
-				<div class="col-xs-6">
-                        <input required class="form-control" type="text" name="abolishTime" value="${unitPost.abolishTime}">
+					<input type="checkbox" class="big" name="isCpc" ${unitPost.isCpc?"checked":""}/>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
-				<div class="col-xs-6">noEnter
-                        <input required class="form-control" type="text" name="remark" value="${unitPost.remark}">
+				<div class="col-xs-6">
+					<textarea class="form-control limited" name="remark">${unitPost.remark}</textarea>
 				</div>
 			</div>
     </form>
@@ -96,9 +106,9 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    //$("#modalForm :checkbox").bootstrapSwitch();
+    $("#modalForm :checkbox").bootstrapSwitch();
     //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#modalForm [data-rel="select2"]').select2();
+    $('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$('textarea.limited').inputlimiter();
     //$.register.date($('.date-picker'));

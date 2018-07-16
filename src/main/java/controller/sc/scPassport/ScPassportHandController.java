@@ -1,11 +1,13 @@
 package controller.sc.scPassport;
 
+import domain.abroad.Passport;
 import domain.cadre.CadreView;
 import domain.dispatch.DispatchCadre;
 import domain.sc.scPassport.ScPassportHand;
 import domain.sc.scPassport.ScPassportHandExample;
 import domain.sc.scPassport.ScPassportHandExample.Criteria;
 import mixin.MixinUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import persistence.sc.IScDispatchCadre;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.ScConstants;
@@ -30,6 +33,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -234,12 +238,30 @@ public class ScPassportHandController extends ScPassportBaseController {
     @RequiresPermissions("scPassportHand:edit")
     @RequestMapping("/scPassportHand_dispatch_draw")
     @ResponseBody
-    public void scPassportHand_dispatch_draw(int dispatchId, HttpServletResponse response) throws IOException {
+    public void scPassportHand_dispatch_draw(int dispatchId, HttpServletResponse response) throws IOException, InvocationTargetException, IllegalAccessException {
 
         List<DispatchCadre> dispatchCadres = scPassportHandService.draw(dispatchId);
+        // 已经添加的任免记录
+        List<Integer> hasDispatchCadreIds = iScMapper.getScPassportHandList(dispatchId);
+        Set<Integer> hasDispatchCadreIdSet = new HashSet<>(hasDispatchCadreIds);
 
-        JSONUtils.write(response, dispatchCadres, "id", "user", "user.code", "user.realname",
-                "dispatch","dispatch.dispatchCode");
+        List<IScDispatchCadre> records = new ArrayList<>();
+        for (DispatchCadre dispatchCadre : dispatchCadres) {
+
+            IScDispatchCadre record = new IScDispatchCadre();
+            BeanUtils.copyProperties(record, dispatchCadre);
+            record.setHasImport(hasDispatchCadreIdSet.contains(dispatchCadre.getId()));
+
+            if(passportService!=null) {
+                Map<Integer, Passport> passportMap = passportService.findByCadreId(dispatchCadre.getCadreId());
+                record.setPassports(new ArrayList<>(passportMap.values()));
+            }
+            records.add(record);
+        }
+
+        JSONUtils.write(response, records, "id",
+                "user", "user.code", "user.realname",
+                "dispatch","dispatch.dispatchCode", "hasImport", "passports", "passports.code", "passports.classId");
     }
     @RequiresPermissions("scPassportHand:edit")
     @RequestMapping("/scPassportHand_dispatch")

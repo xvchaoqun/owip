@@ -19,7 +19,8 @@
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">返回</a>
-    <button id="submitBtn" type="button" class="btn btn-success"><i class="fa fa-hand-paper-o"></i> 确定报送</button>
+    <button id="submitBtn" type="button" class="btn btn-success"
+            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"><i class="fa fa-hand-paper-o"></i> 确定报送</button>
 </div>
 <script type="text/template" id="itemListTpl">
     <div class="modal-header">
@@ -52,11 +53,11 @@
 </script>
 <script>
     $("#submitBtn").click(function () {
-
+        var $btn = $("#submitBtn").button('loading');
         $.post("${ctx}/pmd/pmdParty_checkForceReport", {id: '${param.id}'}, function (ret) {
             if (ret.success) {
-                $("#modal").modal('hide');
                 if (ret.unsetDuepayMembers.length > 0) {
+                    $("#modal").modal('hide');
                     setTimeout(function(){//延时加载页面
                         $.showModal(_.template($("#itemListTpl").html())({unsetDuepayMembers: ret.unsetDuepayMembers}), 600)
                     },500);
@@ -65,9 +66,11 @@
                     $.post("${ctx}/pmd/pmdParty_forceReport", {id: '${param.id}'}, function (ret) {
 
                         if (ret.success) {
+                            $("#modal").modal('hide');
                             SysMsg.info("报送成功。");
                             $("#jqGrid2").trigger("reloadGrid");
                         }
+                        $btn.button('reset');
                     });
                 }
             }

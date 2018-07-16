@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
 					<div class="input-group">
 						<span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
 						<input style="width: 80px;" class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
-							   data-date-format="yyyy" data-date-min-view-mode="2" value="${dispatch.year}"/>
+							   data-date-format="yyyy" data-date-min-view-mode="2" value="${_thisYear}"/>
 					</div>
 				</div>
 			</div>
@@ -39,8 +39,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">新提任干部</label>
-				<div class="col-xs-9">
+				<div class="col-xs-12">
 					<div style="padding-top: 10px;">
 						<div id="itemList">
 
@@ -64,12 +63,13 @@ pageEncoding="UTF-8"%>
 	<table class="table table-striped table-bordered table-condensed table-unhover2">
 		<thead>
 		<tr>
-			<td colspan="4">新提任干部</td>
+			<td colspan="5">新提任干部</td>
 		</tr>
 		<tr>
 			<td>发文号</td>
 			<td>姓名</td>
 			<td>工号</td>
+			<td>现持有证件情况</td>
 			<td></td>
 		</tr>
 		</thead>
@@ -79,8 +79,13 @@ pageEncoding="UTF-8"%>
 			<td>{{=u.dispatchCode}}</td>
 			<td>{{=u.realname}}</td>
 			<td>{{=u.code}}</td>
+			<td>{{=_hasPassportInfo(u.passports)}}</td>
 			<td>
+				{{if(u.hasImport){}}
+				<span class="text text-success">已添加</span>
+				{{}else{}}
 				<a href="javasciprt:;" class="del">移除</a>
+				{{}}}
 			</td>
 		</tr>
 		{{});}}
@@ -88,6 +93,27 @@ pageEncoding="UTF-8"%>
 	</table>
 </script>
 <script>
+
+	function _hasPassportInfo(abroadPassports){
+
+		var passports = {};
+		passports[normalPassortId] = {ret:0, msg:'未交证件'};
+		passports[hkPassortId] = {ret:0, msg:'未交证件'};
+		passports[twPassortId] = {ret:0, msg:'未交证件'};
+		$.each(abroadPassports, function(i, p){
+			passports[p.classId] = {ret:1, msg:p.code};
+		})
+
+		//console.log(passports)
+
+		return ('<span class="text {0}" title="{6}">护照({1})</span> ' +
+		'&nbsp;<span class="text {2}" title="{7}">港澳({3})</span> ' +
+		'&nbsp;<span class="text {4}" title="{8}">台湾({5})</span>')
+				.format( passports[normalPassortId].ret>0?'text-success':'text-danger', passports[normalPassortId].ret==1?1:0,
+				passports[hkPassortId].ret>0?'text-success':'text-danger', passports[hkPassortId].ret==1?1:0,
+				passports[twPassortId].ret>0?'text-success':'text-danger', passports[twPassortId].ret==1?1:0,
+				passports[normalPassortId].msg, passports[hkPassortId].msg, passports[twPassortId].msg);
+	}
 
 	$.register.date($('.date-picker'));
 	var $dispatchSelect = $.register.dispatch_select($('#modalForm select[name=dispatchTypeId]'),
@@ -127,7 +153,8 @@ pageEncoding="UTF-8"%>
 					//console.log(d)
 					var user = {dispatchCadreId: d.id,
 						dispatchCode: d.dispatch.dispatchCode,
-						realname: d.user.realname, code: d.user.code};
+						realname: d.user.realname,
+						code: d.user.code, hasImport: d.hasImport, passports: d.passports};
 					var contains = false;
 					$.each(selectedUsers, function (i, user) {
 						if (user.dispatchCadreId == d.id) {
@@ -162,8 +189,17 @@ pageEncoding="UTF-8"%>
         submitHandler: function (form) {
 
 			var dispatchCadreIds = $.map(selectedUsers, function (user) {
-				return user.dispatchCadreId;
+				if(!user.hasImport)
+					return user.dispatchCadreId;
 			})
+			if(dispatchCadreIds.length==0){
+				$.tip({
+					$target: $("#submitBtn"),
+					at: 'top center', my: 'bottom center',
+					msg: "没有符合条件的提任干部。"
+				});
+				return;
+			}
 
             $(form).ajaxSubmit({
 				data: {dispatchCadreIds: dispatchCadreIds},

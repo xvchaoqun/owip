@@ -14,6 +14,17 @@ truncate pmd_config_member;
 SET FOREIGN_KEY_CHECKS=1;
 ===
 
+-- 清空某月的党费收缴数据
+set @month = '201807';
+select id from pmd_month where date_format(pay_month, '%Y%m')=@month into @monthId;
+delete from pmd_branch where month_id=@monthId;
+delete pmp.* from pmd_member_pay pmp, pmd_member pm where pmp.member_id=pm.id and pm.month_id=@monthId ;
+delete from  pmd_member where month_id=@monthId;
+delete from pmd_party  where month_id=@monthId;
+delete from  pmd_pay_branch  where month_id=@monthId;
+delete from  pmd_pay_party  where month_id=@monthId;
+delete from  pmd_month where id=@monthId;
+
 
 == 清空党代会，除管理员、当前党代会设置两表外
 SET FOREIGN_KEY_CHECKS=0;

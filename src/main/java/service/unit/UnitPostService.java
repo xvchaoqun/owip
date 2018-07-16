@@ -7,24 +7,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import sys.constants.SystemConstants;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class UnitPostService extends BaseMapper {
 
-    public boolean idDuplicate(Integer id, int code){
+    public boolean idDuplicate(Integer id, String code) {
 
         UnitPostExample example = new UnitPostExample();
         UnitPostExample.Criteria criteria = example.createCriteria().andCodeEqualTo(code);
-        if(id!=null) criteria.andIdNotEqualTo(id);
+        if (id != null) criteria.andIdNotEqualTo(id);
 
         return unitPostMapper.countByExample(example) > 0;
     }
 
     @Transactional
-    public void insertSelective(UnitPost record){
+    public void insertSelective(UnitPost record) {
 
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate");
         record.setSortOrder(getNextSortOrder("unit_post",
@@ -33,15 +35,15 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    public void del(Integer id){
+    public void del(Integer id) {
 
         unitPostMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    public void batchDel(Integer[] ids){
+    public void batchDel(Integer[] ids) {
 
-        if(ids==null || ids.length==0) return;
+        if (ids == null || ids.length == 0) return;
 
         UnitPostExample example = new UnitPostExample();
         example.createCriteria().andIdIn(Arrays.asList(ids));
@@ -49,21 +51,22 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(UnitPost record){
-        if(record.getCode()!=null)
+    public int updateByPrimaryKeySelective(UnitPost record) {
+        if (record.getCode() != null)
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate");
         return unitPostMapper.updateByPrimaryKeySelective(record);
     }
 
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
+     *
      * @param id
      * @param addNum
      */
     @Transactional
     public void changeOrder(int id, int addNum) {
 
-        if(addNum == 0) return ;
+        if (addNum == 0) return;
 
         byte orderBy = ORDER_BY_DESC;
 
@@ -71,12 +74,12 @@ public class UnitPostService extends BaseMapper {
         Integer baseSortOrder = entity.getSortOrder();
 
         UnitPostExample example = new UnitPostExample();
-        if (addNum*orderBy > 0) {
+        if (addNum * orderBy > 0) {
 
             example.createCriteria().andUnitIdEqualTo(entity.getUnitId()).andStatusEqualTo(entity.getStatus())
                     .andSortOrderGreaterThan(baseSortOrder);
             example.setOrderByClause("sort_order asc");
-        }else {
+        } else {
 
             example.createCriteria().andUnitIdEqualTo(entity.getUnitId()).andStatusEqualTo(entity.getStatus())
                     .andSortOrderLessThan(baseSortOrder);
@@ -84,11 +87,11 @@ public class UnitPostService extends BaseMapper {
         }
 
         List<UnitPost> overEntities = unitPostMapper.selectByExampleWithRowbounds(example, new RowBounds(0, Math.abs(addNum)));
-        if(overEntities.size()>0) {
+        if (overEntities.size() > 0) {
 
-            UnitPost targetEntity = overEntities.get(overEntities.size()-1);
+            UnitPost targetEntity = overEntities.get(overEntities.size() - 1);
 
-            if (addNum*orderBy > 0)
+            if (addNum * orderBy > 0)
                 commonMapper.downOrder("unit_post", String.format("unit_id=%s and status=%s", entity.getUnitId(), entity.getStatus()),
                         baseSortOrder, targetEntity.getSortOrder());
             else
@@ -100,5 +103,31 @@ public class UnitPostService extends BaseMapper {
             record.setSortOrder(targetEntity.getSortOrder());
             unitPostMapper.updateByPrimaryKeySelective(record);
         }
+    }
+
+    @Transactional
+    public void abolish(int id, Date abolishDate) {
+
+        UnitPost record = new UnitPost();
+        record.setId(id);
+        record.setAbolishDate(abolishDate);
+        record.setStatus(SystemConstants.UNIT_POST_STATUS_ABOLISH);
+
+        UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
+        record.setSortOrder(getNextSortOrder("unit_post",
+                String.format("unit_id=%s and status=%s", unitPost.getUnitId(), SystemConstants.UNIT_POST_STATUS_ABOLISH)));
+
+        unitPostMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Transactional
+    public void unabolish(int id) {
+
+        UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
+        int sortOrder = getNextSortOrder("unit_post",
+                String.format("unit_id=%s and status=%s", unitPost.getUnitId(), SystemConstants.UNIT_POST_STATUS_NORMAL));
+
+        commonMapper.excuteSql(String.format("update unit_post set abolish_date=null, status=%s, sort_order=%s where id=%s",
+                SystemConstants.UNIT_POST_STATUS_NORMAL, sortOrder, id));
     }
 }
