@@ -38,7 +38,7 @@ public class CadreCommonService extends BaseMapper {
     @Autowired(required = false)
     private DispatchService dispatchService;
 
-    // 查找某个单位的正职
+    // 查找某个单位的正职（现任）
     public List<Cadre> findMainPost(int unitId) {
 
         List<Cadre> cadreList = new ArrayList<>();
@@ -46,8 +46,8 @@ public class CadreCommonService extends BaseMapper {
         {
             CadreExample example = new CadreExample();
             example.createCriteria().andUnitIdEqualTo(unitId)
-                    .andStatusNotIn(Arrays.asList(CadreConstants.CADRE_STATUS_RESERVE,
-                            CadreConstants.CADRE_STATUS_INSPECT));
+                    .andStatusIn(Arrays.asList(CadreConstants.CADRE_STATUS_MIDDLE,
+                            CadreConstants.CADRE_STATUS_LEADER));
             List<Cadre> cadres = cadreMapper.selectByExample(example);
             for (Cadre cadre : cadres) {
                 MetaType postType = metaTypeMap.get(cadre.getPostId());

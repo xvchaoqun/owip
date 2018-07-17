@@ -44,8 +44,8 @@ public class PmdMonthController extends PmdBaseController {
     @RequestMapping("/pmdMonth")
     public String pmdMonth(ModelMap modelMap) {
 
-        PmdMonth realThisMonth = pmdMonthService.getMonth(new Date());
-        modelMap.put("realThisMonth", realThisMonth);
+        //PmdMonth realThisMonth = pmdMonthService.getMonth(new Date());
+        //modelMap.put("realThisMonth", realThisMonth);
         return "pmd/pmdMonth/pmdMonth_page";
     }
 
@@ -143,7 +143,7 @@ public class PmdMonthController extends PmdBaseController {
     public String pmdMonth_addParty(ModelMap modelMap) {
 
         // 全部已设定的
-        Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet();
+        Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet(null);
 
         PartyExample example = new PartyExample();
         example.createCriteria().andIsDeletedEqualTo(false).andIdNotIn(new ArrayList<>(allPayPartyIdSet.keySet()));

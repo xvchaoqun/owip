@@ -29,12 +29,14 @@ pageEncoding="UTF-8"%>
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
                         $("#modal").modal('hide');
                         $("#jqGrid").trigger("reloadGrid");
                     }
+                    $btn.button('reset');
                 }
             });
         }

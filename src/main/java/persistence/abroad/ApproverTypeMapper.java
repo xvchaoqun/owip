@@ -2,13 +2,12 @@ package persistence.abroad;
 
 import domain.abroad.ApproverType;
 import domain.abroad.ApproverTypeExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
-import java.util.List;
-
 public interface ApproverTypeMapper {
-    int countByExample(ApproverTypeExample example);
+    long countByExample(ApproverTypeExample example);
 
     int deleteByExample(ApproverTypeExample example);
 

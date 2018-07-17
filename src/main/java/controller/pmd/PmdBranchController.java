@@ -144,6 +144,17 @@ public class PmdBranchController extends PmdBaseController {
     }
 
     @RequiresPermissions("pmdBranch:report")
+    @RequestMapping(value = "/pmdBranch_unreport", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdBranch_unreport(int id, HttpServletRequest request) {
+
+        pmdBranchService.unreport(id);
+        logger.info(addLog(LogConstants.LOG_PMD, "撤销党支部报送：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("pmdBranch:report")
     @RequestMapping(value = "/pmdBranch_report", method = RequestMethod.POST)
     @ResponseBody
     public Map do_pmdBranch_report(int id, HttpServletRequest request) {

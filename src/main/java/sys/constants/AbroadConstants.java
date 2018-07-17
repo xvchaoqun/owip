@@ -146,15 +146,17 @@ public class AbroadConstants {
     }
 
     // 因私出国审批人类别  1本单位正职 2分管校领导 3 书记 4 校长
-    public final static byte ABROAD_APPROVER_TYPE_UNIT = 1;
+    public final static byte ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL = 1;
     public final static byte ABROAD_APPROVER_TYPE_LEADER = 2;
     public final static byte ABROAD_APPROVER_TYPE_SECRETARY = 3;
     public final static byte ABROAD_APPROVER_TYPE_MASTER = 4;
+    public final static byte ABROAD_APPROVER_TYPE_UNIT = 5;
     public final static byte ABROAD_APPROVER_TYPE_OTHER = 20;
     public final static Map<Byte, String> ABROAD_APPROVER_TYPE_MAP = new LinkedHashMap<>();
 
     static {
-        ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_UNIT, "本单位正职");
+        ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL, "本单位正职");
+        ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_UNIT, "本单位人员");
         ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_LEADER, "分管校领导");
         ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_SECRETARY, "书记");
         ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_MASTER, "校长");

@@ -65,7 +65,7 @@ public class ApproverTypeService extends BaseMapper {
     public ApproverType getMainPostApproverType(){
 
         ApproverTypeExample example = new ApproverTypeExample();
-        example.createCriteria().andTypeEqualTo(AbroadConstants.ABROAD_APPROVER_TYPE_UNIT);
+        example.createCriteria().andTypeEqualTo(AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL);
         List<ApproverType> approverTypes = approverTypeMapper.selectByExample(example);
         if(approverTypes.size()>0) return approverTypes.get(0);
         return null;
@@ -86,7 +86,7 @@ public class ApproverTypeService extends BaseMapper {
 
         ApproverTypeExample example = new ApproverTypeExample();
         ApproverTypeExample.Criteria criteria = example.createCriteria().andNameEqualTo(name);
-        if(type== AbroadConstants.ABROAD_APPROVER_TYPE_UNIT
+        if(type== AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL
                 ||type==AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {
             criteria.andTypeEqualTo(type); // 1本单位正职 2分管校领导 只能有一个
         }

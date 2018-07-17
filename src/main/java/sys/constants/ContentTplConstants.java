@@ -94,6 +94,8 @@ public class ContentTplConstants {
     public final static String CONTENT_TPL_APPLYSELF_APPROVAL_SECRETARY = "ct_applyself_approval_secretary";
     // 校长审批通知
     public final static String CONTENT_TPL_APPLYSELF_APPROVAL_MASTER = "ct_applyself_approval_master";
+    // 其他审批身份审批通知
+    public final static String CONTENT_TPL_APPLYSELF_APPROVAL_OTHER = "ct_applyself_approval_other";
 
     // 党代表-邀请为提案附议人
     public final static String CONTENT_TPL_PCS_INVITE_SECONDER = "ct_pcs_invite_seconder";

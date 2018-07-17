@@ -272,7 +272,7 @@ public class ClaApplyService extends BaseMapper {
 
             //==============================================
             Map<Integer, List<Integer>> approverTypeUnitIdListMap = new HashMap<Integer, List<Integer>>();
-            Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<Integer, List<Integer>>();
+            Map<Integer, List<Integer>> approverTypeCadreIdListMap = new HashMap<Integer, List<Integer>>();
 
             ClaApproverType mainPostApproverType = claApproverTypeService.getMainPostApproverType();
             ClaApproverType leaderApproverType = claApproverTypeService.getLeaderApproverType();
@@ -296,21 +296,21 @@ public class ClaApplyService extends BaseMapper {
                     approverTypeUnitIdListMap.put(leaderApproverType.getId(), approverTypeBean.getLeaderUnitIds());
                 }
 
-                approverTypePostIdListMap = approverTypeBean.getApproverTypePostIdListMap();
+                approverTypeCadreIdListMap = approverTypeBean.getApproverTypeCadreIdListMap();
             }
             if (approverTypeUnitIdListMap != null && approverTypeUnitIdListMap.size() == 0)
                 approverTypeUnitIdListMap = null;
-            if (approverTypePostIdListMap != null && approverTypePostIdListMap.size() == 0)
-                approverTypePostIdListMap = null;
+            if (approverTypeCadreIdListMap != null && approverTypeCadreIdListMap.size() == 0)
+                approverTypeCadreIdListMap = null;
             //==============================================
 
             ClaApplySearchBean searchBean = new ClaApplySearchBean(cadreId, type,
                     _applyDate == null ? null : _applyDate.getStart(), _applyDate == null ? null : _applyDate.getEnd());
 
             if (status == 0)
-                count = iClaMapper.countNotApproval(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap);
+                count = iClaMapper.countNotApproval(searchBean, approverTypeUnitIdListMap, approverTypeCadreIdListMap);
             if (status == 1)
-                count = iClaMapper.countHasApproval(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap, userId);
+                count = iClaMapper.countHasApproval(searchBean, approverTypeUnitIdListMap, approverTypeCadreIdListMap, userId);
 
             if (pageNo > 0) {
                 pageNo = Math.max(1, pageNo);
@@ -318,10 +318,10 @@ public class ClaApplyService extends BaseMapper {
                     pageNo = Math.max(1, pageNo - 1);
                 }
                 if (status == 0)
-                    applys = iClaMapper.selectNotApprovalList(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap,
+                    applys = iClaMapper.selectNotApprovalList(searchBean, approverTypeUnitIdListMap, approverTypeCadreIdListMap,
                             new RowBounds((pageNo - 1) * pageSize, pageSize));
                 if (status == 1)
-                    applys = iClaMapper.selectHasApprovalList(searchBean, approverTypeUnitIdListMap, approverTypePostIdListMap, userId,
+                    applys = iClaMapper.selectHasApprovalList(searchBean, approverTypeUnitIdListMap, approverTypeCadreIdListMap, userId,
                             new RowBounds((pageNo - 1) * pageSize, pageSize));
             }
         }
@@ -526,14 +526,14 @@ public class ClaApplyService extends BaseMapper {
         List<Integer> leaderUnitIds = getLeaderMangerUnitIds(userId);
 
         // 其他身份
-        Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>(); // 本人所属的审批身份及对应的审批的职务属性
+        Map<Integer, List<Integer>> approverTypeCadreIdListMap = new HashMap<>(); // 本人所属的审批身份及对应的审批的职务属性
         Map<Integer, ClaApproverType> approverTypeMap = claApproverTypeService.findAll();
         for (ClaApproverType approverType : approverTypeMap.values()) {
             Byte type = approverType.getType();
             if (type != ClaConstants.CLA_APPROVER_TYPE_UNIT && type != ClaConstants.CLA_APPROVER_TYPE_LEADER) {
                 List<Integer> approvalPostIds = getApprovalPostIds(userId, approverType.getId());
                 if (approvalPostIds.size() > 0) {
-                    approverTypePostIdListMap.put(approverType.getId(), approvalPostIds);
+                    approverTypeCadreIdListMap.put(approverType.getId(), approvalPostIds);
                 }
             }
         }
@@ -543,8 +543,8 @@ public class ClaApplyService extends BaseMapper {
         approverTypeBean.setMainPostUnitIds(mainPostUnitIds);
         approverTypeBean.setManagerLeader(leaderUnitIds.size() > 0);
         approverTypeBean.setLeaderUnitIds(leaderUnitIds);
-        approverTypeBean.setApprover(!approverTypePostIdListMap.isEmpty());
-        approverTypeBean.setApproverTypePostIdListMap(approverTypePostIdListMap);
+        approverTypeBean.setApprover(!approverTypeCadreIdListMap.isEmpty());
+        approverTypeBean.setApproverTypeCadreIdListMap(approverTypeCadreIdListMap);
         approverTypeBean.setApprovalCadreIdSet(findApprovalCadreIdSet(userId));
 
         return approverTypeBean;
@@ -584,7 +584,8 @@ public class ClaApplyService extends BaseMapper {
                 example.createCriteria().andCadreIdEqualTo(cadreId);
                 List<ClaApplicatCadre> applicatCadres = claApplicatCadreMapper.selectByExample(example);
                 if (applicatCadres.size() == 0) {
-                    logger.error("===========数据异常，干部没有任何身份: cadreId=" + cadreId);
+                    CadreView cv = apply.getCadre();
+                    logger.error("请假审批数据异常，干部没有任何身份: {}, {}", cv.getCode(), cv.getRealname());
                     return approvalResultMap;// 异常情况，不允许申请人没有任何身份
                 }
                 ClaApplicatCadre applicatCadre = applicatCadres.get(0);

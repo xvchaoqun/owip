@@ -45,7 +45,7 @@ public class ApproverTypeController extends AbroadBaseController {
 
         Map<String, Object> resultMap = success();
 
-        if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT) { // 本单位正职
+        if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL) { // 本单位正职
 
             resultMap.put("tree", abroadAdditionalPostService.getMainPostCadreTree());
 
@@ -90,7 +90,7 @@ public class ApproverTypeController extends AbroadBaseController {
     @RequestMapping("/approverType/selectCadres")
     public String select_cadres(Integer id, byte type, ModelMap modelMap) throws IOException {
 
-        if (type != AbroadConstants.ABROAD_APPROVER_TYPE_UNIT && type != AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {
+        if (type != AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL && type != AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {
             ApproverType approverType = approverTypeMapper.selectByPrimaryKey(id);
             modelMap.put("approverType", approverType);
         }
@@ -102,7 +102,7 @@ public class ApproverTypeController extends AbroadBaseController {
     @ResponseBody
     public Map do_select_cadres(Integer id, byte type, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
 
-        if(type==AbroadConstants.ABROAD_APPROVER_TYPE_UNIT){
+        if(type==AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL){
             // 本单位正职身份
             ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
             Integer mainPostTypeId = mainPostApproverType.getId();
@@ -146,7 +146,7 @@ public class ApproverTypeController extends AbroadBaseController {
             criteria.andTypeEqualTo(type);
         }
 
-        int count = approverTypeMapper.countByExample(example);
+        long count = approverTypeMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -176,12 +176,17 @@ public class ApproverTypeController extends AbroadBaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/approverType_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_approverType_au(ApproverType record, HttpServletRequest request) {
+    public Map do_approverType_au(ApproverType record,
+                                  @RequestParam(required = false, value = "auth") Byte[] auth,
+                                  HttpServletRequest request) {
 
         Integer id = record.getId();
 
         if (approverTypeService.idDuplicate(id, record.getName(), record.getType())) {
             return failed("添加重复");
+        }
+        if(auth!=null && auth.length>0){
+            record.setAuth(StringUtils.join(auth, ","));
         }
         if (id == null) {
             approverTypeService.insertSelective(record);

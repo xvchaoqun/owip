@@ -29,6 +29,15 @@ pageEncoding="UTF-8"%>
                     </script>
 				</div>
 			</div>
+            <div class="form-group" id="leaderAuth">
+                <label class="col-xs-3 control-label">审批范围</label>
+                <div class="col-xs-6">
+                    <div class="input-group">
+                    <input required name="auth" type="checkbox" value="1" class="big chkBox"> 分管部门
+                    <input required name="auth" type="checkbox" value="2" class="big chkBox"> 联系学院
+                    </div>
+                </div>
+            </div>
     </form>
 </div>
 <div class="modal-footer">
@@ -37,6 +46,11 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+    var auth = "${approverType.auth}";
+    $.each(auth.split(","), function(idx, val){
+        $("input[name=auth][value='"+val+"']").prop("checked", true);
+    })
+
     $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
@@ -49,26 +63,16 @@ pageEncoding="UTF-8"%>
             });
         }
     });
-    $('#modalForm [data-rel="select2"]').select2();
-    $('[data-rel="tooltip"]').tooltip();
-    $('#modalForm [data-rel="select2-ajax"]').select2({
-        ajax: {
-            dataType: 'json',
-            delay: 200,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
+
+    $('#modalForm select[name=type]').select2().on("change", function(){
+
+        if($(this).val()=='${ABROAD_APPROVER_TYPE_LEADER}'){
+            $("#leaderAuth input[name=auth]").prop("required", true);
+            $("#leaderAuth").show();
+        }else{
+            $("#leaderAuth input[name=auth]").prop("required", false);
+            $("#leaderAuth").hide();
         }
-    });
+    }).change();
+    $('[data-rel="tooltip"]').tooltip();
 </script>

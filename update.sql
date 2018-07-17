@@ -1,4 +1,12 @@
 
+20180718
+ALTER TABLE `abroad_approver_type`
+	ADD COLUMN `auth` VARCHAR(50) NULL COMMENT '审批范围，针对分管校领导，逗号分隔' AFTER `type`;
+
+更新 common-utils
+
+增加 ct_applyself_approval_other
+
 20180714
 ALTER TABLE `unit`
 	ADD COLUMN `file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '成立文件，pdf文档' AFTER `work_time`,

@@ -23,14 +23,15 @@ pageEncoding="UTF-8" %>
             </div>
             <div class="space-4"></div>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-striped table-bordered table-hover">
+                <table class="table table-striped table-bordered table-hover table-center">
                     <thead>
                     <tr>
-							<th>名称</th>
-							<th>类型</th>
-                            <th>包含干部</th>
+							<th width="250">名称</th>
+							<th width="100">类型</th>
+							<th width="350">审批范围</th>
+                            <th width="120">包含干部</th>
                             <c:if test="${!_query && commonList.recNum>1}">
-                                <th nowrap class="hidden-480">审批顺序</th>
+                                <th width="80" nowrap class="hidden-480">审批顺序</th>
                             </c:if>
                         <th nowrap></th>
                     </tr>
@@ -41,14 +42,31 @@ pageEncoding="UTF-8" %>
 								<td>${approverType.name}</td>
 								<td>${ABROAD_APPROVER_TYPE_MAP.get(approverType.type)}</td>
 								<td>
-                                    <c:if test="${approverType.type==ABROAD_APPROVER_TYPE_UNIT || approverType.type==ABROAD_APPROVER_TYPE_LEADER}">
+                                    <c:if test="${approverType.type==ABROAD_APPROVER_TYPE_LEADER}">
+                                        <c:forEach items="${fn:split(approverType.auth, ',')}" var="_auth">
+                                            <c:if test="${_auth=='1'}">
+                                                <c:set var="contain1" value="true"/>
+                                            </c:if>
+                                            <c:if test="${_auth=='2'}">
+                                                <c:set var="contain2" value="true"/>
+                                            </c:if>
+                                        </c:forEach>
+                                    <input ${contain1?'checked':''} required name="auth" type="checkbox" value="1" class="big chkBox" disabled> 分管部门
+                                    <input ${contain2?'checked':''} required name="auth" type="checkbox" value="2" class="big chkBox" disabled> 联系学院
+                                    </c:if>
+                                    <c:if test="${approverType.type!=ABROAD_APPROVER_TYPE_LEADER}">
+                                            --
+                                    </c:if>
+                                </td>
+								<td>
+                                    <c:if test="${approverType.type==ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL || approverType.type==ABROAD_APPROVER_TYPE_LEADER}">
                                         <button data-url="${ctx}/abroad/approverType/selectCadres?type=${approverType.type}"
                                                 class="popupBtn btn btn-primary btn-xs"
                                                 data-rel="tooltip" data-placement="top" title="点击进行二次编辑，在此最终确定参与审批的干部">
                                             <i class="fa fa-th-list"></i>  包含干部
                                         </button>
                                      </c:if>
-                                    <c:if test="${approverType.type!=ABROAD_APPROVER_TYPE_UNIT && approverType.type!=ABROAD_APPROVER_TYPE_LEADER}">
+                                    <c:if test="${approverType.type!=ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL && approverType.type!=ABROAD_APPROVER_TYPE_LEADER}">
                                     <button data-url="${ctx}/abroad/approverType/selectCadres?type=${approverType.type}&id=${approverType.id}"
                                             class="popupBtn btn btn-success btn-xs">
                                         <i class="fa fa-th-list"></i>  包含干部
@@ -63,7 +81,7 @@ pageEncoding="UTF-8" %>
                                     <a href="javascript:;" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn pageReload" data-id="${approverType.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                                 </td>
                             </c:if>
-                            <td>
+                            <td style="text-align: left">
                                 <div class="hidden-sm hidden-xs action-buttons">
                                     <button data-id="${approverType.id}" class="editBtn btn btn-primary btn-xs">
                                         <i class="fa fa-edit"></i> 编辑

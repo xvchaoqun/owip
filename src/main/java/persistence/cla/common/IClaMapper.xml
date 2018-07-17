@@ -6,10 +6,10 @@
     <sql id="Where_selectNotApproval">
         where
         aas.is_deleted=0 and
-        <if test="approverTypeUnitIdListMap == null and approverTypePostIdListMap == null">
+        <if test="approverTypeUnitIdListMap == null and approverTypeCadreIdListMap == null">
             aas.id=-1
         </if>
-        <if test="approverTypeUnitIdListMap != null || approverTypePostIdListMap != null">
+        <if test="approverTypeUnitIdListMap != null || approverTypeCadreIdListMap != null">
             aas.cadre_id=bc.id and aas.status=1 and aas.is_finish=0 and (
             <if test="approverTypeUnitIdListMap != null"> <!--当前审批身份为本单位正职，则查询当前操作人所属单位可以审批的记录-->
                 <foreach collection="approverTypeUnitIdListMap" index="approverTypeId" item="unitIdList" separator="or">
@@ -20,13 +20,13 @@
                     )
                 </foreach>
             </if>
-            <if test="approverTypePostIdListMap != null">
+            <if test="approverTypeCadreIdListMap != null">
                 <if test="approverTypeUnitIdListMap != null">or</if>
                 <!--根据后台设定的审批身份顺序，则查询当前操作人的职务属性所属身份可以审批的记录-->
-                <foreach collection="approverTypePostIdListMap" index="approverTypeId" item="postIdList" separator="or">
-                    (aas.flow_node = #{approverTypeId} and bc.post_id in
-                    <foreach collection="postIdList" item="postId" separator="," open="(" close=")">
-                        #{postId}
+                <foreach collection="approverTypeCadreIdListMap" index="approverTypeId" item="cadreIdList" separator="or">
+                    (aas.flow_node = #{approverTypeId} and bc.id in
+                    <foreach collection="cadreIdList" item="cadreId" separator="," open="(" close=")">
+                        #{cadreId}
                     </foreach>
                     )
                 </foreach>
@@ -72,12 +72,12 @@
                 )
             </foreach>
         </if>
-        <if test="approverTypePostIdListMap != null">
+        <if test="approverTypeCadreIdListMap != null">
             or
-            <foreach collection="approverTypePostIdListMap" index="approverTypeId" item="postIdList" separator="or">
-                (concat(',',aas.flow_nodes,',') like '%,${approverTypeId},%' and bc.post_id in
-                <foreach collection="postIdList" item="postId" separator="," open="(" close=")">
-                    #{postId}
+            <foreach collection="approverTypeCadreIdListMap" index="approverTypeId" item="cadreIdList" separator="or">
+                (concat(',',aas.flow_nodes,',') like '%,${approverTypeId},%' and bc.id in
+                <foreach collection="cadreIdList" item="cadreId" separator="," open="(" close=")">
+                    #{cadreId}
                 </foreach>
                 )
             </foreach>

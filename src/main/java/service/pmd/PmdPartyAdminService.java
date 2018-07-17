@@ -90,7 +90,7 @@ public class PmdPartyAdminService extends BaseMapper {
             del(pmdPartyAdmin.getId());
         }
 
-        Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet();
+        Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet(null);
         for (Integer partyId : allPayPartyIdSet.keySet()) {
 
             List<Integer> partyAdminIds = iPartyMapper.findPartyAdmin(partyId);

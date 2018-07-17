@@ -34,8 +34,8 @@
           </table>-->
         <!-- <table tableName="abroad_apply_self_modify" domainObjectName="abroad.ApplySelfModify">
          </table>-->
-         <table tableName="abroad_approval_log" domainObjectName="abroad.ApprovalLog" mapperName="abroad.ApprovalLogMapper">
-         </table>
+         <!--<table tableName="abroad_approval_log" domainObjectName="abroad.ApprovalLog" mapperName="abroad.ApprovalLogMapper">
+         </table>-->
 
         <!-- <table tableName="abroad_applicat_cadre" domainObjectName="abroad.ApplicatCadre">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
@@ -48,9 +48,10 @@
         </table>-->
         <!-- <table tableName="abroad_approver_black_list" domainObjectName="abroad.ApproverBlackList">
          </table>-->
-        <!--<table tableName="abroad_approver_type" domainObjectName="abroad.ApproverType">
+        <table tableName="abroad_approver_type" domainObjectName="abroad.ApproverType"
+               mapperName="abroad.ApproverTypeMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
+        </table>
 
         <!--<table tableName="abroad_additional_post" domainObjectName="abroad.AbroadAdditionalPost"
                 mapperName="abroad.AbroadAdditionalPostMapper">

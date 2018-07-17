@@ -67,7 +67,8 @@ pageEncoding="UTF-8"%>
                     if(ret.success){
                         $btn.button("success").addClass("btn-success");
                         $("#modal").modal('hide');
-                        $("#jqGrid").trigger("reloadGrid");
+                        //$("#jqGrid").trigger("reloadGrid");
+                        $.hashchange();
                     }
                     $('#timer span').timer('remove');
                     $("#timer").hide();

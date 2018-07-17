@@ -28,7 +28,7 @@
     $.post("${ctx}/pmd/pmdParty_report", {id: '${param.id}'}, function (ret) {
       if (ret.success) {
         $("#modal").modal('hide');
-        $("#jqGrid").trigger("reloadGrid");
+        $("#jqGrid" + "${param.cls==2?'2':''}").trigger("reloadGrid");
       }
     });
   });

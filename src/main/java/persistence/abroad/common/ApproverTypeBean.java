@@ -19,7 +19,7 @@ public class ApproverTypeBean {
     List<Integer> leaderUnitIds; // 分管单位
 
     public boolean isApprover; // 是否是拥有其他审批身份
-    Map<Integer, List<Integer>> approverTypePostIdListMap; //  其他审批身份及对应的审批的职务属性
+    Map<Integer, List<Integer>> approverTypeCadreIdListMap; //  其他审批身份及对应的审批的申请人
 
     public Set<Integer> approvalCadreIdSet; // 需要审批的干部
 
@@ -71,12 +71,12 @@ public class ApproverTypeBean {
         this.isApprover = isApprover;
     }
 
-    public Map<Integer, List<Integer>> getApproverTypePostIdListMap() {
-        return approverTypePostIdListMap;
+    public Map<Integer, List<Integer>> getApproverTypeCadreIdListMap() {
+        return approverTypeCadreIdListMap;
     }
 
-    public void setApproverTypePostIdListMap(Map<Integer, List<Integer>> approverTypePostIdListMap) {
-        this.approverTypePostIdListMap = approverTypePostIdListMap;
+    public void setApproverTypeCadreIdListMap(Map<Integer, List<Integer>> approverTypeCadreIdListMap) {
+        this.approverTypeCadreIdListMap = approverTypeCadreIdListMap;
     }
 
     public Set<Integer> getApprovalCadreIdSet() {

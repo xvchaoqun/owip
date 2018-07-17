@@ -131,6 +131,18 @@ public class PmdPartyController extends PmdBaseController {
         return;
     }
 
+    // 撤回报送
+    @RequiresPermissions("pmdParty:report")
+    @RequestMapping(value = "/pmdParty_unreport", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_pmdParty_unreport(int id, HttpServletRequest request) {
+
+        pmdPartyService.unreport(id);
+        logger.info(addLog(LogConstants.LOG_PMD, "撤销党委报送：%s", id));
+
+        return success(FormUtils.SUCCESS);
+    }
+
     @RequiresPermissions("pmdParty:report")
     @RequestMapping(value = "/pmdParty_report", method = RequestMethod.POST)
     @ResponseBody

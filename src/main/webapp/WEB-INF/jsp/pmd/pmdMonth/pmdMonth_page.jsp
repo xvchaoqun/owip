@@ -17,7 +17,7 @@
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="pmdMonth:edit">
                                 <button id="addBtn" class="popupBtn btn btn-success btn-sm"
-                                    ${(not empty _pmdMonth||not empty realThisMonth)?'disabled':''}
+                                    ${(not empty _pmdMonth)?'disabled':''}
                                         data-width="400"
                                         data-url="${ctx}/pmd/pmdMonth_au"><i
                                         class="fa fa-plus"></i> 新建缴费月份

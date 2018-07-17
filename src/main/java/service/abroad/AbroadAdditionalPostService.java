@@ -49,7 +49,7 @@ public class AbroadAdditionalPostService extends BaseMapper {
     private SysUserService sysUserService;
 
     // 获取某个单位下的兼审正职
-    public List<CadreView> findAdditionalPost(int unitId) {
+    public List<CadreView> findAdditionalPrincipals(int unitId) {
 
         List<CadreView> cadreList = new ArrayList<>();
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();

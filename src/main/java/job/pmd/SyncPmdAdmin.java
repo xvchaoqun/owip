@@ -7,7 +7,6 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import service.pmd.PmdBranchAdminService;
 import service.pmd.PmdPartyAdminService;
 import service.pmd.PmdPayPartyService;
@@ -41,7 +40,7 @@ public class SyncPmdAdmin implements Job {
 
         logger.info("同步党建党支部管理员...");
         try {
-            Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet();
+            Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet(null);
             pmdBranchAdminService.syncBranchAdmins(new ArrayList<>(allPayPartyIdSet.keySet()));
         }catch (Exception ex){
             ex.printStackTrace();

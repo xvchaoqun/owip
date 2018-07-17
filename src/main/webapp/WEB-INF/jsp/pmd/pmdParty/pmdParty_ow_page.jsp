@@ -29,6 +29,17 @@
                             <i class="fa fa-hourglass-1"></i> 批量延迟缴费
                         </button>
                     </shiro:hasPermission>--%>
+                    <shiro:hasPermission name="pmdParty:report">
+                        <button id="unreportBtn" data-url="${ctx}/pmd/pmdParty_unreport"
+                                data-grid-id="#jqGrid2"
+                                data-title="撤销报送"
+                                data-msg="确定撤销该党委的报送？"
+                                data-callback="_reload2"
+                                class="jqItemBtn btn btn-warning btn-sm">
+                            <i class="fa fa-reply"></i> 撤销报送
+                        </button>
+                    </shiro:hasPermission>
+
                     <shiro:hasPermission name="pmdParty:forceReport">
                         <button data-url="${ctx}/pmd/pmdParty_forceReport"
                                 data-grid-id="#jqGrid2"
@@ -47,11 +58,33 @@
 </div>
 <jsp:include page="pmdParty_colModel.jsp"/>
 <script>
+    function _reload2(){
+        $("#jqGrid2").trigger("reloadGrid");
+    }
     $("#jqGrid2").jqGrid({
         pager: "jqGridPager2",
         url: '${ctx}/pmd/pmdParty_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: colModel
+        colModel: colModel,
+        onSelectRow: function (id, status) {
+            saveJqgridSelected("#" + this.id, id, status);
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid2');
     $.initNavGrid("jqGrid2", "jqGridPager2");
+    function _onSelectRow(grid) {
+        var ids = $(grid).getGridParam("selarrrow");
+
+        if (ids.length > 1) {
+            $("#unreportBtn").prop("disabled", true);
+        } else if (ids.length == 1) {
+            var rowData = $(grid).getRowData(ids[0]);
+            var hasReport = (rowData.hasReport == "true");
+            $("#unreportBtn").prop("disabled", !hasReport);
+        }
+    }
 </script>

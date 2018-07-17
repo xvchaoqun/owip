@@ -4,7 +4,7 @@
   var colModel = [
     {label: '月份', name: 'payMonth', formatter: 'date', formatoptions: {newformat: 'Y年m月'}, frozen: true},
     { label: '报送',name: '_report', width:80, formatter: function (cellvalue, options, rowObject) {
-      <c:if test="${cls==1}">
+      <%--<c:if test="${cls==1}">
       if (rowObject.hasReport) return '<span class="text-success">已报送</span>'
       return ('<button class="popupBtn btn btn-success btn-xs" ' +
       'data-url="${ctx}/pmd/pmdParty_report?id={0}" {1}><i class="fa fa-hand-paper-o"></i> 报送</button>')
@@ -12,7 +12,12 @@
       </c:if>
       <c:if test="${cls==2}">
       return (rowObject.hasReport) ? '<span class="text-success">已报送</span>' : '<span class="text-danger">未报送</span>'
-      </c:if>
+      </c:if>--%>
+      if (rowObject.hasReport) return '<span class="text-success">已报送</span>'
+      return ('<button class="popupBtn btn btn-success btn-xs" ' +
+      'data-url="${ctx}/pmd/pmdParty_report?id={0}&cls={2}" {1}><i class="fa fa-hand-paper-o"></i> 报送</button>')
+              .format(rowObject.id, rowObject.canReport ? '' : 'disabled', '${cls}');
+
     }, frozen: true},
     { label: '报表',name: '_table', width:80, frozen: true, formatter: function (cellvalue, options, rowObject) {
       if(rowObject.hasReport){
@@ -99,6 +104,6 @@
     }},
     { label: '往月现金<br/>补缴党费数',name: 'cashRealDelayPay', formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.cashRealDelayPay;
-    }}
+    }},{hidden: true, name: 'hasReport'}
   ]
 </script>

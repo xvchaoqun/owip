@@ -294,6 +294,76 @@ public class ApproverTypeExample {
             return (Criteria) this;
         }
 
+        public Criteria andAuthIsNull() {
+            addCriterion("auth is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthIsNotNull() {
+            addCriterion("auth is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthEqualTo(String value) {
+            addCriterion("auth =", value, "auth");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthNotEqualTo(String value) {
+            addCriterion("auth <>", value, "auth");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthGreaterThan(String value) {
+            addCriterion("auth >", value, "auth");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthGreaterThanOrEqualTo(String value) {
+            addCriterion("auth >=", value, "auth");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthLessThan(String value) {
+            addCriterion("auth <", value, "auth");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthLessThanOrEqualTo(String value) {
+            addCriterion("auth <=", value, "auth");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthLike(String value) {
+            addCriterion("auth like", value, "auth");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthNotLike(String value) {
+            addCriterion("auth not like", value, "auth");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthIn(List<String> values) {
+            addCriterion("auth in", values, "auth");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthNotIn(List<String> values) {
+            addCriterion("auth not in", values, "auth");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthBetween(String value1, String value2) {
+            addCriterion("auth between", value1, value2, "auth");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthNotBetween(String value1, String value2) {
+            addCriterion("auth not between", value1, value2, "auth");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

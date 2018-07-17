@@ -92,7 +92,7 @@
         colModel: [
             {label: '工作证号', name: 'code', width: 100, frozen: true},
             {label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
-                return $.cadre(rowObject.id, cellvalue);}, frozen: true},
+                return $.cadre(rowObject.cadreId, cellvalue);}, frozen: true},
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
             { label: '兼审单位', name: 'unitId', width: 350, formatter: $.jgrid.formatter.unit},
             {label: '兼审单位职务属性', name: 'postId', width: 150, formatter:$.jgrid.formatter.MetaType},

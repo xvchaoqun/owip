@@ -76,11 +76,7 @@ public class PmdPartyService extends BaseMapper {
 
         try {
             PropertyUtils.copyProperties(record, r);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
 
@@ -90,28 +86,53 @@ public class PmdPartyService extends BaseMapper {
         pmdPartyMapper.updateByExampleSelective(record, example);
     }
 
+    // 撤销党委报送
+    @Transactional
+    public void unreport(int pmdPartyId) {
+
+        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(pmdPartyId);
+        int partyId = pmdParty.getPartyId();
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
+                throw new UnauthorizedException();
+            }
+        }
+
+        int monthId = pmdParty.getMonthId();
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if(currentPmdMonth==null || currentPmdMonth.getId()!=monthId){
+            throw new OpException("不允许撤销报送。");
+        }
+
+        PmdParty record = new PmdParty();
+        record.setId(pmdPartyId);
+        record.setHasReport(false);
+
+        pmdPartyMapper.updateByPrimaryKeySelective(record);
+    }
+
     // 判断报送权限
-    public boolean canReport(int monthId, int parytId){
+    public boolean canReport(int monthId, int partyId){
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if(currentPmdMonth==null || currentPmdMonth.getId()!=monthId) return false;
 
-        PmdParty pmdParty = get(monthId, parytId);
+        PmdParty pmdParty = get(monthId, partyId);
         if(pmdParty==null) return false;
 
         // 组织部管理员、分党委管理员允许报送
         if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
-            if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), parytId)) {
+            if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
                 return false;
             }
         }
 
         // 如果是直属党支部
-        if(PartyHelper.isDirectBranch(parytId)){
+        if(PartyHelper.isDirectBranch(partyId)){
             // 如果存在 没有支付且没有设置为延迟缴费， 则不可报送
             PmdMemberExample example = new PmdMemberExample();
             example.createCriteria().andMonthIdEqualTo(monthId)
-                    .andPartyIdEqualTo(parytId)
+                    .andPartyIdEqualTo(partyId)
                     .andBranchIdIsNull()
                     .andHasPayEqualTo(false)
                     .andIsDelayEqualTo(false);
@@ -121,17 +142,17 @@ public class PmdPartyService extends BaseMapper {
         // 如果存在 未报送的支部， 则不可报送
         PmdBranchExample example = new PmdBranchExample();
         example.createCriteria().andMonthIdEqualTo(monthId)
-                .andPartyIdEqualTo(parytId)
+                .andPartyIdEqualTo(partyId)
                 .andHasReportEqualTo(false);
 
         return pmdBranchMapper.countByExample(example)==0;
     }
 
-    public PmdParty get(int monthId, int parytId){
+    public PmdParty get(int monthId, int partyId){
 
         PmdPartyExample example = new PmdPartyExample();
         example.createCriteria().andMonthIdEqualTo(monthId)
-                .andPartyIdEqualTo(parytId);
+                .andPartyIdEqualTo(partyId);
         List<PmdParty> pmdParties = pmdPartyMapper.selectByExample(example);
         return pmdParties.size()==0?null:pmdParties.get(0);
     }

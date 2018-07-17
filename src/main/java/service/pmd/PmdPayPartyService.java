@@ -1,10 +1,14 @@
 package service.pmd;
 
+import domain.party.Party;
 import domain.pmd.PmdPayParty;
 import domain.pmd.PmdPayPartyExample;
+import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.party.PartyService;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,14 +18,22 @@ import java.util.Map;
 @Service
 public class PmdPayPartyService extends BaseMapper {
 
+    @Autowired
+    private PartyService partyService;
 
-    public Map<Integer, PmdPayParty> getAllPayPartyIdSet(){
+    public Map<Integer, PmdPayParty> getAllPayPartyIdSet(Boolean excludeDeletedParty){
 
         Map<Integer, PmdPayParty> resultMap = new HashMap<>();
         List<PmdPayParty> pmdPayParties = pmdPayPartyMapper.selectByExample(new PmdPayPartyExample());
         for (PmdPayParty pmdPayParty : pmdPayParties) {
 
-            resultMap.put(pmdPayParty.getPartyId(), pmdPayParty);
+            int partyId = pmdPayParty.getPartyId();
+            if(BooleanUtils.isTrue(excludeDeletedParty)){
+                Party party = partyService.findAll().get(partyId);
+                if(BooleanUtils.isTrue(party.getIsDeleted())) continue;
+            }
+
+            resultMap.put(partyId, pmdPayParty);
         }
 
         return resultMap;

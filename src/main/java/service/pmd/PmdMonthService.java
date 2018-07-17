@@ -828,7 +828,7 @@ public class PmdMonthService extends BaseMapper {
 
             selectedPartyIdSet.addAll(Arrays.asList(partyIds));
 
-            Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet();
+            Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet(true);
             Set<Integer> allPartyIdSet = allPayPartyIdSet.keySet();
 
             // 添加本月新加入的参与缴费的分党委
@@ -950,7 +950,7 @@ public class PmdMonthService extends BaseMapper {
         if (null == monthPartyIdSet) monthPartyIdSet = new HashSet<>();
 
         // 全部已设定的
-        Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet();
+        Map<Integer, PmdPayParty> allPayPartyIdSet = pmdPayPartyService.getAllPayPartyIdSet(true);
 
         TreeNode root = new TreeNode();
         root.title = "分党委列表";

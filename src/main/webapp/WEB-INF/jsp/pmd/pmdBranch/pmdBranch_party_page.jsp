@@ -55,6 +55,16 @@
                             <i class="fa fa-hourglass-1"></i> 批量延迟缴费
                         </button>
                     </shiro:hasPermission>
+                    <shiro:hasPermission name="pmdBranch:report">
+                        <button id="unreportBtn" data-url="${ctx}/pmd/pmdBranch_unreport"
+                                data-grid-id="#jqGrid2"
+                                data-title="撤销报送"
+                                data-msg="确定撤销该支部的报送？"
+                                data-callback="_reload2"
+                                class="jqItemBtn btn btn-warning btn-sm">
+                            <i class="fa fa-reply"></i> 撤销报送
+                        </button>
+                    </shiro:hasPermission>
                     <shiro:hasPermission name="pmdParty:forceReport">
                         <button data-url="${ctx}/pmd/pmdParty_forceReport?id=${pmdParty.id}"
                                 class="popupBtn btn btn-success btn-sm">
@@ -97,12 +107,13 @@
         var ids = $(grid).getGridParam("selarrrow");
 
         if (ids.length > 1) {
-            $("#delayBtn").prop("disabled", true);
+            $("#delayBtn,#unreportBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
             var hasReport = (rowData.hasReport == "true");
             var canReport = (rowData.canReport == "true");
             $("#delayBtn").prop("disabled", hasReport||canReport);
+            $("#unreportBtn").prop("disabled", !hasReport);
         }
     }
 </script>

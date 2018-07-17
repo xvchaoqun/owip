@@ -56,21 +56,21 @@ public interface IClaMapper {
             /* 本单位正职、分管校领导<approverType.id, List<unitId>> */
             @Param("approverTypeUnitIdListMap") Map<Integer, List<Integer>> approverTypeUnitIdListMap,
              /* 其他审批身份 <approverType.id, List<postId>> */
-            @Param("approverTypePostIdListMap") Map<Integer, List<Integer>> approverTypePostIdListMap,
+            @Param("approverTypeCadreIdListMap") Map<Integer, List<Integer>> approverTypeCadreIdListMap,
             RowBounds rowBounds);
 
     int countNotApproval(@Param("searchBean") ClaApplySearchBean searchBean,
                         /* 本单位正职、分管校领导<approverType.id, List<unitId>> */
                          @Param("approverTypeUnitIdListMap") Map<Integer, List<Integer>> approverTypeUnitIdListMap,
              /* 其他审批身份 <approverType.id, List<postId>> */
-                         @Param("approverTypePostIdListMap") Map<Integer, List<Integer>> approverTypePostIdListMap);
+                         @Param("approverTypeCadreIdListMap") Map<Integer, List<Integer>> approverTypeCadreIdListMap);
 
     List<ClaApply> selectHasApprovalList(
             @Param("searchBean") ClaApplySearchBean searchBean,
             /* 本单位正职、分管校领导<approverType.id, List<unitId>> */
             @Param("approverTypeUnitIdListMap") Map<Integer, List<Integer>> approverTypeUnitIdListMap,
              /* 其他审批身份 <approverType.id, List<postId>> */
-            @Param("approverTypePostIdListMap") Map<Integer, List<Integer>> approverTypePostIdListMap,
+            @Param("approverTypeCadreIdListMap") Map<Integer, List<Integer>> approverTypeCadreIdListMap,
             @Param("flowUserId") Integer flowUserId,
             RowBounds rowBounds);
 
@@ -79,6 +79,6 @@ public interface IClaMapper {
                         /* 本单位正职、分管校领导<approverType.id, List<unitId>> */
             @Param("approverTypeUnitIdListMap") Map<Integer, List<Integer>> approverTypeUnitIdListMap,
              /* 其他审批身份 <approverType.id, List<postId>> */
-            @Param("approverTypePostIdListMap") Map<Integer, List<Integer>> approverTypePostIdListMap,
+            @Param("approverTypeCadreIdListMap") Map<Integer, List<Integer>> approverTypeCadreIdListMap,
             @Param("flowUserId") Integer flowUserId);
 }

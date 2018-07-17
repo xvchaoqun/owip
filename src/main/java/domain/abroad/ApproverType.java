@@ -9,6 +9,8 @@ public class ApproverType implements Serializable {
 
     private Byte type;
 
+    private String auth;
+
     private Integer sortOrder;
 
     private static final long serialVersionUID = 1L;
@@ -35,6 +37,14 @@ public class ApproverType implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public String getAuth() {
+        return auth;
+    }
+
+    public void setAuth(String auth) {
+        this.auth = auth == null ? null : auth.trim();
     }
 
     public Integer getSortOrder() {

@@ -17,11 +17,12 @@
         <input type="button" id="btnDeselectAll3" class="btn btn-danger btn-xs" value="全不选"/>
     </div>
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-
     <button id="submitBtn" class="btn btn-primary"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 同步数据中，请稍后"
             data-success-text="设置成功" autocomplete="off"> 确定
     </button>
+    <div style="position: absolute;font-size: 16pt;bottom: 15px;right: 20px;">
+        已选<span id="partyCount" style="color: darkred;font-weight: bolder">0</span>个党委</div>
 </div>
 <link href="${ctx}/extend/js/fancytree/skin-win8/ui.fancytree.css" rel="stylesheet"/>
 <script src="${ctx}/extend/js/fancytree/jquery.fancytree-all.min.js"></script>
@@ -34,6 +35,12 @@
         source: {
             url: "${ctx}/pmd/pmdMonth_selectParties_tree?monthId=${param.monthId}",
             cache: false
+        },
+        init: function(event, data, flag) {
+            $("#partyCount").html(data.tree.getSelectedNodes().length)
+        },
+        select: function(event, data) {
+            $("#partyCount").html(data.tree.getSelectedNodes().length)
         },
         cookieId: "fancytree-Cb3",
         idPrefix: "fancytree-Cb3-"

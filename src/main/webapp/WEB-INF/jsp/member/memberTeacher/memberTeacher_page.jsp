@@ -297,7 +297,7 @@
             { label: '姓名',name: 'realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.member(rowObject.userId, cellvalue);
             },frozen:true },
-            { label: '工作证号', name: 'code', width: 100,frozen:true },
+            { label: '工作证号', name: 'code', width: 120,frozen:true },
             { label: '性别', name: 'gender', width: 55, formatter:$.jgrid.formatter.GENDER},
             { label: '民族',  name: 'nation'},
             { label: '籍贯',  name: 'nativePlace', width: 80},

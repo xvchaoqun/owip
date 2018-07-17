@@ -6,7 +6,10 @@ import domain.pmd.PmdBranchExample;
 import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberExample;
 import domain.pmd.PmdMonth;
+import domain.pmd.PmdParty;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +28,7 @@ public class PmdBranchService extends BaseMapper {
     @Autowired
     private PmdMonthService pmdMonthService;
     @Autowired
-    private PmdPayService pmdPayService;
+    private PmdPartyService pmdPartyService;
     @Autowired
     private PmdBranchAdminService pmdBranchAdminService;
     @Autowired
@@ -62,11 +65,7 @@ public class PmdBranchService extends BaseMapper {
         PmdReportBean r = iPmdMapper.getBranchPmdReportBean(monthId, partyId, branchId);
         try {
             PropertyUtils.copyProperties(record, r);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
 
@@ -76,29 +75,60 @@ public class PmdBranchService extends BaseMapper {
         pmdBranchMapper.updateByExampleSelective(record, example);
     }
 
+    // 撤销党支部报送
+    @Transactional
+    public void unreport(int pmdBranchId) {
+
+        PmdBranch pmdBranch = pmdBranchMapper.selectByPrimaryKey(pmdBranchId);
+        int partyId = pmdBranch.getPartyId();
+        int branchId = pmdBranch.getBranchId();
+        // 组织部管理员、分党委管理员、党支部管理员允许报送
+        if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
+            if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
+                if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
+                    throw new UnauthorizedException();
+                }
+            }
+        }
+        int monthId = pmdBranch.getMonthId();
+        PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
+        if(currentPmdMonth==null || currentPmdMonth.getId()!=monthId){
+            throw new OpException("不允许撤销报送。");
+        }
+        PmdParty pmdParty = pmdPartyService.get(monthId, partyId);
+        if(BooleanUtils.isTrue(pmdParty.getHasReport())){
+            throw new OpException("党委已报送，不允许撤销报送。");
+        }
+
+        PmdBranch record = new PmdBranch();
+        record.setId(pmdBranchId);
+        record.setHasReport(false);
+
+        pmdBranchMapper.updateByPrimaryKeySelective(record);
+    }
+
     // 判断报送权限
-    public boolean canReport(int monthId, int partytId, int branchId){
+    public boolean canReport(int monthId, int partyId, int branchId){
 
         PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
         if(currentPmdMonth==null || currentPmdMonth.getId()!=monthId) return false;
 
-        PmdBranch pmdBranch = get(monthId, partytId, branchId);
+        PmdBranch pmdBranch = get(monthId, partyId, branchId);
         if(pmdBranch==null) return false;
 
         // 组织部管理员、分党委管理员、党支部管理员允许报送
         if(ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
-            if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partytId)) {
-                if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partytId, branchId)) {
+            if (!pmdPartyAdminService.isPartyAdmin(ShiroHelper.getCurrentUserId(), partyId)) {
+                if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(), partyId, branchId)) {
                     return false;
                 }
             }
         }
 
-
         // 如果存在 没有支付且没有设置为延迟缴费， 则不可报送
         PmdMemberExample example = new PmdMemberExample();
         example.createCriteria().andMonthIdEqualTo(monthId)
-                .andPartyIdEqualTo(partytId)
+                .andPartyIdEqualTo(partyId)
                 .andBranchIdEqualTo(branchId)
                 .andHasPayEqualTo(false)
                 .andIsDelayEqualTo(false);
@@ -106,11 +136,11 @@ public class PmdBranchService extends BaseMapper {
         return pmdMemberMapper.countByExample(example)==0;
     }
 
-    public PmdBranch get(int monthId, int parytId, int branchId){
+    public PmdBranch get(int monthId, int partyId, int branchId){
 
         PmdBranchExample example = new PmdBranchExample();
         example.createCriteria().andMonthIdEqualTo(monthId)
-                .andPartyIdEqualTo(parytId)
+                .andPartyIdEqualTo(partyId)
                 .andBranchIdEqualTo(branchId);
         List<PmdBranch> pmdBranches = pmdBranchMapper.selectByExample(example);
         return pmdBranches.size()==0?null:pmdBranches.get(0);

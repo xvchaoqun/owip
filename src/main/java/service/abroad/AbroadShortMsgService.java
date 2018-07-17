@@ -383,13 +383,16 @@ public class AbroadShortMsgService extends BaseMapper {
         int size = approvers.size();
         String key = null; // 短信模板代码
         if(size>0) {
-            if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT) { // 本单位正职审批
+            if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL) { // 本单位正职审批
 
                 if (size > 1) { // 多个正职审批
                     key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2;
                 } else{ // 单个正职审批
                     key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1;
                 }
+            }if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT) { // 本单位人员审批
+
+                key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_OTHER;
             } else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {  // 校领导审批
 
                 key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_LEADER;
@@ -399,6 +402,9 @@ public class AbroadShortMsgService extends BaseMapper {
             } else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_MASTER) { // 校长审批
 
                 key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_MASTER;
+            }else{
+
+                key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_OTHER;
             }
 
             // 校验用，以防万一
