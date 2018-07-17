@@ -145,7 +145,7 @@ public class AbroadConstants {
         ABROAD_PASSPORT_DRAW_USEPASSPORT_MAP.put(ABROAD_PASSPORT_DRAW_USEPASSPORT_REFUSE_RETURN, "拒不交回证件");
     }
 
-    // 因私出国审批人类别  1本单位正职 2分管校领导 3 书记 4 校长
+    // 因私出国审批人类别  1本单位正职 2校领导 3 书记 4 校长
     public final static byte ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL = 1;
     public final static byte ABROAD_APPROVER_TYPE_LEADER = 2;
     public final static byte ABROAD_APPROVER_TYPE_SECRETARY = 3;
@@ -157,7 +157,7 @@ public class AbroadConstants {
     static {
         ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL, "本单位正职");
         ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_UNIT, "本单位人员");
-        ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_LEADER, "分管校领导");
+        ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_LEADER, "校领导");
         ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_SECRETARY, "书记");
         ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_MASTER, "校长");
         ABROAD_APPROVER_TYPE_MAP.put(ABROAD_APPROVER_TYPE_OTHER, "其他");

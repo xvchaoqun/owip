@@ -88,7 +88,7 @@ public class ContentTplConstants {
     public final static String CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1 = "ct_applyself_approval_unit_1";
     // 本单位正职（多人）审批通知
     public final static String CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2 = "ct_applyself_approval_unit_2";
-    // 分管校领导审批通知
+    // 校领导审批通知
     public final static String CONTENT_TPL_APPLYSELF_APPROVAL_LEADER = "ct_applyself_approval_leader";
     // 书记审批通知
     public final static String CONTENT_TPL_APPLYSELF_APPROVAL_SECRETARY = "ct_applyself_approval_secretary";

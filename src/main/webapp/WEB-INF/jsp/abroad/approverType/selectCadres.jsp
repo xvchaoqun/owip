@@ -5,8 +5,8 @@
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h4>
-<c:if test="${param.type==ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL}">"本单位正职"</c:if>
-<c:if test="${param.type==ABROAD_APPROVER_TYPE_LEADER}">"分管校领导"</c:if>
+<c:if test="${param.type==ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL
+|| param.type==ABROAD_APPROVER_TYPE_LEADER}">"${ABROAD_APPROVER_TYPE_MAP.get(cm:toByte(param.type))}"</c:if>
 <c:if test="${param.type!=ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL && param.type!=ABROAD_APPROVER_TYPE_LEADER}">"${approverType.name}"</c:if>
 		所包含的干部
     </h4>
