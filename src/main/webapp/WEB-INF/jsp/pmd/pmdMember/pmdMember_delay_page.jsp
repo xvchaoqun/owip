@@ -93,7 +93,7 @@
         </div>
     </div>
 </div>
-<jsp:include page="pmdMember_colModel.jsp?type=admin"/>
+<jsp:include page="pmdMember_colModel.jsp?type=admin&self=1"/>
 <script>
     $.register.user_select($('#searchForm2 select[name=userId]'));
     $('#searchForm2 [data-rel="select2"]').select2();
