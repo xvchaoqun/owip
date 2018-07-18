@@ -1,4 +1,23 @@
 
+
+20180718
+ALTER TABLE `cadre_leader_unit`
+	DROP FOREIGN KEY `FK_base_leader_unit_base_leader`,
+	DROP FOREIGN KEY `FK_base_leader_unit_base_meta_type`,
+	DROP FOREIGN KEY `FK_base_leader_unit_base_unit`;
+
+	ALTER TABLE `cadre_leader_unit`
+	DROP INDEX `leader_id_unit_id_type_id`,
+	DROP INDEX `FK_base_leader_unit_base_unit`,
+	DROP INDEX `FK_base_leader_unit_base_meta_type`;
+
+ALTER TABLE `cadre_leader_unit`
+	ADD UNIQUE INDEX `leader_id_unit_id` (`leader_id`, `unit_id`);
+
+新建 cadre_leader_unit_view
+
+更新 metadata.js
+
 20180718
 ALTER TABLE `abroad_approver_type`
 	ADD COLUMN `auth` VARCHAR(50) NULL COMMENT '审批范围，针对分管校领导，逗号分隔' AFTER `type`;
@@ -12,6 +31,7 @@ ALTER TABLE `unit`
 	ADD COLUMN `file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '成立文件，pdf文档' AFTER `work_time`,
 	CHANGE COLUMN `url` `url` VARCHAR(200) NULL DEFAULT NULL COMMENT '单位网址，弃用' AFTER `file_path`;
 
+新建 unit_post,  unit_post_view
 
 20180710
 提任-> mt_dispatch_cadre_way_promote

@@ -46,8 +46,16 @@
         <!-- <table tableName="cadre_leader" domainObjectName="cadre.CadreLeader">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
+
          <!--<table tableName="cadre_leader_unit" domainObjectName="cadre.CadreLeaderUnit" mapperName="cadre.CadreLeaderUnitMapper">
          </table>-->
+        <table tableName="cadre_leader_unit_view" domainObjectName="cadre.CadreLeaderUnitView"
+               mapperName="cadre.CadreLeaderUnitViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>
+
         <!-- <table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog" mapperName="cadre.CadreAdLogMapper">
          </table>-->
 
@@ -130,10 +138,10 @@
                mapperName="cadre.CadreFamilyAbroadMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="cadre_family" domainObjectName="cadre.CadreFamily"
+        <!--<table tableName="cadre_family" domainObjectName="cadre.CadreFamily"
                mapperName="cadre.CadreFamilyMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
         <!--<table tableName="cadre_post_pro" domainObjectName="cadre.CadrePostPro"
                mapperName="cadre.CadrePostProMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>

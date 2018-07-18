@@ -14,10 +14,14 @@ import java.util.List;
 @Service
 public class CadreLeaderUnitService extends BaseMapper {
 
-    public boolean idDuplicate(int leaderId, int unitId, int typeId){
+    public boolean idDuplicate(Integer id, int leaderId, int unitId){
 
         CadreLeaderUnitExample example = new CadreLeaderUnitExample();
-        example.createCriteria().andLeaderIdEqualTo(leaderId).andUnitIdEqualTo(unitId).andTypeIdEqualTo(typeId);
+        CadreLeaderUnitExample.Criteria criteria = example.createCriteria()
+                .andLeaderIdEqualTo(leaderId).andUnitIdEqualTo(unitId);
+        if(id!=null){
+            criteria.andIdNotEqualTo(id);
+        }
 
         return cadreLeaderUnitMapper.countByExample(example) > 0;
     }

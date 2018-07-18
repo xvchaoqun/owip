@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set value="<%=SystemConstants.UNIT_STATUS_HISTORY%>" var="UNIT_STATUS_HISTORY"/>
 <c:forEach items="${resultMap}" var="result">
     <c:set var="unitType" value="${result.key}"/>
     <c:set var="leaders" value="${result.value}"/>
@@ -54,7 +55,7 @@
                                         <c:set var="unit" value="${unitMap.get(leaderUnit.unitId)}"/>
                                     <li>
                                         <a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id=${unit.id}">
-                                        ${unit.name}
+                                            <span class="${unit.status==UNIT_STATUS_HISTORY?'delete':''}">${unit.name}</span>
                                         </a>
                                     </li>
                                     </c:forEach>
@@ -66,7 +67,7 @@
                                         <c:set var="unit" value="${unitMap.get(leaderUnit.unitId)}"/>
                                         <li>
                                             <a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id=${unit.id}">
-                                                    ${unit.name}
+                                                <span class="${unit.status==UNIT_STATUS_HISTORY?'delete':''}">${unit.name}</span>
                                             </a>
                                         </li>
                                     </c:forEach>

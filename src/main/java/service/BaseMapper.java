@@ -45,6 +45,7 @@ import persistence.cadre.CadreInfoCheckMapper;
 import persistence.cadre.CadreInfoMapper;
 import persistence.cadre.CadreLeaderMapper;
 import persistence.cadre.CadreLeaderUnitMapper;
+import persistence.cadre.CadreLeaderUnitViewMapper;
 import persistence.cadre.CadreMapper;
 import persistence.cadre.CadrePaperMapper;
 import persistence.cadre.CadreParttimeMapper;
@@ -911,6 +912,8 @@ public class BaseMapper {
     protected CadreLeaderMapper cadreLeaderMapper;
     @Autowired(required = false)
     protected CadreLeaderUnitMapper cadreLeaderUnitMapper;
+    @Autowired(required = false)
+    protected CadreLeaderUnitViewMapper cadreLeaderUnitViewMapper;
     @Autowired(required = false)
     protected CadreMapper cadreMapper;
     @Autowired(required = false)

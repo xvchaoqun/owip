@@ -9,8 +9,6 @@ import domain.cadre.CadreLeaderUnit;
 import domain.cadre.CadreLeaderUnitExample;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.CadreMixin;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -74,20 +72,17 @@ public class CadreLeaderController extends BaseController {
     @RequiresPermissions("cadreLeader:list")
     @RequestMapping("/cadreLeader")
     public String cadreLeader(HttpServletResponse response,
-                              @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_leader") String sort,
-                              @OrderParam(required = false, defaultValue = "desc") String order,
-                              Integer cadreId,
-                              Integer typeId,
-                              String job,
-                              @RequestParam(required = false, defaultValue = "0") int export,
-                              Integer pageSize, Integer pageNo, ModelMap modelMap) {
+                              @RequestParam(required = false, defaultValue = "1")Byte cls,
+                              Integer cadreId,ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+        if(cls==2){
+            return "forward:/cadreLeaderUnit";
+        }
+
         if (cadreId!=null) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadre", cadre);
-            if (cadre != null) {
-                SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-                modelMap.put("sysUser", sysUser);
-            }
         }
 
         return "cadre/cadreLeader/cadreLeader_page";
@@ -96,8 +91,6 @@ public class CadreLeaderController extends BaseController {
     @RequestMapping("/cadreLeader_data")
     @ResponseBody
     public void cadreLeader_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "cadre_leader") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
                                     Integer cadreId,
                                     Integer typeId,
                                     String job,
@@ -114,7 +107,7 @@ public class CadreLeaderController extends BaseController {
 
         CadreLeaderExample example = new CadreLeaderExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("sort_order desc");
 
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);

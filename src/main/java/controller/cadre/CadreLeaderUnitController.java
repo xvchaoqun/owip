@@ -1,8 +1,16 @@
 package controller.cadre;
 
 import controller.BaseController;
+import domain.cadre.Cadre;
 import domain.cadre.CadreLeaderUnit;
 import domain.cadre.CadreLeaderUnitExample;
+import domain.cadre.CadreLeaderUnitView;
+import domain.cadre.CadreLeaderUnitViewExample;
+import domain.cadre.CadreView;
+import domain.unit.Unit;
+import mixin.CadreMixin;
+import mixin.MixinUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -18,14 +26,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
+import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +46,74 @@ public class CadreLeaderUnitController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @RequiresPermissions("cadreLeaderUnit:list")
+    @RequestMapping("/cadreLeaderUnit")
+    public String cadreLeaderUnit(HttpServletResponse response,
+                              @RequestParam(required = false, defaultValue = "1")Byte cls,
+                              Integer cadreId, ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+
+        if (cadreId!=null) {
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            modelMap.put("cadre", cadre);
+        }
+
+        List<Unit> units = iUnitMapper.findLeaderUnitEscape();
+        modelMap.put("units", units);
+
+        return "cadre/cadreLeaderUnit/cadreLeaderUnit_page";
+    }
+    @RequiresPermissions("cadreLeaderUnit:list")
+    @RequestMapping("/cadreLeaderUnit_data")
+    @ResponseBody
+    public void cadreLeaderUnit_data(HttpServletResponse response,
+                                 Integer cadreId,
+                                 Integer typeId,
+                                 String job,
+                                 @RequestParam(required = false, defaultValue = "0") int export,
+                                 Integer pageSize, Integer pageNo) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        CadreLeaderUnitViewExample example = new CadreLeaderUnitViewExample();
+        CadreLeaderUnitViewExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("leader_sort_order desc, unit_sort_order asc, sort_order asc");
+
+        if (cadreId!=null) {
+            criteria.andCadreIdEqualTo(cadreId);
+        }
+        if (typeId!=null) {
+            criteria.andTypeIdEqualTo(typeId);
+        }
+
+        long count = cadreLeaderUnitViewMapper.countByExample(example);
+        if ((pageNo - 1) * pageSize >= count) {
+
+            pageNo = Math.max(1, pageNo - 1);
+        }
+        List<CadreLeaderUnitView> records = cadreLeaderUnitViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+
+        CommonList commonList = new CommonList(count, pageNo, pageSize);
+
+        Map resultMap = new HashMap();
+        resultMap.put("rows", records);
+        resultMap.put("records", count);
+        resultMap.put("page", pageNo);
+        resultMap.put("total", commonList.pageNum);
+
+        Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
+        baseMixins.put(Cadre.class, CadreMixin.class);
+        JSONUtils.jsonp(resultMap, baseMixins);
+        return;
+    }
+
     @RequiresPermissions("cadreLeaderUnit:edit")
     @RequestMapping(value = "/cadreLeaderUnit_au", method = RequestMethod.POST)
     @ResponseBody
@@ -41,9 +121,10 @@ public class CadreLeaderUnitController extends BaseController {
 
         Integer id = record.getId();
 
-        if (cadreLeaderUnitService.idDuplicate(record.getLeaderId(), record.getUnitId(), record.getTypeId())) {
+        if (cadreLeaderUnitService.idDuplicate(record.getId(), record.getLeaderId(), record.getUnitId())) {
             return failed("添加重复");
         }
+
         if (id == null) {
             cadreLeaderUnitService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加校领导单位：%s", record.getId()));
@@ -54,6 +135,17 @@ public class CadreLeaderUnitController extends BaseController {
         }
 
         return success(FormUtils.SUCCESS);
+    }
+
+    // 未分配校领导的单位
+    @RequiresPermissions("cadreLeaderUnit:edit")
+    @RequestMapping("/cadreLeaderUnit_escape")
+    public String cadreLeaderUnit_escape(ModelMap modelMap) {
+
+        List<Unit> units = iUnitMapper.findLeaderUnitEscape();
+        modelMap.put("units", units);
+
+        return "cadre/cadreLeaderUnit/cadreLeaderUnit_escape";
     }
 
     @RequiresPermissions("cadreLeaderUnit:edit")

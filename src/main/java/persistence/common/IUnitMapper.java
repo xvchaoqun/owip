@@ -42,4 +42,9 @@ public interface IUnitMapper {
             " where u.type_id=#{type} and u.status=1 and uag.unit_id=u.id and uag.is_present=1 and ua.group_id=uag.id and ua.post_id = mt.id" +
             " order by ua.sort_order desc")
     public List<UnitAdminCadre> findUnitAdminCadreByType(@Param("type")int type);
+
+    // 查找未分配校领导的单位
+    @ResultMap("persistence.unit.UnitMapper.BaseResultMap")
+    @Select("select * from unit where status=1 and id not in(select unit_id from cadre_leader_unit)")
+    public List<Unit> findLeaderUnitEscape();
 }

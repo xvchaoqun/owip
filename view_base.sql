@@ -144,3 +144,9 @@ DROP VIEW IF EXISTS `unit_post_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `unit_post_view` AS
 select up.*, u.name as unit_name, u.code as unit_code, u.type_id as unit_type_id, u.sort_order as unit_sort_order
 from unit_post up left join unit u on up.unit_id=u.id ;
+
+DROP VIEW IF EXISTS `cadre_leader_unit_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cadre_leader_unit_view` AS
+select clu.*, cl.cadre_id, cl.sort_order as leader_sort_order, u.sort_order as unit_sort_order from cadre_leader_unit clu
+left join cadre_leader cl on clu.leader_id=cl.id
+left join unit u on clu.unit_id=u.id ;

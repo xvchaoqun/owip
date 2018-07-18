@@ -1065,7 +1065,7 @@ if ($.jgrid) {
             var name = null;
             var unit = _cMap.unitMap[cellvalue];
             if(unit!=undefined) name=unit.name;
-            return $.trim(name)==''?'-':name;
+            return $.trim(name)==''?'-':('<span class="{0}">{1}</span>').format(unit.status==2?'delete':'', name);
         },
         AGE: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '';

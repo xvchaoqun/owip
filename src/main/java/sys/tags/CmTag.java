@@ -290,6 +290,8 @@ public class CmTag {
 
     public static CadreView getCadreById(Integer id) {
 
+        if(id==null) return null;
+
         Map<Integer, CadreView> cadreMap = cadreService.findAll();
         return cadreMap.get(id);
         
@@ -298,6 +300,8 @@ public class CmTag {
     }
 
     public static CadreView getCadreByUserId(Integer userId) {
+
+        if(userId==null) return null;
 
         return cadreService.dbFindByUserId(userId);
     }

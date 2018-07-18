@@ -1165,7 +1165,8 @@ input[type=radio].bigger {
 
 
 span.delete {
-    text-decoration: line-through
+    text-decoration: line-through;
+    color: darkred;
 }
 
 .btn-upload-form {
