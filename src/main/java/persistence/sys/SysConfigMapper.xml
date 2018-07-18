@@ -33,6 +33,7 @@
     <result column="has_party_module" jdbcType="BIT" property="hasPartyModule" />
     <result column="cadre_template_fs_note" jdbcType="VARCHAR" property="cadreTemplateFsNote" />
     <result column="login_timeout" jdbcType="INTEGER" property="loginTimeout" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -97,7 +98,8 @@
     school_login_url, school_email, site_copyright, site_home, site_keywords, site_description, 
     site_name, site_short_name, mobile_plantform_name, mobile_title, favicon, logo, logo_white, 
     login_bg, login_top, login_top_bg_color, apple_icon, screen_icon, qr_logo, login_msg, 
-    display_login_msg, use_cadre_post, has_party_module, cadre_template_fs_note, login_timeout
+    display_login_msg, use_cadre_post, has_party_module, cadre_template_fs_note, login_timeout, 
+    city
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">
     select
@@ -140,7 +142,7 @@
       login_top_bg_color, apple_icon, screen_icon, 
       qr_logo, login_msg, display_login_msg, 
       use_cadre_post, has_party_module, cadre_template_fs_note, 
-      login_timeout)
+      login_timeout, city)
     values (#{id,jdbcType=INTEGER}, #{xssIgnoreUri,jdbcType=VARCHAR}, #{uploadMaxSize,jdbcType=INTEGER}, 
       #{shortMsgUrl,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{schoolShortName,jdbcType=VARCHAR}, 
       #{schoolLoginUrl,jdbcType=VARCHAR}, #{schoolEmail,jdbcType=VARCHAR}, #{siteCopyright,jdbcType=VARCHAR}, 
@@ -151,7 +153,7 @@
       #{loginTopBgColor,jdbcType=VARCHAR}, #{appleIcon,jdbcType=VARCHAR}, #{screenIcon,jdbcType=VARCHAR}, 
       #{qrLogo,jdbcType=VARCHAR}, #{loginMsg,jdbcType=VARCHAR}, #{displayLoginMsg,jdbcType=BIT}, 
       #{useCadrePost,jdbcType=BIT}, #{hasPartyModule,jdbcType=BIT}, #{cadreTemplateFsNote,jdbcType=VARCHAR}, 
-      #{loginTimeout,jdbcType=INTEGER})
+      #{loginTimeout,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysConfig">
     insert into sys_config
@@ -249,6 +251,9 @@
       <if test="loginTimeout != null">
         login_timeout,
       </if>
+      <if test="city != null">
+        city,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -343,6 +348,9 @@
       </if>
       <if test="loginTimeout != null">
         #{loginTimeout,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -448,6 +456,9 @@
       <if test="record.loginTimeout != null">
         login_timeout = #{record.loginTimeout,jdbcType=INTEGER},
       </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -485,7 +496,8 @@
       use_cadre_post = #{record.useCadrePost,jdbcType=BIT},
       has_party_module = #{record.hasPartyModule,jdbcType=BIT},
       cadre_template_fs_note = #{record.cadreTemplateFsNote,jdbcType=VARCHAR},
-      login_timeout = #{record.loginTimeout,jdbcType=INTEGER}
+      login_timeout = #{record.loginTimeout,jdbcType=INTEGER},
+      city = #{record.city,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -583,6 +595,9 @@
       <if test="loginTimeout != null">
         login_timeout = #{loginTimeout,jdbcType=INTEGER},
       </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -617,7 +632,8 @@
       use_cadre_post = #{useCadrePost,jdbcType=BIT},
       has_party_module = #{hasPartyModule,jdbcType=BIT},
       cadre_template_fs_note = #{cadreTemplateFsNote,jdbcType=VARCHAR},
-      login_timeout = #{loginTimeout,jdbcType=INTEGER}
+      login_timeout = #{loginTimeout,jdbcType=INTEGER},
+      city = #{city,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">

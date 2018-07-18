@@ -145,7 +145,7 @@ public class AbroadReportController extends BaseController {
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", user.getRealname());
-        map.put("locate", "北京市");
+        map.put("locate", CmTag.getSysConfig().getCity());
         map.put("idcard", user.getIdcard());
         String schoolName = CmTag.getSysConfig().getSchoolName();
         map.put("unit", unit.startsWith(schoolName)?unit:(schoolName+unit));
@@ -214,7 +214,7 @@ public class AbroadReportController extends BaseController {
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", user.getRealname());
-        map.put("locate", "北京市");
+        map.put("locate", CmTag.getSysConfig().getCity());
         map.put("idcard", user.getIdcard());
         String schoolName = CmTag.getSysConfig().getSchoolName();
         map.put("unit", unit.startsWith(schoolName)?unit:(schoolName+unit));

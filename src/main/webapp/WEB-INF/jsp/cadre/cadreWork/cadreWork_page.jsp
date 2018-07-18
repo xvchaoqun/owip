@@ -39,10 +39,10 @@
                        data-url="${ctx}/cadreWork_au"
                        data-id-name="fid"
                        data-querystr="&cadreId=${param.cadreId}"><i class="fa fa-plus"></i>
-                        添加期间工作</a>
+                        添加其间工作</a>
                 </shiro:hasPermission>
 
-                    <%--<span style="padding-left: 50px">点击列表第二列图标 <i class="fa fa-folder-o"></i> 显示/隐藏期间工作经历 </span>--%>
+                    <%--<span style="padding-left: 50px">点击列表第二列图标 <i class="fa fa-folder-o"></i> 显示/隐藏其间工作经历 </span>--%>
             </div>
         </shiro:lacksRole>
     </c:if>
@@ -160,7 +160,7 @@
 <script type="text/template" id="switch_tpl">
     <button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id}}, this)"
             data-id="{{=id}}"><i class="fa fa-folder-o"></i>
-        <span>查看期间工作</span>({{=subWorkCount}})
+        <span>查看其间工作</span>({{=subWorkCount}})
     </button>
 </script>
 <script type="text/template" id="op_tpl">
@@ -281,7 +281,7 @@
             url: '${ctx}/cadreWork_data?${cm:encodeQueryString(pageContext.request.queryString)}',
             colModel: [
                 {
-                    label: '期间工作', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
+                    label: '其间工作', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
                     if (rowObject.subWorkCount == 0) return '-';
                     return _.template($("#switch_tpl").html().NoMultiSpace())({
                         id: rowObject.id,
@@ -368,7 +368,7 @@
         var currentExpandRows = [];
         function subGridRowColapsed(parentRowID, parentRowKey) {
             $(".switchBtn i", '#jqGrid_cadreWork #' + parentRowKey).removeClass("fa-folder-open-o");
-            $(".switchBtn span", '#jqGrid_cadreWork #' + parentRowKey).html("查看期间工作");
+            $(".switchBtn span", '#jqGrid_cadreWork #' + parentRowKey).html("查看其间工作");
             currentExpandRows.remove(parentRowKey);
         }
         // the event handler on expanding parent row receives two parameters
@@ -376,7 +376,7 @@
         function subGridRowExpanded(parentRowID, parentRowKey) {
 
             $(".switchBtn i", '#jqGrid_cadreWork #' + parentRowKey).addClass("fa-folder-open-o");
-            $(".switchBtn span", '#jqGrid_cadreWork #' + parentRowKey).html("隐藏期间工作");
+            $(".switchBtn span", '#jqGrid_cadreWork #' + parentRowKey).html("隐藏其间工作");
             currentExpandRows.remove(parentRowKey);
             currentExpandRows.push(parentRowKey);
 
@@ -444,7 +444,7 @@
             if (fid > 0) $("#jqGrid_cadreWork").collapseSubGridRow(fid).expandSubGridRow(fid)
         }
 
-        // 删除期间工作时调用
+        // 删除其间工作时调用
         function showSubWork(id) {
             $.loadModal("${ctx}/cadreWork_page?cadreId=${param.cadreId}&fid=" + id, 1000);
         }

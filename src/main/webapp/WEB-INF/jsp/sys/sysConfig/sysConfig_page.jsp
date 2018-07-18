@@ -51,6 +51,13 @@
                  </div>
              </div>--%>
             <div class="form-group">
+                <label class="col-xs-3 control-label">所在城市</label>
+
+                <div class="col-xs-6">
+                    <input class="form-control" type="text" name="city" value="${sysConfig.city}">
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-xs-3 control-label">学校名称</label>
 
                 <div class="col-xs-6">

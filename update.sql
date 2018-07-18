@@ -1,4 +1,12 @@
 
+
+20180718
+ALTER TABLE `sys_config`
+	ADD COLUMN `city` VARCHAR(50) NULL DEFAULT NULL COMMENT '所在城市' AFTER `login_timeout`;
+
+update sys_config set city='北京市';
+
+
  -- 更新北化工
 20180718
 ALTER TABLE `cadre_leader_unit`

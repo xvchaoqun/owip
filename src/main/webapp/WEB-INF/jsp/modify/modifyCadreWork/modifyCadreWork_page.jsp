@@ -22,7 +22,7 @@
                        data-url="${ctx}/cadreWork_au"
                        data-id-name="fid"
                        data-querystr="module=${param.module}&toApply=1&cadreId=${cadre.id}"><i class="fa fa-plus"></i>
-                        添加期间工作</a>
+                        添加其间工作</a>
                         <button data-url="${ctx}/user/modifyTableApply_del"
                                 data-title="删除"
                                 data-msg="申请删除这条工作经历？"
@@ -55,7 +55,7 @@
 <script type="text/template" id="switch_tpl">
     <button class="switchBtn btn btn-info btn-xs" onclick="_swtich({{=id}}, this)"
             data-id="{{=id}}"><i class="fa fa-folder-o"></i>
-        <span>查看期间工作</span>({{=count}})
+        <span>查看其间工作</span>({{=count}})
     </button>
 </script>
 <script type="text/template" id="subgrid_op_tpl">
@@ -94,7 +94,7 @@
         url: '${ctx}/cadreWork_data?cadreId=${cadre.id}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
-                label: '期间工作', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
+                label: '其间工作', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.subWorkCount == 0) return '';
                 return _.template($("#switch_tpl").html().NoMultiSpace())({
                     id: rowObject.id,
@@ -166,7 +166,7 @@
     var currentExpandRows = [];
     function subGridRowColapsed(parentRowID, parentRowKey) {
         $(".switchBtn i", '#jqGrid_cadreWork #' + parentRowKey).removeClass("fa-folder-open-o");
-        $(".switchBtn span", '#jqGrid_cadreWork #' + parentRowKey).html("查看期间工作");
+        $(".switchBtn span", '#jqGrid_cadreWork #' + parentRowKey).html("查看其间工作");
         currentExpandRows.remove(parentRowKey);
     }
     // the event handler on expanding parent row receives two parameters
@@ -174,7 +174,7 @@
     function subGridRowExpanded(parentRowID, parentRowKey) {
 
         $(".switchBtn i", '#jqGrid_cadreWork #' + parentRowKey).addClass("fa-folder-open-o");
-        $(".switchBtn span", '#jqGrid_cadreWork #' + parentRowKey).html("隐藏期间工作");
+        $(".switchBtn span", '#jqGrid_cadreWork #' + parentRowKey).html("隐藏其间工作");
         currentExpandRows.push(parentRowKey);
 
         var childGridID = parentRowID + "_table";

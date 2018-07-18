@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
   <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-  <h3>修改为期间工作经历</h3>
+  <h3>修改为其间工作经历</h3>
 </div>
 <div class="modal-body">
   <form class="form-horizontal" action="${ctx}/cadreWork_transferToSubWork" id="modalForm" method="post">

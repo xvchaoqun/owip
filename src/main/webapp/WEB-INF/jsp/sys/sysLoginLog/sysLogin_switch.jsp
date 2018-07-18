@@ -27,7 +27,7 @@
 <div class="modal-footer">
 
     <a href="javascript:;" data-dismiss="modal" class="btn btn-default">取消</a>
-    <input id="submitBtn" type="button" disabled class="linkBtn btn btn-primary" value="确定"/>
+    <button id="_submitBtn" type="button" disabled class="linkBtn btn btn-primary">确定</button>
 
     <div style="text-align: left;margin-bottom: 10px;padding-top: 10px;">注：
         <br/>
@@ -59,10 +59,10 @@
                 }
 
                 if(ret.canSwitch && !user.locked && $.trim(user.username)!='' && $.trim(user.username)!='${_user.username}'){
-                    $("#submitBtn").data("url", "${ctx}/cas_test?username="+ user.username)
+                    $("#_submitBtn").data("url", "${ctx}/cas_test?username="+ user.username)
                             .prop("disabled", false);
                 }else{
-                    $("#submitBtn").prop("disabled", true);
+                    $("#_submitBtn").prop("disabled", true);
                 }
             }
         })

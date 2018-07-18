@@ -65,6 +65,8 @@ public class SysConfig implements Serializable {
 
     private Integer loginTimeout;
 
+    private String city;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -313,5 +315,13 @@ public class SysConfig implements Serializable {
 
     public void setLoginTimeout(Integer loginTimeout) {
         this.loginTimeout = loginTimeout;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
     }
 }

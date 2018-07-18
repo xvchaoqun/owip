@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreWork!=null}">编辑</c:if><c:if test="${cadreWork==null}">添加</c:if><c:if test="${not empty param.fid}">期间</c:if>工作经历</h3>
+    <h3><c:if test="${cadreWork!=null}">编辑</c:if><c:if test="${cadreWork==null}">添加</c:if><c:if test="${not empty param.fid}">其间</c:if>工作经历</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreWork_au?toApply=${param.toApply}&cadreId=${cadre.id}" id="modalForm" method="post">
@@ -98,8 +98,8 @@ pageEncoding="UTF-8"%>
 
                         currentExpandRows = [];
                         $("#modal").modal("hide");
-                        // 如果添加主要工作经历，那么添加之后所有的期间工作经历都是隐藏状态；
-                        // 如果添加期间工作经历，那么添加之后，只有它所在的主要工作经历的期间工作经历为打开状态，其他主要工作经历的期间工作经历为隐藏状态。
+                        // 如果添加主要工作经历，那么添加之后所有的其间工作经历都是隐藏状态；
+                        // 如果添加其间工作经历，那么添加之后，只有它所在的主要工作经历的其间工作经历为打开状态，其他主要工作经历的其间工作经历为隐藏状态。
                         <c:if test="${empty param.fid}">
                         currentExpandRows = [];
                         </c:if>
