@@ -3,7 +3,6 @@ package controller.pmd;
 import controller.global.OpException;
 import domain.member.Member;
 import domain.pmd.PmdMember;
-import domain.pmd.PmdMemberExample;
 import domain.pmd.PmdMonth;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -54,12 +53,8 @@ public class PmdMemberHelpPayController extends PmdBaseController {
             throw new UnauthorizedException();
         }
 
-        // 延迟缴费列表
-        PmdMemberExample example = new PmdMemberExample();
-        example.createCriteria().andUserIdEqualTo(userId)
-                .andHasPayEqualTo(false).andIsDelayEqualTo(true)
-                .andMonthIdNotEqualTo(currentPmdMonth.getId());
-        List<PmdMember> pmdMembers = pmdMemberMapper.selectByExample(example);
+        // 延迟缴费列表（还未缴费）
+        List<PmdMember> pmdMembers = iPmdMapper.getDelayList(userId, currentPmdMonth.getId());
 
         // 如果当月未缴费
         if(!pmdMember.getHasPay() && !pmdMember.getIsDelay()){

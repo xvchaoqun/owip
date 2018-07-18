@@ -166,7 +166,7 @@
         {label: '联系方式', name: 'mobile', width: 120},
         /*{ label: '办公电话', name: 'phone' },
          { label: '家庭电话', name: 'homePhone' },*/
-        {label: '电子邮箱', name: 'email', width: 150},
+        {label: '电子邮箱', name: 'email', width: 180, align:'left'},
         <c:if test="${_hasPartyModule}">
         {
             label: '所属党组织',

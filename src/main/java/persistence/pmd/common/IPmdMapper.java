@@ -2,6 +2,7 @@ package persistence.pmd.common;
 
 import domain.ext.ExtJzgSalary;
 import domain.ext.ExtRetireSalary;
+import domain.pmd.PmdMember;
 import domain.pmd.PmdMemberPayView;
 import domain.pmd.PmdOrderCampuscard;
 import org.apache.ibatis.annotations.Param;
@@ -18,6 +19,12 @@ import java.util.Map;
  * Created by lm on 2017/6/13.
  */
 public interface IPmdMapper {
+
+    @ResultMap("persistence.pmd.PmdMemberMapper.BaseResultMap")
+    @Select("select pm.* from pmd_member pm, pmd_member_pay pmp " +
+            "where pm.user_id=#{userId} and pm.id=pmp.member_id " +
+            "and pm.is_delay=1 and pmp.has_pay=0 and pm.month_id<>#{currentPmdMonthId}")
+    List<PmdMember> getDelayList(@Param("userId") int userId, @Param("currentPmdMonthId") int currentPmdMonthId);
 
     // 批量缴费的记录列表
     @ResultType(java.util.HashMap.class)
