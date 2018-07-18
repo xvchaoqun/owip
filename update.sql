@@ -1,5 +1,5 @@
 
-
+ -- 更新北化工
 20180718
 ALTER TABLE `cadre_leader_unit`
 	DROP FOREIGN KEY `FK_base_leader_unit_base_leader`,
