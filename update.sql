@@ -1,5 +1,24 @@
 
 
+-- 更新北化工
+
+20180719
+ALTER TABLE `abroad_approver_black_list`
+	DROP INDEX `cadre_id_approver_type_id`,
+	DROP INDEX `FK_abroad_approver_black_list_abroad_approver_type`,
+	DROP FOREIGN KEY `FK_abroad_approver_black_list_abroad_approver_type`,
+	DROP FOREIGN KEY `FK_abroad_approver_black_list_base_cadre`;
+
+	ALTER TABLE `abroad_approver_black_list`
+	ADD COLUMN `unit_id` INT(10) UNSIGNED NOT NULL COMMENT '干部所属单位，包含兼审单位' AFTER `cadre_id`;
+
+	ALTER TABLE `abroad_approver_black_list`
+	ADD UNIQUE INDEX `cadre_id_unit_id_approver_type_id` (`cadre_id`, `unit_id`, `approver_type_id`);
+
+	update abroad_approver_black_list b, cadre c set b.unit_id=c.unit_id where b.cadre_id=c.id;
+
+
+ -- 更新西交大、北化工
 20180718
 ALTER TABLE `sys_config`
 	ADD COLUMN `city` VARCHAR(50) NULL DEFAULT NULL COMMENT '所在城市' AFTER `login_timeout`;
