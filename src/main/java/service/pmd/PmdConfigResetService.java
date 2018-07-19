@@ -73,7 +73,7 @@ public class PmdConfigResetService extends BaseMapper {
 
         String zgh = ejs.getZgh();
         SysUserView uv = sysUserService.findByCode(zgh);
-        int userId = uv.getUserId();
+        int userId = uv.getId();
 
         // 先检查一下是否已经设置为别的类别，如果是则不更新工资（即非在职、校聘，比如学生助理）
         PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);
@@ -148,7 +148,7 @@ public class PmdConfigResetService extends BaseMapper {
         if (ltxf != null && ltxf.compareTo(BigDecimal.valueOf(0)) > 0) {
             String zgh = ers.getZgh();
             SysUserView uv = sysUserService.findByCode(zgh);
-            int userId = uv.getUserId();
+            int userId = uv.getId();
 
             // 先检查一下是否已经设置为别的类别，如果是则不更新工资（即非离退休，比如学生助理）
             PmdConfigMember pmdConfigMember = pmdConfigMemberService.getPmdConfigMember(userId);

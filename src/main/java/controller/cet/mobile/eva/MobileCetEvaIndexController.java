@@ -51,7 +51,7 @@ public class MobileCetEvaIndexController extends CetBaseController {
 			// 校内培训，读取已选课程
 			String code = trainInspector.getMobile();
 			SysUserView uv = sysUserService.findByCode(code);
-			int userId = uv.getUserId();
+			int userId = uv.getId();
 			CetTraineeView cetTrainee = cetTraineeService.get(userId, trainId);
 			int traineeId = cetTrainee.getId();
 			List<ICetTrainCourse> cetTrainCourses = iCetMapper.selectedCetTrainCourses(traineeId);

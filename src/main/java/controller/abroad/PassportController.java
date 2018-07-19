@@ -814,7 +814,7 @@ public class PassportController extends AbroadBaseController {
 
         record.setType(AbroadConstants.ABROAD_PASSPORT_TYPE_LOST);
         record.setLostType(AbroadConstants.ABROAD_PASSPORT_LOST_TYPE_TRANSFER);
-        record.setLostUserId(loginUser.getUserId());
+        record.setLostUserId(loginUser.getId());
 
         // 在“借出”状态, 加备注
         Passport passport = passportMapper.selectByPrimaryKey(id);

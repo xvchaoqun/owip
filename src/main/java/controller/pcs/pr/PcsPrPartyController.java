@@ -343,7 +343,7 @@ public class PcsPrPartyController extends PcsBaseController {
                 SysUserView uv = sysUserService.findById(userId);
 
                 PcsPrCandidateView candidate = new PcsPrCandidateView();
-                candidate.setUserId(uv.getUserId());
+                candidate.setUserId(uv.getId());
                 candidate.setCode(uv.getCode());
                 candidate.setRealname(uv.getRealname());
                 candidate.setPartyId(partyId);

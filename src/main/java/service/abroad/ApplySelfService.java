@@ -755,7 +755,7 @@ public class ApplySelfService extends BaseMapper {
         commonMapper.excuteSql("update abroad_apply_self set status=1, is_finish=0, flow_node=-1, " +
                 "flow_nodes=null where id=" + applySelfId);
 
-        sysApprovalLogService.add(applySelfId, applySelf.getUser().getUserId(),
+        sysApprovalLogService.add(applySelfId, applySelf.getUser().getId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF,
                 "清除审批记录", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, null);

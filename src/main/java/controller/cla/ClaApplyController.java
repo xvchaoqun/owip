@@ -167,7 +167,7 @@ public class ClaApplyController extends ClaBaseController {
         claApprovalLogMapper.updateByPrimaryKeySelective(record);
 
         ClaApply claApply = claApplyMapper.selectByPrimaryKey(applyId);
-        sysApprovalLogService.add(applyId, claApply.getUser().getUserId(),
+        sysApprovalLogService.add(applyId, claApply.getUser().getId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CLA_APPLY,
                 "修改审批", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, before);

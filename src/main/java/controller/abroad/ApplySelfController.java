@@ -182,7 +182,7 @@ public class ApplySelfController extends AbroadBaseController {
         approvalLogMapper.updateByPrimaryKeySelective(record);
 
         ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applySelfId);
-        sysApprovalLogService.add(applySelfId, applySelf.getUser().getUserId(),
+        sysApprovalLogService.add(applySelfId, applySelf.getUser().getId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF,
                 "修改审批", SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, before);

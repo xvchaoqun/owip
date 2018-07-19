@@ -86,7 +86,7 @@ public class PcsPrOwService extends BaseMapper {
         List<SysUserView> prUsers = sysUserService.findByRole(RoleConstants.ROLE_PCS_PR);
         for (SysUserView prUser : prUsers) {
             // 清除角色
-            sysUserService.delRole(prUser.getUserId(), RoleConstants.ROLE_PCS_PR);
+            sysUserService.delRole(prUser.getId(), RoleConstants.ROLE_PCS_PR);
         }
 
         PcsPrCandidateViewExample example = new PcsPrCandidateViewExample();

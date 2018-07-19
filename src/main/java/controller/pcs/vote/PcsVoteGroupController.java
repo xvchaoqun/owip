@@ -204,7 +204,7 @@ public class PcsVoteGroupController extends PcsBaseController {
 
                 SysUserView uv = sysUserService.findById(userId);
                 PcsVoteCandidate candidate = new PcsVoteCandidate();
-                candidate.setUserId(uv.getUserId());
+                candidate.setUserId(uv.getId());
                 candidate.setRealname(uv.getRealname());
                 candidate.setIsFromStage(iPcsMapper.countPartyCandidateList(userId, true, configId,
                         PcsConstants.PCS_STAGE_THIRD, type)>0);

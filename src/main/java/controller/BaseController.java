@@ -511,7 +511,7 @@ public class BaseController extends BaseMapper {
         modelMap.put("partyMap", partyMap);
         modelMap.put("member", memberService.get(uv.getId()));
 
-        TeacherInfo teacherInfo = teacherService.get(uv.getUserId());
+        TeacherInfo teacherInfo = teacherService.get(uv.getId());
         modelMap.put("teacherInfo", teacherInfo);
 
         CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);

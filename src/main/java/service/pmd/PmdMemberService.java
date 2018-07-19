@@ -230,7 +230,7 @@ public class PmdMemberService extends BaseMapper {
 
             PmdMember pmdMember = checkAdmin(id);
             SysUserView uv = pmdMember.getUser();
-            int userId = uv.getUserId();
+            int userId = uv.getId();
 
             if(pmdMember.getType()==PmdConstants.PMD_MEMBER_TYPE_STUDENT
                     && hasSalary ==null){
@@ -337,7 +337,7 @@ public class PmdMemberService extends BaseMapper {
                         null, null, id));
             }
 
-            sysApprovalLogService.add(id, uv.getUserId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+            sysApprovalLogService.add(id, uv.getId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
                     "选择党员分类别：" + pmdConfigMemberType.getName() ,
                     SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);
@@ -433,7 +433,7 @@ public class PmdMemberService extends BaseMapper {
                 throw new OpException("{0}选择减免标准操作失败", uv.getRealname());
             }
 
-            sysApprovalLogService.add(id, uv.getUserId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
+            sysApprovalLogService.add(id, uv.getId(), SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                     SystemConstants.SYS_APPROVAL_LOG_TYPE_PMD_MEMBER,
                     "设定" + PmdConstants.PMD_NORM_TYPE_MAP.get(pmdNorm.getType()) + "：" + pmdNorm.getName(),
                     SystemConstants.SYS_APPROVAL_LOG_STATUS_NONEED, remark);

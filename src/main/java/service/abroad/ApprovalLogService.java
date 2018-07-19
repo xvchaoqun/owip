@@ -97,7 +97,7 @@ public class ApprovalLogService extends BaseMapper {
         }
 
         ApplySelf _applySelf = applySelfMapper.selectByPrimaryKey(record.getApplyId());
-        sysApprovalLogService.add(_applySelf.getId(), _applySelf.getUser().getUserId(),
+        sysApprovalLogService.add(_applySelf.getId(), _applySelf.getUser().getId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_APPLYSELF,
                 _approverType+ "审批", record.getStatus() ? SystemConstants.SYS_APPROVAL_LOG_STATUS_PASS

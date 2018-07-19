@@ -245,7 +245,7 @@ public class ScPublicService extends BaseMapper {
             String partyName = null;
             String edu = null;
             String post = null;
-            CadreView cv = cadreService.dbFindByUserId(uv.getUserId());
+            CadreView cv = cadreService.dbFindByUserId(uv.getId());
             if(cv!=null) {
                 partyName = CmTag.getCadreParty(cv.getIsOw(), cv.getOwGrowTime(),
                         "中共党员", cv.getDpTypeId(), cv.getDpGrowTime(), true).get("partyName");

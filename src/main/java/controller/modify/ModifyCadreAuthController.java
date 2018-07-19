@@ -105,7 +105,7 @@ public class ModifyCadreAuthController extends ModifyBaseController {
         record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYY_MM_DD));
         record.setIsUnlimited(BooleanUtils.isTrue(record.getIsUnlimited()));
         record.setAddTime(new Date());
-        record.setAddUserId(loginUser.getUserId());
+        record.setAddUserId(loginUser.getId());
         record.setAddIp(IpUtils.getRealIp(request));
 
         if (id == null) {

@@ -690,8 +690,8 @@ public class PmdPayCampusCardService extends BaseMapper {
         String code = StringUtils.trimToNull(payer);
         if (code != null) {
             SysUserView uv = sysUserService.findByCode(code);
-            if (uv != null && uv.getUserId().intValue() != pmdMemberPayView.getUserId()) {
-                chargeUserId = uv.getUserId();
+            if (uv != null && uv.getId().intValue() != pmdMemberPayView.getUserId()) {
+                chargeUserId = uv.getId();
                 isSelfPay = false;
                 if (chargeUserId == null) {
                     logger.warn("[党费收缴]处理支付通知异常，代缴人读取失败，订单号：{}", orderNo);

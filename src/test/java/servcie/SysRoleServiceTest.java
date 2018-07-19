@@ -31,14 +31,14 @@ public class SysRoleServiceTest {
         List<SysUserView> sysUserViews = sysUserService.findByRole(role);
 
         for (SysUserView sysUserView : sysUserViews) {
-            sysUserService.delRole(sysUserView.getUserId(), role);
+            sysUserService.delRole(sysUserView.getId(), role);
         }
 
         role = RoleConstants.ROLE_PMD_BRANCH;
         sysUserViews = sysUserService.findByRole(role);
 
         for (SysUserView sysUserView : sysUserViews) {
-            sysUserService.delRole(sysUserView.getUserId(), role);
+            sysUserService.delRole(sysUserView.getId(), role);
         }
     }
 

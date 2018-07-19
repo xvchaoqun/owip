@@ -33,7 +33,7 @@ public class ServiceTest {
 
 		String code = "06172";
 		SysUserView uv = sysUserService.findByCode(code);
-		CadreView cv = cadreService.dbFindByUserId(uv.getUserId());
+		CadreView cv = cadreService.dbFindByUserId(uv.getId());
 		int cadreId = cv.getId();
 
 		FileWriter output = new FileWriter(new File("D:/tmp/zzbrm/"+uv.getRealname()+".lrmx"));

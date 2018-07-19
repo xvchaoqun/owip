@@ -97,7 +97,7 @@ public class ClaApprovalLogService extends BaseMapper {
         }
 
         ClaApply _apply = claApplyMapper.selectByPrimaryKey(record.getApplyId());
-        sysApprovalLogService.add(_apply.getId(), _apply.getUser().getUserId(),
+        sysApprovalLogService.add(_apply.getId(), _apply.getUser().getId(),
                 SystemConstants.SYS_APPROVAL_LOG_USER_TYPE_ADMIN,
                 SystemConstants.SYS_APPROVAL_LOG_TYPE_CLA_APPLY,
                 _approverType+ "审批", record.getStatus() ? SystemConstants.SYS_APPROVAL_LOG_STATUS_PASS
