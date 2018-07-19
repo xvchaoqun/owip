@@ -3,7 +3,6 @@ package service.abroad;
 import domain.abroad.AbroadAdditionalPost;
 import domain.abroad.AbroadAdditionalPostExample;
 import domain.abroad.ApproverBlackList;
-import domain.abroad.ApproverType;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.cadre.CadreView;
@@ -43,8 +42,6 @@ public class AbroadAdditionalPostService extends BaseMapper {
     private CadreService cadreService;
     @Autowired
     private ApproverBlackListService approverBlackListService;
-    @Autowired
-    private ApproverTypeService approverTypeService;
     @Autowired
     private SysUserService sysUserService;
 
@@ -102,7 +99,7 @@ public class AbroadAdditionalPostService extends BaseMapper {
     }
 
     // 本单位正职列表（审批人，包括兼任职务）
-    public TreeNode getMainPostCadreTree() {
+    public TreeNode getMainPostCadreTree(int approverTypeId) {
 
         TreeNode root = new TreeNode();
         root.title = "现任干部库";
@@ -114,7 +111,7 @@ public class AbroadAdditionalPostService extends BaseMapper {
 
         Map<Integer, CadreView> cadreMap = cadreService.findAll();
         Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
-        // 职务属性-干部
+        // 单位ID-干部
         Map<Integer, List<CadrePostBean>> unitIdCadresMap = new LinkedHashMap<>();
 
         for (CadreView cadre : cadreMap.values()) {
@@ -130,10 +127,11 @@ public class AbroadAdditionalPostService extends BaseMapper {
                 CadrePostBean bean = new CadrePostBean(cadre.getId(), cadre.getPostId(), false);
                 list.add(bean);
 
-                unitIdCadresMap.put(unitId, list);
+                unitIdCadresMap.put(unitId, list); // 获取所有单位的正职
             }
         }
 
+        // key: cadreId+"_"+unitId
         Map<String, AbroadAdditionalPost> abroadAdditionalPostMap = findAll();
         for (AbroadAdditionalPost cPost : abroadAdditionalPostMap.values()) {
             CadreView cadre = cadreMap.get(cPost.getCadreId());
@@ -150,7 +148,7 @@ public class AbroadAdditionalPostService extends BaseMapper {
                         cPost.getPostId(), true);
                 list.add(bean);
 
-                unitIdCadresMap.put(unitId, list);
+                unitIdCadresMap.put(unitId, list); // 加入 兼审单位 的正职
             }
         }
 
@@ -163,8 +161,7 @@ public class AbroadAdditionalPostService extends BaseMapper {
         }
 
         // 本单位正职身份
-        ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
-        Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(mainPostApproverType.getId());
+        Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(approverTypeId);
         for (Map.Entry<String, List<CadrePostBean>> entry : unitCadresMap.entrySet()) {
 
             List<CadrePostBean> entryValue = entry.getValue();

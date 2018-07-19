@@ -4,12 +4,7 @@
 <%@ include file="/WEB-INF/jsp/abroad/constants.jsp" %>
   <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h4>
-<c:if test="${param.type==ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL
-|| param.type==ABROAD_APPROVER_TYPE_LEADER}">"${ABROAD_APPROVER_TYPE_MAP.get(cm:toByte(param.type))}"</c:if>
-<c:if test="${param.type!=ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL && param.type!=ABROAD_APPROVER_TYPE_LEADER}">"${approverType.name}"</c:if>
-		所包含的干部
-    </h4>
+    <h4>"${approverType.name}"所包含的干部</h4>
   </div>
   <div class="modal-body">
   <form class="form-horizontal"  action="${ctx}/abroad/approverType/selectCadres" id="modalForm" method="post">
@@ -37,7 +32,7 @@
 		  return false;
 	  });
 	$(function(){
-		$.getJSON("${ctx}/abroad/approverType/selectCadres_tree",{id:"${param.id}", type:"${param.type}"},function(data){
+		$.getJSON("${ctx}/abroad/approverType/selectCadres_tree",{id:"${param.id}"},function(data){
 			var treeData = data.tree.children;
 			$("#tree3").dynatree({
 				checkbox: true,
@@ -60,13 +55,13 @@
 		$("#modal form").validate({
 
 				submitHandler: function (form) {
-					<c:if test="${param.type!=ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL && param.type!=ABROAD_APPROVER_TYPE_LEADER}">
+					<c:if test="${approverType.type!=ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL && approverType.type!=ABROAD_APPROVER_TYPE_LEADER}">
 					var cadreIds = $.map($("#tree3").dynatree("getSelectedNodes"), function(node){
 						if(!node.data.isFolder)
 						return node.data.key;
 					});
 					</c:if>
-					<c:if test="${param.type==ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL || param.type==ABROAD_APPROVER_TYPE_LEADER}">
+					<c:if test="${approverType.type==ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL || approverType.type==ABROAD_APPROVER_TYPE_LEADER}">
 					var cadreIds = [];
 					$("#tree3").dynatree("getRoot").visit(function(node){
 						if(!node.data.isFolder && !node.data.unselectable && !node.isSelected()) {
@@ -75,7 +70,7 @@
 					});
 					</c:if>
 					$(form).ajaxSubmit({
-						data:{cadreIds:cadreIds, id:"${param.id}", type: "${param.type}"},
+						data:{cadreIds:cadreIds, id:"${param.id}"},
 						success:function(data){
 							if(data.success){
 								$("#modal").modal('hide');

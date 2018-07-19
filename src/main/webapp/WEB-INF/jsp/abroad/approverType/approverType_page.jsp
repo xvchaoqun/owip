@@ -60,14 +60,14 @@ pageEncoding="UTF-8" %>
                                 </td>
 								<td>
                                     <c:if test="${approverType.type==ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL || approverType.type==ABROAD_APPROVER_TYPE_LEADER}">
-                                        <button data-url="${ctx}/abroad/approverType/selectCadres?type=${approverType.type}"
+                                        <button data-url="${ctx}/abroad/approverType/selectCadres?id=${approverType.id}"
                                                 class="popupBtn btn btn-primary btn-xs"
                                                 data-rel="tooltip" data-placement="top" title="点击进行二次编辑，在此最终确定参与审批的干部">
                                             <i class="fa fa-th-list"></i>  包含干部
                                         </button>
                                      </c:if>
                                     <c:if test="${approverType.type!=ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL && approverType.type!=ABROAD_APPROVER_TYPE_LEADER}">
-                                    <button data-url="${ctx}/abroad/approverType/selectCadres?type=${approverType.type}&id=${approverType.id}"
+                                    <button data-url="${ctx}/abroad/approverType/selectCadres?id=${approverType.id}"
                                             class="popupBtn btn btn-success btn-xs">
                                         <i class="fa fa-th-list"></i>  包含干部
                                     </button>

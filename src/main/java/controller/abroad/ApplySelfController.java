@@ -213,11 +213,12 @@ public class ApplySelfController extends AbroadBaseController {
         if (ShiroHelper.lackRole(RoleConstants.ROLE_CADREADMIN)) { // 干部管理员有下载权限
             int userId = loginUser.getId();
             CadreView cadre = cadreService.dbFindByUserId(userId);
+            int cadreId = cadre.getId();
             Integer applyId = applySelfFile.getApplyId();
             ApplySelf applySelf = applySelfMapper.selectByPrimaryKey(applyId); // 本人有下载权限
-            if (applySelf.getCadreId().intValue() != cadre.getId().intValue()) {
+            if (applySelf.getCadreId().intValue() != cadreId) {
 
-                Set<Integer> cadreIdSet = applySelfService.findApprovalCadreIdSet(loginUser.getId()); // 审批人有下载权限
+                Set<Integer> cadreIdSet = applySelfService.findApprovalCadreIdSet(cadreId); // 审批人有下载权限
                 if (!cadreIdSet.contains(applySelf.getCadreId()))
                     throw new UnauthorizedException();
             }

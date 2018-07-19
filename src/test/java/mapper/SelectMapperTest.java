@@ -28,26 +28,5 @@ public class SelectMapperTest {
 	}
 	@Test
 	public void list() {
-		Map<Integer, List<Integer>> approverTypeUnitIdListMap = new HashMap<>();
-		Map<Integer, List<Integer>> approverTypePostIdListMap = new HashMap<>();
-
-		List<Integer> userIds = new ArrayList<>();
-		userIds.add(5);
-		userIds.add(6);
-
-		approverTypeUnitIdListMap.put(100, userIds);
-		approverTypeUnitIdListMap.put(201, userIds);
-
-		List<Integer> postIds = new ArrayList<>();
-		postIds.add(5);
-		postIds.add(6);
-
-		approverTypePostIdListMap.put(300, postIds);
-
-		ApplySelfSearchBean searchBean = null;
-
-		List<ApplySelf> applySelfs = iAbroadMapper.selectNotApprovalList(searchBean, approverTypeUnitIdListMap, null, new RowBounds());
-		//List<ApplySelf> applySelfs = iAbroadMapper.selectHasApprovalList(approverTypeUnitIdListMap, approverTypePostIdListMap,10, new RowBounds());
-		System.out.println(applySelfs.size() + "=========");
 	}
 }

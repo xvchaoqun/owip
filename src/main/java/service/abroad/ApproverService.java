@@ -29,10 +29,7 @@ public class ApproverService extends BaseMapper {
         if(approverTypeBean==null) return false;
         CadreView cadre = approverTypeBean.getCadre();
         if ((cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
-                && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER) ||
-                !(approverTypeBean.getMainPostUnitIds().size()>0
-                        || approverTypeBean.isManagerLeader()
-                        || approverTypeBean.isApprover())) {
+                && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER) || !approverTypeBean.isApprover()) {
             return false;
         }
 

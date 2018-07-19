@@ -41,20 +41,20 @@ public class ApproverTypeController extends AbroadBaseController {
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/approverType/selectCadres_tree")
     @ResponseBody
-    public Map selectCadres_tree(Integer id, byte type) throws IOException {
+    public Map selectCadres_tree(Integer id) throws IOException {
 
         Map<String, Object> resultMap = success();
+        ApproverType approverType = approverTypeMapper.selectByPrimaryKey(id);
+        byte type = approverType.getType();
 
         if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL) { // 本单位正职
 
-            resultMap.put("tree", abroadAdditionalPostService.getMainPostCadreTree());
+            resultMap.put("tree", abroadAdditionalPostService.getMainPostCadreTree(id));
 
         }else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) { // 分管校领导
 
             // 分管校领导 黑名单（即二次编辑中没有选择的干部）
-            ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
-            Integer leaderApproverTypeId = leaderApproverType.getId();
-            Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(leaderApproverTypeId);
+            Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(id);
             Set<Integer> unselectCadreSet = new HashSet<>();
             for (ApproverBlackList approverBlackList : blackListMap.values()) {
                 unselectCadreSet.add(approverBlackList.getCadreId());
@@ -88,30 +88,25 @@ public class ApproverTypeController extends AbroadBaseController {
 
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping("/approverType/selectCadres")
-    public String select_cadres(Integer id, byte type, ModelMap modelMap) throws IOException {
+    public String select_cadres(Integer id, ModelMap modelMap) throws IOException {
 
-        if (type != AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL && type != AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {
+        //if (type != AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL && type != AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {
             ApproverType approverType = approverTypeMapper.selectByPrimaryKey(id);
             modelMap.put("approverType", approverType);
-        }
+        //}
         return "abroad/approverType/selectCadres";
     }
 
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/approverType/selectCadres", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_select_cadres(Integer id, byte type, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
+    public Map do_select_cadres(Integer id, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
 
-        if(type==AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL){
-            // 本单位正职身份
-            ApproverType mainPostApproverType = approverTypeService.getMainPostApproverType();
-            Integer mainPostTypeId = mainPostApproverType.getId();
-            approverBlackListService.updateCadreIds(mainPostTypeId, cadreIds);
-        }else if(type==AbroadConstants.ABROAD_APPROVER_TYPE_LEADER){
-            // 分管校领导身份
-            ApproverType leaderApproverType = approverTypeService.getLeaderApproverType();
-            Integer leaderApproverTypeId = leaderApproverType.getId();
-            approverBlackListService.updateCadreIds(leaderApproverTypeId, cadreIds);
+        ApproverType approverType = approverTypeMapper.selectByPrimaryKey(id);
+        byte type = approverType.getType();
+
+        if(type==AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL || type==AbroadConstants.ABROAD_APPROVER_TYPE_LEADER){
+            approverBlackListService.updateCadreIds(id, cadreIds);
         }else {
             // 其他身份
             approverTypeService.updateApproverCadreIds(id, cadreIds);
@@ -182,9 +177,6 @@ public class ApproverTypeController extends AbroadBaseController {
 
         Integer id = record.getId();
 
-        if (approverTypeService.idDuplicate(id, record.getName(), record.getType())) {
-            return failed("添加重复");
-        }
         if(auth!=null && auth.length>0){
             record.setAuth(StringUtils.join(auth, ","));
         }

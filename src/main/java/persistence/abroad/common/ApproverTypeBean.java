@@ -13,11 +13,6 @@ public class ApproverTypeBean {
 
     public CadreView cadre;
 
-    public List<Integer> mainPostUnitIds; // 主职单位ID列表，包括兼任职务所在单位
-
-    public boolean isManagerLeader; // 是否是分管校领导
-    List<Integer> leaderUnitIds; // 分管单位
-
     public boolean isApprover; // 是否是拥有其他审批身份
     Map<Integer, List<Integer>> approverTypeCadreIdListMap; //  其他审批身份及对应的审批的申请人
 
@@ -29,38 +24,6 @@ public class ApproverTypeBean {
 
     public void setCadre(CadreView cadre) {
         this.cadre = cadre;
-    }
-
-   /* public boolean isMainPost() {
-        return isMainPost;
-    }
-
-    public void setMainPost(boolean isMainPost) {
-        this.isMainPost = isMainPost;
-    }*/
-
-    public List<Integer> getMainPostUnitIds() {
-        return mainPostUnitIds;
-    }
-
-    public void setMainPostUnitIds(List<Integer> mainPostUnitIds) {
-        this.mainPostUnitIds = mainPostUnitIds;
-    }
-
-    public boolean isManagerLeader() {
-        return isManagerLeader;
-    }
-
-    public void setManagerLeader(boolean isManagerLeader) {
-        this.isManagerLeader = isManagerLeader;
-    }
-
-    public List<Integer> getLeaderUnitIds() {
-        return leaderUnitIds;
-    }
-
-    public void setLeaderUnitIds(List<Integer> leaderUnitIds) {
-        this.leaderUnitIds = leaderUnitIds;
     }
 
     public boolean isApprover() {

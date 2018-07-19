@@ -518,9 +518,7 @@ public class SysUserService extends BaseMapper {
             // 没有审批权限的干部，没有（abroad:admin（目录）, applySelf:approvalList)
             if (cadre == null || (cadre.getStatus() != CadreConstants.CADRE_STATUS_MIDDLE
                     && cadre.getStatus() != CadreConstants.CADRE_STATUS_LEADER) || approverTypeBean == null ||
-                    !(approverTypeBean.getMainPostUnitIds().size() > 0
-                            || approverTypeBean.isManagerLeader()
-                            || approverTypeBean.isApprover())) {
+                    !approverTypeBean.isApprover()) {
 
                 userPermissions.remove("applySelf:approvalList"); // 因私出国境审批
                 if (!userRoles.contains(RoleConstants.ROLE_CADREADMIN)) {
