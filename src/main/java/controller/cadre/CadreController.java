@@ -19,7 +19,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
@@ -80,7 +80,7 @@ public class CadreController extends BaseController {
                              Integer cadreId, ModelMap modelMap) {
 
         if (!ShiroHelper.isPermitted("cadre:list") && !ShiroHelper.isPermitted("cadre:list2")) {
-            throw new UnauthenticatedException("没有权限访问");
+            throw new UnauthorizedException("没有权限访问");
         }
 
         modelMap.put("status", status);
@@ -175,7 +175,7 @@ public class CadreController extends BaseController {
                            Integer pageSize, Integer pageNo) throws IOException {
 
         if (!ShiroHelper.isPermitted("cadre:list") && !ShiroHelper.isPermitted("cadre:list2")) {
-            throw new UnauthenticatedException("没有权限访问");
+            throw new UnauthorizedException("没有权限访问");
         }
 
         if (null == pageSize) {
