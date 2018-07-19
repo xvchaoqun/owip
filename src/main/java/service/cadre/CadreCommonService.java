@@ -194,4 +194,94 @@ public class CadreCommonService extends BaseMapper {
         }
         return root;
     }
+
+    // 干部选择，（职务属性-干部 Set<cadreId>） , 用于审批人身份时disabledIdSet=null
+    // 使用cadreId_unitId作为key
+    public TreeNode getTree2(Set<CadreView> cadreList, // 干部列表
+                            Set<Byte> cadreStatusList, // 干部库类别过滤
+                            Set<String> selectIdSet, // 已选干部
+                            Set<String> disabledIdSet,// 不可选干部
+                            boolean enableSelect, // 是否有选择框
+                            boolean defExpand // 一级属性（职务属性）默认是否展开
+    ) {
+
+        if (null == selectIdSet) selectIdSet = new HashSet<>();
+        if (null == disabledIdSet) disabledIdSet = new HashSet<>();
+
+        TreeNode root = new TreeNode();
+        root.title = "现任干部库";
+        root.expand = true;
+        root.isFolder = true;
+        root.hideCheckbox = true;
+        List<TreeNode> rootChildren = new ArrayList<TreeNode>();
+        root.children = rootChildren;
+
+        Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
+        // 职务属性-干部
+        Map<Integer, List<CadreView>> postIdCadresMap = new LinkedHashMap<>();
+
+        /*CadreExample example = new CadreExample();
+        example.createCriteria().andStatusEqualTo(CadreConstants.CADRE_STATUS_NOW);
+        example.setOrderByClause(" sort_order desc");
+        List<Cadre> cadres = cadreMapper.selectByExample(example);*/
+        for (CadreView cadre : cadreList) {
+            if (cadreStatusList.contains(cadre.getStatus())) {
+                List<CadreView> list = null;
+                MetaType postType = postMap.get(cadre.getPostId());
+                int postId = postType.getId();
+                if (postIdCadresMap.containsKey(postId)) {
+                    list = postIdCadresMap.get(postId);
+                }
+                if (null == list) list = new ArrayList<>();
+                list.add(cadre);
+
+                postIdCadresMap.put(postId, list);
+            }
+        }
+
+        // 排序
+        Map<String, List<CadreView>> postCadresMap = new LinkedHashMap<>();
+        for (MetaType metaType : postMap.values()) {
+            if (postIdCadresMap.containsKey(metaType.getId()))
+                postCadresMap.put(metaType.getName(), postIdCadresMap.get(metaType.getId()));
+        }
+
+        int i = 0;
+        for (Map.Entry<String, List<CadreView>> entry : postCadresMap.entrySet()) {
+
+            List<CadreView> entryValue = entry.getValue();
+            TreeNode titleNode = new TreeNode();
+
+            titleNode.expand = defExpand;
+            titleNode.isFolder = true;
+            List<TreeNode> titleChildren = new ArrayList<TreeNode>();
+            titleNode.children = titleChildren;
+            if (!enableSelect)
+                titleNode.hideCheckbox = true;
+
+            int selectCount = 0;
+            for (CadreView cadre : entryValue) {
+
+                int cadreId = cadre.getId();
+                int userId = cadre.getUserId();
+                String title = cadre.getTitle();
+                TreeNode node = new TreeNode();
+                SysUserView uv = sysUserService.findById(userId);
+                node.title = uv.getRealname() + (title != null ? ("-" + title) : "");
+                String key = cadreId + "_" + cadre.getUnitId();
+                node.key =  key + "";
+
+                if (enableSelect && selectIdSet.contains(key)) {
+                    selectCount++;
+                    node.select = true;
+                }
+                if (!enableSelect || disabledIdSet.contains(key))
+                    node.hideCheckbox = true;
+                titleChildren.add(node);
+            }
+            titleNode.title = entry.getKey() + String.format("(%s", selectCount > 0 ? selectCount + "/" : "") + entryValue.size() + "人)";
+            rootChildren.add(titleNode);
+        }
+        return root;
+    }
 }

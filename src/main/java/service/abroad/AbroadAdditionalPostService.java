@@ -64,11 +64,13 @@ public class AbroadAdditionalPostService extends BaseMapper {
 
     class CadrePostBean {
         private int cadreId;
+        private int unitId;
         private int postId;
         private boolean additional;
 
-        public CadrePostBean(int cadreId, int postId, boolean additional) {
+        public CadrePostBean(int cadreId, int unitId, int postId, boolean additional) {
             this.cadreId = cadreId;
+            this.unitId = unitId;
             this.postId = postId;
             this.additional = additional;
         }
@@ -79,6 +81,14 @@ public class AbroadAdditionalPostService extends BaseMapper {
 
         public void setCadreId(int cadreId) {
             this.cadreId = cadreId;
+        }
+
+        public int getUnitId() {
+            return unitId;
+        }
+
+        public void setUnitId(int unitId) {
+            this.unitId = unitId;
         }
 
         public int getPostId() {
@@ -99,7 +109,7 @@ public class AbroadAdditionalPostService extends BaseMapper {
     }
 
     // 本单位正职列表（审批人，包括兼任职务）
-    public TreeNode getMainPostCadreTree(int approverTypeId) {
+    public TreeNode getUnitPrincipalCadreTree(int approverTypeId) {
 
         TreeNode root = new TreeNode();
         root.title = "现任干部库";
@@ -124,7 +134,7 @@ public class AbroadAdditionalPostService extends BaseMapper {
                     list = unitIdCadresMap.get(unitId);
                 }
                 if (null == list) list = new ArrayList<>();
-                CadrePostBean bean = new CadrePostBean(cadre.getId(), cadre.getPostId(), false);
+                CadrePostBean bean = new CadrePostBean(cadre.getId(), cadre.getUnitId(), cadre.getPostId(), false);
                 list.add(bean);
 
                 unitIdCadresMap.put(unitId, list); // 获取所有单位的正职
@@ -144,7 +154,7 @@ public class AbroadAdditionalPostService extends BaseMapper {
                     list = unitIdCadresMap.get(unitId);
                 }
                 if (null == list) list = new ArrayList<>();
-                CadrePostBean bean = new CadrePostBean(cPost.getCadreId(),
+                CadrePostBean bean = new CadrePostBean(cPost.getCadreId(), cPost.getUnitId(),
                         cPost.getPostId(), true);
                 list.add(bean);
 
@@ -161,7 +171,7 @@ public class AbroadAdditionalPostService extends BaseMapper {
         }
 
         // 本单位正职身份
-        Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(approverTypeId);
+        Map<String, ApproverBlackList> blackListMap = approverBlackListService.findAll(approverTypeId);
         for (Map.Entry<String, List<CadrePostBean>> entry : unitCadresMap.entrySet()) {
 
             List<CadrePostBean> entryValue = entry.getValue();
@@ -184,15 +194,11 @@ public class AbroadAdditionalPostService extends BaseMapper {
                 node.title = uv.getRealname() + "-" + postMap.get(bean.getPostId()).getName() +
                         (bean.additional ? "(兼审单位)" : "");
 
-                if (bean.additional) {
-                    node.unselectable = true;
-                } else {
-                    node.key = cadreId + "";
-                }
+                node.key = cadreId + "_" + bean.getUnitId();
                 node.select = true;
 
                 // 本单位正职黑名单
-                if (!bean.additional && blackListMap.get(cadreId) != null) {
+                if (blackListMap.get(node.key) != null) {
                     node.select = false;
                     blackCount++;
                 }

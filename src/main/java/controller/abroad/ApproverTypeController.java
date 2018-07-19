@@ -49,37 +49,35 @@ public class ApproverTypeController extends AbroadBaseController {
 
         if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT_PRINCIPAL) { // 本单位正职
 
-            resultMap.put("tree", abroadAdditionalPostService.getMainPostCadreTree(id));
+            resultMap.put("tree", abroadAdditionalPostService.getUnitPrincipalCadreTree(id));
 
         }else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) { // 分管校领导
 
             // 分管校领导 黑名单（即二次编辑中没有选择的干部）
-            Map<Integer, ApproverBlackList> blackListMap = approverBlackListService.findAll(id);
-            Set<Integer> unselectCadreSet = new HashSet<>();
-            for (ApproverBlackList approverBlackList : blackListMap.values()) {
-                unselectCadreSet.add(approverBlackList.getCadreId());
-            }
+            Map<String, ApproverBlackList> blackListMap = approverBlackListService.findAll(id);
+            Set<String> unselectCadreSet = blackListMap.keySet();
 
             Set<CadreView> cadreSet = new LinkedHashSet<>();
-            Set<Integer> selectCadreSet = new HashSet<>();
+            Set<String> selectCadreSet = new HashSet<>();
             Map<Integer, CadreLeader> leaderMap = cadreLeaderService.findAll();
             for (CadreLeader leader : leaderMap.values()) {
                 CadreView cadre = leader.getCadre();
                 cadreSet.add(cadre);
-                if(!unselectCadreSet.contains(cadre.getId()))
-                    selectCadreSet.add(cadre.getId());
+                String key = cadre.getId() + "_" + cadre.getUnitId();
+                if(!unselectCadreSet.contains(key))
+                    selectCadreSet.add(key);
             }
 
-            TreeNode tree = cadreCommonService.getTree(cadreSet, AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET,
-                    selectCadreSet, null, true, true, true);
+            TreeNode tree = cadreCommonService.getTree2(cadreSet, AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET,
+                    selectCadreSet, null, true, true);
             resultMap.put("tree", tree);
         }else{ // 其他审批身份
 
-            Set<Integer> selectIdSet = approverTypeService.findApproverCadreIds(id);
+            Set<String> selectIdSet = approverTypeService.findApproverCadreIds(id);
             //Set<Integer> disabledIdSet = claApproverTypeService.findApproverCadreIds(null);
             //disabledIdSet.removeAll(selectIdSet);
-            TreeNode tree = cadreCommonService.getTree(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
-                    AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, null);
+            TreeNode tree = cadreCommonService.getTree2(new LinkedHashSet<CadreView>(cadreService.findAll().values()),
+                    AbroadConstants.ABROAD_APPLICAT_CADRE_STATUS_SET, selectIdSet, null, true, false);
             resultMap.put("tree", tree);
         }
 
@@ -97,10 +95,11 @@ public class ApproverTypeController extends AbroadBaseController {
         return "abroad/approverType/selectCadres";
     }
 
+    // cadreIds = cadreId_unitId
     @RequiresPermissions("approvalAuth:*")
     @RequestMapping(value = "/approverType/selectCadres", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_select_cadres(Integer id, @RequestParam(value = "cadreIds[]", required = false) Integer[] cadreIds) {
+    public Map do_select_cadres(Integer id, @RequestParam(value = "cadreIds[]", required = false) String[] cadreIds) {
 
         ApproverType approverType = approverTypeMapper.selectByPrimaryKey(id);
         byte type = approverType.getType();

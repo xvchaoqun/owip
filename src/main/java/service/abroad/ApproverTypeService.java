@@ -4,6 +4,7 @@ import domain.abroad.Approver;
 import domain.abroad.ApproverExample;
 import domain.abroad.ApproverType;
 import domain.abroad.ApproverTypeExample;
+import domain.cadre.CadreView;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,15 +24,17 @@ import java.util.Set;
 public class ApproverTypeService extends BaseMapper {
 
     // 查询某类审批人身份 已设定的审批人 Set<干部ID>
-    public Set<Integer> findApproverCadreIds(Integer typeId){
+    public Set<String> findApproverCadreIds(Integer typeId){
 
-        Set<Integer> selectIdSet = new HashSet<Integer>();
+        Set<String> selectIdSet = new HashSet<>();
         ApproverExample example = new ApproverExample();
         if(typeId!=null)
             example.createCriteria().andTypeIdEqualTo(typeId);
         List<Approver> approvers = approverMapper.selectByExample(example);
         for (Approver approver : approvers) {
-            selectIdSet.add(approver.getCadreId());
+
+            CadreView cv = approver.getCadre();
+            selectIdSet.add(approver.getCadreId()+"_" + cv.getUnitId());
         }
 
         return selectIdSet;
@@ -40,7 +43,7 @@ public class ApproverTypeService extends BaseMapper {
     // 为某类审批人身份 设定审批人<干部ID>
     @Transactional
     @CacheEvict(value="UserPermissions", allEntries=true, beforeInvocation=true)
-    public void updateApproverCadreIds(int typeId, Integer[] cadreIds){
+    public void updateApproverCadreIds(int typeId, String[] cadreIds){
 
         ApproverExample example = new ApproverExample();
         example.createCriteria().andTypeIdEqualTo(typeId);
@@ -48,11 +51,11 @@ public class ApproverTypeService extends BaseMapper {
 
         if(cadreIds==null || cadreIds.length==0) return ;
 
-        for (Integer cadreId : cadreIds) {
+        for (String cadreId : cadreIds) {
 
             Approver record = new Approver();
             record.setTypeId(typeId);
-            record.setCadreId(cadreId);
+            record.setCadreId(Integer.valueOf(cadreId.split("_")[0]));
             record.setSortOrder(getNextSortOrder("abroad_approver", null));
             approverMapper.insertSelective(record);
         }

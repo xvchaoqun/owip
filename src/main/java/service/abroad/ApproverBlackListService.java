@@ -20,34 +20,37 @@ public class ApproverBlackListService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value="ApproverBlackList", key = "#approverTypeId")
-    public void updateCadreIds(int approverTypeId, Integer[] cadreIds){
+    public void updateCadreIds(int approverTypeId, String[] cadreIdUnitIds){
 
         ApproverBlackListExample example = new ApproverBlackListExample();
         example.createCriteria().andApproverTypeIdEqualTo(approverTypeId);
         approverBlackListMapper.deleteByExample(example);
 
-        if(cadreIds==null || cadreIds.length==0) return ;
+        if(cadreIdUnitIds==null || cadreIdUnitIds.length==0) return ;
 
-        for (Integer cadreId : cadreIds) {
+        for (String cadreIdUnitId : cadreIdUnitIds) {
 
+            String[] _array = cadreIdUnitId.split("_");
             ApproverBlackList record = new ApproverBlackList();
             record.setApproverTypeId(approverTypeId);
-            record.setCadreId(cadreId);
+            record.setCadreId(Integer.valueOf(_array[0]));
+            record.setUnitId(Integer.valueOf(_array[1]));
             approverBlackListMapper.insert(record);
         }
     }
 
-    // key: cadreId
+    // key: cadreId_unitId
     @Cacheable(value="ApproverBlackList", key = "#approverTypeId")
-    public Map<Integer, ApproverBlackList> findAll(int approverTypeId) {
+    public Map<String, ApproverBlackList> findAll(int approverTypeId) {
 
         ApproverBlackListExample example = new ApproverBlackListExample();
         example.createCriteria().andApproverTypeIdEqualTo(approverTypeId);
         List<ApproverBlackList> records = approverBlackListMapper.selectByExample(example);
-        Map<Integer, ApproverBlackList> map = new LinkedHashMap<>();
+        Map<String, ApproverBlackList> map = new LinkedHashMap<>();
         for (ApproverBlackList record : records) {
-            map.put(record.getCadreId(), record);
+            map.put(record.getCadreId()+"_"+record.getUnitId(), record);
         }
+
         return map;
     }
 }

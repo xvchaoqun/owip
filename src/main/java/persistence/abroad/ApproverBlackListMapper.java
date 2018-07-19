@@ -8,7 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import java.util.List;
 
 public interface ApproverBlackListMapper {
-    int countByExample(ApproverBlackListExample example);
+    long countByExample(ApproverBlackListExample example);
 
     int deleteByExample(ApproverBlackListExample example);
 

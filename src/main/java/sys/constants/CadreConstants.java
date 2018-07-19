@@ -280,4 +280,9 @@ public class CadreConstants {
         CADRE_INFO_CHECK_RESULT_MAP.put(CADRE_INFO_CHECK_RESULT_EXIST, "是");
         CADRE_INFO_CHECK_RESULT_MAP.put(CADRE_INFO_CHECK_RESULT_MODIFY, "已申请修改，待审核");
     }
+
+    // 干部树key类型
+    public final static byte CADRETREE_KEY_CADREID = 1;
+    public final static byte CADRETREE_KEY_USERID = 2;
+    public final static byte CADRETREE_KEY_CADREID_UNITID = 3;
 }
