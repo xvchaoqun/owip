@@ -55,7 +55,7 @@ public class CadrePostAdminService extends BaseMapper {
 
     public void syncPost(CadrePostAdmin record){
 
-        CadreView cv = CmTag.getCadreById(record.getCadreId());
+        CadreView cv = cadreViewMapper.selectByPrimaryKey(record.getCadreId());
         ExtJzg extJzg = extService.getExtJzg(cv.getCode());
         // 如果是系统注册账号(extJzg=null)，则不同步人事库信息，使用系统的相关数据
         if(BooleanUtils.isTrue(CmTag.getSysConfig().getUseCadrePost()) || extJzg == null) {

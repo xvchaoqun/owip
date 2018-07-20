@@ -18,6 +18,7 @@ public class LoginUser {
     private Date lastAccessTime;
     private Date startTimestamp;
     private long timeOut;
+    private String switchUser; // 切换登录主账号
 
     public String getSid() {
         return sid;
@@ -89,5 +90,13 @@ public class LoginUser {
 
     public void setTimeOut(long timeOut) {
         this.timeOut = timeOut;
+    }
+
+    public String getSwitchUser() {
+        return switchUser;
+    }
+
+    public void setSwitchUser(String switchUser) {
+        this.switchUser = switchUser;
     }
 }

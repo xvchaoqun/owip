@@ -159,6 +159,9 @@ public class SysLoginLogService extends BaseMapper {
                 loginUser.setShiroUser(shiroUser);
                 loginUsers.add(loginUser);
             }
+            Object switchUser = session.getAttribute("_switchUser");
+            if(switchUser!=null)
+                loginUser.setSwitchUser(switchUser.toString());
         }
 
         return loginUsers;

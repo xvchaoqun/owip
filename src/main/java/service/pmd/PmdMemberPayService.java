@@ -90,17 +90,14 @@ public class PmdMemberPayService extends BaseMapper {
               */
             int userId = pmdMemberPayView.getUserId();
             PmdMember pmdMember = pmdMemberService.get(currentMonthId, userId);
-            if(pmdMember==null || branchHasReport(pmdMember, currentPmdMonth))
+            if(pmdMember==null || branchHasReport(pmdMember.getPartyId(), pmdMember.getBranchId(), currentPmdMonth))
                 return notAllowed;
 
             return delayPay;
         }
     }
 
-    public boolean branchHasReport(PmdMember pmdMember, PmdMonth currentPmdMonth){
-
-        int partyId = pmdMember.getPartyId();
-        Integer branchId = pmdMember.getBranchId();
+    public boolean branchHasReport(int partyId, Integer branchId, PmdMonth currentPmdMonth){
 
         if (branchId != null) {
 

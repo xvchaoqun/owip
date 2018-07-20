@@ -9,4 +9,8 @@
   <li class="${cls==2?'active':''}">
     <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/approvalAuth?cls=2"}><i class="fa fa-th${cls==2?'-large':''}"></i> 审批人身份</a>
   </li>
+
+  <li class="${cls==3?'active':''}">
+    <a href="javascript:;" class="loadPage" data-url="${ctx}/abroad/approvalAuth?cls=3"}><i class="fa fa-search"></i> 审批权限预览</a>
+  </li>
 </ul>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report4" language="groovy" pageWidth="2480" pageHeight="3508" columnWidth="2480" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="5ba0fea0-f621-45cc-886a-bd33e13835c5">
+	<property name="ireport.zoom" value="0.5644739300537773"/>
+	<property name="ireport.x" value="96"/>
+	<property name="ireport.y" value="192"/>
+	<style name="zh_CN" isDefault="true" hAlign="Center" vAlign="Middle" fontName="新宋体" fontSize="16" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+	<field name="drawTime" class="java.lang.String"/>
+	<field name="passportName" class="java.lang.String"/>
+	<field name="realname" class="java.lang.String"/>
+	<field name="bg" class="java.lang.String"/>
+	<field name="code" class="java.lang.String"/>
+	<field name="unit" class="java.lang.String"/>
+	<field name="travelTime" class="java.lang.String"/>
+	<field name="toCountry" class="java.lang.String"/>
+	<field name="reason" class="java.lang.String"/>
+	<field name="printTime" class="java.lang.String"/>
+	<field name="title" class="java.lang.String"/>
+	<detail>
+		<band height="3508" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="2480" height="3508" uuid="2cf76043-18ca-4715-a9ca-3af5e3762f59"/>
+				<imageExpression><![CDATA[$F{bg}]]></imageExpression>
+			</image>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1080" y="753" width="264" height="91" uuid="ed901c94-751e-4009-bd15-b98470ccbe8d"/>
+				<textElement>
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{realname}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1739" y="753" width="329" height="97" uuid="4cf55882-1422-4fa1-904e-6c5cbded6978"/>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="60" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="498" y="731" width="576" height="126" uuid="2748c219-46a8-4416-94eb-49eb5442d853"/>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="55" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1193" y="993" width="514" height="117" uuid="ef85ef20-0113-41bd-b577-23c3f932442e"/>
+				<textElement>
+					<font fontName="宋体" size="50" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{toCountry}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1739" y="993" width="451" height="112" uuid="5a0cebcd-da4c-4314-ba86-cbb9cf98ce0a"/>
+				<textElement textAlignment="Left">
+					<font fontName="宋体" size="50" isBold="true" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reason}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1479" y="1645" width="444" height="86" uuid="29a34ee4-9a5a-4615-9608-0f69cc0ab9a7"/>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="50" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{printTime}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="439" y="892" width="482" height="80" uuid="da7f3835-94f4-4c3e-b126-fbc551ff444b"/>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="55" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{drawTime}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="1395" y="879" width="596" height="93" uuid="41d813af-e1f6-4cda-be45-4c71f7fd4ad0"/>
+				<textElement>
+					<font fontName="宋体" size="50" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{passportName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="439" y="1016" width="692" height="94" uuid="cd8252ef-7644-4242-81b4-0902e9c016db"/>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="55" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{travelTime}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="zh_CN" x="0" y="377" width="2480" height="126" uuid="ec6a8df6-af8d-4d8f-a77f-4f89db999848"/>
+				<textElement textAlignment="Center">
+					<font fontName="宋体" size="72" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

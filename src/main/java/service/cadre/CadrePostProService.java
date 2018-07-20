@@ -55,7 +55,7 @@ public class CadrePostProService extends BaseMapper {
 
     public void syncPost(CadrePostPro record){
 
-        CadreView cv = CmTag.getCadreById(record.getCadreId());
+        CadreView cv = cadreViewMapper.selectByPrimaryKey(record.getCadreId());
         ExtJzg extJzg = extService.getExtJzg(cv.getCode());
 
         if(BooleanUtils.isTrue(CmTag.getSysConfig().getUseCadrePost()) || extJzg == null) {

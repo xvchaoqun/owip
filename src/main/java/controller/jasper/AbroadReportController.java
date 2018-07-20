@@ -322,6 +322,7 @@ public class AbroadReportController extends BaseController {
         String printTime = DateUtils.getCurrentDateTime(DateUtils.YYYY_MM_DD_CHINA);
 
         Map<String, Object> map = new HashMap<String, Object>();
+        map.put("title", CmTag.getSysConfig().getSchoolName() + "处级干部因私出国（境）备案证明");
         map.put("realname", realname);
         map.put("code", code);
         map.put("unit", unit);

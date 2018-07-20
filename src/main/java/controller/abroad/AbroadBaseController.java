@@ -4,6 +4,7 @@ import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.abroad.AbroadAdditionalPostService;
 import service.abroad.AbroadExportService;
+import service.abroad.AbroadService;
 import service.abroad.AbroadShortMsgService;
 import service.abroad.ApplicatTypeService;
 import service.abroad.ApplySelfService;
@@ -22,6 +23,9 @@ import service.abroad.TaiwanRecordService;
  * Created by lm on 2017/9/20.
  */
 public class AbroadBaseController extends BaseController {
+
+    @Autowired
+    protected AbroadService abroadService;
 
     @Autowired
     protected ApplicatTypeService applicatTypeService;

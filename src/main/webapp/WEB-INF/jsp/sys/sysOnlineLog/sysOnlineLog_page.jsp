@@ -34,7 +34,14 @@ pageEncoding="UTF-8" %>
         url: '${ctx}/sysOnlineLog_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             /*{ label: '会话ID', name: 'sid', width: 280,frozen:true },*/
-            { label: '账号', name: 'shiroUser.username', width: 120,frozen:true },
+            { label: '账号', name: 'shiroUser.username', width: 120,frozen:true, formatter:function(cellvalue, options, rowObject){
+                    return ('<span class="text {0}">{1}</span>')
+                            .format(($.trim(rowObject.switchUser)=='')?'':'text-danger bolder', cellvalue);
+            }, cellattr: function (rowId, val, rawObject, cm, rdata) {
+                if($.trim(rawObject.switchUser)!='')
+                    return ('data-tooltip="tooltip" data-container="#body-content" ' +
+                            'data-html="true" data-original-title="切换登录主账号：{0}"').format(rawObject.switchUser);
+            }},
             { label: '姓名', name: 'shiroUser.realname', formatter:function(cellvalue, options, rowObject){
 
                 return $.user(rowObject.shiroUser.id, rowObject.shiroUser.realname)
@@ -59,8 +66,9 @@ pageEncoding="UTF-8" %>
                 return cellvalue/(1000*60)
             } },{hidden:true, key:true, name:'sid'}
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns").on("initGrid", function () {
+        $('[data-tooltip="tooltip"]').tooltip({html:true});
+    });
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 </script>

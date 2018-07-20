@@ -1,5 +1,6 @@
 package controller.pmd;
 
+import controller.global.OpException;
 import domain.member.Member;
 import domain.pmd.PmdBranch;
 import domain.pmd.PmdConfigMember;
@@ -390,7 +391,12 @@ public class PmdMemberController extends PmdBaseController {
         if (pmdMember != null) {
             return failed(pmdMember.getUser().getRealname() + "已经在缴费列表中，请勿重复添加。");
         }
+
         Member member = memberService.get(userId);
+        if(pmdMemberPayService.branchHasReport(member.getPartyId(), member.getBranchId(), currentPmdMonth)){
+
+            throw  new OpException("操作失败，支部已报送。");
+        }
 
         if (ShiroHelper.lackRole(RoleConstants.ROLE_PMD_OW)) {
             if (!pmdBranchAdminService.isBranchAdmin(ShiroHelper.getCurrentUserId(),

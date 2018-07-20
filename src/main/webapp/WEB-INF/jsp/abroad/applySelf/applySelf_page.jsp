@@ -404,31 +404,9 @@
         //console.log(tdBean.approvalTypeId + " " + tdBean.tdType)
         if (tdBean.approvalTypeId != -1 && tdBean.tdType == 2)
             attrs += "class='not_approval' ";
-        /*    if(tdBean.tdType!=1) {
-         var apprvalRealnames = [];
-         for (var i in tdBean.approverList) {
-         var sysUser = tdBean.approverList[i];
-         apprvalRealnames.push(sysUser.realname);
-         }
-         attrs += "data-tooltip=\"tooltip\" title=\"S{0}：{1}\"".format(tdBean.applySelfId, apprvalRealnames.join("，"))
-         }*/
         return attrs;
     }
-    //初审未通过，或者终审完成，需要短信提醒
-    /*    function processMsgTdBean(rowObject){
-     var html = "";
-     var applySelfId = rowObject.id;
-     var firstTdBean = rowObject.approvalTdBeanMap[-1];
-     var lastTdBean = rowObject.approvalTdBeanMap[0];
-     if(firstTdBean.tdType==5 || (lastTdBean.tdType==5||lastTdBean.tdType==6)){
-     html ="<button data-id=\"{0}\" " +
-     "        class=\"shortMsgBtn btn btn-primary btn-xs\">\n" +
-     "        <i class=\"fa fa-info-circle\"></i> 短信提醒\n" +
-     "        </button>";
-     html = html.format(applySelfId);
-     }
-     return html;
-     }*/
+
     function processTdBean(tdBean) {
 
         if (tdBean == undefined) return '';

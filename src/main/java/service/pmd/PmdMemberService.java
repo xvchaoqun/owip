@@ -142,7 +142,7 @@ public class PmdMemberService extends BaseMapper {
 
             throw new OpException("操作失败，只能删除当前缴费月份的未缴费记录。");
         }
-        if(pmdMemberPayService.branchHasReport(pmdMember, currentPmdMonth)){
+        if(pmdMemberPayService.branchHasReport(pmdMember.getPartyId(), pmdMember.getBranchId(),  currentPmdMonth)){
 
             throw  new OpException("操作失败，支部已报送。");
         }
@@ -150,7 +150,10 @@ public class PmdMemberService extends BaseMapper {
         pmdMemberMapper.deleteByPrimaryKey(id);
         pmdMemberPayMapper.deleteByPrimaryKey(id);
 
-        pmdConfigMemberService.del(pmdMember.getUserId());
+        PmdMemberExample example = new PmdMemberExample();
+        example.createCriteria().andUserIdEqualTo(pmdMember.getUserId());
+        if(pmdMemberMapper.countByExample(example)==0)
+            pmdConfigMemberService.del(pmdMember.getUserId());
     }
 
     @Transactional
@@ -474,7 +477,7 @@ public class PmdMemberService extends BaseMapper {
             }
 
             PmdMember _pmdMember = get(currentMonthId, userId);
-            if(pmdMemberPayService.branchHasReport(_pmdMember, currentPmdMonth)){
+            if(pmdMemberPayService.branchHasReport(_pmdMember.getPartyId(), _pmdMember.getBranchId(), currentPmdMonth)){
                 throw  new OpException("操作失败，{0}所在支部已报送。", realname);
             }
 
