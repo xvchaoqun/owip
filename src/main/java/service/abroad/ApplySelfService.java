@@ -486,6 +486,8 @@ public class ApplySelfService extends BaseMapper {
                         bean.setCanApproval(canApproval);
                         bean.setTdType(4);
                     }
+                }else if(lastVal.getValue() == -1){ // 初审未通过
+                    bean.setTdType(1);
                 } else if (lastVal.getValue() == 0) {
                     bean.setTdType(5);
                 } else if (lastVal.getValue() == 1) {
@@ -629,8 +631,8 @@ public class ApplySelfService extends BaseMapper {
             }
         }
 
-
-        approvalResultMap.put(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST, new ApprovalResult(resultMap.get(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST),
+        Integer firstResult = resultMap.get(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST);
+        approvalResultMap.put(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST, new ApprovalResult(firstResult,
                 approvalLogMap.get(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_FIRST))); // 初审
 
         Map<Integer, ApproverType> approverTypeMap = approverTypeService.findAll();
@@ -641,8 +643,11 @@ public class ApplySelfService extends BaseMapper {
                 approvalResultMap.put(approverType.getId(), new ApprovalResult(-1, null));
         }
 
-        approvalResultMap.put(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST, new ApprovalResult(resultMap.get(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST),
+        if (firstResult==null || firstResult==1)
+            approvalResultMap.put(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST, new ApprovalResult(resultMap.get(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST),
                 approvalLogMap.get(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST))); // 终审
+        else // 初审未通过的情况
+            approvalResultMap.put(AbroadConstants.ABROAD_APPROVER_TYPE_ID_OD_LAST, new ApprovalResult(-1, null));
 
         // value: -1不需要审批 0未通过 1通过 null未审批
         return approvalResultMap;

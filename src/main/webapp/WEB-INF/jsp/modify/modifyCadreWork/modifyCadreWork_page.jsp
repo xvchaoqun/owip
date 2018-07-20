@@ -34,7 +34,7 @@
                         </button>
                 </div>
                 <div class="space-4"></div>
-                <table id="jqGrid_cadreWork" class="jqGrid2"></table>
+                <table id="jqGrid_cadreWork" class="jqGrid"></table>
                 <div id="jqGridPager_cadreWork"></div>
             </div>
         </div>
@@ -95,7 +95,7 @@
         colModel: [
             {
                 label: '其间工作', name: '&nbsp;', formatter: function (cellvalue, options, rowObject) {
-                if (rowObject.subWorkCount == 0) return '';
+                if (rowObject.subWorkCount == 0) return '-';
                 return _.template($("#switch_tpl").html().NoMultiSpace())({
                     id: rowObject.id,
                     count: rowObject.subWorkCount
@@ -152,7 +152,7 @@
             $("#jqGrid_cadreWork").expandSubGridRow(item)
         })
     });
-    $(window).triggerHandler('resize.jqGrid2');
+    $(window).triggerHandler('resize.jqGrid');
     function _swtich(id, btn) {
 
         if (!$("i", btn).hasClass("fa-folder-open-o")) {
