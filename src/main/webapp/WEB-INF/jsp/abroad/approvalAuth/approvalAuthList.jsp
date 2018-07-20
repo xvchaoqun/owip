@@ -28,7 +28,7 @@
             <td>${cadre.realname}</td>
             <td>${cadre.code}</td>
             <td style="text-align: left; white-space: nowrap">${cadre.unit.name}</td>
-            <td style="text-align: left" title="${cadre.title}">${cm:substr(cadre.title, 0, 20, '...')}</td>
+            <td style="text-align: left">${cadre.title}</td>
             <c:forEach items="${cadreApproverListMap.value}" var="approverListMap">
               <td class="<c:if test="${approverListMap.value!=null && empty approverListMap.value}">empty</c:if>">
                 <c:if test="${approverListMap.value==null}">--</c:if>

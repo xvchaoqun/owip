@@ -330,7 +330,17 @@ public class AbroadReportController extends BaseController {
         map.put("passportName", passportName);
         map.put("travelTime", travelTime);
         map.put("toCountry", toCountry);
-        map.put("reason", StringUtils.replace(reason, "+++", "，"));
+
+        List<String> reasonList = new ArrayList<>();
+        String[] reasons = reason.split("\\+\\+\\+");
+        for (String r : reasons) {
+            if(r.startsWith("其他:")){
+                reasonList.add(r.substring(3));
+            }else{
+                reasonList.add(r);
+            }
+        }
+        map.put("reason", StringUtils.join(reasonList, "，"));
         map.put("printTime", printTime);
 
         return map;
