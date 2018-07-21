@@ -22,8 +22,8 @@
 				<imageExpression><![CDATA[$F{bg}]]></imageExpression>
 			</image>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="zh_CN" x="1080" y="753" width="264" height="91" uuid="ed901c94-751e-4009-bd15-b98470ccbe8d"/>
-				<textElement>
+				<reportElement style="zh_CN" x="1090" y="753" width="254" height="91" uuid="ed901c94-751e-4009-bd15-b98470ccbe8d"/>
+				<textElement verticalAlignment="Bottom">
 					<font fontName="宋体" size="50" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{realname}]]></textFieldExpression>
@@ -36,8 +36,8 @@
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="zh_CN" x="498" y="731" width="576" height="126" uuid="2748c219-46a8-4416-94eb-49eb5442d853"/>
-				<textElement textAlignment="Center">
+				<reportElement style="zh_CN" x="463" y="753" width="627" height="91" uuid="2748c219-46a8-4416-94eb-49eb5442d853"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font fontName="宋体" size="50" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
