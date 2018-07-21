@@ -1,16 +1,15 @@
 package controller.abroad;
 
-import persistence.abroad.common.PassportStatByClassBean;
-import persistence.abroad.common.PassportStatByLentBean;
-import persistence.abroad.common.PassportStatByPostBean;
 import bean.XlsPassport;
 import bean.XlsUpload;
 import controller.global.OpException;
 import domain.abroad.Passport;
 import domain.abroad.PassportApply;
+import domain.abroad.PassportExample;
 import domain.abroad.TaiwanRecord;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
+import domain.cadre.CadreViewExample;
 import domain.sys.SysUserView;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -37,6 +36,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import persistence.abroad.common.PassportSearchBean;
+import persistence.abroad.common.PassportStatByClassBean;
+import persistence.abroad.common.PassportStatByLentBean;
+import persistence.abroad.common.PassportStatByPostBean;
 import sys.constants.AbroadConstants;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
@@ -51,6 +53,7 @@ import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.ImageUtils;
 import sys.utils.JSONUtils;
+import sys.utils.PatternUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -73,9 +76,9 @@ public class PassportController extends AbroadBaseController {
     @RequiresPermissions("passport:list")
     @RequestMapping("/passport")
     public String passport(// 1:集中管理证件 2:取消集中保管证件 3:丢失证件  5：保险柜管理
-                                @RequestParam(required = false, defaultValue = "1") byte status,
-                                HttpServletResponse response,
-                                ModelMap modelMap) {
+                           @RequestParam(required = false, defaultValue = "1") byte status,
+                           HttpServletResponse response,
+                           ModelMap modelMap) {
 
         modelMap.put("status", status);
         if (status == 0) {
@@ -433,9 +436,63 @@ public class PassportController extends AbroadBaseController {
         return "abroad/passport/passport_lost_view";
     }
 
+    // 批量上传证件首页
     @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
-     @RequestMapping("/passport_uploadPic")
-     public String passport_uploadPic() {
+    @RequestMapping("/passport_uploadPic_batch")
+    @ResponseBody
+    public Map passport_uploadPic_batch(String folder, String type) { // folder是具体的系统文件夹路径，下面都是图片。
+
+        // type= mt_passport_normal, mt_passport_hk, mt_passport_tw
+        MetaType passportType = CmTag.getMetaTypeByCode(type);
+        File[] files = new File(folder).listFiles();
+        int successCount = 0;
+        for (File file : files) {
+            if(file.isFile()){
+                String filename = file.getName();
+                try {
+                    if (PatternUtils.match("^.*\\.(jpg|JPG)$", filename)) {
+                        String _filename = filename.split("\\.")[0];
+
+                        CadreView cv = null;
+                        {
+                            CadreViewExample example = new CadreViewExample();
+                            example.createCriteria().andRealnameEqualTo(_filename);
+                            List<CadreView> cadreViews = cadreViewMapper.selectByExample(example);
+                            if (cadreViews.size() == 1) {
+                                cv = cadreViews.get(0);
+                            }
+                        }
+                        if(cv!=null){
+
+                            String realPath = FILE_SEPARATOR
+                                    + "passport_pic" + FILE_SEPARATOR  // passport_cancel -> passport_lost 20160620
+                                    + UUID.randomUUID().toString()+ ".jpg";
+                            FileUtils.copyFile(file, new File(springProps.uploadPath + realPath));
+
+                            Passport record = new Passport();
+                            record.setPic(realPath);
+
+                            PassportExample example = new PassportExample();
+                            example.createCriteria().andCadreIdEqualTo(cv.getId()).andClassIdEqualTo(passportType.getId());
+                            successCount += passportMapper.updateByExampleSelective(record, example);
+                        }
+                    }
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("successCount", successCount);
+        resultMap.put("totalCount", files.length);
+
+        return resultMap;
+    }
+
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequestMapping("/passport_uploadPic")
+    public String passport_uploadPic() {
 
         return "abroad/passport/passport_uploadPic";
     }
@@ -478,9 +535,9 @@ public class PassportController extends AbroadBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-     @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
-     @RequestMapping("/updateLostProof")
-     public String updateLostProof(int id, ModelMap modelMap) {
+    @RequiresRoles(value = {RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_CADREADMIN}, logical = Logical.OR)
+    @RequestMapping("/updateLostProof")
+    public String updateLostProof(int id, ModelMap modelMap) {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         modelMap.put("passport", passport);
