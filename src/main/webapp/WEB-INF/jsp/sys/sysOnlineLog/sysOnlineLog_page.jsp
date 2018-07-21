@@ -46,6 +46,7 @@ pageEncoding="UTF-8" %>
 
                 return $.user(rowObject.shiroUser.id, rowObject.shiroUser.realname)
             },frozen:true },
+            <shiro:hasAnyRoles name="${ROLE_ADMIN}">
             { label: '角色', name: 'shiroUser.roles', align:'left', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '-'
                 return $.map(cellvalue, function(item){
@@ -53,6 +54,7 @@ pageEncoding="UTF-8" %>
                     return role?role.description:null;
                 });
             }, width: 300},
+            </shiro:hasAnyRoles>
             { label: '最新操作时间', name: 'lastAccessTime',sortable:true, width: 160 },
             { label: '登录时间', name: 'startTimestamp',sortable:true, width: 160 },
             { label:'登录IP', name: 'ip', width: 150},
