@@ -24,33 +24,33 @@
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="zh_CN" x="1080" y="753" width="264" height="91" uuid="ed901c94-751e-4009-bd15-b98470ccbe8d"/>
 				<textElement>
-					<font fontName="宋体" size="60" isBold="true"/>
+					<font fontName="宋体" size="50" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{realname}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="zh_CN" x="1739" y="753" width="329" height="97" uuid="4cf55882-1422-4fa1-904e-6c5cbded6978"/>
 				<textElement textAlignment="Center">
-					<font fontName="宋体" size="60" isBold="true"/>
+					<font fontName="宋体" size="50" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="zh_CN" x="498" y="731" width="576" height="126" uuid="2748c219-46a8-4416-94eb-49eb5442d853"/>
 				<textElement textAlignment="Center">
-					<font fontName="宋体" size="55" isBold="true"/>
+					<font fontName="宋体" size="50" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unit}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="zh_CN" x="1193" y="993" width="514" height="117" uuid="ef85ef20-0113-41bd-b577-23c3f932442e"/>
+				<reportElement style="zh_CN" x="1193" y="993" width="555" height="117" uuid="ef85ef20-0113-41bd-b577-23c3f932442e"/>
 				<textElement>
 					<font fontName="宋体" size="50" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{toCountry}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="zh_CN" x="1739" y="993" width="451" height="112" uuid="5a0cebcd-da4c-4314-ba86-cbb9cf98ce0a"/>
+				<reportElement style="zh_CN" x="1787" y="993" width="403" height="112" uuid="5a0cebcd-da4c-4314-ba86-cbb9cf98ce0a"/>
 				<textElement textAlignment="Left">
 					<font fontName="宋体" size="50" isBold="true" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
@@ -80,14 +80,14 @@
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="zh_CN" x="439" y="1016" width="692" height="94" uuid="cd8252ef-7644-4242-81b4-0902e9c016db"/>
 				<textElement textAlignment="Center">
-					<font fontName="宋体" size="55" isBold="true"/>
+					<font fontName="宋体" size="50" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{travelTime}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="zh_CN" x="0" y="377" width="2480" height="126" uuid="ec6a8df6-af8d-4d8f-a77f-4f89db999848"/>
 				<textElement textAlignment="Center">
-					<font fontName="宋体" size="72" isBold="true" isItalic="false"/>
+					<font fontName="黑体" size="80" isBold="true" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
 			</textField>
