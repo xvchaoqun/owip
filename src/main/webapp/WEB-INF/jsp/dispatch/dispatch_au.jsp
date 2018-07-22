@@ -143,7 +143,8 @@
                     </div>
                 </div>
                 <div class="clearfix form-actions center">
-                    <button class="btn btn-info btn-sm" type="submit">
+                    <button id="submitBtn" class="btn btn-info btn-sm" type="button"
+                            data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
                         <i class="ace-icon fa fa-check "></i>
                         ${dispatch!=null?"修改":"添加"}
                     </button>
@@ -224,6 +225,7 @@
     $.register.dispatchType_select($('#modalForm select[name=dispatchTypeId]'), $("#modalForm input[name=year]"));
     $.register.date($('.date-picker'));
 
+    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         rules: {
             code: {
@@ -231,6 +233,7 @@
             }
         },
         submitHandler: function (form) {
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
@@ -245,7 +248,7 @@
                                     className: 'btn-default btn-show'
                                 }
                             },
-                            message: '是否继续添加干部任免信息？',
+                            message: '<div class="msg info">是否继续添加干部任免信息？</div>',
                             callback: function(result) {
                                 if (result) {
                                     $("#body-content-view").load("${ctx}/dispatch_cadres?dispatchId=" + ret.id);
@@ -253,9 +256,10 @@
                                     $.hideView();
                                 }
                             },
-                            title: '操作成功'
-                        });
+                            title: '<div class="msg title text-success"><i class="fa fa-check-square-o"></i> 操作成功</div>',
+                        }).draggable({handle: ".modal-header"});
                     }
+                    $btn.button('reset');
                 }
             });
         }

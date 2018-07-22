@@ -43,6 +43,7 @@
         params.bgcolor = "#ffffff";
         params.allowscriptaccess = "sameDomain";
         params.allowfullscreen = true;
+        params.wmode = 'opaque';
         var attributes = {};
         attributes.id = "FlexPaperViewer";
         attributes.name = "FlexPaperViewer";

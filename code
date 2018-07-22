@@ -116,6 +116,8 @@ $.reloadMetaData(function(){
 });
 
 按钮加载中
+$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
+
  <button id="submitBtn" type="button" class="btn btn-primary"
 			 data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"> 确定</button>
  var $btn = $("#submitBtn").button('loading');
