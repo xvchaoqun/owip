@@ -170,6 +170,8 @@
                 return $.user(rowObject.id, cellvalue);
             },frozen:true  },
             { label:'头像', name: 'avatar', width: 50, formatter:function(cellvalue, options, rowObject){
+                if($.trim(rowObject.username)=='') return ''
+
                 var html ='<img title="点击修改头像" src="${ctx}/avatar/{0}?_={1}"'
                         +'class="avatar" data-id="{2}"'
                         +'data-hasimg="{3}" data-username="{4}">';
