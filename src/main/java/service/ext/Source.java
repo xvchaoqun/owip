@@ -253,7 +253,7 @@ public abstract class Source {
         while (rs != null && rs.next()) {
             String columnName = rs.getString("column_name");
             String dataType = rs.getString("data_type");
-            int length = rs.getInt("data_length");
+            long length = rs.getLong("data_length");
 
             if (StringUtils.equalsIgnoreCase(columnName, "ID")
                     || StringUtils.equalsIgnoreCase(columnName, "status")) continue;
