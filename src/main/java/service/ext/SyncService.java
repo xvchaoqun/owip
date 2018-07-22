@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
+import service.SpringProps;
 import service.sys.SysUserService;
 import shiro.PasswordHelper;
 import shiro.ShiroHelper;
@@ -45,6 +46,8 @@ public class SyncService extends BaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    protected SpringProps springProps;
     @Autowired
     protected PasswordHelper passwordHelper;
     @Autowired
@@ -843,6 +846,9 @@ public class SyncService extends BaseMapper {
             }
             if(StringUtils.isNotBlank(sysUserInfo.getHomePhone())){
                 record.setHomePhone(null);
+            }
+            if(StringUtils.isNotBlank(sysUserInfo.getAvatar())){
+                record.setAvatar(null);
             }
         }
     }

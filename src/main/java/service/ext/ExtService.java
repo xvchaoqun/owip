@@ -109,7 +109,7 @@ public class ExtService extends BaseMapper {
 
         ExtJzgExample example = new ExtJzgExample();
         example.createCriteria().andZghEqualTo(code);
-        List<ExtJzg> extJzges = extJzgMapper.selectByExample(example);
+        List<ExtJzg> extJzges = extJzgMapper.selectByExampleWithBLOBs(example);
         if(extJzges.size()>0) return extJzges.get(0);
 
         return null;
