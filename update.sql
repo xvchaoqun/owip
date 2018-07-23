@@ -1,6 +1,6 @@
 
 
--- 更新北化工
+-- 更新北化工、西交大
 
 20180719
 ALTER TABLE `abroad_approver_black_list`
