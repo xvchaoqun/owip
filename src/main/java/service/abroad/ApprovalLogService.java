@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import persistence.abroad.common.ApprovalResult;
 import service.BaseMapper;
 import service.sys.SysApprovalLogService;
+import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -214,6 +215,8 @@ public class ApprovalLogService extends BaseMapper {
                 //如果管理员初审未通过，就不需要领导审批，也不需要管理员再终审一次，直接就退回给干部了。
                 // 也就是说只要管理员初审不通过，就相当于此次申请已经完成了审批。那么这条记录应该转移到“已完成审批”中去。
                 applySelf.setIsFinish(true);
+                applySelf.setFlowNodes("-1");
+                applySelf.setFlowUsers(ShiroHelper.getCurrentUserId()+"");
 
                 applySelfService.doApproval(applySelf);
             }

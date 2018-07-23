@@ -207,7 +207,7 @@
             case 2: html = ""; break;
             case 3:
             case 4: html = "未审批"; break;
-            case 5: html = "未通过"; break;
+            case 5: html = '<span class="text-danger bolder">未通过</span>'; break;
             case 6: html = "通过"; break;
         }
 
