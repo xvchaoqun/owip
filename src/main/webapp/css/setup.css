@@ -73,6 +73,12 @@
         padding-top: 101px;
     }
 }
+.breadcrumbs{
+    width: 100%;
+    position: fixed;
+    top: 91px;
+    z-index: 1000;
+}
 .breadcrumb,
 .navbar .nav-list > li > a,
 body {
@@ -110,7 +116,8 @@ body {
 .footer {
     padding-top: 0;
     /*padding-top: 50px;*/
-    margin-top: 66px;
+    /*margin-top: 66px;*/
+    margin-top: 90px;
 }
 
 .footer-margin {
@@ -138,6 +145,7 @@ body {
 }
 
 .page-content {
+    top:41px;
     min-height: 300px!important;
     padding-bottom: 0px !important;
 }

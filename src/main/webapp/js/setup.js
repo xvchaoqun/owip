@@ -952,8 +952,9 @@ $(window).bind("hashchange", function () {
     var url = hash.substr(1);
     if (url == '') return;
 
-    //alert(hash.substr(1))
-    $.getJSON(ctx + "/menu_breadcrumbs?url=" + encodeURI(url)).done(function (topMenus) {
+    //console.log(hash.substr(1))
+    //console.log(new Base64().encode(url))
+    $.getJSON(ctx + "/menu_breadcrumbs?url=" + new Base64().encode(url)).done(function (topMenus) {
 
         var breadcrumbs = _.template($("#breadcrumbs_tpl").html())({data: topMenus});
         $.ajax({

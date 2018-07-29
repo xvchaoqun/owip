@@ -1,5 +1,27 @@
 
 
+20180729
+新增 base_annual_type
+
+新增 sc_subsidy等表
+新增 sc_subsidy_cadre_view  sc_subsidy_dispatch_view
+
+新增 sc_motion等表
+
+增加 mc_sc_motion_type， mc_sc_motion_sctype
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `sort_order`, `available`) VALUES (69, NULL, '动议事项', '干部选拔', '干部任用纪实', 'mc_sc_motion_type', '', '', 69, 1);
+INSERT INTO `base_meta_class` (`id`, `role_id`, `name`, `first_level`, `second_level`, `code`, `bool_attr`, `extra_attr`, `sort_order`, `available`) VALUES (70, NULL, '干部选任方式', '干部选拔', '干部任用纪实', 'mc_sc_motion_sctype', '', '', 70, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (69, '学院行政班子换届', 'mt_ngpqab', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (69, '基层党组织换届', 'mt_j4mpl4', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (69, '补充干部', 'mt_sqmsio', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (70, '民主推荐', 'mt_jczbfe', NULL, '', '', 1, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (70, '竞争上岗', 'mt_eupqjf', NULL, '', '', 2, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (70, '公开招聘', 'mt_7ov3ym', NULL, '', '', 3, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (70, '基层党组织换届', 'mt_eonilk', NULL, '', '', 4, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (70, '行政班子换届', 'mt_akqjki', NULL, '', '', 5, 1);
+INSERT INTO `base_meta_type` (`class_id`, `name`, `code`, `bool_attr`, `extra_attr`, `remark`, `sort_order`, `available`) VALUES (70, '交流轮岗', 'mt_2zqqri', NULL, '', '', 6, 1);
+
+
 -- 更新北化工、西交大
 
 20180719

@@ -87,7 +87,7 @@ function stickheader($table) {
 					} else {
 						// If it is not overflowing (basic layout)
 						// Position sticky header based on viewport scrollTop
-						if ($w.scrollTop() > $t.offset().top && $w.scrollTop() < $t.offset().top + $t.outerHeight() - allowance) {
+						if ($w.scrollTop() > ($t.offset().top-($t.data("offset-top")||0)) && $w.scrollTop() < $t.offset().top + $t.outerHeight() - allowance) {
 							//console.log($t.offset().top)
 							// When top of viewport is in the table itself
 							$stickyHead.add($stickyInsct).css({

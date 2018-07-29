@@ -1065,7 +1065,9 @@ if ($.jgrid) {
             var name = null;
             var unit = _cMap.unitMap[cellvalue];
             if(unit!=undefined) name=unit.name;
-            return $.trim(name)==''?'-':('<span class="{0}">{1}</span>').format(unit.status==2?'delete':'', name);
+
+            return $.trim(name)==''?'-':('<a href="javascript:;" class="openView" data-url="{3}/unit_view?id={0}"><span class="{1}">{2}</span></a>'
+                .format(unit.id, unit.status==2?'delete':'', name, ctx));
         },
         AGE: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '';

@@ -163,6 +163,16 @@ left join cet_train_course ctc on ctc.course_id=cc.id
 left join cet_trainee_course cteec on cteec.train_course_id=ctc.id
 group by ce.id;
 
+-- 干部津贴变动
+DROP VIEW IF EXISTS `sc_subsidy_cadre_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_subsidy_cadre_view`
+AS select ssc.*, ss.info_date, ss.year, ss.hr_type, ss.hr_num, ss.hr_file_path, ss.fe_type, ss.fe_num, ss.fe_file_path
+from sc_subsidy_cadre ssc left join sc_subsidy ss on ssc.subsidy_id=ss.id ;
+
+DROP VIEW IF EXISTS `sc_subsidy_dispatch_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_subsidy_dispatch_view` AS
+select ssd.*, ss.info_date, ss.year, ss.hr_type, ss.hr_num, ss.hr_file_path, ss.fe_type, ss.fe_num, ss.fe_file_path
+from sc_subsidy_dispatch ssd left join sc_subsidy ss on ssd.subsidy_id=ss.id ;
 
 -- 干部任免审批表归档
 DROP VIEW IF EXISTS `sc_ad_archive_view`;
