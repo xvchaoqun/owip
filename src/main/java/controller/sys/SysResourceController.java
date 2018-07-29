@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -90,6 +91,7 @@ public class SysResourceController extends BaseController {
 			return failed(FormUtils.DUPLICATE);
 		}
 
+		record.setUrl(HtmlUtils.htmlUnescape(record.getUrl()));
 		record.setIsMobile(BooleanUtils.isTrue(record.getIsMobile()));
 
 		Integer parentId = record.getParentId();

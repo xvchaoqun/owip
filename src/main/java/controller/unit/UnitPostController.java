@@ -269,7 +269,7 @@ public class UnitPostController extends BaseController {
 
     @RequestMapping("/unitPost_selects")
     @ResponseBody
-    public Map unitPost_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map unitPost_selects(Integer pageSize, Integer pageNo, Integer unitId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -282,7 +282,9 @@ public class UnitPostController extends BaseController {
         UnitPostExample example = new UnitPostExample();
         Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
-
+        if(unitId!=null){
+            criteria.andUnitIdEqualTo(unitId);
+        }
         if(StringUtils.isNotBlank(searchStr)){
             criteria.andNameLike("%"+searchStr+"%");
         }

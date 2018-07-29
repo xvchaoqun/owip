@@ -1,6 +1,7 @@
 package persistence.sc;
 
 import domain.cadre.CadreView;
+import domain.dispatch.DispatchCadre;
 import domain.sc.scCommittee.ScCommittee;
 import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scMatter.ScMatterAccess;
@@ -66,4 +67,13 @@ public interface IScMapper {
     @Select("select sph.dispatch_cadre_id from sc_passport_hand sph, dispatch_cadre dc " +
             "where sph.dispatch_cadre_id=dc.id and dc.dispatch_id=#{dispatchId}")
     public List<Integer> getScPassportHandList(@Param("dispatchId") int dispatchId);
+
+    // 干部津贴变动-已经使用的任免文件
+    @Select("select ssd.dispatch_id from sc_subsidy_dispatch ssd, dispatch d where ssd.dispatch_id=d.id and d.year=#{year}")
+    List<Integer> getScSubsidyDispatchIds(@Param("year") int year);
+
+    @ResultMap("persistence.dispatch.DispatchCadreMapper.BaseResultMap")
+    @Select("select dc.* from dispatch d, dispatch_cadre dc, cadre c where d.id in(${dispatchIds}) and dc.dispatch_id=d.id and c.id=dc.cadre_id " +
+            "order by d.work_time asc, field(c.status, 0,7,2,5,3,1,4,6) desc, c.sort_order desc ")
+    List<DispatchCadre> getDispatchCadres(@Param("dispatchIds") String dispatchIds);
 }

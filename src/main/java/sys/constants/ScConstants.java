@@ -9,6 +9,21 @@ import java.util.Map;
 public class ScConstants {
 
     /**
+     * 动议
+     */
+    // 动议形式，党委干部工作小组会、 党委常委会、 其他
+    public final static byte SC_MOTION_WAY_GROUP = 1;
+    public final static byte SC_MOTION_WAY_COMMITE = 2;
+    public final static byte SC_MOTION_WAY_OTHER = 3;
+    public final static Map<Byte, String> SC_MOTION_WAY_MAP = new LinkedHashMap();
+
+    static {
+        SC_MOTION_WAY_MAP.put(SC_MOTION_WAY_GROUP, "党委干部工作小组会");
+        SC_MOTION_WAY_MAP.put(SC_MOTION_WAY_COMMITE, "党委常委会");
+        SC_MOTION_WAY_MAP.put(SC_MOTION_WAY_OTHER, "其他");
+    }
+
+    /**
      * 新提任干部交证件
      */
     // 添加方式，1 自动识别  2 从干部库中选择 3 从任免文件中提取

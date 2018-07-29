@@ -19,6 +19,7 @@ import service.SpringProps;
 import service.analysis.StatCadreService;
 import service.analysis.StatPartyMemberService;
 import service.analysis.StatService;
+import service.base.AnnualTypeService;
 import service.base.ContentTplService;
 import service.base.CountryService;
 import service.base.LocationService;
@@ -242,6 +243,8 @@ public class BaseController extends BaseMapper {
     protected MetaClassService metaClassService;
     @Autowired
     protected MetaTypeService metaTypeService;
+    @Autowired
+    protected AnnualTypeService annualTypeService;
     @Autowired
     protected ShortMsgTplService shortMsgTplService;
 

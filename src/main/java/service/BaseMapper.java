@@ -22,6 +22,7 @@ import persistence.abroad.PassportMapper;
 import persistence.abroad.SafeBoxMapper;
 import persistence.abroad.TaiwanRecordMapper;
 import persistence.abroad.common.IAbroadMapper;
+import persistence.base.AnnualTypeMapper;
 import persistence.base.ContentTplMapper;
 import persistence.base.CountryMapper;
 import persistence.base.LocationMapper;
@@ -340,12 +341,20 @@ import persistence.sc.scMatter.ScMatterItemViewMapper;
 import persistence.sc.scMatter.ScMatterMapper;
 import persistence.sc.scMatter.ScMatterTransferMapper;
 import persistence.sc.scMatter.ScMatterUserViewMapper;
+import persistence.sc.scMotion.ScMotionMapper;
+import persistence.sc.scMotion.ScMotionPostMapper;
 import persistence.sc.scPassport.ScPassportHandMapper;
 import persistence.sc.scPassport.ScPassportMapper;
 import persistence.sc.scPassport.ScPassportMsgMapper;
 import persistence.sc.scPublic.ScPublicMapper;
 import persistence.sc.scPublic.ScPublicUserMapper;
 import persistence.sc.scPublic.ScPublicViewMapper;
+import persistence.sc.scSubsidy.ScSubsidyCadreMapper;
+import persistence.sc.scSubsidy.ScSubsidyCadreViewMapper;
+import persistence.sc.scSubsidy.ScSubsidyDcMapper;
+import persistence.sc.scSubsidy.ScSubsidyDispatchMapper;
+import persistence.sc.scSubsidy.ScSubsidyDispatchViewMapper;
+import persistence.sc.scSubsidy.ScSubsidyMapper;
 import persistence.sys.AttachFileMapper;
 import persistence.sys.FeedbackMapper;
 import persistence.sys.HtmlFragmentMapper;
@@ -487,6 +496,30 @@ public class BaseMapper {
     protected CetTrainInspectorViewMapper cetTrainInspectorViewMapper;
     @Autowired(required = false)
     protected CetTrainInspectorCourseMapper cetTrainInspectorCourseMapper;
+
+    /**
+     * 干部选拔-动议
+     */
+    @Autowired(required = false)
+    protected ScMotionMapper scMotionMapper;
+    @Autowired(required = false)
+    protected ScMotionPostMapper scMotionPostMapper;
+
+    /**
+     * 干部选拔-干部津贴变动
+     */
+    @Autowired(required = false)
+    protected ScSubsidyMapper scSubsidyMapper;
+    @Autowired(required = false)
+    protected ScSubsidyDispatchMapper scSubsidyDispatchMapper;
+    @Autowired(required = false)
+    protected ScSubsidyDispatchViewMapper scSubsidyDispatchViewMapper;
+    @Autowired(required = false)
+    protected ScSubsidyCadreMapper scSubsidyCadreMapper;
+    @Autowired(required = false)
+    protected ScSubsidyCadreViewMapper scSubsidyCadreViewMapper;
+    @Autowired(required = false)
+    protected ScSubsidyDcMapper scSubsidyDcMapper;
 
     /**
      * 干部选拔-新提任干部交证件
@@ -1214,6 +1247,8 @@ public class BaseMapper {
     protected MetaClassMapper metaClassMapper;
     @Autowired(required = false)
     protected MetaTypeMapper metaTypeMapper;
+    @Autowired(required = false)
+    protected AnnualTypeMapper annualTypeMapper;
     @Autowired(required = false)
     protected CountryMapper countryMapper;
     @Autowired(required = false)

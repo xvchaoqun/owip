@@ -139,7 +139,7 @@
         url: '${ctx}/cet/cetTrain_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {
-                label: '详情', name: '_detail', width: '80', formatter: function (cellvalue, options, rowObject) {
+                label: '详情', name: '_detail', width:80, formatter: function (cellvalue, options, rowObject) {
                 return ('<button class="openView btn btn-success btn-xs" ' +
                 'data-url="${ctx}/cet/cetTrain_detail?trainId={0}"><i class="fa fa-search"></i> 详情</button>')
                         .format(rowObject.id);

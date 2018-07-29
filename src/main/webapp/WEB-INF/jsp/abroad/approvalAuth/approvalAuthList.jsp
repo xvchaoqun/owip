@@ -7,7 +7,7 @@
     <div class="tabbable" style="margin: 10px 20px; width: 1200px">
       <div class="space-4"></div>
 
-      <table class="table table-bordered table-striped table-center" data-offset-top="101">
+      <table class="table table-bordered table-striped table-center" data-offset-top="132">
         <thead>
         <tr>
           <th width="50">序号</th>

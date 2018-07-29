@@ -3,12 +3,13 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
 <c:if test="${param._auth!='self'}">
-    <div class="hidden-xs hidden-sm" title="${cadre.title}" style="position:absolute; top: -45px; width: 450px;
-    left:50%;margin-left:-225px; font-size: 16pt; font-weight: bolder;white-space:nowrap; overflow:hidden;text-overflow:ellipsis">
+    <div class="hidden-xs hidden-sm" title="${cadre.title}" style="position:fixed; top: 95px; width: 450px;
+    left:50%;margin-left:-225px; font-size: 16pt; font-weight: bolder;white-space:nowrap;
+    /*overflow:hidden;text-overflow:ellipsis;*/z-index: 1001">
         【${sysUser.realname}】<c:if test="${not empty cadre.title}"> — ${cadre.title}</c:if>
     </div>
     <h4 class="widget-title lighter smaller"
-        style="position:absolute; top: -50px; right: 50px; ">
+        style="position:fixed; top: 91px; right: 50px;z-index: 1001 ">
         <a href="javascript:"
            data-load-el="#${param.loadEl}" data-hide-el="#${param.hideEl}"
            class="hideView btn btn-xs btn-success">
@@ -22,7 +23,7 @@
 
 <div class="widget-box transparent" id="view-box">
     <div class="widget-header" style="border-bottom:none">
-        <div class="jqgrid-vertical-offset widget-toolbar no-border"
+        <div class="widget-toolbar no-border"
              style="float:left;border-bottom: 1px solid #dce8f1;">
             <ul class="nav nav-tabs">
                 <li class="${to=='cadre_base'?'active':''}">

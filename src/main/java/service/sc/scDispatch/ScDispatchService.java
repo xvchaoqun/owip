@@ -176,9 +176,17 @@ public class ScDispatchService extends BaseMapper {
         //wb.setSheetName(0, dispatchCode);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        XSSFRow row = sheet.getRow(1);
-        XSSFCell cell = row.getCell(2);
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String schoolName = CmTag.getSysConfig().getSchoolName();
+        schoolName = schoolName.replaceAll ("(.{1})", "$1 "); // 每个字后添加一个空格
         String str = cell.getStringCellValue()
+                .replace("school", schoolName);
+        cell.setCellValue(str);
+
+        row = sheet.getRow(1);
+        cell = row.getCell(2);
+        str = cell.getStringCellValue()
                 .replace("code", StringUtils.trimToEmpty(dispatchCode));
         cell.setCellValue(str);
 

@@ -1,0 +1,13 @@
+package mixin;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * Created by fafa on 2016/5/12.
+ */
+public class UnitOptionMixin extends OptionMixin {
+    @JsonProperty
+    public Integer typeId;
+    @JsonProperty
+    public Byte status;
+}

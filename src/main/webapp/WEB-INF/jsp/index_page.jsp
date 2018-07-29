@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<div class="modal-body">
+<div class="modal-body" style="margin-top: -41px">
   <div class="widget-box transparent" id="view-box">
 <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
     <div class="widget-header">
@@ -42,3 +42,4 @@
     </div><!-- /.widget-body -->
   </div><!-- /.widget-box -->
 </div>
+<div style="clear: both"></div>

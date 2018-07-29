@@ -31,7 +31,6 @@
             <td nowrap>
               <a href="javascript:;" data-url="${ctx}/metaClass_type_changeOrder?cls=${metaClass.code}"
                  data-callback="_reload" data-cls="${metaClass.code}"
-                 <c:if test="${st.first}">style="visibility: hidden"</c:if>
                  class="changeOrderBtn" data-id="${record.id}" data-direction="1" title="上升">
                 <i class="fa fa-arrow-up"></i></a>
               <input type="text" value="1"
@@ -39,9 +38,8 @@
                      title="修改操作步长">
               <a href="javascript:;" data-url="${ctx}/metaClass_type_changeOrder?cls=${metaClass.code}"
                  data-callback="_reload" data-cls="${metaClass.code}"
-                 <c:if test="${st.last}">style="visibility: hidden"</c:if>
                  class="changeOrderBtn" data-id="${record.id}" data-direction="-1" title="下降"><i
-                      class="fa fa-arrow-down"></i></a></td>
+                      class="fa fa-arrow-down"></i></a>
             </td>
             <td>
               <a class="popupBtn btn btn-primary btn-xs"

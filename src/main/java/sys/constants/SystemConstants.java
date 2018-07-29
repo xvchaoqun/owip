@@ -313,4 +313,12 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_STATUS_MAP.put(SYS_APPROVAL_LOG_STATUS_BACK, "打回");
         SYS_APPROVAL_LOG_STATUS_MAP.put(SYS_APPROVAL_LOG_STATUS_NONEED, "-");
     }
+
+    // 年度类型所属模块
+    public final static byte ANNUAL_TYPE_MODULE_SUBSIDY = 1; // 干部津贴变动文件 文号
+    public final static Map<Byte, String> ANNUAL_TYPE_MODULE_MAP = new LinkedHashMap<>();
+
+    static {
+        ANNUAL_TYPE_MODULE_MAP.put(ANNUAL_TYPE_MODULE_SUBSIDY, "文号");
+    }
 }

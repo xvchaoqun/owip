@@ -24,6 +24,7 @@ public class LogConstants {
     public static final int LOG_PMD = 90; // 党费收缴
     public static final int LOG_CPC = 100; // 干部职数
     public static final int LOG_CRS = 110; // 干部竞争上岗
+    public static final int LOG_SC_MOTION = 115; // 干部选拔任用-动议
     public static final int LOG_SC_MATTER = 120; // 干部选拔任用-个人有关事项
     public static final int LOG_SC_LETTER = 130; // 干部选拔任用-纪委函询管理
     public static final int LOG_SC_GROUP = 140; // 干部选拔任用-干部小组会议题
@@ -32,6 +33,7 @@ public class LogConstants {
     public static final int LOG_SC_DISPATCH = 170; // 干部选拔任用-文件起草签发
     public static final int LOG_SC_AD = 180; // 干部选拔任用-干部任免审批表
     public static final int LOG_SC_PASSPORT = 190; // 干部选拔任用-新提任干部交证件
+    public static final int LOG_SC_SUBSIDY = 195; // 干部选拔任用-干部津贴变动
 
     public static final int LOG_CET = 190; // 干部教育培训
 
@@ -53,6 +55,8 @@ public class LogConstants {
         LOG_MAP.put(LOG_CPC, "干部职数");
 
         LOG_MAP.put(LOG_CRS, "干部竞争上岗");
+
+        LOG_MAP.put(LOG_SC_MOTION, "动议");
         LOG_MAP.put(LOG_SC_MATTER, "个人有关事项");
         LOG_MAP.put(LOG_SC_LETTER, "纪委函询管理");
         LOG_MAP.put(LOG_SC_GROUP, "干部小组会议题");
@@ -61,6 +65,9 @@ public class LogConstants {
         LOG_MAP.put(LOG_SC_PUBLIC, "干部任前公示");
         LOG_MAP.put(LOG_SC_DISPATCH, "文件起草签发");
         LOG_MAP.put(LOG_SC_AD, "干部任免审批表");
+        LOG_MAP.put(LOG_SC_PASSPORT, "新提任干部交证件");
+        LOG_MAP.put(LOG_SC_SUBSIDY, "干部津贴变动");
+
         LOG_MAP.put(LOG_CET, "干部教育培训");
     }
 }

@@ -190,7 +190,11 @@ public class HtmlFragmentController extends BaseController {
     }
 
     @RequestMapping("/hf_content")
-    public String hf_content(String code, Integer id, ModelMap modelMap) {
+    public String hf_content(String code,
+                             Integer id,
+                             // modal, page
+                             @RequestParam(required = false, defaultValue = "modal") String openBy,
+                             ModelMap modelMap) {
 
         HtmlFragment htmlFragment = null;
         if(id !=null) // 以id为主
@@ -200,7 +204,10 @@ public class HtmlFragmentController extends BaseController {
 
         modelMap.put("htmlFragment", htmlFragment);
 
-        return "sys/htmlFragment/hf_content";
+        if(StringUtils.equals(openBy, "modal"))
+            return "sys/htmlFragment/hf_content";
+
+        return "sys/htmlFragment/hf_content_page";
     }
 
     @RequiresRoles(RoleConstants.ROLE_ADMIN)

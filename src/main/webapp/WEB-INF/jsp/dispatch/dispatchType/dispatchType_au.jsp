@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
                 <label class="col-xs-3 control-label">年份</label>
                 <div class="col-xs-6">
                     <div class="input-group">
-                        <input required class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
+                        <input required autocomplete="off" class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
                                data-date-format="yyyy" data-date-min-view-mode="2" value="${dispatchType.year}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>

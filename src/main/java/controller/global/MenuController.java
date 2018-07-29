@@ -2,6 +2,7 @@ package controller.global;
 
 import controller.BaseController;
 import domain.sys.SysResource;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
@@ -9,11 +10,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.HtmlUtils;
 import shiro.ShiroHelper;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -74,17 +75,32 @@ public class MenuController extends BaseController {
 
     @RequestMapping("/menu_breadcrumbs")
     @ResponseBody
-    public Map menu_breadcrumbs(String url, ModelMap modelMap) {
+    public Map menu_breadcrumbs(String url, ModelMap modelMap) throws UnsupportedEncodingException {
 
-        url = HtmlUtils.htmlUnescape(url);
+        url = new String(Base64.decodeBase64(url), "UTF-8");
+        SysResource cur;
+        do {
+            cur = sysResourceService.getByUrl(url);
+            if(cur != null) break;
+
+            int idx = url.lastIndexOf("&");
+            if (idx == -1) {
+                idx = url.indexOf("?");
+                if(idx==-1) break;
+            }
+            url = url.substring(0, idx);
+
+        }while (cur == null);
+
+        //url = HtmlUtils.htmlUnescape(url);
 
         // 只允许最多带一个参数作为资源地址
-        if(url.contains("&")) url = url.split("&")[0];
+        /*if(url.contains("&")) url = url.split("&")[0];
         SysResource cur = sysResourceService.getByUrl(url);
         if (cur == null && url.contains("?")) {
             url = url.split("\\?")[0];
             cur = sysResourceService.getByUrl(url);
-        }
+        }*/
 
         Set parentIdSet = CmTag.getParentSet(url);
         Map<String, Object> resultMap = success();

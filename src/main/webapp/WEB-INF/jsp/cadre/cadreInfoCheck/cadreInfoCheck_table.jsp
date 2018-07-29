@@ -22,7 +22,7 @@
 <c:set var="moudleBase" value="${param._auth=='self'?100:0}"/>
 <div class="tabbable" style="margin: 0px 20px; width: 900px">
     <div class="space-4"></div>
-    <table class="checkTable table table-bordered table-unhover2" data-offset-top="101">
+    <table class="checkTable table table-bordered table-unhover2" data-offset-top="132">
     <thead>
     <tr>
         <th width="150">类别</th>
@@ -538,7 +538,7 @@
         <td class="bg-left">
             <t:cadre_info_edit
                     editUrl="?cadreId=${param.cadreId}&to=cadreCompany"
-                    applyUrl="${ctx}/modifyTableApply?module=${moudleBase+moudleBase+MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY}"
+                    applyUrl="${ctx}/modifyTableApply?module=${moudleBase+MODIFY_TABLE_APPLY_MODULE_CADRE_COMPANY}"
                     notExist="${result==CADRE_INFO_CHECK_RESULT_NOT_EXIST}"
                     toEdit="${toEdit}" updateName="${updateName}"/>
         </td>

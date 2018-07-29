@@ -21,7 +21,7 @@ import domain.unit.Unit;
 import mixin.MetaTypeOptionMixin;
 import mixin.OptionMixin;
 import mixin.PartyOptionMixin;
-import mixin.StatusOptionMixin;
+import mixin.UnitOptionMixin;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.cache.Cache;
@@ -239,7 +239,7 @@ public class CacheService extends BaseController{
         baseMixins.put(MetaType.class, MetaTypeOptionMixin.class);
         baseMixins.put(Party.class, PartyOptionMixin.class);
         baseMixins.put(Branch.class, PartyOptionMixin.class);
-        baseMixins.put(Unit.class, StatusOptionMixin.class);
+        baseMixins.put(Unit.class, UnitOptionMixin.class);
         baseMixins.put(DispatchType.class, OptionMixin.class);
         baseMixins.put(ApproverType.class, OptionMixin.class);
         baseMixins.put(Location.class, OptionMixin.class);

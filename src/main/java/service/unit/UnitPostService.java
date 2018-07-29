@@ -3,6 +3,8 @@ package service.unit;
 import domain.unit.UnitPost;
 import domain.unit.UnitPostExample;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -11,7 +13,9 @@ import sys.constants.SystemConstants;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UnitPostService extends BaseMapper {
@@ -26,6 +30,7 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value="unitPosts", allEntries = true)
     public void insertSelective(UnitPost record) {
 
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate");
@@ -35,12 +40,14 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value="unitPosts", allEntries = true)
     public void del(Integer id) {
 
         unitPostMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
+    @CacheEvict(value="unitPosts", allEntries = true)
     public void batchDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
@@ -51,12 +58,27 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value="unitPosts", allEntries = true)
     public int updateByPrimaryKeySelective(UnitPost record) {
         if (record.getCode() != null)
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate");
         return unitPostMapper.updateByPrimaryKeySelective(record);
     }
 
+    @Cacheable(value="unitPosts", key = "#unitId")
+    public Map<Integer, UnitPost> findAll(int unitId) {
+
+        UnitPostExample example = new UnitPostExample();
+        example.createCriteria().andUnitIdEqualTo(unitId);
+        example.setOrderByClause("sort_order desc");
+        List<UnitPost> records = unitPostMapper.selectByExample(example);
+        Map<Integer, UnitPost> map = new LinkedHashMap<>();
+        for (UnitPost unitPost : records) {
+            map.put(unitPost.getId(), unitPost);
+        }
+
+        return map;
+    }
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      *
@@ -64,6 +86,7 @@ public class UnitPostService extends BaseMapper {
      * @param addNum
      */
     @Transactional
+    @CacheEvict(value="unitPosts", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         if (addNum == 0) return;
@@ -106,6 +129,7 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value="unitPosts", allEntries = true)
     public void abolish(int id, Date abolishDate) {
 
         UnitPost record = new UnitPost();
@@ -121,6 +145,7 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
+    @CacheEvict(value="unitPosts", allEntries = true)
     public void unabolish(int id) {
 
         UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
