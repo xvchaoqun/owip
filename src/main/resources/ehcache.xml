@@ -490,6 +490,14 @@
            timeToIdleSeconds="0"
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
+    <cache name="unitPosts"
+           eternal="false"
+           maxElementsInMemory="100"
+           overflowToDisk="false"
+           diskPersistent="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="300"
+           memoryStoreEvictionPolicy="LRU"/>
 
 
     <cache name="MetaClass:ALL"
@@ -574,6 +582,15 @@
               diskPersistent="true"
               diskExpiryThreadIntervalSeconds="600"/>
        <cache name="MetaTyes"
+              maxElementsInMemory="100"
+              overflowToDisk="true"
+              eternal="true"
+              timeToLiveSeconds="0"
+              timeToIdleSeconds="0"
+              diskPersistent="true"
+              diskExpiryThreadIntervalSeconds="600"/>
+
+       <cache name="AnnualTypes"
               maxElementsInMemory="100"
               overflowToDisk="true"
               eternal="true"
