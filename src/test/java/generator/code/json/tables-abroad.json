@@ -4,6 +4,7 @@
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "abroad_",
   "folder": "abroad",
+  "resFolder": "abroad",
   "tables": [
     {
       "table": "approval_order",

@@ -63,7 +63,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
                                  @SortParam(required = false, defaultValue = "sort_order", tableName = "${tablePrefix}${tablesqlname}") String sort,
                                  @OrderParam(required = false, defaultValue = "desc") String order,
                                 <#list searchColumnBeans as column>
-                                    <#if column.type=="varchar"||column.type=="text">String<#elseif column.type=="datetime"||column.type=="date">Date<#elseif column.type=="int">Integer<#elseif column.type=="tinyint">Byte</#if> ${tbn(column.name, "tableName")},
+                                    <#if column.type=="varchar"||column.type=="text">String<#elseif column.type=="datetime"||column.type=="date">Date<#elseif column.type=="int">Integer<#elseif column.type=="smallint">Short<#elseif column.type=="tinyint">Byte</#if> ${tbn(column.name, "tableName")},
                                 </#list>
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
@@ -82,7 +82,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
         example.setOrderByClause(String.format("%s %s", sort, order));
 
         <#list searchColumnBeans as column>
-        <#if column.type=="int" || column.type=="tinyint">
+        <#if column.type=="int" || column.type=="tinyint" || column.type=="smallint">
         if (${tbn(column.name, "tableName")}!=null) {
             criteria.and${tbn(column.name, "TableName")}EqualTo(${tbn(column.name, "tableName")});
         }
@@ -210,7 +210,7 @@ public class ${TableName}Controller extends ${tbn(resFolder?trim, "TableName")}B
                 <#elseif column.type=="date">
                 DateUtils.formatDate(record.get${tbn(column.name, "TableName")}(), DateUtils.YYYY_MM_DD)<#if column_has_next>,</#if>
                 <#else>
-                record.get${tbn(column.name, "TableName")}()<#if column.type=="int">+""</#if><#if column_has_next>,</#if>
+                record.get${tbn(column.name, "TableName")}()<#if column.type=="int"||column.type=="smallint"||column.type=="tinyint">+""</#if><#if column_has_next>,</#if>
                 </#if>
             </#list>};
             valuesList.add(values);

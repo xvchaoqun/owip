@@ -1,0 +1,28 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "sc/scMotion",
+  "resFolder": "sc",
+  "tables": [
+    {
+      "table": "sc_motion",
+      "key": "id",
+      "searchColumns": "year,unit_id,type",
+      "showColumns": "year,hold_date,num,unit_id,type,way,sc_type,remark",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_SC_MOTION",
+      "ignore": false
+    },
+    {
+      "table": "sc_motion_post",
+      "key": "id",
+      "searchColumns": "motion_id",
+      "showColumns": "motion_id,unit_post_id,remark",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_SC_MOTION",
+      "ignore": false
+    }
+  ]
+}

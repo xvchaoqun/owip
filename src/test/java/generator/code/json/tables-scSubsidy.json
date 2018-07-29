@@ -1,0 +1,46 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "sc/scSubsidy",
+  "resFolder": "sc",
+  "tables": [
+    {
+      "table": "sc_subsidy",
+      "key": "id",
+      "searchColumns": "year,type",
+      "showColumns": "year,type,info_date,remark",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_SC_SUBSIDY",
+      "ignore": true
+    },
+    {
+      "table": "sc_subsidy_cadre",
+      "key": "id",
+      "searchColumns": "subsidy_id,cadre_id",
+      "showColumns": "subsidy_id,cadre_id,unit_id,post,admin_level",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_SC_SUBSIDY",
+      "ignore": true
+    },
+    {
+      "table": "sc_subsidy_dc",
+      "key": "id",
+      "searchColumns": "subsidy_id",
+      "showColumns": "subsidy_id,cadre_id,work_time,type,post,admin_level",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_SC_SUBSIDY",
+      "ignore": true
+    },
+    {
+      "table": "sc_subsidy_dispatch",
+      "key": "id",
+      "searchColumns": "subsidy_id",
+      "showColumns": "subsidy_id,dispatch_id,remark",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_SC_SUBSIDY",
+      "ignore": false
+    }
+  ]
+}

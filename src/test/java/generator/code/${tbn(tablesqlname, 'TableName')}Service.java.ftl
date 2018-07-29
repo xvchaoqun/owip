@@ -38,7 +38,7 @@ public class ${TableName}Service extends BaseMapper {
     public void insertSelective(${TableName} record){
 
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate");
-        record.setSortOrder(getNextSortOrder("${tablesqlname}", null));
+        record.setSortOrder(getNextSortOrder("${tablePrefix}${tablesqlname}", null));
         ${tableName}Mapper.insertSelective(record);
     }
 

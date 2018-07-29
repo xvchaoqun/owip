@@ -4,6 +4,7 @@
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "",
   "folder": "sc/scMatter",
+  "resFolder": "sc",
   "tables": [
     {
       "table": "sc_matter",

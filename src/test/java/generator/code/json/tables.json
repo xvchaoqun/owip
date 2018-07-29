@@ -3,6 +3,8 @@
   "spath": "\\src\\main\\java\\service\\",
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "base_",
+  "folder": "",
+  "resFolder": "",
   "tables": [
     {
       "table": "location",

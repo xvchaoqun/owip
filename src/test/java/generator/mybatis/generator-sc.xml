@@ -7,7 +7,7 @@
     <context id="context1" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
-        <!--<plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin "></plugin>-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"></plugin>
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true"/>
@@ -25,6 +25,43 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
+        <!--干部选拔-动议-->
+        <table tableName="sc_motion" domainObjectName="sc.scMotion.ScMotion"
+               mapperName="sc.scMotion.ScMotionMapper">
+        </table>
+        <!--<table tableName="sc_motion_post" domainObjectName="sc.scMotion.ScMotionPost"
+               mapperName="sc.scMotion.ScMotionPostMapper">
+        </table>-->
+
+        <!--干部选拔-干部津贴变动-->
+        <!--<table tableName="sc_subsidy" domainObjectName="sc.scSubsidy.ScSubsidy"
+               mapperName="sc.scSubsidy.ScSubsidyMapper">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+       <!-- <table tableName="sc_subsidy_dispatch" domainObjectName="sc.scSubsidy.ScSubsidyDispatch"
+               mapperName="sc.scSubsidy.ScSubsidyDispatchMapper">
+        </table>
+        <table tableName="sc_subsidy_cadre" domainObjectName="sc.scSubsidy.ScSubsidyCadre"
+               mapperName="sc.scSubsidy.ScSubsidyCadreMapper">
+        </table>
+        <table tableName="sc_subsidy_dc" domainObjectName="sc.scSubsidy.ScSubsidyDc"
+               mapperName="sc.scSubsidy.ScSubsidyDcMapper">
+        </table>-->
+        <!--<table tableName="sc_subsidy_cadre_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scSubsidy.ScSubsidyCadreView"
+               mapperName="sc.scSubsidy.ScSubsidyCadreViewMapper">
+        </table>
+        <table tableName="sc_subsidy_dispatch_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scSubsidy.ScSubsidyDispatchView"
+               mapperName="sc.scSubsidy.ScSubsidyDispatchViewMapper">
+        </table>-->
+
         <!--干部选拔-新提任干部交证件-->
         <!--<table tableName="sc_passport_hand" domainObjectName="sc.scPassport.ScPassportHand"
                mapperName="sc.scPassport.ScPassportHandMapper">
@@ -32,10 +69,10 @@
         <!--<table tableName="sc_passport" domainObjectName="sc.scPassport.ScPassport"
                mapperName="sc.scPassport.ScPassportMapper">
         </table>-->
-        <table tableName="sc_passport_msg" domainObjectName="sc.scPassport.ScPassportMsg"
+        <!--<table tableName="sc_passport_msg" domainObjectName="sc.scPassport.ScPassportMsg"
                mapperName="sc.scPassport.ScPassportMsgMapper">
             <columnOverride column="msg" jdbcType="VARCHAR"></columnOverride>
-        </table>
+        </table>-->
 
         <!--干部选拔-干部任免审批表-->
         <!--<table tableName="sc_ad_archive" domainObjectName="sc.scAd.ScAdArchive"
