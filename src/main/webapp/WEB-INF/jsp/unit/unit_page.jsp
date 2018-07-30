@@ -135,6 +135,8 @@
             <shiro:hasPermission name="unitPost:*">
             { label: '正职<br/>岗位数', name: 'principalPostCount', width: 80, formatter: $.jgrid.formatter.defaultString},
             { label: '副职<br/>岗位数', name: 'vicePostCount', width: 80, formatter: $.jgrid.formatter.defaultString},
+            </shiro:hasPermission>
+            <shiro:hasPermission name="cpcAllocation:list">
             { label: '正处级<br/>干部职数', name: 'mainCount', width: 80, formatter: $.jgrid.formatter.defaultString},
             { label: '副处级<br/>干部职数', name: 'viceCount', width: 80, formatter: $.jgrid.formatter.defaultString},
             { label: '无行政级别<br/>干部职数', name: 'noneCount', width: 90, formatter: $.jgrid.formatter.defaultString},
