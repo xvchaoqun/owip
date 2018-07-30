@@ -132,6 +132,7 @@
             { label:'排序',align:'center', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             { label: '单位类型', name: 'typeId', width: 250, formatter: $.jgrid.formatter.MetaType },
+            <c:if test="${status==1}">
             <shiro:hasPermission name="unitPost:*">
             { label: '正职<br/>岗位数', name: 'principalPostCount', width: 80, formatter: $.jgrid.formatter.defaultString},
             { label: '副职<br/>岗位数', name: 'vicePostCount', width: 80, formatter: $.jgrid.formatter.defaultString},
@@ -141,6 +142,7 @@
             { label: '副处级<br/>干部职数', name: 'viceCount', width: 80, formatter: $.jgrid.formatter.defaultString},
             { label: '无行政级别<br/>干部职数', name: 'noneCount', width: 90, formatter: $.jgrid.formatter.defaultString},
             </shiro:hasPermission>
+            </c:if>
             { label: '成立时间', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '成立文件', name: 'filePath', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return $.swfPreview(cellvalue, rowObject.name + "-成立文件", "查看");
