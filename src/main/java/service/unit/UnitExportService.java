@@ -1,8 +1,8 @@
 package service.unit;
 
 import bean.SchoolUnit;
-import domain.unit.Unit;
-import domain.unit.UnitExample;
+import domain.unit.UnitView;
+import domain.unit.UnitViewExample;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -34,9 +34,9 @@ public class UnitExportService extends BaseMapper{
     @Autowired
     private ExtUnitService extUnitService;
 
-    public XSSFWorkbook toXlsx(UnitExample example) throws IOException {
+    public XSSFWorkbook toXlsx(UnitViewExample example) throws IOException {
 
-        List<Unit> records = unitMapper.selectByExample(example);
+        List<UnitView> records = unitViewMapper.selectByExample(example);
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/unit/unit.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(is);
@@ -54,7 +54,7 @@ public class UnitExportService extends BaseMapper{
 
         for (int i = 0; i < rowCount; i++) {
 
-            Unit record = records.get(i);
+            UnitView record = records.get(i);
             int column = 0;
             row = sheet.getRow(startRow++);
 

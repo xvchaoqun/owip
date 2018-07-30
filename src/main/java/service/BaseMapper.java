@@ -148,7 +148,6 @@ import persistence.common.IExtMapper;
 import persistence.common.IPartyMapper;
 import persistence.common.IPropertyMapper;
 import persistence.common.ISysMapper;
-import persistence.common.IUnitMapper;
 import persistence.cpc.CpcAllocationMapper;
 import persistence.cpc.common.ICpcMapper;
 import persistence.crp.CrpRecordMapper;
@@ -382,6 +381,8 @@ import persistence.unit.UnitMapper;
 import persistence.unit.UnitPostMapper;
 import persistence.unit.UnitPostViewMapper;
 import persistence.unit.UnitTransferMapper;
+import persistence.unit.UnitViewMapper;
+import persistence.unit.common.IUnitMapper;
 import persistence.verify.VerifyAgeMapper;
 import persistence.verify.VerifyWorkTimeMapper;
 import shiro.ShiroHelper;
@@ -1138,6 +1139,8 @@ public class BaseMapper {
     protected HistoryUnitMapper historyUnitMapper;
     @Autowired(required = false)
     protected UnitMapper unitMapper;
+    @Autowired(required = false)
+    protected UnitViewMapper unitViewMapper;
     @Autowired(required = false)
     protected UnitPostMapper unitPostMapper;
     @Autowired(required = false)

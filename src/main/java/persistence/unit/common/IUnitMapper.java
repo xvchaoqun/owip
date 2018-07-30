@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.unit.common;
 
 import domain.unit.Unit;
 import org.apache.ibatis.annotations.Param;
@@ -26,7 +26,7 @@ public interface IUnitMapper {
     public List<Unit> findRunUnits(@Param("unitId")int unitId);
 
     // 查找单位的 现任 行政班子成员
-    @ResultType(persistence.common.UnitAdminCadre.class)
+    @ResultType(UnitAdminCadre.class)
     @Select("select uag.unit_id as unitId, ua.cadre_id as cadreId," +
             " ua.post_id as postId, mt.bool_attr as isPositive from " +
             "unit_admin ua, unit_admin_group uag, base_meta_type mt "+
@@ -35,7 +35,7 @@ public interface IUnitMapper {
     public List<UnitAdminCadre> findUnitAdminCadre(@Param("unitId")int unitId);
 
     // 根据类型查找所有单位的 现任 行政班子成员
-    @ResultType(persistence.common.UnitAdminCadre.class)
+    @ResultType(UnitAdminCadre.class)
     @Select("select distinct uag.unit_id as unitId, ua.cadre_id as cadreId," +
             " ua.post_id as postId, mt.bool_attr as isPositive from " +
             "unit_admin ua, unit_admin_group uag, base_meta_type mt,unit u "+

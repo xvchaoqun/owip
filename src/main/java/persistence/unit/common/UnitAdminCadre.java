@@ -1,4 +1,4 @@
-package persistence.common;
+package persistence.unit.common;
 
 import java.io.Serializable;
 

@@ -7,7 +7,7 @@
 
 <shiro:hasPermission name="${PERMISSION_CADREADMIN}">
     <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
-<ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+<ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i class="fa fa-flag"></i> 其他奖励情况</a>
     </li>

@@ -79,6 +79,7 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
+                        $("#modal").modal('hide');
                         $.reloadMetaData(function(){
                             page_reload();
                         });

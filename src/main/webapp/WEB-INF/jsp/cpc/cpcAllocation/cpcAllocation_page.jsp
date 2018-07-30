@@ -59,6 +59,7 @@
         <div id="body-content-view"></div>
     </div>
 </div>
+<div class="footer-margin"/>
 <c:if test="${type==1}">
 <script>
 

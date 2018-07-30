@@ -8,6 +8,8 @@ import domain.unit.HistoryUnitExample;
 import domain.unit.Unit;
 import domain.unit.UnitExample;
 import domain.unit.UnitExample.Criteria;
+import domain.unit.UnitView;
+import domain.unit.UnitViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -123,8 +125,8 @@ public class UnitController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        UnitExample example = new UnitExample();
-        Criteria criteria = example.createCriteria().andStatusEqualTo(status);
+        UnitViewExample example = new UnitViewExample();
+        UnitViewExample.Criteria criteria = example.createCriteria().andStatusEqualTo(status);
         example.setOrderByClause("sort_order asc");
 
         if (StringUtils.isNotBlank(code)) {
@@ -144,16 +146,16 @@ public class UnitController extends BaseController {
             return;
         }
 
-        long count = unitMapper.countByExample(example);
+        long count = unitViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Unit> Units = unitMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<UnitView> records = unitViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
-        resultMap.put("rows", Units);
+        resultMap.put("rows", records);
         resultMap.put("records", count);
         resultMap.put("page", pageNo);
         resultMap.put("total", commonList.pageNum);

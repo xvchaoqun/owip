@@ -133,11 +133,11 @@
             </c:if>
             { label: '单位类型', name: 'typeId', width: 250, formatter: $.jgrid.formatter.MetaType },
             <shiro:hasPermission name="unitPost:*">
-            { label: '正职<br/>岗位数', name: 'postStat.main', width: 80},
-            { label: '副职<br/>岗位数', name: 'postStat.vice', width: 80},
-            { label: '正处级<br/>干部职数', name: 'postStat.mainCpc', width: 80},
-            { label: '副处级<br/>干部职数', name: 'postStat.viceCpc', width: 80},
-            { label: '无行政级别<br/>干部职数', name: 'postStat.noneCpc', width: 90},
+            { label: '正职<br/>岗位数', name: 'principalPostCount', width: 80, formatter: $.jgrid.formatter.defaultString},
+            { label: '副职<br/>岗位数', name: 'vicePostCount', width: 80, formatter: $.jgrid.formatter.defaultString},
+            { label: '正处级<br/>干部职数', name: 'mainCount', width: 80, formatter: $.jgrid.formatter.defaultString},
+            { label: '副处级<br/>干部职数', name: 'viceCount', width: 80, formatter: $.jgrid.formatter.defaultString},
+            { label: '无行政级别<br/>干部职数', name: 'noneCount', width: 90, formatter: $.jgrid.formatter.defaultString},
             </shiro:hasPermission>
             { label: '成立时间', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '成立文件', name: 'filePath', width: 80, formatter: function (cellvalue, options, rowObject) {

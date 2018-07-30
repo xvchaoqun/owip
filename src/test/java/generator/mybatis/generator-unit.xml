@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 引入配置文件 -->
+    <properties resource="jdbc.properties"/>
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"></plugin>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!-- jdbc连接 -->
+        <jdbcConnection driverClass="${jdbc_driverClassName}"
+                        connectionURL="${jdbc_url}" userId="${jdbc_username}"
+                        password="${jdbc_password}" />
+        <javaModelGenerator targetPackage="domain" targetProject="src/main/java">
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="persistence" targetProject="src/main/java">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+         <!--<table tableName="unit" domainObjectName="unit.Unit" mapperName="unit.UnitMapper">
+                <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+                <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
+         </table>-->
+        <table tableName="unit_view" domainObjectName="unit.UnitView" mapperName="unit.UnitViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>
+
+        <!--<table tableName="unit_post" domainObjectName="unit.UnitPost" mapperName="unit.UnitPostMapper">
+        </table>-->
+        <!--<table tableName="unit_post_view" domainObjectName="unit.UnitPostView" mapperName="unit.UnitPostViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+        </table>-->
+
+        <!--<table tableName="unit_history_unit" domainObjectName="unit.HistoryUnit">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="unit_transfer" domainObjectName="unit.UnitTransfer">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+          <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
+      </table>
+        <table tableName="unit_admin_group" domainObjectName="unit.UnitAdminGroup">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="unit_admin" domainObjectName="unit.UnitAdmin">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="unit_cadre_transfer" domainObjectName="unit.UnitCadreTransfer">
+        </table>
+        <table tableName="unit_cadre_transfer_group" domainObjectName="unit.UnitCadreTransferGroup">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        -->
+
+
+    </context>
+</generatorConfiguration>

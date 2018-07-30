@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 
-<ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+<ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
     <li class="${type==1?"active":""}">
         <a href="javascript:" onclick="_innerPage(1)"><i
                 class="fa fa-flag"></i> 干部考察报告</a>
