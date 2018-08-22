@@ -216,12 +216,12 @@
             {label: '挂职项目', name: 'project', width: 300, align:'left'},
             {label: '挂职单位', name: 'unit', width: 200, align:'left'},
             {label: '所任职务', name: 'post', width: 150, align:'left'},
-            {label: '挂职开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+            {label: '挂职开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             <c:if test="${!isFinished}">
-            {label: '挂职拟结束时间', name: 'endDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+            {label: '挂职拟结束时间', name: 'endDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             </c:if>
             <c:if test="${isFinished}">
-            {label: '挂职实际结束时间', name: 'realEndDate', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m'}},
+            {label: '挂职实际结束时间', name: 'realEndDate', width: 150, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
             </c:if>
             {label: '备注', name: 'remark', width: 300}
         ]

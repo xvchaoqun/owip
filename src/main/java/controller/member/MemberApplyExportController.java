@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.MemberConstants;
 import sys.constants.OwConstants;
@@ -376,7 +377,6 @@ public class MemberApplyExportController extends MemberBaseController {
     // 教职工发展党员信息导出
     public void memberTeacher_export( MemberApplyExample example, Byte exportType, HttpServletResponse response) {
 
-        Map<Integer, MetaType> adminLevelMap = metaTypeService.metaTypes("mc_admin_level");
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
@@ -414,9 +414,9 @@ public class MemberApplyExportController extends MemberBaseController {
             CadreView cadre = cadreService.dbFindByUserId(memberApply.getUserId());
             String post = record==null?"":record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record==null?"":record.getPostLevel(); // 任职级别 -- 行政级别
-            if(cadre!=null){
+            if(cadre!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cadre.getStatus())){
                 post = cadre.getTitle();
-                adminLevel = adminLevelMap.get(cadre.getTypeId()).getName();
+                adminLevel = metaTypeService.getName(cadre.getTypeId());
             }
 
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{

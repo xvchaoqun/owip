@@ -41,6 +41,7 @@ import sys.utils.JSONUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -247,6 +248,20 @@ public class CadreService extends BaseMapper {
         if (cadres.size() > 0) return cadres.get(0);
 
         return null;
+    }
+
+    // <userId, cadre>
+    public  Map<Integer, Cadre>  dbFindByUserIds(List<Integer> userIds){
+
+        Map<Integer, Cadre> cadreMap = new HashMap<>();
+        CadreExample example = new CadreExample();
+        example.createCriteria().andUserIdIn(userIds);
+        List<Cadre> cadres = cadreMapper.selectByExample(example);
+        for (Cadre cadre : cadres) {
+            cadreMap.put(cadre.getUserId(), cadre);
+        }
+
+        return cadreMap;
     }
 
     @Transactional

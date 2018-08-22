@@ -191,4 +191,31 @@ public class CetConstants {
         CET_TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_MAP.put(CET_TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_SELF, "本人修改");
         CET_TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_MAP.put(CET_TRAIN_INSPECTOR_PASSWD_CHANGE_TYPE_ADMN_RESET, "管理员重置");
     }
+
+
+    // 上级调训 审批状态，0 待审批 1 审批通过 2 审批不通过
+    public final static byte CET_UPPER_TRAIN_STATUS_INIT = 0;
+    public final static byte CET_UPPER_TRAIN_STATUS_PASS = 1;
+    public final static byte CET_UPPER_TRAIN_STATUS_UNPASS = 2;
+    public static Map<Byte, String> CET_UPPER_TRAIN_STATUS_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+
+        CET_UPPER_TRAIN_STATUS_MAP.put(CET_UPPER_TRAIN_STATUS_INIT, "待审批");
+        CET_UPPER_TRAIN_STATUS_MAP.put(CET_UPPER_TRAIN_STATUS_PASS, "审批通过");
+        CET_UPPER_TRAIN_STATUS_MAP.put(CET_UPPER_TRAIN_STATUS_UNPASS, "审批不通过");
+    }
+
+    // 上级调训 添加类型，1 本人填写 2 单位填写 3 组织部填写
+    public final static byte CET_UPPER_TRAIN_ADD_TYPE_SELF = 1;
+    public final static byte CET_UPPER_TRAIN_ADD_TYPE_UNIT = 2;
+    public final static byte CET_UPPER_TRAIN_ADD_TYPE_OW = 3;
+    public static Map<Byte, String> CET_UPPER_TRAIN_ADD_TYPE_MAP = new LinkedHashMap<Byte, String>();
+
+    static {
+
+        CET_UPPER_TRAIN_ADD_TYPE_MAP.put(CET_UPPER_TRAIN_ADD_TYPE_SELF, "本人填写");
+        CET_UPPER_TRAIN_ADD_TYPE_MAP.put(CET_UPPER_TRAIN_ADD_TYPE_UNIT, "单位填写");
+        CET_UPPER_TRAIN_ADD_TYPE_MAP.put(CET_UPPER_TRAIN_ADD_TYPE_OW, "组织部填写");
+    }
 }

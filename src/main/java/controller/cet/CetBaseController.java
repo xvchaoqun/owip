@@ -7,7 +7,6 @@ import service.cet.CetColumnService;
 import service.cet.CetCourseFileService;
 import service.cet.CetCourseItemService;
 import service.cet.CetCourseService;
-import service.cet.CetProjectTypeService;
 import service.cet.CetDiscussGroupObjService;
 import service.cet.CetDiscussGroupService;
 import service.cet.CetDiscussService;
@@ -22,6 +21,7 @@ import service.cet.CetProjectObjService;
 import service.cet.CetProjectPlanService;
 import service.cet.CetProjectService;
 import service.cet.CetProjectTraineeTypeService;
+import service.cet.CetProjectTypeService;
 import service.cet.CetShortMsgService;
 import service.cet.CetTrainCourseService;
 import service.cet.CetTrainEvaNormService;
@@ -35,6 +35,8 @@ import service.cet.CetTraineeCourseService;
 import service.cet.CetTraineeService;
 import service.cet.CetTraineeTypeService;
 import service.cet.CetUnitService;
+import service.cet.CetUpperTrainAdminService;
+import service.cet.CetUpperTrainService;
 
 public class CetBaseController extends BaseController {
 
@@ -106,4 +108,9 @@ public class CetBaseController extends BaseController {
     protected CetTrainInspectorService cetTrainInspectorService;
     @Autowired
     protected CetTrainInspectorCourseService cetTrainInspectorCourseService;
+
+    @Autowired
+    protected CetUpperTrainAdminService cetUpperTrainAdminService;
+    @Autowired
+    protected CetUpperTrainService cetUpperTrainService;
 }

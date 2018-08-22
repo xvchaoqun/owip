@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.cet.CetUpperTrainMapper">
+  <resultMap id="BaseResultMap" type="domain.cet.CetUpperTrain">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="BIT" property="type" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="organizer" jdbcType="INTEGER" property="organizer" />
+    <result column="other_organizer" jdbcType="VARCHAR" property="otherOrganizer" />
+    <result column="train_type" jdbcType="INTEGER" property="trainType" />
+    <result column="special_type" jdbcType="INTEGER" property="specialType" />
+    <result column="train_name" jdbcType="VARCHAR" property="trainName" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="period" jdbcType="DECIMAL" property="period" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="word_note" jdbcType="VARCHAR" property="wordNote" />
+    <result column="pdf_note" jdbcType="VARCHAR" property="pdfNote" />
+    <result column="add_type" jdbcType="TINYINT" property="addType" />
+    <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="is_valid" jdbcType="BIT" property="isValid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="back_reason" jdbcType="VARCHAR" property="backReason" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, type, unit_id, user_id, title, post_id, organizer, other_organizer, train_type, 
+    special_type, train_name, start_date, end_date, period, address, word_note, pdf_note, 
+    add_type, add_user_id, add_time, is_valid, remark, status, back_reason
+  </sql>
+  <select id="selectByExample" parameterType="domain.cet.CetUpperTrainExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cet_upper_train
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cet_upper_train
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cet_upper_train
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.cet.CetUpperTrainExample">
+    delete from cet_upper_train
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.cet.CetUpperTrain">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cet_upper_train (type, unit_id, user_id, 
+      title, post_id, organizer, 
+      other_organizer, train_type, special_type, 
+      train_name, start_date, end_date, 
+      period, address, word_note, 
+      pdf_note, add_type, add_user_id, 
+      add_time, is_valid, remark, 
+      status, back_reason)
+    values (#{type,jdbcType=BIT}, #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, #{organizer,jdbcType=INTEGER}, 
+      #{otherOrganizer,jdbcType=VARCHAR}, #{trainType,jdbcType=INTEGER}, #{specialType,jdbcType=INTEGER}, 
+      #{trainName,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{period,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{wordNote,jdbcType=VARCHAR}, 
+      #{pdfNote,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, #{addUserId,jdbcType=INTEGER}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{isValid,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.cet.CetUpperTrain">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cet_upper_train
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="type != null">
+        type,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="postId != null">
+        post_id,
+      </if>
+      <if test="organizer != null">
+        organizer,
+      </if>
+      <if test="otherOrganizer != null">
+        other_organizer,
+      </if>
+      <if test="trainType != null">
+        train_type,
+      </if>
+      <if test="specialType != null">
+        special_type,
+      </if>
+      <if test="trainName != null">
+        train_name,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="wordNote != null">
+        word_note,
+      </if>
+      <if test="pdfNote != null">
+        pdf_note,
+      </if>
+      <if test="addType != null">
+        add_type,
+      </if>
+      <if test="addUserId != null">
+        add_user_id,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="backReason != null">
+        back_reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="type != null">
+        #{type,jdbcType=BIT},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null">
+        #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="organizer != null">
+        #{organizer,jdbcType=INTEGER},
+      </if>
+      <if test="otherOrganizer != null">
+        #{otherOrganizer,jdbcType=VARCHAR},
+      </if>
+      <if test="trainType != null">
+        #{trainType,jdbcType=INTEGER},
+      </if>
+      <if test="specialType != null">
+        #{specialType,jdbcType=INTEGER},
+      </if>
+      <if test="trainName != null">
+        #{trainName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=DECIMAL},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="wordNote != null">
+        #{wordNote,jdbcType=VARCHAR},
+      </if>
+      <if test="pdfNote != null">
+        #{pdfNote,jdbcType=VARCHAR},
+      </if>
+      <if test="addType != null">
+        #{addType,jdbcType=TINYINT},
+      </if>
+      <if test="addUserId != null">
+        #{addUserId,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="backReason != null">
+        #{backReason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.cet.CetUpperTrainExample" resultType="java.lang.Long">
+    select count(*) from cet_upper_train
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cet_upper_train
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=BIT},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postId != null">
+        post_id = #{record.postId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organizer != null">
+        organizer = #{record.organizer,jdbcType=INTEGER},
+      </if>
+      <if test="record.otherOrganizer != null">
+        other_organizer = #{record.otherOrganizer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trainType != null">
+        train_type = #{record.trainType,jdbcType=INTEGER},
+      </if>
+      <if test="record.specialType != null">
+        special_type = #{record.specialType,jdbcType=INTEGER},
+      </if>
+      <if test="record.trainName != null">
+        train_name = #{record.trainName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.period != null">
+        period = #{record.period,jdbcType=DECIMAL},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wordNote != null">
+        word_note = #{record.wordNote,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pdfNote != null">
+        pdf_note = #{record.pdfNote,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addType != null">
+        add_type = #{record.addType,jdbcType=TINYINT},
+      </if>
+      <if test="record.addUserId != null">
+        add_user_id = #{record.addUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.addTime != null">
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isValid != null">
+        is_valid = #{record.isValid,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.backReason != null">
+        back_reason = #{record.backReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cet_upper_train
+    set id = #{record.id,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=BIT},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      post_id = #{record.postId,jdbcType=INTEGER},
+      organizer = #{record.organizer,jdbcType=INTEGER},
+      other_organizer = #{record.otherOrganizer,jdbcType=VARCHAR},
+      train_type = #{record.trainType,jdbcType=INTEGER},
+      special_type = #{record.specialType,jdbcType=INTEGER},
+      train_name = #{record.trainName,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      period = #{record.period,jdbcType=DECIMAL},
+      address = #{record.address,jdbcType=VARCHAR},
+      word_note = #{record.wordNote,jdbcType=VARCHAR},
+      pdf_note = #{record.pdfNote,jdbcType=VARCHAR},
+      add_type = #{record.addType,jdbcType=TINYINT},
+      add_user_id = #{record.addUserId,jdbcType=INTEGER},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      is_valid = #{record.isValid,jdbcType=BIT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      back_reason = #{record.backReason,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cet.CetUpperTrain">
+    update cet_upper_train
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=BIT},
+      </if>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="postId != null">
+        post_id = #{postId,jdbcType=INTEGER},
+      </if>
+      <if test="organizer != null">
+        organizer = #{organizer,jdbcType=INTEGER},
+      </if>
+      <if test="otherOrganizer != null">
+        other_organizer = #{otherOrganizer,jdbcType=VARCHAR},
+      </if>
+      <if test="trainType != null">
+        train_type = #{trainType,jdbcType=INTEGER},
+      </if>
+      <if test="specialType != null">
+        special_type = #{specialType,jdbcType=INTEGER},
+      </if>
+      <if test="trainName != null">
+        train_name = #{trainName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=DECIMAL},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="wordNote != null">
+        word_note = #{wordNote,jdbcType=VARCHAR},
+      </if>
+      <if test="pdfNote != null">
+        pdf_note = #{pdfNote,jdbcType=VARCHAR},
+      </if>
+      <if test="addType != null">
+        add_type = #{addType,jdbcType=TINYINT},
+      </if>
+      <if test="addUserId != null">
+        add_user_id = #{addUserId,jdbcType=INTEGER},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="backReason != null">
+        back_reason = #{backReason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.cet.CetUpperTrain">
+    update cet_upper_train
+    set type = #{type,jdbcType=BIT},
+      unit_id = #{unitId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      post_id = #{postId,jdbcType=INTEGER},
+      organizer = #{organizer,jdbcType=INTEGER},
+      other_organizer = #{otherOrganizer,jdbcType=VARCHAR},
+      train_type = #{trainType,jdbcType=INTEGER},
+      special_type = #{specialType,jdbcType=INTEGER},
+      train_name = #{trainName,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      period = #{period,jdbcType=DECIMAL},
+      address = #{address,jdbcType=VARCHAR},
+      word_note = #{wordNote,jdbcType=VARCHAR},
+      pdf_note = #{pdfNote,jdbcType=VARCHAR},
+      add_type = #{addType,jdbcType=TINYINT},
+      add_user_id = #{addUserId,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      is_valid = #{isValid,jdbcType=BIT},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      back_reason = #{backReason,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cet.CetUpperTrainExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cet_upper_train
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

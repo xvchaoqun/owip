@@ -121,6 +121,8 @@ import persistence.cet.CetTraineeTypeMapper;
 import persistence.cet.CetTraineeViewMapper;
 import persistence.cet.CetUnitMapper;
 import persistence.cet.CetUnitViewMapper;
+import persistence.cet.CetUpperTrainAdminMapper;
+import persistence.cet.CetUpperTrainMapper;
 import persistence.cet.common.ICetMapper;
 import persistence.cis.CisEvaluateMapper;
 import persistence.cis.CisInspectObjMapper;
@@ -497,6 +499,10 @@ public class BaseMapper {
     protected CetTrainInspectorViewMapper cetTrainInspectorViewMapper;
     @Autowired(required = false)
     protected CetTrainInspectorCourseMapper cetTrainInspectorCourseMapper;
+    @Autowired(required = false)
+    protected CetUpperTrainMapper cetUpperTrainMapper;
+    @Autowired(required = false)
+    protected CetUpperTrainAdminMapper cetUpperTrainAdminMapper;
 
     /**
      * 干部选拔-动议

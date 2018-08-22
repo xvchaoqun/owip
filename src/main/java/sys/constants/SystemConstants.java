@@ -269,6 +269,7 @@ public class SystemConstants {
     public final static byte SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ = 5; // 干部教育培训-培训对象
     public final static byte SYS_APPROVAL_LOG_TYPE_CLA_APPLY = 6; // 干部请假审批人员
     public final static byte SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW = 7; // 领取证件
+    public final static byte SYS_APPROVAL_LOG_TYPE_CET_UPPER_TRAIN = 8; // 上级调训
 
     public final static Map<Byte, String> SYS_APPROVAL_LOG_TYPE_MAP = new LinkedHashMap<>();
 
@@ -280,6 +281,7 @@ public class SystemConstants {
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_SPECIAL_OBJ, "培训对象");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CLA_APPLY, "干部请假");
         SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_PASSPORTDRAW, "领取证件审批");
+        SYS_APPROVAL_LOG_TYPE_MAP.put(SYS_APPROVAL_LOG_TYPE_CET_UPPER_TRAIN, "上级调训操作记录");
     }
 
     // 操作人类别, 0本人 1 干部管理员 2 因私审批人员
