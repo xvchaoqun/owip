@@ -952,6 +952,10 @@ var _modal_width;
 
             var $this = $(this);
             var $btn = $this.button('loading');
+            var text = $this.data("loading-text");
+            if($.trim(text)==''){
+                $this.data("loading-text", '正在导出')
+            }
             $.fileDownload(url, {
                 prepareCallback:function(url){},
                 successCallback: function (url) {
