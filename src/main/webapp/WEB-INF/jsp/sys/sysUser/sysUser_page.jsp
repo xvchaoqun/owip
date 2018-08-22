@@ -338,8 +338,8 @@
 
     }
 
-    function _export() {
+    /*function _export() {
 
         location.href = "${ctx}/sysUser_export?" + $("searchForm").serialize();
-    }
+    }*/
 </script>

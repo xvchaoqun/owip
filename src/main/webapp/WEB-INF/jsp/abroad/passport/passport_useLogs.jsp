@@ -67,8 +67,9 @@
     $("#useLogForm .exportBtn").click(function(){
 
         var year = $("#useLogForm input[name=year]").val();
-        location.href = "${ctx}/${param.type=='user'?'user/':''}abroad/passportDraw_data?export=1&passportId=${passport.id}"+
+        var url = "${ctx}/${param.type=='user'?'user/':''}abroad/passportDraw_data?export=1&passportId=${passport.id}"+
         "&year="+year;
+        $(this).download(url);
     });
 
 

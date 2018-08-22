@@ -67,11 +67,11 @@ pageEncoding="UTF-8" %>
                                             </form>
                                                 <div class="space-4"></div>
                                                 <div class="clearfix form-actions center">
-                                                    <button class="btn btn-primary btn-sm" onclick="_exportApply1('${OW_APPLY_TYPE_STU}')">
+                                                    <button class="btn btn-primary btn-sm" onclick="_exportApply1(this, '${OW_APPLY_TYPE_STU}')">
                                                         <i class="fa fa-download"></i> 导出学生</button>
 
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <button type="button" class="btn btn-warning btn-sm" onclick="_exportApply1('${OW_APPLY_TYPE_TEACHER}')">
+                                                        <button type="button" class="btn btn-warning btn-sm" onclick="_exportApply1(this, '${OW_APPLY_TYPE_TEACHER}')">
                                                             <i class="fa fa-download"></i> 导出教职工
                                                         </button>
 
@@ -129,11 +129,11 @@ pageEncoding="UTF-8" %>
                                                 </div>
                                             </form>
                                                 <div class="clearfix form-actions center">
-                                                    <button class="btn btn-primary btn-sm"  onclick="_exportApply2('${OW_APPLY_TYPE_STU}')">
+                                                    <button class="btn btn-primary btn-sm"  onclick="_exportApply2(this,'${OW_APPLY_TYPE_STU}')">
                                                         <i class="fa fa-download"></i> 导出学生</button>
 
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <button type="button" class="btn btn-warning btn-sm"  onclick="_exportApply2('${OW_APPLY_TYPE_TEACHER}')">
+                                                    <button type="button" class="btn btn-warning btn-sm"  onclick="_exportApply2(this,'${OW_APPLY_TYPE_TEACHER}')">
                                                         <i class="fa fa-download"></i> 导出教职工
                                                     </button>
 
@@ -191,11 +191,11 @@ pageEncoding="UTF-8" %>
                                                 </div>
                                             </form>
                                                 <div class="clearfix form-actions center">
-                                                    <button class="btn btn-primary btn-sm"  onclick="_exportApply3('${OW_APPLY_TYPE_STU}')">
+                                                    <button class="btn btn-primary btn-sm"  onclick="_exportApply3(this,'${OW_APPLY_TYPE_STU}')">
                                                         <i class="fa fa-download"></i> 导出学生</button>
 
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <button type="button" class="btn btn-warning btn-sm"  onclick="_exportApply3('${OW_APPLY_TYPE_TEACHER}')">
+                                                    <button type="button" class="btn btn-warning btn-sm"  onclick="_exportApply3(this,'${OW_APPLY_TYPE_TEACHER}')">
                                                         <i class="fa fa-download"></i> 导出教职工
                                                     </button>
 
@@ -217,30 +217,33 @@ pageEncoding="UTF-8" %>
 </div>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <script>
-    function _exportApply1(type){
+    function _exportApply1(btn, type){
 
         var _applyTime = $("input[name=_applyTime]", "#exportForm1").val();
         var partyId = $("select[name=partyId]", "#exportForm1").val();
         var branchId = $("select[name=branchId]", "#exportForm1").val();
-        location.href="${ctx}/memberApplyExport?exportType=1&type={0}&partyId={1}&branchId={2}&_applyTime={3}&t={4}"
+        var url="${ctx}/memberApplyExport?exportType=1&type={0}&partyId={1}&branchId={2}&_applyTime={3}&t={4}"
                 .format(type, partyId, branchId, _applyTime, new Date().getTime());
+        $(btn).download(url);
     }
 
-    function _exportApply2(type){
+    function _exportApply2(btn, type){
 
         var _growTime = $("input[name=_growTime]", "#exportForm2").val();
         var partyId = $("select[name=partyId]", "#exportForm2").val();
         var branchId = $("select[name=branchId]", "#exportForm2").val();
-        location.href="${ctx}/memberApplyExport?exportType=2&type={0}&partyId={1}&branchId={2}&_growTime={3}&t={4}"
+        var url="${ctx}/memberApplyExport?exportType=2&type={0}&partyId={1}&branchId={2}&_growTime={3}&t={4}"
                 .format(type, partyId, branchId, _growTime, new Date().getTime());
+        $(btn).download(url);
     }
 
-    function _exportApply3(type){
+    function _exportApply3(btn, type){
 
         var _growTime = $("input[name=_drawTime]", "#exportForm3").val();
         var partyId = $("select[name=partyId]", "#exportForm3").val();
         var branchId = $("select[name=branchId]", "#exportForm3").val();
-        location.href="${ctx}/memberApplyExport?exportType=3&type={0}&partyId={1}&branchId={2}&_drawTime={3}&t={4}"
+        var url="${ctx}/memberApplyExport?exportType=3&type={0}&partyId={1}&branchId={2}&_drawTime={3}&t={4}"
                 .format(type, partyId, branchId, _growTime, new Date().getTime());
+        $(btn).download(url);
     }
 </script>

@@ -296,7 +296,7 @@
         $.loadModal("${ctx}/sc/scDispatch_users?committeeIds[]=" + committeeIds, 1200);
     }
 
-    function _download() {
+    /*function _download() {
 
         if ($('#modalForm').valid()) {
             var voteIds = [];
@@ -310,7 +310,7 @@
 
             location.href = "${ctx}/sc/scDispatchUser_export?voteIds[]=" + voteIds;
         }
-    }
+    }*/
 
     $("#submitBtn").click(function () {
         $("#modalForm").submit();

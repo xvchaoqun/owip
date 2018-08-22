@@ -124,3 +124,9 @@ $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
  $btn.button('reset');
 
  multi-row-head-table
+
+ $.tip({
+		$target: $select.closest("div").find(".select2-container"),
+		at: 'top center', my: 'bottom center', type: 'success',
+		msg: "您已经选择了该账号。"
+	});

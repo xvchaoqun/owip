@@ -14,9 +14,10 @@
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.cadreId}" />
                 <div class="jqgrid-vertical-offset buttons">
-                    <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                    <button type="button" class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                       data-loading-text="<i class='fa fa-spinner fa-spin '></i> 正在导出"
                        data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                        <i class="fa fa-download"></i> 导出</a>
+                        <i class="fa fa-download"></i> 导出</button>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box collapsed hidden-sm hidden-xs" style="margin-right: 20px">
                     <div class="widget-header">
@@ -147,4 +148,5 @@
     $.initNavGrid("jqGrid", "jqGridPager");
     $.register.date($('.date-picker'));
     $('[data-rel="select2"]').select2();
+    $('[data-rel="tooltip"]').tooltip();
 </script>

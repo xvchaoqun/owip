@@ -1,7 +1,6 @@
 package controller.member;
 
 import bean.UserBean;
-import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.member.MemberApply;
 import domain.member.MemberApplyExample;
@@ -278,7 +277,6 @@ public class MemberApplyExportController extends MemberBaseController {
     // 教职工申请入党人员导出信息
     public void memberTeacher_apply_export( MemberApplyExample example, HttpServletResponse response) {
 
-        Map<Integer, MetaType> adminLevelMap = metaTypeService.metaTypes("mc_admin_level");
         Map<Integer, Party> partyMap = partyService.findAll();
         Map<Integer, Branch> branchMap = branchService.findAll();
         List<MemberApply> records = memberApplyMapper.selectByExample(example);
@@ -321,9 +319,9 @@ public class MemberApplyExportController extends MemberBaseController {
             CadreView cadre = cadreService.dbFindByUserId(memberApply.getUserId());
             String post = record==null?"":record.getPost();  // 行政职务 -- 所在单位及职务
             String adminLevel = record==null?"":record.getPostLevel(); // 任职级别 -- 行政级别
-            if(cadre!=null){
+            if(cadre!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cadre.getStatus())){
                 post = cadre.getTitle();
-                adminLevel = adminLevelMap.get(cadre.getTypeId()).getName();
+                adminLevel = metaTypeService.getName(cadre.getTypeId());
             }
 
             String[] values = {

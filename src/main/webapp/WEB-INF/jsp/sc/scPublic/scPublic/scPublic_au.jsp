@@ -184,7 +184,7 @@
             预览
         </button>
         &nbsp;
-        <button class="btn btn-primary" type="button" onclick="_download()">
+        <button class="btn btn-primary" type="button" onclick="_download(this)">
             <i class="ace-icon fa fa-download bigger-110"></i>
             下载公示
         </button>
@@ -229,7 +229,7 @@
         }
     }
 
-    function _download() {
+    function _download(btn) {
 
         if ($('#modalForm').valid()) {
             var voteIds = $("#jqGrid2").jqGrid("getDataIDs");
@@ -238,7 +238,8 @@
                 return;
             }
 
-            location.href = "${ctx}/sc/scPublic_process?export=1&voteIds[]=" + voteIds + "&" + $("#modalForm").serialize();
+            var url = "${ctx}/sc/scPublic_process?export=1&voteIds[]=" + voteIds + "&" + $("#modalForm").serialize();
+            $(btn).download(url);
         }
     }
 

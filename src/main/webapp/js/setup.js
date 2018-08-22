@@ -807,6 +807,7 @@ $(document).on("click", " .jqSearchBtn", function () {
 $(document).on("click", ".jqExportBtn", function () {
 
     var $this = $(this);
+
     var gridId = $this.data("grid-id") || "#jqGrid";
     var grid = $(gridId);
     var ids = grid.getGridParam("selarrrow");
@@ -816,7 +817,11 @@ $(document).on("click", ".jqExportBtn", function () {
     if($.trim(queryString)!='') url += (url.indexOf("?") > 0 ? "&" : "?") + queryString;
 
     var searchFormId = $this.data("search-form-id") || "div.myTableDiv #searchForm";
-    location.href = url + (url.indexOf("?") > 0 ? "&" : "?") + "export=1&"+ encodeURI('ids[]')+"=" + ids + "&" + $(searchFormId).serialize();
+
+    url = url + (url.indexOf("?") > 0 ? "&" : "?") + "export=1&"+ encodeURI('ids[]')+"=" + ids + "&" + $(searchFormId).serialize();
+
+    $this.download(url);
+    return false;
 });
 
 // 批量操作 for jqgrid

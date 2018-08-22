@@ -795,6 +795,7 @@
                                 <include>extend/js/jquery.form.js</include>
                                 <include>extend/js/jquery.dynatree.min.js</include>
                                 <include>extend/js/jquery.validate.min.js</include>
+                                <include>extend/js/jquery.fileDownload.js</include>
                                 <include>extend/js/additional-methods.min.js</include>
                                 <!--<include>extend/js/jquery.validate.extend.js</include>-->
                                 <include>extend/js/jquery.qtip.extend.js</include>
