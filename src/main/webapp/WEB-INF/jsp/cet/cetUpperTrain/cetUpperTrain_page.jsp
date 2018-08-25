@@ -46,7 +46,7 @@
 
                     <c:if test="${cls==1}">
                     <button class="popupBtn btn btn-success btn-sm"
-                            data-url="${ctx}/cet/cetUpperTrain_au?type=0&addType=${addType}"
+                            data-url="${ctx}/cet/cetUpperTrain_au?type=${param.type}&addType=${addType}"
                             data-width="900">
                         <i class="fa fa-plus"></i> 添加
                     </button>

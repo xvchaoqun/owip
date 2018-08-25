@@ -243,7 +243,9 @@ pageEncoding="UTF-8"%>
 			$("#modalForm select[name=unitId]").val(null).trigger("change").prop("disabled", true).removeAttr("required");
 		}
 	});
-
+	<c:if test="${empty cetUpperTrain.id && not empty param.type}">
+	$("#modalForm input[name=type][value=${param.type}]").click();
+	</c:if>
 	$("#modalForm input[name=status]").click(function(){
 
 		if($(this).prop("checked")){
