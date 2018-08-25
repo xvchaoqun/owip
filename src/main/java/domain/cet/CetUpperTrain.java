@@ -1,6 +1,7 @@
 package domain.cet;
 
 import domain.sys.SysUserView;
+import domain.unit.Unit;
 import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
 
@@ -15,6 +16,9 @@ public class CetUpperTrain implements Serializable {
     }
     public SysUserView getAddUser(){
         return CmTag.getUserById(addUserId);
+    }
+    public Unit getUnit(){
+        return CmTag.getUnit(unitId);
     }
 
     private Integer id;
@@ -60,6 +64,8 @@ public class CetUpperTrain implements Serializable {
     private Date addTime;
 
     private Boolean isValid;
+
+    private Boolean isDeleted;
 
     private String remark;
 
@@ -235,6 +241,14 @@ public class CetUpperTrain implements Serializable {
 
     public void setIsValid(Boolean isValid) {
         this.isValid = isValid;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public String getRemark() {

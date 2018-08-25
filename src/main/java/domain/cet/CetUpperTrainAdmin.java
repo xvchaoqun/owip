@@ -1,15 +1,29 @@
 package domain.cet;
 
+import domain.sys.SysUserView;
+import domain.unit.Unit;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 
 public class CetUpperTrainAdmin implements Serializable {
+    public SysUserView getUser(){
+        return CmTag.getUserById(userId);
+    }
+    public Unit getUnit(){
+        return CmTag.getUnit(unitId);
+    }
+    public SysUserView getLeaderUser(){
+        return CmTag.getUserById(leaderUserId);
+    }
+
     private Integer id;
 
     private Boolean type;
 
     private Integer unitId;
 
-    private Integer leaderId;
+    private Integer leaderUserId;
 
     private Integer userId;
 
@@ -39,12 +53,12 @@ public class CetUpperTrainAdmin implements Serializable {
         this.unitId = unitId;
     }
 
-    public Integer getLeaderId() {
-        return leaderId;
+    public Integer getLeaderUserId() {
+        return leaderUserId;
     }
 
-    public void setLeaderId(Integer leaderId) {
-        this.leaderId = leaderId;
+    public void setLeaderUserId(Integer leaderUserId) {
+        this.leaderUserId = leaderUserId;
     }
 
     public Integer getUserId() {

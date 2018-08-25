@@ -2,8 +2,6 @@
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <%@ include file="/WEB-INF/jsp/cet/constants.jsp" %>
-<c:set var="UNIT_STATUS_HISTORY" value="<%=SystemConstants.UNIT_STATUS_HISTORY%>"/>
-
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3><c:if test="${cetDiscussGroup!=null}">编辑</c:if><c:if test="${cetDiscussGroup==null}">添加</c:if>研讨小组</h3>

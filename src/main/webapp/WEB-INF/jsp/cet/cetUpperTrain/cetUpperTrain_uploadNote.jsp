@@ -8,6 +8,7 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetUpperTrain_uploadNote" id="modalForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
+        <input type="hidden" name="addType" value="${param.addType}">
         <div class="form-group">
             <label class=" col-xs-4 control-label">参训人</label>
             <div class="col-xs-6 label-text">

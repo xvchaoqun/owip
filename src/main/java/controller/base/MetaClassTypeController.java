@@ -60,12 +60,17 @@ public class MetaClassTypeController extends BaseController{
     }
 
     @RequestMapping("/metaClass_type_au")
-    public String metaClass_type_au(Integer id, ModelMap modelMap) {
+    public String metaClass_type_au(String cls, Integer id, ModelMap modelMap) {
 
+        MetaClass metaClass = null;
         if(id!=null){
             MetaType metaType = metaTypeMapper.selectByPrimaryKey(id);
             modelMap.put("metaType", metaType);
+            metaClass = metaClassMapper.selectByPrimaryKey(metaType.getClassId());
+        }else {
+            metaClass = metaClassService.codeKeyMap().get(cls);
         }
+        modelMap.put("metaClass", metaClass);
 
         return "base/metaClass/metaClass_type_au";
     }

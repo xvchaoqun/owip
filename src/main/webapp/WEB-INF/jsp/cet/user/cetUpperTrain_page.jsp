@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="CET_UPPER_TRAIN_ADD_TYPE_SELF" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"/>
 <div class="row">
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table"
@@ -25,20 +26,20 @@
             <div class="jqgrid-vertical-offset buttons">
 
                     <c:if test="${cls==1}">
-                    <button class="popupBtn btn btn-info btn-sm"
-                            data-url="${ctx}/cet/cetUpperTrain_au?addType=<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>">
+                    <button class="popupBtn btn btn-success btn-sm"
+                            data-url="${ctx}/cet/cetUpperTrain_au?addType=${CET_UPPER_TRAIN_ADD_TYPE_SELF}">
                         <i class="fa fa-plus"></i> 添加本人参加上级单位调训信息
                     </button>
                     </c:if>
 <c:if test="${cls!=1}">
-                    <button class="jqOpenViewBtn btn btn-primary btn-sm"
-                            data-url="${ctx}/cet/cetUpperTrain_au?addType=<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"
+                    <button class="jqOpenViewBtn btn ${cls==3?'btn-success':'btn-primary'} btn-sm"
+                            data-url="${ctx}/cet/cetUpperTrain_au?addType=${CET_UPPER_TRAIN_ADD_TYPE_SELF}"
                             data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
-                        修改
+                        ${cls==3?'重新提交':'修改'}
                     </button>
 </c:if>
 <c:if test="${cls==2}">
-                    <button data-url="${ctx}/cet/cetUpperTrain_batchDel"
+                    <button data-url="${ctx}/user/cet/cetUpperTrain_batchDel"
                             data-title="删除"
                             data-msg="确定删除这{0}条数据？"
                             data-grid-id="#jqGrid"
@@ -47,7 +48,7 @@
                     </button>
 </c:if>
             </div>
-            <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+            <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
                     <h4 class="widget-title">搜索</h4>
 
@@ -93,7 +94,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div>--%>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"></table>
             <div id="jqGridPager"></div>
@@ -101,7 +102,7 @@
         <div id="body-content-view"></div>
     </div>
 </div>
-<jsp:include page="/WEB-INF/jsp/cet/cetUpperTrain/cetUpperTrain_colModel.jsp"/>
+<jsp:include page="/WEB-INF/jsp/cet/cetUpperTrain/cetUpperTrain_colModel.jsp?addType=${CET_UPPER_TRAIN_ADD_TYPE_SELF}"/>
 <script>
     $("#jqGrid").jqGrid({
         rownumbers: true,

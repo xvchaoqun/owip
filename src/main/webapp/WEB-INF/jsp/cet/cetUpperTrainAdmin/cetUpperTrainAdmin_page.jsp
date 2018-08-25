@@ -5,6 +5,21 @@ pageEncoding="UTF-8" %>
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers" data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query" value="${not empty param.type ||not empty param.unitId ||not empty param.userId || not empty param.code || not empty param.sort}"/>
+            <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                <li class="active">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/cet/cetUpperTrainAdmin"><i
+                            class="fa fa-users"></i> 上级单位管理员</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="loadPage"
+                       data-load-el="#detail-content" data-callback="$.menu.liSelected"
+                       data-url="${ctx}/metaClass_type_list?cls=mc_cet_upper_train_organizer,mc_cet_upper_train_type,mc_cet_upper_train_special"><i
+                            class="fa fa-info-circle"></i> 调训专项信息</a>
+                </li>
+            </ul>
+            <div class="space-4"></div>
+            <div id="detail-content">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="cetUpperTrainAdmin:edit">
                     <button class="popupBtn btn btn-info btn-sm"
@@ -24,10 +39,10 @@ pageEncoding="UTF-8" %>
                         <i class="fa fa-trash"></i> 删除
                     </button>
                 </shiro:hasPermission>
-                <button class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                <%--<button class="jqExportBtn btn btn-success btn-sm tooltip-success"
                    data-url="${ctx}/cet/cetUpperTrainAdmin_data"
                    data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                    <i class="fa fa-download"></i> 导出</button>
+                    <i class="fa fa-download"></i> 导出</button>--%>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -43,19 +58,31 @@ pageEncoding="UTF-8" %>
                     <div class="widget-main no-padding">
                         <form class="form-inline search-form" id="searchForm">
                         <div class="form-group">
-                            <label>类型</label>
-                            <input class="form-control search-query" name="type" type="text" value="${param.type}"
-                                   placeholder="请输入类型">
+                            <div class="form-group">
+                                <label>类型</label>
+                                <select required data-rel="select2"
+                                        name="type" data-placeholder="请选择">
+                                    <option value="0">单位管理员</option>
+                                    <option value="1">校领导管理员</option>
+                                </select>
+                                <script>
+                                    $("#searchForm select[name=type]").val('${param.type}')
+                                </script>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>所属单位</label>
-                            <input class="form-control search-query" name="unitId" type="text" value="${param.unitId}"
-                                   placeholder="请输入所属单位">
+                            <select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+                                    name="unitId" data-placeholder="请选择">
+                                <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>管理员</label>
-                            <input class="form-control search-query" name="userId" type="text" value="${param.userId}"
-                                   placeholder="请输入管理员">
+                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sysUser_selects"
+                                    name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                            </select>
                         </div>
                             <div class="clearfix form-actions center">
                                 <a class="jqSearchBtn btn btn-default btn-sm"
@@ -77,6 +104,7 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <table id="jqGrid" class="jqGrid table-striped"></table>
             <div id="jqGridPager"></div>
+            </div>
         </div>
         <div id="body-content-view"></div>
     </div>
@@ -86,16 +114,29 @@ pageEncoding="UTF-8" %>
         rownumbers:true,
         url: '${ctx}/cet/cetUpperTrainAdmin_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-                { label: '类型',name: 'type'},
-                { label: '所属单位',name: 'unitId'},
-                { label: '所属校领导',name: 'leaderId'},
-                { label: '管理员',name: 'userId'}
+                { label: '类型',name: 'type', width:150, formatter: $.jgrid.formatter.TRUEFALSE, formatoptions:{on:'校领导管理员',off:'单位管理员'}},
+                { label: '所属单位',name: 'unit.name', width:250, formatter: function (cellvalue, options, rowObject) {
+                    if (rowObject.type) {
+                        return '-'
+                    }
+                    return $.trim(cellvalue)
+                }},
+                { label: '所属校领导',name: 'leaderUser.realname', width:150, formatter: function (cellvalue, options, rowObject) {
+                    if (!rowObject.type) {
+                        return '-'
+                    }
+                    return $.trim(cellvalue)
+                }},
+                { label: '管理员姓名',name: 'user.realname', width:150 },
+                { label: '管理员工号',name: 'user.code', width:150 }
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
+    $.register.user_select($('#searchForm select[name=userId]'));
+    $.register.del_select($('#searchForm select[name=unitId]'));
     //$.register.user_select($('[data-rel="select2-ajax"]'));
-    //$('#searchForm [data-rel="select2"]').select2();
+    $('#searchForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     //$.register.date($('.date-picker'));
 </script>

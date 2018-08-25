@@ -10,7 +10,7 @@
             <list>
                 <!--关联member模块-->
                 <value>(persistence|service|controller)\.pmd\..*</value>
-                <!--<value>(persistence|service|controller)\.member\..*</value>-->
+                <value>(persistence|service|controller)\.member\..*</value>
 
                 <value>(persistence|service|controller)\.cis\..*</value>
 

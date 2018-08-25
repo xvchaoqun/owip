@@ -7,6 +7,7 @@ import domain.cet.CetTrain;
 import domain.cet.CetTrainCourse;
 import domain.cet.CetTrainCourseView;
 import domain.cet.CetTraineeType;
+import domain.unit.Unit;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
@@ -21,6 +22,11 @@ import java.util.Map;
  * Created by lm on 2017/6/13.
  */
 public interface ICetMapper {
+
+    // 上级培训单位
+    @ResultMap("persistence.unit.UnitMapper.BaseResultMap")
+    @Select("select distinct u.* from cet_upper_train_admin cuta, unit u where cuta.unit_id is not null and cuta.unit_id=u.id")
+    public List<Unit> findUpperUnits();
 
     // 培训计划的参训人类型
     @ResultMap("persistence.cet.CetTraineeTypeMapper.BaseResultMap")

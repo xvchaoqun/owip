@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="type" jdbcType="BIT" property="type" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
-    <result column="leader_id" jdbcType="INTEGER" property="leaderId" />
+    <result column="leader_user_id" jdbcType="INTEGER" property="leaderUserId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, unit_id, leader_id, user_id
+    id, type, unit_id, leader_user_id, user_id
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUpperTrainAdminExample" resultMap="BaseResultMap">
     select
@@ -101,9 +101,9 @@
   </delete>
   <insert id="insert" parameterType="domain.cet.CetUpperTrainAdmin">
     insert into cet_upper_train_admin (id, type, unit_id, 
-      leader_id, user_id)
+      leader_user_id, user_id)
     values (#{id,jdbcType=INTEGER}, #{type,jdbcType=BIT}, #{unitId,jdbcType=INTEGER}, 
-      #{leaderId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
+      #{leaderUserId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUpperTrainAdmin">
     insert into cet_upper_train_admin
@@ -117,8 +117,8 @@
       <if test="unitId != null">
         unit_id,
       </if>
-      <if test="leaderId != null">
-        leader_id,
+      <if test="leaderUserId != null">
+        leader_user_id,
       </if>
       <if test="userId != null">
         user_id,
@@ -134,8 +134,8 @@
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="leaderId != null">
-        #{leaderId,jdbcType=INTEGER},
+      <if test="leaderUserId != null">
+        #{leaderUserId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -160,8 +160,8 @@
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
-      <if test="record.leaderId != null">
-        leader_id = #{record.leaderId,jdbcType=INTEGER},
+      <if test="record.leaderUserId != null">
+        leader_user_id = #{record.leaderUserId,jdbcType=INTEGER},
       </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
@@ -176,7 +176,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       type = #{record.type,jdbcType=BIT},
       unit_id = #{record.unitId,jdbcType=INTEGER},
-      leader_id = #{record.leaderId,jdbcType=INTEGER},
+      leader_user_id = #{record.leaderUserId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -191,8 +191,8 @@
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="leaderId != null">
-        leader_id = #{leaderId,jdbcType=INTEGER},
+      <if test="leaderUserId != null">
+        leader_user_id = #{leaderUserId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
@@ -204,7 +204,7 @@
     update cet_upper_train_admin
     set type = #{type,jdbcType=BIT},
       unit_id = #{unitId,jdbcType=INTEGER},
-      leader_id = #{leaderId,jdbcType=INTEGER},
+      leader_user_id = #{leaderUserId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

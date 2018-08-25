@@ -284,63 +284,63 @@ public class CetUpperTrainAdminExample {
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdIsNull() {
-            addCriterion("leader_id is null");
+        public Criteria andLeaderUserIdIsNull() {
+            addCriterion("leader_user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdIsNotNull() {
-            addCriterion("leader_id is not null");
+        public Criteria andLeaderUserIdIsNotNull() {
+            addCriterion("leader_user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdEqualTo(Integer value) {
-            addCriterion("leader_id =", value, "leaderId");
+        public Criteria andLeaderUserIdEqualTo(Integer value) {
+            addCriterion("leader_user_id =", value, "leaderUserId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdNotEqualTo(Integer value) {
-            addCriterion("leader_id <>", value, "leaderId");
+        public Criteria andLeaderUserIdNotEqualTo(Integer value) {
+            addCriterion("leader_user_id <>", value, "leaderUserId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdGreaterThan(Integer value) {
-            addCriterion("leader_id >", value, "leaderId");
+        public Criteria andLeaderUserIdGreaterThan(Integer value) {
+            addCriterion("leader_user_id >", value, "leaderUserId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("leader_id >=", value, "leaderId");
+        public Criteria andLeaderUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("leader_user_id >=", value, "leaderUserId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdLessThan(Integer value) {
-            addCriterion("leader_id <", value, "leaderId");
+        public Criteria andLeaderUserIdLessThan(Integer value) {
+            addCriterion("leader_user_id <", value, "leaderUserId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdLessThanOrEqualTo(Integer value) {
-            addCriterion("leader_id <=", value, "leaderId");
+        public Criteria andLeaderUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("leader_user_id <=", value, "leaderUserId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdIn(List<Integer> values) {
-            addCriterion("leader_id in", values, "leaderId");
+        public Criteria andLeaderUserIdIn(List<Integer> values) {
+            addCriterion("leader_user_id in", values, "leaderUserId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdNotIn(List<Integer> values) {
-            addCriterion("leader_id not in", values, "leaderId");
+        public Criteria andLeaderUserIdNotIn(List<Integer> values) {
+            addCriterion("leader_user_id not in", values, "leaderUserId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdBetween(Integer value1, Integer value2) {
-            addCriterion("leader_id between", value1, value2, "leaderId");
+        public Criteria andLeaderUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("leader_user_id between", value1, value2, "leaderUserId");
             return (Criteria) this;
         }
 
-        public Criteria andLeaderIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("leader_id not between", value1, value2, "leaderId");
+        public Criteria andLeaderUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("leader_user_id not between", value1, value2, "leaderUserId");
             return (Criteria) this;
         }
 

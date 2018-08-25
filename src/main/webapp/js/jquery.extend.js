@@ -967,8 +967,10 @@ var _modal_width;
                     });
                     $btn.button('reset');
                 },
-                failCallback: function (responseHtml, url) {
-
+                failCallback: function (responseHtml, url, error) {
+                    //console.log("responseHtml="+responseHtml)
+                    //console.log("url="+url)
+                    //console.log("error="+error)
                     $('[data-rel="tooltip"]').tooltip('hide');
                     $.tip({
                         $target: $this,
@@ -1097,8 +1099,15 @@ if ($.jgrid) {
             var unit = _cMap.unitMap[cellvalue];
             if(unit!=undefined) name=unit.name;
 
-            return $.trim(name)==''?'-':('<a href="javascript:;" class="openView" data-url="{3}/unit_view?id={0}"><span class="{1}">{2}</span></a>'
-                .format(unit.id, unit.status==2?'delete':'', name, ctx));
+            if($.trim(name)=='') return '-'
+
+            if($.inArray("unit:info", _permissions) >= 0) {
+                return ('<a href="javascript:;" class="openView" data-url="{3}/unit_view?id={0}"><span class="{1}">{2}</span></a>'
+                    .format(unit.id, unit.status == 2 ? 'delete' : '', name, ctx));
+            }
+
+            return ('<span class="{0}">{1}</span>'
+                .format(unit.status==2?'delete':'', name));
         },
         AGE: function (cellvalue, options, rowObject) {
             if (cellvalue == undefined) return '';

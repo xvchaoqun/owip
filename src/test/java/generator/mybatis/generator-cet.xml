@@ -44,9 +44,9 @@
                mapperName="cet.CetUpperTrainMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-        <table tableName="cet_upper_train_admin" domainObjectName="cet.CetUpperTrainAdmin"
+        <!--<table tableName="cet_upper_train_admin" domainObjectName="cet.CetUpperTrainAdmin"
                mapperName="cet.CetUpperTrainAdminMapper">
-        </table>
+        </table>-->
 
        <!-- <table tableName="cet_unit" domainObjectName="cet.CetUnit" mapperName="cet.CetUnitMapper">
         </table>

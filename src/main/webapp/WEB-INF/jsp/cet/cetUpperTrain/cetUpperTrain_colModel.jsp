@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<c:set var="CET_UPPER_TRAIN_ADD_TYPE_SELF" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"/>
 <script>
   var colModel = [
-    {label: '参训人', name: 'user.realname'},
+    {label: '参训人姓名', name: 'user.realname'},
+    {label: '参训人工号', width: 110, name: 'user.code'},
     {label: '时任单位及职务', name: 'title', align: 'left', width: 350},
     {label: '职务属性', name: 'postId', width: 150, formatter: $.jgrid.formatter.MetaType},
     {
@@ -16,7 +18,7 @@
     },
     {label: '培训班类型', name: 'trainType', width: 150, formatter: $.jgrid.formatter.MetaType},
     {
-      label: '专项培训班', name: 'specialType', width: 150, formatter: function (cellvalue, options, rowObject) {
+      label: '专项培训班', name: 'specialType', width: 200, formatter: function (cellvalue, options, rowObject) {
       if (cellvalue == 0) {
         return '无'
       }
@@ -54,14 +56,22 @@
       return ret;
     }},
     {label: '派出单位', name: 'unitId', align: 'left', width: 150, formatter: function (cellvalue, options, rowObject) {
-      if (cellvalue == undefined) {
+      if (!rowObject.type) {
         return '党委组织部'
       }
+
       return $.jgrid.formatter.unit(cellvalue)
     }},
     {label: '操作人', name: 'addUser.username'},
     {label: '添加时间', name: 'addTime', width: 150},
-    {label: '是否计入<br/>年度学习任务', name: 'isValid', formatter: $.jgrid.formatter.TRUEFALSE},
+    <c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_SELF}">
+    {label: '是否计入<br/>年度学习任务', name: 'isValid', formatter: function (cellvalue, options, rowObject) {
+      if (cellvalue==undefined) {
+        return '-'
+      }
+      return cellvalue?'是':'否'
+    }},
+    </c:if>
     {label: '备注', name: 'remark', width: 150}
   ]
 </script>

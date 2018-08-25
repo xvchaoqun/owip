@@ -2,7 +2,6 @@ package controller.cet;
 
 import bean.UserBean;
 import bean.XlsUpload;
-import controller.global.OpException;
 import domain.cet.CetDiscussGroup;
 import domain.cet.CetPlanCourse;
 import domain.cet.CetProject;
@@ -255,19 +254,11 @@ public class CetProjectObjController extends CetBaseController {
                     criteria.andUserIdEqualTo(userId);
                 }
 
-                count = (int) cetProjectObjCadreViewMapper.countByExample(example);
-                if ((pageNo - 1) * pageSize >= count) {
-
-                    pageNo = Math.max(1, pageNo - 1);
-                }
-                records = cetProjectObjCadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
-                CommonList commonList = new CommonList(count, pageNo, pageSize);
-                total = commonList.pageNum;
-
                 if (export == 1) {
-                    if (count == 0) {
-                        throw new OpException("还没有上传心得体会。");
-                    }
+
+                    criteria.andWriteFilePathIsNotNull();
+                    records = cetProjectObjCadreViewMapper.selectByExample(example);
+
                     CetProject cetProject = cetProjectMapper.selectByPrimaryKey(projectId);
                     Map<String, File> fileMap = new LinkedHashMap<>();
                     for (Object record : records) {
@@ -279,10 +270,20 @@ public class CetProjectObjController extends CetBaseController {
                         fileMap.put(realname + "(" + obj.getCode() + ")" + FileUtils.getExtention(writeFilePath),
                                 new File(springProps.uploadPath + writeFilePath));
                     }
-
+                    response.setHeader("Set-Cookie", "fileDownload=true; path=/");
                     DownloadUtils.zip(fileMap, String.format("[%s]心得体会（%s）", cetProject.getName(),
                             cetTraineeType.getName()), request, response);
+                    return;
                 }
+
+                count = (int) cetProjectObjCadreViewMapper.countByExample(example);
+                if ((pageNo - 1) * pageSize >= count) {
+
+                    pageNo = Math.max(1, pageNo - 1);
+                }
+                records = cetProjectObjCadreViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+                CommonList commonList = new CommonList(count, pageNo, pageSize);
+                total = commonList.pageNum;
                 break;
             default:
                 break;

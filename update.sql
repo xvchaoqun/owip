@@ -1,4 +1,14 @@
 
+20180826
+ALTER TABLE `cet_upper_train_admin`
+	CHANGE COLUMN `leader_id` `leader_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属校领导' AFTER `unit_id`;
+
+ALTER TABLE `cet_upper_train`
+	ADD COLUMN `is_deleted` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除' AFTER `is_valid`;
+
+ALTER TABLE `cet_upper_train`
+	CHANGE COLUMN `status` `status` TINYINT(3) UNSIGNED NOT NULL COMMENT '审批状态，0 待审批 1 审批通过 2 审批不通过，（仅针对本人填写，组织部派出由组织部管理员审批，其他部门派出由部门管理员审批）' AFTER `remark`;
+
 20180822
 更新common-utils.jar
 

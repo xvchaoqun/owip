@@ -40,7 +40,16 @@ public class CetUpperTrainAdminController extends CetBaseController {
 
     @RequiresPermissions("cetUpperTrainAdmin:list")
     @RequestMapping("/cetUpperTrainAdmin")
-    public String cetUpperTrainAdmin() {
+    public String cetUpperTrainAdmin(Integer unitId,
+                                     Integer userId,
+                                     ModelMap modelMap) {
+
+        if(unitId!=null){
+            modelMap.put("unit", unitService.findAll().get(unitId));
+        }
+        if(userId!=null){
+            modelMap.put("sysUser", sysUserService.findById(userId));
+        }
 
         return "cet/cetUpperTrainAdmin/cetUpperTrainAdmin_page";
     }
@@ -174,7 +183,7 @@ public class CetUpperTrainAdminController extends CetBaseController {
             String[] values = {
                 record.getType()+"",
                             record.getUnitId()+"",
-                            record.getLeaderId()+"",
+                            record.getLeaderUserId()+"",
                             record.getUserId()+""
             };
             valuesList.add(values);

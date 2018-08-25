@@ -360,6 +360,8 @@ public class CmTag {
 
     public static Unit getUnit(Integer unitId) {
 
+        if(unitId==null) return null;
+
         return unitService.findAll().get(unitId);
     }
 

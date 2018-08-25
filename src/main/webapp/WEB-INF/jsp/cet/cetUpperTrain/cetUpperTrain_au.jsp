@@ -3,32 +3,40 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_SELF" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"/>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_OW" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW%>"/>
-<c:set var="isAdmin" value="${empty param.id && cm:toByte(param.addType)!=CET_UPPER_TRAIN_ADD_TYPE_SELF}"/>
+<c:set var="CET_UPPER_TRAIN_STATUS_INIT" value="<%=CetConstants.CET_UPPER_TRAIN_STATUS_INIT%>"/>
+<c:set var="CET_UPPER_TRAIN_STATUS_UNPASS" value="<%=CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS%>"/>
+<c:set var="isMultiSelect" value="${empty param.id && addType!=CET_UPPER_TRAIN_ADD_TYPE_SELF}"/>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cetUpperTrain!=null}">编辑</c:if><c:if test="${cetUpperTrain==null}">添加</c:if>上级调训</h3>
+    <h3>
+		<c:if test="${param.check==1}">审批</c:if>
+		<c:if test="${param.check!=1}">
+			<c:if test="${cetUpperTrain!=null}">编辑</c:if><c:if test="${cetUpperTrain==null}">添加</c:if>上级调训
+		</c:if>
+	</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cet/cetUpperTrain_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${cetUpperTrain.id}">
-        <input type="hidden" name="type" value="${type}">
-        <input type="hidden" name="addType" value="${param.addType}">
-		<c:set var="selectWidth" value="223"/>
-		<c:if test="${isAdmin}">
+		<c:if test="${addType==CET_UPPER_TRAIN_ADD_TYPE_SELF}">
+        <input type="hidden" name="userId" value="${_user.id}">
+		</c:if>
+        <input type="hidden" name="addType" value="${addType}">
+		<c:set var="selectWidth" value="${isMultiSelect?223:272}"/>
+		<c:if test="${isMultiSelect}">
 		<div class="col-xs-12">
 			<div class="col-xs-5">
 				<div id="tree3" style="height: 550px"></div>
 			</div>
 			<div class="col-xs-7">
-				</c:if>
-	<c:if test="${!isAdmin}">
+		</c:if>
+	<c:if test="${!isMultiSelect && addType!=CET_UPPER_TRAIN_ADD_TYPE_SELF}">
 	<div class="form-group">
 		<label class="col-xs-4 control-label">参训人</label>
 		<div class="col-xs-6 label-text">
 				${cetUpperTrain.user.realname}
 		</div>
 	</div>
-	<c:set var="selectWidth" value="272"/>
 	</c:if>
 				<div class="form-group">
 					<label class="col-xs-4 control-label">培训班主办方</label>
@@ -119,10 +127,39 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 
+				<c:if test="${addType==CET_UPPER_TRAIN_ADD_TYPE_SELF}">
 				<div class="form-group">
-					<label class="col-xs-4 control-label">是否计入年度学习任务</label>
+					<label class="col-xs-4 control-label">培训总结</label>
 					<div class="col-xs-6">
-						<input type="checkbox" class="big" name="isValid" ${cetUpperTrain.isValid?"checked":""}/>
+						<input class="form-control" type="file" name="_word"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-offset-4 col-xs-6">
+						<input class="form-control" type="file" name="_pdf"/>
+					</div>
+				</div>
+				</c:if>
+				<div class="form-group">
+					<label class="col-xs-4 control-label">派出单位</label>
+					<div class="col-xs-6 choice label-text">
+						<div class="input-group">
+							<input required name="type" type="checkbox" class="big" value="0" ${empty cetUpperTrain.type || cetUpperTrain.type?'':'checked'}> 党委组织部&nbsp;
+							<input required name="type" type="checkbox" class="big" value="1" ${cetUpperTrain.type?'checked':''}> 其他部门派出
+						</div>
+					</div>
+				</div>
+				<div class="form-group" id="unitDiv" style="display: ${cetUpperTrain.type?'block':'none'}">
+					<div class="col-xs-offset-4 col-xs-6">
+						<select ${cetUpperTrain.type?'required':''} data-rel="select2" data-width="${selectWidth}" name="unitId" data-placeholder="请选择派出单位">
+							<option></option>
+							<c:forEach var="unit" items="${upperUnits}">
+								<option value="${unit.id}">${unit.name}</option>
+							</c:forEach>
+						</select>
+						<script>
+							$("#modalForm select[name=unitId]").val('${cetUpperTrain.unitId}')
+						</script>
 					</div>
 				</div>
 				<div class="form-group">
@@ -132,7 +169,35 @@ pageEncoding="UTF-8"%>
 							   name="remark">${cetUpperTrain.remark}</textarea>
 					</div>
 				</div>
-<c:if test="${isAdmin}">
+			<c:if test="${addType==CET_UPPER_TRAIN_ADD_TYPE_OW}">
+				<div class="form-group">
+					<label class="col-xs-4 control-label">是否计入年度学习任务</label>
+					<div class="col-xs-6">
+						<input type="checkbox" class="big" name="isValid" ${cetUpperTrain.isValid?"checked":""}/>
+					</div>
+				</div>
+			</c:if>
+			<c:if test="${param.check==1}">
+				<input type="hidden" name="check" value="1">
+			</c:if>
+			<c:if test="${param.check==1 && cetUpperTrain.status==CET_UPPER_TRAIN_STATUS_INIT}">
+			<div class="form-group">
+				<label class="col-xs-4 control-label">审批结果</label>
+				<div class="col-xs-6 choice label-text">
+					<div class="input-group">
+						<input required name="status" type="checkbox" class="big" value="1"> 通过&nbsp;
+						<input required name="status" type="checkbox" class="big" value="2"> 不通过
+					</div>
+				</div>
+			</div>
+			<div class="form-group" id="backReasonDiv" style="display: none">
+				<label class="col-xs-4 control-label">不通过原因</label>
+				<div class="col-xs-6">
+					 <textarea class="form-control limited" rows="2" name="backReason"></textarea>
+				</div>
+			</div>
+			</c:if>
+<c:if test="${isMultiSelect}">
 			</div>
 		</div>
 	</c:if>
@@ -140,26 +205,78 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <button id="submitBtn" class="btn btn-primary"><i class="fa fa-check"></i> <c:if test="${cetUpperTrain!=null}">确定</c:if><c:if test="${cetUpperTrain==null}">添加</c:if></button>
+	<button id="submitBtn" class="btn btn-primary"
+			data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
+		<i class="fa fa-check"></i>
+		<c:if test="${cetUpperTrain!=null}">${cetUpperTrain.status==CET_UPPER_TRAIN_STATUS_UNPASS?'重新提交':'确定'}</c:if>
+		<c:if test="${cetUpperTrain==null}">添加</c:if></button>
 </div>
+<style>
+	.modal-body{
+		max-height: inherit!important;
+	}
+</style>
 <script>
+	<c:if test="${addType==CET_UPPER_TRAIN_ADD_TYPE_SELF}">
+	$.fileInput($("#modalForm input[name=_word]"),{
+		no_file: '请上传word文件...',
+		allowExt: ['doc', 'docx'],
+		allowMime: ['application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+	});
+	$.fileInput($("#modalForm input[name=_pdf]"),{
+		no_file: '请上传pdf文件...',
+		allowExt: ['pdf'],
+		allowMime: ['application/pdf']
+	});
+	</c:if>
+	$("#modalForm input[name=type]").click(function(){
+
+		if($(this).prop("checked")){
+			$("input[type=checkbox][name=type]").not(this).prop("checked", false);
+		}
+
+		if($(this).prop("checked") && $(this).val()=='1'){
+			$("#unitDiv").show();
+			$("#modalForm select[name=unitId]").prop("disabled", false).attr("required", "required");
+		}else{
+			$("#unitDiv").hide();
+			$("#modalForm select[name=unitId]").val(null).trigger("change").prop("disabled", true).removeAttr("required");
+		}
+	});
+
+	$("#modalForm input[name=status]").click(function(){
+
+		if($(this).prop("checked")){
+			$("input[type=checkbox][name=status]").not(this).prop("checked", false);
+		}
+
+		if($(this).prop("checked") && $(this).val()=='2'){
+			$("#backReasonDiv").show();
+			$("#modalForm textarea[name=backReason]").prop("disabled", false).attr("required", "required");
+		}else{
+			$("#backReasonDiv").hide();
+			$("#modalForm textarea[name=backReason]").val('').prop("disabled", true).removeAttr("required");
+		}
+	});
+
+
 	function organizerChange(){
-		var $organizer = $("select[name=organizer]");
+		var $organizer = $("#modalForm select[name=organizer]");
 		if($organizer.val()=='0'){
 			$("#otherOrganizerDiv").show();
-			$("input[name=otherOrganizer]").prop("disabled", false).attr("required", "required");
+			$("#modalForm input[name=otherOrganizer]").prop("disabled", false).attr("required", "required");
 		}else{
 			$("#otherOrganizerDiv").hide();
-			$("input[name=otherOrganizer]").val('').prop("disabled", true).removeAttr("required");
+			$("#modalForm input[name=otherOrganizer]").val('').prop("disabled", true).removeAttr("required");
 		}
 	}
-	$("select[name=organizer]").change(function(){
+	$("#modalForm select[name=organizer]").change(function(){
 		organizerChange();
 	});
 	organizerChange();
 
-	<c:if test="${isAdmin}">
-	$.getJSON("${ctx}/cet/cetUpperTrain_selectCadres_tree",{addType:${param.addType}},function(data){
+	<c:if test="${isMultiSelect}">
+	$.getJSON("${ctx}/cet/cetUpperTrain_selectCadres_tree",{addType:${addType}},function(data){
 		var treeData = data.tree;
 		treeData.title="选择参训人员"
 		$("#tree3").dynatree({
@@ -179,7 +296,7 @@ pageEncoding="UTF-8"%>
 	var userIds=[];
     $("#submitBtn").click(function(){
 
-		<c:if test="${isAdmin}">
+		<c:if test="${isMultiSelect}">
 		userIds = $.map($("#tree3").dynatree("getSelectedNodes"), function(node){
 			if(!node.data.isFolder && !node.data.hideCheckbox)
 				return node.data.key;
@@ -187,7 +304,7 @@ pageEncoding="UTF-8"%>
 		if(userIds.length==0){
 			$.tip({
 				$target: $("#tree3"),
-				at: 'top center', my: 'bottom center',
+				at: 'bottom center', my: 'top center',
 				msg: "请选择参训人员"
 			});
 		}
@@ -196,25 +313,34 @@ pageEncoding="UTF-8"%>
 		$("#modalForm").submit();return false;});
     $("#modalForm").validate({
         submitHandler: function (form) {
-			<c:if test="${isAdmin}">
+			<c:if test="${isMultiSelect}">
 			if(userIds.length==0){
 				return;
 			}
 			</c:if>
-
+			var $btn = $("#submitBtn").button('loading');
 			$(form).ajaxSubmit({
 				data:{userIds:userIds},
                 success:function(ret){
                     if(ret.success){
-                        $("#modal").modal('hide');
-                        $("#jqGrid").trigger("reloadGrid");
+						<c:choose>
+						<c:when test="${addType==CET_UPPER_TRAIN_ADD_TYPE_SELF
+						&& (empty cetUpperTrain.id||cetUpperTrain.status==CET_UPPER_TRAIN_STATUS_UNPASS)}">
+						$.loadPage({url:'${ctx}/user/cet/cetUpperTrain?cls=2'})
+						</c:when>
+						<c:otherwise>
+						$("#modal").modal('hide');
+						$("#jqGrid").trigger("reloadGrid");
+						</c:otherwise>
+						</c:choose>
                     }
+					$btn.button('reset');
                 }
             });
         }
     });
-    $("#modalForm :checkbox").bootstrapSwitch();
-    //$.register.user_select($('[data-rel="select2-ajax"]'));
+    $("#modalForm input[name=isValid]").bootstrapSwitch();
+    $.register.ajax_select($('[data-rel="select2-ajax"]'));
     $('#modalForm [data-rel="select2"]').select2();
     //$('[data-rel="tooltip"]').tooltip();
     $('textarea.limited').inputlimiter();

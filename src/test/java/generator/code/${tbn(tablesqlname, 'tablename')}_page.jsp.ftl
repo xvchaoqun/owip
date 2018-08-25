@@ -12,7 +12,7 @@ pageEncoding="UTF-8" %>
             <c:set var="_query" value="&{<#list searchColumnBeans as column>not empty param.${tbn(column.name, "tableName")} ||</#list> not empty param.code || not empty param.sort}"/>
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="${tableName}:edit">
-                    <button class="popupBtn btn btn-info btn-sm"
+                    <button class="popupBtn btn btn-success btn-sm"
                             data-url="&{ctx}/${_resFolder}${tableName}_au">
                         <i class="fa fa-plus"></i> 添加</button>
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"

@@ -23,6 +23,7 @@
     <result column="add_user_id" jdbcType="INTEGER" property="addUserId" />
     <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="is_valid" jdbcType="BIT" property="isValid" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="back_reason" jdbcType="VARCHAR" property="backReason" />
@@ -88,7 +89,7 @@
   <sql id="Base_Column_List">
     id, type, unit_id, user_id, title, post_id, organizer, other_organizer, train_type, 
     special_type, train_name, start_date, end_date, period, address, word_note, pdf_note, 
-    add_type, add_user_id, add_time, is_valid, remark, status, back_reason
+    add_type, add_user_id, add_time, is_valid, is_deleted, remark, status, back_reason
   </sql>
   <select id="selectByExample" parameterType="domain.cet.CetUpperTrainExample" resultMap="BaseResultMap">
     select
@@ -130,16 +131,18 @@
       train_name, start_date, end_date, 
       period, address, word_note, 
       pdf_note, add_type, add_user_id, 
-      add_time, is_valid, remark, 
-      status, back_reason)
+      add_time, is_valid, is_deleted, 
+      remark, status, back_reason
+      )
     values (#{type,jdbcType=BIT}, #{unitId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{title,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, #{organizer,jdbcType=INTEGER}, 
       #{otherOrganizer,jdbcType=VARCHAR}, #{trainType,jdbcType=INTEGER}, #{specialType,jdbcType=INTEGER}, 
       #{trainName,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
       #{period,jdbcType=DECIMAL}, #{address,jdbcType=VARCHAR}, #{wordNote,jdbcType=VARCHAR}, 
       #{pdfNote,jdbcType=VARCHAR}, #{addType,jdbcType=TINYINT}, #{addUserId,jdbcType=INTEGER}, 
-      #{addTime,jdbcType=TIMESTAMP}, #{isValid,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR})
+      #{addTime,jdbcType=TIMESTAMP}, #{isValid,jdbcType=BIT}, #{isDeleted,jdbcType=BIT}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{backReason,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.cet.CetUpperTrain">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -206,6 +209,9 @@
       </if>
       <if test="isValid != null">
         is_valid,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
       </if>
       <if test="remark != null">
         remark,
@@ -277,6 +283,9 @@
       </if>
       <if test="isValid != null">
         #{isValid,jdbcType=BIT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -361,6 +370,9 @@
       <if test="record.isValid != null">
         is_valid = #{record.isValid,jdbcType=BIT},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -398,6 +410,7 @@
       add_user_id = #{record.addUserId,jdbcType=INTEGER},
       add_time = #{record.addTime,jdbcType=TIMESTAMP},
       is_valid = #{record.isValid,jdbcType=BIT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       back_reason = #{record.backReason,jdbcType=VARCHAR}
@@ -468,6 +481,9 @@
       <if test="isValid != null">
         is_valid = #{isValid,jdbcType=BIT},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -502,6 +518,7 @@
       add_user_id = #{addUserId,jdbcType=INTEGER},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       is_valid = #{isValid,jdbcType=BIT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       back_reason = #{backReason,jdbcType=VARCHAR}

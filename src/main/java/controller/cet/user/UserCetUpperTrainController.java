@@ -4,6 +4,7 @@ import controller.cet.CetBaseController;
 import domain.cet.CetUpperTrain;
 import domain.cet.CetUpperTrainExample;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -11,13 +12,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
 import sys.constants.CetConstants;
+import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
@@ -89,5 +94,19 @@ public class UserCetUpperTrainController extends CetBaseController {
         Map<Class<?>, Class<?>> baseMixins = MixinUtils.baseMixins();
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
+    }
+
+    @RequiresPermissions("userCetUpperTrain:del")
+    @RequestMapping(value = "/cetUpperTrain_batchDel", method = RequestMethod.POST)
+    @ResponseBody
+    public Map cetUpperTrain_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+
+
+        if (null != ids && ids.length > 0) {
+            cetUpperTrainService.batchDelBySelf(ids);
+            logger.info(addLog(LogConstants.LOG_CET, "本人批量删除上级调训：%s", StringUtils.join(ids, ",")));
+        }
+
+        return success(FormUtils.SUCCESS);
     }
 }
