@@ -47,12 +47,12 @@
                 <tr>
                     <td>提案类型</td>
                     <td colspan="3">
-                        <div class="radio">
+                        <div class="input-group">
                             <c:forEach items="${prTypes}" var="_type">
                                 <label>
                                     <input disabled name="type" ${pcsProposal.type==_type.id?'checked':''}
                                            type="radio" class="ace" value="${_type.id}"/>
-                                    <span class="lbl"> ${_type.name}</span>
+                                    <span class="lbl" style="padding-right: 5px;"> ${_type.name}</span>
                                 </label>
                             </c:forEach>
                         </div>

@@ -30,13 +30,13 @@
         </c:if>
 		<div class="form-group">
 			<label class="col-xs-3 control-label">类别</label>
-			<div class="col-xs-6">
-				<div class="radio">
+			<div class="col-xs-6 label-text">
+				<div class="input-group">
 					<c:forEach var="userType" items="${USER_TYPE_MAP}">
 					<label>
 						<input name="type" type="radio" class="ace" value="${userType.key}"
 							   <c:if test="${sysUser.type==userType.key}">checked</c:if>/>
-						<span class="lbl"> ${userType.value}</span>
+						<span class="lbl" style="padding-right: 5px;"> ${userType.value}</span>
 					</label>
 					</c:forEach>
 				</div>

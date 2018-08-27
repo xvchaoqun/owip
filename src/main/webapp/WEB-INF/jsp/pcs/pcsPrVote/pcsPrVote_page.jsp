@@ -21,12 +21,12 @@
                                     <td width="60">${pcsPartyView.memberCount}</td>
                                     <td width="50">大会类型：</td>
                                     <td colspan="2" width="60">
-                                        <div class="radio">
+                                        <div class="input-group">
                                             <label>
                                                 <input required name="meetingType" type="radio" class="ace"
                                                        value="1"
                                                        <c:if test="${pcsPrRecommend.meetingType==1}">checked</c:if>/>
-                                                <span class="lbl"> 全体党员大会</span>
+                                                <span class="lbl" style="padding-right: 5px;"> 全体党员大会</span>
                                             </label>
                                             <label>
                                                 <input required name="meetingType" type="radio" class="ace"

@@ -12,12 +12,12 @@
         <input type="hidden" name="stage" value="${param.stage}">
         <div class="form-group">
             <label class="col-xs-3 control-label">发送对象</label>
-            <div class="col-xs-8 input-group">
-                <div class="radio">
+            <div class="col-xs-8 label-text">
+                <div class="input-group">
                 <c:forEach items="${PCS_ADMIN_TYPE_MAP}" var="_type">
                     <label>
                         <input required name="adminType" type="radio" class="ace" value="${_type.key}"/>
-                        <span class="lbl"> ${_type.value}</span>
+                        <span class="lbl" style="padding-right: 5px;"> ${_type.value}</span>
                     </label>
                 </c:forEach>
                     </div>

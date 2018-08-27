@@ -15,7 +15,7 @@
   <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div class="top">
+<div class="top" style="background:url(/img/login_top.jpg?_=1529302041258) #dbf5ff top right no-repeat; z-index:1">
   <div class="w1000">
     <div class="logo"><t:img src="/img/logo.png"/></div>
     <div class="txt">${_plantform_name}</div>
@@ -54,7 +54,7 @@
                         <div class="form-group">
                             <label class="col-xs-5 control-label">请输入账号</label>
                             <div class="col-xs-6">
-                                <input type="text" name="username"/>
+                                <input type="text" autocomplete="off" disableautocomplete name="username"/>
                                 <button type="button" class="btn btn-success btn-xs" id="msgBtn"><i class="fa fa-mobile"></i> 发送短信</button>
                                 <div id="result" style="margin-top: 5px;display:none">
                                 </div>
@@ -63,13 +63,13 @@
                         <div class="form-group">
                             <label class="col-xs-5 control-label">短信验证码</label>
                             <div class="col-xs-6">
-                                <input type="text" name="code" maxlength="4" style="width: 80px"/>
+                                <input type="text" autocomplete="off" disableautocomplete name="code" maxlength="4" style="width: 80px"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-xs-5 control-label">新密码</label>
                             <div class="col-xs-6">
-                                <input type="text" onfocus="this.type='password'" name="password" autocomplete="off"/>
+                                <input type="text" autocomplete="off" disableautocomplete onfocus="this.type='password'" name="password"/>
                             </div>
                         </div>
 

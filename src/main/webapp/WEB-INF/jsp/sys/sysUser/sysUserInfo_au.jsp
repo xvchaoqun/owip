@@ -26,12 +26,12 @@
                 <label class="col-xs-3 control-label">*性别</label>
 
                 <div class="col-xs-6">
-                    <div class="radio">
+                    <div class="input-group">
                         <c:forEach var="gender" items="${GENDER_MAP}">
                             <label>
                                 <input name="gender" type="radio" class="ace" value="${gender.key}"
                                        <c:if test="${ui.gender==gender.key}">checked</c:if>/>
-                                <span class="lbl"> ${gender.value}</span>
+                                <span class="lbl" style="padding-right: 5px;"> ${gender.value}</span>
                             </label>
                         </c:forEach>
                     </div>

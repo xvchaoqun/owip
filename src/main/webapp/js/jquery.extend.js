@@ -104,13 +104,13 @@ if (jQuery.validator) {
     },"小数点后最多为两位");
 }
 /*========jquery.validate.extend=====end===*/
-
-_.templateSettings = {
-    evaluate: /\{\{([\s\S]+?)\}\}/g,
-    interpolate: /\{\{=([\s\S]+?)\}\}/g,
-    escape: /\{\{-([\s\S]+?)\}\}/g
-};
-
+if(typeof _ !== 'undefined') {
+    _.templateSettings = {
+        evaluate: /\{\{([\s\S]+?)\}\}/g,
+        interpolate: /\{\{=([\s\S]+?)\}\}/g,
+        escape: /\{\{-([\s\S]+?)\}\}/g
+    };
+}
 var SysMsg = {};
 SysMsg.error = function (msg, title, callback) {
     $("body").css('padding-right', '0px');
@@ -1019,7 +1019,7 @@ if ($.fn.bootstrapSwitch) {
         offColor: "danger"
     });
 }
-if ($.ui.dynatree) {
+if (typeof $.ui !== 'undefined' && typeof $.ui.dynatree !== 'undefined' && $.ui.dynatree) {
     $.extend($.ui.dynatree.prototype.options, {
         checkbox: true,
         selectMode: 3,
