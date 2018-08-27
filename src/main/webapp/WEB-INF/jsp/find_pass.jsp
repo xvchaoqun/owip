@@ -117,7 +117,7 @@
 <![endif]-->
 <script src="${ctx}/assets/js/bootstrap.js"></script>
 <script src="${ctx}/extend/js/bootbox.min.js"></script>
-<script src="${ctx}/js/jquery.extend.js"></script>
+<t:script src="/js/jquery.extend.js"/>
 <script>
 function _msg(msg){
     $("#result").show().html(msg);
