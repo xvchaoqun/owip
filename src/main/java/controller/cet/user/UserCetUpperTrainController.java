@@ -63,7 +63,9 @@ public class UserCetUpperTrainController extends CetBaseController {
         pageNo = Math.max(1, pageNo);
 
         CetUpperTrainExample example = new CetUpperTrainExample();
-        CetUpperTrainExample.Criteria criteria = example.createCriteria().andUserIdEqualTo(userId);
+        CetUpperTrainExample.Criteria criteria =
+                example.createCriteria().andUserIdEqualTo(userId)
+                .andIsDeletedEqualTo(false);
         example.setOrderByClause("id desc");
 
         if(cls==1){

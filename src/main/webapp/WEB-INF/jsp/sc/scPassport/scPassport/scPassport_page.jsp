@@ -49,6 +49,7 @@
                             data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                         <i class="fa fa-download"></i> 导出
                     </button>--%>
+                    <span style="padding-left: 10px;" class="text-danger">提示：三类证件全部添加之后，才可以进行入库操作。</span>
                 </div>
 
                 <div class="space-4"></div>

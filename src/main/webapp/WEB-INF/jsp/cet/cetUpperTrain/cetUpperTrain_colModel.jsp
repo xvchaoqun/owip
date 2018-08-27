@@ -4,6 +4,9 @@
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_SELF" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"/>
 <script>
   var colModel = [
+   <c:if test="${cls==3}">
+    {label: '未通过原因', width: 210, align: 'left', name: 'backReason'},
+    </c:if>
     {label: '参训人姓名', name: 'user.realname'},
     {label: '参训人工号', width: 110, name: 'user.code'},
     {label: '时任单位及职务', name: 'title', align: 'left', width: 350},

@@ -142,10 +142,20 @@ pageEncoding="UTF-8"%>
 				</c:if>
 				<div class="form-group">
 					<label class="col-xs-4 control-label">派出单位</label>
-					<div class="col-xs-6 choice label-text">
+					<div class="col-xs-8">
 						<div class="input-group">
-							<input required name="type" type="checkbox" class="big" value="0" ${empty cetUpperTrain.type || cetUpperTrain.type?'':'checked'}> 党委组织部&nbsp;
-							<input required name="type" type="checkbox" class="big" value="1" ${cetUpperTrain.type?'checked':''}> 其他部门派出
+							<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+								<input required type="radio" name="type" id="type0" value="0">
+								<label for="type0">
+									党委组织部
+								</label>
+							</div>
+							<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+								<input required type="radio" name="type" id="type1" value="1">
+								<label for="type1">
+									其他部门派出
+								</label>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -183,10 +193,20 @@ pageEncoding="UTF-8"%>
 			<c:if test="${param.check==1 && cetUpperTrain.status==CET_UPPER_TRAIN_STATUS_INIT}">
 			<div class="form-group">
 				<label class="col-xs-4 control-label">审批结果</label>
-				<div class="col-xs-6 choice label-text">
+				<div class="col-xs-6">
 					<div class="input-group">
-						<input required name="status" type="checkbox" class="big" value="1"> 通过&nbsp;
-						<input required name="status" type="checkbox" class="big" value="2"> 不通过
+						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+							<input required type="radio" name="status" id="status1" value="1">
+							<label for="status1">
+								通过
+							</label>
+						</div>
+						<div class="checkbox checkbox-inline checkbox-sm checkbox-circle">
+							<input required type="radio" name="status" id="status2" value="2">
+							<label for="status2">
+								不通过
+							</label>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -230,12 +250,7 @@ pageEncoding="UTF-8"%>
 	});
 	</c:if>
 	$("#modalForm input[name=type]").click(function(){
-
-		if($(this).prop("checked")){
-			$("input[type=checkbox][name=type]").not(this).prop("checked", false);
-		}
-
-		if($(this).prop("checked") && $(this).val()=='1'){
+		if($(this).val()=='1'){
 			$("#unitDiv").show();
 			$("#modalForm select[name=unitId]").prop("disabled", false).attr("required", "required");
 		}else{
@@ -243,16 +258,15 @@ pageEncoding="UTF-8"%>
 			$("#modalForm select[name=unitId]").val(null).trigger("change").prop("disabled", true).removeAttr("required");
 		}
 	});
+	<c:if test="${not empty cetUpperTrain.id}">
+	$("#modalForm input[name=type][value=${cetUpperTrain.type?1:0}]").prop("checked", true);
+	</c:if>
 	<c:if test="${empty cetUpperTrain.id && not empty param.type}">
 	$("#modalForm input[name=type][value=${param.type}]").click();
 	</c:if>
 	$("#modalForm input[name=status]").click(function(){
 
-		if($(this).prop("checked")){
-			$("input[type=checkbox][name=status]").not(this).prop("checked", false);
-		}
-
-		if($(this).prop("checked") && $(this).val()=='2'){
+		if($(this).val()=='2'){
 			$("#backReasonDiv").show();
 			$("#modalForm textarea[name=backReason]").prop("disabled", false).attr("required", "required");
 		}else{

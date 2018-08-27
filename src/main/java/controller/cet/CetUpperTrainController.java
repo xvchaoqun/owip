@@ -294,7 +294,8 @@ public class CetUpperTrainController extends CetBaseController {
             }
         } else if (addType == CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF){
 
-            if(oldRecord.getStatus()==CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS){
+            if(oldRecord!=null && oldRecord.getStatus()!=null
+                    && oldRecord.getStatus()==CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS){
                 // 打回后重新提交
                 record.setStatus(CetConstants.CET_UPPER_TRAIN_STATUS_INIT);
             }else {

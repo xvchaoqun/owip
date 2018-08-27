@@ -175,7 +175,7 @@ public class CetUpperTrainService extends BaseMapper {
         }
 
         if(isCheck) {
-            if(!CetConstants.CET_UPPER_TRAIN_STATUS_MAP.containsKey(record.getStatus())){
+            if(record.getStatus()!=null && !CetConstants.CET_UPPER_TRAIN_STATUS_MAP.containsKey(record.getStatus())){
                 throw new OpException("参数有误。");
             }
             sysApprovalLogService.add(oldRecord.getId(), oldRecord.getUserId(),

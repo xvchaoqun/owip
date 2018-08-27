@@ -6,6 +6,15 @@
     <div class="col-xs-12">
         <div id="body-content" class="rownumbers multi-row-head-table"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
+            <div class="jqgrid-vertical-offset buttons">
+
+                <c:if test="${cls==1}">
+                    <button class="popupBtn btn btn-success btn-sm"
+                            data-url="${ctx}/cet/cetUpperTrain_au?addType=${CET_UPPER_TRAIN_ADD_TYPE_SELF}">
+                        <i class="fa fa-plus"></i> 添加本人参加上级单位调训信息
+                    </button>
+                </c:if>
+                </div>
             <c:set var="_query"
                    value="${not empty param.type ||not empty param.unitId ||not empty param.userId || not empty param.code || not empty param.sort}"/>
             <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
@@ -24,13 +33,6 @@
             </ul>
             <div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">
-
-                    <c:if test="${cls==1}">
-                    <button class="popupBtn btn btn-success btn-sm"
-                            data-url="${ctx}/cet/cetUpperTrain_au?addType=${CET_UPPER_TRAIN_ADD_TYPE_SELF}">
-                        <i class="fa fa-plus"></i> 添加本人参加上级单位调训信息
-                    </button>
-                    </c:if>
 <c:if test="${cls!=1}">
                     <button class="jqOpenViewBtn btn ${cls==3?'btn-success':'btn-primary'} btn-sm"
                             data-url="${ctx}/cet/cetUpperTrain_au?addType=${CET_UPPER_TRAIN_ADD_TYPE_SELF}"
