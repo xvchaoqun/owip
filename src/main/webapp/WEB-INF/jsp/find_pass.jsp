@@ -15,7 +15,7 @@
   <link href="${ctx}/assets/css/font-awesome.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div class="top" style="background:url(/img/login_top.jpg?_=1529302041258) #dbf5ff top right no-repeat; z-index:1">
+<div class="top" style="background:url(/img/login_top.jpg?_=${cm:lastModified(cm:getAbsolutePath('/img/login_top.jpg'))}) #dbf5ff top right no-repeat; z-index:1">
   <div class="w1000">
     <div class="logo"><t:img src="/img/logo.png"/></div>
     <div class="txt">${_plantform_name}</div>
