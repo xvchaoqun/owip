@@ -43,7 +43,7 @@ public class FindPassController extends BaseController {
 
     @RequestMapping(value="/find_pass", method = RequestMethod.POST)
     @ResponseBody
-    public Map checkUsername(String username) {
+    public Map do_find_pass(String username) {
 
         Map resultMap = success();
         SysUserView uv = sysUserService.findByUsername(username);
