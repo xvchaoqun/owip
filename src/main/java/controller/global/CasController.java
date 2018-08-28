@@ -89,6 +89,12 @@ public class CasController {
     public String cas(HttpServletRequest request, HttpServletResponse response) {
 
         String username = CasUtils.getUsername(request);
+
+        if(StringUtils.isBlank(username) && ShiroHelper.getCurrentUser()!=null){
+            // 已登录的情况下，跳转到原账号
+            return "redirect:/";
+        }
+
         return casLogin(username, true, request, response, null);
     }
 

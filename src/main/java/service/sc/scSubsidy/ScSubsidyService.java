@@ -111,6 +111,7 @@ public class ScSubsidyService extends BaseMapper {
             scSubsidyCadre.setCadreId(cadreId);
             scSubsidyCadre.setUnitId(cadre.getUnitId());
             scSubsidyCadre.setPost(cadre.getPost());
+            scSubsidyCadre.setTitle(cadre.getTitle());
             // 已离任行政级别显示为无
             if(CadreConstants.CADRE_STATUS_NOW_SET.contains(cadre.getStatus()))
                 scSubsidyCadre.setAdminLevel(cadre.getTypeId());
@@ -224,7 +225,7 @@ public class ScSubsidyService extends BaseMapper {
         CadreView cadre = scSubsidyCadre.getCadre();
         Integer unitId = scSubsidyCadre.getUnitId();
         Unit unit = unitService.findAll().get(unitId);
-        String post = scSubsidyCadre.getPost();
+        String title = scSubsidyCadre.getTitle();
         Integer adminLevel = scSubsidyCadre.getAdminLevel();
 
         XSSFRow row = sheet.getRow(rowNum);
@@ -237,7 +238,7 @@ public class ScSubsidyService extends BaseMapper {
 
         row = sheet.getRow(rowNum + 1);
         cel = row.getCell(2);
-        cel.setCellValue(post);
+        cel.setCellValue(title);
         cel = row.getCell(6);
         cel.setCellValue(adminLevel == null ? "无" : metaTypeService.getName(adminLevel));
 

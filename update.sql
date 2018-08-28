@@ -1,4 +1,13 @@
 
+20180828
+ALTER TABLE `sc_subsidy_cadre`
+	CHANGE COLUMN `post` `post` VARCHAR(100) NULL COMMENT '现任职务，离任显示“原职务”' AFTER `unit_id`,
+	ADD COLUMN `title` VARCHAR(200) NULL COMMENT '所在单位及职务，离任显示“离任后所在单位及职务”' AFTER `post`;
+
+更新 sc_subsidy_cadre_view
+
+update sc_subsidy_cadre ssc, cadre c set ssc.title=c.title where ssc.cadre_id=c.id;
+
 20180826
 ALTER TABLE `cet_upper_train_admin`
 	CHANGE COLUMN `leader_id` `leader_user_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '所属校领导' AFTER `unit_id`;

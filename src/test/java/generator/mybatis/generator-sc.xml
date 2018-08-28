@@ -26,9 +26,9 @@
         </javaClientGenerator>
 
         <!--干部选拔-动议-->
-        <table tableName="sc_motion" domainObjectName="sc.scMotion.ScMotion"
+        <!--<table tableName="sc_motion" domainObjectName="sc.scMotion.ScMotion"
                mapperName="sc.scMotion.ScMotionMapper">
-        </table>
+        </table>-->
         <!--<table tableName="sc_motion_post" domainObjectName="sc.scMotion.ScMotionPost"
                mapperName="sc.scMotion.ScMotionPostMapper">
         </table>-->
@@ -40,21 +40,21 @@
         </table>-->
        <!-- <table tableName="sc_subsidy_dispatch" domainObjectName="sc.scSubsidy.ScSubsidyDispatch"
                mapperName="sc.scSubsidy.ScSubsidyDispatchMapper">
-        </table>
-        <table tableName="sc_subsidy_cadre" domainObjectName="sc.scSubsidy.ScSubsidyCadre"
+        </table>-->
+        <!--<table tableName="sc_subsidy_cadre" domainObjectName="sc.scSubsidy.ScSubsidyCadre"
                mapperName="sc.scSubsidy.ScSubsidyCadreMapper">
-        </table>
-        <table tableName="sc_subsidy_dc" domainObjectName="sc.scSubsidy.ScSubsidyDc"
+        </table>-->
+        <!--<table tableName="sc_subsidy_dc" domainObjectName="sc.scSubsidy.ScSubsidyDc"
                mapperName="sc.scSubsidy.ScSubsidyDcMapper">
         </table>-->
-        <!--<table tableName="sc_subsidy_cadre_view"
+        <table tableName="sc_subsidy_cadre_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scSubsidy.ScSubsidyCadreView"
                mapperName="sc.scSubsidy.ScSubsidyCadreViewMapper">
         </table>
-        <table tableName="sc_subsidy_dispatch_view"
+        <!--<table tableName="sc_subsidy_dispatch_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"

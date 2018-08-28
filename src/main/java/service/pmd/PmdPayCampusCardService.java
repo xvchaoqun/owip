@@ -205,7 +205,7 @@ public class PmdPayCampusCardService extends BaseMapper {
                 orderIsNotExist = true;
             }
         } else {
-            logger.info("原订单({})信息不存在，生成订单号", oldOrderNo);
+            logger.info("原订单{}信息不存在，生成订单号", StringUtils.isBlank(oldOrderNo)?"":"("+oldOrderNo+")");
             orderIsNotExist = true;
         }
 

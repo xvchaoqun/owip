@@ -110,7 +110,7 @@
                 return $.cadre(rowObject.cadre.id, cellvalue);
             }, frozen: true
             },
-            {label: '时任职务', name: 'post', width: 300, align:'left'},
+            {label: '时任职务', name: 'title', width: 300, align:'left'},
             {label: '时任行政级别', name: 'adminLevel', formatter:$.jgrid.formatter.MetaType, formatoptions:{def:'-'}},
             {label: '通知日期', name: 'infoDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '发人事处通知', name: 'hrCode', width: 200},

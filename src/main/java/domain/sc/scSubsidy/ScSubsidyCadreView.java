@@ -32,6 +32,8 @@ public class ScSubsidyCadreView implements Serializable {
 
     private String post;
 
+    private String title;
+
     private Integer adminLevel;
 
     private String remark;
@@ -92,6 +94,14 @@ public class ScSubsidyCadreView implements Serializable {
 
     public void setPost(String post) {
         this.post = post == null ? null : post.trim();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     public Integer getAdminLevel() {

@@ -7,6 +7,7 @@
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="info_date" jdbcType="DATE" property="infoDate" />
@@ -48,8 +49,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, subsidy_id, cadre_id, unit_id, post, admin_level, remark, info_date, year, hr_type, 
-    hr_num, hr_file_path, fe_type, fe_num, fe_file_path
+    id, subsidy_id, cadre_id, unit_id, post, title, admin_level, remark, info_date, year, 
+    hr_type, hr_num, hr_file_path, fe_type, fe_num, fe_file_path
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scSubsidy.ScSubsidyCadreViewExample" resultMap="BaseResultMap">
     select

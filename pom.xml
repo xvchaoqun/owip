@@ -14,7 +14,7 @@
         <lucene.version>7.3.0</lucene.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <generator.mybatis.modal>cet</generator.mybatis.modal>
+        <generator.mybatis.modal>sc</generator.mybatis.modal>
     </properties>
     <dependencies>
         <dependency>
