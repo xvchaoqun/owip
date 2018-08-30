@@ -1,3 +1,6 @@
+20180830
+update  pmd_member pm, pmd_config_member pcm set pm.has_salary=pcm.has_salary where pm.user_id=pcm.user_id and pm.type=3 and pm.has_salary is null;
+
 
 20180828
 ALTER TABLE `sc_subsidy_cadre`

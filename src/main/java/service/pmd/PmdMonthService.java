@@ -462,6 +462,7 @@ public class PmdMonthService extends BaseMapper {
         // 离退休费
         BigDecimal ltxf = null;
 
+        Boolean hasSalary = null;
         // 是否需要提交工资明细，如果是A1、A2类别的党员还没提交工资明细则需要，否则不需要（辅助字段）
         Boolean needSetSalary = false;
         // 党费缴纳标准（辅助字段）
@@ -475,6 +476,9 @@ public class PmdMonthService extends BaseMapper {
             duePay = pmdConfigMember.getDuePay();
             configMemberTypeId = pmdConfigMember.getConfigMemberTypeId();
             ltxf = pmdConfigMember.getRetireSalary();
+            if (member.getType() == MemberConstants.MEMBER_TYPE_STUDENT) {
+                hasSalary = BooleanUtils.isTrue(pmdConfigMember.getHasSalary());
+            }
             needSetSalary = BooleanUtils.isNotTrue(pmdConfigMember.getHasSetSalary());
             isOnlinePay = pmdConfigMember.getIsOnlinePay();
 
@@ -616,6 +620,8 @@ public class PmdMonthService extends BaseMapper {
             _pmdMember.setSalary(ltxf);
             _pmdMember.setDuePay(duePay);
 
+            // 只针对学生党员
+            _pmdMember.setHasSalary(hasSalary);
             _pmdMember.setNeedSetSalary(needSetSalary);
             _pmdMember.setDuePayReason(duePayReason);
 
