@@ -124,6 +124,7 @@ public class CadreWorkService extends BaseMapper {
                                 insertPos = i;
                                 break;
                             }
+                            insertPos = i+1;
                         }
                     }
 
@@ -214,10 +215,11 @@ public class CadreWorkService extends BaseMapper {
                 for (int i = 0; i < containResumes.size(); i++) {
                     CadreResume resume = containResumes.get(i);
                     String startDate = DateUtils.formatDate(resume.getStartDate(), "yyyy.MM");
-                    if (_startDate.compareTo(startDate) >= 0) {
+                    if (_startDate.compareTo(startDate) <= 0) {
+                        insertPos = i;
                         break;
                     }
-                    insertPos = i;
+                    insertPos = i+1;
                 }
 
                 containResumes.add(insertPos, subResume);
