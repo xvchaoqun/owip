@@ -198,6 +198,7 @@ public class ScSubsidyService extends BaseMapper {
 
         // 附表
         sheet = wb.getSheetAt(1);
+        XSSFSheet templateSheet = wb.getSheetAt(2);
         {
             ScSubsidyCadre scSubsidyCadre = scSubsidyCadres.get(0);
             renderCadre(sheet, scSubsidyCadre, 0);
@@ -206,7 +207,7 @@ public class ScSubsidyService extends BaseMapper {
         int i = 0;
         for (; i < size - 1; i++) {
 
-            ExcelUtils.copyRows(1, 8, 8 * (i + 1), sheet);
+            ExcelUtils.copyRows(1, 8, 8 * (i + 1), templateSheet, sheet);
 
             XSSFRow indexRow = sheet.getRow(1 + 8 * (i + 1));
             indexRow.getCell(0).setCellValue(i + 2);
@@ -215,6 +216,7 @@ public class ScSubsidyService extends BaseMapper {
             renderCadre(sheet, scSubsidyCadre, 8 * (i + 1));
         }
 
+        wb.removeSheetAt(2);// 移除模板
         ExportHelper.output(wb, code + ".xlsx", response);
     }
 
@@ -265,6 +267,8 @@ public class ScSubsidyService extends BaseMapper {
 
             cel = row.getCell(6);
             cel.setCellValue(metaTypeService.getName(scSubsidyDc.getAdminLevel()));
+
+            rowNum++;
         }
     }
 }
