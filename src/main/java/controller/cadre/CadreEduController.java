@@ -7,15 +7,12 @@ import domain.cadre.CadreEduExample.Criteria;
 import domain.cadre.CadreInfo;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
+import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +26,13 @@ import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,8 +41,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @Controller
@@ -86,9 +85,10 @@ public class CadreEduController extends BaseController {
     @RequestMapping("/cadreEdu_data")
     @ResponseBody
     public void cadreEdu_data(HttpServletResponse response,
-                              Integer cadreId,
+                              Integer cadreId, Integer pageSize, Integer pageNo,
                               @RequestParam(required = false, defaultValue = "0") int export,
-                              Integer pageSize, Integer pageNo) throws IOException {
+                              @RequestParam(required = false, value = "ids[]") Integer[] ids // 导出的记录（干部id)
+                              ) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -107,7 +107,8 @@ public class CadreEduController extends BaseController {
         }
 
         if (export == 1) {
-            cadreEdu_export(example, response);
+            SecurityUtils.getSubject().checkPermission("cadre:export");
+            cadreEdu_export(ids, CadreConstants.CADRE_STATUS_MIDDLE, response);
             return;
         }
 
@@ -271,45 +272,57 @@ public class CadreEduController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void cadreEdu_export(CadreEduExample example, HttpServletResponse response) {
+    public void cadreEdu_export(Integer[] cadreIds, Byte status, HttpServletResponse response) {
 
-        List<CadreEdu> cadreEdus = cadreEduMapper.selectByExample(example);
-        long rownum = cadreEduMapper.countByExample(example);
+        List<CadreEdu> cadreEdus = iCadreMapper.getCadreEdus(cadreIds, status);
+        long rownum = cadreEdus.size();
+        Set<Integer> needTutorEduTypes = new HashSet<>(cadreEduService.needTutorEduTypes());
 
-        XSSFWorkbook wb = new XSSFWorkbook();
-        Sheet sheet = wb.createSheet();
-        XSSFRow firstRow = (XSSFRow) sheet.createRow(0);
-
-        String[] titles = {"所属干部", "学历", "毕业学校", "院系", "入学时间", "毕业时间", "学位"};
-        for (int i = 0; i < titles.length; i++) {
-            XSSFCell cell = firstRow.createCell(i);
-            cell.setCellValue(titles[i]);
-            cell.setCellStyle(MSUtils.getHeadStyle(wb));
-        }
-
+        String[] titles = {"工作证号|100", "姓名|80", "所在单位|100","所在单位及职务|150", "学历|100",
+                "毕业/在读|80","入学时间|100","毕业时间|90","是否最高学历|100","毕业/在读学校|100",
+                "院系|80","所学专业|80","学校类型|80","学习方式|80","是否获得学位|100",
+                "学位|80","是否最高学位|100","学位授予国家|100","学位授予单位|100","学位授予日期|100",
+                "导师姓名|80","导师所在单位及职务|100","学历学位证书|100","备注|80","补充说明|80"};
+        List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-
-            CadreEdu cadreEdu = cadreEdus.get(i);
+            CadreEdu record = cadreEdus.get(i);
+            CadreView cadre = CmTag.getCadreById(record.getCadreId());
+            SysUserView uv = cadre.getUser();
+            Unit unit = CmTag.getUnit(cadre.getUnitId());
+            boolean hasDegree = BooleanUtils.isTrue(record.getHasDegree());
             String[] values = {
-                    cadreEdu.getCadreId() + "",
-                    cadreEdu.getEduId() + "",
-                    cadreEdu.getSchool(),
-                    cadreEdu.getDep(),
-                    DateUtils.formatDate(cadreEdu.getEnrolTime(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(cadreEdu.getFinishTime(), DateUtils.YYYY_MM_DD),
-                    cadreEdu.getDegree()
+                    uv.getCode(),
+                    uv.getRealname(),
+                    unit==null?"":unit.getName(),
+                    cadre.getTitle(),
+                    metaTypeService.getName(record.getEduId()),
+
+                    BooleanUtils.isTrue(record.getIsGraduated())?"毕业":"在读",
+                    DateUtils.formatDate(record.getEnrolTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getFinishTime(), DateUtils.YYYY_MM_DD),
+                    BooleanUtils.isTrue(record.getIsHighDegree())?"是":"否",
+                    record.getSchool(),
+
+                    record.getDep(),
+                    record.getMajor(),
+                    CadreConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
+                    metaTypeService.getName(record.getLearnStyle()),
+                    BooleanUtils.isTrue(record.getHasDegree())?"是":"否",
+
+                    hasDegree?record.getDegree() :"-",
+                    hasDegree?(record.getIsHighDegree()?"是":"否"):"-",
+                    hasDegree?record.getDegreeCountry():"-",
+                    hasDegree?record.getDegreeUnit():"-",
+                    hasDegree?DateUtils.formatDate(record.getDegreeTime(), DateUtils.YYYY_MM_DD):"-",
+
+                    needTutorEduTypes.contains(record.getEduId())?record.getTutorName():"-",
+                    needTutorEduTypes.contains(record.getEduId())?record.getTutorTitle():"-",
+                    StringUtils.isBlank(record.getCertificate())?"-":"已上传",
+                    "", ""
             };
-
-            Row row = sheet.createRow(i + 1);
-            for (int j = 0; j < titles.length; j++) {
-
-                XSSFCell cell = (XSSFCell) row.createCell(j);
-                cell.setCellValue(values[j]);
-                cell.setCellStyle(MSUtils.getBodyStyle(wb));
-            }
+            valuesList.add(values);
         }
-
         String fileName = "干部学习经历_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
-        ExportHelper.output(wb, fileName + ".xlsx", response);
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

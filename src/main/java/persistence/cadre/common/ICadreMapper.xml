@@ -175,7 +175,7 @@
    </select>-->
 
     <select id="getCadreFamilys" resultMap="persistence.cadre.CadreFamilyMapper.BaseResultMap" parameterType="map">
-        select cf.* from cadre_family cf, cadre c where cf.cadre_id=c.id
+        select cf.* from cadre_family cf, cadre c where cf.cadre_id=c.id and cf.status=0
         <if test="cadreIds != null and cadreIds.length>0">
             and c.id IN
             <foreach collection="cadreIds" item="cadreId" separator="," open="(" close=")">
@@ -186,5 +186,19 @@
             and c.status = #{status}
         </if>
         order by c.sort_order desc
+    </select>
+
+    <select id="getCadreEdus" resultMap="persistence.cadre.CadreEduMapper.BaseResultMap" parameterType="map">
+        select cf.* from cadre_edu cf, cadre c where cf.cadre_id=c.id and cf.status=0
+        <if test="cadreIds != null and cadreIds.length>0">
+            and c.id IN
+            <foreach collection="cadreIds" item="cadreId" separator="," open="(" close=")">
+                #{cadreId}
+            </foreach>
+        </if>
+        <if test="status != null">
+            and c.status = #{status}
+        </if>
+        order by c.sort_order desc, cf.enrol_time asc
     </select>
 </mapper>

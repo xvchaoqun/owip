@@ -2,6 +2,7 @@ package persistence.cadre.common;
 
 import controller.analysis.CadreCategorySearchBean;
 import domain.cadre.Cadre;
+import domain.cadre.CadreEdu;
 import domain.cadre.CadreFamily;
 import domain.cadre.CadreLeader;
 import domain.cadre.CadrePost;
@@ -116,6 +117,9 @@ public interface ICadreMapper {
 
     // 查询干部家庭成员
     List<CadreFamily> getCadreFamilys(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
+
+    // 查询干部学习经历
+    List<CadreEdu> getCadreEdus(@Param("cadreIds") Integer[] cadreIds, @Param("status") Byte status);
 
     //查询校领导的分管单位
     @Select("select blu.unit_id from cadre_leader_unit blu, cadre_leader bl " +
