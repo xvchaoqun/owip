@@ -96,7 +96,7 @@ public class ApplySelfController extends AbroadBaseController {
                                      Boolean isAdmin, // 干部管理员直接审批
                                       Integer approvalUserId, // 干部管理员直接审批时，选择的审批人
                                       MultipartFile _filePath,
-                                      @DateTimeFormat(pattern = "yyyy-MM-dd") Date approvalTime, // 干部管理员直接审批时可修改时间
+                                      @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date approvalTime, // 干部管理员直接审批时可修改时间
                                      HttpServletRequest request) throws IOException, InterruptedException {
 
         //int userId = ShiroHelper.getCurrentUserId();
@@ -160,7 +160,7 @@ public class ApplySelfController extends AbroadBaseController {
     public Map do_applySelf_approval_direct_au(HttpServletRequest request,
                                                int applySelfId,
                                                int approvalLogId,
-                                               @DateTimeFormat(pattern = "yyyy-MM-dd") Date approvalTime,
+                                               @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date approvalTime,
                                                String remark,
                                                MultipartFile _filePath,
                                                ModelMap modelMap) throws IOException, InterruptedException {

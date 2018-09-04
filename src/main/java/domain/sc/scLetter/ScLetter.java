@@ -1,6 +1,7 @@
 package domain.sc.scLetter;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,7 +18,7 @@ public class ScLetter implements Serializable {
     private String filePath;
 
     private String fileName;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date queryDate;
 
     private String remark;

@@ -1,6 +1,7 @@
 package domain.sc.scDispatch;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,10 +16,10 @@ public class ScDispatch implements Serializable {
 
     private Integer code;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date meetingTime;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date pubTime;
 
     private String filePath;

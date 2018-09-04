@@ -18,6 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import sys.utils.DateUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -212,13 +213,13 @@ public class POIReadExcelToHtml {
                 if (cell.getCellStyle().getDataFormat() == HSSFDataFormat.getBuiltinFormat("h:mm")) {  
                     sdf = new SimpleDateFormat("HH:mm");  
                 } else {// 日期  
-                    sdf = new SimpleDateFormat("yyyy-MM-dd");  
+                    sdf = new SimpleDateFormat(DateUtils.YYYY_MM_DD);
                 }  
                 Date date = cell.getDateCellValue();  
                 result = sdf.format(date);  
             } else if (cell.getCellStyle().getDataFormat() == 58) {  
                 // 处理自定义日期格式：m月d日(通过判断单元格的格式id解决，id的值是58)  
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+                SimpleDateFormat sdf = new SimpleDateFormat(DateUtils.YYYY_MM_DD);
                 double value = cell.getNumericCellValue();  
                 Date date = org.apache.poi.ss.usermodel.DateUtil  
                         .getJavaDate(value);  

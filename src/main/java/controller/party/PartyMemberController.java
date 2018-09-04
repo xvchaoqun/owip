@@ -162,7 +162,7 @@ public class PartyMemberController extends BaseController {
                                  HttpServletRequest request) {
 
         Integer id = record.getId();
-        record.setAssignDate(DateUtils.parseDate(_assignDate, "yyyy.MM"));
+        record.setAssignDate(DateUtils.parseDate(_assignDate, DateUtils.YYYYMM));
         if (partyMemberService.idDuplicate(id, record.getGroupId(), record.getUserId(), record.getPostId())) {
             return failed("添加重复【每个领导班子的人员不可重复，并且书记只有一个】");
         }

@@ -125,7 +125,7 @@ public class CadreUnderEduController extends BaseController {
         Integer id = record.getId();
 
         if(StringUtils.isNotBlank(_enrolTime)){
-            record.setEnrolTime(DateUtils.parseDate(_enrolTime, "yyyy.MM"));
+            record.setEnrolTime(DateUtils.parseDate(_enrolTime, DateUtils.YYYYMM));
         }
 
         if (id == null) {

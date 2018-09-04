@@ -1,6 +1,7 @@
 package domain.cadre;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,7 +17,7 @@ public class CadreCompany implements Serializable {
 
     private Boolean hasPay;
 
-    @DateTimeFormat(pattern = "yyyy.MM")
+    @DateTimeFormat(pattern = DateUtils.YYYYMM)
     private Date startTime;
 
     private String unit;

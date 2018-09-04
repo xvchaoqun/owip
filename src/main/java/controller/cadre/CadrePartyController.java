@@ -204,7 +204,7 @@ public class CadrePartyController extends BaseController {
             CadreParty record = new CadreParty();
             record.setUserId(uv.getId());
             record.setType(CadreConstants.CADRE_PARTY_TYPE_OW);
-            record.setGrowTime(DateUtils.parseDate(_growTime, "yyyy.MM"));
+            record.setGrowTime(DateUtils.parseDate(_growTime, DateUtils.YYYYMM));
             records.add(record);
         }
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);

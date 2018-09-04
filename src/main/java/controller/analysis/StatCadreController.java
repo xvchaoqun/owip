@@ -49,7 +49,7 @@ public class StatCadreController extends BaseController {
         if (export == 1) {
             XSSFWorkbook wb = statCadreService.toXlsx();
 
-            String fileName = sysConfigService.getSchoolName()+"中层领导干部情况统计表（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
+            String fileName = sysConfigService.getSchoolName()+"中层领导干部情况统计表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
             ExportHelper.output(wb, fileName + ".xlsx", response);
             return null;
         }
@@ -253,8 +253,8 @@ public class StatCadreController extends BaseController {
                     cadreParty.get("partyName"),
                     cv.getProPost(),
 
-                    DateUtils.formatDate(record.getStartDate(), "yyyy.MM"),
-                    DateUtils.formatDate(record.getRealEndDate(), "yyyy.MM"),
+                    DateUtils.formatDate(record.getStartDate(), DateUtils.YYYYMM),
+                    DateUtils.formatDate(record.getRealEndDate(), DateUtils.YYYYMM),
                     toUnit,
                     record.getPresentPost()
             };
@@ -312,8 +312,8 @@ public class StatCadreController extends BaseController {
                     cadreParty.get("partyName"),
                     cv.getProPost(),
 
-                    DateUtils.formatDate(record.getStartTime(), "yyyy.MM"),
-                    DateUtils.formatDate(record.getEndTime(), "yyyy.MM"),
+                    DateUtils.formatDate(record.getStartTime(), DateUtils.YYYYMM),
+                    DateUtils.formatDate(record.getEndTime(), DateUtils.YYYYMM),
                     record.getDetail()
             };
             valuesList.add(values);
@@ -354,8 +354,8 @@ public class StatCadreController extends BaseController {
 
                     cv.getDegree(),
                     metaTypeService.getName(record.getEduId()),
-                    DateUtils.formatDate(record.getEnrolTime(), "yyyy.MM"),
-                    DateUtils.formatDate(record.getFinishTime(), "yyyy.MM"),
+                    DateUtils.formatDate(record.getEnrolTime(), DateUtils.YYYYMM),
+                    DateUtils.formatDate(record.getFinishTime(), DateUtils.YYYYMM),
                     record.getSchool(),
 
                     record.getDep(),

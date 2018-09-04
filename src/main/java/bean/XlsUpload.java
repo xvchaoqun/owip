@@ -9,6 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -635,7 +636,7 @@ public class XlsUpload {
             if (format == 14 || format == 31 || format == 57 || format == 58
                     || (176<=format && format<=178) || (182<=format && format<=196)
                     || (210<=format && format<=213) || (208==format ) ) { // 日期
-                sdf = new SimpleDateFormat("yyyy-MM-dd");
+                sdf = new SimpleDateFormat(DateUtils.YYYY_MM_DD);
             } else if (format == 20 || format == 32 || format==183 || (200<=format && format<=209) ) { // 时间
                 sdf = new SimpleDateFormat("HH:mm");
             } else { // 不是日期格式

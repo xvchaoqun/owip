@@ -4,6 +4,7 @@ import domain.sys.SysUserView;
 import domain.unit.Unit;
 import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -43,10 +44,10 @@ public class CetUpperTrain implements Serializable {
 
     private String trainName;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date endDate;
 
     private BigDecimal period;

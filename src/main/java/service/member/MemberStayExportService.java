@@ -188,7 +188,7 @@ public class MemberStayExportService extends BaseMapper {
             if (u.getMemberStatus() != null && u.getMemberStatus() == MemberConstants.MEMBER_STATUS_TRANSFER) {
                 MemberOut memberOut = memberOutService.getLatest(userId);
                 if (memberOut != null && memberOut.getStatus()==MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY){
-                    transferTime = DateUtils.formatDate(memberOut.getHandleTime(), "yyyy.MM");
+                    transferTime = DateUtils.formatDate(memberOut.getHandleTime(), DateUtils.YYYYMM);
                     transferUnit = memberOut.getToUnit();
                 }
             }
@@ -215,8 +215,8 @@ public class MemberStayExportService extends BaseMapper {
                         partyId == null ? "" : partyMap.get(partyId).getName(),
 
                         toBranchId == null ? "" : branchMap.get(toBranchId).getName(),
-                        DateUtils.formatDate(record.getSaveStartTime(), "yyyy.MM"),
-                        DateUtils.formatDate(record.getOverDate(), "yyyy.MM"),
+                        DateUtils.formatDate(record.getSaveStartTime(), DateUtils.YYYYMM),
+                        DateUtils.formatDate(record.getOverDate(), DateUtils.YYYYMM),
                         record.getCountry(),
                         record.getSchool(),
 
@@ -249,8 +249,8 @@ public class MemberStayExportService extends BaseMapper {
                         partyId == null ? "" : partyMap.get(partyId).getName(),
                         toBranchId == null ? "" : branchMap.get(toBranchId).getName(),
                         record.getStayReason(),
-                        DateUtils.formatDate(record.getStartTime(), "yyyy.MM"),
-                        DateUtils.formatDate(record.getOverDate(), "yyyy.MM"),
+                        DateUtils.formatDate(record.getStartTime(), DateUtils.YYYYMM),
+                        DateUtils.formatDate(record.getOverDate(), DateUtils.YYYYMM),
 
                         u.getMemberStatus() == MemberConstants.MEMBER_STATUS_TRANSFER ? "是" : "否",
                         transferTime,

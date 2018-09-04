@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
+import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -53,7 +54,7 @@ public class ScCommitteeTopicController extends ScCommitteeBaseController {
     public void scCommitteeTopic_data(HttpServletResponse response,
                                       Integer year,
                                     Integer committeeId,
-                                      @DateTimeFormat(pattern = "yyyy-MM-dd") Date holdDate,
+                                      @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date holdDate,
                                     String name,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录

@@ -309,7 +309,7 @@ public class CadreReserveExportService extends BaseMapper {
 
                     metaTypeService.getName(record.getEduId()),
                     record.getDegree(),
-                    DateUtils.formatDate(record.getFinishTime(), "yyyy.MM"),
+                    DateUtils.formatDate(record.getFinishTime(), DateUtils.YYYYMM),
                     metaTypeService.getName(record.getLearnStyle()),
                     record.getSchool(),
 

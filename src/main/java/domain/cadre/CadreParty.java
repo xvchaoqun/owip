@@ -1,6 +1,7 @@
 package domain.cadre;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,7 +15,7 @@ public class CadreParty implements Serializable {
 
     private Integer classId;
 
-    @DateTimeFormat(pattern = "yyyy.MM")
+    @DateTimeFormat(pattern = DateUtils.YYYYMM)
     private Date growTime;
 
     private String post;

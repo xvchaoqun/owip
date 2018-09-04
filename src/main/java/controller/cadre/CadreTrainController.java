@@ -229,8 +229,8 @@ public class CadreTrainController extends BaseController {
 
             CadreTrain cadreTrain = cadreTrains.get(i);
             String[] values = {
-                        DateUtils.formatDate(cadreTrain.getStartTime(), "yyyy.MM"),
-                                            DateUtils.formatDate(cadreTrain.getEndTime(), "yyyy.MM"),
+                        DateUtils.formatDate(cadreTrain.getStartTime(), DateUtils.YYYYMM),
+                                            DateUtils.formatDate(cadreTrain.getEndTime(), DateUtils.YYYYMM),
                                             cadreTrain.getContent()
                     };
 

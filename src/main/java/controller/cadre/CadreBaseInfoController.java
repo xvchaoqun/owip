@@ -19,6 +19,7 @@ import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
+import sys.utils.DateUtils;
 import sys.utils.FormUtils;
 import sys.utils.PropertiesUtils;
 
@@ -45,8 +46,8 @@ public class CadreBaseInfoController extends BaseController {
     public Map do_cadreBaseInfo(int cadreId,
                                   MultipartFile _avatar,
                                   Integer dpTypeId,
-                                  @DateTimeFormat(pattern = "yyyy-MM-dd") Date _dpAddTime,
-                                  @DateTimeFormat(pattern = "yyyy.MM") Date _workTime,
+                                  @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date _dpAddTime,
+                                  @DateTimeFormat(pattern = DateUtils.YYYYMM) Date _workTime,
                                   String nativePlace,
                                   String homeplace,
                                   String household,

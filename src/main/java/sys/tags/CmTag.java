@@ -574,7 +574,7 @@ public class CmTag {
         if(isOw){
 
             partyName = defaultOwName;
-            partyAddTime = (owGrowTime==null)?"-":DateUtils.formatDate(owGrowTime, "yyyy.MM");
+            partyAddTime = (owGrowTime==null)?"-":DateUtils.formatDate(owGrowTime, DateUtils.YYYYMM);
         }
 
         if(dpTypeId!=null && dpTypeId>0){
@@ -584,9 +584,9 @@ public class CmTag {
                     + (useDpShortName?StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName()):metaType.getName());
 
             if(isOw){
-                partyAddTime = partyAddTime+"," + ((dpGrowTime == null)?"-":DateUtils.formatDate(dpGrowTime, "yyyy.MM"));
+                partyAddTime = partyAddTime+"," + ((dpGrowTime == null)?"-":DateUtils.formatDate(dpGrowTime, DateUtils.YYYYMM));
             }else{
-                partyAddTime = (dpGrowTime == null)?"-":DateUtils.formatDate(dpGrowTime, "yyyy.MM");
+                partyAddTime = (dpGrowTime == null)?"-":DateUtils.formatDate(dpGrowTime, DateUtils.YYYYMM);
             }
         }
 

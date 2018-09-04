@@ -159,10 +159,10 @@ public class VerifyWorkTimeController extends VerifyBaseController {
                                    HttpServletRequest request) {
 
         record.setMaterialTime(DateUtils.parseDate(_materialTime, DateUtils.YYYY_MM_DD));
-        record.setMaterialWorkTime(DateUtils.parseDate(_materialWorkTime, "yyyy.MM"));
+        record.setMaterialWorkTime(DateUtils.parseDate(_materialWorkTime, DateUtils.YYYYMM));
         record.setAdTime(DateUtils.parseDate(_adTime, DateUtils.YYYY_MM_DD));
-        record.setOldWorkTime(DateUtils.parseDate(_oldWorkTime, "yyyy.MM"));
-        record.setVerifyWorkTime(DateUtils.parseDate(_verifyWorkTime, "yyyy.MM"));
+        record.setOldWorkTime(DateUtils.parseDate(_oldWorkTime, DateUtils.YYYYMM));
+        record.setVerifyWorkTime(DateUtils.parseDate(_verifyWorkTime, DateUtils.YYYYMM));
 
         verifyWorkTimeService.updateByPrimaryKeySelective(record);
         logger.info(addLog(LogConstants.LOG_ADMIN, "参加工作时间认定：%s", record.getId()));
@@ -210,11 +210,11 @@ public class VerifyWorkTimeController extends VerifyBaseController {
                     cadre.getUser().getRealname(),
                     cadre.getTitle(),
                     VerifyConstants.VERIFY_WORK_TIME_TYPE_MAP.get(record.getType()),
-                    DateUtils.formatDate(record.getOldWorkTime(), "yyyy.MM"),
-                    DateUtils.formatDate(record.getVerifyWorkTime(), "yyyy.MM"),
+                    DateUtils.formatDate(record.getOldWorkTime(), DateUtils.YYYYMM),
+                    DateUtils.formatDate(record.getVerifyWorkTime(), DateUtils.YYYYMM),
                     record.getMaterialName(),
                     DateUtils.formatDate(record.getMaterialTime(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(record.getMaterialWorkTime(), "yyyy.MM"),
+                    DateUtils.formatDate(record.getMaterialWorkTime(), DateUtils.YYYYMM),
                     DateUtils.formatDate(record.getAdTime(), DateUtils.YYYY_MM_DD),
                     record.getRemark()
             };

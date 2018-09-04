@@ -246,7 +246,7 @@ public class PassportApplyController extends AbroadBaseController {
     @RequiresPermissions("passportApply:edit")
     @RequestMapping(value = "/passportApply_update_expectDate", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_passportApply_update_expectDate(int id, @DateTimeFormat(pattern = "yyyy-MM-dd") Date expectDate) {
+    public Map do_passportApply_update_expectDate(int id, @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date expectDate) {
 
 
         PassportApply record = new PassportApply();

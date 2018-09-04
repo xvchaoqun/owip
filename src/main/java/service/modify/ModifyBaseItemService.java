@@ -98,7 +98,7 @@ public class ModifyBaseItemService extends BaseMapper {
                 if(StringUtils.equals("work_time", mbi.getCode())){
                     String modifyValue = mbi.getModifyValue();
                     if(modifyValue!=null){
-                        Date date = DateUtils.parseDate(modifyValue, "yyyy.MM");
+                        Date date = DateUtils.parseDate(modifyValue, DateUtils.YYYYMM);
                         mbi.setModifyValue(DateUtils.formatDate(date, DateUtils.YYYY_MM_DD));
                     }
                 }

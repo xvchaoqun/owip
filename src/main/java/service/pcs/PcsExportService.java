@@ -233,7 +233,7 @@ public class PcsExportService extends BaseMapper {
             cell.setCellValue(StringUtils.trimToEmpty(bean.getProPost()));
 
             // 出生年月
-            String birth = DateUtils.formatDate(bean.getBirth(), "yyyy.MM");
+            String birth = DateUtils.formatDate(bean.getBirth(), DateUtils.YYYYMM);
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(birth));
 
@@ -242,12 +242,12 @@ public class PcsExportService extends BaseMapper {
             cell.setCellValue(birth != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
 
             // 入党时间
-            String growTime = DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM");
+            String growTime = DateUtils.formatDate(bean.getGrowTime(), DateUtils.YYYYMM);
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(growTime));
 
             /*// 参加工作时间
-            String workTime = DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM");
+            String workTime = DateUtils.formatDate(bean.getWorkTime(), DateUtils.YYYYMM);
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(workTime));*/
 
@@ -558,17 +558,17 @@ public class PcsExportService extends BaseMapper {
             cell.setCellValue(StringUtils.trimToEmpty(bean.getProPost()));
 
             // 出生年月
-            String birth = DateUtils.formatDate(bean.getBirth(), "yyyy.MM");
+            String birth = DateUtils.formatDate(bean.getBirth(), DateUtils.YYYYMM);
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(birth));
 
             // 入党时间
-            String growTime = DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM");
+            String growTime = DateUtils.formatDate(bean.getGrowTime(), DateUtils.YYYYMM);
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(growTime));
 
           /*  // 参加工作时间
-            String workTime = DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM");
+            String workTime = DateUtils.formatDate(bean.getWorkTime(), DateUtils.YYYYMM);
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(workTime));*/
 
@@ -703,7 +703,7 @@ public class PcsExportService extends BaseMapper {
 
             /*
             // 出生年月
-            String birth = DateUtils.formatDate(bean.getBirth(), "yyyy.MM");
+            String birth = DateUtils.formatDate(bean.getBirth(), DateUtils.YYYYMM);
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(birth));*/
 
@@ -712,12 +712,12 @@ public class PcsExportService extends BaseMapper {
             cell.setCellValue(bean.getBirth() != null ? DateUtils.intervalYearsUntilNow(bean.getBirth()) + "" : "");
 
             // 入党时间
-            String growTime = DateUtils.formatDate(bean.getGrowTime(), "yyyy.MM");
+            String growTime = DateUtils.formatDate(bean.getGrowTime(), DateUtils.YYYYMM);
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(growTime));
 
            /* // 参加工作时间
-            String workTime = DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM");
+            String workTime = DateUtils.formatDate(bean.getWorkTime(), DateUtils.YYYYMM);
             cell = row.getCell(column++);
             cell.setCellValue(StringUtils.trimToEmpty(workTime));*/
 

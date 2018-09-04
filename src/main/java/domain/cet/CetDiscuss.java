@@ -1,6 +1,7 @@
 package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -11,10 +12,10 @@ public class CetDiscuss implements Serializable {
 
     private Integer planId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date endDate;
 
     private String name;

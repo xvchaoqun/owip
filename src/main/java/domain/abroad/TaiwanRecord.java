@@ -4,6 +4,7 @@ import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -35,11 +36,11 @@ public class TaiwanRecord implements Serializable {
 
     private Integer cadreId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date recordDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date startDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date endDate;
 
     private String reason;
@@ -47,9 +48,9 @@ public class TaiwanRecord implements Serializable {
     private String passportCode;
 
     private Byte handleType;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date expectDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date handleDate;
 
     private Integer handleUserId;

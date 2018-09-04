@@ -69,7 +69,7 @@ public class ScCommitteeController extends ScCommitteeBaseController {
     @RequestMapping("/scCommittee_data")
     public void scCommittee_data(HttpServletResponse response,
                                     Integer year,
-                                 @DateTimeFormat(pattern = "yyyy-MM-dd") Date holdDate,
+                                 @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date holdDate,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{

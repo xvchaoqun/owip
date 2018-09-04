@@ -100,7 +100,7 @@ public class CrsExportService extends BaseMapper{
                 cell.setCellValue(StringUtils.trimToEmpty(gender));
 
                 // 出生年月
-                String birth = DateUtils.formatDate(uv.getBirth(), "yyyy.MM");
+                String birth = DateUtils.formatDate(uv.getBirth(), DateUtils.YYYYMM);
                 cell = row.getCell(column++);
                 cell.setCellValue(StringUtils.trimToEmpty(birth));
 
@@ -156,7 +156,7 @@ public class CrsExportService extends BaseMapper{
                 cell.setCellValue(StringUtils.trimToEmpty(cv.getMajor()));
                 // 到校日期
                 cell = row.getCell(column++);
-                cell.setCellValue(DateUtils.formatDate(cv.getArriveTime(), "yyyy.MM"));
+                cell.setCellValue(DateUtils.formatDate(cv.getArriveTime(), DateUtils.YYYYMM));
                 // 所在单位及职务
                 cell = row.getCell(column++);
                 cell.setCellValue(StringUtils.trimToEmpty(cv.getTitle()));
@@ -164,8 +164,8 @@ public class CrsExportService extends BaseMapper{
                 // 专业技术职务、专业技术职务评定时间
                 String proPost = StringUtils.defaultString(cv.getProPost(), "--");
                 String manageLevel = StringUtils.defaultString(cv.getManageLevel(), "--");
-                String proPostTime = StringUtils.defaultIfBlank(DateUtils.formatDate(cv.getProPostTime(), "yyyy.MM"), "--");
-                String manageLevelTime = StringUtils.defaultIfBlank(DateUtils.formatDate(cv.getManageLevelTime(), "yyyy.MM"), "--");
+                String proPostTime = StringUtils.defaultIfBlank(DateUtils.formatDate(cv.getProPostTime(), DateUtils.YYYYMM), "--");
+                String manageLevelTime = StringUtils.defaultIfBlank(DateUtils.formatDate(cv.getManageLevelTime(), DateUtils.YYYYMM), "--");
                 if (cv.getProPost() != null && cv.getManageLevel() == null) {
                     cell = row.getCell(column++);
                     cell.setCellValue(proPost);

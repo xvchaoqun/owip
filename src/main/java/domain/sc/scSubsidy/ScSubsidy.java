@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import service.base.AnnualTypeService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -63,7 +64,7 @@ public class ScSubsidy implements Serializable {
 
     private Integer feNum;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date infoDate;
 
     private String hrFilePath;

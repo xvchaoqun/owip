@@ -94,7 +94,7 @@ public class ClaApplyController extends ClaBaseController {
                                      boolean pass, String remark,
                                      Boolean isAdmin, // 干部管理员直接审批
                                       Integer approvalUserId, // 干部管理员直接审批时，选择的审批人
-                                      @DateTimeFormat(pattern = "yyyy-MM-dd") Date approvalTime, // 干部管理员直接审批时可修改时间
+                                      @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date approvalTime, // 干部管理员直接审批时可修改时间
                                      HttpServletRequest request) {
 
         //int userId = ShiroHelper.getCurrentUserId();
@@ -152,7 +152,7 @@ public class ClaApplyController extends ClaBaseController {
     public Map do_claApply_approval_direct_au(HttpServletRequest request,
                                                int applyId,
                                                int approvalLogId,
-                                               @DateTimeFormat(pattern = "yyyy-MM-dd") Date approvalTime,
+                                               @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date approvalTime,
                                                String remark, ModelMap modelMap) {
 
 

@@ -1,6 +1,7 @@
 package domain.dispatch;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,7 +17,7 @@ public class DispatchWorkFile implements Serializable {
 
     private String code;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date pubDate;
 
     private String fileName;

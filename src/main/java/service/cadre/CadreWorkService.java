@@ -103,8 +103,8 @@ public class CadreWorkService extends BaseMapper {
                 eduResume.setStartDate(cadreEdu.getEnrolTime());
                 eduResume.setEndDate(cadreEdu.getFinishTime());
 
-                String enrolTime = DateUtils.formatDate(cadreEdu.getEnrolTime(), "yyyy.MM");
-                //String finishTime = DateUtils.formatDate(cadreEdu.getFinishTime(), "yyyy.MM");
+                String enrolTime = DateUtils.formatDate(cadreEdu.getEnrolTime(), DateUtils.YYYYMM);
+                //String finishTime = DateUtils.formatDate(cadreEdu.getFinishTime(), DateUtils.YYYYMM);
                 if (learnStyle.intValue() == fulltimeType.getId()) {
 
                     String detail = String.format("%s%s%s%s", StringUtils.trimToEmpty(cadreEdu.getSchool()),
@@ -119,7 +119,7 @@ public class CadreWorkService extends BaseMapper {
 
                         CadreResume resume = resumes.get(i);
                         if(resume.isWork()) {
-                            String startDate = DateUtils.formatDate(resume.getStartDate(), "yyyy.MM");
+                            String startDate = DateUtils.formatDate(resume.getStartDate(), DateUtils.YYYYMM);
                             if (enrolTime.compareTo(startDate) <= 0) {
                                 insertPos = i;
                                 break;
@@ -179,16 +179,16 @@ public class CadreWorkService extends BaseMapper {
      */
     private void insertSubResume(CadreResume subResume, List<CadreResume> resumes){
 
-        String _startDate = DateUtils.formatDate(subResume.getStartDate(), "yyyy.MM");
-        String _endDate = DateUtils.formatDate(subResume.getEndDate(), "yyyy.MM");
+        String _startDate = DateUtils.formatDate(subResume.getStartDate(), DateUtils.YYYYMM);
+        String _endDate = DateUtils.formatDate(subResume.getEndDate(), DateUtils.YYYYMM);
 
         CadreResume insertResume = null;
         for (int i = 0; i < resumes.size(); i++) {
 
             CadreResume resume = resumes.get(i);
             if(resume.isWork()) {
-                String startDate = DateUtils.formatDate(resume.getStartDate(), "yyyy.MM");
-                String endDate = DateUtils.formatDate(resume.getEndDate(), "yyyy.MM");
+                String startDate = DateUtils.formatDate(resume.getStartDate(), DateUtils.YYYYMM);
+                String endDate = DateUtils.formatDate(resume.getEndDate(), DateUtils.YYYYMM);
 
                 if(_endDate==null && endDate==null){
                     insertResume = resume;
@@ -214,7 +214,7 @@ public class CadreWorkService extends BaseMapper {
                 int insertPos = 0;
                 for (int i = 0; i < containResumes.size(); i++) {
                     CadreResume resume = containResumes.get(i);
-                    String startDate = DateUtils.formatDate(resume.getStartDate(), "yyyy.MM");
+                    String startDate = DateUtils.formatDate(resume.getStartDate(), DateUtils.YYYYMM);
                     if (_startDate.compareTo(startDate) <= 0) {
                         insertPos = i;
                         break;
@@ -231,7 +231,7 @@ public class CadreWorkService extends BaseMapper {
                 int insertPos = 0;
                 for (int i = 0; i < overlapResumes.size(); i++) {
                     CadreResume resume = overlapResumes.get(i);
-                    String startDate = DateUtils.formatDate(resume.getStartDate(), "yyyy.MM");
+                    String startDate = DateUtils.formatDate(resume.getStartDate(), DateUtils.YYYYMM);
                     if (_startDate.compareTo(startDate) >= 0) {
                         break;
                     }

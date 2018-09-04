@@ -96,7 +96,7 @@ public class CadrePostAdminController extends BaseController {
         Integer id = record.getId();
 
         if(StringUtils.isNotBlank(_gradeTime)){
-            record.setGradeTime(DateUtils.parseDate(_gradeTime, "yyyy.MM"));
+            record.setGradeTime(DateUtils.parseDate(_gradeTime, DateUtils.YYYYMM));
         }
         record.setIsCurrent(BooleanUtils.isTrue(record.getIsCurrent()));
 

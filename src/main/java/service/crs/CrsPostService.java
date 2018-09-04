@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import sys.constants.CrsConstants;
+import sys.utils.DateUtils;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;
@@ -68,7 +69,7 @@ public class CrsPostService extends BaseMapper {
     public void stat(String jsonResult, String statFile, String statFileName) {
 
         Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat df = new SimpleDateFormat(DateUtils.YYYY_MM_DD);
 
             @Override
             public Date deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)

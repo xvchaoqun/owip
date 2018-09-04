@@ -243,7 +243,7 @@ public class CadreAdformService extends BaseMapper{
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("name", bean.getRealname());
         dataMap.put("gender", SystemConstants.GENDER_MAP.get(bean.getGender()));
-        dataMap.put("birth", DateUtils.formatDate(bean.getBirth(), "yyyy.MM"));
+        dataMap.put("birth", DateUtils.formatDate(bean.getBirth(), DateUtils.YYYYMM));
         dataMap.put("age", bean.getAge());
         dataMap.put("avatar", bean.getAvatar());
         dataMap.put("avatarWidth", bean.getAvatarWidth());
@@ -253,16 +253,16 @@ public class CadreAdformService extends BaseMapper{
         dataMap.put("homeplace", bean.getHomeplace());
 
         dataMap.put("isOw", bean.getIsOw());
-        dataMap.put("owGrowTime", DateUtils.formatDate(bean.getOwGrowTime(), "yyyy.MM"));
+        dataMap.put("owGrowTime", DateUtils.formatDate(bean.getOwGrowTime(), DateUtils.YYYYMM));
         if(bean.getDpTypeId()!=null && bean.getDpTypeId()>0) {
             // 民主党派
             MetaType metaType = CmTag.getMetaType(bean.getDpTypeId());
             String dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
             dataMap.put("dpPartyName", dpPartyName);
-            dataMap.put("dpGrowTime", DateUtils.formatDate(bean.getDpGrowTime(), "yyyy.MM"));
+            dataMap.put("dpGrowTime", DateUtils.formatDate(bean.getDpGrowTime(), DateUtils.YYYYMM));
         }
 
-        dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM"));
+        dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), DateUtils.YYYYMM));
 
         dataMap.put("health", bean.getHealth());
         dataMap.put("proPost", bean.getProPost());
@@ -492,7 +492,7 @@ public class CadreAdformService extends BaseMapper{
         if(cf!=null && cf.getBirthday()!=null){
             fage = DateUtils.calAge(cf.getBirthday());
         }*/
-        dataMap.put("fage", cf==null?"":DateUtils.formatDate(cf.getBirthday(), "yyyy.MM"));
+        dataMap.put("fage", cf==null?"":DateUtils.formatDate(cf.getBirthday(), DateUtils.YYYYMM));
 
         String fps = "";
         if(cf!=null && cf.getPoliticalStatus()!=null){

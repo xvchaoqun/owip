@@ -199,7 +199,7 @@ public class UnitPostController extends BaseController {
     @RequestMapping(value = "/unitPost_abolish", method = RequestMethod.POST)
     @ResponseBody
     public Map do_unitPost_abolish(HttpServletRequest request, int id,
-                                   @DateTimeFormat(pattern="yyyy-MM-dd")Date abolishDate) {
+                                   @DateTimeFormat(pattern=DateUtils.YYYY_MM_DD)Date abolishDate) {
 
         unitPostService.abolish(id, abolishDate);
         logger.info(addLog( LogConstants.LOG_ADMIN, "撤销干部岗位：%s", id));

@@ -68,7 +68,7 @@ public class UnitExportService extends BaseMapper{
             cell.setCellValue(metaTypeService.getName(record.getTypeId()));
 
             cell = row.getCell(column++);
-            cell.setCellValue(DateUtils.formatDate(record.getWorkTime(), "yyyy.MM"));
+            cell.setCellValue(DateUtils.formatDate(record.getWorkTime(), DateUtils.YYYYMM));
 
             cell = row.getCell(column++);
             cell.setCellValue(record.getUrl());

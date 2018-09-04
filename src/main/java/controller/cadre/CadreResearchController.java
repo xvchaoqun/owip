@@ -240,10 +240,10 @@ public class CadreResearchController extends BaseController {
         Integer id = record.getId();
 
         if (StringUtils.isNotBlank(_startTime)) {
-            record.setStartTime(DateUtils.parseDate(_startTime, "yyyy.MM"));
+            record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYYMM));
         }
         if (StringUtils.isNotBlank(_endTime)) {
-            record.setEndTime(DateUtils.parseDate(_endTime, "yyyy.MM"));
+            record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYYMM));
         }
 
         if (id == null) {

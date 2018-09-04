@@ -1,6 +1,7 @@
 package domain.sc.scMatter;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,7 +12,7 @@ public class ScMatterCheckItem implements Serializable {
     private Integer checkId;
 
     private Integer userId;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date compareDate;
 
     private String resultType;
@@ -19,7 +20,7 @@ public class ScMatterCheckItem implements Serializable {
     private String selfFile;
 
     private Byte confirmType;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date confirmDate;
 
     private String handleType;
@@ -27,11 +28,11 @@ public class ScMatterCheckItem implements Serializable {
     private String checkFile;
 
     private String owHandleType;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date owHandleDate;
 
     private String owHandleFile;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date owAffectDate;
 
     private String remark;

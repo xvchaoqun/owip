@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import service.cet.CetProjectObjService;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
+import sys.utils.DateUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -29,10 +30,10 @@ public class CetProjectPlan implements Serializable {
 
     private Integer projectId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date endDate;
 
     private Byte type;

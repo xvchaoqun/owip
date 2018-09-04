@@ -274,7 +274,7 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("code", bean.getCode());
         dataMap.put("name", bean.getRealname());
         dataMap.put("gender", SystemConstants.GENDER_MAP.get(bean.getGender()));
-        dataMap.put("birth", DateUtils.formatDate(bean.getBirth(), "yyyy.MM"));
+        dataMap.put("birth", DateUtils.formatDate(bean.getBirth(), DateUtils.YYYYMM));
         dataMap.put("a", bean.getAge());
 
         dataMap.put("avatar", bean.getAvatar());
@@ -285,21 +285,21 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("hp", bean.getHomeplace());
 
         dataMap.put("isOw", bean.getIsOw());
-        dataMap.put("owGrowTime", DateUtils.formatDate(bean.getOwGrowTime(), "yyyy.MM"));
+        dataMap.put("owGrowTime", DateUtils.formatDate(bean.getOwGrowTime(), DateUtils.YYYYMM));
         if(bean.getDpTypeId()!=null && bean.getDpTypeId()>0) {
             // 民主党派
             MetaType metaType = CmTag.getMetaType(bean.getDpTypeId());
             String dpPartyName = StringUtils.defaultIfBlank(metaType.getExtraAttr(), metaType.getName());
             dataMap.put("dpPartyName", dpPartyName);
-            dataMap.put("dpGrowTime", DateUtils.formatDate(bean.getDpGrowTime(), "yyyy.MM"));
+            dataMap.put("dpGrowTime", DateUtils.formatDate(bean.getDpGrowTime(), DateUtils.YYYYMM));
         }
 
-        dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), "yyyy.MM"));
+        dataMap.put("workTime", DateUtils.formatDate(bean.getWorkTime(), DateUtils.YYYYMM));
 
         dataMap.put("health", bean.getHealth());
         // 专业技术职务及评定时间
         dataMap.put("proPost", bean.getProPost());
-        dataMap.put("proPostTime", DateUtils.formatDate(bean.getProPostTime(), "yyyy.MM"));
+        dataMap.put("proPostTime", DateUtils.formatDate(bean.getProPostTime(), DateUtils.YYYYMM));
         dataMap.put("specialty", bean.getSpecialty());
 
         dataMap.put("edu", bean.getEdu());
@@ -320,7 +320,7 @@ public class CadreInfoFormService extends BaseMapper {
 
         // 管理岗位等级及分级时间
         dataMap.put("manageLevel", bean.getManageLevel());
-        dataMap.put("manageLevelTime", DateUtils.formatDate(bean.getManageLevelTime(), "yyyy.MM"));
+        dataMap.put("manageLevelTime", DateUtils.formatDate(bean.getManageLevelTime(), DateUtils.YYYYMM));
         /*
         dataMap.put("adminLevel_1", metaTypeMap.get("mt_admin_level_main").getId());
         dataMap.put("adminLevel_2", metaTypeMap.get("mt_admin_level_vice").getId());
@@ -409,7 +409,7 @@ public class CadreInfoFormService extends BaseMapper {
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("a1", bean == null ? "" : bean.getUnit());
-        dataMap.put("b1", bean == null ? "" : DateUtils.formatDate(bean.getStartTime(), "yyyy.MM"));
+        dataMap.put("b1", bean == null ? "" : DateUtils.formatDate(bean.getStartTime(), DateUtils.YYYYMM));
         dataMap.put("c1", bean == null ? "" : bean.getReportUnit());
 
         return freemarkerService.process(ftlPath, dataMap);
@@ -426,7 +426,7 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("a2", StringUtils.trimToNull(ftitle));
         dataMap.put("b2", bean == null ? "" : StringUtils.trimToEmpty(bean.getRealname()));
 
-        dataMap.put("c2", bean == null ? "" : DateUtils.formatDate(bean.getBirthday(), "yyyy.MM"));
+        dataMap.put("c2", bean == null ? "" : DateUtils.formatDate(bean.getBirthday(), DateUtils.YYYYMM));
 
         String fps = "";
         if (bean != null && bean.getPoliticalStatus() != null) {
@@ -446,7 +446,7 @@ public class CadreInfoFormService extends BaseMapper {
         dataMap.put("a3", bean == null ? "" : bean.getFamilyTitle());
         dataMap.put("b3", (bean == null || bean.getCadreFamily() == null) ? "" : bean.getCadreFamily().getRealname());
         dataMap.put("c3", (bean == null || bean.getCountry() == null) ? "" : bean.getCountry());
-        dataMap.put("d3", (bean == null || bean.getAbroadTime() == null) ? "" : DateUtils.formatDate(bean.getAbroadTime(), "yyyy.MM"));
+        dataMap.put("d3", (bean == null || bean.getAbroadTime() == null) ? "" : DateUtils.formatDate(bean.getAbroadTime(), DateUtils.YYYYMM));
         dataMap.put("e3", (bean == null || bean.getCity() == null) ? "" : bean.getCity());
 
         dataMap.put("type", (bean == null || bean.getType() == null) ? -1 : bean.getType());// 移居类别

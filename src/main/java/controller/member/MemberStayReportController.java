@@ -127,7 +127,7 @@ public class MemberStayReportController extends MemberBaseController {
         }
         map.put("avatar", avatar); // 头像 360*480
 
-        map.put("birth", DateUtils.formatDate(u.getBirth(), "yyyy.MM"));
+        map.put("birth", DateUtils.formatDate(u.getBirth(), DateUtils.YYYYMM));
         map.put("growTime", DateUtils.formatDate(u.getGrowTime(), "yyyy.MM.dd"));
         map.put("nativePlace", u.getNativePlace());
         map.put("idcard", u.getIdcard());
@@ -182,21 +182,21 @@ public class MemberStayReportController extends MemberBaseController {
 
             String startTime = "";
             if (ga.getStartTime() != null && ga.getEndTime() != null) {
-                startTime = DateUtils.formatDate(ga.getStartTime(), "yyyy.MM")
-                        + " 至 " + DateUtils.formatDate(ga.getEndTime(), "yyyy.MM");
+                startTime = DateUtils.formatDate(ga.getStartTime(), DateUtils.YYYYMM)
+                        + " 至 " + DateUtils.formatDate(ga.getEndTime(), DateUtils.YYYYMM);
             } else if (ga.getStartTime() != null) {
-                startTime = DateUtils.formatDate(ga.getStartTime(), "yyyy.MM");
+                startTime = DateUtils.formatDate(ga.getStartTime(), DateUtils.YYYYMM);
             }
             map.put("startTime", startTime);
 
-            map.put("payTime", DateUtils.formatDate(ga.getPayTime(), "yyyy.MM"));
+            map.put("payTime", DateUtils.formatDate(ga.getPayTime(), DateUtils.YYYYMM));
 
             Byte abroadType = ga.getAbroadType();
             map.put("typeCheck1", abroadType == MemberConstants.MEMBER_STAY_ABROAD_TYPE_MAP_PUB ? "√" : "");
             map.put("typeCheck2", abroadType == MemberConstants.MEMBER_STAY_ABROAD_TYPE_MAP_SELF ? "√" : "");
         }
 
-        map.put("overDate", DateUtils.formatDate(ga.getOverDate(), "yyyy.MM"));
+        map.put("overDate", DateUtils.formatDate(ga.getOverDate(), DateUtils.YYYYMM));
 
         String branchAdmin = "";
         if (ga.getOrgBranchAdminPhone() != null && ga.getOrgBranchAdmin() != null) {
@@ -206,8 +206,8 @@ public class MemberStayReportController extends MemberBaseController {
         }
         map.put("branchAdmin", branchAdmin);
 
-        map.put("saveStartTime", DateUtils.formatDate(ga.getSaveStartTime(), "yyyy.MM")
-                + " 至 " + DateUtils.formatDate(ga.getSaveEndTime(), "yyyy.MM"));
+        map.put("saveStartTime", DateUtils.formatDate(ga.getSaveStartTime(), DateUtils.YYYYMM)
+                + " 至 " + DateUtils.formatDate(ga.getSaveEndTime(), DateUtils.YYYYMM));
 
         String party = "";
         Map<Integer, Party> partyMap = partyService.findAll();
@@ -241,7 +241,7 @@ public class MemberStayReportController extends MemberBaseController {
         if (u.getMemberStatus() != null && u.getMemberStatus() == MemberConstants.MEMBER_STATUS_TRANSFER) {
             MemberOut memberOut = memberOutService.getLatest(userId);
             if (memberOut != null && memberOut.getStatus()==MemberConstants.MEMBER_OUT_STATUS_OW_VERIFY)
-                transferTime = DateUtils.formatDate(memberOut.getHandleTime(), "yyyy.MM");
+                transferTime = DateUtils.formatDate(memberOut.getHandleTime(), DateUtils.YYYYMM);
         }
         map.put("transferTime", transferTime);
 

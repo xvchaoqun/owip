@@ -5,6 +5,7 @@ import persistence.cet.CetExpertMapper;
 import service.cet.CetCourseItemService;
 import sys.constants.CetConstants;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -61,7 +62,7 @@ public class CetCourse implements Serializable {
 
     private Integer num;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date foundDate;
 
     private String name;

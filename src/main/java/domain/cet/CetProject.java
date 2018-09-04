@@ -5,6 +5,7 @@ import persistence.cet.common.ICetProjectObj;
 import service.cet.CetProjectObjService;
 import sys.tags.CmTag;
 import sys.utils.ContextHelper;
+import sys.utils.DateUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -31,10 +32,10 @@ public class CetProject implements Serializable {
 
     private Integer year;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date endDate;
 
     private Date openTime;

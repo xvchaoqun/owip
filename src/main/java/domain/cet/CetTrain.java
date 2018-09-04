@@ -2,6 +2,7 @@ package domain.cet;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import sys.constants.CetConstants;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -31,10 +32,10 @@ public class CetTrain implements Serializable {
 
     private String summary;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date endDate;
 
     private Date startTime;

@@ -239,7 +239,7 @@ public class PartyMemberService extends BaseMapper {
                     metaTypeService.getName(record.getPostId()),
 
                     StringUtils.join(typeNames, ","),
-                    DateUtils.formatDate(record.getAssignDate(), "yyyy.MM"),
+                    DateUtils.formatDate(record.getAssignDate(), DateUtils.YYYYMM),
                     record.getGender() == null ? "" : SystemConstants.GENDER_MAP.get(record.getGender()),
                     record.getNation(),
                     record.getIdcard(),

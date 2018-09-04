@@ -4,6 +4,7 @@ import domain.cadre.CadreView;
 import org.springframework.format.annotation.DateTimeFormat;
 import sys.helper.CisHelper;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -38,7 +39,7 @@ public class CisInspectObj implements Serializable {
 
     private Integer seq;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date inspectDate;
 
     private Integer cadreId;

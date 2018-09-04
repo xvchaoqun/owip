@@ -3,6 +3,7 @@ package domain.sc.scMatter;
 import domain.sys.SysUserView;
 import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,7 +19,7 @@ public class ScMatterAccess implements Serializable {
     private Integer id;
 
     private Integer year;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date accessDate;
 
     private String accessFile;
@@ -28,7 +29,7 @@ public class ScMatterAccess implements Serializable {
     private Boolean isCopy;
 
     private String purpose;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date handleDate;
 
     private Integer handleUserId;
@@ -36,7 +37,7 @@ public class ScMatterAccess implements Serializable {
     private String receiver;
 
     private String receivePdf;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date returnDate;
 
     private Integer returnUserId;

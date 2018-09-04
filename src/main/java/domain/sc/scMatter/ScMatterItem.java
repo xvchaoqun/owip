@@ -1,6 +1,7 @@
 package domain.sc.scMatter;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,9 +12,9 @@ public class ScMatterItem implements Serializable {
     private Integer matterId;
 
     private Integer userId;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date realHandTime;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date fillTime;
 
     private String remark;

@@ -1,6 +1,7 @@
 package domain.partySchool;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,7 +11,7 @@ public class PartySchool implements Serializable {
 
     private String name;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date foundDate;
 
     private Integer sortOrder;

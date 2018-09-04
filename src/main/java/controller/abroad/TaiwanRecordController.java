@@ -176,7 +176,7 @@ public class TaiwanRecordController extends AbroadBaseController {
     @RequiresPermissions("taiwanRecord:edit")
     @RequestMapping(value = "/taiwanRecord_expectDate", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_taiwanRecord_expectDate(Integer id, @DateTimeFormat(pattern = "yyyy-MM-dd") Date expectDate) throws IOException {
+    public Map do_taiwanRecord_expectDate(Integer id, @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date expectDate) throws IOException {
 
         TaiwanRecord record = new TaiwanRecord();
         record.setExpectDate(expectDate);

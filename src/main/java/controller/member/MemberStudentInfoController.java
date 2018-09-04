@@ -36,9 +36,9 @@ public class MemberStudentInfoController extends MemberBaseController {
     @RequestMapping(value = "/member_studentInfo_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_member_studentInfo_au(StudentInfo studentInfo, SysUserInfo userInfo, String _birth,
-                                        @DateTimeFormat(pattern = "yyyy.MM")Date _actualEnrolTime,
-                                        @DateTimeFormat(pattern = "yyyy.MM")Date _expectGraduateTime,
-                                        @DateTimeFormat(pattern = "yyyy.MM")Date actualGraduateTime,
+                                        @DateTimeFormat(pattern = DateUtils.YYYYMM)Date _actualEnrolTime,
+                                        @DateTimeFormat(pattern = DateUtils.YYYYMM)Date _expectGraduateTime,
+                                        @DateTimeFormat(pattern = DateUtils.YYYYMM)Date actualGraduateTime,
                                         HttpServletRequest request) {
 
         Integer userId = studentInfo.getUserId();

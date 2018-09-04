@@ -1,6 +1,7 @@
 package domain.sc.scMotion;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,7 +16,7 @@ public class ScMotion implements Serializable {
 
     private Short year;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date holdDate;
 
     private Integer num;

@@ -743,7 +743,7 @@ public class SyncService extends BaseMapper {
                     ui.setGender(SystemConstants.GENDER_UNKNOWN);
 
                 if (StringUtils.isNotBlank(extBks.getCsrq()))
-                    ui.setBirth(DateUtils.parseDate(extBks.getCsrq(), "yyyy-MM-dd"));
+                    ui.setBirth(DateUtils.parseDate(extBks.getCsrq(), DateUtils.YYYY_MM_DD));
                 ui.setIdcard(StringUtils.trim(extBks.getSfzh()));
                 //ui.setMobile(StringUtils.trim(extBks.getYddh()));
                 //ui.setEmail(StringUtils.trim(extBks.getDzxx()));

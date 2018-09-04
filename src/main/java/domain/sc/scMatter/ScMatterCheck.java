@@ -1,6 +1,7 @@
 package domain.sc.scMatter;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,7 +10,7 @@ public class ScMatterCheck implements Serializable {
     private Integer id;
 
     private Integer year;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date checkDate;
 
     private String checkFile;

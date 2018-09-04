@@ -4,6 +4,7 @@ import domain.cadre.CadreView;
 import domain.unit.Unit;
 import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,7 +24,7 @@ public class ScAdUse implements Serializable {
 
     private Integer year;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date useDate;
 
     private Boolean isOnCampus;

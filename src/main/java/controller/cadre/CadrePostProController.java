@@ -131,10 +131,10 @@ public class CadrePostProController extends BaseController {
         Integer id = record.getId();
 
         if(StringUtils.isNotBlank(_holdTime)){
-            record.setHoldTime(DateUtils.parseDate(_holdTime, "yyyy.MM"));
+            record.setHoldTime(DateUtils.parseDate(_holdTime, DateUtils.YYYYMM));
         }
         if(StringUtils.isNotBlank(_gradeTime)){
-            record.setGradeTime(DateUtils.parseDate(_gradeTime, "yyyy.MM"));
+            record.setGradeTime(DateUtils.parseDate(_gradeTime, DateUtils.YYYYMM));
         }
         record.setIsCurrent(BooleanUtils.isTrue(record.getIsCurrent()));
 

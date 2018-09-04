@@ -53,11 +53,11 @@ public class CrsPostRequireService extends BaseMapper {
         if(StringUtils.isNotBlank(partyAddTime)){
             String[] addTimes = partyAddTime.split(",");
             if(addTimes.length==1){
-                partyAddYear = StringUtils.equals(addTimes[0], "-")?"-":DateUtils.yearOffNow_cn(DateUtils.parseDate(addTimes[0], "yyyy.MM"));
+                partyAddYear = StringUtils.equals(addTimes[0], "-")?"-":DateUtils.yearOffNow_cn(DateUtils.parseDate(addTimes[0], DateUtils.YYYYMM));
             }else if(addTimes.length==2){
-                partyAddYear = (StringUtils.equals(addTimes[0], "-")?"-":DateUtils.yearOffNow_cn(DateUtils.parseDate(addTimes[0], "yyyy.MM")))
+                partyAddYear = (StringUtils.equals(addTimes[0], "-")?"-":DateUtils.yearOffNow_cn(DateUtils.parseDate(addTimes[0], DateUtils.YYYYMM)))
                         + "," +
-                        (StringUtils.equals(addTimes[1], "-")?"-":DateUtils.yearOffNow_cn(DateUtils.parseDate(addTimes[1], "yyyy.MM")));
+                        (StringUtils.equals(addTimes[1], "-")?"-":DateUtils.yearOffNow_cn(DateUtils.parseDate(addTimes[1], DateUtils.YYYYMM)));
             }
         }
 

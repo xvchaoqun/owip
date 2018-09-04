@@ -1,6 +1,7 @@
 package domain.sc.scGroup;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,7 +13,7 @@ public class ScGroup implements Serializable {
 
     private Integer year;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date holdDate;
 
     private Integer topicNum;

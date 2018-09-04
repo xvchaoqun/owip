@@ -316,7 +316,7 @@ public class PartyController extends BaseController {
                     record.getPhone(),
                     record.getFax(),
                     record.getEmail(),
-                    DateUtils.formatDate(record.getFoundTime(), "yyyy.MM"),
+                    DateUtils.formatDate(record.getFoundTime(), DateUtils.YYYYMM),
             };
             valuesList.add(values);
         }

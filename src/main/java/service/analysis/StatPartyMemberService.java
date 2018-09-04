@@ -95,7 +95,7 @@ public class StatPartyMemberService extends BaseMapper {
                 cell.setCellValue(StringUtils.join(typeNames, ","));
                 // 任职时间
                 cell = row.getCell(colunmNum++);
-                cell.setCellValue(DateUtils.formatDate(record.getAssignDate(), "yyyy.MM"));
+                cell.setCellValue(DateUtils.formatDate(record.getAssignDate(), DateUtils.YYYYMM));
                 // 办公电话
                 cell = row.getCell(colunmNum++);
                 cell.setCellValue(record.getOfficePhone());

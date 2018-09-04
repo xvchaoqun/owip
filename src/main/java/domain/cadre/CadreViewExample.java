@@ -2371,7 +2371,7 @@ public class CadreViewExample {
 
         public Criteria andGrowTimeGreaterThanOrEqualTo(Date value) {
 
-            String date = DateUtils.formatDate(value, "yyyy-MM-dd");
+            String date = DateUtils.formatDate(value, DateUtils.YYYY_MM_DD);
             addCriterion("(ow_grow_time >='" + date + "' or dp_grow_time >='" + date + "')");
             return (Criteria) this;
         }
@@ -2388,7 +2388,7 @@ public class CadreViewExample {
 
         public Criteria andGrowTimeLessThanOrEqualTo(Date value) {
 
-            String date = DateUtils.formatDate(value, "yyyy-MM-dd");
+            String date = DateUtils.formatDate(value, DateUtils.YYYY_MM_DD);
             addCriterion("(ow_grow_time <='" + date + "' or dp_grow_time <='" + date + "')");
             return (Criteria) this;
         }

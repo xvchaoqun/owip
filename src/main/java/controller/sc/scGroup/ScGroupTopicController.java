@@ -28,6 +28,7 @@ import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.ContentTypeUtils;
+import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
@@ -83,7 +84,7 @@ public class ScGroupTopicController extends ScGroupBaseController {
     public void scGroupTopic_data(HttpServletResponse response,
                                     Integer groupId,
                                   Integer year,
-                                  @DateTimeFormat(pattern = "yyyy-MM-dd") Date holdDate,
+                                  @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date holdDate,
                                   String name,
                                   @RequestParam(required = false, value = "unitIds") Integer[] unitIds,
                                  @RequestParam(required = false, defaultValue = "0") int export,

@@ -129,7 +129,7 @@ public class CpcAllocationController extends BaseController {
             if (export == 1) {
                 XSSFWorkbook wb = cpcAllocationService.cpcInfo_Xlsx();
 
-                String fileName = sysConfigService.getSchoolName() + "内设机构干部配备情况（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
+                String fileName = sysConfigService.getSchoolName() + "内设机构干部配备情况（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
                 ExportHelper.output(wb, fileName + ".xlsx", response);
                 return null;
             }
@@ -141,7 +141,7 @@ public class CpcAllocationController extends BaseController {
             if (export == 1) {
                 XSSFWorkbook wb = cpcAllocationService.cpcStat_Xlsx();
 
-                String fileName = sysConfigService.getSchoolName() + "内设机构干部配备统计表（" + DateUtils.formatDate(new Date(), "yyyy-MM-dd") + "）";
+                String fileName = sysConfigService.getSchoolName() + "内设机构干部配备统计表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
                 ExportHelper.output(wb, fileName + ".xlsx", response);
                 return null;
             }

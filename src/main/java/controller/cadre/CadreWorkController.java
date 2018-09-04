@@ -216,10 +216,10 @@ public class CadreWorkController extends BaseController {
         Integer id = record.getId();
 
         if (StringUtils.isNotBlank(_startTime)) {
-            record.setStartTime(DateUtils.parseDate(_startTime, "yyyy.MM"));
+            record.setStartTime(DateUtils.parseDate(_startTime, DateUtils.YYYYMM));
         }
         if (StringUtils.isNotBlank(_endTime)) {
-            record.setEndTime(DateUtils.parseDate(_endTime, "yyyy.MM"));
+            record.setEndTime(DateUtils.parseDate(_endTime, DateUtils.YYYYMM));
         }
         record.setIsCadre(BooleanUtils.isTrue(record.getIsCadre()));
         if (id == null) {
@@ -445,8 +445,8 @@ public class CadreWorkController extends BaseController {
             CadreWork cadreWork = cadreWorks.get(i);
             String[] values = {
                     cadreWork.getCadreId() + "",
-                    DateUtils.formatDate(cadreWork.getStartTime(), "yyyy.MM"),
-                    DateUtils.formatDate(cadreWork.getEndTime(), "yyyy.MM"),
+                    DateUtils.formatDate(cadreWork.getStartTime(), DateUtils.YYYYMM),
+                    DateUtils.formatDate(cadreWork.getEndTime(), DateUtils.YYYYMM),
                     cadreWork.getDetail(),
                     cadreWork.getWorkType() + ""
             };
