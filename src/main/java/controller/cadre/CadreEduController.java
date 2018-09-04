@@ -298,8 +298,8 @@ public class CadreEduController extends BaseController {
                     metaTypeService.getName(record.getEduId()),
 
                     BooleanUtils.isTrue(record.getIsGraduated())?"毕业":"在读",
-                    DateUtils.formatDate(record.getEnrolTime(), DateUtils.YYYY_MM_DD),
-                    DateUtils.formatDate(record.getFinishTime(), DateUtils.YYYY_MM_DD),
+                    DateUtils.formatDate(record.getEnrolTime(), "yyyy.MM"),
+                    DateUtils.formatDate(record.getFinishTime(), "yyyy.MM"),
                     BooleanUtils.isTrue(record.getIsHighDegree())?"是":"否",
                     record.getSchool(),
 
@@ -313,7 +313,7 @@ public class CadreEduController extends BaseController {
                     hasDegree?(record.getIsHighDegree()?"是":"否"):"-",
                     hasDegree?record.getDegreeCountry():"-",
                     hasDegree?record.getDegreeUnit():"-",
-                    hasDegree?DateUtils.formatDate(record.getDegreeTime(), DateUtils.YYYY_MM_DD):"-",
+                    hasDegree?DateUtils.formatDate(record.getDegreeTime(), "yyyy.MM"):"-",
 
                     needTutorEduTypes.contains(record.getEduId())?record.getTutorName():"-",
                     needTutorEduTypes.contains(record.getEduId())?record.getTutorTitle():"-",
