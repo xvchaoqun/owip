@@ -39,7 +39,7 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">培训内容</label>
 				<div class="col-xs-6">
-                    <textarea required class="form-control" name="content">${cadreTrain.content}</textarea>
+                    <textarea required class="form-control noEnter" name="content">${cadreTrain.content}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
             <div class="form-group">
                 <label class="col-xs-3 control-label">备注</label>
                 <div class="col-xs-6">
-                    <textarea class="form-control" name="remark">${cadreTrain.remark}</textarea>
+                    <textarea class="form-control noEnter" name="remark">${cadreTrain.remark}</textarea>
                 </div>
             </div>
     </form>
