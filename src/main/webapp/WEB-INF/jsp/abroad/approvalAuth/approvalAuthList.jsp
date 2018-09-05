@@ -23,7 +23,13 @@
         <tbody>
         <c:forEach items="${cadreApproverListMap}" var="cadreApproverListMap" varStatus="vs">
           <c:set var="cadre" value="${cm:getCadreById(cadreApproverListMap.key)}"/>
-          <tr>
+          <c:set var="hasAnyApprover" value="false"/>
+          <c:forEach items="${cadreApproverListMap.value}" var="approverListMap">
+            <c:if test="${approverListMap.value!=null}">
+              <c:set var="hasAnyApprover" value="true"/>
+            </c:if>
+          </c:forEach>
+          <tr class="${hasAnyApprover?'':'empty'}">
             <td>${vs.count}</td>
             <td>${cadre.realname}</td>
             <td>${cadre.code}</td>
@@ -46,7 +52,7 @@
   </div>
 </div>
 <style>
-  td.empty{
+  tr.empty td, td.empty{
     background-color: red;
   }
   .table tbody tr:hover td.empty{
@@ -54,5 +60,6 @@
   }
 </style>
 <script>
+
   stickheader();
 </script>
