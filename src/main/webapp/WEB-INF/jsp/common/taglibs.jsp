@@ -22,6 +22,7 @@
 <c:set value="${cm:formatDate(now,'yyyy')}" var="_thisYear"/>
 
 <fmt:setBundle basename="spring" var="spring"/>
+<fmt:message key="site.hasLoginPage" bundle="${spring}" var="_hasLoginPage"/>
 <fmt:message key="upload.maxSize" bundle="${spring}" var="_uploadMaxSize"/>
 <fmt:message key="sys.help.hide" bundle="${spring}" var="_hideHelp"/>
 
@@ -73,4 +74,5 @@
 
 <c:set var="DISPATCH_CADRE_TYPE_MAP" value="<%=DispatchConstants.DISPATCH_CADRE_TYPE_MAP%>"/>
 
+<c:set value="<%=SystemConstants.UNIT_STATUS_RUN%>" var="UNIT_STATUS_RUN"/>
 <c:set value="<%=SystemConstants.UNIT_STATUS_HISTORY%>" var="UNIT_STATUS_HISTORY"/>

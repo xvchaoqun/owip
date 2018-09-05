@@ -1170,9 +1170,7 @@ input[type=radio].bigger {
     font-family: "sans serif", tahoma, verdana, helvetica;
 }
 
-
-
-span.delete {
+span.delete, span.delete a {
     text-decoration: line-through;
     color: darkred;
 }

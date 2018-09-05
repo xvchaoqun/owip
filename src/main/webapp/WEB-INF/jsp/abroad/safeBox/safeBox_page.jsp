@@ -65,7 +65,7 @@
                         .format(rowObject.id, count)
             },frozen:true},
             { label:'排序',align:'center', width: 80, formatter: $.jgrid.formatter.sortOrder,frozen:true },
-            { label: '证件所属单位', name: 'units', width: 500 },
+            { label: '证件所属单位', name: 'units', width: 500, align:'left' },
             { label: '备注', name: 'remark', width: 250 }
         ]}).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

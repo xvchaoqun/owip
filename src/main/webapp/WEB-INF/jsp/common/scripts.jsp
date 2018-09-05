@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="taglibs.jsp"%>
-<script type="text/javascript">var ctx="${ctx}"; var _permissions=${cm:toJSONObject(cm:findPermissions(_user.username, false))};var _uploadMaxSize=${_uploadMaxSize}</script>
+<script type="text/javascript">var ctx="${ctx}", _hasLoginPage= ${_hasLoginPage=='true'}, _permissions=${cm:toJSONObject(cm:findPermissions(_user.username, false))}, _uploadMaxSize=${_uploadMaxSize}</script>
 <!--[if lt IE 9]>
 <script type="text/javascript">location.href="${ctx}/jsp/browsers.jsp?type=unsupport";</script>
 <![endif]-->

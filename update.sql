@@ -1,3 +1,9 @@
+
+20180906
+ALTER TABLE `cadre_work`
+	CHANGE COLUMN `unit_id` `unit_ids` VARCHAR(100) NULL DEFAULT NULL COMMENT '所属内设机构，包含历史单位' AFTER `detail`;
+
+
 20180830
 update  pmd_member pm, pmd_config_member pcm set pm.has_salary=pcm.has_salary where pm.user_id=pcm.user_id and pm.type=3 and pm.has_salary is null;
 

@@ -50,12 +50,12 @@
 
          <!--<table tableName="cadre_leader_unit" domainObjectName="cadre.CadreLeaderUnit" mapperName="cadre.CadreLeaderUnitMapper">
          </table>-->
-        <table tableName="cadre_leader_unit_view" domainObjectName="cadre.CadreLeaderUnitView"
+       <!-- <table tableName="cadre_leader_unit_view" domainObjectName="cadre.CadreLeaderUnitView"
                mapperName="cadre.CadreLeaderUnitViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
+        </table>-->
 
         <!-- <table tableName="cadre_ad_log" domainObjectName="cadre.CadreAdLog" mapperName="cadre.CadreAdLogMapper">
          </table>-->
@@ -124,9 +124,9 @@
         </table>-->
         <!-- <table tableName="cadre_post" domainObjectName="cadre.CadrePost" mapperName="cadre.CadrePostMapper">
          </table>-->
-        <!-- <table tableName="cadre_work" domainObjectName="cadre.CadreWork" mapperName="cadre.CadreWorkMapper">
+         <table tableName="cadre_work" domainObjectName="cadre.CadreWork" mapperName="cadre.CadreWorkMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>-->
+         </table>
         <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->

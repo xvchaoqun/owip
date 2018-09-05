@@ -114,9 +114,9 @@
     <div class="jqgrid-vertical-offset buttons">
         <button class="jqOpenViewBtn btn  btn-sm btn-warning"
                 data-url="${ctx}/cadreWork_updateUnitId"
-                data-grid-id="#jqGrid_cadreWork"
+                data-grid-id="#jqGrid_cadreWork" data-width="800"
                 data-querystr="&cadreId=${param.cadreId}">
-            <i class="fa fa-edit"></i> 修改对应现运行单位
+            <i class="fa fa-edit"></i> 修改所属内设机构
         </button>
     </div>
         </shiro:lacksRole>
@@ -418,8 +418,14 @@
             {label: '行政级别', name: 'typeId', formatter: $.jgrid.formatter.MetaType, width: 200},
             {label: '工作类型', name: 'workType', formatter: $.jgrid.formatter.MetaType, width: 200},
             {
-                label: '对应现运行单位', name: 'unitId', formatter: $.jgrid.formatter.unit, width: 200
-            }
+                label: '所属内设机构', name: 'unitIds',formatter: function (cellvalue, options, rowObject) {
+
+                if($.trim(cellvalue)=='') return '-'
+                return ($.map(cellvalue.split(","), function(unitId){
+                    return $.jgrid.formatter.unit(unitId);
+                })).join("，")
+
+            }, width: 500, align:'left'}
         ]
     });
     $(window).triggerHandler('resize.jqGrid2');

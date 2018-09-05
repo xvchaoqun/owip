@@ -562,63 +562,79 @@ public class CadreWorkExample {
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdIsNull() {
-            addCriterion("unit_id is null");
+        public Criteria andUnitIdsContain(Integer unitId) {
+
+            addCriterion("find_in_set("+unitId+", unit_ids)");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdIsNotNull() {
-            addCriterion("unit_id is not null");
+        public Criteria andUnitIdsIsNull() {
+            addCriterion("unit_ids is null");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdEqualTo(Integer value) {
-            addCriterion("unit_id =", value, "unitId");
+        public Criteria andUnitIdsIsNotNull() {
+            addCriterion("unit_ids is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdNotEqualTo(Integer value) {
-            addCriterion("unit_id <>", value, "unitId");
+        public Criteria andUnitIdsEqualTo(String value) {
+            addCriterion("unit_ids =", value, "unitIds");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdGreaterThan(Integer value) {
-            addCriterion("unit_id >", value, "unitId");
+        public Criteria andUnitIdsNotEqualTo(String value) {
+            addCriterion("unit_ids <>", value, "unitIds");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("unit_id >=", value, "unitId");
+        public Criteria andUnitIdsGreaterThan(String value) {
+            addCriterion("unit_ids >", value, "unitIds");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdLessThan(Integer value) {
-            addCriterion("unit_id <", value, "unitId");
+        public Criteria andUnitIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("unit_ids >=", value, "unitIds");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdLessThanOrEqualTo(Integer value) {
-            addCriterion("unit_id <=", value, "unitId");
+        public Criteria andUnitIdsLessThan(String value) {
+            addCriterion("unit_ids <", value, "unitIds");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdIn(List<Integer> values) {
-            addCriterion("unit_id in", values, "unitId");
+        public Criteria andUnitIdsLessThanOrEqualTo(String value) {
+            addCriterion("unit_ids <=", value, "unitIds");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdNotIn(List<Integer> values) {
-            addCriterion("unit_id not in", values, "unitId");
+        public Criteria andUnitIdsLike(String value) {
+            addCriterion("unit_ids like", value, "unitIds");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdBetween(Integer value1, Integer value2) {
-            addCriterion("unit_id between", value1, value2, "unitId");
+        public Criteria andUnitIdsNotLike(String value) {
+            addCriterion("unit_ids not like", value, "unitIds");
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("unit_id not between", value1, value2, "unitId");
+        public Criteria andUnitIdsIn(List<String> values) {
+            addCriterion("unit_ids in", values, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotIn(List<String> values) {
+            addCriterion("unit_ids not in", values, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsBetween(String value1, String value2) {
+            addCriterion("unit_ids between", value1, value2, "unitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitIdsNotBetween(String value1, String value2) {
+            addCriterion("unit_ids not between", value1, value2, "unitIds");
             return (Criteria) this;
         }
 

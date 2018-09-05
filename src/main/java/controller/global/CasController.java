@@ -1,5 +1,6 @@
 package controller.global;
 
+import controller.BaseController;
 import domain.sys.SysUserView;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +22,7 @@ import service.sys.SysUserService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.CasUtils;
+import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -34,7 +36,7 @@ import java.util.Set;
  * Created by fafa on 2016/6/9.
  */
 @Controller
-public class CasController {
+public class CasController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
@@ -61,10 +63,10 @@ public class CasController {
                         throw new UnauthorizedException();
                     }
                 }
-
-                logger.info("{}切换账号登录{}", ShiroHelper.getCurrentUsername(), username);
             }
         }
+
+        logger.info(addLog(LogConstants.LOG_ADMIN, "切换账号登录%s", username));
 
         String _switchUser = ShiroHelper.getCurrentUsername();
         return casLogin(username, lackRoleAdmin, request, response, _switchUser);

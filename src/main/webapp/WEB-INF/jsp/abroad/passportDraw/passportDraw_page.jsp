@@ -226,7 +226,7 @@
                 },
                 frozen: true
             },
-            {label: '所在单位及职务', name: 'cadre.title', width: 250},
+            {label: '所在单位及职务', name: 'cadre.title', width: 250, align:'left'},
             {label: '申请领取证件名称', align: 'center', name: 'passportClass.name', width: 180},
             {label: '证号号码', align: 'center', name: 'passport.code', title:false, cellattr: function (rowId, val, rawObject, cm, rdata) {
                 return 'data-tooltip="tooltip" data-container="#body-content" data-html="true" data-original-title="所在保险柜：' + rawObject.passport.safeBox.code + '<br> (过期时间：' + rawObject.passport.expiryDate.substr(0,10) + ')"';
@@ -263,7 +263,7 @@
                 width: 200,
                 formatter: function (cellvalue, options, rowObject) {
                     return cellvalue.replace(/\+\+\+/g, ',');
-                }
+                }, align:'left'
             },
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
             {label: '费用来源', name: 'costSource', width: 100},

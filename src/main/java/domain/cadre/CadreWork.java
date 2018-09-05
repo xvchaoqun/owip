@@ -22,6 +22,10 @@ public class CadreWork implements Serializable {
         this.subCadreWorks = subCadreWorks;
     }
 
+    public CadreView getCadre(){
+        return CmTag.getCadreById(cadreId);
+    }
+
     private Integer id;
 
     private Integer fid;
@@ -36,7 +40,7 @@ public class CadreWork implements Serializable {
 
     private String detail;
 
-    private Integer unitId;
+    private String unitIds;
 
     private Integer workType;
 
@@ -104,12 +108,12 @@ public class CadreWork implements Serializable {
         this.detail = detail == null ? null : detail.trim();
     }
 
-    public Integer getUnitId() {
-        return unitId;
+    public String getUnitIds() {
+        return unitIds;
     }
 
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
+    public void setUnitIds(String unitIds) {
+        this.unitIds = unitIds == null ? null : unitIds.trim();
     }
 
     public Integer getWorkType() {

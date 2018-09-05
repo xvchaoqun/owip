@@ -168,7 +168,7 @@ pageEncoding="UTF-8" %>
             { label: '姓名',name: 'applyUser.realname', width: 75, formatter:function(cellvalue, options, rowObject){
                 return $.cadre(rowObject.cadre.id, cellvalue);
             },frozen:true  },
-            { label: '所在单位及职务',  name: 'cadre.title', width: 250 },
+            { label: '所在单位及职务',  name: 'cadre.title', width: 250, align:'left' },
             { label: '申办证件名称', name: 'passportClass.name', width: 250 },
             <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_INIT}">
             { label: '审批', name: 'statusName', width: 100, formatter:function(cellvalue, options, rowObject){

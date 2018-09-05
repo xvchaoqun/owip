@@ -9,7 +9,7 @@
     <result column="start_time" jdbcType="DATE" property="startTime" />
     <result column="end_time" jdbcType="DATE" property="endTime" />
     <result column="detail" jdbcType="VARCHAR" property="detail" />
-    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="unit_ids" jdbcType="VARCHAR" property="unitIds" />
     <result column="work_type" jdbcType="INTEGER" property="workType" />
     <result column="is_cadre" jdbcType="BIT" property="isCadre" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -74,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, fid, sub_work_count, cadre_id, start_time, end_time, detail, unit_id, work_type, 
+    id, fid, sub_work_count, cadre_id, start_time, end_time, detail, unit_ids, work_type, 
     is_cadre, remark, status
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadreWorkExample" resultMap="BaseResultMap">
@@ -113,11 +113,11 @@
     </selectKey>
     insert into cadre_work (fid, sub_work_count, cadre_id, 
       start_time, end_time, detail, 
-      unit_id, work_type, is_cadre, 
+      unit_ids, work_type, is_cadre, 
       remark, status)
     values (#{fid,jdbcType=INTEGER}, #{subWorkCount,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
       #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, #{detail,jdbcType=VARCHAR}, 
-      #{unitId,jdbcType=INTEGER}, #{workType,jdbcType=INTEGER}, #{isCadre,jdbcType=BIT}, 
+      #{unitIds,jdbcType=VARCHAR}, #{workType,jdbcType=INTEGER}, #{isCadre,jdbcType=BIT}, 
       #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadreWork">
@@ -144,8 +144,8 @@
       <if test="detail != null">
         detail,
       </if>
-      <if test="unitId != null">
-        unit_id,
+      <if test="unitIds != null">
+        unit_ids,
       </if>
       <if test="workType != null">
         work_type,
@@ -179,8 +179,8 @@
       <if test="detail != null">
         #{detail,jdbcType=VARCHAR},
       </if>
-      <if test="unitId != null">
-        #{unitId,jdbcType=INTEGER},
+      <if test="unitIds != null">
+        #{unitIds,jdbcType=VARCHAR},
       </if>
       <if test="workType != null">
         #{workType,jdbcType=INTEGER},
@@ -226,8 +226,8 @@
       <if test="record.detail != null">
         detail = #{record.detail,jdbcType=VARCHAR},
       </if>
-      <if test="record.unitId != null">
-        unit_id = #{record.unitId,jdbcType=INTEGER},
+      <if test="record.unitIds != null">
+        unit_ids = #{record.unitIds,jdbcType=VARCHAR},
       </if>
       <if test="record.workType != null">
         work_type = #{record.workType,jdbcType=INTEGER},
@@ -255,7 +255,7 @@
       start_time = #{record.startTime,jdbcType=DATE},
       end_time = #{record.endTime,jdbcType=DATE},
       detail = #{record.detail,jdbcType=VARCHAR},
-      unit_id = #{record.unitId,jdbcType=INTEGER},
+      unit_ids = #{record.unitIds,jdbcType=VARCHAR},
       work_type = #{record.workType,jdbcType=INTEGER},
       is_cadre = #{record.isCadre,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -285,8 +285,8 @@
       <if test="detail != null">
         detail = #{detail,jdbcType=VARCHAR},
       </if>
-      <if test="unitId != null">
-        unit_id = #{unitId,jdbcType=INTEGER},
+      <if test="unitIds != null">
+        unit_ids = #{unitIds,jdbcType=VARCHAR},
       </if>
       <if test="workType != null">
         work_type = #{workType,jdbcType=INTEGER},
@@ -311,7 +311,7 @@
       start_time = #{startTime,jdbcType=DATE},
       end_time = #{endTime,jdbcType=DATE},
       detail = #{detail,jdbcType=VARCHAR},
-      unit_id = #{unitId,jdbcType=INTEGER},
+      unit_ids = #{unitIds,jdbcType=VARCHAR},
       work_type = #{workType,jdbcType=INTEGER},
       is_cadre = #{isCadre,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},

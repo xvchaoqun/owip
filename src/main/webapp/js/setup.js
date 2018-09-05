@@ -283,10 +283,13 @@ $.ajaxSetup({
 
         if (ret.msg == "login") {
 
-
-            SysMsg.info("登录超时或账号已在别处登录，请您重新登录", "登录超时",function(){
+            if(_hasLoginPage) {
+                SysMsg.info("登录超时或账号已在别处登录，请您重新登录", "登录超时", function () {
+                    location.reload();
+                });
+            }else{
                 location.reload();
-            });
+            }
             /*bootbox.dialog({
                 message: "登陆超时或账号已在别处登录，请您重新登陆",
                 closeButton: false,
@@ -999,8 +1002,11 @@ $(window).bind("hashchange", function () {
             NProgress.done();
         });
     }).fail(function () {
-        SysMsg.info("系统错误，请稍后再试。");
-
+        if(_hasLoginPage) {
+            SysMsg.info("系统错误，请稍后再试。");
+        }else{
+            location.reload();
+        }
         NProgress.done();
     });
 

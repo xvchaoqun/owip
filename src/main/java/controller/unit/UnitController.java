@@ -35,6 +35,7 @@ import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
+import sys.tool.tree.TreeNode;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
@@ -377,4 +378,17 @@ public class UnitController extends BaseController {
 
         return resultMap;
     }
+
+    @RequiresPermissions("unit:list")
+    @RequestMapping("/selectUnits_tree")
+    @ResponseBody
+    public Map selectUnits_tree(Byte status) throws IOException {
+
+        TreeNode tree = unitService.getTree(status, null);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
+    }
+
 }

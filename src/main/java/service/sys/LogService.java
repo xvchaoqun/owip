@@ -1,10 +1,8 @@
 package service.sys;
 
 import domain.sys.SysLog;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.BaseMapper;
-import service.base.MetaTypeService;
 import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.constants.SystemConstants;
@@ -21,14 +19,16 @@ import java.util.Date;
 @Service
 public class LogService extends BaseMapper {
 
-    @Autowired
-    private MetaTypeService metaTypeService;
-
+    // 登录后的操作日志
     public String log(Integer logType, String content){
 
         HttpServletRequest request = ContextHelper.getRequest();
         ShiroUser shiroUser = ShiroHelper.getShiroUser();
 
+        Object switchUser = request.getSession().getAttribute("_switchUser");
+        if(switchUser!=null){
+            content = String.format("[切换账号：%s]", switchUser) + content;
+        }
         SysLog record = new SysLog();
         record.setUserId(shiroUser.getId());
         record.setOperator(shiroUser.getUsername());
@@ -47,6 +47,7 @@ public class LogService extends BaseMapper {
                 SystemConstants.USER_TYPE_MAP.get(shiroUser.getType()), content );
     }
 
+    // 未登录的操作日志
     public String log(Integer userId, String username, Integer logType, String content){
 
         HttpServletRequest request = ContextHelper.getRequest();

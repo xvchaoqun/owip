@@ -63,7 +63,8 @@ public class UnitService extends BaseMapper {
         return iUnitMapper.findHistoryUnits(unitId);
     }
 
-    public TreeNode getTree(byte status, Set<Integer> unSelectIdSet){
+    // unSelectIdSet:不可选的
+    public TreeNode getTree(Byte status, Set<Integer> unSelectIdSet){
 
         if(null == unSelectIdSet) unSelectIdSet = new HashSet<>();
 
@@ -80,7 +81,10 @@ public class UnitService extends BaseMapper {
         Map<String, List<Unit>> unitMap = new LinkedHashMap<>();
 
         UnitExample example = new UnitExample();
-        example.createCriteria().andStatusEqualTo(status);
+        UnitExample.Criteria criteria = example.createCriteria();
+        if(status!=null){
+            criteria.andStatusEqualTo(status);
+        }
         example.setOrderByClause(" sort_order asc");
         List<Unit> units = unitMapper.selectByExample(example);
         for (Unit unit : units) {
@@ -111,6 +115,9 @@ public class UnitService extends BaseMapper {
                 TreeNode node = new TreeNode();
                 node.title = unit.getName();
                 node.key = unit.getId() + "";
+                if(unit.getStatus()==SystemConstants.UNIT_STATUS_HISTORY)
+                    node.addClass = "delete";
+
                 if (unSelectIdSet.contains(unit.getId().intValue())) {
                     node.hideCheckbox = true;
                     node.unselectable = true;

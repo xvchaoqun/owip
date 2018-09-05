@@ -281,7 +281,7 @@
                 return $.cadre(rowObject.cadre.id, cellvalue);
             }, frozen: true
             },
-            {label: '所在单位及职务', name: 'cadre.title', width: 250, frozen: true},
+            {label: '所在单位及职务', name: 'cadre.title', align:'left', width: 250, frozen: true},
             {label: '出行时间', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '回国时间', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
@@ -289,11 +289,11 @@
                 return $.dayDiff(rowObject.startDate, rowObject.endDate);
             }
             },
-            {label: '前往国家或地区', name: 'toCountry', width: 180},
+            {label: '前往国家或地区', name: 'toCountry', align:'left', width: 180},
             {
                 label: '因私出国（境）事由', name: 'reason', width: 200, formatter: function (cellvalue, options, rowObject) {
                 return cellvalue.replace(/\+\+\+/g, ',');
-            }
+            }, align:'left'
             },
             {
                 label: '组织部初审', name: 'expiryDate', cellattr: function (rowId, val, rowObject, cm, rdata) {

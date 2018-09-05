@@ -99,6 +99,7 @@ public class CadreWorkController extends BaseController {
                               Integer cadreId,
                               Integer fid, // fid=null时，读取工作经历；fid<=0时，读取全部 fid>0 读取期间工作
                               Boolean isCadre,
+                              Integer unitId, // 所属内设机构
                               @RequestParam(required = false, defaultValue = "0") int export,
                               Integer pageSize, Integer pageNo) throws IOException {
 
@@ -112,6 +113,9 @@ public class CadreWorkController extends BaseController {
 
         CadreWorkExample example = new CadreWorkExample();
         Criteria criteria = example.createCriteria().andStatusEqualTo(SystemConstants.RECORD_STATUS_FORMAL);
+        if(unitId!=null) {
+            criteria.andUnitIdsContain(unitId);
+        }
         example.setOrderByClause("start_time asc");
         if (fid != null) {
             if (fid > 0)
@@ -285,19 +289,21 @@ public class CadreWorkController extends BaseController {
     @RequiresPermissions("cadreWork:edit")
     @RequestMapping(value = "/cadreWork_updateUnitId", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreWork_updateUnitId(int id, Integer unitId, HttpServletRequest request) {
+    public Map do_cadreWork_updateUnitId(int id,
+                                         @RequestParam(value = "unitIds[]") Integer[] unitIds,
+                                         HttpServletRequest request) {
 
-        if(unitId==null){
+        if(unitIds==null || unitIds.length==0){
 
             commonMapper.excuteSql("update cadre_work set unit_id=null where id="+id);
-            logger.info(addLog(LogConstants.LOG_ADMIN, "删除对应工作单位：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "删除工作经历所属内设机构：%s", id));
         }else {
             CadreWork record = new CadreWork();
             record.setId(id);
-            record.setUnitId(unitId);
+            record.setUnitIds(StringUtils.join(unitIds, ","));
             cadreWorkService.updateByPrimaryKeySelective(record);
 
-            logger.info(addLog(LogConstants.LOG_ADMIN, "更新对应工作单位：%s", id));
+            logger.info(addLog(LogConstants.LOG_ADMIN, "更新工作经历所属内设机构：%s", id));
         }
 
         return success(FormUtils.SUCCESS);
@@ -310,14 +316,9 @@ public class CadreWorkController extends BaseController {
         if (id != null) {
             CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
             modelMap.put("cadreWork", cadreWork);
-            if(cadreWork.getUnitId()!=null){
-                modelMap.put("unit", unitService.findAll().get(cadreWork.getUnitId()));
-            }
         }
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
-        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-        modelMap.put("sysUser", sysUser);
 
         return "cadre/cadreWork/cadreWork_updateUnitId";
     }
