@@ -1,5 +1,9 @@
 
 20180906
+更新common-utils.jar
+
+
+20180906
 ALTER TABLE `cadre_work`
 	CHANGE COLUMN `unit_id` `unit_ids` VARCHAR(100) NULL DEFAULT NULL COMMENT '所属内设机构，包含历史单位' AFTER `detail`;
 

@@ -66,7 +66,7 @@
       {label: '设立时间', name: 'foundDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
       {label: '名称', name: 'name', width: 300, align: 'left', frozen:true},
       {label: '学习内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
-        return ('<button type="button" data-url="${ctx}/cet/cetCourseFile?courseId={0}" ' +
+        return ('<button type="button" data-url="${ctx}/cet/cetCourseFile?courseId={0}" data-width="800" ' +
                 'class="popupBtn btn btn-xs btn-success"><i class="ace-icon fa fa-search"></i> 详情</button>')
                 .format(rowObject.id)
       }, frozen:true},

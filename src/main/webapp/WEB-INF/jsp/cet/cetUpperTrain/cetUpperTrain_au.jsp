@@ -3,6 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_SELF" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_SELF%>"/>
 <c:set var="CET_UPPER_TRAIN_ADD_TYPE_OW" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_OW%>"/>
+<c:set var="CET_UPPER_TRAIN_ADD_TYPE_UNIT" value="<%=CetConstants.CET_UPPER_TRAIN_ADD_TYPE_UNIT%>"/>
 <c:set var="CET_UPPER_TRAIN_STATUS_INIT" value="<%=CetConstants.CET_UPPER_TRAIN_STATUS_INIT%>"/>
 <c:set var="CET_UPPER_TRAIN_STATUS_UNPASS" value="<%=CetConstants.CET_UPPER_TRAIN_STATUS_UNPASS%>"/>
 <c:set var="isMultiSelect" value="${empty param.id && addType!=CET_UPPER_TRAIN_ADD_TYPE_SELF}"/>
@@ -140,6 +141,7 @@ pageEncoding="UTF-8"%>
 					</div>
 				</div>
 				</c:if>
+				<c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_UNIT}">
 				<div class="form-group">
 					<label class="col-xs-4 control-label">派出单位</label>
 					<div class="col-xs-8">
@@ -159,9 +161,11 @@ pageEncoding="UTF-8"%>
 						</div>
 					</div>
 				</div>
-				<div class="form-group" id="unitDiv" style="display: ${cetUpperTrain.type?'block':'none'}">
+				<div class="form-group" id="unitDiv"
+					 style="display: ${cetUpperTrain.type?'block':'none'}">
 					<div class="col-xs-offset-4 col-xs-6">
-						<select ${cetUpperTrain.type?'required':''} data-rel="select2" data-width="${selectWidth}" name="unitId" data-placeholder="请选择派出单位">
+						<select ${cetUpperTrain.type?'required':''}
+								data-rel="select2" data-width="${selectWidth}" name="unitId" data-placeholder="请选择派出单位">
 							<option></option>
 							<c:forEach var="unit" items="${upperUnits}">
 								<option value="${unit.id}">${unit.name}</option>
@@ -172,6 +176,25 @@ pageEncoding="UTF-8"%>
 						</script>
 					</div>
 				</div>
+				</c:if>
+				<c:if test="${param.addType==CET_UPPER_TRAIN_ADD_TYPE_UNIT}">
+				<div class="form-group">
+					<label class="col-xs-4 control-label">派出单位</label>
+					<div class="col-xs-8">
+						<input type="hidden" name="type" value="1">
+
+						<select required data-rel="select2" data-width="${selectWidth}" name="unitId" data-placeholder="请选择派出单位">
+							<option></option>
+							<c:forEach var="unit" items="${upperUnits}">
+								<option value="${unit.id}">${unit.name}</option>
+							</c:forEach>
+						</select>
+						<script>
+							$("#modalForm select[name=unitId]").val('${cetUpperTrain.unitId}')
+						</script>
+					</div>
+				</div>
+				</c:if>
 				<div class="form-group">
 					<label class="col-xs-4 control-label">备注</label>
 					<div class="col-xs-6">

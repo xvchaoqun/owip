@@ -167,6 +167,7 @@ public class ScSubsidyService extends BaseMapper {
 
         ScSubsidy scSubsidy = scSubsidyMapper.selectByPrimaryKey(id);
         String code = (type==1)?scSubsidy.getHrCode():scSubsidy.getFeCode();
+        String filename = (type==1)?"sc_subsidy_hr.xlsx":"sc_subsidy_fe.xlsx";
         String schoolName = CmTag.getSysConfig().getSchoolName();
         String date = DateUtils.formatDate(scSubsidy.getInfoDate(), "yyyy年MM月dd日");
 
@@ -174,7 +175,7 @@ public class ScSubsidyService extends BaseMapper {
         example.createCriteria().andSubsidyIdEqualTo(scSubsidy.getId());
         List<ScSubsidyCadre> scSubsidyCadres = scSubsidyCadreMapper.selectByExample(example);
 
-        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/sc/sc_subsidy.xlsx"));
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/sc/"+filename));
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
