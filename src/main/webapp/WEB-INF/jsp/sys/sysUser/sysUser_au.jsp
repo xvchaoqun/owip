@@ -15,7 +15,7 @@
 			  <div class="label-text">${sysUser.username}</div>
 			</c:if>
 			  <c:if test="${empty sysUser}">
-			  <input class="form-control" type="text" name="username" value="${sysUser.username}">
+			  <input class="form-control" autocomplete="off" disableautocomplete type="text" name="username" value="${sysUser.username}">
 			  <span class="help-block">由5~15数字和小写字母组成</span>
 			  </c:if>
           </div>
@@ -24,7 +24,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">密码</label>
           <div class="col-xs-6">
-			   <input class="form-control" autocomplete="off" type="text" onfocus="this.type='password'" name="passwd" >
+			   <input class="form-control" autocomplete="off" disableautocomplete type="text" name="passwd" >
           </div>
         </div>
         </c:if>
@@ -45,7 +45,7 @@
     	<div class="form-group">
           <label class="col-xs-3 control-label">学工号</label>
           <div class="col-xs-6">
-			   <input required class="form-control" type="text" name="code" value="${sysUser.code}">
+			   <input required class="form-control" autocomplete="off" disableautocomplete type="text" name="code" value="${sysUser.code}">
           </div>
         </div>
     	<div class="form-group">
