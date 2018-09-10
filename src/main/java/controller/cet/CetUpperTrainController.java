@@ -302,7 +302,7 @@ public class CetUpperTrainController extends CetBaseController {
                 record.setStatus(null);
             }
 
-            if(!ShiroHelper.isPermitted("cetUpperTrain:edit")) {
+            //if(!ShiroHelper.isPermitted("cetUpperTrain:edit")) {
 
                 int currentUserId = ShiroHelper.getCurrentUserId();
 
@@ -348,7 +348,7 @@ public class CetUpperTrainController extends CetBaseController {
                         }
                     }
                 }
-            }
+            //}
 
         }else{
             throw new OpException("参数有误。");

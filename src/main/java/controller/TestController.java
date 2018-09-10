@@ -6,6 +6,7 @@ import domain.sys.SysResourceExample;
 import job.Test;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
+import org.apache.commons.lang.math.RandomUtils;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -49,6 +50,22 @@ public class TestController extends BaseController {
     //TestServcie testServcie;
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
+
+
+    @RequestMapping(value = "/startjob1")
+    @ResponseBody
+    public String startjob1() throws SchedulerException {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.SECOND, RandomUtils.nextInt(10) + 5);
+
+        String jobName = "job_1";
+        Scheduler sched = schedulerFactoryBean.getScheduler();
+        QuartzManager.startJob(sched, jobName, Test.class, cal.getTime());
+
+        return "start job " + jobName + " at " + DateUtils.formatDate(cal.getTime(), DateUtils.YYYY_MM_DD_HH_MM_SS);
+    }
 
     @RequestMapping(value = "/startjob")
     @ResponseBody

@@ -39,7 +39,7 @@ public class ExtUnitService extends Source {
                 unitMap.put(record.getCode(), record);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error("查询学校单位列表异常", e);
         } finally {
             try {
                 rs.close();

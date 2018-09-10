@@ -153,7 +153,7 @@ public class CadreAdformService extends BaseMapper{
 
                 bean.setSchool(fulltimeEdu.getSchool());
                 bean.setDepMajor(StringUtils.trimToEmpty(CadreUtils.major(fulltimeEdu.getMajor())));
-                _fulltimeMajor = bean.getSchool() + bean.getDepMajor();
+                _fulltimeMajor = bean.getSchool() + StringUtils.trimToEmpty(fulltimeEdu.getDep()) + bean.getDepMajor();
 
                 _fulltimeDegree = fulltimeEdu.getDegree(); // 学位
             }
@@ -169,7 +169,7 @@ public class CadreAdformService extends BaseMapper{
                 bean.setInSchool(onjobEdu.getSchool());
                 bean.setInDepMajor(StringUtils.trimToEmpty(CadreUtils.major(onjobEdu.getMajor())));
 
-                _onjobMajor = bean.getInSchool() + bean.getInDepMajor();
+                _onjobMajor = bean.getInSchool() + StringUtils.trimToEmpty(onjobEdu.getDep()) + bean.getInDepMajor();
 
                 _onjobDegree = onjobEdu.getDegree();
             }
