@@ -21,7 +21,7 @@
 <w:p wsp:rsidR="00E759EF" wsp:rsidRPr="00B62C14" wsp:rsidRDefault="003445E9" wsp:rsidP="0011161C">
     <w:pPr>
         <w:spacing w:line="${line}" w:line-rule="exact"/>
-        <#if needHanging?? && needWhiteSpace>
+        <#if needHanging?? && needHanging>
         <w:ind w:left="2000" w:hanging="2000"/>
         </#if>
     </w:pPr>
