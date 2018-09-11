@@ -146,7 +146,6 @@ import persistence.cla.ClaApproverMapper;
 import persistence.cla.ClaApproverTypeMapper;
 import persistence.cla.common.IClaMapper;
 import persistence.common.CommonMapper;
-import persistence.common.IExtMapper;
 import persistence.common.IPartyMapper;
 import persistence.common.IPropertyMapper;
 import persistence.common.ISysMapper;
@@ -1235,8 +1234,6 @@ public class BaseMapper {
     @Autowired(required = false)
     protected StatMemberMapper statMemberMapper;
 
-    @Autowired(required = false)
-    protected IExtMapper iExtMapper;
     @Autowired(required = false)
     protected ExtYjsMapper extYjsMapper;
     @Autowired(required = false)

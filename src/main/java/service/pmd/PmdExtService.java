@@ -330,7 +330,7 @@ public class PmdExtService extends BaseMapper{
     // <userId, MemberTeacher>
     public BigDecimal getLtxf(String code){
 
-        return iExtMapper.getLtxf(code);
+        return iPmdMapper.getLatestLtxf(code);
     }
 
     // 根据离退休费计算党费
