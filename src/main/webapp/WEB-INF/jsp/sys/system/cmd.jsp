@@ -6,7 +6,7 @@
         <table class="table table-bordered table-unhover2">
             <tr>
                 <td>
-        <form action="${ctx}/system/cmd" method="post" id="modalForm" class="form-inline">
+        <form id="modalForm" class="form-inline">
             <textarea required class="noEnter" rows="2" name="cmd" style="width: 500px"></textarea>
         </form>
         <button id="submitBtn" class="btn btn-primary"><i class="fa fa-edit"></i> 执行</button>
@@ -68,22 +68,20 @@
 
     $("#submitBtn").click(function () {
         $("#result").html("");
-        $("#modalForm").submit();
-        return false;
-    });
-    $("#modalForm").validate({
-        submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                success: function (ret) {
-                    if (ret.msg == "success") {
-                        $("#result").html(_.template($("#result_tpl").html().NoMultiSpace())({
-                            lines: ret.lines
-                        }));
-                    }
-                }, error: function (ret) {
-                    bootbox.alert("系统异常，请稍后再试。");
-                }
-            });
+
+        var cmd = $("#modalForm textarea[name=cmd]").val();
+        if($.trim(cmd)==''){
+            $("#modalForm textarea[name=cmd]").focus();
+            return;
         }
+        $.post("${ctx}/system/cmd",{cmd:new Base64().encode($.trim(cmd))},function(ret){
+            if (ret.msg == "success") {
+                $("#result").html(_.template($("#result_tpl").html().NoMultiSpace())({
+                    lines: ret.lines
+                }));
+            }
+        })
+
+        return false;
     });
 </script>

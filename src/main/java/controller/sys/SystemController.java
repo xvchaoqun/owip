@@ -58,16 +58,18 @@ public class SystemController extends BaseController {
     @RequiresPermissions("system:cmd")
     @RequestMapping(value = "cmd", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cmd(String cmd, ModelMap modelMap) throws IOException {
+    public Map do_cmd(String cmd, ModelMap modelMap) throws Exception {
 
         boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
         if (!superAccount) {
             return failed("没有权限。");
         }
 
+        cmd = new String(Base64Utils.decode(cmd), "utf-8");
+
         List<String> returnLines = new ArrayList<>();
         try {
-            logger.info(addLog(LogConstants.LOG_ADMIN, "cmd:%s", cmd.trim()));
+            logger.info("start cmd:{}", cmd.trim());
 
             Process process = Runtime.getRuntime().exec(
                     new String[]{"/bin/sh", "-c", cmd.trim()});
@@ -165,8 +167,11 @@ public class SystemController extends BaseController {
         cmd += ">" + tmpFile;
 
         try {
+
+            logger.info("start cmd:{}", cmd.trim());
+
             Process process = Runtime.getRuntime().exec(
-                    new String[]{"/bin/sh", "-c", cmd});
+                    new String[]{"/bin/sh", "-c", cmd.trim()});
             process.waitFor();
 
             response.setHeader("Set-Cookie", "fileDownload=true; path=/");
@@ -208,6 +213,8 @@ public class SystemController extends BaseController {
 
         List<String> returnLines = new ArrayList<>();
         try {
+            logger.info("start cmd:{}", cmd.trim());
+
             Process process = Runtime.getRuntime().exec(
                     new String[]{"/bin/sh", "-c", cmd});
             BufferedReader inputBufferedReader = new BufferedReader(
