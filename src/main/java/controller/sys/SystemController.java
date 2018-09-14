@@ -67,7 +67,7 @@ public class SystemController extends BaseController{
         List<String> returnLines = new ArrayList<>();
         try {
             Process process = Runtime.getRuntime().exec(
-                    new String[]{"sh", "-c", cmd.trim()});
+                    new String[]{"/bin/sh", "-c", cmd.trim()});
             BufferedReader inputBufferedReader = new BufferedReader(
                     new InputStreamReader(process.getInputStream(), "UTF-8"));
             String line = null;
@@ -108,7 +108,7 @@ public class SystemController extends BaseController{
 
         try {
             Process process = Runtime.getRuntime().exec(
-                    new String[]{"sh", "-c", cmd});
+                    new String[]{"/bin/sh", "-c", cmd});
             process.waitFor();
 
             response.setHeader("Set-Cookie", "fileDownload=true; path=/");
@@ -142,16 +142,16 @@ public class SystemController extends BaseController{
         if(!superAccount){
             return failed("没有权限。");
         }
-
+        sql = sql.replaceAll("\n", ";");
         String cmd = MessageFormat.format("mysql -u{0} -p\"{1}\" -e\"use {2};{3}\"",
                 PropertiesUtils.getString("jdbc_user"),
                 PropertiesUtils.getString("jdbc_password"),
-                PropertiesUtils.getString("db.schema"), sql.replaceAll("\n", ";"));
+                PropertiesUtils.getString("db.schema"), sql);
 
         List<String> returnLines = new ArrayList<>();
         try {
             Process process = Runtime.getRuntime().exec(
-                    new String[]{"sh", "-c", cmd});
+                    new String[]{"/bin/sh", "-c", cmd});
             BufferedReader inputBufferedReader = new BufferedReader(
                     new InputStreamReader(process.getInputStream(), "UTF-8"));
             String line = null;
@@ -170,7 +170,7 @@ public class SystemController extends BaseController{
         }
 
         Map<String, Object> resultMap = success();
-        resultMap.put("cmd", cmd);
+        resultMap.put("sql", sql);
         resultMap.put("lines", returnLines);
         return resultMap;
     }
