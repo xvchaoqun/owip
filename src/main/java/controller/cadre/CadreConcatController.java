@@ -3,6 +3,7 @@ package controller.cadre;
 import controller.BaseController;
 import domain.cadre.CadreView;
 import domain.sys.SysUserInfo;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -39,7 +40,9 @@ public class CadreConcatController extends BaseController {
     @RequiresPermissions("cadreConcat:edit")
     @RequestMapping(value = "/cadreConcat_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadreConcat_au(int userId, String mobile, String phone, String homePhone,
+    public Map do_cadreConcat_au(int userId,
+                                 String mobile, String msgMobile, Boolean notSendMsg,
+                                 String phone, String homePhone,
                                  String msgTitle, String email, HttpServletRequest request) {
 
         if(StringUtils.isNotBlank(mobile)) {
@@ -47,10 +50,17 @@ public class CadreConcatController extends BaseController {
                return failed("手机号码有误");
             }
         }
+        if(StringUtils.isNotBlank(msgMobile)) {
+            if (!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)) {
+               return failed("代收短信手机号码有误");
+            }
+        }
 
         SysUserInfo record = new SysUserInfo();
         record.setUserId(userId);
         record.setMobile(mobile);
+        record.setMsgMobile(msgMobile);
+        record.setNotSendMsg(BooleanUtils.isTrue(notSendMsg));
         record.setPhone(phone);
         record.setHomePhone(homePhone);
         record.setMsgTitle(msgTitle);

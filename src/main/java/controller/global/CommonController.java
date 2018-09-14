@@ -81,6 +81,7 @@ public class CommonController extends BaseController {
 
                 if(isAdmin) {
                     option.put("mobile", uv.getMobile());
+                    option.put("msgMobile", uv.getMsgMobile());
                 }
 
                 if(needPrivate) {

@@ -41,7 +41,7 @@ pageEncoding="UTF-8"%>
     var $selectCadre = $.register.user_select($('#modalForm select[name=receiverId]'));
     $selectCadre.on("change",function(){
         var ret = $(this).select2("data")[0];
-        $('#modalForm input[name=mobile]').val(ret.mobile);
+        $('#modalForm input[name=mobile]').val(ret.msgMobile || ret.mobile);
     });
 
     $('textarea.limited').inputlimiter();

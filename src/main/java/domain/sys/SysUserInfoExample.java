@@ -1272,6 +1272,136 @@ public class SysUserInfoExample {
             return (Criteria) this;
         }
 
+        public Criteria andMsgMobileIsNull() {
+            addCriterion("msg_mobile is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileIsNotNull() {
+            addCriterion("msg_mobile is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileEqualTo(String value) {
+            addCriterion("msg_mobile =", value, "msgMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileNotEqualTo(String value) {
+            addCriterion("msg_mobile <>", value, "msgMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileGreaterThan(String value) {
+            addCriterion("msg_mobile >", value, "msgMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileGreaterThanOrEqualTo(String value) {
+            addCriterion("msg_mobile >=", value, "msgMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileLessThan(String value) {
+            addCriterion("msg_mobile <", value, "msgMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileLessThanOrEqualTo(String value) {
+            addCriterion("msg_mobile <=", value, "msgMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileLike(String value) {
+            addCriterion("msg_mobile like", value, "msgMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileNotLike(String value) {
+            addCriterion("msg_mobile not like", value, "msgMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileIn(List<String> values) {
+            addCriterion("msg_mobile in", values, "msgMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileNotIn(List<String> values) {
+            addCriterion("msg_mobile not in", values, "msgMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileBetween(String value1, String value2) {
+            addCriterion("msg_mobile between", value1, value2, "msgMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgMobileNotBetween(String value1, String value2) {
+            addCriterion("msg_mobile not between", value1, value2, "msgMobile");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotSendMsgIsNull() {
+            addCriterion("not_send_msg is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotSendMsgIsNotNull() {
+            addCriterion("not_send_msg is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotSendMsgEqualTo(Boolean value) {
+            addCriterion("not_send_msg =", value, "notSendMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotSendMsgNotEqualTo(Boolean value) {
+            addCriterion("not_send_msg <>", value, "notSendMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotSendMsgGreaterThan(Boolean value) {
+            addCriterion("not_send_msg >", value, "notSendMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotSendMsgGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("not_send_msg >=", value, "notSendMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotSendMsgLessThan(Boolean value) {
+            addCriterion("not_send_msg <", value, "notSendMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotSendMsgLessThanOrEqualTo(Boolean value) {
+            addCriterion("not_send_msg <=", value, "notSendMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotSendMsgIn(List<Boolean> values) {
+            addCriterion("not_send_msg in", values, "notSendMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotSendMsgNotIn(List<Boolean> values) {
+            addCriterion("not_send_msg not in", values, "notSendMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotSendMsgBetween(Boolean value1, Boolean value2) {
+            addCriterion("not_send_msg between", value1, value2, "notSendMsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andNotSendMsgNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("not_send_msg not between", value1, value2, "notSendMsg");
+            return (Criteria) this;
+        }
+
         public Criteria andUnitIsNull() {
             addCriterion("unit is null");
             return (Criteria) this;

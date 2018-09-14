@@ -197,24 +197,28 @@ public class ScSubsidyService extends BaseMapper {
                 .replace("date", date);
         cell.setCellValue(str);
 
-        // 附表
-        sheet = wb.getSheetAt(1);
-        XSSFSheet templateSheet = wb.getSheetAt(2);
-        {
-            ScSubsidyCadre scSubsidyCadre = scSubsidyCadres.get(0);
-            renderCadre(sheet, scSubsidyCadre, 0);
-        }
+
         int size = scSubsidyCadres.size();
-        int i = 0;
-        for (; i < size - 1; i++) {
+        if(size>0) {
+            // 附表
+            sheet = wb.getSheetAt(1);
+            XSSFSheet templateSheet = wb.getSheetAt(2);
+            {
+                ScSubsidyCadre scSubsidyCadre = scSubsidyCadres.get(0);
+                renderCadre(sheet, scSubsidyCadre, 0);
+            }
 
-            ExcelUtils.copyRows(1, 8, 8 * (i + 1), templateSheet, sheet);
+            int i = 0;
+            for (; i < size - 1; i++) {
 
-            XSSFRow indexRow = sheet.getRow(1 + 8 * (i + 1));
-            indexRow.getCell(0).setCellValue(i + 2);
+                ExcelUtils.copyRows(1, 8, 8 * (i + 1), templateSheet, sheet);
 
-            ScSubsidyCadre scSubsidyCadre = scSubsidyCadres.get(i + 1);
-            renderCadre(sheet, scSubsidyCadre, 8 * (i + 1));
+                XSSFRow indexRow = sheet.getRow(1 + 8 * (i + 1));
+                indexRow.getCell(0).setCellValue(i + 2);
+
+                ScSubsidyCadre scSubsidyCadre = scSubsidyCadres.get(i + 1);
+                renderCadre(sheet, scSubsidyCadre, 8 * (i + 1));
+            }
         }
 
         wb.removeSheetAt(2);// 移除模板

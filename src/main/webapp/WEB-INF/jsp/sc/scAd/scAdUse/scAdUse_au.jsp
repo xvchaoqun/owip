@@ -45,28 +45,30 @@
                 <label class="label-text">
                     <input required name="isOnCampus" type="radio" class="ace"
                            value="0"
-                           <c:if test="${!scAdUse.isOnCampus}">checked</c:if>/>
+                           <c:if test="${not empty scAdUse && !scAdUse.isOnCampus}">checked</c:if>/>
                     <span class="lbl"> 校外单位</span>
                 </label>
                 <label class="label-text">
                     <input required name="isOnCampus" type="radio" class="ace"
                            value="1"
-                           <c:if test="${scAdUse.isOnCampus}">checked</c:if>/>
+                           <c:if test="${empty scAdUse || scAdUse.isOnCampus}">checked</c:if>/>
                     <span class="lbl"> 校内单位</span>
                 </label>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="onCampusUnit">
             <label class="col-xs-3 control-label">使用单位</label>
-
-            <div class="col-xs-6" id="onCampusUnit" style="display: none">
+            <div class="col-xs-6">
                 <select data-rel="select2-ajax" data-width="270" data-ajax-url="${ctx}/unit_selects?status=1"
                         name="unitId" data-placeholder="请选择单位">
                     <option value="${scAdUse.unit.id}">${scAdUse.unit.name}</option>
                 </select>
             </div>
-            <div class="col-xs-6" id="notOnCampusUnit">
-                <input required class="form-control" type="text" name="outUnit" value="${scAdUse.outUnit}">
+        </div>
+        <div class="form-group" id="notOnCampusUnit" style="display: none">
+            <label class="col-xs-3 control-label">使用单位</label>
+            <div class="col-xs-6">
+                <input class="form-control" type="text" name="outUnit" value="${scAdUse.outUnit}">
             </div>
         </div>
         <div class="form-group">
@@ -80,7 +82,7 @@
             <label class="col-xs-3 control-label">干部</label>
 
             <div class="col-xs-6">
-                <select data-rel="select2-ajax"
+                <select required data-rel="select2-ajax"
                         data-ajax-url="${ctx}/cadre_selects?types=${CADRE_STATUS_MIDDLE},${CADRE_STATUS_LEADER}"
                         name="cadreId" data-placeholder="请输入账号或姓名或教工号" data-width="270">
                     <option value="${scAdUse.cadre.id}">${scAdUse.cadre.realname}-${scAdUse.cadre.code}</option>
@@ -105,14 +107,16 @@
 
 <script>
     $("#modalForm input[name=isOnCampus]").change(function () {
-        if ($(this).val() == 1) {
-            $("#modalForm select[name=unitId]").attr("required", "required");
-            $("#modalForm input[name=unit]").removeAttr("required");
+
+        if ($(this).val() == '1') {
+            $("#modalForm select[name=unitId]").prop("required", true);
+            $("#modalForm input[name=outUnit]").removeAttr("required");
             $("#modalForm #onCampusUnit").show();
             $("#modalForm #notOnCampusUnit").hide();
+
         } else {
             $("#modalForm select[name=unitId]").removeAttr("required");
-            $("#modalForm input[name=unit]").attr("required", "required");
+            $("#modalForm input[name=outUnit]").prop("required", true);
             $("#modalForm #onCampusUnit").hide();
             $("#modalForm #notOnCampusUnit").show();
         }

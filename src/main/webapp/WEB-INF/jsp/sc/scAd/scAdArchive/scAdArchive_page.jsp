@@ -121,6 +121,7 @@
 
                 return editBtn;
             }},
+            <shiro:hasPermission name="cisInspectObj:list">
             {label: '干部考察材料', name: '_cisFilePath', width: 180, formatter: function (cellvalue, options, rowObject) {
 
                 if(!rowObject.hasAppoint) return '-'
@@ -141,6 +142,7 @@
 
                 return editBtn;
             }},
+            </shiro:hasPermission>
             {label: '正式归档扫描件', name: '_pdf', width: 220, formatter: function (cellvalue, options, rowObject) {
                 var str = "";
                 if($.trim(rowObject.signFilePath)!='')

@@ -430,6 +430,15 @@ $(document).on("click", ".myTableDiv .exportBtn", function () {
     location.href = $div.data("url-page") + "?export=1&" + $("div.myTableDiv #searchForm").serialize();
 });
 
+// 下载
+$(document).on("click", ".downloadBtn", function () {
+
+    var $this = $(this);
+    var url = $this.data("url");
+    $this.download(url);
+    return false;
+});
+
 // 删除
 $(document).on("click", ".myTableDiv .delBtn", function () {
 

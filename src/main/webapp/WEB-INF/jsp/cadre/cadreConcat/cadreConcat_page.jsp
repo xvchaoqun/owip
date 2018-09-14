@@ -22,6 +22,21 @@ pageEncoding="UTF-8" %>
                         <span class="editable" >${cadre.mobile}</span>
                     </div>
                 </div>
+                <c:if test="${not empty cadre.user.msgMobile}">
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 代收短信 </div>
+
+                    <div class="profile-info-value">
+                        <span class="editable" >${cadre.user.msgMobile}</span>
+                    </div>
+                </div>
+                </c:if>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> 接收短信 </div>
+                    <div class="profile-info-value">
+                        <span class="editable" >${cadre.user.notSendMsg?'否':'是'}</span>
+                    </div>
+                </div>
                 <div class="profile-info-row">
                     <div class="profile-info-name"> 短信称谓</div>
 

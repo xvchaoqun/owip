@@ -1,5 +1,6 @@
 package freemarker;
 
+import bean.CadreInfoForm;
 import domain.cadre.CadreInfo;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import service.cadre.CadreAdformService;
 import service.cadre.CadreInfoService;
 import sys.constants.CadreConstants;
 import sys.utils.DocumentHandler;
@@ -56,7 +58,21 @@ public class CadreTplTest {
     private FreeMarkerConfigurer freeMarkerConfigurer;
     @Autowired
     private CadreInfoService cadreInfoService;
+    @Autowired
+    private CadreAdformService cadreAdformService;
 
+    @Test
+    public void exportCadre() throws IOException, TemplateException {
+
+        int cadreId = 54;
+        FileOutputStream fos = new FileOutputStream("D:/tmp/"+cadreId+".doc");
+        OutputStreamWriter oWriter = new OutputStreamWriter(fos, "UTF-8");
+
+        CadreInfoForm adform = cadreAdformService.getCadreAdform(cadreId);
+        cadreAdformService.process(adform, oWriter);
+
+
+    }
 
     //导出到word
     public void exportWord(HttpServletRequest request, HttpServletResponse response) throws Exception {

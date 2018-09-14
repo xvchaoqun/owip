@@ -954,7 +954,7 @@ var _modal_width;
             var $btn = $this.button('loading');
             var text = $this.data("loading-text");
             if($.trim(text)==''){
-                $this.data("loading-text", '正在导出')
+                $this.data("loading-text", '<i class="fa fa-spinner fa-spin"></i> 正在导出')
             }
             $.fileDownload(url, {
                 prepareCallback:function(url){},
@@ -989,7 +989,8 @@ if (typeof toastr != 'undefined') {
     toastr.options = {
         "closeButton": true,
         "debug": false,
-        "positionClass": "toast-bottom-full-width",
+        //"positionClass": "toast-bottom-full-width",
+        "positionClass": "toast-top-right",
         "onclick": null,
         "showDuration": "300",
         "hideDuration": "1000",

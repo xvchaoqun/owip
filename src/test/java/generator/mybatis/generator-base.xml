@@ -91,14 +91,13 @@
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
            <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
          </table>-->
-       <!-- <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
+        <table tableName="sys_user_view" domainObjectName="sys.SysUserView" mapperName="sys.SysUserViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="role_ids" jdbcType="VARCHAR"></columnOverride>
         </table>
-
-         <table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
+         <!--<table tableName="sys_user_info" domainObjectName="sys.SysUserInfo" mapperName="sys.SysUserInfoMapper">
           </table>-->
         <!--<table tableName="sys_student_info" domainObjectName="sys.StudentInfo">
            <ignoreColumn column="update_time"/>

@@ -38,6 +38,10 @@ public class SysUserInfo implements Serializable {
 
     private String mobile;
 
+    private String msgMobile;
+
+    private Boolean notSendMsg;
+
     private String unit;
 
     private String phone;
@@ -184,6 +188,22 @@ public class SysUserInfo implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile == null ? null : mobile.trim();
+    }
+
+    public String getMsgMobile() {
+        return msgMobile;
+    }
+
+    public void setMsgMobile(String msgMobile) {
+        this.msgMobile = msgMobile == null ? null : msgMobile.trim();
+    }
+
+    public Boolean getNotSendMsg() {
+        return notSendMsg;
+    }
+
+    public void setNotSendMsg(Boolean notSendMsg) {
+        this.notSendMsg = notSendMsg;
     }
 
     public String getUnit() {

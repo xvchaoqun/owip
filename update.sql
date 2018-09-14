@@ -1,4 +1,15 @@
 
+
+
+20180915
+ALTER TABLE `sys_user_info`
+	ADD COLUMN `msg_mobile` VARCHAR(100) NULL DEFAULT NULL COMMENT '代收短信的手机号，如果存在代收手机号，则发短信至代收手机号' AFTER `mobile`,
+	ADD COLUMN `not_send_msg` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否禁止给手机发送短信，如果禁止，那么代收手机号同样不收短信' AFTER `msg_mobile`;
+
+更新 sys_user_view
+
+
+
 -- 更新西交大
 20180906
 更新common-utils.jar

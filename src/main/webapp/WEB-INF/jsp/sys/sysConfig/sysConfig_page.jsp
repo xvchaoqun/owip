@@ -5,29 +5,7 @@
     <div class="col-xs-12">
         <div class="page-header">
             <h1>
-                <i class="fa fa-soundcloud"></i> 缓存管理
-            </h1>
-        </div>
-        <div class="buttons">
-            <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/clear" data-callback="_reload"
-                    data-msg="确定清空系统缓存？">清空缓存
-            </button>
-
-            <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/flush_metadata_JSON"
-                    data-msg="重新生成元数据资源文件？">
-                重新生成元数据资源文件（metadata.js）
-            </button>
-
-            <button class="btn btn-success confirm btn-sm" data-url="${ctx}/cache/flush_location_JSON"
-                    data-msg="重新生成省地市资源文件？">
-                重新生成省地市资源文件（location.js）
-            </button>
-        </div>
-        <br/>
-
-        <div class="page-header">
-            <h1>
-                <i class="fa fa-gears"></i> 系统设置
+                <i class="fa fa-gears"></i> 参数设置
             </h1>
         </div>
         <form class="form-horizontal" action="${ctx}/sysConfig_au" id="configForm" method="post">

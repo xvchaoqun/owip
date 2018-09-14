@@ -154,7 +154,7 @@ pageEncoding="UTF-8"%>
 					var user = {dispatchCadreId: d.id,
 						dispatchCode: d.dispatch.dispatchCode,
 						realname: d.user.realname,
-						code: d.user.code, hasImport: d.hasImport, passports: d.passports};
+						code: d.user.code, hasImport: d.hasImport, passports: d.passports||[]};
 					var contains = false;
 					$.each(selectedUsers, function (i, user) {
 						if (user.dispatchCadreId == d.id) {
@@ -164,7 +164,7 @@ pageEncoding="UTF-8"%>
 					})
 					if(!contains) selectedUsers.push(user);
 				})
-				//console.log(selectedUsers)
+				console.log(selectedUsers)
 				$("#itemList").empty().append(_.template($("#itemListTpl").html())({users: selectedUsers}));
 		})
 	}

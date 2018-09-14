@@ -7,6 +7,7 @@ import domain.base.ShortMsg;
 import domain.base.ShortMsgExample;
 import domain.sys.SysUserView;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
@@ -17,9 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.SpringProps;
-import service.cadre.CadreService;
 import service.sys.SysUserService;
-import service.sys.UserBeanService;
 import shiro.PasswordHelper;
 import sys.SendMsgResult;
 import sys.SendMsgUtils;
@@ -45,10 +44,6 @@ public class ShortMsgService extends BaseMapper {
 
     @Autowired
     private SysUserService sysUserService;
-    @Autowired
-    private UserBeanService userBeanService;
-    @Autowired
-    private CadreService cadreService;
 
     @Autowired
     private SpringProps springProps;
@@ -119,16 +114,23 @@ public class ShortMsgService extends BaseMapper {
         Integer receiver = shortMsgBean.getReceiver();
         String content = shortMsgBean.getContent();
         String type = shortMsgBean.getType();
+        String mobile = shortMsgBean.getMobile();
 
+        boolean sendMsg = true;
         SysUserView uv = null;
-        if(receiver!=null) {
+        if(receiver!=null) { // 给系统用户发短信
             uv = sysUserService.findById(receiver);
             if (uv == null) {
                 throw new OpException("用户不存在。");
             }
+            String msgMobile = uv.getMsgMobile();
+            if(StringUtils.isNotBlank(msgMobile)){
+                mobile = msgMobile; // 代收短信手机号码
+            }
+            sendMsg = BooleanUtils.isFalse(uv.getNotSendMsg());
         }
-        String mobile = shortMsgBean.getMobile();
-        if(!FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
+
+        if(sendMsg && !FormUtils.match(PropertiesUtils.getString("mobile.regex"), mobile)){
             throw new OpException("{0}（工号：{1}）手机号码有误（{2}）", uv.getRealname(), uv.getCode(), mobile);
         }
         if(StringUtils.isBlank(content)){
@@ -148,10 +150,16 @@ public class ShortMsgService extends BaseMapper {
 
         boolean result = false;
         if(springProps.shortMsgSend) {
-            SendMsgResult sendMsgResult = SendMsgUtils.sendMsg(mobile, content);
-            result = sendMsgResult.isSuccess();
+            String ret = null;
+            if(sendMsg) {
+                SendMsgResult sendMsgResult = SendMsgUtils.sendMsg(mobile, content);
+                result = sendMsgResult.isSuccess();
+                ret = sendMsgResult.getMsg();
+            }else{
+                ret = "系统禁止发送短信";
+            }
             record.setStatus(result);
-            record.setRet(sendMsgResult.getMsg());
+            record.setRet(ret);
             shortMsgMapper.insertSelective(record);
         }else{
             record.setRemark("test");

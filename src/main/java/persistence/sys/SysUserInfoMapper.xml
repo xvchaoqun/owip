@@ -19,6 +19,8 @@
     <result column="health" jdbcType="INTEGER" property="health" />
     <result column="sign" jdbcType="VARCHAR" property="sign" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="msg_mobile" jdbcType="VARCHAR" property="msgMobile" />
+    <result column="not_send_msg" jdbcType="BIT" property="notSendMsg" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="home_phone" jdbcType="VARCHAR" property="homePhone" />
@@ -86,7 +88,7 @@
   <sql id="Base_Column_List">
     user_id, realname, country, idcard_type, idcard, birth, avatar, avatar_upload_time, 
     gender, nation, native_place, homeplace, household, specialty, health, sign, mobile, 
-    unit, phone, home_phone, email, msg_title
+    msg_mobile, not_send_msg, unit, phone, home_phone, email, msg_title
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysUserInfoExample" resultMap="BaseResultMap">
     select
@@ -124,17 +126,19 @@
       avatar, avatar_upload_time, gender, 
       nation, native_place, homeplace, 
       household, specialty, health, 
-      sign, mobile, unit, 
-      phone, home_phone, email, 
-      msg_title)
+      sign, mobile, msg_mobile, 
+      not_send_msg, unit, phone, 
+      home_phone, email, msg_title
+      )
     values (#{userId,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
       #{idcardType,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, 
       #{avatar,jdbcType=VARCHAR}, #{avatarUploadTime,jdbcType=TIMESTAMP}, #{gender,jdbcType=TINYINT}, 
       #{nation,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR}, #{homeplace,jdbcType=VARCHAR}, 
       #{household,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, #{health,jdbcType=INTEGER}, 
-      #{sign,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{msgTitle,jdbcType=VARCHAR})
+      #{sign,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{msgMobile,jdbcType=VARCHAR}, 
+      #{notSendMsg,jdbcType=BIT}, #{unit,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{homePhone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{msgTitle,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysUserInfo">
     insert into sys_user_info
@@ -189,6 +193,12 @@
       </if>
       <if test="mobile != null">
         mobile,
+      </if>
+      <if test="msgMobile != null">
+        msg_mobile,
+      </if>
+      <if test="notSendMsg != null">
+        not_send_msg,
       </if>
       <if test="unit != null">
         unit,
@@ -257,6 +267,12 @@
       </if>
       <if test="mobile != null">
         #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="msgMobile != null">
+        #{msgMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="notSendMsg != null">
+        #{notSendMsg,jdbcType=BIT},
       </if>
       <if test="unit != null">
         #{unit,jdbcType=VARCHAR},
@@ -335,6 +351,12 @@
       <if test="record.mobile != null">
         mobile = #{record.mobile,jdbcType=VARCHAR},
       </if>
+      <if test="record.msgMobile != null">
+        msg_mobile = #{record.msgMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.notSendMsg != null">
+        not_send_msg = #{record.notSendMsg,jdbcType=BIT},
+      </if>
       <if test="record.unit != null">
         unit = #{record.unit,jdbcType=VARCHAR},
       </if>
@@ -374,6 +396,8 @@
       health = #{record.health,jdbcType=INTEGER},
       sign = #{record.sign,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
+      msg_mobile = #{record.msgMobile,jdbcType=VARCHAR},
+      not_send_msg = #{record.notSendMsg,jdbcType=BIT},
       unit = #{record.unit,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       home_phone = #{record.homePhone,jdbcType=VARCHAR},
@@ -434,6 +458,12 @@
       <if test="mobile != null">
         mobile = #{mobile,jdbcType=VARCHAR},
       </if>
+      <if test="msgMobile != null">
+        msg_mobile = #{msgMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="notSendMsg != null">
+        not_send_msg = #{notSendMsg,jdbcType=BIT},
+      </if>
       <if test="unit != null">
         unit = #{unit,jdbcType=VARCHAR},
       </if>
@@ -470,6 +500,8 @@
       health = #{health,jdbcType=INTEGER},
       sign = #{sign,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
+      msg_mobile = #{msgMobile,jdbcType=VARCHAR},
+      not_send_msg = #{notSendMsg,jdbcType=BIT},
       unit = #{unit,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       home_phone = #{homePhone,jdbcType=VARCHAR},

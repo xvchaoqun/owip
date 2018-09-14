@@ -90,7 +90,7 @@ public class SysUserService extends BaseMapper {
             sysUserInfo.setUserId(userId);
             sysUserInfoMapper.insertSelective(sysUserInfo);
         }
-        if(record.getType()==SystemConstants.USER_TYPE_JZG){
+        if(record.getType()== SystemConstants.USER_TYPE_JZG){
             addRole(userId, RoleConstants.ROLE_TEACHER);
         }
         // 如果没添加前使用了账号登录或其他原因，可能导致缓存存在且为NULL
@@ -105,6 +105,9 @@ public class SysUserService extends BaseMapper {
         if (sysUserInfo == null) {
             sysUserInfoMapper.insertSelective(record);
         } else {
+            if(record.getRealname()==null) { // 防止出现 update sys_user_info set user_id=xxxx;报错
+                record.setRealname(StringUtils.trimToEmpty(sysUserInfo.getRealname()));
+            }
             sysUserInfoMapper.updateByPrimaryKeySelective(record);
         }
 

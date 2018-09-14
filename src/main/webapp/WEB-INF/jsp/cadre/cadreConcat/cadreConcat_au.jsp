@@ -20,6 +20,18 @@ pageEncoding="UTF-8"%>
                         <input class="form-control" type="text" name="mobile" value="${cadre.mobile}">
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label">代收短信的手机号</label>
+				<div class="col-xs-6">
+                        <input class="form-control" type="text" name="msgMobile" value="${cadre.user.msgMobile}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-3 control-label">是否禁止接收短信</label>
+				<div class="col-xs-6">
+                    <input type="checkbox" class="big" name="notSendMsg" ${cadre.user.notSendMsg?"checked":""}/>
+				</div>
+			</div>
             <div class="form-group">
                 <label class="col-xs-3 control-label">短信称谓</label>
                 <div class="col-xs-6">
@@ -66,5 +78,6 @@ pageEncoding="UTF-8"%>
     });
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
+    $("#modalForm :checkbox").bootstrapSwitch();
 
 </script>
