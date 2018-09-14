@@ -143,7 +143,7 @@ public class SystemController extends BaseController{
             return failed("没有权限。");
         }
 
-        String cmd = MessageFormat.format("mysql -u{0} -p'{1}' -e\"use {2};{3}\"",
+        String cmd = MessageFormat.format("mysql -u{0} -p\"{1}\" -e\"use {2};{3}\"",
                 PropertiesUtils.getString("jdbc_user"),
                 PropertiesUtils.getString("jdbc_password"),
                 PropertiesUtils.getString("db.schema"), sql.replaceAll("\n", ";"));

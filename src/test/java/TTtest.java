@@ -4,6 +4,7 @@ import sys.constants.RoleConstants;
 import sys.ip.IPSeeker;
 
 import java.io.UnsupportedEncodingException;
+import java.text.MessageFormat;
 
 /**
  * Created by fafa on 2016/8/24.
@@ -15,6 +16,12 @@ public class TTtest {
         System.out.println(RoleConstants.ROLE_MAP);
     }
 
+    @Test
+    public void  xx(){
+
+        String str = MessageFormat.format("mysql -u{0} -p\"{1}\" -e\"use {2};{3}\"",1,2,3,4);
+        System.out.println("str = " + str);
+    }
     @Test
     public void ttt(){
 
