@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/system")
-public class SystemController extends BaseController{
+public class SystemController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -60,15 +61,17 @@ public class SystemController extends BaseController{
     public Map do_cmd(String cmd, ModelMap modelMap) throws IOException {
 
         boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
-        if(!superAccount){
+        if (!superAccount) {
             return failed("没有权限。");
         }
 
         List<String> returnLines = new ArrayList<>();
         try {
+            logger.info(addLog(LogConstants.LOG_ADMIN, "cmd:%s", cmd.trim()));
+
             Process process = Runtime.getRuntime().exec(
                     new String[]{"/bin/sh", "-c", cmd.trim()});
-            BufferedReader inputBufferedReader = new BufferedReader(
+            /*BufferedReader inputBufferedReader = new BufferedReader(
                     new InputStreamReader(process.getInputStream(), "UTF-8"));
             String line = null;
             while ((line = inputBufferedReader.readLine()) != null) {
@@ -79,10 +82,65 @@ public class SystemController extends BaseController{
                 process.waitFor();
             } catch (InterruptedException e) {
                 returnLines.add(e.getMessage());
-            }
+            }*/
+
+
+            //获取进程的标准输入流
+            final InputStream is1 = process.getInputStream();
+            //获取进城的错误流
+            final InputStream is2 = process.getErrorStream();
+            //启动两个线程，一个线程负责读标准输出流，另一个负责读标准错误流
+            new Thread() {
+                public void run() {
+                    BufferedReader br1 = new BufferedReader(new InputStreamReader(is1));
+                    try {
+                        String line1 = null;
+                        while ((line1 = br1.readLine()) != null) {
+                            if (line1 != null) {
+                                returnLines.add(line1);
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            is1.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }.start();
+
+            new Thread() {
+                public void run() {
+                    BufferedReader br2 = new BufferedReader(new InputStreamReader(is2));
+                    try {
+                        String line2 = null;
+                        while ((line2 = br2.readLine()) != null) {
+                            if (line2 != null) {
+                                returnLines.add(line2);
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            is2.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }.start();
+
+            process.waitFor();
+
 
             logger.info(addLog(LogConstants.LOG_ADMIN, "执行cmd:%s", cmd));
         } catch (IOException e) {
+            returnLines.add(e.getMessage());
+        } catch (InterruptedException e) {
             returnLines.add(e.getMessage());
         }
         Map<String, Object> resultMap = success();
@@ -97,8 +155,8 @@ public class SystemController extends BaseController{
     public void cmd_export(String cmd, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
-        if(!superAccount){
-            return ;
+        if (!superAccount) {
+            return;
         }
 
         cmd = new String(Base64Utils.decode(cmd), "utf-8");
@@ -123,7 +181,7 @@ public class SystemController extends BaseController{
 
         response.setHeader("Set-Cookie", "fileDownload=false; path=/");
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        return ;
+        return;
     }
 
     @RequiresPermissions("system:sql")
@@ -139,7 +197,7 @@ public class SystemController extends BaseController{
     public Map do_sql(String sql, ModelMap modelMap) throws IOException {
 
         boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
-        if(!superAccount){
+        if (!superAccount) {
             return failed("没有权限。");
         }
         sql = sql.replaceAll("\n", ";");
@@ -193,7 +251,7 @@ public class SystemController extends BaseController{
     public Map do_properties(String content, ModelMap modelMap) throws IOException {
 
         boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
-        if(!superAccount){
+        if (!superAccount) {
             return failed("没有权限。");
         }
 
@@ -207,26 +265,26 @@ public class SystemController extends BaseController{
         return success();
     }
 
-    @RequestMapping(value="/db_backup")
+    @RequestMapping(value = "/db_backup")
     public void db_backup(HttpServletRequest request, HttpServletResponse response) throws InterruptedException, IOException {
 
         boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
-        if(!superAccount){
+        if (!superAccount) {
             response.setHeader("Set-Cookie", "fileDownload=false; path=/");
             response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-            return ;
+            return;
         }
 
         String dbName = PropertiesUtils.getString("db.schema");
         String fileName = dbName + "(" + DateUtils.formatDate(new Date(), "YYYYMMddHHmmss") + ").sql";
         String savePath = PropertiesUtils.getString("upload.path") + File.separator + "backup";
-        if(!FileUtils.exists(savePath)){
+        if (!FileUtils.exists(savePath)) {
             new File(savePath).mkdir();
         }
 
         boolean backup = MySqlUtils.backup("localhost", PropertiesUtils.getString("jdbc_user"),
                 PropertiesUtils.getString("jdbc_password"), savePath, fileName, dbName);
-        if(backup) {
+        if (backup) {
             // 打成压缩包下载
             Map<String, File> fileMap = new LinkedHashMap<>();
             fileMap.put(fileName, new File(savePath + File.separator + fileName));
