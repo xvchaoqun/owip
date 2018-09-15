@@ -1,5 +1,6 @@
 
 
+alter table ow_branch change phone phone varchar(50) NULL DEFAULT NULL COMMENT '联系电话';
 
 20180915
 ALTER TABLE `sys_user_info`
