@@ -22,6 +22,7 @@
 
     </div>
 </div>
+<div class="footer-margin"/>
 <script type="text/template" id="result_tpl">
     <div class="space-4"></div>
     {{if(lines.length>=1){}}

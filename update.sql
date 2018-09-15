@@ -8,7 +8,7 @@ ALTER TABLE `sys_user_info`
 
 更新 sys_user_view
 
-
+更新common-utils.jar
 
 -- 更新西交大
 20180906

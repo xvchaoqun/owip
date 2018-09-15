@@ -14,7 +14,7 @@
                 </td>
                 <td>
                     <div>
-                        tail -f /data/logs/info.$(date +%Y-%m-%d).log
+                        tail -n100 /data/logs/info.$(date +%Y-%m-%d).log
                     </div>
                     <div>
                         cat /data/logs/info.$(date +%Y-%m-%d).log |grep -C10 'ERROR'
@@ -28,9 +28,6 @@
                     <div>
                         /etc/init.d/jsvc-owip restart
                     </div>
-                    <div>
-                        tail -f log-owip
-                    </div>
                 </td>
             </tr>
         </table>
@@ -40,6 +37,7 @@
 
     </div>
 </div>
+<div class="footer-margin"/>
 <script type="text/template" id="result_tpl">
     <div class="space-4"></div>
     {{if(lines.length>=1){}}
