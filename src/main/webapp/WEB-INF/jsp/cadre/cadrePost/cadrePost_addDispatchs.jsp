@@ -56,10 +56,10 @@ pageEncoding="UTF-8" %>
                     <td nowrap>${cm:getMetaType(dispatchCadre.wayId).name}</td>
                     <td nowrap>${cm:formatDate(dispatch.workTime,'yyyy-MM-dd')}</td>
                     <td nowrap>${cm:getUserById(cm:getCadreById(dispatchCadre.cadreId).userId).realname}</td>
-                    <td nowrap>${dispatchCadre.post}</td>
+                    <td >${dispatchCadre.post}</td>
                     <td nowrap>${cm:getMetaType(dispatchCadre.postId).name}</td>
                     <td nowrap>${cm:getMetaType(dispatchCadre.adminLevelId).name}</td>
-                    <td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
+                    <td >${unitMap.get(dispatchCadre.unitId).name}</td>
                     <td nowrap><c:if test="${not empty dispatch.fileName}">
                         <a href="/dispatch_download?id=${dispatch.id}&type=file" target="_blank">下载</a>
                         <a href="javascript:void(0)" class="openUrl"
