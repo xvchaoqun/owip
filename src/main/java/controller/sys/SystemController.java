@@ -199,12 +199,14 @@ public class SystemController extends BaseController {
     @RequiresPermissions("system:sql")
     @RequestMapping(value = "sql", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sql(String sql, ModelMap modelMap) throws IOException {
+    public Map do_sql(String sql, ModelMap modelMap) throws Exception {
 
         boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
         if (!superAccount) {
             return failed("没有权限。");
         }
+        sql = new String(Base64Utils.decode(sql), "utf-8");
+
         sql = sql.replaceAll("\n", ";");
         String cmd = MessageFormat.format("mysql -u{0} -p\"{1}\" -e\"use {2};{3}\"",
                 PropertiesUtils.getString("jdbc_user"),

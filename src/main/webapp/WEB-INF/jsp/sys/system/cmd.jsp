@@ -41,10 +41,10 @@
 <script type="text/template" id="result_tpl">
     <div class="space-4"></div>
     {{if(lines.length>=1){}}
-        <table class="table table-bordered table-condensed table-unhover2">
+        <table class="table table-striped table-bordered table-condensed table-unhover2">
             <tbody>
             {{_.each(lines, function(line, idx){ }}
-            <tr>
+            <tr class="{{=line.indexOf('WARING')!=-1?'warning':(line.indexOf('ERROR')!=-1?'danger':'')}}">
                 <td>{{=line}}</td>
             </tr>
             {{});}}

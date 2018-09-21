@@ -107,6 +107,12 @@
                            data-url="${ctx}/cadreInspectInfo_page?cadreId=${param.cadreId}&_auth=${param._auth}">考察情况</a>
                     </li>
                 </shiro:hasPermission>
+                <shiro:hasPermission name="cadreEva:*">
+                    <li>
+                        <a href="javascript:"
+                           data-url="${ctx}/cadreEva_page?cadreId=${param.cadreId}&_auth=${param._auth}">年度考核记录</a>
+                    </li>
+                </shiro:hasPermission>
                 <shiro:hasPermission name="cadreInfo:check">
                     <li class="${to=='cadreInfoCheck_table'?'active':''}">
                         <a href="javascript:"

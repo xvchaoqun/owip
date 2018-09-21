@@ -1,6 +1,10 @@
 
 
+20180921
 alter table ow_branch change phone phone varchar(50) NULL DEFAULT NULL COMMENT '联系电话';
+
+增加 mc_cadre_eva， 年度考核情况
+新增表 cadre_eva
 
 20180915
 ALTER TABLE `sys_user_info`

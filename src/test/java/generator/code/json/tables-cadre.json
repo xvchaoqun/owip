@@ -14,6 +14,15 @@
       "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_ADMIN",
       "ignore": true
+    },
+    {
+      "table": "cadre_eva",
+      "key": "id",
+      "searchColumns": "cadre_id",
+      "showColumns": "cadre_id,year,type,remark",
+      "excludeEditColumns": "id",
+      "logType":"LogConstants.LOG_ADMIN",
+      "ignore": false
     }
   ]
 }

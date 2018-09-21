@@ -34,6 +34,7 @@ import service.cadre.CadreCommonService;
 import service.cadre.CadreCompanyService;
 import service.cadre.CadreCourseService;
 import service.cadre.CadreEduService;
+import service.cadre.CadreEvaService;
 import service.cadre.CadreExportService;
 import service.cadre.CadreFamilyAbroadService;
 import service.cadre.CadreFamilyService;
@@ -184,6 +185,8 @@ public class BaseController extends BaseMapper {
     protected CadreWorkService cadreWorkService;
     @Autowired
     protected CadreEduService cadreEduService;
+    @Autowired
+    protected CadreEvaService cadreEvaService;
     @Autowired
     protected CadreUnderEduService cadreUnderEduService;
     @Autowired
