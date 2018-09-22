@@ -389,7 +389,7 @@ public class AbroadShortMsgService extends BaseMapper {
                 } else{ // 单个正职审批
                     key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_1;
                 }
-            }if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT) { // 本单位人员审批
+            }else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_UNIT) { // 本单位人员审批
 
                 key = ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_OTHER;
             } else if (type == AbroadConstants.ABROAD_APPROVER_TYPE_LEADER) {  // 校领导审批
