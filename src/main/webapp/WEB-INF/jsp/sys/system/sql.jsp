@@ -41,12 +41,12 @@
     $("#submitBtn").click(function () {
         $("#result").html("");
 
-        var cmd = $("#modalForm textarea[name=sql]").val();
-        if($.trim(cmd)==''){
+        var sql = $("#modalForm textarea[name=sql]").val();
+        if($.trim(sql)==''){
             $("#modalForm textarea[name=sql]").focus();
             return;
         }
-        $.post("${ctx}/system/sql",{cmd:new Base64().encode($.trim(sql))},function(ret){
+        $.post("${ctx}/system/sql",{sql:new Base64().encode($.trim(sql))},function(ret){
             if (ret.msg == "success") {
                 $("#result").html(_.template($("#result_tpl").html().NoMultiSpace())({
                     lines: ret.lines
