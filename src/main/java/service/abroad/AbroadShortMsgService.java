@@ -14,7 +14,6 @@ import domain.base.ContentTpl;
 import domain.base.MetaType;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
-import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.cache.CacheManager;
@@ -409,8 +408,8 @@ public class AbroadShortMsgService extends BaseMapper {
 
             // 校验用，以防万一
             if(size>1 && !StringUtils.equals(key, ContentTplConstants.CONTENT_TPL_APPLYSELF_APPROVAL_UNIT_2)){
-                logger.error("因私审批系统发送短信异常："
-                        + JSONUtils.toString(applySelf, MixinUtils.baseMixins(), false));
+                logger.error("因私审批系统发送短信异常，key：{}, 申请编号：{}, 申请人：{}, 审批人身份：{}",
+                        key, applySelfId, applyUser.getRealname(), approverType.getName());
                 return resultMap;
             }
         }
