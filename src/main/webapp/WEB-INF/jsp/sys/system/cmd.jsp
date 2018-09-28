@@ -9,24 +9,27 @@
         <form id="modalForm" class="form-inline">
             <textarea required class="noEnter" rows="2" name="cmd" style="width: 500px"></textarea>
         </form>
-        <button id="submitBtn" class="btn btn-primary"><i class="fa fa-edit"></i> 执行</button>
+        <button id="submitBtn" class="btn btn-primary"><i class="fa fa-flash"></i> 执行</button>
         <button id="exportBtn" class="btn btn-warning"><i class="fa fa-download"></i> 执行并导出结果</button>
                 </td>
                 <td>
-                    <div>
-                        tail -n100 /data/logs/info.$(date +%Y-%m-%d).log
+                    <div class="sample">
+                        <div class="cmd">tail -n100 /data/logs/info.$(date +%Y-%m-%d).log</div> <button class="exeBtn btn btn-xs btn-primary"><i class="fa fa-flash"></i> 执行</button>
                     </div>
-                    <div>
-                        cat /data/logs/info.$(date +%Y-%m-%d).log |grep -C10 'ERROR'
+                    <div class="sample">
+                        <div class="cmd">cat /data/logs/info.$(date +%Y-%m-%d).log |grep -C10 'ERROR'</div> <button class="exeBtn btn btn-xs btn-primary"><i class="fa fa-flash"></i> 执行</button>
                     </div>
-                    <div>
-                        cat /data/logs/info.$(date +%Y-%m)*.log |grep -C10 'ERROR'
+                    <div class="sample">
+                        <div class="cmd">cat /data/logs/info.$(date +%Y-%m)*.log |grep -C10 'ERROR'</div> <button class="exeBtn btn btn-xs btn-primary"><i class="fa fa-flash"></i> 执行</button>
                     </div>
-                    <div>
-                        cat /data/logs/info.$(date -d "1 day ago" +%Y-%m-%d).log |grep -C10 'ERROR'
+                    <div class="sample">
+                        <div class="cmd">cat /data/logs/info.$(date -d "1 day ago" +%Y-%m-%d).log |grep -C10 'ERROR'</div> <button class="exeBtn btn btn-xs btn-primary"><i class="fa fa-flash"></i> 执行</button>
                     </div>
-                    <div>
-                        /etc/init.d/jsvc-owip restart
+                    <div class="sample">
+                        <div class="cmd">sudo /etc/init.d/jsvc-owip restart</div> <button class="exeBtn btn btn-xs btn-primary"><i class="fa fa-flash"></i> 执行</button>
+                    </div>
+                    <div class="sample">
+                        <div class="cmd">tail -n20 /usr/local/apache-tomcat-8.0.15/logs/catalina.out</div> <button class="exeBtn btn btn-xs btn-primary"><i class="fa fa-flash"></i> 执行</button>
                     </div>
                 </td>
             </tr>
@@ -38,6 +41,15 @@
     </div>
 </div>
 <div class="footer-margin"/>
+<style>
+    .sample{
+        padding: 5px 0;
+    }
+    .sample .cmd{
+        float: left;
+        padding-right: 5px;
+    }
+</style>
 <script type="text/template" id="result_tpl">
     <div class="space-4"></div>
     {{if(lines.length>=1){}}
@@ -53,6 +65,12 @@
     {{}}}
 </script>
 <script>
+
+    $(".exeBtn").click(function () {
+        $("#modalForm textarea[name=cmd]").val($.trim($(this).closest(".sample").find(".cmd").text()));
+        $("#submitBtn").click();
+    });
+
     $("#exportBtn").click(function () {
         $("#result").html("");
         var cmd = $("#modalForm textarea[name=cmd]").val();
