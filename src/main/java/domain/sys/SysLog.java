@@ -1,5 +1,6 @@
 package domain.sys;
 
+import sys.constants.LogConstants;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -8,6 +9,11 @@ import java.util.Date;
 public class SysLog implements Serializable {
 
     public SysUserView getUser(){
+
+        if(typeId== LogConstants.LOG_CET_INSPECTOR){
+            return null;
+        }
+
         return CmTag.getUserById(userId);
     }
 

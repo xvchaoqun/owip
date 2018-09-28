@@ -163,7 +163,7 @@ public class MobileCetEvaController extends CetBaseController {
 
         CetTrainInspector trainInspector = CetHelper.getTrainInspector(request);
         logger.info(addNoLoginLog(trainInspector.getId(), trainInspector.getUsername(),
-                LogConstants.LOG_CET, "提交评课：" + id));
+                LogConstants.LOG_CET_INSPECTOR, "提交评课：" + id));
 
         return success(FormUtils.SUCCESS);
     }
