@@ -86,7 +86,7 @@
                 return $.trim(_cMap.LOG_MAP[cellvalue]);
             }},
             { label: '操作人',  name: 'user.realname', width: 100, formatter:function(cellvalue, options, rowObject){
-                if(rowObject.user==undefined) return '-'
+                if(rowObject.user==undefined) return $.trim(rowObject.username)
                 return $.user(rowObject.user.id, rowObject.user.realname);
             },frozen:true },
             { label: '操作人学工号',  name: 'user.code', width: 120,frozen:true },
