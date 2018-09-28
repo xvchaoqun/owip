@@ -1,5 +1,8 @@
 
 
+update sys_log set type_id=501 where content like '提交评课%';
+update sys_log set type_id=500 where type_id=190;
+
 20180921
 alter table ow_branch change phone phone varchar(50) NULL DEFAULT NULL COMMENT '联系电话';
 
