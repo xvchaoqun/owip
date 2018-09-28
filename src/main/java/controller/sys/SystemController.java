@@ -69,7 +69,7 @@ public class SystemController extends BaseController {
 
         List<String> returnLines = new ArrayList<>();
         try {
-            logger.info("start cmd:{}", cmd.trim());
+            logger.debug("start cmd:{}", cmd.trim());
 
             Process process = Runtime.getRuntime().exec(
                     new String[]{"/bin/sh", "-c", cmd.trim()});
@@ -139,7 +139,7 @@ public class SystemController extends BaseController {
             process.waitFor();
 
 
-            logger.info(addLog(LogConstants.LOG_ADMIN, "执行cmd:%s", cmd));
+            logger.debug(addLog(LogConstants.LOG_ADMIN, "执行cmd:%s", cmd));
         } catch (IOException e) {
             returnLines.add(e.getMessage());
         } catch (InterruptedException e) {
@@ -168,7 +168,7 @@ public class SystemController extends BaseController {
 
         try {
 
-            logger.info("start cmd:{}", cmd.trim());
+            logger.debug("start cmd:{}", cmd.trim());
 
             Process process = Runtime.getRuntime().exec(
                     new String[]{"/bin/sh", "-c", cmd.trim()});
@@ -215,7 +215,7 @@ public class SystemController extends BaseController {
 
         List<String> returnLines = new ArrayList<>();
         try {
-            logger.info("start cmd:{}", cmd.trim());
+            logger.debug("start cmd:{}", cmd.trim());
 
             Process process = Runtime.getRuntime().exec(
                     new String[]{"/bin/sh", "-c", cmd});
@@ -231,7 +231,7 @@ public class SystemController extends BaseController {
                 returnLines.add(e.getMessage());
             }
 
-            logger.info(addLog(LogConstants.LOG_ADMIN, "执行sql:%s", sql));
+            logger.debug(addLog(LogConstants.LOG_ADMIN, "执行sql:%s", sql));
         } catch (IOException e) {
             returnLines.add(e.getMessage());
         }
@@ -304,6 +304,6 @@ public class SystemController extends BaseController {
             FileUtils.delFile(savePath + File.separator + fileName);
         }
 
-        logger.info(addLog(LogConstants.LOG_ADMIN, "下载备份数据库"));
+        logger.debug(addLog(LogConstants.LOG_ADMIN, "下载备份数据库"));
     }
 }

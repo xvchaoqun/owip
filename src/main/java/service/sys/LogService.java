@@ -68,4 +68,19 @@ public class LogService extends BaseMapper {
 
         return String.format("账号：%s,  %s", username, content );
     }
+
+    // 系统日志
+    public String addlog(Integer logType, String content){
+
+        SysLog record = new SysLog();
+        record.setContent(content);
+        record.setCreateTime(new Date());
+        record.setAgent("系统日志");
+        record.setTypeId(logType);
+        record.setStatus(SystemConstants.AVAILABLE);
+
+        sysLogMapper.insertSelective(record );
+
+        return content;
+    }
 }
