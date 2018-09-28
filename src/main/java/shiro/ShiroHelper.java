@@ -47,7 +47,7 @@ public class ShiroHelper extends BaseShiroHelper{
 	public static SysUserView getCurrentUser() {
 
 		if (!hasAuthenticated()) {
-			logger.error("unAuthenticated, getCurrentUser is null.");
+			logger.debug("unAuthenticated, getCurrentUser is null.");
 			return null;
 		}
 		return userService.findByUsername(getCurrentUsername());
