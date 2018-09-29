@@ -43,12 +43,17 @@ public interface ICadreMapper {
     int countCadreEduList(@Param("schoolType") byte schoolType,
                           @Param("searchBean") CadreCategorySearchBean searchBean);
 
-    // 主要工作经历修改为其间工作经历（根据某条主要工作经历的起始时间，查看可以转移至的主要工作经历）
+    // 主要工作经历修改为其间工作经历（结束时间不为空）
     @ResultMap("persistence.cadre.CadreWorkMapper.BaseResultMap")
     @Select("select * from cadre_work where cadre_id=#{cadreId} and fid is null and id!=#{id} and " +
-            "start_time <= #{startTime} and (end_time is null or end_time >= #{startTime});")
+            "start_time <= #{endTime} and (end_time is null or end_time >= #{endTime});")
     List<CadreWork> findTopCadreWorks(@Param("id") int id,
-                                      @Param("cadreId") int cadreId, @Param("startTime") Date startTime);
+                                      @Param("cadreId") int cadreId, @Param("endTime") Date endTime);
+    // 主要工作经历修改为其间工作经历（结束时间为空）
+    @ResultMap("persistence.cadre.CadreWorkMapper.BaseResultMap")
+    @Select("select * from cadre_work where cadre_id=#{cadreId} and fid is null and id!=#{id} and " +
+            "end_time is null")
+    List<CadreWork> findUnendCadreWorks(@Param("id") int id, @Param("cadreId") int cadreId);
 
     /* 分类查找干部工作经历 */
     List<ICadreWork> selectCadreWorkList(@Param("workType") int workType,

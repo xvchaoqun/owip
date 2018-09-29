@@ -344,8 +344,15 @@ public class CadreWorkController extends BaseController {
         CadreWork cadreWork = cadreWorkMapper.selectByPrimaryKey(id);
         modelMap.put("cadreWork", cadreWork);
         if(cadreWork.getFid()==null && cadreWork.getSubWorkCount()==0) {
-            Date startTime = cadreWork.getStartTime();
-            List<CadreWork> topCadreWorks = iCadreMapper.findTopCadreWorks(id, cadreWork.getCadreId(), startTime);
+
+            List<CadreWork> topCadreWorks = new ArrayList<>();
+            Date endTime = cadreWork.getEndTime();
+            if(endTime==null){
+                topCadreWorks.addAll(iCadreMapper.findUnendCadreWorks(id, cadreWork.getCadreId()));
+            }else{
+                topCadreWorks.addAll(iCadreMapper.findTopCadreWorks(id, cadreWork.getCadreId(), endTime));
+            }
+
             modelMap.put("topCadreWorks", topCadreWorks);
         }
 

@@ -21,7 +21,8 @@ pageEncoding="UTF-8"%>
 				<label class="col-xs-4 control-label">开始日期</label>
 				<div class="col-xs-6">
                     <div class="input-group" style="width: 120px">
-                        <input required class="form-control date-picker" name="_startTime" type="text"
+                        <input required autocomplete="off" disableautocomplete
+                               class="form-control date-picker" name="_startTime" type="text"
                                data-date-min-view-mode="1"
                                data-date-format="yyyy.mm" value="${cm:formatDate(cadreWork.startTime,'yyyy.MM')}" />
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
@@ -38,7 +39,8 @@ pageEncoding="UTF-8"%>
                                 data-date-end-date="'${cm:formatDate(topCadreWork.endTime,'yyyy.MM')}'"
                             </c:if>
                          data-date-format="yyyy.mm">
-                        <input ${not empty topCadreWork.endTime?"required":""}  class="form-control" name="_endTime" type="text" value="${cm:formatDate(cadreWork.endTime,'yyyy.MM')}"/>
+                        <input ${not empty topCadreWork.endTime?"required":""}  autocomplete="off" disableautocomplete
+                                                                                class="form-control" name="_endTime" type="text" value="${cm:formatDate(cadreWork.endTime,'yyyy.MM')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
                 <c:if test="${not empty param.fid}">
