@@ -213,7 +213,11 @@
             cssPath: "${ctx}/css/ke.css",
             items: ["source", "|", "fullscreen"],
             height: '550px',
-            width: '100%'
+            width: '100%',
+            filterMode: true,
+            htmlTags:{
+                br : ['/'], p:['.text-indent']
+            }
         });
         function updateCadreInfo() {
             $.post("${ctx}/cadreInfo_updateContent", {
@@ -243,7 +247,11 @@
             cssPath: "${ctx}/css/ke.css",
             items: ["source", "|", "fullscreen"],
             height: '550px',
-            width: '100%'
+            width: '100%',
+            filterMode: true,
+            htmlTags:{
+                br : ['/'], p:['.text-indent']
+            }
         });
         function updateCadreInfo() {
             $.post("${ctx}/cadreInfo_updateContent", {
