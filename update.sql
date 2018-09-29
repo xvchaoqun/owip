@@ -1,5 +1,5 @@
 
-
+20180929
 update sys_log set type_id=501 where content like '提交评课%';
 update sys_log set type_id=500 where type_id=190;
 
