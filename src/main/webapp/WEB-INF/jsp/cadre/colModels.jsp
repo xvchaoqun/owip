@@ -17,7 +17,7 @@
         },
         </shiro:hasPermission>
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
-        {label: '所在单位', name: 'unit.name', width: 200},
+        {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '现任职务', name: 'post', align: 'left', width: 350},
         {label: '是否常委', name: 'isCommitteeMember', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
@@ -157,12 +157,21 @@
             }
         },
         {label: '是否双肩挑', name: 'isDouble', formatter: $.jgrid.formatter.TRUEFALSE},
-        {
+        /*{
             label: '双肩挑单位',
             name: 'doubleUnitId',
             width: 150,
             formatter: $.jgrid.formatter.unit
-        },
+        },*/
+        {
+            label: '双肩挑单位', name: 'doubleUnitIds',width: 250,formatter: function (cellvalue, options, rowObject) {
+
+            if($.trim(cellvalue)=='') return '-'
+            return ($.map(cellvalue.split(","), function(unitId){
+                return $.jgrid.formatter.unit(unitId);
+            })).join("，")
+
+        }},
         {label: '联系方式', name: 'mobile', width: 120},
         /*{ label: '办公电话', name: 'phone' },
          { label: '家庭电话', name: 'homePhone' },*/
@@ -196,7 +205,7 @@
         {label: '工作证号', name: 'code', width: 100, frozen: true},
         {label: '姓名', name: 'realname', width: 120, frozen: true},
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
-        {label: '所在单位', name: 'unit.name', width: 200},
+        {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
         {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
         {label: '性别', name: 'gender', width: 50, formatter:$.jgrid.formatter.GENDER},
         {label: '身份证号', name: 'idcard', width: 170},
@@ -228,8 +237,8 @@
         {
             label: '排序', width: 80, formatter: $.jgrid.formatter.sortOrder, frozen: true
         },
-        {label: '原所在单位', name: 'unit.name', width: 200},
-        {label: '原职务', name: 'post', width: 350},
+        {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
+        {label: '原职务', name: 'post', width: 350, align: 'left'},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},
         <c:if test="${status==CADRE_STATUS_MIDDLE_LEAVE||status==CADRE_STATUS_LEADER_LEAVE}">
         {

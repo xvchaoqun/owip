@@ -166,7 +166,7 @@ public class CadreView implements Serializable {
 
     private Boolean isDouble;
 
-    private Integer doubleUnitId;
+    private String doubleUnitIds;
 
     private Boolean isPrincipalPost;
 
@@ -704,12 +704,12 @@ public class CadreView implements Serializable {
         this.isDouble = isDouble;
     }
 
-    public Integer getDoubleUnitId() {
-        return doubleUnitId;
+    public String getDoubleUnitIds() {
+        return doubleUnitIds;
     }
 
-    public void setDoubleUnitId(Integer doubleUnitId) {
-        this.doubleUnitId = doubleUnitId;
+    public void setDoubleUnitIds(String doubleUnitIds) {
+        this.doubleUnitIds = doubleUnitIds == null ? null : doubleUnitIds.trim();
     }
 
     public Boolean getIsPrincipalPost() {

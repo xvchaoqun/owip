@@ -190,10 +190,14 @@ public class CadreExportService extends BaseMapper {
                     }
                 }
                 isDouble = BooleanUtils.isTrue(mainCadrePost.getIsDouble())?"是":"否";
-                Integer doubleUnitId = mainCadrePost.getDoubleUnitId();
-                if(doubleUnitId!=null){
-                    Unit unit = unitMap.get(doubleUnitId);
-                    doubleUnit = (unit!=null)?unit.getName():"";
+                String doubleUnitIds = mainCadrePost.getDoubleUnitIds();
+                if(doubleUnitIds!=null){
+                    List<String> doubleUnits = new ArrayList<>();
+                    for (String doubleUnitId : doubleUnitIds.split(",")) {
+                        Unit unit = unitMap.get(Integer.valueOf(doubleUnitId));
+                        doubleUnits.add((unit!=null)?unit.getName():"");
+                    }
+                    doubleUnit = StringUtils.join(doubleUnits, ",");
                 }
             }
 

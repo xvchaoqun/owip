@@ -6,7 +6,7 @@ import domain.cadre.CadrePostExample;
 import domain.cadre.CadreView;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreRelate;
-import domain.sys.SysUserView;
+import domain.unit.Unit;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +24,7 @@ import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -112,13 +114,22 @@ public class CadrePostController extends BaseController {
     @ResponseBody
     public Map do_cadrePost_au(CadrePost record,
                                Boolean isCpc,
+                               @RequestParam(value = "unitIds[]") Integer[] unitIds,
                                HttpServletRequest request) {
 
         Integer id = record.getId();
 
         // 只用于主职
-        if(BooleanUtils.isTrue(record.getIsMainPost()))
+        if(BooleanUtils.isTrue(record.getIsMainPost())) {
             record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));
+            if(record.getIsDouble()){
+                if(unitIds==null || unitIds.length==0) {
+                    return failed("请选择双肩挑单位");
+                }
+                record.setDoubleUnitIds(StringUtils.join(unitIds, ","));
+            }
+        }
+
 
         if(BooleanUtils.isNotTrue(record.getIsMainPost()))
             record.setIsCpc(BooleanUtils.isTrue(isCpc));
@@ -145,13 +156,37 @@ public class CadrePostController extends BaseController {
             modelMap.put("cadrePost", cadrePost);
 
             modelMap.put("unit", unitService.findAll().get(cadrePost.getUnitId()));
-            if (cadrePost.getDoubleUnitId() != null)
-                modelMap.put("doubleUnit", unitService.findAll().get(cadrePost.getDoubleUnitId()));
+            /*if (cadrePost.getDoubleUnitId() != null)
+                modelMap.put("doubleUnit", unitService.findAll().get(cadrePost.getDoubleUnitId()));*/
         }
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
-        SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-        modelMap.put("sysUser", sysUser);
+
+        // MAP<unitTypeId, List<unitId>>
+        Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
+        Map<Integer, List<Integer>> historyUnitListMap = new LinkedHashMap<>();
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        for (Unit unit : unitMap.values()) {
+
+            Integer unitTypeId = unit.getTypeId();
+            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
+                List<Integer> units = historyUnitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    historyUnitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }else {
+                List<Integer> units = unitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    unitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }
+        }
+        modelMap.put("unitListMap", unitListMap);
+        modelMap.put("historyUnitListMap", historyUnitListMap);
 
         return isMainPost?"cadre/cadrePost/mainCadrePost_au":"cadre/cadrePost/subCadrePost_au";
     }

@@ -14,10 +14,11 @@
     </c:if>
     <c:if test="${param.list==0}">
     { label: '单位编号', name: 'unitCode', width: 80},
-    { label: '单位名称', name: 'unitName', width: 250, align:'left', formatter:function(cellvalue, options, rowObject){
+    /*{ label: '单位名称', name: 'unitName', width: 250, align:'left', formatter:function(cellvalue, options, rowObject){
       return '<a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id={0}">{1}</a>'
               .format(rowObject.unitId, cellvalue);
-    }},
+    }},*/
+    {label: '单位名称', name: 'unitId', width: 250, align:'left', formatter: $.jgrid.formatter.unit},
     { label: '单位类型', name: 'unitTypeId', width: 180,frozen:true, formatter: $.jgrid.formatter.MetaType },
     </c:if>
     { label: '分管工作', align:'left', name: 'job', width: 450 },

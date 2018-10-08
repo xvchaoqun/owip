@@ -290,12 +290,21 @@
                 return cellvalue ? "是" : "否";
             }
             },
-            {
+            /*{
                 label: '双肩挑单位', name: 'doubleUnitId', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if (!rowObject.isDouble) return '-'
                 return $.jgrid.formatter.unit(cellvalue)
             }
-            }
+            }*/
+            {
+                label: '双肩挑单位', name: 'doubleUnitIds',formatter: function (cellvalue, options, rowObject) {
+
+                if($.trim(cellvalue)=='') return '-'
+                return ($.map(cellvalue.split(","), function(unitId){
+                    return $.jgrid.formatter.unit(unitId);
+                })).join("，")
+
+            }, width: 500, align:'left'}
         ]
     }).jqGrid("setFrozenColumns");
 

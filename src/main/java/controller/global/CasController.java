@@ -137,6 +137,10 @@ public class CasController extends BaseController {
             }
         }
 
-        return "redirect:/jsp/unauthorized.jsp?username="+ StringUtils.trimToEmpty(username);
+        if(StringUtils.isBlank(username)){
+            return "redirect:/jsp/timeout.jsp";
+        }else {
+            return "redirect:/jsp/unauthorized.jsp?username=" + StringUtils.trimToEmpty(username);
+        }
     }
 }

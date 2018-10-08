@@ -11,7 +11,7 @@
     <result column="post_class_id" jdbcType="INTEGER" property="postClassId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="is_double" jdbcType="BIT" property="isDouble" />
-    <result column="double_unit_id" jdbcType="INTEGER" property="doubleUnitId" />
+    <result column="double_unit_ids" jdbcType="VARCHAR" property="doubleUnitIds" />
     <result column="is_main_post" jdbcType="BIT" property="isMainPost" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
@@ -75,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, cadre_id, post, post_id, admin_level_id, is_cpc, post_class_id, unit_id, is_double, 
-    double_unit_id, is_main_post, sort_order
+    double_unit_ids, is_main_post, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.cadre.CadrePostExample" resultMap="BaseResultMap">
     select
@@ -111,12 +111,12 @@
     insert into cadre_post (id, cadre_id, post, 
       post_id, admin_level_id, is_cpc, 
       post_class_id, unit_id, is_double, 
-      double_unit_id, is_main_post, sort_order
+      double_unit_ids, is_main_post, sort_order
       )
     values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
       #{postId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, #{isCpc,jdbcType=BIT}, 
       #{postClassId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{isDouble,jdbcType=BIT}, 
-      #{doubleUnitId,jdbcType=INTEGER}, #{isMainPost,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}
+      #{doubleUnitIds,jdbcType=VARCHAR}, #{isMainPost,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="domain.cadre.CadrePost">
@@ -149,8 +149,8 @@
       <if test="isDouble != null">
         is_double,
       </if>
-      <if test="doubleUnitId != null">
-        double_unit_id,
+      <if test="doubleUnitIds != null">
+        double_unit_ids,
       </if>
       <if test="isMainPost != null">
         is_main_post,
@@ -187,8 +187,8 @@
       <if test="isDouble != null">
         #{isDouble,jdbcType=BIT},
       </if>
-      <if test="doubleUnitId != null">
-        #{doubleUnitId,jdbcType=INTEGER},
+      <if test="doubleUnitIds != null">
+        #{doubleUnitIds,jdbcType=VARCHAR},
       </if>
       <if test="isMainPost != null">
         #{isMainPost,jdbcType=BIT},
@@ -234,8 +234,8 @@
       <if test="record.isDouble != null">
         is_double = #{record.isDouble,jdbcType=BIT},
       </if>
-      <if test="record.doubleUnitId != null">
-        double_unit_id = #{record.doubleUnitId,jdbcType=INTEGER},
+      <if test="record.doubleUnitIds != null">
+        double_unit_ids = #{record.doubleUnitIds,jdbcType=VARCHAR},
       </if>
       <if test="record.isMainPost != null">
         is_main_post = #{record.isMainPost,jdbcType=BIT},
@@ -259,7 +259,7 @@
       post_class_id = #{record.postClassId,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
       is_double = #{record.isDouble,jdbcType=BIT},
-      double_unit_id = #{record.doubleUnitId,jdbcType=INTEGER},
+      double_unit_ids = #{record.doubleUnitIds,jdbcType=VARCHAR},
       is_main_post = #{record.isMainPost,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -293,8 +293,8 @@
       <if test="isDouble != null">
         is_double = #{isDouble,jdbcType=BIT},
       </if>
-      <if test="doubleUnitId != null">
-        double_unit_id = #{doubleUnitId,jdbcType=INTEGER},
+      <if test="doubleUnitIds != null">
+        double_unit_ids = #{doubleUnitIds,jdbcType=VARCHAR},
       </if>
       <if test="isMainPost != null">
         is_main_post = #{isMainPost,jdbcType=BIT},
@@ -315,7 +315,7 @@
       post_class_id = #{postClassId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
       is_double = #{isDouble,jdbcType=BIT},
-      double_unit_id = #{doubleUnitId,jdbcType=INTEGER},
+      double_unit_ids = #{doubleUnitIds,jdbcType=VARCHAR},
       is_main_post = #{isMainPost,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

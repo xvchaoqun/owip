@@ -327,12 +327,21 @@
                 return cellvalue ? "是" : "否";
             }
             },
-            {
+           /* {
                 label: '双肩挑单位',
                 name: 'mainCadrePost.doubleUnitId',
                 width: 150,
                 formatter: $.jgrid.formatter.unit
-            },
+            },*/
+            {
+                label: '双肩挑单位', name: 'mainCadrePost.doubleUnitIds', width: 250, formatter: function (cellvalue, options, rowObject) {
+
+                if($.trim(cellvalue)=='') return '-'
+                return ($.map(cellvalue.split(","), function(unitId){
+                    return $.jgrid.formatter.unit(unitId);
+                })).join("，")
+
+            }},
             {label: '联系方式', name: 'mobile'},
             /*{ label: '办公电话', name: 'phone' },
              { label: '家庭电话', name: 'homePhone' },*/
