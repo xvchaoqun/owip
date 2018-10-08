@@ -118,13 +118,17 @@ public abstract class Source {
                 }
             }
         } catch (Exception ex) {
-            logger.error("出错：{}", JSONUtils.toString(map), ex);
+            logger.error("出错：{}", JSONUtils.toString(map));
+            ex.printStackTrace();
         } finally {
             try {
-                rs.close();
-                stat.close();
+                if(rs!=null && !rs.isClosed())
+                    rs.close();
+                if(stat!=null && !stat.isClosed())
+                    stat.close();
             } catch (Exception ex) {
-                logger.error("关闭失败, {}", JSONUtils.toString(map), ex);
+                logger.error("关闭失败, {}", JSONUtils.toString(map));
+                ex.printStackTrace();
             }
         }
     }
@@ -160,13 +164,17 @@ public abstract class Source {
                 i++;
             }
         } catch (Exception ex) {
-            logger.error("出错：{}", JSONUtils.toString(map), ex);
+            logger.error("出错：{}", JSONUtils.toString(map));
+            ex.printStackTrace();
         } finally {
             try {
-                rs.close();
-                stat.close();
+                if(rs!=null && !rs.isClosed())
+                    rs.close();
+                if(stat!=null && !stat.isClosed())
+                    stat.close();
             } catch (Exception ex) {
-                logger.error("关闭失败, {}", JSONUtils.toString(map), ex);
+                logger.error("关闭失败, {}", JSONUtils.toString(map));
+                ex.printStackTrace();
             }
         }
 
@@ -226,13 +234,17 @@ public abstract class Source {
             }
 
         } catch (Exception ex) {
-            logger.error("出错：{}", JSONUtils.toString(map), ex);
+            logger.error("出错：{}", JSONUtils.toString(map));
+            ex.printStackTrace();
         } finally {
             try {
-                rs.close();
-                stat.close();
+                if(rs!=null && !rs.isClosed())
+                    rs.close();
+                if(stat!=null && !stat.isClosed())
+                    stat.close();
             } catch (Exception ex) {
-                logger.error("关闭失败, {}", JSONUtils.toString(map), ex);
+                logger.error("关闭失败, {}", JSONUtils.toString(map));
+                ex.printStackTrace();
             }
         }
 
