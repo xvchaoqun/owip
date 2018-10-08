@@ -60,7 +60,7 @@ SELECT c.*
 	,t.talent_title
 	,main_cadre_post.id as main_cadre_post_id
 	,main_cadre_post.is_double
-	,main_cadre_post.double_unit_id
+	,main_cadre_post.double_unit_ids
 	,main_cadre_post_type.bool_attr as is_principal_post
 	,TIMESTAMPDIFF(YEAR,np_work_time,now()) as cadre_post_year
 	,TIMESTAMPDIFF(YEAR,s_work_time,e_work_time) as admin_level_year

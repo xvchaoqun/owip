@@ -29,7 +29,7 @@
          <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>
 -->
-         <!--<table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
+         <table tableName="cadre_view" domainObjectName="cadre.CadreView" mapperName="cadre.CadreViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
@@ -37,7 +37,7 @@
              <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
              <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
              <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-         </table>-->
+         </table>
         <!--  <table tableName="cadre_party" domainObjectName="cadre.CadreParty" mapperName="cadre.CadrePartyMapper">
           </table>-->
 
@@ -122,13 +122,13 @@
         </table>-->
         <!--<table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
         </table>-->
-        <!-- <table tableName="cadre_post" domainObjectName="cadre.CadrePost" mapperName="cadre.CadrePostMapper">
+         <!--<table tableName="cadre_post" domainObjectName="cadre.CadrePost" mapperName="cadre.CadrePostMapper">
          </table>-->
          <!--<table tableName="cadre_work" domainObjectName="cadre.CadreWork" mapperName="cadre.CadreWorkMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <table tableName="cadre_eva" domainObjectName="cadre.CadreEva" mapperName="cadre.CadreEvaMapper">
-        </table>
+       <!-- <table tableName="cadre_eva" domainObjectName="cadre.CadreEva" mapperName="cadre.CadreEvaMapper">
+        </table>-->
         <!--<table tableName="cadre_edu" domainObjectName="cadre.CadreEdu" mapperName="cadre.CadreEduMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->

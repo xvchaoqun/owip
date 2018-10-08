@@ -1,4 +1,12 @@
 
+20181008
+
+ALTER TABLE `cadre_post`
+	CHANGE COLUMN `double_unit_id` `double_unit_ids` VARCHAR(200) NULL DEFAULT NULL COMMENT '双肩挑单位，只用于主职' AFTER `is_double`,
+	DROP FOREIGN KEY `FK_base_cadre_main_work_base_unit_2`;
+
+更新 cadre_view
+
 -- 更新北化工
 
 20180929
