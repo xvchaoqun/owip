@@ -469,7 +469,7 @@ var _modal_width;
             var _partyView = null;
             if (party != undefined) {
                 _partyView = party.name;
-                if ($.inArray("party:list", _permissions) >= 0)
+                if ($.inArray("party:list", _permissions) >= 0 || $.inArray("party:*", _permissions) >= 0)
                     _partyView = '<a href="javascript:;" class="openView" data-url="{2}/party_view?id={0}">{1}</a>'
                         .format(party.id, party.name, ctx);
             }
@@ -478,7 +478,7 @@ var _modal_width;
             var _branchView = null;
             if (branch != undefined) {
                 var _branchView = branch.name;
-                if ($.inArray("branch:list", _permissions) >= 0)
+                if ($.inArray("branch:list", _permissions) >= 0 || $.inArray("branch:*", _permissions) >= 0)
                     _branchView = '<a href="javascript:;" class="openView" data-url="{2}/branch_view?id={0}">{1}</a>'
                         .format(branch.id, branch.name, ctx);
             }
@@ -1102,7 +1102,7 @@ if ($.jgrid) {
 
             if($.trim(name)=='') return '-'
 
-            if($.inArray("unit:info", _permissions) >= 0) {
+            if($.inArray("unit:info", _permissions) >= 0 || $.inArray("unit:*", _permissions) >= 0) {
                 return ('<a href="javascript:;" class="openView" data-url="{3}/unit_view?id={0}"><span class="{1}">{2}</span></a>'
                     .format(unit.id, unit.status == 2 ? 'delete' : '', name, ctx));
             }
@@ -1273,8 +1273,10 @@ $.extend($.register, {
              }*/
         }, params));
 
-        if (selected != undefined && selected instanceof Array && selected.length > 0)
+        if (selected != undefined && selected instanceof Array && selected.length > 0) {
+            //console.log("selected=" + selected)
             $select.multiselect('select', selected);
+        }
     },
     // 图片
     fancybox: function (afterLoad) {
