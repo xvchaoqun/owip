@@ -4252,63 +4252,73 @@ public class CadreReserveViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andDoubleUnitIdIsNull() {
-            addCriterion("double_unit_id is null");
+        public Criteria andDoubleUnitIdsIsNull() {
+            addCriterion("double_unit_ids is null");
             return (Criteria) this;
         }
 
-        public Criteria andDoubleUnitIdIsNotNull() {
-            addCriterion("double_unit_id is not null");
+        public Criteria andDoubleUnitIdsIsNotNull() {
+            addCriterion("double_unit_ids is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDoubleUnitIdEqualTo(Integer value) {
-            addCriterion("double_unit_id =", value, "doubleUnitId");
+        public Criteria andDoubleUnitIdsEqualTo(String value) {
+            addCriterion("double_unit_ids =", value, "doubleUnitIds");
             return (Criteria) this;
         }
 
-        public Criteria andDoubleUnitIdNotEqualTo(Integer value) {
-            addCriterion("double_unit_id <>", value, "doubleUnitId");
+        public Criteria andDoubleUnitIdsNotEqualTo(String value) {
+            addCriterion("double_unit_ids <>", value, "doubleUnitIds");
             return (Criteria) this;
         }
 
-        public Criteria andDoubleUnitIdGreaterThan(Integer value) {
-            addCriterion("double_unit_id >", value, "doubleUnitId");
+        public Criteria andDoubleUnitIdsGreaterThan(String value) {
+            addCriterion("double_unit_ids >", value, "doubleUnitIds");
             return (Criteria) this;
         }
 
-        public Criteria andDoubleUnitIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("double_unit_id >=", value, "doubleUnitId");
+        public Criteria andDoubleUnitIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("double_unit_ids >=", value, "doubleUnitIds");
             return (Criteria) this;
         }
 
-        public Criteria andDoubleUnitIdLessThan(Integer value) {
-            addCriterion("double_unit_id <", value, "doubleUnitId");
+        public Criteria andDoubleUnitIdsLessThan(String value) {
+            addCriterion("double_unit_ids <", value, "doubleUnitIds");
             return (Criteria) this;
         }
 
-        public Criteria andDoubleUnitIdLessThanOrEqualTo(Integer value) {
-            addCriterion("double_unit_id <=", value, "doubleUnitId");
+        public Criteria andDoubleUnitIdsLessThanOrEqualTo(String value) {
+            addCriterion("double_unit_ids <=", value, "doubleUnitIds");
             return (Criteria) this;
         }
 
-        public Criteria andDoubleUnitIdIn(List<Integer> values) {
-            addCriterion("double_unit_id in", values, "doubleUnitId");
+        public Criteria andDoubleUnitIdsLike(String value) {
+            addCriterion("double_unit_ids like", value, "doubleUnitIds");
             return (Criteria) this;
         }
 
-        public Criteria andDoubleUnitIdNotIn(List<Integer> values) {
-            addCriterion("double_unit_id not in", values, "doubleUnitId");
+        public Criteria andDoubleUnitIdsNotLike(String value) {
+            addCriterion("double_unit_ids not like", value, "doubleUnitIds");
             return (Criteria) this;
         }
 
-        public Criteria andDoubleUnitIdBetween(Integer value1, Integer value2) {
-            addCriterion("double_unit_id between", value1, value2, "doubleUnitId");
+        public Criteria andDoubleUnitIdsIn(List<String> values) {
+            addCriterion("double_unit_ids in", values, "doubleUnitIds");
             return (Criteria) this;
         }
 
-        public Criteria andDoubleUnitIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("double_unit_id not between", value1, value2, "doubleUnitId");
+        public Criteria andDoubleUnitIdsNotIn(List<String> values) {
+            addCriterion("double_unit_ids not in", values, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsBetween(String value1, String value2) {
+            addCriterion("double_unit_ids between", value1, value2, "doubleUnitIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andDoubleUnitIdsNotBetween(String value1, String value2) {
+            addCriterion("double_unit_ids not between", value1, value2, "doubleUnitIds");
             return (Criteria) this;
         }
 

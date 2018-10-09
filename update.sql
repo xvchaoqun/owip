@@ -7,6 +7,11 @@ ALTER TABLE `cadre_post`
 
 更新 cadre_view
 
+更新 cadre_inspect_view
+cadre_reserve_view
+crs_candidate_view
+
+
 -- 更新北化工
 
 20180929

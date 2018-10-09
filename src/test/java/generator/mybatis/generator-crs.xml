@@ -31,13 +31,13 @@
         </table>-->
         <!--<table tableName="crs_candidate" domainObjectName="crs.CrsCandidate" mapperName="crs.CrsCandidateMapper">
         </table>-->
-       <!-- <table tableName="crs_candidate_view" domainObjectName="crs.CrsCandidateView" mapperName="crs.CrsCandidateViewMapper"
+        <table tableName="crs_candidate_view" domainObjectName="crs.CrsCandidateView" mapperName="crs.CrsCandidateViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>-->
+        </table>
         <!--<table tableName="crs_apply_user" domainObjectName="crs.CrsApplyUser" mapperName="crs.CrsApplyUserMapper">
         </table>-->
         <!--<table tableName="crs_apply_rule" domainObjectName="crs.CrsApplyRule" mapperName="crs.CrsApplyRuleMapper">
@@ -49,7 +49,7 @@
         <!-- <table tableName="crs_post_file" domainObjectName="crs.CrsPostFile"  mapperName="crs.CrsPostFileMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <table tableName="crs_applicant" domainObjectName="crs.CrsApplicant"  mapperName="crs.CrsApplicantMapper">
+        <!--<table tableName="crs_applicant" domainObjectName="crs.CrsApplicant"  mapperName="crs.CrsApplicantMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
         <table tableName="crs_applicant_view" domainObjectName="crs.CrsApplicantView"  mapperName="crs.CrsApplicantViewMapper"
@@ -57,7 +57,7 @@
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
             <columnOverride column="is_require_check_pass" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-        </table>
+        </table>-->
         <!-- <table tableName="crs_applicant_stat_view" domainObjectName="crs.CrsApplicantStatView"
                 mapperName="crs.CrsApplicantStatViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
