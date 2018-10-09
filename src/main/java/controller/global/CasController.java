@@ -135,12 +135,11 @@ public class CasController extends BaseController {
                 logger.info(sysLoginLogService.log(null, username,
                         SystemConstants.LOGIN_TYPE_CAS, false, "登录失败"));
             }
-        }
 
-        if(StringUtils.isBlank(username)){
-            return "redirect:/jsp/timeout.jsp";
-        }else {
             return "redirect:/jsp/unauthorized.jsp?username=" + StringUtils.trimToEmpty(username);
         }
+
+        //return "redirect:/jsp/timeout.jsp";
+        return "redirect:/";
     }
 }
