@@ -714,7 +714,7 @@ public class PmdPayCampusCardService extends BaseMapper {
 
             // 此笔账单是否补缴
             boolean isDelay = StringUtils.equals(orderNo.substring(6, 7), "1");
-            if (isDelay && payStatus != 2) {
+            if (isDelay && payStatus != 2) { // isDelay=false时，可能也是补缴，因为当月生成了订单号之后，没有缴费，但是补缴时订单号不会变更。
                 // 按理不会发生此情况？
                 logger.error("[党费收缴]处理支付结果异常，补缴状态异常，订单号：{}", orderNo);
             } else {
@@ -724,7 +724,8 @@ public class PmdPayCampusCardService extends BaseMapper {
                 }
 
                 // 收到支付通知时，要求订单的缴费月份必须是当前系统设定的缴费月份，否则不允许更新。（注：订单号是由当时的缴费月份生成的）
-                if(payMonthId != currentPmdMonth.getId()) {
+                if(payMonthId != currentPmdMonth.getId()
+                        && BooleanUtils.isFalse(pmdMemberPayView.getIsDelay())) {
                     logger.error("[党费收缴]处理支付结果异常，缴费月份和当前缴费月份不同，不允许缴费，订单号：{}", orderNo);
                     //return;  // 为了本人页面正常显示支付成功，这里需要放行
                 }

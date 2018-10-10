@@ -200,6 +200,7 @@ public class EnterApplyService extends BaseMapper{
             record.setIsBack(false);
             memberInMapper.insert(record);
         }else {
+            record.setId(memberIn.getId());
             record.setIsBack(false);
             memberInMapper.updateByPrimaryKey(record);
         }
