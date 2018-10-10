@@ -278,8 +278,14 @@
 		var $eduId = $("select[name=eduId]");
 		if($eduId.val()=="${cm:getMetaTypeByCode("mt_edu_master").id}"
 				|| $eduId.val()=="${cm:getMetaTypeByCode("mt_edu_doctor").id}"){
+			<c:if test="${sysUser.userId!=_user.userId}">
+			$("input[name=tutorName]").prop("disabled", false);
+			$("input[name=tutorTitle]").prop("disabled", false);
+			</c:if>
+			<c:if test="${sysUser.userId==_user.userId}">
 			$("input[name=tutorName]").prop("disabled", false).attr("required", "required");
 			$("input[name=tutorTitle]").prop("disabled", false).attr("required", "required");
+			</c:if>
 		}else{
 			$("input[name=tutorName]").val('').prop("disabled", true).removeAttr("required");
 			$("input[name=tutorTitle]").val('').prop("disabled", true).removeAttr("required");
