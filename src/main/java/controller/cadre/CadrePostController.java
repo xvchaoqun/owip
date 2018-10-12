@@ -114,7 +114,7 @@ public class CadrePostController extends BaseController {
     @ResponseBody
     public Map do_cadrePost_au(CadrePost record,
                                Boolean isCpc,
-                               @RequestParam(value = "unitIds[]") Integer[] unitIds,
+                               @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
                                HttpServletRequest request) {
 
         Integer id = record.getId();

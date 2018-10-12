@@ -5,7 +5,7 @@ pageEncoding="UTF-8" %>
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
     <h3>关联${param.cls=='start'?"始任":"结束"}文件</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body" style="overflow-x: scroll;margin-right: 5px;">
     <c:if test="${fn:length(dispatchCadres)>0}">
         <table class="table table-actived table-striped table-bordered table-hover">
             <thead>

@@ -1,4 +1,8 @@
 
+
+20181012
+更新 mysql-connector-java 5.1.10
+
 20181011
 更新 druid 1.1.11
 
