@@ -29,7 +29,7 @@ public abstract class Source {
 
     //public DruidDataSource bnuDS;
     private Logger logger = LoggerFactory.getLogger(getClass());
-    protected Connection conn;
+    protected static Connection conn;
     @Autowired
     public SysSyncMapper sysSyncMapper;
     protected static Dialect dialect = null;
@@ -52,7 +52,7 @@ public abstract class Source {
                 break;
         }
 
-        //if (null == conn) {
+        if (null == conn) {
             try {
                 ApplicationContext ac = new ClassPathXmlApplicationContext(
                         new String[]{"/ext-source.xml"});
@@ -62,7 +62,7 @@ public abstract class Source {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-        //}
+        }
         return conn;
     }
 
