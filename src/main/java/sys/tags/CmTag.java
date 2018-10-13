@@ -100,7 +100,7 @@ public class CmTag {
 
             bean = context.getBean(cls);
         }catch (Exception ex){
-            logger.error(ex.getMessage());
+            logger.warn(ex.getMessage());
         }
 
         return bean;

@@ -122,9 +122,9 @@ public abstract class Source {
             ex.printStackTrace();
         } finally {
             try {
-                if(rs!=null && !rs.isClosed())
+                if(rs!=null)
                     rs.close();
-                if(stat!=null && !stat.isClosed())
+                if(stat!=null)
                     stat.close();
             } catch (Exception ex) {
                 logger.error("关闭失败, {}", JSONUtils.toString(map));
@@ -168,9 +168,9 @@ public abstract class Source {
             ex.printStackTrace();
         } finally {
             try {
-                if(rs!=null && !rs.isClosed())
+                if(rs!=null)
                     rs.close();
-                if(stat!=null && !stat.isClosed())
+                if(stat!=null)
                     stat.close();
             } catch (Exception ex) {
                 logger.error("关闭失败, {}", JSONUtils.toString(map));
@@ -238,9 +238,9 @@ public abstract class Source {
             ex.printStackTrace();
         } finally {
             try {
-                if(rs!=null && !rs.isClosed())
+                if(rs!=null)
                     rs.close();
-                if(stat!=null && !stat.isClosed())
+                if(stat!=null)
                     stat.close();
             } catch (Exception ex) {
                 logger.error("关闭失败, {}", JSONUtils.toString(map));

@@ -159,7 +159,7 @@ public class CrpRecordController extends BaseController {
             crpRecordService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加干部挂职锻炼：%s", record.getId()));
         } else {
-
+            record.setIsFinished(null);
             crpRecordService.updateByPrimaryKeySelective(record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部挂职锻炼：%s", record.getId()));
         }

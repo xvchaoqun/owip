@@ -47,21 +47,21 @@
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="crpRecord:edit">
-                                <c:if test="${!isFinished}">
-                                    <a class="popupBtn btn btn-info btn-sm"
-                                       data-url="${ctx}/crpRecord_au?type=${param.type}"><i class="fa fa-plus"></i>
-                                        添加</a>
-                                </c:if>
-                                <a class="jqOpenViewBtn btn btn-primary btn-sm"
+                                <a class="popupBtn btn btn-info btn-sm" data-width="900"
+                                   data-url="${ctx}/crpRecord_au?type=${param.type}&isFinished=${isFinished?1:0}"><i class="fa fa-plus"></i>
+                                    添加</a>
+                                <a class="jqOpenViewBtn btn btn-primary btn-sm" data-width="900"
                                    data-url="${ctx}/crpRecord_au"
                                    data-grid-id="#jqGrid"
-                                   data-querystr="&type=${param.type}"><i class="fa fa-edit"></i>
+                                   data-querystr="&type=${param.type}&isFinished=${isFinished?1:0}"><i class="fa fa-edit"></i>
                                     修改</a>
                             </shiro:hasPermission>
+                            <c:if test="${!isFinished}">
                             <a class="jqOpenViewBtn btn btn-warning btn-sm"
                                data-url="${ctx}/crpRecord_finish"
                                data-grid-id="#jqGrid"><i class="fa fa-power-off"></i>
                                 挂职结束</a>
+                            </c:if>
                             <shiro:hasPermission name="crpRecord:del">
                                 <button data-url="${ctx}/crpRecord_batchDel"
                                         data-title="删除"

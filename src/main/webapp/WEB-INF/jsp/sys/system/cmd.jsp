@@ -29,7 +29,7 @@
                         <div class="cmd">sudo /etc/init.d/jsvc-owip restart</div> <button class="exeBtn btn btn-xs btn-primary"><i class="fa fa-flash"></i> 执行</button>
                     </div>
                     <div class="sample">
-                        <div class="cmd">tail -n20 /usr/local/apache-tomcat-8.0.15/logs/catalina.out</div> <button class="exeBtn btn btn-xs btn-primary"><i class="fa fa-flash"></i> 执行</button>
+                        <div class="cmd">tail -n20 /data/logs/catalina.out</div> <button class="exeBtn btn btn-xs btn-primary"><i class="fa fa-flash"></i> 执行</button>
                     </div>
                 </td>
             </tr>
