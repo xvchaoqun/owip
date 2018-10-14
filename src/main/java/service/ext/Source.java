@@ -29,7 +29,7 @@ public abstract class Source {
 
     //public DruidDataSource bnuDS;
     private Logger logger = LoggerFactory.getLogger(getClass());
-    protected static Connection conn;
+    protected Connection conn;
     @Autowired
     public SysSyncMapper sysSyncMapper;
     protected static Dialect dialect = null;
