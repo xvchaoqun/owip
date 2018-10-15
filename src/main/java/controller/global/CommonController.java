@@ -146,6 +146,10 @@ public class CommonController extends BaseController {
                     cadreStatusSet = CadreConstants.CADRE_STATUS_NOW_SET;
                 } else if (type == 3) {
                     cadreStatusSet = CadreConstants.CADRE_STATUS_LEAVE_SET;
+                }else{
+                    cadreStatusSet.addAll(CadreConstants.CADRE_STATUS_SET);
+                    cadreStatusSet.add(CadreConstants.CADRE_STATUS_RESERVE);
+                    cadreStatusSet.add(CadreConstants.CADRE_STATUS_INSPECT);
                 }
             } else {
                 cadreStatusSet = new HashSet<>(Arrays.asList(types));
