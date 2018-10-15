@@ -17,6 +17,7 @@ public class DispatchCadre implements Serializable {
     }
     public SysUserView getUser(){
         CadreView cadre = getCadre();
+        if(cadre==null) return null;
         return CmTag.getUserById(cadre.getUserId());
     }
     public CadreView getCadre(){

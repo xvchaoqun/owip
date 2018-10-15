@@ -175,6 +175,7 @@
             { label:'干部类型', name: 'cadreTypeId', formatter: $.jgrid.formatter.MetaType},
             { label:'工作证号', name: 'user.code'},
             { label:'姓名', name: 'user.realname', formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.cadre==undefined) return ''
                 return $.cadre(rowObject.cadre.id, cellvalue);
             }},
             { label:'职务', name: 'post', width: 150 },
