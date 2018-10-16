@@ -54,7 +54,7 @@ import java.util.Map;
  * Created by fafa on 2016/10/28.
  */
 @Service
-public class CadreAdformService extends BaseMapper{
+public class CadreAdformService extends BaseMapper {
 
     @Autowired
     private FreemarkerService freemarkerService;
@@ -483,7 +483,7 @@ public class CadreAdformService extends BaseMapper{
 
         String ftitle = "";
         if(cf!=null){
-            ftitle =CadreConstants.CADRE_FAMILY_TITLE_MAP.get(cf.getTitle());
+            ftitle = CadreConstants.CADRE_FAMILY_TITLE_MAP.get(cf.getTitle());
         }
         dataMap.put("ftitle", StringUtils.trimToEmpty(ftitle));
         dataMap.put("fname", cf==null?"":StringUtils.trimToEmpty(cf.getRealname()));

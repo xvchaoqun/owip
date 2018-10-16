@@ -24,7 +24,7 @@ public class CadreAdLogService extends BaseMapper {
         Cadre cadre = cadreMapper.selectByPrimaryKey(cadreId);
         CadreAdLog record = new CadreAdLog();
         try {
-            ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+            ConvertUtils.register(new DateConverter(null), Date.class);
             BeanUtils.copyProperties(record, cadre);
         } catch (IllegalAccessException e) {
             e.printStackTrace();

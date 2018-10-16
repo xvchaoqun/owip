@@ -210,7 +210,7 @@ public class HtmlFragmentController extends BaseController {
         return "sys/htmlFragment/hf_content_page";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("HtmlFragment:edit")
     @RequestMapping("/htmlFragment_selects")
     @ResponseBody
     public Map htmlFragment_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {

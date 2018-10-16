@@ -304,7 +304,7 @@ public class CadreInfoCheckService extends BaseMapper {
             }
         }
 
-        return hasModify?CadreConstants.CADRE_INFO_CHECK_RESULT_MODIFY:CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
+        return hasModify? CadreConstants.CADRE_INFO_CHECK_RESULT_MODIFY: CadreConstants.CADRE_INFO_CHECK_RESULT_EXIST;
     }
 
     // 家庭信息

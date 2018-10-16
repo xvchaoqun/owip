@@ -16,7 +16,7 @@ import java.util.List;
  * Created by lm on 2018/6/20.
  */
 @Service
-public class CadrePartyService extends BaseMapper{
+public class CadrePartyService extends BaseMapper {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -436,6 +436,12 @@ public class CadreWorkService extends BaseMapper {
     @Transactional
     public void modifyApply(CadreWork record, Integer id, boolean isDelete) {
 
+        // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
+        if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)
+                || ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)){
+            throw new OpException("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
+        }
+
         CadreWork original = null; // 修改、删除申请对应的原纪录
         byte type;
         if (isDelete) { // 删除申请时id不允许为空

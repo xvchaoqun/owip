@@ -1,6 +1,5 @@
 package service.cadre;
 
-import persistence.dispatch.common.DispatchCadreRelateBean;
 import domain.base.MetaType;
 import domain.cadre.CadreAdminLevel;
 import domain.cadre.CadreEdu;
@@ -24,6 +23,7 @@ import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import persistence.dispatch.common.DispatchCadreRelateBean;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.party.BranchService;
@@ -291,7 +291,7 @@ public class CadreExportService extends BaseMapper {
                     metaTypeService.getName(record.getTypeId()),
                     metaTypeService.getName(record.getPostId()),
                     isPositive,
-                    record.getGender()==null?"":SystemConstants.GENDER_MAP.get(record.getGender()),
+                    record.getGender()==null?"": SystemConstants.GENDER_MAP.get(record.getGender()),
 
                     record.getNation(),
                     record.getNativePlace(),
@@ -312,7 +312,7 @@ public class CadreExportService extends BaseMapper {
                     record.getSchool(),
 
                     // 学校类型
-                    record.getSchoolType()==null?"":CadreConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
+                    record.getSchoolType()==null?"": CadreConstants.CADRE_SCHOOL_TYPE_MAP.get(record.getSchoolType()),
                     record.getMajor(),
                     _fulltimeEdu,
                     _fulltimeMajor,
