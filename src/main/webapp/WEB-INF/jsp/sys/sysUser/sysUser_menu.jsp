@@ -57,7 +57,7 @@
             <div class="panel-body">
                 <div class="sidebar-review2" style="margin-left: 10px">
                     <div class="sidebar">
-                        <c:import url="/menu?username=${uv.username}&isMobile=1"/>
+                        <c:import url="/menu?username=${uv.username}&isPreview=1&isMobile=1"/>
                     </div>
                 </div>
             </div>
