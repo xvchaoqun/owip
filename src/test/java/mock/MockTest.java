@@ -42,7 +42,7 @@ public class MockTest {
     @Test
     public void getAccount() throws Exception {
 
-        this.mockMvc.perform(get("/avatar/zzbgz2016"))
+        this.mockMvc.perform(get("/avatar?path=xxxxx"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))

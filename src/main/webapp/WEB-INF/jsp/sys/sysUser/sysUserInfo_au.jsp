@@ -182,9 +182,9 @@
     });
     $("#_avatar").find('button[type=reset]').on(ace.click_event, function(){
         //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/${sysUser.username}'}]);
+        $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${sysUser.avatar}'}]);
     });
-    $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/${sysUser.username}'}]);
+    $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${sysUser.avatar}'}]);
 
     $("#body-content-view button[type=submit]").click(function () {
         $("#modalForm").submit();

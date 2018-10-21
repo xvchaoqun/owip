@@ -39,7 +39,7 @@
 						<!-- #section:basics/navbar.user_menu -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="javascript:;" class="dropdown-toggle">
-								<img class="nav-user-photo" src="${ctx}/m/avatar/${_user.username}?m=1" width="90" alt="头像" />
+								<img class="nav-user-photo" src="${ctx}/m/avatar?path=${_user.avatar}&m=1" width="90" alt="头像" />
 
 								<i class="ace-icon fa fa-caret-down"></i>
 							</a>

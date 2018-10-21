@@ -56,9 +56,9 @@
     })
     $("#_avatar").find('button[type=reset]').on(ace.click_event, function(){
         //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/${uv.username}'}]);
+        $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${uv.avatar}'}]);
     });
-    $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar/${uv.username}?_=<%=new Date().getTime()%>'}]);
+    $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${uv.avatar}&_=<%=new Date().getTime()%>'}]);
 
     <c:if test="${not empty mbis}">
     var mbis = ${cm:toJSONArray(mbis)};

@@ -18,7 +18,7 @@ pageEncoding="UTF-8"%>
 			<tr>
 				<td rowspan="5" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-					<img src="${ctx}/avatar/${sysUser.username}" class="avatar">
+					<img src="${ctx}/avatar?path=${sysUser.avatar}" class="avatar">
 				</td>
 
 				<td class="bg-right">

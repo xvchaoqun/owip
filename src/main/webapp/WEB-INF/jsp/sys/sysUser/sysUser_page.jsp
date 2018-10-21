@@ -172,10 +172,10 @@
             { label:'头像', name: 'avatar', width: 50, formatter:function(cellvalue, options, rowObject){
                 if($.trim(rowObject.username)=='') return ''
 
-                var html ='<img title="点击修改头像" src="${ctx}/avatar/{0}?_={1}"'
+                var html ='<img title="点击修改头像" src="${ctx}/avatar?path={0}&_={1}"'
                         +'class="avatar" data-id="{2}"'
-                        +'data-hasimg="{3}" data-username="{4}">';
-                html = html.format(rowObject.username, new Date().getTime(), rowObject.id, rowObject.avatar!='', rowObject.username);
+                        +'data-hasimg="{3}" data-avatar="{4}">';
+                html = html.format(rowObject.avatar, new Date().getTime(), rowObject.id, rowObject.avatar!='', rowObject.avatar);
                 return html;
             },frozen:true},
             { label: '类别', name: 'type', width: 100, formatter:function(cellvalue, options, rowObject){
@@ -302,7 +302,7 @@
         })
 
         if($(this).data("hasimg")) {
-            var path = '${ctx}/avatar/'+$(this).data("username") +"?_="+new Date().getTime();
+            var path = '${ctx}/avatar?path='+$(this).data("avatar") +"&_="+new Date().getTime();
             file.ace_file_input('show_file_list', [{type: 'image', name:path, title:''}]);
         }
         form.on('submit', function(){

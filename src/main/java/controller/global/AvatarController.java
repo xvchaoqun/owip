@@ -2,7 +2,6 @@ package controller.global;
 
 import bean.AvatarImportResult;
 import controller.BaseController;
-import domain.sys.SysUserView;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,7 +18,6 @@ import sys.constants.RoleConstants;
 import sys.utils.FileUtils;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -35,35 +32,19 @@ public class AvatarController extends BaseController {
     // 头像
     @GetMapping(value="/avatar", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
-    public byte[] show_avatar(String path, HttpServletResponse response) throws IOException {
+    public byte[] show_avatar(String path,
+                              // m=1 移动端
+                              @RequestParam(defaultValue = "0", required = false)boolean m ) throws IOException {
 
         String _path = springProps.avatarFolder + path;
         if(StringUtils.isBlank(path) || !new File(_path).exists()){
             _path = springProps.avatarFolder + FILE_SEPARATOR + springProps.defaultAvatar;
         }
-        return FileUtils.getBytes(_path);
-    }
 
-    @GetMapping(value="/avatar/{username:.+}", produces = MediaType.IMAGE_JPEG_VALUE)
-    @ResponseBody
-    public byte[] avatar(@PathVariable String username,
-                       // m=1 移动端
-                       @RequestParam(defaultValue = "0", required = false)boolean m ) throws IOException {
-
-        String filepath = null;
-        SysUserView sysUser = sysUserService.findByUsername(username);
-        if(StringUtils.isNotBlank(sysUser.getAvatar())) {
-            if (new File(springProps.avatarFolder + sysUser.getAvatar()).exists()) {
-                filepath = springProps.avatarFolder + sysUser.getAvatar();
-            }
-        }
-
-        if(filepath==null)
-            filepath = springProps.avatarFolder + FILE_SEPARATOR + springProps.defaultAvatar;
         if(!m){
-            return FileUtils.getBytes(filepath);
+            return FileUtils.getBytes(_path);
         }else{
-            BufferedImage bi = ImageIO.read(new File(filepath));
+            BufferedImage bi = ImageIO.read(new File(_path));
             int srcWidth = bi.getWidth();      // 源图宽度
             int srcHeight = bi.getHeight();    // 源图高度
 
@@ -71,7 +52,7 @@ public class AvatarController extends BaseController {
             int tmp = srcWidth<srcHeight?(128*srcWidth/srcHeight):(128*srcHeight/srcWidth);
             int size = tmp<128?tmp:128;
 
-            BufferedImage bufferedImage = Thumbnails.of(filepath)
+            BufferedImage bufferedImage = Thumbnails.of(_path)
                     .sourceRegion(Positions.CENTER, region, region)
                     .size(size, size)
                     .keepAspectRatio(true).asBufferedImage();
