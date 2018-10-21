@@ -22,7 +22,7 @@ public class ExtUnitService extends Source {
 
         Map<String, SchoolUnit> unitMap = new LinkedHashMap<>();
 
-        /*initConn();
+        /*Connection conn = getConn();
         Statement stat = null;
         ResultSet rs = null;
 
@@ -41,12 +41,7 @@ public class ExtUnitService extends Source {
         } catch (SQLException e) {
            logger.error("查询学校单位列表异常", e);
         } finally {
-            try {
-                rs.close();
-                stat.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            realeaseResource(rs, stat, conn);
         }*/
 
         return unitMap;

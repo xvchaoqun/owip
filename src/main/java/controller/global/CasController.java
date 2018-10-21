@@ -6,6 +6,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -23,14 +24,10 @@ import shiro.ShiroHelper;
 import shiro.ShiroUser;
 import sys.CasUtils;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
-import sys.tags.CmTag;
-import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Set;
 
 /**
  * Created by fafa on 2016/6/9.
@@ -46,10 +43,11 @@ public class CasController extends BaseController {
     @Autowired
     private SysLoginLogService sysLoginLogService;
 
-    @RequestMapping("/cas_test")
-    public String cas_test(String username, HttpServletRequest request, HttpServletResponse response) {
+    @RequiresPermissions("sysLogin:switch")
+    @RequestMapping("/login_switch")
+    public String login_switch(String username, HttpServletRequest request, HttpServletResponse response) {
 
-        boolean lackRoleAdmin = !ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN,
+        /*boolean lackRoleAdmin = !ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ADMIN,
                 RoleConstants.ROLE_ADMIN1);
         if(!PropertiesUtils.getBoolean("devMode")){
             if(lackRoleAdmin) { // 允许系统管理员、管理员在登录状态下登录别的账号，且不产生登录记录
@@ -64,12 +62,12 @@ public class CasController extends BaseController {
                     }
                 }
             }
-        }
+        }*/
 
         logger.info(addLog(LogConstants.LOG_ADMIN, "切换账号登录%s", username));
 
         String _switchUser = ShiroHelper.getCurrentUsername();
-        return casLogin(username, lackRoleAdmin, request, response, _switchUser);
+        return directLogin(username, false, request, response, _switchUser);
     }
 
     // 切换回主账号
@@ -84,7 +82,7 @@ public class CasController extends BaseController {
         Cache<Object, Object> cache = cacheManager.getCache("shiro-kickout-session");
         cache.remove(ShiroHelper.getCurrentUsername());
 
-        return casLogin(switchUser, false, request, response, null);
+        return directLogin(switchUser, false, request, response, null);
     }
 
     @RequestMapping("/cas")
@@ -97,12 +95,12 @@ public class CasController extends BaseController {
             return "redirect:/";
         }
 
-        return casLogin(username, true, request, response, null);
+        return directLogin(username, true, request, response, null);
     }
 
-    private String casLogin(String username, boolean hasLoginLog,
-                            HttpServletRequest request, HttpServletResponse response,
-                            String _switchUser){
+    private String directLogin(String username, boolean needLoginLog,
+                               HttpServletRequest request, HttpServletResponse response,
+                               String _switchUser){
 
         if (StringUtils.isNotBlank(username)) {
             SysUserView uv = sysUserService.findByUsername(username);
@@ -120,7 +118,7 @@ public class CasController extends BaseController {
 
                 sysLoginLogService.setTimeout(SecurityUtils.getSubject());
 
-                if(hasLoginLog) {
+                if(needLoginLog) {
                     logger.info(sysLoginLogService.log(shiroUser.getId(), shiroUser.getUsername(),
                             SystemConstants.LOGIN_TYPE_CAS, true, "登录成功"));
                 }

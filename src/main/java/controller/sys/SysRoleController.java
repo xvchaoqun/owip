@@ -7,7 +7,7 @@ import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -39,14 +39,14 @@ public class SysRoleController extends BaseController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysRole:list")
 	@RequestMapping("/sysRole")
 	public String sysRole() {
 
 		return "sys/sysRole/sysRole_page";
 	}
 
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysRole:list")
 	@RequestMapping("/sysRole_data")
 	@ResponseBody
 	public void sysRole_data(HttpServletRequest request, Integer pageSize, Integer pageNo, String searchStr) throws IOException {
@@ -86,7 +86,7 @@ public class SysRoleController extends BaseController {
 		return;
 	}
 
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysRole:edit")
 	@RequestMapping(value="/sysRole_au", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysRole_au(@CurrentUser SysUserView loginUser,
@@ -127,7 +127,7 @@ public class SysRoleController extends BaseController {
 		return success(FormUtils.SUCCESS);
 	}
 
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysRole:edit")
 	@RequestMapping("/sysRole_au")
 	public String sysRole_au(Integer id, ModelMap modelMap) throws IOException {
 
@@ -169,7 +169,7 @@ public class SysRoleController extends BaseController {
 		
 		return "sys/sysRole/sysRole_au";
 	}
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysRole:del")
 	@RequestMapping(value="/sysRole_del", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysRole_del(@CurrentUser SysUserView loginUser,
@@ -182,7 +182,7 @@ public class SysRoleController extends BaseController {
 		return success(FormUtils.SUCCESS);
 	}
 
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysRole:edit")
 	@RequestMapping(value = "/sysRole_changeOrder", method = RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysRole_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
@@ -192,7 +192,7 @@ public class SysRoleController extends BaseController {
 		return success(FormUtils.SUCCESS);
 	}
 
-	@RequiresRoles(RoleConstants.ROLE_ADMIN)
+	@RequiresPermissions("sysRole:edit")
 	@RequestMapping(value="/sysRole_updateIsSysHold", method=RequestMethod.POST)
 	@ResponseBody
 	public Map do_sysRole_updateIsSysHold(@CurrentUser SysUserView loginUser, Integer id, HttpServletRequest request) {

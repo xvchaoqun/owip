@@ -1,6 +1,7 @@
 package controller.sys;
 
 import controller.BaseController;
+import domain.sys.SysRole;
 import domain.sys.SysUser;
 import domain.sys.SysUserExample;
 import domain.sys.SysUserExample.Criteria;
@@ -17,7 +18,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -30,11 +30,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import shiro.ShiroHelper;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
-import sys.shiro.CurrentUser;
 import sys.shiro.SaltPassword;
+import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
 import sys.utils.ExportHelper;
@@ -45,6 +46,7 @@ import sys.utils.MSUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -149,7 +151,7 @@ public class SysUserController extends BaseController {
         return;
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser_roles")
     public String sysUser_types(String _sysUsername, ModelMap modelMap) {
 
@@ -159,7 +161,7 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUser_roles";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUser_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUser_au(@Validated SysUser sysUser, BindingResult result, HttpServletRequest request) {
@@ -218,7 +220,7 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("sysUser:edit")
     @RequestMapping("/sysUser_au")
     public String sysUser_au(Integer id, ModelMap modelMap) {
 
@@ -231,7 +233,7 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUser_au";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUserInfo_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUserInfo_au(int userId, SysUserInfo record, MultipartFile _avatar) throws IOException {
@@ -245,7 +247,7 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("sysUser:edit")
     @RequestMapping("/sysUserInfo_au")
     public String sysUserInfo_au(Integer userId, ModelMap modelMap) {
 
@@ -261,7 +263,7 @@ public class SysUserController extends BaseController {
     }
 
     // 预览用户的菜单
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUser_menu")
     public String sysUser_menu(int userId, ModelMap modelMap) {
 
@@ -270,7 +272,7 @@ public class SysUserController extends BaseController {
         return "sys/sysUser/sysUser_menu";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("sysUser:del")
     @RequestMapping(value = "/sysUser_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_sysUser_del(@RequestParam(value = "ids[]") Integer[] ids, boolean locked, HttpServletRequest request) {
@@ -285,17 +287,25 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("sysUser:edit")
     @RequestMapping(value = "/sysUserRole", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_sysUserRole(@CurrentUser SysUserView loginSysUser,
-                              SysUser sysUser,
+    public Map do_sysUserRole(SysUser sysUser,
                               @RequestParam(value = "rIds[]", required = false) Integer[] rIds,
                               HttpServletRequest request) {
 
         if (rIds == null || rIds.length == 0) {
             rIds = new Integer[1];
             rIds[0] = -1;
+        }
+        Set<Integer> roleIdSet = new HashSet<>(Arrays.asList(rIds));
+        boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
+        // 只有超级管理员允许修改为系统管理员，如果不是则不选项系统管理员的选项
+        if(!superAccount) {
+            SysRole admin = sysRoleService.getByRole(RoleConstants.ROLE_ADMIN);
+            if(admin!=null){
+                roleIdSet.remove(admin.getId());
+            }
         }
 
         sysUserService.updateUserRoles(sysUser.getId(),  "," + StringUtils.join(rIds, ",") + ",");
@@ -304,7 +314,7 @@ public class SysUserController extends BaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("sysUser:list")
     @RequestMapping("/sysUserRole")
     public String sysUserRole(Integer id, ModelMap modelMap) throws IOException {
 

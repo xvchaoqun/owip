@@ -1,4 +1,28 @@
 
+20181021
+
+pom.xml:
+	升级 quartz 2.3.0
+(删除 c3p0-0.9.1.1.jar， quartzxxxx-2.2.1.jar)
+
+
+update sys_resource set permission='sysRole:*' where permission='sys:role';
+
+sysLogin:switch  切换账号登录
+
+sysOnlineLog:kickout  踢用户
+
+profile:updateAvatar 更新头像
+
+menu:preview  菜单预览
+
+
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (853, 0, '系统功能点', '', 'menu', '', NULL, 21, '0/1/21/', 0, 'sys:function', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (854, 0, '切换账号登录', '', 'function', '', NULL, 853, '0/1/21/853/', 1, 'sysLogin:switch', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (855, 0, '踢用户', '', 'function', '', NULL, 853, '0/1/21/853/', 1, 'sysOnlineLog:kickout', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (856, 0, '更新头像', '', 'function', '', NULL, 853, '0/1/21/853/', 1, 'profile:updateAvatar', NULL, NULL, 1, NULL);
+INSERT INTO `sys_resource` (`id`, `is_mobile`, `name`, `remark`, `type`, `menu_css`, `url`, `parent_id`, `parent_ids`, `is_leaf`, `permission`, `count_cache_keys`, `count_cache_roles`, `available`, `sort_order`) VALUES (857, 0, '菜单预览', '', 'function', '', NULL, 853, '0/1/21/853/', 1, 'menu:preview', NULL, NULL, 1, NULL);
+
 
 20181012
 更新 mysql-connector-java 5.1.10

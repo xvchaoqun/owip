@@ -14,11 +14,10 @@
             ||not empty param.code ||not empty param.username ||not empty param.idcard
             ||not empty param.roleId ||not empty param.typeId || not empty param.locked}"/>
             <div class="jqgrid-vertical-offset buttons">
-                <shiro:hasRole name="${ROLE_ADMIN}">
-                    <a class="editBtn btn btn-info btn-sm">
-                        <i class="fa fa-plus"></i> 添加账号
-                    </a>
                     <shiro:hasPermission name="sysUser:edit">
+                        <a class="editBtn btn btn-info btn-sm">
+                            <i class="fa fa-plus"></i> 添加账号
+                        </a>
                         <button class="jqEditBtn btn btn-primary btn-sm">
                             <i class="fa fa-edit"></i> 修改账号
                         </button>
@@ -27,27 +26,28 @@
                                 data-open-by="page" data-id-name="userId">
                             <i class="fa fa-edit"></i> 修改人事基础信息
                         </button>
+                        <button class="jqOpenViewBtn btn btn-warning btn-sm"
+                                data-url="${ctx}/sysUserRole">
+                            <i class="fa fa-pencil"></i> 修改角色
+                        </button>
+                        <button disabled id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
+                                data-url="${ctx}/sysUser_del" data-title="账号解禁"
+                                data-msg="确定解禁该账号吗?" data-querystr="&locked=0">
+                            <i class="fa fa-edit"></i> 解禁
+                        </button>
+                        <button disabled id='lockBtn' class="jqBatchBtn btn btn-danger btn-sm"
+                                data-url="${ctx}/sysUser_del" data-title="账号禁用"
+                                data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
+                            <i class="fa fa-edit"></i> 禁用
+                        </button>
                     </shiro:hasPermission>
+                    <shiro:hasPermission name="menu:preview">
                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
                             data-url="${ctx}/sysUser_menu" data-width="850"
                             data-id-name="userId">
                         <i class="fa fa-search"></i> 菜单预览
                     </button>
-                    <button class="jqOpenViewBtn btn btn-warning btn-sm"
-                            data-url="${ctx}/sysUserRole">
-                        <i class="fa fa-pencil"></i> 修改角色
-                    </button>
-                    <button disabled id='unlockBtn' class="jqBatchBtn btn btn-success btn-sm"
-                            data-url="${ctx}/sysUser_del" data-title="账号解禁"
-                            data-msg="确定解禁该账号吗?" data-querystr="&locked=0">
-                        <i class="fa fa-edit"></i> 解禁
-                    </button>
-                    <button disabled id='lockBtn' class="jqBatchBtn btn btn-danger btn-sm"
-                            data-url="${ctx}/sysUser_del" data-title="账号禁用"
-                            data-msg="确定禁用该账号吗?" data-querystr="&locked=1">
-                        <i class="fa fa-edit"></i> 禁用
-                    </button>
-                </shiro:hasRole>
+                    </shiro:hasPermission>
             </div>
             <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                 <div class="widget-header">
@@ -238,7 +238,9 @@
             }
         }
     }).jqGrid("setFrozenColumns").on("initGrid",function(){
+        <shiro:hasPermission name="profile:updateAvatar">
         $('.avatar').on('click', showAvatarModal);
+        </shiro:hasPermission>
     });
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
@@ -304,7 +306,10 @@
             file.ace_file_input('show_file_list', [{type: 'image', name:path, title:''}]);
         }
         form.on('submit', function(){
-            if(!file.data('ace_input_files')) return false;
+            if(!file.data('ace_input_files')){ // 没有选择或变更图片
+                modal.modal("hide");
+                return false;
+            }
 
             //file.ace_file_input('disable');
             form.find('button').attr('disabled', 'disabled');

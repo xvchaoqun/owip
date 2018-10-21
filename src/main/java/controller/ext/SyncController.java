@@ -15,7 +15,6 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,6 @@ import service.ext.ExtJzgImport;
 import service.ext.ExtRetireSalaryImport;
 import service.ext.ExtYjsImport;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.FormUtils;
@@ -58,7 +56,7 @@ public class SyncController extends BaseController {
     private ExtRetireSalaryImport extRetireSalaryImport;
 
     // 同步学校信息（系统不存在账号插入，已存在的更新）
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("sysSync:edit")
     @RequestMapping("/sync_retire_salary")
     @ResponseBody
     public String sync_retire_salary(String rq) {

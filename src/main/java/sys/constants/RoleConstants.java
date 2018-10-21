@@ -9,7 +9,7 @@ import java.util.Map;
 public class RoleConstants {
 
     // 系统角色（与数据库对应的角色字符串不可以修改！）
-    public static final String ROLE_ADMIN = "admin"; // 系统管理员
+    public static final String ROLE_ADMIN = "admin"; // 系统管理员（超级管理员）
     public static final String ROLE_ADMIN1 = "admin1"; // 管理员
     public static final String ROLE_GUEST = "guest";
     public static final String ROLE_REG = "reg"; // 注册用户，未审核通过

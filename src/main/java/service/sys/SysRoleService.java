@@ -158,7 +158,8 @@ public class SysRoleService extends BaseMapper {
 
 		return permissions;
 	}
-	
+
+	// checkIsSysHold: 是否考虑系统自动赋予角色，如果考虑，则不允许手动更改。
 	public TreeNode getTree(Set<Integer> selectIdSet, boolean checkIsSysHold){
 		
 		if(null == selectIdSet) selectIdSet = new HashSet<Integer>();
@@ -170,30 +171,33 @@ public class SysRoleService extends BaseMapper {
 		root.hideCheckbox = true;
 		root.children =  new ArrayList<TreeNode>();
 		
-		SysRoleExample example2 = new SysRoleExample();
-		List<SysRole> sysRoles = sysRoleMapper.selectByExample(example2);
-
+		List<SysRole> sysRoles = sysRoleMapper.selectByExample(new SysRoleExample());
 		boolean superAccount = CmTag.isSuperAccount(ShiroHelper.getCurrentUsername());
 
 		for(SysRole sysRole:sysRoles){
-			
+
+			// 只有超级管理员允许修改为系统管理员（如果不是则不显示系统管理员的选项）
+			if(!superAccount &&  StringUtils.equals(sysRole.getRole(), "admin")) {
+				continue;
+			}
+
 			TreeNode node2 = new TreeNode();
 			node2.title = sysRole.getDescription();
-			node2.key = sysRole.getId()+"";
+			node2.key = sysRole.getId() + "";
 			node2.expand = false;
 			node2.isFolder = false;
 			node2.hideCheckbox = false;
-			if(checkIsSysHold && BooleanUtils.isTrue(sysRole.getIsSysHold())) {
+			if (checkIsSysHold && BooleanUtils.isTrue(sysRole.getIsSysHold())) {
 
-				if(!superAccount) node2.unselectable = true;
+				if (!superAccount) node2.unselectable = true;
 				node2.addClass = "unselectable";
 			}
 			node2.children = new ArrayList<TreeNode>();
-			
-			if(selectIdSet.contains(sysRole.getId().intValue())){
+
+			if (selectIdSet.contains(sysRole.getId().intValue())) {
 				node2.select = true;
 			}
-			
+
 			root.children.add(node2);
 		}
 		

@@ -150,7 +150,6 @@
                 /find_pass/** = anon
                 /monitor = anon
                 /cas = anon
-                /cas_test = anon
                 /m/cas = anon
                 /reg = anon
                 /login = authc

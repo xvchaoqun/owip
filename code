@@ -26,7 +26,7 @@ $.register.date($('.date-picker'));
 ${branch.isEnterpriseBig?"checked":""}
 $("#modalForm :checkbox").bootstrapSwitch();
 data-on-text="开" data-off-text="关"
-record.setIsEnterpriseBig((record.getIsEnterpriseBig()==null)?false:record.getIsEnterpriseBig());
+record.setIsEnterpriseBig(BooleanUtils.isTrue(record.getIsEnterpriseBig()));
 
 <input type="checkbox" class="big" name="isGraduated" ${(cadreEdu==null ||cadreEdu.isGraduated)?"checked":""}/>
 

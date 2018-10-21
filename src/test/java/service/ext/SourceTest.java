@@ -17,8 +17,6 @@ public class SourceTest extends Source {
     @Test
     public void getTableColumns() throws Exception {
 
-        initConn();
-
         List<ColumnBean> tableColumns = getTableColumns("ICDC_VIEW", "V_JZG_RS_JZG_JBXX_NEW");
         for (ColumnBean tableColumn : tableColumns) {
             System.out.println(tableColumn);

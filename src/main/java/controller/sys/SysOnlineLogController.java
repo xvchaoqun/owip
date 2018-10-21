@@ -7,7 +7,6 @@ import interceptor.OrderParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.sys.SysOnlineStaticService;
 import shiro.ShiroHelper;
 import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
 import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.JSONUtils;
@@ -99,7 +97,6 @@ public class SysOnlineLogController extends BaseController {
         return;
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
     @RequiresPermissions("sysOnlineLog:kickout")
     @RequestMapping(value = "/sysOnlineLog_kickout", method = RequestMethod.POST)
     @ResponseBody

@@ -65,6 +65,7 @@
 
                             </form>
                         </div>
+                        <shiro:hasPermission name="menu:preview">
                         <div class="col-xs-6 sidebar-review">
                             <div id="sidebar-review" style="float: left;margin-right: 20px;">
                                 <div class="title">网页菜单预览：</div>
@@ -79,6 +80,7 @@
                                 </div>
                             </div>
                         </div>
+                            </shiro:hasPermission>
                     </div>
                 </div>
 
@@ -136,6 +138,7 @@
         children: treeData,
         onSelect: function (select, node) {
             //node.expand(node.data.isFolder && node.isSelected());
+            <shiro:hasPermission name="menu:preview">
             var resIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
                 //if(!node.data.isFolder)
                 return node.data.key;
@@ -143,6 +146,7 @@
             $('#sidebar-review .sidebar').load("${ctx}/menu_preview?isMobile=0",{resIds:resIds},function(){
                 _initMenu();
             });
+            </shiro:hasPermission>
         },
         onCustomRender: function (node) {
             if (node.data.tooltip != null)
@@ -161,6 +165,7 @@
         children: m_treeData,
         onSelect: function (select, node) {
             //node.expand(node.data.isFolder && node.isSelected());
+            <shiro:hasPermission name="menu:preview">
             var resIds = $.map($("#m_tree3").dynatree("getSelectedNodes"), function (node) {
                 //if(!node.data.isFolder)
                 return node.data.key;
@@ -168,6 +173,7 @@
             $('#m-sidebar-review .sidebar').load("${ctx}/menu_preview?isMobile=1",{resIds:resIds},function(){
                 _m_initMenu();
             });
+            </shiro:hasPermission>
         },
         onCustomRender: function (node) {
             if (node.data.tooltip != null)

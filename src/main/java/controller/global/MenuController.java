@@ -4,7 +4,7 @@ import controller.BaseController;
 import domain.sys.SysResource;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +40,7 @@ public class MenuController extends BaseController {
         return "menu";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("menu:preview")
     @RequestMapping("/menu_preview")
     public String menu_preview(boolean isMobile, @RequestParam(value = "resIds[]", required = false) Integer[] resIds,
                                ModelMap modelMap) {
@@ -60,7 +60,7 @@ public class MenuController extends BaseController {
         return "menu";
     }
 
-    @RequiresRoles(RoleConstants.ROLE_ADMIN)
+    @RequiresPermissions("menu:preview")
     @RequestMapping("/menu_preview_byRoleId")
     public String menu_preview_byRoleId(boolean isMobile, Integer roleId, ModelMap modelMap) {
 

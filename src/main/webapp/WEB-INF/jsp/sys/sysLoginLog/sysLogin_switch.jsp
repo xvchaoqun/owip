@@ -59,7 +59,7 @@
                 }
 
                 if(ret.canSwitch && !user.locked && $.trim(user.username)!='' && $.trim(user.username)!='${_user.username}'){
-                    $("#_submitBtn").data("url", "${ctx}/cas_test?username="+ user.username)
+                    $("#_submitBtn").data("url", "${ctx}/login_switch?username="+ user.username)
                             .prop("disabled", false);
                 }else{
                     $("#_submitBtn").prop("disabled", true);
@@ -67,13 +67,4 @@
             }
         })
     });
-   /* $("#submitBtn").click(function(){
-        user = user || {};
-        if(canSwitch && !user.locked && $.trim(user.username)!=''){
-            location.href="${ctx}/cas_test?username="+ user.username;
-            $(this).prop("disabled", false);
-        }else{
-            $(this).prop("disabled", true);
-        }
-    })*/
 </script>

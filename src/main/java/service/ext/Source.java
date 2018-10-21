@@ -29,12 +29,12 @@ public abstract class Source {
 
     //public DruidDataSource bnuDS;
     private Logger logger = LoggerFactory.getLogger(getClass());
-    protected Connection conn;
+    private static DataSource ds;
     @Autowired
     public SysSyncMapper sysSyncMapper;
     protected static Dialect dialect = null;
 
-    public Connection initConn() {
+    public Connection getConn() {
 
         Dialect.Type databaseType = null;
         try {
@@ -52,18 +52,44 @@ public abstract class Source {
                 break;
         }
 
-        if (null == conn) {
+        if (null == ds) {
+            ApplicationContext ac = new ClassPathXmlApplicationContext(
+                    new String[]{"/ext-source.xml"});
+            ds = (DataSource) ac.getBean("extDS");
+        }
+        try {
+            return ds.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    //释放资源
+    public static void realeaseResource(ResultSet rs, Statement stat,Connection conn){
+
+        if(null != rs){
             try {
-                ApplicationContext ac = new ClassPathXmlApplicationContext(
-                        new String[]{"/ext-source.xml"});
-                DataSource dataSource = (DataSource) ac.getBean("extDS");
-                conn = dataSource.getConnection();
+                rs.close();
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
-        return conn;
+
+        if(null != stat){
+            try {
+                stat.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public abstract void update(Map<String, Object> map, ResultSet rs) throws SQLException;
@@ -71,7 +97,7 @@ public abstract class Source {
     // 从oracle导入数据到mysql
     public void excute(String schema, String tableName, Integer syncId) {
 
-        initConn();
+        Connection conn = getConn();
 
         Statement stat = null;
         ResultSet rs = null;
@@ -121,22 +147,14 @@ public abstract class Source {
             logger.error("出错：{}", JSONUtils.toString(map));
             ex.printStackTrace();
         } finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-                if(stat!=null)
-                    stat.close();
-            } catch (Exception ex) {
-                logger.error("关闭失败, {}", JSONUtils.toString(map));
-                ex.printStackTrace();
-            }
+            realeaseResource(rs, stat, conn);
         }
     }
 
     // 按条件从oracle导入数据到mysql
     public int excute(String schema, String tableName, String searchStr) {
 
-        initConn();
+        Connection conn = getConn();
 
         Statement stat = null;
         ResultSet rs = null;
@@ -167,15 +185,7 @@ public abstract class Source {
             logger.error("出错：{}", JSONUtils.toString(map));
             ex.printStackTrace();
         } finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-                if(stat!=null)
-                    stat.close();
-            } catch (Exception ex) {
-                logger.error("关闭失败, {}", JSONUtils.toString(map));
-                ex.printStackTrace();
-            }
+            realeaseResource(rs, stat, conn);
         }
 
         return i;
@@ -184,7 +194,7 @@ public abstract class Source {
     // 按条件从oracle导入数据到mysql（分页）
     public int excute(String schema, String tableName, String searchStr, Integer syncId) {
 
-        initConn();
+        Connection conn = getConn();
 
         Statement stat = null;
         ResultSet rs = null;
@@ -237,15 +247,7 @@ public abstract class Source {
             logger.error("出错：{}", JSONUtils.toString(map));
             ex.printStackTrace();
         } finally {
-            try {
-                if(rs!=null)
-                    rs.close();
-                if(stat!=null)
-                    stat.close();
-            } catch (Exception ex) {
-                logger.error("关闭失败, {}", JSONUtils.toString(map));
-                ex.printStackTrace();
-            }
+            realeaseResource(rs, stat, conn);
         }
 
         return ret;
@@ -254,23 +256,30 @@ public abstract class Source {
     // 读取oracle表的字段信息
     public List<ColumnBean> getTableColumns(String schema, String tablename) throws Exception {
 
+        Connection conn = getConn();
+
         List<ColumnBean> columnBeans = new ArrayList<ColumnBean>();
 
         Statement stat = null;
         ResultSet rs = null;
-        String sql = dialect.getTableColumnSql(schema, tablename);
-        stat = conn.createStatement();
-        logger.info("sql=" + sql);
-        rs = stat.executeQuery(sql);
-        while (rs != null && rs.next()) {
-            String columnName = rs.getString("column_name");
-            String dataType = rs.getString("data_type");
-            long length = rs.getLong("data_length");
+        try {
 
-            if (StringUtils.equalsIgnoreCase(columnName, "ID")
-                    || StringUtils.equalsIgnoreCase(columnName, "status")) continue;
+            String sql = dialect.getTableColumnSql(schema, tablename);
+            stat = conn.createStatement();
+            logger.info("sql=" + sql);
+            rs = stat.executeQuery(sql);
+            while (rs != null && rs.next()) {
+                String columnName = rs.getString("column_name");
+                String dataType = rs.getString("data_type");
+                long length = rs.getLong("data_length");
 
-            columnBeans.add(new ColumnBean(StringUtils.lowerCase(columnName), dataType, length, null));
+                if (StringUtils.equalsIgnoreCase(columnName, "ID")
+                        || StringUtils.equalsIgnoreCase(columnName, "status")) continue;
+
+                columnBeans.add(new ColumnBean(StringUtils.lowerCase(columnName), dataType, length, null));
+            }
+        } finally {
+            realeaseResource(rs, stat, conn);
         }
 
         return columnBeans;
