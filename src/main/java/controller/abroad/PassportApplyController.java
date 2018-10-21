@@ -33,13 +33,13 @@ import sys.shiro.CurrentUser;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 import sys.utils.MSUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -117,7 +117,7 @@ public class PassportApplyController extends AbroadBaseController {
         // 判断下是否上传了签名 和联系电话
         String sign = loginUser.getSign();
         if (StringUtils.isBlank(sign)
-                || new File(springProps.uploadPath + sign).exists() == false
+                || FileUtils.exists(springProps.uploadPath + sign) == false
                 || StringUtils.isBlank(loginUser.getMobile())) {
             return "abroad/passportApply/passportApply_sign";
         }

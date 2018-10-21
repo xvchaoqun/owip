@@ -37,7 +37,7 @@ public class AvatarController extends BaseController {
                               @RequestParam(defaultValue = "0", required = false)boolean m ) throws IOException {
 
         String _path = springProps.avatarFolder + path;
-        if(StringUtils.isBlank(path) || !new File(_path).exists()){
+        if(StringUtils.isBlank(path) || !FileUtils.exists(_path)){
             _path = springProps.avatarFolder + FILE_SEPARATOR + springProps.defaultAvatar;
         }
 
