@@ -4,6 +4,7 @@ import controller.BaseController;
 import domain.sys.SysResource;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shiro.ShiroHelper;
-import sys.constants.RoleConstants;
 import sys.tags.CmTag;
 
 import java.io.UnsupportedEncodingException;
@@ -26,17 +26,20 @@ public class MenuController extends BaseController {
     //private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/menu")
-    public String menu(String username, boolean isMobile, ModelMap modelMap) {
+    public String menu(String username, Boolean isPreview, boolean isMobile, ModelMap modelMap) {
 
+        if(BooleanUtils.isTrue(isPreview) && StringUtils.isBlank(username)) {
+            return "menu";
+        }
         // 管理员才允许查看他人的菜单
-        if(ShiroHelper.lackRole(RoleConstants.ROLE_ADMIN) || StringUtils.isBlank(username)){
+        if(StringUtils.isBlank(username) || !ShiroHelper.isPermitted("menu:preview")){
             username = ShiroHelper.getCurrentUsername();
         }
 
         Set<String> permissions = sysUserService.findPermissions(username, isMobile);
         List<SysResource> userMenus = sysUserService.makeMenus(permissions, isMobile);
-
         modelMap.put("menus", userMenus);
+
         return "menu";
     }
 
