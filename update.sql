@@ -1,5 +1,7 @@
 
 20181024
+ALTER TABLE `sys_teacher_info`
+	CHANGE COLUMN `school` `school` VARCHAR(200) NULL DEFAULT NULL COMMENT '学历毕业学校' AFTER `major`;
 
 更新 sc_group_member_view
 

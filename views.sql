@@ -237,9 +237,11 @@ left join cadre c on c.user_id=sgm.user_id;
 
 DROP VIEW IF EXISTS `sc_group_topic_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_group_topic_view` AS
-select sgt.*, sg.year, sg.hold_date, sg.file_path as group_file_path, sg.log_file, sg.attend_users from sc_group_topic sgt
+select sgt.*, sg.year, sg.hold_date, sg.file_path as group_file_path, sg.log_file, sg.attend_users, sgtu.unit_ids
+ from sc_group_topic sgt
 left join sc_group sg on sgt.group_id = sg.id
-where sg.is_deleted=0 ;
+left join (select group_concat(unit_id) as unit_ids, topic_id from sc_group_topic_unit group by topic_id) sgtu on sgtu.topic_id=sgt.id
+where sg.is_deleted=0;
 -- 纪委函询视图
 DROP VIEW IF EXISTS `sc_letter_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_letter_item_view` AS
