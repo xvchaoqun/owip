@@ -1,4 +1,35 @@
 
+20181024
+
+更新 sc_group_member_view
+
+ALTER TABLE `sc_group_topic`
+	CHANGE COLUMN `file_path` `file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '讨论议题附件' AFTER `id`;
+
+ALTER TABLE `sc_group_topic`
+	CHANGE COLUMN `file_path` `file_path` TEXT NULL DEFAULT NULL COMMENT '讨论议题附件' AFTER `id`;
+
+更新 sc_group_topic_view
+
+ALTER TABLE `cadre_reserve`
+	CHANGE COLUMN `type` `type` INT UNSIGNED NOT NULL COMMENT '类别' AFTER `cadre_id`;
+
+更新 cadre_reserve_view
+
+update cadre_reserve set type=454 where type=2;
+
+update cadre_reserve set type=455 where type=3;
+
+update cadre_reserve set type=456 where type=4;
+
+update cadre_reserve set type=457 where type=5;
+
+
+ALTER TABLE `cadre_reserve_origin`
+	CHANGE COLUMN `reserve_type` `reserve_type` INT(10) UNSIGNED NOT NULL COMMENT '后备干部类别' AFTER `user_id`;
+
+
+
 20181021
 
 pom.xml:

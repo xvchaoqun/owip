@@ -2,8 +2,6 @@ package controller.sc.scGroup;
 
 import bean.UserBean;
 import domain.sc.scGroup.ScGroupMember;
-import domain.sc.scGroup.ScGroupMemberExample;
-import domain.sc.scGroup.ScGroupMemberExample.Criteria;
 import domain.sc.scGroup.ScGroupMemberView;
 import domain.sc.scGroup.ScGroupMemberViewExample;
 import mixin.MixinUtils;
@@ -67,8 +65,8 @@ public class ScGroupMemberController extends ScGroupBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        ScGroupMemberExample example = new ScGroupMemberExample();
-        Criteria criteria = example.createCriteria();
+        ScGroupMemberViewExample example = new ScGroupMemberViewExample();
+        ScGroupMemberViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("sort_order desc");
 
         if (userId!=null) {
@@ -85,12 +83,12 @@ public class ScGroupMemberController extends ScGroupBaseController {
             return;
         }
 
-        long count = scGroupMemberMapper.countByExample(example);
+        long count = scGroupMemberViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ScGroupMember> records= scGroupMemberMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<ScGroupMemberView> records= scGroupMemberViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();
@@ -192,14 +190,14 @@ public class ScGroupMemberController extends ScGroupBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void scGroupMember_export(ScGroupMemberExample example, HttpServletResponse response) {
+    public void scGroupMember_export(ScGroupMemberViewExample example, HttpServletResponse response) {
 
-        List<ScGroupMember> records = scGroupMemberMapper.selectByExample(example);
+        List<ScGroupMemberView> records = scGroupMemberViewMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"成员|100","是否现有成员|100","是否组长|100","排序|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
-            ScGroupMember record = records.get(i);
+            ScGroupMemberView record = records.get(i);
             String[] values = {
                 record.getUserId()+"",
                             record.getIsCurrent() + "",
@@ -238,19 +236,20 @@ public class ScGroupMemberController extends ScGroupBaseController {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ScGroupMemberView> uvs = scGroupMemberViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<ScGroupMemberView> sgms = scGroupMemberViewMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, Object>> options = new ArrayList<Map<String, Object>>();
-        if (null != uvs && uvs.size() > 0) {
-            for (ScGroupMemberView uv : uvs) {
+        if (null != sgms && sgms.size() > 0) {
+            for (ScGroupMemberView sgm : sgms) {
                 Map<String, Object> option = new HashMap<>();
-                option.put("id", uv.getUserId() + "");
-                option.put("text", uv.getRealname());
-                UserBean userBean = userBeanService.get(uv.getUserId());
+                option.put("id", sgm.getUserId() + "");
+                option.put("text", sgm.getRealname());
+                option.put("title", sgm.getTitle());
+                UserBean userBean = userBeanService.get(sgm.getUserId());
                 option.put("user", userBean);
 
-                if (StringUtils.isNotBlank(uv.getCode())) {
-                    option.put("code", uv.getCode());
+                if (StringUtils.isNotBlank(sgm.getCode())) {
+                    option.put("code", sgm.getCode());
                     option.put("unit", userBean.getUnit());
                 }
                 options.add(option);

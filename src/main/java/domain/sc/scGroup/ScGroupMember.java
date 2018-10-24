@@ -1,15 +1,8 @@
 package domain.sc.scGroup;
 
-import domain.sys.SysUserView;
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 
 public class ScGroupMember implements Serializable {
-
-    public SysUserView getUser(){
-        return CmTag.getUserById(userId);
-    }
 
     private Integer id;
 

@@ -62,7 +62,7 @@
                                                    name="year"
                                                    type="text"
                                                    data-date-format="yyyy" data-date-min-view-mode="2"
-                                                   value="${empty scGroup?_thisYear:scGroup.year}"/>
+                                                   value="${scGroup.year}"/>
                                             <span class="input-group-addon"> <i
                                                     class="fa fa-calendar bigger-110"></i></span>
                                         </div>
@@ -103,10 +103,18 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-3 control-label">参会人</label>
-                                    <div class="col-xs-9">
-                                        <div id="tree3" style="height: 200px;" class="noborder">
-                                            <div style="height: 200px;line-height: 200px;font-size: 20px">
-                                                <i class="fa fa-spinner fa-spin"></i> 加载中，请稍后...
+
+                                    <div class="col-xs-8">
+                                        <select data-rel="select2-ajax" data-ajax-url="${ctx}/sc/scGroupMember_selects"
+                                                name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                            <option></option>
+                                        </select>
+                                        <button type="button" class="btn btn-success btn-sm" onclick="_selectUser()"><i
+                                                class="fa fa-plus"></i> 选择
+                                        </button>
+                                        <div style="padding-top: 10px;">
+                                            <div id="itemList">
+
                                             </div>
                                         </div>
                                     </div>
@@ -141,6 +149,31 @@
         </div>
     </div>
 </div>
+<script type="text/template" id="itemListTpl">
+    <table class="table table-striped table-bordered table-condensed table-unhover2">
+        <thead>
+        <tr>
+            <td colspan="3">已选择的参会人</td>
+        </tr>
+        <tr>
+            <td>姓名</td>
+            <td>工号</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {{_.each(users, function(u, idx){ }}
+        <tr data-user-id="{{=u.userId}}">
+            <td>{{=u.realname}}</td>
+            <td>{{=u.code}}</td>
+            <td>
+                <a href="javasciprt:;" class="del">移除</a>
+            </td>
+        </tr>
+        {{});}}
+        </tbody>
+    </table>
+</script>
 <script>
     $.fileInput($("#modalForm input[name=_wordFilePath]"),{
         allowExt: ['doc', 'docx'],
@@ -151,21 +184,57 @@
         allowMime: ['application/pdf']
     });
 
-    $.getJSON("${ctx}/sc/scGroup_selectMembers_tree", {groupId: "${scGroup.id}"}, function (data) {
-        var treeData = data.tree.children;
-        $("#tree3").dynatree({
-            checkbox: true,
-            selectMode: 3,
-            children: treeData,
-            onSelect: function (select, node) {
+    var selectedUsers = ${cm:toJSONArrayWithFilter(memberUserList, "userId,code,realname")};
+    $("#itemList").append(_.template($("#itemListTpl").html())({users: selectedUsers}));
+    function _selectUser() {
 
-                node.expand(node.data.isFolder && node.isSelected());
-            },
-            cookieId: "dynatree-Cb3",
-            idPrefix: "dynatree-Cb3-"
-        });
-    });
+        var $select = $("#modalForm select[name=userId]");
+        var userId = $.trim($select.val());
+        if (userId == '') {
+            $.tip({
+                $target: $select.closest("div").find(".select2-container"),
+                at: 'top center', my: 'bottom center', type: 'success',
+                msg: "请选择参会人。"
+            });
+            return;
+        }
+        var hasSelected = false;
+        $.each(selectedUsers, function (i, user) {
+            if (user.userId == userId) {
+                hasSelected = true;
+                return false;
+            }
+        })
+        if (hasSelected) {
+            $.tip({
+                $target: $select.closest("div").find(".select2-container"),
+                at: 'top center', my: 'bottom center', type: 'success',
+                msg: "您已经选择了该参会人。"
+            });
+            return;
+        }
 
+        var realname = $select.select2("data")[0]['text'] || '';
+        var code = $select.select2("data")[0]['code'] || '';
+        var user = {userId: userId, realname: realname, code: code};
+
+        //console.log(user)
+        selectedUsers.push(user);
+        $("#itemList").empty().append(_.template($("#itemListTpl").html())({users: selectedUsers}));
+    }
+    $(document).off("click", "#itemList .del")
+            .on('click', "#itemList .del", function () {
+                var $tr = $(this).closest("tr");
+                var userId = $tr.data("user-id");
+                //console.log("userId=" + userId)
+                $.each(selectedUsers, function (i, user) {
+                    if (user.userId == userId) {
+                        selectedUsers.splice(i, 1);
+                        return false;
+                    }
+                })
+                $(this).closest("tr").remove();
+            });
     $.register.user_select($('#modalForm [data-rel="select2-ajax"]'));
     $.register.date($('.date-picker'));
     $('#modalForm [data-rel="select2"]').select2();
@@ -200,17 +269,17 @@
     });
     $("#modalForm").validate({
         submitHandler: function (form) {
-            var userIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
-                if (!node.data.isFolder && !node.data.hideCheckbox)
-                    return node.data.key;
+            var userIds = $.map(selectedUsers, function (user) {
+                return user.userId;
             });
            /* console.log(userIds.length);
             return;*/
             if (userIds.length==0) {
+                var $select = $("#modalForm select[name=userId]");
                 $.tip({
-                    $target: $("#tree3"),
-                    at: 'left center', my: 'right center', type: 'info',
-                    msg: "请选择参会人"
+                    $target: $select.closest("div").find(".select2-container"),
+                    at: 'top center', my: 'bottom center', type: 'info',
+                    msg: "请选择。"
                 });
                 return;
             }

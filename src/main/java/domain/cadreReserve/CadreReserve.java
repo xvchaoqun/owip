@@ -7,7 +7,7 @@ public class CadreReserve implements Serializable {
 
     private Integer cadreId;
 
-    private Byte type;
+    private Integer type;
 
     private Byte status;
 
@@ -33,11 +33,11 @@ public class CadreReserve implements Serializable {
         this.cadreId = cadreId;
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

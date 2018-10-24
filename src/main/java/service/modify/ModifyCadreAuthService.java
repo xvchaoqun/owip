@@ -67,8 +67,9 @@ public class ModifyCadreAuthService extends BaseMapper {
         // 考察对象
         List<Cadre> inspectCadres = new ArrayList<>();
         // 类别-后备干部库
-        Map<Byte, List<Cadre>> typeReserveCadresMap = new LinkedHashMap<>();
-        for (Map.Entry<Byte, String> entry : CadreConstants.CADRE_RESERVE_TYPE_MAP.entrySet()) {
+        Map<Integer, List<Cadre>> typeReserveCadresMap = new LinkedHashMap<>();
+        Map<Integer, MetaType> cadreReserveTypeMap = metaTypeService.metaTypes("mc_cadre_reserve_type");
+        for (Map.Entry<Integer, MetaType> entry : cadreReserveTypeMap.entrySet()) {
             typeReserveCadresMap.put(entry.getKey(), new ArrayList<Cadre>());
         }
 
@@ -110,7 +111,7 @@ public class ModifyCadreAuthService extends BaseMapper {
             for (CadreReserve cadreReserve : cadreReserves) {
                 Cadre cadre = cadreMapper.selectByPrimaryKey(cadreReserve.getCadreId());
                 List<Cadre> cadres = null;
-                Byte type = cadreReserve.getType();
+                Integer type = cadreReserve.getType();
                 if(typeReserveCadresMap.containsKey(type)) {
                     cadres = typeReserveCadresMap.get(type);
                 }
@@ -188,12 +189,14 @@ public class ModifyCadreAuthService extends BaseMapper {
         reserveCadreRoot.isFolder = true;
         List<TreeNode> reserveCadreRootChildren = new ArrayList<TreeNode>();
         reserveCadreRoot.children = reserveCadreRootChildren;
-        for(Map.Entry<Byte, List<Cadre>> entry : typeReserveCadresMap.entrySet()) {
+
+
+        for(Map.Entry<Integer, List<Cadre>> entry : typeReserveCadresMap.entrySet()) {
             List<Cadre> entryValue = entry.getValue();
             if(entryValue.size()>0) {
                 count += entryValue.size();
                 TreeNode titleNode = new TreeNode();
-                titleNode.title = CadreConstants.CADRE_RESERVE_TYPE_MAP.get(entry.getKey());
+                titleNode.title = cadreReserveTypeMap.get(entry.getKey()).getName();
                 titleNode.expand = false;
                 titleNode.isFolder = true;
                 List<TreeNode> titleChildren = new ArrayList<TreeNode>();

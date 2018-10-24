@@ -529,6 +529,10 @@ body {
     border: none;
 }
 
+.noborder ul.dynatree-container{
+    border: none;
+}
+
 /*======select2=*/
 .select2-container .select2-selection--single {
     height: 32px;

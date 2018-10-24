@@ -9,7 +9,7 @@
                 <jsp:include page="menu.jsp"/>
                 <div class="tab-content">
                     <div class="tab-pane in active">
-                        <div class="row dispatch_au">
+                        <div class="row dispatch_au" style="width: 1610px">
                             <div class="preview">
                                 <div class="widget-box">
                                     <div class="widget-header">
@@ -34,7 +34,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="au">
+                            <div class="au" style="width: 800px">
                                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                                     <li class="active">
                                         <a href="javascript:;" class="loadPage"

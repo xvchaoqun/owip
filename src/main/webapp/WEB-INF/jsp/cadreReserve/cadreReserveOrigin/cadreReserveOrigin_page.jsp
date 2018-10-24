@@ -2,7 +2,6 @@
 pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <c:set var="CADRE_RESERVE_ORIGIN_WAY_MAP" value="<%=CadreConstants.CADRE_RESERVE_ORIGIN_WAY_MAP%>"/>
-<c:set var="CADRE_RESERVE_TYPE_MAP" value="<%=CadreConstants.CADRE_RESERVE_TYPE_MAP%>"/>
 
 <div class="row">
     <div class="col-xs-12">
@@ -68,11 +67,11 @@ pageEncoding="UTF-8" %>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>后备干部类别</label>
+                            <label>类别</label>
                             <select required data-rel="select2" name="reserveType" data-placeholder="请选择">
                                 <option></option>
-                                <c:forEach items="${CADRE_RESERVE_TYPE_MAP}" var="entity">
-                                    <option value="${entity.key}">${entity.value}</option>
+                                <c:forEach items="${cm:getMetaTypes('mc_cadre_reserve_type')}" var="entity">
+                                    <option value="${entity.key}">${entity.value.name}</option>
                                 </c:forEach>
                             </select>
                             <script>
@@ -129,8 +128,7 @@ pageEncoding="UTF-8" %>
                     label: '推荐人选', name: 'cadre.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
                     return $.cadre(rowObject.cadre.id, cellvalue);
                 }, frozen: true},
-                { label: '后备干部类别',name: 'reserveType', width: 120, formatter: $.jgrid.formatter.MAP,
-                    formatoptions:{map:_cMap.CADRE_RESERVE_TYPE_MAP}, frozen: true},
+                { label: '类别',name: 'reserveType', width: 120, formatter: $.jgrid.formatter.MetaType, frozen: true},
                 { label: '推荐形式',name: 'way', width: 160, formatter: $.jgrid.formatter.MAP,
                     formatoptions:{map:_cMap.CADRE_RESERVE_ORIGIN_WAY_MAP}},
                 { label: '推荐单位',name: 'recommendUnit'},

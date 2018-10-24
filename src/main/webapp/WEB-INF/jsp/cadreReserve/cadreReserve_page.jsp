@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
-<c:set value="<%=CadreConstants.CADRE_RESERVE_TYPE_SCHOOL%>" var="CADRE_RESERVE_TYPE_SCHOOL"/>
 <c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_NORMAL%>" var="CADRE_RESERVE_STATUS_NORMAL"/>
 <c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_ABOLISH%>" var="CADRE_RESERVE_STATUS_ABOLISH"/>
 <c:set value="<%=CadreConstants.CADRE_RESERVE_STATUS_TO_INSPECT%>" var="CADRE_RESERVE_STATUS_TO_INSPECT"/>
@@ -19,14 +18,13 @@
             ||not empty param.postId ||not empty param.title || not empty param.code }"/>
                 <div class="tabbable">
                     <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
-                        <c:forEach var="_type" items="<%=CadreConstants.CADRE_RESERVE_TYPE_MAP%>">
-                            <c:if test="${!cm:hasRole(ROLE_ONLY_CADRE_VIEW) || _type.key!=CADRE_RESERVE_TYPE_SCHOOL}">
+
+                        <c:forEach var="_type" items="${cm:getMetaTypes('mc_cadre_reserve_type')}">
                             <li class="${status==CADRE_RESERVE_STATUS_NORMAL&&_type.key==reserveType?'active':''}">
                                 <a href="javascript:;" class="loadPage" data-url="${ctx}/cadreReserve?reserveType=${_type.key}">
                                     <i class="fa fa-flag"></i>
-                                        ${_type.value}(${normalCountMap.get(_type.key)})</a>
+                                        ${_type.value.name}(${normalCountMap.get(_type.key)})</a>
                             </li>
-                            </c:if>
                         </c:forEach>
                         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                         <c:forEach var="_status" items="<%=CadreConstants.CADRE_RESERVE_STATUS_MAP%>">
@@ -48,7 +46,7 @@
                         </c:forEach>
                             <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
                                 <a class="popupBtn btn btn-danger btn-sm"
-                                   data-url="${ctx}/cadreReserve/search"><i class="fa fa-search"></i> 查询账号所属后备干部库</a>
+                                   data-url="${ctx}/cadreReserve/search"><i class="fa fa-search"></i> 查询账号所属类别</a>
                             </div>
                         </shiro:lacksRole>
                     </ul>
@@ -61,7 +59,7 @@
                                         <a class="popupBtn btn btn-info btn-sm btn-success"
                                            data-url="${ctx}/cadreReserve_au?reserveType=${reserveType}"><i
                                                 class="fa fa-plus"></i>
-                                            添加后备干部
+                                            添加
                                         </a>
                                     </shiro:hasPermission>
                                     <button class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -75,8 +73,8 @@
                                     </button>
 
                                     <button data-url="${ctx}/cadreReserve_abolish"
-                                            data-title="撤销后备干部"
-                                            data-msg="确认撤销该后备干部？"
+                                            data-title="撤销"
+                                            data-msg="确认撤销？"
                                             class="jqItemBtn btn btn-danger btn-sm">
                                         <i class="fa fa-times"></i> 撤销
                                     </button>
@@ -101,10 +99,10 @@
                                 </c:if>
                                 <c:if test="${status==CADRE_RESERVE_STATUS_ABOLISH}">
                                     <button data-url="${ctx}/cadreReserve_unAbolish"
-                                            data-title="返回后备干部库"
-                                            data-msg="确认返回后备干部库？"
+                                            data-title="重新入库"
+                                            data-msg="确认重新入库？"
                                             class="jqItemBtn btn btn-success btn-sm">
-                                        <i class="fa fa-reply"></i> 返回后备干部库
+                                        <i class="fa fa-reply"></i> 重新入库
                                     </button>
                                     <button class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/cadreReserve_batchDel" data-title="删除"

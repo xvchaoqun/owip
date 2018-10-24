@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="way" jdbcType="TINYINT" property="way" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="reserve_type" jdbcType="TINYINT" property="reserveType" />
+    <result column="reserve_type" jdbcType="INTEGER" property="reserveType" />
     <result column="recommend_unit" jdbcType="VARCHAR" property="recommendUnit" />
     <result column="recommend_date" jdbcType="DATE" property="recommendDate" />
     <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
@@ -112,7 +112,7 @@
       word_file_path, pdf_file_path, obj_id, 
       remark, add_time)
     values (#{id,jdbcType=INTEGER}, #{way,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, 
-      #{reserveType,jdbcType=TINYINT}, #{recommendUnit,jdbcType=VARCHAR}, #{recommendDate,jdbcType=DATE}, 
+      #{reserveType,jdbcType=INTEGER}, #{recommendUnit,jdbcType=VARCHAR}, #{recommendDate,jdbcType=DATE}, 
       #{wordFilePath,jdbcType=VARCHAR}, #{pdfFilePath,jdbcType=VARCHAR}, #{objId,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP})
   </insert>
@@ -164,7 +164,7 @@
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="reserveType != null">
-        #{reserveType,jdbcType=TINYINT},
+        #{reserveType,jdbcType=INTEGER},
       </if>
       <if test="recommendUnit != null">
         #{recommendUnit,jdbcType=VARCHAR},
@@ -208,7 +208,7 @@
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.reserveType != null">
-        reserve_type = #{record.reserveType,jdbcType=TINYINT},
+        reserve_type = #{record.reserveType,jdbcType=INTEGER},
       </if>
       <if test="record.recommendUnit != null">
         recommend_unit = #{record.recommendUnit,jdbcType=VARCHAR},
@@ -241,7 +241,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       way = #{record.way,jdbcType=TINYINT},
       user_id = #{record.userId,jdbcType=INTEGER},
-      reserve_type = #{record.reserveType,jdbcType=TINYINT},
+      reserve_type = #{record.reserveType,jdbcType=INTEGER},
       recommend_unit = #{record.recommendUnit,jdbcType=VARCHAR},
       recommend_date = #{record.recommendDate,jdbcType=DATE},
       word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
@@ -263,7 +263,7 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="reserveType != null">
-        reserve_type = #{reserveType,jdbcType=TINYINT},
+        reserve_type = #{reserveType,jdbcType=INTEGER},
       </if>
       <if test="recommendUnit != null">
         recommend_unit = #{recommendUnit,jdbcType=VARCHAR},
@@ -293,7 +293,7 @@
     update cadre_reserve_origin
     set way = #{way,jdbcType=TINYINT},
       user_id = #{userId,jdbcType=INTEGER},
-      reserve_type = #{reserveType,jdbcType=TINYINT},
+      reserve_type = #{reserveType,jdbcType=INTEGER},
       recommend_unit = #{recommendUnit,jdbcType=VARCHAR},
       recommend_date = #{recommendDate,jdbcType=DATE},
       word_file_path = #{wordFilePath,jdbcType=VARCHAR},

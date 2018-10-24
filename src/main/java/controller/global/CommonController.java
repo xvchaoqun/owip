@@ -301,7 +301,7 @@ public class CommonController extends BaseController {
     @ResponseBody
     public Map cadreReserve_selects(Integer pageSize, Integer pageNo,
                                     Byte reserveStatus,
-                                    Byte reserveType, String searchStr) throws IOException {
+                                    Integer reserveType, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;

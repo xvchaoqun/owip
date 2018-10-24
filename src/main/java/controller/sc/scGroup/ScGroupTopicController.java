@@ -1,6 +1,5 @@
 package controller.sc.scGroup;
 
-import controller.global.OpException;
 import domain.sc.scGroup.ScGroup;
 import domain.sc.scGroup.ScGroupExample;
 import domain.sc.scGroup.ScGroupTopic;
@@ -27,9 +26,7 @@ import org.springframework.web.util.HtmlUtils;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
-import sys.utils.ContentTypeUtils;
 import sys.utils.DateUtils;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -41,6 +38,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -151,7 +149,7 @@ public class ScGroupTopicController extends ScGroupBaseController {
         JSONUtils.jsonp(resultMap, baseMixins);
         return;
     }
-    @RequiresPermissions("scGroupTopic:edit")
+    /*@RequiresPermissions("scGroupTopic:edit")
     @RequestMapping(value = "/scGroupTopic_upload", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scGroupTopic_upload(MultipartFile file) throws InterruptedException, IOException {
@@ -170,17 +168,28 @@ public class ScGroupTopicController extends ScGroupBaseController {
         resultMap.put("filePath", savePath);
 
         return resultMap;
-    }
+    }*/
     @RequiresPermissions("scGroupTopic:edit")
     @RequestMapping(value = "/scGroupTopic_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scGroupTopic_au(ScGroupTopic record,
+                                  MultipartFile[] files,
                                   @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
-                                  HttpServletRequest request) {
+                                  HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
         record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
         record.setMemo(HtmlUtils.htmlUnescape(record.getMemo()));
+
+        List<String> filePaths = new ArrayList<>();
+        for (MultipartFile file : files) {
+            String _filePath = upload(file, "scGroupTopic");
+            filePaths.add(_filePath);
+        }
+        if(filePaths.size()>0) {
+            record.setFilePath(StringUtils.join(filePaths, ","));
+        }
+
         if (id == null) {
 
             scGroupTopicService.insertSelective(record, unitIds);
@@ -235,10 +244,36 @@ public class ScGroupTopicController extends ScGroupBaseController {
             modelMap.put("scGroups", scGroups);
         }
 
-        List<Unit> runUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_RUN);
+        /*List<Unit> runUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_RUN);
         modelMap.put("runUnits", runUnits);
         List<Unit> historyUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_HISTORY);
-        modelMap.put("historyUnits", historyUnits);
+        modelMap.put("historyUnits", historyUnits);*/
+
+        // MAP<unitTypeId, List<unitId>>
+        Map<Integer, List<Integer>> unitListMap = new LinkedHashMap<>();
+        Map<Integer, List<Integer>> historyUnitListMap = new LinkedHashMap<>();
+        Map<Integer, Unit> unitMap = unitService.findAll();
+        for (Unit unit : unitMap.values()) {
+
+            Integer unitTypeId = unit.getTypeId();
+            if (unit.getStatus() == SystemConstants.UNIT_STATUS_HISTORY){
+                List<Integer> units = historyUnitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    historyUnitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }else {
+                List<Integer> units = unitListMap.get(unitTypeId);
+                if (units == null) {
+                    units = new ArrayList<>();
+                    unitListMap.put(unitTypeId, units);
+                }
+                units.add(unit.getId());
+            }
+        }
+        modelMap.put("unitListMap", unitListMap);
+        modelMap.put("historyUnitListMap", historyUnitListMap);
 
         return "sc/scGroup/scGroupTopic/scGroupTopic_au";
     }

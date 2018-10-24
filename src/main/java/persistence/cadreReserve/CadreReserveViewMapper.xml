@@ -3,7 +3,7 @@
 <mapper namespace="persistence.cadreReserve.CadreReserveViewMapper">
   <resultMap id="BaseResultMap" type="domain.cadreReserve.CadreReserveView">
     <result column="reserve_id" jdbcType="INTEGER" property="reserveId" />
-    <result column="reserve_type" jdbcType="TINYINT" property="reserveType" />
+    <result column="reserve_type" jdbcType="INTEGER" property="reserveType" />
     <result column="reserve_status" jdbcType="TINYINT" property="reserveStatus" />
     <result column="reserve_remark" jdbcType="VARCHAR" property="reserveRemark" />
     <result column="reserve_sort_order" jdbcType="INTEGER" property="reserveSortOrder" />

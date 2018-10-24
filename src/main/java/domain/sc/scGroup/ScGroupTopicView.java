@@ -1,9 +1,19 @@
 package domain.sc.scGroup;
 
+import domain.sys.SysUserView;
+import service.sc.scGroup.ScGroupService;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class ScGroupTopicView implements Serializable {
+
+    public List<SysUserView> getUsers(){
+        ScGroupService scGroupService = CmTag.getBean(ScGroupService.class);
+        return scGroupService.getMemberUserList(groupId);
+    }
     private Integer id;
 
     private String filePath;
@@ -29,6 +39,8 @@ public class ScGroupTopicView implements Serializable {
     private String logFile;
 
     private String attendUsers;
+
+    private String unitIds;
 
     private static final long serialVersionUID = 1L;
 
@@ -134,5 +146,13 @@ public class ScGroupTopicView implements Serializable {
 
     public void setAttendUsers(String attendUsers) {
         this.attendUsers = attendUsers == null ? null : attendUsers.trim();
+    }
+
+    public String getUnitIds() {
+        return unitIds;
+    }
+
+    public void setUnitIds(String unitIds) {
+        this.unitIds = unitIds == null ? null : unitIds.trim();
     }
 }

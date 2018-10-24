@@ -231,8 +231,9 @@ left join sc_committee_view sc on sc.id=sct.committee_id;
 -- 干部小组会
 DROP VIEW IF EXISTS `sc_group_member_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_group_member_view` AS
-select distinct sgm.*, uv.username, uv.code, uv.realname from sc_group_member sgm
-left join sys_user_view uv on uv.id=sgm.user_id;
+select distinct sgm.*, uv.username, uv.code, uv.realname, c.id as cadre_id, c.title from sc_group_member sgm
+left join sys_user_view uv on uv.id=sgm.user_id
+left join cadre c on c.user_id=sgm.user_id;
 
 DROP VIEW IF EXISTS `sc_group_topic_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_group_topic_view` AS

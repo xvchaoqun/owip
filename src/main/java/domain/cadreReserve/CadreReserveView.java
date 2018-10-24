@@ -38,7 +38,7 @@ public class CadreReserveView implements Serializable {
     }
     private Integer reserveId;
 
-    private Byte reserveType;
+    private Integer reserveType;
 
     private Byte reserveStatus;
 
@@ -240,11 +240,11 @@ public class CadreReserveView implements Serializable {
         this.reserveId = reserveId;
     }
 
-    public Byte getReserveType() {
+    public Integer getReserveType() {
         return reserveType;
     }
 
-    public void setReserveType(Byte reserveType) {
+    public void setReserveType(Integer reserveType) {
         this.reserveType = reserveType;
     }
 

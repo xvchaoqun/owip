@@ -202,52 +202,52 @@ public class CadreReserveViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andReserveTypeEqualTo(Byte value) {
+        public Criteria andReserveTypeEqualTo(Integer value) {
             addCriterion("reserve_type =", value, "reserveType");
             return (Criteria) this;
         }
 
-        public Criteria andReserveTypeNotEqualTo(Byte value) {
+        public Criteria andReserveTypeNotEqualTo(Integer value) {
             addCriterion("reserve_type <>", value, "reserveType");
             return (Criteria) this;
         }
 
-        public Criteria andReserveTypeGreaterThan(Byte value) {
+        public Criteria andReserveTypeGreaterThan(Integer value) {
             addCriterion("reserve_type >", value, "reserveType");
             return (Criteria) this;
         }
 
-        public Criteria andReserveTypeGreaterThanOrEqualTo(Byte value) {
+        public Criteria andReserveTypeGreaterThanOrEqualTo(Integer value) {
             addCriterion("reserve_type >=", value, "reserveType");
             return (Criteria) this;
         }
 
-        public Criteria andReserveTypeLessThan(Byte value) {
+        public Criteria andReserveTypeLessThan(Integer value) {
             addCriterion("reserve_type <", value, "reserveType");
             return (Criteria) this;
         }
 
-        public Criteria andReserveTypeLessThanOrEqualTo(Byte value) {
+        public Criteria andReserveTypeLessThanOrEqualTo(Integer value) {
             addCriterion("reserve_type <=", value, "reserveType");
             return (Criteria) this;
         }
 
-        public Criteria andReserveTypeIn(List<Byte> values) {
+        public Criteria andReserveTypeIn(List<Integer> values) {
             addCriterion("reserve_type in", values, "reserveType");
             return (Criteria) this;
         }
 
-        public Criteria andReserveTypeNotIn(List<Byte> values) {
+        public Criteria andReserveTypeNotIn(List<Integer> values) {
             addCriterion("reserve_type not in", values, "reserveType");
             return (Criteria) this;
         }
 
-        public Criteria andReserveTypeBetween(Byte value1, Byte value2) {
+        public Criteria andReserveTypeBetween(Integer value1, Integer value2) {
             addCriterion("reserve_type between", value1, value2, "reserveType");
             return (Criteria) this;
         }
 
-        public Criteria andReserveTypeNotBetween(Byte value1, Byte value2) {
+        public Criteria andReserveTypeNotBetween(Integer value1, Integer value2) {
             addCriterion("reserve_type not between", value1, value2, "reserveType");
             return (Criteria) this;
         }

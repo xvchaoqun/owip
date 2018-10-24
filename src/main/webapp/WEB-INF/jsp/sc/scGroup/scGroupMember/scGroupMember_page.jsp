@@ -60,13 +60,14 @@ pageEncoding="UTF-8" %>
 <script>
     $("#jqGrid").jqGrid({
         responsive:false,
-        width:485,
+        width:800,
         height:500,
         url: '${ctx}/sc/scGroupMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '姓名', name: 'user.realname'},
-            {label: '工作证号', name: 'user.code', width: 150},
-            { label: '是否组长',name: 'isLeader', formatter: $.jgrid.formatter.TRUEFALSE},
+            {label: '姓名', name: 'realname'},
+            {label: '工作证号', name: 'code', width: 120},
+            { label: '是否组长',name: 'isLeader', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
+            {label: '所在单位及职务', name: 'title', width: 350, align:"left"},
             {
                 label: '排序', width: 90, formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url: "${ctx}/sc/scGroupMember_changeOrder"}}

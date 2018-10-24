@@ -63,27 +63,27 @@
        <!-- <table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-       <!-- <table tableName="cadre_reserve_origin" domainObjectName="cadreReserve.CadreReserveOrigin"
+        <table tableName="cadre_reserve_origin" domainObjectName="cadreReserve.CadreReserveOrigin"
                mapperName="cadreReserve.CadreReserveOriginMapper">
-        </table>-->
+        </table>
 
-             <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
+            <!-- <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
              mapperName="cadreReserve.CadreReserveViewMapper"
                     enableInsert="false" enableUpdateByPrimaryKey="false"
                     enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                     enableDeleteByExample="false">
                  <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-             </table>
+             </table>-->
 
         <!--<table tableName="cadre_inspect" domainObjectName="cadreInspect.CadreInspect">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-          <table tableName="cadre_inspect_view" domainObjectName="cadreInspect.CadreInspectView" mapperName="cadreInspect.CadreInspectViewMapper"
+          <!--<table tableName="cadre_inspect_view" domainObjectName="cadreInspect.CadreInspectView" mapperName="cadreInspect.CadreInspectViewMapper"
                  enableInsert="false" enableUpdateByPrimaryKey="false"
                  enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                  enableDeleteByExample="false">
               <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
-          </table>
+          </table>-->
         <!--<table tableName="cadre_info_check" domainObjectName="cadre.CadreInfoCheck" mapperName="cadre.CadreInfoCheckMapper">
         </table>-->
 

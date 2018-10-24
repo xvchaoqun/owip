@@ -47,13 +47,13 @@
         <!--<table tableName="sc_subsidy_dc" domainObjectName="sc.scSubsidy.ScSubsidyDc"
                mapperName="sc.scSubsidy.ScSubsidyDcMapper">
         </table>-->
-        <table tableName="sc_subsidy_cadre_view"
+        <!--<table tableName="sc_subsidy_cadre_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scSubsidy.ScSubsidyCadreView"
                mapperName="sc.scSubsidy.ScSubsidyCadreViewMapper">
-        </table>
+        </table>-->
         <!--<table tableName="sc_subsidy_dispatch_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
@@ -217,15 +217,20 @@
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
         </table>-->
-        <!--<table tableName="sc_group_topic_view"
+        <table tableName="sc_group_topic_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scGroup.ScGroupTopicView"
                mapperName="sc.scGroup.ScGroupTopicViewMapper">
+            <columnOverride column="id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="group_id" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="is_deleted"  javaType="Boolean"></columnOverride>
+            <columnOverride column="file_path" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="memo" jdbcType="VARCHAR"></columnOverride>
-        </table>-->
+            <columnOverride column="unit_ids" jdbcType="VARCHAR"></columnOverride>
+        </table>
         <!--<table tableName="sc_group_topic_unit" domainObjectName="sc.scGroup.ScGroupTopicUnit"
                mapperName="sc.scGroup.ScGroupTopicUnitMapper">
         </table>-->

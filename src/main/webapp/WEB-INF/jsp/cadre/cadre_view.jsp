@@ -26,6 +26,12 @@
         <div class="widget-toolbar no-border"
              style="float:left;border-bottom: 1px solid #dce8f1;">
             <ul class="nav nav-tabs">
+                <shiro:hasPermission name="cadreAdform:*">
+                    <li class="${to=='cadreAdform_page'?'active':''}">
+                        <a href="javascript:"
+                           data-url="${ctx}/cadreAdform_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部任免审批表</a>
+                    </li>
+                </shiro:hasPermission>
                 <li class="${to=='cadre_base'?'active':''}">
                     <a href="javascript:" data-url="${ctx}/cadre_base?cadreId=${param.cadreId}&_auth=${param._auth}">基本信息</a>
                 </li>
@@ -119,12 +125,7 @@
                            data-url="${ctx}/cadreInfoCheck_table?cadreId=${param.cadreId}&_auth=${param._auth}">干部信息完整性校验表</a>
                     </li>
                 </shiro:hasPermission>
-                <shiro:hasPermission name="cadreAdform:*">
-                    <li>
-                        <a href="javascript:"
-                           data-url="${ctx}/cadreAdform_page?cadreId=${param.cadreId}&_auth=${param._auth}">干部任免审批表</a>
-                    </li>
-                </shiro:hasPermission>
+
                 <shiro:hasPermission name="cadreInfoForm:*">
                     <li>
                         <a href="javascript:"

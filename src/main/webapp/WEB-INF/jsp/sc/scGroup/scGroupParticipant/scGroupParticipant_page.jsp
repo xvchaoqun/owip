@@ -6,12 +6,13 @@
     <h3>参会人</h3>
 </div>
 <div class="modal-body">
-    <table class="table table-striped table-bordered table-condensed table-unhover2">
+    <table class="table table-striped table-bordered table-condensed table-unhover2 table-center">
         <thead>
         <tr>
-            <td>序号</td>
-            <td>工号</td>
-            <td>姓名</td>
+            <th width="50">序号</th>
+            <th width="80">工号</th>
+            <th width="80">姓名</th>
+            <th>所在单位及职务</th>
         </tr>
         </thead>
         <tbody>
@@ -20,6 +21,7 @@
                 <td>${vs.index+1}</td>
                 <td>${u.code}</td>
                 <td>${u.realname}</td>
+                <td style="text-align: left">${cm:getCadreByUserId(u.userId).title}</td>
             </tr>
         </c:forEach>
         </tbody>

@@ -2,9 +2,8 @@ package persistence.sc.scGroup;
 
 import domain.sc.scGroup.ScGroupMemberView;
 import domain.sc.scGroup.ScGroupMemberViewExample;
-import org.apache.ibatis.session.RowBounds;
-
 import java.util.List;
+import org.apache.ibatis.session.RowBounds;
 
 public interface ScGroupMemberViewMapper {
     long countByExample(ScGroupMemberViewExample example);

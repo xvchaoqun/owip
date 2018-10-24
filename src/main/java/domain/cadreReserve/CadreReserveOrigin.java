@@ -34,7 +34,7 @@ public class CadreReserveOrigin implements Serializable {
 
     private Integer userId;
 
-    private Byte reserveType;
+    private Integer reserveType;
 
     private String recommendUnit;
 
@@ -77,11 +77,11 @@ public class CadreReserveOrigin implements Serializable {
         this.userId = userId;
     }
 
-    public Byte getReserveType() {
+    public Integer getReserveType() {
         return reserveType;
     }
 
-    public void setReserveType(Byte reserveType) {
+    public void setReserveType(Integer reserveType) {
         this.reserveType = reserveType;
     }
 

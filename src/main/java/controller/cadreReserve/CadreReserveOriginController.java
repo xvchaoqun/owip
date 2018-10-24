@@ -54,7 +54,7 @@ public class CadreReserveOriginController extends BaseController {
     public void cadreReserveOrigin_data(HttpServletResponse response,
                                     Byte way,
                                     Integer userId,
-                                    Byte reserveType,
+                                    Integer reserveType,
                                     String recommendUnit,
                                     Date recommendDate,
                                  @RequestParam(required = false, defaultValue = "0") int export,

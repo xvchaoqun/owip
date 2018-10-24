@@ -4,6 +4,7 @@ import controller.global.OpException;
 import domain.sc.scGroup.ScGroup;
 import domain.sc.scGroup.ScGroupExample;
 import domain.sc.scGroup.ScGroupExample.Criteria;
+import domain.sc.scGroup.ScGroupParticipant;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
 import sys.tool.paging.CommonList;
+import sys.tool.tree.TreeNode;
 import sys.utils.ContentTypeUtils;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -35,8 +37,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/sc")
@@ -218,5 +222,27 @@ public class ScGroupController extends ScGroupBaseController {
         }
         String fileName = "干部小组会_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
+    }
+
+    // 查看参会人
+    @RequiresPermissions("scGroup:list")
+    @RequestMapping("/scGroup_selectMembers_tree")
+    @ResponseBody
+    public Map scGroup_selectMembers_tree(Integer groupId) throws IOException {
+
+        Set<Integer> selectIdSet = null;
+        if(groupId!=null){
+            selectIdSet = new HashSet<>();
+            List<ScGroupParticipant> scGroupParticipants = scGroupService.getMemberList(groupId);
+            for (ScGroupParticipant scGroupParticipant : scGroupParticipants) {
+                selectIdSet.add(scGroupParticipant.getUserId());
+            }
+        }
+
+        TreeNode tree = scGroupService.getTree(selectIdSet);
+
+        Map<String, Object> resultMap = success();
+        resultMap.put("tree", tree);
+        return resultMap;
     }
 }

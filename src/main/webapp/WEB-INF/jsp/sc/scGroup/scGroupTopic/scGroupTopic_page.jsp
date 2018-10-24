@@ -142,7 +142,7 @@ pageEncoding="UTF-8" %>
                 return $.swfPreview(rowObject.groupFilePath, _num);
             }, frozen: true},
             {label: '干部小组会日期', name: 'holdDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            { label: '议题名称',name: 'name'},
+            { label: '议题名称',name: 'name', width: 350, align:'left'},
             {
                 label: '议题内容和讨论备忘',name: '_content', width: 150, formatter: function (cellvalue, options, rowObject) {
                 return ('<button class="openView btn btn-link btn-xs" ' +
@@ -151,17 +151,34 @@ pageEncoding="UTF-8" %>
             }
             },
             {
-                label: '涉及单位', name: '_unit', formatter: function (cellvalue, options, rowObject) {
+                label: '涉及单位', name: 'unitIds', width:180, align:'left', formatter: function (cellvalue, options, rowObject) {
+
+                if(cellvalue==undefined) return '-'
+
+                var unitIds = cellvalue.split(",");
+                var unitname = "-"
+                for(i in unitIds){
+                    var unit = _cMap.unitMap[unitIds[i]];
+                    if(unit!=undefined && unit.name!=undefined) {
+                        unitname = unit.name;
+                        break;
+                    }
+                }
+                if(unitIds.length>1){
+                    unitname += "，..."
+                }
+
                 return ('<button class="popupBtn btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scGroupTopicUnit?topicId={0}">查看</button>')
-                        .format(rowObject.id);
+                'data-url="${ctx}/sc/scGroupTopicUnit?topicId={0}">{1}</button>')
+                        .format(rowObject.id, unitname);
             }
             },
             {
-                label: '参会人', name: '_participant', formatter: function (cellvalue, options, rowObject) {
-                return ('<button class="popupBtn btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scGroupParticipant?groupId={0}">查看</button>')
-                        .format(rowObject.groupId);
+                label: '参会人', name: 'users', width:280, align:'left', formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return '-'
+                return $.map(cellvalue, function(u){
+                    return u.realname;
+                })
             }
             },
             { label: '列席人',name: 'attendUsers'},

@@ -9,12 +9,13 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="hold_date" jdbcType="DATE" property="holdDate" />
     <result column="group_file_path" jdbcType="VARCHAR" property="groupFilePath" />
     <result column="log_file" jdbcType="VARCHAR" property="logFile" />
     <result column="attend_users" jdbcType="VARCHAR" property="attendUsers" />
+    <result column="unit_ids" jdbcType="VARCHAR" property="unitIds" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -47,7 +48,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, file_path, group_id, name, content, memo, remark, is_deleted, year, hold_date, 
-    group_file_path, log_file, attend_users
+    group_file_path, log_file, attend_users, unit_ids
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scGroup.ScGroupTopicViewExample" resultMap="BaseResultMap">
     select

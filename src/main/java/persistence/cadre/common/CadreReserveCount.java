@@ -5,15 +5,15 @@ package persistence.cadre.common;
  */
 public class CadreReserveCount {
 
-    private Byte type;
+    private Integer type;
     private Byte status;
     private Integer  num;
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

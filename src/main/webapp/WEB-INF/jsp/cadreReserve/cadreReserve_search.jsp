@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>查询账号所属的后备干部库</h3>
+    <h3>查询账号所属的类别</h3>
 </div>
 <div class="modal-body">
     <form>
@@ -45,7 +45,7 @@
             <small>
                 <span>
                 {{if(ret.reserveType){}}
-                    所在后备干部库：{{=_cMap.CADRE_RESERVE_TYPE_MAP[ret.reserveType]}}
+                    所在库：{{=_cMap.metaTypeMap[ret.reserveType].name}}
                                                 &nbsp;&nbsp;<a class="loadPage btn btn-success btn-xs" href="javascript:;"
                                                                data-url="${ctx}/cadreReserve?reserveType={{=ret.reserveType}}&cadreId={{=ret.cadreId}}">
                         <i class="fa fa-search"></i> 前往查看</a>

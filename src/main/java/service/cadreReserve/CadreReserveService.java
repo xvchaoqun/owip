@@ -18,6 +18,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
+import service.base.MetaTypeService;
 import service.cadre.CadreAdLogService;
 import service.cadre.CadreService;
 import service.cadreInspect.CadreInspectService;
@@ -44,6 +45,8 @@ public class CadreReserveService extends BaseMapper {
     private CadreAdLogService cadreAdLogService;
     @Autowired
     private UnitService unitService;
+    @Autowired
+    private MetaTypeService metaTypeService;
 
     // 直接添加后备干部时执行检查
     public void directAddCheck(Integer id, int userId){
@@ -74,7 +77,7 @@ public class CadreReserveService extends BaseMapper {
             CadreReserve cadreReserve = cadreReserves.get(0);
             if(cadreReserve.getStatus()==CadreConstants.CADRE_RESERVE_STATUS_NORMAL) {
                 throw new OpException(realname + "已经在"
-                +CadreConstants.CADRE_RESERVE_TYPE_MAP.get(cadreReserve.getType()) + "中");
+                +metaTypeService.getName(cadreReserve.getType()) + "中");
             }else if(cadreReserve.getStatus()==CadreConstants.CADRE_RESERVE_STATUS_TO_INSPECT){
                 throw new OpException(realname + "已经列入考察对象");
             }
@@ -171,7 +174,7 @@ public class CadreReserveService extends BaseMapper {
             }
         }
 
-        Assert.isNotNull(CadreConstants.CADRE_RESERVE_TYPE_MAP.get(record.getType())!=null);
+        Assert.isNotNull(metaTypeService.getName(record.getType())!=null);
 
         record.setSortOrder(getNextSortOrder(TABLE_NAME,
                 "status=" + CadreConstants.CADRE_RESERVE_STATUS_NORMAL + " and type="+record.getType()));
@@ -212,7 +215,7 @@ public class CadreReserveService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public int importCadreReserves(final List<XlsCadreReserve> beans, byte reserveType) {
+    public int importCadreReserves(final List<XlsCadreReserve> beans, int reserveType) {
 
         int success = 0;
         for(XlsCadreReserve uRow: beans){
@@ -446,7 +449,7 @@ public class CadreReserveService extends BaseMapper {
         if(addNum == 0) return ;
         byte orderBy = ORDER_BY_ASC;
         CadreReserve entity = cadreReserveMapper.selectByPrimaryKey(id);
-        byte type = entity.getType();
+        Integer type = entity.getType();
         // 只对后备干部正常状态进行排序
         Assert.isTrue(entity.getStatus()==CadreConstants.CADRE_RESERVE_STATUS_NORMAL);
 

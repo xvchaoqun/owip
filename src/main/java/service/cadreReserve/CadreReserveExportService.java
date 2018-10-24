@@ -55,9 +55,9 @@ public class CadreReserveExportService extends BaseMapper {
     @Autowired
     protected CadrePostService cadrePostService;
 
-    public SXSSFWorkbook export(Byte type, CadreReserveViewExample example) {
+    public SXSSFWorkbook export(Integer type, CadreReserveViewExample example) {
 
-        String cadreReserveType = CadreConstants.CADRE_RESERVE_TYPE_MAP.get(type);
+        String cadreReserveType = metaTypeService.getName(type);
 
         Map<Integer, MetaType> metaTypeMap = metaTypeService.findAll();
         Map<Integer, Unit> unitMap = unitService.findAll();

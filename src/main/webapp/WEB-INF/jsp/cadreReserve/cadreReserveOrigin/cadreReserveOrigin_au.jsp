@@ -2,11 +2,10 @@
 pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <c:set var="CADRE_RESERVE_ORIGIN_WAY_MAP" value="<%=CadreConstants.CADRE_RESERVE_ORIGIN_WAY_MAP%>"/>
-<c:set var="CADRE_RESERVE_TYPE_MAP" value="<%=CadreConstants.CADRE_RESERVE_TYPE_MAP%>"/>
 
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3><c:if test="${cadreReserveOrigin!=null}">编辑</c:if><c:if test="${cadreReserveOrigin==null}">添加</c:if>后备干部的产生</h3>
+    <h3><c:if test="${cadreReserveOrigin!=null}">编辑</c:if><c:if test="${cadreReserveOrigin==null}">添加</c:if></h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/cadreReserveOrigin_au" id="modalForm" method="post">
@@ -42,12 +41,12 @@ pageEncoding="UTF-8"%>
 				</c:if>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">后备干部类别</label>
+				<label class="col-xs-3 control-label">类别</label>
 				<div class="col-xs-6">
 					<select required data-rel="select2" name="reserveType" data-width="272" data-placeholder="请选择">
 						<option></option>
-						<c:forEach items="${CADRE_RESERVE_TYPE_MAP}" var="entity">
-							<option value="${entity.key}">${entity.value}</option>
+						<c:forEach items="${cm:getMetaTypes('mc_cadre_reserve_type')}" var="entity">
+							<option value="${entity.key}">${entity.value.name}</option>
 						</c:forEach>
 					</select>
 					<script>

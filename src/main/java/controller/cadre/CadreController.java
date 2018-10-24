@@ -318,8 +318,12 @@ public class CadreController extends BaseController {
     @RequestMapping("/cadre_view")
     public String cadre_view(HttpServletResponse response,
                              Integer cadreId,
-                             @RequestParam(defaultValue = "cadre_base") String to, // 默认跳转到基本信息
+                             String to, // 默认跳转到基本信息
                              ModelMap modelMap) {
+
+        if(StringUtils.isBlank(to)) {
+            to = ShiroHelper.isPermitted("cadreAdform:list")?"cadreAdform_page":"cadre_base";
+        }
         modelMap.put("to", to);
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);

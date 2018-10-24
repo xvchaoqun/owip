@@ -90,7 +90,7 @@ public class CadreConstants {
     }
 
     // 后备干部库类别
-    public final static byte CADRE_RESERVE_TYPE_SCHOOL = 1;
+    /*public final static byte CADRE_RESERVE_TYPE_SCHOOL = 1;
     public final static byte CADRE_RESERVE_TYPE_ADMIN_CHIEF = 2;
     public final static byte CADRE_RESERVE_TYPE_ADMIN_VICE = 3;
     public final static byte CADRE_RESERVE_TYPE_COLLEGE_CHIEF = 4;
@@ -103,7 +103,7 @@ public class CadreConstants {
         CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_ADMIN_VICE, "机关副处级");
         CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_CHIEF, "院系正处级");
         CADRE_RESERVE_TYPE_MAP.put(CADRE_RESERVE_TYPE_COLLEGE_VICE, "院系副处级");
-    }
+    }*/
 
 
     // 后备干部库状态 1 后备干部 2 后备干部已使用 3 已撤销资格
