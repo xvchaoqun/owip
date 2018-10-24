@@ -16,10 +16,10 @@
                 <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="cadreLeader:edit">
                         <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
-                    </shiro:hasPermission>
+
                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
                         <i class="fa fa-edit"></i> 修改信息</a>
-
+                    </shiro:hasPermission>
                     <shiro:hasPermission name="cadreLeaderUnit:list">
                         <button  class="jqOpenViewBtn btn btn-sm btn-warning"
                                  data-url="${ctx}/cadreLeader_unit">

@@ -38,7 +38,7 @@
   </td>
   <td  rowspan="5" style="text-align: center;vertical-align: middle;
 				 background-color: #fff;width: 143px;" class="avatar">
-    <img src="${ctx}/avatar?path=${userBean.avatar}" alt="免冠照片"  class="avatar">
+    <img src="${ctx}/avatar?path=${cm:encodeURI(userBean.avatar)}" alt="免冠照片"  class="avatar">
   </td>
 </tr>
 <tr>

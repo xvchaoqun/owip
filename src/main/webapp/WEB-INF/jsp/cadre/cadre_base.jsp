@@ -39,7 +39,7 @@
 					<tr>
 						<td rowspan="6" style="text-align: center;vertical-align: middle;
 				 width: 50px;background-color: #fff;">
-							<img src="${ctx}/avatar?path=${uv.avatar}&t=<%=new Date().getTime()%>" class="avatar">
+							<img src="${ctx}/avatar?path=${cm:encodeURI(uv.avatar)}&t=<%=new Date().getTime()%>" class="avatar">
 						</td>
 
 						<td class="bg-right">
@@ -1019,9 +1019,9 @@
 		})
 		$('#modalForm button[type=reset]').on(ace.click_event, function(){
 			//$('#user-profile input[type=file]').ace_file_input('reset_input');
-			$("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${uv.avatar}&t=<%=new Date().getTime()%>'}]);
+			$("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${cm:encodeURI(uv.avatar)}&t=<%=new Date().getTime()%>'}]);
 		});
-		$("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${uv.avatar}&t=<%=new Date().getTime()%>'}]);
+		$("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${cm:encodeURI(uv.avatar)}&t=<%=new Date().getTime()%>'}]);
 
 		$("#modalForm").validate({
 			submitHandler: function (form) {

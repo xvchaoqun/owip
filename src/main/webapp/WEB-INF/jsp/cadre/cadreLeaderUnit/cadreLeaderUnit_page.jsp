@@ -9,9 +9,10 @@
                 <jsp:include page="../cadreLeader/menu.jsp"/>
                 <div class="space-4"></div>
                 <div class="jqgrid-vertical-offset buttons">
+<shiro:hasPermission name="cadreLeaderUnit:edit">
                     <a class="popupBtn btn btn-warning btn-sm"
                        data-url="${ctx}/cadreLeaderUnit_escape"><i class="fa fa-search"></i> 未分配校领导的单位（${fn:length(units)}）</a>
-
+</shiro:hasPermission>
                     <shiro:hasPermission name="cadreLeaderUnit:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
                            data-url="${ctx}/cadreLeaderUnit_batchDel" data-title="删除"

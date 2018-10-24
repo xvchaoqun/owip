@@ -1,5 +1,8 @@
 package domain.sys;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,6 +17,7 @@ public class SysUserInfo implements Serializable {
 
     private String idcard;
 
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date birth;
 
     private String avatar;

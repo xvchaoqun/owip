@@ -43,7 +43,7 @@
                                         <c:if test="${status==CADRE_STATUS_LEADER}">添加现任校领导</c:if>
                                         <c:if test="${status==CADRE_STATUS_LEADER_LEAVE}">添加离任校领导</c:if>
                                     </a>
-                                </shiro:hasPermission>
+
 
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/cadre_au"
@@ -60,6 +60,7 @@
                                 <a class="popupBtn btn btn-primary btn-sm tooltip-success"
                                    data-url="${ctx}/cadre_import?status=${status}"
                                    data-rel="tooltip" data-placement="top" title="批量导入"><i class="fa fa-upload"></i> 导入</a>
+                                </shiro:hasPermission>
                                 <a class="jqExportBtn btn btn-success btn-sm"
                                    data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
                                         class="fa fa-download"></i> 导出</a>

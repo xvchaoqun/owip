@@ -42,7 +42,7 @@
 
                 <div class="col-xs-6">
                     <div class="input-group" style="width: 150px">
-                        <input class="form-control date-picker" name="_birth" type="text"
+                        <input class="form-control date-picker" name="birth" type="text"
                                data-date-format="yyyy-mm-dd" value="${cm:formatDate(ui.birth,'yyyy-MM-dd')}"/>
                         <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                     </div>
@@ -182,9 +182,9 @@
     });
     $("#_avatar").find('button[type=reset]').on(ace.click_event, function(){
         //$('#user-profile input[type=file]').ace_file_input('reset_input');
-        $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${sysUser.avatar}'}]);
+        $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${cm:encodeURI(ui.avatar)}'}]);
     });
-    $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${sysUser.avatar}'}]);
+    $("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${cm:encodeURI(ui.avatar)}'}]);
 
     $("#body-content-view button[type=submit]").click(function () {
         $("#modalForm").submit();

@@ -18,20 +18,26 @@
                         <li class="active">
                             <a href="javascript:;" data-url="${ctx}/unit_base?id=${param.id}">基本信息</a>
                         </li>
+                        <shiro:hasPermission name="unitTransfer:list">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/unitTransfer?unitId=${param.id}">单位历程相关文件</a>
                         </li>
+                        </shiro:hasPermission>
                         <shiro:hasPermission name="unitPost:*">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/unitPostList?unitId=${param.id}">干部配置</a>
                         </li>
                         </shiro:hasPermission>
+                        <shiro:hasPermission name="unitAdminGroup:list">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/unitAdminGroup?unitId=${param.id}">行政班子</a>
                         </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="unitCadreTransferGroup:list">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/unitCadreTransferGroup?unitId=${param.id}">干部任免信息</a>
                         </li>
+                        </shiro:hasPermission>
                     </ul>
                 </div>
             </div>
