@@ -127,7 +127,7 @@ pageEncoding="UTF-8" %>
                 return $.swfPreview(rowObject.filePath, _num);
             }, frozen: true},
             {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            { label: '议题名称',name: 'name', width: 200, align:'left'},
+            { label: '议题名称',name: 'name', width: 400, align:'left'},
             {
                 label: '议题内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return ('<button class="popupBtn btn btn-link btn-xs" ' +
@@ -175,7 +175,7 @@ pageEncoding="UTF-8" %>
                 'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=1">{1}</button>')
                         .format(rowObject.committeeId, cellvalue);
             }},
-            { label: '列席人',name: 'attendUsers'},
+            { label: '列席人',name: 'attendUsers', width: 400,align:'left'},
             {label: '会议记录', name: 'logFile', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.logFile==undefined) return '-';
                 return $.swfPreview(rowObject.logFile, '会议记录', '查看');

@@ -134,7 +134,7 @@ pageEncoding="UTF-8" %>
                 'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=1">{1}</button>')
                         .format(rowObject.id, cellvalue);
             }},
-            { label: '列席人',name: 'attendUsers'},
+            { label: '列席人',name: 'attendUsers', width: 400,align:'left'},
             {label: '会议记录', name: 'logFile', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.logFile==undefined) return '-';
                 return $.swfPreview(rowObject.logFile, '会议记录', '查看');

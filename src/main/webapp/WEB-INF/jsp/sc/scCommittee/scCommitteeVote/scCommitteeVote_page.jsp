@@ -112,12 +112,12 @@
             }, frozen: true},
             {label: '党委常委会日期', name: 'holdDate', width: 120,
                 formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-            { label: '议题名称',name: 'name', width: 200, align:'left', frozen: true},
+            { label: '议题名称',name: 'name', width: 400, align:'left', frozen: true},
             {
                 label: '议题内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return ('<button class="popupBtn btn btn-link btn-xs" ' +
                 'data-url="${ctx}/sc/scCommitteeTopic_content?topicId={0}">查看</button>')
-                        .format(rowObject.id);
+                        .format(rowObject.topicId);
             }, frozen: true
             },
             { label:'类别', name: 'type', width: 80, formatter:function(cellvalue, options, rowObject){
@@ -132,7 +132,7 @@
             { label:'干部类型', name: 'cadreTypeId', formatter: $.jgrid.formatter.MetaType},
             { label:'任免方式', name: 'wayId', formatter: $.jgrid.formatter.MetaType},
             { label:'任免程序', name: 'procedureId', formatter: $.jgrid.formatter.MetaType},
-            { label:'职务', name: 'post', width: 150,align:'left' },
+            { label:'职务', name: 'post', width: 250,align:'left' },
             { label:'职务属性', name: 'postId', width: 120 , formatter: $.jgrid.formatter.MetaType},
             { label:'行政级别', name: 'adminLevelId', formatter: $.jgrid.formatter.MetaType},
             { label:'单位类型', name: 'unit.typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
@@ -158,7 +158,7 @@
                         .format(rowObject.committeeId, cellvalue);
             }},
             {label: '参会同意人数', name: 'aggreeCount'},
-            { label: '列席人',name: 'attendUsers'},
+            { label: '列席人',name: 'attendUsers', width: 400,align:'left'},
             {label: '会议记录', name: 'logFile', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.logFile==undefined) return '-';
                 return $.swfPreview(rowObject.logFile, '会议记录', '查看');
