@@ -10,6 +10,7 @@
         </c:forEach>
     </div>
 </div>
+<div class="footer-margin"/>
 <style>
     .table tr th, .table tr td {
         white-space: nowrap;
