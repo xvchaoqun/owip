@@ -66,7 +66,7 @@
                             <label class="col-xs-3 control-label">原任职务</label>
 
                             <div class="col-xs-8">
-                                <input required class="form-control" type="text" name="originalPost"
+                                <input class="form-control" type="text" name="originalPost"
                                        value="${scCommitteeVote.originalPost}">
                             </div>
                         </div>
@@ -75,7 +75,7 @@
 
                             <div class="col-xs-5">
                                 <div class="input-group" style="width: 150px;">
-                                    <input required class="form-control date-picker" name="originalPostTime"
+                                    <input class="form-control date-picker" name="originalPostTime"
                                            data-date-format="yyyy-mm-dd"
                                            value="${cm:formatDate(scCommitteeVote.originalPostTime,'yyyy-MM-dd')}"/>
                                             <span class="input-group-addon"> <i
@@ -279,7 +279,7 @@
     $("select, input, button, textarea", "#voteForm").prop("disabled", true);
     </c:if>
 
-    $("#voteForm input[name=type]").change(function () {
+    /*$("#voteForm input[name=type]").change(function () {
 
         if ($(this).val() == 1) {
             $("#voteForm input[name=originalPost]").attr("required", "required");
@@ -290,7 +290,7 @@
             $("#voteForm input[name=originalPostTime]").removeAttr("required");
             $("#voteForm .original").hide();
         }
-    })
+    })*/
 
     $.register.date($('.date-picker'));
     $('textarea.limited').inputlimiter();

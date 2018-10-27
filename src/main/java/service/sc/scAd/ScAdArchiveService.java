@@ -2,7 +2,6 @@ package service.sc.scAd;
 
 import bean.CadreInfoForm;
 import controller.global.OpException;
-import domain.cadre.CadreView;
 import domain.cis.CisInspectObj;
 import domain.sc.scAd.ScAdArchive;
 import domain.sc.scAd.ScAdArchiveExample;
@@ -157,7 +156,7 @@ public class ScAdArchiveService extends BaseMapper {
             }
         }
 
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        //CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         CadreInfoForm bean = cadreAdformService.getCadreAdform(cadreId);
         bean.setPost(null);
         bean.setInPost(null);
@@ -165,16 +164,18 @@ public class ScAdArchiveService extends BaseMapper {
         if(appointVote!=null){
 
             // 现任职务
-            String schoolName = sysConfigService.getSchoolName();
+            /*String schoolName = sysConfigService.getSchoolName();
             if(!StringUtils.startsWith(cadre.getTitle(), schoolName)){
                 bean.setPost(schoolName + appointVote.getOriginalPost());
             }else{
                 bean.setPost(appointVote.getOriginalPost());
-            }
+            }*/
+            bean.setPost(appointVote.getOriginalPost());
             // 拟任职务
             bean.setInPost(appointVote.getPost());
         }
         if(dismissVote!=null){
+            bean.setPost(dismissVote.getOriginalPost());
             // 拟免职务
             bean.setPrePost(dismissVote.getPost());
         }
