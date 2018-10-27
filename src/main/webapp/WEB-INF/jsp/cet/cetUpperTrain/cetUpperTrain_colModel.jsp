@@ -5,14 +5,14 @@
 <script>
   var colModel = [
    <c:if test="${cls==3}">
-    {label: '未通过原因', width: 210, align: 'left', name: 'backReason'},
+    {label: '未通过原因', width: 210, align: 'left', name: 'backReason', frozen:true},
     </c:if>
-    {label: '参训人姓名', name: 'user.realname'},
-    {label: '参训人工号', width: 110, name: 'user.code'},
+    {label: '参训人姓名', name: 'user.realname', frozen:true},
+    {label: '参训人工号', width: 110, name: 'user.code', frozen:true},
     {label: '时任单位及职务', name: 'title', align: 'left', width: 350},
-    {label: '职务属性', name: 'postId', width: 150, formatter: $.jgrid.formatter.MetaType},
+    {label: '职务属性', name: 'postId', width: 120, align: 'left',formatter: $.jgrid.formatter.MetaType},
     {
-      label: '培训班主办方', name: 'organizer', width: 150, formatter: function (cellvalue, options, rowObject) {
+      label: '培训班主办方', name: 'organizer', width: 150, align: 'left', formatter: function (cellvalue, options, rowObject) {
       if (cellvalue == 0) {
         return $.trim(rowObject.otherOrganizer)
       }
@@ -21,14 +21,14 @@
     },
     {label: '培训班类型', name: 'trainType', width: 150, formatter: $.jgrid.formatter.MetaType},
     {
-      label: '专项培训班', name: 'specialType', width: 200, formatter: function (cellvalue, options, rowObject) {
+      label: '专项培训班', name: 'specialType', width: 300, align: 'left',formatter: function (cellvalue, options, rowObject) {
       if (cellvalue == 0) {
         return '无'
       }
       return $.jgrid.formatter.MetaType(cellvalue)
     }
     },
-    {label: '培训班名称', name: 'trainName', width: 150},
+    {label: '培训班名称', name: 'trainName', align: 'left',width: 350},
     {label: '培训<br/>开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
     {label: '培训<br/>结束时间', name: 'endDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
     {
@@ -65,7 +65,7 @@
 
       return $.jgrid.formatter.unit(cellvalue)
     }},
-    {label: '操作人', name: 'addUser.username'},
+    {label: '操作人', name: 'addUser.realname'},
     {label: '添加时间', name: 'addTime', width: 150},
     <c:if test="${param.addType!=CET_UPPER_TRAIN_ADD_TYPE_SELF}">
     {label: '是否计入<br/>年度学习任务', name: 'isValid', formatter: function (cellvalue, options, rowObject) {
