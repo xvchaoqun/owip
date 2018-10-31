@@ -1,7 +1,6 @@
 package controller.member;
 
 import bean.UserBean;
-import com.lowagie.text.DocumentException;
 import domain.member.MemberOut;
 import domain.member.MemberStay;
 import domain.party.Branch;
@@ -52,7 +51,7 @@ public class MemberStayReportController extends MemberBaseController {
                               @RequestParam(value = "ids[]") Integer[] ids,
                               @RequestParam(required = false, defaultValue = "0") Boolean print,
                               @RequestParam(defaultValue = "pdf") String format,
-                              Model model) throws IOException, DocumentException {
+                              Model model) throws IOException {
 
         // 分党委、组织部管理员或管理员才可以操作
         if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,

@@ -1,6 +1,5 @@
 package controller;
 
-import com.lowagie.text.DocumentException;
 import domain.sys.SysResource;
 import domain.sys.SysResourceExample;
 import job.Test;
@@ -187,7 +186,7 @@ public class TestController extends BaseController {
     }
 */
     //@RequestMapping(value = "/report2", method = RequestMethod.GET)
-    public String report2(Integer type, Model model) throws IOException, DocumentException {
+    public String report2(Integer type, Model model) throws IOException {
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         Map<String, Object> map = new HashMap<String, Object>();

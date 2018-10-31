@@ -1,6 +1,5 @@
 package controller.pcs;
 
-import com.lowagie.text.DocumentException;
 import domain.base.MetaType;
 import domain.pcs.PcsConfig;
 import domain.pcs.PcsPrCandidateView;
@@ -61,7 +60,7 @@ public class PcsReportController extends PcsBaseController {
                       HttpServletResponse response,
                       HttpServletRequest request,
                       Model model)
-            throws IOException, DocumentException, JRException {
+            throws IOException, JRException {
 
         List<Map<String, ?>> pcsProposalData = new ArrayList<Map<String, ?>>();
 

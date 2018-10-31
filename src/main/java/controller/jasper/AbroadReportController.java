@@ -1,6 +1,5 @@
 package controller.jasper;
 
-import com.lowagie.text.DocumentException;
 import controller.BaseController;
 import domain.abroad.ApplySelf;
 import domain.abroad.Passport;
@@ -13,6 +12,7 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;
+import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -50,7 +50,7 @@ public class AbroadReportController extends BaseController {
     @RequestMapping(value = "/cancel", method = RequestMethod.GET)
     public String cancel(Integer id,
                          @RequestParam(defaultValue = "image") String format,
-                         Model model) throws IOException, DocumentException {
+                         Model model) throws IOException {
 
         Passport passport = passportMapper.selectByPrimaryKey(id);
         MetaType passportType = CmTag.getMetaType(passport.getClassId());
@@ -119,7 +119,7 @@ public class AbroadReportController extends BaseController {
     @RequestMapping(value = "/passportSign", method = RequestMethod.GET)
     public String passportSign(Integer classId, Integer userId, Integer id,
                                @RequestParam(defaultValue = "image") String format,
-                               Model model) throws IOException, DocumentException {
+                               Model model) throws IOException {
 
         PassportDraw passportDraw = null;
         if (id != null) { // 以id为准

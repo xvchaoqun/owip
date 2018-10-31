@@ -1,7 +1,6 @@
 
 
 
-
 20181031
 ALTER TABLE `cadre_leader_unit`
 	ADD CONSTRAINT `FK_cadre_leader_unit_cadre_leader` FOREIGN KEY (`leader_id`) REFERENCES `cadre_leader` (`id`) ON DELETE CASCADE;
@@ -28,6 +27,10 @@ ALTER TABLE `sc_dispatch_committee`
 
 更新 sc_dispatch_view
 
+
+删除 bc*jdk14*.jar
+
+更新common-utils.jar
 
 
 	-- 更新西交大

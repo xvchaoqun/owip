@@ -1,6 +1,5 @@
 package controller.sc.scMatter;
 
-import com.lowagie.text.DocumentException;
 import domain.sc.scMatter.ScMatterAccess;
 import domain.sc.scMatter.ScMatterAccessItemView;
 import domain.sc.scMatter.ScMatterAccessItemViewExample;
@@ -53,7 +52,7 @@ public class ScMatterReportController extends ScMatterBaseController {
                       HttpServletResponse response,
                       HttpServletRequest request,
                       Model model)
-            throws IOException, DocumentException, JRException {
+            throws IOException, JRException {
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         Map<String, Object> map = new HashMap<String, Object>();
