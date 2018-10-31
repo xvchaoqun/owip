@@ -335,7 +335,7 @@
             {label: '学工号', name: 'user.code', width: 120, frozen: true},
             {label: '姓名', name: 'user.realname', width: 100, frozen: true},
             {
-                label: '所属组织机构', name: 'party', width: 450,
+                label: '所属组织机构', name: 'party', width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen: true
@@ -345,8 +345,8 @@
                 return _cMap.MEMBER_INFLOW_STATUS_MAP[rowObject.inflowStatus];
             }
             }<c:if test="${cls==4}">
-            , {label: '返回修改原因', name: 'reason', width: 180}</c:if>,
-            {label: '原职业', name: 'originalJob', width: 200, formatter: $.jgrid.formatter.MetaType},
+            , {label: '返回修改原因', name: 'reason',  align:'left',width: 180}</c:if>,
+            {label: '原职业', name: 'originalJob',  align:'left',width: 200, formatter: $.jgrid.formatter.MetaType},
             {
                 label: '流入前所在省份', name: 'province', width: 150, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.locationMap[cellvalue].name;
@@ -354,9 +354,9 @@
             },
             {label: '是否持有《中国共产党流动党员活动证》', name: 'hasPapers', width: 300, formatter: $.jgrid.formatter.TRUEFALSE},
             {label: '流入时间', name: 'flowTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '流入原因', name: 'flowReason', width: 350},
+            {label: '流入原因', name: 'flowReason',  align:'left',width: 350},
             {label: '入党时间', name: 'growTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '组织关系所在地', name: 'orLocation', width: 150},
+            {label: '组织关系所在地', name: 'orLocation' align:'left',, width: 150},
             {hidden: true, name: 'inflowStatus'}
         ],
         onSelectRow: function (id, status) {

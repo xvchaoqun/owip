@@ -41,6 +41,7 @@ public interface IDispatchMapper {
     // 根据允许查看的职务属性等条件， 查询干部工作文件列表
     public List<DispatchWorkFile> selectDispatchWorkFileList(
             @Param("isAdmin") boolean isAdmin,
+            @Param("fileName") String fileName,
             @Param("postIds") List<Integer> postIds,
             @Param("type") Byte type,
             @Param("status") Boolean status,
@@ -52,6 +53,7 @@ public interface IDispatchMapper {
             RowBounds rowBounds);
     int countDispatchWorkFileList(
             @Param("isAdmin") boolean isAdmin,
+            @Param("fileName") String fileName,
             @Param("postIds") List<Integer> postIds,
             @Param("type") Byte type,
             @Param("status") Boolean status,

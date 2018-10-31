@@ -70,6 +70,10 @@ $.register.m_click(".popView", function () {
     var url = $(this).data("url");
     $.loadModal(url, $(this).data("width"), $(this).data("direction"));
 })
+$.register.m_click(".popPdfView", function () {
+    var url = $(this).data("url");
+    $.loadPdfModal(url, $(this).data("width"), $(this).data("direction"));
+})
 $.register.m_click(".confirm", function () {
     $.confirm(this);
 })

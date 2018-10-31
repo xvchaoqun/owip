@@ -8,8 +8,8 @@ pageEncoding="UTF-8" %>
                  data-url-page="${ctx}/sc/scGroupTopic"
                  data-url-export="${ctx}/sc/scGroupTopic_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query"
-                   value="${not empty param.year ||not empty param.groupId  ||not empty param.holdDate || not empty param.name || not empty param.unitIds}"/>
+           <%-- <c:set var="_query"
+                   value="${not empty param.year ||not empty param.groupId  ||not empty param.holdDate || not empty param.name || not empty param.unitIds}"/>--%>
                 <div class="tabbable">
                     <jsp:include page="../scGroup/menu.jsp"/>
                     <div class="tab-content">
@@ -145,8 +145,8 @@ pageEncoding="UTF-8" %>
             { label: '议题名称',name: 'name', width: 350, align:'left'},
             {
                 label: '议题内容和讨论备忘',name: '_content', width: 150, formatter: function (cellvalue, options, rowObject) {
-                return ('<button class="openView btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scGroupTopic_content?topicId={0}">查看</button>')
+                return ('<button class="openView btn btn-primary btn-xs" ' +
+                'data-url="${ctx}/sc/scGroupTopic_content?topicId={0}"><i class="fa fa-search"></i> 查看</button>')
                         .format(rowObject.id);
             }
             },
@@ -168,8 +168,8 @@ pageEncoding="UTF-8" %>
                     unitname += "，..."
                 }
 
-                return ('<button class="popupBtn btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scGroupTopicUnit?topicId={0}">{1}</button>')
+                return ('<a href="javascript:;" class="popupBtn btn btn-link btn-xs" ' +
+                'data-url="${ctx}/sc/scGroupTopicUnit?topicId={0}">{1}</a>')
                         .format(rowObject.id, unitname);
             }
             },

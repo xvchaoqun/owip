@@ -395,6 +395,29 @@ var _modal_width;
                 if (!data.startWith("{")) $("#modal").modal('show').draggable({handle: dragTarget});
             });
         },
+        loadPdfModal: function (url, width, direction, dragTarget) { // 加载url内容，dragTarget：拖拽位置
+            //$("#modal").modal('hide');
+            //console.log("width="+width + " _modal_width=" + _modal_width);
+            if (width > 0) {
+                $('#modal .modal-dialog').removeClass("width" + _modal_width).addClass("width" + width);
+                _modal_width = width;
+            } else {
+                $('#modal .modal-dialog').removeClass("width" + _modal_width);
+                _modal_width = undefined;
+            }
+            dragTarget = dragTarget || ".modal-header";
+            if(direction){
+                $("#modal").addClass(direction);
+            }
+            //     position: sticky;right: 20px;top: 20px;z-index: 2222;
+            var close = '<button type="button" style="padding: 20px; position: absolute;right: 0;top: -10px;z-index: 2222"'
+           // var close = '<button type="button" style="position: sticky;padding: 20px;top: 0px;z-index: 2222;"'
+             +'data-dismiss="modal" aria-hidden="true" class="close">&times;</button>'
+            $('#modal .modal-content').html(close+"<div id='preview'><img src='"+url+"'></div>")
+            $("#preview img").width(window.screen.availWidth)
+            $(".modal-dialog").css("margin", "0")
+            $("#modal").modal('show').draggable({handle: dragTarget});
+        },
         showModal: function (content, width, dragTarget) { // 直接显示content内容，dragTarget：拖拽位置
             //$("#modal").modal('hide');
             //console.log("width="+width + " _modal_width=" + _modal_width);

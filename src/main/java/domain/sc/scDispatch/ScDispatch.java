@@ -1,12 +1,17 @@
 package domain.sc.scDispatch;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class ScDispatch implements Serializable {
+
+    public String getDispatchCode(){
+        return CmTag.getDispatchCode(code, dispatchTypeId, year);
+    }
 
     private Integer id;
 
@@ -16,6 +21,8 @@ public class ScDispatch implements Serializable {
 
     private Integer code;
 
+    private String title;
+
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date meetingTime;
 
@@ -23,6 +30,8 @@ public class ScDispatch implements Serializable {
     private Date pubTime;
 
     private String filePath;
+
+    private String wordFilePath;
 
     private String signFilePath;
 
@@ -62,6 +71,14 @@ public class ScDispatch implements Serializable {
         this.code = code;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
+
     public Date getMeetingTime() {
         return meetingTime;
     }
@@ -84,6 +101,14 @@ public class ScDispatch implements Serializable {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath == null ? null : filePath.trim();
+    }
+
+    public String getWordFilePath() {
+        return wordFilePath;
+    }
+
+    public void setWordFilePath(String wordFilePath) {
+        this.wordFilePath = wordFilePath == null ? null : wordFilePath.trim();
     }
 
     public String getSignFilePath() {

@@ -3,6 +3,7 @@ package service.sc.scDispatch;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreExample;
+import domain.dispatch.DispatchType;
 import domain.sc.scCommittee.ScCommitteeVote;
 import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scDispatch.ScDispatch;
@@ -17,14 +18,7 @@ import domain.sys.SysUserView;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.ss.usermodel.ClientAnchor;
-import org.apache.poi.util.Units;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
-import org.apache.poi.xssf.usermodel.XSSFDrawing;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,22 +28,22 @@ import service.BaseMapper;
 import service.SpringProps;
 import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchService;
+import service.dispatch.DispatchTypeService;
 import shiro.ShiroHelper;
-import sys.tags.CmTag;
+import sys.tool.office.WordTemplate;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ScDispatchService extends BaseMapper {
@@ -58,6 +52,8 @@ public class ScDispatchService extends BaseMapper {
     protected SpringProps springProps;
     @Autowired
     protected DispatchService dispatchService;
+    @Autowired
+    protected DispatchTypeService dispatchTypeService;
     @Autowired
     protected DispatchCadreService dispatchCadreService;
 
@@ -71,10 +67,11 @@ public class ScDispatchService extends BaseMapper {
         return scDispatchViews.size()>0?scDispatchViews.get(0):null;
     }
 
-    public boolean idDuplicate(Integer id, int year, int code) {
+    public boolean idDuplicate(Integer id, int year, int dispatchTypeId, int code) {
 
         ScDispatchExample example = new ScDispatchExample();
         ScDispatchExample.Criteria criteria = example.createCriteria().andYearEqualTo(year)
+                .andDispatchTypeIdEqualTo(dispatchTypeId)
                 .andCodeEqualTo(code);
         if (id != null) criteria.andIdNotEqualTo(id);
 
@@ -85,7 +82,7 @@ public class ScDispatchService extends BaseMapper {
     public void insertSelective(ScDispatch record, Integer[] committeeIds, Integer[] voteIds) {
 
         if (record.getYear() != null && record.getCode() != null)
-            Assert.isTrue(!idDuplicate(null, record.getYear(), record.getCode()), "编号重复");
+            Assert.isTrue(!idDuplicate(null, record.getYear(), record.getDispatchTypeId(), record.getCode()), "编号重复");
 
         scDispatchMapper.insertSelective(record);
 
@@ -96,31 +93,17 @@ public class ScDispatchService extends BaseMapper {
     public void batchDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
-        List<Integer> dispatchIdList = Arrays.asList(ids);
-        {
-            // 删除关联常委会
-            ScDispatchCommitteeExample example = new ScDispatchCommitteeExample();
-            example.createCriteria().andDispatchIdIn(dispatchIdList);
-            scDispatchCommitteeMapper.deleteByExample(example);
-        }
-        {
-            // 删除关联任免对象
-            ScDispatchUserExample example = new ScDispatchUserExample();
-            example.createCriteria().andDispatchIdIn(dispatchIdList);
-            scDispatchUserMapper.deleteByExample(example);
-        }
-        {
-            ScDispatchExample example = new ScDispatchExample();
-            example.createCriteria().andIdIn(dispatchIdList);
-            scDispatchMapper.deleteByExample(example);
-        }
+
+        ScDispatchExample example = new ScDispatchExample();
+        example.createCriteria().andIdIn(Arrays.asList(ids));
+        scDispatchMapper.deleteByExample(example);
     }
 
     @Transactional
     public void updateByPrimaryKeySelective(ScDispatch record, Integer[] committeeIds, Integer[] voteIds) {
 
         if (record.getYear() != null && record.getCode() != null)
-            Assert.isTrue(!idDuplicate(record.getId(), record.getYear(), record.getCode()), "编号重复");
+            Assert.isTrue(!idDuplicate(record.getId(), record.getYear(), record.getDispatchTypeId(), record.getCode()), "编号重复");
         scDispatchMapper.updateByPrimaryKeySelective(record);
 
         processCommittee(record.getId(), committeeIds, voteIds);
@@ -163,10 +146,55 @@ public class ScDispatchService extends BaseMapper {
         }
     }
 
+    public void exportSign(int dispatchId, HttpServletResponse response) throws IOException {
+
+        ScDispatch scDispatch = scDispatchMapper.selectByPrimaryKey(dispatchId);
+
+        String sign = null;
+        SysUserView _user = ShiroHelper.getCurrentUser();
+        if (FileUtils.exists(springProps.uploadPath + _user.getSign()))
+            sign = springProps.uploadPath + _user.getSign();
+
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("code", scDispatch.getDispatchCode());
+        param.put("date", DateUtils.formatDate(scDispatch.getPubTime(), DateUtils.YYYY_MM_DD_CHINA));
+        param.put("title", StringUtils.trimToEmpty(scDispatch.getTitle()));
+        param.put("signDate", DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD_CHINA));
+
+        if(sign!=null) {
+            Map<String, String> signImage = new HashMap<String, String>();
+            signImage.put("type", "image");
+            signImage.put("width", "90");
+            signImage.put("height", "60");
+            signImage.put("filePath", sign);
+            param.put("sign", signImage);
+        }else{
+            param.put("sign", "");
+        }
+
+        Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+        DispatchType dispatchType = dispatchTypeMap.get(scDispatch.getDispatchTypeId());
+
+
+        WordTemplate wt = new WordTemplate(ResourceUtils.getFile("classpath:xlsx/sc/"
+                +(StringUtils.equals(dispatchType.getAttr(), "党务")?"sc_dispatch_sign_ow"
+                :"sc_dispatch_sign_ad")+".docx").getAbsolutePath());
+        //long start = System.currentTimeMillis();
+        XWPFDocument doc = wt.process(param);
+        //long end = System.currentTimeMillis();
+        //System.out.println("use time:" + (end-start));
+
+        response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+        OutputStream out = new BufferedOutputStream(response.getOutputStream());
+        doc.write(out);
+        out.flush();
+        out.close();
+    }
+
     /**
      * 签发单.xls
      */
-    public XSSFWorkbook exportSign(int dispatchId) throws IOException {
+    /*public XSSFWorkbook exportSign(int dispatchId) throws IOException {
 
         ScDispatch scDispatch = scDispatchMapper.selectByPrimaryKey(dispatchId);
         String dispatchCode = CmTag.getDispatchCode(scDispatch.getCode(), scDispatch.getDispatchTypeId(), scDispatch.getYear());
@@ -235,7 +263,8 @@ public class ScDispatchService extends BaseMapper {
         }
 
         return wb;
-    }
+    }*/
+
     @Transactional
     public void sync(int dispatchId) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 

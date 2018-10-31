@@ -236,7 +236,7 @@ public class ScCommitteeController extends ScCommitteeBaseController {
     @RequiresPermissions("scCommittee:list")
     @RequestMapping("/scCommittee_selects")
     @ResponseBody
-    public Map scCommittee_selects(Integer pageSize, Integer pageNo,String searchStr) throws IOException {
+    public Map scCommittee_selects(Integer pageSize, Integer pageNo, Integer year, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -247,8 +247,11 @@ public class ScCommitteeController extends ScCommitteeBaseController {
         pageNo = Math.max(1, pageNo);
 
         ScCommitteeExample example = new ScCommitteeExample();
-        ScCommitteeExample.Criteria criteria = example.createCriteria();
+        ScCommitteeExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
         example.setOrderByClause("id desc");
+        if(year!=null){
+            criteria.andYearEqualTo(year);
+        }
 
         if(StringUtils.length(searchStr)==8){
             Date holdDate = DateUtils.parseDate(searchStr, DateUtils.YYYYMMDD);

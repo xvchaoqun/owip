@@ -71,6 +71,7 @@ public class DispatchWorkFileController extends DispatchBaseController {
     @RequiresPermissions("dispatchWorkFile:list")
     @RequestMapping("/dispatchWorkFile_data")
     public void dispatchWorkFile_data(HttpServletResponse response,
+                                      String fileName,
                                       Byte type,
                                       @RequestParam(required = false, defaultValue = "1") Boolean status,
                                       Integer startYear,
@@ -104,14 +105,14 @@ public class DispatchWorkFileController extends DispatchBaseController {
             if(cadreView!=null) postIds.add(cadreView.getPostId());
         }
 
-        long count = iDispatchMapper.countDispatchWorkFileList(isAdmin, postIds, type, status,
+        long count = iDispatchMapper.countDispatchWorkFileList(isAdmin, fileName, postIds, type, status,
                 unitTypes, startYear, endYear, workTypes, privacyTypes);
 
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<DispatchWorkFile> records = iDispatchMapper.selectDispatchWorkFileList(isAdmin, postIds, type, status,
+        List<DispatchWorkFile> records = iDispatchMapper.selectDispatchWorkFileList(isAdmin, fileName, postIds, type, status,
                 unitTypes, startYear, endYear, workTypes, privacyTypes, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         CommonList commonList = new CommonList(count, pageNo, pageSize);
@@ -139,11 +140,34 @@ public class DispatchWorkFileController extends DispatchBaseController {
         return "dispatch/dispatchWorkFile/dispatchWorkFileAuth";
     }
 
+    // 查询文件所属类型
+    @RequiresPermissions("dispatchWorkFile:auth")
+    @RequestMapping("/dispatchWorkFile_search")
+    public String dispatchWorkFile_search() throws IOException {
+
+        return "dispatch/dispatchWorkFile/dispatchWorkFile_search";
+    }
+
+    @RequiresPermissions("dispatchWorkFile:auth")
+    @RequestMapping(value = "/dispatchWorkFile_search", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_dispatchWorkFile_search(String fileName) {
+
+        DispatchWorkFileExample example = new DispatchWorkFileExample();
+        example.createCriteria().andFileNameLike('%'+fileName+"%");
+        example.setOrderByClause("type asc, status desc, sort_order desc");
+        List<DispatchWorkFile> dispatchWorkFiles = dispatchWorkFileMapper.selectByExample(example);
+
+        Map<String, Object> resultMap = success(FormUtils.SUCCESS);
+        resultMap.put("dispatchWorkFiles", dispatchWorkFiles);
+        return resultMap;
+    }
+
     // 更新某类申请人身份下的干部
     @RequiresPermissions("dispatchWorkFile:auth")
     @RequestMapping(value = "/dispatchWorkFileAuth", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_select_posts(Integer id, @RequestParam(value = "postIds[]", required = false) Integer[] postIds) {
+    public Map do_dispatchWorkFileAuth(Integer id, @RequestParam(value = "postIds[]", required = false) Integer[] postIds) {
 
         dispatchWorkFileService.updatePostIds(id, postIds);
         return success(FormUtils.SUCCESS);

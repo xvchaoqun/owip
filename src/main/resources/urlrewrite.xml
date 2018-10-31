@@ -95,4 +95,10 @@
 		<from casesensitive="true">^/m/cet/cetTrain_apply_item$</from>
 		<to>/user/cet/cetTrain_apply_item</to>
 	</rule>
+	<rule>
+		<note>文件综合管理</note>
+		<condition type="method">POST</condition>
+		<from casesensitive="true">^/m/dispatchWorkFile_search$</from>
+		<to>/dispatchWorkFile_search</to>
+	</rule>
 </urlrewrite>

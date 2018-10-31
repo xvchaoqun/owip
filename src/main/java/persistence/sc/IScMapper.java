@@ -33,10 +33,10 @@ public interface IScMapper {
     public List<ScCommitteeVoteView> getScPublicVotes(@Param("publicId") int publicId);
 
     // 文件起草签发-待选任免对象
-    @ResultMap("persistence.sc.scCommittee.ScCommitteeVoteViewMapper.BaseResultMap")
+    /*@ResultMap("persistence.sc.scCommittee.ScCommitteeVoteViewMapper.BaseResultMap")
     @Select("select scv.* from sc_committee_vote_view scv where scv.committee_id in(${committeeIds}) " +
             "and not exists(select 1 from sc_dispatch_user where vote_id=scv.id) order by scv.type asc, scv.sort_order")
-    public List<ScCommitteeVoteView> getScDispatchUsers(@Param("committeeIds") String committeeIds);
+    public List<ScCommitteeVoteView> getScDispatchUsers(@Param("committeeIds") String committeeIds);*/
 
     // 文件起草签发-已选任免对象
     @ResultMap("persistence.sc.scCommittee.ScCommitteeVoteViewMapper.BaseResultMap")

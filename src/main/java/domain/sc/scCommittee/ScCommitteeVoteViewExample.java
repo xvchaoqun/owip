@@ -1771,6 +1771,66 @@ public class ScCommitteeVoteViewExample {
             addCriterion("log_file not between", value1, value2, "logFile");
             return (Criteria) this;
         }
+
+        public Criteria andDispatchUserIdIsNull() {
+            addCriterion("dispatch_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUserIdIsNotNull() {
+            addCriterion("dispatch_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUserIdEqualTo(Integer value) {
+            addCriterion("dispatch_user_id =", value, "dispatchUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUserIdNotEqualTo(Integer value) {
+            addCriterion("dispatch_user_id <>", value, "dispatchUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUserIdGreaterThan(Integer value) {
+            addCriterion("dispatch_user_id >", value, "dispatchUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_user_id >=", value, "dispatchUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUserIdLessThan(Integer value) {
+            addCriterion("dispatch_user_id <", value, "dispatchUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_user_id <=", value, "dispatchUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUserIdIn(List<Integer> values) {
+            addCriterion("dispatch_user_id in", values, "dispatchUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUserIdNotIn(List<Integer> values) {
+            addCriterion("dispatch_user_id not in", values, "dispatchUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_user_id between", value1, value2, "dispatchUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_user_id not between", value1, value2, "dispatchUserId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

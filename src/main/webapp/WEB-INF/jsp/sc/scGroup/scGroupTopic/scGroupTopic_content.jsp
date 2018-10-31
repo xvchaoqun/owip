@@ -6,7 +6,7 @@
 		返回</a>
 </h4>
 <div class="row dispatch_au">
-	<div class="preview">
+	<div class="preview" style="width: 620px">
 		<div class="widget-box" style="height: 650px;">
 			<div class="widget-header">
 				<h4 class="smaller">
@@ -14,24 +14,22 @@
 				</h4>
 			</div>
 			<div class="widget-body">
-				<div class="widget-main">
-					<div style="height:520px;overflow-y: scroll">
+				<div class="widget-main" style="height:${not empty scGroupTopic.filePath?550:600}px;overflow-y: scroll">
 					${scGroupTopic.content}
-					</div>
-					<div class="well" style="margin-bottom: 0px;">
-						<c:if test="${not empty scGroupTopic.filePath}">
-							附件：
-							<c:forEach var="file" items="${fn:split(scGroupTopic.filePath,',')}" varStatus="vs">
-								<a href="${ctx}/attach/download?path=${cm:encodeURI(file)}&filename=附件${vs.count}">附件${vs.count}</a>
-								${vs.last?"":"、"}
-							</c:forEach>
-						</c:if>
-					</div>
 				</div>
+				<c:if test="${not empty scGroupTopic.filePath}">
+				<div class="well" style="margin-bottom: 0px;">
+						附件：
+						<c:forEach var="file" items="${fn:split(scGroupTopic.filePath,',')}" varStatus="vs">
+							<a href="${ctx}/attach/download?path=${cm:encodeURI(file)}&filename=附件${vs.count}">附件${vs.count}</a>
+							${vs.last?"":"、"}
+						</c:forEach>
+				</div>
+				</c:if>
 			</div>
 		</div>
 	</div>
-	<div class="au">
+	<div class="au" style="width: 620px">
 		<div class="widget-box" style="height: 650px;">
 			<div class="widget-header">
 				<h4 class="smaller">

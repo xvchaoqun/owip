@@ -119,7 +119,7 @@
                 }
             },
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
-            {label: '费用来源', name: 'costSource', width: 100},
+            {label: '费用来源', name: 'costSource', align:'left', width: 150},
             </c:if>
             {
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"批件":"说明材料"}',

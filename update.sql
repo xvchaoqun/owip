@@ -1,4 +1,36 @@
 
+
+
+
+20181031
+ALTER TABLE `cadre_leader_unit`
+	ADD CONSTRAINT `FK_cadre_leader_unit_cadre_leader` FOREIGN KEY (`leader_id`) REFERENCES `cadre_leader` (`id`) ON DELETE CASCADE;
+
+新增jar包 icepdf 12个
+
+新增移动端干部文件管理
+
+	更新 sc_committee_vote_view
+
+ALTER TABLE `sc_dispatch`
+	ADD COLUMN `title` VARCHAR(200) NULL DEFAULT NULL COMMENT '标题' AFTER `code`;
+
+ALTER TABLE `sc_dispatch`
+	ADD COLUMN `file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '文件签发稿，pdf格式' AFTER `pub_time`,
+	CHANGE COLUMN `file_path` `word_file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '文件签发稿，word格式' AFTER `file_path`,
+	CHANGE COLUMN `sign_file_path` `sign_file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '正式签发单，pdf格式' AFTER `word_file_path`;
+
+ALTER TABLE `sc_dispatch_committee`
+	ADD CONSTRAINT `FK_sc_dispatch_committee_sc_dispatch` FOREIGN KEY (`dispatch_id`) REFERENCES `sc_dispatch` (`id`) ON DELETE CASCADE;
+
+	ALTER TABLE `sc_dispatch_user`
+	ADD CONSTRAINT `FK_sc_dispatch_user_sc_dispatch` FOREIGN KEY (`dispatch_id`) REFERENCES `sc_dispatch` (`id`) ON DELETE CASCADE;
+
+更新 sc_dispatch_view
+
+
+
+	-- 更新西交大
 20181024
 ALTER TABLE `sys_teacher_info`
 	CHANGE COLUMN `school` `school` VARCHAR(200) NULL DEFAULT NULL COMMENT '学历毕业学校' AFTER `major`;

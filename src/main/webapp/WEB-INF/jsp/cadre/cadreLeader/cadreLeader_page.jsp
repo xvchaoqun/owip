@@ -29,7 +29,7 @@
                     <shiro:hasPermission name="cadreLeader:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
                            data-url="${ctx}/cadreLeader_batchDel" data-title="删除"
-                           data-msg="确定删除这{0}位校领导吗？"><i class="fa fa-trash"></i> 删除</a>
+                           data-msg="确定删除这{0}位校领导吗？（删除后不可恢复，请谨慎操作）"><i class="fa fa-trash"></i> 删除</a>
                     </shiro:hasPermission>
                 </div>
                 <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">

@@ -49,7 +49,7 @@ public class ExcelTest {
         //  col2 第2个单元格的列号
         //  row2 第2个单元格的行号
         XSSFClientAnchor anchor = new XSSFClientAnchor(0, 90* Units.EMU_PER_PIXEL,
-                -20* Units.EMU_PER_PIXEL, -10* Units.EMU_PER_PIXEL, 3, 4, 5, 5);
+                -57* Units.EMU_PER_PIXEL, -10* Units.EMU_PER_PIXEL, 3, 4, 5, 5);
         anchor.setAnchorType(ClientAnchor.AnchorType.DONT_MOVE_DO_RESIZE);
         drawingPatriarch.createPicture(anchor, wb.addPicture(byteArrayOut.toByteArray(), XSSFWorkbook.PICTURE_TYPE_PNG));
 

@@ -28,6 +28,7 @@
     <result column="attend_users" jdbcType="VARCHAR" property="attendUsers" />
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
     <result column="log_file" jdbcType="VARCHAR" property="logFile" />
+    <result column="dispatch_user_id" jdbcType="INTEGER" property="dispatchUserId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -62,7 +63,7 @@
     id, topic_id, cadre_id, type, original_post, original_post_time, cadre_type_id, way_id, 
     procedure_id, post, post_id, admin_level_id, unit_id, aggree_count, remark, sort_order, 
     name, content, committee_id, year, hold_date, count, absent_count, attend_users, 
-    file_path, log_file
+    file_path, log_file, dispatch_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeVoteViewExample" resultMap="BaseResultMap">
     select

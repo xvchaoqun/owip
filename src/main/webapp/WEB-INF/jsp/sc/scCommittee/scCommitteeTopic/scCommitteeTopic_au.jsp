@@ -75,10 +75,12 @@ pageEncoding="UTF-8"%>
 
 	var contentKe = KindEditor.create('#contentId', {
 		//cssPath:"${ctx}/css/ke.css",
-		items: ["source", "|", "fullscreen"],
+		items: ["wordpaste", "source", "|", "fullscreen"],
 		height: '350px',
 		width: '480px',
-		minWidth: 480
+		minWidth: 480,
+		filterMode:false,
+		pasteType:0
 	});
 
     $("#submitBtn").click(function(){

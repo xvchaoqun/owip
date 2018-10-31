@@ -317,7 +317,7 @@
         colModel: [
             { label: '学工号',  name: 'user.code', width: 120, frozen:true },
             { label: '姓名',  name: 'user.realname', width: 100, frozen:true },
-            { label: '所属组织机构', name: 'party', width: 450 ,
+            { label: '所属组织机构', name: 'party', width: 450 , align:'left',
                 formatter:function(cellvalue, options, rowObject){
                     return $.party(rowObject.partyId, rowObject.branchId);
             }, frozen:true  },
@@ -336,7 +336,7 @@
             }},
             { label: '是否持有《中国共产党流动党员活动证》',   name: 'hasPapers', width: 300, formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '流入时间',   name: 'flowTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label: '流入原因',   name: 'flowReason', width: 350 },
+            { label: '流入原因',   name: 'flowReason',  align:'left',width: 350 },
             { label: '入党时间',   name: 'growTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label: '组织关系所在地',   name: 'orLocation', width: 150 },{hidden:true, name:'outStatus'}
         ],

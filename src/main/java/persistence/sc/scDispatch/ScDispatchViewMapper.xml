@@ -6,13 +6,15 @@
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="dispatch_type_id" jdbcType="INTEGER" property="dispatchTypeId" />
     <result column="code" jdbcType="INTEGER" property="code" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="meeting_time" jdbcType="DATE" property="meetingTime" />
     <result column="pub_time" jdbcType="DATE" property="pubTime" />
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
     <result column="sign_file_path" jdbcType="VARCHAR" property="signFilePath" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="appoint_count" jdbcType="INTEGER" property="appointCount" />
-    <result column="dismiss_count" jdbcType="INTEGER" property="dismissCount" />
+    <result column="appoint_count" jdbcType="DECIMAL" property="appointCount" />
+    <result column="dismiss_count" jdbcType="DECIMAL" property="dismissCount" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -44,8 +46,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, dispatch_type_id, code, meeting_time, pub_time, file_path, sign_file_path, 
-    remark, appoint_count, dismiss_count
+    id, year, dispatch_type_id, code, title, meeting_time, pub_time, file_path, word_file_path, 
+    sign_file_path, remark, appoint_count, dismiss_count
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scDispatch.ScDispatchViewExample" resultMap="BaseResultMap">
     select

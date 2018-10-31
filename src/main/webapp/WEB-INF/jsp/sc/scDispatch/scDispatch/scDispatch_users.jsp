@@ -36,9 +36,39 @@
             { label:'工作证号', name: 'user.code'},
             { label:'姓名', name: 'user.realname'},
             {label: '原任职务', name: 'originalPost', width: 240,align:'left'},
-            { label:'职务', name: 'post', width: 240,align:'left' }, {hidden: true, key: true, name: 'id'}
-        ]
+            { label:'职务', name: 'post', width: 240,align:'left' }, {hidden: true, name: 'dispatchUserId'}
+        ],loadComplete:function(){
+            $.each(scCommitteeVotes, function(i, v){
+                if (v.dispatchUserId>0) {
+                    $("#jqg_jqGridPopup_"+ v.id).prop("disabled", true);
+                }
+            })
+        },
+
+        onSelectAll:function(rowids,status) {
+            if (status == true) {
+                var rowIds = $("#jqGridPopup").jqGrid('getDataIDs');
+                for (var i = 0; i < rowIds.length; i++) {
+                    rowData = $("#jqGridPopup").jqGrid("getRowData", rowIds[i]);
+                    if (rowData.dispatchUserId>0) {
+                        $("#jqGridPopup").jqGrid("setSelection", rowIds[i], false);
+                    }
+                }
+            }
+        },
+        onSelectRow:function(rowid,status) {
+            if (status == true) {
+                var rowData = $("#jqGridPopup").jqGrid('getRowData', rowid);
+                if (rowData.dispatchUserId>0) {
+                    $("#jqGridPopup").jqGrid("setSelection", rowid, false);
+                }
+            }
+        }
     });
+
+
+
+
 
     $("#modal #selectBtn").click(function(){
 
@@ -50,6 +80,7 @@
                 $("#modal").modal('hide');
                 $.each(ret.votes, function(i, vote){
 
+                    console.log("vote.dispatchUserId=" + vote.dispatchUserId)
                     var $jqGrid = $("#jqGrid"+vote.type);
 
                     //console.log(vote.type + " " + vote.id)

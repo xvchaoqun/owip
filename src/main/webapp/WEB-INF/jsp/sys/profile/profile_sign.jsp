@@ -86,11 +86,11 @@
   })
   $('#signForm button[type=reset]').on(ace.click_event, function(){
     <c:if test="${not empty _user.sign}">
-    $('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/sign'}]);
+    $('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/sign?_='+new Date().getTime()}]);
     </c:if>
   });
   <c:if test="${not empty _user.sign}">
-  $('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/sign'}]);
+  $('input[type=file]').ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/sign?_='+new Date().getTime()}]);
   </c:if>
   $("#submit").click(function(){
 

@@ -8,7 +8,7 @@ pageEncoding="UTF-8" %>
                  data-url-page="${ctx}/sc/scCommitteeTopic"
                  data-url-export="${ctx}/sc/scCommitteeTopic_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.year ||not empty param.committeeId  ||not empty param.holdDate ||not empty param.name || not empty param.code || not empty param.sort}"/>
+            <%--<c:set var="_query" value="${not empty param.year ||not empty param.committeeId  ||not empty param.holdDate ||not empty param.name || not empty param.code || not empty param.sort}"/>--%>
                 <div class="tabbable">
                     <jsp:include page="../scCommittee/menu.jsp"/>
                     <div class="tab-content">

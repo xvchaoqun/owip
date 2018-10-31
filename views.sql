@@ -217,9 +217,14 @@ where sc.is_deleted=0 ;
 
 DROP VIEW IF EXISTS `sc_committee_vote_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_vote_view` AS
-select scv.*, sct.name, sct.content, sct.committee_id, sc.year, sc.hold_date, sc.count, sc.absent_count, sc.attend_users, sc.file_path, sc.log_file from sc_committee_vote scv
+select scv.*, sct.name, sct.content, sct.committee_id,
+sc.year, sc.hold_date, sc.count, sc.absent_count, sc.attend_users, sc.file_path, sc.log_file,
+-- 已使用的ID
+sdu.id as dispatch_user_id
+from sc_committee_vote scv
 left join sc_committee_topic sct on sct.id=scv.topic_id
-left join sc_committee_view sc on sc.id=sct.committee_id;
+left join sc_committee_view sc on sc.id=sct.committee_id
+left join sc_dispatch_user sdu on sdu.vote_id=scv.id;
 
 DROP VIEW IF EXISTS `sc_committee_other_vote_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_other_vote_view` AS

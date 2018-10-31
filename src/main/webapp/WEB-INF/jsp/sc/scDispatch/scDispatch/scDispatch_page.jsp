@@ -25,12 +25,12 @@
                                    ><i class="fa fa-edit"></i>
                                     修改信息</a>
                             </shiro:hasPermission>
-                            <button class="jqLinkItemBtn btn btn-success btn-sm" type="button"
+                            <%--<button class="jqLinkItemBtn btn btn-success btn-sm" type="button"
                                     data-url="${ctx}/sc/scDispatch_exportSign"
                                     data-id-name="dispatchId">
                                 <i class="ace-icon fa fa-file-excel-o bigger-110"></i>
                                 生成签发单
-                            </button>
+                            </button>--%>
                             <button class="jqLinkItemBtn btn btn-warning btn-sm" type="button"
                                     data-url="${ctx}/sc/scDispatchUser_export" data-id-name="dispatchId">
                                 <i class="fa fa-download"></i> 导出任免对象

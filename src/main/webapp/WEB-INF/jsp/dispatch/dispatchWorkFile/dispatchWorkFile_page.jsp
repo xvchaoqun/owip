@@ -10,7 +10,9 @@
              data-url-co="${ctx}/dispatchWorkFile_changeOrder"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.unitTypes ||not empty param.startYear ||not empty param.endYear ||not empty param.workTypes ||not empty param.privacyTypes || not empty param.code || not empty param.sort}"/>
+                   value="${not empty param.fileName ||not empty param.unitTypes ||not empty param.startYear
+                   ||not empty param.endYear ||not empty param.workTypes
+                    ||not empty param.privacyTypes || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li class="<c:if test="${status}">active</c:if>">
@@ -21,6 +23,10 @@
                         <a href="javascript:;" class="hashchange" data-querystr="status=0"><i class="fa fa-history"></i>
                             失效作废文件</a>
                     </li>
+                    <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
+                        <button type="button" class="popupBtn btn btn-danger btn-sm"
+                                data-url="${ctx}/dispatchWorkFile_search"><i class="fa fa-search"></i> 查询文件所属类别</button>
+                    </div>
                 </ul>
 
                 <div class="tab-content">
@@ -81,7 +87,10 @@
                                     <form class="form-inline search-form" id="searchForm">
                                         <input name="type" type="hidden" value="${param.type}">
                                         <input name="status" type="hidden" value="${status}">
-
+                                        <div class="form-group">
+                                            <label>文件名</label>
+                                            <input class="form-control" type="text" name="fileName" value="${param.fileName}">
+                                        </div>
                                         <div class="form-group">
                                             <label>发文单位</label>
                                             <select class="multiselect" multiple="" name="unitTypes">

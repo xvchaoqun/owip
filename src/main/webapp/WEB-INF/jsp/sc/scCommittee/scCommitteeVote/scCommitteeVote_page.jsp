@@ -8,8 +8,8 @@
              data-url-page="${ctx}/sc/scCommitteeVote"
              data-url-export="${ctx}/sc/scCommitteeVote_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query"
-                   value="${not empty param.topicId ||not empty param.cadreId || not empty param.code || not empty param.sort}"/>
+            <%--<c:set var="_query"
+                   value="${not empty param.topicId ||not empty param.cadreId || not empty param.code || not empty param.sort}"/>--%>
             <div class="tabbable">
                 <jsp:include page="../scCommittee/menu.jsp"/>
                 <div class="tab-content">

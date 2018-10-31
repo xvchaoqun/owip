@@ -294,7 +294,7 @@
             {label: '姓名', name: 'user.realname', width: 75, frozen:true},
             </c:if>
             {
-                label: '所属组织机构', name: 'party',  width: 450,
+                label: '所属组织机构', name: 'party',  width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen:true

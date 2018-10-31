@@ -77,6 +77,7 @@
         colModel: [
             { label: '工作证号',  name: 'cadre.code', width: 120 ,frozen:true},
             { label: '姓名', name: 'cadre.realname', width: 75, formatter:function(cellvalue, options, rowObject){
+                if(rowObject.cadre==undefined) return ''
                 return $.cadre(rowObject.cadre.id, cellvalue);
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 300,frozen:true  },

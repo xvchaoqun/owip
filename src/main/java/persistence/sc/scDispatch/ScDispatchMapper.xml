@@ -6,9 +6,11 @@
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="dispatch_type_id" jdbcType="INTEGER" property="dispatchTypeId" />
     <result column="code" jdbcType="INTEGER" property="code" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="meeting_time" jdbcType="DATE" property="meetingTime" />
     <result column="pub_time" jdbcType="DATE" property="pubTime" />
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="word_file_path" jdbcType="VARCHAR" property="wordFilePath" />
     <result column="sign_file_path" jdbcType="VARCHAR" property="signFilePath" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -71,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, dispatch_type_id, code, meeting_time, pub_time, file_path, sign_file_path, 
-    remark
+    id, year, dispatch_type_id, code, title, meeting_time, pub_time, file_path, word_file_path, 
+    sign_file_path, remark
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scDispatch.ScDispatchExample" resultMap="BaseResultMap">
     select
@@ -104,22 +106,25 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.sc.scDispatch.ScDispatch">
-    insert into sc_dispatch (id, year, dispatch_type_id, 
-      code, meeting_time, pub_time, 
-      file_path, sign_file_path, remark
-      )
-    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{dispatchTypeId,jdbcType=INTEGER}, 
-      #{code,jdbcType=INTEGER}, #{meetingTime,jdbcType=DATE}, #{pubTime,jdbcType=DATE}, 
-      #{filePath,jdbcType=VARCHAR}, #{signFilePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="domain.sc.scDispatch.ScDispatch">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sc_dispatch (year, dispatch_type_id, code, 
+      title, meeting_time, pub_time, 
+      file_path, word_file_path, sign_file_path, 
+      remark)
+    values (#{year,jdbcType=INTEGER}, #{dispatchTypeId,jdbcType=INTEGER}, #{code,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{meetingTime,jdbcType=DATE}, #{pubTime,jdbcType=DATE}, 
+      #{filePath,jdbcType=VARCHAR}, #{wordFilePath,jdbcType=VARCHAR}, #{signFilePath,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.sc.scDispatch.ScDispatch">
+  <insert id="insertSelective" parameterType="domain.sc.scDispatch.ScDispatch">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into sc_dispatch
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="year != null">
         year,
       </if>
@@ -128,6 +133,9 @@
       </if>
       <if test="code != null">
         code,
+      </if>
+      <if test="title != null">
+        title,
       </if>
       <if test="meetingTime != null">
         meeting_time,
@@ -138,6 +146,9 @@
       <if test="filePath != null">
         file_path,
       </if>
+      <if test="wordFilePath != null">
+        word_file_path,
+      </if>
       <if test="signFilePath != null">
         sign_file_path,
       </if>
@@ -146,9 +157,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="year != null">
         #{year,jdbcType=INTEGER},
       </if>
@@ -158,6 +166,9 @@
       <if test="code != null">
         #{code,jdbcType=INTEGER},
       </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
       <if test="meetingTime != null">
         #{meetingTime,jdbcType=DATE},
       </if>
@@ -166,6 +177,9 @@
       </if>
       <if test="filePath != null">
         #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="wordFilePath != null">
+        #{wordFilePath,jdbcType=VARCHAR},
       </if>
       <if test="signFilePath != null">
         #{signFilePath,jdbcType=VARCHAR},
@@ -196,6 +210,9 @@
       <if test="record.code != null">
         code = #{record.code,jdbcType=INTEGER},
       </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
       <if test="record.meetingTime != null">
         meeting_time = #{record.meetingTime,jdbcType=DATE},
       </if>
@@ -204,6 +221,9 @@
       </if>
       <if test="record.filePath != null">
         file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wordFilePath != null">
+        word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
       </if>
       <if test="record.signFilePath != null">
         sign_file_path = #{record.signFilePath,jdbcType=VARCHAR},
@@ -222,9 +242,11 @@
       year = #{record.year,jdbcType=INTEGER},
       dispatch_type_id = #{record.dispatchTypeId,jdbcType=INTEGER},
       code = #{record.code,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
       meeting_time = #{record.meetingTime,jdbcType=DATE},
       pub_time = #{record.pubTime,jdbcType=DATE},
       file_path = #{record.filePath,jdbcType=VARCHAR},
+      word_file_path = #{record.wordFilePath,jdbcType=VARCHAR},
       sign_file_path = #{record.signFilePath,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -243,6 +265,9 @@
       <if test="code != null">
         code = #{code,jdbcType=INTEGER},
       </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
       <if test="meetingTime != null">
         meeting_time = #{meetingTime,jdbcType=DATE},
       </if>
@@ -251,6 +276,9 @@
       </if>
       <if test="filePath != null">
         file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="wordFilePath != null">
+        word_file_path = #{wordFilePath,jdbcType=VARCHAR},
       </if>
       <if test="signFilePath != null">
         sign_file_path = #{signFilePath,jdbcType=VARCHAR},
@@ -266,9 +294,11 @@
     set year = #{year,jdbcType=INTEGER},
       dispatch_type_id = #{dispatchTypeId,jdbcType=INTEGER},
       code = #{code,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
       meeting_time = #{meetingTime,jdbcType=DATE},
       pub_time = #{pubTime,jdbcType=DATE},
       file_path = #{filePath,jdbcType=VARCHAR},
+      word_file_path = #{wordFilePath,jdbcType=VARCHAR},
       sign_file_path = #{signFilePath,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

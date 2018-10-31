@@ -39,6 +39,9 @@
           </foreach>
         </if>
       </if>
+      <if test="fileName != null">
+        and dwf.file_name like '%${fileName}%'
+      </if>
       <if test="type != null">
         and dwf.type = #{type}
       </if>

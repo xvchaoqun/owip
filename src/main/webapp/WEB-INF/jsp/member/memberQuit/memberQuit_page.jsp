@@ -268,7 +268,7 @@
             {label: '出生年月', name: 'user.birth', frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '入党时间', name: 'growTime', frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
-                label: '所属组织机构', name: 'from',  width: 450,
+                label: '所属组织机构', name: 'from',  width: 450, align:'left',
                 formatter: function (cellvalue, options, rowObject) {
                     return $.party(rowObject.partyId, rowObject.branchId);
                 }, frozen:true

@@ -186,18 +186,22 @@
 <script>
     var contentKe = KindEditor.create('#contentId', {
         //cssPath:"${ctx}/css/ke.css",
-        items: ["source", "|", "fullscreen"],
+        items: ["wordpaste", "source", "|", "fullscreen"],
         height: '450px',
         width: '480px',
-        minWidth: 480
+        minWidth: 480,
+        filterMode:false,
+        pasteType:0
     });
 
     var memoKe = KindEditor.create('#memoId', {
         //cssPath:"${ctx}/css/ke.css",
-        items: ["source", "|", "fullscreen"],
+        items: ["wordpaste", "source", "|", "fullscreen"],
         height: '450px',
         width: '480px',
-        minWidth: 480
+        minWidth: 480,
+        filterMode:false,
+        pasteType:0
     });
 
     $.fileInput($('#modalForm input[type=file]'));

@@ -372,6 +372,76 @@ public class ScDispatchExample {
             return (Criteria) this;
         }
 
+        public Criteria andTitleIsNull() {
+            addCriterion("title is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleIsNotNull() {
+            addCriterion("title is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleEqualTo(String value) {
+            addCriterion("title =", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleNotEqualTo(String value) {
+            addCriterion("title <>", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleGreaterThan(String value) {
+            addCriterion("title >", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("title >=", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleLessThan(String value) {
+            addCriterion("title <", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleLessThanOrEqualTo(String value) {
+            addCriterion("title <=", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleLike(String value) {
+            addCriterion("title like", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleNotLike(String value) {
+            addCriterion("title not like", value, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleIn(List<String> values) {
+            addCriterion("title in", values, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleNotIn(List<String> values) {
+            addCriterion("title not in", values, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleBetween(String value1, String value2) {
+            addCriterion("title between", value1, value2, "title");
+            return (Criteria) this;
+        }
+
+        public Criteria andTitleNotBetween(String value1, String value2) {
+            addCriterion("title not between", value1, value2, "title");
+            return (Criteria) this;
+        }
+
         public Criteria andMeetingTimeIsNull() {
             addCriterion("meeting_time is null");
             return (Criteria) this;
@@ -559,6 +629,76 @@ public class ScDispatchExample {
 
         public Criteria andFilePathNotBetween(String value1, String value2) {
             addCriterion("file_path not between", value1, value2, "filePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathIsNull() {
+            addCriterion("word_file_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathIsNotNull() {
+            addCriterion("word_file_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathEqualTo(String value) {
+            addCriterion("word_file_path =", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathNotEqualTo(String value) {
+            addCriterion("word_file_path <>", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathGreaterThan(String value) {
+            addCriterion("word_file_path >", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathGreaterThanOrEqualTo(String value) {
+            addCriterion("word_file_path >=", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathLessThan(String value) {
+            addCriterion("word_file_path <", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathLessThanOrEqualTo(String value) {
+            addCriterion("word_file_path <=", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathLike(String value) {
+            addCriterion("word_file_path like", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathNotLike(String value) {
+            addCriterion("word_file_path not like", value, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathIn(List<String> values) {
+            addCriterion("word_file_path in", values, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathNotIn(List<String> values) {
+            addCriterion("word_file_path not in", values, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathBetween(String value1, String value2) {
+            addCriterion("word_file_path between", value1, value2, "wordFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andWordFilePathNotBetween(String value1, String value2) {
+            addCriterion("word_file_path not between", value1, value2, "wordFilePath");
             return (Criteria) this;
         }
 

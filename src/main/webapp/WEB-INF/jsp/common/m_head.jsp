@@ -19,5 +19,6 @@
 <script>var ctx = "${ctx}";</script>
 <t:script src="/mobile/js/extend.js"/>
 <t:script src="/js/prototype.js"/>
+<t:script src="/js/metadata.js"/>
 <t:script src="/js/jquery.extend.js"/>
 <t:script src="/mobile/js/setup.js"/>

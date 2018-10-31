@@ -8,7 +8,6 @@ import domain.sc.scDispatch.ScDispatchViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +24,7 @@ import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -120,6 +120,27 @@ public class ScDispatchController extends ScDispatchBaseController {
         return;
     }
 
+    // 上传文件签发稿
+    @RequiresPermissions("scDispatch:edit")
+    @RequestMapping(value = "/scDispatch_upload", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scDispatch_upload(MultipartFile file) throws InterruptedException, IOException {
+
+        String originalFilename = file.getOriginalFilename();
+        String ext = FileUtils.getExtention(originalFilename);
+        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
+            return failed("文件格式错误，请上传pdf文件");
+        }
+
+        String savePath = uploadPdf(file, "scDispatch");
+
+        Map<String, Object> resultMap = success();
+        //resultMap.put("fileName", file.getOriginalFilename());
+        resultMap.put("filePath", savePath);
+
+        return resultMap;
+    }
+
     @RequiresPermissions("scDispatch:edit")
     @RequestMapping(value = "/scDispatch_au", method = RequestMethod.POST)
     @ResponseBody
@@ -130,20 +151,19 @@ public class ScDispatchController extends ScDispatchBaseController {
                                 @RequestParam(required=false, value = "voteIds[]") Integer[] voteIds,
                                 HttpServletRequest request) throws IOException, InterruptedException {
 
-        record.setFilePath(upload(_wordFilePath, "scDispatch-word"));
+        record.setWordFilePath(upload(_wordFilePath, "scDispatch-word"));
         record.setSignFilePath(uploadPdf(_pdfFilePath, "scDispatch-sign"));
 
         Integer id = record.getId();
 
-        if (record.getYear()!=null && record.getCode()!=null &&
-                scDispatchService.idDuplicate(id, record.getYear(), record.getCode())) {
-            return failed("添加重复");
+        if (scDispatchService.idDuplicate(id, record.getYear(),
+                record.getDispatchTypeId(), record.getCode())) {
+            return failed("发文号重复");
         }
         if (id == null) {
             scDispatchService.insertSelective(record, committeeIds, voteIds);
             logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "添加文件起草签发：%s", record.getId()));
         } else {
-
             scDispatchService.updateByPrimaryKeySelective(record, committeeIds, voteIds);
             logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "更新文件起草签发：%s", record.getId()));
         }
@@ -152,15 +172,48 @@ public class ScDispatchController extends ScDispatchBaseController {
     }
 
     @RequiresPermissions("scDispatch:edit")
+    @RequestMapping(value = "/scDispatch_uploadSign", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scDispatch_uploadSign(int id,
+                                            MultipartFile _signFilePath,
+                                            HttpServletRequest request) throws IOException, InterruptedException {
+
+        String signFilePath = uploadPdf(_signFilePath, "scDispatch");
+
+        if (StringUtils.isNotBlank(signFilePath)) {
+
+            ScDispatch record = new ScDispatch();
+            record.setId(id);
+            record.setSignFilePath(signFilePath);
+            scDispatchMapper.updateByPrimaryKeySelective(record);
+
+            logger.info(addLog(LogConstants.LOG_SC_DISPATCH, "上传签批文件：%s", record.getId()));
+        }
+
+        return success(FormUtils.SUCCESS);
+    }
+
+    @RequiresPermissions("scDispatch:edit")
+    @RequestMapping("/scDispatch_uploadSign")
+    public String scDispatch_uploadSign(int id, ModelMap modelMap) {
+
+        ScDispatch scDispatch = scDispatchMapper.selectByPrimaryKey(id);
+        modelMap.put("scDispatch", scDispatch);
+
+        return "sc/scDispatch/scDispatch/scDispatch_uploadSign";
+    }
+
+    @RequiresPermissions("scDispatch:edit")
     @RequestMapping("/scDispatch_users")
     public String scDispatch_users(@RequestParam(required=false, value = "committeeIds[]") Integer[] committeeIds, ModelMap modelMap) {
 
         if(committeeIds!=null && committeeIds.length>0) {
-            /*ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
+            ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
             example.createCriteria().andCommitteeIdIn(Arrays.asList(committeeIds));
             example.setOrderByClause("type asc, sort_order desc");
-            List<ScCommitteeVoteView> scCommitteeVoteViews = scCommitteeVoteViewMapper.selectByExample(example);*/
-            modelMap.put("scCommitteeVotes", iScMapper.getScDispatchUsers(StringUtils.join(committeeIds, ",")));
+            List<ScCommitteeVoteView> scCommitteeVoteViews = scCommitteeVoteViewMapper.selectByExample(example);
+            modelMap.put("scCommitteeVotes", scCommitteeVoteViews);
+           //modelMap.put("scCommitteeVotes", iScMapper.getScDispatchUsers(StringUtils.join(committeeIds, ",")));
         }
 
         return "sc/scDispatch/scDispatch/scDispatch_users";
@@ -272,6 +325,23 @@ public class ScDispatchController extends ScDispatchBaseController {
 
     @RequiresPermissions("scDispatch:export")
     @RequestMapping("/scDispatch_exportSign")
+    public void scDispatch_exportSign(int dispatchId, HttpServletResponse response) throws IOException {
+
+        ScDispatch scDispatch = scDispatchMapper.selectByPrimaryKey(dispatchId);
+        String dispatchCode = scDispatch.getDispatchCode();
+        String fileName = dispatchCode + "签发单";
+
+        //输出文件
+        response.reset();
+        response.setHeader("Content-Disposition",
+                "attachment;filename=" + new String((fileName + ".docx").getBytes(), "iso-8859-1"));
+        response.setContentType("application/msword;charset=UTF-8");
+
+        scDispatchService.exportSign(dispatchId, response);
+    }
+
+    /*@RequiresPermissions("scDispatch:export")
+    @RequestMapping("/scDispatch_exportSign")
     public String scDispatch_exportSign(int dispatchId, HttpServletResponse response) throws IOException {
 
         ScDispatch scDispatch = scDispatchMapper.selectByPrimaryKey(dispatchId);
@@ -281,5 +351,5 @@ public class ScDispatchController extends ScDispatchBaseController {
         XSSFWorkbook wb = scDispatchService.exportSign(dispatchId);
         ExportHelper.output(wb, fileName + ".xlsx", response);
         return null;
-    }
+    }*/
 }

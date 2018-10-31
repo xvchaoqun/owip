@@ -71,6 +71,8 @@ public class ScCommitteeVoteView implements Serializable {
 
     private String logFile;
 
+    private Integer dispatchUserId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -279,5 +281,13 @@ public class ScCommitteeVoteView implements Serializable {
 
     public void setLogFile(String logFile) {
         this.logFile = logFile == null ? null : logFile.trim();
+    }
+
+    public Integer getDispatchUserId() {
+        return dispatchUserId;
+    }
+
+    public void setDispatchUserId(Integer dispatchUserId) {
+        this.dispatchUserId = dispatchUserId;
     }
 }
