@@ -91,26 +91,29 @@
 
                     <select class="multiselect" multiple="" name="unitIds">
                         <c:forEach var="unitType" items="${cm:getMetaTypes('mc_unit_type')}">
+                            <c:set var="unitList" value="${unitListMap.get(unitType.value.id)}"/>
+                            <c:if test="${fn:length(unitList)>0}">
                             <optgroup label="${unitType.value.name}">
                                 <c:forEach
-                                        items="${unitListMap.get(unitType.value.id)}"
+                                        items="${unitList}"
                                         var="unitId">
                                     <c:set var="unit"
                                            value="${unitMap.get(unitId)}"></c:set>
                                     <option value="${unit.id}">${unit.name}</option>
                                 </c:forEach>
                             </optgroup>
+                            </c:if>
                         </c:forEach>
                     </select>
                     （正在运转单位）
                     <div class="space-4"></div>
                     <select class="multiselect" multiple="" name="historyUnitIds">
                         <c:forEach var="unitType" items="${cm:getMetaTypes('mc_unit_type')}">
-                            <c:set var="unitListMap" value="${historyUnitListMap.get(unitType.value.id)}"/>
-                            <c:if test="${fn:length(unitListMap)>0}">
+                            <c:set var="unitList" value="${historyUnitListMap.get(unitType.value.id)}"/>
+                            <c:if test="${fn:length(unitList)>0}">
                             <optgroup label="${unitType.value.name}">
                                 <c:forEach
-                                        items="${unitListMap}"
+                                        items="${unitList}"
                                         var="unitId">
                                     <c:set var="unit"
                                            value="${unitMap.get(unitId)}"></c:set>
