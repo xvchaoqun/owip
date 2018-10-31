@@ -1353,7 +1353,7 @@ $.extend($.register, {
             autoclose: true,
             todayHighlight: true,
             clearBtn: true
-        }, params))
+        }, params)).attr( "autocomplete", "off").attr("disableautocomplete","")
     },
     // 日历时间
     datetime: function ($date, params) {
@@ -1363,7 +1363,7 @@ $.extend($.register, {
             todayHighlight: true,
             //todayBtn: true,
             clearBtn: true
-        }, params))
+        }, params)).attr( "autocomplete", "off").attr("disableautocomplete","")
     },
 
     // 选择发文类型
