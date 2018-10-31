@@ -25,7 +25,7 @@
             您的申请已提交，请等待审核。
         </c:if>
         <c:if test="${empty mba}">
-        <button class="btn btn-info" type="submit">
+        <button class="btn btn-info" type="button" id="submitBtn">
             <i class="ace-icon fa fa-check bigger-110"></i>
             保存
         </button>
@@ -75,9 +75,14 @@
         }
     }
     </c:if>
-
+    $("#submitBtn").click(function () {
+        $("#modalForm").submit();
+        return false;
+    })
     $("#modalForm").validate({
         submitHandler: function (form) {
+
+            var base64 = new Base64()
 
             var codes=[], tables=[], tableIdNames=[], names=[], originals=[], modifys=[], types=[];
             $("*[data-code]").each(function(){
@@ -85,14 +90,17 @@
                 tables.push($(this).data("table"));
                 tableIdNames.push($(this).data("table-id-name"));
                 names.push($(this).data("name"));
-                originals.push($(this).data("original"));
-                modifys.push($(this).val());
+                var ori = $(this).data("original");
+                var mod = $(this).val()
+                //console.log(ori + "=" + mod)
+                //console.log(base64.encode(ori+"") + "=" + base64.encode(mod+""))
+                originals.push(base64.encode(ori+''));
+                modifys.push(base64.encode(mod+''));
                 types.push($(this).data("type"));
             })
             //console.log(codes)
             //console.log(originals)
             //console.log(modifys)
-
             $(form).ajaxSubmit({
                 data:{codes:codes, tables:tables, tableIdNames:tableIdNames,
                     names:names, originals:originals, modifys:modifys, types:types},

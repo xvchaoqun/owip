@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.SystemConstants;
+import sys.security.Base64Utils;
 import sys.shiro.CurrentUser;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -62,11 +62,25 @@ public class UserModifyBaseApplyController extends ModifyBaseController{
                       @RequestParam(required = false, value = "originals[]")String[] originals, // 原来的值
                       @RequestParam(required = false, value = "modifys[]")String[] modifys, // 更改的值
                       @RequestParam(required = false, value = "types[]")Byte[] types, // 更改的值类型，表名不为空时有效
-                      HttpServletRequest request) throws IOException {
+                      HttpServletRequest request) throws Exception {
 
         ModifyBaseApply mba = modifyBaseApplyService.get(loginUser.getId());
         if(mba!=null) {
             return failed("您已经提交了申请，请等待审核完成。");
+        }
+        if(codes==null || codes.length==0
+                || originals==null || originals.length==0
+                || modifys==null || modifys.length==0
+                || originals.length!= codes.length
+                || originals.length!= modifys.length){
+            return failed("数据异常，请重试。");
+        }
+
+        for (int i = 0; i < originals.length; i++) {
+            originals[i] = new String(Base64Utils.decode(originals[i]), "utf-8");
+        }
+        for (int i = 0; i < modifys.length; i++) {
+            modifys[i] = new String(Base64Utils.decode(modifys[i]), "utf-8");
         }
         try {
             modifyBaseApplyService.apply(_avatar, codes, tables, tableIdNames, names, originals, modifys, types);
