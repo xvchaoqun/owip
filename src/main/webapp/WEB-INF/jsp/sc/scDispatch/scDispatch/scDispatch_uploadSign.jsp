@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>正式签发</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scDispatch_uploadSign" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scDispatch_uploadSign" id="uploadSignForm" method="post">
         <input type="hidden" name="id" value="${param.id}">
         <div class="form-group">
             <label class=" col-xs-3 control-label">标题</label>
@@ -24,21 +24,21 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="modal-footer">
     <a href="#" data-dismiss="modal" class="btn btn-default">取消</a>
-    <button id="submitBtn" class="btn btn-primary"
+    <button id="uploadSignBtn" class="btn btn-primary"
             data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口">
         <i class="fa fa-check"></i> 确定</button>
 </div>
 
 <script>
-    $.fileInput($("#modalForm input[name=_signFilePath]"),{
+    $.fileInput($("#uploadSignForm input[name=_signFilePath]"),{
         allowExt: ['pdf'],
         allowMime: ['application/pdf']
     });
 
-    $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
-    $("#modalForm").validate({
+    $("#uploadSignBtn").click(function(){$("#uploadSignForm").submit();return false;});
+    $("#uploadSignForm").validate({
         submitHandler: function (form) {
-            var $btn = $("#submitBtn").button('loading');
+            var $btn = $("#uploadSignBtn").button('loading');
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
