@@ -41,7 +41,7 @@ public interface IScMapper {
     // 文件起草签发-已选任免对象
     @ResultMap("persistence.sc.scCommittee.ScCommitteeVoteViewMapper.BaseResultMap")
     @Select("select scv.* from sc_dispatch_user sdu, sc_committee_vote_view scv " +
-            "where sdu.dispatch_id=#{dispatchId} and sdu.vote_id=scv.id order by sdu.type asc, sdu.sort_order")
+            "where sdu.dispatch_id=#{dispatchId} and sdu.vote_id=scv.id order by sdu.type asc, sdu.sort_order asc")
     public List<ScCommitteeVoteView> getScDispatchVotes(@Param("dispatchId") int dispatchId);
 
     // 文件起草签发-已选常委会

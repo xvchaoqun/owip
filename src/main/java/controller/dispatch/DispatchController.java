@@ -139,7 +139,7 @@ public class DispatchController extends DispatchBaseController {
             return;
         }
 
-        int count = dispatchViewMapper.countByExample(example);
+        long count = dispatchViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

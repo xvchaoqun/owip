@@ -184,16 +184,38 @@
             { label:'所属单位', name: 'unit.name', width: 150 },
             { label:'单位类型', name: 'unit.typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
             { label:'发文类型', name: 'dispatch.dispatchType.name'},
+            {
+                label: '党委常委会', name: 'dispatch.scDispatch.scCommittees', width:200, formatter: function (cellvalue, options, rowObject) {
+
+                if(cellvalue==undefined || cellvalue.length==0) return '-'
+
+                var scCommittee = cellvalue[0];
+                var str = scCommittee.code
+                if(cellvalue.length>1){
+                    str += "，..."
+                }else{
+
+                    return ('<a href="javascript:;" class="linkBtn"'
+                    +'data-url="${ctx}#/sc/scCommittee?year={0}&holdDate={1}"'
+                    +'data-target="_blank">{2}</a>')
+                            .format(scCommittee.year, $.date(scCommittee.holdDate,'yyyy-MM-dd'),str)
+                }
+
+                return ('<a href="javascript:;" class="popupBtn" ' +
+                'data-url="${ctx}/sc/scDispatchCommittee?dispatchId={0}">{1}</a>')
+                        .format(rowObject.dispatch.scDispatch.id, str);
+            }
+            },
             { label:'党委常委会日期', name: 'dispatch.meetingTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label:'发文日期', name: 'dispatch.pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            { label:'任免文件', name: 'fileName', formatter:function(cellvalue, options, rowObject){
+           /* { label:'任免文件', name: 'fileName', formatter:function(cellvalue, options, rowObject){
 
                 return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName, '查看');
             }},
             { label:'上会ppt', name: 'pptName', formatter:function(cellvalue, options, rowObject){
 
                 return $.swfPreview(rowObject.dispatch.ppt, rowObject.dispatch.pptName, '查看');
-            }},
+            }},*/
             { label: '是否复核', name: 'hasChecked', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue==undefined) return '';
                 return cellvalue?"已复核":"否";

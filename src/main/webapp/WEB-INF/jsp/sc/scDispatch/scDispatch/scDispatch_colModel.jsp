@@ -11,10 +11,33 @@
       },*/
       {label: '发文号', name: 'dispatchCode', width: 150},
       {label: '标题', name: 'title', width: 350, align:'left'},
+      {
+          label: '党委常委会', name: 'scCommittees', width:200, formatter: function (cellvalue, options, rowObject) {
+
+          if(cellvalue==undefined || cellvalue.length==0) return '-'
+
+          var scCommittee = cellvalue[0];
+          var str = scCommittee.code
+          if(cellvalue.length>1){
+              str += "，..."
+          }else{
+
+              return ('<a href="javascript:;" class="linkBtn"'
+              +'data-url="${ctx}#/sc/scCommittee?year={0}&holdDate={1}"'
+              +'data-target="_blank">{2}</a>')
+                      .format(scCommittee.year, $.date(scCommittee.holdDate,'yyyy-MM-dd'),str)
+          }
+
+          return ('<a href="javascript:;" class="popupBtn" ' +
+          'data-url="${ctx}/sc/scDispatchCommittee?dispatchId={0}">{1}</a>')
+                  .format(rowObject.id, str);
+      }
+      },
       {label: '党委常委会日期', name: 'meetingTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
       {label: '起草日期', name: 'pubTime', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
       {label: '任命人数', name: 'appointCount', width: 80},
       {label: '免职人数', name: 'dismissCount', width: 80},
+          <c:if test="${param.type=='admin'}">
       {
           label: '文件签发稿', width: 180, align:'left', formatter: function (cellvalue, options, rowObject) {
 
@@ -49,6 +72,7 @@
           }
           return ret;
       }},
+      </c:if>
       /*{label: '签发单', name: 'signFilePath', formatter: function (cellvalue, options, rowObject) {
           if(rowObject.signFilePath==undefined) return '-'
           return $.swfPreview(rowObject.signFilePath, "签发单", "查看", null, "${param.type=='admin'?'':'url'}");

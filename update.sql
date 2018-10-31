@@ -1,4 +1,11 @@
 
+20181101
+
+更新common-utils.jar
+
+更新 sc_dispatch_view
+
+dispatch_view
 
 
 20181031
@@ -30,7 +37,6 @@ ALTER TABLE `sc_dispatch_committee`
 
 删除 bc*jdk14*.jar
 
-更新common-utils.jar
 
 
 	-- 更新西交大

@@ -1,31 +1,11 @@
 package controller.sc.scDispatch;
 
-import domain.sc.scDispatch.ScDispatchCommittee;
-import domain.sc.scDispatch.ScDispatchCommitteeExample;
-import domain.sc.scDispatch.ScDispatchCommitteeExample.Criteria;
-import mixin.MixinUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import sys.constants.LogConstants;
-import sys.tool.paging.CommonList;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/sc")
@@ -35,12 +15,14 @@ public class ScDispatchCommitteeController extends ScDispatchBaseController {
 
     @RequiresPermissions("scDispatch:list")
     @RequestMapping("/scDispatchCommittee")
-    public String scDispatchCommittee() {
+    public String scDispatchCommittee(int dispatchId, ModelMap modelMap) {
+
+        modelMap.put("scCommittees", iScMapper.getScDispatchCommittees(dispatchId));
 
         return "sc/scDispatch/scDispatchCommittee/scDispatchCommittee_page";
     }
 
-    @RequiresPermissions("scDispatch:list")
+    /*@RequiresPermissions("scDispatch:list")
     @RequestMapping("/scDispatchCommittee_data")
     public void scDispatchCommittee_data(HttpServletResponse response,
                                     Integer dispatchId,
@@ -140,5 +122,5 @@ public class ScDispatchCommitteeController extends ScDispatchBaseController {
         }
 
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 }

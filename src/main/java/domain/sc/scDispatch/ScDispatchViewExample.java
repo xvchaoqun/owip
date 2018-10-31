@@ -842,6 +842,66 @@ public class ScDispatchViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andDispatchTypeSortOrderIsNull() {
+            addCriterion("dispatch_type_sort_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeSortOrderIsNotNull() {
+            addCriterion("dispatch_type_sort_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeSortOrderEqualTo(Integer value) {
+            addCriterion("dispatch_type_sort_order =", value, "dispatchTypeSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeSortOrderNotEqualTo(Integer value) {
+            addCriterion("dispatch_type_sort_order <>", value, "dispatchTypeSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeSortOrderGreaterThan(Integer value) {
+            addCriterion("dispatch_type_sort_order >", value, "dispatchTypeSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeSortOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_type_sort_order >=", value, "dispatchTypeSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeSortOrderLessThan(Integer value) {
+            addCriterion("dispatch_type_sort_order <", value, "dispatchTypeSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeSortOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_type_sort_order <=", value, "dispatchTypeSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeSortOrderIn(List<Integer> values) {
+            addCriterion("dispatch_type_sort_order in", values, "dispatchTypeSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeSortOrderNotIn(List<Integer> values) {
+            addCriterion("dispatch_type_sort_order not in", values, "dispatchTypeSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeSortOrderBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_type_sort_order between", value1, value2, "dispatchTypeSortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeSortOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_type_sort_order not between", value1, value2, "dispatchTypeSortOrder");
+            return (Criteria) this;
+        }
+
         public Criteria andAppointCountIsNull() {
             addCriterion("appoint_count is null");
             return (Criteria) this;

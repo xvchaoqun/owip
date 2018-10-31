@@ -1,10 +1,13 @@
 package domain.sc.scDispatch;
 
 import domain.dispatch.DispatchType;
+import domain.sc.scCommittee.ScCommittee;
+import persistence.sc.IScMapper;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class ScDispatchView implements Serializable {
 
@@ -14,6 +17,10 @@ public class ScDispatchView implements Serializable {
 
     public DispatchType getDispatchType(){
         return CmTag.getDispatchType(dispatchTypeId);
+    }
+    public List<ScCommittee> getScCommittees(){
+
+        return CmTag.getBean(IScMapper.class).getScDispatchCommittees(id);
     }
 
     private Integer id;
@@ -37,6 +44,8 @@ public class ScDispatchView implements Serializable {
     private String signFilePath;
 
     private String remark;
+
+    private Integer dispatchTypeSortOrder;
 
     private Integer appointCount;
 
@@ -130,6 +139,14 @@ public class ScDispatchView implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getDispatchTypeSortOrder() {
+        return dispatchTypeSortOrder;
+    }
+
+    public void setDispatchTypeSortOrder(Integer dispatchTypeSortOrder) {
+        this.dispatchTypeSortOrder = dispatchTypeSortOrder;
     }
 
     public Integer getAppointCount() {

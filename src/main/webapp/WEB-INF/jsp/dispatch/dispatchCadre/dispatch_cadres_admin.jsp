@@ -195,12 +195,22 @@
         <td nowrap>${user.realname}</td>
         <td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
         <td>
+
+          <c:if test="${empty dispatch.scDispatchId}">
           <a href="javascript:void(0)" onclick="_update(${dispatchCadre.id})">修改</a>
+          </c:if>
         </td>
       </tr>
     </c:forEach>
     </tbody>
   </table>
+  <c:if test="${not empty dispatch.scDispatchId}">
+    <div class="red bolder">注：如信息有误，请到“文件起草签发（<a href="javascript:;" class="linkBtn"
+                                                 data-url="${ctx}#/dispatch?cls=3&year=${dispatch.scDispatch.year}&dispatchTypeId=${dispatch.scDispatch.dispatchTypeId}&code=${dispatch.scDispatch.code}"
+                                                 data-target="_blank">${dispatch.scDispatch.dispatchCode}</a>）”中更正后同步
+
+    </div>
+  </c:if>
 </div>
 <script>
   <c:if test="${empty dispatch}">

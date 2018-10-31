@@ -197,6 +197,28 @@
                 return $.swfPreview(rowObject.file, rowObject.fileName, cellvalue, cellvalue);
             }, frozen: true
             },
+            {
+                label: '党委常委会', name: 'scDispatch.scCommittees', width:200, formatter: function (cellvalue, options, rowObject) {
+
+                if(cellvalue==undefined || cellvalue.length==0) return '-'
+
+                var scCommittee = cellvalue[0];
+                var str = scCommittee.code
+                if(cellvalue.length>1){
+                    str += "，..."
+                }else{
+
+                    return ('<a href="javascript:;" class="linkBtn"'
+                    +'data-url="${ctx}#/sc/scCommittee?year={0}&holdDate={1}"'
+                    +'data-target="_blank">{2}</a>')
+                            .format(scCommittee.year, $.date(scCommittee.holdDate,'yyyy-MM-dd'),str)
+                }
+
+                return ('<a href="javascript:;" class="popupBtn" ' +
+                'data-url="${ctx}/sc/scDispatchCommittee?dispatchId={0}">{1}</a>')
+                        .format(rowObject.scDispatch.id, str);
+            }
+            },
             {label: '党委常委会日期', name: 'meetingTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '发文日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '任免日期', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
@@ -218,7 +240,7 @@
                 return cellvalue ? "已复核" : "否";
             }
             },
-            {
+            /*{
                 label: '任免文件', formatter: function (cellvalue, options, rowObject) {
 
                 if (rowObject.fileName && rowObject.fileName != '')
@@ -228,7 +250,7 @@
                             + 'data-id="{0}" data-type="file">删除</a>'.format(rowObject.id);
                 else return '';
             }
-            },
+            },*/
             {
                 label: '上会ppt', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.pptName && rowObject.pptName != '')
@@ -240,11 +262,23 @@
             }
             },
             {
-                label: '查看任免信息', formatter: function (cellvalue, options, rowObject) {
+                label: '任免信息', width:80, formatter: function (cellvalue, options, rowObject) {
 
-                return '<a href="#/dispatch?cls=2&year={0}&dispatchTypeId={1}&code={2}" target="_blank">查看任免信息</a>'
+                return '<button class="linkBtn btn btn-xs btn-primary" data-url="#/dispatch?cls=2&year={0}&dispatchTypeId={1}&code={2}" data-target="_blank"><i class="fa fa-search"></i> 查看</button>'
                         .format(rowObject.year, rowObject.dispatchTypeId, rowObject.code);
-            }},{label: '备注', name: 'remark', width: 550}
+            }},
+            {
+                label: '文件签发信息', name: 'scDispatch', width:200, formatter: function (cellvalue, options, rowObject) {
+
+                if(cellvalue==undefined) return '-'
+
+                return ('<a href="javascript:;" class="linkBtn"'
+                +'data-url="${ctx}#/dispatch?cls=3&year={0}&dispatchTypeId={1}&code={2}"'
+                +'data-target="_blank">{3}</a>')
+                        .format(cellvalue.year,cellvalue.dispatchTypeId, cellvalue.code, cellvalue.dispatchCode)
+            }
+            },
+            {label: '备注', name: 'remark', width: 550}
                 ,{hidden:true, name:'_hasChecked', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.hasChecked==undefined) return 0;
                 return rowObject.hasChecked?1:0;

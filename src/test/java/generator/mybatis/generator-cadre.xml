@@ -63,9 +63,9 @@
        <!-- <table tableName="cadre_reserve" domainObjectName="cadreReserve.CadreReserve">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
-        <table tableName="cadre_reserve_origin" domainObjectName="cadreReserve.CadreReserveOrigin"
+       <!-- <table tableName="cadre_reserve_origin" domainObjectName="cadreReserve.CadreReserveOrigin"
                mapperName="cadreReserve.CadreReserveOriginMapper">
-        </table>
+        </table>-->
 
             <!-- <table tableName="cadre_reserve_view" domainObjectName="cadreReserve.CadreReserveView"
              mapperName="cadreReserve.CadreReserveViewMapper"
@@ -122,8 +122,9 @@
         </table>-->
         <!--<table tableName="cadre_admin_level" domainObjectName="cadre.CadreAdminLevel">
         </table>-->
-         <!--<table tableName="cadre_post" domainObjectName="cadre.CadrePost" mapperName="cadre.CadrePostMapper">
-         </table>-->
+         <table tableName="cadre_post" domainObjectName="cadre.CadrePost" mapperName="cadre.CadrePostMapper">
+             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+         </table>
          <!--<table tableName="cadre_work" domainObjectName="cadre.CadreWork" mapperName="cadre.CadreWorkMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->

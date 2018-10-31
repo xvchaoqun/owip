@@ -10,7 +10,7 @@
                 <button style="margin-right: 10px;top: -5px;"
                         class="popupBtn btn btn-primary btn-xs" type="button"
                         data-width="1200"
-                        data-url="${ctx}/sc/scDispatch_popup">
+                        data-url="${ctx}/sc/scDispatch_popup?year=${_thisYear}">
                     <i class="fa fa-plus-circle"></i> 从“文件起草签发”中选择
                 </button>
             </div>
@@ -65,6 +65,12 @@
                         <div class="col-xs-6">
                             <input class="form-control" type="text" name="code" value="${dispatch.code}">
                             <span class="label-inline"> * 留空自动生成</span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="scCommitteesDiv" style="display: none">
+                        <label class="col-xs-3 control-label">党委常委会</label>
+                        <div class="col-xs-8 label-text">
+
                         </div>
                     </div>
                     <div class="form-group">
@@ -167,11 +173,59 @@
         <tr data-id="{{sd.id}}">
             <td>{{=sd.year}}</td>
             <td>{{=sd.dispatchType.name}}</td>
-            <td>{{=sd.code}}</td>
+            <td>{{=sd.dispatchCode}}</td>
             <td>
                 <a href="javasciprt:;" class="del">移除</a>
             </td>
         </tr>
+        </tbody>
+    </table>
+</script>
+<script type="text/template" id="scDispatchTpl">
+    <table class="table table-striped table-bordered table-condensed table-unhover2">
+        <thead>
+        <tr>
+            <td>年份</td>
+            <td>发文类型</td>
+            <td>发文号</td>
+            <td width="60"></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-id="{{sd.id}}">
+            <td>{{=sd.year}}</td>
+            <td>{{=sd.dispatchType.name}}</td>
+            <td>{{=sd.dispatchCode}}</td>
+            <td>
+                <a href="javasciprt:;" class="del">移除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/template" id="scCommitteesTpl">
+    <table class="table table-striped table-bordered table-condensed table-unhover2">
+        <thead>
+        <tr>
+            <td>年份</td>
+            <td>党委常委会编号</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        {{_.each(scCommittees, function(item, idx){ }}
+        <tr>
+            <td>{{=item.year}}</td>
+            <td>{{=item.code}}</td>
+            <td>
+                <button class="linkBtn btn btn-xs btn-primary"
+                        data-url="${ctx}#/sc/scCommittee?year={{=item.year}}&holdDate={{=$.date(item.holdDate, 'yyyy-MM-dd')}}"
+                        data-target="_blank">
+                    <i class="fa fa-search"></i> 查看</button>
+            </td>
+        </tr>
+        {{});}}
         </tbody>
     </table>
 </script>
@@ -184,6 +238,8 @@
         if(data.success) {
             var sd = data.scDispatch;
             $("#scDispatchDiv").html(_.template($("#scDispatchTpl").html())({sd: sd}));
+            $("#scCommitteesDiv .label-text").html(_.template($("#scCommitteesTpl").html())({scCommittees: data.scDispatch.scCommittees}));
+            $("#scCommitteesDiv").show();
 
             $("#modalForm input[name=year]").prop("disabled", true);
             var $dispatchTypeId = $("#modalForm select[name=dispatchTypeId]");
@@ -200,6 +256,8 @@
     $(document).on('click', "#scDispatchDiv .del", function(){
 
         $("#scDispatchDiv").html('<div class="well">未选择签发文件</div>');
+        $("#scCommitteesDiv .label-text").html('')
+        $("#scCommitteesDiv").hide();
 
         $("#modalForm input[name=scDispatchId]").val('');
 

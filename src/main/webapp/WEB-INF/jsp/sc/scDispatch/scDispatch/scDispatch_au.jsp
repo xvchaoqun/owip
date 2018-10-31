@@ -39,11 +39,17 @@
     </div>
     <div class="au">
         <div id="dispatch-cadres-view">
-            <div class="widget-box">
+            <div class="widget-box" id="dispatch-widget-box">
                 <div class="widget-header">
-                    <h4 class="smaller">
+                    <h4 class="widget-title">
                         签发稿信息
                     </h4>
+                    <span class="red" style="padding-left: 100px;">（点击收起/展开）</span>
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
                 </div>
                 <div class="widget-body">
                     <div class="widget-main">
@@ -60,7 +66,7 @@
                                                name="year"
                                                type="text"
                                                data-date-format="yyyy" data-date-min-view-mode="2"
-                                               value="${scDispatch.year}"/>
+                                               value="${empty scDispatch?_thisYear:scDispatch.year}"/>
                                                     <span class="input-group-addon"> <i
                                                             class="fa fa-calendar bigger-110"></i></span>
                                     </div>
@@ -125,7 +131,7 @@
 
                                 <div class="col-xs-7">
                                     <div class="input-group">
-                                        <input class="form-control date-picker" name="meetingTime"
+                                        <input required class="form-control date-picker" name="meetingTime"
                                                type="text"
                                                data-date-format="yyyy-mm-dd"
                                                value="${cm:formatDate(scDispatch.meetingTime,'yyyy-MM-dd')}"/>
@@ -167,9 +173,9 @@
                     </div>
                 </div>
             </div>
-            <div class="widget-box">
+            <div class="widget-box collapsed" id="users-widget-box">
                 <div class="widget-header">
-                    <h4 class="smaller">
+                    <h4 class="widget-title">
                         任免对象
                         <div class="buttons pull-right ">
                             <button style="margin-right: 10px;top: -5px;"
@@ -184,6 +190,11 @@
                             </button>--%>
                         </div>
                     </h4>
+                    <div class="widget-toolbar">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
                 </div>
                 <div class="widget-body">
                     <div class="widget-main" style="margin-bottom: 10px">
@@ -195,15 +206,16 @@
                     </div>
                 </div>
             </div>
+            <div class="clearfix form-actions center" style="margin-top: 0">
+                <button class="btn btn-success btn-lg" type="button" id="submitBtn">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    提交
+                </button>
+            </div>
         </div>
     </div>
 </div>
-<div class="clearfix form-actions center" style="margin-top: 0">
-    <button class="btn btn-success" type="button" id="submitBtn">
-        <i class="ace-icon fa fa-save bigger-110"></i>
-        提交
-    </button>
-</div>
+
 <script type="text/template" id="itemListTpl">
     <table class="table table-striped table-bordered table-condensed table-unhover2">
         <thead>
@@ -217,7 +229,7 @@
         {{_.each(items, function(item, idx){ }}
         <tr data-item-id="{{=item.id}}" data-year="{{=item.realname}}" data-hold-date="{{=item.holdDate}}">
             <td>{{=item.year}}</td>
-            <td>党委常委会[{{=$.date(item.holdDate,'yyyyMMdd')}}]号</td>
+            <td>{{=item.code}}</td>
             <td>
                 <a href="javasciprt:;" class="del">移除</a>
             </td>
@@ -227,8 +239,9 @@
     </table>
 </script>
 <script>
-    var selectedItems = ${cm:toJSONArrayWithFilter(itemList, "id,year,holdDate")};
-    $("#itemList").append(_.template($("#itemListTpl").html())({items: selectedItems}));
+    var selectedItems = ${cm:toJSONArrayWithFilter(itemList, "id,year,holdDate,code")};
+    if(selectedItems.length>0)
+        $("#itemList").append(_.template($("#itemListTpl").html())({items: selectedItems}));
 
     var $committeeId = $("#modalForm select[name=committeeId]");
     function _selectCommittee() {
@@ -259,7 +272,8 @@
 
         var year = $committeeId.select2("data")[0]['year'] || '';
         var holdDate = $committeeId.select2("data")[0]['holdDate'] || '';
-        var item = {id: committeeId, year: year, holdDate: holdDate};
+        var code = $committeeId.select2("data")[0]['code'] || '';
+        var item = {id: committeeId, year: year, holdDate: holdDate, code:code};
 
         //console.log(item)
         selectedItems.push(item);
@@ -366,6 +380,7 @@
     });
 
     function _selectUsers() {
+        event.stopPropagation()
         if (selectedItems.length == 0) {
             $.tip({
                 //$target: $committeeId.closest("div").find(".select2-container"),
@@ -400,11 +415,22 @@
      }*/
 
     $("#submitBtn").click(function () {
+
+        if (selectedItems.length == 0) {
+            $.tip({
+                $target: $committeeId.closest("div").find(".btn"),
+                at: 'right center', my: 'left center', type: 'info',
+                msg: "请选择党委常委会。"
+            });
+        }
         $("#modalForm").submit();
         return false;
     });
     $("#modalForm").validate({
         submitHandler: function (form) {
+            if (selectedItems.length == 0) {
+                return;
+            }
             var committeeIds = $.map(selectedItems, function (item) {
                 return item.id;
             });
@@ -427,6 +453,7 @@
     });
     var votes1 = [];
     var votes2 = [];
+    var voteIds = [];
     $.each(${cm:toJSONArray(votes)}, function (i, vote) {
         //console.log("vote.type=" + vote.type);
         if (vote.type == 1) {
@@ -434,6 +461,7 @@
         } else if (vote.type == 2) {
             votes2.push(vote);
         }
+        voteIds.push(vote.id)
     });
     var _colModel = [
         {
@@ -443,14 +471,16 @@
                     .format(rowObject.id, options.gid)
         }
         },
-        {label: '工作证号', name: 'user.code', width: 90},
+        {label: '工作证号', name: 'user.code', width: 110},
         {label: '姓名', name: 'user.realname', width: 90},
         {label: '原任职务', name: 'originalPost', width: 250, align: 'left'},
         {label: '职务', name: 'post', width: 250, align: 'left'}, {hidden: true, key: true, name: 'id'}
     ];
     $("#jqGrid1").jqGrid({
-        caption: '<span><i class="ace-icon fa fa-check-circle-o"></i> 任命</span><div class="pull-right red">（注：可拖动排序）</div>',
-        hidegrid: false,
+        caption: '<span><i class="ace-icon fa fa-check-circle-o"></i> 任命</span>'
+        + '<div class="pull-right red" style="padding-right: 20px;">（注：可拖动排序）</div>',
+        //hidegrid: false,
+        //hiddengrid:true,
         pager: null,
         responsive: false,
         rownumbers: true,
@@ -465,8 +495,10 @@
     });
     $("#jqGrid1").jqGrid('sortableRows')
     $("#jqGrid2").jqGrid({
-        caption: '<span><i class="ace-icon fa fa-times-circle-o"></i> 免职</span><div class="pull-right red">（注：可拖动排序）</div>',
-        hidegrid: false,
+        caption: '<span><i class="ace-icon fa fa-times-circle-o"></i> 免职</span>'
+        + '<div class="pull-right red" style="padding-right: 20px;">（注：可拖动排序）</div>',
+        //hidegrid: false,
+        //hiddengrid:true,
         pager: null,
         responsive: false,
         rownumbers: true,

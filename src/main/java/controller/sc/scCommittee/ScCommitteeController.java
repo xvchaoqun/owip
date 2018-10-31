@@ -33,7 +33,6 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -272,11 +271,11 @@ public class ScCommitteeController extends ScCommitteeBaseController {
             for(ScCommittee scCommittee:scCommittees){
 
                 Map<String, Object> option = new HashMap<>();
-                option.put("text", MessageFormat.format("党委常委会[{0}]号",
-                        DateUtils.formatDate(scCommittee.getHoldDate(), DateUtils.YYYYMMDD)));
+                option.put("text", scCommittee.getCode());
                 option.put("id", scCommittee.getId() + "");
                 option.put("year", scCommittee.getYear() + "");
                 option.put("holdDate", scCommittee.getHoldDate());
+                option.put("code", scCommittee.getCode());
                 options.add(option);
             }
         }

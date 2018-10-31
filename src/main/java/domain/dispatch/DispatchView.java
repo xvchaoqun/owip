@@ -1,5 +1,7 @@
 package domain.dispatch;
 
+import domain.sc.scDispatch.ScDispatchView;
+import service.sc.scDispatch.ScDispatchService;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
@@ -12,7 +14,17 @@ public class DispatchView implements Serializable {
     public DispatchType getDispatchType(){
         return CmTag.getDispatchType(dispatchTypeId);
     }
+    public ScDispatchView getScDispatch(){
+
+        if(scDispatchId==null) return null;
+
+        ScDispatchService scDispatchService = CmTag.getBean(ScDispatchService.class);
+        if(scDispatchService==null) return null;
+        return scDispatchService.get(scDispatchId);
+    }
     private Integer id;
+
+    private Integer scDispatchId;
 
     private Integer year;
 
@@ -56,6 +68,14 @@ public class DispatchView implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getScDispatchId() {
+        return scDispatchId;
+    }
+
+    public void setScDispatchId(Integer scDispatchId) {
+        this.scDispatchId = scDispatchId;
     }
 
     public Integer getYear() {

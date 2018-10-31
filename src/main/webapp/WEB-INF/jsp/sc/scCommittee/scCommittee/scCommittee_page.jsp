@@ -106,11 +106,10 @@ pageEncoding="UTF-8" %>
         colModel: [
             {label: '年份', name: 'year', width: 80, frozen: true},
             {
-                label: '编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
-                //console.log(rowObject.holdDate)
-                var _num = "党委常委会[{0}]号".format($.date(rowObject.holdDate, "yyyyMMdd"))
-                if($.trim(rowObject.filePath)=='') return _num;
-                return $.swfPreview(rowObject.filePath, _num);
+                label: '编号', name: 'code', width: 180, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return ''
+                if($.trim(rowObject.filePath)=='') return cellvalue;
+                return $.swfPreview(rowObject.filePath, cellvalue);
             }, frozen: true},
             {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '议题数量',name: 'topicNum'},

@@ -70,6 +70,7 @@ public class ScDispatchController extends ScDispatchBaseController {
     public void scDispatch_data(HttpServletResponse response,
                                     Integer year,
                                     Integer dispatchTypeId,
+                                Integer code,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -84,13 +85,16 @@ public class ScDispatchController extends ScDispatchBaseController {
 
         ScDispatchViewExample example = new ScDispatchViewExample();
         ScDispatchViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("year desc, dispatch_type_sort_order desc, code desc");
 
         if (year!=null) {
             criteria.andYearEqualTo(year);
         }
         if (dispatchTypeId!=null) {
             criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
+        }
+        if (code!=null) {
+            criteria.andCodeEqualTo(code);
         }
 
         if (export == 1) {

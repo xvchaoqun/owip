@@ -91,7 +91,7 @@
         if (ids.length == 0 || ids.length > 1) {
             $.tip({
                 $target: $selectBtn, $container: $("#modal"),
-                at: 'top center', my: 'bottom center', type: 'success',
+                at: 'top center', my: 'bottom center', type: 'info',
                 msg: "请选一行记录。"
             });
             return;
@@ -103,6 +103,8 @@
                 var sd = data.scDispatch;
                 //console.log(sd)
                 $("#scDispatchDiv").html(_.template($("#scDispatchTpl").html())({sd: sd}));
+                $("#scCommitteesDiv .label-text").html(_.template($("#scCommitteesTpl").html())({scCommittees: data.scDispatch.scCommittees}));
+                $("#scCommitteesDiv").show();
 
                 $("#modalForm input[name=scDispatchId]").val(sd.id);
 

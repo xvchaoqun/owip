@@ -289,6 +289,7 @@ public class ScDispatchService extends BaseMapper {
 
         Integer scDispatchId = dispatch.getScDispatchId();
         List<ScCommitteeVoteView> scDispatchVotes = iScMapper.getScDispatchVotes(scDispatchId);
+        //Collections.reverse(scDispatchVotes); // 保持和文件起草签发中的顺序一致
 
         for (ScCommitteeVoteView sdv : scDispatchVotes) {
 
@@ -306,7 +307,7 @@ public class ScDispatchService extends BaseMapper {
             record.setRemark(sdv.getRemark());
             record.setSortOrder(sdv.getSortOrder());*/
             PropertyUtils.copyProperties(record, sdv);
-
+            record.setId(null);
             dispatchCadreService.insertSelective(record);
         }
     }
