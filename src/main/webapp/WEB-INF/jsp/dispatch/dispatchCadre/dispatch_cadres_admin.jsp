@@ -1,11 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<c:if test="${empty dispatch.scDispatchId}">
+<c:if test="${not empty dispatch.scDispatchId}">
+  <button class="confirm btn btn-primary btn-block btn-lg" type="button"
+          data-msg="确定同步?"
+          data-callback="_reload"
+          data-url="${ctx}/sc/scDispatch_snyc?dispatchId=${dispatch.id}">
+    <i class="fa fa-refresh"></i> 同步“文件起草签发”
+  </button>
+</c:if>
 <div class="widget-box">
   <div class="widget-header">
     <h4 class="smaller">
-      添加干部任免事项
+      ${empty dispatch.scDispatchId?"修改":"查看"}干部任免事项
     </h4>
   </div>
   <div class="widget-body">
@@ -145,6 +152,7 @@
         </div>
       </div>
     </div>
+<c:if test="${empty dispatch.scDispatchId}">
     <div class="clearfix form-actions center">
         <button class="btn ${empty dispatchCadre?'btn-success':'btn-info'} btn-sm" type="submit">
           <i class="ace-icon fa ${empty dispatchCadre?"fa-plus":"fa-edit"} "></i>
@@ -158,11 +166,12 @@
         </button>
         </c:if>
     </div>
+</c:if>
   </form>
     </div>
   </div>
 </div>
-</c:if>
+
 <div style="padding-top: 20px">
   <table class="table table-actived table-striped table-bordered table-hover">
     <thead>
@@ -172,17 +181,7 @@
       <th style="width: 80px">任免程序</th>
       <th style="width: 80px">姓名</th>
       <th>所属单位</th>
-      <th>
-<c:if test="${not empty dispatch.scDispatchId}">
-        <button style="margin-right: 10px;top: -5px;"
-                class="confirm btn btn-primary btn-xs" type="button"
-                data-msg="确定同步?"
-                data-callback="_reload"
-                data-url="${ctx}/sc/scDispatch_snyc?dispatchId=${dispatch.id}">
-          <i class="fa fa-refresh"></i> 同步“文件起草签发”
-        </button>
-  </c:if>
-      </th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
@@ -195,9 +194,17 @@
         <td nowrap>${user.realname}</td>
         <td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
         <td>
-
+          <button type="button" class="btn btn-xs btn-primary" onclick="_update(${dispatchCadre.id})">
+          <i class="fa ${empty dispatch.scDispatchId?"fa-edit":"fa-search"}"></i>
+          ${empty dispatch.scDispatchId?"修改":"查看"}</button>
           <c:if test="${empty dispatch.scDispatchId}">
-          <a href="javascript:void(0)" onclick="_update(${dispatchCadre.id})">修改</a>
+            <button type="button" class="confirm btn btn-xs btn-danger"
+                    data-callback="_reload2"
+                    data-title="删除任免信息"
+                    data-msg="确定删除该条任免信息(${user.realname})"
+                    data-url="${ctx}/dispatchCadre_del?id=${dispatchCadre.id}">
+              <i class="fa fa-times"></i>
+                删除</button>
           </c:if>
         </td>
       </tr>
@@ -205,6 +212,7 @@
     </tbody>
   </table>
   <c:if test="${not empty dispatch.scDispatchId}">
+    <div class="space-4"></div>
     <div class="red bolder">注：如信息有误，请到“文件起草签发（<a href="javascript:;" class="linkBtn"
                                                  data-url="${ctx}#/dispatch?cls=3&year=${dispatch.scDispatch.year}&dispatchTypeId=${dispatch.scDispatch.dispatchTypeId}&code=${dispatch.scDispatch.code}"
                                                  data-target="_blank">${dispatch.scDispatch.dispatchCode}</a>）”中更正后同步
@@ -213,6 +221,7 @@
   </c:if>
 </div>
 <script>
+
   <c:if test="${empty dispatch}">
   $("select, input, button, textarea", "#cadreForm").prop("disabled", true);
   </c:if>
@@ -232,6 +241,9 @@
   });
   function _reload(){
     SysMsg.info("同步成功。");
+    _reload2();
+  }
+  function _reload2(){
     $("#dispatch-cadres-view").load("${ctx}/dispatch_cadres_admin?dispatchId=${param.dispatchId}");
   }
   function _update(id){

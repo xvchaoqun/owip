@@ -6,7 +6,7 @@
     <div class="hidden-xs hidden-sm" title="${cadre.title}" style="position:fixed; top: 95px; width: 450px;
     left:50%;margin-left:-225px; font-size: 16pt; font-weight: bolder;white-space:nowrap;
     /*overflow:hidden;text-overflow:ellipsis;*/z-index: 1001">
-        【${sysUser.realname}】<c:if test="${not empty cadre.title}"> — ${cadre.title}</c:if>
+        【${cadre.realname}】<c:if test="${not empty cadre.title}"> — ${cadre.title}</c:if>
     </div>
     <h4 class="widget-title lighter smaller"
         style="position:fixed; top: 91px; right: 50px;z-index: 1001 ">

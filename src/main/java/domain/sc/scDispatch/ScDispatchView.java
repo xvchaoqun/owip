@@ -45,6 +45,8 @@ public class ScDispatchView implements Serializable {
 
     private String remark;
 
+    private Integer dispatchId;
+
     private Integer dispatchTypeSortOrder;
 
     private Integer appointCount;
@@ -139,6 +141,14 @@ public class ScDispatchView implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getDispatchId() {
+        return dispatchId;
+    }
+
+    public void setDispatchId(Integer dispatchId) {
+        this.dispatchId = dispatchId;
     }
 
     public Integer getDispatchTypeSortOrder() {

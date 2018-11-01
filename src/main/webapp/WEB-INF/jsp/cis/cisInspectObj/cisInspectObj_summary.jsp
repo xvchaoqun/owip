@@ -35,47 +35,6 @@
                                         <form class="form-horizontal" action="${ctx}/cisInspectObj_summary"
                                               id="cisForm" method="post">
                                             <input type="hidden" name="id" value="${param.objId}">
-                                            <c:if test="${cisInspectObj.inspectorType==CIS_INSPECTOR_TYPE_OW}">
-                                            <div class="form-group">
-                                                <label class="col-xs-4 control-label">考察组成员</label>
-                                                <div class="col-xs-6">
-                                                    <select class="multiselect" name="inspectorIds[]" multiple="" >
-                                                        <optgroup label="现任考察组成员">
-                                                            <c:forEach items="${nowInspectors}" var="record">
-                                                                <option value="${record.id}">${record.realname}</option>
-                                                            </c:forEach>
-                                                        </optgroup>
-                                                        <optgroup label="过去考察组成员">
-                                                            <c:forEach items="${historyInspectors}" var="record">
-                                                                <option value="${record.id}">${record.realname}</option>
-                                                            </c:forEach>
-                                                        </optgroup>
-                                                        <optgroup label="已删除">
-                                                            <c:forEach items="${deleteInspectors}" var="record">
-                                                                <option value="${record.id}">${record.realname}</option>
-                                                            </c:forEach>
-                                                        </optgroup>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            </c:if>
-                                            <div class="form-group">
-                                                <label class="col-xs-4 control-label">考察单位</label>
-                                                <div class="col-xs-6">
-                                                    <select class="multiselect" name="unitIds[]" multiple="" >
-                                                        <optgroup label="正在运转单位">
-                                                            <c:forEach items="${runUnits}" var="unit">
-                                                                <option value="${unit.id}">${unit.name}</option>
-                                                            </c:forEach>
-                                                        </optgroup>
-                                                        <optgroup label="历史单位">
-                                                            <c:forEach items="${historyUnits}" var="unit">
-                                                                <option value="${unit.id}">${unit.name}</option>
-                                                            </c:forEach>
-                                                        </optgroup>
-                                                    </select>
-                                                </div>
-                                            </div>
                                             <div class="form-group">
                                                 <label class="col-xs-4 control-label">谈话人数</label>
                                                 <div class="col-xs-6">
@@ -84,17 +43,16 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-xs-4 control-label">考察对象时任职务</label>
+                                                <label class="col-xs-4 control-label">考察原始记录</label>
                                                 <div class="col-xs-6">
-                                                    <input class="form-control" type="text" name="post"
-                                                           value="${cisInspectObj.post}">
+                                                    <input class="form-control" type="file" name="_logFile"/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-xs-4 control-label">考察对象拟任职务</label>
+                                                <label class="col-xs-4 control-label">备注</label>
+
                                                 <div class="col-xs-6">
-                                                    <input class="form-control" type="text" name="assignPost"
-                                                           value="${cisInspectObj.assignPost}">
+                                                    <textarea class="form-control limited" rows="8" name="remark">${cisInspectObj.remark}</textarea>
                                                 </div>
                                             </div>
                                         </form>
@@ -122,22 +80,21 @@
         </div>
     </div>
     <div class="clearfix form-actions center">
-        <button class="btn btn-info" type="submit">
+        <button id="cisBtn" class="btn btn-info" data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+                type="button">
             <i class="ace-icon fa fa-save bigger-110"></i>
             保存
         </button>
     </div>
 </div>
-
 <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
-<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
 
-    $.register.multiselect($('#cisForm select[name="unitIds[]"]'), ${selectUnitIds},{enableClickableOptGroups: true,
-        enableCollapsibleOptGroups: true});
-    $.register.multiselect($('#cisForm select[name="inspectorIds[]"]'), ${selectInspectorIds},{enableClickableOptGroups: true,
-        enableCollapsibleOptGroups: true});
+    $.fileInput($("#cisForm input[type=file]"), {
+        no_file: '请上传PDF文件 ...',
+        allowExt: ['pdf'],
+        allowMime: ['application/pdf']
+    });
 
     var ke = KindEditor.create('#content', {
         cssPath: "${ctx}/css/ke.css",
@@ -147,38 +104,20 @@
     });
 
     $(function () {
-       /* $.getJSON("${ctx}/cisObjUnits_tree", {objId: "${param.objId}"}, function (data) {
-            var treeData = data.tree.children;
-            $("#tree3").dynatree({
-                checkbox: true,
-                selectMode: 3,
-                children: treeData,
-                onSelect: function (select, node) {
-
-                    node.expand(node.data.isFolder && node.isSelected());
-                },
-                cookieId: "dynatree-Cb3",
-                idPrefix: "dynatree-Cb3-"
-            });
-        });*/
-
-        $("#body-content-view button[type=submit]").click(function () {
+        $("#cisBtn").click(function () {
             $("#cisForm").submit();
             return false;
         });
         $("#cisForm").validate({
             submitHandler: function (form) {
-                /*var unitIds = $.map($("#tree3").dynatree("getSelectedNodes"), function (node) {
-                    if (!node.data.isFolder && !node.data.hideCheckbox)
-                        return node.data.key;
-                });*/
-
+                var $btn = $("#cisBtn").button('loading');
                 $(form).ajaxSubmit({
                     data: { summary: ke.html()},
                     success: function (data) {
                         if (data.success) {
                             $.hideView()
                         }
+                        $btn.button('reset');
                     }
                 });
             }

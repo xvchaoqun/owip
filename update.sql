@@ -1,4 +1,32 @@
 
+20181102
+ALTER TABLE `dispatch`
+	ADD UNIQUE INDEX `sc_dispatch_id` (`sc_dispatch_id`);
+
+更新 sc_dispatch_view
+
+ALTER TABLE `dispatch_cadre`
+	DROP FOREIGN KEY `FK_dispatch_cadre_dispatch`;
+ALTER TABLE `dispatch_cadre`
+	ADD CONSTRAINT `FK_dispatch_cadre_dispatch` FOREIGN KEY (`dispatch_id`) REFERENCES `dispatch` (`id`) ON DELETE CASCADE;
+
+更新common-utils.jar
+
+ALTER TABLE `cis_inspect_obj`
+	CHANGE COLUMN `post` `post` VARCHAR(200) NULL DEFAULT NULL COMMENT '考察对象时任职务，默认是所在单位及职务' AFTER `talk_user_count`;
+
+更新 cis_inspect_obj_view
+
+ALTER TABLE `cis_obj_inspector`
+	DROP FOREIGN KEY `FK_cis_obj_inspector_cis_inspect_obj`;
+ALTER TABLE `cis_obj_inspector`
+	ADD CONSTRAINT `FK_cis_obj_inspector_cis_inspect_obj` FOREIGN KEY (`obj_id`) REFERENCES `cis_inspect_obj` (`id`) ON DELETE CASCADE;
+ALTER TABLE `cis_obj_unit`
+	DROP FOREIGN KEY `FK_cis_obj_unit_cis_inspect_obj`;
+ALTER TABLE `cis_obj_unit`
+	ADD CONSTRAINT `FK_cis_obj_unit_cis_inspect_obj` FOREIGN KEY (`obj_id`) REFERENCES `cis_inspect_obj` (`id`) ON DELETE CASCADE;
+
+
 20181101
 
 更新common-utils.jar

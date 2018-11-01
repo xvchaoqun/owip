@@ -301,7 +301,7 @@ public class DispatchCadreController extends DispatchBaseController {
     @RequiresPermissions("dispatchCadre:del")
     @RequestMapping(value = "/dispatchCadre_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map do_dispatchCadre_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){

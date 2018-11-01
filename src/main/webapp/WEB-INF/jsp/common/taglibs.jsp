@@ -19,6 +19,7 @@
 <c:set value="${_sysConfig.hasPartyModule}" var="_hasPartyModule"/>
 <c:set value="<%=new Date()%>" var="now"/>
 <c:set value="${cm:formatDate(now,'yyyy-MM-dd')}" var="_today"/>
+<c:set value="${cm:formatDate(now,'yyyy-MM-dd HH:mm')}" var="_todayMinute"/>
 <c:set value="${cm:formatDate(now,'yyyy')}" var="_thisYear"/>
 
 <fmt:setBundle basename="spring" var="spring"/>

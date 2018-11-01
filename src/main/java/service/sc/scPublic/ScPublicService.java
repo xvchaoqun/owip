@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -157,15 +158,24 @@ public class ScPublicService extends BaseMapper {
         ScPublic record = new ScPublic();
         record.setIsFinished(true);
 
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        Date todayStart = cal.getTime();
+
         ScPublicExample example = new ScPublicExample();
         example.createCriteria().andIsDeletedEqualTo(false)
                 .andIsFinishedEqualTo(false)
-                .andPublicEndDateEqualTo(new Date());
+                // 扫描从当天0点到运行之间结束的
+                .andPublicEndDateBetween(todayStart, now);
 
         scPublicMapper.updateByExampleSelective(record, example);
     }
 
-    // 没有“确认”之前， 每天上午8:30， 下午2:30反复发短信提醒。
+    // 公示结束没有“确认”之前， 每天上午8:30， 下午2:30反复发短信提醒。
     @Transactional
     public void autoFinishMsg() {
 
@@ -179,7 +189,6 @@ public class ScPublicService extends BaseMapper {
         List<ScPublic> scPublics = scPublicMapper.selectByExample(example);
         for (ScPublic scPublic : scPublics) {
 
-            String num = MessageFormat.format("公示[{0}]{1}号", scPublic.getYear(), scPublic.getNum());
             String endDate = DateUtils.formatDate(scPublic.getPublicEndDate(), DateUtils.YYYY_MM_DD_CHINA);
             for (SysUserView uv : receivers) {
                 try {
@@ -187,7 +196,7 @@ public class ScPublicService extends BaseMapper {
                     String mobile = userBeanService.getMsgMobile(userId);
                     String msgTitle = userBeanService.getMsgTitle(userId);
                     String msg = MessageFormat.format(tpl.getContent(), msgTitle,
-                            num, endDate);
+                            scPublic.getCode(), endDate);
                     ShortMsgBean bean = new ShortMsgBean();
                     bean.setSender(null);
                     bean.setReceiver(userId);
@@ -201,12 +210,11 @@ public class ScPublicService extends BaseMapper {
                 }catch (Exception ex){
                     ex.printStackTrace();
                     logger.error("干部任前公示结束确认提醒失败。公示编号：{}， 接收人：{}, {}",
-                            num, uv.getRealname(), uv.getCode());
+                            scPublic.getCode(), uv.getRealname(), uv.getCode());
                 }
             }
         }
     }
-
 
     /**
      * 干部任前公示.doc
@@ -217,8 +225,8 @@ public class ScPublicService extends BaseMapper {
 
         Date publicStartDate = scPublic.getPublicStartDate();
         Date publicEndDate = scPublic.getPublicEndDate();
-        String _publicDate = DateUtils.formatDate(publicStartDate, DateUtils.YYYY_MM_DD_CHINA)
-                + "－" + DateUtils.formatDate(publicEndDate, DateUtils.YYYY_MM_DD_CHINA);
+        String _publicDate = DateUtils.formatDate(publicStartDate, DateUtils.YYYY_MM_DD_HH_MM_CHINA)
+                + "－" + DateUtils.formatDate(publicEndDate, DateUtils.YYYY_MM_DD_HH_MM_CHINA);
 
         Date publishDate = scPublic.getPublishDate();
         String _publishDate = DateUtils.formatDate(publishDate, DateUtils.YYYY_MM_DD_CHINA);

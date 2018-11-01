@@ -66,6 +66,18 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-xs-3 control-label">所在单位及职务</label>
+            <div class="col-xs-6">
+                <textarea class="form-control noEnter" name="post">${cisInspectObj.post}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">拟任职务</label>
+            <div class="col-xs-6">
+                <textarea class="form-control noEnter" name="assignPost">${cisInspectObj.assignPost}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-xs-3 control-label">考察主体</label>
             <div class="col-xs-6">
                 <select required data-rel="select2" name="inspectorType" data-placeholder="请选择"  data-width="270">
@@ -95,12 +107,7 @@
                 </select>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label">考察原始记录</label>
-            <div class="col-xs-6">
-                <input class="form-control" type="file" name="_logFile"/>
-            </div>
-        </div>
+
         <%--<div class="form-group">
             <label class="col-xs-3 control-label">谈话人数</label>
             <div class="col-xs-6">
@@ -124,7 +131,7 @@
 </div>
 
 <script>
-    $.fileInput($("#modalForm input[type=file]"));
+
 
     function inspectorTypeChange(){
         var $inspectorType = $("select[name=inspectorType]");
@@ -155,6 +162,11 @@
     $('#modalForm [data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
     $.register.date($('.date-picker'));
-    $.register.user_select($('#modalForm select[name=cadreId], #modalForm select[name=chiefInspectorId]'));
-
+    $.register.user_select($('#modalForm select[name=chiefInspectorId]'));
+    var $selectCadre = $.register.user_select($('#modalForm select[name=cadreId]'));
+    $selectCadre.on("change",function(){
+        //console.log($(this).select2("data")[0])
+        var title = $(this).select2("data")[0]['title']||'';
+        $('#modalForm textarea[name=post]').val(title);
+    });
 </script>

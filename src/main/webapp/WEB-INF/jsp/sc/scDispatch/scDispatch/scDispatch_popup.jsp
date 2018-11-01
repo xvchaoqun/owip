@@ -79,7 +79,7 @@
         ondblClickRow: function () {
         },
         pager: "jqGridPager_popup",
-        url: "${ctx}/sc/scDispatch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}",
+        url: "${ctx}/sc/scDispatch_data?callback=?&hideDispatched=1&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel: colModel
     });
     $.initNavGrid("jqGrid_popup", "jqGridPager_popup");

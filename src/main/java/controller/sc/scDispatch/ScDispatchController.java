@@ -6,6 +6,7 @@ import domain.sc.scDispatch.ScDispatch;
 import domain.sc.scDispatch.ScDispatchView;
 import domain.sc.scDispatch.ScDispatchViewExample;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -70,7 +71,8 @@ public class ScDispatchController extends ScDispatchBaseController {
     public void scDispatch_data(HttpServletResponse response,
                                     Integer year,
                                     Integer dispatchTypeId,
-                                Integer code,
+                                    Integer code,
+                                    Boolean hideDispatched, // 隐藏已发文的签发稿
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -95,6 +97,10 @@ public class ScDispatchController extends ScDispatchBaseController {
         }
         if (code!=null) {
             criteria.andCodeEqualTo(code);
+        }
+
+        if(BooleanUtils.isTrue(hideDispatched)){
+            criteria.andDispatchIdIsNull();
         }
 
         if (export == 1) {

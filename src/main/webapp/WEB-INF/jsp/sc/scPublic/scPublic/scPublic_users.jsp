@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>选择公示对象</h3>
+    <h3>选择公示对象<span class="red bolder">（如信息有误， 请到“常委会讨论议题”中修改）</span></h3>
 </div>
 <div class="modal-body rownumbers">
     <table id="jqGridPopup" class="table-striped"></table>

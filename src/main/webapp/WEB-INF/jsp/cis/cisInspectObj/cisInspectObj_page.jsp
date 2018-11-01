@@ -15,12 +15,11 @@
                     <div class="tab-pane in active rownumbers">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="cisInspectObj:edit">
-                                <a class="popupBtn btn btn-info btn-sm" data-url="${ctx}/cisInspectObj_au"><i
+                                <a class="popupBtn btn btn-success btn-sm" data-url="${ctx}/cisInspectObj_au"><i
                                         class="fa fa-plus"></i> 添加</a>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/cisInspectObj_au"
-                                   data-grid-id="#jqGrid"
-                                   ><i class="fa fa-edit"></i>
+                                   data-grid-id="#jqGrid"><i class="fa fa-edit"></i>
                                     修改</a>
                                 <button id="inspectorEditBtn" class="jqOpenViewBtn btn btn-info btn-sm"
                                    data-url="${ctx}/cisObjInspectors"
@@ -38,10 +37,10 @@
                                     <i class="fa fa-trash"></i> 删除
                                 </button>
                             </shiro:hasPermission>
-                            <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                            <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-url="${ctx}/cisInspectObj_data"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
-                                <i class="fa fa-download"></i> 导出</a>--%>
+                                <i class="fa fa-download"></i> 导出工作安排</a>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

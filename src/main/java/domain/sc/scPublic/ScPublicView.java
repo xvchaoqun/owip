@@ -1,9 +1,16 @@
 package domain.sc.scPublic;
 
+import sys.utils.DateUtils;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class ScPublicView implements Serializable {
+
+    public String getCode(){
+        return String.format("公示[%s]号", DateUtils.formatDate(publishDate, "yyyyMMdd"));
+    }
+
     private Integer id;
 
     private Integer committeeId;

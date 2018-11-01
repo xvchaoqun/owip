@@ -60,6 +60,8 @@ public class CisInspectObjView implements Serializable {
 
     private String remark;
 
+    private Integer archiveId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -180,5 +182,13 @@ public class CisInspectObjView implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getArchiveId() {
+        return archiveId;
+    }
+
+    public void setArchiveId(Integer archiveId) {
+        this.archiveId = archiveId;
     }
 }

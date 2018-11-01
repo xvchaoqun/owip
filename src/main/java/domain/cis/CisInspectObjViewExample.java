@@ -1091,6 +1091,66 @@ public class CisInspectObjViewExample {
             addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
+
+        public Criteria andArchiveIdIsNull() {
+            addCriterion("archive_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArchiveIdIsNotNull() {
+            addCriterion("archive_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andArchiveIdEqualTo(Integer value) {
+            addCriterion("archive_id =", value, "archiveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArchiveIdNotEqualTo(Integer value) {
+            addCriterion("archive_id <>", value, "archiveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArchiveIdGreaterThan(Integer value) {
+            addCriterion("archive_id >", value, "archiveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArchiveIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("archive_id >=", value, "archiveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArchiveIdLessThan(Integer value) {
+            addCriterion("archive_id <", value, "archiveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArchiveIdLessThanOrEqualTo(Integer value) {
+            addCriterion("archive_id <=", value, "archiveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArchiveIdIn(List<Integer> values) {
+            addCriterion("archive_id in", values, "archiveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArchiveIdNotIn(List<Integer> values) {
+            addCriterion("archive_id not in", values, "archiveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArchiveIdBetween(Integer value1, Integer value2) {
+            addCriterion("archive_id between", value1, value2, "archiveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andArchiveIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("archive_id not between", value1, value2, "archiveId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

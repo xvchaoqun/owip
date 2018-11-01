@@ -598,8 +598,11 @@
         {label: '编号', name: 'sn', width: 180, frozen: true},
         {label: '考察日期', name: 'inspectDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
         {label: '工作证号', name: 'cadre.code', frozen: true},
-        {label: '考察对象', name: 'cadre.realname', frozen: true},
+        {label: '考察对象', name: 'cadre.realname', formatter: function (cellvalue, options, rowObject) {
+            return $.cadre(rowObject.cadre.id, cellvalue);
+        }, frozen: true},
         {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 200},
+        {label: '拟任职务', name: 'assignPost', align: 'left', width: 200},
         {
             label: '考察主体', name: '_inspectorType', formatter: function (cellvalue, options, rowObject) {
             var type = _cMap.CIS_INSPECTOR_TYPE_MAP[rowObject.inspectorType];
@@ -657,6 +660,12 @@
             return ret;
         }
         },
+        {
+            label: '归档记录', name:'archiveId', width:80, formatter: function (cellvalue, options, rowObject) {
+            if(cellvalue==undefined) return '-'
+            return '<button class="linkBtn btn btn-xs btn-primary" data-url="#/sc/scAdArchive?objId={0}" data-target="_blank"><i class="fa fa-search"></i> 查看</button>'
+                    .format(rowObject.id);
+        }},
         {label: '备注', name: 'remark'}, {hidden: true, name: 'inspectorType'}
     ];
     colModels.cadreReport = [

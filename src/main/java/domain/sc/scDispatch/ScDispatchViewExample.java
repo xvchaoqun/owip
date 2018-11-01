@@ -842,6 +842,66 @@ public class ScDispatchViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andDispatchIdIsNull() {
+            addCriterion("dispatch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchIdIsNotNull() {
+            addCriterion("dispatch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchIdEqualTo(Integer value) {
+            addCriterion("dispatch_id =", value, "dispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchIdNotEqualTo(Integer value) {
+            addCriterion("dispatch_id <>", value, "dispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchIdGreaterThan(Integer value) {
+            addCriterion("dispatch_id >", value, "dispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_id >=", value, "dispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchIdLessThan(Integer value) {
+            addCriterion("dispatch_id <", value, "dispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchIdLessThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_id <=", value, "dispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchIdIn(List<Integer> values) {
+            addCriterion("dispatch_id in", values, "dispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchIdNotIn(List<Integer> values) {
+            addCriterion("dispatch_id not in", values, "dispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchIdBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_id between", value1, value2, "dispatchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_id not between", value1, value2, "dispatchId");
+            return (Criteria) this;
+        }
+
         public Criteria andDispatchTypeSortOrderIsNull() {
             addCriterion("dispatch_type_sort_order is null");
             return (Criteria) this;

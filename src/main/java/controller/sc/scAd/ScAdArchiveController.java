@@ -69,6 +69,7 @@ public class ScAdArchiveController extends ScAdBaseController {
     public void scAdArchive_data(HttpServletResponse response,
                                     Integer committeeId,
                                     Integer cadreId,
+                                    Integer objId, // 从干部考察报告跳转过来时传递
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -90,6 +91,9 @@ public class ScAdArchiveController extends ScAdBaseController {
         }
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);
+        }
+        if(objId!=null){
+            criteria.andObjIdEqualTo(objId);
         }
 
         if (export == 1) {

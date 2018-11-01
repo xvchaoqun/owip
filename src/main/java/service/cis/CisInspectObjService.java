@@ -1,8 +1,11 @@
 package service.cis;
 
+import controller.global.OpException;
 import domain.cadre.CadreView;
 import domain.cis.CisInspectObj;
 import domain.cis.CisInspectObjExample;
+import domain.cis.CisInspectObjView;
+import domain.cis.CisInspectObjViewExample;
 import domain.cis.CisInspectorView;
 import domain.cis.CisObjInspector;
 import domain.cis.CisObjInspectorExample;
@@ -13,17 +16,27 @@ import domain.unit.Unit;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.util.HtmlUtils;
 import service.BaseMapper;
 import service.common.FreemarkerService;
 import sys.constants.CisConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
+import sys.utils.ExcelUtils;
+import sys.utils.ExportHelper;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,9 +135,19 @@ public class CisInspectObjService extends BaseMapper {
 
         if (ids == null || ids.length == 0) return;
 
-        CisInspectObjExample example = new CisInspectObjExample();
-        example.createCriteria().andIdIn(Arrays.asList(ids));
-        cisInspectObjMapper.deleteByExample(example);
+        {
+            CisInspectObjViewExample example = new CisInspectObjViewExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids)).andArchiveIdIsNotNull();
+            if(cisInspectObjViewMapper.countByExample(example)>0){
+
+                throw new OpException("不可删除已归档的记录");
+            }
+        }
+        {
+            CisInspectObjExample example = new CisInspectObjExample();
+            example.createCriteria().andIdIn(Arrays.asList(ids));
+            cisInspectObjMapper.deleteByExample(example);
+        }
     }
 
     @Transactional
@@ -194,5 +217,88 @@ public class CisInspectObjService extends BaseMapper {
         }
 
         cisObjInspectorService.updateInspectIds(objId, inspectorIds);
+    }
+
+    // 导出工作安排
+    public void export(CisInspectObjViewExample example, HttpServletResponse response) throws IOException {
+
+        example.setOrderByClause("inspect_date asc, id asc");
+        List<CisInspectObjView> records = cisInspectObjViewMapper.selectByExample(example);
+        int size = records.size();
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cis/cis_inspector_obj.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+        XSSFSheet templateSheet = wb.getSheetAt(1);
+        {
+            CisInspectObjView record = records.get(0);
+            renderObj(sheet, record, 0);
+        }
+
+        int i = 0;
+        for (; i < size - 1; i++) {
+
+            ExcelUtils.copyRows(1, 5, 5 * (i + 1), templateSheet, sheet);
+
+            XSSFRow indexRow = sheet.getRow(1 + 5 * (i + 1));
+            indexRow.getCell(0).setCellValue(i + 2);
+
+            CisInspectObjView record = records.get(i + 1);
+            renderObj(sheet, record, 5 * (i + 1));
+        }
+
+        wb.removeSheetAt(1);// 移除模板
+        ExportHelper.output(wb, "干部考察工作安排.xlsx", response);
+    }
+
+    private void renderObj(XSSFSheet sheet, CisInspectObjView record, int rowNum) {
+
+        CadreView cadre = record.getCadre();
+
+        XSSFRow row = sheet.getRow(rowNum++);
+        // 考察日期
+        XSSFCell cel = row.getCell(2);
+        cel.setCellValue(DateUtils.formatDate(record.getInspectDate(), DateUtils.YYYY_MM_DD_CHINA));
+
+        // 考察对象
+        cel = row.getCell(4);
+        cel.setCellValue(cadre.getRealname());
+
+        // 所在单位及职务
+        row = sheet.getRow(rowNum++);
+        cel = row.getCell(2);
+        cel.setCellValue(record.getPost());
+
+        // 拟任职务
+        row = sheet.getRow(rowNum++);
+        cel = row.getCell(2);
+        cel.setCellValue(record.getAssignPost());
+
+        // 考察主体
+        row = sheet.getRow(rowNum++);
+        cel = row.getCell(2);
+        String _inspectorType = "党委组织部";
+        Byte inspectorType = record.getInspectorType();
+        if(inspectorType!= CisConstants.CIS_INSPECTOR_TYPE_OW)
+            _inspectorType = record.getOtherInspectorType();
+        cel.setCellValue(_inspectorType);
+
+        // 考察组负责人
+        cel = row.getCell(4);
+        CisInspectorView chiefInspector = record.getChiefInspector();
+        cel.setCellValue(chiefInspector==null?"":chiefInspector.getRealname());
+
+        // 考察组成员
+        row = sheet.getRow(rowNum++);
+        cel = row.getCell(2);
+        String _inspectors = "";
+        List<String> names = new ArrayList<>();
+        List<CisInspectorView> inspectors = record.getInspectors();
+        if(inspectors!=null && inspectors.size()>0) {
+            for (CisInspectorView inspector : inspectors) {
+                names.add(inspector.getRealname());
+            }
+            _inspectors = StringUtils.join(names, "，");
+        }
+        cel.setCellValue(_inspectors);
     }
 }

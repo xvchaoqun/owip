@@ -12,7 +12,7 @@
                 <value>(persistence|service|controller)\.pmd\..*</value>
                 <value>(persistence|service|controller)\.member\..*</value>
 
-                <value>(persistence|service|controller)\.cis\..*</value>
+                <!--<value>(persistence|service|controller)\.cis\..*</value>-->
 
                 <value>(persistence|service|controller)\.cet\..*</value>
                 <value>(persistence|service|controller)\.abroad\..*</value>

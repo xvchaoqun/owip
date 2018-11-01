@@ -48,6 +48,7 @@ import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
+import sys.utils.PropertiesUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -171,6 +172,7 @@ public class CadreController extends BaseController {
                            Boolean isPrincipalPost, // 是否正职
                            Boolean isDouble, // 是否双肩挑
                            @RequestParam(required = false, defaultValue = "0") int export,
+                           @RequestParam(required = false, defaultValue = "1") int format, // 导出格式
                            @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                            Integer pageSize, Integer pageNo) throws IOException {
 
@@ -275,7 +277,7 @@ public class CadreController extends BaseController {
 
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            cadre_export(status, example, response);
+            cadre_export(format, status, example, response);
             return;
         }
 
@@ -304,14 +306,20 @@ public class CadreController extends BaseController {
         }
     }
 
-    private void cadre_export(Byte status, CadreViewExample example, HttpServletResponse response) {
+    private void cadre_export(int format, Byte status, CadreViewExample example, HttpServletResponse response) throws IOException {
 
-        SXSSFWorkbook wb = cadreExportService.export(status, example, ShiroHelper.isPermitted("cadre:list")?0:1);
+        SXSSFWorkbook wb = null;
+        if(format==1) {
+            // 一览表
+            wb = cadreExportService.export(status, example, ShiroHelper.isPermitted("cadre:list") ? 0 : 1);
+            String cadreType = CadreConstants.CADRE_STATUS_MAP.get(status);
+            String fileName = CmTag.getSysConfig().getSchoolName() + cadreType + "(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
+            ExportHelper.output(wb, fileName + ".xlsx", response);
 
-        String cadreType = CadreConstants.CADRE_STATUS_MAP.get(status);
-        String fileName = CmTag.getSysConfig().getSchoolName() + cadreType + "(" + DateUtils.formatDate(new Date(), "yyyyMMdd") + ")";
-
-        ExportHelper.output(wb, fileName + ".xlsx", response);
+        }else{
+            // 名单
+            cadreExportService.exportCadres(example, response);
+        }
     }
 
     @RequiresPermissions("cadre:view")
@@ -322,14 +330,17 @@ public class CadreController extends BaseController {
                              ModelMap modelMap) {
 
         if(StringUtils.isBlank(to)) {
-            to = ShiroHelper.isPermitted("cadreAdform:list")?"cadreAdform_page":"cadre_base";
+            to = "cadre_base";
+            String def = PropertiesUtils.getString("sys.settings.cadreView.default");
+            if(StringUtils.isNotBlank(def) && !StringUtils.equals(to, def)
+                    && ShiroHelper.isPermitted("cadreAdform:list")){
+                to = def;
+            }
         }
         modelMap.put("to", to);
 
         CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         modelMap.put("cadre", cadre);
-        modelMap.put("sysUser", sysUserService.findById(cadre.getUserId()));
-
         return "cadre/cadre_view";
     }
 

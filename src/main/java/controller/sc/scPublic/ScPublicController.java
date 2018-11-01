@@ -29,6 +29,7 @@ import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
+import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
@@ -52,16 +53,16 @@ public class ScPublicController extends ScPublicBaseController {
 
     @RequiresPermissions("scPublic:list")
     @RequestMapping("/scPublic")
-    public String scPublic(@RequestParam(defaultValue = "1") Integer cls, ModelMap modelMap) {
+    public String scPublic(ModelMap modelMap) {
 
-        modelMap.put("cls", cls);
+        //modelMap.put("cls", cls);
         return "sc/scPublic/scPublic/scPublic_page";
     }
 
     @RequiresPermissions("scPublic:list")
     @RequestMapping("/scPublic_data")
     public void scPublic_data(HttpServletResponse response,
-                              @RequestParam(defaultValue = "1") Integer cls,
+                              //@RequestParam(defaultValue = "1") Integer cls,
                                     Integer year,
                                     Integer committeeId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
@@ -81,7 +82,7 @@ public class ScPublicController extends ScPublicBaseController {
                 .andIsDeletedEqualTo(false);
         example.setOrderByClause("id desc");
 
-        criteria.andIsFinishedEqualTo(cls==2);
+        //criteria.andIsFinishedEqualTo(cls==2);
 
         if (year!=null) {
             criteria.andYearEqualTo(year);
@@ -117,11 +118,32 @@ public class ScPublicController extends ScPublicBaseController {
         return;
     }
 
+    // 上传pdf公示
+    @RequiresPermissions("scPublic:edit")
+    @RequestMapping(value = "/scPublic_upload", method = RequestMethod.POST)
+    @ResponseBody
+    public Map do_scPublic_upload(MultipartFile file) throws InterruptedException, IOException {
+
+        String originalFilename = file.getOriginalFilename();
+        String ext = FileUtils.getExtention(originalFilename);
+        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
+            return failed("文件格式错误，请上传pdf文件");
+        }
+
+        String savePath = uploadPdf(file, "scPublic-pdf");
+
+        Map<String, Object> resultMap = success();
+        //resultMap.put("fileName", file.getOriginalFilename());
+        resultMap.put("filePath", savePath);
+
+        return resultMap;
+    }
+
     @RequiresPermissions("scPublic:edit")
     @RequestMapping("/scPublic_process")
     public String do_scPublic_process(ScPublic record,
                               MultipartFile _wordFilePath,
-                              MultipartFile _pdfFilePath,
+                              //MultipartFile _pdfFilePath,
                               @RequestParam(required = false, value = "voteIds[]") Integer[] voteIds,
                                  Byte export, // 0:预览 1：下载  其他：提交保存
                               HttpServletResponse response, ModelMap modelMap) throws IOException, InterruptedException, TemplateException {
@@ -168,7 +190,7 @@ public class ScPublicController extends ScPublicBaseController {
 
         Integer id = record.getId();
         record.setWordFilePath(upload(_wordFilePath, "scPublic-word"));
-        record.setPdfFilePath(uploadPdf(_pdfFilePath, "scPublic-pdf"));
+        //record.setPdfFilePath(uploadPdf(_pdfFilePath, "scPublic-pdf"));
         if (id == null) {
             scPublicService.insertSelective(record, voteIds);
             logger.info(addLog(LogConstants.LOG_SC_PUBLIC, "添加干部任前公示：%s", record.getId()));
@@ -189,7 +211,7 @@ public class ScPublicController extends ScPublicBaseController {
         ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
         example.createCriteria().andCommitteeIdEqualTo(committeeId)
                 .andTypeEqualTo(DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("topic_id desc, sort_order asc");
         List<ScCommitteeVoteView> scCommitteeVoteViews = scCommitteeVoteViewMapper.selectByExample(example);
         modelMap.put("scCommitteeVotes", scCommitteeVoteViews);
 
@@ -206,7 +228,7 @@ public class ScPublicController extends ScPublicBaseController {
 
             ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
             example.createCriteria().andIdIn(Arrays.asList(voteIds));
-            example.setOrderByClause("sort_order desc");
+            example.setOrderByClause("topic_id desc, sort_order asc");
             votes = scCommitteeVoteViewMapper.selectByExample(example);
         }
 

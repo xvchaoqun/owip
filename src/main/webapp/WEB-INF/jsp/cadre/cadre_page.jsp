@@ -92,8 +92,17 @@
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="cadre:export">
                                     <a class="jqExportBtn btn btn-success btn-sm"
-                                       data-rel="tooltip" data-placement="bottom" title="导出选中记录或所有搜索结果"><i
-                                            class="fa fa-download"></i> 导出</a>
+                                       data-querystr="format=1"
+                                       data-rel="tooltip" data-placement="bottom"
+                                       title="导出选中记录或所有搜索结果（所有字段）"><i
+                                            class="fa fa-download"></i> 导出一览表</a>
+                                    <c:if test="${status==CADRE_STATUS_MIDDLE}">
+                                    <a class="jqExportBtn btn btn-success btn-sm"
+                                       data-querystr="format=2"
+                                       data-rel="tooltip" data-placement="bottom"
+                                       title="导出选中记录或所有搜索结果（部分字段，可直接打印）"><i
+                                            class="fa fa-download"></i> 导出名单</a>
+                                    </c:if>
                                 </shiro:hasPermission>
                                 <c:if test="${status==CADRE_STATUS_MIDDLE}">
                                     <shiro:hasPermission name="cadre:exportFamily">

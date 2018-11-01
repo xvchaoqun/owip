@@ -17,6 +17,7 @@
     <result column="summary" jdbcType="VARCHAR" property="summary" />
     <result column="log_file" jdbcType="VARCHAR" property="logFile" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="archive_id" jdbcType="INTEGER" property="archiveId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -49,7 +50,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, type_id, seq, inspect_date, cadre_id, inspector_type, other_inspector_type, 
-    chief_inspector_id, talk_user_count, post, assign_post, summary, log_file, remark
+    chief_inspector_id, talk_user_count, post, assign_post, summary, log_file, remark, 
+    archive_id
   </sql>
   <select id="selectByExample" parameterType="domain.cis.CisInspectObjViewExample" resultMap="BaseResultMap">
     select

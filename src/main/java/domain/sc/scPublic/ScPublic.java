@@ -7,6 +7,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ScPublic implements Serializable {
+
+    /*public String getCode(){
+        if(year==null || num==null) return null;
+        return MessageFormat.format("公示[{0}]{1}号", year, num);
+    }*/
+    public String getCode(){
+        return String.format("公示[%s]号", DateUtils.formatDate(publishDate, "yyyyMMdd"));
+    }
+
     private Integer id;
 
     private Integer committeeId;
@@ -19,10 +28,10 @@ public class ScPublic implements Serializable {
 
     private String pdfFilePath;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YY_MM_DD_HH_MM)
     private Date publicStartDate;
 
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    @DateTimeFormat(pattern = DateUtils.YY_MM_DD_HH_MM)
     private Date publicEndDate;
 
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)

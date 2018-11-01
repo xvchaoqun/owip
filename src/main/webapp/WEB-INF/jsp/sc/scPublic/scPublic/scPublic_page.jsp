@@ -11,15 +11,13 @@
             <c:set var="_query"
                    value="${not empty param.year ||not empty param.committeeId || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
-                <jsp:include page="menu.jsp"/>
+               <%-- <jsp:include page="menu.jsp"/>--%>
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
                             <shiro:hasPermission name="scPublic:edit">
-                                <c:if test="${cls==1}">
                                 <a class="openView btn btn-info btn-sm" data-url="${ctx}/sc/scPublic_au"><i
                                         class="fa fa-plus"></i> 添加</a>
-                                </c:if>
                                 <a class="jqOpenViewBtn btn btn-primary btn-sm"
                                    data-url="${ctx}/sc/scPublic_au"
                                    data-grid-id="#jqGrid"
@@ -27,15 +25,13 @@
                                    ><i class="fa fa-edit"></i>
                                     修改</a>
                             </shiro:hasPermission>
-                            <c:if test="${cls==1}">
                             <button data-url="${ctx}/sc/scPublic_finish"
                                     data-title="结束公示"
-                                    data-msg="确定结束公示（已确认）？"
+                                    data-msg="确认手动结束公示？（系统不会发送提醒）"
                                     data-grid-id="#jqGrid"
-                                    class="jqBatchBtn btn btn-warning btn-sm">
-                                <i class="fa fa-dot-circle-o"></i> 结束公示
+                                    class="jqBatchBtn btn btn-success btn-sm">
+                                <i class="fa fa-dot-circle-o"></i> 确认结束公示
                             </button>
-                            </c:if>
                             <shiro:hasPermission name="scPublic:del">
                                 <button data-url="${ctx}/sc/scPublic_batchDel"
                                         data-title="删除"
@@ -48,6 +44,7 @@
                             <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>--%>
+                            <span style="padding-left: 15px;" class="red bolder">注：公示自动结束后10分钟内，系统会自动发送提醒</span>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
@@ -109,24 +106,35 @@
         rownumbers:true,
         url: '${ctx}/sc/scPublic_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
+            {label: '状态', name: 'isFinished', width: 90, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue){
+                  return "公示结束" /*+ ((rowObject.isFinished && !rowObject.isConfirm)?"(未确认)":"")*/
+                }else{
+                    return '<span class="text-danger bolder"><i class="fa fa-hourglass-half fa-spin"></i> 正在公示<span>';
+                }
+            }/*, cellattr:function(rowId, val, rowObject, cm, rdata) {
+                return (rowObject.isFinished && !rowObject.isConfirm)?"class='danger'":"";
+            }*/},
             {label: '年度', name: 'year', width: 80, frozen: true},
             {
-                label: '公示编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.num==undefined) return '-'
-                var _num = "公示[{0}]{1}号".format(rowObject.year, rowObject.num)
+                label: '公示编号', name: '_num', width: 150, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.year==undefined || rowObject.num==undefined) return '-'
+                var _num = rowObject.code;
                 if(rowObject.pdfFilePath==undefined) return _num;
                 return $.swfPreview(rowObject.pdfFilePath, _num);
             }, frozen: true},
             {
                 label: '公示文件', width: 200, formatter: function (cellvalue, options, rowObject) {
 
-                var _num = "公示[{0}]{1}号".format(rowObject.year, rowObject.num)
+                var _num = rowObject.code
                 var ret = "-";
                 var pdfFilePath = rowObject.pdfFilePath;
                 if ($.trim(pdfFilePath) != '') {
                     //console.log(fileName + " =" + pdfFilePath.substr(pdfFilePath.indexOf(".")))
-                    ret = '<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
-                                    .format(encodeURI(pdfFilePath), _num);
+                    ret = '<button href="javascript:void(0)" data-url="${ctx}/swf/preview?path={0}&filename={1}"  title="PDF文件预览" class="popupBtn btn btn-xs btn-primary"><i class="fa fa-search"></i> 预览</button>'
+                                    .format(encodeURI(pdfFilePath), encodeURI(_num))
+                            + '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}" title="下载PDF文件" class="linkBtn btn btn-xs btn-warning"><i class="fa fa-file-pdf-o"></i> PDF</button>'
+                                    .format(encodeURI(pdfFilePath), encodeURI(_num));
                 }
                 var wordFilePath = rowObject.wordFilePath;
                 if ($.trim(wordFilePath) != '') {
@@ -135,8 +143,7 @@
                             .format(encodeURI(wordFilePath), _num);
                 }
                 return ret;
-            }
-            },
+            }},
             {
                 label: '党委常委会编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
                 //console.log(rowObject.holdDate)
@@ -144,22 +151,26 @@
                 return _num;
             }, frozen: true},
             {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '公示时间', name: '_publicDate', width: 220, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.publicStartDate==undefined) return '-'
-                return $.date(rowObject.publicStartDate, "yyyy-MM-dd") + "至" + $.date(rowObject.publicEndDate, "yyyy-MM-dd")
-            }},
             {label: '发布时间', name: 'publishDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '状态', name: 'isFinished', formatter: $.jgrid.formatter.TRUEFALSE,
-                formatoptions: {on: '公示结束', off:'正在公示'}},
-            <c:if test="${cls==2}">
-            {label: '确认', name: 'isConfirmed', formatter: function (cellvalue, options, rowObject) {
+            {label: '公示开始时间', name: 'publicStartDate', width: 140, formatter: 'date', formatoptions: {newformat: 'Y-m-d H:m'}},
+            {label: '公示结束时间', name: 'publicEndDate', width: 140, formatter: 'date', formatoptions: {newformat: 'Y-m-d H:m'}},
+            /*{label: '确认结束公示', name: 'isConfirmed', formatter: function (cellvalue, options, rowObject) {
+
+                if(!rowObject.isFinished) return '-'
+
                 if(cellvalue) return '已确认'
                 return ('<button class="confirm btn btn-primary btn-xs" ' +
                         'data-url="${ctx}/sc/scPublic_confirm?ids[]={0}" data-callback="_reload" data-msg="确认公示结束?">'+
                         '<i class="fa fa-check-square-o"></i> 确认</button>').format(rowObject.id);
-            }}
-            </c:if>
-        ]
+            }}*/
+        ],
+        rowattr: function(rowData, currentObj, rowId)
+        {
+            if(currentObj.isFinished && !currentObj.isConfirmed) {
+                //console.log(rowData)
+                return {'class':'danger'}
+            }
+        }
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");

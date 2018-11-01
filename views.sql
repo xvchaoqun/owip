@@ -184,10 +184,11 @@ left join cadre_view cv on cv.id = saa.cadre_id ;
 -- 文件起草签发
 DROP VIEW IF EXISTS `sc_dispatch_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_dispatch_view` AS
- select sd.*, dt.sort_order as dispatch_type_sort_order, sum(if(sdu.type=1, 1, 0)) as appoint_count,
+ select sd.*, d.id as dispatch_id, dt.sort_order as dispatch_type_sort_order, sum(if(sdu.type=1, 1, 0)) as appoint_count,
  sum(if(sdu.type=2, 1, 0))  as dismiss_count from sc_dispatch sd
 left join sc_dispatch_user sdu on sdu.dispatch_id=sd.id
 left join dispatch_type dt on sd.dispatch_type_id = dt.id
+left join dispatch d on d.sc_dispatch_id=sd.id
 group by sd.id ;
 
 -- 干部任前公示
@@ -590,14 +591,14 @@ DROP VIEW IF EXISTS `cis_inspector_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cis_inspector_view` AS
 select ci.*, uv.username, uv.code, uv.realname
 from cis_inspector ci left join sys_user_view uv on ci.user_id = uv.id;
-
 -- ----------------------------
 --  View definition for `cis_inspect_obj_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `cis_inspect_obj_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `cis_inspect_obj_view` AS
-select cio.* from cis_inspect_obj cio, base_meta_type bmt
-where cio.type_id=bmt.id order by cio.year desc, bmt.sort_order desc, cio.seq desc ;
+select cio.*, saa.id as archive_id from cis_inspect_obj cio
+left join sc_ad_archive saa on saa.obj_id=cio.id, base_meta_type bmt
+where cio.type_id=bmt.id order by cio.year desc, bmt.sort_order desc, cio.seq desc;
 -- ----------------------------
 --  View definition for `dispatch_cadre_view`
 -- ----------------------------

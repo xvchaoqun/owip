@@ -6,7 +6,6 @@ import domain.cis.CisInspectObjViewExample;
 import domain.cis.CisInspectorView;
 import domain.cis.CisObjInspector;
 import domain.cis.CisObjInspectorExample;
-import domain.unit.Unit;
 import freemarker.template.TemplateException;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,28 +22,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.CisConstants;
 import sys.constants.LogConstants;
-import sys.constants.SystemConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
-import sys.utils.FileUtils;
 import sys.utils.FormUtils;
 import sys.utils.JSONUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
 @Controller
 public class CisInspectObjController extends CisBaseController {
@@ -134,6 +128,13 @@ public class CisInspectObjController extends CisBaseController {
             }
         }
 
+        if (export == 1) {
+            if (ids != null && ids.length > 0)
+                criteria.andIdIn(Arrays.asList(ids));
+            cisInspectObjService.export(example, response);
+            return;
+        }
+
         long count = cisInspectObjViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
@@ -158,12 +159,11 @@ public class CisInspectObjController extends CisBaseController {
     @RequestMapping(value = "/cisInspectObj_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cisInspectObj_au(CisInspectObj record,
-                                   MultipartFile _logFile,
                                    HttpServletRequest request) {
 
         Integer id = record.getId();
 
-        if (_logFile != null) {
+        /*if (_logFile != null) {
             String ext = FileUtils.getExtention(_logFile.getOriginalFilename());
             if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
                return failed("文件格式错误，请上传pdf文件");
@@ -186,7 +186,7 @@ public class CisInspectObjController extends CisBaseController {
             }
 
             record.setLogFile(savePath);
-        }
+        }*/
 
         if (id == null) {
             if (record.getSeq() == null) {
@@ -227,13 +227,15 @@ public class CisInspectObjController extends CisBaseController {
 
     @RequiresPermissions("cisInspectObj:edit")
     @RequestMapping("/cisInspectObj_summary")
-    public String cisInspectObj_summary(Integer objId, ModelMap modelMap) {
+    public String cisInspectObj_summary(Integer objId,
+                                        ModelMap modelMap) {
 
         if (objId != null) {
+
             CisInspectObj cisInspectObj = cisInspectObjMapper.selectByPrimaryKey(objId);
             modelMap.put("cisInspectObj", cisInspectObj);
 
-            List<Unit> units = cisInspectObjService.getUnits(objId);
+            /*List<Unit> units = cisInspectObjService.getUnits(objId);
             Set<Integer> selectUnitIds = new HashSet<>();
             for (Unit unit : units) {
                 selectUnitIds.add(unit.getId());
@@ -246,11 +248,11 @@ public class CisInspectObjController extends CisBaseController {
             for (CisInspectorView inspector : inspectors) {
                 selectInspectorIds.add(inspector.getId());
             }
-            modelMap.put("selectInspectorIds", new ArrayList<>(selectInspectorIds));
+            modelMap.put("selectInspectorIds", new ArrayList<>(selectInspectorIds));*/
         }
 
 
-        List<Unit> runUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_RUN);
+        /*List<Unit> runUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_RUN);
         modelMap.put("runUnits", runUnits);
         List<Unit> historyUnits = unitService.findUnitByTypeAndStatus(null, SystemConstants.UNIT_STATUS_HISTORY);
         modelMap.put("historyUnits", historyUnits);
@@ -260,7 +262,7 @@ public class CisInspectObjController extends CisBaseController {
         List<CisInspectorView> historyInspectors = cisInspectorService.getInspectors(CisConstants.CIS_INSPECTOR_STATUS_HISTORY);
         modelMap.put("historyInspectors", historyInspectors);
         List<CisInspectorView> deleteInspectors = cisInspectorService.getInspectors(CisConstants.CIS_INSPECTOR_STATUS_DELETE);
-        modelMap.put("deleteInspectors", deleteInspectors);
+        modelMap.put("deleteInspectors", deleteInspectors);*/
 
 
         return "cis/cisInspectObj/cisInspectObj_summary";
@@ -270,10 +272,12 @@ public class CisInspectObjController extends CisBaseController {
     @RequestMapping(value = "/cisInspectObj_summary", method = RequestMethod.POST)
     @ResponseBody
     public Map do_cisInspectObj_summary(CisInspectObj record,
+                                        MultipartFile _logFile,
                                         @RequestParam(value = "unitIds[]", required = false) Integer[] unitIds,
                                         @RequestParam(value = "inspectorIds[]", required = false) Integer[] inspectorIds,
-                                   HttpServletRequest request) {
+                                   HttpServletRequest request) throws IOException, InterruptedException {
 
+        record.setLogFile(uploadPdf(_logFile, "cis"));
         cisInspectObjService.updateSummary( unitIds, inspectorIds, record);
         logger.info(addLog(LogConstants.LOG_ADMIN, "更新干部考察材料、考察单位、考察组成员：%s",record.getId()));
 
