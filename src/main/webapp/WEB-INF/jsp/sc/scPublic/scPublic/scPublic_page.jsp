@@ -44,7 +44,7 @@
                             <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>--%>
-                            <span style="padding-left: 15px;" class="red bolder">注：公示自动结束后10分钟内，系统会自动发送提醒</span>
+                            <span style="padding-left: 15px;" class="red bolder">注：公示自动结束后当天下午6点，系统会自动发送提醒</span>
                         </div>
                         <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">
