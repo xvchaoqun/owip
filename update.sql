@@ -30,6 +30,8 @@ ALTER TABLE `sc_committee_vote`
 
 更新 sc_committee_view  sc_committee_topic_view  sc_committee_vote_view   sc_committee_other_vote_view
 
+sc_committee_member_view
+
 ALTER TABLE `sc_committee_topic`
 	ADD COLUMN `memo` LONGTEXT NULL COMMENT '议题讨论备忘' AFTER `content`;
 
