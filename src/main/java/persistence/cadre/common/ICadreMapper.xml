@@ -70,7 +70,7 @@
             and (u.username like #{search} or u.realname like #{search} or u.code like #{search})
         </if>
         <if test="isCommitteeMember != null">
-            and c.is_committee_member = #{isCommitteeMember}
+            and if(!isnull(pcm.id), 1, 0)  = #{isCommitteeMember}
         </if>
         <if test="cadreStatusList!=null and cadreStatusList.size>0">
             and c.status in
@@ -81,12 +81,22 @@
         </if>
      </sql>
     <select id="selectCadreList" resultMap="persistence.cadre.CadreMapper.BaseResultMap" parameterType="map">
-        select c.* from cadre c, sys_user_view u where c.user_id= u.id
+        select c.* from cadre c
+        <if test="isCommitteeMember != null">
+        left join pcs_committee_member pcm on pcm.user_id=c.user_id and pcm.is_quit=0
+        left join base_meta_type pc_post on pcm.post=pc_post.id and pc_post.bool_attr=1
+        </if>
+        , sys_user_view u where c.user_id= u.id
         <include refid="cadreSearchSql" />
         order by c.sort_order desc
     </select>
     <select id="countCadreList" parameterType="map" resultType="java.lang.Integer">
-        select count(c.id) from cadre c, sys_user_view u where c.user_id= u.id
+        select count(c.id) from cadre c
+        <if test="isCommitteeMember != null">
+            left join pcs_committee_member pcm on pcm.user_id=c.user_id and pcm.is_quit=0
+            left join base_meta_type pc_post on pcm.post=pc_post.id and pc_post.bool_attr=1
+        </if>
+        , sys_user_view u where c.user_id= u.id
         <include refid="cadreSearchSql" />
     </select>
 

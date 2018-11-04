@@ -9,9 +9,13 @@ public class ScCommitteeTopicView implements Serializable {
 
     private Integer committeeId;
 
+    private Integer seq;
+
     private String name;
 
     private String content;
+
+    private String memo;
 
     private Boolean hasVote;
 
@@ -26,6 +30,8 @@ public class ScCommitteeTopicView implements Serializable {
     private Integer year;
 
     private Date holdDate;
+
+    private Integer committeeMemberCount;
 
     private BigDecimal count;
 
@@ -55,6 +61,14 @@ public class ScCommitteeTopicView implements Serializable {
         this.committeeId = committeeId;
     }
 
+    public Integer getSeq() {
+        return seq;
+    }
+
+    public void setSeq(Integer seq) {
+        this.seq = seq;
+    }
+
     public String getName() {
         return name;
     }
@@ -69,6 +83,14 @@ public class ScCommitteeTopicView implements Serializable {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo == null ? null : memo.trim();
     }
 
     public Boolean getHasVote() {
@@ -125,6 +147,14 @@ public class ScCommitteeTopicView implements Serializable {
 
     public void setHoldDate(Date holdDate) {
         this.holdDate = holdDate;
+    }
+
+    public Integer getCommitteeMemberCount() {
+        return committeeMemberCount;
+    }
+
+    public void setCommitteeMemberCount(Integer committeeMemberCount) {
+        this.committeeMemberCount = committeeMemberCount;
     }
 
     public BigDecimal getCount() {

@@ -250,6 +250,8 @@ import persistence.pcs.PcsAdminReportMapper;
 import persistence.pcs.PcsCandidateChosenMapper;
 import persistence.pcs.PcsCandidateMapper;
 import persistence.pcs.PcsCandidateViewMapper;
+import persistence.pcs.PcsCommitteeMemberMapper;
+import persistence.pcs.PcsCommitteeMemberViewMapper;
 import persistence.pcs.PcsConfigMapper;
 import persistence.pcs.PcsExcludeBranchMapper;
 import persistence.pcs.PcsIssueMapper;
@@ -1023,6 +1025,10 @@ public class BaseMapper {
     protected PcsCandidateChosenMapper pcsCandidateChosenMapper;
     @Autowired(required = false)
     protected PcsConfigMapper pcsConfigMapper;
+    @Autowired(required = false)
+    protected PcsCommitteeMemberMapper pcsCommitteeMemberMapper;
+    @Autowired(required = false)
+    protected PcsCommitteeMemberViewMapper pcsCommitteeMemberViewMapper;
     @Autowired(required = false)
     protected PcsRecommendMapper pcsRecommendMapper;
     @Autowired(required = false)

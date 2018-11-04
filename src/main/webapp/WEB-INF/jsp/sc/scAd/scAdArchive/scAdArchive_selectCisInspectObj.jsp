@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>生成干部考察材料</h3>
+    <h3>选择干部考察材料</h3>
 </div>
 <div class="modal-body rownumbers">
     <table id="jqGridPopup" class="table-striped"></table>
@@ -31,15 +31,20 @@
         colModel: [
             {
                 label: '编号', name: 'seq', formatter: function (cellvalue, options, rowObject) {
-                var type = _cMap.metaTypeMap[rowObject.typeId].name;
-                return type + "[" + rowObject.year + "]" + rowObject.seq + "号";
+
+                return ('<a href="javascript:;" class="linkBtn"'
+                +'data-url="${ctx}#/cisInspectObj?typeId={0}&year={1}&seq={2}"'
+                +'data-target="_blank">{3}</a>')
+                        .format(rowObject.typeId, rowObject.year, rowObject.seq, rowObject.sn)
 
             }, width: 180, frozen: true
             },
             {label: '考察日期', name: 'inspectDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
             {label: '工作证号', name: 'cadre.code', frozen: true},
             {label: '考察对象', name: 'cadre.realname', frozen: true},
-            {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 200}, {hidden: true, key: true, name: 'id'}
+            {label: '所在单位及职务', name: 'post', align: 'left', width: 300},
+            {label: '拟任职务', name: 'assignPost', align: 'left', width: 300},
+            {hidden: true, key: true, name: 'id'}
         ],
         gridComplete:function(){
             <c:if test="${selectedObjId>0}">

@@ -11,6 +11,7 @@ AS select u.*, ui.* from sys_user u left join sys_user_info ui on u.id=ui.user_i
 DROP VIEW IF EXISTS `cadre_view`;
 CREATE ALGORITHM = UNDEFINED DEFINER=`root`@`localhost` VIEW `cadre_view` AS
 SELECT c.*
+	,if(!isnull(pcm.id), 1, 0) as is_committee_member
 	,`uv`.`msg_title` AS `msg_title`
 	,`uv`.`mobile` AS `mobile`
 	,`uv`.`phone` AS `phone`
@@ -78,6 +79,8 @@ SELECT c.*
    ,_va.verify_birth as verify_birth
    ,_vwt.verify_work_time as verify_work_time
 FROM  cadre c
+left join pcs_committee_member pcm on pcm.user_id=c.user_id and pcm.is_quit=0
+left join base_meta_type pc_post on pcm.post=pc_post.id and pc_post.bool_attr=1
 left join cadre_party dp on dp.user_id= c.user_id and dp.type = 1
 left join cadre_party ow on ow.user_id= c.user_id and ow.type = 2
 LEFT JOIN `sys_user_view` `uv` ON `uv`.`user_id` = `c`.`user_id`

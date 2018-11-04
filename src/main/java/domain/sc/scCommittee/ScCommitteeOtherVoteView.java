@@ -22,6 +22,8 @@ public class ScCommitteeOtherVoteView implements Serializable {
 
     private Date holdDate;
 
+    private Integer committeeMemberCount;
+
     private Integer count;
 
     private Integer absentCount;
@@ -104,6 +106,14 @@ public class ScCommitteeOtherVoteView implements Serializable {
 
     public void setHoldDate(Date holdDate) {
         this.holdDate = holdDate;
+    }
+
+    public Integer getCommitteeMemberCount() {
+        return committeeMemberCount;
+    }
+
+    public void setCommitteeMemberCount(Integer committeeMemberCount) {
+        this.committeeMemberCount = committeeMemberCount;
     }
 
     public Integer getCount() {

@@ -253,6 +253,66 @@ public class ScCommitteeTopicViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andSeqIsNull() {
+            addCriterion("seq is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIsNotNull() {
+            addCriterion("seq is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqEqualTo(Integer value) {
+            addCriterion("seq =", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotEqualTo(Integer value) {
+            addCriterion("seq <>", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqGreaterThan(Integer value) {
+            addCriterion("seq >", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqGreaterThanOrEqualTo(Integer value) {
+            addCriterion("seq >=", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqLessThan(Integer value) {
+            addCriterion("seq <", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqLessThanOrEqualTo(Integer value) {
+            addCriterion("seq <=", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIn(List<Integer> values) {
+            addCriterion("seq in", values, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotIn(List<Integer> values) {
+            addCriterion("seq not in", values, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqBetween(Integer value1, Integer value2) {
+            addCriterion("seq between", value1, value2, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotBetween(Integer value1, Integer value2) {
+            addCriterion("seq not between", value1, value2, "seq");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;
@@ -390,6 +450,76 @@ public class ScCommitteeTopicViewExample {
 
         public Criteria andContentNotBetween(String value1, String value2) {
             addCriterion("content not between", value1, value2, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoIsNull() {
+            addCriterion("memo is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoIsNotNull() {
+            addCriterion("memo is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoEqualTo(String value) {
+            addCriterion("memo =", value, "memo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoNotEqualTo(String value) {
+            addCriterion("memo <>", value, "memo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoGreaterThan(String value) {
+            addCriterion("memo >", value, "memo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoGreaterThanOrEqualTo(String value) {
+            addCriterion("memo >=", value, "memo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoLessThan(String value) {
+            addCriterion("memo <", value, "memo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoLessThanOrEqualTo(String value) {
+            addCriterion("memo <=", value, "memo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoLike(String value) {
+            addCriterion("memo like", value, "memo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoNotLike(String value) {
+            addCriterion("memo not like", value, "memo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoIn(List<String> values) {
+            addCriterion("memo in", values, "memo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoNotIn(List<String> values) {
+            addCriterion("memo not in", values, "memo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoBetween(String value1, String value2) {
+            addCriterion("memo between", value1, value2, "memo");
+            return (Criteria) this;
+        }
+
+        public Criteria andMemoNotBetween(String value1, String value2) {
+            addCriterion("memo not between", value1, value2, "memo");
             return (Criteria) this;
         }
 
@@ -830,6 +960,66 @@ public class ScCommitteeTopicViewExample {
 
         public Criteria andHoldDateNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("hold_date not between", value1, value2, "holdDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountIsNull() {
+            addCriterion("committee_member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountIsNotNull() {
+            addCriterion("committee_member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountEqualTo(Integer value) {
+            addCriterion("committee_member_count =", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountNotEqualTo(Integer value) {
+            addCriterion("committee_member_count <>", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountGreaterThan(Integer value) {
+            addCriterion("committee_member_count >", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("committee_member_count >=", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountLessThan(Integer value) {
+            addCriterion("committee_member_count <", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("committee_member_count <=", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountIn(List<Integer> values) {
+            addCriterion("committee_member_count in", values, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountNotIn(List<Integer> values) {
+            addCriterion("committee_member_count not in", values, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("committee_member_count between", value1, value2, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("committee_member_count not between", value1, value2, "committeeMemberCount");
             return (Criteria) this;
         }
 

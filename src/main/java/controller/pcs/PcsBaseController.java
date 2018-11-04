@@ -4,6 +4,7 @@ import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import service.pcs.PcsAdminService;
 import service.pcs.PcsCandidateService;
+import service.pcs.PcsCommitteeMemberService;
 import service.pcs.PcsConfigService;
 import service.pcs.PcsExportService;
 import service.pcs.PcsOwService;
@@ -38,6 +39,8 @@ public class PcsBaseController extends BaseController {
     protected PcsCandidateService pcsCandidateService;
     @Autowired
     protected PcsConfigService pcsConfigService;
+    @Autowired
+    protected PcsCommitteeMemberService pcsCommitteeMemberService;
     @Autowired
     protected PcsRecommendService pcsRecommendService;
     @Autowired

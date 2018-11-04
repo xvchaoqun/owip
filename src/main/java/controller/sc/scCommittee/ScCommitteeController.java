@@ -50,8 +50,6 @@ public class ScCommitteeController extends ScCommitteeBaseController {
     @RequestMapping("/scCommittee")
     public String scCommittee(@RequestParam(defaultValue = "1") Integer cls, ModelMap modelMap) {
 
-        modelMap.put("committeeMemberCount", cadreService.countCommitteeMember());
-
         modelMap.put("cls", cls);
         if (cls == 2) {
             return "forward:/sc/scCommitteeTopic";
@@ -68,7 +66,7 @@ public class ScCommitteeController extends ScCommitteeBaseController {
     @RequestMapping("/scCommittee_data")
     public void scCommittee_data(HttpServletResponse response,
                                     Integer year,
-                                 @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date holdDate,
+                                 @DateTimeFormat(pattern = DateUtils.YYYYMMDD) Date holdDate,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -83,7 +81,7 @@ public class ScCommitteeController extends ScCommitteeBaseController {
 
         ScCommitteeViewExample example = new ScCommitteeViewExample();
         ScCommitteeViewExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
-        example.setOrderByClause("id desc");
+        example.setOrderByClause("hold_date desc, id desc");
 
         if (year!=null) {
             criteria.andYearEqualTo(year);
@@ -127,15 +125,12 @@ public class ScCommitteeController extends ScCommitteeBaseController {
 
         String originalFilename = file.getOriginalFilename();
         String ext = FileUtils.getExtention(originalFilename);
-        /*if (!StringUtils.equalsIgnoreCase(ext, ".ppt")
-                && !ContentTypeUtils.isFormat(file, "ppt")) {
-            throw new OpException("文件格式错误，请上传ppt文件");
-        }*/
-        if (!StringUtils.equalsIgnoreCase(ext, ".ppt") && !StringUtils.equalsIgnoreCase(ext, ".pptx")) {
-            return failed("文件格式错误，请上传ppt文件");
+
+        if (!StringUtils.equalsIgnoreCase(ext, ".pdf")) {
+            return failed("文件格式错误，请上传pdf文件");
         }
 
-        String savePath = uploadDoc(file, "scCommittee");
+        String savePath = uploadPdf(file, "scCommittee");
 
         Map<String, Object> resultMap = success();
         //resultMap.put("fileName", file.getOriginalFilename());
@@ -150,11 +145,13 @@ public class ScCommitteeController extends ScCommitteeBaseController {
     public Map do_scCommittee_au(ScCommittee record,
                                  String items,
                                  MultipartFile _logFile,
+                                 MultipartFile _pptFile,
                                  HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
         List<ScCommitteeMember> scCommitteeMembers = GsonUtils.toBeans(items, ScCommitteeMember.class);
         record.setLogFile(uploadPdf(_logFile, "scCommittee-log"));
+        record.setPptFile(upload(_pptFile, "scCommittee-ppt"));
         if (id == null) {
             scCommitteeService.insertSelective(record, scCommitteeMembers);
             logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "添加党委常委会：%s", record.getId()));
@@ -176,11 +173,27 @@ public class ScCommitteeController extends ScCommitteeBaseController {
             modelMap.put("scCommittee", scCommittee);
 
             if(scCommittee!=null){
+                modelMap.put("committeeMemberCount", scCommittee.getCommitteeMemberCount());
 
+                // 已选常委
                 List<ScCommitteeMemberView> memberUserList = scCommitteeService.getMemberList(id, null);
                 modelMap.put("memberUserList", memberUserList);
+                /*List<Integer> selectUserIds = new ArrayList<>();
+                List<Integer> selectAbsentUserIds = new ArrayList<>();
+                for (ScCommitteeMemberView m : memberUserList) {
+                    if(m.getIsAbsent()){
+                     selectAbsentUserIds.add(m.getUserId());
+                    }else {
+                        selectUserIds.add(m.getUserId());
+                    }
+                }
+                modelMap.put("selectUserIds", memberUserList);
+                modelMap.put("selectAbsentUserIds", memberUserList);*/
             }
+        }else{
+            modelMap.put("committeeMemberCount", cadreService.countCommitteeMember());
         }
+        modelMap.put("committeeMembers", cadreService.committeeMembers());
 
         return "sc/scCommittee/scCommittee/scCommittee_au";
     }

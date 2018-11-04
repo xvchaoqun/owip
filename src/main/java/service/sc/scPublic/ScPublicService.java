@@ -173,6 +173,9 @@ public class ScPublicService extends BaseMapper {
                 .andPublicEndDateBetween(todayStart, now);
 
         scPublicMapper.updateByExampleSelective(record, example);
+
+        // 发送短信
+        autoFinishMsg();
     }
 
     // 公示结束没有“确认”之前， 每天上午8:30， 下午2:30反复发短信提醒。

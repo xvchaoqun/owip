@@ -96,7 +96,7 @@
         colModel:[
             {label: '年份', name: 'year', width: 80, frozen: true},
             {
-                label: '编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
+                label: '党委常委会', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
                 //console.log(rowObject.holdDate)
                 var _num = "党委常委会[{0}]号".format($.date(rowObject.holdDate, "yyyyMMdd"))
                 if($.trim(rowObject.filePath)=='') return _num;
@@ -118,9 +118,7 @@
                         .format(rowObject.id);
             }
             },
-            { label: '常委总数',name: '_total', formatter:function(){
-                return '${committeeMemberCount}';
-            }},
+            { label: '常委总数',name: 'committeeMemberCount'},
             { label: '应参会常委数',name: '_total', formatter: function (cellvalue, options, rowObject) {
                 return rowObject.count + rowObject.absentCount;
             }},

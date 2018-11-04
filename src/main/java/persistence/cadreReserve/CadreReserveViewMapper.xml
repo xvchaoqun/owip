@@ -13,13 +13,13 @@
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
     <result column="post_id" jdbcType="INTEGER" property="postId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
-    <result column="is_committee_member" jdbcType="BIT" property="isCommitteeMember" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="dispatch_cadre_id" jdbcType="INTEGER" property="dispatchCadreId" />
     <result column="post" jdbcType="VARCHAR" property="post" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="is_committee_member" jdbcType="BOOLEAN" property="isCommitteeMember" />
     <result column="msg_title" jdbcType="VARCHAR" property="msgTitle" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
@@ -133,9 +133,9 @@
   </sql>
   <sql id="Base_Column_List">
     reserve_id, reserve_type, reserve_status, reserve_remark, reserve_sort_order, username, 
-    id, user_id, type_id, post_id, unit_id, is_committee_member, title, dispatch_cadre_id, 
-    post, remark, sort_order, status, msg_title, mobile, phone, home_phone, email, code, 
-    realname, gender, nation, native_place, idcard, birth, party_id, branch_id, member_status, 
+    id, user_id, type_id, post_id, unit_id, title, dispatch_cadre_id, post, remark, sort_order, 
+    status, is_committee_member, msg_title, mobile, phone, home_phone, email, code, realname, 
+    gender, nation, native_place, idcard, birth, party_id, branch_id, member_status, 
     dp_id, dp_type_id, dp_post, dp_grow_time, dp_remark, ow_id, is_ow, ow_grow_time, 
     ow_remark, edu_id, finish_time, learn_style, school, dep, school_type, major, degree, 
     post_class, sub_post_class, main_post_level, pro_post_time, pro_post_level, pro_post_level_time, 

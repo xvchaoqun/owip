@@ -5,7 +5,7 @@
     <a href="${ctx}/pcsPrOw_export?file=7&stage=${param.stage}">
         <i class="fa fa-download"></i> 导出：全校党员参与推荐代表候选人情况统计表</a>
     <div class="space-4"></div>
-    <table class="table table-bordered table-striped" data-offset-top="101">
+    <table class="table table-bordered table-striped" data-offset-top="132">
         <thead class="multi">
         <tr>
             <th width="40" rowspan="2">序号</th>

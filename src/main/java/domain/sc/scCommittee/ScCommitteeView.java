@@ -21,7 +21,11 @@ public class ScCommitteeView implements Serializable {
 
     private Integer topicNum;
 
+    private Integer committeeMemberCount;
+
     private String logFile;
+
+    private String pptFile;
 
     private String attendUsers;
 
@@ -75,12 +79,28 @@ public class ScCommitteeView implements Serializable {
         this.topicNum = topicNum;
     }
 
+    public Integer getCommitteeMemberCount() {
+        return committeeMemberCount;
+    }
+
+    public void setCommitteeMemberCount(Integer committeeMemberCount) {
+        this.committeeMemberCount = committeeMemberCount;
+    }
+
     public String getLogFile() {
         return logFile;
     }
 
     public void setLogFile(String logFile) {
         this.logFile = logFile == null ? null : logFile.trim();
+    }
+
+    public String getPptFile() {
+        return pptFile;
+    }
+
+    public void setPptFile(String pptFile) {
+        this.pptFile = pptFile == null ? null : pptFile.trim();
     }
 
     public String getAttendUsers() {

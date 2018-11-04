@@ -7,8 +7,6 @@ import domain.sc.scCommittee.ScCommitteeVote;
 import domain.sc.scCommittee.ScCommitteeVoteExample;
 import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scCommittee.ScCommitteeVoteViewExample;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -70,10 +68,10 @@ public class ScCommitteeVoteController extends ScCommitteeBaseController {
     @RequiresPermissions("scCommitteeVote:list")
     @RequestMapping("/scCommitteeVote_data")
     public void scCommitteeVote_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "sc_committee_vote") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
+                                     String name,
                                     Integer topicId,
                                     Integer cadreId,
+                                     Byte type,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -88,10 +86,16 @@ public class ScCommitteeVoteController extends ScCommitteeBaseController {
 
         ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
         ScCommitteeVoteViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("hold_date desc, seq asc, id asc");
 
+        if(StringUtils.isNotBlank(name)){
+            criteria.andNameLike("%"+name+"%");
+        }
         if (topicId!=null) {
             criteria.andTopicIdEqualTo(topicId);
+        }
+        if (type!=null) {
+            criteria.andTypeEqualTo(type);
         }
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);
@@ -146,8 +150,6 @@ public class ScCommitteeVoteController extends ScCommitteeBaseController {
             modelMap.put("scCommitteeVotes", scCommitteeVotes);
         }
 
-        modelMap.put("committeeMemberCount", cadreService.countCommitteeMember());
-
         return "sc/scCommittee/scCommitteeVote/scCommitteeVote_au_form";
     }
 
@@ -186,7 +188,7 @@ public class ScCommitteeVoteController extends ScCommitteeBaseController {
     @RequiresPermissions("scCommitteeVote:del")
     @RequestMapping(value = "/scCommitteeVote_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
+    public Map scCommitteeVote_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
 
 
         if (null != ids && ids.length>0){
@@ -228,7 +230,7 @@ public class ScCommitteeVoteController extends ScCommitteeBaseController {
                             record.getPostId()+"",
                             record.getAdminLevelId()+"",
                             record.getUnitId()+"",
-                            record.getAggreeCount()+"",
+                            record.getAgreeCount()+"",
                             record.getRemark(),
                             record.getSortOrder()+""
             };

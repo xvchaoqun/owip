@@ -17,7 +17,7 @@
         <i class="fa fa-download"></i> 党代表数据统计表</a>
   </c:if>
       <div class="space-4"></div>
-      <table class="table table-bordered table-striped" data-offset-top="101">
+      <table class="table table-bordered table-striped" data-offset-top="132">
         <thead>
         <tr>
           <th width="40" rowspan="2">序号</th>

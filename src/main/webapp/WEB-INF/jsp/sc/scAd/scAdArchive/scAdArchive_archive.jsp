@@ -15,24 +15,24 @@ pageEncoding="UTF-8"%>
                         ${cm:getCadreById(scAdArchive.cadreId).realname}
 				</div>
 			</div>
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-5 control-label">干部任免审批表(word文档)</label>
 				<div class="col-xs-6">
 					<input class="form-control" type="file" name="_filePath"/>
 				</div>
-			</div>
+			</div>--%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">干部任免审批表签字扫描件</label>
 				<div class="col-xs-6">
 					<input class="form-control" type="file" name="_signFilePath"/>
 				</div>
 			</div>
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-5 control-label">干部考察材料(word文档)</label>
 				<div class="col-xs-6">
 					<input class="form-control" type="file" name="_cisFilePath"/>
 				</div>
-			</div>
+			</div>--%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">干部考察材料签字扫描件</label>
 				<div class="col-xs-6">

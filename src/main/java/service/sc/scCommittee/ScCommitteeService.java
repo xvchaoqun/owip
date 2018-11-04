@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
-import service.sys.SysUserService;
+import service.cadre.CadreService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
 public class ScCommitteeService extends BaseMapper {
 
     @Autowired
-    private SysUserService sysUserService;
+    private CadreService cadreService;
 
     public List<ScCommittee> findAll(){
 
@@ -55,6 +55,8 @@ public class ScCommitteeService extends BaseMapper {
 
     @Transactional
     public void insertSelective(ScCommittee record, List<ScCommitteeMember> scCommitteeMembers){
+
+        record.setCommitteeMemberCount(cadreService.countCommitteeMember());
 
         scCommitteeMapper.insertSelective(record);
 

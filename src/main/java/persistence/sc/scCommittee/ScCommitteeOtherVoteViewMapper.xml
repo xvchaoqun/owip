@@ -11,6 +11,7 @@
     <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="hold_date" jdbcType="DATE" property="holdDate" />
+    <result column="committee_member_count" jdbcType="INTEGER" property="committeeMemberCount" />
     <result column="count" jdbcType="INTEGER" property="count" />
     <result column="absent_count" jdbcType="INTEGER" property="absentCount" />
     <result column="attend_users" jdbcType="VARCHAR" property="attendUsers" />
@@ -47,8 +48,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, topic_id, memo, remark, name, content, committee_id, year, hold_date, count, 
-    absent_count, attend_users, file_path, log_file
+    id, topic_id, memo, remark, name, content, committee_id, year, hold_date, committee_member_count, 
+    count, absent_count, attend_users, file_path, log_file
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeOtherVoteViewExample" resultMap="BaseResultMap">
     select

@@ -351,7 +351,7 @@
 
                 return filesArray.join("，");
             }
-        }, {label: '备注', name: 'remark', width: 180, align:'left'}, {label: '补充说明', name: 'note', width: 180}, {hidden: true, name: 'id'}];
+        }, {label: '备注', name: 'remark', width: 180, align:'left'}, {label: '补充说明', name: 'note', width: 180}, {hidden: true, key: true, name: 'id'}];
 
     colModels.cadreBook = [
         {label: '出版日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
@@ -362,7 +362,7 @@
             return _cMap.CADRE_BOOK_TYPE_MAP[cellvalue]
         }
         },
-        {label: '备注', name: 'remark', width: 350, align:'left'}, {hidden: true, name: 'id'}
+        {label: '备注', name: 'remark', width: 350, align:'left'}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadreWork = [
@@ -382,7 +382,7 @@
             return  _.template($("#dispatch_select_tpl").html().NoMultiSpace())
             ({id: rowObject.id, cadreId: rowObject.cadreId, count: count});
         }, width: 120
-        }, {hidden: true, name: 'id'}
+        }, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadrePaper = [
@@ -396,7 +396,7 @@
             return $.swfPreview(rowObject.filePath, rowObject.fileName, "预览");
         }
         },
-        {label: '备注', name: 'remark', width: 150, align:'left'}, {hidden: true, name: 'id'}
+        {label: '备注', name: 'remark', width: 150, align:'left'}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadreReward = [
@@ -430,7 +430,7 @@
             if(!rowObject.isIndependent && $.trim(rowObject.rank)=='')
                 return "class='danger'";
         }},
-        {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
+        {label: '备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadreResearch = [
@@ -453,7 +453,7 @@
         {label: '项目名称', name: 'name', width: 450, align:'left'},
         {label: '项目类型', name: 'type', width: 400, align:'left'},
         {label: '委托单位', name: 'unit', width: 300, align:'left'},
-        {label: '备注', name: 'remark', width: 250}, {hidden: true, name: 'id'}
+        {label: '备注', name: 'remark', width: 250}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadreParttime = [
@@ -461,7 +461,7 @@
         {label: '结束时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, frozen: true},
         {label: '兼职单位', name: 'unit', width: 380, align:'left'},
         {label: '兼任职务', name: 'post', width: 280, align:'left'},
-        {label: '备注', name: 'remark', width: 150, align:'left'}, {hidden: true, name: 'id'}
+        {label: '备注', name: 'remark', width: 150, align:'left'}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadrePostPro = [
@@ -474,7 +474,7 @@
         {label: '专技职务任职时间', name: 'holdTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
         {label: '专技岗位等级', name: 'level', width: 160, formatter: $.jgrid.formatter.MetaType},
         {label: '专技岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-        {label: '专技岗位备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
+        {label: '专技岗位备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadrePostAdmin = [
@@ -483,7 +483,7 @@
         }},
         {label: '管理岗位等级', name: 'level', width: 150, formatter: $.jgrid.formatter.MetaType},
         {label: '管理岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-        {label: '管理岗位备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
+        {label: '管理岗位备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadrePostWork = [
@@ -492,7 +492,7 @@
         }},
         {label: '工勤岗位等级', name: 'level', width: 150, formatter: $.jgrid.formatter.MetaType},
         {label: '工勤岗位分级时间', name: 'gradeTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-        {label: '工勤岗位备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
+        {label: '工勤岗位备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadreTrain = [
@@ -500,7 +500,7 @@
         {label: '结束时间', name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y.m.d'}, frozen: true},
         {label: '培训内容', name: 'content', width: 550, align:'left'},
         {label: '主办单位', name: 'unit', width: 280},
-        {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
+        {label: '备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadreFamily = [
@@ -519,7 +519,7 @@
                 return "class='danger'";
         }},
         {label: '政治面貌', name: 'politicalStatus', formatter: $.jgrid.formatter.MetaType},
-        {label: '工作单位及职务', name: 'unit', width: 650, align:"left"}, {hidden: true, name: 'id'}
+        {label: '工作单位及职务', name: 'unit', width: 650, align:"left"}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadreFamilyAbroad = [
@@ -535,7 +535,7 @@
         {label: '移居国家', name: 'country', width: 200},
         {label: '移居类别', name: 'type', formatter: $.jgrid.formatter.MetaType},
         {label: '移居时间', name: 'abroadTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}},
-        {label: '现居住城市', name: 'city', width: 150}, {hidden: true, name: 'id'}
+        {label: '现居住城市', name: 'city', width: 150}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadreCourse = [
@@ -551,7 +551,7 @@
             formatoptions:{grid:'#jqGrid_cadreCourse', url: "${ctx}/cadreCourse_changeOrder?cadreId=${param.cadreId}"}, frozen: true
         },
         </c:if>
-        {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
+        {label: '备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cadreCompany = [
@@ -591,7 +591,7 @@
                 return $.swfPreview(rowObject.paper, rowObject.paperFilename, "预览");
             }
         },
-        {label: '备注', name: 'remark', width: 350}, {hidden: true, name: 'id'}
+        {label: '备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
     ];
 
     colModels.cisInspectObj = [
@@ -646,7 +646,7 @@
         }, width: 150
         },
         {
-            label: '考察原始记录', width: 150, formatter: function (cellvalue, options, rowObject) {
+            label: '考察原始记录', formatter: function (cellvalue, options, rowObject) {
 
             var ret = "-";
             var logFile = rowObject.logFile;
@@ -654,7 +654,7 @@
 
                 var code =  _cMap.metaTypeMap[rowObject.typeId].name + "[" + rowObject.year + "]" + rowObject.seq + "号";
                 var fileName = code + "考察原始记录.pdf";
-                ret = $.swfPreview(logFile, fileName, "预览");
+                ret = $.swfPreview(logFile, fileName, '<button class="btn btn-xs btn-warning"><i class="fa fa-search"></i> 预览</button>');
             }
 
             return ret;

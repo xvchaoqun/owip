@@ -70,7 +70,7 @@ public class ScCommitteeTopicController extends ScCommitteeBaseController {
 
         ScCommitteeTopicViewExample example = new ScCommitteeTopicViewExample();
         ScCommitteeTopicViewExample.Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
-        example.setOrderByClause("id asc");
+        example.setOrderByClause("hold_date desc, committee_id desc, seq asc, id asc");
 
         if (committeeId!=null) {
             criteria.andCommitteeIdEqualTo(committeeId);
@@ -111,12 +111,20 @@ public class ScCommitteeTopicController extends ScCommitteeBaseController {
 
         Integer id = record.getId();
 
+        if(record.getSeq() != null && scCommitteeTopicService.idDuplicate
+                (id, record.getCommitteeId(), record.getSeq())){
+            return failed("议题序号重复");
+        }
+
         record.setHasVote(BooleanUtils.isTrue(record.getHasVote()));
         record.setHasOtherVote(BooleanUtils.isTrue(record.getHasOtherVote()));
 
         record.setContent(HtmlUtils.htmlUnescape(record.getContent()));
         record.setVoteFilePath(uploadPdf(_voteFilePath, "scCommitteeTopic-vote"));
         if (id == null) {
+            if (record.getSeq() == null)
+                record.setSeq(scCommitteeTopicService.genSeq(record.getCommitteeId()));
+
             scCommitteeTopicService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "添加党委常委会议题：%s", record.getId()));
         } else {

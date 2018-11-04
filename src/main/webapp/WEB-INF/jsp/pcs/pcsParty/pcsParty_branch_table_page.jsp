@@ -10,7 +10,7 @@
             <a href="${ctx}/pcsParty_export?file=3&stage=${param.stage}" >
                 <i class="fa fa-download"></i> 参加两委委员候选人推荐提名情况汇总表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
             <div class="space-4"></div>
-            <table class="table table-bordered table-striped"  data-offset-top="101">
+            <table class="table table-bordered table-striped"  data-offset-top="132">
             <thead>
             <tr>
                 <th width="50">序号</th>

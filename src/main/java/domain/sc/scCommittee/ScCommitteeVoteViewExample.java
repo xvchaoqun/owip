@@ -932,63 +932,183 @@ public class ScCommitteeVoteViewExample {
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountIsNull() {
-            addCriterion("aggree_count is null");
+        public Criteria andAgreeCountIsNull() {
+            addCriterion("agree_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountIsNotNull() {
-            addCriterion("aggree_count is not null");
+        public Criteria andAgreeCountIsNotNull() {
+            addCriterion("agree_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountEqualTo(Integer value) {
-            addCriterion("aggree_count =", value, "aggreeCount");
+        public Criteria andAgreeCountEqualTo(Integer value) {
+            addCriterion("agree_count =", value, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountNotEqualTo(Integer value) {
-            addCriterion("aggree_count <>", value, "aggreeCount");
+        public Criteria andAgreeCountNotEqualTo(Integer value) {
+            addCriterion("agree_count <>", value, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountGreaterThan(Integer value) {
-            addCriterion("aggree_count >", value, "aggreeCount");
+        public Criteria andAgreeCountGreaterThan(Integer value) {
+            addCriterion("agree_count >", value, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("aggree_count >=", value, "aggreeCount");
+        public Criteria andAgreeCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("agree_count >=", value, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountLessThan(Integer value) {
-            addCriterion("aggree_count <", value, "aggreeCount");
+        public Criteria andAgreeCountLessThan(Integer value) {
+            addCriterion("agree_count <", value, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountLessThanOrEqualTo(Integer value) {
-            addCriterion("aggree_count <=", value, "aggreeCount");
+        public Criteria andAgreeCountLessThanOrEqualTo(Integer value) {
+            addCriterion("agree_count <=", value, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountIn(List<Integer> values) {
-            addCriterion("aggree_count in", values, "aggreeCount");
+        public Criteria andAgreeCountIn(List<Integer> values) {
+            addCriterion("agree_count in", values, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountNotIn(List<Integer> values) {
-            addCriterion("aggree_count not in", values, "aggreeCount");
+        public Criteria andAgreeCountNotIn(List<Integer> values) {
+            addCriterion("agree_count not in", values, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountBetween(Integer value1, Integer value2) {
-            addCriterion("aggree_count between", value1, value2, "aggreeCount");
+        public Criteria andAgreeCountBetween(Integer value1, Integer value2) {
+            addCriterion("agree_count between", value1, value2, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("aggree_count not between", value1, value2, "aggreeCount");
+        public Criteria andAgreeCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("agree_count not between", value1, value2, "agreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountIsNull() {
+            addCriterion("abstain_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountIsNotNull() {
+            addCriterion("abstain_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountEqualTo(Integer value) {
+            addCriterion("abstain_count =", value, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountNotEqualTo(Integer value) {
+            addCriterion("abstain_count <>", value, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountGreaterThan(Integer value) {
+            addCriterion("abstain_count >", value, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("abstain_count >=", value, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountLessThan(Integer value) {
+            addCriterion("abstain_count <", value, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountLessThanOrEqualTo(Integer value) {
+            addCriterion("abstain_count <=", value, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountIn(List<Integer> values) {
+            addCriterion("abstain_count in", values, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountNotIn(List<Integer> values) {
+            addCriterion("abstain_count not in", values, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountBetween(Integer value1, Integer value2) {
+            addCriterion("abstain_count between", value1, value2, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("abstain_count not between", value1, value2, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountIsNull() {
+            addCriterion("disagree_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountIsNotNull() {
+            addCriterion("disagree_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountEqualTo(Integer value) {
+            addCriterion("disagree_count =", value, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountNotEqualTo(Integer value) {
+            addCriterion("disagree_count <>", value, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountGreaterThan(Integer value) {
+            addCriterion("disagree_count >", value, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("disagree_count >=", value, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountLessThan(Integer value) {
+            addCriterion("disagree_count <", value, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountLessThanOrEqualTo(Integer value) {
+            addCriterion("disagree_count <=", value, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountIn(List<Integer> values) {
+            addCriterion("disagree_count in", values, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountNotIn(List<Integer> values) {
+            addCriterion("disagree_count not in", values, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountBetween(Integer value1, Integer value2) {
+            addCriterion("disagree_count between", value1, value2, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("disagree_count not between", value1, value2, "disagreeCount");
             return (Criteria) this;
         }
 
@@ -1192,6 +1312,66 @@ public class ScCommitteeVoteViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andSeqIsNull() {
+            addCriterion("seq is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIsNotNull() {
+            addCriterion("seq is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqEqualTo(Integer value) {
+            addCriterion("seq =", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotEqualTo(Integer value) {
+            addCriterion("seq <>", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqGreaterThan(Integer value) {
+            addCriterion("seq >", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqGreaterThanOrEqualTo(Integer value) {
+            addCriterion("seq >=", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqLessThan(Integer value) {
+            addCriterion("seq <", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqLessThanOrEqualTo(Integer value) {
+            addCriterion("seq <=", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIn(List<Integer> values) {
+            addCriterion("seq in", values, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotIn(List<Integer> values) {
+            addCriterion("seq not in", values, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqBetween(Integer value1, Integer value2) {
+            addCriterion("seq between", value1, value2, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotBetween(Integer value1, Integer value2) {
+            addCriterion("seq not between", value1, value2, "seq");
+            return (Criteria) this;
+        }
+
         public Criteria andContentIsNull() {
             addCriterion("content is null");
             return (Criteria) this;
@@ -1322,6 +1502,76 @@ public class ScCommitteeVoteViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andVoteFilePathIsNull() {
+            addCriterion("vote_file_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathIsNotNull() {
+            addCriterion("vote_file_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathEqualTo(String value) {
+            addCriterion("vote_file_path =", value, "voteFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathNotEqualTo(String value) {
+            addCriterion("vote_file_path <>", value, "voteFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathGreaterThan(String value) {
+            addCriterion("vote_file_path >", value, "voteFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathGreaterThanOrEqualTo(String value) {
+            addCriterion("vote_file_path >=", value, "voteFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathLessThan(String value) {
+            addCriterion("vote_file_path <", value, "voteFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathLessThanOrEqualTo(String value) {
+            addCriterion("vote_file_path <=", value, "voteFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathLike(String value) {
+            addCriterion("vote_file_path like", value, "voteFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathNotLike(String value) {
+            addCriterion("vote_file_path not like", value, "voteFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathIn(List<String> values) {
+            addCriterion("vote_file_path in", values, "voteFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathNotIn(List<String> values) {
+            addCriterion("vote_file_path not in", values, "voteFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathBetween(String value1, String value2) {
+            addCriterion("vote_file_path between", value1, value2, "voteFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVoteFilePathNotBetween(String value1, String value2) {
+            addCriterion("vote_file_path not between", value1, value2, "voteFilePath");
+            return (Criteria) this;
+        }
+
         public Criteria andYearIsNull() {
             addCriterion("year is null");
             return (Criteria) this;
@@ -1439,6 +1689,66 @@ public class ScCommitteeVoteViewExample {
 
         public Criteria andHoldDateNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("hold_date not between", value1, value2, "holdDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountIsNull() {
+            addCriterion("committee_member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountIsNotNull() {
+            addCriterion("committee_member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountEqualTo(Integer value) {
+            addCriterion("committee_member_count =", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountNotEqualTo(Integer value) {
+            addCriterion("committee_member_count <>", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountGreaterThan(Integer value) {
+            addCriterion("committee_member_count >", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("committee_member_count >=", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountLessThan(Integer value) {
+            addCriterion("committee_member_count <", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("committee_member_count <=", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountIn(List<Integer> values) {
+            addCriterion("committee_member_count in", values, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountNotIn(List<Integer> values) {
+            addCriterion("committee_member_count not in", values, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("committee_member_count between", value1, value2, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("committee_member_count not between", value1, value2, "committeeMemberCount");
             return (Criteria) this;
         }
 

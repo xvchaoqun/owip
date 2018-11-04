@@ -4,11 +4,11 @@
 	<div class="dispatch">
 		<div class="widget-box">
 			<div class="widget-header">
-				<h4 class="smaller">
-					常委会文件预览
+				<h4 class="widget-title">
+					常委会PPT预览
 					<div class="buttons pull-right ">
 						<a href="javascript:;" class="hideView btn btn-xs btn-success"
-						   style="margin-right: 10px; top: -5px;">
+						   style="top: -5px;">
 							<i class="ace-icon fa fa-backward"></i>
 							返回</a>
 					</div>

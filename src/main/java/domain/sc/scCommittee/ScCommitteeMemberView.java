@@ -19,6 +19,10 @@ public class ScCommitteeMemberView implements Serializable {
 
     private String realname;
 
+    private Integer cadreId;
+
+    private String title;
+
     private String post;
 
     private static final long serialVersionUID = 1L;
@@ -85,6 +89,22 @@ public class ScCommitteeMemberView implements Serializable {
 
     public void setRealname(String realname) {
         this.realname = realname == null ? null : realname.trim();
+    }
+
+    public Integer getCadreId() {
+        return cadreId;
+    }
+
+    public void setCadreId(Integer cadreId) {
+        this.cadreId = cadreId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     public String getPost() {

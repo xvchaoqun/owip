@@ -712,6 +712,66 @@ public class ScCommitteeOtherVoteViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andCommitteeMemberCountIsNull() {
+            addCriterion("committee_member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountIsNotNull() {
+            addCriterion("committee_member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountEqualTo(Integer value) {
+            addCriterion("committee_member_count =", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountNotEqualTo(Integer value) {
+            addCriterion("committee_member_count <>", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountGreaterThan(Integer value) {
+            addCriterion("committee_member_count >", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("committee_member_count >=", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountLessThan(Integer value) {
+            addCriterion("committee_member_count <", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("committee_member_count <=", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountIn(List<Integer> values) {
+            addCriterion("committee_member_count in", values, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountNotIn(List<Integer> values) {
+            addCriterion("committee_member_count not in", values, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("committee_member_count between", value1, value2, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("committee_member_count not between", value1, value2, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
         public Criteria andCountIsNull() {
             addCriterion("count is null");
             return (Criteria) this;

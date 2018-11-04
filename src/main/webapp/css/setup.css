@@ -202,6 +202,13 @@ body {
     border-width: 0 1px 0 0;
 }
 
+.ace-file-multiple .ace-file-container .ace-file-name.large:after{
+    display: none!important;
+}
+.ace-file-multiple .ace-file-container .ace-file-name.large{
+    border-bottom: none!important;
+}
+
 /**skin**/
 .skin-1 .navbar {
     background: #222a2d;

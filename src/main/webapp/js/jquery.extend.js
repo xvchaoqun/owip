@@ -1273,7 +1273,7 @@ $.extend($.register, {
     },
     // 下拉多选
     multiselect: function ($select, selected, params) {
-        $select.multiselect($.extend({
+        var $select = $select.multiselect($.extend({
             enableFiltering: true,
             /*enableHTML: true,*/
             buttonClass: 'btn btn-default',
@@ -1300,6 +1300,7 @@ $.extend($.register, {
             //console.log("selected=" + selected)
             $select.multiselect('select', selected);
         }
+        return $select;
     },
     // 图片
     fancybox: function (afterLoad) {

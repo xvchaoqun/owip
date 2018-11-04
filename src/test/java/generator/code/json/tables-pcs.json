@@ -4,6 +4,7 @@
   "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
   "tablePrefix": "",
   "folder": "pcs",
+  "resFolder": "",
   "tables": [
     {
       "table": "pcs_config",
@@ -11,8 +12,17 @@
       "searchColumns": "name",
       "showColumns": "name,is_current,create_time",
       "excludeEditColumns": "id,create_time",
-      "logType":"LogConstants.LOG_ADMIN",
+      "logType":"LogConstants.LOG_PCS",
       "ignore": true
+    },
+    {
+      "table": "pcs_committee_member",
+      "key": "id",
+      "searchColumns": "type,user_id",
+      "showColumns": "type,config_id,user_id,post,post_date,post_file_path,is_quit,quit_date,quit_reason,sort_order,remark",
+      "excludeEditColumns": "id,sort_order,status",
+      "logType":"LogConstants.LOG_PCS",
+      "ignore": false
     },
     {
       "table": "pcs_admin",
@@ -20,7 +30,7 @@
       "searchColumns": "party_id,user_id",
       "showColumns": "config_id,party_id,user_id",
       "excludeEditColumns": "id",
-      "logType":"LogConstants.LOG_ADMIN",
+      "logType":"LogConstants.LOG_PCS",
       "ignore": true
     },
     {
@@ -29,7 +39,7 @@
       "searchColumns": "party_id,branch_id",
       "showColumns": "party_id,branch_id,expect_member_count,actual_member_count,config_id,is_finished",
       "excludeEditColumns": "id,is_finished",
-      "logType":"LogConstants.LOG_ADMIN",
+      "logType":"LogConstants.LOG_PCS",
       "ignore": true
     },
     {
@@ -38,7 +48,7 @@
       "searchColumns": "recommend_id,type",
       "showColumns": "recommend_id,user_id,type,add_time",
       "excludeEditColumns": "id,add_time",
-      "logType":"LogConstants.LOG_ADMIN",
+      "logType":"LogConstants.LOG_PCS",
       "ignore": true
     },
     {
@@ -47,8 +57,8 @@
       "searchColumns": "code,user_id,name,keywords,type",
       "showColumns": "code,user_id,name,keywords,type,create_time,status",
       "excludeEditColumns": "id,create_time,status",
-      "logType":"LogConstants.LOG_ADMIN",
-      "ignore": false
+      "logType":"LogConstants.LOG_PCS",
+      "ignore": true
     }
   ]
 }

@@ -83,7 +83,7 @@ public class SchedulerJobService  extends BaseMapper {
             throw new OpException("类{0}不存在", schedulerJob.getClazz());
         }
 
-        QuartzManager.addJob(scheduler, clazz.replaceAll("\\.", "_"), cls, schedulerJob.getCron());
+        QuartzManager.addJob(scheduler, schedulerJob.getJobName(), cls, schedulerJob.getCron());
 
         SchedulerJob record = new SchedulerJob();
         record.setId(id);
@@ -109,7 +109,7 @@ public class SchedulerJobService  extends BaseMapper {
 
             try {
                 String clazz =  schedulerJob.getClazz();
-                QuartzManager.addJob(scheduler, clazz.replaceAll("\\.", "_"),
+                QuartzManager.addJob(scheduler, schedulerJob.getJobName(),
                         Class.forName(clazz), schedulerJob.getCron());
                 success++;
                 logger.info("启动定时任务[{}]", schedulerJob.getName());
@@ -128,8 +128,7 @@ public class SchedulerJobService  extends BaseMapper {
         SchedulerJob schedulerJob = schedulerJobMapper.selectByPrimaryKey(id);
         Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
-        String clazz =  schedulerJob.getClazz();
-        QuartzManager.removeJob(scheduler, clazz.replaceAll("\\.", "_"));
+        QuartzManager.removeJob(scheduler, schedulerJob.getJobName());
 
         SchedulerJob record = new SchedulerJob();
         record.setId(id);

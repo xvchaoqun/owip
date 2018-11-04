@@ -7,7 +7,7 @@
             <a href="${ctx}/cet/cetTrain_stat_export?trainId=${param.trainId}">
                 <i class="fa fa-download"></i> 下载</a>
             <div class="space-4"></div>
-            <table class="table table-bordered table-striped table-unhover2" data-offset-top="101">
+            <table class="table table-bordered table-striped table-unhover2" data-offset-top="132">
                 <thead class="multi">
                 <tr>
                     <th width="40" rowspan="2">序号</th>

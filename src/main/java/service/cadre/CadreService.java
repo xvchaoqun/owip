@@ -12,11 +12,11 @@ import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
 import domain.cadreInspect.CadreInspect;
 import domain.modify.ModifyCadreAuth;
+import domain.pcs.PcsCommitteeMemberView;
 import domain.sys.SysUserView;
 import domain.sys.TeacherInfo;
 import domain.unit.Unit;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -30,6 +30,7 @@ import service.base.MetaTypeService;
 import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveService;
 import service.modify.ModifyCadreAuthService;
+import service.pcs.PcsCommitteeMemberService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
 import shiro.ShiroHelper;
@@ -67,6 +68,8 @@ public class CadreService extends BaseMapper {
     protected MetaTypeService metaTypeService;
     @Autowired(required = false)
     protected ModifyCadreAuthService modifyCadreAuthService;
+    @Autowired(required = false)
+    protected PcsCommitteeMemberService pcsCommitteeMemberService;
 
     /*
         直接添加干部时执行的检查
@@ -282,7 +285,6 @@ public class CadreService extends BaseMapper {
         CadreView cadre = dbFindByUserId(userId);
         if (cadre == null) {
             //if(record.getStatus()!=null)
-            record.setIsCommitteeMember(BooleanUtils.isTrue(record.getIsCommitteeMember()));
             cadreMapper.insertSelective(record);
         } else {
             // 考察对象或后备干部被撤销时，干部信息仍然在库中，现在是覆盖更新
@@ -554,9 +556,17 @@ public class CadreService extends BaseMapper {
     // 常委数量
     public int countCommitteeMember(){
 
-        CadreExample example = new CadreExample();
-        example.createCriteria().andIsCommitteeMemberEqualTo(true);
+        Map<Integer, PcsCommitteeMemberView> committeeMemberMap
+                = pcsCommitteeMemberService.committeeMemberMap();
 
-        return (int)cadreMapper.countByExample(example);
+        return committeeMemberMap.size();
+    }
+    // 常委
+    public List<PcsCommitteeMemberView> committeeMembers(){
+
+        Map<Integer, PcsCommitteeMemberView> committeeMemberMap
+                = pcsCommitteeMemberService.committeeMemberMap();
+
+        return new ArrayList<>(committeeMemberMap.values());
     }
 }

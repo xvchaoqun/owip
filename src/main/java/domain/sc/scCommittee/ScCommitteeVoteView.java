@@ -45,7 +45,11 @@ public class ScCommitteeVoteView implements Serializable {
 
     private Integer unitId;
 
-    private Integer aggreeCount;
+    private Integer agreeCount;
+
+    private Integer abstainCount;
+
+    private Integer disagreeCount;
 
     private String remark;
 
@@ -53,13 +57,19 @@ public class ScCommitteeVoteView implements Serializable {
 
     private String name;
 
+    private Integer seq;
+
     private String content;
 
     private Integer committeeId;
 
+    private String voteFilePath;
+
     private Integer year;
 
     private Date holdDate;
+
+    private Integer committeeMemberCount;
 
     private Integer count;
 
@@ -179,12 +189,28 @@ public class ScCommitteeVoteView implements Serializable {
         this.unitId = unitId;
     }
 
-    public Integer getAggreeCount() {
-        return aggreeCount;
+    public Integer getAgreeCount() {
+        return agreeCount;
     }
 
-    public void setAggreeCount(Integer aggreeCount) {
-        this.aggreeCount = aggreeCount;
+    public void setAgreeCount(Integer agreeCount) {
+        this.agreeCount = agreeCount;
+    }
+
+    public Integer getAbstainCount() {
+        return abstainCount;
+    }
+
+    public void setAbstainCount(Integer abstainCount) {
+        this.abstainCount = abstainCount;
+    }
+
+    public Integer getDisagreeCount() {
+        return disagreeCount;
+    }
+
+    public void setDisagreeCount(Integer disagreeCount) {
+        this.disagreeCount = disagreeCount;
     }
 
     public String getRemark() {
@@ -211,6 +237,14 @@ public class ScCommitteeVoteView implements Serializable {
         this.name = name == null ? null : name.trim();
     }
 
+    public Integer getSeq() {
+        return seq;
+    }
+
+    public void setSeq(Integer seq) {
+        this.seq = seq;
+    }
+
     public String getContent() {
         return content;
     }
@@ -227,6 +261,14 @@ public class ScCommitteeVoteView implements Serializable {
         this.committeeId = committeeId;
     }
 
+    public String getVoteFilePath() {
+        return voteFilePath;
+    }
+
+    public void setVoteFilePath(String voteFilePath) {
+        this.voteFilePath = voteFilePath == null ? null : voteFilePath.trim();
+    }
+
     public Integer getYear() {
         return year;
     }
@@ -241,6 +283,14 @@ public class ScCommitteeVoteView implements Serializable {
 
     public void setHoldDate(Date holdDate) {
         this.holdDate = holdDate;
+    }
+
+    public Integer getCommitteeMemberCount() {
+        return committeeMemberCount;
+    }
+
+    public void setCommitteeMemberCount(Integer committeeMemberCount) {
+        this.committeeMemberCount = committeeMemberCount;
     }
 
     public Integer getCount() {

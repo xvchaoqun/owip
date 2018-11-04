@@ -231,6 +231,8 @@
     });
 
     function _selectUsers() {
+        event.stopPropagation();
+
         if ($.trim($committeeId.val()) == '') {
             $.tip({
                 $target: $committeeId.closest("div").find(".select2-container"),

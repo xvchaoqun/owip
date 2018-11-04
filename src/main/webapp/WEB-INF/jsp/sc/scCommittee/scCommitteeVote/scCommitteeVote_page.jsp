@@ -4,12 +4,13 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <div id="body-content" class="myTableDiv"
+        <div id="body-content" class="myTableDiv multi-row-head-table"
              data-url-page="${ctx}/sc/scCommitteeVote"
              data-url-export="${ctx}/sc/scCommitteeVote_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <%--<c:set var="_query"
-                   value="${not empty param.topicId ||not empty param.cadreId || not empty param.code || not empty param.sort}"/>--%>
+            <c:set var="_query"
+                   value="${not empty param.name ||not empty param.topicId  ||not empty param.type ||not empty param.cadreId
+                    || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <jsp:include page="../scCommittee/menu.jsp"/>
                 <div class="tab-content">
@@ -37,13 +38,13 @@
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出</a>--%>
                         </div>
-                        <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                        <div class="jqgrid-vertical-offset widget-box collapsed hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
 
                                 <div class="widget-toolbar">
                                     <a href="#" data-action="collapse">
-                                        <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                                        <i class="ace-icon fa fa-chevron-down"></i>
                                     </a>
                                 </div>
                             </div>
@@ -51,6 +52,12 @@
                                 <div class="widget-main no-padding">
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="cls" value="${cls}">
+
+                                        <div class="form-group">
+                                            <label>议题名称</label>
+                                            <input class="form-control search-query" name="name" type="text" value="${param.name}"
+                                                   placeholder="请输入议题名称">
+                                        </div>
 
                                         <div class="form-group">
                                             <label>议题</label>
@@ -64,6 +71,18 @@
                                             </select>
                                             <script>
                                                 $("#searchForm select[name=topicId]").val("${param.topicId}");
+                                            </script>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>类别</label>
+                                            <select data-rel="select2" name="type" data-placeholder="请选择">
+                                                <option></option>
+                                                <c:forEach var="entity" items="${DISPATCH_CADRE_TYPE_MAP}">
+                                                    <option value="${entity.key}">${entity.value}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <script type="text/javascript">
+                                                $("#searchForm select[name=type]").val('${param.type}');
                                             </script>
                                         </div>
                                         <div class="form-group">
@@ -102,33 +121,38 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/sc/scCommitteeVote_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '年份', name: 'year', width: 80, frozen: true},
+            {label: '年份', name: 'year', width: 60, frozen: true},
             {
-                label: '编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
+                label: '党委常委会', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
                 //console.log(rowObject.holdDate)
                 var _num = "党委常委会[{0}]号".format($.date(rowObject.holdDate, "yyyyMMdd"))
                 if($.trim(rowObject.filePath)=='') return _num;
                 return $.swfPreview(rowObject.filePath, _num);
             }, frozen: true},
-            {label: '党委常委会日期', name: 'holdDate', width: 120,
-                formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen: true},
-            { label: '议题名称',name: 'name', width: 400, align:'left', frozen: true},
+            {label: '党委常委会<br/>日期', name: 'holdDate', width: 95,
+                formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            { label: '议题名称',name: 'name', width: 400, align:'left'},
             {
-                label: '议题内容', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
-                return ('<button class="popupBtn btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scCommitteeTopic_content?topicId={0}">查看</button>')
+                label: '议题内容和<br/>讨论备忘', name: '_content', width: 80, formatter: function (cellvalue, options, rowObject) {
+                return ('<button class="openView btn btn-primary btn-xs" ' +
+                'data-url="${ctx}/sc/scCommitteeTopic_content?topicId={0}"><i class="fa fa-search"></i>  查看</button>')
                         .format(rowObject.topicId);
-            }, frozen: true
-            },
-            { label:'类别', name: 'type', width: 80, formatter:function(cellvalue, options, rowObject){
+            }},
+            { label:'类别', name: 'type', width: 60, formatter:function(cellvalue, options, rowObject){
                 return _cMap.DISPATCH_CADRE_TYPE_MAP[cellvalue];
-            },frozen:true },
-            { label:'工作证号', name: 'user.code'},
+            } },
+            { label:'工作证号', name: 'user.code', width: 110},
             { label:'姓名', name: 'user.realname', formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadreId, cellvalue);
             }},
-            {label: '原任职务', name: 'originalPost', width: 150,align:'left'},
-            {label: '原任职务任职时间', name: 'originalPostTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '原任职务', name: 'originalPost', width: 150,align:'left', formatter: function (cellvalue, options, rowObject) {
+                if($.trim(cellvalue)=='') return '-'
+                return cellvalue;
+            }},
+            {label: '原任职务<br/>任职时间', name: 'originalPostTime', width: 90, formatter: function (cellvalue, options, rowObject) {
+                if(cellvalue==undefined) return '-'
+                return $.date(cellvalue, "yyyy-MM-dd");
+            }},
             { label:'干部类型', name: 'cadreTypeId', formatter: $.jgrid.formatter.MetaType},
             { label:'任免方式', name: 'wayId', formatter: $.jgrid.formatter.MetaType},
             { label:'任免程序', name: 'procedureId', formatter: $.jgrid.formatter.MetaType},
@@ -137,31 +161,43 @@
             { label:'行政级别', name: 'adminLevelId', formatter: $.jgrid.formatter.MetaType},
             { label:'单位类型', name: 'unit.typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
             { label:'所属单位', name: 'unit.name', width: 150 },
-            { label: '常委总数',name: '_total', formatter:function(){
-                return '${committeeMemberCount}';
-            }},
-            { label: '应参会常委数',name: '_total', formatter: function (cellvalue, options, rowObject) {
+            { label: '常委总数',name: 'committeeMemberCount', width: 80},
+            { label: '应参会<br/>常委数',name: '_total', width: 70, formatter: function (cellvalue, options, rowObject) {
                 return rowObject.count + rowObject.absentCount;
             }},
             {
-                label: '实际参会常委数', name: 'count', width: 120, formatter: function (cellvalue, options, rowObject) {
+                label: '实际参会<br/>常委数', name: 'count', width: 120, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==0) return '-'
-                return ('<button class="popupBtn btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=0">{1}</button>')
+                return ('<a href="javascript:;" class="popupBtn bolder" ' +
+                'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=0"><u>{1}</u></a>')
                         .format(rowObject.committeeId, cellvalue);
             }},
             {
-                label: '请假常委数', name: 'absentCount', formatter: function (cellvalue, options, rowObject) {
+                label: '请假<br/>常委数', name: 'absentCount', width: 70, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==0) return '-'
-                return ('<button class="popupBtn btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=1">{1}</button>')
+                return ('<a href="javascript:;" class="popupBtn bolder" ' +
+                'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=1"><u>{1}</u></a>')
                         .format(rowObject.committeeId, cellvalue);
             }},
-            {label: '参会同意人数', name: 'aggreeCount'},
-            { label: '列席人',name: 'attendUsers', width: 400,align:'left'},
-            {label: '会议记录', name: 'logFile', formatter: function (cellvalue, options, rowObject) {
+            {label: '表决<br/>同意票数', name: 'agreeCount', width: 80},
+            {label: '表决<br/>反对票数', name: 'disagreeCount', width: 80},
+            {label: '表决<br/>弃权票数', name: 'abstainCount', width: 80},
+            { label: '列席人',name: 'attendUsers', width: 140, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.attendUsers==undefined) return '-';
+                if(rowObject.attendUsers.length<=8) return cellvalue;
+                return rowObject.attendUsers.substring(0,8) + "...";
+            },cellattr:function(rowId, val, rowObject, cm, rdata) {
+                if(rowObject.attendUsers!=undefined)
+                    return "title='"+rowObject.attendUsers+"'";
+            }},
+            /*{ label: '列席人',name: 'attendUsers', width: 400,align:'left'},*/
+            {label: '表决票', name: 'voteFilePath', width: 70, formatter: function (cellvalue, options, rowObject) {
+                if(rowObject.voteFilePath==undefined) return '-';
+                return $.swfPreview(rowObject.voteFilePath, '表决票', '<button class="btn btn-xs btn-warning"><i class="fa fa-search"></i> 查看</button>');
+            }},
+            {label: '会议记录', name: 'logFile', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.logFile==undefined) return '-';
-                return $.swfPreview(rowObject.logFile, '会议记录', '查看');
+                return $.swfPreview(rowObject.logFile, '会议记录', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
             }},
             {label: '备注', name: 'remark', width:300}
         ]

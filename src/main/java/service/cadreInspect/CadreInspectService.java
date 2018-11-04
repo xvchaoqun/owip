@@ -10,7 +10,6 @@ import domain.cadreReserve.CadreReserve;
 import domain.modify.ModifyCadreAuth;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.eclipse.jdt.internal.core.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,7 +127,6 @@ public class CadreInspectService extends BaseMapper {
                 cadreRecord.setId(null); // 防止误传ID过来
                 cadreRecord.setUserId(userId);
                 cadreRecord.setStatus(CadreConstants.CADRE_STATUS_INSPECT);
-                cadreRecord.setIsCommitteeMember(BooleanUtils.isTrue(cadreRecord.getIsCommitteeMember()));
                 cadreMapper.insertSelective(cadreRecord);
 
                 cadreId = cadreRecord.getId();

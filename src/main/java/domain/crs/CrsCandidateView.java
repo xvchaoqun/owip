@@ -54,8 +54,6 @@ public class CrsCandidateView implements Serializable {
 
     private Integer unitId;
 
-    private Boolean isCommitteeMember;
-
     private String title;
 
     private Integer dispatchCadreId;
@@ -67,6 +65,8 @@ public class CrsCandidateView implements Serializable {
     private Integer sortOrder;
 
     private Byte status;
+
+    private Boolean isCommitteeMember;
 
     private String msgTitle;
 
@@ -428,14 +428,6 @@ public class CrsCandidateView implements Serializable {
         this.unitId = unitId;
     }
 
-    public Boolean getIsCommitteeMember() {
-        return isCommitteeMember;
-    }
-
-    public void setIsCommitteeMember(Boolean isCommitteeMember) {
-        this.isCommitteeMember = isCommitteeMember;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -482,6 +474,14 @@ public class CrsCandidateView implements Serializable {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public Boolean getIsCommitteeMember() {
+        return isCommitteeMember;
+    }
+
+    public void setIsCommitteeMember(Boolean isCommitteeMember) {
+        this.isCommitteeMember = isCommitteeMember;
     }
 
     public String getMsgTitle() {

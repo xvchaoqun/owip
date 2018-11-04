@@ -1,13 +1,38 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
-<div class="modal-header">
-  <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-  <h3>议题内容</h3>
-</div>
-<div class="modal-body">
-  ${scCommitteeTopic.content}
-</div>
-<div class="modal-footer">
-  <a href="javascript:;" data-dismiss="modal" class="btn btn-default">关闭</a>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<h4 class="widget-title lighter smaller">
+	<a href="javascript:;" class="hideView btn btn-xs btn-success">
+		<i class="ace-icon fa fa-backward"></i>
+		返回</a>
+</h4>
+<div class="row dispatch_au">
+	<div class="preview" style="width: 620px">
+		<div class="widget-box" style="height: 650px;">
+			<div class="widget-header">
+				<h4 class="widget-title">
+					议题内容
+				</h4>
+			</div>
+			<div class="widget-body">
+				<div class="widget-main" style="height:600px;overflow-y: scroll">
+					${scCommitteeTopic.content}
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="au" style="width: 620px">
+		<div class="widget-box" style="height: 650px;">
+			<div class="widget-header">
+				<h4 class="widget-title">
+					议题讨论备忘
+				</h4>
+			</div>
+			<div class="widget-body">
+				<div class="widget-main" style="height:600px;overflow-y: scroll">
+					${scCommitteeTopic.memo}
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

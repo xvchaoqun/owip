@@ -46,12 +46,13 @@
             { label: 'cron表达式', name: 'cron', width: 120, align:'left'},
             { label: '启动状态', name: '_status', formatter:function(cellvalue, options, rowObject){
                 //console.log(allJobsReg)
-                return ($.inArray(rowObject.clazz.replaceAll("\\.", "_"), allJobsReg)>=0)?'<span class="text-success bolder">已启动</span>':'未启动'
+                return ($.inArray(rowObject.jobName, allJobsReg)>=0)?'<span class="text-success bolder">已启动</span>':'未启动'
             }},
             { label: '执行状态', name: '_runStatus', formatter:function(cellvalue, options, rowObject){
-                return ($.inArray(rowObject.clazz.replaceAll("\\.", "_"), runJobsReg)>=0)?'<span class="text-success bolder">执行中</span>':'未执行'
+                return ($.inArray(rowObject.jobName, runJobsReg)>=0)?'<span class="text-success bolder">执行中</span>':'未执行'
             }},
-            { label: '任务描述', name: 'summary', width: 550, align:'left', formatter: $.jgrid.formatter.NoMultiSpace}
+            { label: '任务描述', name: 'summary', width: 550, align:'left', formatter: $.jgrid.formatter.NoMultiSpace},
+            {hidden: true, name: 'jobName'}
         ],
         beforeProcessing:function(data, status, xhr){
            //console.log(data.allJobs)
@@ -76,10 +77,12 @@
             $("#startBtn,#stopBtn").prop("disabled", true);
         } else if (ids.length == 1) {
             var rowData = $(grid).getRowData(ids[0]);
-            var isStart = ($.inArray(rowData.clazz.replaceAll("\\.", "_"), allJobsReg)>=0);
+            var isStart = ($.inArray(rowData.jobName, allJobsReg)>=0);
 
             $("#startBtn").prop("disabled", isStart);
             $("#stopBtn").prop("disabled", !isStart);
         }
     }
+
+
 </script>

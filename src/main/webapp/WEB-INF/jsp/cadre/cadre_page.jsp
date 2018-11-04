@@ -9,7 +9,6 @@
             <div class="myTableDiv"
                  data-url-page="${ctx}/cadre"
                  data-url-co="${ctx}/cadre_changeOrder"
-                 data-url-export="${ctx}/cadre_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
                 <c:set var="_query" value="${not empty param.cadreId ||not empty param.gender
                 ||not empty param.startAge||not empty param.endAge||not empty param.startDpAge||not empty param.endDpAge
@@ -91,36 +90,52 @@
                                         导入</a>
                                 </shiro:hasPermission>
                                 <shiro:hasPermission name="cadre:export">
-                                    <a class="jqExportBtn btn btn-success btn-sm"
-                                       data-querystr="format=1"
-                                       data-rel="tooltip" data-placement="bottom"
-                                       title="导出选中记录或所有搜索结果（所有字段）"><i
-                                            class="fa fa-download"></i> 导出一览表</a>
-                                    <c:if test="${status==CADRE_STATUS_MIDDLE}">
-                                    <a class="jqExportBtn btn btn-success btn-sm"
-                                       data-querystr="format=2"
-                                       data-rel="tooltip" data-placement="bottom"
-                                       title="导出选中记录或所有搜索结果（部分字段，可直接打印）"><i
-                                            class="fa fa-download"></i> 导出名单</a>
-                                    </c:if>
+                                    <div class="btn-group">
+                                        <button data-toggle="dropdown"
+                                                data-rel="tooltip" data-placement="top" data-html="true"
+                                                title="<div style='width:180px'>导出选中记录或所有搜索结果</div>"
+                                                class="btn btn-success btn-sm dropdown-toggle tooltip-info">
+                                            <i class="fa fa-download"></i> 导出  <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-success" role="menu">
+                                            <li>
+                                                <a href="javascript:;" class="jqExportBtn"
+                                                   data-need-id="false" data-url="${ctx}/cadre_data" data-querystr="format=1">
+                                                    <i class="fa fa-file-excel-o"></i> 导出干部一览表（全部字段）</a>
+                                            </li>
+                                            <c:if test="${status==CADRE_STATUS_MIDDLE}">
+                                                <shiro:hasPermission name="cadre:list">
+                                                    <li role="separator" class="divider"></li>
+                                                    <li>
+                                                        <a href="javascript:;" class="jqExportBtn"
+                                                           data-need-id="false" data-url="${ctx}/cadre_data" data-querystr="format=2">
+                                                            <i class="fa fa-file-excel-o"></i> 导出干部名单（部分字段，可单页打印）</a>
+                                                    </li>
+                                                    <li role="separator" class="divider"></li>
+                                                    <li>
+                                                        <a href="javascript:;" class="jqExportBtn"
+                                                           data-need-id="false" data-url="${ctx}/cadreEdu_data">
+                                                            <i class="fa fa-file-excel-o"></i> 导出学习经历（所有${CADRE_STATUS_MAP.get(status)}）</a>
+                                                    </li>
+                                                </shiro:hasPermission>
+                                                <shiro:hasPermission name="cadre:exportFamily">
+                                                    <li role="separator" class="divider"></li>
+                                                    <li>
+                                                        <a href="javascript:;" class="jqExportBtn"
+                                                           data-need-id="false" data-url="${ctx}/cadreFamily_data">
+                                                            <i class="fa fa-file-excel-o"></i> 导出家庭成员（所有${CADRE_STATUS_MAP.get(status)}）</a>
+                                                    </li>
+                                                </shiro:hasPermission>
+                                            </c:if>
+                                        </ul>
+                                    </div>
+
                                 </shiro:hasPermission>
                                 <c:if test="${status==CADRE_STATUS_MIDDLE}">
-                                    <shiro:hasPermission name="cadre:exportFamily">
-                                        <a class="jqExportBtn btn btn-success btn-sm"
-                                           data-url="${ctx}/cadreFamily_data"><i
-                                                class="fa fa-download"></i> 导出家庭成员</a>
-                                    </shiro:hasPermission>
-                                    <shiro:hasPermission name="cadre:export">
-                                        <a class="jqExportBtn btn btn-success btn-sm"
-                                           data-url="${ctx}/cadreEdu_data"><i
-                                                class="fa fa-download"></i> 导出学习经历</a>
-                                    </shiro:hasPermission>
-                                    <shiro:hasPermission name="cadre:list">
                                     <button class="openView btn btn-primary btn-sm"
                                             data-url="${ctx}/cadre_search_brief">
                                         <i class="fa fa-search"></i> 提取简介
                                     </button>
-                                    </shiro:hasPermission>
                                 </c:if>
                                 <shiro:hasPermission name="cadre:del">
                                     <button data-url="${ctx}/cadre_batchDel"

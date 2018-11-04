@@ -9,7 +9,7 @@
 	<div class="preview" style="width: 620px">
 		<div class="widget-box" style="height: 650px;">
 			<div class="widget-header">
-				<h4 class="smaller">
+				<h4 class="widget-title">
 					议题内容
 				</h4>
 			</div>
@@ -32,7 +32,7 @@
 	<div class="au" style="width: 620px">
 		<div class="widget-box" style="height: 650px;">
 			<div class="widget-header">
-				<h4 class="smaller">
+				<h4 class="widget-title">
 					议题讨论备忘
 				</h4>
 			</div>

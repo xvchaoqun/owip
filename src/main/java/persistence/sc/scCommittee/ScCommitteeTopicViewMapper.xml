@@ -4,8 +4,10 @@
   <resultMap id="BaseResultMap" type="domain.sc.scCommittee.ScCommitteeTopicView">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="has_vote" jdbcType="BIT" property="hasVote" />
     <result column="has_other_vote" jdbcType="BIT" property="hasOtherVote" />
     <result column="vote_file_path" jdbcType="VARCHAR" property="voteFilePath" />
@@ -13,6 +15,7 @@
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="hold_date" jdbcType="DATE" property="holdDate" />
+    <result column="committee_member_count" jdbcType="INTEGER" property="committeeMemberCount" />
     <result column="count" jdbcType="DECIMAL" property="count" />
     <result column="absent_count" jdbcType="DECIMAL" property="absentCount" />
     <result column="attend_users" jdbcType="VARCHAR" property="attendUsers" />
@@ -49,8 +52,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, committee_id, name, content, has_vote, has_other_vote, vote_file_path, remark, 
-    is_deleted, year, hold_date, count, absent_count, attend_users, file_path, log_file
+    id, committee_id, seq, name, content, memo, has_vote, has_other_vote, vote_file_path, 
+    remark, is_deleted, year, hold_date, committee_member_count, count, absent_count, 
+    attend_users, file_path, log_file
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeTopicViewExample" resultMap="BaseResultMap">
     select

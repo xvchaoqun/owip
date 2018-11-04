@@ -10,7 +10,9 @@ import org.springframework.util.Assert;
 import service.BaseMapper;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PcsConfigService extends BaseMapper {
@@ -73,5 +75,21 @@ public class PcsConfigService extends BaseMapper {
         }
 
         pcsConfigMapper.updateByPrimaryKeySelective(record);
+    }
+
+    // 所有的党代会
+    public Map<Integer, PcsConfig> findAll(){
+
+        PcsConfigExample example = new PcsConfigExample();
+        example.createCriteria().andIsDeletedEqualTo(false);
+        example.setOrderByClause("create_time desc");
+
+        List<PcsConfig> pcsConfigs = pcsConfigMapper.selectByExample(example);
+        Map<Integer, PcsConfig> resultMap = new HashMap<>();
+        for (PcsConfig pcsConfig : pcsConfigs) {
+            resultMap.put(pcsConfig.getId(), pcsConfig);
+        }
+
+        return resultMap;
     }
 }

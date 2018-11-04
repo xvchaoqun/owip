@@ -130,3 +130,5 @@ $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
 		at: 'top center', my: 'bottom center', type: 'success',
 		msg: "您已经选择了该账号。"
 	});
+
+	<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>

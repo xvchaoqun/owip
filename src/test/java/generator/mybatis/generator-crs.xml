@@ -37,6 +37,7 @@
                enableDeleteByExample="false">
             <columnOverride column="talent_title" jdbcType="VARCHAR"></columnOverride>
             <columnOverride column="is_ow" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
+            <columnOverride column="is_committee_member" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>
         <!--<table tableName="crs_apply_user" domainObjectName="crs.CrsApplyUser" mapperName="crs.CrsApplyUserMapper">
         </table>-->

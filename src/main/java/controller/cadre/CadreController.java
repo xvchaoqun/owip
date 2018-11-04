@@ -10,7 +10,6 @@ import domain.sys.SysUserView;
 import domain.unit.Unit;
 import interceptor.OrderParam;
 import interceptor.SortParam;
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -300,7 +299,7 @@ public class CadreController extends BaseController {
         } else {
             // 没有干部管理员的权限，只能看到部分字段
             JSONUtils.jsonpAntPathFilters(resultMap, "id", "code", "realname", "gender",
-                    "idcard", "birth", "eduId", "proPost", "lpWorkTime",
+                    "idcard", "birth", "eduId", "proPost", "lpWorkTime","unitId",
                     "unit", "unit.unitType", "unit.unitType.name",
                     "unit.name", "title", "typeId", "postId", "dpTypeId", "dpGrowTime", "isOw", "owGrowTime", "mobile", "email");
         }
@@ -439,7 +438,6 @@ public class CadreController extends BaseController {
     @ResponseBody
     public Map do_cadre_au(Cadre record, HttpServletRequest request) {
 
-        record.setIsCommitteeMember(BooleanUtils.isTrue(record.getIsCommitteeMember()));
         Integer id = record.getId();
         if (id == null) {
             cadreService.insertSelective(record);

@@ -730,7 +730,7 @@
 							<tr>
 								<td rowspan="5" style="text-align: center;
 				                         width: 50px;background-color: #fff;">
-									<div  style="width:170px">
+									<div  style="width:145px">
 										<input type="file" name="_avatar" id="_avatar"/>
 									</div>
 									<div>
@@ -982,7 +982,9 @@
 				   data-url="${ctx}/hf_content?code=hf_cadre_base_info">
 					<i class="fa fa-info-circle"></i> 填写说明</a>
 				&nbsp; &nbsp; &nbsp;
-				<button class="btn btn-info" type="submit">
+				<button id="submitBtn" class="btn btn-info"
+						data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+						type="button">
 					<i class="ace-icon fa fa-save bigger-110"></i>
 					保存
 				</button>
@@ -994,6 +996,14 @@
                                 </button>--%>
 			</div>
 		</form>
+		<style>
+			.ace-file-container{
+				height: 200px!important;
+			}
+			.ace-file-multiple .ace-file-container .ace-file-name .ace-icon{
+				line-height: 120px!important;
+			}
+		</style>
 	</c:if>
 	<script>
 		function _innerPage(type) {
@@ -1023,6 +1033,7 @@
 		});
 		$("#_avatar").ace_file_input('show_file_list', [{type: 'image', name: '${ctx}/avatar?path=${cm:encodeURI(uv.avatar)}&t=<%=new Date().getTime()%>'}]);
 
+		$("#submitBtn").click(function(){$("#modalForm").submit();return false;});
 		$("#modalForm").validate({
 			submitHandler: function (form) {
 				if($("select[name=dpTypeId]").val()>0 && $("input[name=_dpAddTime]").val()==""){
@@ -1033,11 +1044,13 @@
 					SysMsg.info("请选择政治面貌");
 					return ;
 				}
+				var $btn = $("#submitBtn").button('loading');
 				$(form).ajaxSubmit({
 					success: function (ret) {
 						if (ret.success) {
 							_innerPage();
 						}
+						$btn.button('reset');
 					}
 				});
 			}

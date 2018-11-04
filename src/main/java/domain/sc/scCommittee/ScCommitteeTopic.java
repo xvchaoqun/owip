@@ -7,9 +7,13 @@ public class ScCommitteeTopic implements Serializable {
 
     private Integer committeeId;
 
+    private Integer seq;
+
     private String name;
 
     private String content;
+
+    private String memo;
 
     private Boolean hasVote;
 
@@ -39,6 +43,14 @@ public class ScCommitteeTopic implements Serializable {
         this.committeeId = committeeId;
     }
 
+    public Integer getSeq() {
+        return seq;
+    }
+
+    public void setSeq(Integer seq) {
+        this.seq = seq;
+    }
+
     public String getName() {
         return name;
     }
@@ -53,6 +65,14 @@ public class ScCommitteeTopic implements Serializable {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo == null ? null : memo.trim();
     }
 
     public Boolean getHasVote() {

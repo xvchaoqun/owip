@@ -198,7 +198,7 @@
                     return ('<a href="javascript:;" class="linkBtn"'
                     +'data-url="${ctx}#/sc/scCommittee?year={0}&holdDate={1}"'
                     +'data-target="_blank">{2}</a>')
-                            .format(scCommittee.year, $.date(scCommittee.holdDate,'yyyy-MM-dd'),str)
+                            .format(scCommittee.year, $.date(scCommittee.holdDate,'yyyyMMdd'),str)
                 }
 
                 return ('<a href="javascript:;" class="popupBtn" ' +

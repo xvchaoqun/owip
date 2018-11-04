@@ -7,7 +7,9 @@
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="hold_date" jdbcType="DATE" property="holdDate" />
     <result column="topic_num" jdbcType="INTEGER" property="topicNum" />
+    <result column="committee_member_count" jdbcType="INTEGER" property="committeeMemberCount" />
     <result column="log_file" jdbcType="VARCHAR" property="logFile" />
+    <result column="ppt_file" jdbcType="VARCHAR" property="pptFile" />
     <result column="attend_users" jdbcType="VARCHAR" property="attendUsers" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
@@ -44,8 +46,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, file_path, year, hold_date, topic_num, log_file, attend_users, remark, is_deleted, 
-    count, absent_count
+    id, file_path, year, hold_date, topic_num, committee_member_count, log_file, ppt_file, 
+    attend_users, remark, is_deleted, count, absent_count
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeViewExample" resultMap="BaseResultMap">
     select

@@ -15,7 +15,7 @@
       </div>
 
           <div style="margin: 10px 20px; width: 1200px;">
-          <table id="detailTable" class="table table-bordered table-striped" data-offset-top="101">
+          <table id="detailTable" class="table table-bordered table-striped" data-offset-top="132">
             <thead class="multi">
             <tr>
               <th colspan="7"><span style="padding-left: 20px;font-size: 18px;font-weight: bolder;"><span style="color:#033975;font-size: 25px;">${user.realname}</span> 同志得票详情（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</span></th>

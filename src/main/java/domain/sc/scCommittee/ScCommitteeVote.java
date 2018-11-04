@@ -50,7 +50,11 @@ public class ScCommitteeVote implements Serializable {
 
     private Integer unitId;
 
-    private Integer aggreeCount;
+    private Integer agreeCount;
+
+    private Integer abstainCount;
+
+    private Integer disagreeCount;
 
     private String remark;
 
@@ -162,12 +166,28 @@ public class ScCommitteeVote implements Serializable {
         this.unitId = unitId;
     }
 
-    public Integer getAggreeCount() {
-        return aggreeCount;
+    public Integer getAgreeCount() {
+        return agreeCount;
     }
 
-    public void setAggreeCount(Integer aggreeCount) {
-        this.aggreeCount = aggreeCount;
+    public void setAgreeCount(Integer agreeCount) {
+        this.agreeCount = agreeCount;
+    }
+
+    public Integer getAbstainCount() {
+        return abstainCount;
+    }
+
+    public void setAbstainCount(Integer abstainCount) {
+        this.abstainCount = abstainCount;
+    }
+
+    public Integer getDisagreeCount() {
+        return disagreeCount;
+    }
+
+    public void setDisagreeCount(Integer disagreeCount) {
+        this.disagreeCount = disagreeCount;
     }
 
     public String getRemark() {

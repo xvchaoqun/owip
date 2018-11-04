@@ -15,7 +15,9 @@
     <result column="post_id" jdbcType="INTEGER" property="postId" />
     <result column="admin_level_id" jdbcType="INTEGER" property="adminLevelId" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
-    <result column="aggree_count" jdbcType="INTEGER" property="aggreeCount" />
+    <result column="agree_count" jdbcType="INTEGER" property="agreeCount" />
+    <result column="abstain_count" jdbcType="INTEGER" property="abstainCount" />
+    <result column="disagree_count" jdbcType="INTEGER" property="disagreeCount" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
   </resultMap>
@@ -79,7 +81,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, topic_id, cadre_id, type, original_post, original_post_time, cadre_type_id, way_id, 
-    procedure_id, post, post_id, admin_level_id, unit_id, aggree_count, remark, sort_order
+    procedure_id, post, post_id, admin_level_id, unit_id, agree_count, abstain_count, 
+    disagree_count, remark, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeVoteExample" resultMap="BaseResultMap">
     select
@@ -116,14 +119,16 @@
       type, original_post, original_post_time, 
       cadre_type_id, way_id, procedure_id, 
       post, post_id, admin_level_id, 
-      unit_id, aggree_count, remark, 
-      sort_order)
+      unit_id, agree_count, abstain_count, 
+      disagree_count, remark, sort_order
+      )
     values (#{id,jdbcType=INTEGER}, #{topicId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
       #{type,jdbcType=TINYINT}, #{originalPost,jdbcType=VARCHAR}, #{originalPostTime,jdbcType=DATE}, 
       #{cadreTypeId,jdbcType=INTEGER}, #{wayId,jdbcType=INTEGER}, #{procedureId,jdbcType=INTEGER}, 
       #{post,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, 
-      #{unitId,jdbcType=INTEGER}, #{aggreeCount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{sortOrder,jdbcType=INTEGER})
+      #{unitId,jdbcType=INTEGER}, #{agreeCount,jdbcType=INTEGER}, #{abstainCount,jdbcType=INTEGER}, 
+      #{disagreeCount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.scCommittee.ScCommitteeVote">
     insert into sc_committee_vote
@@ -167,8 +172,14 @@
       <if test="unitId != null">
         unit_id,
       </if>
-      <if test="aggreeCount != null">
-        aggree_count,
+      <if test="agreeCount != null">
+        agree_count,
+      </if>
+      <if test="abstainCount != null">
+        abstain_count,
+      </if>
+      <if test="disagreeCount != null">
+        disagree_count,
       </if>
       <if test="remark != null">
         remark,
@@ -217,8 +228,14 @@
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="aggreeCount != null">
-        #{aggreeCount,jdbcType=INTEGER},
+      <if test="agreeCount != null">
+        #{agreeCount,jdbcType=INTEGER},
+      </if>
+      <if test="abstainCount != null">
+        #{abstainCount,jdbcType=INTEGER},
+      </if>
+      <if test="disagreeCount != null">
+        #{disagreeCount,jdbcType=INTEGER},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -276,8 +293,14 @@
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
-      <if test="record.aggreeCount != null">
-        aggree_count = #{record.aggreeCount,jdbcType=INTEGER},
+      <if test="record.agreeCount != null">
+        agree_count = #{record.agreeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.abstainCount != null">
+        abstain_count = #{record.abstainCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.disagreeCount != null">
+        disagree_count = #{record.disagreeCount,jdbcType=INTEGER},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -305,7 +328,9 @@
       post_id = #{record.postId,jdbcType=INTEGER},
       admin_level_id = #{record.adminLevelId,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
-      aggree_count = #{record.aggreeCount,jdbcType=INTEGER},
+      agree_count = #{record.agreeCount,jdbcType=INTEGER},
+      abstain_count = #{record.abstainCount,jdbcType=INTEGER},
+      disagree_count = #{record.disagreeCount,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -351,8 +376,14 @@
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="aggreeCount != null">
-        aggree_count = #{aggreeCount,jdbcType=INTEGER},
+      <if test="agreeCount != null">
+        agree_count = #{agreeCount,jdbcType=INTEGER},
+      </if>
+      <if test="abstainCount != null">
+        abstain_count = #{abstainCount,jdbcType=INTEGER},
+      </if>
+      <if test="disagreeCount != null">
+        disagree_count = #{disagreeCount,jdbcType=INTEGER},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -377,7 +408,9 @@
       post_id = #{postId,jdbcType=INTEGER},
       admin_level_id = #{adminLevelId,jdbcType=INTEGER},
       unit_id = #{unitId,jdbcType=INTEGER},
-      aggree_count = #{aggreeCount,jdbcType=INTEGER},
+      agree_count = #{agreeCount,jdbcType=INTEGER},
+      abstain_count = #{abstainCount,jdbcType=INTEGER},
+      disagree_count = #{disagreeCount,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

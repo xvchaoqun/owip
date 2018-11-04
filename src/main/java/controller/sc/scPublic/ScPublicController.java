@@ -211,7 +211,7 @@ public class ScPublicController extends ScPublicBaseController {
         ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
         example.createCriteria().andCommitteeIdEqualTo(committeeId)
                 .andTypeEqualTo(DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT);
-        example.setOrderByClause("topic_id desc, sort_order asc");
+        example.setOrderByClause("hold_date desc, seq asc, id asc");
         List<ScCommitteeVoteView> scCommitteeVoteViews = scCommitteeVoteViewMapper.selectByExample(example);
         modelMap.put("scCommitteeVotes", scCommitteeVoteViews);
 

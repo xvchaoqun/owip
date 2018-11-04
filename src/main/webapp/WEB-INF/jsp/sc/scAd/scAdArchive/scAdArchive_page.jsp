@@ -4,12 +4,12 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <div id="body-content" class="myTableDiv rownumbers"
+        <div id="body-content" class="myTableDiv rownumbers multi-row-head-table"
              data-url-page="${ctx}/sc/scAdArchive"
              data-url-export="${ctx}/sc/scAdArchive_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
             <c:set var="_query"
-                   value="${not empty param.committeeId ||not empty param.cadreId || not empty param.code || not empty param.sort}"/>
+                   value="${not empty param.objId ||not empty param.committeeId ||not empty param.cadreId || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <jsp:include page="menu.jsp"/>
                 <div class="tab-content">
@@ -34,13 +34,13 @@
                                 </button>
                             </shiro:hasPermission>
                         </div>
-                        <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                        <div class="jqgrid-vertical-offset widget-box collapsed hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
 
                                 <div class="widget-toolbar">
                                     <a href="#" data-action="collapse">
-                                        <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                                        <i class="ace-icon fa fa-chevron-down"></i>
                                     </a>
                                 </div>
                             </div>
@@ -92,13 +92,21 @@
         colModel: [
             {label: '年份', name: 'year', width: 80, frozen: true},
             {
-                label: '编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
+                label: '党委常委会', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
                 //console.log(rowObject.holdDate)
-                var _num = "党委常委会[{0}]号".format($.date(rowObject.holdDate, "yyyyMMdd"))
-                if($.trim(rowObject.filePath)=='') return _num;
-                return $.swfPreview(rowObject.filePath, _num);
+                var holdDate = $.date(rowObject.holdDate, "yyyyMMdd");
+                var code = "党委常委会[{0}]号".format(holdDate)
+                /*
+                if($.trim(rowObject.committeeFilePath)=='') return _num;
+                return $.swfPreview(rowObject.committeeFilePath, _num);*/
+
+                return ('<a href="javascript:;" class="linkBtn"'
+                +'data-url="${ctx}#/sc/scCommittee?year={0}&holdDate={1}"'
+                +'data-target="_blank">{2}</a>')
+                        .format(rowObject.year, holdDate,code)
+
             }, frozen: true},
-            {label: '党委常委会日期', name: 'holdDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '党委常委会<br/>日期', name: 'holdDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label:'工作证号', name: 'code'},
             { label:'姓名', name: 'realname', formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadreId, cellvalue);
@@ -120,6 +128,17 @@
                 }
 
                 return editBtn;
+            }},
+            {label: '干部任免审批表<br/>归档扫描件', name: '_pdf', width: 120, formatter: function (cellvalue, options, rowObject) {
+                var str = "";
+                if($.trim(rowObject.signFilePath)!='') {
+                    str += $.swfPreview(rowObject.signFilePath, "干部任免审批表归档扫描件",
+                            '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
+                    + ('&nbsp;<button class="linkBtn btn btn-warning btn-xs" ' +
+                    'data-url="${ctx}/attach/download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
+                            .format(rowObject.signFilePath, "干部任免审批表归档扫描件("+ rowObject.realname+")")
+                }
+                return str;
             }},
             <shiro:hasPermission name="cisInspectObj:list">
             {label: '干部考察材料', name: '_cisFilePath', width: 180, formatter: function (cellvalue, options, rowObject) {
@@ -143,13 +162,15 @@
                 return editBtn;
             }},
             </shiro:hasPermission>
-            {label: '正式归档扫描件', name: '_pdf', width: 220, formatter: function (cellvalue, options, rowObject) {
+            {label: '干部考察材料</br>归档扫描件', name: '_pdf', width: 120, formatter: function (cellvalue, options, rowObject) {
+
                 var str = "";
-                if($.trim(rowObject.signFilePath)!='')
-                    str += $.swfPreview(rowObject.signFilePath, "干部任免审批表", "[任免审批表]");
                 if($.trim(rowObject.cisSignFilePath)!='') {
-                    if(str!='') str += "&nbsp;&nbsp;"
-                    str += $.swfPreview(rowObject.cisSignFilePath, "干部考察报告", "[考察报告]");
+                    str += $.swfPreview(rowObject.cisSignFilePath, "干部考察报告归档扫描件",
+                                    '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
+                            + ('&nbsp;<button class="linkBtn btn btn-warning btn-xs" ' +
+                            'data-url="${ctx}/attach/download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
+                                    .format(rowObject.cisSignFilePath, "干部考察报告归档扫描件("+ rowObject.realname+")")
                 }
                 return str;
             }},

@@ -12,7 +12,7 @@
             <i class="fa fa-download"></i> 导出：各分党委酝酿代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选统计表</a>
     </c:if>
     <div class="space-4"></div>
-    <table class="table table-bordered table-striped" data-offset-top="101">
+    <table class="table table-bordered table-striped" data-offset-top="132">
         <thead class="multi">
         <tr>
             <th width="40" rowspan="2">序号</th>

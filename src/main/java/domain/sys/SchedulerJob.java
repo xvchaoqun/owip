@@ -4,6 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class SchedulerJob implements Serializable {
+
+    public String getJobName(){
+
+        if(id==null || clazz ==null) return null;
+
+        return clazz.replaceAll("\\.", "_") + "_" + id;
+    }
+
     private Integer id;
 
     private String name;

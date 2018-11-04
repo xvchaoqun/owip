@@ -11,7 +11,7 @@
             <a href="${ctx}/pcsPrParty_export?file=4&stage=${param.stage}">
                 <i class="fa fa-download"></i> 分党委酝酿党员代表大会代表候选人${param.stage==PCS_STAGE_FIRST?'初步':'预备'}人选统计表（“${PCS_STAGE_MAP.get(cm:toByte(param.stage))}”阶段）</a>
             <div class="space-4"></div>
-            <table class="table table-bordered table-striped" data-offset-top="101">
+            <table class="table table-bordered table-striped" data-offset-top="132">
                 <thead>
                 <tr>
                     <th width="40" rowspan="2">序号</th>

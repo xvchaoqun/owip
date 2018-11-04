@@ -10,6 +10,8 @@
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="post" jdbcType="VARCHAR" property="post" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -42,7 +44,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, committee_id, user_id, is_absent, sort_order, username, code, realname, post
+    id, committee_id, user_id, is_absent, sort_order, username, code, realname, cadre_id, 
+    title, post
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeMemberViewExample" resultMap="BaseResultMap">
     select

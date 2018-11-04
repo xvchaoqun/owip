@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.pcs.PcsCommitteeMemberViewMapper">
+  <resultMap id="BaseResultMap" type="domain.pcs.PcsCommitteeMemberView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="BIT" property="type" />
+    <result column="config_id" jdbcType="INTEGER" property="configId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="post" jdbcType="INTEGER" property="post" />
+    <result column="post_date" jdbcType="DATE" property="postDate" />
+    <result column="post_file_path" jdbcType="VARCHAR" property="postFilePath" />
+    <result column="is_quit" jdbcType="BIT" property="isQuit" />
+    <result column="quit_date" jdbcType="DATE" property="quitDate" />
+    <result column="quit_reason" jdbcType="VARCHAR" property="quitReason" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="is_commmittee_member" jdbcType="BIT" property="isCommmitteeMember" />
+    <result column="pcs_name" jdbcType="VARCHAR" property="pcsName" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="pro_post" jdbcType="VARCHAR" property="proPost" />
+    <result column="grow_time" jdbcType="DATE" property="growTime" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, type, config_id, user_id, post, post_date, post_file_path, is_quit, quit_date, 
+    quit_reason, sort_order, remark, status, is_commmittee_member, pcs_name, code, realname, 
+    gender, birth, nation, pro_post, grow_time, cadre_id, title
+  </sql>
+  <select id="selectByExample" parameterType="domain.pcs.PcsCommitteeMemberViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pcs_committee_member_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="domain.pcs.PcsCommitteeMemberViewExample" resultType="java.lang.Long">
+    select count(*) from pcs_committee_member_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.pcs.PcsCommitteeMemberViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pcs_committee_member_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

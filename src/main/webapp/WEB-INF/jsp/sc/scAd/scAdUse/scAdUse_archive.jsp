@@ -15,12 +15,12 @@ pageEncoding="UTF-8"%>
                         ${scAdUse.cadre.realname}
 				</div>
 			</div>
-			<div class="form-group">
+			<%--<div class="form-group">
 				<label class="col-xs-5 control-label">干部任免审批表(word文档)</label>
 				<div class="col-xs-6">
 					<input class="form-control" type="file" name="_filePath"/>
 				</div>
-			</div>
+			</div>--%>
 			<div class="form-group">
 				<label class="col-xs-5 control-label">干部任免审批表签字扫描件</label>
 				<div class="col-xs-6">

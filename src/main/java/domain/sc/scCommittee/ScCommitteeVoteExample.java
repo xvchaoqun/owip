@@ -932,63 +932,183 @@ public class ScCommitteeVoteExample {
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountIsNull() {
-            addCriterion("aggree_count is null");
+        public Criteria andAgreeCountIsNull() {
+            addCriterion("agree_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountIsNotNull() {
-            addCriterion("aggree_count is not null");
+        public Criteria andAgreeCountIsNotNull() {
+            addCriterion("agree_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountEqualTo(Integer value) {
-            addCriterion("aggree_count =", value, "aggreeCount");
+        public Criteria andAgreeCountEqualTo(Integer value) {
+            addCriterion("agree_count =", value, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountNotEqualTo(Integer value) {
-            addCriterion("aggree_count <>", value, "aggreeCount");
+        public Criteria andAgreeCountNotEqualTo(Integer value) {
+            addCriterion("agree_count <>", value, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountGreaterThan(Integer value) {
-            addCriterion("aggree_count >", value, "aggreeCount");
+        public Criteria andAgreeCountGreaterThan(Integer value) {
+            addCriterion("agree_count >", value, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("aggree_count >=", value, "aggreeCount");
+        public Criteria andAgreeCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("agree_count >=", value, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountLessThan(Integer value) {
-            addCriterion("aggree_count <", value, "aggreeCount");
+        public Criteria andAgreeCountLessThan(Integer value) {
+            addCriterion("agree_count <", value, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountLessThanOrEqualTo(Integer value) {
-            addCriterion("aggree_count <=", value, "aggreeCount");
+        public Criteria andAgreeCountLessThanOrEqualTo(Integer value) {
+            addCriterion("agree_count <=", value, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountIn(List<Integer> values) {
-            addCriterion("aggree_count in", values, "aggreeCount");
+        public Criteria andAgreeCountIn(List<Integer> values) {
+            addCriterion("agree_count in", values, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountNotIn(List<Integer> values) {
-            addCriterion("aggree_count not in", values, "aggreeCount");
+        public Criteria andAgreeCountNotIn(List<Integer> values) {
+            addCriterion("agree_count not in", values, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountBetween(Integer value1, Integer value2) {
-            addCriterion("aggree_count between", value1, value2, "aggreeCount");
+        public Criteria andAgreeCountBetween(Integer value1, Integer value2) {
+            addCriterion("agree_count between", value1, value2, "agreeCount");
             return (Criteria) this;
         }
 
-        public Criteria andAggreeCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("aggree_count not between", value1, value2, "aggreeCount");
+        public Criteria andAgreeCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("agree_count not between", value1, value2, "agreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountIsNull() {
+            addCriterion("abstain_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountIsNotNull() {
+            addCriterion("abstain_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountEqualTo(Integer value) {
+            addCriterion("abstain_count =", value, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountNotEqualTo(Integer value) {
+            addCriterion("abstain_count <>", value, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountGreaterThan(Integer value) {
+            addCriterion("abstain_count >", value, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("abstain_count >=", value, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountLessThan(Integer value) {
+            addCriterion("abstain_count <", value, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountLessThanOrEqualTo(Integer value) {
+            addCriterion("abstain_count <=", value, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountIn(List<Integer> values) {
+            addCriterion("abstain_count in", values, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountNotIn(List<Integer> values) {
+            addCriterion("abstain_count not in", values, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountBetween(Integer value1, Integer value2) {
+            addCriterion("abstain_count between", value1, value2, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andAbstainCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("abstain_count not between", value1, value2, "abstainCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountIsNull() {
+            addCriterion("disagree_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountIsNotNull() {
+            addCriterion("disagree_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountEqualTo(Integer value) {
+            addCriterion("disagree_count =", value, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountNotEqualTo(Integer value) {
+            addCriterion("disagree_count <>", value, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountGreaterThan(Integer value) {
+            addCriterion("disagree_count >", value, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("disagree_count >=", value, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountLessThan(Integer value) {
+            addCriterion("disagree_count <", value, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountLessThanOrEqualTo(Integer value) {
+            addCriterion("disagree_count <=", value, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountIn(List<Integer> values) {
+            addCriterion("disagree_count in", values, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountNotIn(List<Integer> values) {
+            addCriterion("disagree_count not in", values, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountBetween(Integer value1, Integer value2) {
+            addCriterion("disagree_count between", value1, value2, "disagreeCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisagreeCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("disagree_count not between", value1, value2, "disagreeCount");
             return (Criteria) this;
         }
 

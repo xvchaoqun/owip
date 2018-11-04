@@ -220,7 +220,7 @@
             <td>{{=item.code}}</td>
             <td>
                 <button class="linkBtn btn btn-xs btn-primary"
-                        data-url="${ctx}#/sc/scCommittee?year={{=item.year}}&holdDate={{=$.date(item.holdDate, 'yyyy-MM-dd')}}"
+                        data-url="${ctx}#/sc/scCommittee?year={{=item.year}}&holdDate={{=$.date(item.holdDate, 'yyyyMMdd')}}"
                         data-target="_blank">
                     <i class="fa fa-search"></i> 查看</button>
             </td>

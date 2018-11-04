@@ -280,15 +280,6 @@
 
     </div>
 </div>
-<style>
-    .ace-file-multiple .ace-file-container .ace-file-name.large:after {
-        display: none;
-    }
-
-    .ace-file-multiple .ace-file-container .ace-file-name.large {
-        border: none;
-    }
-</style>
 <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
 <script>
     $.fileInput($("#_favicon"), {

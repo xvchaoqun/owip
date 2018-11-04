@@ -3,6 +3,7 @@ package controller.global;
 import controller.BaseController;
 import domain.abroad.Passport;
 import domain.cadre.Cadre;
+import domain.cadre.CadreView;
 import domain.cadreReserve.CadreReserveView;
 import domain.cadreReserve.CadreReserveViewExample;
 import domain.member.Member;
@@ -22,6 +23,7 @@ import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.RoleConstants;
 import sys.service.ApplicationContextSupport;
+import sys.utils.DateUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -119,9 +121,11 @@ public class CommonController extends BaseController {
             // key=0，选项value=cadreId key=1 ，选项value=userId
             @RequestParam(defaultValue = "0", required = false) Byte key,
             // 是否常委
-            Boolean isCommitteeMember,
+            Boolean isCommittee,
             // 出国境带出台湾证件号码
             @RequestParam(defaultValue = "0", required = false) boolean abroad,
+            // 任现职时间
+            @RequestParam(defaultValue = "0", required = false) boolean lpWorkTime,
             Integer pageNo, String searchStr) throws IOException {
 
         if (null == pageSize) {
@@ -156,12 +160,12 @@ public class CommonController extends BaseController {
             }
         }
 
-        int count = iCadreMapper.countCadreList(searchStr, cadreStatusSet, isCommitteeMember);
+        int count = iCadreMapper.countCadreList(searchStr, cadreStatusSet, isCommittee);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, cadreStatusSet, isCommitteeMember,
+        List<Cadre> cadres = iCadreMapper.selectCadreList(searchStr, cadreStatusSet, isCommittee,
                 new RowBounds((pageNo - 1) * pageSize, pageSize));
 
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
@@ -191,6 +195,10 @@ public class CommonController extends BaseController {
                     Passport twPassport = passportService.findTwPassport(cadre.getId());
                     if (twPassport != null)
                         option.put("twPassportCode", twPassport.getCode());
+                }
+                if(lpWorkTime){
+                    CadreView cv = cadreService.findAll().get(cadre.getId());
+                    option.put("lpWorkTime", DateUtils.formatDate(cv.getLpWorkTime(), DateUtils.YYYY_MM_DD));
                 }
                 options.add(option);
             }

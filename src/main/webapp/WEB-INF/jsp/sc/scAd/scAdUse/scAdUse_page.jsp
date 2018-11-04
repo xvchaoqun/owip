@@ -128,7 +128,15 @@
             }},
             {label: '正式归档扫描件', name: '_pdf', width: 120, formatter: function (cellvalue, options, rowObject) {
 
-                return $.swfPreview(rowObject.signFilePath, "干部任免审批表", "[任免审批表]");
+                var str = "";
+                if($.trim(rowObject.signFilePath)!='') {
+                    str += $.swfPreview(rowObject.signFilePath, "干部任免审批表归档扫描件",
+                                    '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>')
+                            + ('&nbsp;<button class="linkBtn btn btn-warning btn-xs" ' +
+                            'data-url="${ctx}/attach/download?path={0}&filename={1}"><i class="fa fa-download"></i> 下载</button>')
+                                    .format(rowObject.signFilePath, "干部任免审批表归档扫描件("+ rowObject.realname+")")
+                }
+                return str;
             }},
             {label: '备注', name: 'remark', width:300}
         ]

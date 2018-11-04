@@ -42,13 +42,13 @@
                                data-rel="tooltip" data-placement="top" title="导出选中记录或所有搜索结果">
                                 <i class="fa fa-download"></i> 导出工作安排</a>
                         </div>
-                        <div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
+                        <div class="jqgrid-vertical-offset widget-box collapsed hidden-sm hidden-xs">
                             <div class="widget-header">
                                 <h4 class="widget-title">搜索</h4>
 
                                 <div class="widget-toolbar">
                                     <a href="javascript:;" data-action="collapse">
-                                        <i class="ace-icon fa fa-chevron-${_query?'up':'down'}"></i>
+                                        <i class="ace-icon fa fa-chevron-down"></i>
                                     </a>
                                 </div>
                             </div>

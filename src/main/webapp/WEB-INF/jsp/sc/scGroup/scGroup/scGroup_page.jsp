@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <div id="body-content" class="myTableDiv"
+        <div id="body-content" class="myTableDiv multi-row-head-table"
              data-url-page="${ctx}/sc/scGroup"
              data-url-export="${ctx}/sc/scGroup_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -105,7 +105,7 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/sc/scGroup_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '年份', name: 'year', width: 80, frozen: true},
+            {label: '年份', name: 'year', width: 60, frozen: true},
             {
                 label: '编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
                 //console.log(rowObject.holdDate)
@@ -113,20 +113,20 @@
                 if($.trim(rowObject.filePath)=='') return _num;
                 return $.swfPreview(rowObject.filePath, _num);
             }, frozen: true},
-            {label: '干部小组会日期', name: 'holdDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '干部小组会<br/>日期', name: 'holdDate', width: 95, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '议题数量', name: 'topicNum'},
 
-            {label: '议题word版', name: 'wordFilePath', formatter: function (cellvalue, options, rowObject) {
+            {label: '议题word版', name: 'wordFilePath', width: 95, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==undefined) return '-'
                 var _num = "干部小组会[{0}]号".format($.date(rowObject.holdDate, "yyyyMMdd"));
                 return '&nbsp;<button data-url="${ctx}/attach/download?path={0}&filename={1}"  title="下载WORD文件" class="linkBtn btn btn-xs btn-success"><i class="fa fa-file-word-o"></i> 下载</button>'
                         .format(encodeURI(rowObject.wordFilePath), encodeURI(_num));
             }},
             {
-                label: '参会人', name: '_participant', formatter: function (cellvalue, options, rowObject) {
+                label: '参会人', name: '_participant', width: 90, formatter: function (cellvalue, options, rowObject) {
 
-                return ('<button class="popupBtn btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scGroupParticipant?groupId={0}">查看</button>')
+                return ('<button class="popupBtn btn btn-primary btn-xs" ' +
+                'data-url="${ctx}/sc/scGroupParticipant?groupId={0}"><i class="fa fa-search"></i> 查看</button>')
                         .format(rowObject.id);
             }
             },
@@ -138,9 +138,9 @@
                         .format(rowObject.id);
             }
             },
-            {label: '会议记录', name: 'logFile', formatter: function (cellvalue, options, rowObject) {
+            {label: '会议记录', name: 'logFile', width: 90, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.logFile==undefined) return '-';
-                return $.swfPreview(rowObject.logFile, '会议记录', '查看');
+                return $.swfPreview(rowObject.logFile, '会议记录', '<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>');
             }},
             {label: '备注', name: 'remark', width: 280}
         ]

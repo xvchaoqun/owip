@@ -79,7 +79,8 @@
             { label:'工作证号', name: 'user.code'},
             { label:'姓名', name: 'user.realname'},
             {label: '原任职务', name: 'originalPost', width:300,align:'left'},
-            { label:'任免职务', name: 'post', width: 380,align:'left' }, {hidden: true, name: 'dispatchUserId'}
+            { label:'任免职务', name: 'post', width: 380,align:'left' },
+            {hidden: true, name: 'dispatchUserId'}, {hidden: true, key: true, name: 'id'}
         ],
         loadComplete:function(){
             $.each(scCommitteeVotes, function(i, v){

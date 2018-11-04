@@ -220,7 +220,7 @@ public class ScDispatchController extends ScDispatchBaseController {
         if(committeeIds!=null && committeeIds.length>0) {
             ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
             example.createCriteria().andCommitteeIdIn(Arrays.asList(committeeIds));
-            example.setOrderByClause("type asc, sort_order desc");
+            example.setOrderByClause("hold_date desc, seq asc, id asc");
             List<ScCommitteeVoteView> scCommitteeVoteViews = scCommitteeVoteViewMapper.selectByExample(example);
             modelMap.put("scCommitteeVotes", scCommitteeVoteViews);
            //modelMap.put("scCommitteeVotes", iScMapper.getScDispatchUsers(StringUtils.join(committeeIds, ",")));
@@ -239,7 +239,7 @@ public class ScDispatchController extends ScDispatchBaseController {
 
             ScCommitteeVoteViewExample example = new ScCommitteeVoteViewExample();
             example.createCriteria().andIdIn(Arrays.asList(voteIds));
-            example.setOrderByClause("type asc, sort_order desc");
+            example.setOrderByClause("hold_date desc, seq asc, id asc");
             votes = scCommitteeVoteViewMapper.selectByExample(example);
         }
 

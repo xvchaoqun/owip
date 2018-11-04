@@ -4,8 +4,10 @@
   <resultMap id="BaseResultMap" type="domain.sc.scCommittee.ScCommitteeTopic">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
     <result column="has_vote" jdbcType="BIT" property="hasVote" />
     <result column="has_other_vote" jdbcType="BIT" property="hasOtherVote" />
     <result column="vote_file_path" jdbcType="VARCHAR" property="voteFilePath" />
@@ -71,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, committee_id, name, content, has_vote, has_other_vote, vote_file_path, remark, 
-    is_deleted
+    id, committee_id, seq, name, content, memo, has_vote, has_other_vote, vote_file_path, 
+    remark, is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeTopicExample" resultMap="BaseResultMap">
     select
@@ -105,14 +107,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="domain.sc.scCommittee.ScCommitteeTopic">
-    insert into sc_committee_topic (id, committee_id, name, 
-      content, has_vote, has_other_vote, 
-      vote_file_path, remark, is_deleted
-      )
-    values (#{id,jdbcType=INTEGER}, #{committeeId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{hasVote,jdbcType=BIT}, #{hasOtherVote,jdbcType=BIT}, 
-      #{voteFilePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}
-      )
+    insert into sc_committee_topic (id, committee_id, seq, 
+      name, content, memo, 
+      has_vote, has_other_vote, vote_file_path, 
+      remark, is_deleted)
+    values (#{id,jdbcType=INTEGER}, #{committeeId,jdbcType=INTEGER}, #{seq,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
+      #{hasVote,jdbcType=BIT}, #{hasOtherVote,jdbcType=BIT}, #{voteFilePath,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.scCommittee.ScCommitteeTopic">
     insert into sc_committee_topic
@@ -123,11 +125,17 @@
       <if test="committeeId != null">
         committee_id,
       </if>
+      <if test="seq != null">
+        seq,
+      </if>
       <if test="name != null">
         name,
       </if>
       <if test="content != null">
         content,
+      </if>
+      <if test="memo != null">
+        memo,
       </if>
       <if test="hasVote != null">
         has_vote,
@@ -152,11 +160,17 @@
       <if test="committeeId != null">
         #{committeeId,jdbcType=INTEGER},
       </if>
+      <if test="seq != null">
+        #{seq,jdbcType=INTEGER},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
       </if>
       <if test="hasVote != null">
         #{hasVote,jdbcType=BIT},
@@ -190,11 +204,17 @@
       <if test="record.committeeId != null">
         committee_id = #{record.committeeId,jdbcType=INTEGER},
       </if>
+      <if test="record.seq != null">
+        seq = #{record.seq,jdbcType=INTEGER},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memo != null">
+        memo = #{record.memo,jdbcType=VARCHAR},
       </if>
       <if test="record.hasVote != null">
         has_vote = #{record.hasVote,jdbcType=BIT},
@@ -220,8 +240,10 @@
     update sc_committee_topic
     set id = #{record.id,jdbcType=INTEGER},
       committee_id = #{record.committeeId,jdbcType=INTEGER},
+      seq = #{record.seq,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
+      memo = #{record.memo,jdbcType=VARCHAR},
       has_vote = #{record.hasVote,jdbcType=BIT},
       has_other_vote = #{record.hasOtherVote,jdbcType=BIT},
       vote_file_path = #{record.voteFilePath,jdbcType=VARCHAR},
@@ -237,11 +259,17 @@
       <if test="committeeId != null">
         committee_id = #{committeeId,jdbcType=INTEGER},
       </if>
+      <if test="seq != null">
+        seq = #{seq,jdbcType=INTEGER},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
       </if>
       <if test="hasVote != null">
         has_vote = #{hasVote,jdbcType=BIT},
@@ -264,8 +292,10 @@
   <update id="updateByPrimaryKey" parameterType="domain.sc.scCommittee.ScCommitteeTopic">
     update sc_committee_topic
     set committee_id = #{committeeId,jdbcType=INTEGER},
+      seq = #{seq,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=VARCHAR},
       has_vote = #{hasVote,jdbcType=BIT},
       has_other_vote = #{hasOtherVote,jdbcType=BIT},
       vote_file_path = #{voteFilePath,jdbcType=VARCHAR},

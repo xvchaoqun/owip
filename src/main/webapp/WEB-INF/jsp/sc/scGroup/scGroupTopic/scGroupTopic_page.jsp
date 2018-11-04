@@ -4,7 +4,7 @@ pageEncoding="UTF-8" %>
 <div class="row">
     <div class="col-xs-12">
 
-        <div id="body-content" class="myTableDiv"
+        <div id="body-content" class="myTableDiv multi-row-head-table"
                  data-url-page="${ctx}/sc/scGroupTopic"
                  data-url-export="${ctx}/sc/scGroupTopic_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
@@ -134,17 +134,17 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/sc/scGroupTopic_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '年份', name: 'year', width: 80, frozen: true},
+            {label: '年份', name: 'year', width: 60, frozen: true},
             {
                 label: '编号', name: '_num', width: 180, formatter: function (cellvalue, options, rowObject) {
                 var _num = "干部小组会[{0}]号".format($.date(rowObject.holdDate, "yyyyMMdd"))
                 if(rowObject.groupFilePath==undefined) return _num;
                 return $.swfPreview(rowObject.groupFilePath, _num);
             }, frozen: true},
-            {label: '干部小组会日期', name: 'holdDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '干部小组会<br/>日期', name: 'holdDate', width: 95, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             { label: '议题名称',name: 'name', width: 350, align:'left'},
             {
-                label: '议题内容和讨论备忘',name: '_content', width: 150, formatter: function (cellvalue, options, rowObject) {
+                label: '议题内容<br/>和讨论备忘',name: '_content', width: 95, formatter: function (cellvalue, options, rowObject) {
                 return ('<button class="openView btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/sc/scGroupTopic_content?topicId={0}"><i class="fa fa-search"></i> 查看</button>')
                         .format(rowObject.id);

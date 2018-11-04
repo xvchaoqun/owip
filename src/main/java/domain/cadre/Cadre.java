@@ -10,39 +10,6 @@ public class Cadre implements Serializable {
 
         return CmTag.getUserById(userId);
     }
-    /*
-    public Unit getUnit(){
-        return CmTag.getUnit(unitId);
-    }
-   public MetaType getAdminLevelType(){
-        Map<Integer, MetaType> adminLevelMap = CmTag.getMetaTypes("mc_admin_level");
-        return adminLevelMap.get(typeId);
-    }
-    public MetaType getPostType(){
-
-        Map<Integer, MetaType> postMap = CmTag.getMetaTypes("mc_post");
-        return postMap.get(postId);
-    }
-    // 兼审单位
-    public List<CadreAdditionalPost> getCadreAdditionalPosts(){
-
-        return CmTag.getCadreAdditionalPosts(id);
-    }
-    // 离任文件
-    public Dispatch getDispatch(){
-        if(dispatchCadreId!=null){
-            DispatchCadre dispatchCadre = CmTag.getDispatchCadre(dispatchCadreId);
-            if(dispatchCadre!=null)
-                return CmTag.getDispatch(dispatchCadre.getDispatchId());
-        }
-        return null;
-    }
-
-    public CadreEdu[] getCadreEdus(){
-
-        return CmTag.getCadreEdus(id);
-    }*/
-
     private Integer id;
 
     private Integer userId;
@@ -52,8 +19,6 @@ public class Cadre implements Serializable {
     private Integer postId;
 
     private Integer unitId;
-
-    private Boolean isCommitteeMember;
 
     private String title;
 
@@ -107,14 +72,6 @@ public class Cadre implements Serializable {
 
     public void setUnitId(Integer unitId) {
         this.unitId = unitId;
-    }
-
-    public Boolean getIsCommitteeMember() {
-        return isCommitteeMember;
-    }
-
-    public void setIsCommitteeMember(Boolean isCommitteeMember) {
-        this.isCommitteeMember = isCommitteeMember;
     }
 
     public String getTitle() {

@@ -6,7 +6,7 @@
             <div class="search">
                 院系级党委、党总支、直属党支部：<input type="text" id="searchInput"> <a href="javascript:;" id="clearBtn"><i class="fa fa-times-circle fa-lg grey"></i></a>
             </div>
-            <table class="table table-bordered table-striped" data-offset-top="101">
+            <table class="table table-bordered table-striped" data-offset-top="132">
 
                 <thead class="multi">
 
@@ -141,7 +141,7 @@
     }
 
     .allocateTable .partyName {
-        text-align: left;
+        text-align: left!important;
     }
 </style>
 <script>

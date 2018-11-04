@@ -57,8 +57,8 @@
                                             <label class="col-xs-3 control-label">议题名称</label>
 
                                             <div class="col-xs-6">
-                                                <input required class="form-control" type="text" name="name"
-                                                       value="${scGroupTopic.name}">
+                                                <textarea class="form-control noEnter" rows="3"
+                                                          name="name">${scGroupTopic.name}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -128,7 +128,7 @@
                                             <label class="col-xs-3 control-label">备注</label>
 
                                             <div class="col-xs-6">
-                                        <textarea class="form-control limited"
+                                        <textarea class="form-control limited" rows="4"
                                                   name="remark">${scGroupTopic.remark}</textarea>
                                             </div>
                                         </div>

@@ -442,6 +442,66 @@ public class ScCommitteeViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andCommitteeMemberCountIsNull() {
+            addCriterion("committee_member_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountIsNotNull() {
+            addCriterion("committee_member_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountEqualTo(Integer value) {
+            addCriterion("committee_member_count =", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountNotEqualTo(Integer value) {
+            addCriterion("committee_member_count <>", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountGreaterThan(Integer value) {
+            addCriterion("committee_member_count >", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("committee_member_count >=", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountLessThan(Integer value) {
+            addCriterion("committee_member_count <", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountLessThanOrEqualTo(Integer value) {
+            addCriterion("committee_member_count <=", value, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountIn(List<Integer> values) {
+            addCriterion("committee_member_count in", values, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountNotIn(List<Integer> values) {
+            addCriterion("committee_member_count not in", values, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountBetween(Integer value1, Integer value2) {
+            addCriterion("committee_member_count between", value1, value2, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andCommitteeMemberCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("committee_member_count not between", value1, value2, "committeeMemberCount");
+            return (Criteria) this;
+        }
+
         public Criteria andLogFileIsNull() {
             addCriterion("log_file is null");
             return (Criteria) this;
@@ -509,6 +569,76 @@ public class ScCommitteeViewExample {
 
         public Criteria andLogFileNotBetween(String value1, String value2) {
             addCriterion("log_file not between", value1, value2, "logFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileIsNull() {
+            addCriterion("ppt_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileIsNotNull() {
+            addCriterion("ppt_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileEqualTo(String value) {
+            addCriterion("ppt_file =", value, "pptFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileNotEqualTo(String value) {
+            addCriterion("ppt_file <>", value, "pptFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileGreaterThan(String value) {
+            addCriterion("ppt_file >", value, "pptFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileGreaterThanOrEqualTo(String value) {
+            addCriterion("ppt_file >=", value, "pptFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileLessThan(String value) {
+            addCriterion("ppt_file <", value, "pptFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileLessThanOrEqualTo(String value) {
+            addCriterion("ppt_file <=", value, "pptFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileLike(String value) {
+            addCriterion("ppt_file like", value, "pptFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileNotLike(String value) {
+            addCriterion("ppt_file not like", value, "pptFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileIn(List<String> values) {
+            addCriterion("ppt_file in", values, "pptFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileNotIn(List<String> values) {
+            addCriterion("ppt_file not in", values, "pptFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileBetween(String value1, String value2) {
+            addCriterion("ppt_file between", value1, value2, "pptFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andPptFileNotBetween(String value1, String value2) {
+            addCriterion("ppt_file not between", value1, value2, "pptFile");
             return (Criteria) this;
         }
 

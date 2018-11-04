@@ -1,4 +1,44 @@
 
+20181105
+ALTER TABLE `pcs_candidate_chosen`
+	CHANGE COLUMN `config_id` `config_id` INT(10) UNSIGNED NOT NULL COMMENT '所属党代会' AFTER `id`;
+
++ pcs_committee_member
+创建视图        pcs_committee_member_view
+
+insert into pcs_committee_member(type,user_id) select 0, user_id  from cadre where is_committee_member=1 order by sort_order asc;
+
+update pcs_committee_member set sort_order = id;
+
+ALTER TABLE `cadre`
+	DROP COLUMN `is_committee_member`;
+
+更新 cadre_view  cadre_inspect_view    cadre_reserve_view  crs_candidate_view
+
+ALTER TABLE `sc_committee`
+	ADD COLUMN `committee_member_count` INT(10) UNSIGNED NOT NULL COMMENT '常委总数' AFTER `topic_num`;
+
+ALTER TABLE `sc_committee`
+	ADD COLUMN `ppt_file` VARCHAR(100) NULL DEFAULT NULL COMMENT '上会PPT' AFTER `log_file`;
+
+update  sc_committee set committee_member_count= (select count(*) from pcs_committee_member where type=0 and is_quit=0);
+
+ALTER TABLE `sc_committee_vote`
+	CHANGE COLUMN `aggree_count` `agree_count` INT(10) UNSIGNED NOT NULL COMMENT '表决同意票数' AFTER `unit_id`,
+	ADD COLUMN `abstain_count` INT(10) UNSIGNED NOT NULL COMMENT '表决弃权票数' AFTER `agree_count`,
+	ADD COLUMN `disagree_count` INT(10) UNSIGNED NOT NULL COMMENT '表决反对票数' AFTER `abstain_count`;
+
+更新 sc_committee_view  sc_committee_topic_view  sc_committee_vote_view   sc_committee_other_vote_view
+
+ALTER TABLE `sc_committee_topic`
+	ADD COLUMN `memo` LONGTEXT NULL COMMENT '议题讨论备忘' AFTER `content`;
+
+ALTER TABLE `sc_committee_topic`
+	ADD COLUMN `seq` INT(10) UNSIGNED NOT NULL COMMENT '议题序号' AFTER `committee_id`;
+
+更新 sc_committee_topic_view
+
+
 20181102
 ALTER TABLE `dispatch`
 	ADD UNIQUE INDEX `sc_dispatch_id` (`sc_dispatch_id`);

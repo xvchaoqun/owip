@@ -64,12 +64,6 @@
   .ace-file-multiple .ace-file-container .ace-file-name .ace-icon{
     line-height: 120px!important;
   }
-  .ace-file-multiple .ace-file-container .ace-file-name.large{
-    border-bottom: none!important;
-  }
-  .ace-file-multiple .ace-file-container .ace-file-name.large:after{
-    display: none!important;
-  }
 </style>
 <script>
   $.fileInput($('input[type=file]'),{
