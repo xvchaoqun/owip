@@ -166,7 +166,7 @@
                 return rowObject.count + rowObject.absentCount;
             }},
             {
-                label: '实际参会<br/>常委数', name: 'count', width: 120, formatter: function (cellvalue, options, rowObject) {
+                label: '实际参会<br/>常委数', name: 'count', width: 80, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue==0) return '-'
                 return ('<a href="javascript:;" class="popupBtn bolder" ' +
                 'data-url="${ctx}/sc/scCommitteeMember?committeeId={0}&isAbsent=0"><u>{1}</u></a>')

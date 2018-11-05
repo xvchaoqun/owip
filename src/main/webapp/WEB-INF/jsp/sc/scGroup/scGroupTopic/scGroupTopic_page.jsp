@@ -168,7 +168,7 @@ pageEncoding="UTF-8" %>
                     unitname += "，..."
                 }
 
-                return ('<a href="javascript:;" class="popupBtn btn btn-link btn-xs" ' +
+                return ('<a href="javascript:;" class="popupBtn" ' +
                 'data-url="${ctx}/sc/scGroupTopicUnit?topicId={0}">{1}</a>')
                         .format(rowObject.id, unitname);
             }
