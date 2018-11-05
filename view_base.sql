@@ -79,8 +79,7 @@ SELECT c.*
    ,_va.verify_birth as verify_birth
    ,_vwt.verify_work_time as verify_work_time
 FROM  cadre c
-left join pcs_committee_member pcm on pcm.user_id=c.user_id and pcm.is_quit=0
-left join base_meta_type pc_post on pcm.post=pc_post.id and pc_post.bool_attr=1
+left join (select pcm.* from pcs_committee_member pcm, base_meta_type pc_post where pcm.is_quit=0 and pcm.type=0 and pcm.post=pc_post.id and pc_post.bool_attr=1) as pcm on pcm.user_id=c.user_id
 left join cadre_party dp on dp.user_id= c.user_id and dp.type = 1
 left join cadre_party ow on ow.user_id= c.user_id and ow.type = 2
 LEFT JOIN `sys_user_view` `uv` ON `uv`.`user_id` = `c`.`user_id`
@@ -101,7 +100,9 @@ left join
 (select * from (select distinct dcr.relate_id as lp_relate_id, d.id as lp_id, d.file_name as lp_file_name, d.file as lp_file, d.work_time as lp_work_time  from dispatch_cadre_relate dcr,
 dispatch_cadre dc ,dispatch d where dcr.relate_type=2 and dc.id=dcr.dispatch_cadre_id and d.id=dc.dispatch_id order by d.work_time desc)t group by lp_relate_id) lp on lp.lp_relate_id=main_cadre_post.id
 left join
-(select cal.cadre_id, cal.admin_level_id , sdc.dispatch_id as s_dispatch_id , sd.work_time as s_work_time, edc.dispatch_id as e_dispatch_id, if(isnull(ed.work_time),now(),ed.work_time) as e_work_time  from cadre_admin_level cal
+(select cal.cadre_id, cal.admin_level_id , sdc.dispatch_id as s_dispatch_id ,
+sd.work_time as s_work_time, edc.dispatch_id as e_dispatch_id,
+if(isnull(ed.work_time),now(),ed.work_time) as e_work_time  from cadre_admin_level cal
 left join dispatch_cadre sdc on sdc.id=cal.start_dispatch_cadre_id
 left join dispatch sd on sd.id=sdc.dispatch_id
 left join dispatch_cadre edc on edc.id=cal.end_dispatch_cadre_id
