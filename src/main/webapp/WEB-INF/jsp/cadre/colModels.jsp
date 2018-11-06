@@ -601,7 +601,7 @@
         {label: '考察对象', name: 'cadre.realname', formatter: function (cellvalue, options, rowObject) {
             return $.cadre(rowObject.cadre.id, cellvalue);
         }, frozen: true},
-        {label: '所在单位及职务', name: 'cadre.title', align: 'left', width: 200},
+        {label: '所在单位及职务', name: 'post', align: 'left', width: 200},
         {label: '拟任职务', name: 'assignPost', align: 'left', width: 200},
         {
             label: '考察主体', name: '_inspectorType', formatter: function (cellvalue, options, rowObject) {
