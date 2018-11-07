@@ -356,7 +356,7 @@
             {label: '流入时间', name: 'flowTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '流入原因', name: 'flowReason',  align:'left',width: 350},
             {label: '入党时间', name: 'growTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '组织关系所在地', name: 'orLocation' align:'left',, width: 150},
+            {label: '组织关系所在地', name: 'orLocation', align:'left', width: 150},
             {hidden: true, name: 'inflowStatus'}
         ],
         onSelectRow: function (id, status) {
