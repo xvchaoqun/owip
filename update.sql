@@ -12,6 +12,10 @@ ALTER TABLE `sys_role`
 	ADD COLUMN `user_count` INT UNSIGNED NULL COMMENT '权限拥有人数，当前拥有该角色的正常账号数，系统每小时自动统计' AFTER `m_resource_ids`;
 
 
+ALTER TABLE `sc_committee_vote`
+	CHANGE COLUMN `original_post` `original_post` VARCHAR(200) NULL DEFAULT NULL COMMENT '原任职务，任命才有' AFTER `type`,
+	CHANGE COLUMN `post` `post` VARCHAR(200) NOT NULL COMMENT '职务' AFTER `procedure_id`;
+
 20181105
 ALTER TABLE `pcs_candidate_chosen`
 	CHANGE COLUMN `config_id` `config_id` INT(10) UNSIGNED NOT NULL COMMENT '所属党代会' AFTER `id`;
