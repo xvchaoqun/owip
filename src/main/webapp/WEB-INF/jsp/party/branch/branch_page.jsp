@@ -246,9 +246,9 @@
             { label: '是否建立在团队', name: 'isBaseTeam' , width: 130, formatter:$.jgrid.formatter.TRUEFALSE},
             { label:'单位属性', name: 'unitTypeId', width: 150, formatter: $.jgrid.formatter.MetaType},
             { label: '联系电话', name: 'phone', width: 130 },
-            { label: '传真', name: 'fax', width: 100 },
-            { label: '邮箱', name: 'email', width: 100 },
-            { label: '成立时间', name: 'foundTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} }
+            { label: '传真', name: 'fax' },
+            { label: '邮箱', name: 'email' },
+            { label: '成立时间', name: 'foundTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'} }
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

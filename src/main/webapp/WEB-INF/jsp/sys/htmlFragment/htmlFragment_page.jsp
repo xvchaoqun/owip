@@ -92,7 +92,7 @@
             { label: 'ID', name: 'id', frozen:true, width:50 },
             { label: '名称', name: 'title', width: 450,frozen:true, align:'left' },
             <c:if test="${!_query}">
-            { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,
+            { label:'排序', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url:'${ctx}/htmlFragment_changeOrder'},frozen:true },
             </c:if>
             { label: '上级说明', name: 'fid', width: 250,  align:'left', formatter:function(cellvalue, options, rowObject){

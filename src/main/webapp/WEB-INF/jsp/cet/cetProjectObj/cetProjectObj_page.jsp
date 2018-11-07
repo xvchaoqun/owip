@@ -630,7 +630,7 @@
                 return rowObject.objInfo.isFinished?${cetDiscuss.period}:0
             }, frozen: true},
             </c:if>
-            {label: '工作证号', name: 'code', width: 100, frozen: true},
+            {label: '工作证号', name: 'code', width: 110, frozen: true},
             {label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadreId, cellvalue, "_blank");
 

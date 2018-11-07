@@ -302,10 +302,10 @@
             { label: '民族',  name: 'nation'},
             { label: '籍贯',  name: 'nativePlace', width: 80},
             {label: '年龄', name: 'birth', width: 55, formatter: $.jgrid.formatter.AGE},
-            { label: '最高学历', name: 'education', width: 100 },
-            { label: '编制类别', name: 'authorizedType', width: 100 },
-            { label: '人员类别', name: 'staffType', width: 100 },
-            { label: '岗位类别', name: 'postClass', width: 100 },
+            { label: '最高学历', name: 'education' },
+            { label: '编制类别', name: 'authorizedType' },
+            { label: '人员类别', name: 'staffType' },
+            { label: '岗位类别', name: 'postClass' },
             { label: '专业技术职务', name: 'proPost', width: 150 },
             { label:'所属组织机构', name: 'party', width: 550, formatter:function(cellvalue, options, rowObject){
                 return $.party(rowObject.partyId, rowObject.branchId);
@@ -316,14 +316,14 @@
                 return "-";
             }},
             { label:'入党时间', name: 'growTime', width: 120,sortable:true,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label:'转正时间',  name: 'positiveTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'转正时间',  name: 'positiveTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             <c:if test="${cls==7}">
             { label:'转出时间',  name: 'outHandleTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
-            { label:'联系手机', name: 'mobile', width: 100},
+            { label:'联系手机', name: 'mobile'},
             <c:if test="${cls>=3}">
-            { label:'退休时间', name: 'retireTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label:'是否离休', name: 'isHonorRetire', width: 100, formatter:$.jgrid.formatter.TRUEFALSE},
+            { label:'退休时间', name: 'retireTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'是否离休', name: 'isHonorRetire', formatter:$.jgrid.formatter.TRUEFALSE},
             </c:if>
             { label:'所在单位',  name: 'unitId', width: 180, formatter: $.jgrid.formatter.unit},
             {hidden:true, key:true, name:'userId'},{hidden: true, name: 'partyId'}, {hidden: true, name: 'source'}

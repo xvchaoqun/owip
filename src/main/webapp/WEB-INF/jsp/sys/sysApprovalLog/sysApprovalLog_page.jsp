@@ -39,7 +39,7 @@
       { label: '操作时间',  name: 'createTime', width: 200 },
       { label: '操作人', name: 'user.realname'},
       { label: '操作人账号', name: 'user.code'},
-      { label:'审核结果',  name: 'statusName', width: 100, formatter:function(cellvalue, options, rowObject){
+      { label:'审核结果',  name: 'statusName', formatter:function(cellvalue, options, rowObject){
         //return cellvalue==0?"未通过":"通过";
         return _cMap.SYS_APPROVAL_LOG_STATUS_MAP[rowObject.status];
       } },

@@ -40,6 +40,16 @@ public class SysRoleController extends BaseController {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@RequiresPermissions("sysRole:list")
+	@RequestMapping("/sysRole_users")
+	public String sysRole_users(int roleId, ModelMap modelMap) {
+
+		SysRole sysRole = sysRoleMapper.selectByPrimaryKey(roleId);
+		modelMap.put("sysRole", sysRole);
+
+		return "sys/sysRole/sysRole_users";
+	}
+
+	@RequiresPermissions("sysRole:list")
 	@RequestMapping("/sysRole")
 	public String sysRole() {
 

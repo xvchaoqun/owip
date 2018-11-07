@@ -102,7 +102,7 @@
             {label: '发送时间', name: 'createTime', width: 200},
             {label: 'IP', name: 'ip', width: 150},
             {
-                label: '是否成功', name: 'status', width: 100, formatter: function (cellvalue, options, rowObject) {
+                label: '是否成功', name: 'status', formatter: function (cellvalue, options, rowObject) {
                 return cellvalue ? '<span class="label label-success">是</span>' : '<span class="label label-danger">否</span>';
             }
             }

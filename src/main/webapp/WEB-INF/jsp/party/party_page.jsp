@@ -221,7 +221,7 @@ pageEncoding="UTF-8" %>
                 return $.party(rowObject.id);
             },frozen:true },
             <c:if test="${status==1 && !_query}">
-            { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,frozen:true },
+            { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             { label:'支部数量', name: 'branchCount', width: 70, formatter:function(cellvalue, options, rowObject){
                 return cellvalue==undefined?0:cellvalue;
@@ -258,9 +258,9 @@ pageEncoding="UTF-8" %>
             { label: '是否大中型', name: 'isEnterpriseBig', formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '是否国有独资', name: 'isEnterpriseNationalized', width: 110, formatter:$.jgrid.formatter.TRUEFALSE},
             { label: '是否独立法人', name: 'isSeparate', width: 110, formatter:$.jgrid.formatter.TRUEFALSE},
-            { label: '联系电话', name: 'phone', width: 100 },
-            { label: '传真', name: 'fax', width: 100 },
-            { label: '邮箱', name: 'email', width: 100 },
+            { label: '联系电话', name: 'phone' },
+            { label: '传真', name: 'fax' },
+            { label: '邮箱', name: 'email' },
             { label: '成立时间', name: 'foundTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}}
         ]
     }).jqGrid("setFrozenColumns").on("initGrid",function(){

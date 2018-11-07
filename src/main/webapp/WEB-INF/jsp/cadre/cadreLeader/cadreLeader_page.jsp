@@ -100,10 +100,10 @@
             },frozen:true  },
             { label: '所在单位及职务',  name: 'cadre.title', width: 300,frozen:true  },
             <c:if test="${!_query}">
-            { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,frozen:true },
+            { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             {label: '行政级别', name: 'cadre.typeId', formatter:$.jgrid.formatter.MetaType},
-            { label: '类别',  name: 'typeId', width: 100, formatter: $.jgrid.formatter.MetaType},
+            { label: '类别',  name: 'typeId', formatter: $.jgrid.formatter.MetaType},
             { label: '分管工作', align:'left', name: 'job', width: 750 }
 
         ]

@@ -296,7 +296,7 @@
                     .format(rowObject.userId, options.gid)
         }
         },
-        {label: '工作证号', name: 'code', width: 100},
+        {label: '工作证号', name: 'code', width: 110},
         {label: '被推荐提名人姓名', name: 'realname', width: 150},
         {
             label: '性别', name: 'gender', width: 50, formatter: $.jgrid.formatter.GENDER

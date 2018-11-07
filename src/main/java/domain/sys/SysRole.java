@@ -13,6 +13,8 @@ public class SysRole implements Serializable {
 
     private String mResourceIds;
 
+    private Integer userCount;
+
     private Byte available;
 
     private Boolean isSysHold;
@@ -61,6 +63,14 @@ public class SysRole implements Serializable {
 
     public void setmResourceIds(String mResourceIds) {
         this.mResourceIds = mResourceIds == null ? null : mResourceIds.trim();
+    }
+
+    public Integer getUserCount() {
+        return userCount;
+    }
+
+    public void setUserCount(Integer userCount) {
+        this.userCount = userCount;
     }
 
     public Byte getAvailable() {

@@ -117,11 +117,11 @@ pageEncoding="UTF-8" %>
         url: "${ctx}/applyApprovalLog_data?callback=?&type=<%=OwConstants.OW_APPLY_APPROVAL_LOG_TYPE_MEMBER_APPLY%>&${cm:encodeQueryString(pageContext.request.queryString)}",
         colModel: [
             {label: '${type==1?"学生证号":"工作证号"}', name: 'applyUser.code', width: 150, frozen:true},
-            {label: '姓名', name: 'applyUser.realname', width: 100, frozen:true},
+            {label: '姓名', name: 'applyUser.realname', frozen:true},
             { label: '阶段',  name: 'stage', width: 200 },
             { label: '审核时间',  name: 'createTime', width: 200 },
             { label: '审核人', name: 'user.realname', width: 150 },
-            { label:'审核结果',  name: 'status', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label:'审核结果',  name: 'status', formatter:function(cellvalue, options, rowObject){
                 return cellvalue==0?"未通过":"通过";
             } },
             { label:'备注',  name: 'remark', width: 450 },

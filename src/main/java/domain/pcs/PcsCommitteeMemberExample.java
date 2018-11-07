@@ -682,6 +682,76 @@ public class PcsCommitteeMemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andQuitFilePathIsNull() {
+            addCriterion("quit_file_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathIsNotNull() {
+            addCriterion("quit_file_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathEqualTo(String value) {
+            addCriterion("quit_file_path =", value, "quitFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathNotEqualTo(String value) {
+            addCriterion("quit_file_path <>", value, "quitFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathGreaterThan(String value) {
+            addCriterion("quit_file_path >", value, "quitFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathGreaterThanOrEqualTo(String value) {
+            addCriterion("quit_file_path >=", value, "quitFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathLessThan(String value) {
+            addCriterion("quit_file_path <", value, "quitFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathLessThanOrEqualTo(String value) {
+            addCriterion("quit_file_path <=", value, "quitFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathLike(String value) {
+            addCriterion("quit_file_path like", value, "quitFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathNotLike(String value) {
+            addCriterion("quit_file_path not like", value, "quitFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathIn(List<String> values) {
+            addCriterion("quit_file_path in", values, "quitFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathNotIn(List<String> values) {
+            addCriterion("quit_file_path not in", values, "quitFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathBetween(String value1, String value2) {
+            addCriterion("quit_file_path between", value1, value2, "quitFilePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuitFilePathNotBetween(String value1, String value2) {
+            addCriterion("quit_file_path not between", value1, value2, "quitFilePath");
+            return (Criteria) this;
+        }
+
         public Criteria andQuitReasonIsNull() {
             addCriterion("quit_reason is null");
             return (Criteria) this;

@@ -22,6 +22,8 @@ public class PcsCommitteeMemberView implements Serializable {
 
     private Date quitDate;
 
+    private String quitFilePath;
+
     private String quitReason;
 
     private Integer sortOrder;
@@ -124,6 +126,14 @@ public class PcsCommitteeMemberView implements Serializable {
 
     public void setQuitDate(Date quitDate) {
         this.quitDate = quitDate;
+    }
+
+    public String getQuitFilePath() {
+        return quitFilePath;
+    }
+
+    public void setQuitFilePath(String quitFilePath) {
+        this.quitFilePath = quitFilePath == null ? null : quitFilePath.trim();
     }
 
     public String getQuitReason() {

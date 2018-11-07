@@ -42,7 +42,7 @@
             { label: '序号', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "L{0}".format(rowObject.id);
             },frozen:true},
-            { label: '申请日期', name: 'applyDate', width: 100,frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '申请日期', name: 'applyDate',frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label: '出发时间', name: 'startTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d H:i'} },
             { label: '返回时间', name: 'endTime', width: 150, formatter: 'date', formatoptions: {newformat: 'Y-m-d H:i'} },
             { label: '出行天数', name: 'day', width: 80,formatter:function(cellvalue, options, rowObject){
@@ -50,7 +50,7 @@
             }},
             { label:'目的地',name: 'destination', width: 180},
             { label:'请假事由', name: 'reason', width: 200},
-            { label: '审批情况', name: 'status', width: 100 , formatter:function(cellvalue, options, rowObject){
+            { label: '审批情况', name: 'status' , formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 return (function(tdBean){
                     var type = tdBean.tdType;

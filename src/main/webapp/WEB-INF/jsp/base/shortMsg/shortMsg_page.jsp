@@ -88,7 +88,7 @@
         multiselect:false,
         url: '${ctx}/shortMsg_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '接收方', name: 'receiverId', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '接收方', name: 'receiverId', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.user==undefined) return '-'
                 return $.user(rowObject.user.id, rowObject.user.realname)
             },frozen:true },
@@ -97,7 +97,7 @@
             { label: '短信内容',  name: 'content', width: 350, formatter: $.jgrid.formatter.NoMultiSpace},
             { label: '发送时间',  name: 'createTime', width: 150},
             { label: 'IP',  name: 'ip', width: 150},
-            { label: '是否成功',  name: 'status', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '是否成功',  name: 'status', formatter:function(cellvalue, options, rowObject){
                 return cellvalue?'<span class="label label-success">是</span>':'<span class="label label-danger">否</span>';
             }},
             { label: '返回结果',  name: 'ret', width: 200, formatter: $.jgrid.formatter.htmlencodeWithNoSpace},

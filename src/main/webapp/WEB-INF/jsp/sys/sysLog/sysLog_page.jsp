@@ -85,7 +85,7 @@
             { label: '模块', name: 'typeId', formatter: function (cellvalue, options, rowObject) {
                 return $.trim(_cMap.LOG_MAP[cellvalue]);
             }},
-            { label: '操作人',  name: 'user.realname', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '操作人',  name: 'user.realname', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.user==undefined) return $.trim(rowObject.operator)
                 return $.user(rowObject.user.id, rowObject.user.realname);
             },frozen:true },

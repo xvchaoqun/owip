@@ -156,7 +156,7 @@ pageEncoding="UTF-8" %>
         rownumbers: true,
         url: '${ctx}/cadreInspect_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '工作证号', name: 'user.code', width: 100, frozen: true},
+            {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {
                 label: '姓名', name: 'user.realname', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.id, cellvalue);

@@ -101,7 +101,7 @@
             { label: '代码', name: 'code', align:'left', width: 250 ,frozen:true },
             </shiro:hasRole>
             <c:if test="${!_query}">
-            { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,
+            { label:'排序', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url:'${ctx}/contentTpl_changeOrder'}, frozen:true },
             </c:if>
             { label: '类型', name: 'type',  formatter: function (cellvalue, options, rowObject) {

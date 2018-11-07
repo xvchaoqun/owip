@@ -3,6 +3,7 @@ package controller.pcs;
 import domain.pcs.PcsCommitteeMember;
 import domain.pcs.PcsCommitteeMemberView;
 import domain.pcs.PcsCommitteeMemberViewExample;
+import domain.pcs.PcsConfig;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -171,6 +172,9 @@ public class PcsCommitteeMemberController extends PcsBaseController {
         modelMap.put("type", type);
         modelMap.put("isQuit", isQuit);
 
+        PcsConfig currentPcsConfig = pcsConfigService.getCurrentPcsConfig();
+        modelMap.put("currentPcsConfig", currentPcsConfig);
+
         modelMap.put("pcsConfigs", pcsConfigService.findAll().values());
 
         return "pcs/pcsCommitteeMember/pcsCommitteeMember_au";
@@ -192,17 +196,20 @@ public class PcsCommitteeMemberController extends PcsBaseController {
     @ResponseBody
     public Map do_pcsCommitteeMember_leave(int id, boolean type, boolean isQuit,
                                      @DateTimeFormat(pattern = "yyyy-MM-dd") Date quitDate,
+                                           MultipartFile _quitFilePath,
                                      String quitReason,
-                                     HttpServletRequest request) {
+                                     HttpServletRequest request) throws IOException, InterruptedException {
 
         PcsCommitteeMember record = new PcsCommitteeMember();
         record.setId(id);
         record.setIsQuit(isQuit);
+        record.setQuitFilePath(uploadPdf(_quitFilePath, "pcsCommitteeMember"));
         if(isQuit){
             record.setQuitDate(quitDate);
             record.setQuitReason(quitReason);
         }else{
-            commonMapper.excuteSql("update pcs_committee_member set quit_date=null, quit_reason=null where id="+id);
+            commonMapper.excuteSql("update pcs_committee_member set quit_date=null, " +
+                    "quit_file_path=null, quit_reason=null where id="+id);
         }
         record.setSortOrder(getNextSortOrder("pcs_committee_member", "type="+ type
                 + " and is_quit="+ isQuit));

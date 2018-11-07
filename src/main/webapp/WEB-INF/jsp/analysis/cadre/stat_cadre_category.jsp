@@ -66,7 +66,7 @@
         url: '${ctx}/stat_cadre_category_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         rownumbers: true,
         colModel: [
-            {label: '工作证号', name: 'cadre.code', width: 100, frozen: true},
+            {label: '工作证号', name: 'cadre.code', width: 110, frozen: true},
             {
                 label: '姓名',
                 name: 'cadre.realname',

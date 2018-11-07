@@ -7,6 +7,7 @@
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="resource_ids" jdbcType="VARCHAR" property="resourceIds" />
     <result column="m_resource_ids" jdbcType="VARCHAR" property="mResourceIds" />
+    <result column="user_count" jdbcType="INTEGER" property="userCount" />
     <result column="available" jdbcType="TINYINT" property="available" />
     <result column="is_sys_hold" jdbcType="BIT" property="isSysHold" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
@@ -71,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, role, description, resource_ids, m_resource_ids, available, is_sys_hold, sort_order, 
-    remark
+    id, role, description, resource_ids, m_resource_ids, user_count, available, is_sys_hold, 
+    sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysRoleExample" resultMap="BaseResultMap">
     select
@@ -109,11 +110,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into sys_role (role, description, resource_ids, 
-      m_resource_ids, available, is_sys_hold, 
-      sort_order, remark)
+      m_resource_ids, user_count, available, 
+      is_sys_hold, sort_order, remark
+      )
     values (#{role,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{resourceIds,jdbcType=VARCHAR}, 
-      #{mResourceIds,jdbcType=VARCHAR}, #{available,jdbcType=TINYINT}, #{isSysHold,jdbcType=BIT}, 
-      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+      #{mResourceIds,jdbcType=VARCHAR}, #{userCount,jdbcType=INTEGER}, #{available,jdbcType=TINYINT}, 
+      #{isSysHold,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysRole">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -132,6 +135,9 @@
       </if>
       <if test="mResourceIds != null">
         m_resource_ids,
+      </if>
+      <if test="userCount != null">
+        user_count,
       </if>
       <if test="available != null">
         available,
@@ -158,6 +164,9 @@
       </if>
       <if test="mResourceIds != null">
         #{mResourceIds,jdbcType=VARCHAR},
+      </if>
+      <if test="userCount != null">
+        #{userCount,jdbcType=INTEGER},
       </if>
       <if test="available != null">
         #{available,jdbcType=TINYINT},
@@ -197,6 +206,9 @@
       <if test="record.mResourceIds != null">
         m_resource_ids = #{record.mResourceIds,jdbcType=VARCHAR},
       </if>
+      <if test="record.userCount != null">
+        user_count = #{record.userCount,jdbcType=INTEGER},
+      </if>
       <if test="record.available != null">
         available = #{record.available,jdbcType=TINYINT},
       </if>
@@ -221,6 +233,7 @@
       description = #{record.description,jdbcType=VARCHAR},
       resource_ids = #{record.resourceIds,jdbcType=VARCHAR},
       m_resource_ids = #{record.mResourceIds,jdbcType=VARCHAR},
+      user_count = #{record.userCount,jdbcType=INTEGER},
       available = #{record.available,jdbcType=TINYINT},
       is_sys_hold = #{record.isSysHold,jdbcType=BIT},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
@@ -244,6 +257,9 @@
       <if test="mResourceIds != null">
         m_resource_ids = #{mResourceIds,jdbcType=VARCHAR},
       </if>
+      <if test="userCount != null">
+        user_count = #{userCount,jdbcType=INTEGER},
+      </if>
       <if test="available != null">
         available = #{available,jdbcType=TINYINT},
       </if>
@@ -265,6 +281,7 @@
       description = #{description,jdbcType=VARCHAR},
       resource_ids = #{resourceIds,jdbcType=VARCHAR},
       m_resource_ids = #{mResourceIds,jdbcType=VARCHAR},
+      user_count = #{userCount,jdbcType=INTEGER},
       available = #{available,jdbcType=TINYINT},
       is_sys_hold = #{isSysHold,jdbcType=BIT},
       sort_order = #{sortOrder,jdbcType=INTEGER},

@@ -11,6 +11,7 @@
     <result column="post_file_path" jdbcType="VARCHAR" property="postFilePath" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="quit_date" jdbcType="DATE" property="quitDate" />
+    <result column="quit_file_path" jdbcType="VARCHAR" property="quitFilePath" />
     <result column="quit_reason" jdbcType="VARCHAR" property="quitReason" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, type, config_id, user_id, post, post_date, post_file_path, is_quit, quit_date, 
-    quit_reason, sort_order, remark, status
+    quit_file_path, quit_reason, sort_order, remark, status
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsCommitteeMemberExample" resultMap="BaseResultMap">
     select
@@ -112,13 +113,13 @@
     insert into pcs_committee_member (id, type, config_id, 
       user_id, post, post_date, 
       post_file_path, is_quit, quit_date, 
-      quit_reason, sort_order, remark, 
-      status)
+      quit_file_path, quit_reason, sort_order, 
+      remark, status)
     values (#{id,jdbcType=INTEGER}, #{type,jdbcType=BIT}, #{configId,jdbcType=INTEGER}, 
       #{userId,jdbcType=INTEGER}, #{post,jdbcType=INTEGER}, #{postDate,jdbcType=DATE}, 
       #{postFilePath,jdbcType=VARCHAR}, #{isQuit,jdbcType=BIT}, #{quitDate,jdbcType=DATE}, 
-      #{quitReason,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT})
+      #{quitFilePath,jdbcType=VARCHAR}, #{quitReason,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="domain.pcs.PcsCommitteeMember">
     insert into pcs_committee_member
@@ -149,6 +150,9 @@
       </if>
       <if test="quitDate != null">
         quit_date,
+      </if>
+      <if test="quitFilePath != null">
+        quit_file_path,
       </if>
       <if test="quitReason != null">
         quit_reason,
@@ -190,6 +194,9 @@
       </if>
       <if test="quitDate != null">
         #{quitDate,jdbcType=DATE},
+      </if>
+      <if test="quitFilePath != null">
+        #{quitFilePath,jdbcType=VARCHAR},
       </if>
       <if test="quitReason != null">
         #{quitReason,jdbcType=VARCHAR},
@@ -241,6 +248,9 @@
       <if test="record.quitDate != null">
         quit_date = #{record.quitDate,jdbcType=DATE},
       </if>
+      <if test="record.quitFilePath != null">
+        quit_file_path = #{record.quitFilePath,jdbcType=VARCHAR},
+      </if>
       <if test="record.quitReason != null">
         quit_reason = #{record.quitReason,jdbcType=VARCHAR},
       </if>
@@ -269,6 +279,7 @@
       post_file_path = #{record.postFilePath,jdbcType=VARCHAR},
       is_quit = #{record.isQuit,jdbcType=BIT},
       quit_date = #{record.quitDate,jdbcType=DATE},
+      quit_file_path = #{record.quitFilePath,jdbcType=VARCHAR},
       quit_reason = #{record.quitReason,jdbcType=VARCHAR},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -304,6 +315,9 @@
       <if test="quitDate != null">
         quit_date = #{quitDate,jdbcType=DATE},
       </if>
+      <if test="quitFilePath != null">
+        quit_file_path = #{quitFilePath,jdbcType=VARCHAR},
+      </if>
       <if test="quitReason != null">
         quit_reason = #{quitReason,jdbcType=VARCHAR},
       </if>
@@ -329,6 +343,7 @@
       post_file_path = #{postFilePath,jdbcType=VARCHAR},
       is_quit = #{isQuit,jdbcType=BIT},
       quit_date = #{quitDate,jdbcType=DATE},
+      quit_file_path = #{quitFilePath,jdbcType=VARCHAR},
       quit_reason = #{quitReason,jdbcType=VARCHAR},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},

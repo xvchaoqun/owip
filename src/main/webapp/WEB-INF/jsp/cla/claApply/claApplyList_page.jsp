@@ -175,12 +175,12 @@
                 return "L{0}".format(rowObject.id);
             }, frozen: true
             },
-            {label: '申请日期',  name: 'applyDate', width: 100, frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '工作证号',  name: 'user.code', width: 100, frozen: true},
+            {label: '申请日期',  name: 'applyDate', frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '工作证号',  name: 'user.code', width: 110, frozen: true},
             {label: '姓名',  name: 'user.realname', width: 75, frozen: true},
             {label: '所在单位及职务', name: 'cadre.title', width: 250},
-            {label: '出行时间',  name: 'startTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d H:i'}},
-            {label: '返校时间',  name: 'endTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d H:i'}},
+            {label: '出行时间',  name: 'startTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d H:i'}},
+            {label: '返校时间',  name: 'endTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d H:i'}},
             {
                 label: '出行天数',
                 name: '_day',
@@ -198,7 +198,7 @@
             {
                 label: '组织部初审',
                 name: 'expiryDate',
-                width: 100,
+
                 formatter: function (cellvalue, options, rowObject) {
                     var tdBean = rowObject.approvalTdBeanMap[-1];
                     return processTdBean(tdBean)
@@ -221,7 +221,7 @@
                 label: '组织部终审',
 
                 name: 'expiryDate',
-                width: 100,
+
                 cellattr: function (rowId, val, rowObject, cm, rdata) {
                     var tdBean = rowObject.approvalTdBeanMap[0];
                     if (tdBean!=undefined && tdBean.tdType == 2)
@@ -233,7 +233,7 @@
                 }
             },
             {
-                label: '变更记录', name: 'isModify', width: 100, formatter: function (cellvalue, options, rowObject) {
+                label: '变更记录', name: 'isModify', formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)
                     return _.template($("#remark_tpl").html().NoMultiSpace())({id: rowObject.id});
                 else return ''

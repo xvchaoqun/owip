@@ -496,7 +496,7 @@
             },
             {label: '国内通讯地址', name: 'inAddress', width: 200},
             {label: '国外通讯地址', name: 'outAddress', width: 200},
-            {label: '去往国家', name: 'country', width: 100},
+            {label: '去往国家', name: 'country'},
             {label: '留学学校或工作单位', name: 'school', width: 200},
             {
                 label: '出国起止时间', name: 'abroadTime', width: 200, formatter: function (cellvalue, options, rowObject) {

@@ -21,7 +21,8 @@
                     </c:forEach>
                 </select>
                 <script>
-                    $("#modalForm select[name=configId]").val("${pcsCommitteeMember.configId}")
+                    $("#modalForm select[name=configId]").val("${empty pcsCommitteeMember?
+                    currentPcsConfig.id:pcsCommitteeMember.configId}")
                 </script>
             </div>
         </div>

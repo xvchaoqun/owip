@@ -124,12 +124,12 @@
             { label: '编号', name: 'id', width: 80 ,formatter:function(cellvalue, options, rowObject){
                 return "S{0}".format(rowObject.id);
             },frozen:true},
-            { label: '申请日期', name: 'applyDate', width: 100,frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label: '出行时间', name: 'type', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '申请日期', name: 'applyDate',frozen:true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '出行时间', name: 'type', formatter:function(cellvalue, options, rowObject){
                 return _cMap.ABROAD_APPLY_SELF_DATE_TYPE_MAP[cellvalue]
             }},
-            { label: '出发时间', name: 'startDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label: '返回时间', name: 'endDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '出发时间', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '返回时间', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label: '出行天数', name: 'day', width: 90,formatter:function(cellvalue, options, rowObject){
                 return $.dayDiff(rowObject.startDate, rowObject.endDate);
             }},
@@ -137,7 +137,7 @@
             { label:'事由', name: 'reason', width: 200, formatter:function(cellvalue, options, rowObject){
                 return cellvalue.replace(/\+\+\+/g, ',');
             }},
-            { label:'组织部初审', name: 'approver-1', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label:'组织部初审', name: 'approver-1', formatter:function(cellvalue, options, rowObject){
                 var tdBean = rowObject.approvalTdBeanMap[-1];
                 return processTdBean(tdBean)
             }},
@@ -152,7 +152,7 @@
                 return processTdBean(tdBean)
             } },
             </c:forEach>
-            { label:'组织部终审', name: 'approver0', width: 100 ,cellattr:function(rowId, val, rowObject, cm, rdata) {
+            { label:'组织部终审', name: 'approver0' ,cellattr:function(rowId, val, rowObject, cm, rdata) {
                 var tdBean = rowObject.approvalTdBeanMap[0];
                 if(tdBean!=undefined && tdBean.tdType==2)
                     return "class='not_approval'"
@@ -170,7 +170,7 @@
             {hidden:true, name:'isAgreed',formatter:function(cellvalue, options, rowObject) {
                 return cellvalue?1:0;
             }},
-            { label: '备注',  name: 'isModify', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '备注',  name: 'isModify', formatter:function(cellvalue, options, rowObject){
                 if(cellvalue)
                     return _.template($("#remark_tpl").html().NoMultiSpace())({id:rowObject.id});
                 else return ''

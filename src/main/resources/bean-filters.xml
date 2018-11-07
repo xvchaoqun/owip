@@ -12,22 +12,31 @@
                 <value>(persistence|service|controller)\.pmd\..*</value>
                 <value>(persistence|service|controller)\.member\..*</value>
 
-                <value>(persistence|service|controller)\.cis\..*</value>
+                <!--干部考察管理-->
+                <!--<value>(persistence|service|controller)\.cis\..*</value>-->
 
                 <value>(persistence|service|controller)\.cet\..*</value>
                 <value>(persistence|service|controller)\.abroad\..*</value>
                 <value>(persistence|service|controller)\.cla\..*</value>
-                <!--<value>(persistence|service|controller)\.pcs\..*</value>-->
+                <value>(persistence|service|controller)\.pcs\..*</value>
                 <value>(persistence|service|controller)\.oa\..*</value>
 
-                <!--<value>(persistence|service|controller)\.sc\..*</value>
-                <value>(persistence|service|controller)\.dispatch\..*</value>-->
+                <!--干部选拔-->
+                <!--<value>(persistence|service|controller)\.sc\..*</value>-->
+                <!--<value>(persistence|service|controller)\.dispatch\..*</value>-->
 
                 <value>(persistence|service|controller)\.verify\..*</value>
 
                 <!--与modify模块有关联-->
                 <value>(persistence|service|controller)\.crs\..*</value>
                 <value>(persistence|service|controller)\.modify\..*</value>
+            </list>
+        </property>
+        <!-- 不可移除的类-->
+        <property name="includeFilters">
+            <list>
+                <value>(persistence|service|controller)\.pcs\.PcsConfig.*</value>
+                <value>(persistence|service|controller)\.pcs\.PcsCommitteeMember.*</value>
             </list>
         </property>
     </bean>

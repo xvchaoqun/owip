@@ -110,7 +110,7 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/partyMember_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel:[
-            {label: '工作证号', name: 'user.code', width: 100, frozen: true},
+            {label: '工作证号', name: 'user.code', width: 110, frozen: true},
             {
                 label: '姓名', name: 'user.realname', align:'left', width: 120, formatter: function (cellvalue, options, rowObject) {
 
@@ -118,7 +118,7 @@
                 return (rowObject.isAdmin?str:'')+ cellvalue;
             }, frozen: true
             },
-            {label: '管理员', name: 'isAdmin', width: 100,align:'left',formatter: function (cellvalue, options, rowObject) {
+            {label: '管理员', name: 'isAdmin',align:'left',formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue)
                     return '<button data-url="${ctx}/partyMember_admin?id={0}" data-msg="确定删除该管理员？" data-loading="#body-content-view" data-callback="_adminCallback" class="confirm btn btn-danger btn-xs">删除管理员</button>'.format(rowObject.id);
                 else

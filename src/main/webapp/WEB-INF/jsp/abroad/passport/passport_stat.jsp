@@ -48,7 +48,7 @@ pageEncoding="UTF-8" %>
         colModel: [
             { label: '证件名称', name: 'passportClass.name', width: 180 },
             { label: '数量',  name: 'num', width: 50 },
-            { label: '集中管理',  name: 'keepNum', width: 100 },
+            { label: '集中管理',  name: 'keepNum' },
             { label: '丢失',  name: 'lostNum', width: 60 },
             { label: '作废',  name: 'abolishNum', width: 60 },
             { label: '取消集中管理（未确认）', name: 'unconfirmNum', width: 180 }

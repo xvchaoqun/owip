@@ -16,7 +16,7 @@
       {label: '参训人类别', name: 'traineeTypeId', width: 120, formatter: function (cellvalue, options, rowObject) {
           return cetTraineeTypeMap[cellvalue].name;
       }},
-      {label: '工作证号', name: 'user.code', width: 100, frozen: true},
+      {label: '工作证号', name: 'user.code', width: 110, frozen: true},
       {label: '姓名', name: 'user.realname', width: 120, frozen: true},
       </c:if>
       <c:if test="${param.type=='admin'}">
@@ -34,7 +34,7 @@
           return '{0}/{1}'.format(rowObject.finishCount, rowObject.courseCount);
       }},
       { label: '完成学时数',name: 'finishPeriod'},
-      {label: '工作证号', name: 'code', width: 100, frozen: true},
+      {label: '工作证号', name: 'code', width: 110, frozen: true},
       {label: '姓名', name: 'realname', width: 120, frozen: true},
       {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
       {label: '行政级别', name: 'typeId', formatter:$.jgrid.formatter.MetaType},

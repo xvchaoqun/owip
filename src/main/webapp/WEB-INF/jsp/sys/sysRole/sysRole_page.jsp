@@ -47,12 +47,18 @@
             { label: '系统代码', name: 'role', width:200, align:'left'},
             { label: '角色名称', name: 'description', width: 300, align:'left'},
             {
-                label: '排序', align: 'center', index: 'sort', formatter: $.jgrid.formatter.sortOrder,
+                label: '排序', align: 'center', width: 90, index: 'sort', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions: {url: "${ctx}/sysRole_changeOrder"}
             },
             { label: '设定级别', name: 'isSysHold', width: 120, formatter: $.jgrid.formatter.TRUEFALSE,
                 formatoptions:{on:'<span class="text-danger bolder">系统自动设定</span>',
                     off:'<span class="text-success bolder">手动设定</span>'}},
+            {label:'权限拥有人', name:'userCount', width: 110, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '-'
+                return ('<button class="popupBtn btn btn-primary btn-xs" data-width="950" data-url="${ctx}/sysRole_users?roleId={0}">' +
+                    '<i class="fa fa-search"></i> 查看({1})</button>')
+                    .format(rowObject.id, cellvalue);
+            }},
             { label: '备注', name: 'remark', width: 850, align:'left', formatter: $.jgrid.formatter.NoMultiSpace},
             {name:'_isSysHold', hidden:true, formatter:function(cellvalue, options, rowObject){
                 return rowObject.isSysHold;

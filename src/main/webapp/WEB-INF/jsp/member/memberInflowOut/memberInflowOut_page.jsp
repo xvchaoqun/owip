@@ -316,7 +316,7 @@
         url: '${ctx}/memberInflowOut_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             { label: '学工号',  name: 'user.code', width: 120, frozen:true },
-            { label: '姓名',  name: 'user.realname', width: 100, frozen:true },
+            { label: '姓名',  name: 'user.realname', frozen:true },
             { label: '所属组织机构', name: 'party', width: 450 , align:'left',
                 formatter:function(cellvalue, options, rowObject){
                     return $.party(rowObject.partyId, rowObject.branchId);
@@ -329,15 +329,15 @@
             { label: '转出地',   name: 'outLocation', width: 150 , formatter:function(cellvalue, options, rowObject){
                 return _cMap.locationMap[cellvalue].name;
             } },
-            { label: '转出时间',   name: 'outTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '转出时间',   name: 'outTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'原职业',  name:'originalJob', width: 200 , formatter: $.jgrid.formatter.MetaType },
             { label: '流入前所在省份',   name: 'province', width: 150 , formatter:function(cellvalue, options, rowObject){
                 return _cMap.locationMap[cellvalue].name;
             }},
             { label: '是否持有《中国共产党流动党员活动证》',   name: 'hasPapers', width: 300, formatter:$.jgrid.formatter.TRUEFALSE},
-            { label: '流入时间',   name: 'flowTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '流入时间',   name: 'flowTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label: '流入原因',   name: 'flowReason',  align:'left',width: 350 },
-            { label: '入党时间',   name: 'growTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '入党时间',   name: 'growTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label: '组织关系所在地',   name: 'orLocation', width: 150 },{hidden:true, name:'outStatus'}
         ],
         onSelectRow: function(id,status){

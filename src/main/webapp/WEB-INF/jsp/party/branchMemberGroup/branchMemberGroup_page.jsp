@@ -133,7 +133,7 @@
             },
             { label: '应换届时间', name: 'tranTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label: '实际换届时间', name: 'actualTranTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label: '任命时间', name: 'appointTime', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label: '任命时间', name: 'appointTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
             { label:'发文号',  name: 'dispatchCode', width: 180},
             {  hidden:true, name: 'isPresent',formatter:function(cellvalue, options, rowObject){
                 return (rowObject.isPresent)?1:0;

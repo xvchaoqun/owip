@@ -171,7 +171,7 @@ pageEncoding="UTF-8" %>
             { label: '所在单位及职务',  name: 'cadre.title', width: 250, align:'left' },
             { label: '申办证件名称', name: 'passportClass.name', width: 250 },
             <c:if test="${status==ABROAD_PASSPORT_APPLY_STATUS_INIT}">
-            { label: '审批', name: 'statusName', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '审批', name: 'statusName', formatter:function(cellvalue, options, rowObject){
                 return ('<button class="jqOpenViewBtn btn btn-success btn-xs" data-open-by="page"'
                 +'data-url="${ctx}/abroad/passportApply_check?id={0}"><i class="fa fa-check-square-o"></i> 审批</button>')
                 .format(rowObject.id);

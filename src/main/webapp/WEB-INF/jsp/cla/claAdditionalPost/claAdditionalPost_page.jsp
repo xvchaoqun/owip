@@ -90,7 +90,7 @@
         //forceFit:true,
         url: '${ctx}/cla/claAdditionalPost_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '工作证号', name: 'code', width: 100, frozen: true},
+            {label: '工作证号', name: 'code', width: 110, frozen: true},
             {label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.id, cellvalue);}, frozen: true},
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},

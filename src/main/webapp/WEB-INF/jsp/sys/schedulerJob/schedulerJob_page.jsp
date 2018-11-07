@@ -39,7 +39,7 @@
         colModel: [
             { label: '任务名称', name: 'name', width:300, align:'left', frozen:true},
             <c:if test="${!_query}">
-            { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,
+            { label:'排序', formatter: $.jgrid.formatter.sortOrder,
                 formatoptions:{url:'${ctx}/schedulerJob_changeOrder'}, frozen:true },
             </c:if>
             { label: '执行类', name: 'clazz', width: 300, align:'left'},

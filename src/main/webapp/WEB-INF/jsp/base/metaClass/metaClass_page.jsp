@@ -95,7 +95,7 @@
             { label: '所属二级目录', name: 'secondLevel', width: 200,frozen:true },
             <shiro:hasRole name="${ROLE_ADMIN}">
             <c:if test="${!_query}">
-            { label:'排序',width: 100, formatter: $.jgrid.formatter.sortOrder,frozen:true },
+            { label:'排序', formatter: $.jgrid.formatter.sortOrder,frozen:true },
             </c:if>
             </shiro:hasRole>
             { label: '布尔属性名称',  name: 'boolAttr', width: 150 },

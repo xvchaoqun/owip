@@ -11,6 +11,7 @@
     <result column="post_file_path" jdbcType="VARCHAR" property="postFilePath" />
     <result column="is_quit" jdbcType="BIT" property="isQuit" />
     <result column="quit_date" jdbcType="DATE" property="quitDate" />
+    <result column="quit_file_path" jdbcType="VARCHAR" property="quitFilePath" />
     <result column="quit_reason" jdbcType="VARCHAR" property="quitReason" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -58,8 +59,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, type, config_id, user_id, post, post_date, post_file_path, is_quit, quit_date, 
-    quit_reason, sort_order, remark, status, is_commmittee_member, pcs_name, code, realname, 
-    gender, birth, nation, pro_post, grow_time, cadre_id, title
+    quit_file_path, quit_reason, sort_order, remark, status, is_commmittee_member, pcs_name, 
+    code, realname, gender, birth, nation, pro_post, grow_time, cadre_id, title
   </sql>
   <select id="selectByExample" parameterType="domain.pcs.PcsCommitteeMemberViewExample" resultMap="BaseResultMap">
     select

@@ -34,7 +34,7 @@
         url: '${ctx}/crsPostExpert_data?callback=?&postId=${param.id}&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '姓名', name: 'user.realname'},
-            {label: '工作证号', name: 'user.code', width: 100},
+            {label: '工作证号', name: 'user.code', width: 110},
             {label: '角色', name: 'role', width: 180, formatter: function (cellvalue, options, rowObject) {
                 return _cMap.CRS_POST_EXPERT_ROLE_MAP[cellvalue]
             }},

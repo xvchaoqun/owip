@@ -77,7 +77,7 @@ pageEncoding="UTF-8" %>
     $("#jqGrid").jqGrid({
         url: '${ctx}/feedback_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label: '用户', name: '_user', width: 100, formatter:function(cellvalue, options, rowObject){
+            { label: '用户', name: '_user', formatter:function(cellvalue, options, rowObject){
                 if(rowObject.user==undefined) return '-'
                 return $.user(rowObject.user.id, rowObject.user.realname)
             },frozen:true },

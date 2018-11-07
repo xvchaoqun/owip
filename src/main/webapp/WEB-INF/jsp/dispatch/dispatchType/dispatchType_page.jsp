@@ -82,7 +82,7 @@
         colModel: [
             { label: '名称', name: 'name', width: 250,frozen:true },
             { label: '发文属性', name: 'attr', width: 150,frozen:true },
-            { label: '所属年份', name: 'year', width: 100 },
+            { label: '所属年份', name: 'year' },
             { label: '添加时间',  name: 'createTime', width: 180 }
         ]
     }).jqGrid("setFrozenColumns");

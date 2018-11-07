@@ -480,7 +480,7 @@
         url: '${ctx}/memberApply_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
             {label: '${type==OW_APPLY_TYPE_STU?"学生证号":"工作证号"}', name: 'user.code', width: 120, frozen:true},
-            {label: '姓名', name: 'user.realname', width: 100, frozen:true},
+            {label: '姓名', name: 'user.realname', frozen:true},
             <c:if test="${stage==-3}">
             {
                 label: '所在阶段', name: '_stage', formatter:function(cellvalue, options, rowObject){
@@ -516,11 +516,11 @@
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_DRAW || stage<=OW_APPLY_STAGE_OUT}">
             {label: '领取志愿书时间', name: 'drawTime', width: 160,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '发展时间', name: 'growTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '发展时间', name: 'growTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             <c:if test="${stage==OW_APPLY_STAGE_GROW||stage==OW_APPLY_STAGE_POSITIVE || stage<=OW_APPLY_STAGE_OUT}">
-            {label: '入党时间', name: 'growTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '转正时间', name: 'positiveTime', width: 100,formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '入党时间', name: 'growTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '转正时间', name: 'positiveTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             </c:if>
             {label: '状态', name: 'applyStatus', width: 300},
             {hidden: true, name: 'stage'},

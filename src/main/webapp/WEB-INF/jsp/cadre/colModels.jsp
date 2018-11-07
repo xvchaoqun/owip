@@ -5,7 +5,7 @@
     var colModels = function () {
     };
     colModels.cadre = [
-        {label: '工作证号', name: 'code', width: 100, frozen: true},
+        {label: '工作证号', name: 'code', width: 110, frozen: true},
         {
             label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
             return $.cadre(rowObject.id, cellvalue);
@@ -202,7 +202,7 @@
         {label: '备注', name: 'remark', width: 150}
     ];
     colModels.cadre2 = [
-        {label: '工作证号', name: 'code', width: 100, frozen: true},
+        {label: '工作证号', name: 'code', width: 110, frozen: true},
         {label: '姓名', name: 'realname', width: 120, frozen: true},
         {label: '部门属性', name: 'unit.unitType.name', width: 150},
         {label: '所在单位', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
@@ -228,7 +228,7 @@
     ];
 
     colModels.cadreLeave = [
-        {label: '工作证号', name: 'code', width: 100, frozen: true},
+        {label: '工作证号', name: 'code', width: 110, frozen: true},
         {
             label: '姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
             return $.cadre(rowObject.id, cellvalue);
@@ -260,7 +260,7 @@
         {label: '备注', name: 'remark', width: 150}
     ];
     colModels.cadreLeave2 = [
-        {label: '工作证号', name: 'code', width: 100, frozen: true},
+        {label: '工作证号', name: 'code', width: 110, frozen: true},
         {label: '姓名', name: 'realname', width: 120, frozen: true},
         {label: '原所在单位', name: 'unit.name', width: 200},
         {label: '离任后所在单位及职务', name: 'title', width: 350, align:'left'},
@@ -728,8 +728,7 @@
                     '${cm:getMetaTypeByCode("mt_temppost_out_post_other").id}';
             return _cMap.metaTypeMap[cellvalue].name +
                     ((cellvalue == postCodeOther) ? ("：" + rowObject.tempPost) : "");
-        }, width: 100
-        },
+        }},
         {label: '挂职项目', name: 'project', width: 300},
         {label: '挂职单位及所任职务', name: 'title', width: 300},
         {label: '挂职开始时间', name: 'startDate', width: 120, formatter: 'date', formatoptions: {newformat: 'Y.m'}},

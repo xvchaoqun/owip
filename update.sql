@@ -1,4 +1,17 @@
 
+
+20181107
+ALTER TABLE `pcs_committee_member`
+	ADD COLUMN `quit_file_path` VARCHAR(200) NULL DEFAULT NULL COMMENT '离任文件' AFTER `quit_date`;
+
+	更新 pcs_committee_member_view
+
+	更新 common-utils
+
+ALTER TABLE `sys_role`
+	ADD COLUMN `user_count` INT UNSIGNED NULL COMMENT '权限拥有人数，当前拥有该角色的正常账号数，系统每小时自动统计' AFTER `m_resource_ids`;
+
+
 20181105
 ALTER TABLE `pcs_candidate_chosen`
 	CHANGE COLUMN `config_id` `config_id` INT(10) UNSIGNED NOT NULL COMMENT '所属党代会' AFTER `id`;

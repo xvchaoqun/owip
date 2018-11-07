@@ -113,11 +113,11 @@
         </table>-->
         <!-- <table tableName="sys_online_static" domainObjectName="sys.SysOnlineStatic">
          </table>-->
-         <!--<table tableName="sys_role" domainObjectName="sys.SysRole" mapperName="sys.SysRoleMapper">
+         <table tableName="sys_role" domainObjectName="sys.SysRole" mapperName="sys.SysRoleMapper">
              <generatedKey column="id" sqlStatement="MySql" identity="true"/>
              <columnOverride column="resource_ids" jdbcType="VARCHAR"></columnOverride>
              <columnOverride column="m_resource_ids" jdbcType="VARCHAR"></columnOverride>
-         </table>-->
+         </table>
           <!--<table tableName="sys_resource" domainObjectName="sys.SysResource" mapperName="sys.SysResourceMapper">
               <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           </table>-->

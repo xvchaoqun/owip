@@ -41,7 +41,7 @@
         if (cellvalue == undefined) return '';
         return _cMap.CADRE_STATUS_MAP[cellvalue];
       }},
-      {label: '工作证号', name: 'user.code', width: 100},
+      {label: '工作证号', name: 'user.code', width: 110},
       {label: '姓名', name: 'user.realname', width: 120},
       {label: '部门属性', name: 'unit.unitType.name', width: 150},
       {label: '所在单位', name: 'unit.name', width: 200},

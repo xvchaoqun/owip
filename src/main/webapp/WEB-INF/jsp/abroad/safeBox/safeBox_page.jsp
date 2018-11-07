@@ -48,8 +48,8 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/abroad/safeBox_data?callback=?&',
         colModel: [
-            { label: '保险柜编号', name: 'code', width: 100,frozen:true },
-            { label: '证件总数量', name: 'totalCount', width: 100 , formatter:function(cellvalue, options, rowObject){
+            { label: '保险柜编号', name: 'code', width: 110,frozen:true },
+            { label: '证件总数量', name: 'totalCount' , formatter:function(cellvalue, options, rowObject){
                 return '<a href="javascript:;" class="openView" data-url="${ctx}/abroad/safeBoxPassportList?safeBoxId={0}">{1}</a>'
                         .format(rowObject.id, rowObject.totalCount)
             },frozen:true},

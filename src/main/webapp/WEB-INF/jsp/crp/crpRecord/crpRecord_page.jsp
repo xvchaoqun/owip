@@ -211,7 +211,7 @@
                 if (cellvalue == undefined) return '-';
                 return _cMap.metaTypeMap[cellvalue].name +
                         ((cellvalue == '${cm:getMetaTypeByCode(postCodeOther).id}') ? ("：" + rowObject.tempPost) : "");
-            }, width: 100
+            }
             },
             {label: '挂职项目', name: 'project', width: 300, align:'left'},
             {label: '挂职单位', name: 'unit', width: 200, align:'left'},

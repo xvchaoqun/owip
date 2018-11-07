@@ -62,7 +62,7 @@ pageEncoding="UTF-8" %>
                 return $.trim(cellvalue);
             }},
             { label: '客户端', name: 'userAgent', align:'left', width: 250},
-            { label: '超时（分钟）', name: 'timeOut', width: 100, formatter: function (cellvalue, options, rowObject) {
+            { label: '超时（分钟）', name: 'timeOut', formatter: function (cellvalue, options, rowObject) {
                 return cellvalue/(1000*60)
             } },{hidden:true, key:true, name:'sid'}
         ]

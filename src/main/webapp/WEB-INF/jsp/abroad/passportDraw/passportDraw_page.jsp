@@ -207,12 +207,12 @@
                 },
                 frozen: true
             },
-            {label: '申请日期', align: 'center', name: 'applyDate', width: 100, frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '申请日期', align: 'center', name: 'applyDate', frozen: true, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW}">
             {
                 label: '申请类型', name: 'type', formatter: function (cellvalue, options, rowObject) {
                 return _cMap.ABROAD_PASSPORT_DRAW_TYPE_MAP[cellvalue];
-            }, width: 100, frozen: true
+            }, frozen: true
             },
             </c:if>
             {label: '工作证号', align: 'center', name: 'user.code', frozen: true},
@@ -247,8 +247,8 @@
             }},
             </c:if>
             <c:if test="${type==ABROAD_PASSPORT_DRAW_TYPE_TW || type==ABROAD_PASSPORT_DRAW_TYPE_OTHER}">
-            {label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行时间":"使用时间"}', name: 'startDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"回国时间":"归还时间"}', name: 'endDate', width: 100, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行时间":"使用时间"}', name: 'startDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"回国时间":"归还时间"}', name: 'endDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '${type==ABROAD_PASSPORT_DRAW_TYPE_TW?"出行天数":"使用天数"}',
                 name: 'day',
@@ -303,7 +303,7 @@
                 }
             },
             {
-                label: '签注申请表', align: 'center', width: 100, formatter: function (cellvalue, options, rowObject) {
+                label: '签注申请表', align: 'center', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.passportClass.code == 'mt_passport_normal' || !rowObject.needSign) {
                     return '-';
                 }
@@ -321,7 +321,7 @@
             },
             </c:if>
             {
-                label: '组织部审批', align: 'center', width: 100, formatter: function (cellvalue, options, rowObject) {
+                label: '组织部审批', align: 'center', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_INIT}')
                     return '<button data-url="${ctx}/abroad/passportDraw_check?id={0}"  class="openView btn btn-success btn-xs">'
                                     .format(rowObject.id)
@@ -331,7 +331,7 @@
             }
             },
             {
-                label: '短信通知', align: 'center', width: 100, formatter: function (cellvalue, options, rowObject) {
+                label: '短信通知', align: 'center', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status == '${ABROAD_PASSPORT_DRAW_STATUS_INIT}') {
                  return '-';
                  }
@@ -344,7 +344,7 @@
             }
             },
             {
-                label: '领取证件', align: 'center', width: 100, formatter: function (cellvalue, options, rowObject) {
+                label: '领取证件', align: 'center', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.status != '${ABROAD_PASSPORT_DRAW_STATUS_PASS}') {
                     return '-';
                 }
@@ -393,7 +393,7 @@
             {
                 label: '归还证件',
                 align: 'center',
-                width: 100,
+
                 formatter: function (cellvalue, options, rowObject) {
 
                     if( rowObject.drawStatus == '${ABROAD_PASSPORT_DRAW_DRAW_STATUS_RETURN}'){

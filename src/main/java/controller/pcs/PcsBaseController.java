@@ -29,54 +29,54 @@ import service.pcs.PcsVoteService;
 
 public class PcsBaseController extends BaseController {
 
-    @Autowired
+    @Autowired(required = false)
     protected PcsPartyViewService pcsPartyViewService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsAdminService pcsAdminService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsExportService pcsExportService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsCandidateService pcsCandidateService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsConfigService pcsConfigService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsCommitteeMemberService pcsCommitteeMemberService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsRecommendService pcsRecommendService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsOwService pcsOwService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPartyService pcsPartyService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsProposalService pcsProposalService;
 
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrAlocateService pcsPrAlocateService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrPartyService pcsPrPartyService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrCandidateService pcsPrCandidateService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrExportService pcsPrExportService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrOwService pcsPrOwService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrFileTemplateService pcsPrFileTemplateService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrFileService pcsPrFileService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsPrListService pcsPrListService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsProposalOwService pcsProposalOwService;
 
-    @Autowired
+    @Autowired(required = false)
     protected PcsVoteGroupService pcsVoteGroupService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsVoteMemberService pcsVoteMemberService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsVoteCandidateService pcsVoteCandidateService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsVoteExportService pcsVoteExportService;
-    @Autowired
+    @Autowired(required = false)
     protected PcsVoteService pcsVoteService;
 }
