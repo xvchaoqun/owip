@@ -250,6 +250,9 @@
             </tr>
         </table>
     </form>
+<c:if test="${param.view!=1}">
+    <div class="red bolder">注：如工资信息为空或有误，请联系党员本人索取以上工资信息后填入提交。</div>
+</c:if>
 </div>
 <div class="modal-footer">
     <c:if test="${param.view==1}">
