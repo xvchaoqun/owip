@@ -3,8 +3,8 @@
 <%@include file="taglibs.jsp"%>
 <jsp:include page="meta.jsp"/>
 <title>${_plantform_name}</title>
-<link rel="stylesheet" href="${ctx}/css/main.css" />
-<link rel="stylesheet" href="${ctx}/css/a.min.css" />
+<t:link href="/css/main.css"/>
+<t:link href="/css/a.min.css"/>
 <!--[if lte IE 9]>
 <link rel="stylesheet" href="${ctx}/css/ie9.css"/>
 <![endif]-->
