@@ -131,8 +131,6 @@
 </div>
 
 <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
-<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
 	/*var contentKe = KindEditor.create('#contentId', {
 		//cssPath:"${ctx}/css/ke.css",

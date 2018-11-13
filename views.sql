@@ -184,7 +184,8 @@ left join cadre_view cv on cv.id = saa.cadre_id ;
 -- 文件起草签发
 DROP VIEW IF EXISTS `sc_dispatch_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_dispatch_view` AS
- select sd.*, d.id as dispatch_id, dt.sort_order as dispatch_type_sort_order, sum(if(sdu.type=1, 1, 0)) as appoint_count,
+ select sd.*, d.id as dispatch_id, d.file as dispatch_file, d.file_name as dispatch_file_name,
+ dt.sort_order as dispatch_type_sort_order, sum(if(sdu.type=1, 1, 0)) as appoint_count,
  sum(if(sdu.type=2, 1, 0))  as dismiss_count from sc_dispatch sd
 left join sc_dispatch_user sdu on sdu.dispatch_id=sd.id
 left join dispatch_type dt on sd.dispatch_type_id = dt.id

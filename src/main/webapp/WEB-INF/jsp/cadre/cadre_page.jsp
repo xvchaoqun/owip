@@ -414,8 +414,6 @@
     }
 </style>
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
-<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css"/>
 <script>
     $.register.multiselect($('#searchForm select[name=dpTypes]'), ${cm:toJSONArray(selectDpTypes)});
     $.register.multiselect($('#searchForm select[name=unitIds]'), ${cm:toJSONArray(selectUnitIds)}, {

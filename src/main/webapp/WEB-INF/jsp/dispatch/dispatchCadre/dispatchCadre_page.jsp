@@ -139,9 +139,6 @@
         <div id="body-content-view"> </div>
     </div>
 </div>
-<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
-
 <jsp:include page="/WEB-INF/jsp/common/daterangerpicker.jsp"/>
 <link rel="stylesheet" href="${ctx}/extend/css/jquery.webui-popover.min.css" type="text/css" />
 <script src="${ctx}/extend/js/jquery.webui-popover.min.js"></script>

@@ -484,8 +484,6 @@
         font-weight: bolder;
     }
 </style>
-<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css"/>
 <script>
     function _callback2(){
         $("#jqGrid2").trigger("reloadGrid");

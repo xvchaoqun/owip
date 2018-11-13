@@ -162,8 +162,6 @@ pageEncoding="UTF-8" %>
     </div>
 </div>
 <c:if test="${!proposalClosed  && !supportClosed}">
-<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css"/>
 <script>
 
     $(".orderCheckbox").click(function(){

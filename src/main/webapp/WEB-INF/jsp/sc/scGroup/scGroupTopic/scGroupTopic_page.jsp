@@ -128,8 +128,6 @@ pageEncoding="UTF-8" %>
         <div id="body-content-view"></div>
     </div>
 </div>
-<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/sc/scGroupTopic_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',

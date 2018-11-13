@@ -14,6 +14,8 @@
     <result column="sign_file_path" jdbcType="VARCHAR" property="signFilePath" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="dispatch_id" jdbcType="INTEGER" property="dispatchId" />
+    <result column="dispatch_file" jdbcType="VARCHAR" property="dispatchFile" />
+    <result column="dispatch_file_name" jdbcType="VARCHAR" property="dispatchFileName" />
     <result column="dispatch_type_sort_order" jdbcType="INTEGER" property="dispatchTypeSortOrder" />
     <result column="appoint_count" jdbcType="DECIMAL" property="appointCount" />
     <result column="dismiss_count" jdbcType="DECIMAL" property="dismissCount" />
@@ -49,7 +51,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, year, dispatch_type_id, code, title, meeting_time, pub_time, file_path, word_file_path, 
-    sign_file_path, remark, dispatch_id, dispatch_type_sort_order, appoint_count, dismiss_count
+    sign_file_path, remark, dispatch_id, dispatch_file, dispatch_file_name, dispatch_type_sort_order, 
+    appoint_count, dismiss_count
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scDispatch.ScDispatchViewExample" resultMap="BaseResultMap">
     select

@@ -1,4 +1,6 @@
 
+20181114
+更新 sc_dispatch_view
 
 20181107
 ALTER TABLE `pcs_committee_member`

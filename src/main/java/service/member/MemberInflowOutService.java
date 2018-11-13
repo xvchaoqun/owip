@@ -277,11 +277,11 @@ public class MemberInflowOutService extends BaseMapper {
     }
 
     @Transactional
-    public void memberInflowOut_back(Integer[] userIds, byte status, String reason, int loginUserId){
+    public void memberInflowOut_back(Integer[] ids, byte status, String reason, int loginUserId){
 
-        for (int userId : userIds) {
+        for (int id : ids) {
 
-            MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(userId);
+            MemberInflow memberInflow = memberInflowMapper.selectByPrimaryKey(id);
             Boolean presentBranchAdmin = PartyHelper.isPresentBranchAdmin(loginUserId, memberInflow.getPartyId(), memberInflow.getBranchId());
             Boolean presentPartyAdmin = PartyHelper.isPresentPartyAdmin(loginUserId, memberInflow.getPartyId());
 

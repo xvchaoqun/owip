@@ -22,8 +22,6 @@
         </div>
     </div>
 </div>
-<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css"/>
 <script type="text/javascript">
 
     $('#jqGrid').jqGrid({

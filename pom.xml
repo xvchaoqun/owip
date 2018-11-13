@@ -14,7 +14,7 @@
         <lucene.version>7.3.0</lucene.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <generator.mybatis.modal>base</generator.mybatis.modal>
+        <generator.mybatis.modal>sc</generator.mybatis.modal>
     </properties>
     <dependencies>
         <dependency>
@@ -828,6 +828,7 @@
                                 <include>extend/js/bootstrap-datetimepicker.js</include>
                                 <include>extend/js/bootstrap-datetimepicker.zh-CN.js</include>
                                 <include>extend/js/bootstrap-switch.min.js</include>
+                                <include>assets/js/bootstrap-multiselect.js</include>
                                 <include>assets/js/jquery.inputlimiter.1.3.1.js</include>
                                 <include>extend/js/placeholders.jquery.js</include>
                                 <include>extend/js/base64.js</include>
@@ -912,6 +913,7 @@
                             <includes>
                                 <include>extend/css/ui.jqgrid-bootstrap.css</include>
                                 <include>assets/css/ace-nobtn.css</include>
+                                <include>assets/css/bootstrap-multiselect.css</include>
                             </includes>
                         </aggregation>
 

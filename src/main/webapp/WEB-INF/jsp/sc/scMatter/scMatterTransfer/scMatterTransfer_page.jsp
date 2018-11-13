@@ -90,8 +90,8 @@
             {label: '移交日期', name: 'transferDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '移交填报记录', name: '_items', formatter: function (cellvalue, options, rowObject) {
-                return ('<button class="popupBtn btn btn-link btn-xs" data-width="900" ' +
-                'data-url="${ctx}/sc/scMatterTransfer_items?transferId={0}">编辑</button>')
+                return ('<a href="javascript:;" class="popupBtn" data-width="900" ' +
+                'data-url="${ctx}/sc/scMatterTransfer_items?transferId={0}">编辑</a>')
                         .format(rowObject.id);
             }
             },

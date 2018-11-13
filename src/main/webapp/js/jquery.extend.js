@@ -1281,6 +1281,7 @@ $.extend($.register, {
             nonSelectedText: '请选择',
             nSelectedText: '已选择',
             includeSelectAllOption: true,
+            collapseOptGroupsByDefault: true,
             selectAllText: '全选/取消全选',
             allSelectedText: '全部已选择',
             maxHeight: 300,

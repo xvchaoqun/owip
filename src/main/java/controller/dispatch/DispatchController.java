@@ -171,17 +171,20 @@ public class DispatchController extends DispatchBaseController {
 
     @RequiresPermissions("dispatch:edit")
     @RequestMapping("/dispatch_au")
-    public String dispatch_au(Integer id, ModelMap modelMap) {
+    public String dispatch_au(Integer id, Integer scDispatchId, ModelMap modelMap) {
 
         Integer year = null;
         if (id != null) {
             Dispatch dispatch = dispatchMapper.selectByPrimaryKey(id);
+            scDispatchId = dispatch.getScDispatchId();
+
             modelMap.put("dispatch", dispatch);
             year = dispatch.getYear();
 
             Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
             modelMap.put("dispatchType", dispatchTypeMap.get(dispatch.getDispatchTypeId()));
         }
+        modelMap.put("scDispatchId", scDispatchId);
 
         if (year == null) {
             year = DateUtils.getCurrentYear();

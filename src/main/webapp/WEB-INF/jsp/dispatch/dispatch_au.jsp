@@ -35,7 +35,7 @@
                   enctype="multipart/form-data">
                 <div class="row">
                     <input type="hidden" name="id" value="${dispatch.id}">
-                    <input type="hidden" name="scDispatchId" value="${dispatch.scDispatchId}">
+                    <input type="hidden" name="scDispatchId" value="${scDispatchId}">
 
                     <div class="form-group">
                         <label class="col-xs-3 control-label">年份</label>
@@ -181,28 +181,6 @@
         </tbody>
     </table>
 </script>
-<script type="text/template" id="scDispatchTpl">
-    <table class="table table-striped table-bordered table-condensed table-unhover2">
-        <thead>
-        <tr>
-            <td>年份</td>
-            <td>发文类型</td>
-            <td>发文号</td>
-            <td width="60"></td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr data-id="{{sd.id}}">
-            <td>{{=sd.year}}</td>
-            <td>{{=sd.dispatchType.name}}</td>
-            <td>{{=sd.dispatchCode}}</td>
-            <td>
-                <a href="javasciprt:;" class="del">移除</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</script>
 
 <script type="text/template" id="scCommitteesTpl">
     <table class="table table-striped table-bordered table-condensed table-unhover2">
@@ -230,11 +208,11 @@
     </table>
 </script>
 <script>
-    <c:if test="${empty dispatch.scDispatchId}">
+    <c:if test="${empty scDispatchId}">
     $("#scDispatchDiv").html('<div class="well">未选择签发文件</div>');
     </c:if>
-    <c:if test="${not empty dispatch.scDispatchId}">
-    $.post("${ctx}/sc/scDispatch_select", {id:'${dispatch.scDispatchId}'}, function(data){
+    <c:if test="${not empty scDispatchId}">
+    $.post("${ctx}/sc/scDispatch_select", {id:'${scDispatchId}'}, function(data){
         if(data.success) {
             var sd = data.scDispatch;
             $("#scDispatchDiv").html(_.template($("#scDispatchTpl").html())({sd: sd}));

@@ -8,7 +8,7 @@
              data-url-page="${ctx}/sc/scMatterItem"
              data-url-export="${ctx}/sc/scMatterItem_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.matterId || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.userId || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <jsp:include page="../scMatter/menu.jsp"/>
                 <div class="tab-content">
@@ -59,10 +59,11 @@
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="cls" value="${cls}">
                                         <div class="form-group">
-                                            <label>事项</label>
-                                            <input class="form-control search-query" name="matterId" type="text"
-                                                   value="${param.matterId}"
-                                                   placeholder="请输入事项">
+                                            <label>核查对象</label>
+                                            <select data-rel="select2-ajax" data-ajax-url="${ctx}/sc/scMatterUser_selects"
+                                                    name="userId" data-placeholder="请输入账号或姓名或学工号">
+                                                <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
+                                            </select>
                                         </div>
                                         <div class="clearfix form-actions center">
                                             <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i>

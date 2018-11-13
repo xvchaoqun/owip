@@ -130,8 +130,6 @@
 </div>
 
 <script type="text/javascript" src="${ctx}/extend/ke4/kindeditor-all-min.js"></script>
-<script src="${ctx}/assets/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="${ctx}/assets/css/bootstrap-multiselect.css" />
 <script>
 
     $.register.multiselect($('#cisForm select[name="unitIds[]"]'), ${selectUnitIds},{enableClickableOptGroups: true,

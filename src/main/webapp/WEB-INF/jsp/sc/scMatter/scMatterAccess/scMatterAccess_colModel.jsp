@@ -27,8 +27,8 @@
 <c:if test="${param.cls!=-1}">
       {
           label: '调阅明细', name: '_items', formatter: function (cellvalue, options, rowObject) {
-          return ('<button class="popupBtn btn btn-link btn-xs" ' +
-          'data-url="${ctx}/sc/scMatterAccess_items?accessId={0}">查看</button>')
+          return ('<a href="javascript:;" class="popupBtn" ' +
+          'data-url="${ctx}/sc/scMatterAccess_items?accessId={0}">查看</a>')
                   .format(rowObject.id);
       }
       },

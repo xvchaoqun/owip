@@ -902,6 +902,146 @@ public class ScDispatchViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andDispatchFileIsNull() {
+            addCriterion("dispatch_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileIsNotNull() {
+            addCriterion("dispatch_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileEqualTo(String value) {
+            addCriterion("dispatch_file =", value, "dispatchFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNotEqualTo(String value) {
+            addCriterion("dispatch_file <>", value, "dispatchFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileGreaterThan(String value) {
+            addCriterion("dispatch_file >", value, "dispatchFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileGreaterThanOrEqualTo(String value) {
+            addCriterion("dispatch_file >=", value, "dispatchFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileLessThan(String value) {
+            addCriterion("dispatch_file <", value, "dispatchFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileLessThanOrEqualTo(String value) {
+            addCriterion("dispatch_file <=", value, "dispatchFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileLike(String value) {
+            addCriterion("dispatch_file like", value, "dispatchFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNotLike(String value) {
+            addCriterion("dispatch_file not like", value, "dispatchFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileIn(List<String> values) {
+            addCriterion("dispatch_file in", values, "dispatchFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNotIn(List<String> values) {
+            addCriterion("dispatch_file not in", values, "dispatchFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileBetween(String value1, String value2) {
+            addCriterion("dispatch_file between", value1, value2, "dispatchFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNotBetween(String value1, String value2) {
+            addCriterion("dispatch_file not between", value1, value2, "dispatchFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameIsNull() {
+            addCriterion("dispatch_file_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameIsNotNull() {
+            addCriterion("dispatch_file_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameEqualTo(String value) {
+            addCriterion("dispatch_file_name =", value, "dispatchFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameNotEqualTo(String value) {
+            addCriterion("dispatch_file_name <>", value, "dispatchFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameGreaterThan(String value) {
+            addCriterion("dispatch_file_name >", value, "dispatchFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameGreaterThanOrEqualTo(String value) {
+            addCriterion("dispatch_file_name >=", value, "dispatchFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameLessThan(String value) {
+            addCriterion("dispatch_file_name <", value, "dispatchFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameLessThanOrEqualTo(String value) {
+            addCriterion("dispatch_file_name <=", value, "dispatchFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameLike(String value) {
+            addCriterion("dispatch_file_name like", value, "dispatchFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameNotLike(String value) {
+            addCriterion("dispatch_file_name not like", value, "dispatchFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameIn(List<String> values) {
+            addCriterion("dispatch_file_name in", values, "dispatchFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameNotIn(List<String> values) {
+            addCriterion("dispatch_file_name not in", values, "dispatchFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameBetween(String value1, String value2) {
+            addCriterion("dispatch_file_name between", value1, value2, "dispatchFileName");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchFileNameNotBetween(String value1, String value2) {
+            addCriterion("dispatch_file_name not between", value1, value2, "dispatchFileName");
+            return (Criteria) this;
+        }
+
         public Criteria andDispatchTypeSortOrderIsNull() {
             addCriterion("dispatch_type_sort_order is null");
             return (Criteria) this;

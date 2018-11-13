@@ -29,3 +29,16 @@ UPDATE cadre SET  post = REPLACE(REPLACE(post, CHAR(10), ''), CHAR(13), '');
 -- 导入后干部逆序
 select max(sort_order) from cadre into @max;
 update cadre set sort_order = @max - sort_order + 1;
+
+
+-- 批量删除表
+SET SESSION group_concat_max_len=102400;
+select group_concat(CONCAT( 'drop ', if(table_type='VIEW', 'view ', 'table '), table_name) SEPARATOR ';')
+FROM information_schema.tables
+Where table_schema='db_owip_xjtu' and table_name REGEXP '^(pmd|cis|cet|pcs|oa|crs|ow).*'
+and table_name not in('ow_party', 'ow_branch', 'ow_member',  'ow_member_teacher', 'ow_member_out', 'ow_member_student');
+
+
+-- 批量删除jsp模块
+cd jsp目录
+rm -rf pmd cis cet pcs oa verify crs member party

@@ -43,11 +43,17 @@ public class ScMatterItemController extends ScMatterBaseController {
 
     @RequiresPermissions("scMatterItem:list")
     @RequestMapping("/scMatterItem")
-    public String scMatterItem(@RequestParam(defaultValue = "1") Integer cls, ModelMap modelMap) {
+    public String scMatterItem(@RequestParam(defaultValue = "1") Integer cls,
+                               Integer userId,
+                               ModelMap modelMap) {
 
         modelMap.put("cls", cls);
         if(cls==-1){
             return "sc/scMatter/scMatterItem/scMatter_item_page";
+        }
+
+        if(userId!=null){
+            modelMap.put("sysUser", sysUserService.findById(userId));
         }
 
         return "sc/scMatter/scMatterItem/scMatterItem_page";
@@ -56,7 +62,7 @@ public class ScMatterItemController extends ScMatterBaseController {
     @RequiresPermissions("scMatterItem:list")
     @RequestMapping("/scMatterItem_data")
     public void scMatterItem_data(HttpServletResponse response,
-                                    Integer matterId,
+                                    Integer userId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -73,8 +79,8 @@ public class ScMatterItemController extends ScMatterBaseController {
         ScMatterItemViewExample.Criteria criteria = example.createCriteria();
         example.setOrderByClause("matter_id desc, fill_time desc, id desc");
 
-        if (matterId!=null) {
-            criteria.andMatterIdEqualTo(matterId);
+        if (userId!=null) {
+            criteria.andUserIdEqualTo(userId);
         }
 
         if (export == 1) {

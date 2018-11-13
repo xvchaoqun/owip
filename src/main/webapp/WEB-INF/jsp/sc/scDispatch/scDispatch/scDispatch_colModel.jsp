@@ -72,11 +72,23 @@
           }
           return ret;
       }},
+      {
+          label: '红头文件', name: 'dispatchCode', width: 180, formatter: function (cellvalue, options, rowObject) {
+
+              if(rowObject.dispatchId==undefined){
+
+                  return ('<button class="openView btn btn-xs btn-primary" data-url="${ctx}/dispatch_au_page?scDispatchId={0}">'
+                      +'<i class="fa fa-edit"></i> 编辑</button>').format(rowObject.id)
+              }else if($.trim(rowObject.dispatchFile)==''){
+
+                  return ('<button class="openView btn btn-xs btn-success" data-url="${ctx}/dispatch_au_page?id={0}">'
+                      +'<i class="fa fa-edit"></i> 编辑</button>').format(rowObject.dispatchId)
+              }
+
+              return $.swfPreview(rowObject.dispatchFile, rowObject.dispatchFileName, cellvalue, cellvalue);
+          }, frozen: true
+      },
       </c:if>
-      /*{label: '签发单', name: 'signFilePath', formatter: function (cellvalue, options, rowObject) {
-          if(rowObject.signFilePath==undefined) return '-'
-          return $.swfPreview(rowObject.signFilePath, "签发单", "查看", null, "${param.type=='admin'?'':'url'}");
-      }},*/
       {label: '备注', name: 'remark', width: 380}
   ]
 </script>

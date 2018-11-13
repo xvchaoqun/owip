@@ -131,12 +131,9 @@
             {label: '纪委回复日期', name: 'replyDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '回复情况', name: '_replyItems', formatter: function (cellvalue, options, rowObject) {
-               /* return ('<button class="popupBtn btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scLetterReplyItems?replyId={0}">查看({1})</button>')
-                        .format( rowObject.id, rowObject.replyItemCount==undefined?0:rowObject.replyItemCount);*/
 
-                return ('<button class="loadPage btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scLetter?cls=2&letterYear={0}&letterNum={1}&replyNum={2}">查看({3})</button>')
+                return ('<a href="javascript:;" class="loadPage" ' +
+                'data-url="${ctx}/sc/scLetter?cls=2&letterYear={0}&letterNum={1}&replyNum={2}">查看({3})</a>')
                         .format( rowObject.letterYear, rowObject.letterNum, rowObject.num,
                         rowObject.replyItemCount==undefined?0:rowObject.replyItemCount);
 

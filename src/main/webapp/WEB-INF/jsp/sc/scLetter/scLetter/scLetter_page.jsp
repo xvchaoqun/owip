@@ -123,15 +123,15 @@
             {label: '函询日期', name: 'queryDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {
                 label: '函询对象数', name: 'itemCount', formatter: function (cellvalue, options, rowObject) {
-                return ('<button class="popupBtn btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scLetter_items?letterId={0}">{1}</button>')
+                return ('<a href="javascript:;" class="popupBtn" ' +
+                'data-url="${ctx}/sc/scLetter_items?letterId={0}">{1}</a>')
                         .format(rowObject.id, rowObject.itemCount);
             }
             },
             {
                 label: '纪委回复情况', name: 'itemCount', formatter: function (cellvalue, options, rowObject) {
-                return ('<button class="loadPage btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scLetter?cls=2&letterYear={0}&letterNum={1}">查看({2})</button>')
+                return ('<a href="javascript:;" class="loadPage" ' +
+                'data-url="${ctx}/sc/scLetter?cls=2&letterYear={0}&letterNum={1}">查看({2})</a>')
                         .format( rowObject.year, rowObject.num, rowObject.replyCount);
             }
             },

@@ -47,6 +47,10 @@ public class ScDispatchView implements Serializable {
 
     private Integer dispatchId;
 
+    private String dispatchFile;
+
+    private String dispatchFileName;
+
     private Integer dispatchTypeSortOrder;
 
     private Integer appointCount;
@@ -149,6 +153,22 @@ public class ScDispatchView implements Serializable {
 
     public void setDispatchId(Integer dispatchId) {
         this.dispatchId = dispatchId;
+    }
+
+    public String getDispatchFile() {
+        return dispatchFile;
+    }
+
+    public void setDispatchFile(String dispatchFile) {
+        this.dispatchFile = dispatchFile == null ? null : dispatchFile.trim();
+    }
+
+    public String getDispatchFileName() {
+        return dispatchFileName;
+    }
+
+    public void setDispatchFileName(String dispatchFileName) {
+        this.dispatchFileName = dispatchFileName == null ? null : dispatchFileName.trim();
     }
 
     public Integer getDispatchTypeSortOrder() {

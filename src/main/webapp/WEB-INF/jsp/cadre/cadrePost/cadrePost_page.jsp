@@ -37,10 +37,12 @@
                            data-url="${ctx}/cadrePost_au?isMainPost=1&cadreId=${param.cadreId}"><i
                                 class="fa fa-plus"></i> 添加主职</a>
                     </c:if>
+                    <c:if test="${not empty mainCadrePost}">
                     <button class="popupBtn btn btn-warning btn-sm"
                             data-url="${ctx}/cadrePost_au?id=${mainCadrePost.id}&isMainPost=1&cadreId=${param.cadreId}">
                         <i class="fa fa-edit"></i> 修改
                     </button>
+                    </c:if>
                     <button class="confirm btn btn-danger btn-sm"
                             data-url="${ctx}/cadrePost_batchDel?ids[]=${mainCadrePost.id}"
                             data-title="删除主职"

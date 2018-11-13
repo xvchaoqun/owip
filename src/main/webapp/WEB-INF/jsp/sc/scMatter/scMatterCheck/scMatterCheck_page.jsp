@@ -124,8 +124,8 @@
             },
             {
                 label: '核查对象数', name: 'itemCount', formatter: function (cellvalue, options, rowObject) {
-                return ('<button class="popupBtn btn btn-link btn-xs" ' +
-                'data-url="${ctx}/sc/scMatterCheck_items?checkId={0}">{1}</button>')
+                return ('<a href="javascript:;" class="popupBtn" ' +
+                'data-url="${ctx}/sc/scMatterCheck_items?checkId={0}">{1}</a>')
                         .format(rowObject.id, rowObject.itemCount);
             }
             },
