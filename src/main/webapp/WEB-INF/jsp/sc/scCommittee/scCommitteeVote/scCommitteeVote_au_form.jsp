@@ -240,7 +240,7 @@
                     </button>
                     <c:if test="${not empty scCommitteeVote}">
                         &nbsp; &nbsp; &nbsp;
-                        <button class="btn btn-default btn-sm" onclick="_update()">
+                        <button type="button" class="btn btn-default btn-sm" onclick="_reload2()">
                             <i class="ace-icon fa fa-undo"></i>
                             返回添加
                         </button>

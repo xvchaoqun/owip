@@ -21,6 +21,7 @@ import service.sys.SysUserService;
 import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
 import sys.shiro.SSOException;
+import sys.tags.CmTag;
 
 import java.util.Set;
 
@@ -31,8 +32,6 @@ public class UserRealm extends AuthorizingRealm {
     private SpringProps springProps;
     @Autowired
     private SysUserService userService;
-    @Autowired(required = false)
-    private LoginService loginService;
     @Autowired
     private RetryLimitHashedCredentialsMatcher credentialsMatcher;
 
@@ -79,6 +78,7 @@ public class UserRealm extends AuthorizingRealm {
             // 如果是第三方账号登陆，则登陆密码换成第三方登陆的
             boolean tryLogin;
             try{
+                LoginService loginService = CmTag.getBean(LoginService.class);
                 tryLogin = loginService.tryLogin(username, inputPasswd);
             }catch (Exception ex){
                 ex.printStackTrace();
