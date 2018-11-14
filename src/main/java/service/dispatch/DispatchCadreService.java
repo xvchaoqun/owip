@@ -25,7 +25,7 @@ public class DispatchCadreService extends BaseMapper {
 
         DispatchCadreExample example = new DispatchCadreExample();
         example.createCriteria().andDispatchIdEqualTo(dispatchId).andTypeEqualTo(type);
-        return dispatchCadreMapper.countByExample(example);
+        return (int) dispatchCadreMapper.countByExample(example);
     }
 
     @Transactional

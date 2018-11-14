@@ -217,7 +217,7 @@ public class DispatchCadreController extends DispatchBaseController {
             return;
         }
 
-        int count = dispatchCadreViewMapper.countByExample(example);
+        long count = dispatchCadreViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

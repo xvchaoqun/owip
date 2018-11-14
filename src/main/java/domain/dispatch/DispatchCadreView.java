@@ -31,6 +31,8 @@ public class DispatchCadreView implements Serializable {
 
     private Byte type;
 
+    private Integer unitPostId;
+
     private Integer cadreTypeId;
 
     private Integer wayId;
@@ -89,6 +91,14 @@ public class DispatchCadreView implements Serializable {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Integer getUnitPostId() {
+        return unitPostId;
+    }
+
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
     }
 
     public Integer getCadreTypeId() {

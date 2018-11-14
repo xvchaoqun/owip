@@ -3,12 +3,9 @@ package domain.sc.scCommittee;
 import domain.cadre.CadreView;
 import domain.sys.SysUserView;
 import domain.unit.Unit;
-import org.springframework.format.annotation.DateTimeFormat;
 import sys.tags.CmTag;
-import sys.utils.DateUtils;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class ScCommitteeVote implements Serializable {
 
@@ -31,10 +28,7 @@ public class ScCommitteeVote implements Serializable {
 
     private Byte type;
 
-    private String originalPost;
-
-    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
-    private Date originalPostTime;
+    private Integer unitPostId;
 
     private Integer cadreTypeId;
 
@@ -94,20 +88,12 @@ public class ScCommitteeVote implements Serializable {
         this.type = type;
     }
 
-    public String getOriginalPost() {
-        return originalPost;
+    public Integer getUnitPostId() {
+        return unitPostId;
     }
 
-    public void setOriginalPost(String originalPost) {
-        this.originalPost = originalPost == null ? null : originalPost.trim();
-    }
-
-    public Date getOriginalPostTime() {
-        return originalPostTime;
-    }
-
-    public void setOriginalPostTime(Date originalPostTime) {
-        this.originalPostTime = originalPostTime;
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
     }
 
     public Integer getCadreTypeId() {

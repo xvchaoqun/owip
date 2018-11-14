@@ -3,10 +3,9 @@ package persistence.sc.scAd;
 import domain.sc.scAd.ScAdArchive;
 import domain.sc.scAd.ScAdArchiveExample;
 import domain.sc.scAd.ScAdArchiveWithBLOBs;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface ScAdArchiveMapper {
     long countByExample(ScAdArchiveExample example);

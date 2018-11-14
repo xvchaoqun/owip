@@ -1,8 +1,6 @@
 package domain.sc.scCommittee;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class ScCommitteeVoteExample {
@@ -104,32 +102,6 @@ public class ScCommitteeVoteExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -372,133 +344,63 @@ public class ScCommitteeVoteExample {
             return (Criteria) this;
         }
 
-        public Criteria andOriginalPostIsNull() {
-            addCriterion("original_post is null");
+        public Criteria andUnitPostIdIsNull() {
+            addCriterion("unit_post_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalPostIsNotNull() {
-            addCriterion("original_post is not null");
+        public Criteria andUnitPostIdIsNotNull() {
+            addCriterion("unit_post_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalPostEqualTo(String value) {
-            addCriterion("original_post =", value, "originalPost");
+        public Criteria andUnitPostIdEqualTo(Integer value) {
+            addCriterion("unit_post_id =", value, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalPostNotEqualTo(String value) {
-            addCriterion("original_post <>", value, "originalPost");
+        public Criteria andUnitPostIdNotEqualTo(Integer value) {
+            addCriterion("unit_post_id <>", value, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalPostGreaterThan(String value) {
-            addCriterion("original_post >", value, "originalPost");
+        public Criteria andUnitPostIdGreaterThan(Integer value) {
+            addCriterion("unit_post_id >", value, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalPostGreaterThanOrEqualTo(String value) {
-            addCriterion("original_post >=", value, "originalPost");
+        public Criteria andUnitPostIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("unit_post_id >=", value, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalPostLessThan(String value) {
-            addCriterion("original_post <", value, "originalPost");
+        public Criteria andUnitPostIdLessThan(Integer value) {
+            addCriterion("unit_post_id <", value, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalPostLessThanOrEqualTo(String value) {
-            addCriterion("original_post <=", value, "originalPost");
+        public Criteria andUnitPostIdLessThanOrEqualTo(Integer value) {
+            addCriterion("unit_post_id <=", value, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalPostLike(String value) {
-            addCriterion("original_post like", value, "originalPost");
+        public Criteria andUnitPostIdIn(List<Integer> values) {
+            addCriterion("unit_post_id in", values, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalPostNotLike(String value) {
-            addCriterion("original_post not like", value, "originalPost");
+        public Criteria andUnitPostIdNotIn(List<Integer> values) {
+            addCriterion("unit_post_id not in", values, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalPostIn(List<String> values) {
-            addCriterion("original_post in", values, "originalPost");
+        public Criteria andUnitPostIdBetween(Integer value1, Integer value2) {
+            addCriterion("unit_post_id between", value1, value2, "unitPostId");
             return (Criteria) this;
         }
 
-        public Criteria andOriginalPostNotIn(List<String> values) {
-            addCriterion("original_post not in", values, "originalPost");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostBetween(String value1, String value2) {
-            addCriterion("original_post between", value1, value2, "originalPost");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostNotBetween(String value1, String value2) {
-            addCriterion("original_post not between", value1, value2, "originalPost");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostTimeIsNull() {
-            addCriterion("original_post_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostTimeIsNotNull() {
-            addCriterion("original_post_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("original_post_time =", value, "originalPostTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("original_post_time <>", value, "originalPostTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("original_post_time >", value, "originalPostTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("original_post_time >=", value, "originalPostTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostTimeLessThan(Date value) {
-            addCriterionForJDBCDate("original_post_time <", value, "originalPostTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("original_post_time <=", value, "originalPostTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("original_post_time in", values, "originalPostTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("original_post_time not in", values, "originalPostTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("original_post_time between", value1, value2, "originalPostTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andOriginalPostTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("original_post_time not between", value1, value2, "originalPostTime");
+        public Criteria andUnitPostIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("unit_post_id not between", value1, value2, "unitPostId");
             return (Criteria) this;
         }
 

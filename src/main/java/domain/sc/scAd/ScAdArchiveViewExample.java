@@ -312,6 +312,66 @@ public class ScAdArchiveViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andAdformSaveTimeIsNull() {
+            addCriterion("adform_save_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformSaveTimeIsNotNull() {
+            addCriterion("adform_save_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformSaveTimeEqualTo(Date value) {
+            addCriterion("adform_save_time =", value, "adformSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformSaveTimeNotEqualTo(Date value) {
+            addCriterion("adform_save_time <>", value, "adformSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformSaveTimeGreaterThan(Date value) {
+            addCriterion("adform_save_time >", value, "adformSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformSaveTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("adform_save_time >=", value, "adformSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformSaveTimeLessThan(Date value) {
+            addCriterion("adform_save_time <", value, "adformSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformSaveTimeLessThanOrEqualTo(Date value) {
+            addCriterion("adform_save_time <=", value, "adformSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformSaveTimeIn(List<Date> values) {
+            addCriterion("adform_save_time in", values, "adformSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformSaveTimeNotIn(List<Date> values) {
+            addCriterion("adform_save_time not in", values, "adformSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformSaveTimeBetween(Date value1, Date value2) {
+            addCriterion("adform_save_time between", value1, value2, "adformSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdformSaveTimeNotBetween(Date value1, Date value2) {
+            addCriterion("adform_save_time not between", value1, value2, "adformSaveTime");
+            return (Criteria) this;
+        }
+
         public Criteria andIsAdformSavedIsNull() {
             addCriterion("is_adform_saved is null");
             return (Criteria) this;
@@ -489,6 +549,66 @@ public class ScAdArchiveViewExample {
 
         public Criteria andObjIdNotBetween(Integer value1, Integer value2) {
             addCriterion("obj_id not between", value1, value2, "objId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCisSaveTimeIsNull() {
+            addCriterion("cis_save_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCisSaveTimeIsNotNull() {
+            addCriterion("cis_save_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCisSaveTimeEqualTo(Date value) {
+            addCriterion("cis_save_time =", value, "cisSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCisSaveTimeNotEqualTo(Date value) {
+            addCriterion("cis_save_time <>", value, "cisSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCisSaveTimeGreaterThan(Date value) {
+            addCriterion("cis_save_time >", value, "cisSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCisSaveTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("cis_save_time >=", value, "cisSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCisSaveTimeLessThan(Date value) {
+            addCriterion("cis_save_time <", value, "cisSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCisSaveTimeLessThanOrEqualTo(Date value) {
+            addCriterion("cis_save_time <=", value, "cisSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCisSaveTimeIn(List<Date> values) {
+            addCriterion("cis_save_time in", values, "cisSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCisSaveTimeNotIn(List<Date> values) {
+            addCriterion("cis_save_time not in", values, "cisSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCisSaveTimeBetween(Date value1, Date value2) {
+            addCriterion("cis_save_time between", value1, value2, "cisSaveTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCisSaveTimeNotBetween(Date value1, Date value2) {
+            addCriterion("cis_save_time not between", value1, value2, "cisSaveTime");
             return (Criteria) this;
         }
 

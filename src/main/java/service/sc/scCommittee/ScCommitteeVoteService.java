@@ -1,19 +1,26 @@
 package service.sc.scCommittee;
 
+import domain.sc.scCommittee.ScCommitteeTopicCadre;
+import domain.sc.scCommittee.ScCommitteeTopicCadreExample;
 import domain.sc.scCommittee.ScCommitteeVote;
 import domain.sc.scCommittee.ScCommitteeVoteExample;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class ScCommitteeVoteService extends BaseMapper {
+
+    @Autowired
+    private ScCommitteeTopicService scCommitteeTopicService;
 
     public boolean idDuplicate(Integer id, String code){
 
@@ -27,10 +34,40 @@ public class ScCommitteeVoteService extends BaseMapper {
     }
 
     @Transactional
-    public void insertSelective(ScCommitteeVote record){
+    public void insertSelective(ScCommitteeVote record,
+                                String originalPost, Date originalPostTime){
 
         record.setSortOrder(getNextSortOrder("sc_committee_vote", "topic_id=" + record.getTopicId()));
         scCommitteeVoteMapper.insertSelective(record);
+        int topicId = record.getTopicId();
+        int cadreId = record.getCadreId();
+
+        updateTopicCadre(topicId, cadreId, originalPost, originalPostTime);
+    }
+
+    // 更新议题涉及的干部基本信息（原任职务信息等）
+    private void updateTopicCadre(int topicId, int cadreId, String originalPost, Date originalPostTime){
+
+        if(StringUtils.isNotBlank(originalPost) || originalPostTime != null){
+
+            ScCommitteeTopicCadre _record = new ScCommitteeTopicCadre();
+            _record.setCadreId(cadreId);
+            _record.setTopicId(topicId);
+            _record.setOriginalPost(originalPost);
+            _record.setOriginalPostTime(originalPostTime);
+
+            ScCommitteeTopicCadre topicCadre = scCommitteeTopicService.getTopicCadre(topicId, cadreId);
+            if(topicCadre==null) {
+                scCommitteeTopicCadreMapper.insertSelective(_record);
+            }else {
+                _record.setId(topicCadre.getId());
+                scCommitteeTopicCadreMapper.updateByPrimaryKeySelective(_record);
+            }
+        }else{
+            ScCommitteeTopicCadreExample example = new ScCommitteeTopicCadreExample();
+            example.createCriteria().andTopicIdEqualTo(topicId).andCadreIdEqualTo(cadreId);
+            scCommitteeTopicCadreMapper.deleteByExample(example);
+        }
     }
 
     @Transactional
@@ -50,8 +87,10 @@ public class ScCommitteeVoteService extends BaseMapper {
     }
 
     @Transactional
-    public int updateByPrimaryKeySelective(ScCommitteeVote record){
-        return scCommitteeVoteMapper.updateByPrimaryKeySelective(record);
+    public void updateByPrimaryKeySelective(ScCommitteeVote record, String originalPost, Date originalPostTime){
+
+        scCommitteeVoteMapper.updateByPrimaryKeySelective(record);
+        updateTopicCadre(record.getTopicId(), record.getCadreId(), originalPost, originalPostTime);
     }
 
 

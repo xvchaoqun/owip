@@ -1,6 +1,7 @@
 package persistence.unit.common;
 
 import domain.unit.Unit;
+import domain.unit.UnitPostView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.ResultType;
@@ -12,6 +13,10 @@ import java.util.List;
  * Created by fafa on 2015/11/28.
  */
 public interface IUnitMapper {
+
+    @ResultMap("persistence.unit.UnitPostViewMapper.BaseResultMap")
+    @Select("select * from unit_post_view where id=#{id}")
+    UnitPostView getUnitPost(@Param("id") int id);
 
     // 查找历史单位
     @ResultMap("persistence.unit.UnitMapper.BaseResultMap")

@@ -15,42 +15,53 @@
 
                 <table class="table table-striped table-bordered
                     table-condensed table-center table-unhover2" style="border: dashed 1px">
+                    <colgroup>
+                        <col width="100">
+                        <col width="130">
+                        <col width="100">
+                        <col width="50">
+                        <col width="100">
+                        <col width="130">
+                        <col width="160">
+                    </colgroup>
                     <tbody>
                     <tr>
-                        <td width="50">类别</td>
-                        <td>
-                            <c:forEach var="DISPATCH_CADRE_TYPE" items="${DISPATCH_CADRE_TYPE_MAP}">
+                        <td class="bg-right">类别</td>
+                        <td class="bg-left">
+                            <c:forEach var="entity" items="${DISPATCH_CADRE_TYPE_MAP}">
                                 <label class="label-text">
                                     <input required name="type" type="radio" class="ace"
-                                           value="${DISPATCH_CADRE_TYPE.key}"
-                                           <c:if test="${scCommitteeVote.type==DISPATCH_CADRE_TYPE.key}">checked</c:if>/>
-                                    <span class="lbl"> ${DISPATCH_CADRE_TYPE.value}</span>
+                                           value="${entity.key}"
+                                           <c:if test="${scCommitteeVote.type==entity.key}">checked</c:if>/>
+                                    <span class="lbl"> ${entity.value}</span>
                                 </label>
                             </c:forEach>
                         </td>
-                        <td>工作证号</td>
-                        <td>
-                            <select required data-ajax-url="${ctx}/cadre_selects?type=0&lpWorkTime=1" data-width="160"
-                                    name="cadreId" data-placeholder="请选择干部">
-                                <option value="${scCommitteeVote.cadre.id}">${scCommitteeVote.user.code}</option>
+                        <td class="bg-right">选择干部</td>
+                        <td class="bg-left" colspan="4">
+                            <select required data-ajax-url="${ctx}/cadre_selects?type=0&lpWorkTime=1" data-width="360"
+                                    name="cadreId" data-placeholder="请输入姓名或工作证号">
+                                <option value="${scCommitteeVote.cadre.id}">
+                                    ${scCommitteeVote.user.realname}-${scCommitteeVote.user.code}-${scCommitteeVote.cadre.unit.name}</option>
                             </select>
                         </td>
-                        <td width="50">姓名</td>
-                        <td><input disabled class="form-control" type="text" name="_name"
-                                   value="${scCommitteeVote.user.realname}"></td>
                     </tr>
                     <tr>
-                        <td>原任职务</td>
-                        <td colspan="2">
-                            <textarea class="form-control noEnter" rows="2" style="width: 300px;"
+                        <td colspan="7" class="bg-grey" style="text-align: left">
+                            <span class="red bolder">干部原任职务信息</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bg-right">原任职务</td>
+                        <td class="bg-left" colspan="4">
+                            <textarea class="form-control noEnter" rows="2" style="width: 100%;"
                                       name="originalPost">${scCommitteeVote.originalPost}</textarea>
                             <%--<input class="form-control" type="text" name="originalPost"
-                                   style="width: 300px;"
                                    value="${scCommitteeVote.originalPost}">--%>
                         </td>
-                        <td >原任职务任职时间</td>
-                        <td colspan="2" class="original">
-                            <div class="input-group" style="width: 150px;">
+                        <td class="bg-right">原任职务任职时间</td>
+                        <td class="bg-left" class="original">
+                            <div class="input-group">
                                 <input class="form-control date-picker" name="originalPostTime"
                                        data-date-format="yyyy-mm-dd"
                                        value="${cm:formatDate(scCommitteeVote.originalPostTime,'yyyy-MM-dd')}"/>
@@ -65,52 +76,25 @@
                     table-condensed table-center table-unhover2" style="margin: 10px 0 0;">
                     <tbody>
                     <tr>
-                        <td>干部类型</td>
-                        <td>
-                            <select required data-rel="select2" name="cadreTypeId" data-width="180"
-                                    data-placeholder="请选择干部类型">
-                                <option></option>
-                                <c:import url="/metaTypes?__code=mc_dispatch_cadre_type"/>
+                        <td rowspan="4" style="width: 30px;" class="red bolder" id="typeInfoTd">任职信息</td>
+                        <td class="bg-right">所属岗位</td>
+                        <td class="bg-left" colspan="5">
+                            <select data-ajax-url="${ctx}/unitPost_selects" data-width="590"
+                                    name="unitPostId" data-placeholder="请选择">
+                                <option value="${unitPost.id}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
                             </select>
-                            <script type="text/javascript">
-                                $("#voteForm select[name=cadreTypeId]").val('${scCommitteeVote.cadreTypeId}');
-                            </script>
                         </td>
-                        <td>任免方式</td>
-                        <td>
-                            <select data-rel="select2" name="wayId" data-width="140" data-placeholder="请选择任免方式">
-                                <option></option>
-                                <c:import url="/metaTypes?__code=mc_dispatch_cadre_way"/>
-                            </select>
-                            <script type="text/javascript">
-                                $("#voteForm select[name=wayId]").val('${scCommitteeVote.wayId}');
-                            </script>
-                        </td>
-                        <td>任免程序</td>
-                        <td>
-                            <select class="form-control" data-rel="select2" data-width="140" name="procedureId"
-                                    data-placeholder="请选择任免程序">
-                                <option></option>
-                                <c:import url="/metaTypes?__code=mc_dispatch_cadre_procedure"/>
-                            </select>
-                            <script type="text/javascript">
-                                $("#voteForm select[name=procedureId]").val('${scCommitteeVote.procedureId}');
-                            </script>
-                        </td>
-
                     </tr>
                     <tr>
-                        <td>职务</td>
-                        <td>
-                             <textarea class="form-control noEnter" rows="2"
+                        <td class="bg-right" id="typeNameTd">任命职务</td>
+                        <td class="bg-left">
+                            <textarea required class="form-control noEnter" rows="2" style="width: 150px"
                                        name="post">${scCommitteeVote.post}</textarea>
-                            <%--<input required class="form-control" type="text" name="post"
-                                   value="${scCommitteeVote.post}">--%>
                         </td>
-                        <td>职务属性</td>
-                        <td>
-                            <select required name="postId" data-rel="select2" data-width="140"
-                                    data-placeholder="请选择职务属性">
+                        <td class="bg-right">职务属性</td>
+                        <td class="bg-left">
+                            <select required name="postId" data-rel="select2" data-width="130"
+                                    data-placeholder="请选择">
                                 <option></option>
                                 <c:import url="/metaTypes?__code=mc_post"/>
                             </select>
@@ -118,11 +102,11 @@
                                 $("#voteForm select[name=postId]").val('${scCommitteeVote.postId}');
                             </script>
                         </td>
-                        <td>行政级别</td>
-                        <td>
+                        <td class="bg-right">行政级别</td>
+                        <td class="bg-left">
                             <select required class="form-control" data-rel="select2" data-width="140"
                                     name="adminLevelId"
-                                    data-placeholder="请选择行政级别">
+                                    data-placeholder="请选择">
                                 <option></option>
                                 <c:import url="/metaTypes?__code=mc_admin_level"/>
                             </select>
@@ -132,75 +116,109 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>单位类别</td>
-                        <td>
-                            <select required class="form-control" name="_unitStatus" data-width="180"
+                        <td class="bg-right">单位类别</td>
+                        <td class="bg-left">
+                            <select required class="form-control" name="_unitStatus" data-width="150"
                                     data-rel="select2"
-                                    data-placeholder="请选择单位类别">
+                                    data-placeholder="请选择">
                                 <option></option>
                                 <option value="1" ${scCommitteeVote.unit.status==1?"selected":""}>正在运转单位</option>
                                 <option value="2" ${scCommitteeVote.unit.status==2?"selected":""}>历史单位</option>
                             </select>
                         </td>
-                        <td>所属单位</td>
-                        <td>
-                            <select required data-rel="select2-ajax" data-width="140"
+                        <td class="bg-right">所属单位</td>
+                        <td class="bg-left">
+                            <select required data-rel="select2-ajax" data-width="130"
                                     data-ajax-url="${ctx}/unit_selects"
-                                    name="unitId" data-placeholder="请选择单位">
+                                    name="unitId" data-placeholder="请选择">
                                 <option value="${scCommitteeVote.unit.id}">${scCommitteeVote.unit.name}</option>
                             </select>
                         </td>
-                        <td>单位类型</td>
-                        <td>
+                        <td class="bg-right">单位类型</td>
+                        <td class="bg-left">
                             <input class="form-control" name="_unitType" type="text" disabled
                                    style="width: 140px"
                                    value="${scCommitteeVote.unit.unitType.name}">
                         </td>
+                    </tr>
+                    <tr>
+                        <td class="bg-right">干部类型</td>
+                        <td class="bg-left">
+                            <select required data-rel="select2" name="cadreTypeId" data-width="150"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <c:import url="/metaTypes?__code=mc_dispatch_cadre_type"/>
+                            </select>
+                            <script type="text/javascript">
+                                $("#voteForm select[name=cadreTypeId]").val('${scCommitteeVote.cadreTypeId}');
+                            </script>
+                        </td>
+                        <td class="bg-right">任免方式</td>
+                        <td class="bg-left">
+                            <select data-rel="select2" name="wayId" data-width="130" data-placeholder="请选择">
+                                <option></option>
+                                <c:import url="/metaTypes?__code=mc_dispatch_cadre_way"/>
+                            </select>
+                            <script type="text/javascript">
+                                $("#voteForm select[name=wayId]").val('${scCommitteeVote.wayId}');
+                            </script>
+                        </td>
+                        <td class="bg-right">任免程序</td>
+                        <td class="bg-left">
+                            <select class="form-control" data-rel="select2" data-width="140" name="procedureId"
+                                    data-placeholder="请选择">
+                                <option></option>
+                                <c:import url="/metaTypes?__code=mc_dispatch_cadre_procedure"/>
+                            </select>
+                            <script type="text/javascript">
+                                $("#voteForm select[name=procedureId]").val('${scCommitteeVote.procedureId}');
+                            </script>
+                        </td>
+
                     </tr>
                     </tbody>
                 </table>
                 <div class="row" style="margin: 10px 0;">
                     <table class="table table-striped table-bordered
                     table-condensed table-center table-unhover2">
-                        <thead>
-                        <tr>
-                            <th width="90">党委常委会<br/>讨论日期</th>
-                            <th width="50">常委<br/>总数</th>
-                            <th width="70">应参会<br/>常委数</th>
-                            <th width="80">实际参会<br/>常委数</th>
-                            <th width="60">请假<br/>常委数</th>
-                            <th width="70">表决<br/>同意票数</th>
-                            <th width="70">表决<br/>弃权票数</th>
-                            <th width="70">表决<br/>反对票数</th>
-                            <th width="60">常委会<br/>表决票</th>
-                        </tr>
-                        </thead>
                         <tbody>
                         <tr>
-                            <td>
+                            <td rowspan="3" style="width: 30px;" class="red bolder">常委会表决情况</td>
+                            <td width="90">党委常委会<br/>讨论日期</td>
+                            <td width="50">常委<br/>总数</td>
+                            <td width="70">应参会<br/>常委数</td>
+                            <td width="80">实际参会<br/>常委数</td>
+                            <td width="60">请假<br/>常委数</td>
+                            <td width="70">表决<br/>同意票数</td>
+                            <td width="70">表决<br/>弃权票数</td>
+                            <td width="70">表决<br/>反对票数</td>
+                            <td width="60">常委会<br/>表决票</td>
+                        </tr>
+                        <tr>
+                            <td class="bg-center">
                                 ${cm:formatDate(scCommittee.holdDate, "yyyy-MM-dd")}
                             </td>
-                            <td>${scCommittee.committeeMemberCount}</td>
-                            <td>${scCommittee.count+scCommittee.absentCount}</td>
-                            <td>${scCommittee.count}</td>
-                            <td>${scCommittee.absentCount}</td>
-                            <td><input required class="form-control digits" type="text"
+                            <td class="bg-center">${scCommittee.committeeMemberCount}</td>
+                            <td class="bg-center">${scCommittee.count+scCommittee.absentCount}</td>
+                            <td class="bg-center">${scCommittee.count}</td>
+                            <td class="bg-center">${scCommittee.absentCount}</td>
+                            <td class="bg-center"><input required class="form-control digits" type="text"
                                        style="width: 100%" name="agreeCount"
                                        data-at="bottom center" data-my="top center"
                                        value="${scCommitteeVote.agreeCount}"></td>
-                            <td>
+                            <td class="bg-center">
                                 <input required class="form-control digits" type="text"
                                        style="width: 100%" name="abstainCount"
                                        data-at="bottom center" data-my="top center"
                                        value="${scCommitteeVote.abstainCount}"></td>
                             </td>
-                            <td>
+                            <td class="bg-center">
                                 <input required class="form-control digits" type="text"
                                        style="width: 100%" name="disagreeCount"
                                        data-at="bottom center" data-my="top center"
                                        value="${scCommitteeVote.disagreeCount}"></td>
                             </td>
-                            <td>
+                            <td class="bg-center">
 
                                 <t:preview filePath="${scCommitteeTopic.voteFilePath}" fileName="表决票" label="<i class='fa fa-search'></i> 预览"/>
                             </td>
@@ -276,23 +294,23 @@
         text-align: left;
     }
 </style>
+
 <script>
     <c:if test="${empty scCommitteeTopic}">
     $("select, input, button, textarea", "#voteForm").prop("disabled", true);
     </c:if>
 
-    /*$("#voteForm input[name=type]").change(function () {
+    $("#voteForm input[name=type]").change(function () {
 
-     if ($(this).val() == 1) {
-     $("#voteForm input[name=originalPost]").attr("required", "required");
-     $("#voteForm input[name=originalPostTime]").attr("required", "required");
-     $("#voteForm .original").show();
-     } else {
-     $("#voteForm input[name=originalPost]").removeAttr("required");
-     $("#voteForm input[name=originalPostTime]").removeAttr("required");
-     $("#voteForm .original").hide();
-     }
-     })*/
+        //console.log("$(this).val()=" + $(this).val())
+         if ($(this).val() == '<%=DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT%>') {
+             $("#typeNameTd").html("任命职务");
+             $("#typeInfoTd").html("任职信息");
+         } else {
+             $("#typeNameTd").html("免去职务");
+             $("#typeInfoTd").html("免职信息");
+         }
+     })
 
     $.register.date($('.date-picker'));
     $('textarea.limited').inputlimiter();
@@ -322,22 +340,72 @@
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
 
+    $.register.ajax_select($('#voteForm select[name=unitPostId]'), function (state) {
+        var $state = state.text;
+        if(state.up!=undefined){
+            if ($.trim(state.up.job)!='')
+                $state += "-" + state.up.job;
+            if ($.trim(state.up.unitName)!='')
+                $state += "-" + state.up.unitName;
+        }
+        return $state;
+    }).on("change", function () {
+        //console.log($(this).select2("data")[0])
+        var up = $(this).select2("data")[0]['up'] ;
+         //console.log(up)
+        if(up!=undefined){
+            if(up.postClass=='${cm:getMetaTypeByCode("mt_post_dw").id}'){
+                $("#voteForm select[name=cadreTypeId]").val('${cm:getMetaTypeByCode("mt_dispatch_cadre_dw").id}').trigger("change")
+            }else if(up.postClass=='${cm:getMetaTypeByCode("mt_post_xz").id}'){
+                $("#voteForm select[name=cadreTypeId]").val('${cm:getMetaTypeByCode("mt_dispatch_cadre_xz").id}').trigger("change")
+            }
+
+            $('#voteForm textarea[name=post]').val(up.name)
+            $("#voteForm select[name=postId]").val(up.postType).trigger("change");
+            $("#voteForm select[name=adminLevelId]").val(up.adminLevel).trigger("change");
+            $("#voteForm select[name=_unitStatus]").val(up.unitStatus).trigger("change");
+
+            var option = new Option(up.unitName, up.unitId, true, true);
+            $("#voteForm select[name=unitId]").append(option).trigger('change');
+
+
+            $('#voteForm input[name=_unitType]').val(_cMap.metaTypeMap[up.unitTypeId].name)
+        }
+    });
     var $selectCadre = $.register.user_select($('#voteForm select[name=cadreId]'), function (state) {
         var $state = state.text;
-        if (state.code != undefined && state.code.length > 0)
-            $state = state.code;
+        if ($.trim(state.code)!='')
+            $state += "-" + state.code;
+        if ($.trim(state.unit)!='')
+            $state += "-" + state.unit;
         return $state;
     });
     $selectCadre.on("change", function () {
         //console.log($(this).select2("data")[0])
         var name = $(this).select2("data")[0]['text'] || '';
         var status = $(this).select2("data")[0]['status'] || '';
-        var title = $(this).select2("data")[0]['title'] || '';
-        var lpWorkTime = $(this).select2("data")[0]['lpWorkTime'] || '';
-        $('#voteForm input[name=_name]').val(name);
+
+        //$('#voteForm input[name=_name]').val(name);
         if(status==${CADRE_STATUS_MIDDLE} || status==${CADRE_STATUS_LEADER}){
-            $('#voteForm textarea[name=originalPost]').val(title);
-            $('#voteForm input[name=originalPostTime]').val(lpWorkTime);
+
+            var title = '';
+            var lpWorkTime = '';
+            $.getJSON("${ctx}/sc/scCommitteeTopic_cadre",{topicId:'${scCommitteeTopic.id}',
+                cadreId:$(this).val()},function(ret){
+                //console.log(ret)
+                if(ret.id>0){
+                    title = ret.originalPost;
+                    lpWorkTime = $.date(ret.originalPostTime, "yyyy-MM-dd");
+                }
+
+                if($.trim(title)=='')
+                    title = $(this).select2("data")[0]['title'] || '';
+                if($.trim(lpWorkTime)=='')
+                    lpWorkTime = $(this).select2("data")[0]['lpWorkTime'] || '';
+
+                $('#voteForm textarea[name=originalPost]').val(title);
+                $('#voteForm input[name=originalPostTime]').val(lpWorkTime);
+            })
         }else{
             $('#voteForm textarea[name=originalPost]').val('');
             $('#voteForm input[name=originalPostTime]').val('');

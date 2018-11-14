@@ -38,6 +38,8 @@ public class UnitPostView implements Serializable {
 
     private Integer unitTypeId;
 
+    private Byte unitStatus;
+
     private Integer unitSortOrder;
 
     private static final long serialVersionUID = 1L;
@@ -176,6 +178,14 @@ public class UnitPostView implements Serializable {
 
     public void setUnitTypeId(Integer unitTypeId) {
         this.unitTypeId = unitTypeId;
+    }
+
+    public Byte getUnitStatus() {
+        return unitStatus;
+    }
+
+    public void setUnitStatus(Byte unitStatus) {
+        this.unitStatus = unitStatus;
     }
 
     public Integer getUnitSortOrder() {

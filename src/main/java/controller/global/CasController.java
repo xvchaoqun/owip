@@ -92,7 +92,7 @@ public class CasController extends BaseController {
 
         if(StringUtils.isBlank(username) && ShiroHelper.getCurrentUser()!=null){
             // 已登录的情况下，跳转到原账号
-            return "redirect:/";
+            return casRedirect(request);
         }
 
         return directLogin(username, true, request, response, null);
@@ -128,7 +128,7 @@ public class CasController extends BaseController {
                     SecurityUtils.getSubject().getSession().removeAttribute("_switchUser");
                 }
 
-                return "redirect:/";
+                return casRedirect(request);
             } else {
                 logger.info(sysLoginLogService.log(null, username,
                         SystemConstants.LOGIN_TYPE_CAS, false, "登录失败"));
@@ -139,5 +139,11 @@ public class CasController extends BaseController {
 
         //return "redirect:/jsp/timeout.jsp";
         return "redirect:/";
+    }
+
+    private String casRedirect(HttpServletRequest request){
+
+        String url = request.getParameter("url");
+        return "redirect:/" + (StringUtils.isBlank(url)?"":("#"+url));
     }
 }

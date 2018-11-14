@@ -5,9 +5,11 @@
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="adform_save_time" jdbcType="TIMESTAMP" property="adformSaveTime" />
     <result column="is_adform_saved" jdbcType="BIT" property="isAdformSaved" />
     <result column="has_appoint" jdbcType="BIT" property="hasAppoint" />
     <result column="obj_id" jdbcType="INTEGER" property="objId" />
+    <result column="cis_save_time" jdbcType="TIMESTAMP" property="cisSaveTime" />
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
     <result column="sign_file_path" jdbcType="VARCHAR" property="signFilePath" />
     <result column="cis_file_path" jdbcType="VARCHAR" property="cisFilePath" />
@@ -53,9 +55,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, committee_id, cadre_id, is_adform_saved, has_appoint, obj_id, file_path, sign_file_path, 
-    cis_file_path, cis_sign_file_path, remark, year, committee_file_path, hold_date, 
-    code, realname
+    id, committee_id, cadre_id, adform_save_time, is_adform_saved, has_appoint, obj_id, 
+    cis_save_time, file_path, sign_file_path, cis_file_path, cis_sign_file_path, remark, 
+    year, committee_file_path, hold_date, code, realname
   </sql>
   <sql id="Blob_Column_List">
     adform, cis

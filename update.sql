@@ -1,4 +1,47 @@
 
+20181115
+
+ALTER TABLE `dispatch_cadre`
+	ADD COLUMN `unit_post_id` INT UNSIGNED NULL COMMENT '关联干部岗位' AFTER `type`;
+
+	更新 dispatch_cadre_view
+
+	ALTER TABLE `sc_committee_vote`
+	ADD COLUMN `unit_post_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联干部岗位' AFTER `type`;
+
+
+	+ sc_committee_topic_cadre
+	(ALTER TABLE `sc_committee_topic_cadre` ADD UNIQUE INDEX `topic_id_cadre_id` (`topic_id`, `cadre_id`);)
+
+	insert into sc_committee_topic_cadre(topic_id, cadre_id, original_post,original_post_time)
+	select topic_id, cadre_id, original_post,original_post_time from sc_committee_vote;
+
+
+  ALTER TABLE `sc_committee_vote`
+	DROP COLUMN `original_post`,
+	DROP COLUMN `original_post_time`;
+
+	更新 sc_committee_vote_view
+
+
+ALTER TABLE `cadre_post`
+	ADD COLUMN `unit_post_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '关联干部岗位' AFTER `cadre_id`;
+
+
+更新 unit_post_view
+
+干部类型
+mc_dispatch_cadre_type -> mt_dispatch_cadre_dw, mt_dispatch_cadre_xz
+
+职务类别
+mc_post_class  -> mt_post_dw, mt_post_xz
+
+ALTER TABLE `sc_ad_archive`
+	ADD COLUMN `adform_save_time` DATETIME NULL DEFAULT NULL COMMENT '任免表归档时间' AFTER `adform`,
+	ADD COLUMN `cis_save_time` DATETIME NULL COMMENT '干部考察报告归档时间' AFTER `cis`;
+
+	更新 sc_ad_archive_view
+
 20181114
 更新 sc_dispatch_view
 

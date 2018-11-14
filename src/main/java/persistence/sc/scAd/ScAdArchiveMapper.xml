@@ -5,9 +5,11 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="adform_save_time" jdbcType="TIMESTAMP" property="adformSaveTime" />
     <result column="is_adform_saved" jdbcType="BIT" property="isAdformSaved" />
     <result column="has_appoint" jdbcType="BIT" property="hasAppoint" />
     <result column="obj_id" jdbcType="INTEGER" property="objId" />
+    <result column="cis_save_time" jdbcType="TIMESTAMP" property="cisSaveTime" />
     <result column="file_path" jdbcType="VARCHAR" property="filePath" />
     <result column="sign_file_path" jdbcType="VARCHAR" property="signFilePath" />
     <result column="cis_file_path" jdbcType="VARCHAR" property="cisFilePath" />
@@ -77,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, committee_id, cadre_id, is_adform_saved, has_appoint, obj_id, file_path, sign_file_path, 
-    cis_file_path, cis_sign_file_path, remark
+    id, committee_id, cadre_id, adform_save_time, is_adform_saved, has_appoint, obj_id, 
+    cis_save_time, file_path, sign_file_path, cis_file_path, cis_sign_file_path, remark
   </sql>
   <sql id="Blob_Column_List">
     adform, cis
@@ -133,15 +135,17 @@
   </delete>
   <insert id="insert" parameterType="domain.sc.scAd.ScAdArchiveWithBLOBs">
     insert into sc_ad_archive (id, committee_id, cadre_id, 
-      is_adform_saved, has_appoint, obj_id, 
-      file_path, sign_file_path, cis_file_path, 
-      cis_sign_file_path, remark, adform, 
-      cis)
+      adform_save_time, is_adform_saved, has_appoint, 
+      obj_id, cis_save_time, file_path, 
+      sign_file_path, cis_file_path, cis_sign_file_path, 
+      remark, adform, cis
+      )
     values (#{id,jdbcType=INTEGER}, #{committeeId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
-      #{isAdformSaved,jdbcType=BIT}, #{hasAppoint,jdbcType=BIT}, #{objId,jdbcType=INTEGER}, 
-      #{filePath,jdbcType=VARCHAR}, #{signFilePath,jdbcType=VARCHAR}, #{cisFilePath,jdbcType=VARCHAR}, 
-      #{cisSignFilePath,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{adform,jdbcType=LONGVARCHAR}, 
-      #{cis,jdbcType=LONGVARCHAR})
+      #{adformSaveTime,jdbcType=TIMESTAMP}, #{isAdformSaved,jdbcType=BIT}, #{hasAppoint,jdbcType=BIT}, 
+      #{objId,jdbcType=INTEGER}, #{cisSaveTime,jdbcType=TIMESTAMP}, #{filePath,jdbcType=VARCHAR}, 
+      #{signFilePath,jdbcType=VARCHAR}, #{cisFilePath,jdbcType=VARCHAR}, #{cisSignFilePath,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{adform,jdbcType=LONGVARCHAR}, #{cis,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.scAd.ScAdArchiveWithBLOBs">
     insert into sc_ad_archive
@@ -155,6 +159,9 @@
       <if test="cadreId != null">
         cadre_id,
       </if>
+      <if test="adformSaveTime != null">
+        adform_save_time,
+      </if>
       <if test="isAdformSaved != null">
         is_adform_saved,
       </if>
@@ -163,6 +170,9 @@
       </if>
       <if test="objId != null">
         obj_id,
+      </if>
+      <if test="cisSaveTime != null">
+        cis_save_time,
       </if>
       <if test="filePath != null">
         file_path,
@@ -196,6 +206,9 @@
       <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
       </if>
+      <if test="adformSaveTime != null">
+        #{adformSaveTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="isAdformSaved != null">
         #{isAdformSaved,jdbcType=BIT},
       </if>
@@ -204,6 +217,9 @@
       </if>
       <if test="objId != null">
         #{objId,jdbcType=INTEGER},
+      </if>
+      <if test="cisSaveTime != null">
+        #{cisSaveTime,jdbcType=TIMESTAMP},
       </if>
       <if test="filePath != null">
         #{filePath,jdbcType=VARCHAR},
@@ -246,6 +262,9 @@
       <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
+      <if test="record.adformSaveTime != null">
+        adform_save_time = #{record.adformSaveTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.isAdformSaved != null">
         is_adform_saved = #{record.isAdformSaved,jdbcType=BIT},
       </if>
@@ -254,6 +273,9 @@
       </if>
       <if test="record.objId != null">
         obj_id = #{record.objId,jdbcType=INTEGER},
+      </if>
+      <if test="record.cisSaveTime != null">
+        cis_save_time = #{record.cisSaveTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.filePath != null">
         file_path = #{record.filePath,jdbcType=VARCHAR},
@@ -286,9 +308,11 @@
     set id = #{record.id,jdbcType=INTEGER},
       committee_id = #{record.committeeId,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      adform_save_time = #{record.adformSaveTime,jdbcType=TIMESTAMP},
       is_adform_saved = #{record.isAdformSaved,jdbcType=BIT},
       has_appoint = #{record.hasAppoint,jdbcType=BIT},
       obj_id = #{record.objId,jdbcType=INTEGER},
+      cis_save_time = #{record.cisSaveTime,jdbcType=TIMESTAMP},
       file_path = #{record.filePath,jdbcType=VARCHAR},
       sign_file_path = #{record.signFilePath,jdbcType=VARCHAR},
       cis_file_path = #{record.cisFilePath,jdbcType=VARCHAR},
@@ -305,9 +329,11 @@
     set id = #{record.id,jdbcType=INTEGER},
       committee_id = #{record.committeeId,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
+      adform_save_time = #{record.adformSaveTime,jdbcType=TIMESTAMP},
       is_adform_saved = #{record.isAdformSaved,jdbcType=BIT},
       has_appoint = #{record.hasAppoint,jdbcType=BIT},
       obj_id = #{record.objId,jdbcType=INTEGER},
+      cis_save_time = #{record.cisSaveTime,jdbcType=TIMESTAMP},
       file_path = #{record.filePath,jdbcType=VARCHAR},
       sign_file_path = #{record.signFilePath,jdbcType=VARCHAR},
       cis_file_path = #{record.cisFilePath,jdbcType=VARCHAR},
@@ -326,6 +352,9 @@
       <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
+      <if test="adformSaveTime != null">
+        adform_save_time = #{adformSaveTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="isAdformSaved != null">
         is_adform_saved = #{isAdformSaved,jdbcType=BIT},
       </if>
@@ -334,6 +363,9 @@
       </if>
       <if test="objId != null">
         obj_id = #{objId,jdbcType=INTEGER},
+      </if>
+      <if test="cisSaveTime != null">
+        cis_save_time = #{cisSaveTime,jdbcType=TIMESTAMP},
       </if>
       <if test="filePath != null">
         file_path = #{filePath,jdbcType=VARCHAR},
@@ -363,9 +395,11 @@
     update sc_ad_archive
     set committee_id = #{committeeId,jdbcType=INTEGER},
       cadre_id = #{cadreId,jdbcType=INTEGER},
+      adform_save_time = #{adformSaveTime,jdbcType=TIMESTAMP},
       is_adform_saved = #{isAdformSaved,jdbcType=BIT},
       has_appoint = #{hasAppoint,jdbcType=BIT},
       obj_id = #{objId,jdbcType=INTEGER},
+      cis_save_time = #{cisSaveTime,jdbcType=TIMESTAMP},
       file_path = #{filePath,jdbcType=VARCHAR},
       sign_file_path = #{signFilePath,jdbcType=VARCHAR},
       cis_file_path = #{cisFilePath,jdbcType=VARCHAR},
@@ -379,9 +413,11 @@
     update sc_ad_archive
     set committee_id = #{committeeId,jdbcType=INTEGER},
       cadre_id = #{cadreId,jdbcType=INTEGER},
+      adform_save_time = #{adformSaveTime,jdbcType=TIMESTAMP},
       is_adform_saved = #{isAdformSaved,jdbcType=BIT},
       has_appoint = #{hasAppoint,jdbcType=BIT},
       obj_id = #{objId,jdbcType=INTEGER},
+      cis_save_time = #{cisSaveTime,jdbcType=TIMESTAMP},
       file_path = #{filePath,jdbcType=VARCHAR},
       sign_file_path = #{signFilePath,jdbcType=VARCHAR},
       cis_file_path = #{cisFilePath,jdbcType=VARCHAR},

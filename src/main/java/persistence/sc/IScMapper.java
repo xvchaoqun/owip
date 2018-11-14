@@ -23,6 +23,11 @@ public interface IScMapper {
             "order by sma.access_date desc, sma.id desc")
     public List<ScMatterAccess> selectScMatterAccessList(@Param("matterItemId") int matterItemId,
                                                          RowBounds rowBounds);
+
+    @ResultMap("persistence.sc.scCommittee.ScCommitteeVoteViewMapper.BaseResultMap")
+    @Select("select * from sc_committee_vote_view where id=#{id}")
+    ScCommitteeVoteView getScCommitteeVoteView(@Param("id") int id);
+
     @Select("select count(distinct sma.id) from sc_matter_access sma, sc_matter_access_item smai " +
             "where smai.matter_item_id=#{matterItemId} and sma.is_deleted=0 and sma.id=smai.access_id")
     int countScMatterAccessList(@Param("matterItemId") int matterItemId);

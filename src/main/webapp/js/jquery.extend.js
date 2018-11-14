@@ -1367,8 +1367,10 @@ $.extend($.register, {
                 cache: true
             }
         }).on("change", function () {
-            var unitType = $(this).select2("data")[0]['type'] || '';
-            $unitType.val(unitType);
+            if($(this).select2("data").length>0) {
+                var unitType = $(this).select2("data")[0]['type'] || '';
+                $unitType.val(unitType);
+            }
         });
     },
     // 日历
@@ -1591,10 +1593,16 @@ $.extend($.register, {
         });
     },
     ajax_select: function ($select, params) {
-        params = params || {};
+        var _params = {};
+        if(!$.isJson(params)){
+            _params.templateResult= params;
+            _params.templateSelection= params;
+        }else{
+            _params = $.extend({}, params);
+        }
         return $($select).select2($.extend({
-                templateResult: params.templateResult || $.register.defaultTemplateResult,
-                templateSelection: params.templateSelection || $.register.defaultTemplateResult,
+                templateResult: _params.templateResult || $.register.defaultTemplateResult,
+                templateSelection: _params.templateSelection || $.register.defaultTemplateResult,
                 ajax: {
                     dataType: 'json',
                     delay: 300,
@@ -1615,7 +1623,7 @@ $.extend($.register, {
                     },
                     cache: true
                 }
-            }, params)
+            }, _params)
         );
     },
     // 选择账号

@@ -218,8 +218,9 @@ public class ScAdArchiveController extends ScAdBaseController {
         String adform = scAdArchive.getAdform();
         if(StringUtils.isBlank(adform)) return;
 
-        //输出文件
-        String filename = DateUtils.formatDate(new Date(), "yyyy.MM.dd") + " 干部任免审批表 " + cadre.getUser().getRealname();
+        Date saveTime = scAdArchive.getAdformSaveTime();
+        //输出文件 (系统一开始没设定归档时间，所以部分数据无归档时间）
+        String filename = StringUtils.trimToEmpty(DateUtils.formatDate(saveTime, "yyyy.MM.dd")) + " 干部任免审批表 " + cadre.getUser().getRealname();
         response.reset();
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));
@@ -284,8 +285,10 @@ public class ScAdArchiveController extends ScAdBaseController {
         String cis = scAdArchive.getCis();
         if(StringUtils.isBlank(cis)) return;
 
+        Date saveTime = scAdArchive.getCisSaveTime();
+
         //输出文件
-        String filename = cadre.getRealname() + "同志考察材料（"+DateUtils.formatDate(new Date(), "yyyy.MM.dd")+"）";
+        String filename = StringUtils.trimToEmpty(DateUtils.formatDate(saveTime, "yyyy.MM.dd")) + cadre.getRealname() + "同志考察材料";
         response.reset();
         response.setHeader("Content-Disposition",
                 "attachment;filename=" + new String((filename + ".doc").getBytes(), "iso-8859-1"));

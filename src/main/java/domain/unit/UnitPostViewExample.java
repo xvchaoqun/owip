@@ -1212,6 +1212,66 @@ public class UnitPostViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andUnitStatusIsNull() {
+            addCriterion("unit_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitStatusIsNotNull() {
+            addCriterion("unit_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitStatusEqualTo(Byte value) {
+            addCriterion("unit_status =", value, "unitStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitStatusNotEqualTo(Byte value) {
+            addCriterion("unit_status <>", value, "unitStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitStatusGreaterThan(Byte value) {
+            addCriterion("unit_status >", value, "unitStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitStatusGreaterThanOrEqualTo(Byte value) {
+            addCriterion("unit_status >=", value, "unitStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitStatusLessThan(Byte value) {
+            addCriterion("unit_status <", value, "unitStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitStatusLessThanOrEqualTo(Byte value) {
+            addCriterion("unit_status <=", value, "unitStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitStatusIn(List<Byte> values) {
+            addCriterion("unit_status in", values, "unitStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitStatusNotIn(List<Byte> values) {
+            addCriterion("unit_status not in", values, "unitStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitStatusBetween(Byte value1, Byte value2) {
+            addCriterion("unit_status between", value1, value2, "unitStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitStatusNotBetween(Byte value1, Byte value2) {
+            addCriterion("unit_status not between", value1, value2, "unitStatus");
+            return (Criteria) this;
+        }
+
         public Criteria andUnitSortOrderIsNull() {
             addCriterion("unit_sort_order is null");
             return (Criteria) this;

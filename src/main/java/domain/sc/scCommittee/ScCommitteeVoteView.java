@@ -12,6 +12,7 @@ public class ScCommitteeVoteView implements Serializable {
     public Unit getUnit(){
         return CmTag.getUnit(unitId);
     }
+
     public SysUserView getUser(){
         CadreView cadre = getCadre();
         return CmTag.getUserById(cadre.getUserId());
@@ -27,9 +28,7 @@ public class ScCommitteeVoteView implements Serializable {
 
     private Byte type;
 
-    private String originalPost;
-
-    private Date originalPostTime;
+    private Integer unitPostId;
 
     private Integer cadreTypeId;
 
@@ -64,6 +63,10 @@ public class ScCommitteeVoteView implements Serializable {
     private Integer committeeId;
 
     private String voteFilePath;
+
+    private String originalPost;
+
+    private Date originalPostTime;
 
     private Integer year;
 
@@ -117,20 +120,12 @@ public class ScCommitteeVoteView implements Serializable {
         this.type = type;
     }
 
-    public String getOriginalPost() {
-        return originalPost;
+    public Integer getUnitPostId() {
+        return unitPostId;
     }
 
-    public void setOriginalPost(String originalPost) {
-        this.originalPost = originalPost == null ? null : originalPost.trim();
-    }
-
-    public Date getOriginalPostTime() {
-        return originalPostTime;
-    }
-
-    public void setOriginalPostTime(Date originalPostTime) {
-        this.originalPostTime = originalPostTime;
+    public void setUnitPostId(Integer unitPostId) {
+        this.unitPostId = unitPostId;
     }
 
     public Integer getCadreTypeId() {
@@ -267,6 +262,22 @@ public class ScCommitteeVoteView implements Serializable {
 
     public void setVoteFilePath(String voteFilePath) {
         this.voteFilePath = voteFilePath == null ? null : voteFilePath.trim();
+    }
+
+    public String getOriginalPost() {
+        return originalPost;
+    }
+
+    public void setOriginalPost(String originalPost) {
+        this.originalPost = originalPost == null ? null : originalPost.trim();
+    }
+
+    public Date getOriginalPostTime() {
+        return originalPostTime;
+    }
+
+    public void setOriginalPostTime(Date originalPostTime) {
+        this.originalPostTime = originalPostTime;
     }
 
     public Integer getYear() {

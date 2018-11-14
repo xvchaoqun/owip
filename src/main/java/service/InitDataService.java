@@ -2,10 +2,15 @@ package service;
 
 import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import service.sys.SchedulerJobService;
+import sys.utils.PropertiesUtils;
 
 /**
  * Created by fafa on 2016/6/17.
@@ -19,7 +24,19 @@ public class InitDataService extends BaseController implements ApplicationListen
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        if(event.getApplicationContext().getParent() == null) {//root application context 没有parent
+        ApplicationContext applicationContext = event.getApplicationContext();
+        {
+            // 动态注入bean
+            BeanDefinition bean = new GenericBeanDefinition();
+            bean.setBeanClassName(PropertiesUtils.getString("login.service"));
+            DefaultListableBeanFactory fty = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();
+            fty.registerBeanDefinition("loginService", bean);
+
+            /*LoginService loginService = (LoginService) applicationContext.getBean("loginService");
+            loginService.tryLogin("", "");*/
+        }
+
+        if(applicationContext.getParent() == null) {//root application context 没有parent
 
             //locationService.toJSON();
             sysResourceService.getSortedSysResources(false);

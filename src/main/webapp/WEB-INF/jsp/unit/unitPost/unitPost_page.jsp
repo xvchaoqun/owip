@@ -14,6 +14,10 @@ pageEncoding="UTF-8" %>
                     <a href="javascript:;" class="loadPage"
                        data-url="${ctx}/unitPost?cls=2"><i class="fa fa-history"></i> 撤销处级岗位</a>
                 </li>
+                <li class="<c:if test="${cls==3}">active</c:if>">
+                    <a href="javascript:;" class="loadPage"
+                       data-url="${ctx}/unitPost?cls=3"><i class="fa fa-trash"></i> 已删除</a>
+                </li>
             </ul>
             <div class="space-4"></div>
             <c:set var="_query" value="${not empty param.unitId ||not empty param.name ||not empty param.adminLevel ||not empty param.postType ||not empty param.postClass || not empty param.code || not empty param.sort}"/>

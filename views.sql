@@ -222,11 +222,13 @@ where sc.is_deleted=0 ;
 DROP VIEW IF EXISTS `sc_committee_vote_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_committee_vote_view` AS
 select scv.*, sct.name, sct.seq, sct.content, sct.committee_id, sct.vote_file_path,
+sctc.original_post, sctc.original_post_time,
 sc.year, sc.hold_date, sc.committee_member_count, sc.count, sc.absent_count, sc.attend_users, sc.file_path, sc.log_file,
 -- 已使用的ID
 sdu.id as dispatch_user_id
 from sc_committee_vote scv
 left join sc_committee_topic sct on sct.id=scv.topic_id
+left join sc_committee_topic_cadre sctc on sctc.topic_id=scv.topic_id and sctc.cadre_id=scv.cadre_id
 left join sc_committee_view sc on sc.id=sct.committee_id
 left join sc_dispatch_user sdu on sdu.vote_id=scv.id;
 
@@ -628,6 +630,15 @@ DROP VIEW IF EXISTS `dispatch_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dispatch_view` AS
 select d.* from dispatch d, dispatch_type dt
     where d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc ;
+
+
+DROP VIEW IF EXISTS `unit_post_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `unit_post_view` AS
+select up.*, u.name as unit_name, u.code as unit_code, u.type_id as unit_type_id,
+u.status as unit_status, u.sort_order as unit_sort_order from unit_post up
+left join unit u on up.unit_id=u.id;
+
+
 
 -- ----------------------------
 --  View definition for `ext_branch_view`

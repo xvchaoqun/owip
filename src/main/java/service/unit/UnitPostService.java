@@ -2,6 +2,8 @@ package service.unit;
 
 import domain.unit.UnitPost;
 import domain.unit.UnitPostExample;
+import domain.unit.UnitPostView;
+import domain.unit.UnitPostViewExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -66,14 +68,14 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Cacheable(value="unitPosts", key = "#unitId")
-    public Map<Integer, UnitPost> findAll(int unitId) {
+    public Map<Integer, UnitPostView> findAll(int unitId) {
 
-        UnitPostExample example = new UnitPostExample();
+        UnitPostViewExample example = new UnitPostViewExample();
         example.createCriteria().andUnitIdEqualTo(unitId);
         example.setOrderByClause("sort_order desc");
-        List<UnitPost> records = unitPostMapper.selectByExample(example);
-        Map<Integer, UnitPost> map = new LinkedHashMap<>();
-        for (UnitPost unitPost : records) {
+        List<UnitPostView> records = unitPostViewMapper.selectByExample(example);
+        Map<Integer, UnitPostView> map = new LinkedHashMap<>();
+        for (UnitPostView unitPost : records) {
             map.put(unitPost.getId(), unitPost);
         }
 

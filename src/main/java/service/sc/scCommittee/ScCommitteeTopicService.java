@@ -1,6 +1,8 @@
 package service.sc.scCommittee;
 
 import domain.sc.scCommittee.ScCommitteeTopic;
+import domain.sc.scCommittee.ScCommitteeTopicCadre;
+import domain.sc.scCommittee.ScCommitteeTopicCadreExample;
 import domain.sc.scCommittee.ScCommitteeTopicExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,16 @@ import java.util.List;
 
 @Service
 public class ScCommitteeTopicService extends BaseMapper {
+
+    // 获得议题涉及的某个干部
+    public ScCommitteeTopicCadre getTopicCadre(int topicId, int cadreId){
+
+        ScCommitteeTopicCadreExample example = new ScCommitteeTopicCadreExample();
+        example.createCriteria().andTopicIdEqualTo(topicId).andCadreIdEqualTo(cadreId);
+        List<ScCommitteeTopicCadre> scCommitteeTopicCadres = scCommitteeTopicCadreMapper.selectByExample(example);
+
+        return scCommitteeTopicCadres.size()>0?scCommitteeTopicCadres.get(0):null;
+    }
 
     public boolean idDuplicate(Integer id, int committeeId, int seq){
 

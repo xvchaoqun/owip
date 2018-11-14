@@ -9,6 +9,7 @@ import domain.sc.scAd.ScAdArchiveVote;
 import domain.sc.scAd.ScAdArchiveVoteExample;
 import domain.sc.scAd.ScAdArchiveWithBLOBs;
 import domain.sc.scCommittee.ScCommittee;
+import domain.sc.scCommittee.ScCommitteeTopicCadre;
 import domain.sc.scCommittee.ScCommitteeVote;
 import domain.sc.scCommittee.ScCommitteeVoteExample;
 import domain.sc.scCommittee.ScCommitteeVoteView;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 import service.cadre.CadreAdformService;
 import service.cis.CisInspectObjService;
+import service.sc.scCommittee.ScCommitteeTopicService;
 import service.sys.SysConfigService;
 import sys.constants.DispatchConstants;
 import sys.tags.CmTag;
@@ -41,6 +43,8 @@ public class ScAdArchiveService extends BaseMapper {
     private CadreAdformService cadreAdformService;
     @Autowired
     protected SysConfigService sysConfigService;
+    @Autowired
+    protected ScCommitteeTopicService scCommitteeTopicService;
 
  /*   public boolean idDuplicate(Integer id, String code){
 
@@ -143,12 +147,17 @@ public class ScAdArchiveService extends BaseMapper {
 
     public CadreInfoForm getCadreAdForm(List<ScCommitteeVote> scCommitteeVotes){
 
+        if(scCommitteeVotes==null || scCommitteeVotes.size()==0) return null;
+
         Integer cadreId = null;
+        Integer topicId = null;
         ScCommitteeVote appointVote = null;
         ScCommitteeVote dismissVote = null;
         for (ScCommitteeVote scCommitteeVote : scCommitteeVotes) {
 
             cadreId = scCommitteeVote.getCadreId();
+            topicId = scCommitteeVote.getTopicId();
+
             if(scCommitteeVote.getType() == DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT){
                 appointVote = scCommitteeVote;
             }else{
@@ -156,26 +165,17 @@ public class ScAdArchiveService extends BaseMapper {
             }
         }
 
+        ScCommitteeTopicCadre topicCadre = scCommitteeTopicService.getTopicCadre(topicId, cadreId);
         //CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
         CadreInfoForm bean = cadreAdformService.getCadreAdform(cadreId);
-        bean.setPost(null);
+        bean.setPost(topicCadre.getOriginalPost());
         bean.setInPost(null);
         bean.setPrePost(null);
         if(appointVote!=null){
-
-            // 现任职务
-            /*String schoolName = sysConfigService.getSchoolName();
-            if(!StringUtils.startsWith(cadre.getTitle(), schoolName)){
-                bean.setPost(schoolName + appointVote.getOriginalPost());
-            }else{
-                bean.setPost(appointVote.getOriginalPost());
-            }*/
-            bean.setPost(appointVote.getOriginalPost());
             // 拟任职务
             bean.setInPost(appointVote.getPost());
         }
         if(dismissVote!=null){
-            bean.setPost(dismissVote.getOriginalPost());
             // 拟免职务
             bean.setPrePost(dismissVote.getPost());
         }
@@ -193,7 +193,7 @@ public class ScAdArchiveService extends BaseMapper {
         record.setAdform(XmlSerializeUtils.serialize(cadreAdForm));
         record.setIsAdformSaved(true);
         record.setHasAppoint(StringUtils.isNoneBlank(cadreAdForm.getInPost()));
-
+        record.setAdformSaveTime(new Date());
         scAdArchiveMapper.updateByPrimaryKeySelective(record);
 
         {
@@ -258,7 +258,7 @@ public class ScAdArchiveService extends BaseMapper {
         record.setId(archiveId);
         record.setCis(XmlSerializeUtils.serialize(dataMap));
         record.setObjId(objId);
-
+        record.setCisSaveTime(new Date());
         scAdArchiveMapper.updateByPrimaryKeySelective(record);
     }
 

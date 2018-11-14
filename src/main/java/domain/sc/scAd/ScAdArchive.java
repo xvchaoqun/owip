@@ -1,6 +1,7 @@
 package domain.sc.scAd;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class ScAdArchive implements Serializable {
     private Integer id;
@@ -9,11 +10,15 @@ public class ScAdArchive implements Serializable {
 
     private Integer cadreId;
 
+    private Date adformSaveTime;
+
     private Boolean isAdformSaved;
 
     private Boolean hasAppoint;
 
     private Integer objId;
+
+    private Date cisSaveTime;
 
     private String filePath;
 
@@ -51,6 +56,14 @@ public class ScAdArchive implements Serializable {
         this.cadreId = cadreId;
     }
 
+    public Date getAdformSaveTime() {
+        return adformSaveTime;
+    }
+
+    public void setAdformSaveTime(Date adformSaveTime) {
+        this.adformSaveTime = adformSaveTime;
+    }
+
     public Boolean getIsAdformSaved() {
         return isAdformSaved;
     }
@@ -73,6 +86,14 @@ public class ScAdArchive implements Serializable {
 
     public void setObjId(Integer objId) {
         this.objId = objId;
+    }
+
+    public Date getCisSaveTime() {
+        return cisSaveTime;
+    }
+
+    public void setCisSaveTime(Date cisSaveTime) {
+        this.cisSaveTime = cisSaveTime;
     }
 
     public String getFilePath() {

@@ -19,6 +19,7 @@
     <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
     <result column="unit_code" jdbcType="VARCHAR" property="unitCode" />
     <result column="unit_type_id" jdbcType="INTEGER" property="unitTypeId" />
+    <result column="unit_status" jdbcType="TINYINT" property="unitStatus" />
     <result column="unit_sort_order" jdbcType="INTEGER" property="unitSortOrder" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -53,7 +54,7 @@
   <sql id="Base_Column_List">
     id, unit_id, code, name, job, is_principal_post, admin_level, post_type, post_class, 
     is_cpc, status, abolish_date, sort_order, remark, unit_name, unit_code, unit_type_id, 
-    unit_sort_order
+    unit_status, unit_sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitPostViewExample" resultMap="BaseResultMap">
     select

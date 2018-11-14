@@ -6,8 +6,7 @@
     <result column="topic_id" jdbcType="INTEGER" property="topicId" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="type" jdbcType="TINYINT" property="type" />
-    <result column="original_post" jdbcType="VARCHAR" property="originalPost" />
-    <result column="original_post_time" jdbcType="DATE" property="originalPostTime" />
+    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
     <result column="cadre_type_id" jdbcType="INTEGER" property="cadreTypeId" />
     <result column="way_id" jdbcType="INTEGER" property="wayId" />
     <result column="procedure_id" jdbcType="INTEGER" property="procedureId" />
@@ -25,6 +24,8 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="committee_id" jdbcType="INTEGER" property="committeeId" />
     <result column="vote_file_path" jdbcType="VARCHAR" property="voteFilePath" />
+    <result column="original_post" jdbcType="VARCHAR" property="originalPost" />
+    <result column="original_post_time" jdbcType="DATE" property="originalPostTime" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="hold_date" jdbcType="DATE" property="holdDate" />
     <result column="committee_member_count" jdbcType="INTEGER" property="committeeMemberCount" />
@@ -65,11 +66,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, topic_id, cadre_id, type, original_post, original_post_time, cadre_type_id, way_id, 
-    procedure_id, post, post_id, admin_level_id, unit_id, agree_count, abstain_count, 
-    disagree_count, remark, sort_order, name, seq, content, committee_id, vote_file_path, 
-    year, hold_date, committee_member_count, count, absent_count, attend_users, file_path, 
-    log_file, dispatch_user_id
+    id, topic_id, cadre_id, type, unit_post_id, cadre_type_id, way_id, procedure_id, 
+    post, post_id, admin_level_id, unit_id, agree_count, abstain_count, disagree_count, 
+    remark, sort_order, name, seq, content, committee_id, vote_file_path, original_post, 
+    original_post_time, year, hold_date, committee_member_count, count, absent_count, 
+    attend_users, file_path, log_file, dispatch_user_id
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeVoteViewExample" resultMap="BaseResultMap">
     select

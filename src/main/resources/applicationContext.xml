@@ -108,7 +108,7 @@
     <task:scheduler id="scheduler" pool-size="10"/>
     <task:annotation-driven executor="executor" scheduler="scheduler"/>-->
 
-    <bean id="loginService" class="${login.service}"></bean>
+    <!--<bean id="loginService" class="${login.service}"></bean>-->
     <import resource="classpath:spring-shiro.xml"/>
 
     <import resource="bean-filters.xml"/>

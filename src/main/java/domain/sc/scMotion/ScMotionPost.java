@@ -1,6 +1,6 @@
 package domain.sc.scMotion;
 
-import domain.unit.UnitPost;
+import domain.unit.UnitPostView;
 import persistence.sc.scMotion.ScMotionMapper;
 import service.unit.UnitPostService;
 import sys.tags.CmTag;
@@ -20,11 +20,11 @@ public class ScMotionPost implements Serializable {
         return motion;
     }
 
-    public UnitPost getUnitPost(){
+    public UnitPostView getUnitPost(){
 
         ScMotion motion = getMotion();
         UnitPostService unitPostService = CmTag.getBean(UnitPostService.class);
-        Map<Integer, UnitPost> unitPostMap = unitPostService.findAll(motion.getUnitId());
+        Map<Integer, UnitPostView> unitPostMap = unitPostService.findAll(motion.getUnitId());
         return unitPostMap.get(unitPostId);
     }
 

@@ -307,6 +307,7 @@ import persistence.sc.scCommittee.ScCommitteeMemberMapper;
 import persistence.sc.scCommittee.ScCommitteeMemberViewMapper;
 import persistence.sc.scCommittee.ScCommitteeOtherVoteMapper;
 import persistence.sc.scCommittee.ScCommitteeOtherVoteViewMapper;
+import persistence.sc.scCommittee.ScCommitteeTopicCadreMapper;
 import persistence.sc.scCommittee.ScCommitteeTopicMapper;
 import persistence.sc.scCommittee.ScCommitteeTopicViewMapper;
 import persistence.sc.scCommittee.ScCommitteeViewMapper;
@@ -607,6 +608,8 @@ public class BaseMapper {
     protected ScCommitteeMemberViewMapper scCommitteeMemberViewMapper;
     @Autowired(required = false)
     protected ScCommitteeTopicMapper scCommitteeTopicMapper;
+    @Autowired(required = false)
+    protected ScCommitteeTopicCadreMapper scCommitteeTopicCadreMapper;
     @Autowired(required = false)
     protected ScCommitteeTopicViewMapper scCommitteeTopicViewMapper;
     @Autowired(required = false)

@@ -15,7 +15,7 @@ pageEncoding="UTF-8" %>
                         <div class="tab-pane in active">
             <div class="jqgrid-vertical-offset buttons">
                 <shiro:hasPermission name="scCommitteeTopic:edit">
-                    <a class="openView btn btn-info btn-sm"
+                    <a class="openView btn btn-success btn-sm"
                        data-open-by="page"
                        data-url="${ctx}/sc/scCommitteeTopic_au"><i class="fa fa-plus"></i> 添加</a>
                     <a class="jqOpenViewBtn btn btn-primary btn-sm"
@@ -144,10 +144,10 @@ pageEncoding="UTF-8" %>
             },
             { label: '干部选拔任用<br/>表决',name: 'hasVote', width:130, formatter: function (cellvalue, options, rowObject) {
                 if(cellvalue)
-                    return ('<button class="openView btn btn-xs btn-primary" ' +
+                    return ('<button class="openView btn btn-xs btn-success" ' +
                 'data-url="${ctx}/sc/scCommitteeVote_au?topicId={0}"><i class="fa fa-edit"></i> 编辑</button>')
                         .format(rowObject.id)
-                            + ('&nbsp;<button class="loadPage btn btn-success btn-xs" ' +
+                            + ('&nbsp;<button class="loadPage btn btn-info btn-xs" ' +
                             'data-url="${ctx}/sc/scCommittee?cls=3&topicId={0}"><i class="fa fa-search"></i> 查看</button>')
                                     .format(rowObject.id);
                 return '-'

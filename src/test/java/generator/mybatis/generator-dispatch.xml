@@ -28,18 +28,16 @@
         <!--<table tableName="dispatch" domainObjectName="dispatch.Dispatch" mapperName="dispatch.DispatchMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
          </table>-->
-        <table tableName="dispatch_view" domainObjectName="dispatch.DispatchView"
+        <!--<table tableName="dispatch_view" domainObjectName="dispatch.DispatchView"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
+        </table>-->
 
         <!-- <table tableName="dispatch_type" domainObjectName="dispatch.DispatchType">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
-      <table tableName="dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
-      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-      </table>
+
         <table tableName="dispatch_cadre_relate" domainObjectName="dispatch.DispatchCadreRelate">
       </table>
       <table tableName="dispatch_unit" domainObjectName="dispatch.DispatchUnit">
@@ -48,12 +46,14 @@
       <table tableName="dispatch_unit_relate" domainObjectName="dispatch.DispatchUnitRelate">
       <generatedKey column="id" sqlStatement="MySql" identity="true"/>
       </table>-->
-        <!--
+        <table tableName="dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
          <table tableName="dispatch_cadre_view" domainObjectName="dispatch.DispatchCadreView"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>-->
+         </table>
         <!--<table tableName="dispatch_work_file" domainObjectName="dispatch.DispatchWorkFile"
                mapperName="dispatch.DispatchWorkFileMapper">
         </table>-->

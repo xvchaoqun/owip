@@ -451,6 +451,10 @@ body {
     vertical-align: middle;
 }
 
+.bg-grey {
+    background-color: #f9f9f9 !important;
+}
+
 .bg-right {
     background-color: #f9f9f9 !important;
     text-align: right !important;
@@ -461,6 +465,11 @@ body {
 .bg-left {
     background-color: #fff !important;
     text-align: left !important;
+}
+
+.bg-center {
+    background-color: #fff !important;
+    text-align: center !important;
 }
 
 .widget-body .table thead:first-child tr {

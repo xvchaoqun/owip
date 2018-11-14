@@ -10,11 +10,15 @@ public class ScAdArchiveView implements Serializable {
 
     private Integer cadreId;
 
+    private Date adformSaveTime;
+
     private Boolean isAdformSaved;
 
     private Boolean hasAppoint;
 
     private Integer objId;
+
+    private Date cisSaveTime;
 
     private String filePath;
 
@@ -62,6 +66,14 @@ public class ScAdArchiveView implements Serializable {
         this.cadreId = cadreId;
     }
 
+    public Date getAdformSaveTime() {
+        return adformSaveTime;
+    }
+
+    public void setAdformSaveTime(Date adformSaveTime) {
+        this.adformSaveTime = adformSaveTime;
+    }
+
     public Boolean getIsAdformSaved() {
         return isAdformSaved;
     }
@@ -84,6 +96,14 @@ public class ScAdArchiveView implements Serializable {
 
     public void setObjId(Integer objId) {
         this.objId = objId;
+    }
+
+    public Date getCisSaveTime() {
+        return cisSaveTime;
+    }
+
+    public void setCisSaveTime(Date cisSaveTime) {
+        this.cisSaveTime = cisSaveTime;
     }
 
     public String getFilePath() {

@@ -1,44 +1,45 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.dispatch.DispatchCadreViewMapper" >
-  <resultMap id="BaseResultMap" type="domain.dispatch.DispatchCadreView" >
-    <result column="id" property="id" jdbcType="INTEGER" />
-    <result column="dispatch_id" property="dispatchId" jdbcType="INTEGER" />
-    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="cadre_type_id" property="cadreTypeId" jdbcType="INTEGER" />
-    <result column="way_id" property="wayId" jdbcType="INTEGER" />
-    <result column="procedure_id" property="procedureId" jdbcType="INTEGER" />
-    <result column="post" property="post" jdbcType="VARCHAR" />
-    <result column="post_id" property="postId" jdbcType="INTEGER" />
-    <result column="admin_level_id" property="adminLevelId" jdbcType="INTEGER" />
-    <result column="unit_id" property="unitId" jdbcType="INTEGER" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
-    <result column="year" property="year" jdbcType="INTEGER" />
-    <result column="dispatch_type_id" property="dispatchTypeId" jdbcType="INTEGER" />
-    <result column="code" property="code" jdbcType="INTEGER" />
-    <result column="has_checked" property="hasChecked" jdbcType="BIT" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.dispatch.DispatchCadreViewMapper">
+  <resultMap id="BaseResultMap" type="domain.dispatch.DispatchCadreView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="dispatch_id" jdbcType="INTEGER" property="dispatchId" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
+    <result column="cadre_type_id" jdbcType="INTEGER" property="cadreTypeId" />
+    <result column="way_id" jdbcType="INTEGER" property="wayId" />
+    <result column="procedure_id" jdbcType="INTEGER" property="procedureId" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="post_id" jdbcType="INTEGER" property="postId" />
+    <result column="admin_level_id" jdbcType="INTEGER" property="adminLevelId" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="dispatch_type_id" jdbcType="INTEGER" property="dispatchTypeId" />
+    <result column="code" jdbcType="INTEGER" property="code" />
+    <result column="has_checked" jdbcType="BIT" property="hasChecked" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -49,41 +50,42 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, dispatch_id, cadre_id, type, cadre_type_id, way_id, procedure_id, post, post_id, 
-    admin_level_id, unit_id, remark, sort_order, year, dispatch_type_id, code, has_checked
+  <sql id="Base_Column_List">
+    id, dispatch_id, cadre_id, type, unit_post_id, cadre_type_id, way_id, procedure_id, 
+    post, post_id, admin_level_id, unit_id, remark, sort_order, year, dispatch_type_id, 
+    code, has_checked
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.dispatch.DispatchCadreViewExample" >
+  <select id="selectByExample" parameterType="domain.dispatch.DispatchCadreViewExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from dispatch_cadre_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="countByExample" parameterType="domain.dispatch.DispatchCadreViewExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.dispatch.DispatchCadreViewExample" resultType="java.lang.Long">
     select count(*) from dispatch_cadre_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select resultMap="BaseResultMap" parameterType="domain.dispatch.DispatchCadreViewExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.dispatch.DispatchCadreViewExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from dispatch_cadre_view
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

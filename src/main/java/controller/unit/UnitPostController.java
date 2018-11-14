@@ -3,8 +3,6 @@ package controller.unit;
 import controller.BaseController;
 import domain.unit.Unit;
 import domain.unit.UnitPost;
-import domain.unit.UnitPostExample;
-import domain.unit.UnitPostExample.Criteria;
 import domain.unit.UnitPostView;
 import domain.unit.UnitPostViewExample;
 import mixin.MixinUtils;
@@ -279,9 +277,10 @@ public class UnitPostController extends BaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        UnitPostExample example = new UnitPostExample();
-        Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
+        UnitPostViewExample example = new UnitPostViewExample();
+        UnitPostViewExample.Criteria criteria = example.createCriteria()
+                .andStatusNotEqualTo(SystemConstants.UNIT_POST_STATUS_DELETE);
+        example.setOrderByClause("status asc, unit_status asc, unit_sort_order asc, sort_order desc");
         if(unitId!=null){
             criteria.andUnitIdEqualTo(unitId);
         }
@@ -289,22 +288,23 @@ public class UnitPostController extends BaseController {
             criteria.andNameLike("%"+searchStr+"%");
         }
 
-        long count = unitPostMapper.countByExample(example);
+        long count = unitPostViewMapper.countByExample(example);
         if((pageNo-1)*pageSize >= count){
 
             pageNo = Math.max(1, pageNo-1);
         }
-        List<UnitPost> records = unitPostMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+        List<UnitPostView> records = unitPostViewMapper.selectByExampleWithRowbounds(example,
+                new RowBounds((pageNo-1)*pageSize, pageSize));
 
         List options = new ArrayList<>();
         if(null != records && records.size()>0){
 
-            for(UnitPost record:records){
+            for(UnitPostView record:records){
 
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", record.getName());
                 option.put("id", record.getId() + "");
-
+                option.put("up", record);
                 options.add(option);
             }
         }

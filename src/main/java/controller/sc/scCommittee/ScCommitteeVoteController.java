@@ -7,12 +7,14 @@ import domain.sc.scCommittee.ScCommitteeVote;
 import domain.sc.scCommittee.ScCommitteeVoteExample;
 import domain.sc.scCommittee.ScCommitteeVoteView;
 import domain.sc.scCommittee.ScCommitteeVoteViewExample;
+import domain.unit.UnitPostView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -140,8 +142,12 @@ public class ScCommitteeVoteController extends ScCommitteeBaseController {
             modelMap.put("scCommittee", scCommitteeService.getView(scCommitteeTopic.getCommitteeId()));
 
             if(id!=null){
-                ScCommitteeVote scCommitteeVote = scCommitteeVoteMapper.selectByPrimaryKey(id);
+                ScCommitteeVoteView scCommitteeVote = iScMapper.getScCommitteeVoteView(id);
                 modelMap.put("scCommitteeVote", scCommitteeVote);
+                if(scCommitteeVote.getUnitPostId()!=null) {
+                    UnitPostView unitPost = iUnitMapper.getUnitPost(scCommitteeVote.getUnitPostId());
+                    modelMap.put("unitPost", unitPost);
+                }
             }
 
             ScCommitteeVoteExample example = new ScCommitteeVoteExample();
@@ -156,15 +162,18 @@ public class ScCommitteeVoteController extends ScCommitteeBaseController {
     @RequiresPermissions("scCommitteeVote:edit")
     @RequestMapping(value = "/scCommitteeVote_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_scCommitteeVote_au(ScCommitteeVote record, HttpServletRequest request) {
+    public Map do_scCommitteeVote_au(ScCommitteeVote record,
+                                     String originalPost,
+                                     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date originalPostTime,
+                                     HttpServletRequest request) {
 
         Integer id = record.getId();
         if (id == null) {
-            scCommitteeVoteService.insertSelective(record);
+            scCommitteeVoteService.insertSelective(record, originalPost, originalPostTime);
             logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "添加干部选拔任用表决：%s", record.getId()));
         } else {
 
-            scCommitteeVoteService.updateByPrimaryKeySelective(record);
+            scCommitteeVoteService.updateByPrimaryKeySelective(record, originalPost, originalPostTime);
             logger.info(addLog(LogConstants.LOG_SC_COMMITTEE, "更新干部选拔任用表决：%s", record.getId()));
         }
 

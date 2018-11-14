@@ -13,7 +13,7 @@
                 <value>(persistence|service|controller)\.member\..*</value>
 
                 <!--干部考察管理-->
-                <!--<value>(persistence|service|controller)\.cis\..*</value>-->
+                <value>(persistence|service|controller)\.cis\..*</value>
 
                 <value>(persistence|service|controller)\.cet\..*</value>
                 <value>(persistence|service|controller)\.abroad\..*</value>

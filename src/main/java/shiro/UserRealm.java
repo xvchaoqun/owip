@@ -31,7 +31,7 @@ public class UserRealm extends AuthorizingRealm {
     private SpringProps springProps;
     @Autowired
     private SysUserService userService;
-    @Autowired
+    @Autowired(required = false)
     private LoginService loginService;
     @Autowired
     private RetryLimitHashedCredentialsMatcher credentialsMatcher;

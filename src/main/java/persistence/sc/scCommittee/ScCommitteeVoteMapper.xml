@@ -6,8 +6,7 @@
     <result column="topic_id" jdbcType="INTEGER" property="topicId" />
     <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
     <result column="type" jdbcType="TINYINT" property="type" />
-    <result column="original_post" jdbcType="VARCHAR" property="originalPost" />
-    <result column="original_post_time" jdbcType="DATE" property="originalPostTime" />
+    <result column="unit_post_id" jdbcType="INTEGER" property="unitPostId" />
     <result column="cadre_type_id" jdbcType="INTEGER" property="cadreTypeId" />
     <result column="way_id" jdbcType="INTEGER" property="wayId" />
     <result column="procedure_id" jdbcType="INTEGER" property="procedureId" />
@@ -80,9 +79,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, topic_id, cadre_id, type, original_post, original_post_time, cadre_type_id, way_id, 
-    procedure_id, post, post_id, admin_level_id, unit_id, agree_count, abstain_count, 
-    disagree_count, remark, sort_order
+    id, topic_id, cadre_id, type, unit_post_id, cadre_type_id, way_id, procedure_id, 
+    post, post_id, admin_level_id, unit_id, agree_count, abstain_count, disagree_count, 
+    remark, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scCommittee.ScCommitteeVoteExample" resultMap="BaseResultMap">
     select
@@ -116,19 +115,17 @@
   </delete>
   <insert id="insert" parameterType="domain.sc.scCommittee.ScCommitteeVote">
     insert into sc_committee_vote (id, topic_id, cadre_id, 
-      type, original_post, original_post_time, 
-      cadre_type_id, way_id, procedure_id, 
-      post, post_id, admin_level_id, 
-      unit_id, agree_count, abstain_count, 
-      disagree_count, remark, sort_order
-      )
+      type, unit_post_id, cadre_type_id, 
+      way_id, procedure_id, post, 
+      post_id, admin_level_id, unit_id, 
+      agree_count, abstain_count, disagree_count, 
+      remark, sort_order)
     values (#{id,jdbcType=INTEGER}, #{topicId,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT}, #{originalPost,jdbcType=VARCHAR}, #{originalPostTime,jdbcType=DATE}, 
-      #{cadreTypeId,jdbcType=INTEGER}, #{wayId,jdbcType=INTEGER}, #{procedureId,jdbcType=INTEGER}, 
-      #{post,jdbcType=VARCHAR}, #{postId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, 
-      #{unitId,jdbcType=INTEGER}, #{agreeCount,jdbcType=INTEGER}, #{abstainCount,jdbcType=INTEGER}, 
-      #{disagreeCount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER}
-      )
+      #{type,jdbcType=TINYINT}, #{unitPostId,jdbcType=INTEGER}, #{cadreTypeId,jdbcType=INTEGER}, 
+      #{wayId,jdbcType=INTEGER}, #{procedureId,jdbcType=INTEGER}, #{post,jdbcType=VARCHAR}, 
+      #{postId,jdbcType=INTEGER}, #{adminLevelId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, 
+      #{agreeCount,jdbcType=INTEGER}, #{abstainCount,jdbcType=INTEGER}, #{disagreeCount,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="domain.sc.scCommittee.ScCommitteeVote">
     insert into sc_committee_vote
@@ -145,11 +142,8 @@
       <if test="type != null">
         type,
       </if>
-      <if test="originalPost != null">
-        original_post,
-      </if>
-      <if test="originalPostTime != null">
-        original_post_time,
+      <if test="unitPostId != null">
+        unit_post_id,
       </if>
       <if test="cadreTypeId != null">
         cadre_type_id,
@@ -201,11 +195,8 @@
       <if test="type != null">
         #{type,jdbcType=TINYINT},
       </if>
-      <if test="originalPost != null">
-        #{originalPost,jdbcType=VARCHAR},
-      </if>
-      <if test="originalPostTime != null">
-        #{originalPostTime,jdbcType=DATE},
+      <if test="unitPostId != null">
+        #{unitPostId,jdbcType=INTEGER},
       </if>
       <if test="cadreTypeId != null">
         #{cadreTypeId,jdbcType=INTEGER},
@@ -266,11 +257,8 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
-      <if test="record.originalPost != null">
-        original_post = #{record.originalPost,jdbcType=VARCHAR},
-      </if>
-      <if test="record.originalPostTime != null">
-        original_post_time = #{record.originalPostTime,jdbcType=DATE},
+      <if test="record.unitPostId != null">
+        unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       </if>
       <if test="record.cadreTypeId != null">
         cadre_type_id = #{record.cadreTypeId,jdbcType=INTEGER},
@@ -319,8 +307,7 @@
       topic_id = #{record.topicId,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
       type = #{record.type,jdbcType=TINYINT},
-      original_post = #{record.originalPost,jdbcType=VARCHAR},
-      original_post_time = #{record.originalPostTime,jdbcType=DATE},
+      unit_post_id = #{record.unitPostId,jdbcType=INTEGER},
       cadre_type_id = #{record.cadreTypeId,jdbcType=INTEGER},
       way_id = #{record.wayId,jdbcType=INTEGER},
       procedure_id = #{record.procedureId,jdbcType=INTEGER},
@@ -349,11 +336,8 @@
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
-      <if test="originalPost != null">
-        original_post = #{originalPost,jdbcType=VARCHAR},
-      </if>
-      <if test="originalPostTime != null">
-        original_post_time = #{originalPostTime,jdbcType=DATE},
+      <if test="unitPostId != null">
+        unit_post_id = #{unitPostId,jdbcType=INTEGER},
       </if>
       <if test="cadreTypeId != null">
         cadre_type_id = #{cadreTypeId,jdbcType=INTEGER},
@@ -399,8 +383,7 @@
     set topic_id = #{topicId,jdbcType=INTEGER},
       cadre_id = #{cadreId,jdbcType=INTEGER},
       type = #{type,jdbcType=TINYINT},
-      original_post = #{originalPost,jdbcType=VARCHAR},
-      original_post_time = #{originalPostTime,jdbcType=DATE},
+      unit_post_id = #{unitPostId,jdbcType=INTEGER},
       cadre_type_id = #{cadreTypeId,jdbcType=INTEGER},
       way_id = #{wayId,jdbcType=INTEGER},
       procedure_id = #{procedureId,jdbcType=INTEGER},

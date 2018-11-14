@@ -344,6 +344,66 @@ public class DispatchCadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andUnitPostIdIsNull() {
+            addCriterion("unit_post_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdIsNotNull() {
+            addCriterion("unit_post_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdEqualTo(Integer value) {
+            addCriterion("unit_post_id =", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdNotEqualTo(Integer value) {
+            addCriterion("unit_post_id <>", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdGreaterThan(Integer value) {
+            addCriterion("unit_post_id >", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("unit_post_id >=", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdLessThan(Integer value) {
+            addCriterion("unit_post_id <", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdLessThanOrEqualTo(Integer value) {
+            addCriterion("unit_post_id <=", value, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdIn(List<Integer> values) {
+            addCriterion("unit_post_id in", values, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdNotIn(List<Integer> values) {
+            addCriterion("unit_post_id not in", values, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdBetween(Integer value1, Integer value2) {
+            addCriterion("unit_post_id between", value1, value2, "unitPostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUnitPostIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("unit_post_id not between", value1, value2, "unitPostId");
+            return (Criteria) this;
+        }
+
         public Criteria andCadreTypeIdIsNull() {
             addCriterion("cadre_type_id is null");
             return (Criteria) this;

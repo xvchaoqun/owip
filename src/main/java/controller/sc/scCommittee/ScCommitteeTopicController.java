@@ -1,6 +1,7 @@
 package controller.sc.scCommittee;
 
 import domain.sc.scCommittee.ScCommitteeTopic;
+import domain.sc.scCommittee.ScCommitteeTopicCadre;
 import domain.sc.scCommittee.ScCommitteeTopicView;
 import domain.sc.scCommittee.ScCommitteeTopicViewExample;
 import mixin.MixinUtils;
@@ -155,6 +156,14 @@ public class ScCommitteeTopicController extends ScCommitteeBaseController {
         return "sc/scCommittee/scCommitteeTopic/scCommitteeTopic_au";
     }
 
+
+    @RequiresPermissions("scCommitteeTopic:list")
+    @RequestMapping("/scCommitteeTopic_cadre")
+    @ResponseBody
+    public ScCommitteeTopicCadre scCommitteeTopic_cadre(int topicId, int cadreId) {
+
+        return scCommitteeTopicService.getTopicCadre(topicId, cadreId);
+    }
 
     @RequiresPermissions("scCommitteeTopic:edit")
     @RequestMapping("/scCommitteeTopic_content")
