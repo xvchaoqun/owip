@@ -1331,6 +1331,306 @@ public class UnitPostViewExample {
             addCriterion("unit_sort_order not between", value1, value2, "unitSortOrder");
             return (Criteria) this;
         }
+
+        public Criteria andCadreIdIsNull() {
+            addCriterion("cadre_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdIsNotNull() {
+            addCriterion("cadre_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdEqualTo(Integer value) {
+            addCriterion("cadre_id =", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdNotEqualTo(Integer value) {
+            addCriterion("cadre_id <>", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdGreaterThan(Integer value) {
+            addCriterion("cadre_id >", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cadre_id >=", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdLessThan(Integer value) {
+            addCriterion("cadre_id <", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdLessThanOrEqualTo(Integer value) {
+            addCriterion("cadre_id <=", value, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdIn(List<Integer> values) {
+            addCriterion("cadre_id in", values, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdNotIn(List<Integer> values) {
+            addCriterion("cadre_id not in", values, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_id between", value1, value2, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_id not between", value1, value2, "cadreId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTypeIdIsNull() {
+            addCriterion("cadre_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTypeIdIsNotNull() {
+            addCriterion("cadre_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTypeIdEqualTo(Integer value) {
+            addCriterion("cadre_type_id =", value, "cadreTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTypeIdNotEqualTo(Integer value) {
+            addCriterion("cadre_type_id <>", value, "cadreTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTypeIdGreaterThan(Integer value) {
+            addCriterion("cadre_type_id >", value, "cadreTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cadre_type_id >=", value, "cadreTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTypeIdLessThan(Integer value) {
+            addCriterion("cadre_type_id <", value, "cadreTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("cadre_type_id <=", value, "cadreTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTypeIdIn(List<Integer> values) {
+            addCriterion("cadre_type_id in", values, "cadreTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTypeIdNotIn(List<Integer> values) {
+            addCriterion("cadre_type_id not in", values, "cadreTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_type_id between", value1, value2, "cadreTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadreTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_type_id not between", value1, value2, "cadreTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostYearIsNull() {
+            addCriterion("cadre_post_year is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostYearIsNotNull() {
+            addCriterion("cadre_post_year is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostYearEqualTo(Integer value) {
+            addCriterion("cadre_post_year =", value, "cadrePostYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostYearNotEqualTo(Integer value) {
+            addCriterion("cadre_post_year <>", value, "cadrePostYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostYearGreaterThan(Integer value) {
+            addCriterion("cadre_post_year >", value, "cadrePostYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostYearGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cadre_post_year >=", value, "cadrePostYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostYearLessThan(Integer value) {
+            addCriterion("cadre_post_year <", value, "cadrePostYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostYearLessThanOrEqualTo(Integer value) {
+            addCriterion("cadre_post_year <=", value, "cadrePostYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostYearIn(List<Integer> values) {
+            addCriterion("cadre_post_year in", values, "cadrePostYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostYearNotIn(List<Integer> values) {
+            addCriterion("cadre_post_year not in", values, "cadrePostYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostYearBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_post_year between", value1, value2, "cadrePostYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostYearNotBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_post_year not between", value1, value2, "cadrePostYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelYearIsNull() {
+            addCriterion("admin_level_year is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelYearIsNotNull() {
+            addCriterion("admin_level_year is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelYearEqualTo(Integer value) {
+            addCriterion("admin_level_year =", value, "adminLevelYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelYearNotEqualTo(Integer value) {
+            addCriterion("admin_level_year <>", value, "adminLevelYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelYearGreaterThan(Integer value) {
+            addCriterion("admin_level_year >", value, "adminLevelYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelYearGreaterThanOrEqualTo(Integer value) {
+            addCriterion("admin_level_year >=", value, "adminLevelYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelYearLessThan(Integer value) {
+            addCriterion("admin_level_year <", value, "adminLevelYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelYearLessThanOrEqualTo(Integer value) {
+            addCriterion("admin_level_year <=", value, "adminLevelYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelYearIn(List<Integer> values) {
+            addCriterion("admin_level_year in", values, "adminLevelYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelYearNotIn(List<Integer> values) {
+            addCriterion("admin_level_year not in", values, "adminLevelYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelYearBetween(Integer value1, Integer value2) {
+            addCriterion("admin_level_year between", value1, value2, "adminLevelYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andAdminLevelYearNotBetween(Integer value1, Integer value2) {
+            addCriterion("admin_level_year not between", value1, value2, "adminLevelYear");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostIdIsNull() {
+            addCriterion("cadre_post_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostIdIsNotNull() {
+            addCriterion("cadre_post_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostIdEqualTo(Integer value) {
+            addCriterion("cadre_post_id =", value, "cadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostIdNotEqualTo(Integer value) {
+            addCriterion("cadre_post_id <>", value, "cadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostIdGreaterThan(Integer value) {
+            addCriterion("cadre_post_id >", value, "cadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cadre_post_id >=", value, "cadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostIdLessThan(Integer value) {
+            addCriterion("cadre_post_id <", value, "cadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostIdLessThanOrEqualTo(Integer value) {
+            addCriterion("cadre_post_id <=", value, "cadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostIdIn(List<Integer> values) {
+            addCriterion("cadre_post_id in", values, "cadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostIdNotIn(List<Integer> values) {
+            addCriterion("cadre_post_id not in", values, "cadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostIdBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_post_id between", value1, value2, "cadrePostId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCadrePostIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("cadre_post_id not between", value1, value2, "cadrePostId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

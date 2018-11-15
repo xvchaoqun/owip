@@ -1,9 +1,35 @@
 package domain.unit;
 
+import domain.cadre.CadrePost;
+import domain.cadre.CadreView;
+import persistence.cadre.CadrePostMapper;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class UnitPostView implements Serializable {
+
+    public CadrePost cadrePost;
+
+    // 获取当前任职干部
+    public CadreView getCadre(){
+
+        if(cadreId==null) return null;
+
+        return CmTag.getCadreById(cadreId);
+    }
+
+    public CadrePost getCadrePost(){
+
+        if(cadrePost==null) {
+            CadrePostMapper cadrePostMapper = CmTag.getBean(CadrePostMapper.class);
+            cadrePost = cadrePostMapper.selectByPrimaryKey(cadrePostId);
+        }
+
+        return cadrePost;
+    }
+
     private Integer id;
 
     private Integer unitId;
@@ -41,6 +67,16 @@ public class UnitPostView implements Serializable {
     private Byte unitStatus;
 
     private Integer unitSortOrder;
+
+    private Integer cadreId;
+
+    private Integer cadreTypeId;
+
+    private Integer cadrePostYear;
+
+    private Integer adminLevelYear;
+
+    private Integer cadrePostId;
 
     private static final long serialVersionUID = 1L;
 
@@ -194,5 +230,45 @@ public class UnitPostView implements Serializable {
 
     public void setUnitSortOrder(Integer unitSortOrder) {
         this.unitSortOrder = unitSortOrder;
+    }
+
+    public Integer getCadreId() {
+        return cadreId;
+    }
+
+    public void setCadreId(Integer cadreId) {
+        this.cadreId = cadreId;
+    }
+
+    public Integer getCadreTypeId() {
+        return cadreTypeId;
+    }
+
+    public void setCadreTypeId(Integer cadreTypeId) {
+        this.cadreTypeId = cadreTypeId;
+    }
+
+    public Integer getCadrePostYear() {
+        return cadrePostYear;
+    }
+
+    public void setCadrePostYear(Integer cadrePostYear) {
+        this.cadrePostYear = cadrePostYear;
+    }
+
+    public Integer getAdminLevelYear() {
+        return adminLevelYear;
+    }
+
+    public void setAdminLevelYear(Integer adminLevelYear) {
+        this.adminLevelYear = adminLevelYear;
+    }
+
+    public Integer getCadrePostId() {
+        return cadrePostId;
+    }
+
+    public void setCadrePostId(Integer cadrePostId) {
+        this.cadrePostId = cadrePostId;
     }
 }

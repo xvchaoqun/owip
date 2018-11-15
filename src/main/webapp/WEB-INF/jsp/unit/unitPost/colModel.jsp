@@ -9,7 +9,7 @@
     {label: '撤销日期', name: 'abolishDate', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}, frozen:true},
     </c:if>
     <c:if test="${param.list==1 && !_query}">
-    { label:'排序',align:'center', formatter: $.jgrid.formatter.sortOrder,
+    { label:'排序',align:'center', width: 85, formatter: $.jgrid.formatter.sortOrder,
       formatoptions:{grid:'#jqGrid2',url:'${ctx}/unitPost_changeOrder'},frozen:true },
     </c:if>
     <c:if test="${param.list==0}">
@@ -18,15 +18,102 @@
       return '<a href="javascript:;" class="openView" data-url="${ctx}/unit_view?id={0}">{1}</a>'
               .format(rowObject.unitId, cellvalue);
     }},*/
-    {label: '单位名称', name: 'unitId', width: 250, align:'left', formatter: $.jgrid.formatter.unit},
-    { label: '单位类型', name: 'unitTypeId', width: 180,frozen:true, formatter: $.jgrid.formatter.MetaType },
+    {label: '单位名称', name: 'unitId', width: 200, align:'left', formatter: $.jgrid.formatter.unit},
+    { label: '单位类型', name: 'unitTypeId', width: 120,frozen:true, formatter: $.jgrid.formatter.MetaType },
     </c:if>
-    { label: '分管工作', align:'left', name: 'job', width: 450 },
-    { label: '是否正职',name: 'isPrincipalPost', width: 80, formatter: $.jgrid.formatter.TRUEFALSE},
-    { label: '行政级别',name: 'adminLevel', formatter:$.jgrid.formatter.MetaType},
-    { label: '职务属性',name: 'postType', width: 150, formatter:$.jgrid.formatter.MetaType},
-    { label: '职务类别',name: 'postClass', formatter:$.jgrid.formatter.MetaType},
-    { label: '是否占干部职数',name: 'isCpc', width: 120, formatter: $.jgrid.formatter.TRUEFALSE},
+    { label: '分管工作', align:'left', name: 'job', width: 200 },
+    { label: '是否<br/>正职',name: 'isPrincipalPost', width: 50, formatter: $.jgrid.formatter.TRUEFALSE},
+    { label: '岗位级别',name: 'adminLevel', width: 85, formatter:$.jgrid.formatter.MetaType},
+    { label: '职务属性',name: 'postType', width: 120, formatter:$.jgrid.formatter.MetaType},
+    { label: '职务<br/>类别',name: 'postClass', width: 50, formatter:$.jgrid.formatter.MetaType},
+    { label: '是否占<br/>干部职数',name: 'isCpc', width: 70, formatter: $.jgrid.formatter.TRUEFALSE},
+      {label: '现任职干部', name: '_cadre', width: 120, formatter: function (cellvalue, options, rowObject) {
+              if(rowObject.cadre==undefined) return '--'
+              return $.cadre(rowObject.cadre.id, rowObject.cadre.realname, '${param.list==1?'_blank':''}');
+          }},
+      {label: '干部级别', name: '_typeId', formatter: function (cellvalue, options, rowObject) {
+              if(rowObject.cadre==undefined) return '--'
+              return $.jgrid.formatter.MetaType(rowObject.cadre.typeId);
+          }},
+      { label: '任职<br/>类型',name: 'cadrePost.isMainPost', width: 50, formatter: function (cellvalue, options, rowObject) {
+              if(cellvalue==undefined) return '--'
+              return cellvalue?"主职":"兼职";
+       }},
+      {
+          label: '任职日期',
+          name: 'cadrePost.dispatchCadreRelateBean.last.workTime',
+          formatter: 'date',
+          formatoptions: {newformat: 'Y-m-d'}
+      },
+      {
+          label: '现任职务<br/>年限',
+          width: 120,
+          name: 'cadrePost.dispatchCadreRelateBean.last.workTime',
+          formatter: function (cellvalue, options, rowObject) {
+              if (cellvalue == undefined) return '';
+              var year = $.yearOffNow(cellvalue);
+              return year == 0 ? "未满一年" : year;
+          }
+      },
+      {
+          label: '现职务<br/>任职文件',
+          width: 150,
+          name: 'cadrePost.dispatchCadreRelateBean.last',
+          formatter: function (cellvalue, options, rowObject) {
+              if (!cellvalue || cellvalue.id == undefined) return '';
+              var dispatchCode = cellvalue.dispatchCode;
+
+              return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+          }
+      },
+      {
+          label: '现任职务<br/>始任日期',
+          width: 150,
+          name: 'cadrePost.dispatchCadreRelateBean.first.workTime',
+          formatter: 'date',
+          formatoptions: {newformat: 'Y-m-d'}
+      },
+      {
+          label: '现任职务<br/>始任年限',
+          width: 150,
+          name: 'cadrePost.dispatchCadreRelateBean.first.workTime',
+          formatter: function (cellvalue, options, rowObject) {
+              if (cellvalue == undefined) return '';
+              var year = $.yearOffNow(cellvalue);
+              return year == 0 ? "未满一年" : year;
+          }
+      },
+      {
+          label: '现任职务<br/>始任文件',
+          width: 150,
+          name: 'cadrePost.dispatchCadreRelateBean.first',
+          formatter: function (cellvalue, options, rowObject) {
+              if (!cellvalue || cellvalue.id == undefined) return '';
+              var dispatchCode = cellvalue.dispatchCode;
+
+              return $.swfPreview(cellvalue.file, cellvalue.fileName, dispatchCode, dispatchCode);
+          }
+      },
+      {
+          label: '干部任免文件',
+          name: 'cadrePost.dispatchCadreRelateBean.all',
+          formatter: function (cellvalue, options, rowObject) {
+              if (cellvalue == undefined) return '';
+              var count = cellvalue.length;
+              <shiro:lacksPermission name="${PERMISSION_CADREADMIN}">
+              if(count==0) return ''
+              </shiro:lacksPermission>
+              return _.template($("#dispatch_select_tpl").html().NoMultiSpace())
+              ({id: rowObject.cadrePost.id, cadreId: rowObject.cadrePost.cadreId, count: count});
+          },
+          width: 120
+      },
+    { label: '历史<br/>任职干部',name: '_history', width: 85, formatter: function (cellvalue, options, rowObject) {
+
+        return ('<button class="popupBtn btn btn-xs btn-warning" data-width="950"' +
+            ' data-url="${ctx}/unitPost_cadres?unitPostId={0}">' +
+            '<i class="fa fa-search"></i> 查看</button>').format(rowObject.id)
+    }},
     { label: '备注',name: 'remark', align:'left', width: 250}
   ]
 </script>

@@ -135,7 +135,7 @@ public class CadreService extends BaseMapper {
             @CacheEvict(value = "UserPermissions", allEntries = true),
             @CacheEvict(value = "Cadre:ALL", allEntries = true)
     })
-    public byte leave(int id, String title, Integer dispatchCadreId) {
+    public byte leave(int id, String title, Integer dispatchCadreId, Integer[] postIds) {
 
         Byte status = null;
         Cadre cadre = cadreMapper.selectByPrimaryKey(id);
@@ -152,7 +152,7 @@ public class CadreService extends BaseMapper {
         cadreAdLogService.addLog(id, "干部离任",
                 CadreConstants.CADRE_AD_LOG_MODULE_CADRE, id);
 
-        if (status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE) {
+        if (status == CadreConstants.CADRE_STATUS_MIDDLE_LEAVE && passportMapper!=null) {
 
             /**2016.11.08
              *
@@ -201,6 +201,10 @@ public class CadreService extends BaseMapper {
         example.createCriteria().andIdEqualTo(id).andStatusEqualTo(orgStatus);
 
         cadreMapper.updateByExampleSelective(record, example);
+
+        // 清除岗位信息
+        commonMapper.excuteSql("update cadre_post set unit_post_id=null where id in("
+                + StringUtils.join(postIds, ",") + ")");
 
         return status;
     }

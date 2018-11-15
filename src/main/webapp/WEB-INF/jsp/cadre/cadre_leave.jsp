@@ -19,9 +19,20 @@ pageEncoding="UTF-8"%>
         <div class="form-group">
             <label class="col-xs-3 control-label">离任后所在单位及职务</label>
             <div class="col-xs-8">
-                <input  class="form-control" type="text" name="title" value="${cadre.title}">
+                <textarea class="form-control noEnter" rows="3" name="title">${cadre.title}</textarea>
             </div>
         </div>
+        <c:if test="${fn:length(cadrePosts)>0}">
+        <div class="form-group">
+            <label class="col-xs-3 control-label">卸任岗位</label>
+            <div class="col-xs-8 label-text">
+                <c:forEach items="${cadrePosts}" var="cadrePost">
+                    <div><input type="checkbox" value="${cadrePost.id}" class="big" name="postIds[]">
+                            ${cadrePost.post}(${cadrePost.isMainPost?"主职":"兼职"})</div>
+                </c:forEach>
+            </div>
+        </div>
+        </c:if>
     </form>
 </div>
 <div class="modal-footer">

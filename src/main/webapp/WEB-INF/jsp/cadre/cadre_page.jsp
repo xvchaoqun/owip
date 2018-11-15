@@ -168,7 +168,7 @@
                                                         <select data-rel="select2-ajax"
                                                                 data-ajax-url="${ctx}/cadre_selects?status=${status}"
                                                                 name="cadreId" data-placeholder="请输入账号或姓名或学工号">
-                                                            <option value="${cadre.id}">${sysUser.realname}-${sysUser.code}</option>
+                                                            <option value="${cadre.id}">${cadre.realname}-${cadre.code}</option>
                                                         </select>
                                                     </td>
                                                     <td class="name">性别</td>

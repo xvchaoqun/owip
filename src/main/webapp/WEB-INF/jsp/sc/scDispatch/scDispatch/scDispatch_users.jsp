@@ -141,6 +141,9 @@
                 //$jqGrid.closest(".panel").find(".tip .count").html($jqGrid.jqGrid("getDataIDs").length);
                 clearJqgridSelected();
                 //$("#jqGridPopup").resetSelection();
+
+                $("#selectedCount").html( $("#jqGrid1").jqGrid("getDataIDs").length
+                    + $("#jqGrid2").jqGrid("getDataIDs").length)
             }
         })
     });

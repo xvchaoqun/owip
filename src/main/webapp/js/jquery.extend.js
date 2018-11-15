@@ -1139,7 +1139,8 @@ if ($.jgrid) {
         },
         MetaType: function (cellvalue, options, rowObject) {
 
-            var op = (options==undefined)? {def: ''}:$.extend({def: ''}, options.colModel.formatoptions);
+            var op = (options==undefined)? {def: '--'}:$.extend({def: '--'}, options.colModel.formatoptions);
+            //console.log(cellvalue)
             if ($.trim(cellvalue)=='') return op.def;
 
             if (cellvalue == undefined || _cMap.metaTypeMap[cellvalue] == undefined) return op.def

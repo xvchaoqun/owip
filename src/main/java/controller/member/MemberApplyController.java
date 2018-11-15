@@ -417,7 +417,12 @@ public class MemberApplyController extends MemberBaseController {
 
             memberApply.setPartyId(partyId);
             memberApply.setBranchId(branchId);
-            memberApply.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
+
+            Date applyTime = DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD);
+            if(applyTime==null){
+                return failed("提交书面申请书时间不允许为空。");
+            }
+            memberApply.setApplyTime(applyTime);
             memberApply.setRemark(remark);
             memberApply.setFillTime(new Date());
             memberApply.setCreateTime(new Date());
@@ -600,6 +605,11 @@ public class MemberApplyController extends MemberBaseController {
         for (Integer userId : ids) {
             VerifyAuth<MemberApply> verifyAuth = checkVerityAuth(userId);
             MemberApply memberApply = verifyAuth.entity;
+
+            if(memberApply.getApplyTime()==null){
+                return failed(memberApply.getUser().getRealname() +"的提交书面申请书时间为空，请修改或打回。");
+            }
+
             if (activeTime.before(memberApply.getApplyTime())) {
                 return failed("确定为入党积极分子时间不能早于提交书面申请书时间");
             }

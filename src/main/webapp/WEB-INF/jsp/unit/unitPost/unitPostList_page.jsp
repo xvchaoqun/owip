@@ -140,10 +140,18 @@
         </div>
     </div>
 </div>
+<div class="multi-row-head-table">
 <div class="space-4"></div>
 <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="50"></table>
 <div id="jqGridPager2"></div>
-
+</div>
+<script type="text/template" id="dispatch_select_tpl">
+    <button class="popupBtn btn {{=(count>0)?'btn-warning':'btn-success'}} btn-xs"
+            data-url="${ctx}/cadrePost_addDispatchs?id={{=id}}&cadreId={{=cadreId}}"
+            data-width="1000"><i class="fa fa-link"></i>
+        任免文件({{=count}})
+    </button>
+</script>
 <jsp:include page="colModel.jsp?list=1"/>
 <script>
     function _reload(){

@@ -4,9 +4,9 @@ import bean.XlsCadre;
 import bean.XlsUpload;
 import controller.BaseController;
 import domain.cadre.Cadre;
+import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
 import domain.cadre.CadreViewExample;
-import domain.sys.SysUserView;
 import domain.unit.Unit;
 import interceptor.OrderParam;
 import interceptor.SortParam;
@@ -88,10 +88,6 @@ public class CadreController extends BaseController {
         if (cadreId != null) {
             CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
             modelMap.put("cadre", cadre);
-            if (cadre != null) {
-                SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-                modelMap.put("sysUser", sysUser);
-            }
         }
 
         // MAP<unitTypeId, List<unitId>>
@@ -387,17 +383,33 @@ public class CadreController extends BaseController {
         TreeNode dispatchCadreTree = cadreCommonService.getDispatchCadreTree(id, DispatchConstants.DISPATCH_CADRE_TYPE_DISMISS);
         modelMap.put("tree", JSONUtils.toString(dispatchCadreTree));
 
+        // 获取该干部的所有岗位
+        CadrePost cadreMainCadrePost = cadrePostService.getCadreMainCadrePost(id);
+        List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(id);
+        List<CadrePost> cadrePosts = new ArrayList<>();
+        if(cadreMainCadrePost!=null && cadreMainCadrePost.getUnitPostId()!=null){
+            cadrePosts.add(cadreMainCadrePost);
+        }
+        for (CadrePost subCadrePost : subCadrePosts) {
+            if(subCadrePost.getUnitPostId()!=null){
+                cadrePosts.add(subCadrePost);
+            }
+        }
+        modelMap.put("cadrePosts", cadrePosts);
+
         return "cadre/cadre_leave";
     }
 
     @RequiresPermissions("cadre:leave")
     @RequestMapping(value = "/cadre_leave", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_cadre_leave(int id, String title, Integer dispatchCadreId, HttpServletRequest request) {
+    public Map do_cadre_leave(int id, String title, Integer dispatchCadreId,
+                              @RequestParam(value = "postIds[]", required = false) Integer[] postIds,
+                              HttpServletRequest request) {
 
         //if(status==null) status=CadreConstants.CADRE_STATUS_LEAVE;
 
-        byte status = cadreService.leave(id, StringUtils.trimToNull(title), dispatchCadreId);
+        byte status = cadreService.leave(id, StringUtils.trimToNull(title), dispatchCadreId, postIds);
 
         logger.info(addLog(LogConstants.LOG_ADMIN, "干部离任：%s", id));
         Map<String, Object> resultMap = success(FormUtils.SUCCESS);

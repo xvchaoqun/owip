@@ -270,7 +270,7 @@
                 <td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(scCommitteeVote.type)}</td>
                 <td nowrap>${cm:getMetaType(scCommitteeVote.wayId).name}</td>
                 <td nowrap>${cm:getMetaType(scCommitteeVote.procedureId).name}</td>
-                <td nowrap>${user.realname}</td>
+                <td nowrap class="${empty scCommitteeVote.unitPostId?'warning':''}">${user.realname}</td>
                 <td style="text-align: left">${unitMap.get(scCommitteeVote.unitId).name}</td>
                 <td>
                     <button type="button" class="btn btn-xs btn-primary"

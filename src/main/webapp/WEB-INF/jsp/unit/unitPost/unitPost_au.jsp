@@ -35,7 +35,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">行政级别</label>
+				<label class="col-xs-3 control-label">岗位级别</label>
 				<div class="col-xs-6">
 					<select required class="form-control" data-rel="select2" name="adminLevel"
 							data-width="272" data-placeholder="请选择行政级别">

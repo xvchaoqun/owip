@@ -176,9 +176,9 @@
             <div class="widget-box collapsed" id="users-widget-box">
                 <div class="widget-header">
                     <h4 class="widget-title">
-                        任免对象
+                        任免对象（已选<span id="selectedCount">${fn:length(votes)}</span>条记录）
                         <div class="buttons pull-right ">
-                            <button style="margin-right: 10px;top: -5px;"
+                            <button style="margin-right: -20px;top: -5px;"
                                     class="btn btn-success btn-xs" type="button"
                                     onclick="_selectUsers()">
                                 <i class="fa fa-plus-circle"></i> 从“干部选拔任用表决”中选择
@@ -521,6 +521,9 @@
         // console.log($(this).data("gid"))
         $jqGrid.delRowData($(this).data("id"));
         $count.html($jqGrid.jqGrid("getDataIDs").length);
+
+        $("#selectedCount").html( $("#jqGrid1").jqGrid("getDataIDs").length
+            + $("#jqGrid2").jqGrid("getDataIDs").length)
     })
 
     $.fileInput($("#modalForm input[name=_wordFilePath]"), {

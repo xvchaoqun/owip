@@ -1,18 +1,37 @@
 package service.unit;
 
+import domain.cadre.CadreView;
+import domain.dispatch.Dispatch;
+import domain.dispatch.DispatchCadreView;
+import domain.dispatch.DispatchCadreViewExample;
 import domain.unit.UnitPost;
 import domain.unit.UnitPostExample;
 import domain.unit.UnitPostView;
 import domain.unit.UnitPostViewExample;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.ResourceUtils;
 import service.BaseMapper;
+import service.base.MetaTypeService;
+import sys.constants.DispatchConstants;
 import sys.constants.SystemConstants;
+import sys.utils.DateUtils;
+import sys.utils.ExcelUtils;
+import sys.utils.ExportHelper;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -21,6 +40,9 @@ import java.util.Map;
 
 @Service
 public class UnitPostService extends BaseMapper {
+
+    @Autowired
+    private MetaTypeService metaTypeService;
 
     public boolean idDuplicate(Integer id, String code) {
 
@@ -156,5 +178,72 @@ public class UnitPostService extends BaseMapper {
 
         commonMapper.excuteSql(String.format("update unit_post set abolish_date=null, status=%s, sort_order=%s where id=%s",
                 SystemConstants.UNIT_POST_STATUS_NORMAL, sortOrder, id));
+    }
+
+    // 岗位历史任职干部导出
+    public void exportCadres(Integer unitPostId, DispatchCadreViewExample example,
+                             HttpServletResponse response) throws IOException {
+
+        UnitPost unitPost = unitPostMapper.selectByPrimaryKey(unitPostId);
+        List<DispatchCadreView> records = dispatchCadreViewMapper.selectByExample(example);
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/unit/unitPost_cadres.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("name", unitPost.getName());
+        cell.setCellValue(str);
+
+        int startRow = 2;
+        int rowCount = records.size();
+        ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
+
+        for (int i = 0; i < rowCount; i++) {
+
+            DispatchCadreView record = records.get(i);
+            Dispatch dispatch = record.getDispatch();
+            CadreView cadre = record.getCadre();
+
+            int column = 0;
+            row = sheet.getRow(startRow++);
+
+            cell = row.getCell(column++);
+            cell.setCellValue(record.getYear());
+
+            cell = row.getCell(column++);
+            cell.setCellValue(dispatch.getDispatchCode());
+
+            cell = row.getCell(column++);
+            cell.setCellValue(DateUtils.formatDate(dispatch.getWorkTime(), DateUtils.YYYYMM));
+
+            cell = row.getCell(column++);
+            cell.setCellValue(DispatchConstants.DISPATCH_CADRE_TYPE_MAP.get(record.getType()));
+
+            cell = row.getCell(column++);
+            cell.setCellValue(cadre.getCode());
+
+            cell = row.getCell(column++);
+            cell.setCellValue(cadre.getRealname());
+
+            cell = row.getCell(column++);
+            cell.setCellValue(record.getPost());
+
+            cell = row.getCell(column++);
+            cell.setCellValue(metaTypeService.getName(record.getPostId()));
+
+            cell = row.getCell(column++);
+            cell.setCellValue(metaTypeService.getName(record.getAdminLevelId()));
+
+            cell = row.getCell(column++);
+            cell.setCellValue(DateUtils.formatDate(dispatch.getMeetingTime(), DateUtils.YYYY_MM_DD));
+
+            cell = row.getCell(column++);
+            cell.setCellValue(DateUtils.formatDate(dispatch.getPubTime(), DateUtils.YYYY_MM_DD));
+        }
+
+        ExportHelper.output(wb, unitPost.getName() + "岗位历史任职干部.xlsx", response);
     }
 }

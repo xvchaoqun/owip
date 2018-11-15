@@ -144,7 +144,10 @@
             { label:'工作证号', name: 'user.code', width: 110},
             { label:'姓名', name: 'user.realname', formatter: function (cellvalue, options, rowObject) {
                 return $.cadre(rowObject.cadreId, cellvalue);
-            }},
+            }, cellattr: function (rowId, val, rowObject, cm, rdata) {
+                    if(rowObject.unitPostId==undefined)
+                        return "class='warning'";
+                }},
             {label: '原任职务', name: 'originalPost', width: 150,align:'left', formatter: function (cellvalue, options, rowObject) {
                 if($.trim(cellvalue)=='') return '-'
                 return cellvalue;

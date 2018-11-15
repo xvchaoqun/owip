@@ -8,8 +8,10 @@ import domain.dispatch.DispatchCadreView;
 import domain.dispatch.DispatchCadreViewExample;
 import domain.dispatch.DispatchType;
 import domain.sys.SysUserView;
+import domain.unit.UnitPostView;
 import mixin.DispatchMixin;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -71,6 +73,11 @@ public class DispatchCadreController extends DispatchBaseController {
             if(id!=null){
                 DispatchCadre dispatchCadre = dispatchCadreMapper.selectByPrimaryKey(id);
                 modelMap.put("dispatchCadre", dispatchCadre);
+
+                if(dispatchCadre.getUnitPostId()!=null) {
+                    UnitPostView unitPost = iUnitMapper.getUnitPost(dispatchCadre.getUnitPostId());
+                    modelMap.put("unitPost", unitPost);
+                }
             }
 
             DispatchCadreExample example = new DispatchCadreExample();
@@ -146,6 +153,8 @@ public class DispatchCadreController extends DispatchBaseController {
                                     Integer cadreId,
                                     /*String name,*/
                                     Integer unitId,
+                                   Integer unitPostId,
+                                   Boolean asc,
                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -161,7 +170,9 @@ public class DispatchCadreController extends DispatchBaseController {
         DispatchCadreViewExample example = new DispatchCadreViewExample();
         DispatchCadreViewExample.Criteria criteria = example.createCriteria();
         //example.setOrderByClause(String.format("%s %s", sort, order));
-
+        if(BooleanUtils.isTrue(asc)){
+            example.setOrderByClause("year asc, sort_order asc, code asc, type asc");
+        }
         if (dispatchId!=null) {
             criteria.andDispatchIdEqualTo(dispatchId);
         }
@@ -210,11 +221,19 @@ public class DispatchCadreController extends DispatchBaseController {
             criteria.andUnitIdEqualTo(unitId);
         }
 
+        if(unitPostId!=null){
+            criteria.andUnitPostIdEqualTo(unitPostId);
+        }
+
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
             dispatchCadre_export(example, response);
             return;
+        }else if(unitPostId!=null && export==2){ // 历史任职干部导出
+
+            unitPostService.exportCadres(unitPostId, example, response);
+            return ;
         }
 
         long count = dispatchCadreViewMapper.countByExample(example);
@@ -273,12 +292,9 @@ public class DispatchCadreController extends DispatchBaseController {
         if (id != null) {
             DispatchCadre dispatchCadre = dispatchCadreMapper.selectByPrimaryKey(id);
             modelMap.put("dispatchCadre", dispatchCadre);
-            if(dispatchCadre!=null) {
-                modelMap.put("dispatch", dispatchMapper.selectByPrimaryKey(dispatchCadre.getDispatchId()));
-                CadreView cadre = cadreViewMapper.selectByPrimaryKey(dispatchCadre.getCadreId());
-                modelMap.put("cadre", cadre);
-                SysUserView sysUser = sysUserService.findById(cadre.getUserId());
-                modelMap.put("sysUser", sysUser);
+            if(dispatchCadre!=null && dispatchCadre.getUnitPostId()!=null) {
+                UnitPostView unitPost = iUnitMapper.getUnitPost(dispatchCadre.getUnitPostId());
+                modelMap.put("unitPost", unitPost);
             }
         }
 

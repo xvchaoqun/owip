@@ -7,6 +7,7 @@ import domain.cadre.CadreView;
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreRelate;
 import domain.unit.Unit;
+import domain.unit.UnitPostView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -129,7 +130,14 @@ public class CadrePostController extends BaseController {
                 record.setDoubleUnitIds(StringUtils.join(unitIds, ","));
             }
         }
-
+        if(record.getUnitPostId()!=null) {
+            CadrePost byUnitPostId = cadrePostService.getByUnitPostId(record.getUnitPostId());
+            if(byUnitPostId!=null && (id==null || id!=byUnitPostId.getId().intValue())){
+                return failed(String.format("岗位已被%s(%s)使用。",
+                        byUnitPostId.getCadre().getRealname(),
+                        byUnitPostId.getIsMainPost()?"主职":"兼职"));
+            }
+        }
 
         if(BooleanUtils.isNotTrue(record.getIsMainPost()))
             record.setIsCpc(BooleanUtils.isTrue(isCpc));
@@ -154,6 +162,11 @@ public class CadrePostController extends BaseController {
         if (id != null) {
             CadrePost cadrePost = cadrePostMapper.selectByPrimaryKey(id);
             modelMap.put("cadrePost", cadrePost);
+
+            if(cadrePost!=null && cadrePost.getUnitPostId()!=null) {
+                UnitPostView unitPost = iUnitMapper.getUnitPost(cadrePost.getUnitPostId());
+                modelMap.put("unitPost", unitPost);
+            }
 
             modelMap.put("unit", unitService.findAll().get(cadrePost.getUnitId()));
             /*if (cadrePost.getDoubleUnitId() != null)

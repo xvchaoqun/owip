@@ -24,6 +24,16 @@ public class CadrePostService extends BaseMapper {
     @Autowired(required = false)
     private DispatchCadreRelateService dispatchCadreRelateService;
 
+    public CadrePost getByUnitPostId(int unitPostId){
+
+        CadrePostExample example = new CadrePostExample();
+        example.createCriteria().andUnitPostIdEqualTo(unitPostId);
+
+        List<CadrePost> cadrePosts = cadrePostMapper.selectByExampleWithRowbounds(example, new RowBounds(0,1));
+
+        return cadrePosts.size()>0?cadrePosts.get(0):null;
+    }
+
     public void insertSelective(CadrePost record) {
 
         // 如果是主职提交，则判断是否重复
@@ -58,6 +68,10 @@ public class CadrePostService extends BaseMapper {
 
         if (BooleanUtils.isNotTrue(record.getIsDouble())) { // 不是双肩挑
             commonMapper.excuteSql("update cadre_post set double_unit_ids=null where id="+record.getId());
+        }
+        // 清除关联岗位
+        if(record.getUnitPostId()==null){
+            commonMapper.excuteSql("update cadre_post set unit_post_id=null where id="+record.getId());
         }
 
         record.setIsMainPost(null); // 不改变是否是主职字段

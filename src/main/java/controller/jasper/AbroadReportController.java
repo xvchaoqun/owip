@@ -11,7 +11,7 @@ import domain.sys.SysUserView;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.SecurityUtils;
 import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import shiro.ShiroHelper;
 import sys.constants.AbroadConstants;
-import sys.constants.RoleConstants;
 import sys.jasper.JasperReportsImageView;
 import sys.shiro.CurrentUser;
 import sys.tags.CmTag;
@@ -262,11 +261,7 @@ public class AbroadReportController extends BaseController {
                                     @RequestParam(defaultValue = "pdf") String format,
                                     Model model) throws IOException, DocumentException {
 
-        // 分党委、组织部管理员或管理员才可以操作
-        if (!ShiroHelper.hasAnyRoles(RoleConstants.ROLE_ODADMIN,
-                RoleConstants.ROLE_ADMIN, RoleConstants.ROLE_PARTYADMIN)) {
-            throw new UnauthorizedException();
-        }
+        SecurityUtils.getSubject().checkPermission("passportDraw:list");
 
         List<Map<String, ?>> data = new ArrayList<Map<String, ?>>();
         for (Integer id : ids) {

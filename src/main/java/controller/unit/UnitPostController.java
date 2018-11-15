@@ -1,6 +1,8 @@
 package controller.unit;
 
 import controller.BaseController;
+import domain.cadre.CadrePost;
+import domain.cadre.CadreView;
 import domain.unit.Unit;
 import domain.unit.UnitPost;
 import domain.unit.UnitPostView;
@@ -42,6 +44,16 @@ public class UnitPostController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    // 历史任职干部
+    @RequiresPermissions("unitPost:list")
+    @RequestMapping("/unitPost_cadres")
+    public String unitPost_cadres(int unitPostId, ModelMap modelMap) {
+
+        modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
+
+        return "unit/unitPost/unitPost_cadres";
+    }
+
     @RequiresPermissions("unitPost:list")
     @RequestMapping("/unitPostList")
     public String unitPostList(@RequestParam(required = false, defaultValue = "1")Byte cls, ModelMap modelMap) {
@@ -53,9 +65,25 @@ public class UnitPostController extends BaseController {
 
     @RequiresPermissions("unitPost:list")
     @RequestMapping("/unitPost")
-    public String unitPost(@RequestParam(required = false, defaultValue = "1")Byte cls, Integer unitId, ModelMap modelMap) {
+    public String unitPost(@RequestParam(required = false, defaultValue = "1")Byte cls,
+                           @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes,
+                           @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels,
+                           Integer cadreId,
+                           Integer unitId, ModelMap modelMap) {
 
         modelMap.put("cls", cls);
+
+        if (cadreId != null) {
+            CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+            modelMap.put("cadre", cadre);
+        }
+
+        if (unitTypes != null) {
+            modelMap.put("selectUnitTypes", Arrays.asList(unitTypes));
+        }
+        if (adminLevels != null) {
+            modelMap.put("selectAdminLevels", Arrays.asList(adminLevels));
+        }
 
         if(unitId!=null){
             Unit unit = unitService.findAll().get(unitId);
@@ -75,6 +103,18 @@ public class UnitPostController extends BaseController {
                                     Integer adminLevel,
                                     Integer postType,
                                     Integer postClass,
+                              Boolean isPrincipalPost,
+                              Boolean isCpc,
+                              Boolean displayEmpty,
+
+                              Integer cadreId,
+                              Integer startNowPostAge,
+                              Integer endNowPostAge,
+                              Integer startNowLevelAge,
+                              Integer endNowLevelAge,
+                              @RequestParam(required = false, value = "unitTypes") Integer[] unitTypes, // 部门属性
+                              @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels, // 行政级别
+
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -116,6 +156,39 @@ public class UnitPostController extends BaseController {
             criteria.andPostClassEqualTo(postClass);
         }
 
+        if (isPrincipalPost!=null) {
+            criteria.andIsPrincipalPostEqualTo(isPrincipalPost);
+        }
+        if (isCpc!=null) {
+            criteria.andIsCpcEqualTo(isCpc);
+        }
+
+        if(BooleanUtils.isTrue(displayEmpty)){
+            criteria.andCadreIdIsNull();
+        }
+
+        if (cadreId!=null) {
+            criteria.andCadreIdEqualTo(cadreId);
+        }
+
+        if (endNowPostAge != null) {
+            criteria.andCadrePostYearLessThanOrEqualTo(endNowPostAge);
+        }
+        if (startNowPostAge != null) {
+            criteria.andCadrePostYearGreaterThanOrEqualTo(startNowPostAge);
+        }
+        if (endNowLevelAge != null) {
+            criteria.andAdminLevelYearLessThanOrEqualTo(endNowLevelAge);
+        }
+        if (startNowLevelAge != null) {
+            criteria.andAdminLevelYearGreaterThanOrEqualTo(startNowLevelAge);
+        }
+        if (unitTypes != null) {
+            criteria.andUnitTypeIdIn(Arrays.asList(unitTypes));
+        }
+        if (adminLevels != null) {
+            criteria.andCadreTypeIdIn(Arrays.asList(adminLevels));
+        }
         if (export == 1) {
             if(ids!=null && ids.length>0)
                 criteria.andIdIn(Arrays.asList(ids));
@@ -242,21 +315,36 @@ public class UnitPostController extends BaseController {
 
         List<UnitPostView> records = unitPostViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"岗位编号|100","岗位名称|100","分管工作|100","是否正职|100","行政级别|100","职务属性|100","职务类别|100","是否占干部职数|100","状态|100","排序|100","备注|100"};
+        String[] titles = {"岗位编号|100","岗位名称|100","单位编号|100","单位名称|200",
+                "分管工作|200","是否正职|100",
+                "岗位级别|100","职务属性|100","职务类别|100",
+                "是否占干部职数|100",
+                "现任职干部|100","干部级别|100","任职类型|100",
+                "任职日期|100","现任职务年限|100", "现任职务始任日期|100","现任职务始任年限|100", "备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             UnitPostView record = records.get(i);
+            CadreView cadre = record.getCadre();
+            CadrePost cadrePost = record.getCadrePost();
+
             String[] values = {
                 record.getCode()+"",
                             record.getName(),
+                    record.getUnitCode(),
+                    record.getUnitName(),
                             record.getJob(),
-                            record.getIsPrincipalPost()+"",
-                            record.getAdminLevel()+"",
-                            record.getPostType()+"",
-                            record.getPostClass()+"",
-                            record.getIsCpc()+"",
-                            record.getStatus()+"",
-                            record.getSortOrder()+"",
+                            BooleanUtils.isTrue(record.getIsPrincipalPost())?"是":"否",
+                            metaTypeService.getName(record.getAdminLevel()),
+                            metaTypeService.getName(record.getPostType()),
+                            metaTypeService.getName(record.getPostClass()),
+                            BooleanUtils.isTrue(record.getIsCpc())?"是":"否",
+                            cadre==null?"":cadre.getRealname(),
+                            cadre==null?"":metaTypeService.getName(cadre.getTypeId()),
+                            cadrePost==null?"":(cadrePost.getIsMainPost()?"主职":"兼职"),
+                            "",
+                            "",
+                            "",
+                            "",
                             record.getRemark()
             };
             valuesList.add(values);

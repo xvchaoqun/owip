@@ -5,7 +5,7 @@
     <div class="col-xs-12">
 
         <div id="body-content">
-            <div class="myTableDiv"
+            <div class="myTableDiv multi-row-head-table"
                  data-url-page="${ctx}/dispatch"
                  data-url-export="${ctx}/dispatch_data"
                  data-url-co="${ctx}/dispatch_changeOrder"
@@ -185,14 +185,14 @@
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatch_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            {label: '年份', name: 'year', width: 75, frozen: true},
+            {label: '年份', name: 'year', width: 60, frozen: true},
             {
-                label: '发文类型', name: 'dispatchType', formatter: function (cellvalue, options, rowObject) {
+                label: '发文类型', name: 'dispatchType', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return cellvalue.name;
             }, frozen: true
             },
             {
-                label: '发文号', name: 'dispatchCode', width: 180, formatter: function (cellvalue, options, rowObject) {
+                label: '发文号', name: 'dispatchCode', width: 140, align:'left', formatter: function (cellvalue, options, rowObject) {
 
                 return $.swfPreview(rowObject.file, rowObject.fileName, cellvalue, cellvalue);
             }, frozen: true
@@ -200,7 +200,7 @@
             {
                 label: '党委常委会', name: 'scDispatch.scCommittees', width:200, formatter: function (cellvalue, options, rowObject) {
 
-                if(cellvalue==undefined || cellvalue.length==0) return '-'
+                if(cellvalue==undefined || cellvalue.length==0) return '--'
 
                 var scCommittee = cellvalue[0];
                 var str = scCommittee.code
@@ -219,15 +219,15 @@
                         .format(rowObject.scDispatch.id, str);
             }
             },
-            {label: '党委常委会日期', name: 'meetingTime', width: 130, formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            {label: '党委常委会<br/>日期', name: 'meetingTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '发文日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '任免日期', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '任命人数', name: 'appointCount'},
-            {label: '录入任命人数', width: 110, name: 'realAppointCount'},
-            {label: '免职人数', name: 'dismissCount'},
-            {label: '录入免职人数', width: 110, name: 'realDismissCount'},
+            {label: '任命人数', name: 'appointCount', width: 80},
+            {label: '录入<br/>任命人数', width: 80, name: 'realAppointCount', formatter:$.jgrid.formatter.defaultString},
+            {label: '免职人数', name: 'dismissCount', width: 80},
+            {label: '录入<br/>免职人数', width: 80, name: 'realDismissCount', formatter:$.jgrid.formatter.defaultString},
             {
-                label: '是否全部录入', width: 110, formatter: function (cellvalue, options, rowObject) {
+                label: '是否<br/>全部录入', width: 80, formatter: function (cellvalue, options, rowObject) {
                 //console.log((rowObject.realAppointCount+rowObject.realDismissCount)>0)
 
                 return isFinished(rowObject.appointCount, rowObject.dismissCount,
@@ -235,7 +235,7 @@
             }
             },
             {
-                label: '是否复核', name: 'hasChecked', formatter: function (cellvalue, options, rowObject) {
+                label: '是否<br/>复核', name: 'hasChecked', width: 65, formatter: function (cellvalue, options, rowObject) {
                 if (cellvalue == undefined) return '';
                 return cellvalue ? "已复核" : "否";
             }
@@ -254,12 +254,12 @@
             {
                 label: '上会ppt', formatter: function (cellvalue, options, rowObject) {
                 if (rowObject.pptName && rowObject.pptName != '')
-                    return '<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
+                    return ('<a href="javascript:void(0)" class="popupBtn" data-url="${ctx}/swf/preview?path={0}&filename={1}">查看</a>'
                         .format(encodeURI(rowObject.ppt), encodeURI(rowObject.pptName))
                 + '&nbsp;<a href="javascript:void(0)" class="dispatch_del_file"'
-                            + 'data-id="{0}" data-type="ppt">删除</a>'.format(rowObject.id);
-                else return '';
-            }
+                            + 'data-id="{0}" data-type="ppt">删除</a>'.format(rowObject.id));
+                return '--';
+            }, width:85
             },
             {
                 label: '任免信息', width:80, formatter: function (cellvalue, options, rowObject) {
@@ -268,9 +268,9 @@
                         .format(rowObject.year, rowObject.dispatchTypeId, rowObject.code);
             }},
             {
-                label: '文件签发信息', name: 'scDispatch', width:200, formatter: function (cellvalue, options, rowObject) {
+                label: '文件签发信息', name: 'scDispatch', width:140, formatter: function (cellvalue, options, rowObject) {
 
-                if(cellvalue==undefined) return '-'
+                if(cellvalue==undefined) return '--'
 
                 return ('<a href="javascript:;" class="linkBtn"'
                 +'data-url="${ctx}#/dispatch?cls=3&year={0}&dispatchTypeId={1}&code={2}"'

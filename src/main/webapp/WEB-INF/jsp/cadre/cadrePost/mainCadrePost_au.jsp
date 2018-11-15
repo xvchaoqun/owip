@@ -16,10 +16,18 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-xs-3 control-label">职务</label>
-
+                <label class="col-xs-3 control-label">关联岗位</label>
                 <div class="col-xs-6">
-                    <input required class="form-control" type="text" name="post" value="${cadrePost.post}">
+                    <select data-ajax-url="${ctx}/unitPost_selects" data-width="272"
+                            name="unitPostId" data-placeholder="请选择">
+                        <option value="${unitPost.id}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">职务</label>
+                <div class="col-xs-6">
+                    <textarea required class="form-control noEnter" name="post" rows="2">${cadrePost.post}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -87,7 +95,7 @@
             <div class="form-group">
                 <label class="col-xs-3 control-label">双肩挑单位</label>
 
-                <div class="col-xs-7 input-group">
+                <div class="col-xs-7 input-group" style="padding-left: 12px">
 
                     <select class="multiselect" multiple="" name="unitIds">
                         <c:forEach var="unitType" items="${cm:getMetaTypes('mc_unit_type')}">
@@ -195,6 +203,29 @@
 
     $("#modal input[name=isDouble]").bootstrapSwitch();
     $.register.date($('.date-picker'));
+
+    $.register.ajax_select($('#modalForm select[name=unitPostId]'), function (state) {
+        var $state = state.text;
+        if(state.up!=undefined){
+            if ($.trim(state.up.job)!='')
+                $state += "-" + state.up.job;
+            if ($.trim(state.up.unitName)!='')
+                $state += "-" + state.up.unitName;
+        }
+        return $state;
+    }).on("change", function () {
+        //console.log($(this).select2("data")[0])
+        var up = $(this).select2("data")[0]['up'] ;
+        //console.log(up)
+        if(up!=undefined){
+            $('#modalForm textarea[name=post]').val(up.name)
+            $("#modalForm select[name=postId]").val(up.postType).trigger("change");
+            $("#modalForm select[name=adminLevelId]").val(up.adminLevel).trigger("change");
+            $("#modalForm select[name=postClassId]").val(up.postClass).trigger("change");
+            var option = new Option(up.unitName, up.unitId, true, true);
+            $("#modalForm select[name=unitId]").append(option).trigger('change');
+        }
+    });
 
     $("#modal form").validate({
         submitHandler: function (form) {

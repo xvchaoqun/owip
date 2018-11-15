@@ -205,8 +205,11 @@
         datatype: "local",
         data: [${mainCadrePost==null?"":mainCadrePostStr}], // 防止出现[{}]，造成空行
         colModel: [
-            {label: '职务', name: 'post', width: 180, frozen: true},
-            {label: '职务属性', width: 180, name: 'postId', formatter: $.jgrid.formatter.MetaType, frozen: true},
+            {label: '职务', name: 'post', width: 250, align:'left', cellattr: function (rowId, val, rowObject, cm, rdata) {
+                if(rowObject.unitPostId==undefined)
+                    return "class='warning'";
+            }, frozen: true},
+            {label: '职务属性', width: 130, name: 'postId', formatter: $.jgrid.formatter.MetaType, frozen: true},
             {label: '行政级别', name: 'adminLevelId', formatter:$.jgrid.formatter.MetaType, frozen: true},
             {
                 label: '是否正职', name: 'postId', formatter: function (cellvalue, options, rowObject) {
@@ -323,7 +326,10 @@
             {
                 label: '兼任单位', width: 200, name: 'unitId', formatter: $.jgrid.formatter.unit, frozen: true
             },
-            {label: '兼任职务', name: 'post', frozen: true},
+            {label: '兼任职务', name: 'post', width: 250, align:'left', cellattr: function (rowId, val, rowObject, cm, rdata) {
+                    if(rowObject.unitPostId==undefined)
+                        return "class='warning'";
+                }, frozen: true},
             {label: '职务级别', name: 'adminLevelId', formatter:$.jgrid.formatter.MetaType},
             {
                 label: '是否占职数', name: 'isCpc', formatter: function (cellvalue, options, rowObject) {

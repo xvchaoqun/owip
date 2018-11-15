@@ -1,6 +1,6 @@
 package controller.global;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import interceptor.SignParamsException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.UnauthorizedException;

@@ -2,6 +2,18 @@
 20181115
 
 ALTER TABLE `dispatch_cadre`
+	COMMENT='干部任免信息';
+
+ALTER TABLE `cadre_post`
+	ADD UNIQUE INDEX `unit_post_id` (`unit_post_id`);
+
+更新 unit_post_view
+
+
+
+20181115
+
+ALTER TABLE `dispatch_cadre`
 	ADD COLUMN `unit_post_id` INT UNSIGNED NULL COMMENT '关联干部岗位' AFTER `type`;
 
 	更新 dispatch_cadre_view

@@ -15,20 +15,18 @@
 			</div>
 		</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">兼任单位</label>
+					<label class="col-xs-3 control-label">关联岗位</label>
 					<div class="col-xs-6">
-						<select required data-rel="select2-ajax"
-								data-width="272" data-ajax-url="${ctx}/unit_selects"
-								name="unitId" data-placeholder="请选择所属单位">
-							<option value="${unit.id}">${unit.name}</option>
+						<select data-ajax-url="${ctx}/unitPost_selects" data-width="272"
+								name="unitPostId" data-placeholder="请选择">
+							<option value="${unitPost.id}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
 						</select>
 					</div>
 				</div>
-
 				<div class="form-group">
 					<label class="col-xs-3 control-label">兼任职务</label>
 					<div class="col-xs-6">
-						<input required class="form-control" type="text" name="post" value="${cadrePost.post}">
+						<textarea required class="form-control noEnter" name="post" rows="2">${cadrePost.post}</textarea>
 					</div>
 				</div>
 				<div class="form-group">
@@ -58,12 +56,6 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-3 control-label">是否占职数</label>
-					<div class="col-xs-6 label-text"  style="font-size: 15px;">
-						<input type="checkbox" class="big" name="isCpc" ${(cadrePost==null ||cadrePost.isCpc)?"checked":""}/>
-					</div>
-				</div>
-				<div class="form-group">
 					<label class="col-xs-3 control-label">职务类别</label>
 					<div class="col-xs-6">
 						<select required data-rel="select2" name="postClassId"
@@ -74,6 +66,22 @@
 						<script type="text/javascript">
 							$("#modal form select[name=postClassId]").val(${cadrePost.postClassId});
 						</script>
+					</div>
+				</div>
+		<div class="form-group">
+			<label class="col-xs-3 control-label">兼任单位</label>
+			<div class="col-xs-6">
+				<select required data-rel="select2-ajax"
+						data-width="272" data-ajax-url="${ctx}/unit_selects"
+						name="unitId" data-placeholder="请选择所属单位">
+					<option value="${unit.id}">${unit.name}</option>
+				</select>
+			</div>
+		</div>
+				<div class="form-group">
+					<label class="col-xs-3 control-label">是否占职数</label>
+					<div class="col-xs-6 label-text"  style="font-size: 15px;">
+						<input type="checkbox" class="big" name="isCpc" ${(cadrePost==null ||cadrePost.isCpc)?"checked":""}/>
 					</div>
 				</div>
 	</form>
@@ -121,4 +129,28 @@
 			cache: true
 		}
 	});
+
+    $.register.ajax_select($('#modalForm select[name=unitPostId]'), function (state) {
+        var $state = state.text;
+        if(state.up!=undefined){
+            if ($.trim(state.up.job)!='')
+                $state += "-" + state.up.job;
+            if ($.trim(state.up.unitName)!='')
+                $state += "-" + state.up.unitName;
+        }
+        return $state;
+    }).on("change", function () {
+        //console.log($(this).select2("data")[0])
+        var up = $(this).select2("data")[0]['up'] ;
+        //console.log(up)
+        if(up!=undefined){
+            $('#modalForm textarea[name=post]').val(up.name)
+            $("#modalForm select[name=postId]").val(up.postType).trigger("change");
+            $("#modalForm select[name=adminLevelId]").val(up.adminLevel).trigger("change");
+            $("#modalForm select[name=postClassId]").val(up.postClass).trigger("change");
+            var option = new Option(up.unitName, up.unitId, true, true);
+            $("#modalForm select[name=unitId]").append(option).trigger('change');
+            $("input[name=isCpc]").bootstrapSwitch("state", up.isCpc)
+        }
+    });
 </script>

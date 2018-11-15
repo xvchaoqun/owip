@@ -20,24 +20,47 @@
   <form class="form-horizontal" action="${ctx}/dispatchCadre_au" id="cadreForm" method="post">
     <div class="row">
       <div class="col-xs-6">
-        <input type="hidden" name="id" value="${dispatchCadre.id}">
-        <input type="hidden" name="dispatchId" value="${dispatch.id}">
         <div class="form-group">
           <label class="col-xs-3 control-label">类别</label>
           <div class="col-xs-6">
             <c:forEach var="DISPATCH_CADRE_TYPE" items="${DISPATCH_CADRE_TYPE_MAP}">
               <label class="label-text">
                 <input required name="type" type="radio" class="ace" value="${DISPATCH_CADRE_TYPE.key}"
-                <c:if test="${dispatchCadre.type==DISPATCH_CADRE_TYPE.key}">checked</c:if>/>
+                       <c:if test="${dispatchCadre.type==DISPATCH_CADRE_TYPE.key}">checked</c:if>/>
                 <span class="lbl"> ${DISPATCH_CADRE_TYPE.value}</span>
               </label>
             </c:forEach>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label class="col-xs-3 control-label">关联岗位</label>
+          <div class="col-xs-6">
+            <select data-ajax-url="${ctx}/unitPost_selects" data-width="590"
+                    name="unitPostId" data-placeholder="请选择">
+              <option value="${unitPost.id}">${unitPost.name}-${unitPost.job}-${unitPost.unitName}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <input type="hidden" name="id" value="${dispatchCadre.id}">
+        <input type="hidden" name="dispatchId" value="${dispatch.id}">
+        <div class="form-group">
+          <label class="col-xs-3 control-label" id="typeNameTd">任命职务</label>
+          <div class="col-xs-8">
+            <textarea required class="form-control noEnter" name="post" rows="2">${dispatchCadre.post}</textarea>
+          </div>
+        </div>
         <div class="form-group">
           <label class="col-xs-3 control-label">干部类型</label>
           <div class="col-xs-6">
-            <select required data-rel="select2" name="cadreTypeId" data-placeholder="请选择干部类型">
+            <select required data-rel="select2" name="cadreTypeId" data-width="220" data-placeholder="请选择干部类型">
               <option></option>
               <c:import url="/metaTypes?__code=mc_dispatch_cadre_type"/>
             </select>
@@ -49,7 +72,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">任免方式</label>
           <div class="col-xs-6">
-            <select data-rel="select2" name="wayId" data-placeholder="请选择任免方式">
+            <select data-rel="select2" name="wayId" data-width="220" data-placeholder="请选择任免方式">
               <option></option>
               <c:import url="/metaTypes?__code=mc_dispatch_cadre_way"/>
             </select>
@@ -61,7 +84,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">任免程序</label>
           <div class="col-xs-6">
-            <select class="form-control" data-rel="select2" name="procedureId" data-placeholder="请选择任免程序">
+            <select class="form-control" data-rel="select2" name="procedureId" data-width="220" data-placeholder="请选择任免程序">
               <option></option>
               <c:import url="/metaTypes?__code=mc_dispatch_cadre_procedure"/>
             </select>
@@ -74,7 +97,7 @@
           <label class="col-xs-3 control-label">工作证号</label>
           <div class="col-xs-8">
             <select required data-ajax-url="${ctx}/cadre_selects?type=0"
-                    name="cadreId" data-placeholder="请选择干部">
+                    name="cadreId" data-width="220" data-placeholder="请选择干部">
               <option value="${dispatchCadre.cadre.id}">${dispatchCadre.user.code}</option>
             </select>
           </div>
@@ -86,19 +109,14 @@
             <input disabled class="form-control" type="text" name="_name" value="${dispatchCadre.user.realname}">
           </div>
         </div>
-        <div class="form-group">
-          <label class="col-xs-3 control-label">职务</label>
-          <div class="col-xs-8">
-            <input required class="form-control" type="text" name="post" value="${dispatchCadre.post}">
-          </div>
-        </div>
+
       </div>
       <div class="col-xs-6">
 
         <div class="form-group">
           <label class="col-xs-3 control-label">职务属性</label>
           <div class="col-xs-6">
-            <select required name="postId" data-rel="select2" data-placeholder="请选择职务属性">
+            <select required name="postId" data-rel="select2" data-width="220" data-placeholder="请选择职务属性">
               <option></option>
               <c:import url="/metaTypes?__code=mc_post"/>
             </select>
@@ -110,7 +128,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">行政级别</label>
           <div class="col-xs-6">
-            <select required class="form-control" data-rel="select2" name="adminLevelId" data-placeholder="请选择行政级别">
+            <select required class="form-control" data-rel="select2" data-width="220" name="adminLevelId" data-placeholder="请选择行政级别">
               <option></option>
               <c:import url="/metaTypes?__code=mc_admin_level"/>
             </select>
@@ -122,7 +140,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">单位类别</label>
           <div class="col-xs-6">
-            <select required class="form-control" name="_unitStatus" data-rel="select2" data-placeholder="请选择单位类别">
+            <select required class="form-control" name="_unitStatus" data-width="220" data-rel="select2" data-placeholder="请选择单位类别">
               <option></option>
               <option value="1" ${dispatchCadre.unit.status==1?"selected":""}>正在运转单位</option>
               <option value="2" ${dispatchCadre.unit.status==2?"selected":""}>历史单位</option>
@@ -133,7 +151,7 @@
           <label class="col-xs-3 control-label">所属单位</label>
           <div class="col-xs-6">
             <select required data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
-                    name="unitId" data-placeholder="请选择单位">
+                    name="unitId" data-width="220" data-placeholder="请选择单位">
               <option value="${dispatchCadre.unit.id}">${dispatchCadre.unit.name}</option>
             </select>
           </div>
@@ -147,7 +165,7 @@
         <div class="form-group">
           <label class="col-xs-3 control-label">备注</label>
           <div class="col-xs-8">
-            <textarea class="form-control limited" name="remark" rows="5">${dispatchCadre.remark}</textarea>
+            <textarea class="form-control limited" name="remark" rows="2">${dispatchCadre.remark}</textarea>
           </div>
         </div>
       </div>
@@ -160,7 +178,7 @@
         </button>
         <c:if test="${not empty dispatchCadre}">
         &nbsp; &nbsp; &nbsp;
-        <button class="btn btn-default btn-sm" onclick="_update()">
+        <button type="button" class="btn btn-default btn-sm" onclick="_reload2()">
           <i class="ace-icon fa fa-undo"></i>
           返回添加
         </button>
@@ -191,7 +209,7 @@
         <td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>
         <td nowrap>${cm:getMetaType(dispatchCadre.wayId).name}</td>
         <td nowrap>${cm:getMetaType(dispatchCadre.procedureId).name}</td>
-        <td nowrap>${user.realname}</td>
+        <td nowrap class="${empty dispatchCadre.unitPostId?'warning':''}">${user.realname}</td>
         <td nowrap>${unitMap.get(dispatchCadre.unitId).name}</td>
         <td>
           <button type="button" class="btn btn-xs btn-primary" onclick="_update(${dispatchCadre.id})">
@@ -252,6 +270,49 @@
 
   $('[data-rel="select2"]').select2();
   $('[data-rel="tooltip"]').tooltip();
+
+  $("#cadreForm input[name=type]").change(function () {
+
+      //console.log("$(this).val()=" + $(this).val())
+      if ($(this).val() == '<%=DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT%>') {
+          $("#typeNameTd").html("任命职务");
+      } else {
+          $("#typeNameTd").html("免去职务");
+      }
+  })
+
+  $.register.ajax_select($('#cadreForm select[name=unitPostId]'), function (state) {
+      var $state = state.text;
+      if(state.up!=undefined){
+          if ($.trim(state.up.job)!='')
+              $state += "-" + state.up.job;
+          if ($.trim(state.up.unitName)!='')
+              $state += "-" + state.up.unitName;
+      }
+      return $state;
+  }).on("change", function () {
+      //console.log($(this).select2("data")[0])
+      var up = $(this).select2("data")[0]['up'] ;
+      //console.log(up)
+      if(up!=undefined){
+          if(up.postClass=='${cm:getMetaTypeByCode("mt_post_dw").id}'){
+              $("#cadreForm select[name=cadreTypeId]").val('${cm:getMetaTypeByCode("mt_dispatch_cadre_dw").id}').trigger("change")
+          }else if(up.postClass=='${cm:getMetaTypeByCode("mt_post_xz").id}'){
+              $("#cadreForm select[name=cadreTypeId]").val('${cm:getMetaTypeByCode("mt_dispatch_cadre_xz").id}').trigger("change")
+          }
+
+          $('#cadreForm textarea[name=post]').val(up.name)
+          $("#cadreForm select[name=postId]").val(up.postType).trigger("change");
+          $("#cadreForm select[name=adminLevelId]").val(up.adminLevel).trigger("change");
+          $("#cadreForm select[name=_unitStatus]").val(up.unitStatus).trigger("change");
+
+          var option = new Option(up.unitName, up.unitId, true, true);
+          $("#cadreForm select[name=unitId]").append(option).trigger('change');
+
+
+          $('#cadreForm input[name=_unitType]').val(_cMap.metaTypeMap[up.unitTypeId].name)
+      }
+  });
 
   var $selectCadre = $.register.user_select($('#cadreForm select[name=cadreId]'),function(state){ var $state = state.text;
     if(state.code!=undefined && state.code.length>0)

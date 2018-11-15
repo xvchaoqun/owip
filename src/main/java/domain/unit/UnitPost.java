@@ -1,9 +1,15 @@
 package domain.unit;
 
+import domain.cadre.CadrePost;
+import domain.cadre.CadreView;
+import service.cadre.CadrePostService;
+import sys.tags.CmTag;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class UnitPost implements Serializable {
+
     private Integer id;
 
     private Integer unitId;

@@ -132,3 +132,8 @@ $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
 	});
 
 	<button class="btn btn-xs btn-primary"><i class="fa fa-search"></i> 查看</button>
+
+, cellattr: function (rowId, val, rowObject, cm, rdata) {
+            if($.inArray(rowObject.eduId , needTutorEduTypes)>=0 && $.trim(rowObject.tutorName)=='')
+                return "class='danger'";
+        }

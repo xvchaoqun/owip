@@ -145,7 +145,13 @@ public class EnterApplyController extends MemberBaseController {
 
         memberApply.setPartyId(partyId);
         memberApply.setBranchId(branchId);
-        memberApply.setApplyTime(DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD));
+
+        Date applyTime = DateUtils.parseDate(_applyTime, DateUtils.YYYY_MM_DD);
+        if(applyTime==null){
+            return failed("提交书面申请书时间不允许为空。");
+        }
+
+        memberApply.setApplyTime(applyTime);
         memberApply.setRemark(remark);
         memberApply.setFillTime(new Date());
         memberApply.setCreateTime(new Date());
