@@ -1,4 +1,25 @@
 
+20181116
+ALTER TABLE `unit_post`
+	CHANGE COLUMN `admin_level` `admin_level` INT(10) UNSIGNED NOT NULL COMMENT '岗位级别，关联元数据，对应干部的行政级别' AFTER `is_principal_post`;
+
+ALTER TABLE `unit_post`
+	ADD COLUMN `open_date` DATE NULL DEFAULT NULL COMMENT '空缺起始时间' AFTER `abolish_date`;
+
+更新 unit_post_view
++ unit_post_count_view
+
+更新 unit_view
+
+删除 表 cpc_allocation
+
+删除缓存 unitPosts
+
+修改 资源 干部配备一览表（/unitPostAllocation	unitPost:allocation）
+
+更新common-utils.jar
+
+
 20181115
 
 ALTER TABLE `dispatch_cadre`

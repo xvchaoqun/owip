@@ -150,7 +150,6 @@ import persistence.common.CommonMapper;
 import persistence.common.IPartyMapper;
 import persistence.common.IPropertyMapper;
 import persistence.common.ISysMapper;
-import persistence.cpc.CpcAllocationMapper;
 import persistence.cpc.common.ICpcMapper;
 import persistence.crp.CrpRecordMapper;
 import persistence.crs.CrsApplicantAdjustMapper;
@@ -383,6 +382,7 @@ import persistence.unit.UnitAdminMapper;
 import persistence.unit.UnitCadreTransferGroupMapper;
 import persistence.unit.UnitCadreTransferMapper;
 import persistence.unit.UnitMapper;
+import persistence.unit.UnitPostCountViewMapper;
 import persistence.unit.UnitPostMapper;
 import persistence.unit.UnitPostViewMapper;
 import persistence.unit.UnitTransferMapper;
@@ -1062,12 +1062,6 @@ public class BaseMapper {
     protected PcsVoteMemberMapper pcsVoteMemberMapper;
 
     /**
-     * 干部职数
-     */
-    @Autowired(required = false)
-    protected CpcAllocationMapper cpcAllocationMapper;
-
-    /**
      * 干部招聘
      */
     @Autowired(required = false)
@@ -1162,6 +1156,8 @@ public class BaseMapper {
     protected UnitPostMapper unitPostMapper;
     @Autowired(required = false)
     protected UnitPostViewMapper unitPostViewMapper;
+    @Autowired(required = false)
+    protected UnitPostCountViewMapper unitPostCountViewMapper;
     @Autowired(required = false)
     protected UnitTransferMapper unitTransferMapper;
     @Autowired(required = false)

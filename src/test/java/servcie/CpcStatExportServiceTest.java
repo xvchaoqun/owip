@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import service.cpc.CpcAllocationService;
+import service.unit.UnitPostAllocationService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,12 +20,12 @@ import java.io.IOException;
 public class CpcStatExportServiceTest {
 
     @Autowired
-    CpcAllocationService cpcAllocationService;
+    UnitPostAllocationService unitPostAllocationService;
 
     @Test
     public void stat() throws IOException {
 
-        XSSFWorkbook wb = cpcAllocationService.cpcInfo_Xlsx();
+        XSSFWorkbook wb = unitPostAllocationService.cpcInfo_Xlsx();
         FileOutputStream output = new FileOutputStream(new File("D:/tmp/test333.xlsx"));
 
         wb.write(output);

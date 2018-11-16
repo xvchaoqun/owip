@@ -20,7 +20,7 @@
                     <c:set var="isMainPost" value="${(vs.index-5)/4==2}"/>
                 </c:if>
                 <c:if test="${data>0}">
-                    <a href="javascript:;" class="popupBtn" data-url="${ctx}/cpcAllocation_cadres?adminLevelId=${adminLevelId}&isMainPost=${isMainPost}&unitType=${unitType}">${data}</a>
+                    <a href="javascript:;" class="popupBtn" data-url="${ctx}/unitPost_unitType_cadres?adminLevelId=${adminLevelId}&isMainPost=${isMainPost}&unitType=${unitType}">${data}</a>
                 </c:if>
                 <c:if test="${data==0}">0</c:if>
              </c:when>

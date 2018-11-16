@@ -11,6 +11,7 @@ import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import service.unit.UnitPostAllocationInfoBean;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
@@ -52,6 +54,16 @@ public class UnitPostController extends BaseController {
         modelMap.put("unitPost", unitPostMapper.selectByPrimaryKey(unitPostId));
 
         return "unit/unitPost/unitPost_cadres";
+    }
+
+    @RequiresPermissions("unitPost:list")
+    @RequestMapping("/unitPosts")
+    public String unitPosts(int unitId, int adminLevelId, Boolean displayEmpty, ModelMap modelMap) {
+
+        List<UnitPostView> unitPosts = unitPostService.query(unitId, adminLevelId, displayEmpty);
+        modelMap.put("unitPosts", unitPosts);
+
+        return "unit/unitPost/unitPosts";
     }
 
     @RequiresPermissions("unitPost:list")
@@ -105,7 +117,10 @@ public class UnitPostController extends BaseController {
                                     Integer postClass,
                               Boolean isPrincipalPost,
                               Boolean isCpc,
+                              // 显示空缺岗位
                               Boolean displayEmpty,
+                              // 显示空缺岗位或兼职
+                              Boolean displayOpen,
 
                               Integer cadreId,
                               Integer startNowPostAge,
@@ -116,6 +131,7 @@ public class UnitPostController extends BaseController {
                               @RequestParam(required = false, value = "adminLevels") Integer[] adminLevels, // 行政级别
 
                                  @RequestParam(required = false, defaultValue = "0") int export,
+                                 @RequestParam(required = false, defaultValue = "0") int exportType,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
 
@@ -167,6 +183,10 @@ public class UnitPostController extends BaseController {
             criteria.andCadreIdIsNull();
         }
 
+        if(BooleanUtils.isTrue(displayOpen)){
+            criteria.displayOpen();
+        }
+
         if (cadreId!=null) {
             criteria.andCadreIdEqualTo(cadreId);
         }
@@ -190,10 +210,16 @@ public class UnitPostController extends BaseController {
             criteria.andCadreTypeIdIn(Arrays.asList(adminLevels));
         }
         if (export == 1) {
-            if(ids!=null && ids.length>0)
-                criteria.andIdIn(Arrays.asList(ids));
-            unitPost_export(example, response);
-            return;
+            if(exportType==0) {
+                if (ids != null && ids.length > 0)
+                    criteria.andIdIn(Arrays.asList(ids));
+                unitPost_export(example, response);
+                return;
+            }else if(exportType==1){
+                // 导出空缺或兼职岗位
+                unitPostService.exportOpenList(example, response);
+                return;
+            }
         }
 
         long count = unitPostViewMapper.countByExample(example);
@@ -315,12 +341,12 @@ public class UnitPostController extends BaseController {
 
         List<UnitPostView> records = unitPostViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"岗位编号|100","岗位名称|100","单位编号|100","单位名称|200",
+        String[] titles = {"岗位编号|100","岗位名称|300","单位编号|100","单位名称|220",
                 "分管工作|200","是否正职|100",
-                "岗位级别|100","职务属性|100","职务类别|100",
+                "岗位级别|100","职务属性|150","职务类别|100",
                 "是否占干部职数|100",
                 "现任职干部|100","干部级别|100","任职类型|100",
-                "任职日期|100","现任职务年限|100", "现任职务始任日期|100","现任职务始任年限|100", "备注|100"};
+                "任职日期|100","现任职务年限|100", "现任职务始任日期|120","现任职务始任年限|120", "备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             UnitPostView record = records.get(i);
@@ -401,5 +427,63 @@ public class UnitPostController extends BaseController {
         resultMap.put("totalCount", count);
         resultMap.put("options", options);
         return resultMap;
+    }
+
+    @RequiresPermissions("unitPost:list")
+    @RequestMapping("/unitPostAllocation")
+    public String unitPostAllocation(
+            @RequestParam(required = false, defaultValue = "1") Byte module,
+            @RequestParam(required = false, defaultValue = "0") int export,
+            ModelMap modelMap, HttpServletResponse response) throws IOException {
+
+        modelMap.put("module", module);
+
+        if (module == 1) {
+            if (export == 1) {
+                XSSFWorkbook wb = unitPostAllocationService.cpcInfo_Xlsx();
+
+                String fileName = sysConfigService.getSchoolName() + "内设机构干部配备情况（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
+                ExportHelper.output(wb, fileName + ".xlsx", response);
+                return null;
+            }
+
+            List<UnitPostAllocationInfoBean> beans = unitPostAllocationService.cpcInfo_data(null, true);
+            modelMap.put("beans", beans);
+        } else if (module == 2) {
+
+            return "unit/unitPost/unitPost_openList";
+
+        }else if (module == 3) {
+
+            if (export == 1) {
+                XSSFWorkbook wb = unitPostAllocationService.cpcStat_Xlsx();
+
+                String fileName = sysConfigService.getSchoolName() + "内设机构干部配备统计表（" + DateUtils.formatDate(new Date(), DateUtils.YYYY_MM_DD) + "）";
+                ExportHelper.output(wb, fileName + ".xlsx", response);
+                return null;
+            }
+
+            Map<String, List<Integer>> cpcStatDataMap = unitPostAllocationService.cpcStat_data();
+            modelMap.put("jgList", cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_JG));
+            modelMap.put("xyList", cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_XY));
+            modelMap.put("fsList", cpcStatDataMap.get(SystemConstants.UNIT_TYPE_ATTR_FS));
+            modelMap.put("totalList", cpcStatDataMap.get("total"));
+        }
+
+        return "unit/unitPost/unitPostAllocation_page";
+    }
+
+    @RequiresPermissions("unitPost:list")
+    @RequestMapping("/unitPost_unitType_cadres")
+    public String unitPost_unitType_cadres(Integer adminLevelId, boolean isMainPost, String unitType, ModelMap modelMap) {
+
+        List<CadrePost> cadrePosts = iCadreMapper.findCadrePostsByUnitType(adminLevelId, isMainPost, unitType.trim());
+        modelMap.put("cadrePosts", cadrePosts);
+
+        modelMap.put("unitType", SystemConstants.UNIT_TYPE_ATTR_MAP.get(unitType.trim()));
+        modelMap.put("adminLevel", metaTypeService.findAll().get(adminLevelId));
+        modelMap.put("isMainPost", isMainPost);
+
+        return "unit/unitPost/unitPost_unitType_cadres";
     }
 }

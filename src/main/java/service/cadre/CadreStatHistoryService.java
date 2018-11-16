@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import service.BaseMapper;
 import service.SpringProps;
 import service.analysis.StatCadreService;
-import service.cpc.CpcAllocationService;
+import service.unit.UnitPostAllocationService;
 import sys.constants.CadreConstants;
 import sys.utils.DateUtils;
 import sys.utils.FileUtils;
@@ -22,7 +22,7 @@ import java.util.UUID;
 public class CadreStatHistoryService extends BaseMapper {
 
     @Autowired
-    private CpcAllocationService cpcAllocationService;
+    private UnitPostAllocationService unitPostAllocationService;
     @Autowired
     private StatCadreService statCadreService;
     @Autowired
@@ -52,11 +52,11 @@ public class CadreStatHistoryService extends BaseMapper {
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC:
 
-                wb = cpcAllocationService.cpcInfo_Xlsx();
+                wb = unitPostAllocationService.cpcInfo_Xlsx();
                 break;
             case CadreConstants.CADRE_STAT_HISTORY_TYPE_STAT_CPC_STAT:
 
-                wb = cpcAllocationService.cpcStat_Xlsx();
+                wb = unitPostAllocationService.cpcStat_Xlsx();
                 break;
         }
 

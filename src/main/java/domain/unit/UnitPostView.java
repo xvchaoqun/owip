@@ -54,6 +54,8 @@ public class UnitPostView implements Serializable {
 
     private Date abolishDate;
 
+    private Date openDate;
+
     private Integer sortOrder;
 
     private String remark;
@@ -70,13 +72,15 @@ public class UnitPostView implements Serializable {
 
     private Integer cadreId;
 
+    private Integer cadrePostId;
+
+    private Boolean isMainPost;
+
     private Integer cadreTypeId;
 
     private Integer cadrePostYear;
 
     private Integer adminLevelYear;
-
-    private Integer cadrePostId;
 
     private static final long serialVersionUID = 1L;
 
@@ -176,6 +180,14 @@ public class UnitPostView implements Serializable {
         this.abolishDate = abolishDate;
     }
 
+    public Date getOpenDate() {
+        return openDate;
+    }
+
+    public void setOpenDate(Date openDate) {
+        this.openDate = openDate;
+    }
+
     public Integer getSortOrder() {
         return sortOrder;
     }
@@ -240,6 +252,22 @@ public class UnitPostView implements Serializable {
         this.cadreId = cadreId;
     }
 
+    public Integer getCadrePostId() {
+        return cadrePostId;
+    }
+
+    public void setCadrePostId(Integer cadrePostId) {
+        this.cadrePostId = cadrePostId;
+    }
+
+    public Boolean getIsMainPost() {
+        return isMainPost;
+    }
+
+    public void setIsMainPost(Boolean isMainPost) {
+        this.isMainPost = isMainPost;
+    }
+
     public Integer getCadreTypeId() {
         return cadreTypeId;
     }
@@ -262,13 +290,5 @@ public class UnitPostView implements Serializable {
 
     public void setAdminLevelYear(Integer adminLevelYear) {
         this.adminLevelYear = adminLevelYear;
-    }
-
-    public Integer getCadrePostId() {
-        return cadrePostId;
-    }
-
-    public void setCadrePostId(Integer cadrePostId) {
-        this.cadrePostId = cadrePostId;
     }
 }

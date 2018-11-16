@@ -1,15 +1,9 @@
 package domain.unit;
 
-import domain.cadre.CadrePost;
-import domain.cadre.CadreView;
-import service.cadre.CadrePostService;
-import sys.tags.CmTag;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class UnitPost implements Serializable {
-
     private Integer id;
 
     private Integer unitId;
@@ -33,6 +27,8 @@ public class UnitPost implements Serializable {
     private Byte status;
 
     private Date abolishDate;
+
+    private Date openDate;
 
     private Integer sortOrder;
 
@@ -134,6 +130,14 @@ public class UnitPost implements Serializable {
 
     public void setAbolishDate(Date abolishDate) {
         this.abolishDate = abolishDate;
+    }
+
+    public Date getOpenDate() {
+        return openDate;
+    }
+
+    public void setOpenDate(Date openDate) {
+        this.openDate = openDate;
     }
 
     public Integer getSortOrder() {

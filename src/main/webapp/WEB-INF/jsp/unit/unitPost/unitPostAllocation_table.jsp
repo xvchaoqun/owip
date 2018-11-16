@@ -2,9 +2,6 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <table border=0 cellpadding=0 cellspacing=0 width=1125 class=xl6324425
        style='border-collapse:collapse;table-layout:fixed;width:847pt'>
-<shiro:hasPermission name="cpcAllocation:edit">
-  <col class=xl6324425 width=32>
-  </shiro:hasPermission>
   <col class=xl6324425 width=32>
   <col class=xl7124425 width=151>
   <col class=xl6324425 width=42>
@@ -32,11 +29,6 @@
     </td>
   </tr>
   <tr class=xl6524425 height=30>
-    <shiro:hasPermission name="cpcAllocation:edit">
-    <td rowspan=3 height=90 class=xl6624425 width=32>
-      <input type="checkbox" name="checkall">
-    </td>
-    </shiro:hasPermission>
     <td rowspan=3 height=90 class=xl6624425 width=32>序号
     </td>
     <td rowspan=3 class=xl6624425 width=200>单<span
@@ -80,53 +72,91 @@
   <c:forEach items="${beans}" var="bean" varStatus="vs">
     <c:if test="${!vs.last}">
       <tr height=40 style='mso-height-source:userset;height:30.0pt'>
-        <shiro:hasPermission name="cpcAllocation:edit">
-        <td height=40 class=xl6424425 width=32>
-          <input type="checkbox" name="unitId" value="${bean.unit.id}"></td>
-        </shiro:hasPermission>
         <td height=40 class=xl6424425 width=32>
         ${vs.index+1}</td>
         <td class=xl6924425 width=200>
         ${bean.unit.name}
         </td>
-        <td class=xl6424425 width=42>${bean.mainNum}</td>
+        <td class=xl6424425 width=42>
+          <c:if test="${bean.mainNum==0}">0</c:if>
+          <c:if test="${bean.mainNum>0}">
+          <a href="javascript:;" class="popupBtn"
+             data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevelId=${cm:getMetaTypeByCode('mt_admin_level_main').id}">
+              ${bean.mainNum}
+          </a>
+          </c:if>
+        </td>
         <td class=xl6424425 width=57>${bean.mainCount}</td>
         <td class=xl6924425 width=116>
           <t:cpc_cadres cadrePosts="${bean.mains}"/>
         </td>
         <td class=xl6824425 width=57>
           <c:if test="${bean.mainLack==0}">0</c:if>
-          <c:if test="${bean.mainLack!=0}">
-            <span class="badge ${bean.mainLack>0?'badge-success':'badge-danger'}">${bean.mainLack}</span>
+          <c:if test="${bean.mainLack<0}">
+            <span class="badge badge-danger">${bean.mainLack}</span>
+          </c:if>
+          <c:if test="${bean.mainLack>0}">
+            <a href="javascript:;" class="popupBtn"
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevelId=${cm:getMetaTypeByCode('mt_admin_level_main').id}&displayEmpty=1">
+            <span class="badge badge-success">${bean.mainLack}</span>
+            </a>
           </c:if>
         </td>
-        <td class=xl6724425 width=42>${bean.viceNum}</td>
+        <td class=xl6724425 width=42>
+          <c:if test="${bean.viceNum==0}">0</c:if>
+          <c:if test="${bean.viceNum>0}">
+            <a href="javascript:;" class="popupBtn"
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevelId=${cm:getMetaTypeByCode('mt_admin_level_vice').id}">
+                ${bean.viceNum}
+            </a>
+          </c:if>
+            </td>
         <td class=xl6424425 width=57>${bean.viceCount}</td>
         <td class=xl6924425 width=242>
           <t:cpc_cadres cadrePosts="${bean.vices}"/>
         </td>
         <td class=xl6824425 width=57>
           <c:if test="${bean.viceLack==0}">0</c:if>
-          <c:if test="${bean.viceLack!=0}">
-            <span class="badge ${bean.viceLack>0?'badge-success':'badge-danger'}">${bean.viceLack}</span>
+          <c:if test="${bean.viceLack<0}">
+            <span class="badge badge-danger">${bean.viceLack}</span>
+          </c:if>
+          <c:if test="${bean.viceLack>0}">
+            <a href="javascript:;" class="popupBtn"
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevelId=${cm:getMetaTypeByCode('mt_admin_level_vice').id}&displayEmpty=1">
+              <span class="badge badge-success">${bean.viceLack}</span>
+            </a>
           </c:if>
         </td>
-        <td class=xl7524425 width=42>${bean.noneNum}</td>
+        <td class=xl7524425 width=42>
+          <c:if test="${bean.noneNum==0}">0</c:if>
+          <c:if test="${bean.noneNum>0}">
+            <a href="javascript:;" class="popupBtn"
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevelId=${cm:getMetaTypeByCode('mt_admin_level_none').id}">
+                ${bean.noneNum}
+            </a>
+          </c:if>
+        </td>
         <td class=xl6424425 width=57>${bean.noneCount}</td>
         <td class=xl6924425 width=116>
           <t:cpc_cadres cadrePosts="${bean.nones}"/>
         </td>
         <td class=xl6824425 width=57>
           <c:if test="${bean.noneLack==0}">0</c:if>
-          <c:if test="${bean.noneLack!=0}">
-            <span class="badge ${bean.noneLack>0?'badge-success':'badge-danger'}">${bean.noneLack}</span>
+          <c:if test="${bean.noneLack<0}">
+            <span class="badge badge-danger">${bean.mainLack}</span>
+          </c:if>
+          <c:if test="${bean.noneLack>0}">
+            <a href="javascript:;" class="popupBtn"
+               data-url="${ctx}/unitPosts?unitId=${bean.unit.id}&adminLevelId=${cm:getMetaTypeByCode('mt_admin_level_none').id}&displayEmpty=1">
+              <span class="badge badge-success">${bean.noneLack}</span>
+            </a>
           </c:if>
         </td>
       </tr>
     </c:if>
     <c:if test="${vs.last}">
       <tr height=40>
-        <td colspan=${cm:isPermitted("cpcAllocation:edit")?3:2} height=40 class=xl8424425 width=183>合<span
+        <td colspan='2' height=40 class=xl8424425 width=183>合<span
                 style='mso-spacerun:yes'>&nbsp; </span>计
         </td>
         <td class=xl6424425 width=42>${bean.mainNum}</td>

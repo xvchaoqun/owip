@@ -1,9 +1,9 @@
-package service.cpc;
+package service.unit;
 
 /**
  * Created by fafa on 2017/5/27.
  */
-public class CpcStatBean {
+public class UnitPostAllocationStatBean {
 
     private Integer adminLevelId;
     private boolean isMainPost;

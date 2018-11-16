@@ -8,14 +8,13 @@ import domain.unit.UnitPost;
 import domain.unit.UnitPostExample;
 import domain.unit.UnitPostView;
 import domain.unit.UnitPostViewExample;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -24,6 +23,7 @@ import service.BaseMapper;
 import service.base.MetaTypeService;
 import sys.constants.DispatchConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.DateUtils;
 import sys.utils.ExcelUtils;
 import sys.utils.ExportHelper;
@@ -34,9 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UnitPostService extends BaseMapper {
@@ -53,8 +51,23 @@ public class UnitPostService extends BaseMapper {
         return unitPostMapper.countByExample(example) > 0;
     }
 
+    // 单位、级别下的占职数的岗位
+    public List<UnitPostView> query(int unitId, int adminLevelId, Boolean displayEmpty) {
+
+        UnitPostViewExample example = new UnitPostViewExample();
+        UnitPostViewExample.Criteria criteria = example.createCriteria()
+                .andUnitIdEqualTo(unitId)
+                .andAdminLevelEqualTo(adminLevelId)
+                .andIsCpcEqualTo(true);
+        example.setOrderByClause("sort_order desc");
+
+        if(BooleanUtils.isTrue(displayEmpty)){
+            criteria.andCadreIdIsNull();
+        }
+        return unitPostViewMapper.selectByExample(example);
+    }
+
     @Transactional
-    @CacheEvict(value="unitPosts", allEntries = true)
     public void insertSelective(UnitPost record) {
 
         Assert.isTrue(!idDuplicate(null, record.getCode()), "duplicate");
@@ -64,14 +77,12 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="unitPosts", allEntries = true)
     public void del(Integer id) {
 
         unitPostMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="unitPosts", allEntries = true)
     public void batchDel(Integer[] ids) {
 
         if (ids == null || ids.length == 0) return;
@@ -82,27 +93,12 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="unitPosts", allEntries = true)
     public int updateByPrimaryKeySelective(UnitPost record) {
         if (record.getCode() != null)
             Assert.isTrue(!idDuplicate(record.getId(), record.getCode()), "duplicate");
         return unitPostMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="unitPosts", key = "#unitId")
-    public Map<Integer, UnitPostView> findAll(int unitId) {
-
-        UnitPostViewExample example = new UnitPostViewExample();
-        example.createCriteria().andUnitIdEqualTo(unitId);
-        example.setOrderByClause("sort_order desc");
-        List<UnitPostView> records = unitPostViewMapper.selectByExample(example);
-        Map<Integer, UnitPostView> map = new LinkedHashMap<>();
-        for (UnitPostView unitPost : records) {
-            map.put(unitPost.getId(), unitPost);
-        }
-
-        return map;
-    }
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
      *
@@ -110,7 +106,6 @@ public class UnitPostService extends BaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value="unitPosts", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         if (addNum == 0) return;
@@ -153,7 +148,6 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="unitPosts", allEntries = true)
     public void abolish(int id, Date abolishDate) {
 
         UnitPost record = new UnitPost();
@@ -169,7 +163,6 @@ public class UnitPostService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="unitPosts", allEntries = true)
     public void unabolish(int id) {
 
         UnitPost unitPost = unitPostMapper.selectByPrimaryKey(id);
@@ -245,5 +238,67 @@ public class UnitPostService extends BaseMapper {
         }
 
         ExportHelper.output(wb, unitPost.getName() + "岗位历史任职干部.xlsx", response);
+    }
+
+    // 空缺或兼职岗位导出
+    public void exportOpenList(UnitPostViewExample example, HttpServletResponse response) throws IOException {
+
+        List<UnitPostView> unitPosts = unitPostViewMapper.selectByExample(example);
+
+        InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/unit/unitPost_openList.xlsx"));
+        XSSFWorkbook wb = new XSSFWorkbook(is);
+        XSSFSheet sheet = wb.getSheetAt(0);
+
+        String schoolName = CmTag.getSysConfig().getSchoolName();
+        XSSFRow row = sheet.getRow(0);
+        XSSFCell cell = row.getCell(0);
+        String str = cell.getStringCellValue()
+                .replace("school", schoolName);
+        cell.setCellValue(str);
+
+        int startRow = 2;
+        int rowCount = unitPosts.size();
+        ExcelUtils.insertRow(wb, sheet, startRow, rowCount - 1);
+
+        for (int i = 0; i < rowCount; i++) {
+
+            UnitPostView record = unitPosts.get(i);
+
+            int column = 0;
+            row = sheet.getRow(startRow++);
+
+            cell = row.getCell(column++);
+            cell.setCellValue(i+1);
+
+            cell = row.getCell(column++);
+            cell.setCellValue(record.getName());
+
+            cell = row.getCell(column++);
+            cell.setCellValue(record.getUnitName());
+
+            cell = row.getCell(column++);
+            cell.setCellValue(metaTypeService.getName(record.getUnitTypeId()));
+
+            cell = row.getCell(column++);
+            cell.setCellValue(record.getJob());
+
+            cell = row.getCell(column++);
+            cell.setCellValue(BooleanUtils.isTrue(record.getIsPrincipalPost())?"是":"否");
+
+            cell = row.getCell(column++);
+            cell.setCellValue(metaTypeService.getName(record.getAdminLevel()));
+
+            cell = row.getCell(column++);
+            cell.setCellValue(metaTypeService.getName(record.getPostType()));
+
+            cell = row.getCell(column++);
+            cell.setCellValue(BooleanUtils.isTrue(record.getIsCpc())?"是":"否");
+
+            cell = row.getCell(column++);
+            cell.setCellValue(DateUtils.formatDate(record.getOpenDate(), DateUtils.YYYY_MM_DD));
+
+        }
+
+        ExportHelper.output(wb, schoolName + "空缺中层干部岗位列表.xlsx", response);
     }
 }

@@ -1,16 +1,16 @@
-package domain.cpc;
+package domain.unit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CpcAllocationExample {
+public class UnitPostCountViewExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public CpcAllocationExample() {
+    public UnitPostCountViewExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -102,66 +102,6 @@ public class CpcAllocationExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
-        }
-
-        public Criteria andIdIsNull() {
-            addCriterion("id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdIsNotNull() {
-            addCriterion("id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdEqualTo(Integer value) {
-            addCriterion("id =", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdNotEqualTo(Integer value) {
-            addCriterion("id <>", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdGreaterThan(Integer value) {
-            addCriterion("id >", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("id >=", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdLessThan(Integer value) {
-            addCriterion("id <", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdLessThanOrEqualTo(Integer value) {
-            addCriterion("id <=", value, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdIn(List<Integer> values) {
-            addCriterion("id in", values, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdNotIn(List<Integer> values) {
-            addCriterion("id not in", values, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdBetween(Integer value1, Integer value2) {
-            addCriterion("id between", value1, value2, "id");
-            return (Criteria) this;
-        }
-
-        public Criteria andIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("id not between", value1, value2, "id");
-            return (Criteria) this;
         }
 
         public Criteria andUnitIdIsNull() {
@@ -341,6 +281,66 @@ public class CpcAllocationExample {
 
         public Criteria andNumNotBetween(Integer value1, Integer value2) {
             addCriterion("num not between", value1, value2, "num");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalIsNull() {
+            addCriterion("total is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalIsNotNull() {
+            addCriterion("total is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalEqualTo(Integer value) {
+            addCriterion("total =", value, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNotEqualTo(Integer value) {
+            addCriterion("total <>", value, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalGreaterThan(Integer value) {
+            addCriterion("total >", value, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalGreaterThanOrEqualTo(Integer value) {
+            addCriterion("total >=", value, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalLessThan(Integer value) {
+            addCriterion("total <", value, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalLessThanOrEqualTo(Integer value) {
+            addCriterion("total <=", value, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalIn(List<Integer> values) {
+            addCriterion("total in", values, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNotIn(List<Integer> values) {
+            addCriterion("total not in", values, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBetween(Integer value1, Integer value2) {
+            addCriterion("total between", value1, value2, "total");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalNotBetween(Integer value1, Integer value2) {
+            addCriterion("total not between", value1, value2, "total");
             return (Criteria) this;
         }
     }

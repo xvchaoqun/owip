@@ -35,14 +35,22 @@
         </table>-->
 
         <!--<table tableName="unit_post" domainObjectName="unit.UnitPost" mapperName="unit.UnitPostMapper">
-        </table>-->
+        </table>
         <table tableName="unit_post_view" domainObjectName="unit.UnitPostView" mapperName="unit.UnitPostViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-
+            <columnOverride column="is_main_post"  javaType="Boolean"></columnOverride>
             <columnOverride column="cadre_post_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="admin_level_year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>-->
+        <table tableName="unit_post_count_view" domainObjectName="unit.UnitPostCountView"
+               mapperName="unit.UnitPostCountViewMapper"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false">
+            <columnOverride column="num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="total" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>
 
         <!--<table tableName="unit_history_unit" domainObjectName="unit.HistoryUnit">

@@ -882,6 +882,66 @@ public class UnitPostExample {
             return (Criteria) this;
         }
 
+        public Criteria andOpenDateIsNull() {
+            addCriterion("open_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenDateIsNotNull() {
+            addCriterion("open_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenDateEqualTo(Date value) {
+            addCriterionForJDBCDate("open_date =", value, "openDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("open_date <>", value, "openDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("open_date >", value, "openDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("open_date >=", value, "openDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenDateLessThan(Date value) {
+            addCriterionForJDBCDate("open_date <", value, "openDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("open_date <=", value, "openDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenDateIn(List<Date> values) {
+            addCriterionForJDBCDate("open_date in", values, "openDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("open_date not in", values, "openDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("open_date between", value1, value2, "openDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("open_date not between", value1, value2, "openDate");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

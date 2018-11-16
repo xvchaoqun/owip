@@ -527,7 +527,7 @@ public class DispatchController extends DispatchBaseController {
 
         List<DispatchView> records = dispatchViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年份", "发文类型", "发文号", "党委常委会日期", "发文日期", "任免日期", "任命人数", "录入任命人数",
+        String[] titles = {"年份", "发文类型", "发文号|200", "党委常委会日期|120", "发文日期|120", "任免日期|120", "任命人数", "录入任命人数",
                 "免职人数", "录入免职人数", "是否全部录入", "是否复核", "备注"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {

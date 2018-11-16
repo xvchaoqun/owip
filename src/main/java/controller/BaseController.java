@@ -63,7 +63,7 @@ import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveExportService;
 import service.cadreReserve.CadreReserveOriginService;
 import service.cadreReserve.CadreReserveService;
-import service.cpc.CpcAllocationService;
+import service.unit.UnitPostAllocationService;
 import service.crp.CrpRecordService;
 import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
@@ -221,7 +221,7 @@ public class BaseController extends BaseMapper {
     protected CrpRecordService crpRecordService;
 
     @Autowired
-    protected CpcAllocationService cpcAllocationService;
+    protected UnitPostAllocationService unitPostAllocationService;
 
     @Autowired
     protected UnitTransferService unitTransferService;

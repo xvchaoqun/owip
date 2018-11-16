@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import service.cpc.CpcInfoBean;
+import service.unit.UnitPostAllocationInfoBean;
 import shiro.ShiroHelper;
 
 import java.util.Arrays;
@@ -117,7 +117,7 @@ public class MobileCadreSearchController extends BaseController {
 
 		if(unitId!=null){
 
-			List<CpcInfoBean> cpcInfoBeans = cpcAllocationService.cpcInfo_data(unitId, false);
+			List<UnitPostAllocationInfoBean> cpcInfoBeans = unitPostAllocationService.cpcInfo_data(unitId, false);
 			if(cpcInfoBeans.size()==2){
 				modelMap.put("bean", cpcInfoBeans.get(0));
 			}

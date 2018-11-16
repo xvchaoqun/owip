@@ -3,7 +3,7 @@ package persistence.cpc.common;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
-import service.cpc.CpcStatBean;
+import service.unit.UnitPostAllocationStatBean;
 import sys.constants.CadreConstants;
 
 import java.util.List;
@@ -14,19 +14,19 @@ import java.util.List;
 public interface ICpcMapper {
 
     // 根据单位类型（jg/xy/fs)统计已设定的干部职数  (isMainPost=null)
-    @ResultType(service.cpc.CpcStatBean.class)
-    @Select("select ca.admin_level_id as adminLevelId, sum(ca.num) as num from cpc_allocation ca, unit u, base_meta_type ut " +
+    @ResultType(UnitPostAllocationStatBean.class)
+    @Select("select ca.admin_level_id as adminLevelId, sum(ca.num) as num from unit_post_count_view ca, unit u, base_meta_type ut " +
             "where ca.unit_id=u.id and u.status=1 and u.type_id=ut.id and ut.extra_attr=#{unitType} group by ca.admin_level_id;")
-    public List<CpcStatBean> cpcStat_setting(@Param("unitType") String unitType);
+    public List<UnitPostAllocationStatBean> cpcStat_setting(@Param("unitType") String unitType);
 
     // 根据单位类型（jg/xy/fs)、行政级别、职务类别（主职、兼职）统计实际的干部职数
-    @ResultType(service.cpc.CpcStatBean.class)
+    @ResultType(UnitPostAllocationStatBean.class)
     @Select("select cp.admin_level_id as adminLevelId, cp.is_main_post as isMainPost, count(*) as num " +
             "from cadre_post cp , unit u, base_meta_type ut, cadre c " +
             "where (cp.is_main_post=1 or (cp.is_main_post=0 and cp.is_cpc=1)) " +
-            "and exists(select 1 from cpc_allocation where unit_id=cp.unit_id) " +
+            "and exists(select 1 from unit_post_count_view where unit_id=cp.unit_id) " +
             "and cp.unit_id=u.id and u.type_id=ut.id and ut.extra_attr=#{unitType} and cp.cadre_id=c.id " +
             "and c.status in(" + CadreConstants.CADRE_STATUS_MIDDLE + "," + CadreConstants.CADRE_STATUS_LEADER + ") " +
             "group by cp.admin_level_id, cp.is_main_post")
-    public List<CpcStatBean> cpcStat_real(@Param("unitType") String unitType);
+    public List<UnitPostAllocationStatBean> cpcStat_real(@Param("unitType") String unitType);
 }

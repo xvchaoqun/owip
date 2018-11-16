@@ -14,6 +14,7 @@
     <result column="is_cpc" jdbcType="BIT" property="isCpc" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="abolish_date" jdbcType="DATE" property="abolishDate" />
+    <result column="open_date" jdbcType="DATE" property="openDate" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
@@ -77,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, unit_id, code, name, job, is_principal_post, admin_level, post_type, post_class, 
-    is_cpc, status, abolish_date, sort_order, remark
+    is_cpc, status, abolish_date, open_date, sort_order, remark
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitPostExample" resultMap="BaseResultMap">
     select
@@ -114,12 +115,14 @@
       name, job, is_principal_post, 
       admin_level, post_type, post_class, 
       is_cpc, status, abolish_date, 
-      sort_order, remark)
+      open_date, sort_order, remark
+      )
     values (#{id,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{isPrincipalPost,jdbcType=BIT}, 
       #{adminLevel,jdbcType=INTEGER}, #{postType,jdbcType=INTEGER}, #{postClass,jdbcType=INTEGER}, 
       #{isCpc,jdbcType=BIT}, #{status,jdbcType=TINYINT}, #{abolishDate,jdbcType=DATE}, 
-      #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+      #{openDate,jdbcType=DATE}, #{sortOrder,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="domain.unit.UnitPost">
     insert into unit_post
@@ -159,6 +162,9 @@
       </if>
       <if test="abolishDate != null">
         abolish_date,
+      </if>
+      <if test="openDate != null">
+        open_date,
       </if>
       <if test="sortOrder != null">
         sort_order,
@@ -203,6 +209,9 @@
       </if>
       <if test="abolishDate != null">
         #{abolishDate,jdbcType=DATE},
+      </if>
+      <if test="openDate != null">
+        #{openDate,jdbcType=DATE},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
@@ -257,6 +266,9 @@
       <if test="record.abolishDate != null">
         abolish_date = #{record.abolishDate,jdbcType=DATE},
       </if>
+      <if test="record.openDate != null">
+        open_date = #{record.openDate,jdbcType=DATE},
+      </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
@@ -282,6 +294,7 @@
       is_cpc = #{record.isCpc,jdbcType=BIT},
       status = #{record.status,jdbcType=TINYINT},
       abolish_date = #{record.abolishDate,jdbcType=DATE},
+      open_date = #{record.openDate,jdbcType=DATE},
       sort_order = #{record.sortOrder,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -324,6 +337,9 @@
       <if test="abolishDate != null">
         abolish_date = #{abolishDate,jdbcType=DATE},
       </if>
+      <if test="openDate != null">
+        open_date = #{openDate,jdbcType=DATE},
+      </if>
       <if test="sortOrder != null">
         sort_order = #{sortOrder,jdbcType=INTEGER},
       </if>
@@ -346,6 +362,7 @@
       is_cpc = #{isCpc,jdbcType=BIT},
       status = #{status,jdbcType=TINYINT},
       abolish_date = #{abolishDate,jdbcType=DATE},
+      open_date = #{openDate,jdbcType=DATE},
       sort_order = #{sortOrder,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

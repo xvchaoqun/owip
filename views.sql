@@ -636,11 +636,16 @@ DROP VIEW IF EXISTS `unit_post_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `unit_post_view` AS
 select up.*, u.name as unit_name, u.code as unit_code, u.type_id as unit_type_id,
 u.status as unit_status, u.sort_order as unit_sort_order,
-cp.cadre_id, cv.type_id as cadre_type_id, cv.cadre_post_year, cv.admin_level_year, cp.id as cadre_post_id from unit_post up
+cp.cadre_id, cp.id as cadre_post_id, cp.is_main_post,
+cv.type_id as cadre_type_id, cv.cadre_post_year, cv.admin_level_year from unit_post up
 left join unit u on up.unit_id=u.id
 left join cadre_post cp on up.id=cp.unit_post_id
 left join cadre_view cv on cv.id=cp.cadre_id;
 
+DROP VIEW IF EXISTS `unit_post_count_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `unit_post_count_view` AS
+select unit_id, admin_level as admin_level_id, count(is_cpc=1 or null) as num, count(*) as total
+from unit_post group by unit_id, admin_level ;
 
 
 -- ----------------------------

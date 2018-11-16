@@ -498,15 +498,6 @@
            timeToIdleSeconds="0"
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
-    <cache name="unitPosts"
-           eternal="false"
-           maxElementsInMemory="100"
-           overflowToDisk="false"
-           diskPersistent="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="300"
-           memoryStoreEvictionPolicy="LRU"/>
-
 
     <cache name="MetaClass:ALL"
            eternal="false"

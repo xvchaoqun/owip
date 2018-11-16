@@ -1,11 +1,11 @@
-package service.cpc;
+package service.unit;
 
 import domain.base.MetaType;
 import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
-import domain.cpc.CpcAllocation;
-import domain.cpc.CpcAllocationExample;
 import domain.unit.Unit;
+import domain.unit.UnitPostCountView;
+import domain.unit.UnitPostCountViewExample;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -16,12 +16,10 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.cadre.CadrePostService;
-import service.unit.UnitService;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
 import sys.utils.DateUtils;
@@ -31,7 +29,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -39,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CpcAllocationService extends BaseMapper {
+public class UnitPostAllocationService extends BaseMapper {
     @Autowired
     protected MetaTypeService metaTypeService;
     @Autowired
@@ -106,7 +103,7 @@ public class CpcAllocationService extends BaseMapper {
         XSSFWorkbook wb = new XSSFWorkbook(is);
         XSSFSheet sheet = wb.getSheetAt(0);
 
-        List<CpcInfoBean> beans = cpcInfo_data(null, true);
+        List<UnitPostAllocationInfoBean> beans = cpcInfo_data(null, true);
 
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell = row.getCell(0);
@@ -126,7 +123,7 @@ public class CpcAllocationService extends BaseMapper {
         int startRow = cpRow;
         for (int i = 0; i < rowCount; i++) {
 
-            CpcInfoBean bean = beans.get(i);
+            UnitPostAllocationInfoBean bean = beans.get(i);
 
             int column = 0;
             row = sheet.getRow(startRow++);
@@ -192,7 +189,7 @@ public class CpcAllocationService extends BaseMapper {
         // 统计结果
         if (rowCount > 0) {
 
-            CpcInfoBean totalBean = beans.get(rowCount);
+            UnitPostAllocationInfoBean totalBean = beans.get(rowCount);
             row = sheet.getRow(startRow);
             int column = 2;
             // 正处级 职数
@@ -252,13 +249,13 @@ public class CpcAllocationService extends BaseMapper {
 
         Map<Integer, Integer> resultMap = new HashMap<>();
 
-        CpcAllocationExample example = new CpcAllocationExample();
+        UnitPostCountViewExample example = new UnitPostCountViewExample();
         example.createCriteria().andUnitIdEqualTo(unitId);
-        List<CpcAllocation> cpcAllocations = cpcAllocationMapper.selectByExample(example);
-        for (CpcAllocation cpcAllocation : cpcAllocations) {
+        List<UnitPostCountView> records = unitPostCountViewMapper.selectByExample(example);
+        for (UnitPostCountView record : records) {
 
-            Integer adminLevelId = cpcAllocation.getAdminLevelId();
-            int num = cpcAllocation.getNum();
+            Integer adminLevelId = record.getAdminLevelId();
+            int num = record.getNum();
 
             resultMap.put(adminLevelId, num);
         }
@@ -272,15 +269,14 @@ public class CpcAllocationService extends BaseMapper {
      */
     public Map<Integer, Map<Integer, Integer>> getUnitAdminLevelMap() {
 
-        List<CpcAllocation> cpcAllocations = cpcAllocationMapper.selectByExample(new CpcAllocationExample());
-
+        List<UnitPostCountView> records = unitPostCountViewMapper.selectByExample(new UnitPostCountViewExample());
 
         Map<Integer, Map<Integer, Integer>> _unitAdminLevelMap = new HashMap<>();
-        for (CpcAllocation cpcAllocation : cpcAllocations) {
+        for (UnitPostCountView record : records) {
 
-            Integer unitId = cpcAllocation.getUnitId();
-            Integer adminLevelId = cpcAllocation.getAdminLevelId();
-            int num = cpcAllocation.getNum();
+            Integer unitId = record.getUnitId();
+            Integer adminLevelId = record.getAdminLevelId();
+            int num = record.getNum();
 
             Map<Integer, Integer> _adminLevelMap = _unitAdminLevelMap.get(unitId);
             if (_adminLevelMap == null) _adminLevelMap = new HashMap<Integer, Integer>();
@@ -299,7 +295,7 @@ public class CpcAllocationService extends BaseMapper {
      *
      * hasSetCpc = true 只读取设置了职数的单位
      */
-    public List<CpcInfoBean> cpcInfo_data(Integer _unitId, boolean hasSetCpc) {
+    public List<UnitPostAllocationInfoBean> cpcInfo_data(Integer _unitId, boolean hasSetCpc) {
 
 
         Map<String, MetaType> metaTypeMap = metaTypeService.codeKeyMap();
@@ -315,10 +311,10 @@ public class CpcAllocationService extends BaseMapper {
             unitMap.putAll(_unitMap);
         }
 
-        List<CpcInfoBean> beans = new ArrayList<>();
+        List<UnitPostAllocationInfoBean> beans = new ArrayList<>();
 
         // 统计结果
-        CpcInfoBean totalBean = new CpcInfoBean();
+        UnitPostAllocationInfoBean totalBean = new UnitPostAllocationInfoBean();
         totalBean.setMainCount(0);
         totalBean.setViceCount(0);
         totalBean.setNoneCount(0);
@@ -339,7 +335,7 @@ public class CpcAllocationService extends BaseMapper {
             if (unit.getStatus() == SystemConstants.UNIT_STATUS_RUN
                     && !(hasSetCpc && !_unitAdminLevelMap.containsKey(unitId))) {
 
-                CpcInfoBean bean = new CpcInfoBean();
+                UnitPostAllocationInfoBean bean = new UnitPostAllocationInfoBean();
                 bean.setUnit(unit);
 
                 Integer mainNum = null;
@@ -431,47 +427,6 @@ public class CpcAllocationService extends BaseMapper {
         return beans;
     }
 
-    @Transactional
-    public void insertSelective(CpcAllocation record) {
-
-        cpcAllocationMapper.insertSelective(record);
-    }
-
-    @Transactional
-    public void del(Integer id) {
-
-        cpcAllocationMapper.deleteByPrimaryKey(id);
-    }
-
-    @Transactional
-    public void batchDel(Integer[] unitIds) {
-
-        if (unitIds == null || unitIds.length == 0) return;
-
-        CpcAllocationExample example = new CpcAllocationExample();
-        example.createCriteria().andUnitIdIn(Arrays.asList(unitIds));
-        cpcAllocationMapper.deleteByExample(example);
-    }
-
-    @Transactional
-    public int updateByPrimaryKeySelective(CpcAllocation record) {
-        return cpcAllocationMapper.updateByPrimaryKeySelective(record);
-    }
-
-    // 更新配置
-    @Transactional
-    public void update(List<CpcAllocation> records) {
-
-        for (CpcAllocation record : records) {
-
-            CpcAllocationExample example = new CpcAllocationExample();
-            example.createCriteria().andUnitIdEqualTo(record.getUnitId()).andAdminLevelIdEqualTo(record.getAdminLevelId());
-            cpcAllocationMapper.deleteByExample(example);
-
-            cpcAllocationMapper.insertSelective(record);
-        }
-    }
-
     public XSSFWorkbook cpcStat_Xlsx() throws IOException {
 
         InputStream is = new FileInputStream(ResourceUtils.getFile("classpath:xlsx/cpc/cpc_stat_template.xlsx"));
@@ -561,12 +516,12 @@ public class CpcAllocationService extends BaseMapper {
             results.put(unitType, dataList);
 
             // =============统计设定的干部职数==============
-            List<CpcStatBean> cpcStatBeans = iCpcMapper.cpcStat_setting(unitType);
+            List<UnitPostAllocationStatBean> cpcStatBeans = iCpcMapper.cpcStat_setting(unitType);
 
             int mainNum = 0; // 正处
             int viceNum = 0;  // 副处
             int noneNum = 0;  // 无行政级别
-            for (CpcStatBean bean : cpcStatBeans) {
+            for (UnitPostAllocationStatBean bean : cpcStatBeans) {
 
                 Integer adminLevelId = bean.getAdminLevelId();
                 int num = (int)bean.getNum();
@@ -592,8 +547,8 @@ public class CpcAllocationService extends BaseMapper {
             // 无行政级别
             int mainCount3 = 0; // 全职
             int subCount3 = 0;  // 兼职
-            List<CpcStatBean> cpcStats = iCpcMapper.cpcStat_real(unitType);
-            for (CpcStatBean bean : cpcStats) {
+            List<UnitPostAllocationStatBean> cpcStats = iCpcMapper.cpcStat_real(unitType);
+            for (UnitPostAllocationStatBean bean : cpcStats) {
 
                 Integer adminLevelId = bean.getAdminLevelId();
                 boolean mainPost = bean.isMainPost();

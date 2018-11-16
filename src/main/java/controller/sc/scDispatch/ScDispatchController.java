@@ -313,7 +313,7 @@ public class ScDispatchController extends ScDispatchBaseController {
 
         List<ScDispatchView> records = scDispatchViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"年份|100","发文类型|100","发文号|100","党委常委会日期|100","起草日期|100","文件签发稿|100","签发单|100","备注|100"};
+        String[] titles = {"年份|100","发文类型|100","发文号|200","党委常委会日期|120","起草日期|120","文件签发稿|100","签发单|100","备注|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             ScDispatchView record = records.get(i);

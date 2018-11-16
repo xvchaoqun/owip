@@ -149,10 +149,10 @@ CREATE ALGORITHM = UNDEFINED VIEW `unit_view` AS
 select u.*, up.principal_post_count, up.vice_post_count, cpc.main_count, cpc.vice_count, cpc.none_count from unit u left join
 (select unit_Id, sum(if(is_principal_post,1,0)) as principal_post_count, sum(if(is_principal_post,0,1)) as vice_post_count from unit_post group by unit_id) up on up.unit_id=u.id
 left join
-(select ca.unit_id, sum(if(bmt.code='mt_admin_level_main', num,0)) as main_count,
+(select upc.unit_id, sum(if(bmt.code='mt_admin_level_main', num,0)) as main_count,
 sum(if(bmt.code='mt_admin_level_vice', num,0)) as vice_count,
 sum(if(bmt.code='mt_admin_level_none', num,0)) as none_count
-from cpc_allocation ca , base_meta_type bmt where ca.admin_level_id=bmt.id group by ca.unit_id) cpc on cpc.unit_id=u.id;
+from unit_post_count_view upc , base_meta_type bmt where upc.admin_level_id=bmt.id group by upc.unit_id) cpc on cpc.unit_id=u.id;
 
 DROP VIEW IF EXISTS `unit_post_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `unit_post_view` AS

@@ -1,25 +1,17 @@
-package domain.cpc;
+package domain.unit;
 
 import java.io.Serializable;
 
-public class CpcAllocation implements Serializable {
-    private Integer id;
-
+public class UnitPostCountView implements Serializable {
     private Integer unitId;
 
     private Integer adminLevelId;
 
     private Integer num;
 
+    private Integer total;
+
     private static final long serialVersionUID = 1L;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getUnitId() {
         return unitId;
@@ -43,5 +35,13 @@ public class CpcAllocation implements Serializable {
 
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 }

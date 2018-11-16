@@ -1,4 +1,4 @@
-package service.cpc;
+package service.unit;
 
 import domain.cadre.CadrePost;
 import domain.unit.Unit;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by fafa on 2017/5/24.
  */
-public class CpcInfoBean {
+public class UnitPostAllocationInfoBean {
 
     private Unit unit;
 

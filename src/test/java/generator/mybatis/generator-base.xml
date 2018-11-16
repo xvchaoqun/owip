@@ -59,10 +59,6 @@
         <!-- <table tableName="base_short_msg_receiver" domainObjectName="base.ShortMsgReceiver">
          </table>-->
 
-        <!--干部职数管理-->
-        <!--<table tableName="cpc_allocation" domainObjectName="cpc.CpcAllocation" mapperName="cpc.CpcAllocationMapper">
-        </table>-->
-
         <!--干部挂职锻炼-->
         <!--<table tableName="crp_record" domainObjectName="crp.CrpRecord" mapperName="crp.CrpRecordMapper">
         </table>-->
