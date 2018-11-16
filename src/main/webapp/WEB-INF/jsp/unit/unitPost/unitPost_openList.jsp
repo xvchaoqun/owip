@@ -129,7 +129,7 @@
 </div>
 <div class="multi-row-head-table">
     <div class="space-4"></div>
-    <table id="jqGrid" class="jqGrid table-striped" data-height-reduce="50"></table>
+    <table id="jqGrid" class="jqGrid table-striped" data-height-reduce="80"></table>
     <div id="jqGridPager"></div>
 </div>
 <style>
