@@ -105,6 +105,6 @@
 </script>
 <![endif]-->
 <script src="${ctx}/extend/js/jquery.form.js"></script>
-<script src="${ctx}/js/login.js"></script>
+<t:script src="/js/login.js"/>
 </body>
 </html>

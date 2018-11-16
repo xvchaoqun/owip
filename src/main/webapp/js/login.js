@@ -56,6 +56,10 @@ $(function(){
                     if (data.success) {
                         location.href = data.url + location.hash;
                     } else {
+                        if(data.msg==undefined){  // 解决sslvpn情况下，无法登录
+                            location.reload();
+                            return;
+                        }
                         $(".login-error").html("<i class=\"fa fa-times\"></i>" + data.msg).show();
                         $('img.captcha', $form).click()
                     }
