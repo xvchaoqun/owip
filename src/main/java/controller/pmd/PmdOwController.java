@@ -1,17 +1,27 @@
 package controller.pmd;
 
+import domain.pmd.PmdMonth;
+import domain.pmd.PmdPayView;
+import domain.pmd.PmdPayViewExample;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import persistence.pmd.PmdPayViewMapper;
+import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/pmd")
@@ -64,5 +74,48 @@ public class PmdOwController extends PmdBaseController {
         }
 
         return null;
+    }
+
+    @Autowired
+    private PmdPayViewMapper pmdPayViewMapper;
+
+    @RequiresPermissions("pmdOw:export")
+    @RequestMapping("/pmdOw_pay_export")
+    public void pmdOw_pay_export(int monthId, HttpServletResponse response) throws IOException {
+
+        PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(monthId);
+
+        String fileName = String.format("%s%s线上缴纳党费明细.xlsx",
+                sysConfigService.getSchoolName(), DateUtils.formatDate(pmdMonth.getPayMonth(),"yyyy年MM月"));
+
+        PmdPayViewExample example = new PmdPayViewExample();
+        example.setOrderByClause("create_time asc");
+        example.createCriteria().andPayMonthIdEqualTo(pmdMonth.getId());
+        List<PmdPayView> records = pmdPayViewMapper.selectByExample(example);
+        List<String> titles = new ArrayList<>(Arrays.asList(new String[]{"订单号|150",
+                "缴费月份|100", "实缴人工作证号|120","实缴人姓名|100", "缴费金额|80",
+                "订单生成时间|150", "成功缴费通知时间|150",
+                "缴费人工作证号|130","缴费人姓名|100","是否补缴|100"}));
+
+        List<List<String>> valuesList = new ArrayList<>();
+        for (PmdPayView record:records) {
+
+            List<String> values = new ArrayList<>(Arrays.asList(new String[]{
+                    record.getOrderNo(),
+                    DateUtils.formatDate(record.getPayMonth(), "yyyy年MM月"),
+                    record.getOrderCode(),
+                    record.getOrderRealname(),
+                    record.getRealPay() + "",
+                    DateUtils.formatDate(record.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
+                    DateUtils.formatDate(record.getPayTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
+                    record.getCode(),
+                    record.getRealname(),
+                    BooleanUtils.isTrue(record.getIsDelay())?"是":"否"
+            }));
+
+            valuesList.add(values);
+        }
+
+        ExportHelper.export(titles, valuesList, fileName, response);
     }
 }

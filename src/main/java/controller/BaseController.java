@@ -1,18 +1,7 @@
 package controller;
 
-import domain.cadre.CadrePost;
-import domain.cadre.CadreView;
-import domain.party.Branch;
-import domain.party.Party;
-import domain.sys.SysUserView;
-import domain.sys.TeacherInfo;
-import net.coobird.thumbnailator.Thumbnails;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.xmlbeans.impl.piccolo.io.FileFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.multipart.MultipartFile;
 import service.BaseMapper;
 import service.LoginUserService;
 import service.SpringProps;
@@ -63,10 +52,7 @@ import service.cadreInspect.CadreInspectService;
 import service.cadreReserve.CadreReserveExportService;
 import service.cadreReserve.CadreReserveOriginService;
 import service.cadreReserve.CadreReserveService;
-import service.unit.UnitPostAllocationService;
 import service.crp.CrpRecordService;
-import service.dispatch.DispatchService;
-import service.dispatch.DispatchTypeService;
 import service.ext.ExtService;
 import service.ext.SyncService;
 import service.global.CacheService;
@@ -103,24 +89,15 @@ import service.unit.UnitAdminGroupService;
 import service.unit.UnitAdminService;
 import service.unit.UnitCadreTransferGroupService;
 import service.unit.UnitCadreTransferService;
+import service.unit.UnitPostAllocationService;
 import service.unit.UnitPostService;
 import service.unit.UnitService;
 import service.unit.UnitTransferService;
 import shiro.PasswordHelper;
-import sys.tags.CmTag;
-import sys.utils.DateUtils;
-import sys.utils.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import sys.HttpResponseMethod;
 
 @SuppressWarnings("unchecked")
-public class BaseController extends BaseMapper {
+public class BaseController extends BaseMapper implements HttpResponseMethod {
 
     @Autowired
     protected BranchMemberGroupService branchMemberGroupService;
@@ -259,7 +236,7 @@ public class BaseController extends BaseMapper {
     @Autowired
     protected UserBeanService userBeanService;
     @Autowired
-    protected TeacherInfoService teacherService;
+    protected TeacherInfoService teacherInfoService;
     @Autowired
     protected StudentInfoService studentService;
 
@@ -320,229 +297,4 @@ public class BaseController extends BaseMapper {
     protected SpringProps springProps;
     @Autowired
     protected Environment evironment;
-
-    protected void pdf2Swf(String filePath, String swfPath) throws IOException, InterruptedException {
-
-        FileUtils.pdf2Swf(springProps.swfToolsCommand, springProps.uploadPath + filePath,
-                springProps.uploadPath + swfPath, springProps.swfToolsLanguagedir);
-    }
-
-    /**
-     * 上传文件
-     *
-     * @param file
-     * @param saveFolder
-     * @param type       = pdf pic
-     * @param sImgWidth
-     * @param sImgHeight
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
-     */
-    public String upload(MultipartFile file, String saveFolder,
-                         String type,
-                         int sImgWidth,
-                         int sImgHeight) throws IOException, InterruptedException {
-
-        if (file == null || file.isEmpty()) return null;
-
-        String realPath = FILE_SEPARATOR + saveFolder +
-                FILE_SEPARATOR + DateUtils.formatDate(new Date(), "yyyyMMdd") +
-                FILE_SEPARATOR + UUID.randomUUID().toString();
-        String originalFilename = file.getOriginalFilename();
-        String savePath = realPath + FileUtils.getExtention(originalFilename);
-        FileUtils.copyFile(file, new File(springProps.uploadPath + savePath));
-
-        if (StringUtils.equalsIgnoreCase(type, "doc")) {
-
-            String pdfPath = realPath + ".pdf";
-            FileUtils.word2pdf(springProps.uploadPath + savePath, springProps.uploadPath + pdfPath);
-            String swfPath = realPath + ".swf";
-            pdf2Swf(pdfPath, swfPath);
-
-        }else if (StringUtils.equalsIgnoreCase(type, "pdf")) {
-
-            String swfPath = realPath + ".swf";
-            pdf2Swf(savePath, swfPath);
-
-        } else if (StringUtils.equalsIgnoreCase(type, "pic")) {
-            // 需要缩略图的情况
-            String shortImgPath = realPath + "_s.jpg";
-            Thumbnails.of(file.getInputStream())
-                    .size(sImgWidth, sImgHeight)
-                    .outputFormat("jpg")
-                    .outputQuality(1.0f)
-                    .toFile(springProps.uploadPath + shortImgPath);
-        }
-
-        return savePath;
-    }
-
-    public String upload(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
-
-        return upload(file, saveFolder, null, 0, 0);
-    }
-
-    public String uploadDocOrPdf(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
-
-        if (StringUtils.contains(file.getContentType(), "pdf")) {
-
-            return uploadPdf(file, saveFolder);
-        } else {
-            return uploadDoc(file, saveFolder);
-        }
-    }
-
-    public String uploadDoc(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
-
-        return upload(file, saveFolder, "doc", 0, 0);
-    }
-
-    public String uploadPdf(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
-
-        return upload(file, saveFolder, "pdf", 0, 0);
-    }
-
-    public String uploadPic(MultipartFile file, String saveFolder, int sImgWidth, int sImgHeight) throws IOException, InterruptedException {
-
-        return upload(file, saveFolder, "pic", sImgWidth, sImgHeight);
-    }
-
-    public String uploadPdfOrImage(MultipartFile file, String saveFolder) throws IOException, InterruptedException {
-
-        if (StringUtils.indexOfAny(file.getContentType(), "pdf", "image")==-1) {
-            throw new FileFormatException("文件格式错误，请上传pdf或图片文件");
-        }
-
-        if (StringUtils.contains(file.getContentType(), "pdf")) {
-
-            return uploadPdf(file, saveFolder);
-        }else{
-
-            return uploadPic(file, saveFolder, 400, 300);
-        }
-    }
-
-    // 未登录操作日志
-    public String addNoLoginLog(Integer userId, String username, Integer logType, String content, Object... params) {
-
-        if (params != null && params.length > 0)
-            content = String.format(content, params);
-
-        return logService.log(userId, username, logType, content);
-    }
-
-    // 登录后操作日志
-    public String addLog(Integer logType, String content, Object... params) {
-
-        if (params != null && params.length > 0)
-            content = String.format(content, params);
-
-        return logService.log(logType, content);
-    }
-
-    public Map<String, Object> success() {
-
-        return success(null);
-    }
-
-    public static Map<String, Object> success(String msg) {
-
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("success", true);
-        resultMap.put("msg", StringUtils.defaultIfBlank(msg, "success"));
-        return resultMap;
-    }
-
-    public static Map<String, Object> formValidError(String fieldName, String msg) {
-
-        Map<String, Object> resultMap = success(msg);
-        resultMap.put("success", true);
-        resultMap.put("error", true);
-        resultMap.put("field", fieldName);
-
-        return resultMap;
-    }
-
-    public static Map<String, Object> failed(String msg) {
-
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("success", false);
-        resultMap.put("msg", StringUtils.defaultIfBlank(msg, "failed"));
-        return resultMap;
-    }
-
-    public static Map<String, Object> ret(int ret, String msg) {
-
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("ret", ret);
-        resultMap.put("msg", StringUtils.defaultIfBlank(msg, "failed"));
-        return resultMap;
-    }
-
-    public Map getMetaMap() {
-
-        Map map = new HashMap<>();
-
-        map.put("partyMap", partyService.findAll());
-        map.put("branchMap", branchService.findAll());
-
-        DispatchService dispatchService = CmTag.getBean(DispatchService.class);
-        if(dispatchService!=null) map.put("dispatchMap", dispatchService.findAll());
-        DispatchTypeService dispatchTypeService = CmTag.getBean(DispatchTypeService.class);
-        if(dispatchTypeService!=null) map.put("dispatchTypeMap", dispatchTypeService.findAll());
-
-        map.put("unitMap", unitService.findAll());
-
-        map.put("locationMap", locationService.codeMap());
-        map.put("countryMap", countryService.findAll());
-
-        map.put("roleMap", sysRoleService.findAll());
-        return map;
-    }
-
-    public void cadreBase(Integer cadreId, ModelMap modelMap){
-
-        if(cadreId==null) return;
-
-        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
-        modelMap.put("cadre", cadre);
-
-        SysUserView uv = sysUserService.findById(cadre.getUserId());
-        modelMap.put("uv", uv);
-
-        Map<Integer, Branch> branchMap = branchService.findAll();
-        Map<Integer, Party> partyMap = partyService.findAll();
-        modelMap.put("branchMap", branchMap);
-        modelMap.put("partyMap", partyMap);
-        modelMap.put("member", memberService.get(uv.getId()));
-
-        TeacherInfo teacherInfo = teacherService.get(uv.getId());
-        modelMap.put("teacherInfo", teacherInfo);
-
-        CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
-        // 主职,现任职务
-        modelMap.put("mainCadrePost", mainCadrePost);
-
-        // 任现职级
-        modelMap.put("cadreAdminLevel", cadreAdminLevelService.getPresentByCadreId(cadreId,
-                mainCadrePost != null ? mainCadrePost.getAdminLevelId() : null));
-
-        // 兼职单位
-        List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(cadreId);
-        if (subCadrePosts.size() >= 1) {
-            modelMap.put("subCadrePost1", subCadrePosts.get(0));
-        }
-        if (subCadrePosts.size() >= 2) {
-            modelMap.put("subCadrePost2", subCadrePosts.get(1));
-        }
-
-        // 最高学历
-        modelMap.put("highEdu", cadreEduService.getHighEdu(cadreId));
-        //最高学位
-        modelMap.put("highDegree", cadreEduService.getHighDegree(cadreId));
-
-        // 是否已认定了参加工作时间，没认定前可修改
-        modelMap.put("hasVerifyWorkTime", cadre.getVerifyWorkTime()!=null);
-    }
 }

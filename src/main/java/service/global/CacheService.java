@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import controller.BaseController;
 import domain.abroad.ApproverType;
 import domain.base.Location;
 import domain.base.MetaType;
@@ -33,6 +32,19 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import persistence.common.CountMapper;
+import service.BaseMapper;
+import service.base.CountryService;
+import service.base.LocationService;
+import service.base.MetaTypeService;
+import service.cadre.CadreAdminLevelService;
+import service.cadre.CadrePostService;
+import service.dispatch.DispatchService;
+import service.dispatch.DispatchTypeService;
+import service.party.BranchService;
+import service.party.PartyService;
+import service.sys.SysRoleService;
+import service.sys.TeacherInfoService;
+import service.unit.UnitService;
 import sys.constants.AbroadConstants;
 import sys.constants.CacheConstants;
 import sys.constants.MemberConstants;
@@ -52,12 +64,32 @@ import java.util.Map;
  * Created by fafa on 2017/4/11.
  */
 @Service
-public class CacheService extends BaseController{
+public class CacheService extends BaseMapper {
 
     @Autowired
     protected CountMapper countMapper;
     @Autowired
+    protected LocationService locationService;
+    @Autowired
     protected CacheManager cacheManager;
+    @Autowired
+    private MetaTypeService metaTypeService;
+    @Autowired
+    private SysRoleService sysRoleService;
+    @Autowired(required = false)
+    private UnitService unitService;
+    @Autowired(required = false)
+    private CountryService countryService;
+    @Autowired
+    protected TeacherInfoService teacherInfoService;
+    @Autowired
+    protected CadrePostService cadrePostService;
+    @Autowired
+    protected CadreAdminLevelService cadreAdminLevelService;
+    @Autowired
+    protected PartyService partyService;
+    @Autowired
+    protected BranchService branchService;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -260,6 +292,27 @@ public class CacheService extends BaseController{
         }
 
         return cMap;
+    }
+
+    public Map getMetaMap() {
+
+        Map map = new HashMap<>();
+
+        map.put("partyMap", partyService.findAll());
+        map.put("branchMap", branchService.findAll());
+
+        DispatchService dispatchService = CmTag.getBean(DispatchService.class);
+        if(dispatchService!=null) map.put("dispatchMap", dispatchService.findAll());
+        DispatchTypeService dispatchTypeService = CmTag.getBean(DispatchTypeService.class);
+        if(dispatchTypeService!=null) map.put("dispatchTypeMap", dispatchTypeService.findAll());
+
+        map.put("unitMap", unitService.findAll());
+
+        map.put("locationMap", locationService.codeMap());
+        map.put("countryMap", countryService.findAll());
+
+        map.put("roleMap", sysRoleService.findAll());
+        return map;
     }
 
     @Caching(evict = {

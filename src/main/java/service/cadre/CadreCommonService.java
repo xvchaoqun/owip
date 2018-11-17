@@ -3,16 +3,25 @@ package service.cadre;
 import domain.base.MetaType;
 import domain.cadre.Cadre;
 import domain.cadre.CadreExample;
+import domain.cadre.CadrePost;
 import domain.cadre.CadreView;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchCadre;
+import domain.party.Branch;
+import domain.party.Party;
 import domain.sys.SysUserView;
+import domain.sys.TeacherInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 import service.BaseMapper;
 import service.base.MetaTypeService;
 import service.dispatch.DispatchService;
+import service.party.BranchService;
+import service.party.MemberService;
+import service.party.PartyService;
 import service.sys.SysUserService;
+import service.sys.TeacherInfoService;
 import sys.constants.CadreConstants;
 import sys.tags.CmTag;
 import sys.tool.tree.TreeNode;
@@ -37,6 +46,20 @@ public class CadreCommonService extends BaseMapper {
     private SysUserService sysUserService;
     @Autowired(required = false)
     private DispatchService dispatchService;
+    @Autowired(required = false)
+    private CadreEduService cadreEduService;
+    @Autowired(required = false)
+    private MemberService memberService;
+    @Autowired
+    protected TeacherInfoService teacherInfoService;
+    @Autowired
+    protected CadrePostService cadrePostService;
+    @Autowired
+    protected CadreAdminLevelService cadreAdminLevelService;
+    @Autowired
+    protected PartyService partyService;
+    @Autowired
+    protected BranchService branchService;
 
     // 查找某个单位的正职（现任）
     public List<Cadre> findMainPost(int unitId) {
@@ -283,5 +306,50 @@ public class CadreCommonService extends BaseMapper {
             rootChildren.add(titleNode);
         }
         return root;
+    }
+
+    public void cadreBase(Integer cadreId, ModelMap modelMap){
+
+        if(cadreId==null) return;
+
+        CadreView cadre = cadreViewMapper.selectByPrimaryKey(cadreId);
+        modelMap.put("cadre", cadre);
+
+        SysUserView uv = sysUserService.findById(cadre.getUserId());
+        modelMap.put("uv", uv);
+
+        Map<Integer, Branch> branchMap = branchService.findAll();
+        Map<Integer, Party> partyMap = partyService.findAll();
+        modelMap.put("branchMap", branchMap);
+        modelMap.put("partyMap", partyMap);
+        modelMap.put("member", memberService.get(uv.getId()));
+
+        TeacherInfo teacherInfo = teacherInfoService.get(uv.getId());
+        modelMap.put("teacherInfo", teacherInfo);
+
+        CadrePost mainCadrePost = cadrePostService.getCadreMainCadrePost(cadreId);
+        // 主职,现任职务
+        modelMap.put("mainCadrePost", mainCadrePost);
+
+        // 任现职级
+        modelMap.put("cadreAdminLevel", cadreAdminLevelService.getPresentByCadreId(cadreId,
+                mainCadrePost != null ? mainCadrePost.getAdminLevelId() : null));
+
+        // 兼职单位
+        List<CadrePost> subCadrePosts = cadrePostService.getSubCadrePosts(cadreId);
+        if (subCadrePosts.size() >= 1) {
+            modelMap.put("subCadrePost1", subCadrePosts.get(0));
+        }
+        if (subCadrePosts.size() >= 2) {
+            modelMap.put("subCadrePost2", subCadrePosts.get(1));
+        }
+
+        // 最高学历
+        modelMap.put("highEdu", cadreEduService.getHighEdu(cadreId));
+        //最高学位
+        modelMap.put("highDegree", cadreEduService.getHighDegree(cadreId));
+
+        // 是否已认定了参加工作时间，没认定前可修改
+        modelMap.put("hasVerifyWorkTime", cadre.getVerifyWorkTime()!=null);
     }
 }

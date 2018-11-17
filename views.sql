@@ -357,6 +357,27 @@ CREATE ALGORITHM = UNDEFINED VIEW `pmd_branch_view` AS
 select pb.*,pm.pay_month, pm.status as month_status from pmd_branch pb
 left join pmd_month pm on pb.month_id=pm.id;
 
+-- 缴费账单，用于对账
+DROP VIEW IF EXISTS `pmd_pay_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `pmd_pay_view` AS select t.*, uv.code, uv.realname, ouv.code as order_code, ouv.realname as order_realname, poc.create_time from
+(
+-- 本月正常缴费
+select  pmp.order_no, m.id as pay_month_id, m.pay_month, pm.user_id, pmp.order_user_id, pmp.member_id, pm.real_pay, 0 as is_delay, pm.pay_time
+from pmd_member pm, pmd_member_pay pmp, pmd_month m
+where  pm.month_id=m.id and pmp.member_id=pm.id and pm.is_online_pay=1 and pm.is_delay=0
+union all
+-- 往月延迟缴费
+select pmpv.order_no, m.id as pay_month_id, m.pay_month, pmpv.user_id, pmpv.order_user_id, pmpv.member_id, pmpv.real_pay, 1 as is_delay, pmpv.pay_time
+from pmd_member_pay_view pmpv, pmd_month m
+where pmpv.pay_month_id=m.id and pmpv.month_id < m.id and pmpv.has_pay=1 and pmpv.is_delay=1 and pmpv.is_online_pay=1
+) t
+left join pmd_order_campuscard poc on poc.sn=t.order_no
+left join sys_user_view uv on t.user_id=uv.id
+left join sys_user_view ouv on t.order_user_id=ouv.id ;
+
+
+
+
 DROP VIEW IF EXISTS `oa_task_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `oa_task_view`
 AS select ot.*, count(distinct otf.id) as file_count,
@@ -636,7 +657,7 @@ DROP VIEW IF EXISTS `unit_post_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `unit_post_view` AS
 select up.*, u.name as unit_name, u.code as unit_code, u.type_id as unit_type_id,
 u.status as unit_status, u.sort_order as unit_sort_order,
-cp.cadre_id, cp.id as cadre_post_id, cp.is_main_post,
+cp.cadre_id, cp.id as cadre_post_id, cp.admin_level_id as cp_admin_level, cp.is_main_post,
 cv.type_id as cadre_type_id, cv.cadre_post_year, cv.admin_level_year from unit_post up
 left join unit u on up.unit_id=u.id
 left join cadre_post cp on up.id=cp.unit_post_id

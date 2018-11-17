@@ -129,7 +129,7 @@
                 label: '对账和报表', name: '_report', formatter: function (cellvalue, options, rowObject) {
 
                 if (_isEnd(rowObject) == false)  return "-";
-                return ('<button class="popupBtn btn btn-success btn-xs" ' +
+                return ('<button class="popupBtn btn btn-success btn-xs" data-width="700" ' +
                 'data-url="${ctx}/pmd/pmdOw_export_page?monthId={0}"><i class="fa fa-download"></i> 报表</button>')
                         .format(rowObject.id);
             }, frozen: true

@@ -87,7 +87,7 @@ public class IndexController extends BaseController {
 		if(loginUser.getType()== SystemConstants.USER_TYPE_JZG) {
 			MemberTeacher memberTeacher = memberTeacherService.get(userId);
 			modelMap.put("memberTeacher", memberTeacher);
-			modelMap.put("teacher", teacherService.get(userId));
+			modelMap.put("teacher", teacherInfoService.get(userId));
 			return "teacher_base";
 		}else {
 			MemberStudent memberStudent = memberStudentService.get(userId);

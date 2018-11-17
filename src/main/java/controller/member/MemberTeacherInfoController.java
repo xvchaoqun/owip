@@ -62,10 +62,10 @@ public class MemberTeacherInfoController extends MemberBaseController {
         teacherInfo.setIsHonorRetire((teacherInfo.getIsHonorRetire() == null) ? false : teacherInfo.getIsHonorRetire());
 
         if (userId == null) {
-            teacherService.insertSelective(teacherInfo);
+            teacherInfoService.insertSelective(teacherInfo);
             logger.info(addLog(LogConstants.LOG_PARTY, "添加教职工党员信息：%s", teacherInfo.getUserId()));
         } else {
-            teacherService.updateByPrimaryKeySelective(teacherInfo);
+            teacherInfoService.updateByPrimaryKeySelective(teacherInfo);
             logger.info(addLog(LogConstants.LOG_PARTY, "更新教职工党员信息：%s", teacherInfo.getUserId()));
         }
 

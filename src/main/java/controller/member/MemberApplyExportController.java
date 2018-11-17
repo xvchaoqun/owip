@@ -304,7 +304,7 @@ public class MemberApplyExportController extends MemberBaseController {
 
             SysUserView uv = sysUserService.findById(memberApply.getUserId());
             Byte gender = uv.getGender();
-            TeacherInfo record = teacherService.get(memberApply.getUserId());
+            TeacherInfo record = teacherInfoService.get(memberApply.getUserId());
             Integer partyId = memberApply.getPartyId();
             Integer branchId = memberApply.getBranchId();
             //ExtJzg extJzg = extJzgService.getByCode(uv.getCode());
@@ -395,7 +395,7 @@ public class MemberApplyExportController extends MemberBaseController {
         for (MemberApply memberApply:records) {
 
             UserBean userBean = userBeanService.get(memberApply.getUserId());
-            TeacherInfo record = teacherService.get(memberApply.getUserId());
+            TeacherInfo record = teacherInfoService.get(memberApply.getUserId());
             MemberTeacher memberTeacher = memberTeacherService.get(memberApply.getUserId());
             Byte gender = userBean==null?null:userBean.getGender();
             Integer partyId = memberApply.getPartyId();

@@ -137,3 +137,7 @@ $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
             if($.inArray(rowObject.eduId , needTutorEduTypes)>=0 && $.trim(rowObject.tutorName)=='')
                 return "class='danger'";
         }
+
+
+不
+record.setName(HtmlUtils.htmlUnescape(record.getName()));

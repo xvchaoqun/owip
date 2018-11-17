@@ -1517,6 +1517,66 @@ public class UnitPostViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andCpAdminLevelIsNull() {
+            addCriterion("cp_admin_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpAdminLevelIsNotNull() {
+            addCriterion("cp_admin_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpAdminLevelEqualTo(Integer value) {
+            addCriterion("cp_admin_level =", value, "cpAdminLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpAdminLevelNotEqualTo(Integer value) {
+            addCriterion("cp_admin_level <>", value, "cpAdminLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpAdminLevelGreaterThan(Integer value) {
+            addCriterion("cp_admin_level >", value, "cpAdminLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpAdminLevelGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cp_admin_level >=", value, "cpAdminLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpAdminLevelLessThan(Integer value) {
+            addCriterion("cp_admin_level <", value, "cpAdminLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpAdminLevelLessThanOrEqualTo(Integer value) {
+            addCriterion("cp_admin_level <=", value, "cpAdminLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpAdminLevelIn(List<Integer> values) {
+            addCriterion("cp_admin_level in", values, "cpAdminLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpAdminLevelNotIn(List<Integer> values) {
+            addCriterion("cp_admin_level not in", values, "cpAdminLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpAdminLevelBetween(Integer value1, Integer value2) {
+            addCriterion("cp_admin_level between", value1, value2, "cpAdminLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andCpAdminLevelNotBetween(Integer value1, Integer value2) {
+            addCriterion("cp_admin_level not between", value1, value2, "cpAdminLevel");
+            return (Criteria) this;
+        }
+
         public Criteria andIsMainPostIsNull() {
             addCriterion("is_main_post is null");
             return (Criteria) this;

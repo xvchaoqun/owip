@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import service.unit.UnitPostAllocationInfoBean;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
@@ -207,7 +208,7 @@ public class UnitPostController extends BaseController {
             criteria.andUnitTypeIdIn(Arrays.asList(unitTypes));
         }
         if (adminLevels != null) {
-            criteria.andCadreTypeIdIn(Arrays.asList(adminLevels));
+            criteria.andCpAdminLevelIn(Arrays.asList(adminLevels));
         }
         if (export == 1) {
             if(exportType==0) {
@@ -251,6 +252,8 @@ public class UnitPostController extends BaseController {
 
         record.setIsPrincipalPost(BooleanUtils.isTrue(record.getIsPrincipalPost()));
         record.setIsCpc(BooleanUtils.isTrue(record.getIsCpc()));
+
+        record.setName(HtmlUtils.htmlUnescape(record.getName()));
 
         if (unitPostService.idDuplicate(id, record.getCode())) {
             return failed("添加重复");
@@ -365,7 +368,7 @@ public class UnitPostController extends BaseController {
                             metaTypeService.getName(record.getPostClass()),
                             BooleanUtils.isTrue(record.getIsCpc())?"是":"否",
                             cadre==null?"":cadre.getRealname(),
-                            cadre==null?"":metaTypeService.getName(cadre.getTypeId()),
+                            cadre==null?"":metaTypeService.getName(record.getCpAdminLevel()),
                             cadrePost==null?"":(cadrePost.getIsMainPost()?"主职":"兼职"),
                             "",
                             "",

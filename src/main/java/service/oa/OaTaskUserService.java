@@ -1,7 +1,6 @@
 package service.oa;
 
 import bean.ShortMsgBean;
-import controller.BaseController;
 import controller.global.OpException;
 import domain.oa.OaTaskMsg;
 import domain.oa.OaTaskUser;
@@ -11,10 +10,15 @@ import domain.oa.OaTaskUserFileExample;
 import domain.oa.OaTaskUserView;
 import domain.oa.OaTaskUserViewExample;
 import domain.sys.SysUserView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import service.BaseMapper;
+import service.base.ShortMsgService;
+import service.sys.SysUserService;
 import shiro.ShiroHelper;
+import sys.HttpResponseMethod;
 import sys.constants.OaConstants;
 import sys.constants.RoleConstants;
 import sys.constants.SystemConstants;
@@ -30,7 +34,12 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public class OaTaskUserService extends BaseController {
+public class OaTaskUserService extends BaseMapper implements HttpResponseMethod {
+
+    @Autowired
+    private ShortMsgService shortMsgService;
+    @Autowired
+    private SysUserService sysUserService;
 
     // 读取任务对象（读取任务对象或负责人的任务, 不包含已删除）
     public OaTaskUserView getOwnTask(int taskId, int userId) {

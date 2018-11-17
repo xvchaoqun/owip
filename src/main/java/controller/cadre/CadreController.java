@@ -344,7 +344,7 @@ public class CadreController extends BaseController {
     @RequestMapping("/cadre_base")
     public String cadre_base(int cadreId, ModelMap modelMap) {
 
-        cadreBase(cadreId, modelMap);
+        cadreCommonService.cadreBase(cadreId, modelMap);
 
         return "cadre/cadre_base";
     }

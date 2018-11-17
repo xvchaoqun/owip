@@ -74,7 +74,7 @@
         </table>-->
        <!-- <table tableName="pmd_pay_party" domainObjectName="pmd.PmdPayParty" mapperName="pmd.PmdPayPartyMapper">
         </table>-->
-        <table tableName="pmd_pay_branch" domainObjectName="pmd.PmdPayBranch" mapperName="pmd.PmdPayBranchMapper">
+        <!--<table tableName="pmd_pay_branch" domainObjectName="pmd.PmdPayBranch" mapperName="pmd.PmdPayBranchMapper">
         </table>
         <table tableName="pmd_pay_branch_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -82,7 +82,7 @@
                enableDeleteByExample="false"
                domainObjectName="pmd.PmdPayBranchView" mapperName="pmd.PmdPayBranchViewMapper">
             <columnOverride column="admin_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>
+        </table>-->
 
         <!--<table tableName="pmd_branch" domainObjectName="pmd.PmdBranch" mapperName="pmd.PmdBranchMapper">
         </table>
@@ -118,6 +118,13 @@
             <columnOverride column="delay_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="history_delay_member_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
         </table>-->
+        <table tableName="pmd_pay_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="pmd.PmdPayView" mapperName="pmd.PmdPayViewMapper">
+            <columnOverride column="is_delay"  javaType="Boolean"></columnOverride>
+        </table>
 
     </context>
 </generatorConfiguration>

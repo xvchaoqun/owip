@@ -97,7 +97,7 @@ public class MobileCadreSearchController extends BaseController {
 			}
 		}
 
-		cadreBase(cadreId, modelMap);
+		cadreCommonService.cadreBase(cadreId, modelMap);
 
 		return "cadre/mobile/cadre_info";
 	}

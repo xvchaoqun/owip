@@ -1,16 +1,17 @@
 package interceptor;
 
-import controller.BaseController;
 import domain.cet.CetTrainInspector;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.AsyncHandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import service.global.CacheService;
 import sys.helper.CetHelper;
 import sys.utils.HttpRequestDeviceUtils;
 import sys.utils.IpUtils;
@@ -22,9 +23,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 
-public class SessionInterceptor extends BaseController implements AsyncHandlerInterceptor {
+public class SessionInterceptor implements AsyncHandlerInterceptor {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private CacheService cacheService;
 
     @Override
     public boolean preHandle(HttpServletRequest request,
@@ -147,7 +151,7 @@ public class SessionInterceptor extends BaseController implements AsyncHandlerIn
         if (null != modelAndView) {
             ModelMap modelMap = modelAndView.getModelMap();
             //modelMap.put("useCaptcha",springProps.useCaptcha);
-            modelMap.putAll(getMetaMap());
+            modelMap.putAll(cacheService.getMetaMap());
         }
     }
 

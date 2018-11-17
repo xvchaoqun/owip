@@ -1,6 +1,5 @@
 package shiro.filter;
 
-import controller.BaseController;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.SpringProps;
 import service.sys.SysLoginLogService;
 import shiro.ShiroUser;
+import sys.HttpResponseMethod;
 import sys.constants.SystemConstants;
 import sys.shiro.AuthToken;
 import sys.shiro.IncorrectCaptchaException;
@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
+public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter implements HttpResponseMethod {
 
     private static final Logger logger = LoggerFactory.getLogger(CaptchaFormAuthenticationFilter.class);
 
@@ -124,7 +124,7 @@ public class CaptchaFormAuthenticationFilter extends FormAuthenticationFilter {
                 successUrl = savedRequest.getRequestUrl();
             }
 
-            Map<String, Object> resultMap = BaseController.success("登入成功");
+            Map<String, Object> resultMap = success("登入成功");
             resultMap.put("url", successUrl);
             JSONUtils.write((HttpServletResponse) response, resultMap);
         }

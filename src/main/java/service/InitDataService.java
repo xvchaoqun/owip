@@ -1,21 +1,25 @@
 package service;
 
-import controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import service.sys.SchedulerJobService;
+import service.sys.SysResourceService;
 
 /**
  * Created by fafa on 2016/6/17.
  */
 @Component
-public class InitDataService extends BaseController implements ApplicationListener<ContextRefreshedEvent> {
+public class InitDataService implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
     protected SchedulerJobService schedulerJobService;
+    @Autowired
+    protected SysResourceService sysResourceService;
+    @Autowired
+    protected SpringProps springProps;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {

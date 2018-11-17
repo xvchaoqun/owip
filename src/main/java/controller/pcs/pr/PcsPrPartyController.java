@@ -363,7 +363,7 @@ public class PcsPrPartyController extends PcsBaseController {
 
                 if(uv.getType()==SystemConstants.USER_TYPE_JZG){
 
-                    TeacherInfo teacherInfo = teacherService.get(userId);
+                    TeacherInfo teacherInfo = teacherInfoService.get(userId);
                     CadreView cv = cadreService.dbFindByUserId(userId);
                     if(cv!=null && CadreConstants.CADRE_STATUS_NOW_SET.contains(cv.getStatus())){
                         // 是干部
