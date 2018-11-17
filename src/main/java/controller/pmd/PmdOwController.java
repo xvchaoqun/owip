@@ -85,7 +85,7 @@ public class PmdOwController extends PmdBaseController {
 
         PmdMonth pmdMonth = pmdMonthMapper.selectByPrimaryKey(monthId);
 
-        String fileName = String.format("%s%s线上缴纳党费明细.xlsx",
+        String fileName = String.format("%s%s线上缴纳党费明细",
                 sysConfigService.getSchoolName(), DateUtils.formatDate(pmdMonth.getPayMonth(),"yyyy年MM月"));
 
         PmdPayViewExample example = new PmdPayViewExample();
