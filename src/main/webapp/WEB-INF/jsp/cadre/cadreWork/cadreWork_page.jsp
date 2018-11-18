@@ -354,7 +354,7 @@
                 //openicon: "ui-icon-arrowreturn-1-e"
             }
         }).on("initGrid", function () {
-            $(window).triggerHandler('resize.jqGrid2');
+
             $('.noSubWork [aria-describedby="jqGrid_cadreWork_subgrid"]').removeClass();
 
             //console.log(currentExpandRows)
@@ -362,6 +362,8 @@
                 $("#jqGrid_cadreWork").expandSubGridRow(item)
             })
         });
+
+        $(window).triggerHandler('resize.jqGrid2');
 
         function _swtich(id, btn) {
 
