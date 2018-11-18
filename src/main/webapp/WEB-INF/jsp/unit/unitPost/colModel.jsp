@@ -30,7 +30,7 @@
       {label: '干部级别', name: 'cpAdminLevel' , formatter:$.jgrid.formatter.MetaType, cellattr: function (rowId, val, rowObject, cm, rdata) {
               if(rowObject.cpAdminLevel!=undefined && rowObject.adminLevel!=null
                   && rowObject.cpAdminLevel!=  rowObject.adminLevel)
-                  return "class='warning'";
+                  return "class='danger'";
           }},
       { label: '任职<br/>类型',name: 'cadrePost.isMainPost', width: 50, formatter: function (cellvalue, options, rowObject) {
               if(cellvalue==undefined) return '--'
