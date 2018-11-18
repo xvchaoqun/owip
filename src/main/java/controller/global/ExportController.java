@@ -16,6 +16,7 @@ import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
 import org.apache.batik.transcoder.image.PNGTranscoder;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.fop.svg.PDFTranscoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,7 +124,10 @@ public class ExportController extends HttpServlet {
     }
 
     private static String sanitize(String parameter) {
-        if (parameter == null || parameter.trim().isEmpty() || parameter.compareToIgnoreCase("undefined") == 0 || parameter.compareTo("null") == 0 || parameter.compareTo("{}") == 0) {
+        if (StringUtils.isBlank(parameter)
+                || parameter.compareToIgnoreCase("undefined") == 0
+                || parameter.compareTo("null") == 0
+                || parameter.compareTo("{}") == 0) {
             return null;
         }
         return parameter.trim();

@@ -1,4 +1,13 @@
 
+
+20181118
+-- 兼职排序有误
+update cadre_post cp,
+ (select cadre_id from  cadre_post where is_main_post=0  group by cadre_id, sort_order having count(*)>1) t
+ set cp.sort_order = cp.id where cp.cadre_id = t.cadre_id and cp.is_main_post=0;
+
+
+
 20181116
 ALTER TABLE `unit_post`
 	CHANGE COLUMN `admin_level` `admin_level` INT(10) UNSIGNED NOT NULL COMMENT '岗位级别，关联元数据，对应干部的行政级别' AFTER `is_principal_post`;

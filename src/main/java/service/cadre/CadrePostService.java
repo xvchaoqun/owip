@@ -107,13 +107,14 @@ public class CadrePostService extends BaseMapper {
     }
 
     @Transactional
-    public void changeOrder(int id, int cadreId, int addNum) {
+    public void changeOrder(int id, int addNum) {
 
         if (addNum == 0) return;
 
         CadrePost entity = cadrePostMapper.selectByPrimaryKey(id);
         Integer baseSortOrder = entity.getSortOrder();
         Boolean isMainPost = entity.getIsMainPost();
+        int cadreId = entity.getCadreId();
 
         CadrePostExample example = new CadrePostExample();
         if (addNum > 0) {

@@ -568,7 +568,7 @@ public class ApplySelfService extends BaseMapper {
             String flowNodes = applySelf.getFlowNodes();
             String[] _approverTypeIds = flowNodes.split(",");
             for (String _approverTypeId : _approverTypeIds) {
-                int approverTypeId = Integer.valueOf(_approverTypeId);
+                int approverTypeId = Integer.parseInt(_approverTypeId);
                 if(approverTypeId>0){
                     needApprovalTypeSet.add(approverTypeId);
                 }

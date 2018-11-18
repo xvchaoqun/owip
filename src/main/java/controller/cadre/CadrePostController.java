@@ -142,6 +142,7 @@ public class CadrePostController extends BaseController {
         if(BooleanUtils.isNotTrue(record.getIsMainPost()))
             record.setIsCpc(BooleanUtils.isTrue(isCpc));
 
+        record.setIsMainPost(BooleanUtils.isTrue(record.getIsMainPost()));
         if (id == null) {
             cadrePostService.insertSelective(record);
             logger.info(addLog(LogConstants.LOG_ADMIN, "添加现任职务：%s", JSONUtils.toString(record, MixinUtils.baseMixins(), false)));
@@ -259,8 +260,9 @@ public class CadrePostController extends BaseController {
             List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreList(cadreId, DispatchConstants.DISPATCH_CADRE_TYPE_APPOINT);
             modelMap.put("dispatchCadres", dispatchCadres);
 
-            Set<Integer> otherDispatchCadreRelateSet = dispatchCadreRelateService.findOtherDispatchCadreRelateSet(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
-            modelMap.put("otherDispatchCadreRelateSet", otherDispatchCadreRelateSet);
+            // 去掉：主职和兼职的任免文件改为可以重复，因为有时主职和兼职是放在一个文件中的
+            //Set<Integer> otherDispatchCadreRelateSet = dispatchCadreRelateService.findOtherDispatchCadreRelateSet(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
+            //modelMap.put("otherDispatchCadreRelateSet", otherDispatchCadreRelateSet);
         } else {
             modelMap.put("type", "add");
             modelMap.put("dispatchCadres", relateDispatchCadres);
@@ -287,8 +289,7 @@ public class CadrePostController extends BaseController {
     @ResponseBody
     public Map do_cadrePost_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
 
-        CadrePost cadrePost = cadrePostMapper.selectByPrimaryKey(id);
-        cadrePostService.changeOrder(id, cadrePost.getCadreId(), addNum);
+        cadrePostService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_ADMIN, "干部职务调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }

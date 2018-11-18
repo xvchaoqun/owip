@@ -27,7 +27,11 @@
               if(rowObject.cadre==undefined) return '--'
               return $.cadre(rowObject.cadre.id, rowObject.cadre.realname, '${param.list==1?'_blank':''}');
           }},
-      {label: '干部级别', name: 'cpAdminLevel' , formatter:$.jgrid.formatter.MetaType},
+      {label: '干部级别', name: 'cpAdminLevel' , formatter:$.jgrid.formatter.MetaType, cellattr: function (rowId, val, rowObject, cm, rdata) {
+              if(rowObject.cpAdminLevel!=undefined && rowObject.adminLevel!=null
+                  && rowObject.cpAdminLevel!=  rowObject.adminLevel)
+                  return "class='warning'";
+          }},
       { label: '任职<br/>类型',name: 'cadrePost.isMainPost', width: 50, formatter: function (cellvalue, options, rowObject) {
               if(cellvalue==undefined) return '--'
               return cellvalue?"主职":"兼职";

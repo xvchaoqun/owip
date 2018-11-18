@@ -39,13 +39,11 @@ pageEncoding="UTF-8" %>
                     <c:if test="${type=='edit'}">
                         <shiro:lacksRole name="${ROLE_ONLY_CADRE_VIEW}">
                         <td class="center">
-                            <c:if test="${!otherDispatchCadreRelateSet.contains(dispatchCadre.id)}">
-                                <label class="pos-rel">
-                                    <input type="checkbox"
-                                           value="${dispatchCadre.id}" class="ace" ${dispatchCadreIdSet.contains(dispatchCadre.id)?"checked":""}>
-                                    <span class="lbl"></span>
-                                </label>
-                            </c:if>
+                            <label class="pos-rel">
+                                <input type="checkbox"
+                                       value="${dispatchCadre.id}" class="ace" ${dispatchCadreIdSet.contains(dispatchCadre.id)?"checked":""}>
+                                <span class="lbl"></span>
+                            </label>
                         </td>
                         </shiro:lacksRole>
                     </c:if>
