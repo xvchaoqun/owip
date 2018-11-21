@@ -31,6 +31,7 @@ update cadre_company set type=497 where type=1;
 update cadre_company set type=494 where type=2;
 update cadre_company set type=499 where type=3;
 
++ cadre_company_view
 
 + cadreCompany:finish  X 没有加 ???
 
