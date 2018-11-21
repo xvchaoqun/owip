@@ -365,7 +365,8 @@ left join pmd_month pm on pb.month_id=pm.id;
 
 -- 缴费账单，用于对账
 DROP VIEW IF EXISTS `pmd_pay_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `pmd_pay_view` AS select group_concat(poc_check.sn) as real_order_no, group_concat(poc_check.payer), group_concat(poc_check.payername),
+CREATE ALGORITHM = UNDEFINED VIEW `pmd_pay_view` AS select group_concat(poc_check.sn) as real_order_no,
+group_concat(poc_check.payer) as payer, group_concat(poc_check.payername) as payername ,
 t.*, uv.code, uv.realname, ouv.code as order_code, ouv.realname as order_realname, poc.create_time from
 (
 -- 本月正常缴费
