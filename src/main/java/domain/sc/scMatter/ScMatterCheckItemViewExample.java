@@ -632,6 +632,76 @@ public class ScMatterCheckItemViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andCheckReasonIsNull() {
+            addCriterion("check_reason is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonIsNotNull() {
+            addCriterion("check_reason is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonEqualTo(String value) {
+            addCriterion("check_reason =", value, "checkReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonNotEqualTo(String value) {
+            addCriterion("check_reason <>", value, "checkReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonGreaterThan(String value) {
+            addCriterion("check_reason >", value, "checkReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonGreaterThanOrEqualTo(String value) {
+            addCriterion("check_reason >=", value, "checkReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonLessThan(String value) {
+            addCriterion("check_reason <", value, "checkReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonLessThanOrEqualTo(String value) {
+            addCriterion("check_reason <=", value, "checkReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonLike(String value) {
+            addCriterion("check_reason like", value, "checkReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonNotLike(String value) {
+            addCriterion("check_reason not like", value, "checkReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonIn(List<String> values) {
+            addCriterion("check_reason in", values, "checkReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonNotIn(List<String> values) {
+            addCriterion("check_reason not in", values, "checkReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonBetween(String value1, String value2) {
+            addCriterion("check_reason between", value1, value2, "checkReason");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckReasonNotBetween(String value1, String value2) {
+            addCriterion("check_reason not between", value1, value2, "checkReason");
+            return (Criteria) this;
+        }
+
         public Criteria andHandleTypeIsNull() {
             addCriterion("handle_type is null");
             return (Criteria) this;

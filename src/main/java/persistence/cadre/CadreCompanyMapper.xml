@@ -1,40 +1,44 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="persistence.cadre.CadreCompanyMapper" >
-  <resultMap id="BaseResultMap" type="domain.cadre.CadreCompany" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="cadre_id" property="cadreId" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="type_other" property="typeOther" jdbcType="VARCHAR" />
-    <result column="has_pay" property="hasPay" jdbcType="BIT" />
-    <result column="start_time" property="startTime" jdbcType="DATE" />
-    <result column="unit" property="unit" jdbcType="VARCHAR" />
-    <result column="post" property="post" jdbcType="VARCHAR" />
-    <result column="report_unit" property="reportUnit" jdbcType="VARCHAR" />
-    <result column="paper" property="paper" jdbcType="VARCHAR" />
-    <result column="paper_filename" property="paperFilename" jdbcType="VARCHAR" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="TINYINT" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.cadre.CadreCompanyMapper">
+  <resultMap id="BaseResultMap" type="domain.cadre.CadreCompany">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="type_other" jdbcType="VARCHAR" property="typeOther" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="post" jdbcType="VARCHAR" property="post" />
+    <result column="start_time" jdbcType="DATE" property="startTime" />
+    <result column="is_finished" jdbcType="BIT" property="isFinished" />
+    <result column="finish_time" jdbcType="DATE" property="finishTime" />
+    <result column="approval_unit" jdbcType="VARCHAR" property="approvalUnit" />
+    <result column="approval_date" jdbcType="DATE" property="approvalDate" />
+    <result column="approval_file" jdbcType="VARCHAR" property="approvalFile" />
+    <result column="approval_filename" jdbcType="VARCHAR" property="approvalFilename" />
+    <result column="has_pay" jdbcType="BIT" property="hasPay" />
+    <result column="has_hand" jdbcType="BIT" property="hasHand" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -45,25 +49,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -74,278 +78,337 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, cadre_id, type, type_other, has_pay, start_time, unit, post, report_unit, paper, 
-    paper_filename, remark, status
+  <sql id="Base_Column_List">
+    id, cadre_id, type, type_other, unit, post, start_time, is_finished, finish_time, 
+    approval_unit, approval_date, approval_file, approval_filename, has_pay, has_hand, 
+    remark, status
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="domain.cadre.CadreCompanyExample" >
+  <select id="selectByExample" parameterType="domain.cadre.CadreCompanyExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from cadre_company
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from cadre_company
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cadre_company
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="domain.cadre.CadreCompanyExample" >
+  <delete id="deleteByExample" parameterType="domain.cadre.CadreCompanyExample">
     delete from cadre_company
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.cadre.CadreCompany" >
-    insert into cadre_company (id, cadre_id, type, 
-      type_other, has_pay, start_time, 
-      unit, post, report_unit, 
-      paper, paper_filename, remark, 
-      status)
-    values (#{id,jdbcType=INTEGER}, #{cadreId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
-      #{typeOther,jdbcType=VARCHAR}, #{hasPay,jdbcType=BIT}, #{startTime,jdbcType=DATE}, 
-      #{unit,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{reportUnit,jdbcType=VARCHAR}, 
-      #{paper,jdbcType=VARCHAR}, #{paperFilename,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT})
+  <insert id="insert" parameterType="domain.cadre.CadreCompany">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cadre_company (cadre_id, type, type_other, 
+      unit, post, start_time, 
+      is_finished, finish_time, approval_unit, 
+      approval_date, approval_file, approval_filename, 
+      has_pay, has_hand, remark, status
+      )
+    values (#{cadreId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{typeOther,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{post,jdbcType=VARCHAR}, #{startTime,jdbcType=DATE}, 
+      #{isFinished,jdbcType=BIT}, #{finishTime,jdbcType=DATE}, #{approvalUnit,jdbcType=VARCHAR}, 
+      #{approvalDate,jdbcType=DATE}, #{approvalFile,jdbcType=VARCHAR}, #{approvalFilename,jdbcType=VARCHAR}, 
+      #{hasPay,jdbcType=BIT}, #{hasHand,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}
+      )
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.cadre.CadreCompany" >
+  <insert id="insertSelective" parameterType="domain.cadre.CadreCompany">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into cadre_company
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="cadreId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cadreId != null">
         cadre_id,
       </if>
-      <if test="type != null" >
+      <if test="type != null">
         type,
       </if>
-      <if test="typeOther != null" >
+      <if test="typeOther != null">
         type_other,
       </if>
-      <if test="hasPay != null" >
-        has_pay,
-      </if>
-      <if test="startTime != null" >
-        start_time,
-      </if>
-      <if test="unit != null" >
+      <if test="unit != null">
         unit,
       </if>
-      <if test="post != null" >
+      <if test="post != null">
         post,
       </if>
-      <if test="reportUnit != null" >
-        report_unit,
+      <if test="startTime != null">
+        start_time,
       </if>
-      <if test="paper != null" >
-        paper,
+      <if test="isFinished != null">
+        is_finished,
       </if>
-      <if test="paperFilename != null" >
-        paper_filename,
+      <if test="finishTime != null">
+        finish_time,
       </if>
-      <if test="remark != null" >
+      <if test="approvalUnit != null">
+        approval_unit,
+      </if>
+      <if test="approvalDate != null">
+        approval_date,
+      </if>
+      <if test="approvalFile != null">
+        approval_file,
+      </if>
+      <if test="approvalFilename != null">
+        approval_filename,
+      </if>
+      <if test="hasPay != null">
+        has_pay,
+      </if>
+      <if test="hasHand != null">
+        has_hand,
+      </if>
+      <if test="remark != null">
         remark,
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="cadreId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cadreId != null">
         #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
-        #{type,jdbcType=TINYINT},
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
       </if>
-      <if test="typeOther != null" >
+      <if test="typeOther != null">
         #{typeOther,jdbcType=VARCHAR},
       </if>
-      <if test="hasPay != null" >
-        #{hasPay,jdbcType=BIT},
-      </if>
-      <if test="startTime != null" >
-        #{startTime,jdbcType=DATE},
-      </if>
-      <if test="unit != null" >
+      <if test="unit != null">
         #{unit,jdbcType=VARCHAR},
       </if>
-      <if test="post != null" >
+      <if test="post != null">
         #{post,jdbcType=VARCHAR},
       </if>
-      <if test="reportUnit != null" >
-        #{reportUnit,jdbcType=VARCHAR},
+      <if test="startTime != null">
+        #{startTime,jdbcType=DATE},
       </if>
-      <if test="paper != null" >
-        #{paper,jdbcType=VARCHAR},
+      <if test="isFinished != null">
+        #{isFinished,jdbcType=BIT},
       </if>
-      <if test="paperFilename != null" >
-        #{paperFilename,jdbcType=VARCHAR},
+      <if test="finishTime != null">
+        #{finishTime,jdbcType=DATE},
       </if>
-      <if test="remark != null" >
+      <if test="approvalUnit != null">
+        #{approvalUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalDate != null">
+        #{approvalDate,jdbcType=DATE},
+      </if>
+      <if test="approvalFile != null">
+        #{approvalFile,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalFilename != null">
+        #{approvalFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="hasPay != null">
+        #{hasPay,jdbcType=BIT},
+      </if>
+      <if test="hasHand != null">
+        #{hasHand,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="domain.cadre.CadreCompanyExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="domain.cadre.CadreCompanyExample" resultType="java.lang.Long">
     select count(*) from cadre_company
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update cadre_company
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.cadreId != null" >
+      <if test="record.cadreId != null">
         cadre_id = #{record.cadreId,jdbcType=INTEGER},
       </if>
-      <if test="record.type != null" >
-        type = #{record.type,jdbcType=TINYINT},
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
       </if>
-      <if test="record.typeOther != null" >
+      <if test="record.typeOther != null">
         type_other = #{record.typeOther,jdbcType=VARCHAR},
       </if>
-      <if test="record.hasPay != null" >
-        has_pay = #{record.hasPay,jdbcType=BIT},
-      </if>
-      <if test="record.startTime != null" >
-        start_time = #{record.startTime,jdbcType=DATE},
-      </if>
-      <if test="record.unit != null" >
+      <if test="record.unit != null">
         unit = #{record.unit,jdbcType=VARCHAR},
       </if>
-      <if test="record.post != null" >
+      <if test="record.post != null">
         post = #{record.post,jdbcType=VARCHAR},
       </if>
-      <if test="record.reportUnit != null" >
-        report_unit = #{record.reportUnit,jdbcType=VARCHAR},
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=DATE},
       </if>
-      <if test="record.paper != null" >
-        paper = #{record.paper,jdbcType=VARCHAR},
+      <if test="record.isFinished != null">
+        is_finished = #{record.isFinished,jdbcType=BIT},
       </if>
-      <if test="record.paperFilename != null" >
-        paper_filename = #{record.paperFilename,jdbcType=VARCHAR},
+      <if test="record.finishTime != null">
+        finish_time = #{record.finishTime,jdbcType=DATE},
       </if>
-      <if test="record.remark != null" >
+      <if test="record.approvalUnit != null">
+        approval_unit = #{record.approvalUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approvalDate != null">
+        approval_date = #{record.approvalDate,jdbcType=DATE},
+      </if>
+      <if test="record.approvalFile != null">
+        approval_file = #{record.approvalFile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approvalFilename != null">
+        approval_filename = #{record.approvalFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hasPay != null">
+        has_pay = #{record.hasPay,jdbcType=BIT},
+      </if>
+      <if test="record.hasHand != null">
+        has_hand = #{record.hasHand,jdbcType=BIT},
+      </if>
+      <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.status != null" >
+      <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update cadre_company
     set id = #{record.id,jdbcType=INTEGER},
       cadre_id = #{record.cadreId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=INTEGER},
       type_other = #{record.typeOther,jdbcType=VARCHAR},
-      has_pay = #{record.hasPay,jdbcType=BIT},
-      start_time = #{record.startTime,jdbcType=DATE},
       unit = #{record.unit,jdbcType=VARCHAR},
       post = #{record.post,jdbcType=VARCHAR},
-      report_unit = #{record.reportUnit,jdbcType=VARCHAR},
-      paper = #{record.paper,jdbcType=VARCHAR},
-      paper_filename = #{record.paperFilename,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=DATE},
+      is_finished = #{record.isFinished,jdbcType=BIT},
+      finish_time = #{record.finishTime,jdbcType=DATE},
+      approval_unit = #{record.approvalUnit,jdbcType=VARCHAR},
+      approval_date = #{record.approvalDate,jdbcType=DATE},
+      approval_file = #{record.approvalFile,jdbcType=VARCHAR},
+      approval_filename = #{record.approvalFilename,jdbcType=VARCHAR},
+      has_pay = #{record.hasPay,jdbcType=BIT},
+      has_hand = #{record.hasHand,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreCompany" >
+  <update id="updateByPrimaryKeySelective" parameterType="domain.cadre.CadreCompany">
     update cadre_company
-    <set >
-      <if test="cadreId != null" >
+    <set>
+      <if test="cadreId != null">
         cadre_id = #{cadreId,jdbcType=INTEGER},
       </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=TINYINT},
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="typeOther != null" >
+      <if test="typeOther != null">
         type_other = #{typeOther,jdbcType=VARCHAR},
       </if>
-      <if test="hasPay != null" >
-        has_pay = #{hasPay,jdbcType=BIT},
-      </if>
-      <if test="startTime != null" >
-        start_time = #{startTime,jdbcType=DATE},
-      </if>
-      <if test="unit != null" >
+      <if test="unit != null">
         unit = #{unit,jdbcType=VARCHAR},
       </if>
-      <if test="post != null" >
+      <if test="post != null">
         post = #{post,jdbcType=VARCHAR},
       </if>
-      <if test="reportUnit != null" >
-        report_unit = #{reportUnit,jdbcType=VARCHAR},
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=DATE},
       </if>
-      <if test="paper != null" >
-        paper = #{paper,jdbcType=VARCHAR},
+      <if test="isFinished != null">
+        is_finished = #{isFinished,jdbcType=BIT},
       </if>
-      <if test="paperFilename != null" >
-        paper_filename = #{paperFilename,jdbcType=VARCHAR},
+      <if test="finishTime != null">
+        finish_time = #{finishTime,jdbcType=DATE},
       </if>
-      <if test="remark != null" >
+      <if test="approvalUnit != null">
+        approval_unit = #{approvalUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalDate != null">
+        approval_date = #{approvalDate,jdbcType=DATE},
+      </if>
+      <if test="approvalFile != null">
+        approval_file = #{approvalFile,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalFilename != null">
+        approval_filename = #{approvalFilename,jdbcType=VARCHAR},
+      </if>
+      <if test="hasPay != null">
+        has_pay = #{hasPay,jdbcType=BIT},
+      </if>
+      <if test="hasHand != null">
+        has_hand = #{hasHand,jdbcType=BIT},
+      </if>
+      <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreCompany" >
+  <update id="updateByPrimaryKey" parameterType="domain.cadre.CadreCompany">
     update cadre_company
     set cadre_id = #{cadreId,jdbcType=INTEGER},
-      type = #{type,jdbcType=TINYINT},
+      type = #{type,jdbcType=INTEGER},
       type_other = #{typeOther,jdbcType=VARCHAR},
-      has_pay = #{hasPay,jdbcType=BIT},
-      start_time = #{startTime,jdbcType=DATE},
       unit = #{unit,jdbcType=VARCHAR},
       post = #{post,jdbcType=VARCHAR},
-      report_unit = #{reportUnit,jdbcType=VARCHAR},
-      paper = #{paper,jdbcType=VARCHAR},
-      paper_filename = #{paperFilename,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=DATE},
+      is_finished = #{isFinished,jdbcType=BIT},
+      finish_time = #{finishTime,jdbcType=DATE},
+      approval_unit = #{approvalUnit,jdbcType=VARCHAR},
+      approval_date = #{approvalDate,jdbcType=DATE},
+      approval_file = #{approvalFile,jdbcType=VARCHAR},
+      approval_filename = #{approvalFilename,jdbcType=VARCHAR},
+      has_pay = #{hasPay,jdbcType=BIT},
+      has_hand = #{hasHand,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="BaseResultMap" parameterType="domain.cadre.CadreCompanyExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="domain.cadre.CadreCompanyExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from cadre_company
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

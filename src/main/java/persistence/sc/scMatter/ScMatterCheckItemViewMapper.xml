@@ -10,6 +10,7 @@
     <result column="self_file" jdbcType="VARCHAR" property="selfFile" />
     <result column="confirm_type" jdbcType="TINYINT" property="confirmType" />
     <result column="confirm_date" jdbcType="DATE" property="confirmDate" />
+    <result column="check_reason" jdbcType="VARCHAR" property="checkReason" />
     <result column="handle_type" jdbcType="VARCHAR" property="handleType" />
     <result column="check_file" jdbcType="VARCHAR" property="checkFile" />
     <result column="ow_handle_type" jdbcType="VARCHAR" property="owHandleType" />
@@ -55,8 +56,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, check_id, user_id, compare_date, result_type, self_file, confirm_type, confirm_date, 
-    handle_type, check_file, ow_handle_type, ow_handle_date, ow_handle_file, ow_affect_date, 
-    remark, year, is_random, check_date, num, code, realname
+    check_reason, handle_type, check_file, ow_handle_type, ow_handle_date, ow_handle_file, 
+    ow_affect_date, remark, year, is_random, check_date, num, code, realname
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scMatter.ScMatterCheckItemViewExample" resultMap="BaseResultMap">
     select

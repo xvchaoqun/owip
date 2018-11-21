@@ -452,6 +452,76 @@ public class ScMatterCheckViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andFilesIsNull() {
+            addCriterion("files is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesIsNotNull() {
+            addCriterion("files is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesEqualTo(String value) {
+            addCriterion("files =", value, "files");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesNotEqualTo(String value) {
+            addCriterion("files <>", value, "files");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesGreaterThan(String value) {
+            addCriterion("files >", value, "files");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesGreaterThanOrEqualTo(String value) {
+            addCriterion("files >=", value, "files");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesLessThan(String value) {
+            addCriterion("files <", value, "files");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesLessThanOrEqualTo(String value) {
+            addCriterion("files <=", value, "files");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesLike(String value) {
+            addCriterion("files like", value, "files");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesNotLike(String value) {
+            addCriterion("files not like", value, "files");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesIn(List<String> values) {
+            addCriterion("files in", values, "files");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesNotIn(List<String> values) {
+            addCriterion("files not in", values, "files");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesBetween(String value1, String value2) {
+            addCriterion("files between", value1, value2, "files");
+            return (Criteria) this;
+        }
+
+        public Criteria andFilesNotBetween(String value1, String value2) {
+            addCriterion("files not between", value1, value2, "files");
+            return (Criteria) this;
+        }
+
         public Criteria andNumIsNull() {
             addCriterion("num is null");
             return (Criteria) this;
@@ -759,6 +829,66 @@ public class ScMatterCheckViewExample {
 
         public Criteria andItemCountNotBetween(Integer value1, Integer value2) {
             addCriterion("item_count not between", value1, value2, "itemCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemCheckCountIsNull() {
+            addCriterion("item_check_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemCheckCountIsNotNull() {
+            addCriterion("item_check_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemCheckCountEqualTo(Integer value) {
+            addCriterion("item_check_count =", value, "itemCheckCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemCheckCountNotEqualTo(Integer value) {
+            addCriterion("item_check_count <>", value, "itemCheckCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemCheckCountGreaterThan(Integer value) {
+            addCriterion("item_check_count >", value, "itemCheckCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemCheckCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("item_check_count >=", value, "itemCheckCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemCheckCountLessThan(Integer value) {
+            addCriterion("item_check_count <", value, "itemCheckCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemCheckCountLessThanOrEqualTo(Integer value) {
+            addCriterion("item_check_count <=", value, "itemCheckCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemCheckCountIn(List<Integer> values) {
+            addCriterion("item_check_count in", values, "itemCheckCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemCheckCountNotIn(List<Integer> values) {
+            addCriterion("item_check_count not in", values, "itemCheckCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemCheckCountBetween(Integer value1, Integer value2) {
+            addCriterion("item_check_count between", value1, value2, "itemCheckCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemCheckCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("item_check_count not between", value1, value2, "itemCheckCount");
             return (Criteria) this;
         }
     }

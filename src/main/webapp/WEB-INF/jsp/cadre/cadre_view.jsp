@@ -8,6 +8,7 @@
     /*overflow:hidden;text-overflow:ellipsis;*/z-index: 1001">
         【${cadre.realname}】<c:if test="${not empty cadre.title}"> — ${cadre.title}</c:if>
     </div>
+    <c:if test="${param.hideBack!=1}">
     <h4 class="widget-title lighter smaller"
         style="position:fixed; top: 91px; right: 50px;z-index: 1001 ">
         <a href="javascript:"
@@ -16,6 +17,7 @@
             <i class="ace-icon fa fa-reply"></i>
             返回</a>
     </h4>
+    </c:if>
 </c:if>
 <c:if test="${param._auth=='self'}">
     <div id="body-content-view">
@@ -98,7 +100,7 @@
                 <shiro:hasPermission name="cadreCompany:*">
                     <li class="${to=='cadreCompany'?'active':''}">
                         <a href="javascript:"
-                           data-url="${ctx}/cadreCompany?cadreId=${param.cadreId}&_auth=${param._auth}">企业、社团兼职</a>
+                           data-url="${ctx}/cadreCompany?cadreId=${param.cadreId}&_auth=${param._auth}">企业、社团和学术兼职</a>
                     </li>
                 </shiro:hasPermission>
                 <shiro:hasPermission name="cadreConcat:*">

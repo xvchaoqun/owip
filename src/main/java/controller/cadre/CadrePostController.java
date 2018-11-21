@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
 import sys.constants.DispatchConstants;
@@ -119,7 +120,7 @@ public class CadrePostController extends BaseController {
                                HttpServletRequest request) {
 
         Integer id = record.getId();
-
+        record.setPost(HtmlUtils.htmlUnescape(record.getPost()));
         // 只用于主职
         if(BooleanUtils.isTrue(record.getIsMainPost())) {
             record.setIsDouble(BooleanUtils.isTrue(record.getIsDouble()));

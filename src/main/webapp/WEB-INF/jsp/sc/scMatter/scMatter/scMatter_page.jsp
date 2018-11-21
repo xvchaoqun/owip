@@ -131,12 +131,16 @@
             },
 
             {
-                label: '填报对象', name: 'type', width: 130, formatter: function (cellvalue, options, rowObject) {
+                label: '填报对象', name: 'type', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return ('<button class="openView btn btn-primary btn-xs" ' +
                 'data-url="${ctx}/sc/scMatterItem?cls=-1&matterId={0}"><i class="fa fa-search"></i> 查看</button>')
                         .format(rowObject.id);
-            }
-            },
+            }},
+            {label: '填报人数', name: 'itemCount', width: 80},
+            {label: '已交表人数', name: 'handItemCount'},
+            {label: '未交表人数', name: '_unHandItemCount', formatter: function (cellvalue, options, rowObject) {
+                    return rowObject.itemCount-rowObject.handItemCount;
+                }},
             {label: '备注', name: 'remark', width: 430}
         ]
     }).jqGrid("setFrozenColumns");

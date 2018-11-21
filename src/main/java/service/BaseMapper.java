@@ -38,6 +38,7 @@ import persistence.cadre.CadreAdLogMapper;
 import persistence.cadre.CadreAdminLevelMapper;
 import persistence.cadre.CadreBookMapper;
 import persistence.cadre.CadreCompanyMapper;
+import persistence.cadre.CadreCompanyViewMapper;
 import persistence.cadre.CadreCourseMapper;
 import persistence.cadre.CadreEduMapper;
 import persistence.cadre.CadreEvaMapper;
@@ -344,6 +345,7 @@ import persistence.sc.scMatter.ScMatterItemViewMapper;
 import persistence.sc.scMatter.ScMatterMapper;
 import persistence.sc.scMatter.ScMatterTransferMapper;
 import persistence.sc.scMatter.ScMatterUserViewMapper;
+import persistence.sc.scMatter.ScMatterViewMapper;
 import persistence.sc.scMotion.ScMotionMapper;
 import persistence.sc.scMotion.ScMotionPostMapper;
 import persistence.sc.scPassport.ScPassportHandMapper;
@@ -647,6 +649,8 @@ public class BaseMapper {
     @Autowired(required = false)
     protected ScMatterMapper scMatterMapper;
     @Autowired(required = false)
+    protected ScMatterViewMapper scMatterViewMapper;
+    @Autowired(required = false)
     protected ScMatterItemMapper scMatterItemMapper;
     @Autowired(required = false)
     protected ScMatterItemViewMapper scMatterItemViewMapper;
@@ -918,6 +922,8 @@ public class BaseMapper {
     protected CadreFamilyMapper cadreFamilyMapper;
     @Autowired(required = false)
     protected CadreCompanyMapper cadreCompanyMapper;
+    @Autowired(required = false)
+    protected CadreCompanyViewMapper cadreCompanyViewMapper;
     @Autowired(required = false)
     protected CadreParttimeMapper cadreParttimeMapper;
     @Autowired(required = false)

@@ -14,6 +14,8 @@ public class ScMatterCheckView implements Serializable {
 
     private String checkFileName;
 
+    private String files;
+
     private Integer num;
 
     private Boolean isRandom;
@@ -23,6 +25,8 @@ public class ScMatterCheckView implements Serializable {
     private Boolean isDeleted;
 
     private Integer itemCount;
+
+    private Integer itemCheckCount;
 
     private static final long serialVersionUID = 1L;
 
@@ -66,6 +70,14 @@ public class ScMatterCheckView implements Serializable {
         this.checkFileName = checkFileName == null ? null : checkFileName.trim();
     }
 
+    public String getFiles() {
+        return files;
+    }
+
+    public void setFiles(String files) {
+        this.files = files == null ? null : files.trim();
+    }
+
     public Integer getNum() {
         return num;
     }
@@ -104,5 +116,13 @@ public class ScMatterCheckView implements Serializable {
 
     public void setItemCount(Integer itemCount) {
         this.itemCount = itemCount;
+    }
+
+    public Integer getItemCheckCount() {
+        return itemCheckCount;
+    }
+
+    public void setItemCheckCount(Integer itemCheckCount) {
+        this.itemCheckCount = itemCheckCount;
     }
 }

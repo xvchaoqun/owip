@@ -186,18 +186,6 @@ public class CadreConstants {
         CADRE_INFO_TYPE_MAP.put(CADRE_INFO_TYPE_REWARD, "干部任免审批表奖惩情况");
     }
 
-    // 干部企业兼职情况  兼职类型 企业兼职or社团兼职or其他
-    public final static byte CADRE_COMPANY_TYPE_ENTERPRISE = 1;
-    public final static byte CADRE_COMPANY_TYPE_LEAGUE = 2;
-    public final static byte CADRE_COMPANY_TYPE_OTHER = 3;
-    public final static Map<Byte, String> CADRE_COMPANY_TYPE_MAP = new LinkedHashMap<>();
-
-    static {
-        CADRE_COMPANY_TYPE_MAP.put(CADRE_COMPANY_TYPE_ENTERPRISE, "企业兼职");
-        CADRE_COMPANY_TYPE_MAP.put(CADRE_COMPANY_TYPE_LEAGUE, "社团兼职");
-        CADRE_COMPANY_TYPE_MAP.put(CADRE_COMPANY_TYPE_OTHER, "其他");
-    }
-
     // 干部学习经历 学校类型 1本校 2境内 3境外
     public final static byte CADRE_SCHOOL_TYPE_THIS_SCHOOL = 1;
     public final static byte CADRE_SCHOOL_TYPE_DOMESTIC = 2;

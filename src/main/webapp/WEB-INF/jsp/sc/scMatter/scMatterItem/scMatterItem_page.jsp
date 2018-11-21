@@ -8,13 +8,14 @@
              data-url-page="${ctx}/sc/scMatterItem"
              data-url-export="${ctx}/sc/scMatterItem_data"
              data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-            <c:set var="_query" value="${not empty param.userId || not empty param.code || not empty param.sort}"/>
+            <c:set var="_query" value="${not empty param.year ||not empty param.type
+             ||not empty param.userId || not empty param.code || not empty param.sort}"/>
             <div class="tabbable">
                 <jsp:include page="../scMatter/menu.jsp"/>
                 <div class="tab-content">
                     <div class="tab-pane in active">
                         <div class="jqgrid-vertical-offset buttons">
-                            <a class="jqOpenViewBtn btn btn-warning btn-sm"
+                            <%--<a class="jqOpenViewBtn btn btn-warning btn-sm"
                                data-url="${ctx}/sc/scMatter_au"
                                data-grid-id="#jqGrid"
                                ><i class="fa fa-send"></i>
@@ -23,7 +24,7 @@
                                data-url="${ctx}/sc/scMatter_au"
                                data-grid-id="#jqGrid"
                                ><i class="fa fa-send"></i>
-                                催交短信</a>
+                                催交短信</a>--%>
                             <a class="jqOpenViewBtn btn btn-success btn-sm"
                                data-url="${ctx}/sc/scMatterAccess"
                                data-grid-id="#jqGrid"
@@ -59,7 +60,31 @@
                                     <form class="form-inline search-form" id="searchForm">
                                         <input type="hidden" name="cls" value="${cls}">
                                         <div class="form-group">
-                                            <label>核查对象</label>
+                                            <label>年度</label>
+
+                                            <div class="input-group">
+                                                <input required class="form-control date-picker" placeholder="请选择年份"
+                                                       name="year"
+                                                       type="text"
+                                                       data-date-format="yyyy" data-date-min-view-mode="2"
+                                                       value="${param.year}"/>
+                                                <span class="input-group-addon"> <i
+                                                        class="fa fa-calendar bigger-110"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>填报类型</label>
+                                            <select data-rel="select2" name="type" data-placeholder="请选择">
+                                                <option></option>
+                                                <option value="0"> 年度集中填报</option>
+                                                <option value="1">个别填报</option>
+                                            </select>
+                                            <script>
+                                                $("#searchForm select[name=type]").val('${param.type}')
+                                            </script>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>姓名</label>
                                             <select data-rel="select2-ajax" data-ajax-url="${ctx}/sc/scMatterUser_selects"
                                                     name="userId" data-placeholder="请输入账号或姓名或学工号">
                                                 <option value="${sysUser.id}">${sysUser.realname}-${sysUser.code}</option>
@@ -98,6 +123,9 @@
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
+
+    $.register.date($('.date-picker'));
     $('#searchForm [data-rel="select2"]').select2();
+    $.register.user_select($('[data-rel="select2-ajax"]'));
     $('[data-rel="tooltip"]').tooltip();
 </script>

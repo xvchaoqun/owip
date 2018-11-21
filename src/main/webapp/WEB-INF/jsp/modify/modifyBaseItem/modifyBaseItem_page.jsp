@@ -41,7 +41,7 @@
     </div>
     <div class="widget-body">
         <div class="widget-main padding-4">
-            <table id="jqGrid2" class="jqGrid2 table-striped"> </table>
+            <table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="30"> </table>
             <div id="jqGridPager2"> </div>
         </div><!-- /.widget-main -->
     </div><!-- /.widget-body -->
@@ -130,12 +130,9 @@
                         + '<i class="fa fa-times"></i> 删除</button>'
             }}
             </c:if>
-        ],
-        gridComplete:function(){
-           $(window).triggerHandler('resize.jqGrid2');
-        }
+        ]
     }).jqGrid("setFrozenColumns");
-
+    $(window).triggerHandler('resize.jqGrid2');
     function _reload(){
         $("#modal").modal('hide');
         $("#jqGrid2").trigger("reloadGrid");

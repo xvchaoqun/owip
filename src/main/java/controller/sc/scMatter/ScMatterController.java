@@ -1,8 +1,8 @@
 package controller.sc.scMatter;
 
 import domain.sc.scMatter.ScMatter;
-import domain.sc.scMatter.ScMatterExample;
-import domain.sc.scMatter.ScMatterExample.Criteria;
+import domain.sc.scMatter.ScMatterView;
+import domain.sc.scMatter.ScMatterViewExample;
 import domain.sys.SysUserView;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -67,9 +67,10 @@ public class ScMatterController extends ScMatterBaseController {
         }
         pageNo = Math.max(1, pageNo);
 
-        ScMatterExample example = new ScMatterExample();
-        Criteria criteria = example.createCriteria().andIsDeletedEqualTo(false);
-        example.setOrderByClause("year desc, id desc");
+        ScMatterViewExample example = new ScMatterViewExample();
+        ScMatterViewExample.Criteria criteria = example.createCriteria()
+                .andIsDeletedEqualTo(false);
+        example.setOrderByClause("draw_time desc, id desc");
 
         if (year!=null) {
             criteria.andYearEqualTo(year);
@@ -78,12 +79,13 @@ public class ScMatterController extends ScMatterBaseController {
             criteria.andTypeEqualTo(type);
         }
 
-        long count = scMatterMapper.countByExample(example);
+        long count = scMatterViewMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
         }
-        List<ScMatter> records= scMatterMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo - 1) * pageSize, pageSize));
+        List<ScMatterView> records= scMatterViewMapper.selectByExampleWithRowbounds(example,
+                new RowBounds((pageNo - 1) * pageSize, pageSize));
         CommonList commonList = new CommonList(count, pageNo, pageSize);
 
         Map resultMap = new HashMap();

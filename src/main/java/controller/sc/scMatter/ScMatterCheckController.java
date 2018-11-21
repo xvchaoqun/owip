@@ -127,10 +127,21 @@ public class ScMatterCheckController extends ScMatterBaseController {
     @RequestMapping(value = "/scMatterCheck_au", method = RequestMethod.POST)
     @ResponseBody
     public Map do_scMatterCheck_au(ScMatterCheck record,
+                                   MultipartFile[] _files,
                                    @RequestParam(value = "userIds[]", required = false) Integer[] userIds,
-                                   HttpServletRequest request) {
+                                   HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
+
+        List<String> fileList = new ArrayList<>();
+        for (MultipartFile file : _files) {
+
+            String filePath = upload(file, "scMatterCheck");
+            String originalFilename = file.getOriginalFilename();
+            fileList.add(originalFilename + "^^^^" + filePath);
+        }
+        String _fileList = StringUtils.join(fileList, "<><>");
+        record.setFiles(StringUtils.trimToNull(_fileList));
 
         if (id == null) {
             scMatterCheckService.insertSelective(record, userIds);
@@ -143,6 +154,17 @@ public class ScMatterCheckController extends ScMatterBaseController {
 
         return success(FormUtils.SUCCESS);
     }
+
+    @RequiresPermissions("scMatterCheck:list")
+    @RequestMapping("/scMatterCheck_files")
+    public String scMatterCheck_files(Integer id, ModelMap modelMap) {
+
+        ScMatterCheck scMatterCheck = scMatterCheckMapper.selectByPrimaryKey(id);
+        modelMap.put("scMatterCheck", scMatterCheck);
+
+        return "sc/scMatter/scMatterCheck/scMatterCheck_files";
+    }
+
 
     @RequiresPermissions("scMatterCheck:edit")
     @RequestMapping("/scMatterCheck_items")

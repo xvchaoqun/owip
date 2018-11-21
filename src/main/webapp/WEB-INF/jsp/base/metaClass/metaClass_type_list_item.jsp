@@ -17,8 +17,9 @@
         <thead>
         <tr>
           <th width="30">序号</th>
-          <th width="200">类型名称</th>
-          <th width="100">排序</th>
+          <th width="">类型名称</th>
+          <th width="150">备注</th>
+          <th width="80">排序</th>
           <th width="100"></th>
         </tr>
         </thead>
@@ -28,6 +29,7 @@
           <tr>
             <td>${vs.count}</td>
             <td style="text-align: left">${record.name}</td>
+            <td style="text-align: left">${record.remark}</td>
             <td nowrap>
               <a href="javascript:;" data-url="${ctx}/metaClass_type_changeOrder?cls=${metaClass.code}"
                  data-callback="_reload" data-cls="${metaClass.code}"

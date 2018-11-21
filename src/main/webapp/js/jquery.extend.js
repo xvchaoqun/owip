@@ -26,7 +26,7 @@ if (jQuery.validator) {
     jQuery.validator.setDefaults({
         /* errorElement: 'span',
          errorClass: 'help-block',*/
-        focusInvalid: true,
+        focusInvalid: false,
         ignore: '',
         invalidHandler: function (event, validator) { //display error alert on form submit
         },
@@ -535,7 +535,7 @@ var _modal_width;
                 && $.inArray("cadre:view", _permissions) >= 0 ) {
 
                 if (params=='_blank') {
-                    return ('<a href="{2}/#{2}/cadre_view?cadreId={0}" target="_blank">{1}</a>')
+                    return ('<a href="{2}/#{2}/cadre_view?cadreId={0}&hideBack=1" target="_blank">{1}</a>')
                         .format(cadreId, realname, ctx);
                 } else if($.isJson(params) && params.hideId!=undefined &&  params.loadId!=undefined ){
 
@@ -1085,20 +1085,30 @@ if ($.jgrid) {
     $.extend($.jgrid.formatter, {
         MAP:function(cellvalue, options, rowObject){
             if (cellvalue == undefined) return '-';
-            var op = $.extend({map: null}, options.colModel.formatoptions);
+
+            var op = {map: null}
+            if(options!=undefined && options.colModel!=undefined) {
+                op = $.extend(op, options.colModel.formatoptions);
+            }
             if(op.map==undefined || op.map ==null) return '-'
 
             return op.map[cellvalue];
         },
         defaultString: function (cellvalue, options, rowObject) {
-            var op = $.extend({def: '--'}, options.colModel.formatoptions);
+            var op = {def: '--'}
+            if(options!=undefined && options.colModel!=undefined) {
+                op = $.extend(op, options.colModel.formatoptions);
+            }
             if ($.trim(cellvalue)=='') return op.def;
             return cellvalue;
         },
         TRUEFALSE: function (cellvalue, options, rowObject) {
 
             if (cellvalue == undefined) cellvalue = false;
-            var op = $.extend({on: '是', off: '否'}, options.colModel.formatoptions);
+            var op = {on: '是', off: '否'}
+            if(options!=undefined && options.colModel!=undefined) {
+                op = $.extend(op, options.colModel.formatoptions);
+            }
 
             return cellvalue ? op.on : op.off;
         },
@@ -1139,7 +1149,11 @@ if ($.jgrid) {
         },
         MetaType: function (cellvalue, options, rowObject) {
 
-            var op = (options==undefined)? {def: '--'}:$.extend({def: '--'}, options.colModel.formatoptions);
+            var op = {def: '--'}
+            if(options!=undefined && options.colModel!=undefined) {
+                op = $.extend(op, options.colModel.formatoptions);
+            }
+
             //console.log(cellvalue)
             if ($.trim(cellvalue)=='') return op.def;
 
@@ -1148,7 +1162,11 @@ if ($.jgrid) {
         },
         cadreParty: function (cellvalue, options, rowObject) {
 
-            var op = (options==undefined)? {useCadre: false}:$.extend({useCadre: false}, options.colModel.formatoptions);
+            var op = {useCadre: false}
+            if(options!=undefined && options.colModel!=undefined) {
+                op = $.extend(op, options.colModel.formatoptions);
+            }
+
             if(op.useCadre){
                 op.isOw = rowObject.cadre.isOw;
                 op.dpTypeId= rowObject.cadre.dpTypeId;
@@ -1169,7 +1187,10 @@ if ($.jgrid) {
         },
         growTime: function (cellvalue, options, rowObject) {
 
-            var op = (options==undefined)? {useCadre: false}:$.extend({useCadre: false}, options.colModel.formatoptions);
+            var op = {useCadre: false}
+            if(options!=undefined && options.colModel!=undefined) {
+                op = $.extend(op, options.colModel.formatoptions);
+            }
             if(op.useCadre){
                 op.isOw = rowObject.cadre.isOw;
                 op.owGrowTime= rowObject.cadre.owGrowTime;
@@ -1194,7 +1215,11 @@ if ($.jgrid) {
         },
         growAge: function (cellvalue, options, rowObject) {
 
-            var op = (options==undefined)? {useCadre: false}:$.extend({useCadre: false}, options.colModel.formatoptions);
+            var op = {useCadre: false}
+            if(options!=undefined && options.colModel!=undefined) {
+                op = $.extend(op, options.colModel.formatoptions);
+            }
+
             if(op.useCadre){
                 op.isOw = rowObject.cadre.isOw;
                 op.owGrowTime= rowObject.cadre.owGrowTime;
@@ -1218,7 +1243,12 @@ if ($.jgrid) {
             return "-"
         },
         sortOrder: function (cellvalue, options, rowObject) {
-            var op = $.extend({grid: ''}, options.colModel.formatoptions);
+
+            var op = {grid: ''}
+            if(options!=undefined && options.colModel!=undefined) {
+                op = $.extend(op, options.colModel.formatoptions);
+            }
+
             return _.template($("#common_sort_tpl").html().NoMultiSpace())({
                 grid: op.grid,
                 id: rowObject.id,

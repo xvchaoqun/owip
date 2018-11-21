@@ -1,4 +1,38 @@
+20181121
++ sc_matter_view
 
+ALTER TABLE `sc_matter_check`
+	ADD COLUMN `files` VARCHAR(500) NULL DEFAULT NULL COMMENT '核查文件，中组部，多个文件' AFTER `check_file_name`;
+
+更新 sc_matter_check_view
+
+ALTER TABLE `sc_matter_check_item`
+	ADD COLUMN `check_reason` VARCHAR(300) NULL DEFAULT NULL COMMENT '认定依据' AFTER `confirm_date`;
+
+更新 sc_matter_check_item_view
+
+
+ALTER TABLE `cadre_company`
+	CHANGE COLUMN `type` `type` INT UNSIGNED NULL DEFAULT NULL COMMENT '兼职类型，关联元数据' AFTER `cadre_id`,
+	CHANGE COLUMN `post` `post` VARCHAR(100) NULL DEFAULT NULL COMMENT '兼任职务' AFTER `unit`,
+	CHANGE COLUMN `start_time` `start_time` DATE NULL DEFAULT NULL COMMENT '兼职起始时间' AFTER `post`,
+	ADD COLUMN `is_finished` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否结束' AFTER `start_time`,
+	ADD COLUMN `finish_time` DATE NULL DEFAULT NULL COMMENT '兼职结束时间' AFTER `is_finished`,
+	CHANGE COLUMN `report_unit` `approval_unit` VARCHAR(100) NULL DEFAULT NULL COMMENT '审批单位' AFTER `finish_time`,
+	ADD COLUMN `approval_date` DATE NULL DEFAULT NULL COMMENT '批复日期' AFTER `approval_unit`,
+	CHANGE COLUMN `paper` `approval_file` VARCHAR(200) NULL DEFAULT NULL COMMENT '批复文件' AFTER `approval_date`,
+	CHANGE COLUMN `paper_filename` `approval_filename` VARCHAR(200) NULL DEFAULT NULL COMMENT '批复文件名称' AFTER `approval_file`,
+	CHANGE COLUMN `has_pay` `has_pay` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '是否取酬' AFTER `approval_filename`,
+	ADD COLUMN `has_hand` TINYINT(1) UNSIGNED NULL DEFAULT NULL COMMENT '所取酬劳是否全额上交学校' AFTER `has_pay`;
+
+兼职类型（1企业兼职 2社团兼职 3其他） 改为从元数据获取
+（根据实际ID修改）
+update cadre_company set type=497 where type=1;
+update cadre_company set type=494 where type=2;
+update cadre_company set type=499 where type=3;
+
+
++ cadreCompany:finish  X 没有加 ???
 
 20181118
 -- 兼职排序有误

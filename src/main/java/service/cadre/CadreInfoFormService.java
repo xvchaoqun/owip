@@ -410,7 +410,7 @@ public class CadreInfoFormService extends BaseMapper {
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("a1", bean == null ? "" : bean.getUnit());
         dataMap.put("b1", bean == null ? "" : DateUtils.formatDate(bean.getStartTime(), DateUtils.YYYYMM));
-        dataMap.put("c1", bean == null ? "" : bean.getReportUnit());
+        dataMap.put("c1", bean == null ? "" : bean.getApprovalUnit());
 
         return freemarkerService.process(ftlPath, dataMap);
     }

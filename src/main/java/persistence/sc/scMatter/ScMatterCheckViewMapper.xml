@@ -7,11 +7,13 @@
     <result column="check_date" jdbcType="DATE" property="checkDate" />
     <result column="check_file" jdbcType="VARCHAR" property="checkFile" />
     <result column="check_file_name" jdbcType="VARCHAR" property="checkFileName" />
+    <result column="files" jdbcType="VARCHAR" property="files" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="is_random" jdbcType="BIT" property="isRandom" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted" />
     <result column="item_count" jdbcType="INTEGER" property="itemCount" />
+    <result column="item_check_count" jdbcType="INTEGER" property="itemCheckCount" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -43,8 +45,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, check_date, check_file, check_file_name, num, is_random, remark, is_deleted, 
-    item_count
+    id, year, check_date, check_file, check_file_name, files, num, is_random, remark, 
+    is_deleted, item_count, item_check_count
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scMatter.ScMatterCheckViewExample" resultMap="BaseResultMap">
     select

@@ -128,6 +128,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-xs-3 control-label">上传核查文件<br/>(中组部，批量)</label>
+                                    <div class="col-xs-6">
+                                        <input class="form-control" type="file" name="_files" multiple="multiple"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="col-xs-3 control-label">备注</label>
 
                                     <div class="col-xs-6">
@@ -137,7 +143,9 @@
                                 </div>
                             </div>
                             <div class="clearfix form-actions center">
-                                <button class="btn btn-info btn-sm" type="submit">
+                                <button id="submitBtn" class="btn btn-info btn-sm"
+                                        data-loading-text="<i class='fa fa-spinner fa-spin '></i> 提交中，请不要关闭此窗口"
+                                        type="button">
                                     <i class="ace-icon fa fa-check "></i>
                                     ${scMatterCheck!=null?"修改":"添加"}
                                 </button>
@@ -185,7 +193,7 @@
         if (userId == '') {
             $.tip({
                 $target: $select.closest("div").find(".select2-container"),
-                at: 'top center', my: 'bottom center', type: 'success',
+                at: 'top center', my: 'bottom center', type: 'info',
                 msg: "请选择核查对象。"
             });
             return;
@@ -200,7 +208,7 @@
         if (hasSelected) {
             $.tip({
                 $target: $select.closest("div").find(".select2-container"),
-                at: 'top center', my: 'bottom center', type: 'success',
+                at: 'top center', my: 'bottom center', type: 'info',
                 msg: "您已经选择了该核查对象。"
             });
             return;
@@ -255,8 +263,16 @@
             $this.attr("disabled", "disabled");
         }
     });
+    $.fileInput($('#modalForm input[name=_files]'),{no_file:"请选择一个或多个文件"});
 
     $("#submitBtn").click(function () {
+        if ($.trim($("#modalForm input[name=checkFile]").val()) == "") {
+            $.tip({
+                $target: $("#upload-file").closest("form").find("button"),
+                at: 'right center', my: 'left center', type: 'info',
+                msg: "请上传核查文件。"
+            });
+        }
         $("#modalForm").submit();
         return false;
     });
@@ -266,15 +282,16 @@
                 return user.userId;
             });
             if ($.trim($("#modalForm input[name=checkFile]").val()) == "") {
-                SysMsg.warning("请上传核查文件");
                 return;
             }
+            var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({
                 data: {userIds: userIds},
                 success: function (ret) {
                     if (ret.success) {
                         $.hideView();
                     }
+                    $btn.button('reset');
                 }
             });
         }

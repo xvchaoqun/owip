@@ -17,6 +17,8 @@ public class ScMatterCheck implements Serializable {
 
     private String checkFileName;
 
+    private String files;
+
     private Integer num;
 
     private Boolean isRandom;
@@ -65,6 +67,14 @@ public class ScMatterCheck implements Serializable {
 
     public void setCheckFileName(String checkFileName) {
         this.checkFileName = checkFileName == null ? null : checkFileName.trim();
+    }
+
+    public String getFiles() {
+        return files;
+    }
+
+    public void setFiles(String files) {
+        this.files = files == null ? null : files.trim();
     }
 
     public Integer getNum() {

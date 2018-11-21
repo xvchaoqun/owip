@@ -11,9 +11,14 @@
         <input type="hidden" name="cls" value="${param.cls}">
         <div class="form-group">
             <label class="col-xs-3 control-label">名称</label>
-
             <div class="col-xs-6">
                 <input required class="form-control" type="text" name="name" value="${metaType.name}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">备注</label>
+            <div class="col-xs-6">
+                <textarea class="form-control" type="text" name="remark">${metaType.remark}</textarea>
             </div>
         </div>
     </form>

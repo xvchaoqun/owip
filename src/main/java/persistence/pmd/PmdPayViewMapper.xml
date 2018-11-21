@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="persistence.pmd.PmdPayViewMapper">
   <resultMap id="BaseResultMap" type="domain.pmd.PmdPayView">
+    <result column="real_order_no" jdbcType="VARCHAR" property="realOrderNo" />
+    <result column="payer" jdbcType="VARCHAR" property="payer" />
+    <result column="payername" jdbcType="VARCHAR" property="payername" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
     <result column="pay_month_id" jdbcType="INTEGER" property="payMonthId" />
     <result column="pay_month" jdbcType="DATE" property="payMonth" />
@@ -47,8 +50,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    order_no, pay_month_id, pay_month, user_id, order_user_id, member_id, real_pay, is_delay, 
-    pay_time, code, realname, order_code, order_realname, create_time
+    real_order_no, payer, payername, order_no, pay_month_id, pay_month, user_id, order_user_id, 
+    member_id, real_pay, is_delay, pay_time, code, realname, order_code, order_realname, 
+    create_time
   </sql>
   <select id="selectByExample" parameterType="domain.pmd.PmdPayViewExample" resultMap="BaseResultMap">
     select

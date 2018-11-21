@@ -18,6 +18,7 @@ import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.ModifyConstants;
 import sys.constants.SystemConstants;
+import sys.tags.CmTag;
 import sys.utils.ContextHelper;
 import sys.utils.IpUtils;
 import sys.utils.JSONUtils;
@@ -143,8 +144,7 @@ public class CadreRewardService extends BaseMapper {
     public void modifyApply(CadreReward record, Integer id, byte rewardType, boolean isDelete) {
 
         // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
-        if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)
-                || ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)){
+        if(CmTag.canDirectUpdateCadreInfo(record.getCadreId())){
             throw new OpException("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
         }
 

@@ -11,24 +11,34 @@ public class CadreCompany implements Serializable {
 
     private Integer cadreId;
 
-    private Byte type;
+    private Integer type;
 
     private String typeOther;
-
-    private Boolean hasPay;
-
-    @DateTimeFormat(pattern = DateUtils.YYYYMM)
-    private Date startTime;
 
     private String unit;
 
     private String post;
 
-    private String reportUnit;
+    @DateTimeFormat(pattern = DateUtils.YYYYMM)
+    private Date startTime;
 
-    private String paper;
+    private Boolean isFinished;
 
-    private String paperFilename;
+    @DateTimeFormat(pattern = DateUtils.YYYYMM)
+    private Date finishTime;
+
+    private String approvalUnit;
+
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
+    private Date approvalDate;
+
+    private String approvalFile;
+
+    private String approvalFilename;
+
+    private Boolean hasPay;
+
+    private Boolean hasHand;
 
     private String remark;
 
@@ -52,11 +62,11 @@ public class CadreCompany implements Serializable {
         this.cadreId = cadreId;
     }
 
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -66,22 +76,6 @@ public class CadreCompany implements Serializable {
 
     public void setTypeOther(String typeOther) {
         this.typeOther = typeOther == null ? null : typeOther.trim();
-    }
-
-    public Boolean getHasPay() {
-        return hasPay;
-    }
-
-    public void setHasPay(Boolean hasPay) {
-        this.hasPay = hasPay;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
     }
 
     public String getUnit() {
@@ -100,28 +94,76 @@ public class CadreCompany implements Serializable {
         this.post = post == null ? null : post.trim();
     }
 
-    public String getReportUnit() {
-        return reportUnit;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setReportUnit(String reportUnit) {
-        this.reportUnit = reportUnit == null ? null : reportUnit.trim();
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public String getPaper() {
-        return paper;
+    public Boolean getIsFinished() {
+        return isFinished;
     }
 
-    public void setPaper(String paper) {
-        this.paper = paper == null ? null : paper.trim();
+    public void setIsFinished(Boolean isFinished) {
+        this.isFinished = isFinished;
     }
 
-    public String getPaperFilename() {
-        return paperFilename;
+    public Date getFinishTime() {
+        return finishTime;
     }
 
-    public void setPaperFilename(String paperFilename) {
-        this.paperFilename = paperFilename == null ? null : paperFilename.trim();
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public String getApprovalUnit() {
+        return approvalUnit;
+    }
+
+    public void setApprovalUnit(String approvalUnit) {
+        this.approvalUnit = approvalUnit == null ? null : approvalUnit.trim();
+    }
+
+    public Date getApprovalDate() {
+        return approvalDate;
+    }
+
+    public void setApprovalDate(Date approvalDate) {
+        this.approvalDate = approvalDate;
+    }
+
+    public String getApprovalFile() {
+        return approvalFile;
+    }
+
+    public void setApprovalFile(String approvalFile) {
+        this.approvalFile = approvalFile == null ? null : approvalFile.trim();
+    }
+
+    public String getApprovalFilename() {
+        return approvalFilename;
+    }
+
+    public void setApprovalFilename(String approvalFilename) {
+        this.approvalFilename = approvalFilename == null ? null : approvalFilename.trim();
+    }
+
+    public Boolean getHasPay() {
+        return hasPay;
+    }
+
+    public void setHasPay(Boolean hasPay) {
+        this.hasPay = hasPay;
+    }
+
+    public Boolean getHasHand() {
+        return hasHand;
+    }
+
+    public void setHasHand(Boolean hasHand) {
+        this.hasHand = hasHand;
     }
 
     public String getRemark() {

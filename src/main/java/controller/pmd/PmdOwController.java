@@ -4,6 +4,7 @@ import domain.pmd.PmdMonth;
 import domain.pmd.PmdPayView;
 import domain.pmd.PmdPayViewExample;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -101,10 +102,10 @@ public class PmdOwController extends PmdBaseController {
         for (PmdPayView record:records) {
 
             List<String> values = new ArrayList<>(Arrays.asList(new String[]{
-                    record.getOrderNo(),
+                    StringUtils.defaultIfBlank(record.getRealOrderNo(), record.getOrderNo()),
                     DateUtils.formatDate(record.getPayMonth(), "yyyy年MM月"),
-                    record.getOrderCode(),
-                    record.getOrderRealname(),
+                    StringUtils.defaultIfBlank(record.getPayer(), record.getOrderCode()),
+                    StringUtils.defaultIfBlank(record.getPayername(), record.getOrderRealname()),
                     record.getRealPay() + "",
                     DateUtils.formatDate(record.getCreateTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),
                     DateUtils.formatDate(record.getPayTime(), DateUtils.YYYY_MM_DD_HH_MM_SS),

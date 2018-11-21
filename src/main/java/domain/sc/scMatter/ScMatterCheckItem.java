@@ -23,6 +23,8 @@ public class ScMatterCheckItem implements Serializable {
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private Date confirmDate;
 
+    private String checkReason;
+
     private String handleType;
 
     private String checkFile;
@@ -101,6 +103,14 @@ public class ScMatterCheckItem implements Serializable {
 
     public void setConfirmDate(Date confirmDate) {
         this.confirmDate = confirmDate;
+    }
+
+    public String getCheckReason() {
+        return checkReason;
+    }
+
+    public void setCheckReason(String checkReason) {
+        this.checkReason = checkReason == null ? null : checkReason.trim();
     }
 
     public String getHandleType() {

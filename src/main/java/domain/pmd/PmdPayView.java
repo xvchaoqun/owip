@@ -5,6 +5,12 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class PmdPayView implements Serializable {
+    private String realOrderNo;
+
+    private String payer;
+
+    private String payername;
+
     private String orderNo;
 
     private Integer payMonthId;
@@ -34,6 +40,30 @@ public class PmdPayView implements Serializable {
     private Date createTime;
 
     private static final long serialVersionUID = 1L;
+
+    public String getRealOrderNo() {
+        return realOrderNo;
+    }
+
+    public void setRealOrderNo(String realOrderNo) {
+        this.realOrderNo = realOrderNo == null ? null : realOrderNo.trim();
+    }
+
+    public String getPayer() {
+        return payer;
+    }
+
+    public void setPayer(String payer) {
+        this.payer = payer == null ? null : payer.trim();
+    }
+
+    public String getPayername() {
+        return payername;
+    }
+
+    public void setPayername(String payername) {
+        this.payername = payername == null ? null : payername.trim();
+    }
 
     public String getOrderNo() {
         return orderNo;

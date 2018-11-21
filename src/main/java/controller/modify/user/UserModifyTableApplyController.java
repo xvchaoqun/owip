@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shiro.ShiroHelper;
 import sys.constants.CadreConstants;
 import sys.constants.LogConstants;
 import sys.constants.ModifyConstants;
@@ -45,12 +44,6 @@ public class UserModifyTableApplyController extends ModifyBaseController {
     @RequestMapping(value = "/modifyTableApply_del", method = RequestMethod.POST)
     @ResponseBody
     public Map do_modifyTableApply_del(HttpServletRequest request, byte module,  Integer id) {
-
-        // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
-        if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)
-                || ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)){
-            return failed("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
-        }
 
         if (id != null) {
             module = (byte) (module%100);

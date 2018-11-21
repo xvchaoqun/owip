@@ -76,7 +76,7 @@ public class ScMatterCheckItemController extends ScMatterBaseController {
 
         ScMatterCheckItemViewExample example = new ScMatterCheckItemViewExample();
         ScMatterCheckItemViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("id asc");
+        example.setOrderByClause("check_date desc, id asc");
 
         if (year!=null) {
             criteria.andYearEqualTo(year);

@@ -2,8 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
 <%@ include file="/WEB-INF/jsp/modify/constants.jsp"%>
-<c:set value="<%=CadreConstants.CADRE_COMPANY_TYPE_MAP%>" var="CADRE_COMPANY_TYPE_MAP"/>
-
 <div class="jqgrid-vertical-offset clearfix" style="background-color: #f5f5f5;padding: 5px 0 5px 0">
     <div class="col-md-9">
         <button class="hideView btn btn-success btn-sm" type="button">
@@ -44,25 +42,34 @@
             <table class="table  table-unhover table-bordered table-striped">
                 <tr>
                     <td data-code="type">兼职类型</td>
-                    <td class="bg-left">${CADRE_COMPANY_TYPE_MAP.get(modify.type)}</td>
-                    <td data-code="hasPay">是否取酬</td>
-                    <td class="bg-left">${modify.hasPay?"是":"否"}</td>
+                    <td class="bg-left">${cm:getMetaType(modify.type).name}
+                        ${(cm:getMetaTypeByCode("mt_cadre_company_other").id==modify.type
+                        && not empty modify.typeOther)?"："+modify.typeOther:""}
+                    </td>
+                    <td data-code="unit">兼职单位</td>
+                    <td class="bg-left">${modify.unit}</td>
+                    <td data-code="unit">兼任职务</td>
+                    <td class="bg-left">${modify.post}</td>
                     <td data-code="startTime">兼职起始时间</td>
-                    <td class="bg-left">${cm:formatDate(modify.startTime,'yyyy-MM-dd')}</td>
+                    <td class="bg-left" colspan="3">${cm:formatDate(modify.startTime,'yyyy-MM-dd')}</td>
                 </tr>
                 <tr>
-                    <td data-code="unit">兼职单位及职务</td>
-                    <td class="bg-left">${modify.unit}</td>
-                    <td data-code="reportUnit">报批单位</td>
-                    <td class="bg-left">${modify.reportUnit}</td>
-                    <td data-code="paper">批复文件</td>
+                    <td data-code="approvalUnit">审批单位</td>
+                    <td class="bg-left">${modify.approvalUnit}</td>
+                    <td data-code="approvalUnit">批复日期</td>
+                    <td class="bg-left">${cm:formatDate(modify.approvalDate,'yyyy-MM-dd')}</td>
+                    <td data-code="approvalFile">批复文件</td>
                     <td class="bg-left">
-                        <a href="${ctx}/attach/download?path=${cm:encodeURI(modify.paper)}&filename=${cm:encodeURI(modify.paperFilename)}">${modify.paperFilename}</a>
+                        <a href="${ctx}/attach/download?path=${cm:encodeURI(modify.approvalFile)}&filename=${cm:encodeURI(modify.approvalFilename)}">${modify.approvalFilename}</a>
                     </td>
+                    <td data-code="hasPay">是否取酬</td>
+                    <td class="bg-left">${modify.hasPay?"是":"否"}</td>
+                    <td data-code="hasPay">所取酬劳是否全额上交学校</td>
+                    <td class="bg-left">${modify.hasHand?"是":"否"}</td>
                 </tr>
                 <tr>
                     <td data-code="remark">备注</td>
-                    <td colspan="5" class="bg-left">${modify.remark}</td>
+                    <td colspan="9" class="bg-left">${modify.remark}</td>
                 </tr>
             </table>
         </div>
@@ -134,7 +141,7 @@
         返回
     </button>
 </div>
-
+<jsp:include page="/WEB-INF/jsp/cadre/cadreCompany/colModels.jsp"/>
 <script>
     <c:if test="${mta.type==MODIFY_TABLE_APPLY_TYPE_MODIFY}">
     var modify = ${cm:toJSONObject(modify)};
@@ -176,7 +183,7 @@
         pager: "#jqGridPager_cadreCompany",
         url: '${ctx}/cadreCompany_data?cadreId=${cadre.id}&${cm:encodeQueryString(pageContext.request.queryString)}',
         multiselect: false,
-        colModel: colModels.cadreCompany,
+        colModel: colModels_cadreCompany,
         rowattr: function(rowData, currentObj, rowId)
         {
             //console.log(rowData.id + '-${mta.originalId}')

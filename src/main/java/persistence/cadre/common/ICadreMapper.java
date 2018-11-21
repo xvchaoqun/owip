@@ -11,6 +11,7 @@ import domain.crp.CrpRecord;
 import domain.sys.SysUserView;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
@@ -18,6 +19,7 @@ import sys.constants.CadreConstants;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -136,6 +138,41 @@ public interface ICadreMapper {
     @Select("select bl.* from cadre_leader_unit blu, cadre_leader bl " +
             "where  blu.type_id=#{leaderTypeId} and blu.unit_id = #{unitId} and blu.leader_id = bl.id")
     List<CadreLeader> getManagerUnitLeaders(@Param("unitId") Integer unitId, @Param("leaderTypeId") Integer leaderTypeId);
+
+    // 统计干部兼职情况  干部-兼职类别-数量
+    @ResultType(java.util.HashMap.class)
+    @Select("select cadre_id, type, count(*) as num from cadre_company_view " +
+            "where cadre_status in(${cadreStatus}) group by cadre_id, type " +
+            "order by field(cadre_status, 2,5,3,1,4,6) desc, cadre_sort_order desc")
+    List<Map> cadreCompany_statMap(@Param("cadreStatus") String cadreStatus);
+
+    // 中层干部兼职汇总   兼职类型、是否双肩挑
+    @ResultType(java.util.HashMap.class)
+    @Select("select is_double, type, count(*) num, count(distinct cadre_id) as person_num " +
+            "from cadre_company_view cc where cadre_status=1 group by is_double, type")
+    List<Map> cadreCompany_doubleStatMap();
+
+    // 中层干部兼职汇总   兼职类型、单位类型
+    @ResultType(java.util.HashMap.class)
+    @Select("select unit_type_attr, type, count(*) num, count(distinct cadre_id) as person_num " +
+            "from cadre_company_view cc where cadre_status=1 and unit_type_attr in('xy','jg','fs') " +
+            "group by unit_type_attr, type")
+    List<Map> cadreCompany_unitTypeStatMap();
+
+    // 中层干部兼职汇总   兼职类型、行政级别
+    @ResultType(java.util.HashMap.class)
+    @Select("select admin_level, type, count(*) num, count(distinct cadre_id) as person_num " +
+            "from cadre_company_view cc where cadre_status=1 " +
+            "and admin_level_code in('mt_admin_level_main','mt_admin_level_vice','mt_admin_level_none') " +
+            "group by admin_level, type")
+    List<Map> cadreCompany_adminLevelStatMap();
+
+    // 中层干部兼职汇总   合计
+    @ResultType(java.util.HashMap.class)
+    @Select("select type, count(*) num, count(distinct cadre_id) as person_num " +
+            "from cadre_company_view cc where cadre_status=1 group by  type")
+    List<Map> cadreCompany_typeStatMap();
+
 }
 
 

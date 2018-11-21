@@ -140,7 +140,7 @@
         }
         return $state;
     }).on("change", function () {
-        //console.log($(this).select2("data")[0])
+        console.log($(this).select2("data")[0])
         var up = $(this).select2("data")[0]['up'] ;
         //console.log(up)
         if(up!=undefined){

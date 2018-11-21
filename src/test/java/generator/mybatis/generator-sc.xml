@@ -75,7 +75,7 @@
         </table>-->
 
         <!--干部选拔-干部任免审批表-->
-        <table tableName="sc_ad_archive" domainObjectName="sc.scAd.ScAdArchive"
+        <!--<table tableName="sc_ad_archive" domainObjectName="sc.scAd.ScAdArchive"
                mapperName="sc.scAd.ScAdArchiveMapper">
         </table>
         <table tableName="sc_ad_archive_view"
@@ -84,7 +84,7 @@
                enableDeleteByExample="false"
                domainObjectName="sc.scAd.ScAdArchiveView"
                mapperName="sc.scAd.ScAdArchiveViewMapper">
-        </table>
+        </table>-->
         <!--<table tableName="sc_ad_archive_vote" domainObjectName="sc.scAd.ScAdArchiveVote"
                        mapperName="sc.scAd.ScAdArchiveVoteMapper">
                 </table>-->
@@ -297,6 +297,14 @@
         <!--<table tableName="sc_matter" domainObjectName="sc.scMatter.ScMatter" mapperName="sc.scMatter.ScMatterMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>-->
+        <!--<table tableName="sc_matter_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scMatter.ScMatterView" mapperName="sc.scMatter.ScMatterViewMapper">
+            <columnOverride column="item_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="hand_item_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>-->
         <!--<table tableName="sc_matter_item" domainObjectName="sc.scMatter.ScMatterItem" mapperName="sc.scMatter.ScMatterItemMapper">
         </table>-->
         <!--<table tableName="sc_matter_item_view"
@@ -324,10 +332,11 @@
                enableDeleteByExample="false"
                domainObjectName="sc.scMatter.ScMatterAccessItemView" mapperName="sc.scMatter.ScMatterAccessItemViewMapper">
         </table>-->
-        <!-- <table tableName="sc_matter_check" domainObjectName="sc.scMatter.ScMatterCheck" mapperName="sc.scMatter.ScMatterCheckMapper">
+         <!--<table tableName="sc_matter_check" domainObjectName="sc.scMatter.ScMatterCheck"
+                mapperName="sc.scMatter.ScMatterCheckMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>-->
-        <!--<table tableName="sc_matter_check_view"
+         </table>
+        <table tableName="sc_matter_check_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
@@ -335,17 +344,18 @@
             <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="num" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="item_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+            <columnOverride column="item_check_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>-->
-       <!-- <table tableName="sc_matter_check_item" domainObjectName="sc.scMatter.ScMatterCheckItem" mapperName="sc.scMatter.ScMatterCheckItemMapper">
-        </table>-->
-        <!--<table tableName="sc_matter_check_item_view"
+        <table tableName="sc_matter_check_item" domainObjectName="sc.scMatter.ScMatterCheckItem" mapperName="sc.scMatter.ScMatterCheckItemMapper">
+        </table>
+        <table tableName="sc_matter_check_item_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false"
                domainObjectName="sc.scMatter.ScMatterCheckItemView" mapperName="sc.scMatter.ScMatterCheckItemViewMapper">
             <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>-->
+        </table>
         <!--<table tableName="sc_matter_transfer" domainObjectName="sc.scMatter.ScMatterTransfer" mapperName="sc.scMatter.ScMatterTransferMapper">
         </table>-->
     </context>

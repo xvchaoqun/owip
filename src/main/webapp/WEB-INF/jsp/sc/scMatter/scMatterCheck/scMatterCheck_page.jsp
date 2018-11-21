@@ -129,14 +129,27 @@
                         .format(rowObject.id, rowObject.itemCount);
             }
             },
+            {label: '完成核查人数', name: 'itemCheckCount',width: 110,},
+            {label: '未完成核查人数', name: '_itemUncheckCount', width: 120, formatter: function (cellvalue, options, rowObject) {
+                return rowObject.itemCount - rowObject.itemCheckCount;
+            }
+            },
             {
                 label: '核查结果及处理', width: 130, formatter: function (cellvalue, options, rowObject) {
 
                 return '<a href="#/sc/scMatterCheck?cls=2&year={0}&num={1}" target="_blank">查看</a>'
                         .format(rowObject.year, rowObject.num);
+            }},
+            {
+                label: '核查文件', width: 80, formatter: function (cellvalue, options, rowObject) {
+                    if($.trim(rowObject.files)=='') return '-'
+
+                return ('<button data-url="${ctx}/sc/scMatterCheck_files?id={0}" class="popupBtn btn btn-xs btn-primary">'
+                    +'<i class="fa fa-search"></i>  查看</button>')
+                        .format(rowObject.id);
             }
             },
-            {label: '备注', name: 'remark'}
+            {label: '备注', name: 'remark', width: 280}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.security.Base64Utils;
 import sys.shiro.CurrentUser;
+import sys.tags.CmTag;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -65,9 +65,11 @@ public class UserModifyBaseApplyController extends ModifyBaseController {
                       @RequestParam(required = false, value = "types[]")Byte[] types, // 更改的值类型，表名不为空时有效
                       HttpServletRequest request) throws Exception {
 
+        Integer cadreId = null;
+        CadreView cv = CmTag.getCadreByUserId(loginUser.getId());
+        if(cv!=null) cadreId = cv.getCadreId();
         // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
-        if(ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)
-                || ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)){
+        if(CmTag.canDirectUpdateCadreInfo(cadreId)){
             return failed("您有直接修改[干部基本信息-干部信息]的权限，请勿在此提交申请。");
         }
 

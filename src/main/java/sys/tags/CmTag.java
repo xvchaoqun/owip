@@ -40,15 +40,17 @@ import service.dispatch.DispatchCadreService;
 import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
 import service.dispatch.DispatchUnitService;
+import service.ext.ExtService;
 import service.global.CacheService;
 import service.member.RetireApplyService;
 import service.modify.ModifyCadreAuthService;
-import service.ext.ExtService;
 import service.sys.HtmlFragmentService;
 import service.sys.SysConfigService;
 import service.sys.SysResourceService;
 import service.sys.SysUserService;
 import service.unit.UnitService;
+import shiro.ShiroHelper;
+import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
 import sys.utils.ConfigUtil;
 import sys.utils.DateUtils;
@@ -500,8 +502,16 @@ public class CmTag {
         return cadreInfoCheckService.cadreRewardCheck(cadreId, type);
     }
 
+    public static Boolean canDirectUpdateCadreInfo(Integer caderId){
+        // 拥有管理干部信息或管理干部本人信息的权限，不允许提交申请
+        return (ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMIN)
+                || (ShiroHelper.isPermitted(SystemConstants.PERMISSION_CADREADMINSELF)
+                && CmTag.hasDirectModifyCadreAuth(caderId)));
+    }
     // 判断干部是否拥有直接修改本人干部信息的权限
     public static Boolean hasDirectModifyCadreAuth(Integer cadreId) {
+
+        if(cadreId==null) return false;
 
         ModifyCadreAuthService modifyCadreAuthService = getBean(ModifyCadreAuthService.class);
         if(modifyCadreAuthService==null) return false;

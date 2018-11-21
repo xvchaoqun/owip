@@ -62,7 +62,9 @@ public class ScMatterItemController extends ScMatterBaseController {
     @RequiresPermissions("scMatterItem:list")
     @RequestMapping("/scMatterItem_data")
     public void scMatterItem_data(HttpServletResponse response,
-                                    Integer userId,
+                                  Integer year,
+                                  Boolean type,
+                                  Integer userId,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  Integer pageSize, Integer pageNo)  throws IOException{
@@ -77,8 +79,14 @@ public class ScMatterItemController extends ScMatterBaseController {
 
         ScMatterItemViewExample example = new ScMatterItemViewExample();
         ScMatterItemViewExample.Criteria criteria = example.createCriteria();
-        example.setOrderByClause("matter_id desc, fill_time desc, id desc");
+        example.setOrderByClause("draw_time desc, real_hand_time desc, id desc");
 
+        if (year!=null) {
+            criteria.andYearEqualTo(year);
+        }
+        if (type!=null) {
+            criteria.andTypeEqualTo(type);
+        }
         if (userId!=null) {
             criteria.andUserIdEqualTo(userId);
         }

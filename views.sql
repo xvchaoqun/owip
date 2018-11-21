@@ -288,6 +288,11 @@ left join sc_letter_reply slr on slr.id=slri.reply_id and slr.is_deleted=0
 left join sc_letter sl on sl.id=slr.letter_id and sl.is_deleted=0;
 
 -- 个人有关事项视图
+DROP VIEW IF EXISTS `sc_matter_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_view` AS
+select m.*, count(mi.id) as item_count, sum(if(isnull(mi.real_hand_time), 0, 1)) as hand_item_count
+from sc_matter m left join sc_matter_item mi on mi.matter_id=m.id group by m.id ;
+
 DROP VIEW IF EXISTS `sc_matter_item_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_item_view` AS
 select smi.*, sm.year, sm.type, sm.draw_time, sm.hand_time, u.code, u.realname, c.title,
@@ -311,7 +316,8 @@ left join sys_user_view u on u.id=smci.user_id;
 
 DROP VIEW IF EXISTS `sc_matter_check_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_check_view` AS
-select smc.*, count(distinct smci.id) as item_count from sc_matter_check smc
+select smc.*, count(distinct smci.id) as item_count, sum(if(isnull(smci.confirm_type), 0,1)) item_check_count
+from  sc_matter_check smc
 left join sc_matter_check_item smci on smci.check_id=smc.id group by smc.id;
 
 DROP VIEW IF EXISTS `sc_matter_user_view`;
@@ -359,10 +365,10 @@ left join pmd_month pm on pb.month_id=pm.id;
 
 -- 缴费账单，用于对账
 DROP VIEW IF EXISTS `pmd_pay_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `pmd_pay_view` AS select t.*, uv.code, uv.realname, ouv.code as order_code, ouv.realname as order_realname, poc.create_time from
+CREATE ALGORITHM = UNDEFINED VIEW `pmd_pay_view` AS select poc_check.sn as real_order_no, t.*, uv.code, uv.realname, ouv.code as order_code, ouv.realname as order_realname, poc.create_time from
 (
 -- 本月正常缴费
-select  pmp.order_no, m.id as pay_month_id, m.pay_month, pm.user_id, pmp.order_user_id, pmp.member_id, pm.real_pay, 0 as is_delay, pm.pay_time
+select  pmp.order_no, m.id as pay_month_id, m.pay_month, pm.user_id, pmp.order_user_id, pmp.member_id, pm.real_pay, 0 as is_delay, pmp.pay_time
 from pmd_member pm, pmd_member_pay pmp, pmd_month m
 where  pm.month_id=m.id and pmp.member_id=pm.id and pm.is_online_pay=1 and pm.is_delay=0
 union all
@@ -372,6 +378,7 @@ from pmd_member_pay_view pmpv, pmd_month m
 where pmpv.pay_month_id=m.id and pmpv.month_id < m.id and pmpv.has_pay=1 and pmpv.is_delay=1 and pmpv.is_online_pay=1
 ) t
 left join pmd_order_campuscard poc on poc.sn=t.order_no
+left join pmd_order_campuscard poc_check on poc_check.member_id=t.member_id and poc_check.is_success=1
 left join sys_user_view uv on t.user_id=uv.id
 left join sys_user_view ouv on t.order_user_id=ouv.id ;
 
@@ -620,6 +627,13 @@ select cr.id as reserve_id, cr.`type` as reserve_type, cr.`status` as reserve_st
 cr.remark as reserve_remark, cr.sort_order as reserve_sort_order, u.username, cv.*
 from cadre_reserve cr left join cadre_view cv on cr.cadre_id=cv.id left join sys_user u on u.id=cv.user_id ;
 
+
+DROP VIEW IF EXISTS `cadre_company_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `cadre_company_view` AS
+select cc.*, c.`status` as cadre_status, c.type_id as admin_level, c.admin_level_code,
+c.is_double, c.unit_type_id, c.unit_type_attr,
+c.sort_order as cadre_sort_order from cadre_company cc
+left join cadre_view c on c.id=cc.cadre_id;
 
 -- ----------------------------
 --  View definition for `cis_inspector_view`

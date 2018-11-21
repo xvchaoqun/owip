@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <div id="body-content" class="myTableDiv">
+        <div id="body-content" class="myTableDiv multi-row-head-table">
             <div class="tabbable">
                 <jsp:include page="/WEB-INF/jsp/modify/modifyTableApply/menu.jsp"/>
                 <div class="space-4"></div>
@@ -36,7 +36,14 @@
         </div>
     </div>
 </div>
+<style>
+    .multi-row-head-table #jqGrid_records_cb{
+        padding: 10px!important;
+        padding-right: 2px!important;
+    }
+</style>
 <jsp:include page="/WEB-INF/jsp/cadre/colModels.jsp"/>
+<jsp:include page="/WEB-INF/jsp/cadre/cadreCompany/colModels.jsp"/>
 <script>
     function _delCallback(type) {
         $("#modal").modal("hide");
@@ -47,7 +54,7 @@
         },
         pager: "#jqGridPager_cadreCompany",
         url: '${ctx}/cadreCompany_data?cadreId=${cadre.id}&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: colModels.cadreCompany
+        colModel: colModels_cadreCompany
     }).jqGrid("setFrozenColumns");
     $.register.fancybox(function () {
         //console.log(this)

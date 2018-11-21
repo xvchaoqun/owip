@@ -996,7 +996,7 @@ td.padding10 {
                                             <span>兼职起始时间</span>
                                         </td>
                                         <td class="td14 center bolder" colspan="4">
-                                            <span>报批单位</span>
+                                            <span>审批单位</span>
                                         </td>
                                     </tr>
                                     <c:forEach items="${bean.cadreCompanies}" var="f">
@@ -1008,7 +1008,7 @@ td.padding10 {
                                                     ${cm:formatDate(f.startTime, "yyyy.MM")}
                                             </td>
                                             <td class="td14 padding10" colspan="4">
-                                                    ${f.reportUnit}
+                                                    ${f.approvalUnit}
                                             </td>
                                         </tr>
                                     </c:forEach>

@@ -280,9 +280,9 @@
         {label: '入学时间', name: 'enrolTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 90, frozen: true},
         {label: '毕业时间', name: 'finishTime', formatter: 'date', formatoptions: {newformat: 'Y.m'}, width: 90, frozen: true},
         {label: '是否最高学历', width: 120, name: 'isHighEdu', formatter: $.jgrid.formatter.TRUEFALSE, frozen: true},
-        {label: '毕业/在读学校', name: 'school', width: 280},
-        {label: '院系', name: 'dep', width: 380},
-        {label: '所学专业', name: 'major', width: 380},
+        {label: '毕业/在读学校', name: 'school', width: 180, align:'left'},
+        {label: '院系', name: 'dep', width: 180, align:'left'},
+        {label: '所学专业', name: 'major', width: 250, align:'left'},
         {
             label: '学校类型', name: 'schoolType', formatter: function (cellvalue, options, rowObject) {
             return _cMap.CADRE_SCHOOL_TYPE_MAP[cellvalue]
@@ -551,46 +551,6 @@
             formatoptions:{grid:'#jqGrid_cadreCourse', url: "${ctx}/cadreCourse_changeOrder?cadreId=${param.cadreId}"}, frozen: true
         },
         </c:if>
-        {label: '备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
-    ];
-
-    colModels.cadreCompany = [
-        {
-            label: '兼职类型', name: 'type', width: 140, formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return '';
-            var ret = _cMap.CADRE_COMPANY_TYPE_MAP[cellvalue];
-            if (cellvalue == '<%=CadreConstants.CADRE_COMPANY_TYPE_OTHER%>') {
-                if (rowObject.typeOther != '') {
-                    ret = ret + ":" + rowObject.typeOther;
-                }
-            }
-            return ret;
-        }, frozen: true
-        },
-        {
-            label: '是否取酬', name: 'hasPay', formatter: function (cellvalue, options, rowObject) {
-            if (cellvalue == undefined) return "";
-            return cellvalue ? "是" : "否";
-        }, width: 80, frozen: true
-        },
-        {
-            label: '兼职起始时间',
-            name: 'startTime',
-            width: 120,
-            formatter: 'date',
-            formatoptions: {newformat: 'Y.m'},
-            frozen: true
-        },
-        {label: '兼职单位', name: 'unit', width: 250},
-        {label: '兼职职务', name: 'post', width: 150},
-        {label: '报批单位', name: 'reportUnit', width: 280},
-        {
-            label: '批复文件', name: 'paper', width: 250,
-            formatter: function (cellvalue, options, rowObject) {
-
-                return $.swfPreview(rowObject.paper, rowObject.paperFilename, "预览");
-            }
-        },
         {label: '备注', name: 'remark', width: 350}, {hidden: true, key: true, name: 'id'}
     ];
 

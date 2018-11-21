@@ -7,6 +7,7 @@
     <result column="check_date" jdbcType="DATE" property="checkDate" />
     <result column="check_file" jdbcType="VARCHAR" property="checkFile" />
     <result column="check_file_name" jdbcType="VARCHAR" property="checkFileName" />
+    <result column="files" jdbcType="VARCHAR" property="files" />
     <result column="num" jdbcType="INTEGER" property="num" />
     <result column="is_random" jdbcType="BIT" property="isRandom" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -71,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, year, check_date, check_file, check_file_name, num, is_random, remark, is_deleted
+    id, year, check_date, check_file, check_file_name, files, num, is_random, remark, 
+    is_deleted
   </sql>
   <select id="selectByExample" parameterType="domain.sc.scMatter.ScMatterCheckExample" resultMap="BaseResultMap">
     select
@@ -103,22 +105,25 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.sc.scMatter.ScMatterCheck">
-    insert into sc_matter_check (id, year, check_date, 
-      check_file, check_file_name, num, 
+  <insert id="insert" parameterType="domain.sc.scMatter.ScMatterCheck">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sc_matter_check (year, check_date, check_file, 
+      check_file_name, files, num, 
       is_random, remark, is_deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{checkDate,jdbcType=DATE}, 
-      #{checkFile,jdbcType=VARCHAR}, #{checkFileName,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, 
+    values (#{year,jdbcType=INTEGER}, #{checkDate,jdbcType=DATE}, #{checkFile,jdbcType=VARCHAR}, 
+      #{checkFileName,jdbcType=VARCHAR}, #{files,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, 
       #{isRandom,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}
       )
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.sc.scMatter.ScMatterCheck">
+  <insert id="insertSelective" parameterType="domain.sc.scMatter.ScMatterCheck">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into sc_matter_check
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="year != null">
         year,
       </if>
@@ -130,6 +135,9 @@
       </if>
       <if test="checkFileName != null">
         check_file_name,
+      </if>
+      <if test="files != null">
+        files,
       </if>
       <if test="num != null">
         num,
@@ -145,9 +153,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="year != null">
         #{year,jdbcType=INTEGER},
       </if>
@@ -159,6 +164,9 @@
       </if>
       <if test="checkFileName != null">
         #{checkFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="files != null">
+        #{files,jdbcType=VARCHAR},
       </if>
       <if test="num != null">
         #{num,jdbcType=INTEGER},
@@ -198,6 +206,9 @@
       <if test="record.checkFileName != null">
         check_file_name = #{record.checkFileName,jdbcType=VARCHAR},
       </if>
+      <if test="record.files != null">
+        files = #{record.files,jdbcType=VARCHAR},
+      </if>
       <if test="record.num != null">
         num = #{record.num,jdbcType=INTEGER},
       </if>
@@ -222,6 +233,7 @@
       check_date = #{record.checkDate,jdbcType=DATE},
       check_file = #{record.checkFile,jdbcType=VARCHAR},
       check_file_name = #{record.checkFileName,jdbcType=VARCHAR},
+      files = #{record.files,jdbcType=VARCHAR},
       num = #{record.num,jdbcType=INTEGER},
       is_random = #{record.isRandom,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
@@ -245,6 +257,9 @@
       <if test="checkFileName != null">
         check_file_name = #{checkFileName,jdbcType=VARCHAR},
       </if>
+      <if test="files != null">
+        files = #{files,jdbcType=VARCHAR},
+      </if>
       <if test="num != null">
         num = #{num,jdbcType=INTEGER},
       </if>
@@ -266,6 +281,7 @@
       check_date = #{checkDate,jdbcType=DATE},
       check_file = #{checkFile,jdbcType=VARCHAR},
       check_file_name = #{checkFileName,jdbcType=VARCHAR},
+      files = #{files,jdbcType=VARCHAR},
       num = #{num,jdbcType=INTEGER},
       is_random = #{isRandom,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
