@@ -20,6 +20,7 @@ import service.base.SitemapService;
 import service.cadre.CadreAdminLevelService;
 import service.cadre.CadreBookService;
 import service.cadre.CadreCommonService;
+import service.cadre.CadreCompanyFileService;
 import service.cadre.CadreCompanyService;
 import service.cadre.CadreCourseService;
 import service.cadre.CadreEduService;
@@ -138,6 +139,8 @@ public class BaseController extends BaseMapper implements HttpResponseMethod {
     protected CadreFamilyService cadreFamilyService;
     @Autowired
     protected CadreCompanyService cadreCompanyService;
+    @Autowired
+    protected CadreCompanyFileService cadreCompanyFileService;
     @Autowired
     protected CadreRewardService cadreRewardService;
     @Autowired

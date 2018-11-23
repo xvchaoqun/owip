@@ -263,7 +263,7 @@ public class AbroadAdditionalPostService extends BaseMapper {
     })
     public int updateByPrimaryKeySelective(AbroadAdditionalPost record){
 
-        Assert.isTrue(!idDuplicate(record.getId(), record.getCadreId(), record.getUnitId()));
+        Assert.isTrue(!idDuplicate(record.getId(), record.getCadreId(), record.getUnitId()),"duplicate");
 
         return abroadAdditionalPostMapper.updateByPrimaryKeySelective(record);
     }

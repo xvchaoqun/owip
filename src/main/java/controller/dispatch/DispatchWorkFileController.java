@@ -330,4 +330,50 @@ public class DispatchWorkFileController extends DispatchBaseController {
         String fileName = "干部工作文件_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
         ExportHelper.export(titles, valuesList, fileName, response);
     }
+
+    @RequestMapping("/dispatchWorkFile_selects")
+    @ResponseBody
+    public Map dispatchWorkFile_selects(Integer pageSize, Integer pageNo, String searchStr) throws IOException {
+
+        if (null == pageSize) {
+            pageSize = springProps.pageSize;
+        }
+        if (null == pageNo) {
+            pageNo = 1;
+        }
+        pageNo = Math.max(1, pageNo);
+
+        DispatchWorkFileExample example = new DispatchWorkFileExample();
+        DispatchWorkFileExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(true);
+        example.setOrderByClause("sort_order desc");
+
+        if(StringUtils.isNotBlank(searchStr)){
+            criteria.andFileNameLike("%"+searchStr+"%");
+        }
+
+        long count = dispatchWorkFileMapper.countByExample(example);
+        if((pageNo-1)*pageSize >= count){
+
+            pageNo = Math.max(1, pageNo-1);
+        }
+        List<DispatchWorkFile> records = dispatchWorkFileMapper.selectByExampleWithRowbounds(example, new RowBounds((pageNo-1)*pageSize, pageSize));
+
+        List<Map<String, Object> > options = new ArrayList<>();
+        if(null != records && records.size()>0){
+            for(DispatchWorkFile record:records){
+                Map<String, Object> option = new HashMap<>();
+                option.put("text", record.getFileName());
+                option.put("del", !record.getStatus());
+                option.put("id", record.getId());
+                option.put("type", record.getType());
+                options.add(option);
+            }
+        }
+
+        Map resultMap = success();
+        resultMap.put("totalCount", count);
+        resultMap.put("options", options);
+        return resultMap;
+    }
 }

@@ -347,7 +347,7 @@
             <columnOverride column="item_check_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
             <columnOverride column="is_deleted" jdbcType="BOOLEAN" javaType="Boolean"></columnOverride>
         </table>-->
-        <table tableName="sc_matter_check_item" domainObjectName="sc.scMatter.ScMatterCheckItem" mapperName="sc.scMatter.ScMatterCheckItemMapper">
+        <!--<table tableName="sc_matter_check_item" domainObjectName="sc.scMatter.ScMatterCheckItem" mapperName="sc.scMatter.ScMatterCheckItemMapper">
         </table>
         <table tableName="sc_matter_check_item_view"
                enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -355,8 +355,27 @@
                enableDeleteByExample="false"
                domainObjectName="sc.scMatter.ScMatterCheckItemView" mapperName="sc.scMatter.ScMatterCheckItemViewMapper">
             <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
-        </table>
+        </table>-->
         <!--<table tableName="sc_matter_transfer" domainObjectName="sc.scMatter.ScMatterTransfer" mapperName="sc.scMatter.ScMatterTransferMapper">
         </table>-->
+        <!--<table tableName="sc_border" domainObjectName="sc.scBorder.ScBorder" mapperName="sc.scBorder.ScBorderMapper">
+        </table>-->
+      <!--  <table tableName="sc_border_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scBorder.ScBorderView" mapperName="sc.scBorder.ScBorderViewMapper">
+            <columnOverride column="item_count" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>-->
+       <!-- <table tableName="sc_border_item" domainObjectName="sc.scBorder.ScBorderItem" mapperName="sc.scBorder.ScBorderItemMapper">
+        </table>-->
+        <table tableName="sc_border_item_view"
+               enableInsert="false" enableUpdateByPrimaryKey="false"
+               enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+               enableDeleteByExample="false"
+               domainObjectName="sc.scBorder.ScBorderItemView" mapperName="sc.scBorder.ScBorderItemViewMapper">
+            <columnOverride column="year" jdbcType="INTEGER" javaType="Integer"></columnOverride>
+        </table>
+
     </context>
 </generatorConfiguration>

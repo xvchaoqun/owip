@@ -11,6 +11,14 @@
             <jsp:include page="menu.jsp"/>
             <div class="space-4"></div>
             <div class="jqgrid-vertical-offset buttons">
+
+                <shiro:hasPermission name="dispatchWorkFile:list">
+                    <button class="popupBtn btn btn-warning btn-sm " data-width="750"
+                            data-url="${ctx}/cadreCompanyFiles?type=${module==1?1:0}"><i class="fa fa-files-o"></i>
+                        ${module==1?'校领导兼职管理文件':'中层干部兼职管理文件'}
+                    </button>
+                </shiro:hasPermission>
+
                 <shiro:hasPermission name="cadreCompany:edit">
                     <c:if test="${cls==1}">
                         <button class="popupBtn btn btn-success btn-sm"

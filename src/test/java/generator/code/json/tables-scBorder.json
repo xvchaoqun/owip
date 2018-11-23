@@ -1,0 +1,28 @@
+{
+  "cpath": "\\src\\main\\java\\controller\\",
+  "spath": "\\src\\main\\java\\service\\",
+  "vpath": "\\src\\main\\webapp\\WEB-INF\\jsp\\",
+  "tablePrefix": "",
+  "folder": "sc/scBorder",
+  "resFolder": "sc",
+  "tables": [
+    {
+      "table": "sc_border",
+      "key": "id",
+      "searchColumns": "year",
+      "showColumns": "year,record_date,new_file,remark",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_SC_BORDER",
+      "ignore": false
+    },
+    {
+      "table": "sc_border_item",
+      "key": "id",
+      "searchColumns": "cadre_id",
+      "showColumns": "cadre_id,title,admin_level,relate_dispatch,remark",
+      "excludeEditColumns": "id",
+      "logType": "LogConstants.LOG_SC_BORDER",
+      "ignore": false
+    }
+  ]
+}

@@ -260,7 +260,7 @@ public class ClaAdditionalPostService extends BaseMapper {
     })
     public int updateByPrimaryKeySelective(ClaAdditionalPost record){
 
-        Assert.isTrue(!idDuplicate(record.getId(), record.getCadreId(), record.getUnitId()));
+        Assert.isTrue(!idDuplicate(record.getId(), record.getCadreId(), record.getUnitId()), "duplicate");
 
         return claAdditionalPostMapper.updateByPrimaryKeySelective(record);
     }

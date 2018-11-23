@@ -65,6 +65,7 @@ public class FileController extends BaseController {
         if(!FileUtils.exists(springProps.uploadPath, path)){
             throw new OpException("文件不存在："+ path);
         }
+        response.setHeader("Set-Cookie", "fileDownload=true; path=/");
         DownloadUtils.download(request, response, springProps.uploadPath + path, filename);
     }
 

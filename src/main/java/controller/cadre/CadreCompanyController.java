@@ -95,6 +95,13 @@ public class CadreCompanyController extends BaseController {
     }
 
     @RequiresPermissions("cadreCompany:list")
+    @RequestMapping("/cadreCompanyList_setting")
+    public String cadreCompanyList_setting() {
+
+        return "cadre/cadreCompany/cadreCompanyList_setting";
+    }
+
+    @RequiresPermissions("cadreCompany:list")
     @RequestMapping("/cadreCompany")
     public String cadreCompany(Integer cadreId, @RequestParam(defaultValue = "1") Byte cls,
                                ModelMap modelMap) {

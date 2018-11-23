@@ -64,4 +64,19 @@ public class ScConstants {
         SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP.put(SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_FORGET, "漏报");
         SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_MAP.put(SC_MATTER_CHECK_ITEM_CONFIRM_TYPE_NOT, "瞒报");
     }
+
+    /**
+     * 出入境备案
+     */
+    // 报备干部类别，1 新增 2 变更 3 撤销
+    public final static byte SC_BORDER_ITEM_TYPE_ADD = 1;
+    public final static byte SC_BORDER_ITEM_TYPE_CHANGE = 2;
+    public final static byte SC_BORDER_ITEM_TYPE_DELETE = 3;
+    public final static Map<Byte, String> SC_BORDER_ITEM_TYPE_MAP = new LinkedHashMap();
+
+    static {
+        SC_BORDER_ITEM_TYPE_MAP.put(SC_BORDER_ITEM_TYPE_ADD, "新增");
+        SC_BORDER_ITEM_TYPE_MAP.put(SC_BORDER_ITEM_TYPE_CHANGE, "变更");
+        SC_BORDER_ITEM_TYPE_MAP.put(SC_BORDER_ITEM_TYPE_DELETE, "撤销");
+    }
 }

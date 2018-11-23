@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.sc.scBorder.ScBorderItemViewMapper">
+  <resultMap id="BaseResultMap" type="domain.sc.scBorder.ScBorderItemView">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="border_id" jdbcType="INTEGER" property="borderId" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="cadre_id" jdbcType="INTEGER" property="cadreId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="admin_level" jdbcType="INTEGER" property="adminLevel" />
+    <result column="dispatch_cadre_ids" jdbcType="VARCHAR" property="dispatchCadreIds" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="record_date" jdbcType="DATE" property="recordDate" />
+    <result column="add_file" jdbcType="VARCHAR" property="addFile" />
+    <result column="change_file" jdbcType="VARCHAR" property="changeFile" />
+    <result column="delete_file" jdbcType="VARCHAR" property="deleteFile" />
+    <result column="record_file" jdbcType="VARCHAR" property="recordFile" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, border_id, type, cadre_id, title, admin_level, dispatch_cadre_ids, remark, year, 
+    record_date, add_file, change_file, delete_file, record_file
+  </sql>
+  <select id="selectByExample" parameterType="domain.sc.scBorder.ScBorderItemViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_border_item_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="domain.sc.scBorder.ScBorderItemViewExample" resultType="java.lang.Long">
+    select count(*) from sc_border_item_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.sc.scBorder.ScBorderItemViewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sc_border_item_view
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
