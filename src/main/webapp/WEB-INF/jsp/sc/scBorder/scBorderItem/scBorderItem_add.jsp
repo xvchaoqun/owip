@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
     <h3>添加报备干部</h3>
 </div>
 <div class="modal-body">
-    <form class="form-horizontal" action="${ctx}/sc/scBorderItem_au" id="modalForm" method="post">
+    <form class="form-horizontal" action="${ctx}/sc/scBorderItem_add" id="modalForm" method="post">
         <input type="hidden" name="borderId" value="${param.borderId}">
         <div class="form-group">
             <label class="col-xs-3 control-label">报备类别</label>
@@ -21,7 +21,6 @@ pageEncoding="UTF-8"%>
 
             </div>
         </div>
-
 			<div class="form-group">
 				<label class="col-xs-3 control-label">选择离任干部</label>
 				<div class="col-xs-6">

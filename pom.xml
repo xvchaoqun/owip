@@ -14,7 +14,7 @@
         <lucene.version>7.3.0</lucene.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <generator.mybatis.modal>pmd</generator.mybatis.modal>
+        <generator.mybatis.modal>sc</generator.mybatis.modal>
     </properties>
     <dependencies>
         <dependency>
@@ -484,7 +484,7 @@
         <dependency>
             <groupId>com.lowagie</groupId>
             <artifactId>itext</artifactId>
-            <version>2.1.7.js2</version>
+            <version>2.1.7</version>
         </dependency>
 
         <dependency>
@@ -632,7 +632,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
+                <version>3.1.0</version>
                 <configuration>
                     <excludes>
                         <!--<exclude>**/*.xml</exclude>-->
@@ -693,8 +693,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.8.0</version>
                 <configuration>
+                    <fork>true</fork>
+
+                    <meminitial>512m</meminitial>
+                     <maxmem>1024m</maxmem>
+                    <!--<verbose>true</verbose>-->
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>

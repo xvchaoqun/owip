@@ -287,6 +287,18 @@ left join sys_user_view u on slri.user_id=u.id
 left join sc_letter_reply slr on slr.id=slri.reply_id and slr.is_deleted=0
 left join sc_letter sl on sl.id=slr.letter_id and sl.is_deleted=0;
 
+-- 出入境备案视图
+DROP VIEW IF EXISTS `sc_border_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_border_view` AS
+select sb.*, count(sbi.id) as item_count from sc_border sb
+left join sc_border_item sbi on sbi.border_id=sb.id
+group by sb.id ;
+
+DROP VIEW IF EXISTS `sc_border_item_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `sc_border_item_view` AS
+select bi.*, b.year, b.record_date, b.add_file, b.change_file, b.delete_file, b.record_file from sc_border_item bi
+left join sc_border b on b.id=bi.border_id ;
+
 -- 个人有关事项视图
 DROP VIEW IF EXISTS `sc_matter_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `sc_matter_view` AS
