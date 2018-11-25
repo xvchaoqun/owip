@@ -38,7 +38,7 @@
                     <input type="hidden" name="scDispatchId" value="${scDispatchId}">
 
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">年份</label>
+                        <label class="col-xs-4 control-label">年份</label>
 
                         <div class="col-xs-6">
                             <div class="input-group">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">发文类型</label>
+                        <label class="col-xs-4 control-label">发文类型</label>
 
                         <div class="col-xs-6">
                             <select required data-rel="select2-ajax" data-ajax-url="${ctx}/dispatchType_selects"
@@ -60,21 +60,55 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">发文号</label>
+                        <label class="col-xs-4 control-label">发文号</label>
 
                         <div class="col-xs-6">
                             <input class="form-control" type="text" name="code" value="${dispatch.code}">
                             <span class="label-inline"> * 留空自动生成</span>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label">发文属性</label>
+
+                        <div class="col-xs-7 choice">
+                            <c:forEach items="<%=DispatchConstants.DISPATCH_CATEGORY_MAP%>" var="entity">
+                            <input name="_category" class="big" type="checkbox" value="${entity.key}"> ${entity.value}&nbsp;
+                            </c:forEach>
+
+                            <script>
+
+                                $("#modalForm input[name=_category]").click(function () {
+
+                                    var category = $(this).val();
+                                    if(category!='<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>'){
+                                        //console.log("category=" + category)
+                                        $("#modalForm input[name=_category]")
+                                            .not(this)
+                                            .not($("#modalForm input[name=_category][value=<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>]"))
+                                            .prop("checked", false)
+                                            .prop("disabled", $(this).prop("checked"))
+                                    }
+                                })
+
+                                <c:if test="${not empty dispatch.category}">
+                                var category = '${dispatch.category}';
+                                if($.trim(category)!=''){
+                                    $.each(category.split(","),function (i, val) {
+                                        $("#modalForm input[name=_category][value="+ $.trim(val) +"]").click();
+                                    })
+                                }
+                                </c:if>
+                            </script>
+					    </div>
+                    </div>
                     <div class="form-group" id="scCommitteesDiv" style="display: none">
-                        <label class="col-xs-3 control-label">党委常委会</label>
+                        <label class="col-xs-4 control-label">党委常委会</label>
                         <div class="col-xs-8 label-text">
 
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">党委常委会日期</label>
+                        <label class="col-xs-4 control-label">党委常委会日期</label>
 
                         <div class="col-xs-6">
                             <div class="input-group">
@@ -86,7 +120,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">发文日期</label>
+                        <label class="col-xs-4 control-label">发文日期</label>
 
                         <div class="col-xs-6">
                             <div class="input-group">
@@ -98,7 +132,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">任免日期</label>
+                        <label class="col-xs-4 control-label">任免日期</label>
 
                         <div class="col-xs-6">
                             <div class="input-group">
@@ -110,7 +144,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">任命人数</label>
+                        <label class="col-xs-4 control-label">任命人数</label>
 
                         <div class="col-xs-6">
                             <input required class="form-control digits" type="text" name="appointCount"
@@ -118,7 +152,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">免职人数</label>
+                        <label class="col-xs-4 control-label">免职人数</label>
 
                         <div class="col-xs-6">
                             <input required class="form-control digits" type="text" name="dismissCount"
@@ -128,20 +162,20 @@
                     <input type="hidden" name="file">
                     <input type="hidden" name="fileName">
                     <%--<div class="form-group">
-                        <label class="col-xs-3 control-label">任免文件</label>
+                        <label class="col-xs-4 control-label">任免文件</label>
                         <div class="col-xs-6">
                             <input class="form-control" type="file" name="_file" />
                         </div>
                     </div>--%>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">上会ppt</label>
+                        <label class="col-xs-4 control-label">上会ppt</label>
 
                         <div class="col-xs-6">
                             <input class="form-control" type="file" name="_ppt"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-3 control-label">备注</label>
+                        <label class="col-xs-4 control-label">备注</label>
 
                         <div class="col-xs-6">
                             <textarea class="form-control limited" name="remark">${dispatch.remark}</textarea>

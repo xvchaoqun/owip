@@ -32,15 +32,16 @@
             {label: '应聘人工作证号', name: 'code', width: 150, frozen: true},
             {
                 label: '应聘人姓名', name: 'realname', width: 120, formatter: function (cellvalue, options, rowObject) {
-                return $.cadre(rowObject.id, cellvalue);
+                return $.cadre(rowObject.cadreId, cellvalue);
             }, frozen: true
             },
             {label: '所在单位及职务', name: 'title', align: 'left', width: 350},
             {label: '应聘次数', name: 'totalCount'},
             {label: '参加招聘会次数', name: 'passCount', width: 150},
             {
-                label: '详情', name: '_detail', width: 120, formatter: function (cellvalue, options, rowObject) {
-                return '<a href="javascript:;" class="openView" data-url="${ctx}/crsStatApplicant_detail?userId={0}">查看</a>'
+                label: '详情', name: '_detail', width: 60, formatter: function (cellvalue, options, rowObject) {
+                return ('<button type="button" class="openView btn btn-xs btn-primary"' +
+                    ' data-url="${ctx}/crsStatApplicant_detail?userId={0}"><i class="fa fa-search"></i> 查看</a>')
                         .format(rowObject.userId, cellvalue);
             }
             }

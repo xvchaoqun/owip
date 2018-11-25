@@ -18,6 +18,7 @@
 
     <resultMap id="statApplicantResultMap" type="persistence.crs.common.CrsStatApplicantBean">
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="cadre_id" jdbcType="INTEGER" property="cadreId"/>
         <result column="realname" jdbcType="VARCHAR" property="realname"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
@@ -26,7 +27,7 @@
     </resultMap>
 
     <select id="selectStatApplicantList" resultMap="statApplicantResultMap" parameterType="map">
-        select ca.user_id, cv.realname, cv.code, cv.title, count(*) as total_count, sum(if(ca.is_require_check_pass, 1, 0)) as pass_count from crs_applicant_view ca
+        select ca.user_id, cv.cadre_id, cv.realname, cv.code, cv.title, count(*) as total_count, sum(if(ca.is_require_check_pass, 1, 0)) as pass_count from crs_applicant_view ca
             left join crs_post cp on cp.id = ca.post_id
             left join cadre_view cv on cv.user_id=ca.user_id
             where ca.status=#{applicantStatus} and cp.status=#{postStatus} group by ca.user_id order by ca.id asc

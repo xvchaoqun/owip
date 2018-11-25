@@ -7,6 +7,7 @@
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="dispatch_type_id" jdbcType="INTEGER" property="dispatchTypeId" />
     <result column="code" jdbcType="INTEGER" property="code" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
     <result column="meeting_time" jdbcType="DATE" property="meetingTime" />
     <result column="pub_time" jdbcType="DATE" property="pubTime" />
     <result column="work_time" jdbcType="DATE" property="workTime" />
@@ -81,9 +82,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, sc_dispatch_id, year, dispatch_type_id, code, meeting_time, pub_time, work_time, 
-    appoint_count, real_appoint_count, dismiss_count, real_dismiss_count, has_checked, 
-    file, file_name, ppt, ppt_name, remark, sort_order
+    id, sc_dispatch_id, year, dispatch_type_id, code, category, meeting_time, pub_time, 
+    work_time, appoint_count, real_appoint_count, dismiss_count, real_dismiss_count, 
+    has_checked, file, file_name, ppt, ppt_name, remark, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.dispatch.DispatchExample" resultMap="BaseResultMap">
     select
@@ -115,28 +116,31 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert keyProperty="id" id="insert" parameterType="domain.dispatch.Dispatch">
-    insert into dispatch (id, sc_dispatch_id, year, 
-      dispatch_type_id, code, meeting_time, 
+  <insert id="insert" parameterType="domain.dispatch.Dispatch">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dispatch (sc_dispatch_id, year, dispatch_type_id, 
+      code, category, meeting_time, 
       pub_time, work_time, appoint_count, 
       real_appoint_count, dismiss_count, real_dismiss_count, 
       has_checked, file, file_name, 
       ppt, ppt_name, remark, 
       sort_order)
-    values (#{id,jdbcType=INTEGER}, #{scDispatchId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, 
-      #{dispatchTypeId,jdbcType=INTEGER}, #{code,jdbcType=INTEGER}, #{meetingTime,jdbcType=DATE}, 
+    values (#{scDispatchId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{dispatchTypeId,jdbcType=INTEGER}, 
+      #{code,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}, #{meetingTime,jdbcType=DATE}, 
       #{pubTime,jdbcType=DATE}, #{workTime,jdbcType=DATE}, #{appointCount,jdbcType=INTEGER}, 
       #{realAppointCount,jdbcType=INTEGER}, #{dismissCount,jdbcType=INTEGER}, #{realDismissCount,jdbcType=INTEGER}, 
       #{hasChecked,jdbcType=BIT}, #{file,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, 
       #{ppt,jdbcType=VARCHAR}, #{pptName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{sortOrder,jdbcType=INTEGER})
   </insert>
-  <insert keyProperty="id" id="insertSelective" parameterType="domain.dispatch.Dispatch">
+  <insert id="insertSelective" parameterType="domain.dispatch.Dispatch">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into dispatch
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="scDispatchId != null">
         sc_dispatch_id,
       </if>
@@ -148,6 +152,9 @@
       </if>
       <if test="code != null">
         code,
+      </if>
+      <if test="category != null">
+        category,
       </if>
       <if test="meetingTime != null">
         meeting_time,
@@ -193,9 +200,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="scDispatchId != null">
         #{scDispatchId,jdbcType=INTEGER},
       </if>
@@ -207,6 +211,9 @@
       </if>
       <if test="code != null">
         #{code,jdbcType=INTEGER},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=VARCHAR},
       </if>
       <if test="meetingTime != null">
         #{meetingTime,jdbcType=DATE},
@@ -276,6 +283,9 @@
       <if test="record.code != null">
         code = #{record.code,jdbcType=INTEGER},
       </if>
+      <if test="record.category != null">
+        category = #{record.category,jdbcType=VARCHAR},
+      </if>
       <if test="record.meetingTime != null">
         meeting_time = #{record.meetingTime,jdbcType=DATE},
       </if>
@@ -330,6 +340,7 @@
       year = #{record.year,jdbcType=INTEGER},
       dispatch_type_id = #{record.dispatchTypeId,jdbcType=INTEGER},
       code = #{record.code,jdbcType=INTEGER},
+      category = #{record.category,jdbcType=VARCHAR},
       meeting_time = #{record.meetingTime,jdbcType=DATE},
       pub_time = #{record.pubTime,jdbcType=DATE},
       work_time = #{record.workTime,jdbcType=DATE},
@@ -362,6 +373,9 @@
       </if>
       <if test="code != null">
         code = #{code,jdbcType=INTEGER},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=VARCHAR},
       </if>
       <if test="meetingTime != null">
         meeting_time = #{meetingTime,jdbcType=DATE},
@@ -414,6 +428,7 @@
       year = #{year,jdbcType=INTEGER},
       dispatch_type_id = #{dispatchTypeId,jdbcType=INTEGER},
       code = #{code,jdbcType=INTEGER},
+      category = #{category,jdbcType=VARCHAR},
       meeting_time = #{meetingTime,jdbcType=DATE},
       pub_time = #{pubTime,jdbcType=DATE},
       work_time = #{workTime,jdbcType=DATE},

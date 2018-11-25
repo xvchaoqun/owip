@@ -34,6 +34,8 @@ public class Dispatch implements Serializable {
 
     private Integer code;
 
+    private String category;
+
     private Date meetingTime;
 
     private Date pubTime;
@@ -102,6 +104,14 @@ public class Dispatch implements Serializable {
 
     public void setCode(Integer code) {
         this.code = code;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category == null ? null : category.trim();
     }
 
     public Date getMeetingTime() {

@@ -1,6 +1,14 @@
 
 
 
+ALTER TABLE `dispatch`
+	ADD COLUMN `category` VARCHAR(10) NOT NULL COMMENT '文件属性，1 干部任免文件 2 内设机构调整文件 3 组织机构调整文件，可同时是两种' AFTER `code`;
+
+update dispatch set category=1;
+
+更新 dispatch_view
+
+
 20181123
 更新 common-utils
 

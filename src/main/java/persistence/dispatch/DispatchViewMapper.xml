@@ -7,6 +7,7 @@
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="dispatch_type_id" jdbcType="INTEGER" property="dispatchTypeId" />
     <result column="code" jdbcType="INTEGER" property="code" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
     <result column="meeting_time" jdbcType="DATE" property="meetingTime" />
     <result column="pub_time" jdbcType="DATE" property="pubTime" />
     <result column="work_time" jdbcType="DATE" property="workTime" />
@@ -52,9 +53,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, sc_dispatch_id, year, dispatch_type_id, code, meeting_time, pub_time, work_time, 
-    appoint_count, real_appoint_count, dismiss_count, real_dismiss_count, has_checked, 
-    file, file_name, ppt, ppt_name, remark, sort_order
+    id, sc_dispatch_id, year, dispatch_type_id, code, category, meeting_time, pub_time, 
+    work_time, appoint_count, real_appoint_count, dismiss_count, real_dismiss_count, 
+    has_checked, file, file_name, ppt, ppt_name, remark, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.dispatch.DispatchViewExample" resultMap="BaseResultMap">
     select

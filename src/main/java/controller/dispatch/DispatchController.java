@@ -254,6 +254,7 @@ public class DispatchController extends DispatchBaseController {
                               String _workTime,
                               String _meetingTime,
                               /*MultipartFile _file,*/
+                              Integer[] _category,
                               String file,
                               String fileName,
                               MultipartFile _ppt,
@@ -293,7 +294,9 @@ public class DispatchController extends DispatchBaseController {
         }*/
         record.setFileName(StringUtils.trimToNull(fileName));
         record.setFile(StringUtils.trimToNull(file));
-
+        
+        record.setCategory(StringUtils.join(_category, ","));
+        
         if (_ppt != null) {
             String uploadDate = DateUtils.formatDate(new Date(), "yyyyMM");
             String ext = FileUtils.getExtention(_ppt.getOriginalFilename());

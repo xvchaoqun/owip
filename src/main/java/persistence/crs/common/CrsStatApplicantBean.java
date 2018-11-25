@@ -6,6 +6,7 @@ package persistence.crs.common;
 public class CrsStatApplicantBean {
 
     private Integer userId;
+    private Integer cadreId;
     private String realname;
     private String code;
     private String title;
@@ -19,7 +20,15 @@ public class CrsStatApplicantBean {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-
+    
+    public Integer getCadreId() {
+        return cadreId;
+    }
+    
+    public void setCadreId(Integer cadreId) {
+        this.cadreId = cadreId;
+    }
+    
     public String getRealname() {
         return realname;
     }
