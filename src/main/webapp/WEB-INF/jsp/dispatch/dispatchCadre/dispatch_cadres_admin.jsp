@@ -11,7 +11,7 @@
 </c:if>
 <div class="widget-box">
   <div class="widget-header">
-    <h4 class="smaller">
+    <h4 class="widget-title">
       ${empty dispatch.scDispatchId?"修改":"查看"}干部任免事项
     </h4>
   </div>

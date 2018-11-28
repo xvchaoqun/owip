@@ -46,6 +46,15 @@
                                     </button>
                                 </c:if>
                             </shiro:hasPermission>
+                            <shiro:hasRole name="${ROLE_ADMIN}">
+                                <button class="jqItemBtn btn btn-danger btn-sm"
+                                        data-title="更新结算"
+                                        data-msg="确定更新结算？（仅更新汇总数据）"
+                                   data-url="${ctx}/pmd/pmdMonth_end?update=1"
+                                   data-id-name="monthId"
+                                   data-grid-id="#jqGrid"><i class="fa fa-refresh"></i>
+                                    更新结算</button>
+                            </shiro:hasRole>
                         </div>
                         <%--<div class="jqgrid-vertical-offset widget-box ${_query?'':'collapsed'} hidden-sm hidden-xs">
                             <div class="widget-header">

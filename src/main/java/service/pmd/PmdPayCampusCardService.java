@@ -705,7 +705,7 @@ public class PmdPayCampusCardService extends BaseMapper {
             logger.error("[党费收缴]处理支付结果异常，缴费月份不存在，订单号：{}", orderNo);
         } else {
 
-            int payMonthId = payMonth.getId();
+            int needPayMonthId = payMonth.getId();
             PmdMonth currentPmdMonth = pmdMonthService.getCurrentPmdMonth();
             if(currentPmdMonth==null){ // 再次确定当月还未结算
                 logger.error("[党费收缴]缴费已关闭，但是收到了缴费成功的通知，订单号：{}", orderNo);
@@ -724,13 +724,13 @@ public class PmdPayCampusCardService extends BaseMapper {
                 }
 
                 // 收到支付通知时，要求订单的缴费月份必须是当前系统设定的缴费月份，否则不允许更新。（注：订单号是由当时的缴费月份生成的）
-                if(payMonthId != currentPmdMonth.getId()
+                if(needPayMonthId != currentPmdMonth.getId()
                         && BooleanUtils.isFalse(pmdMemberPayView.getIsDelay())) {
                     logger.error("[党费收缴]处理支付结果异常，缴费月份和当前缴费月份不同，不允许缴费，订单号：{}", orderNo);
                     //return;  // 为了本人页面正常显示支付成功，这里需要放行
                 }
 
-                if (!isDelay && payStatus!=0 && payMonthId == currentPmdMonth.getId()) {
+                if (!isDelay && payStatus!=0 && needPayMonthId == currentPmdMonth.getId()) {
                     // 当月正常缴费时（非补缴），才需更新快照
                     PmdMember record = new PmdMember();
                     record.setId(memberId);
@@ -761,10 +761,10 @@ public class PmdPayCampusCardService extends BaseMapper {
                 record.setRealPay(realPay);
                 record.setIsSelfPay(isSelfPay);
                 record.setChargeUserId(chargeUserId);
-                record.setPayMonthId(payMonthId);
+                record.setPayMonthId(currentPmdMonth.getId());
                 // 把党员生成订单时所在党委、支部，设置为缴费的单位
                 int userId = pmdMemberPayView.getUserId();
-                PmdMember pmdMember = pmdMemberService.get(payMonthId, userId);
+                PmdMember pmdMember = pmdMemberService.get(needPayMonthId, userId);
                 int partyId = pmdMember.getPartyId();
                 Integer branchId = pmdMember.getBranchId();
                 record.setChargePartyId(partyId);

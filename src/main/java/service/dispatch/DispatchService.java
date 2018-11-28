@@ -4,16 +4,13 @@ import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchExample;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import service.BaseMapper;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class DispatchService extends BaseMapper {
@@ -24,7 +21,6 @@ public class DispatchService extends BaseMapper {
     // String.format("%s[%s]%s号", dispatchType.getName(), year, numStr);
 
     @Transactional
-    @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public void update_dispatch_real_count(){
 
         iDispatchMapper.update_dispatch_real_count();
@@ -61,7 +57,6 @@ public class DispatchService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public int insertSelective(Dispatch record){
 
         if(record.getCode()!=null) {
@@ -80,14 +75,12 @@ public class DispatchService extends BaseMapper {
         return dispatchMapper.updateByPrimaryKeySelective(_record);*/
     }
     @Transactional
-    @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public void del(Integer id){
 
         dispatchMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -97,19 +90,16 @@ public class DispatchService extends BaseMapper {
         dispatchMapper.deleteByExample(example);
     }
     @Transactional
-    @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public void delFile(int id){
         iDispatchMapper.del_dispatch_file(id);
     }
 
     @Transactional
-    @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public void delPpt(int id){
         iDispatchMapper.del_dispatch_ppt(id);
     }
 
     @Transactional
-    @CacheEvict(value="Dispatch:ALL", allEntries = true)
     public void updateByPrimaryKeySelective(Dispatch record, boolean checkScDispatchId){
 
         if(record.getCode()!=null) {
@@ -123,8 +113,7 @@ public class DispatchService extends BaseMapper {
         }
     }
 
-    @Cacheable(value="Dispatch:ALL")
-    public Map<Integer, Dispatch> findAll() {
+    /*public Map<Integer, Dispatch> findAll() {
 
         DispatchExample example = new DispatchExample();
         example.createCriteria();
@@ -136,7 +125,7 @@ public class DispatchService extends BaseMapper {
         }
 
         return map;
-    }
+    }*/
 
     /**
      * 排序 ，要求 1、sort_order>0且不可重复  2、sort_order 降序排序
@@ -145,7 +134,6 @@ public class DispatchService extends BaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "Dispatch:ALL", allEntries = true)
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import service.sc.scDispatch.ScDispatchService;
+import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.spring.DateRange;
 import sys.spring.RequestDateRange;
@@ -65,6 +66,8 @@ public class DispatchController extends DispatchBaseController {
             return "forward:/dispatchCadre";
         }else if (cls == 3) {
             return "forward:/sc/scDispatch";
+        }else if (cls == 4) {
+            return "forward:/dispatchUnit";
         }
 
         if (dispatchTypeId != null) {
@@ -564,7 +567,9 @@ public class DispatchController extends DispatchBaseController {
 
     @RequestMapping("/dispatch_selects")
     @ResponseBody
-    public Map dispatch_selects(Integer pageSize, Integer pageNo, Integer dispatchTypeId, String searchStr) throws IOException {
+    public Map dispatch_selects(Integer pageSize, Integer pageNo,
+                                Boolean isCadre, // 是否干部任免文件
+                                Integer dispatchTypeId, String searchStr) throws IOException {
 
         if (null == pageSize) {
             pageSize = springProps.pageSize;
@@ -576,8 +581,12 @@ public class DispatchController extends DispatchBaseController {
 
         DispatchExample example = new DispatchExample();
         Criteria criteria = example.createCriteria();
-        if (dispatchTypeId != null)
+        if (dispatchTypeId != null) {
             criteria.andDispatchTypeIdEqualTo(dispatchTypeId);
+        }
+        if(isCadre!=null){
+            criteria.andCategoryContain(DispatchConstants.DISPATCH_CATEGORY_CADER, isCadre);
+        }
 
         example.setOrderByClause("sort_order desc");
 

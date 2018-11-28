@@ -38,7 +38,6 @@ import service.base.LocationService;
 import service.base.MetaTypeService;
 import service.cadre.CadreAdminLevelService;
 import service.cadre.CadrePostService;
-import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
 import service.party.BranchService;
 import service.party.PartyService;
@@ -301,8 +300,6 @@ public class CacheService extends BaseMapper {
         map.put("partyMap", partyService.findAll());
         map.put("branchMap", branchService.findAll());
 
-        DispatchService dispatchService = CmTag.getBean(DispatchService.class);
-        if(dispatchService!=null) map.put("dispatchMap", dispatchService.findAll());
         DispatchTypeService dispatchTypeService = CmTag.getBean(DispatchTypeService.class);
         if(dispatchTypeService!=null) map.put("dispatchTypeMap", dispatchTypeService.findAll());
 

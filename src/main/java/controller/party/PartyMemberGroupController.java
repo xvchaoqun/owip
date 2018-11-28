@@ -3,12 +3,8 @@ package controller.party;
 import controller.BaseController;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchUnit;
-import domain.party.Party;
-import domain.party.PartyMemberGroup;
-import domain.party.PartyMemberGroupExample;
+import domain.party.*;
 import domain.party.PartyMemberGroupExample.Criteria;
-import domain.party.PartyMemberGroupView;
-import domain.party.PartyMemberGroupViewExample;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.dispatch.DispatchService;
-import service.dispatch.DispatchUnitService;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.jackson.Select2Option;
@@ -36,12 +30,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class PartyMemberGroupController extends BaseController {
@@ -201,8 +190,7 @@ public class PartyMemberGroupController extends BaseController {
             if(dispatchUnitId != null) {
                 DispatchUnit dispatchUnit = dispatchUnitMapper.selectByPrimaryKey(dispatchUnitId);
                 if(dispatchUnit!= null) {
-                    DispatchService dispatchService = CmTag.getBean(DispatchService.class);
-                    modelMap.put("dispatch", dispatchService.findAll().get(dispatchUnit.getDispatchId()));
+                    modelMap.put("dispatch", dispatchUnit.getDispatch());
                 }
             }
         }else{
@@ -264,8 +252,7 @@ public class PartyMemberGroupController extends BaseController {
             Integer partyId = record.getPartyId();
 
             String dispatchCode = "";
-            DispatchUnitService dispatchUnitService = CmTag.getBean(DispatchUnitService.class);
-            DispatchUnit dispatchUnit = dispatchUnitService.findAll().get(record.getDispatchUnitId());
+            DispatchUnit dispatchUnit = CmTag.getDispatchUnit(record.getDispatchUnitId());
             if(dispatchUnit!=null) {
                 Dispatch dispatch = dispatchUnit.getDispatch();
                if(dispatch!=null)

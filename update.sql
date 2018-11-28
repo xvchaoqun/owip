@@ -1,6 +1,6 @@
 
 
-
+20181128
 ALTER TABLE `dispatch`
 	ADD COLUMN `category` VARCHAR(10) NOT NULL COMMENT '文件属性，1 干部任免文件 2 内设机构调整文件 3 组织机构调整文件，可同时是两种' AFTER `code`;
 
@@ -8,6 +8,26 @@ update dispatch set category=1;
 
 更新 dispatch_view
 
+ALTER TABLE `dispatch`
+	CHANGE COLUMN `work_time` `work_time` DATE NULL COMMENT '任免日期' AFTER `pub_time`;
+
+-- 更新前检查一下 dispatch_unit是否已有数据
+select count(*) from dispatch_unit;
+
+ALTER TABLE `dispatch_unit`
+	ADD COLUMN `is_unit` TINYINT(1) UNSIGNED NOT NULL COMMENT '机构类型， 1 内设机构 0 组织机构 ，与发文类型保持同步' AFTER `dispatch_id`,
+	CHANGE COLUMN `type_id` `type` INT(10) UNSIGNED NOT NULL COMMENT '调整方式，关联元数据' AFTER `is_unit`,
+	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NULL COMMENT '新成立机构名称，关联单位或党委' AFTER `type`,
+	ADD COLUMN `old_unit_id` INT(10) UNSIGNED NULL COMMENT '撤销机构名称，关联单位或党委' AFTER `unit_id`,
+	DROP COLUMN `year`,
+	DROP COLUMN `sort_order`,
+	DROP INDEX `FK_dispatch_unit_base_unit`,
+	DROP INDEX `FK_dispatch_unit_base_meta_type`,
+	DROP FOREIGN KEY `FK_dispatch_unit_base_unit`,
+	DROP FOREIGN KEY `FK_dispatch_unit_base_meta_type`;
+
+
+mc_dispatch_unit -> mc_dispatch_unit_type 和对应的值
 
 20181123
 更新 common-utils

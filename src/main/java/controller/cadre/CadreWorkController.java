@@ -34,30 +34,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.dispatch.DispatchCadreRelateService;
-import service.dispatch.DispatchCadreService;
-import sys.constants.CadreConstants;
-import sys.constants.DispatchConstants;
-import sys.constants.LogConstants;
-import sys.constants.RoleConstants;
-import sys.constants.SystemConstants;
+import sys.constants.*;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
-import sys.utils.MSUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class CadreWorkController extends BaseController {
@@ -394,12 +379,11 @@ public class CadreWorkController extends BaseController {
         // 已关联的发文
         Set<Integer> dispatchCadreIdSet = new HashSet<>();
         List<DispatchCadre> relateDispatchCadres = new ArrayList<>();
-        Map<Integer, DispatchCadre> dispatchCadreMap = CmTag.getBean(DispatchCadreService.class).findAll();
         List<DispatchCadreRelate> dispatchCadreRelates = dispatchCadreRelateService.findDispatchCadreRelates(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_WORK);
         for (DispatchCadreRelate dispatchCadreRelate : dispatchCadreRelates) {
             Integer dispatchCadreId = dispatchCadreRelate.getDispatchCadreId();
             dispatchCadreIdSet.add(dispatchCadreId);
-            relateDispatchCadres.add(dispatchCadreMap.get(dispatchCadreId));
+            relateDispatchCadres.add(CmTag.getDispatchCadre(dispatchCadreId));
         }
         modelMap.put("dispatchCadreIdSet", dispatchCadreIdSet);
 

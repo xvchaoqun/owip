@@ -28,21 +28,18 @@ public class DispatchUnitRelateService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DispatchUnitRelate:ALL", allEntries = true)
     public int insertSelective(DispatchUnitRelate record){
 
         record.setSortOrder(getNextSortOrder("dispatch_unit_relate", "dispatch_unit_id=" + record.getDispatchUnitId()));
         return dispatchUnitRelateMapper.insertSelective(record);
     }
     @Transactional
-    @CacheEvict(value="DispatchUnitRelate:ALL", allEntries = true)
     public void del(Integer id){
 
         dispatchUnitRelateMapper.deleteByPrimaryKey(id);
     }
 
     @Transactional
-    @CacheEvict(value="DispatchUnitRelate:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -53,12 +50,10 @@ public class DispatchUnitRelateService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DispatchUnitRelate:ALL", allEntries = true)
     public int updateByPrimaryKeySelective(DispatchUnitRelate record){
         return dispatchUnitRelateMapper.updateByPrimaryKeySelective(record);
     }
 
-    @Cacheable(value="DispatchUnitRelate:ALL")
     public Map<Integer, DispatchUnitRelate> findAll() {
 
         DispatchUnitRelateExample example = new DispatchUnitRelateExample();
@@ -79,7 +74,6 @@ public class DispatchUnitRelateService extends BaseMapper {
      * @param addNum
      */
     @Transactional
-    @CacheEvict(value = "DispatchUnitRelate:ALL", allEntries = true)
     public void changeOrder(int id, int dispatchUnitId, int addNum) {
 
         if(addNum == 0) return ;

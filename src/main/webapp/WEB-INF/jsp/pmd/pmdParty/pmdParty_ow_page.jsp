@@ -48,6 +48,15 @@
                         </button>
                     </shiro:hasPermission>
                     </c:if>
+                    <shiro:hasRole name="${ROLE_ADMIN}">
+                                <button class="jqItemBtn btn btn-danger btn-sm"
+                                        data-title="更新报送"
+                                        data-msg="确定更新报送？（仅更新汇总数据）"
+                                   data-url="${ctx}/pmd/pmdParty_report?update=1"
+                                        data-callback="_reload2"
+                                   data-grid-id="#jqGrid2"><i class="fa fa-refresh"></i>
+                                    更新报送</button>
+                    </shiro:hasRole>
                 </div>
                 <div class="space-4"></div>
                 <table id="jqGrid2" class="jqGrid2 table-striped"></table>

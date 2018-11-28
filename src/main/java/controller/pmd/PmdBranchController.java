@@ -1,14 +1,11 @@
 package controller.pmd;
 
-import domain.pmd.PmdBranch;
-import domain.pmd.PmdBranchView;
-import domain.pmd.PmdBranchViewExample;
-import domain.pmd.PmdMember;
-import domain.pmd.PmdMonth;
-import domain.pmd.PmdParty;
+import domain.pmd.*;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +28,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/pmd")
@@ -157,16 +149,23 @@ public class PmdBranchController extends PmdBaseController {
     @RequiresPermissions("pmdBranch:report")
     @RequestMapping(value = "/pmdBranch_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdBranch_report(int id, HttpServletRequest request) {
+    public Map do_pmdBranch_report(int id, Boolean update, HttpServletRequest request) {
 
-        PmdBranch pmdBranch = pmdBranchMapper.selectByPrimaryKey(id);
-        if(pmdBranch.getHasReport()){
-            return  failed("已经报送。");
+        if(BooleanUtils.isTrue(update)){
+            
+            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ADMIN);
+        
+            pmdBranchService.updateReport(id);
+            logger.info(addLog(LogConstants.LOG_PMD, "更新党支部报送：%s", id));
+        }else {
+            PmdBranch pmdBranch = pmdBranchMapper.selectByPrimaryKey(id);
+            if (pmdBranch.getHasReport()) {
+                return failed("已经报送。");
+            }
+    
+            pmdBranchService.report(id);
+            logger.info(addLog(LogConstants.LOG_PMD, "党支部报送：%s", id));
         }
-
-        pmdBranchService.report(id);
-        logger.info(addLog(LogConstants.LOG_PMD, "党支部报送：%s", id));
-
         return success(FormUtils.SUCCESS);
     }
 

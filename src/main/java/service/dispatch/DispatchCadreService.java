@@ -2,18 +2,12 @@ package service.dispatch;
 
 import domain.dispatch.DispatchCadre;
 import domain.dispatch.DispatchCadreExample;
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import service.BaseMapper;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class DispatchCadreService extends BaseMapper {
@@ -29,7 +23,6 @@ public class DispatchCadreService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DispatchCadre:ALL", allEntries = true)
     public void insertSelective(DispatchCadre record){
 
         record.setSortOrder(getNextSortOrder("dispatch_cadre", null));
@@ -38,7 +31,6 @@ public class DispatchCadreService extends BaseMapper {
         dispatchService.update_dispatch_real_count();
     }
     @Transactional
-    @CacheEvict(value="DispatchCadre:ALL", allEntries = true)
     public void del(Integer id){
 
         dispatchCadreMapper.deleteByPrimaryKey(id);
@@ -47,7 +39,6 @@ public class DispatchCadreService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DispatchCadre:ALL", allEntries = true)
     public void batchDel(Integer[] ids){
 
         if(ids==null || ids.length==0) return;
@@ -60,26 +51,11 @@ public class DispatchCadreService extends BaseMapper {
     }
 
     @Transactional
-    @CacheEvict(value="DispatchCadre:ALL", allEntries = true)
     public void updateByPrimaryKeySelective(DispatchCadre record){
 
         dispatchCadreMapper.updateByPrimaryKeySelective(record);
 
         dispatchService.update_dispatch_real_count();
-    }
-
-    @Cacheable(value="DispatchCadre:ALL")
-    public Map<Integer, DispatchCadre> findAll() {
-
-        DispatchCadreExample example = new DispatchCadreExample();
-        example.setOrderByClause("sort_order desc");
-        List<DispatchCadre> dispatchCadrees = dispatchCadreMapper.selectByExample(example);
-        Map<Integer, DispatchCadre> map = new LinkedHashMap<>();
-        for (DispatchCadre dispatchCadre : dispatchCadrees) {
-            map.put(dispatchCadre.getId(), dispatchCadre);
-        }
-
-        return map;
     }
 
     /**
@@ -88,8 +64,7 @@ public class DispatchCadreService extends BaseMapper {
      * @param id
      * @param addNum
      */
-    @Transactional
-    @CacheEvict(value = "DispatchCadre:ALL", allEntries = true)
+    /*@Transactional
     public void changeOrder(int id, int addNum) {
 
         if(addNum == 0) return ;
@@ -123,5 +98,5 @@ public class DispatchCadreService extends BaseMapper {
             record.setSortOrder(targetEntity.getSortOrder());
             dispatchCadreMapper.updateByPrimaryKeySelective(record);
         }
-    }
+    }*/
 }

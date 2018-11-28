@@ -85,6 +85,35 @@ public class PmdPartyService extends BaseMapper {
                 .andHasReportEqualTo(false);
         pmdPartyMapper.updateByExampleSelective(record, example);
     }
+    
+    // 更新报送数据（当报送数据异常时，需要先手动更新，然后更新报送统计数据）
+    @Transactional
+    public void updateReport(int id) {
+
+        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(id);
+        int monthId = pmdParty.getMonthId();
+        int partyId = pmdParty.getPartyId();
+        
+        PmdParty record = new PmdParty();
+        record.setId(id);
+        
+        // 保存数据汇总
+        PmdReportBean r = null;
+        // 如果是直属党支部
+        if(PartyHelper.isDirectBranch(partyId)){
+            r = iPmdMapper.getBranchPmdReportBean(monthId, partyId, null);
+        }else{
+            r = iPmdMapper.getPartyPmdReportBean(monthId, partyId);
+        }
+
+        try {
+            PropertyUtils.copyProperties(record, r);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
+        pmdPartyMapper.updateByPrimaryKeySelective(record);
+    }
 
     // 撤销党委报送
     @Transactional

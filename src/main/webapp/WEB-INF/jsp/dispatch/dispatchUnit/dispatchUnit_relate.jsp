@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>${dispatch.code}-关联单位</h3>
+    <h3>${dispatchUnit.dispatch.code}-关联单位</h3>
 </div>
 <div class="modal-body">
     <shiro:hasPermission name="dispatchUnitRelate:edit">

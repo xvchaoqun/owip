@@ -97,12 +97,11 @@ public class CadreCommonService extends BaseMapper {
 
         if(iDispatchMapper==null) return root;
         List<DispatchCadre> dispatchCadres = iDispatchMapper.selectDispatchCadreList(cadreId, type);
-        Map<Integer, Dispatch> dispatchMap = dispatchService.findAll();
         Map<Integer, MetaType> postMap = metaTypeService.metaTypes("mc_post");
 
         for (DispatchCadre dispatchCadre : dispatchCadres) {
 
-            Dispatch dispatch = dispatchMap.get(dispatchCadre.getDispatchId());
+            Dispatch dispatch = dispatchCadre.getDispatch();
             TreeNode node = new TreeNode();
             MetaType postType = postMap.get(dispatchCadre.getPostId());
             node.title = CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear())

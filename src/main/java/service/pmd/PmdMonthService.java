@@ -125,6 +125,30 @@ public class PmdMonthService extends BaseMapper {
                 .andStatusEqualTo(PmdConstants.PMD_MONTH_STATUS_START);
         pmdMonthMapper.updateByExampleSelective(record, example);
     }
+    
+    // 更新结算数据（当结算有误时调用）
+    @Transactional
+    public void updateEnd(int monthId) {
+
+        PmdMonth record = new PmdMonth();
+        record.setId(monthId);
+        record.setEndUserId(ShiroHelper.getCurrentUserId());
+        record.setEndTime(new Date());
+
+        // 保存数据汇总
+        PmdReportBean r = iPmdMapper.getOwPmdReportBean(monthId);
+        try {
+            PropertyUtils.copyProperties(record, r);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        
+        pmdMonthMapper.updateByPrimaryKeySelective(record);
+    }
 
     // 判断是否可以结算
     public boolean canEnd(int monthId) {

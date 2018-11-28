@@ -1,18 +1,16 @@
 package domain.dispatch;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class DispatchUnitExample {
+public class DispatchUnitViewExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public DispatchUnitExample() {
+    public DispatchUnitViewExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -326,12 +324,6 @@ public class DispatchUnitExample {
             return (Criteria) this;
         }
 
-        public Criteria andUnitIdContain(List<Integer> values) {
-            String unitIds = StringUtils.join(values, ",");
-            addCriterion("(unit_id in ("+unitIds+") or old_unit_id in ("+unitIds+"))");
-            return (Criteria) this;
-        }
-
         public Criteria andUnitIdIn(List<Integer> values) {
             addCriterion("unit_id in", values, "unitId");
             return (Criteria) this;
@@ -479,6 +471,246 @@ public class DispatchUnitExample {
 
         public Criteria andRemarkNotBetween(String value1, String value2) {
             addCriterion("remark not between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearIsNull() {
+            addCriterion("year is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearIsNotNull() {
+            addCriterion("year is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearEqualTo(Integer value) {
+            addCriterion("year =", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotEqualTo(Integer value) {
+            addCriterion("year <>", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearGreaterThan(Integer value) {
+            addCriterion("year >", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearGreaterThanOrEqualTo(Integer value) {
+            addCriterion("year >=", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearLessThan(Integer value) {
+            addCriterion("year <", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearLessThanOrEqualTo(Integer value) {
+            addCriterion("year <=", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearIn(List<Integer> values) {
+            addCriterion("year in", values, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotIn(List<Integer> values) {
+            addCriterion("year not in", values, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearBetween(Integer value1, Integer value2) {
+            addCriterion("year between", value1, value2, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotBetween(Integer value1, Integer value2) {
+            addCriterion("year not between", value1, value2, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeIdIsNull() {
+            addCriterion("dispatch_type_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeIdIsNotNull() {
+            addCriterion("dispatch_type_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeIdEqualTo(Integer value) {
+            addCriterion("dispatch_type_id =", value, "dispatchTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeIdNotEqualTo(Integer value) {
+            addCriterion("dispatch_type_id <>", value, "dispatchTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeIdGreaterThan(Integer value) {
+            addCriterion("dispatch_type_id >", value, "dispatchTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_type_id >=", value, "dispatchTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeIdLessThan(Integer value) {
+            addCriterion("dispatch_type_id <", value, "dispatchTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_type_id <=", value, "dispatchTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeIdIn(List<Integer> values) {
+            addCriterion("dispatch_type_id in", values, "dispatchTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeIdNotIn(List<Integer> values) {
+            addCriterion("dispatch_type_id not in", values, "dispatchTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_type_id between", value1, value2, "dispatchTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_type_id not between", value1, value2, "dispatchTypeId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeIsNull() {
+            addCriterion("code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeIsNotNull() {
+            addCriterion("code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeEqualTo(Integer value) {
+            addCriterion("code =", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeNotEqualTo(Integer value) {
+            addCriterion("code <>", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeGreaterThan(Integer value) {
+            addCriterion("code >", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("code >=", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeLessThan(Integer value) {
+            addCriterion("code <", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeLessThanOrEqualTo(Integer value) {
+            addCriterion("code <=", value, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeIn(List<Integer> values) {
+            addCriterion("code in", values, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeNotIn(List<Integer> values) {
+            addCriterion("code not in", values, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeBetween(Integer value1, Integer value2) {
+            addCriterion("code between", value1, value2, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andCodeNotBetween(Integer value1, Integer value2) {
+            addCriterion("code not between", value1, value2, "code");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCheckedIsNull() {
+            addCriterion("has_checked is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCheckedIsNotNull() {
+            addCriterion("has_checked is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCheckedEqualTo(Boolean value) {
+            addCriterion("has_checked =", value, "hasChecked");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCheckedNotEqualTo(Boolean value) {
+            addCriterion("has_checked <>", value, "hasChecked");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCheckedGreaterThan(Boolean value) {
+            addCriterion("has_checked >", value, "hasChecked");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCheckedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_checked >=", value, "hasChecked");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCheckedLessThan(Boolean value) {
+            addCriterion("has_checked <", value, "hasChecked");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCheckedLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_checked <=", value, "hasChecked");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCheckedIn(List<Boolean> values) {
+            addCriterion("has_checked in", values, "hasChecked");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCheckedNotIn(List<Boolean> values) {
+            addCriterion("has_checked not in", values, "hasChecked");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCheckedBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_checked between", value1, value2, "hasChecked");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCheckedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_checked not between", value1, value2, "hasChecked");
             return (Criteria) this;
         }
     }

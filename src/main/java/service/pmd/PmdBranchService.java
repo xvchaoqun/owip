@@ -74,6 +74,30 @@ public class PmdBranchService extends BaseMapper {
                 .andHasReportEqualTo(false);
         pmdBranchMapper.updateByExampleSelective(record, example);
     }
+    // 更新党支部报送
+    @Transactional
+    public void updateReport(int id) {
+
+        PmdBranch pmdBranch = pmdBranchMapper.selectByPrimaryKey(id);
+        if(pmdBranch==null) return;
+
+        int monthId = pmdBranch.getMonthId();
+        int partyId = pmdBranch.getPartyId();
+        int branchId = pmdBranch.getBranchId();
+
+        PmdBranch record = new PmdBranch();
+        record.setId(id);
+        
+        // 保存数据汇总
+        PmdReportBean r = iPmdMapper.getBranchPmdReportBean(monthId, partyId, branchId);
+        try {
+            PropertyUtils.copyProperties(record, r);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
+        pmdBranchMapper.updateByPrimaryKeySelective(record);
+    }
 
     // 撤销党支部报送
     @Transactional

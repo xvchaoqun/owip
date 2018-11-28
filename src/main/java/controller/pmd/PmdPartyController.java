@@ -6,6 +6,7 @@ import domain.pmd.PmdParty;
 import domain.pmd.PmdPartyView;
 import domain.pmd.PmdPartyViewExample;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.shiro.SecurityUtils;
@@ -146,15 +147,24 @@ public class PmdPartyController extends PmdBaseController {
     @RequiresPermissions("pmdParty:report")
     @RequestMapping(value = "/pmdParty_report", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdParty_report(int id, HttpServletRequest request) {
+    public Map do_pmdParty_report(int id, Boolean update, HttpServletRequest request) {
 
-        PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(id);
-        if(pmdParty.getHasReport()){
-            return  failed("已经报送。");
+        if(BooleanUtils.isTrue(update)){
+            
+            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ADMIN);
+        
+            pmdPartyService.updateReport(id);
+            logger.info(addLog(LogConstants.LOG_PMD, "更新党委报送：%s", id));
+        }else {
+    
+            PmdParty pmdParty = pmdPartyMapper.selectByPrimaryKey(id);
+            if (pmdParty.getHasReport()) {
+                return failed("已经报送。");
+            }
+    
+            pmdPartyService.report(id);
+            logger.info(addLog(LogConstants.LOG_PMD, "党委报送：%s", id));
         }
-
-        pmdPartyService.report(id);
-        logger.info(addLog(LogConstants.LOG_PMD, "党委报送：%s", id));
 
         return success(FormUtils.SUCCESS);
     }

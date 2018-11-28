@@ -3,16 +3,8 @@ package sys.tags;
 import domain.base.ContentTpl;
 import domain.base.MetaClass;
 import domain.base.MetaType;
-import domain.cadre.CadreAdminLevel;
-import domain.cadre.CadreEdu;
-import domain.cadre.CadreFamily;
-import domain.cadre.CadrePost;
-import domain.cadre.CadreView;
-import domain.dispatch.Dispatch;
-import domain.dispatch.DispatchCadre;
-import domain.dispatch.DispatchCadreRelate;
-import domain.dispatch.DispatchType;
-import domain.dispatch.DispatchUnit;
+import domain.cadre.*;
+import domain.dispatch.*;
 import domain.modify.ModifyCadreAuth;
 import domain.party.RetireApply;
 import domain.sys.HtmlFragment;
@@ -25,21 +17,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import persistence.dispatch.DispatchCadreMapper;
+import persistence.dispatch.DispatchMapper;
+import persistence.dispatch.DispatchUnitMapper;
 import persistence.sys.HtmlFragmentMapper;
 import service.base.ContentTplService;
 import service.base.MetaClassService;
 import service.base.MetaTypeService;
-import service.cadre.CadreAdminLevelService;
-import service.cadre.CadreEduService;
-import service.cadre.CadreFamilyService;
-import service.cadre.CadreInfoCheckService;
-import service.cadre.CadrePostService;
-import service.cadre.CadreService;
+import service.cadre.*;
 import service.dispatch.DispatchCadreRelateService;
 import service.dispatch.DispatchCadreService;
-import service.dispatch.DispatchService;
 import service.dispatch.DispatchTypeService;
-import service.dispatch.DispatchUnitService;
 import service.ext.ExtService;
 import service.global.CacheService;
 import service.member.RetireApplyService;
@@ -52,22 +40,10 @@ import service.unit.UnitService;
 import shiro.ShiroHelper;
 import sys.constants.SystemConstants;
 import sys.service.ApplicationContextSupport;
-import sys.utils.ConfigUtil;
-import sys.utils.DateUtils;
-import sys.utils.JSONUtils;
-import sys.utils.NumberUtils;
-import sys.utils.PropertiesUtils;
+import sys.utils.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class CmTag {
 
@@ -404,16 +380,16 @@ public class CmTag {
 
     public static Dispatch getDispatch(Integer dispatchId) {
 
-        DispatchService dispatchService = getBean(DispatchService.class);
-        if(dispatchService==null) return null;
-        return dispatchService.findAll().get(dispatchId);
+        DispatchMapper dispatchMapper = getBean(DispatchMapper.class);
+        if(dispatchMapper==null) return null;
+        return dispatchMapper.selectByPrimaryKey(dispatchId);
     }
 
     public static DispatchCadre getDispatchCadre(Integer dispatchCadreId) {
 
-        DispatchCadreService dispatchCadreService = getBean(DispatchCadreService.class);
-        if(dispatchCadreService==null) return null;
-        return dispatchCadreService.findAll().get(dispatchCadreId);
+        DispatchCadreMapper dispatchCadreMapper = getBean(DispatchCadreMapper.class);
+        if(dispatchCadreMapper==null) return null;
+        return dispatchCadreMapper.selectByPrimaryKey(dispatchCadreId);
     }
 
     public static Integer getDispatchCadreCount(Integer dispatchId, Byte type) {
@@ -432,9 +408,9 @@ public class CmTag {
 
     public static DispatchUnit getDispatchUnit(Integer dispatchUnitId) {
 
-        DispatchUnitService dispatchUnitService = getBean(DispatchUnitService.class);
-        if(dispatchUnitService==null) return null;
-        return dispatchUnitService.findAll().get(dispatchUnitId);
+        DispatchUnitMapper dispatchUnitMapper = getBean(DispatchUnitMapper.class);
+        if(dispatchUnitMapper==null) return null;
+        return dispatchUnitMapper.selectByPrimaryKey(dispatchUnitId);
     }
 
     // 发文号

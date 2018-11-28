@@ -673,6 +673,12 @@ select dc.*, d.year, d.dispatch_type_id, d.code , d.has_checked from dispatch_ca
     where dc.dispatch_id = d.id and  d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc  ;
 
 -- ----------------------------
+DROP VIEW IF EXISTS `dispatch_unit_view`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dispatch_unit_view` AS
+select du.*, d.year, d.dispatch_type_id, d.code , d.has_checked from dispatch_unit du, dispatch d, dispatch_type dt
+    where du.dispatch_id = d.id and  d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc, du.type asc  ;
+
+-- ----------------------------
 --  View definition for `dispatch_view`
 -- ----------------------------
 DROP VIEW IF EXISTS `dispatch_view`;

@@ -11,15 +11,19 @@
                  data-url-co="${ctx}/dispatchUnit_changeOrder"
                  data-url-export="${ctx}/dispatchUnit_data"
                  data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
-                <c:set var="_query" value="${not empty param.year ||not empty param.unitId ||not empty param.typeId || not empty param.code || not empty param.sort}"/>
+                <c:set var="_query" value="${not empty param.year ||not empty param.partyId ||not empty param.unitId ||not empty param.type || not empty param.code || not empty param.sort}"/>
+
+                  <div class="tabbable">
+                    <jsp:include page="/WEB-INF/jsp/dispatch/dispatch_menu.jsp"/>
+                    <div class="tab-content">
                 <div class="jqgrid-vertical-offset buttons">
                     <shiro:hasPermission name="dispatchUnit:edit">
-                        <a class="editBtn btn btn-info btn-sm"><i class="fa fa-plus"></i> 添加</a>
+                        <a class="openView btn btn-info btn-sm" data-url="${ctx}/dispatch_units"><i class="fa fa-plus"></i> 添加</a>
                     </shiro:hasPermission>
                     <a href="javascript:;" class="jqEditBtn btn btn-primary btn-sm">
                         <i class="fa fa-edit"></i> 修改信息</a>
-                    <a class="jqExportBtn btn btn-success btn-sm tooltip-success"
-                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>
+                    <%--<a class="jqExportBtn btn btn-success btn-sm tooltip-success"
+                       data-rel="tooltip" data-placement="top" title="导出当前搜索的全部结果（按照当前排序）"><i class="fa fa-download"></i> 导出</a>--%>
                     <shiro:hasPermission name="dispatchUnit:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
                            data-url="${ctx}/dispatchUnit_batchDel" data-title="删除"
@@ -38,40 +42,45 @@
                     <div class="widget-body">
                         <div class="widget-main no-padding">
                             <form class="form-inline search-form" id="searchForm">
+                                <input type="hidden" name="cls" value="${cls}">
                                         <div class="form-group">
                                             <label>年份</label>
-                                                <div class="input-group">
+                                                <div class="input-group" style="width: 100px">
                                                     <input class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
                                                            data-date-format="yyyy" data-date-min-view-mode="2" value="${param.year}" />
                                                     <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
                                                 </div>
                                         </div>
                                         <div class="form-group">
-                                            <label>所属单位</label>
-                                                <select name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
+                                            <label>调整方式</label>
+                                                <select data-rel="select2" name="type" data-width="100" data-placeholder="请选择">
                                                     <option></option>
-                                                    <c:forEach items="${unitMap}" var="unit">
-                                                        <option value="${unit.key}">${unit.value.name}</option>
-                                                    </c:forEach>
+                                                    <c:import url="/metaTypes?__code=mc_dispatch_unit_type"/>
                                                 </select>
-                                                <script>
-                                                    $("#searchForm select[name=unitId]").val('${param.unitId}');
+                                                <script type="text/javascript">
+                                                    $("#searchForm select[name=type]").val('${param.type}');
                                                 </script>
                                         </div>
                                         <div class="form-group">
-                                            <label>类型</label>
-                                                <select data-rel="select2" name="typeId" data-placeholder="请选择单位发文类型">
-                                                    <option></option>
-                                                    <c:import url="/metaTypes?__code=mc_dispatch_unit"/>
+                                            <label>内设机构</label>
+                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/unit_selects"
+                                                        name="unitId" data-width="340" data-placeholder="请选择">
+                                                  <option value="${unit.id}" title="${unit.status==UNIT_STATUS_HISTORY}">${unit.name}</option>
                                                 </select>
-                                                <script type="text/javascript">
-                                                    $("#searchForm select[name=typeId]").val('${param.typeId}');
-                                                </script>
                                         </div>
+                                        <div class="form-group">
+                                            <label>组织机构</label>
+                                                <select data-rel="select2-ajax" data-ajax-url="${ctx}/party_selects"
+                                                        name="partyId" data-width="340" data-placeholder="请选择">
+                                                  <option value="${party.id}" title="${party.isDeleted}">${party.name}</option>
+                                                </select>
+                                        </div>
+
                                 <div class="clearfix form-actions center">
                                     <a class="jqSearchBtn btn btn-default btn-sm"><i class="fa fa-search"></i> 查找</a>
                                     <c:if test="${_query}">&nbsp;
-                                        <button type="button" class="resetBtn btn btn-warning btn-sm">
+                                        <button type="button" class="resetBtn btn btn-warning btn-sm"
+                                        data-querystr="cls=${cls}">
                                             <i class="fa fa-reply"></i> 重置
                                         </button>
                                     </c:if>
@@ -85,26 +94,47 @@
                 <div id="jqGridPager"> </div>
             </div>
         </div>
+        </div>
+    </div>
         <div id="body-content-view"> </div>
     </div>
-</div>
+    </div>
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatchUnit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
         colModel: [
-            { label:'所属发文',  name: 'dispatch.dispatchCode', width: 180,formatter:function(cellvalue, options, rowObject){
+            { label: '年份', name: 'dispatch.year', width: 75,frozen:true },
+            { label:'发文号',  name: 'dispatch.dispatchCode', width: 140, align:'left',formatter:function(cellvalue, options, rowObject){
 
-                return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName, cellvalue, cellvalue);
+                return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
+                    cellvalue, cellvalue, '${param.type eq 'all'?'modal':'url'}');
             },frozen:true },
+            { label: '发文日期',  name: 'dispatch.pubTime',frozen:true , formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
+            { label:'机构类型', name: 'type', width: 90, formatter:function(cellvalue, options, rowObject){
 
-            { label:'所属单位', name: 'unit.name', width: 150 },
-            { label:'类型', name: 'typeId', width: 120 , formatter: $.jgrid.formatter.MetaType},
-            { label:'年份', name: 'year'},
-            { label:'备注', name: 'remark'}
+                //console.log((','+ rowObject.dispatch.category +','))
+                return (','+ rowObject.dispatch.category +',')
+                    .indexOf(',<%=DispatchConstants.DISPATCH_CATEGORY_UNIT%>,')>=0?'内设机构':'组织机构';
+            },frozen:true },
+            { label:'调整方式', name: 'type', width: 80, formatter: $.jgrid.formatter.MetaType},
+            { label:'新成立机构名称', name: 'unitId', width: 250, align:'left' ,formatter:function(cellvalue, options, rowObject){
+               // console.log( _cMap.unitMap)
+                return (','+ rowObject.dispatch.category +',')
+                    .indexOf(',<%=DispatchConstants.DISPATCH_CATEGORY_UNIT%>,')>=0?$.jgrid.formatter.unit(cellvalue)
+                    :_cMap.partyMap[cellvalue].name;
+            }},
+            { label:'撤销机构名称', name: 'oldUnitId', width: 250, align:'left' ,formatter:function(cellvalue, options, rowObject){
+                return (','+ rowObject.dispatch.category +',')
+                    .indexOf(',<%=DispatchConstants.DISPATCH_CATEGORY_UNIT%>,')>=0?$.jgrid.formatter.unit(cellvalue)
+                    :_cMap.partyMap[cellvalue].name;
+            }},
+            { label:'备注', name: 'remark', width: 250}
         ]
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
     $.register.date($('.date-picker'));
     $('[data-rel="select2"]').select2();
+
+    $.register.del_select($('[data-rel="select2-ajax"]'));
 </script>

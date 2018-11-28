@@ -8,59 +8,61 @@ pageEncoding="UTF-8"%>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/dispatchUnit_au" id="modalForm" method="post">
         <input type="hidden" name="id" value="${dispatchUnit.id}">
+			<input type="hidden" name="dispatchId" value="${dispatch.id}">
+         <div class="form-group">
+          <label class="col-xs-3 control-label" id="typeNameTd">机构类型</label>
+          <div class="col-xs-6 label-text">
+            ${empty isUnit?'<span class="text-danger bolder">请先选择发文</span>':(isUnit?'内设机构':'组织机构')}
+          </div>
+        </div>
+
 			<div class="form-group">
-				<label class="col-xs-3 control-label">发文</label>
-				<div class="col-xs-6">
-                    <select required data-rel="select2-ajax" data-ajax-url="${ctx}/dispatch_selects"
-                            name="dispatchId" data-placeholder="请选择发文">
-                        <option value="${dispatch.id}"> ${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year )}</option>
-                    </select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">所属单位</label>
-				<div class="col-xs-6">
-                    <select name="unitId" data-rel="select2" data-placeholder="请选择所属单位">
-                        <option></option>
-                        <c:forEach items="${unitMap}" var="unit">
-                            <option value="${unit.key}">${unit.value.name}</option>
-                        </c:forEach>
-                    </select>
-                    <script>
-                        $("#modalForm select[name=unitId]").val('${dispatchUnit.unitId}');
-                    </script>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">类型</label>
-				<div class="col-xs-6">
-                    <select data-rel="select2" name="typeId" data-placeholder="请选择单位发文类型">
-                        <option></option>
-                        <c:forEach var="metaType" items="${metaTypeMap}">
-                            <option value="${metaType.value.id}">${metaType.value.name}</option>
-                        </c:forEach>
-                    </select>
-                    <script type="text/javascript">
-                        $("#modalForm select[name=typeId]").val('${dispatchUnit.typeId}');
-                    </script>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">年份</label>
-				<div class="col-xs-6">
-                    <div class="input-group">
-                        <input class="form-control date-picker" placeholder="请选择年份" name="year" type="text"
-                               data-date-format="yyyy" data-date-min-view-mode="2" value="${dispatchUnit.year}" />
-                        <span class="input-group-addon"> <i class="fa fa-calendar bigger-110"></i></span>
-                    </div>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
-				<div class="col-xs-6">
-                        <textarea class="form-control limited" name="remark">${dispatchUnit.remark}</textarea>
-				</div>
-			</div>
+          <label class="col-xs-3 control-label">调整方式</label>
+          <div class="col-xs-6">
+            <select required data-rel="select2" name="type" data-width="150" data-placeholder="请选择">
+              <option></option>
+              <c:import url="/metaTypes?__code=mc_dispatch_unit_type"/>
+            </select>
+            <script type="text/javascript">
+              $("#modalForm select[name=type]").val('${dispatchUnit.type}');
+            </script>
+          </div>
+        </div>
+        <c:set var="unit" value="${isUnit?unitMap.get(dispatchUnit.unitId):partyMap.get(dispatchUnit.unitId)}"/>
+<c:set var="oldUnit" value="${isUnit?unitMap.get(dispatchUnit.oldUnitId):partyMap.get(dispatchUnit.oldUnitId)}"/>
+<c:set var="unitIsDelete" value="${isUnit?unit.status==UNIT_STATUS_HISTORY:unit.isDeleted}"/>
+<c:set var="oldUnitIsDelete" value="${isUnit?oldUnit.status==UNIT_STATUS_HISTORY:oldUnit.isDeleted}"/>
+        <div class="form-group">
+          <label class="col-xs-3 control-label">新成立机构名称</label>
+          <div class="col-xs-6">
+            <select required data-rel="select2-ajax" data-ajax-url="${ctx}/${isUnit?'unit_selects':'party_selects'}"
+                    name="unitId" data-width="340" data-placeholder="请选择">
+              <option value="${unit.id}" title="${unitIsDelete}">${unit.name}</option>
+            </select>
+               <script type="text/javascript">
+              $("#modalForm select[name=unitId]").val('${dispatchUnit.unitId}');
+            </script>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label">撤销机构名称</label>
+          <div class="col-xs-6">
+            <select required data-rel="select2-ajax" data-ajax-url="${ctx}/${isUnit?'unit_selects':'party_selects'}"
+                    name="oldUnitId" data-width="340" data-placeholder="请选择">
+              <option value="${oldUnit.id}" title="${oldUnitIsDelete}">${oldUnit.name}</option>
+            </select>
+              <script type="text/javascript">
+              $("#modalForm select[name=oldUnitId]").val('${dispatchUnit.oldUnitId}');
+            </script>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-xs-3 control-label">备注</label>
+          <div class="col-xs-6">
+            <textarea class="form-control limited" name="remark" rows="2">${dispatchUnit.remark}</textarea>
+          </div>
+        </div>
     </form>
 </div>
 <div class="modal-footer">
@@ -69,15 +71,43 @@ pageEncoding="UTF-8"%>
 </div>
 
 <script>
+
+    function typeChange(){
+
+        $.register.del_select($('[data-rel="select2-ajax"]'));
+
+        var $option = $('#modalForm select[name=type] option:selected');
+        var $unit = $("#modalForm select[name=unitId]");
+        var $oldUnit = $("#modalForm select[name=oldUnitId]");
+
+        if($option.data('extra-attr')=='add'){
+            $unit.prop("disabled", false).attr("required", "required");
+            $.register.del_select($oldUnit,{theme: "default"});
+            $oldUnit.val(null).trigger("change").prop("disabled", true).removeAttr("required");
+        }else if($option.data('extra-attr')=='change'){
+            $.register.del_select($('[data-rel="select2-ajax"]'));
+            $unit.prop("disabled", false).attr("required", "required");
+            $oldUnit.prop("disabled", false).attr("required", "required");
+        }else if($option.data('extra-attr')=='delete'){
+            $oldUnit.prop("disabled", false).attr("required", "required");
+            $.register.del_select($unit,{theme: "default"});
+            $unit.val(null).trigger("change").prop("disabled", true).removeAttr("required");
+        }
+	}
+	$("#modalForm select[name=type]").change(function(){
+		typeChange();
+	});
+	typeChange();
+
     $('textarea.limited').inputlimiter();
     $.register.date($('.date-picker'));
-    $("#modal form").validate({
+    $("#modalForm").validate({
         submitHandler: function (form) {
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        page_reload();
-                        //SysMsg.success('操作成功。', '成功');
+                         $("#modal").modal('hide');
+                        $("#jqGrid").trigger("reloadGrid");
                     }
                 }
             });
@@ -85,24 +115,5 @@ pageEncoding="UTF-8"%>
     });
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-    $('[data-rel="select2-ajax"]').select2({
-        ajax: {
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    searchStr: params.term,
-                    pageSize: 10,
-                    pageNo: params.page
-                };
-            },
-            processResults: function (data, params) {
-                params.page = params.page || 1;
-                return {results: data.options,  pagination: {
-                    more: (params.page * 10) < data.totalCount
-                }};
-            },
-            cache: true
-        }
-    });
+
 </script>

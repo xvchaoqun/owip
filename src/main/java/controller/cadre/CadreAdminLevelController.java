@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.dispatch.DispatchCadreService;
 import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
@@ -23,11 +22,7 @@ import sys.utils.FormUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by fafa on 2016/6/30.
@@ -106,7 +101,6 @@ public class CadreAdminLevelController extends BaseController {
 
         Set<Integer> dispatchCadreIdSet = new HashSet<>(); // 已选择的干部发文ID
         List<DispatchCadre> relateDispatchCadres = new ArrayList<>();
-        Map<Integer, DispatchCadre> dispatchCadreMap = CmTag.getBean(DispatchCadreService.class).findAll();
         CadreAdminLevel cadreAdminLevel = cadreAdminLevelMapper.selectByPrimaryKey(id);
         if (StringUtils.equalsIgnoreCase(cls, "start")) {
 
@@ -115,7 +109,7 @@ public class CadreAdminLevelController extends BaseController {
             if (cadreAdminLevel.getStartDispatchCadreId() != null) {
                 Integer startDispatchCadreId = cadreAdminLevel.getStartDispatchCadreId();
                 dispatchCadreIdSet.add(startDispatchCadreId);
-                relateDispatchCadres.add(dispatchCadreMap.get(startDispatchCadreId));
+                relateDispatchCadres.add(CmTag.getDispatchCadre(startDispatchCadreId));
             }
         } else if (StringUtils.equalsIgnoreCase(cls, "end")) {
 
@@ -123,7 +117,7 @@ public class CadreAdminLevelController extends BaseController {
             if (cadreAdminLevel.getEndDispatchCadreId() != null) {
                 Integer endDispatchCadreId = cadreAdminLevel.getEndDispatchCadreId();
                 dispatchCadreIdSet.add(endDispatchCadreId);
-                relateDispatchCadres.add(dispatchCadreMap.get(endDispatchCadreId));
+                relateDispatchCadres.add(CmTag.getDispatchCadre(endDispatchCadreId));
             }
             dispatchCadreType = null; // 结束文件不限制，可以在全部干部发文中选择
         }else{

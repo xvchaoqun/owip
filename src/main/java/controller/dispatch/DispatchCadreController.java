@@ -328,7 +328,7 @@ public class DispatchCadreController extends DispatchBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("dispatchCadre:changeOrder")
+    /*@RequiresPermissions("dispatchCadre:changeOrder")
     @RequestMapping(value = "/dispatchCadre_changeOrder", method = RequestMethod.POST)
     @ResponseBody
     public Map do_dispatchCadre_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
@@ -336,7 +336,7 @@ public class DispatchCadreController extends DispatchBaseController {
         dispatchCadreService.changeOrder(id, addNum);
         logger.info(addLog(LogConstants.LOG_ADMIN, "干部发文调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
-    }
+    }*/
 
     public void dispatchCadre_export(DispatchCadreViewExample example, HttpServletResponse response) {
 

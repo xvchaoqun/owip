@@ -243,12 +243,11 @@ public class CadrePostController extends BaseController {
         List<DispatchCadre> relateDispatchCadres = new ArrayList<>(); // 已关联的干部任免文件
 
         DispatchCadreRelateService dispatchCadreRelateService = CmTag.getBean(DispatchCadreRelateService.class);
-        Map<Integer, DispatchCadre> dispatchCadreMap = CmTag.getBean(DispatchCadreService.class).findAll();
         List<DispatchCadreRelate> dispatchCadreRelates =
                 dispatchCadreRelateService.findDispatchCadreRelates(id, DispatchConstants.DISPATCH_CADRE_RELATE_TYPE_POST);
         for (DispatchCadreRelate dispatchCadreRelate : dispatchCadreRelates) {
             Integer dispatchCadreId = dispatchCadreRelate.getDispatchCadreId();
-            DispatchCadre dispatchCadre = dispatchCadreMap.get(dispatchCadreId);
+            DispatchCadre dispatchCadre = CmTag.getDispatchCadre(dispatchCadreId);
             dispatchCadreIdSet.add(dispatchCadreId);
             relateDispatchCadres.add(dispatchCadre);
         }

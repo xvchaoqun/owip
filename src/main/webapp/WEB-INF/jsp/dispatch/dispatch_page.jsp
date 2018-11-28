@@ -28,6 +28,10 @@
                                    data-open-by="page" data-id-name="dispatchId" data-url="${ctx}/dispatch_cadres">
                                     <i class="fa fa-plus"></i> 添加干部任免
                                 </button>
+                                <button id="addDipatchUnitBtn" class="jqOpenViewBtn btn btn-success btn-sm"
+                                   data-open-by="page" data-id-name="dispatchId" data-url="${ctx}/dispatch_units">
+                                    <i class="fa fa-plus"></i> 添加机构调整
+                                </button>
                                 <shiro:hasPermission name="dispatch:check">
                                 <button id="checkBtn" class="jqOpenViewBtn btn btn-warning btn-sm"
                                    data-open-by="page" data-id-name="dispatchId" data-url="${ctx}/dispatch_cadres"
@@ -47,7 +51,7 @@
                                 <shiro:hasPermission name="dispatch:del">
                                     <a class="jqBatchBtn btn btn-danger btn-sm"
                                        data-url="${ctx}/dispatch_batchDel" data-title="删除"
-                                       data-msg="确定删除这{0}个任免文件吗？"><i class="fa fa-trash"></i> 删除</a>
+                                       data-msg="确定删除这{0}个文件吗？"><i class="fa fa-trash"></i> 删除</a>
                                 </shiro:hasPermission>
 
                             </div>
@@ -198,6 +202,13 @@
             }, frozen: true
             },
             {
+                label: '文件属性', name: '_category', width: 140, formatter: function (cellvalue, options, rowObject) {
+
+                    return $.map(rowObject.category.split(","),function(val){
+                        return _cMap.DISPATCH_CATEGORY_MAP[val]
+                    })
+            }},
+            {
                 label: '党委常委会', name: 'scDispatch.scCommittees', width:200, formatter: function (cellvalue, options, rowObject) {
 
                 if(cellvalue==undefined || cellvalue.length==0) return '--'
@@ -221,21 +232,50 @@
             },
             {label: '党委常委会<br/>日期', name: 'meetingTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '发文日期', name: 'pubTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '任免日期', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
-            {label: '任命人数', name: 'appointCount', width: 80},
-            {label: '录入<br/>任命人数', width: 80, name: 'realAppointCount', formatter:$.jgrid.formatter.defaultString},
-            {label: '免职人数', name: 'dismissCount', width: 80},
-            {label: '录入<br/>免职人数', width: 80, name: 'realDismissCount', formatter:$.jgrid.formatter.defaultString},
+            {label: '任免日期', name: 'workTime', formatter: function (cellvalue, options, rowObject) {
+
+                if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
+                    return "--"
+                return $.date(cellvalue, "yyyy-MM-dd")
+            }},
+
+            {label: '任命人数', name: 'appointCount', width: 80, formatter: function (cellvalue, options, rowObject) {
+
+                if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
+                    return "--"
+                return $.jgrid.formatter.defaultString(cellvalue);
+            }},
+            {label: '录入<br/>任命人数', width: 80, name: 'realAppointCount', formatter: function (cellvalue, options, rowObject) {
+
+                if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
+                    return "--"
+                return $.jgrid.formatter.defaultString(cellvalue);
+            }},
+            {label: '免职人数', name: 'dismissCount', width: 80, formatter: function (cellvalue, options, rowObject) {
+
+                if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
+                    return "--"
+                return $.jgrid.formatter.defaultString(cellvalue);
+            }},
+            {label: '录入<br/>免职人数', width: 80, name: 'realDismissCount', formatter: function (cellvalue, options, rowObject) {
+
+                if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
+                    return "--"
+                return $.jgrid.formatter.defaultString(cellvalue);
+            }},
             {
                 label: '是否<br/>全部录入', width: 80, formatter: function (cellvalue, options, rowObject) {
                 //console.log((rowObject.realAppointCount+rowObject.realDismissCount)>0)
-
+                if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
+                    return "--"
                 return isFinished(rowObject.appointCount, rowObject.dismissCount,
                         rowObject.realAppointCount, rowObject.realDismissCount)? "是" : "否";
             }
             },
             {
                 label: '是否<br/>复核', name: 'hasChecked', width: 65, formatter: function (cellvalue, options, rowObject) {
+                    if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
+                    return "--"
                 if (cellvalue == undefined) return '';
                 return cellvalue ? "已复核" : "否";
             }
@@ -264,6 +304,9 @@
             {
                 label: '任免信息', width:80, formatter: function (cellvalue, options, rowObject) {
 
+                if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowObject.category.split(","))==-1)
+                    return "--"
+
                 return '<button class="linkBtn btn btn-xs btn-primary" data-url="#/dispatch?cls=2&year={0}&dispatchTypeId={1}&code={2}" data-target="_blank"><i class="fa fa-search"></i> 查看</button>'
                         .format(rowObject.year, rowObject.dispatchTypeId, rowObject.code);
             }},
@@ -278,28 +321,18 @@
                         .format(cellvalue.year,cellvalue.dispatchTypeId, cellvalue.code, cellvalue.dispatchCode)
             }
             },
-            {label: '备注', name: 'remark', width: 550}
-                ,{hidden:true, name:'_hasChecked', formatter: function (cellvalue, options, rowObject) {
+            {label: '备注', name: 'remark', width: 550},{hidden:true, name:'category'}
+            ,{hidden:true, name:'_hasChecked', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.hasChecked==undefined) return 0;
                 return rowObject.hasChecked?1:0;
             }}
         ], onSelectRow: function (id, status) {
             saveJqgridSelected("#" + this.id, id, status);
-            //console.log(id)
-            var ids = $(this).getGridParam("selarrrow");
-            if (ids.length > 1) {
-                $("#checkBtn,#reCheckBtn, #addDipatchCadreBtn, #editBtn").prop("disabled", true);
-            } else if (ids.length == 1) {
-
-                var rowData = $(this).getRowData(ids[0]);
-                $("#checkBtn").prop("disabled", !isFinished(parseInt(rowData.appointCount), parseInt(rowData.dismissCount),
-                        parseInt(rowData.realAppointCount), parseInt(rowData.realDismissCount)) || rowData._hasChecked==1);
-                $("#reCheckBtn").prop("disabled", rowData._hasChecked!=1);
-                //console.log(rowData._hasChecked==1)
-                $("#addDipatchCadreBtn, #editBtn").prop("disabled", rowData._hasChecked==1)
-            } else {
-                $("#checkBtn, #reCheckBtn, #addDipatchCadreBtn, #editBtn").prop("disabled", false);
-            }
+            _onSelectRow(this)
+        },
+        onSelectAll: function (aRowids, status) {
+            saveJqgridSelected("#" + this.id);
+            _onSelectRow(this)
         }
     }).jqGrid("setFrozenColumns").on("initGrid", function () {
         $(".dispatch_del_file").each(function () {
@@ -314,6 +347,29 @@
         });
         $('[data-rel="tooltip"]').tooltip();
     });
+    function _onSelectRow(grid) {
+
+            //console.log(id)
+            var ids = $(grid).getGridParam("selarrrow");
+            if (ids.length > 1) {
+                $("#checkBtn,#reCheckBtn, #addDipatchCadreBtn,#addDipatchUnitBtn,#editBtn").prop("disabled", true);
+            } else if (ids.length == 1) {
+                var rowData = $(grid).getRowData(ids[0]);
+                if($.inArray('<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>', rowData.category.split(","))==-1){
+                    $("#checkBtn,#reCheckBtn, #addDipatchCadreBtn").prop("disabled", true);
+                    $("#editBtn,#addDipatchUnitBtn").prop("disabled", false)
+                }else {
+                    $("#addDipatchUnitBtn").prop("disabled", true)
+                    $("#checkBtn").prop("disabled", !isFinished(parseInt(rowData.appointCount), parseInt(rowData.dismissCount),
+                        parseInt(rowData.realAppointCount), parseInt(rowData.realDismissCount)) || rowData._hasChecked == 1);
+                    $("#reCheckBtn").prop("disabled", rowData._hasChecked != 1);
+                    //console.log(rowData._hasChecked==1)
+                    $("#addDipatchCadreBtn, #editBtn").prop("disabled", rowData._hasChecked == 1)
+                }
+            } else {
+                $("#checkBtn, #reCheckBtn, #addDipatchCadreBtn,#addDipatchUnitBtn, #editBtn").prop("disabled", false);
+            }
+        }
 
     function isFinished(appointCount, dismissCount, realAppointCount, realDismissCount){
 

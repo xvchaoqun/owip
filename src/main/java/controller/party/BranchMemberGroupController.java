@@ -3,15 +3,8 @@ package controller.party;
 import controller.BaseController;
 import domain.dispatch.Dispatch;
 import domain.dispatch.DispatchUnit;
-import domain.party.Branch;
-import domain.party.BranchMember;
-import domain.party.BranchMemberExample;
-import domain.party.BranchMemberGroup;
-import domain.party.BranchMemberGroupExample;
+import domain.party.*;
 import domain.party.BranchMemberGroupExample.Criteria;
-import domain.party.BranchMemberGroupView;
-import domain.party.BranchMemberGroupViewExample;
-import domain.party.Party;
 import interceptor.OrderParam;
 import interceptor.SortParam;
 import mixin.MixinUtils;
@@ -29,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import service.dispatch.DispatchService;
-import service.dispatch.DispatchUnitService;
 import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.tags.CmTag;
@@ -44,11 +35,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class BranchMemberGroupController extends BaseController {
@@ -227,8 +214,7 @@ public class BranchMemberGroupController extends BaseController {
             if(dispatchUnitId != null) {
                 DispatchUnit dispatchUnit = dispatchUnitMapper.selectByPrimaryKey(dispatchUnitId);
                 if(dispatchUnit!= null) {
-                    DispatchService dispatchService = CmTag.getBean(DispatchService.class);
-                    modelMap.put("dispatch", dispatchService.findAll().get(dispatchUnit.getDispatchId()));
+                    modelMap.put("dispatch", dispatchUnit.getDispatch());
                 }
             }
         }else{
@@ -289,8 +275,7 @@ public class BranchMemberGroupController extends BaseController {
             BranchMemberGroupView record = records.get(i);
             Dispatch dispatch = null;
             if(record.getDispatchUnitId()!=null) {
-                DispatchUnitService dispatchUnitService = CmTag.getBean(DispatchUnitService.class);
-                DispatchUnit dispatchUnit = dispatchUnitService.findAll().get(record.getDispatchUnitId());
+                DispatchUnit dispatchUnit = CmTag.getDispatchUnit(record.getDispatchUnitId());
                 if(dispatchUnit!=null)
                     dispatch = dispatchUnit.getDispatch();
             }

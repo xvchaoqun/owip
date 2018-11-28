@@ -19,10 +19,10 @@ pageEncoding="UTF-8" %>
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/party?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 党委</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/party?status=1"><i class="fa fa-circle-o-notch"></i> 正在运转二级党委</a>
                     </li>
                     <li  class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/party?status=-1"><i class="fa fa-trash"></i> 已删除党委</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/party?status=-1"><i class="fa fa-history"></i> 已撤销二级党委</a>
                     </li>
                     <shiro:hasAnyRoles name="${ROLE_ADMIN}, ${ROLE_ODADMIN}">
                     <div class="buttons pull-left hidden-sm hidden-xs" style="left:50px; position: relative">
@@ -66,9 +66,9 @@ pageEncoding="UTF-8" %>
                 <c:if test="${status>=0}">
                     <shiro:hasPermission name="party:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/party_batchDel" data-title="删除党委"
-                           data-msg="确定删除这{0}个党委吗？"><i class="fa fa-trash"></i> 删除</a>
-                        【注：删除操作将删除其下所有的党支部及班子和相关管理员权限，请谨慎操作！】
+                           data-url="${ctx}/party_batchDel" data-title="撤销二级党委"
+                           data-msg="确定撤销这{0}个二级党委吗？"><i class="fa fa-history"></i> 撤销</a>
+                        【注：撤销操作将删除其下所有的党支部及班子和相关管理员权限，请谨慎操作！】
                     </shiro:hasPermission>
                 </c:if>
                 <c:if test="${status==-1}">
@@ -76,8 +76,8 @@ pageEncoding="UTF-8" %>
                         <a class="jqBatchBtn btn btn-success btn-sm"
                            data-url="${ctx}/party_batchDel"
                            data-querystr="isDeleted=0"
-                           data-title="恢复已删除党委"
-                           data-msg="确定恢复这{0}个党委吗？"><i class="fa fa-reply"></i> 恢复</a>
+                           data-title="恢复已撤销二级党委"
+                           data-msg="确定恢复这{0}个二级党委吗？"><i class="fa fa-reply"></i> 恢复</a>
                         【注：恢复操作之后需要重新设置党支部及相关管理员权限！】
                     </shiro:hasPermission>
                 </c:if>

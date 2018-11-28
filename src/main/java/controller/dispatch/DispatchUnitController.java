@@ -1,13 +1,7 @@
 package controller.dispatch;
 
-import domain.dispatch.Dispatch;
-import domain.dispatch.DispatchUnit;
-import domain.dispatch.DispatchUnitExample;
+import domain.dispatch.*;
 import domain.dispatch.DispatchUnitExample.Criteria;
-import domain.dispatch.DispatchUnitRelate;
-import domain.dispatch.DispatchUnitRelateExample;
-import interceptor.OrderParam;
-import interceptor.SortParam;
 import mixin.DispatchMixin;
 import mixin.MixinUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.tags.CmTag;
 import sys.tool.paging.CommonList;
@@ -32,11 +27,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class DispatchUnitController extends DispatchBaseController {
@@ -44,19 +35,67 @@ public class DispatchUnitController extends DispatchBaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @RequiresPermissions("dispatchUnit:list")
-    @RequestMapping("/dispatchUnit")
-    public String dispatchUnit(ModelMap modelMap) {
+    @RequestMapping("/dispatch_units")
+    public String dispatch_units(Integer dispatchId, ModelMap modelMap) {
 
+        Dispatch dispatch = dispatchMapper.selectByPrimaryKey(dispatchId);
+        modelMap.put("dispatch", dispatch);
+
+        if(dispatch!=null) {
+            Map<Integer, DispatchType> dispatchTypeMap = dispatchTypeService.findAll();
+            modelMap.put("dispatchType", dispatchTypeMap.get(dispatch.getDispatchTypeId()));
+        }
+
+        return "dispatch/dispatchUnit/dispatch_units";
+    }
+
+    @RequiresPermissions("dispatchUnit:list")
+    @RequestMapping("/dispatch_units_admin")
+    public String dispatch_units_admin(Integer dispatchId, Integer id, ModelMap modelMap) {
+
+        if(dispatchId!=null) {
+            Dispatch dispatch = dispatchMapper.selectByPrimaryKey(dispatchId);
+            modelMap.put("dispatch", dispatch);
+            modelMap.put("isUnit", StringUtils.contains(","+dispatch.getCategory()+",",
+                    ","+ DispatchConstants.DISPATCH_CATEGORY_UNIT +","));
+            if(id!=null){
+                DispatchUnit dispatchUnit = dispatchUnitMapper.selectByPrimaryKey(id);
+                modelMap.put("dispatchUnit", dispatchUnit);
+            }
+
+            DispatchUnitExample example = new DispatchUnitExample();
+            example.createCriteria().andDispatchIdEqualTo(dispatchId);
+            List<DispatchUnit> dispatchUnits = dispatchUnitMapper.selectByExample(example);
+            modelMap.put("dispatchUnits", dispatchUnits);
+        }
+
+        return "dispatch/dispatchUnit/dispatch_units_admin";
+    }
+    
+    @RequiresPermissions("dispatchUnit:list")
+    @RequestMapping("/dispatchUnit")
+    public String dispatchUnit(@RequestParam(defaultValue = "1") Integer cls,
+                               Integer unitId,
+                                    Integer partyId,
+                               ModelMap modelMap) {
+
+        modelMap.put("cls", cls);
+        
+        if(unitId!=null){
+            modelMap.put("unit", unitMapper.selectByPrimaryKey(unitId));
+        }
+        if(partyId!=null){
+            modelMap.put("party", partyMapper.selectByPrimaryKey(partyId));
+        }
+        
         return "dispatch/dispatchUnit/dispatchUnit_page";
     }
     @RequiresPermissions("dispatchUnit:list")
     @RequestMapping("/dispatchUnit_data")
     public void dispatchUnit_data(HttpServletResponse response,
-                                 @SortParam(required = false, defaultValue = "sort_order", tableName = "dispatch_unit") String sort,
-                                 @OrderParam(required = false, defaultValue = "desc") String order,
-                                    Integer year,
                                     Integer unitId,
-                                    Integer typeId,
+                                    Integer partyId,
+                                    Integer type,
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
 
@@ -70,16 +109,17 @@ public class DispatchUnitController extends DispatchBaseController {
 
         DispatchUnitExample example = new DispatchUnitExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause(String.format("%s %s", sort, order));
+        example.setOrderByClause("id desc");
 
-        if (year!=null) {
-            criteria.andYearEqualTo(year);
+        if (unitId!=null || partyId!=null) {
+            List<Integer> _unitIds = new ArrayList<>();
+            if(unitId!=null) _unitIds.add(unitId);
+            if(partyId!=null) _unitIds.add(partyId);
+            criteria.andUnitIdContain(_unitIds);
         }
-        if (unitId!=null) {
-            criteria.andUnitIdEqualTo(unitId);
-        }
-        if (typeId!=null) {
-            criteria.andTypeIdEqualTo(typeId);
+        
+        if (type!=null) {
+            criteria.andTypeEqualTo(type);
         }
 
         if (export == 1) {
@@ -87,7 +127,7 @@ public class DispatchUnitController extends DispatchBaseController {
             return;
         }
 
-        int count = dispatchUnitMapper.countByExample(example);
+        long count = dispatchUnitMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -133,10 +173,13 @@ public class DispatchUnitController extends DispatchBaseController {
         if (id != null) {
             DispatchUnit dispatchUnit = dispatchUnitMapper.selectByPrimaryKey(id);
             modelMap.put("dispatchUnit", dispatchUnit);
-
-            modelMap.put("dispatch", dispatchMapper.selectByPrimaryKey(dispatchUnit.getDispatchId()));
+    
+            Dispatch dispatch = dispatchMapper.selectByPrimaryKey(dispatchUnit.getDispatchId());
+            modelMap.put("dispatch", dispatch);
+            
+             modelMap.put("isUnit", StringUtils.contains(","+dispatch.getCategory()+",",
+                    ","+ DispatchConstants.DISPATCH_CATEGORY_UNIT +","));
         }
-        modelMap.put("metaTypeMap", metaTypeService.metaTypes("mc_dispatch_unit"));
         return "dispatch/dispatchUnit/dispatchUnit_au";
     }
 
@@ -167,21 +210,11 @@ public class DispatchUnitController extends DispatchBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    @RequiresPermissions("dispatchUnit:changeOrder")
-    @RequestMapping(value = "/dispatchUnit_changeOrder", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_dispatchUnit_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
-
-        dispatchUnitService.changeOrder(id, addNum);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "单位发文调序：%s,%s", id, addNum));
-        return success(FormUtils.SUCCESS);
-    }
-
     public void dispatchUnit_export(DispatchUnitExample example, HttpServletResponse response) {
 
         List<DispatchUnit> records = dispatchUnitMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"发文号", "所属单位","类型","年份","备注"};
+        String[] titles = {"发文号", "所属单位","调整方式","备注"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             DispatchUnit record = records.get(i);
@@ -189,8 +222,8 @@ public class DispatchUnitController extends DispatchBaseController {
             String[] values = {
                     CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear()),
                     record.getUnitId()==null?"":unitService.findAll().get(record.getUnitId()).getName(),
-                    metaTypeService.getName(record.getTypeId()),
-                    record.getYear()+"",
+                    metaTypeService.getName(record.getType()),
+        
                     record.getRemark()
             };
             valuesList.add(values);
@@ -237,7 +270,6 @@ public class DispatchUnitController extends DispatchBaseController {
 
             DispatchUnit dispatchUnit = dispatchUnitMapper.selectByPrimaryKey(id);
             modelMap.put("dispatchUnit", dispatchUnit);
-            modelMap.put("dispatch", dispatchService.findAll().get(dispatchUnit.getDispatchId()));
             modelMap.put("unitMap", unitService.findAll());
         }
 
@@ -266,13 +298,12 @@ public class DispatchUnitController extends DispatchBaseController {
         }
         List<DispatchUnit> dispatchUnits = iDispatchMapper.selectDispatchUnitByCodeList(searchStr, unitId, new RowBounds((pageNo - 1) * pageSize, pageSize));
 
-        Map<Integer, Dispatch> dispatchMap = dispatchService.findAll();
         List<Map<String, String>> options = new ArrayList<Map<String, String>>();
         if(null != dispatchUnits && dispatchUnits.size()>0){
 
             for(DispatchUnit dispatchUnit:dispatchUnits){
                 Map<String, String> option = new HashMap<>();
-                Dispatch dispatch = dispatchMap.get(dispatchUnit.getDispatchId());
+                Dispatch dispatch = CmTag.getDispatch(dispatchUnit.getDispatchId());
                 option.put("id", dispatchUnit.getId() + "");
                 option.put("text", CmTag.getDispatchCode(dispatch.getCode(), dispatch.getDispatchTypeId(), dispatch.getYear()));
                 options.add(option);

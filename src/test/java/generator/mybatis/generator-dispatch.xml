@@ -25,9 +25,9 @@
         </javaClientGenerator>
 
         <!--发文-->
-        <table tableName="dispatch" domainObjectName="dispatch.Dispatch" mapperName="dispatch.DispatchMapper">
+        <!--<table tableName="dispatch" domainObjectName="dispatch.Dispatch" mapperName="dispatch.DispatchMapper">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-         </table>
+         </table>-->
         <!--<table tableName="dispatch_view" domainObjectName="dispatch.DispatchView"
                mapperName="dispatch.DispatchViewMapper"
                enableInsert="false" enableUpdateByPrimaryKey="false"
@@ -40,11 +40,18 @@
         </table>
 
         <table tableName="dispatch_cadre_relate" domainObjectName="dispatch.DispatchCadreRelate">
-      </table>
-      <table tableName="dispatch_unit" domainObjectName="dispatch.DispatchUnit">
-      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-      </table>
-      <table tableName="dispatch_unit_relate" domainObjectName="dispatch.DispatchUnitRelate">
+      </table>-->
+      <!--<table tableName="dispatch_unit" domainObjectName="dispatch.DispatchUnit"
+       mapperName="dispatch.DispatchUnitMapper">
+        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+      </table>-->
+        <table tableName="dispatch_unit_view" domainObjectName="dispatch.DispatchUnitView"
+               mapperName="dispatch.DispatchUnitViewMapper"
+                enableInsert="false" enableUpdateByPrimaryKey="false"
+                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
+                enableDeleteByExample="false">
+         </table>
+      <!--<table tableName="dispatch_unit_relate" domainObjectName="dispatch.DispatchUnitRelate">
       <generatedKey column="id" sqlStatement="MySql" identity="true"/>
       </table>-->
         <!--<table tableName="dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
@@ -55,6 +62,7 @@
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
          </table>-->
+
         <!--<table tableName="dispatch_work_file" domainObjectName="dispatch.DispatchWorkFile"
                mapperName="dispatch.DispatchWorkFileMapper">
         </table>-->

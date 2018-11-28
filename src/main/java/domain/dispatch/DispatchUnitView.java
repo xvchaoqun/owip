@@ -4,12 +4,12 @@ import sys.tags.CmTag;
 
 import java.io.Serializable;
 
-public class DispatchUnit implements Serializable {
-
+public class DispatchUnitView implements Serializable {
+    
     public Dispatch getDispatch(){
         return CmTag.getDispatch(dispatchId);
     }
-
+    
     private Integer id;
 
     private Integer dispatchId;
@@ -21,6 +21,14 @@ public class DispatchUnit implements Serializable {
     private Integer oldUnitId;
 
     private String remark;
+
+    private Integer year;
+
+    private Integer dispatchTypeId;
+
+    private Integer code;
+
+    private Boolean hasChecked;
 
     private static final long serialVersionUID = 1L;
 
@@ -70,5 +78,37 @@ public class DispatchUnit implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getDispatchTypeId() {
+        return dispatchTypeId;
+    }
+
+    public void setDispatchTypeId(Integer dispatchTypeId) {
+        this.dispatchTypeId = dispatchTypeId;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public Boolean getHasChecked() {
+        return hasChecked;
+    }
+
+    public void setHasChecked(Boolean hasChecked) {
+        this.hasChecked = hasChecked;
     }
 }

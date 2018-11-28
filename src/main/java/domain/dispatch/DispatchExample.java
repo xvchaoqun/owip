@@ -482,6 +482,11 @@ public class DispatchExample {
             return (Criteria) this;
         }
 
+        public Criteria andCategoryContain(byte category, boolean contain) {
+            addCriterion("find_in_set("+category+", category)="+contain);
+            return (Criteria) this;
+        }
+        
         public Criteria andCategoryIn(List<String> values) {
             addCriterion("category in", values, "category");
             return (Criteria) this;

@@ -6,7 +6,9 @@ import domain.pmd.PmdMonth;
 import domain.pmd.PmdMonthExample;
 import domain.pmd.PmdPayParty;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sys.constants.LogConstants;
+import sys.constants.RoleConstants;
 import sys.tool.fancytree.TreeNode;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
@@ -27,12 +30,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/pmd")
@@ -219,11 +217,19 @@ public class PmdMonthController extends PmdBaseController {
     @RequiresPermissions("pmdMonth:end")
     @RequestMapping(value = "/pmdMonth_end", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_pmdMonth_end(int monthId, HttpServletRequest request) {
+    public Map do_pmdMonth_end(int monthId, Boolean update, HttpServletRequest request) {
 
-        pmdMonthService.end(monthId);
+        if(BooleanUtils.isTrue(update)){
+            
+            SecurityUtils.getSubject().checkRole(RoleConstants.ROLE_ADMIN);
+            pmdMonthService.updateEnd(monthId);
+            logger.info(addLog(LogConstants.LOG_PMD, "更新结算缴费， %s", monthId));
+            
+        }else {
+            pmdMonthService.end(monthId);
+            logger.info(addLog(LogConstants.LOG_PMD, "结算缴费， %s", monthId));
+        }
 
-        logger.info(addLog(LogConstants.LOG_PMD, "结算缴费， %s", monthId));
         return success(FormUtils.SUCCESS);
     }
 

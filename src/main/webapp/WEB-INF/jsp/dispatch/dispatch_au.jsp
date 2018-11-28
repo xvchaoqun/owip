@@ -88,7 +88,17 @@
                                             .prop("checked", false)
                                             .prop("disabled", $(this).prop("checked"))
                                     }
+                                    showCadreDispatchDiv();
                                 })
+                                function showCadreDispatchDiv() {
+                                    if($("#modalForm input[name=_category][value=<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>]").prop("checked")){
+                                        $("#cadreDispatchDiv").show();
+                                        $("input", "#cadreDispatchDiv").prop("required", true);
+                                    }else{
+                                        $("#cadreDispatchDiv").hide();
+                                        $("input", "#cadreDispatchDiv").prop("required", false);
+                                    }
+                                }
 
                                 <c:if test="${not empty dispatch.category}">
                                 var category = '${dispatch.category}';
@@ -98,6 +108,7 @@
                                     })
                                 }
                                 </c:if>
+                                showCadreDispatchDiv();
                             </script>
 					    </div>
                     </div>
@@ -131,6 +142,7 @@
                             </div>
                         </div>
                     </div>
+                    <div id="cadreDispatchDiv">
                     <div class="form-group">
                         <label class="col-xs-4 control-label">任免日期</label>
 
@@ -158,6 +170,7 @@
                             <input required class="form-control digits" type="text" name="dismissCount"
                                    value="${dispatch.dismissCount}">
                         </div>
+                    </div>
                     </div>
                     <input type="hidden" name="file">
                     <input type="hidden" name="fileName">
@@ -307,6 +320,21 @@
             $(form).ajaxSubmit({
                 success: function (ret) {
                     if (ret.success) {
+
+                        var msg = "是否继续添加干部任免信息？";
+                        var redirectUrl = "${ctx}/dispatch_cadres?dispatchId=" + ret.id;
+                        var isCadre = $("#modalForm input[name=_category][value=<%=DispatchConstants.DISPATCH_CATEGORY_CADER%>]").prop("checked");
+
+                        if(!isCadre){
+                            msg = "是否继续添加机构调整信息？";
+                            redirectUrl = "${ctx}/dispatch_units?dispatchId=" + ret.id;
+                        }else{
+                             var isUnit = $("#modalForm input[name=_category][value=<%=DispatchConstants.DISPATCH_CATEGORY_UNIT%>]").prop("checked");
+                             var isParty = $("#modalForm input[name=_category][value=<%=DispatchConstants.DISPATCH_CATEGORY_PARTY%>]").prop("checked");
+                             if(isUnit || isParty){
+                                msg = "是否继续添加干部任免信息和机构调整信息？";
+                             }
+                        }
                         bootbox.confirm({
                             buttons: {
                                 confirm: {
@@ -318,10 +346,10 @@
                                     className: 'btn-default btn-show'
                                 }
                             },
-                            message: '<div class="msg info">是否继续添加干部任免信息？</div>',
+                            message: '<div class="msg info">'+msg+'</div>',
                             callback: function(result) {
                                 if (result) {
-                                    $("#body-content-view").load("${ctx}/dispatch_cadres?dispatchId=" + ret.id);
+                                    $("#body-content-view").load(redirectUrl);
                                 } else {
                                     $.hideView();
                                 }
