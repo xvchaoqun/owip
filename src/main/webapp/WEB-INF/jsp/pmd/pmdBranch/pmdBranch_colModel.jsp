@@ -26,7 +26,7 @@
       </c:if>
     }},
 
-    { label: '党支部名称',name: 'branchName', width:200, align:'left'},
+    { label: '党支部名称',name: 'branchName', width:300, align:'left'},
     { label: '所属党委',name: 'partyName', width:300, align:'left'},
     { label: '党员总数',name: 'memberCount', width:80, formatter: function (cellvalue, options, rowObject) {
       return (rowObject.hasReport)?cellvalue:rowObject.r.memberCount;
