@@ -27,6 +27,8 @@ ALTER TABLE `dispatch_unit`
 	DROP FOREIGN KEY `FK_dispatch_unit_base_meta_type`;
 
 
+sys_resource: 单位发文管理 改为 机构调整信息，放在组织部发文二级菜单中
+
 mc_dispatch_unit -> mc_dispatch_unit_type 和对应的值
 
 20181123
