@@ -47,26 +47,10 @@ public class MobileDispatchWorkFileController extends BaseController {
 		
 		String imgPath = pdfFilePath+".jpg";
 		if(!FileUtils.exists(imgPath)){
+			
 			PdfUtils.pdf2jpg(pdfFilePath, PropertiesUtils.getString("gs.command"));
 		}
 		
 		ImageUtils.displayImage(FileUtils.getBytes(imgPath), response);
-		
-		/*Document document = new Document();
-		document.setFile(filePath);
-		float scale = 1f;
-		float rotation = 0f;
-		List<BufferedImage> bufferImgList = new ArrayList<BufferedImage>();
-
-		for (int i = 0; i < document.getNumberOfPages(); i++) {
-			BufferedImage image = (BufferedImage) document.getPageImage(i, GraphicsRenderingHints.SCREEN,
-					Page.BOUNDARY_CROPBOX, rotation, scale);
-			bufferImgList.add(image);
-		}
-		document.dispose();
-
-		BufferedImage imageResult = ImageUtils.mergeImages(bufferImgList);
-
-		ImageIO.write(imageResult, "JPEG", response.getOutputStream());*/
 	}
 }
