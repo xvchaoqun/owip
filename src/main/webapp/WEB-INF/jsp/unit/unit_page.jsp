@@ -46,12 +46,12 @@
                                 </button>
                                 </shiro:hasPermission>
                             </c:if>
-                            <shiro:hasPermission name="unit:history">
+                            <%--<shiro:hasPermission name="unit:history">
                                 <button class="jqOpenViewBtn btn btn-primary btn-sm"
                                         data-url="${ctx}/unit_history">
                                     <i class="fa fa-history"></i> 编辑历史单位
                                 </button>
-                            </shiro:hasPermission>
+                            </shiro:hasPermission>--%>
 
                             <shiro:hasPermission name="unit:del">
                                 <a class="jqBatchBtn btn btn-danger btn-sm"

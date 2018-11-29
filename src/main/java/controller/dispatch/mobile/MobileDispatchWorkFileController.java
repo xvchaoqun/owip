@@ -3,9 +3,6 @@ package controller.dispatch.mobile;
 import controller.BaseController;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.icepdf.core.pobjects.Document;
-import org.icepdf.core.pobjects.Page;
-import org.icepdf.core.util.GraphicsRenderingHints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,12 +10,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import sys.utils.FileUtils;
 import sys.utils.ImageUtils;
+import sys.utils.PdfUtils;
+import sys.utils.PropertiesUtils;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/m")
@@ -46,8 +41,18 @@ public class MobileDispatchWorkFileController extends BaseController {
 
 		String ext = FileUtils.getExtention(path); // linux区分文件名大小写
 		path = FileUtils.getFileName(path) + (StringUtils.equalsIgnoreCase(ext, ".pdf")?ext:".pdf");
-		String filePath = springProps.uploadPath + path;
-		Document document = new Document();
+		String pdfFilePath = springProps.uploadPath + path;
+		
+		if(!FileUtils.exists(pdfFilePath)) return;
+		
+		String imgPath = pdfFilePath+".jpg";
+		if(!FileUtils.exists(imgPath)){
+			PdfUtils.pdf2jpg(pdfFilePath, PropertiesUtils.getString("gs.command"));
+		}
+		
+		ImageUtils.displayImage(FileUtils.getBytes(imgPath), response);
+		
+		/*Document document = new Document();
 		document.setFile(filePath);
 		float scale = 1f;
 		float rotation = 0f;
@@ -62,6 +67,6 @@ public class MobileDispatchWorkFileController extends BaseController {
 
 		BufferedImage imageResult = ImageUtils.mergeImages(bufferImgList);
 
-		ImageIO.write(imageResult, "JPEG", response.getOutputStream());
+		ImageIO.write(imageResult, "JPEG", response.getOutputStream());*/
 	}
 }

@@ -21,7 +21,7 @@ public interface IUnitMapper {
     // 查找历史单位
     @ResultMap("persistence.unit.UnitMapper.BaseResultMap")
     @Select("select distinct u.* from unit u, unit_history_unit hu where hu.unit_id=#{unitId} and hu.old_unit_id=u.id " +
-            "order by u.sort_order desc")
+            "order by hu.sort_order desc")
     public List<Unit> findHistoryUnits(@Param("unitId")int unitId);
     // 查找正在运转单位
     @ResultMap("persistence.unit.UnitMapper.BaseResultMap")

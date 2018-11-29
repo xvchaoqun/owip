@@ -1069,15 +1069,21 @@ $(document).on("click", ".popTableDiv .delBtn", function () {
 // 调序
 $(document).on("click", ".popTableDiv .changeOrderBtn", function () {
 
-    var id = $(this).data("id");
-    var direction = parseInt($(this).data("direction"));
-    var step = $(this).closest("td").find("input").val();
+    var $this = $(this);
+    var id = $this.data("id");
+    var direction = parseInt($this.data("direction"));
+    var step = $this.closest("td").find("input").val();
     var addNum = (parseInt(step) || 1) * direction;
-    var $div = $(this).closest(".popTableDiv");
+    var $div = $this.closest(".popTableDiv");
+    var fn = $this.data("callback");
     //console.log($div.data("url-co"))
     $.post($div.data("url-co"), {id: id, addNum: addNum}, function (ret) {
         if (ret.success) {
-            pop_reload();
+           pop_reload(function(){
+                if (fn) {
+                    window[fn]($this);
+                }
+            });
             //SysMsg.success('操作成功。', '成功');
         }
     });

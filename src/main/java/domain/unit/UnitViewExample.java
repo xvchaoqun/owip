@@ -366,6 +366,66 @@ public class UnitViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andDispatchUnitIdIsNull() {
+            addCriterion("dispatch_unit_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUnitIdIsNotNull() {
+            addCriterion("dispatch_unit_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUnitIdEqualTo(Integer value) {
+            addCriterion("dispatch_unit_id =", value, "dispatchUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUnitIdNotEqualTo(Integer value) {
+            addCriterion("dispatch_unit_id <>", value, "dispatchUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUnitIdGreaterThan(Integer value) {
+            addCriterion("dispatch_unit_id >", value, "dispatchUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUnitIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_unit_id >=", value, "dispatchUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUnitIdLessThan(Integer value) {
+            addCriterion("dispatch_unit_id <", value, "dispatchUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUnitIdLessThanOrEqualTo(Integer value) {
+            addCriterion("dispatch_unit_id <=", value, "dispatchUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUnitIdIn(List<Integer> values) {
+            addCriterion("dispatch_unit_id in", values, "dispatchUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUnitIdNotIn(List<Integer> values) {
+            addCriterion("dispatch_unit_id not in", values, "dispatchUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUnitIdBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_unit_id between", value1, value2, "dispatchUnitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDispatchUnitIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("dispatch_unit_id not between", value1, value2, "dispatchUnitId");
+            return (Criteria) this;
+        }
+
         public Criteria andWorkTimeIsNull() {
             addCriterion("work_time is null");
             return (Criteria) this;
@@ -423,76 +483,6 @@ public class UnitViewExample {
 
         public Criteria andWorkTimeNotBetween(Date value1, Date value2) {
             addCriterion("work_time not between", value1, value2, "workTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathIsNull() {
-            addCriterion("file_path is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathIsNotNull() {
-            addCriterion("file_path is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathEqualTo(String value) {
-            addCriterion("file_path =", value, "filePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathNotEqualTo(String value) {
-            addCriterion("file_path <>", value, "filePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathGreaterThan(String value) {
-            addCriterion("file_path >", value, "filePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathGreaterThanOrEqualTo(String value) {
-            addCriterion("file_path >=", value, "filePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathLessThan(String value) {
-            addCriterion("file_path <", value, "filePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathLessThanOrEqualTo(String value) {
-            addCriterion("file_path <=", value, "filePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathLike(String value) {
-            addCriterion("file_path like", value, "filePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathNotLike(String value) {
-            addCriterion("file_path not like", value, "filePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathIn(List<String> values) {
-            addCriterion("file_path in", values, "filePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathNotIn(List<String> values) {
-            addCriterion("file_path not in", values, "filePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathBetween(String value1, String value2) {
-            addCriterion("file_path between", value1, value2, "filePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andFilePathNotBetween(String value1, String value2) {
-            addCriterion("file_path not between", value1, value2, "filePath");
             return (Criteria) this;
         }
 

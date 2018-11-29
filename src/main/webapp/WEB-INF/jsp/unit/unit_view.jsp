@@ -23,14 +23,14 @@
                             <a href="javascript:;" data-url="${ctx}/unitTransfer?unitId=${param.id}">单位历程相关文件</a>
                         </li>
                         </shiro:hasPermission>
-                        <shiro:hasPermission name="unitPost:*">
-                        <li>
-                            <a href="javascript:;" data-url="${ctx}/unitPostList?unitId=${param.id}">干部配置</a>
-                        </li>
-                        </shiro:hasPermission>
                         <shiro:hasPermission name="unitAdminGroup:list">
                         <li>
                             <a href="javascript:;" data-url="${ctx}/unitAdminGroup?unitId=${param.id}">行政班子</a>
+                        </li>
+                        </shiro:hasPermission>
+                        <shiro:hasPermission name="unitPost:*">
+                        <li>
+                            <a href="javascript:;" data-url="${ctx}/unitPostList?unitId=${param.id}">干部岗位</a>
                         </li>
                         </shiro:hasPermission>
                         <shiro:hasPermission name="unitCadreTransferGroup:list">

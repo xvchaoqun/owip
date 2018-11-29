@@ -22,10 +22,7 @@ import sys.constants.LogConstants;
 import sys.constants.RoleConstants;
 import sys.tool.paging.CommonList;
 import sys.tool.tree.TreeNode;
-import sys.utils.DateUtils;
-import sys.utils.ExportHelper;
-import sys.utils.FormUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -186,6 +183,26 @@ public class DispatchWorkFileController extends DispatchBaseController {
         return resultMap;
     }
 
+    // for test
+    @RequiresPermissions("dispatchWorkFile:edit")
+    @RequestMapping(value = "/dispatchWorkFile_asyncPdf2jpg")
+    @ResponseBody
+    public Map dispatchWorkFile_asyncPdf2jpg(){
+        
+        List<DispatchWorkFile> dispatchWorkFiles = dispatchWorkFileMapper.selectByExample(new DispatchWorkFileExample());
+        int i=0;
+        for (DispatchWorkFile dispatchWorkFile : dispatchWorkFiles) {
+    
+            String pdfFilePath = dispatchWorkFile.getPdfFilePath();
+            if(FileUtils.exists(springProps.uploadPath + pdfFilePath+".jpg"))
+                continue;
+             // 异步pdf转图片
+            cacheService.asyncPdf2jpg(pdfFilePath);
+            i++;
+        }
+        return success(i+"add");
+    }
+    
     @RequiresPermissions("dispatchWorkFile:edit")
     @RequestMapping(value = "/dispatchWorkFile_au", method = RequestMethod.POST)
     @ResponseBody
@@ -211,6 +228,9 @@ public class DispatchWorkFileController extends DispatchBaseController {
 
         if (canUpload) {
             record.setPdfFilePath(uploadPdf(_pdfFilePath, "dispatch_work_file"));
+            // 异步pdf转图片
+            cacheService.asyncPdf2jpg(record.getPdfFilePath());
+            
             record.setWordFilePath(upload(_wordFilePath, "dispatch_work_file"));
         }else{
             record.setPdfFilePath(null);

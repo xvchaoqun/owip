@@ -1,4 +1,20 @@
 
+20181129
+更新 dispatch_cadre_view
+     dispatch_unit_view
+
+select * from unit where file_path is not null;
+
+update unit set file_path = null;
+
+ALTER TABLE `unit`
+	CHANGE COLUMN `file_path` `dispatch_unit_id` INT UNSIGNED NULL DEFAULT NULL COMMENT '成立文件，关联内设机构调整文件' AFTER `type_id`,
+	CHANGE COLUMN `work_time` `work_time` DATETIME NULL DEFAULT NULL COMMENT '成立时间，默认同成立文件的发文日期，可修改' AFTER `dispatch_unit_id`,
+	CHANGE COLUMN `url` `url` VARCHAR(200) NULL DEFAULT NULL COMMENT '单位网址' AFTER `work_time`;
+
+更新 unit_view
+
+更新 common-utils
 
 20181128
 ALTER TABLE `dispatch`

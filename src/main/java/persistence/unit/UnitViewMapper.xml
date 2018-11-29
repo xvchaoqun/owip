@@ -6,8 +6,8 @@
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="dispatch_unit_id" jdbcType="INTEGER" property="dispatchUnitId" />
     <result column="work_time" jdbcType="TIMESTAMP" property="workTime" />
-    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
@@ -51,8 +51,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, type_id, work_time, file_path, url, create_time, sort_order, status, 
-    principal_post_count, vice_post_count, main_count, vice_count, none_count
+    id, code, name, type_id, dispatch_unit_id, work_time, url, create_time, sort_order, 
+    status, principal_post_count, vice_post_count, main_count, vice_count, none_count
   </sql>
   <sql id="Blob_Column_List">
     remark

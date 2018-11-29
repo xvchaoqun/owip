@@ -30,9 +30,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import persistence.common.CountMapper;
 import service.BaseMapper;
+import service.SpringProps;
 import service.base.CountryService;
 import service.base.LocationService;
 import service.base.MetaTypeService;
@@ -49,9 +51,7 @@ import sys.constants.CacheConstants;
 import sys.constants.MemberConstants;
 import sys.constants.ModifyConstants;
 import sys.tags.CmTag;
-import sys.utils.ClassUtils;
-import sys.utils.FileUtils;
-import sys.utils.JSONUtils;
+import sys.utils.*;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -89,11 +89,27 @@ public class CacheService extends BaseMapper {
     protected PartyService partyService;
     @Autowired
     protected BranchService branchService;
+    @Autowired
+    protected SpringProps springProps;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     public final static String MENU_COUNT_CACHE_NAME = "menu_count_cache";
 
+    // 异步Pdf转图片
+    @Async
+    public void asyncPdf2jpg(String pdfFilePath){
+    
+        try {
+            //Thread.sleep(10000);
+            String cmd = PdfUtils.pdf2jpg(springProps.uploadPath + pdfFilePath,
+                    PropertiesUtils.getString("gs.command"));
+            logger.info(cmd);
+        } catch (Exception e) {
+            logger.error("gs {}, {}", pdfFilePath, e.getMessage());
+        }
+    }
+    
     // 菜单缓存数量
     public Integer getCacheCount(String countCacheKeys){
 

@@ -2,10 +2,9 @@ package persistence.unit;
 
 import domain.unit.Unit;
 import domain.unit.UnitExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
-
-import java.util.List;
 
 public interface UnitMapper {
     long countByExample(UnitExample example);

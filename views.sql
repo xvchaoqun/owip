@@ -669,13 +669,13 @@ where cio.type_id=bmt.id order by cio.year desc, bmt.sort_order desc, cio.seq de
 -- ----------------------------
 DROP VIEW IF EXISTS `dispatch_cadre_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dispatch_cadre_view` AS
-select dc.*, d.year, d.dispatch_type_id, d.code , d.has_checked from dispatch_cadre dc, dispatch d, dispatch_type dt
+select dc.*, d.category, d.year, d.pub_time, d.dispatch_type_id, d.code , d.has_checked from dispatch_cadre dc, dispatch d, dispatch_type dt
     where dc.dispatch_id = d.id and  d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc, dc.type asc  ;
 
 -- ----------------------------
 DROP VIEW IF EXISTS `dispatch_unit_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dispatch_unit_view` AS
-select du.*, d.year, d.dispatch_type_id, d.code , d.has_checked from dispatch_unit du, dispatch d, dispatch_type dt
+select du.*, d.category, d.year, d.pub_time, d.dispatch_type_id, d.code , d.has_checked from dispatch_unit du, dispatch d, dispatch_type dt
     where du.dispatch_id = d.id and  d.dispatch_type_id = dt.id order by d.year desc, dt.sort_order desc, d.code desc, du.type asc  ;
 
 -- ----------------------------

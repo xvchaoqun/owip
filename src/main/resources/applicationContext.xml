@@ -103,7 +103,7 @@
     </bean>
     <!--<bean id="sysJobListener" class="job.listener.SysJobListener"/>-->
 
-    <aop:config proxy-target-class="true"></aop:config>
+    <!--<aop:config proxy-target-class="true"></aop:config>-->
 
     <!-- 缺省的异步任务线程池 -->
     <task:annotation-driven executor="asyncExecutor" />

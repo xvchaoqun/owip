@@ -776,9 +776,13 @@ var _modal_width;
             var callback = _params.callback;
             var $hide = _params.$hide || $("#body-content");
             var $show = _params.$show || $("#body-content-view");
-
+            //console.log("_params.modal=" + _params.modal)
+            var modal = _params.modal || 'hide';
+            //console.log("modal=" + modal)
             // 关闭modal
-            $("#modal").removeClass("fade").modal('hide').addClass("fade");
+            if(modal=='hide') {
+                $("#modal").removeClass("fade").modal('hide').addClass("fade");
+            }
             $mask.mask();
             $.get(url, {}, function (html) {
                 $mask.unmask();

@@ -3,14 +3,13 @@ package controller.unit;
 import bean.XlsUpload;
 import controller.BaseController;
 import domain.base.MetaType;
-import domain.unit.HistoryUnit;
-import domain.unit.HistoryUnitExample;
-import domain.unit.Unit;
-import domain.unit.UnitExample;
+import domain.dispatch.DispatchUnit;
+import domain.dispatch.DispatchUnitView;
+import domain.dispatch.DispatchUnitViewExample;
+import domain.unit.*;
 import domain.unit.UnitExample.Criteria;
-import domain.unit.UnitView;
-import domain.unit.UnitViewExample;
 import mixin.MixinUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -31,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.ext.ExtUnitService;
 import service.unit.UnitExportService;
+import sys.constants.DispatchConstants;
 import sys.constants.LogConstants;
 import sys.constants.SystemConstants;
 import sys.tags.CmTag;
@@ -44,11 +44,7 @@ import sys.utils.JSONUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class UnitController extends BaseController {
@@ -67,6 +63,14 @@ public class UnitController extends BaseController {
 
         Unit unit = unitMapper.selectByPrimaryKey(id);
         modelMap.put("unit", unit);
+    
+        Integer dispatchUnitId = unit.getDispatchUnitId();
+        if(dispatchUnitId!=null){
+            DispatchUnit dispatchUnit = dispatchUnitMapper.selectByPrimaryKey(dispatchUnitId);
+            if(dispatchUnit!=null)
+                modelMap.put("dispatch", dispatchUnit.getDispatch());
+        }
+    
         // 正在运转单位
         modelMap.put("runUnits", unitService.findRunUnits(id));
         // 历史单位
@@ -169,17 +173,15 @@ public class UnitController extends BaseController {
     @RequiresPermissions("unit:edit")
     @RequestMapping(value = "/unit_au", method = RequestMethod.POST)
     @ResponseBody
-    public Map do_unit_au(Unit record,
-                          MultipartFile _file,
-                          String _workTime, HttpServletRequest request) throws IOException, InterruptedException {
+    public Map do_unit_au(Unit record, String _workTime, HttpServletRequest request) throws IOException, InterruptedException {
 
         Integer id = record.getId();
         if(StringUtils.isNotBlank(_workTime)){
             record.setWorkTime(DateUtils.parseDate(_workTime, DateUtils.YYYY_MM_DD));
         }
-        record.setFilePath(uploadPdf(_file, "unit"));
-
-        if (unitService.idDuplicate(id, record.getCode())) {
+      
+        if (StringUtils.isNotBlank(record.getCode())
+                && unitService.idDuplicate(id, record.getCode())) {
             return failed("单位编码重复");
         }
 
@@ -200,11 +202,21 @@ public class UnitController extends BaseController {
 
     @RequiresPermissions("unit:edit")
     @RequestMapping("/unit_au")
-    public String unit_au(Integer id, ModelMap modelMap) {
+    public String unit_au(Integer id, Boolean update, ModelMap modelMap) {
 
         if (id != null) {
             Unit unit = unitMapper.selectByPrimaryKey(id);
             modelMap.put("unit", unit);
+        }
+        if(BooleanUtils.isTrue(update)){
+            DispatchUnitViewExample example = new DispatchUnitViewExample();
+            example.createCriteria().andCategoryContain(DispatchConstants.DISPATCH_CATEGORY_UNIT, true)
+            .andUnitIdContain(Arrays.asList(id));
+            example.setOrderByClause("pub_time asc");
+            List<DispatchUnitView> dispatchUnits = dispatchUnitViewMapper.selectByExample(example);
+            modelMap.put("dispatchUnits", dispatchUnits);
+            
+            return "unit/unit_update";
         }
         return "unit/unit_au";
     }

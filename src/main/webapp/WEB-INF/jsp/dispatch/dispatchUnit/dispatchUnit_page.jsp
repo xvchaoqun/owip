@@ -99,37 +99,11 @@
         <div id="body-content-view"> </div>
     </div>
     </div>
+<jsp:include page="dispatchUnit_colModel.jsp?type=all"/>
 <script>
     $("#jqGrid").jqGrid({
         url: '${ctx}/dispatchUnit_data?callback=?&${cm:encodeQueryString(pageContext.request.queryString)}',
-        colModel: [
-            { label: '年份', name: 'dispatch.year', width: 75,frozen:true },
-            { label:'发文号',  name: 'dispatch.dispatchCode', width: 140, align:'left',formatter:function(cellvalue, options, rowObject){
-
-                return $.swfPreview(rowObject.dispatch.file, rowObject.dispatch.fileName,
-                    cellvalue, cellvalue, '${param.type eq 'all'?'modal':'url'}');
-            },frozen:true },
-            { label: '发文日期',  name: 'dispatch.pubTime',frozen:true , formatter: 'date', formatoptions: {newformat: 'Y-m-d'} },
-            { label:'机构类型', name: 'type', width: 90, formatter:function(cellvalue, options, rowObject){
-
-                //console.log((','+ rowObject.dispatch.category +','))
-                return (','+ rowObject.dispatch.category +',')
-                    .indexOf(',<%=DispatchConstants.DISPATCH_CATEGORY_UNIT%>,')>=0?'内设机构':'组织机构';
-            },frozen:true },
-            { label:'调整方式', name: 'type', width: 80, formatter: $.jgrid.formatter.MetaType},
-            { label:'新成立机构名称', name: 'unitId', width: 250, align:'left' ,formatter:function(cellvalue, options, rowObject){
-               // console.log( _cMap.unitMap)
-                return (','+ rowObject.dispatch.category +',')
-                    .indexOf(',<%=DispatchConstants.DISPATCH_CATEGORY_UNIT%>,')>=0?$.jgrid.formatter.unit(cellvalue)
-                    :_cMap.partyMap[cellvalue].name;
-            }},
-            { label:'撤销机构名称', name: 'oldUnitId', width: 250, align:'left' ,formatter:function(cellvalue, options, rowObject){
-                return (','+ rowObject.dispatch.category +',')
-                    .indexOf(',<%=DispatchConstants.DISPATCH_CATEGORY_UNIT%>,')>=0?$.jgrid.formatter.unit(cellvalue)
-                    :_cMap.partyMap[cellvalue].name;
-            }},
-            { label:'备注', name: 'remark', width: 250}
-        ]
+        colModel:colModel
     }).jqGrid("setFrozenColumns");
     $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");

@@ -44,17 +44,27 @@ pageEncoding="UTF-8"%>
                          <shiro:hasPermission name="historyUnit:changeOrder">
                             <c:if test="${!_query && commonList.recNum>1}">
                                 <td nowrap>
-                                    <a href="javascript:;" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${historyUnit.id}" data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
+                                    <a href="javascript:;" <c:if test="${commonList.pageNo==1 && st.first}">style="visibility: hidden"</c:if> class="changeOrderBtn"
+                                       data-id="${historyUnit.id}"
+                                       data-callback="_popup_reload"
+                                       data-direction="1" title="上升"><i class="fa fa-arrow-up"></i></a>
                                     <input type="text" value="1"
-                                           class="order-step tooltip-success" data-rel="tooltip" data-placement="top" title="修改操作步长">
-                                    <a href="javascript:;" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if> class="changeOrderBtn" data-id="${historyUnit.id}" data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
+                                           class="order-step tooltip-success" data-rel="tooltip"
+                                           data-placement="top" title="修改操作步长">
+                                    <a href="javascript:;" <c:if test="${commonList.pageNo>=commonList.pageNum && st.last}">style="visibility: hidden"</c:if>
+                                       class="changeOrderBtn"
+                                       data-id="${historyUnit.id}"
+                                       data-callback="_popup_reload"
+                                       data-direction="-1" title="下降"><i class="fa fa-arrow-down"></i></a>                                </td>
                                 </td>
                             </c:if>
                         </shiro:hasPermission>
                         <td nowrap>
                             <div class="hidden-sm hidden-xs action-buttons">
                                 <shiro:hasPermission name="historyUnit:del">
-                                    <button class="delBtn btn btn-danger btn-xs" data-id="${historyUnit.id}">
+                                    <button class="delBtn btn btn-danger btn-xs"
+                                            data-callback="_popup_reload"
+                                            data-id="${historyUnit.id}">
                                         <i class="fa fa-trash"></i> 删除
                                     </button>
                                 </shiro:hasPermission>
@@ -96,6 +106,11 @@ pageEncoding="UTF-8"%>
     </div>
 </div>
 <script>
+    function _popup_reload(){
+        //SysMsg.success('操作成功。', '成功');
+        $("#tab-content").load("${ctx}/unit_base?id=${unit.id}&_="+new Date().getTime())
+        pop_reload();
+    }
     $("#submitBtn", "#modalForm").click(function(){$("#modalForm").submit();return false;})
     $("#modal form").validate({
         submitHandler: function (form) {
@@ -109,8 +124,9 @@ pageEncoding="UTF-8"%>
             $(form).ajaxSubmit({
                 success:function(ret){
                     if(ret.success){
-                        pop_reload();
-                        //SysMsg.success('操作成功。', '成功');
+
+                        _popup_reload();
+
                     }
                 }
             });

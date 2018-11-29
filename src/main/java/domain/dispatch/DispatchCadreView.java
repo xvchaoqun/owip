@@ -6,6 +6,7 @@ import domain.unit.Unit;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class DispatchCadreView implements Serializable {
 
@@ -51,7 +52,11 @@ public class DispatchCadreView implements Serializable {
 
     private Integer sortOrder;
 
+    private String category;
+
     private Integer year;
+
+    private Date pubTime;
 
     private Integer dispatchTypeId;
 
@@ -173,12 +178,28 @@ public class DispatchCadreView implements Serializable {
         this.sortOrder = sortOrder;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category == null ? null : category.trim();
+    }
+
     public Integer getYear() {
         return year;
     }
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public Date getPubTime() {
+        return pubTime;
+    }
+
+    public void setPubTime(Date pubTime) {
+        this.pubTime = pubTime;
     }
 
     public Integer getDispatchTypeId() {

@@ -13,9 +13,9 @@ public class UnitView implements Serializable {
 
     private Integer typeId;
 
-    private Date workTime;
+    private Integer dispatchUnitId;
 
-    private String filePath;
+    private Date workTime;
 
     private String url;
 
@@ -71,20 +71,20 @@ public class UnitView implements Serializable {
         this.typeId = typeId;
     }
 
+    public Integer getDispatchUnitId() {
+        return dispatchUnitId;
+    }
+
+    public void setDispatchUnitId(Integer dispatchUnitId) {
+        this.dispatchUnitId = dispatchUnitId;
+    }
+
     public Date getWorkTime() {
         return workTime;
     }
 
     public void setWorkTime(Date workTime) {
         this.workTime = workTime;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath == null ? null : filePath.trim();
     }
 
     public String getUrl() {

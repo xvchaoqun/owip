@@ -838,6 +838,8 @@ public class BaseMapper {
     @Autowired(required = false)
     protected DispatchUnitMapper dispatchUnitMapper;
     @Autowired(required = false)
+    protected DispatchUnitViewMapper dispatchUnitViewMapper;
+    @Autowired(required = false)
     protected DispatchUnitRelateMapper dispatchUnitRelateMapper;
     @Autowired(required = false)
     protected DispatchWorkFileMapper dispatchWorkFileMapper;

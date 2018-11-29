@@ -8,7 +8,9 @@
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
     <result column="old_unit_id" jdbcType="INTEGER" property="oldUnitId" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
     <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="pub_time" jdbcType="DATE" property="pubTime" />
     <result column="dispatch_type_id" jdbcType="INTEGER" property="dispatchTypeId" />
     <result column="code" jdbcType="INTEGER" property="code" />
     <result column="has_checked" jdbcType="BIT" property="hasChecked" />
@@ -43,8 +45,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, dispatch_id, type, unit_id, old_unit_id, remark, year, dispatch_type_id, code, 
-    has_checked
+    id, dispatch_id, type, unit_id, old_unit_id, remark, category, year, pub_time, dispatch_type_id, 
+    code, has_checked
   </sql>
   <select id="selectByExample" parameterType="domain.dispatch.DispatchUnitViewExample" resultMap="BaseResultMap">
     select

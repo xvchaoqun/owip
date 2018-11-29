@@ -56,12 +56,13 @@
       </table>-->
         <!--<table tableName="dispatch_cadre" domainObjectName="dispatch.DispatchCadre">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        </table>-->
          <table tableName="dispatch_cadre_view" domainObjectName="dispatch.DispatchCadreView"
+                mapperName="dispatch.DispatchCadreViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>-->
+         </table>
 
         <!--<table tableName="dispatch_work_file" domainObjectName="dispatch.DispatchWorkFile"
                mapperName="dispatch.DispatchWorkFileMapper">

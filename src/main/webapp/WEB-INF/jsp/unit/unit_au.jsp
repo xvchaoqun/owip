@@ -23,7 +23,9 @@ pageEncoding="UTF-8"%>
 			<div class="form-group">
 				<label class="col-xs-3 control-label">单位类型</label>
 				<div class="col-xs-6">
-                        <select required data-rel="select2" name="typeId" data-placeholder="请选择单位类型">
+                        <select required data-rel="select2" name="typeId"
+								data-width="272"
+								data-placeholder="请选择单位类型">
                             <option></option>
                             <c:import url="/metaTypes?__code=mc_unit_type"/>
                         </select>
@@ -32,25 +34,7 @@ pageEncoding="UTF-8"%>
                         </script>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">成立时间</label>
-				<div class="col-xs-6">
-                    <div class="input-group">
-                        <input  class="form-control date-picker" name="_workTime"
-                               type="text" data-date-format="yyyy-mm-dd"
-                               value="${cm:formatDate(unit.workTime, "yyyy-MM-dd")}"/>
-                        <span class="input-group-addon">
-                            <i class="fa fa-calendar bigger-110"></i>
-                        </span>
-                    </div>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-3 control-label">成立文件</label>
-				<div class="col-xs-6">
-                    <input class="form-control" type="file" name="_file"/>
-				</div>
-			</div>
+
 			<div class="form-group">
 				<label class="col-xs-3 control-label">备注</label>
 				<div class="col-xs-6">
@@ -92,6 +76,4 @@ pageEncoding="UTF-8"%>
     });
     $('[data-rel="select2"]').select2();
     $('[data-rel="tooltip"]').tooltip();
-
-    $.register.date($('.date-picker'));
 </script>

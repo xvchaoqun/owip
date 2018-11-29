@@ -6,8 +6,8 @@
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="dispatch_unit_id" jdbcType="INTEGER" property="dispatchUnitId" />
     <result column="work_time" jdbcType="TIMESTAMP" property="workTime" />
-    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, code, name, type_id, work_time, file_path, url, remark, create_time, sort_order, 
+    id, code, name, type_id, dispatch_unit_id, work_time, url, remark, create_time, sort_order, 
     status
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitExample" resultMap="BaseResultMap">
@@ -111,11 +111,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into unit (code, name, type_id, 
-      work_time, file_path, url, 
+      dispatch_unit_id, work_time, url, 
       remark, create_time, sort_order, 
       status)
     values (#{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
-      #{workTime,jdbcType=TIMESTAMP}, #{filePath,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{dispatchUnitId,jdbcType=INTEGER}, #{workTime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{sortOrder,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT})
   </insert>
@@ -134,11 +134,11 @@
       <if test="typeId != null">
         type_id,
       </if>
+      <if test="dispatchUnitId != null">
+        dispatch_unit_id,
+      </if>
       <if test="workTime != null">
         work_time,
-      </if>
-      <if test="filePath != null">
-        file_path,
       </if>
       <if test="url != null">
         url,
@@ -166,11 +166,11 @@
       <if test="typeId != null">
         #{typeId,jdbcType=INTEGER},
       </if>
+      <if test="dispatchUnitId != null">
+        #{dispatchUnitId,jdbcType=INTEGER},
+      </if>
       <if test="workTime != null">
         #{workTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="filePath != null">
-        #{filePath,jdbcType=VARCHAR},
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
@@ -210,11 +210,11 @@
       <if test="record.typeId != null">
         type_id = #{record.typeId,jdbcType=INTEGER},
       </if>
+      <if test="record.dispatchUnitId != null">
+        dispatch_unit_id = #{record.dispatchUnitId,jdbcType=INTEGER},
+      </if>
       <if test="record.workTime != null">
         work_time = #{record.workTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.filePath != null">
-        file_path = #{record.filePath,jdbcType=VARCHAR},
       </if>
       <if test="record.url != null">
         url = #{record.url,jdbcType=VARCHAR},
@@ -242,8 +242,8 @@
       code = #{record.code,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       type_id = #{record.typeId,jdbcType=INTEGER},
+      dispatch_unit_id = #{record.dispatchUnitId,jdbcType=INTEGER},
       work_time = #{record.workTime,jdbcType=TIMESTAMP},
-      file_path = #{record.filePath,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -265,11 +265,11 @@
       <if test="typeId != null">
         type_id = #{typeId,jdbcType=INTEGER},
       </if>
+      <if test="dispatchUnitId != null">
+        dispatch_unit_id = #{dispatchUnitId,jdbcType=INTEGER},
+      </if>
       <if test="workTime != null">
         work_time = #{workTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="filePath != null">
-        file_path = #{filePath,jdbcType=VARCHAR},
       </if>
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
@@ -294,8 +294,8 @@
     set code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       type_id = #{typeId,jdbcType=INTEGER},
+      dispatch_unit_id = #{dispatchUnitId,jdbcType=INTEGER},
       work_time = #{workTime,jdbcType=TIMESTAMP},
-      file_path = #{filePath,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

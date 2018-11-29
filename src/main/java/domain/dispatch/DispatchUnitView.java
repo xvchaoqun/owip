@@ -3,6 +3,7 @@ package domain.dispatch;
 import sys.tags.CmTag;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class DispatchUnitView implements Serializable {
     
@@ -22,7 +23,11 @@ public class DispatchUnitView implements Serializable {
 
     private String remark;
 
+    private String category;
+
     private Integer year;
+
+    private Date pubTime;
 
     private Integer dispatchTypeId;
 
@@ -80,12 +85,28 @@ public class DispatchUnitView implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category == null ? null : category.trim();
+    }
+
     public Integer getYear() {
         return year;
     }
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public Date getPubTime() {
+        return pubTime;
+    }
+
+    public void setPubTime(Date pubTime) {
+        this.pubTime = pubTime;
     }
 
     public Integer getDispatchTypeId() {
