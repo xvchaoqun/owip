@@ -17,6 +17,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -155,6 +156,9 @@ public class DispatchCadreController extends DispatchBaseController {
                                     Integer unitId,
                                    Integer unitPostId,
                                    Boolean asc,
+                                   String postTeam,
+                                   @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date workTimeStart,
+                                   @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD) Date workTimeEnd,
                                    @RequestParam(required = false, value = "ids[]") Integer[] ids, // 导出的记录
                                  @RequestParam(required = false, defaultValue = "0") int export,
                                  Integer pageSize, Integer pageNo) throws IOException {
@@ -223,6 +227,16 @@ public class DispatchCadreController extends DispatchBaseController {
 
         if(unitPostId!=null){
             criteria.andUnitPostIdEqualTo(unitPostId);
+        }
+        
+        if(StringUtils.isNotBlank(postTeam)){
+            criteria.andPostTeamEqualTo(postTeam);
+        }
+        if(workTimeStart!=null){
+            criteria.andWorkTimeGreaterThanOrEqualTo(workTimeStart);
+        }
+        if(workTimeEnd!=null){
+            criteria.andWorkTimeLessThanOrEqualTo(workTimeEnd);
         }
 
         if (export == 1) {

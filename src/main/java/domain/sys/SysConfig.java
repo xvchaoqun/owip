@@ -1,6 +1,7 @@
 package domain.sys;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class SysConfig implements Serializable {
     private Integer id;
@@ -18,6 +19,10 @@ public class SysConfig implements Serializable {
     private String schoolLoginUrl;
 
     private String schoolEmail;
+
+    private Date termStartDate;
+
+    private Date termEndDate;
 
     private String siteCopyright;
 
@@ -131,6 +136,22 @@ public class SysConfig implements Serializable {
 
     public void setSchoolEmail(String schoolEmail) {
         this.schoolEmail = schoolEmail == null ? null : schoolEmail.trim();
+    }
+
+    public Date getTermStartDate() {
+        return termStartDate;
+    }
+
+    public void setTermStartDate(Date termStartDate) {
+        this.termStartDate = termStartDate;
+    }
+
+    public Date getTermEndDate() {
+        return termEndDate;
+    }
+
+    public void setTermEndDate(Date termEndDate) {
+        this.termEndDate = termEndDate;
     }
 
     public String getSiteCopyright() {

@@ -644,6 +644,76 @@ public class MetaClassExample {
             return (Criteria) this;
         }
 
+        public Criteria andExtraOptionsIsNull() {
+            addCriterion("extra_options is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsIsNotNull() {
+            addCriterion("extra_options is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsEqualTo(String value) {
+            addCriterion("extra_options =", value, "extraOptions");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsNotEqualTo(String value) {
+            addCriterion("extra_options <>", value, "extraOptions");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsGreaterThan(String value) {
+            addCriterion("extra_options >", value, "extraOptions");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsGreaterThanOrEqualTo(String value) {
+            addCriterion("extra_options >=", value, "extraOptions");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsLessThan(String value) {
+            addCriterion("extra_options <", value, "extraOptions");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsLessThanOrEqualTo(String value) {
+            addCriterion("extra_options <=", value, "extraOptions");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsLike(String value) {
+            addCriterion("extra_options like", value, "extraOptions");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsNotLike(String value) {
+            addCriterion("extra_options not like", value, "extraOptions");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsIn(List<String> values) {
+            addCriterion("extra_options in", values, "extraOptions");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsNotIn(List<String> values) {
+            addCriterion("extra_options not in", values, "extraOptions");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsBetween(String value1, String value2) {
+            addCriterion("extra_options between", value1, value2, "extraOptions");
+            return (Criteria) this;
+        }
+
+        public Criteria andExtraOptionsNotBetween(String value1, String value2) {
+            addCriterion("extra_options not between", value1, value2, "extraOptions");
+            return (Criteria) this;
+        }
+
         public Criteria andSortOrderIsNull() {
             addCriterion("sort_order is null");
             return (Criteria) this;

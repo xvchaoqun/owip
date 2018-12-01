@@ -96,7 +96,7 @@ public class MetaClassController extends BaseController {
             return;
         }
 
-        int count = metaClassMapper.countByExample(example);
+        long count = metaClassMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);
@@ -260,7 +260,7 @@ public class MetaClassController extends BaseController {
             criteria.andNameLike("%" + searchStr + "%");
         }
 
-        int count = metaClassMapper.countByExample(example);
+        long count = metaClassMapper.countByExample(example);
         if ((pageNo - 1) * pageSize >= count) {
 
             pageNo = Math.max(1, pageNo - 1);

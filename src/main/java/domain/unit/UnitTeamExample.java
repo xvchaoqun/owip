@@ -1,18 +1,21 @@
 package domain.unit;
 
+import sys.spring.DateRange;
+import sys.utils.DateUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class UnitAdminGroupExample {
+public class UnitTeamExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public UnitAdminGroupExample() {
+    public UnitTeamExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -192,66 +195,6 @@ public class UnitAdminGroupExample {
             return (Criteria) this;
         }
 
-        public Criteria andFidIsNull() {
-            addCriterion("fid is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFidIsNotNull() {
-            addCriterion("fid is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFidEqualTo(Integer value) {
-            addCriterion("fid =", value, "fid");
-            return (Criteria) this;
-        }
-
-        public Criteria andFidNotEqualTo(Integer value) {
-            addCriterion("fid <>", value, "fid");
-            return (Criteria) this;
-        }
-
-        public Criteria andFidGreaterThan(Integer value) {
-            addCriterion("fid >", value, "fid");
-            return (Criteria) this;
-        }
-
-        public Criteria andFidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("fid >=", value, "fid");
-            return (Criteria) this;
-        }
-
-        public Criteria andFidLessThan(Integer value) {
-            addCriterion("fid <", value, "fid");
-            return (Criteria) this;
-        }
-
-        public Criteria andFidLessThanOrEqualTo(Integer value) {
-            addCriterion("fid <=", value, "fid");
-            return (Criteria) this;
-        }
-
-        public Criteria andFidIn(List<Integer> values) {
-            addCriterion("fid in", values, "fid");
-            return (Criteria) this;
-        }
-
-        public Criteria andFidNotIn(List<Integer> values) {
-            addCriterion("fid not in", values, "fid");
-            return (Criteria) this;
-        }
-
-        public Criteria andFidBetween(Integer value1, Integer value2) {
-            addCriterion("fid between", value1, value2, "fid");
-            return (Criteria) this;
-        }
-
-        public Criteria andFidNotBetween(Integer value1, Integer value2) {
-            addCriterion("fid not between", value1, value2, "fid");
-            return (Criteria) this;
-        }
-
         public Criteria andUnitIdIsNull() {
             addCriterion("unit_id is null");
             return (Criteria) this;
@@ -309,6 +252,66 @@ public class UnitAdminGroupExample {
 
         public Criteria andUnitIdNotBetween(Integer value1, Integer value2) {
             addCriterion("unit_id not between", value1, value2, "unitId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIsNull() {
+            addCriterion("seq is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIsNotNull() {
+            addCriterion("seq is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqEqualTo(Integer value) {
+            addCriterion("seq =", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotEqualTo(Integer value) {
+            addCriterion("seq <>", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqGreaterThan(Integer value) {
+            addCriterion("seq >", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqGreaterThanOrEqualTo(Integer value) {
+            addCriterion("seq >=", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqLessThan(Integer value) {
+            addCriterion("seq <", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqLessThanOrEqualTo(Integer value) {
+            addCriterion("seq <=", value, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIn(List<Integer> values) {
+            addCriterion("seq in", values, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotIn(List<Integer> values) {
+            addCriterion("seq not in", values, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqBetween(Integer value1, Integer value2) {
+            addCriterion("seq between", value1, value2, "seq");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqNotBetween(Integer value1, Integer value2) {
+            addCriterion("seq not between", value1, value2, "seq");
             return (Criteria) this;
         }
 
@@ -382,303 +385,373 @@ public class UnitAdminGroupExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentIsNull() {
-            addCriterion("is_present is null");
+        public Criteria andExpectDeposeDateIsNull() {
+            addCriterion("expect_depose_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentIsNotNull() {
-            addCriterion("is_present is not null");
+        public Criteria andExpectDeposeDateIsNotNull() {
+            addCriterion("expect_depose_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentEqualTo(Boolean value) {
-            addCriterion("is_present =", value, "isPresent");
+        public Criteria andExpectDeposeDateEqualTo(Date value) {
+            addCriterionForJDBCDate("expect_depose_date =", value, "expectDeposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentNotEqualTo(Boolean value) {
-            addCriterion("is_present <>", value, "isPresent");
+        public Criteria andExpectDeposeDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("expect_depose_date <>", value, "expectDeposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentGreaterThan(Boolean value) {
-            addCriterion("is_present >", value, "isPresent");
+        public Criteria andExpectDeposeDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("expect_depose_date >", value, "expectDeposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_present >=", value, "isPresent");
+        public Criteria andExpectDeposeDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("expect_depose_date >=", value, "expectDeposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentLessThan(Boolean value) {
-            addCriterion("is_present <", value, "isPresent");
+        public Criteria andExpectDeposeDateLessThan(Date value) {
+            addCriterionForJDBCDate("expect_depose_date <", value, "expectDeposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_present <=", value, "isPresent");
+        public Criteria andExpectDeposeDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("expect_depose_date <=", value, "expectDeposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentIn(List<Boolean> values) {
-            addCriterion("is_present in", values, "isPresent");
+        public Criteria andExpectDeposeDateIn(List<Date> values) {
+            addCriterionForJDBCDate("expect_depose_date in", values, "expectDeposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentNotIn(List<Boolean> values) {
-            addCriterion("is_present not in", values, "isPresent");
+        public Criteria andExpectDeposeDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("expect_depose_date not in", values, "expectDeposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_present between", value1, value2, "isPresent");
+        public Criteria andExpectDeposeDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("expect_depose_date between", value1, value2, "expectDeposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsPresentNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_present not between", value1, value2, "isPresent");
+        public Criteria andExpectDeposeDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("expect_depose_date not between", value1, value2, "expectDeposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andTranTimeIsNull() {
-            addCriterion("tran_time is null");
+        public Criteria andAppointDispatchCadreIdIsNull() {
+            addCriterion("appoint_dispatch_cadre_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTranTimeIsNotNull() {
-            addCriterion("tran_time is not null");
+        public Criteria andAppointDispatchCadreIdIsNotNull() {
+            addCriterion("appoint_dispatch_cadre_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTranTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("tran_time =", value, "tranTime");
+        public Criteria andAppointDispatchCadreIdEqualTo(Integer value) {
+            addCriterion("appoint_dispatch_cadre_id =", value, "appointDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andTranTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("tran_time <>", value, "tranTime");
+        public Criteria andAppointDispatchCadreIdNotEqualTo(Integer value) {
+            addCriterion("appoint_dispatch_cadre_id <>", value, "appointDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andTranTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("tran_time >", value, "tranTime");
+        public Criteria andAppointDispatchCadreIdGreaterThan(Integer value) {
+            addCriterion("appoint_dispatch_cadre_id >", value, "appointDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andTranTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("tran_time >=", value, "tranTime");
+        public Criteria andAppointDispatchCadreIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("appoint_dispatch_cadre_id >=", value, "appointDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andTranTimeLessThan(Date value) {
-            addCriterionForJDBCDate("tran_time <", value, "tranTime");
+        public Criteria andAppointDispatchCadreIdLessThan(Integer value) {
+            addCriterion("appoint_dispatch_cadre_id <", value, "appointDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andTranTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("tran_time <=", value, "tranTime");
+        public Criteria andAppointDispatchCadreIdLessThanOrEqualTo(Integer value) {
+            addCriterion("appoint_dispatch_cadre_id <=", value, "appointDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andTranTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("tran_time in", values, "tranTime");
+        public Criteria andAppointDispatchCadreIdIn(List<Integer> values) {
+            addCriterion("appoint_dispatch_cadre_id in", values, "appointDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andTranTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("tran_time not in", values, "tranTime");
+        public Criteria andAppointDispatchCadreIdNotIn(List<Integer> values) {
+            addCriterion("appoint_dispatch_cadre_id not in", values, "appointDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andTranTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("tran_time between", value1, value2, "tranTime");
+        public Criteria andAppointDispatchCadreIdBetween(Integer value1, Integer value2) {
+            addCriterion("appoint_dispatch_cadre_id between", value1, value2, "appointDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andTranTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("tran_time not between", value1, value2, "tranTime");
+        public Criteria andAppointDispatchCadreIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("appoint_dispatch_cadre_id not between", value1, value2, "appointDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andActualTranTimeIsNull() {
-            addCriterion("actual_tran_time is null");
+        public Criteria andAppointDateIsNull() {
+            addCriterion("appoint_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andActualTranTimeIsNotNull() {
-            addCriterion("actual_tran_time is not null");
+        public Criteria andAppointDateIsNotNull() {
+            addCriterion("appoint_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andActualTranTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("actual_tran_time =", value, "actualTranTime");
+        public Criteria andAppointDateEqualTo(Date value) {
+            addCriterionForJDBCDate("appoint_date =", value, "appointDate");
             return (Criteria) this;
         }
 
-        public Criteria andActualTranTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("actual_tran_time <>", value, "actualTranTime");
+        public Criteria andAppointDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("appoint_date <>", value, "appointDate");
             return (Criteria) this;
         }
 
-        public Criteria andActualTranTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("actual_tran_time >", value, "actualTranTime");
+        public Criteria andAppointDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("appoint_date >", value, "appointDate");
             return (Criteria) this;
         }
 
-        public Criteria andActualTranTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("actual_tran_time >=", value, "actualTranTime");
+        public Criteria andAppointDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("appoint_date >=", value, "appointDate");
             return (Criteria) this;
         }
 
-        public Criteria andActualTranTimeLessThan(Date value) {
-            addCriterionForJDBCDate("actual_tran_time <", value, "actualTranTime");
+        public Criteria andAppointDateLessThan(Date value) {
+            addCriterionForJDBCDate("appoint_date <", value, "appointDate");
             return (Criteria) this;
         }
 
-        public Criteria andActualTranTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("actual_tran_time <=", value, "actualTranTime");
+        public Criteria andAppointDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("appoint_date <=", value, "appointDate");
             return (Criteria) this;
         }
 
-        public Criteria andActualTranTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("actual_tran_time in", values, "actualTranTime");
+        public Criteria andAppointDateIn(List<Date> values) {
+            addCriterionForJDBCDate("appoint_date in", values, "appointDate");
             return (Criteria) this;
         }
 
-        public Criteria andActualTranTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("actual_tran_time not in", values, "actualTranTime");
+        public Criteria andAppointDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("appoint_date not in", values, "appointDate");
             return (Criteria) this;
         }
 
-        public Criteria andActualTranTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("actual_tran_time between", value1, value2, "actualTranTime");
+        public Criteria andAppointDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("appoint_date between", value1, value2, "appointDate");
             return (Criteria) this;
         }
 
-        public Criteria andActualTranTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("actual_tran_time not between", value1, value2, "actualTranTime");
+        public Criteria andAppointDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("appoint_date not between", value1, value2, "appointDate");
             return (Criteria) this;
         }
 
-        public Criteria andAppointTimeIsNull() {
-            addCriterion("appoint_time is null");
+        public Criteria andDeposeDispatchCadreIdIsNull() {
+            addCriterion("depose_dispatch_cadre_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andAppointTimeIsNotNull() {
-            addCriterion("appoint_time is not null");
+        public Criteria andDeposeDispatchCadreIdIsNotNull() {
+            addCriterion("depose_dispatch_cadre_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAppointTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("appoint_time =", value, "appointTime");
+        public Criteria andDeposeDispatchCadreIdEqualTo(Integer value) {
+            addCriterion("depose_dispatch_cadre_id =", value, "deposeDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andAppointTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("appoint_time <>", value, "appointTime");
+        public Criteria andDeposeDispatchCadreIdNotEqualTo(Integer value) {
+            addCriterion("depose_dispatch_cadre_id <>", value, "deposeDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andAppointTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("appoint_time >", value, "appointTime");
+        public Criteria andDeposeDispatchCadreIdGreaterThan(Integer value) {
+            addCriterion("depose_dispatch_cadre_id >", value, "deposeDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andAppointTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("appoint_time >=", value, "appointTime");
+        public Criteria andDeposeDispatchCadreIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("depose_dispatch_cadre_id >=", value, "deposeDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andAppointTimeLessThan(Date value) {
-            addCriterionForJDBCDate("appoint_time <", value, "appointTime");
+        public Criteria andDeposeDispatchCadreIdLessThan(Integer value) {
+            addCriterion("depose_dispatch_cadre_id <", value, "deposeDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andAppointTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("appoint_time <=", value, "appointTime");
+        public Criteria andDeposeDispatchCadreIdLessThanOrEqualTo(Integer value) {
+            addCriterion("depose_dispatch_cadre_id <=", value, "deposeDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andAppointTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("appoint_time in", values, "appointTime");
+        public Criteria andDeposeDispatchCadreIdIn(List<Integer> values) {
+            addCriterion("depose_dispatch_cadre_id in", values, "deposeDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andAppointTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("appoint_time not in", values, "appointTime");
+        public Criteria andDeposeDispatchCadreIdNotIn(List<Integer> values) {
+            addCriterion("depose_dispatch_cadre_id not in", values, "deposeDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andAppointTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("appoint_time between", value1, value2, "appointTime");
+        public Criteria andDeposeDispatchCadreIdBetween(Integer value1, Integer value2) {
+            addCriterion("depose_dispatch_cadre_id between", value1, value2, "deposeDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andAppointTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("appoint_time not between", value1, value2, "appointTime");
+        public Criteria andDeposeDispatchCadreIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("depose_dispatch_cadre_id not between", value1, value2, "deposeDispatchCadreId");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchUnitIdIsNull() {
-            addCriterion("dispatch_unit_id is null");
+        public Criteria andDeposeDateIsNull() {
+            addCriterion("depose_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchUnitIdIsNotNull() {
-            addCriterion("dispatch_unit_id is not null");
+        public Criteria andDeposeDateIsNotNull() {
+            addCriterion("depose_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchUnitIdEqualTo(Integer value) {
-            addCriterion("dispatch_unit_id =", value, "dispatchUnitId");
+        public Criteria andDeposeDateEqualTo(Date value) {
+            addCriterionForJDBCDate("depose_date =", value, "deposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchUnitIdNotEqualTo(Integer value) {
-            addCriterion("dispatch_unit_id <>", value, "dispatchUnitId");
+        public Criteria andDeposeDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("depose_date <>", value, "deposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchUnitIdGreaterThan(Integer value) {
-            addCriterion("dispatch_unit_id >", value, "dispatchUnitId");
+        public Criteria andDeposeDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("depose_date >", value, "deposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchUnitIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("dispatch_unit_id >=", value, "dispatchUnitId");
+        public Criteria andDeposeDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("depose_date >=", value, "deposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchUnitIdLessThan(Integer value) {
-            addCriterion("dispatch_unit_id <", value, "dispatchUnitId");
+        public Criteria andDeposeDateLessThan(Date value) {
+            addCriterionForJDBCDate("depose_date <", value, "deposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchUnitIdLessThanOrEqualTo(Integer value) {
-            addCriterion("dispatch_unit_id <=", value, "dispatchUnitId");
+        public Criteria andDeposeDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("depose_date <=", value, "deposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchUnitIdIn(List<Integer> values) {
-            addCriterion("dispatch_unit_id in", values, "dispatchUnitId");
+        public Criteria andDeposeDateIn(List<Date> values) {
+            addCriterionForJDBCDate("depose_date in", values, "deposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchUnitIdNotIn(List<Integer> values) {
-            addCriterion("dispatch_unit_id not in", values, "dispatchUnitId");
+        public Criteria andDeposeDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("depose_date not in", values, "deposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchUnitIdBetween(Integer value1, Integer value2) {
-            addCriterion("dispatch_unit_id between", value1, value2, "dispatchUnitId");
+        public Criteria andDeposeDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("depose_date between", value1, value2, "deposeDate");
             return (Criteria) this;
         }
 
-        public Criteria andDispatchUnitIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("dispatch_unit_id not between", value1, value2, "dispatchUnitId");
+        public Criteria andDeposeDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("depose_date not between", value1, value2, "deposeDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
 
@@ -747,6 +820,43 @@ public class UnitAdminGroupExample {
 
         protected Criteria() {
             super();
+        }
+    
+        public void andTimeLevelEqualTo(Integer timeLevel, DateRange _deposeTime) {
+            if(timeLevel==null) return;
+            if(timeLevel==0) {
+                // 默认显示已到应换届时间的班子
+                addCriterion("expect_depose_date <= now() and depose_date is null");
+                //addCriterion("");
+            }else if(timeLevel==1){
+                Integer currentYear = DateUtils.getCurrentYear();
+                // 本年度应启动换届单位
+                addCriterion("(left(expect_depose_date,4)="+ currentYear + " or expect_depose_date<=now()) " +
+                        " and depose_date is null");
+            }else if(timeLevel==2){
+                if(_deposeTime==null) return;
+                String start = DateUtils.formatDate(_deposeTime.getStart(), DateUtils.YYYY_MM_DD);
+                String end = DateUtils.formatDate(_deposeTime.getEnd(), DateUtils.YYYY_MM_DD);
+                // 本学期应启动换届单位
+                addCriterion("((expect_depose_date >= "+ start + " and expect_depose_date<="+ end +") " +
+                        "or expect_depose_date<=now()) and depose_date is null");
+            }else if(timeLevel==3){
+                if(_deposeTime==null) return;
+                String start = DateUtils.formatDate(_deposeTime.getStart(), DateUtils.YYYY_MM_DD);
+                String end = DateUtils.formatDate(_deposeTime.getEnd(), DateUtils.YYYY_MM_DD);
+                if(start==null || end==null) return;
+                String searchStr = "";
+                if(start!=null && end==null){
+                    searchStr = "expect_depose_date >= "+ start;
+                }else if(start==null && end!=null){
+                    searchStr = "expect_depose_date <= "+ end;
+                }else{
+                    searchStr = "expect_depose_date >= "+ start + " and expect_depose_date <= "+ end;
+                }
+                // 其他时段应启动换届单位
+                addCriterion("((" + searchStr + ")" +
+                        "or expect_depose_date<=now())  and depose_date is null)");
+            }
         }
     }
 

@@ -321,7 +321,7 @@
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
 
-    <cache name="UnitAdmin:ALL"
+    <cache name="UnitTeam:ALL"
            eternal="false"
            maxElementsInMemory="2000"
            overflowToDisk="false"
@@ -329,14 +329,7 @@
            timeToIdleSeconds="0"
            timeToLiveSeconds="300"
            memoryStoreEvictionPolicy="LRU"/>
-    <cache name="UnitAdminGroup:ALL"
-           eternal="false"
-           maxElementsInMemory="2000"
-           overflowToDisk="false"
-           diskPersistent="false"
-           timeToIdleSeconds="0"
-           timeToLiveSeconds="300"
-           memoryStoreEvictionPolicy="LRU"/>
+
     <cache name="MemberApply"
            eternal="false"
            maxElementsInMemory="2000"

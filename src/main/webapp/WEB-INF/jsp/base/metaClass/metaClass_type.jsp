@@ -13,15 +13,15 @@
          data-url-co="${ctx}/metaType_changeOrder?classId=${metaClass.id}"
          data-querystr="${cm:encodeQueryString(pageContext.request.queryString)}">
         <c:if test="${commonList.recNum>0}">
-            <table class="table table-actived table-striped table-bordered table-hover">
+            <table class="table table-actived table-center table-striped table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th>名称</th>
-                    <th>${empty metaClass.boolAttr?'布尔属性':metaClass.boolAttr}</th>
+                    <th nowrap>名称</th>
+                    <th nowrap width="80">${empty metaClass.boolAttr?'布尔属性':metaClass.boolAttr}</th>
                     <shiro:hasRole name="${ROLE_ADMIN}">
-                    <th>代码</th>
-                    <th>${empty metaClass.extraAttr?'附加属性':metaClass.extraAttr}</th>
-                    <th>备注</th>
+                    <th nowrap>代码</th>
+                    <th nowrap>${empty metaClass.extraAttr?'附加属性':metaClass.extraAttr}</th>
+                    <th nowrap>备注</th>
                     </shiro:hasRole>
                     <shiro:hasPermission name="metaType:changeOrder">
                         <c:if test="${!_query && commonList.recNum>1}">
@@ -43,7 +43,8 @@
                         <shiro:hasRole name="${ROLE_ADMIN}">
                         <td nowrap>${metaType.code}</td>
 
-                        <td nowrap>${metaType.extraAttr}</td>
+                        <td nowrap>${fn:length(metaClass.options)>0?
+								metaClass.options.get(metaType.extraAttr):metaType.extraAttr}</td>
                         <td>${metaType.remark}</td>
                         </shiro:hasRole>
                         <shiro:hasPermission name="metaType:changeOrder">

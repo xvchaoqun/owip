@@ -28,7 +28,7 @@ public class MetaClassService extends BaseMapper {
 
         String prefix = "mc";
         String code = "";
-        int count = 0;
+        long count = 0;
         do {
             code = prefix + "_" + RandomStringUtils.randomAlphanumeric(6).toLowerCase();
             MetaClassExample example = new MetaClassExample();

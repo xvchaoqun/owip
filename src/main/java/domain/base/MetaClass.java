@@ -1,8 +1,28 @@
 package domain.base;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MetaClass implements Serializable {
+    
+    public Map<String, String> getOptions(){
+        
+        if(StringUtils.isNotBlank(extraOptions)){
+            Map<String, String> options = new LinkedHashMap<>();
+            String[] _options = extraOptions.split(",");
+            for (String _option : _options) {
+                String[] tmp = _option.split("\\|");
+                options.put(tmp[0], (tmp.length>1)?tmp[1]:tmp[0]);
+            }
+            return options;
+        }
+        
+        return null;
+    }
+    
     private Integer id;
 
     private Integer roleId;
@@ -18,6 +38,8 @@ public class MetaClass implements Serializable {
     private String boolAttr;
 
     private String extraAttr;
+
+    private String extraOptions;
 
     private Integer sortOrder;
 
@@ -87,6 +109,14 @@ public class MetaClass implements Serializable {
 
     public void setExtraAttr(String extraAttr) {
         this.extraAttr = extraAttr == null ? null : extraAttr.trim();
+    }
+
+    public String getExtraOptions() {
+        return extraOptions;
+    }
+
+    public void setExtraOptions(String extraOptions) {
+        this.extraOptions = extraOptions == null ? null : extraOptions.trim();
     }
 
     public Integer getSortOrder() {

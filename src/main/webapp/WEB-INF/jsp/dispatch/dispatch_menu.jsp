@@ -14,6 +14,6 @@
   <a href="javascript:;" class="loadPage" data-url="${ctx}/dispatch?cls=2"}><i class="fa fa-share-alt ${cls==2?'fa-1g':''}"></i> 干部任免信息</a>
   </li>
   <li class="${cls==4?'active':''}">
-  <a href="javascript:;" class="loadPage" data-url="${ctx}/dispatch?cls=4"}><i class="fa fa-share-alt ${cls==4?'fa-1g':''}"></i> 机构调整信息</a>
+  <a href="javascript:;" class="loadPage" data-url="${ctx}/dispatch?cls=4"}><i class="fa fa-tags ${cls==4?'fa-1g':''}"></i> 机构调整信息</a>
   </li>
 </ul>

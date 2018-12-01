@@ -1,6 +1,8 @@
 package domain.sys;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class SysConfigExample {
@@ -102,6 +104,32 @@ public class SysConfigExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -641,6 +669,126 @@ public class SysConfigExample {
 
         public Criteria andSchoolEmailNotBetween(String value1, String value2) {
             addCriterion("school_email not between", value1, value2, "schoolEmail");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermStartDateIsNull() {
+            addCriterion("term_start_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermStartDateIsNotNull() {
+            addCriterion("term_start_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermStartDateEqualTo(Date value) {
+            addCriterionForJDBCDate("term_start_date =", value, "termStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermStartDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("term_start_date <>", value, "termStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermStartDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("term_start_date >", value, "termStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermStartDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("term_start_date >=", value, "termStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermStartDateLessThan(Date value) {
+            addCriterionForJDBCDate("term_start_date <", value, "termStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermStartDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("term_start_date <=", value, "termStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermStartDateIn(List<Date> values) {
+            addCriterionForJDBCDate("term_start_date in", values, "termStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermStartDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("term_start_date not in", values, "termStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermStartDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("term_start_date between", value1, value2, "termStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermStartDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("term_start_date not between", value1, value2, "termStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermEndDateIsNull() {
+            addCriterion("term_end_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermEndDateIsNotNull() {
+            addCriterion("term_end_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermEndDateEqualTo(Date value) {
+            addCriterionForJDBCDate("term_end_date =", value, "termEndDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermEndDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("term_end_date <>", value, "termEndDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermEndDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("term_end_date >", value, "termEndDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermEndDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("term_end_date >=", value, "termEndDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermEndDateLessThan(Date value) {
+            addCriterionForJDBCDate("term_end_date <", value, "termEndDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermEndDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("term_end_date <=", value, "termEndDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermEndDateIn(List<Date> values) {
+            addCriterionForJDBCDate("term_end_date in", values, "termEndDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermEndDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("term_end_date not in", values, "termEndDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermEndDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("term_end_date between", value1, value2, "termEndDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTermEndDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("term_end_date not between", value1, value2, "termEndDate");
             return (Criteria) this;
         }
 

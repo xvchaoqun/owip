@@ -1108,7 +1108,7 @@ if ($.jgrid) {
         },
         TRUEFALSE: function (cellvalue, options, rowObject) {
 
-            if (cellvalue == undefined) cellvalue = false;
+            if (cellvalue == undefined) return '--';
             var op = {on: '是', off: '否'}
             if(options!=undefined && options.colModel!=undefined) {
                 op = $.extend(op, options.colModel.formatoptions);

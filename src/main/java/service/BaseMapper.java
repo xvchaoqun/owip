@@ -872,9 +872,9 @@ public class BaseMapper {
     @Autowired(required = false)
     protected UnitCadreTransferMapper unitCadreTransferMapper;
     @Autowired(required = false)
-    protected UnitAdminGroupMapper unitAdminGroupMapper;
+    protected UnitTeamMapper unitTeamMapper;
     @Autowired(required = false)
-    protected UnitAdminMapper unitAdminMapper;
+    protected UnitTeamPlanMapper unitTeamPlanMapper;
 
     /**
      * 干部信息修改申请

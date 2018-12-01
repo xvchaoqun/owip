@@ -45,12 +45,12 @@
        mapperName="dispatch.DispatchUnitMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
       </table>-->
-        <table tableName="dispatch_unit_view" domainObjectName="dispatch.DispatchUnitView"
+        <!--<table tableName="dispatch_unit_view" domainObjectName="dispatch.DispatchUnitView"
                mapperName="dispatch.DispatchUnitViewMapper"
                 enableInsert="false" enableUpdateByPrimaryKey="false"
                 enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                 enableDeleteByExample="false">
-         </table>
+         </table>-->
       <!--<table tableName="dispatch_unit_relate" domainObjectName="dispatch.DispatchUnitRelate">
       <generatedKey column="id" sqlStatement="MySql" identity="true"/>
       </table>-->

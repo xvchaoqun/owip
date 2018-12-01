@@ -1,4 +1,58 @@
 
+20181201
+
+更换 ehcache 2.10.6
+
+ALTER TABLE `unit_admin_group`
+	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NOT NULL COMMENT '所属单位' AFTER `id`,
+	ADD COLUMN `seq` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '届数' AFTER `unit_id`,
+	CHANGE COLUMN `name` `name` VARCHAR(100) NOT NULL COMMENT '班子名称，默认单位名称，可修改' AFTER `seq`,
+	CHANGE COLUMN `tran_time` `expect_depose_date` DATE NULL DEFAULT NULL COMMENT '应换届时间' AFTER `name`,
+	CHANGE COLUMN `dispatch_unit_id` `appoint_dispatch_unit_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '任职文件，关联单位发文' AFTER `expect_depose_date`,
+	CHANGE COLUMN `appoint_time` `appoint_date` DATE NOT NULL COMMENT '任职时间，默认任职文件的任免日期，可修改' AFTER `appoint_dispatch_unit_id`,
+	ADD COLUMN `depose_dispatch_unit_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '免职文件，关联单位发文' AFTER `appoint_date`,
+	CHANGE COLUMN `actual_tran_time` `depose_date` DATE NULL DEFAULT NULL COMMENT '免职时间，即实际换届时间，默认免职文件的任免日期，可修改' AFTER `depose_dispatch_unit_id`,
+	ADD COLUMN `remark` VARCHAR(200) NULL DEFAULT NULL COMMENT '备注' AFTER `depose_date`,
+	DROP COLUMN `fid`,
+	DROP COLUMN `is_present`,
+	DROP PRIMARY KEY,
+	DROP INDEX `FK_base_unit_admin_group_base_unit_admin_group`,
+	DROP INDEX `FK_base_unit_admin_group_base_unit`,
+	ADD PRIMARY KEY (`id`),
+	DROP FOREIGN KEY `FK_base_unit_admin_group_base_unit_admin_group`,
+	DROP FOREIGN KEY `FK_base_unit_admin_group_base_unit`;
+
+DROP TABLE `unit_admin`;
+
+RENAME TABLE `unit_admin_group` TO `unit_team`;
+
+
+ALTER TABLE `unit_team`
+	CHANGE COLUMN `appoint_dispatch_unit_id` `appoint_dispatch_cadre_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '任职文件，关联任免信息，院长任命' AFTER `expect_depose_date`,
+	CHANGE COLUMN `depose_dispatch_unit_id` `depose_dispatch_cadre_id` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '免职文件，关联单位发文' AFTER `appoint_date`;
+
+
+修改权限：
+delete from sys_resource where permission = 'unitAdmin:*';
+update sys_resource set permission='unitTeam:*', name='单位班子管理', is_leaf=1 where permission = 'unitAdminGroup:*';
+
+
+更新 common-utils
+
+
+ALTER TABLE `base_meta_class`
+	ADD COLUMN `extra_options` VARCHAR(200) NULL DEFAULT NULL COMMENT '附加属性选项，如果存在此值，则附加属性是一个下拉选；格式： jg|机关,xy|学院' AFTER `extra_attr`;
+
+更新 dispatch_cadre_view
+
+
+给 职务属性 mc_post 添加附加属性 所属班子成员（dw|党委班子成员,xz|行政班子成员）
+
+ALTER TABLE `sys_config`
+	ADD COLUMN `term_start_date` DATE NULL DEFAULT NULL COMMENT '本学期起始时间' AFTER `school_email`,
+	ADD COLUMN `term_end_date` DATE NULL DEFAULT NULL COMMENT '本学期结束时间' AFTER `term_start_date`;
+
+
 20181129
 更新 dispatch_cadre_view
      dispatch_unit_view

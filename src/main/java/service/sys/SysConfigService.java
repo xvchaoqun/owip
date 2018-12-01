@@ -40,6 +40,12 @@ public class SysConfigService extends BaseMapper {
 
     @Transactional
     @CacheEvict(value = "SysConfig", allEntries = true)
+    public void updateByPrimaryKeySelective(SysConfig record) {
+    
+        sysConfigMapper.updateByPrimaryKeySelective(record);
+    }
+    @Transactional
+    @CacheEvict(value = "SysConfig", allEntries = true)
     public void insertOrUpdate(SysConfig record) {
 
         SysConfig sysConfig = null;

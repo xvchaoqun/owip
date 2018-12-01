@@ -992,6 +992,76 @@ public class DispatchCadreViewExample {
             return (Criteria) this;
         }
 
+        public Criteria andPostTeamIsNull() {
+            addCriterion("post_team is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamIsNotNull() {
+            addCriterion("post_team is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamEqualTo(String value) {
+            addCriterion("post_team =", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamNotEqualTo(String value) {
+            addCriterion("post_team <>", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamGreaterThan(String value) {
+            addCriterion("post_team >", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamGreaterThanOrEqualTo(String value) {
+            addCriterion("post_team >=", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamLessThan(String value) {
+            addCriterion("post_team <", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamLessThanOrEqualTo(String value) {
+            addCriterion("post_team <=", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamLike(String value) {
+            addCriterion("post_team like", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamNotLike(String value) {
+            addCriterion("post_team not like", value, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamIn(List<String> values) {
+            addCriterion("post_team in", values, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamNotIn(List<String> values) {
+            addCriterion("post_team not in", values, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamBetween(String value1, String value2) {
+            addCriterion("post_team between", value1, value2, "postTeam");
+            return (Criteria) this;
+        }
+
+        public Criteria andPostTeamNotBetween(String value1, String value2) {
+            addCriterion("post_team not between", value1, value2, "postTeam");
+            return (Criteria) this;
+        }
+
         public Criteria andCategoryIsNull() {
             addCriterion("category is null");
             return (Criteria) this;
@@ -1179,6 +1249,66 @@ public class DispatchCadreViewExample {
 
         public Criteria andPubTimeNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("pub_time not between", value1, value2, "pubTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeIsNull() {
+            addCriterion("work_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeIsNotNull() {
+            addCriterion("work_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("work_time =", value, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("work_time <>", value, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("work_time >", value, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("work_time >=", value, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeLessThan(Date value) {
+            addCriterionForJDBCDate("work_time <", value, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("work_time <=", value, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("work_time in", values, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("work_time not in", values, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("work_time between", value1, value2, "workTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andWorkTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("work_time not between", value1, value2, "workTime");
             return (Criteria) this;
         }
 

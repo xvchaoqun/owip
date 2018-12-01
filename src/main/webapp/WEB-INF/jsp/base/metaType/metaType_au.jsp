@@ -11,11 +11,10 @@
 
 		<div class="form-group">
 			<label class="col-xs-3 control-label">所属分类</label>
-			<div class="col-xs-6">
+			<div class="col-xs-6 label-text">
 				<input type="hidden" name="classId" value="${metaType.classId}">
 				<c:set value="${metaClassMap.get(metaType.classId)}" var="metaClass"/>
-				<input type="text" readonly value="${metaClass.name}">
-
+				${metaClass.name}
 			</div>
 		</div>
 			<div class="form-group">
@@ -24,7 +23,7 @@
                         <input required class="form-control" type="text" name="name" value="${metaType.name}">
 				</div>
 			</div>
-<shiro:hasRole name="${ROLE_ADMIN}">
+			<shiro:hasRole name="${ROLE_ADMIN}">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">代码</label>
 				<div class="col-xs-6">
@@ -43,7 +42,22 @@
 			<div class="form-group">
 				<label class="col-xs-3 control-label">${empty metaClass.extraAttr?'附加属性':metaClass.extraAttr}</label>
 				<div class="col-xs-6">
+						<c:if test="${fn:length(metaClass.options)>0}">
+							<select data-rel="select2" name="extraAttr"
+									data-width="272"
+									data-placeholder="请选择">
+								<option></option>
+								<c:forEach items="${metaClass.options}" var="entry">
+									<option value="${entry.key}">${entry.value}</option>
+								</c:forEach>
+							</select>
+							<script>
+								$("#modalForm select[name=extraAttr]").val('${metaType.extraAttr}')
+							</script>
+						</c:if>
+						<c:if test="${fn:length(metaClass.options)==0}">
 						<textarea class="form-control" name="extraAttr">${metaType.extraAttr}</textarea>
+						</c:if>
 				</div>
 			</div>
 			<div class="form-group">
@@ -61,6 +75,8 @@
 </div>
 
 <script>
+	$('[data-rel="select2"]').select2();
+
 	$("#modalForm :checkbox").bootstrapSwitch();
 	$('textarea.limited').inputlimiter();
         $("#modal form").validate({

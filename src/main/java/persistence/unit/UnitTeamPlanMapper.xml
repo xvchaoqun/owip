@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.unit.UnitTeamPlanMapper">
+  <resultMap id="BaseResultMap" type="domain.unit.UnitTeamPlan">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="unit_team_id" jdbcType="INTEGER" property="unitTeamId" />
+    <result column="main_posts" jdbcType="VARCHAR" property="mainPosts" />
+    <result column="vice_posts" jdbcType="VARCHAR" property="vicePosts" />
+    <result column="start_date" jdbcType="DATE" property="startDate" />
+    <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, unit_team_id, main_posts, vice_posts, start_date, end_date, remark
+  </sql>
+  <select id="selectByExample" parameterType="domain.unit.UnitTeamPlanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from unit_team_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from unit_team_plan
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from unit_team_plan
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.unit.UnitTeamPlanExample">
+    delete from unit_team_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.unit.UnitTeamPlan">
+    insert into unit_team_plan (id, unit_team_id, main_posts, 
+      vice_posts, start_date, end_date, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{unitTeamId,jdbcType=INTEGER}, #{mainPosts,jdbcType=VARCHAR}, 
+      #{vicePosts,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.unit.UnitTeamPlan">
+    insert into unit_team_plan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="unitTeamId != null">
+        unit_team_id,
+      </if>
+      <if test="mainPosts != null">
+        main_posts,
+      </if>
+      <if test="vicePosts != null">
+        vice_posts,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="unitTeamId != null">
+        #{unitTeamId,jdbcType=INTEGER},
+      </if>
+      <if test="mainPosts != null">
+        #{mainPosts,jdbcType=VARCHAR},
+      </if>
+      <if test="vicePosts != null">
+        #{vicePosts,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.unit.UnitTeamPlanExample" resultType="java.lang.Long">
+    select count(*) from unit_team_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update unit_team_plan
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitTeamId != null">
+        unit_team_id = #{record.unitTeamId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mainPosts != null">
+        main_posts = #{record.mainPosts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vicePosts != null">
+        vice_posts = #{record.vicePosts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update unit_team_plan
+    set id = #{record.id,jdbcType=INTEGER},
+      unit_team_id = #{record.unitTeamId,jdbcType=INTEGER},
+      main_posts = #{record.mainPosts,jdbcType=VARCHAR},
+      vice_posts = #{record.vicePosts,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=DATE},
+      end_date = #{record.endDate,jdbcType=DATE},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.unit.UnitTeamPlan">
+    update unit_team_plan
+    <set>
+      <if test="unitTeamId != null">
+        unit_team_id = #{unitTeamId,jdbcType=INTEGER},
+      </if>
+      <if test="mainPosts != null">
+        main_posts = #{mainPosts,jdbcType=VARCHAR},
+      </if>
+      <if test="vicePosts != null">
+        vice_posts = #{vicePosts,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.unit.UnitTeamPlan">
+    update unit_team_plan
+    set unit_team_id = #{unitTeamId,jdbcType=INTEGER},
+      main_posts = #{mainPosts,jdbcType=VARCHAR},
+      vice_posts = #{vicePosts,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=DATE},
+      end_date = #{endDate,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.unit.UnitTeamPlanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from unit_team_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

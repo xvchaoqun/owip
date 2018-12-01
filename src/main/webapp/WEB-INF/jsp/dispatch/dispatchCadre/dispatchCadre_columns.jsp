@@ -30,7 +30,7 @@
             { label:'所属单位', name: 'unit.name', width: 150, align:'left' },
             { label:'单位类型', name: 'unit.typeId', width: 120, formatter: $.jgrid.formatter.MetaType},
             { label:'发文类型', name: 'dispatch.dispatchType.name', width: 80},
-            <c:if test="${param.type eq 'all'}">
+            <c:if test="${param.type eq 'all' || param.type1 eq 'team'}">
             {
                 label: '党委常委会', name: 'dispatch.scDispatch.scCommittees', width:200, formatter: function (cellvalue, options, rowObject) {
 
@@ -63,14 +63,22 @@
 
                 return $.swfPreview(rowObject.dispatch.ppt, rowObject.dispatch.pptName, '查看');
             }},*/
+           <c:if test="${param.type eq 'all'}">
             { label: '是否复核', name: 'hasChecked', width: 80, formatter:function(cellvalue, options, rowObject){
-                if(cellvalue==undefined) return '';
+                if(cellvalue==undefined) return '--';
                 return cellvalue?"已复核":"否";
             }},{hidden:true, name:'_hasChecked', formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.hasChecked==undefined) return 0;
                 return rowObject.hasChecked?1:0;
             }},
             { label:'备注', width: 250, name: 'remark'}
+            </c:if>
+            <c:if test="${param.type1 eq 'team'}">
+            { label: '所属班子', name: 'postTeam', width: 80, formatter:function(cellvalue, options, rowObject){
+                if(cellvalue==undefined) return '--';
+                return cellvalue=='dw'?"党委班子":"行政班子";
+            }}
+            </c:if>
             </c:if>
         ]
 </script>

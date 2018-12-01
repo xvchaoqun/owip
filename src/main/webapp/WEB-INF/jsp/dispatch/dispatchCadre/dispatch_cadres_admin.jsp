@@ -231,9 +231,9 @@
   </table>
   <c:if test="${not empty dispatch.scDispatchId}">
     <div class="space-4"></div>
-    <div class="red bolder">注：如信息有误，请到“文件起草签发（<a href="javascript:;" class="linkBtn"
+    <div class="red bolder">注：如信息有误，请到“文件起草签发<c:if test="${not empty dispatch.scDispatch}">（<a href="javascript:;" class="linkBtn"
                                                  data-url="${ctx}#/dispatch?cls=3&year=${dispatch.scDispatch.year}&dispatchTypeId=${dispatch.scDispatch.dispatchTypeId}&code=${dispatch.scDispatch.code}"
-                                                 data-target="_blank">${dispatch.scDispatch.dispatchCode}</a>）”中更正后同步
+                                                 data-target="_blank">${dispatch.scDispatch.dispatchCode}</a>）</c:if> ”中更正后同步
 
     </div>
   </c:if>

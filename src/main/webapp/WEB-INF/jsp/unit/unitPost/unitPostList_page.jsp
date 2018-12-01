@@ -142,7 +142,7 @@
 </div>
 <div class="multi-row-head-table">
 <div class="space-4"></div>
-<table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="50"></table>
+<table id="jqGrid2" class="jqGrid2 table-striped" data-height-reduce="30" data-width-reduce="20"></table>
 <div id="jqGridPager2"></div>
 </div>
 <script type="text/template" id="dispatch_select_tpl">

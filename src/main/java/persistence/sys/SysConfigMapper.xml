@@ -10,6 +10,8 @@
     <result column="school_short_name" jdbcType="VARCHAR" property="schoolShortName" />
     <result column="school_login_url" jdbcType="VARCHAR" property="schoolLoginUrl" />
     <result column="school_email" jdbcType="VARCHAR" property="schoolEmail" />
+    <result column="term_start_date" jdbcType="DATE" property="termStartDate" />
+    <result column="term_end_date" jdbcType="DATE" property="termEndDate" />
     <result column="site_copyright" jdbcType="VARCHAR" property="siteCopyright" />
     <result column="site_home" jdbcType="VARCHAR" property="siteHome" />
     <result column="site_keywords" jdbcType="VARCHAR" property="siteKeywords" />
@@ -95,11 +97,11 @@
   </sql>
   <sql id="Base_Column_List">
     id, xss_ignore_uri, upload_max_size, short_msg_url, school_name, school_short_name, 
-    school_login_url, school_email, site_copyright, site_home, site_keywords, site_description, 
-    site_name, site_short_name, mobile_plantform_name, mobile_title, favicon, logo, logo_white, 
-    login_bg, login_top, login_top_bg_color, apple_icon, screen_icon, qr_logo, login_msg, 
-    display_login_msg, use_cadre_post, has_party_module, cadre_template_fs_note, login_timeout, 
-    city
+    school_login_url, school_email, term_start_date, term_end_date, site_copyright, site_home, 
+    site_keywords, site_description, site_name, site_short_name, mobile_plantform_name, 
+    mobile_title, favicon, logo, logo_white, login_bg, login_top, login_top_bg_color, 
+    apple_icon, screen_icon, qr_logo, login_msg, display_login_msg, use_cadre_post, has_party_module, 
+    cadre_template_fs_note, login_timeout, city
   </sql>
   <select id="selectByExample" parameterType="domain.sys.SysConfigExample" resultMap="BaseResultMap">
     select
@@ -134,26 +136,28 @@
   <insert id="insert" parameterType="domain.sys.SysConfig">
     insert into sys_config (id, xss_ignore_uri, upload_max_size, 
       short_msg_url, school_name, school_short_name, 
-      school_login_url, school_email, site_copyright, 
-      site_home, site_keywords, site_description, 
-      site_name, site_short_name, mobile_plantform_name, 
-      mobile_title, favicon, logo, 
-      logo_white, login_bg, login_top, 
-      login_top_bg_color, apple_icon, screen_icon, 
-      qr_logo, login_msg, display_login_msg, 
-      use_cadre_post, has_party_module, cadre_template_fs_note, 
-      login_timeout, city)
+      school_login_url, school_email, term_start_date, 
+      term_end_date, site_copyright, site_home, 
+      site_keywords, site_description, site_name, 
+      site_short_name, mobile_plantform_name, mobile_title, 
+      favicon, logo, logo_white, 
+      login_bg, login_top, login_top_bg_color, 
+      apple_icon, screen_icon, qr_logo, 
+      login_msg, display_login_msg, use_cadre_post, 
+      has_party_module, cadre_template_fs_note, login_timeout, 
+      city)
     values (#{id,jdbcType=INTEGER}, #{xssIgnoreUri,jdbcType=VARCHAR}, #{uploadMaxSize,jdbcType=INTEGER}, 
       #{shortMsgUrl,jdbcType=VARCHAR}, #{schoolName,jdbcType=VARCHAR}, #{schoolShortName,jdbcType=VARCHAR}, 
-      #{schoolLoginUrl,jdbcType=VARCHAR}, #{schoolEmail,jdbcType=VARCHAR}, #{siteCopyright,jdbcType=VARCHAR}, 
-      #{siteHome,jdbcType=VARCHAR}, #{siteKeywords,jdbcType=VARCHAR}, #{siteDescription,jdbcType=VARCHAR}, 
-      #{siteName,jdbcType=VARCHAR}, #{siteShortName,jdbcType=VARCHAR}, #{mobilePlantformName,jdbcType=VARCHAR}, 
-      #{mobileTitle,jdbcType=VARCHAR}, #{favicon,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
-      #{logoWhite,jdbcType=VARCHAR}, #{loginBg,jdbcType=VARCHAR}, #{loginTop,jdbcType=VARCHAR}, 
-      #{loginTopBgColor,jdbcType=VARCHAR}, #{appleIcon,jdbcType=VARCHAR}, #{screenIcon,jdbcType=VARCHAR}, 
-      #{qrLogo,jdbcType=VARCHAR}, #{loginMsg,jdbcType=VARCHAR}, #{displayLoginMsg,jdbcType=BIT}, 
-      #{useCadrePost,jdbcType=BIT}, #{hasPartyModule,jdbcType=BIT}, #{cadreTemplateFsNote,jdbcType=VARCHAR}, 
-      #{loginTimeout,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR})
+      #{schoolLoginUrl,jdbcType=VARCHAR}, #{schoolEmail,jdbcType=VARCHAR}, #{termStartDate,jdbcType=DATE}, 
+      #{termEndDate,jdbcType=DATE}, #{siteCopyright,jdbcType=VARCHAR}, #{siteHome,jdbcType=VARCHAR}, 
+      #{siteKeywords,jdbcType=VARCHAR}, #{siteDescription,jdbcType=VARCHAR}, #{siteName,jdbcType=VARCHAR}, 
+      #{siteShortName,jdbcType=VARCHAR}, #{mobilePlantformName,jdbcType=VARCHAR}, #{mobileTitle,jdbcType=VARCHAR}, 
+      #{favicon,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{logoWhite,jdbcType=VARCHAR}, 
+      #{loginBg,jdbcType=VARCHAR}, #{loginTop,jdbcType=VARCHAR}, #{loginTopBgColor,jdbcType=VARCHAR}, 
+      #{appleIcon,jdbcType=VARCHAR}, #{screenIcon,jdbcType=VARCHAR}, #{qrLogo,jdbcType=VARCHAR}, 
+      #{loginMsg,jdbcType=VARCHAR}, #{displayLoginMsg,jdbcType=BIT}, #{useCadrePost,jdbcType=BIT}, 
+      #{hasPartyModule,jdbcType=BIT}, #{cadreTemplateFsNote,jdbcType=VARCHAR}, #{loginTimeout,jdbcType=INTEGER}, 
+      #{city,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="domain.sys.SysConfig">
     insert into sys_config
@@ -181,6 +185,12 @@
       </if>
       <if test="schoolEmail != null">
         school_email,
+      </if>
+      <if test="termStartDate != null">
+        term_start_date,
+      </if>
+      <if test="termEndDate != null">
+        term_end_date,
       </if>
       <if test="siteCopyright != null">
         site_copyright,
@@ -279,6 +289,12 @@
       </if>
       <if test="schoolEmail != null">
         #{schoolEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="termStartDate != null">
+        #{termStartDate,jdbcType=DATE},
+      </if>
+      <if test="termEndDate != null">
+        #{termEndDate,jdbcType=DATE},
       </if>
       <if test="siteCopyright != null">
         #{siteCopyright,jdbcType=VARCHAR},
@@ -387,6 +403,12 @@
       <if test="record.schoolEmail != null">
         school_email = #{record.schoolEmail,jdbcType=VARCHAR},
       </if>
+      <if test="record.termStartDate != null">
+        term_start_date = #{record.termStartDate,jdbcType=DATE},
+      </if>
+      <if test="record.termEndDate != null">
+        term_end_date = #{record.termEndDate,jdbcType=DATE},
+      </if>
       <if test="record.siteCopyright != null">
         site_copyright = #{record.siteCopyright,jdbcType=VARCHAR},
       </if>
@@ -474,6 +496,8 @@
       school_short_name = #{record.schoolShortName,jdbcType=VARCHAR},
       school_login_url = #{record.schoolLoginUrl,jdbcType=VARCHAR},
       school_email = #{record.schoolEmail,jdbcType=VARCHAR},
+      term_start_date = #{record.termStartDate,jdbcType=DATE},
+      term_end_date = #{record.termEndDate,jdbcType=DATE},
       site_copyright = #{record.siteCopyright,jdbcType=VARCHAR},
       site_home = #{record.siteHome,jdbcType=VARCHAR},
       site_keywords = #{record.siteKeywords,jdbcType=VARCHAR},
@@ -525,6 +549,12 @@
       </if>
       <if test="schoolEmail != null">
         school_email = #{schoolEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="termStartDate != null">
+        term_start_date = #{termStartDate,jdbcType=DATE},
+      </if>
+      <if test="termEndDate != null">
+        term_end_date = #{termEndDate,jdbcType=DATE},
       </if>
       <if test="siteCopyright != null">
         site_copyright = #{siteCopyright,jdbcType=VARCHAR},
@@ -610,6 +640,8 @@
       school_short_name = #{schoolShortName,jdbcType=VARCHAR},
       school_login_url = #{schoolLoginUrl,jdbcType=VARCHAR},
       school_email = #{schoolEmail,jdbcType=VARCHAR},
+      term_start_date = #{termStartDate,jdbcType=DATE},
+      term_end_date = #{termEndDate,jdbcType=DATE},
       site_copyright = #{siteCopyright,jdbcType=VARCHAR},
       site_home = #{siteHome,jdbcType=VARCHAR},
       site_keywords = #{siteKeywords,jdbcType=VARCHAR},

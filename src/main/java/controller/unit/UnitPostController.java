@@ -420,8 +420,11 @@ public class UnitPostController extends BaseController {
 
                 Map<String, Object> option = new HashMap<>();
                 option.put("text", record.getName());
+                option.put("code", record.getCode());
+                option.put("adminLevel", record.getAdminLevel());
                 option.put("id", record.getId() + "");
                 option.put("up", record);
+                option.put("del", record.getStatus()==SystemConstants.UNIT_POST_STATUS_ABOLISH);
                 options.add(option);
             }
         }

@@ -13,26 +13,28 @@
       "showColumns": "code,name,job,is_principal_post,admin_level,post_type,post_class,is_cpc,status,sort_order,remark",
       "excludeEditColumns": "id,sort_order",
       "logType":"LogConstants.LOG_ADMIN",
-      "ignore": false
+      "ignore": true
     },
     {
-      "table": "unit_admin_group",
+      "table": "unit_team",
       "key": "id",
       "searchColumns": "name",
-      "showColumns": "fid,name,is_present,tran_time,actual_tran_time,appoint_time",
+      "showColumns": "name,is_present,tran_time,actual_tran_time,appoint_time",
       "excludeEditColumns": "id, sort_order",
       "logType":"LogConstants.LOG_ADMIN",
       "ignore": true
     },
+
     {
-      "table": "unit_admin",
+      "table": "unit_team_plan",
       "key": "id",
-      "searchColumns": "cadre_id",
-      "showColumns": "group_id,cadre_id,post_id,is_admin",
-      "excludeEditColumns": "id, sort_order",
+      "searchColumns": "unit_team_id",
+      "showColumns": "unit_team_id,start_date,end_date,remark",
+      "excludeEditColumns": "id",
       "logType":"LogConstants.LOG_ADMIN",
-      "ignore": true
+      "ignore": false
     },
+
     {
       "table": "unit_transfer",
       "key": "id",

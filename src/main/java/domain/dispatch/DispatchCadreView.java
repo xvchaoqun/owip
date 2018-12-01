@@ -52,11 +52,15 @@ public class DispatchCadreView implements Serializable {
 
     private Integer sortOrder;
 
+    private String postTeam;
+
     private String category;
 
     private Integer year;
 
     private Date pubTime;
+
+    private Date workTime;
 
     private Integer dispatchTypeId;
 
@@ -178,6 +182,14 @@ public class DispatchCadreView implements Serializable {
         this.sortOrder = sortOrder;
     }
 
+    public String getPostTeam() {
+        return postTeam;
+    }
+
+    public void setPostTeam(String postTeam) {
+        this.postTeam = postTeam == null ? null : postTeam.trim();
+    }
+
     public String getCategory() {
         return category;
     }
@@ -200,6 +212,14 @@ public class DispatchCadreView implements Serializable {
 
     public void setPubTime(Date pubTime) {
         this.pubTime = pubTime;
+    }
+
+    public Date getWorkTime() {
+        return workTime;
+    }
+
+    public void setWorkTime(Date workTime) {
+        this.workTime = workTime;
     }
 
     public Integer getDispatchTypeId() {

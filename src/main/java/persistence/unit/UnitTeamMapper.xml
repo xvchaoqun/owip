@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="persistence.unit.UnitTeamMapper">
+  <resultMap id="BaseResultMap" type="domain.unit.UnitTeam">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="unit_id" jdbcType="INTEGER" property="unitId" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="expect_depose_date" jdbcType="DATE" property="expectDeposeDate" />
+    <result column="appoint_dispatch_cadre_id" jdbcType="INTEGER" property="appointDispatchCadreId" />
+    <result column="appoint_date" jdbcType="DATE" property="appointDate" />
+    <result column="depose_dispatch_cadre_id" jdbcType="INTEGER" property="deposeDispatchCadreId" />
+    <result column="depose_date" jdbcType="DATE" property="deposeDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, unit_id, seq, name, expect_depose_date, appoint_dispatch_cadre_id, appoint_date, 
+    depose_dispatch_cadre_id, depose_date, remark, sort_order
+  </sql>
+  <select id="selectByExample" parameterType="domain.unit.UnitTeamExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from unit_team
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from unit_team
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from unit_team
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="domain.unit.UnitTeamExample">
+    delete from unit_team
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="domain.unit.UnitTeam">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into unit_team (unit_id, seq, name, 
+      expect_depose_date, appoint_dispatch_cadre_id, 
+      appoint_date, depose_dispatch_cadre_id, depose_date, 
+      remark, sort_order)
+    values (#{unitId,jdbcType=INTEGER}, #{seq,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{expectDeposeDate,jdbcType=DATE}, #{appointDispatchCadreId,jdbcType=INTEGER}, 
+      #{appointDate,jdbcType=DATE}, #{deposeDispatchCadreId,jdbcType=INTEGER}, #{deposeDate,jdbcType=DATE}, 
+      #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="domain.unit.UnitTeam">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into unit_team
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="seq != null">
+        seq,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="expectDeposeDate != null">
+        expect_depose_date,
+      </if>
+      <if test="appointDispatchCadreId != null">
+        appoint_dispatch_cadre_id,
+      </if>
+      <if test="appointDate != null">
+        appoint_date,
+      </if>
+      <if test="deposeDispatchCadreId != null">
+        depose_dispatch_cadre_id,
+      </if>
+      <if test="deposeDate != null">
+        depose_date,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="sortOrder != null">
+        sort_order,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="unitId != null">
+        #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="seq != null">
+        #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="expectDeposeDate != null">
+        #{expectDeposeDate,jdbcType=DATE},
+      </if>
+      <if test="appointDispatchCadreId != null">
+        #{appointDispatchCadreId,jdbcType=INTEGER},
+      </if>
+      <if test="appointDate != null">
+        #{appointDate,jdbcType=DATE},
+      </if>
+      <if test="deposeDispatchCadreId != null">
+        #{deposeDispatchCadreId,jdbcType=INTEGER},
+      </if>
+      <if test="deposeDate != null">
+        #{deposeDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        #{sortOrder,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="domain.unit.UnitTeamExample" resultType="java.lang.Long">
+    select count(*) from unit_team
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update unit_team
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=INTEGER},
+      </if>
+      <if test="record.seq != null">
+        seq = #{record.seq,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expectDeposeDate != null">
+        expect_depose_date = #{record.expectDeposeDate,jdbcType=DATE},
+      </if>
+      <if test="record.appointDispatchCadreId != null">
+        appoint_dispatch_cadre_id = #{record.appointDispatchCadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.appointDate != null">
+        appoint_date = #{record.appointDate,jdbcType=DATE},
+      </if>
+      <if test="record.deposeDispatchCadreId != null">
+        depose_dispatch_cadre_id = #{record.deposeDispatchCadreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.deposeDate != null">
+        depose_date = #{record.deposeDate,jdbcType=DATE},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortOrder != null">
+        sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update unit_team
+    set id = #{record.id,jdbcType=INTEGER},
+      unit_id = #{record.unitId,jdbcType=INTEGER},
+      seq = #{record.seq,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      expect_depose_date = #{record.expectDeposeDate,jdbcType=DATE},
+      appoint_dispatch_cadre_id = #{record.appointDispatchCadreId,jdbcType=INTEGER},
+      appoint_date = #{record.appointDate,jdbcType=DATE},
+      depose_dispatch_cadre_id = #{record.deposeDispatchCadreId,jdbcType=INTEGER},
+      depose_date = #{record.deposeDate,jdbcType=DATE},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="domain.unit.UnitTeam">
+    update unit_team
+    <set>
+      <if test="unitId != null">
+        unit_id = #{unitId,jdbcType=INTEGER},
+      </if>
+      <if test="seq != null">
+        seq = #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="expectDeposeDate != null">
+        expect_depose_date = #{expectDeposeDate,jdbcType=DATE},
+      </if>
+      <if test="appointDispatchCadreId != null">
+        appoint_dispatch_cadre_id = #{appointDispatchCadreId,jdbcType=INTEGER},
+      </if>
+      <if test="appointDate != null">
+        appoint_date = #{appointDate,jdbcType=DATE},
+      </if>
+      <if test="deposeDispatchCadreId != null">
+        depose_dispatch_cadre_id = #{deposeDispatchCadreId,jdbcType=INTEGER},
+      </if>
+      <if test="deposeDate != null">
+        depose_date = #{deposeDate,jdbcType=DATE},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="domain.unit.UnitTeam">
+    update unit_team
+    set unit_id = #{unitId,jdbcType=INTEGER},
+      seq = #{seq,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      expect_depose_date = #{expectDeposeDate,jdbcType=DATE},
+      appoint_dispatch_cadre_id = #{appointDispatchCadreId,jdbcType=INTEGER},
+      appoint_date = #{appointDate,jdbcType=DATE},
+      depose_dispatch_cadre_id = #{deposeDispatchCadreId,jdbcType=INTEGER},
+      depose_date = #{deposeDate,jdbcType=DATE},
+      remark = #{remark,jdbcType=VARCHAR},
+      sort_order = #{sortOrder,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="domain.unit.UnitTeamExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from unit_team
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

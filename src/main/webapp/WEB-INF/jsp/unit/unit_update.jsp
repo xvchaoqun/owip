@@ -51,7 +51,7 @@ pageEncoding="UTF-8"%>
 	var $jqGrid = $("#jqGrid_popup");
 	var lastSel ='${unit.dispatchUnitId}' ;
     $jqGrid.jqGrid({
-		caption:'<span style="font-size: 18px;font-weight: bolder"><i class="ace-icon fa fa-circle-o"></i> 成立文件</span>',
+		caption:'<span style="font-size: 18px;font-weight: bolder"><i class="ace-icon fa fa-circle-o"></i> 请选择成立文件</span>',
 		pager: null,
         rownumbers: true,
 		multiselect: true,
@@ -93,7 +93,7 @@ pageEncoding="UTF-8"%>
     $('textarea.limited').inputlimiter();
 
     $("#submitBtn").click(function(){$("#modalForm").submit();return false;});
-    $("#modal form").validate({
+    $("#modalForm").validate({
         submitHandler: function (form) {
             var $btn = $("#submitBtn").button('loading');
             $(form).ajaxSubmit({

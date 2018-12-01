@@ -47,7 +47,8 @@ pageEncoding="UTF-8" %>
                                     </button>
                                      </shiro:hasPermission>
 
-                                        <button onclick="unitTransfer_addDispatchs(${unitTransfer.id})" class="btn btn-primary btn-xs">
+                                        <button type="button" data-url="${ctx}/unitTransfer_addDispatchs?id=${unitTransfer.id}"
+                                                class="popupBtn btn btn-primary btn-xs">
                                             <i class="fa fa-file-o"></i> 相关发文
                                         </button>
                                      <shiro:hasPermission name="unitTransfer:del">

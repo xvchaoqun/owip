@@ -24,7 +24,7 @@
         <javaClientGenerator targetPackage="persistence" targetProject="src/main/java" type="XMLMAPPER">
         </javaClientGenerator>
 
-         <table tableName="unit" domainObjectName="unit.Unit" mapperName="unit.UnitMapper">
+         <!--<table tableName="unit" domainObjectName="unit.Unit" mapperName="unit.UnitMapper">
                 <generatedKey column="id" sqlStatement="MySql" identity="true"/>
                 <columnOverride column="remark" jdbcType="VARCHAR"></columnOverride>
          </table>
@@ -32,7 +32,7 @@
                enableInsert="false" enableUpdateByPrimaryKey="false"
                enableUpdateByExample="false" enableDeleteByPrimaryKey="false"
                enableDeleteByExample="false">
-        </table>
+        </table>-->
 
         <!--<table tableName="unit_post" domainObjectName="unit.UnitPost" mapperName="unit.UnitPostMapper">
         </table>-->
@@ -60,13 +60,16 @@
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
       </table>
-        <table tableName="unit_admin_group" domainObjectName="unit.UnitAdminGroup">
+      -->
+        <!--<table tableName="unit_team" domainObjectName="unit.UnitTeam"
+               mapperName="unit.UnitTeamMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>-->
+        <table tableName="unit_team_plan" domainObjectName="unit.UnitTeamPlan"
+               mapperName="unit.UnitTeamPlanMapper">
         </table>
-        <table tableName="unit_admin" domainObjectName="unit.UnitAdmin">
-        <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="unit_cadre_transfer" domainObjectName="unit.UnitCadreTransfer">
+
+        <!--<table tableName="unit_cadre_transfer" domainObjectName="unit.UnitCadreTransfer">
         </table>
         <table tableName="unit_cadre_transfer_group" domainObjectName="unit.UnitCadreTransferGroup">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>

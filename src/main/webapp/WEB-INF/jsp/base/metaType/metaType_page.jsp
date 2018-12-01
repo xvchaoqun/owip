@@ -44,7 +44,7 @@ pageEncoding="UTF-8" %>
             <div class="space-4"></div>
             <c:set var="_query2" value="${not empty param.classId && empty param.name && empty param.code && empty param.sort}"/>
             <c:if test="${commonList.recNum>0}">
-                <table class="table table-actived table-striped table-bordered table-hover">
+                <table class="table table-actived table-center table-striped table-bordered table-hover">
                     <thead>
                     <tr>
                         <th class="center">
@@ -84,7 +84,8 @@ pageEncoding="UTF-8" %>
                                         ${metaType.boolAttr?"是":"否"}
                                     </c:if>
 								</td>
-								<td nowrap>${metaType.extraAttr}</td>
+								<td nowrap>${fn:length(metaClass.options)>0?
+								metaClass.options.get(metaType.extraAttr):metaType.extraAttr}</td>
 								<td>${metaType.remark}</td>
                             <shiro:hasPermission name="metaType:changeOrder">
                             <c:if test="${_query2 && commonList.recNum>1}">

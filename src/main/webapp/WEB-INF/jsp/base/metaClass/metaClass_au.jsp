@@ -17,13 +17,13 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">所属一级目录</label>
             <div class="col-xs-6">
-                <input required class="form-control" type="text" name="firstLevel" value="${metaClass.firstLevel}">
+                <input class="form-control" type="text" name="firstLevel" value="${metaClass.firstLevel}">
             </div>
         </div>
         <div class="form-group">
             <label class="col-xs-3 control-label">所属二级目录</label>
             <div class="col-xs-6">
-                <input required class="form-control" type="text" name="secondLevel" value="${metaClass.secondLevel}">
+                <input class="form-control" type="text" name="secondLevel" value="${metaClass.secondLevel}">
             </div>
         </div>
         <shiro:hasRole name="${ROLE_ADMIN}">
@@ -43,6 +43,13 @@
           <label class="col-xs-3 control-label">附加属性名称</label>
           <div class="col-xs-6">
 			  <input class="form-control" type="text" name="extraAttr" value="${metaClass.extraAttr}">
+          </div>
+        </div>
+    	<div class="form-group">
+          <label class="col-xs-3 control-label">附加属性选项</label>
+          <div class="col-xs-6">
+              <textarea class="form-control" name="extraOptions">${metaClass.extraOptions}</textarea>
+              <span class="help-block red">格式一： jg|机关,xy|学院<br/>格式二：正高,副高,中级,初级</span>
           </div>
         </div>
         </shiro:hasRole>
