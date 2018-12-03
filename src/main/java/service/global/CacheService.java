@@ -296,7 +296,6 @@ public class CacheService extends BaseMapper {
         mapper.setMixIns(baseMixins);
 
         // 删除目前不需要的
-        cMap.remove("dispatchMap");
         cMap.remove("countryMap");
 
         try {

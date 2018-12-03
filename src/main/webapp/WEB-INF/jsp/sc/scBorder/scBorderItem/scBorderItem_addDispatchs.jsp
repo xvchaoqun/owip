@@ -47,7 +47,7 @@ pageEncoding="UTF-8" %>
                         </td>
                         </shiro:lacksRole>
                     </c:if>
-                    <c:set value="${dispatchMap.get(dispatchCadre.dispatchId)}" var="dispatch"/>
+                    <c:set value="${cm:getDispatch(dispatchCadre.dispatchId)}" var="dispatch"/>
                     <td nowrap>${dispatch.year}</td>
                     <td nowrap>${cm:getDispatchCode(dispatch.code, dispatch.dispatchTypeId, dispatch.year)}</td>
                     <td nowrap>${DISPATCH_CADRE_TYPE_MAP.get(dispatchCadre.type)}</td>

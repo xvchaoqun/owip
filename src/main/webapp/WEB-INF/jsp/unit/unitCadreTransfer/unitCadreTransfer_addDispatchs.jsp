@@ -41,7 +41,7 @@ pageEncoding="UTF-8" %>
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-                            <c:set value="${dispatchMap.get(dispatchCadre.dispatchId)}" var="dispatch"/>
+                            <c:set value="${cm:getDispatch(dispatchCadre.dispatchId)}" var="dispatch"/>
                             <td nowrap>${dispatch.year}</td>
                             <td nowrap>${dispatchTypeMap.get(dispatch.typeId).name}</td>
                             <td nowrap>${dispatch.code}</td>
