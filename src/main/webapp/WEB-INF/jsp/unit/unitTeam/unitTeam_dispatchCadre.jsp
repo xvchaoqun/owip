@@ -3,7 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/jsp/common/taglibs.jsp"%>
 <div class="modal-header">
     <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-    <h3>修改${param.auType==2?'任职信息':'免职信息'}</h3>
+    <h3>编辑${param.auType==2?'任职信息':'免职信息'}</h3>
 </div>
 <div class="modal-body">
     <form class="form-horizontal" action="${ctx}/unitTeam_dispatchCadre" id="modalForm" method="post">
@@ -72,7 +72,7 @@ pageEncoding="UTF-8"%>
 		ondblClickRow:function(){},
         height: 265,
         width:1090,
-        url: '${ctx}/dispatchCadre_data?callback=?&pageSize=6&unitId=${unitTeam.unitId}',
+        url: '${ctx}/dispatchCadre_data?callback=?&pageSize=20&unitId=${unitTeam.unitId}',
         colModel: [ { label: '年份', name: 'dispatch.year', width: 75,frozen:true },
             { label:'发文号',  name: 'dispatch.dispatchCode', width: 140, align:'left',formatter:function(cellvalue, options, rowObject){
 

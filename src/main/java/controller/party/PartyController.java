@@ -286,7 +286,7 @@ public class PartyController extends BaseController {
 
         List<PartyView> records = partyViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"编号","名称|350","简称|250","所属单位|250","党总支类别|100",
+        String[] titles = {"编号","名称|350|left","简称|250|left","所属单位|250|left","党总支类别|100",
                 "支部数量","党员总数","在职教职工数量|100","离退休党员数量|100","学生数量","委员会总数|100","是否已设立现任委员会|150",
                 "是否大中型|100","是否国有独资|100","是否独立法人|100",
                 "组织类别|100","所在单位属性|100","联系电话","传真","邮箱", "成立时间"};

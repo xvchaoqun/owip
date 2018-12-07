@@ -281,7 +281,7 @@ public class MemberStudentController extends MemberBaseController {
         List<MemberStudent> records = memberStudentMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"学号|100","学生类别|150","姓名|50","性别|50", "出生日期|100", "身份证号|150",
-                "民族|100", "年级|50", "所在分党委、党总支、直属党支部|350", "所属党支部|350", "政治面貌|100", "发展时间|100",
+                "民族|100", "年级|50", "所在分党委、党总支、直属党支部|350|left", "所属党支部|350|left", "政治面貌|100", "发展时间|100",
                 "培养层次（研究生填写）|150","培养类型（研究生填写）|150", "教育类别（研究生填写）|150",
                 "培养方式（研究生填写）|150","预计毕业年月|100", "学籍状态|100","是否出国留学|100"};
         List<String[]> valuesList = new ArrayList<>();

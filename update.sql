@@ -1,10 +1,25 @@
 
 
+20181207
+ALTER TABLE `unit_team`
+	CHANGE COLUMN `seq` `year` INT(10) UNSIGNED NULL DEFAULT NULL COMMENT '届数' AFTER `unit_id`,
+	ADD COLUMN `is_present` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否现任班子' AFTER `year`,
+	ADD UNIQUE INDEX `year` (`year`);
+
+修改 common-utils.jar
+
+
+20181207
+ALTER TABLE `pmd_order_campuscard`
+	CHANGE COLUMN `payername` `payername` VARCHAR(50) NULL DEFAULT NULL COMMENT '缴费人姓名' AFTER `payertype`;
+
+更新 unit_post_count_view， unit_post_view
+
 -- 20181203新建南航
 
 20181201
 
-更换 ehcache 2.10.6
+更换 ehcache 2.10.6（需要删除所有缓存）
 
 ALTER TABLE `unit_admin_group`
 	CHANGE COLUMN `unit_id` `unit_id` INT(10) UNSIGNED NOT NULL COMMENT '所属单位' AFTER `id`,

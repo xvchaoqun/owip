@@ -18,10 +18,10 @@
             <div class="tabbable">
                 <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
                     <li  class="<c:if test="${status==1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/branch?status=1"><i class="fa fa-circle-o-notch fa-spin"></i> 支部</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/branch?status=1"><i class="fa fa-circle-o-notch"></i> 支部</a>
                     </li>
                     <li  class="<c:if test="${status==-1}">active</c:if>">
-                        <a href="javascript:;" class="loadPage" data-url="${ctx}/branch?status=-1"><i class="fa fa-trash"></i> 已删除支部</a>
+                        <a href="javascript:;" class="loadPage" data-url="${ctx}/branch?status=-1"><i class="fa fa-history"></i> 已撤销支部</a>
                     </li>
                 </ul>
 
@@ -68,9 +68,9 @@
                 <c:if test="${status>=0}">
                     <shiro:hasPermission name="branch:del">
                         <a class="jqBatchBtn btn btn-danger btn-sm"
-                           data-url="${ctx}/branch_batchDel" data-title="删除党支部"
-                           data-msg="确定删除这{0}个党支部吗？"><i class="fa fa-trash"></i> 删除</a>
-                        【注：删除操作将同时删除其下的支部委员会及相关管理员权限，请谨慎操作！】
+                           data-url="${ctx}/branch_batchDel" data-title="撤销党支部"
+                           data-msg="确定撤销这{0}个党支部吗？"><i class="fa fa-trash"></i> 撤销</a>
+                        【注：撤销操作将同时删除其下的支部委员会及相关管理员权限，请谨慎操作！】
                     </shiro:hasPermission>
                 </c:if>
                 <c:if test="${status==-1}">

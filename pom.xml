@@ -14,7 +14,7 @@
         <lucene.version>7.3.0</lucene.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <generator.mybatis.modal>base</generator.mybatis.modal>
+        <generator.mybatis.modal>unit</generator.mybatis.modal>
     </properties>
     <dependencies>
         <dependency>
@@ -231,10 +231,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
-        </dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>8.0</version>
+			<scope>provided</scope>
+		</dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>

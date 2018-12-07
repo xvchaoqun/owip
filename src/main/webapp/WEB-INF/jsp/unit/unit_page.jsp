@@ -141,10 +141,10 @@
             { label: '副处级<br/>干部职数', name: 'viceCount', width: 80, formatter: $.jgrid.formatter.defaultString},
             { label: '无行政级别<br/>干部职数', name: 'noneCount', width: 90, formatter: $.jgrid.formatter.defaultString},
             </c:if>
-            { label: '成立时间', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
+            /*{ label: '成立时间', name: 'workTime', formatter: 'date', formatoptions: {newformat: 'Y-m-d'}},
             {label: '成立文件', name: 'filePath', width: 80, formatter: function (cellvalue, options, rowObject) {
                 return $.swfPreview(cellvalue, rowObject.name + "-成立文件", "查看");
-            }},
+            }},*/
             { label: '备注', align:'left', name: 'remark', width: 500 }
         ]}).jqGrid("setFrozenColumns");
 

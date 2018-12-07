@@ -278,11 +278,11 @@ public class CadreEduController extends BaseController {
         long rownum = cadreEdus.size();
         Set<Integer> needTutorEduTypes = new HashSet<>(cadreEduService.needTutorEduTypes());
 
-        String[] titles = {"工作证号|100", "姓名|80", "所在单位|100","所在单位及职务|150", "学历|100",
+        String[] titles = {"工作证号|100", "姓名|80", "所在单位|100","所在单位及职务|150|left", "学历|100",
                 "毕业/在读|80","入学时间|100","毕业时间|90","是否最高学历|100","毕业/在读学校|100",
                 "院系|80","所学专业|80","学校类型|80","学习方式|80","是否获得学位|100",
                 "学位|80","是否最高学位|100","学位授予国家|100","学位授予单位|100","学位授予日期|100",
-                "导师姓名|80","导师所在单位及职务|100","学历学位证书|100","备注|80","补充说明|80"};
+                "导师姓名|80","导师所在单位及职务|100|left","学历学位证书|100","备注|80","补充说明|80"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CadreEdu record = cadreEdus.get(i);

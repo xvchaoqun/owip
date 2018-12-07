@@ -261,7 +261,8 @@ public class CadreFamilyController extends BaseController {
 
         List<CadreFamily> cadreFamilys = iCadreMapper.getCadreFamilys(cadreIds, status);
         int rownum = cadreFamilys.size();
-        String[] titles = {"工号|100", "干部|80", "所在单位及职务|400", "称谓|100","姓名|80","政治面貌|100","工作单位及职务|500"};
+        String[] titles = {"工号|100", "干部|80", "所在单位及职务|400|left", "称谓|100","姓名|80",
+                "政治面貌|100","工作单位及职务|500|left"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CadreFamily cadreFamily = cadreFamilys.get(i);

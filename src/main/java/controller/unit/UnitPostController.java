@@ -344,8 +344,8 @@ public class UnitPostController extends BaseController {
 
         List<UnitPostView> records = unitPostViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"岗位编号|100","岗位名称|300","单位编号|100","单位名称|220",
-                "分管工作|200","是否正职|100",
+        String[] titles = {"岗位编号|100","岗位名称|300|left","单位编号|100","单位名称|220|left",
+                "分管工作|200|left","是否正职|100",
                 "岗位级别|100","职务属性|150","职务类别|100",
                 "是否占干部职数|100",
                 "现任职干部|100","干部级别|100","任职类型|100",

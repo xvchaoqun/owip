@@ -84,7 +84,7 @@
                                     <div class="tab-content no-padding-top no-padding-bottom">
                                         <div id="home3" class="tab-pane in active">
                                             <div class="tabbable" >
-                                                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue">
+                                                <ul class="jqgrid-vertical-offset nav nav-tabs padding-12 tab-color-blue background-blue">
                                                     <li class="<c:if test="${type==OW_APPLY_TYPE_STU}">active</c:if>">
                                                         <a href="javascript:;" class="hashchange" data-url='${ctx}/memberApply_layout?cls=${cls}&type=${OW_APPLY_TYPE_STU}&stage=${stage}'><i class="fa fa-graduation-cap"></i> 学生
 
@@ -568,9 +568,8 @@
                 $(this).prop("disabled", $(this).data("count") == 0);
             })
         }
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid0')
-    });
+    }).jqGrid("setFrozenColumns")
+    $(window).triggerHandler('resize.jqGrid0')
 
     $.initNavGrid("jqGrid", "jqGridPager");
     <c:if test="${stage==OW_APPLY_STAGE_INIT}">

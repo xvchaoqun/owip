@@ -30,12 +30,12 @@
         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                 data-grid-id="#jqGrid2" data-width="1100"
                 data-url="${ctx}/unitTeam_au?auType=2&unitId=${param.unitId}">
-            <i class="fa fa-edit"></i> 修改任职信息
+            <i class="fa fa-edit"></i> 编辑任职信息
         </button>
         <button class="jqOpenViewBtn btn btn-warning btn-sm"
                 data-grid-id="#jqGrid2" data-width="1100"
                 data-url="${ctx}/unitTeam_au?auType=3&unitId=${param.unitId}">
-            <i class="fa fa-edit"></i> 修改免职信息
+            <i class="fa fa-edit"></i> 编辑免职信息
         </button>
     </shiro:hasPermission>
 </div>

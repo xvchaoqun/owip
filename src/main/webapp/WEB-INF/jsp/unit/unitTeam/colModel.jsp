@@ -10,7 +10,7 @@
                         .format(rowObject.id, '详情');
             },frozen:true },
             {label: '行政班子名称', name: 'name', align: 'left', width: 300, frozen: true},
-            {label: '届数', name: 'seq', width: 60},
+            {label: '届数', name: 'year', width: 60},
             {label: '是否现任班子', name: 'isPresent', formatter: $.jgrid.formatter.TRUEFALSE},
             {label: '任职文件', name: 'appoint.file', width: 150, formatter: function (cellvalue, options, rowObject) {
                 if(rowObject.appoint==undefined) return '--'

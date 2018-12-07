@@ -61,13 +61,13 @@
           <columnOverride column="content" jdbcType="VARCHAR"></columnOverride>
       </table>
       -->
-        <!--<table tableName="unit_team" domainObjectName="unit.UnitTeam"
+        <table tableName="unit_team" domainObjectName="unit.UnitTeam"
                mapperName="unit.UnitTeamMapper">
         <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>-->
-        <table tableName="unit_team_plan" domainObjectName="unit.UnitTeamPlan"
-               mapperName="unit.UnitTeamPlanMapper">
         </table>
+       <!-- <table tableName="unit_team_plan" domainObjectName="unit.UnitTeamPlan"
+               mapperName="unit.UnitTeamPlanMapper">
+        </table>-->
 
         <!--<table tableName="unit_cadre_transfer" domainObjectName="unit.UnitCadreTransfer">
         </table>

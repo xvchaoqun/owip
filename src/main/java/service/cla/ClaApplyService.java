@@ -966,8 +966,8 @@ public class ClaApplyService extends BaseMapper {
         List<ClaApply> records = claApplyMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"编号|100", "申请日期|100", "工作证号|100", "姓名|50",
-                "所在单位及职务|300", "出行时间|130", "返校时间|130",
-                "出行天数|80", "目的地|200", "请假事由|200",
+                "所在单位及职务|300|left", "出行时间|130", "返校时间|130",
+                "出行天数|80", "目的地|200|left", "请假事由|200|left",
                 "同行人员|100", "申请时间|150"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {

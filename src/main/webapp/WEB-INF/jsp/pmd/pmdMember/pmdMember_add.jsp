@@ -17,7 +17,7 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">党员</label>
             <div class="col-xs-6">
-                <select name="userId"  class="form-control"
+                <select required name="userId"  class="form-control"
                         data-rel="select2-ajax" data-width="350"
                         data-ajax-url="${ctx}/member_selects?noAuth=1&partyId=${param.partyId}&branchId=${param.branchId}&status=${MEMBER_STATUS_NORMAL}"
                         data-placeholder="请输入账号或姓名或学工号">

@@ -118,7 +118,7 @@
             {label: '年度', name: 'year', width: 80, frozen: true},
             {
                 label: '公示编号', name: '_num', width: 150, formatter: function (cellvalue, options, rowObject) {
-                if(rowObject.year==undefined || rowObject.num==undefined) return '-'
+                if(rowObject.year==undefined) return '-'
                 var _num = rowObject.code;
                 if(rowObject.pdfFilePath==undefined) return _num;
                 return $.swfPreview(rowObject.pdfFilePath, _num);

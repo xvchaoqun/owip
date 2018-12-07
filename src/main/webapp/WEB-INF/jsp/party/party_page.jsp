@@ -263,9 +263,8 @@ pageEncoding="UTF-8" %>
             { label: '邮箱', name: 'email' },
             { label: '成立时间', name: 'foundTime',formatter: 'date', formatoptions: {newformat: 'Y-m-d'}}
         ]
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns")
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 
     $('[data-rel="select2"]').select2();

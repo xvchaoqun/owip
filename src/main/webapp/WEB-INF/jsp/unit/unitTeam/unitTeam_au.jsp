@@ -24,7 +24,15 @@
         <div class="form-group">
             <label class="col-xs-3 control-label">届数</label>
             <div class="col-xs-6">
-                <input required class="form-control digits" type="text" name="seq" value="${unitTeam.seq}">
+                <div class="input-group">
+                    <input required class="form-control date-picker" placeholder="请选择年份"
+                           name="year"
+                           type="text"
+                           data-date-format="yyyy" data-date-min-view-mode="2"
+                           value="${unitTeam.year}"/>
+                    <span class="input-group-addon"> <i
+                            class="fa fa-calendar bigger-110"></i></span>
+                </div>
             </div>
         </div>
         <div class="form-group">

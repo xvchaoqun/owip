@@ -130,9 +130,8 @@
                 return {'class':'success'}
             }
         }*/
-    }).jqGrid("setFrozenColumns").on("initGrid",function(){
-        $(window).triggerHandler('resize.jqGrid');
-    })
+    }).jqGrid("setFrozenColumns")
+    $(window).triggerHandler('resize.jqGrid');
     $.initNavGrid("jqGrid", "jqGridPager");
 
     $('[data-rel="select2"]').select2();

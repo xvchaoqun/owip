@@ -255,63 +255,123 @@ public class UnitTeamExample {
             return (Criteria) this;
         }
 
-        public Criteria andSeqIsNull() {
-            addCriterion("seq is null");
+        public Criteria andYearIsNull() {
+            addCriterion("year is null");
             return (Criteria) this;
         }
 
-        public Criteria andSeqIsNotNull() {
-            addCriterion("seq is not null");
+        public Criteria andYearIsNotNull() {
+            addCriterion("year is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSeqEqualTo(Integer value) {
-            addCriterion("seq =", value, "seq");
+        public Criteria andYearEqualTo(Integer value) {
+            addCriterion("year =", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andSeqNotEqualTo(Integer value) {
-            addCriterion("seq <>", value, "seq");
+        public Criteria andYearNotEqualTo(Integer value) {
+            addCriterion("year <>", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andSeqGreaterThan(Integer value) {
-            addCriterion("seq >", value, "seq");
+        public Criteria andYearGreaterThan(Integer value) {
+            addCriterion("year >", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andSeqGreaterThanOrEqualTo(Integer value) {
-            addCriterion("seq >=", value, "seq");
+        public Criteria andYearGreaterThanOrEqualTo(Integer value) {
+            addCriterion("year >=", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andSeqLessThan(Integer value) {
-            addCriterion("seq <", value, "seq");
+        public Criteria andYearLessThan(Integer value) {
+            addCriterion("year <", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andSeqLessThanOrEqualTo(Integer value) {
-            addCriterion("seq <=", value, "seq");
+        public Criteria andYearLessThanOrEqualTo(Integer value) {
+            addCriterion("year <=", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andSeqIn(List<Integer> values) {
-            addCriterion("seq in", values, "seq");
+        public Criteria andYearIn(List<Integer> values) {
+            addCriterion("year in", values, "year");
             return (Criteria) this;
         }
 
-        public Criteria andSeqNotIn(List<Integer> values) {
-            addCriterion("seq not in", values, "seq");
+        public Criteria andYearNotIn(List<Integer> values) {
+            addCriterion("year not in", values, "year");
             return (Criteria) this;
         }
 
-        public Criteria andSeqBetween(Integer value1, Integer value2) {
-            addCriterion("seq between", value1, value2, "seq");
+        public Criteria andYearBetween(Integer value1, Integer value2) {
+            addCriterion("year between", value1, value2, "year");
             return (Criteria) this;
         }
 
-        public Criteria andSeqNotBetween(Integer value1, Integer value2) {
-            addCriterion("seq not between", value1, value2, "seq");
+        public Criteria andYearNotBetween(Integer value1, Integer value2) {
+            addCriterion("year not between", value1, value2, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentIsNull() {
+            addCriterion("is_present is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentIsNotNull() {
+            addCriterion("is_present is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentEqualTo(Boolean value) {
+            addCriterion("is_present =", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentNotEqualTo(Boolean value) {
+            addCriterion("is_present <>", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentGreaterThan(Boolean value) {
+            addCriterion("is_present >", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_present >=", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentLessThan(Boolean value) {
+            addCriterion("is_present <", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_present <=", value, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentIn(List<Boolean> values) {
+            addCriterion("is_present in", values, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentNotIn(List<Boolean> values) {
+            addCriterion("is_present not in", values, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_present between", value1, value2, "isPresent");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsPresentNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_present not between", value1, value2, "isPresent");
             return (Criteria) this;
         }
 

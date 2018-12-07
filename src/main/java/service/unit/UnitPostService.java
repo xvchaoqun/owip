@@ -50,6 +50,18 @@ public class UnitPostService extends BaseMapper {
 
         return unitPostMapper.countByExample(example) > 0;
     }
+    
+    // 查询某单位下的所有岗位（包含已撤销）
+    public List<UnitPost> list(int unitId) {
+
+        UnitPostExample example = new UnitPostExample();
+        UnitPostExample.Criteria criteria = example.createCriteria()
+                .andUnitIdEqualTo(unitId)
+                .andStatusNotEqualTo(SystemConstants.UNIT_POST_STATUS_DELETE);
+        example.setOrderByClause("status asc, sort_order desc");
+
+        return unitPostMapper.selectByExample(example);
+    }
 
     // 单位、级别下的占职数的岗位
     public List<UnitPostView> query(int unitId, int adminLevelId, Boolean displayEmpty) {

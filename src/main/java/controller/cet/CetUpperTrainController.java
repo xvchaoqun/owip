@@ -541,7 +541,9 @@ public class CetUpperTrainController extends CetBaseController {
 
         List<CetUpperTrain> records = cetUpperTrainMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"派出类型|100", "派出单位|100", "参训人|100", "时任单位及职务|100", "职务属性|100", "培训班主办方|100", "培训班类型|100", "专项培训班|100", "培训班名称|100", "培训开始时间|100", "培训结束时间|100", "培训学时|100", "是否计入年度学习任务|100"};
+        String[] titles = {"派出类型|100", "派出单位|100", "参训人|100", "时任单位及职务|100|left",
+                "职务属性|100", "培训班主办方|100", "培训班类型|100", "专项培训班|100",
+                "培训班名称|100", "培训开始时间|100", "培训结束时间|100", "培训学时|100", "是否计入年度学习任务|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CetUpperTrain record = records.get(i);

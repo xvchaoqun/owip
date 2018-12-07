@@ -84,7 +84,7 @@ public class UnitTeamController extends BaseController {
         
         UnitTeamExample example = new UnitTeamExample();
         Criteria criteria = example.createCriteria();
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("year desc");
         
         if(unitId!=null){
             criteria.andUnitIdEqualTo(unitId);
@@ -155,6 +155,7 @@ public class UnitTeamController extends BaseController {
         return "unit/unitTeam/unitTeam_term";
     }
     
+    // 设定本学期起止时间
     @RequiresPermissions("unitTeam:edit")
     @RequestMapping(value = "/unitTeam_term", method = RequestMethod.POST)
     @ResponseBody
@@ -197,6 +198,7 @@ public class UnitTeamController extends BaseController {
         return "unit/unitTeam/unitTeam_au";
     }
     
+    // 修改免职或任职信息
     @RequiresPermissions("unitTeam:edit")
     @RequestMapping(value = "/unitTeam_dispatchCadre", method = RequestMethod.POST)
     @ResponseBody
@@ -257,24 +259,13 @@ public class UnitTeamController extends BaseController {
     @RequiresPermissions("unitTeam:del")
     @RequestMapping(value = "/unitTeam_batchDel", method = RequestMethod.POST)
     @ResponseBody
-    public Map batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
-        
+    public Map unitTeam_batchDel(HttpServletRequest request, @RequestParam(value = "ids[]") Integer[] ids, ModelMap modelMap) {
         
         if (null != ids && ids.length > 0) {
             unitTeamService.batchDel(ids);
             logger.info(addLog(LogConstants.LOG_ADMIN, "批量删除单位行政班子：%s", StringUtils.join(ids, ",")));
         }
         
-        return success(FormUtils.SUCCESS);
-    }
-    
-    @RequiresPermissions("unitTeam:changeOrder")
-    @RequestMapping(value = "/unitTeam_changeOrder", method = RequestMethod.POST)
-    @ResponseBody
-    public Map do_unitTeam_changeOrder(Integer id, Integer addNum, HttpServletRequest request) {
-        
-        unitTeamService.changeOrder(id, addNum);
-        logger.info(addLog(LogConstants.LOG_ADMIN, "单位行政班子调序：%s,%s", id, addNum));
         return success(FormUtils.SUCCESS);
     }
     
@@ -298,7 +289,7 @@ public class UnitTeamController extends BaseController {
             
             UnitTeam unitTeam = unitTeams.get(i);
             String[] values = {
-                    unitTeam.getSeq() + "",
+                    unitTeam.getYear() + "",
                     unitTeam.getName(),
                     DateUtils.formatDate(unitTeam.getExpectDeposeDate(), DateUtils.YYYY_MM_DD),
                     DateUtils.formatDate(unitTeam.getDeposeDate(), DateUtils.YYYY_MM_DD),
@@ -332,7 +323,7 @@ public class UnitTeamController extends BaseController {
         
         UnitTeamExample example = new UnitTeamExample();
         Criteria criteria = example.createCriteria().andUnitIdEqualTo(unitId);
-        example.setOrderByClause("sort_order desc");
+        example.setOrderByClause("year desc");
         
         if (StringUtils.isNotBlank(searchStr)) {
             criteria.andNameLike("%" + searchStr + "%");

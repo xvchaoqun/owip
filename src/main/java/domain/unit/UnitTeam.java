@@ -10,10 +10,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class UnitTeam implements Serializable {
-     public Boolean getIsPresent(){
-        
-        return DateUtils.between(new Date(), appointDate, deposeDate);
-    }
     
     public Dispatch getAppoint(){
         if(appointDispatchCadreId==null) return null;
@@ -29,7 +25,9 @@ public class UnitTeam implements Serializable {
 
     private Integer unitId;
 
-    private Integer seq;
+    private Integer year;
+
+    private Boolean isPresent;
 
     private String name;
 
@@ -68,12 +66,20 @@ public class UnitTeam implements Serializable {
         this.unitId = unitId;
     }
 
-    public Integer getSeq() {
-        return seq;
+    public Integer getYear() {
+        return year;
     }
 
-    public void setSeq(Integer seq) {
-        this.seq = seq;
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Boolean getIsPresent() {
+        return isPresent;
+    }
+
+    public void setIsPresent(Boolean isPresent) {
+        this.isPresent = isPresent;
     }
 
     public String getName() {

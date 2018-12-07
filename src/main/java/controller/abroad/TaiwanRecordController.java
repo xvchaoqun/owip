@@ -211,7 +211,7 @@ public class TaiwanRecordController extends AbroadBaseController {
         int rownum = records.size();
         String[] titles = {"干部|100", "备案时间|100", "离境时间|100", "回国时间|100", "出访活动类别|150",
                 "现持有台湾通行证号码|180", "办理新证件方式|150",
-                "新证件应交组织部日期|180", "新证件实交组织部日期|180", "备注|300"};
+                "新证件应交组织部日期|180", "新证件实交组织部日期|180", "备注|300|left"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             TaiwanRecord record = records.get(i);

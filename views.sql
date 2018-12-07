@@ -697,11 +697,6 @@ left join unit u on up.unit_id=u.id
 left join cadre_post cp on up.id=cp.unit_post_id
 left join cadre_view cv on cv.id=cp.cadre_id;
 
-DROP VIEW IF EXISTS `unit_post_count_view`;
-CREATE ALGORITHM = UNDEFINED VIEW `unit_post_count_view` AS
-select unit_id, admin_level as admin_level_id, count(is_cpc=1 or null) as num, count(*) as total
-from unit_post group by unit_id, admin_level ;
-
 
 -- ----------------------------
 --  View definition for `ext_branch_view`

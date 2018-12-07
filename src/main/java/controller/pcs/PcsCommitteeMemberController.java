@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import sys.constants.LogConstants;
+import sys.constants.SystemConstants;
 import sys.tool.paging.CommonList;
 import sys.utils.DateUtils;
 import sys.utils.ExportHelper;
@@ -104,7 +105,7 @@ public class PcsCommitteeMemberController extends PcsBaseController {
         if (export == 1) {
             if (ids != null && ids.length > 0)
                 criteria.andIdIn(Arrays.asList(ids));
-            pcsCommitteeMember_export(example, response);
+            pcsCommitteeMember_export(type, example, response);
             return;
         }
 
@@ -255,30 +256,32 @@ public class PcsCommitteeMemberController extends PcsBaseController {
         return success(FormUtils.SUCCESS);
     }
 
-    public void pcsCommitteeMember_export(PcsCommitteeMemberViewExample example, HttpServletResponse response) {
+    public void pcsCommitteeMember_export(boolean type, PcsCommitteeMemberViewExample example, HttpServletResponse response) {
 
         List<PcsCommitteeMemberView> records = pcsCommitteeMemberViewMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"类型|100", "所属党代会|100", "关联用户|100", "职务|100", "任职日期|100", "任命文件|100", "是否离任|100", "离任日期|100", "离任原因|100", "排序|100", "备注|100"};
+        String[] titles = {"届数|200", "职务|100", "任职日期|90", "姓名|80", "性别|50",
+                 "民族|60", "职称|120","出生年月|80",
+                "年龄|50", "入党时间|80","所在单位及职务|300|left"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             PcsCommitteeMemberView record = records.get(i);
             String[] values = {
-                    record.getType() + "",
-                    record.getConfigId() + "",
-                    record.getUserId() + "",
-                    record.getPost() + "",
-                    DateUtils.formatDate(record.getPostDate(), DateUtils.YYYY_MM_DD),
-                    record.getPostFilePath(),
-                    record.getIsQuit() + "",
-                    DateUtils.formatDate(record.getQuitDate(), DateUtils.YYYY_MM_DD),
-                    record.getQuitReason(),
-                    record.getSortOrder() + "",
-                    record.getRemark()
+                    record.getPcsName(),
+                    metaTypeService.getName(record.getPost()),
+                    DateUtils.formatDate(record.getPostDate(), "yyyy.MM.dd"),
+                    record.getRealname(),
+                    record.getGender()==null?"": SystemConstants.GENDER_MAP.get(record.getGender()),
+                    record.getNation(),
+                    record.getProPost() + "",
+                    DateUtils.formatDate(record.getBirth(), "yyyy.MM"),
+                    record.getBirth()==null?"":DateUtils.intervalYearsUntilNow(record.getBirth()) + "",
+                    DateUtils.formatDate(record.getGrowTime(), "yyyy.MM"),
+                    record.getTitle()
             };
             valuesList.add(values);
         }
-        String fileName = "两委委员_" + DateUtils.formatDate(new Date(), "yyyyMMddHHmmss");
+        String fileName = type?"现任纪委委员":"现任党委委员";
         ExportHelper.export(titles, valuesList, fileName, response);
     }
 

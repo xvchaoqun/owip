@@ -246,13 +246,13 @@ public class CrpRecordController extends BaseController {
         List<CrpRecord> records = crpRecordMapper.selectByExample(example);
         int rownum = records.size();
         String[] titles = {"工作证号|100", "姓名|50", "是否现任干部|100",
-                 "时任职务|300",
+                 "时任职务|300|left",
                  "联系电话|100",
                 "委派单位|100",
                 "挂职类别|100",
-                "挂职项目|120",
-                "挂职单位|350",
-                "所任职务|350",
+                "挂职项目|120|left",
+                "挂职单位|350|left",
+                "所任职务|350|left",
                 "挂职开始时间|120",
                 "挂职拟结束时间|120",
                 "挂职实际结束时间|120", "备注|300"};

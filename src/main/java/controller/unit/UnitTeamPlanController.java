@@ -1,6 +1,7 @@
 package controller.unit;
 
 import controller.BaseController;
+import domain.unit.UnitPost;
 import domain.unit.UnitTeam;
 import domain.unit.UnitTeamPlan;
 import domain.unit.UnitTeamPlanExample;
@@ -146,21 +147,36 @@ public class UnitTeamPlanController extends BaseController {
     
     @RequiresPermissions("unitTeam:edit")
     @RequestMapping("/unitTeamPlan_au")
-    public String unitTeamPlan_au(Integer id, ModelMap modelMap) {
+    public String unitTeamPlan_au(Integer id, Integer unitTeamId, ModelMap modelMap) {
         
         if (id != null) {
             UnitTeamPlan unitTeamPlan = unitTeamPlanMapper.selectByPrimaryKey(id);
             modelMap.put("unitTeamPlan", unitTeamPlan);
+            unitTeamId = unitTeamPlan.getUnitTeamId();
             
             String mainPosts = unitTeamPlan.getMainPosts();
-            if (StringUtils.isNotBlank(mainPosts)) {
-                modelMap.put("mainPosts", iUnitMapper.getUnitPosts(mainPosts));
+            if(StringUtils.isNotBlank(mainPosts)) {
+                Set<Integer> mainPostIds = new HashSet<>();
+                for (String _id : mainPosts.split(",")) {
+                    mainPostIds.add(Integer.parseInt(_id));
+                }
+                modelMap.put("mainPostIds", mainPostIds);
             }
+    
             String vicePosts = unitTeamPlan.getVicePosts();
-            if (StringUtils.isNotBlank(vicePosts)) {
-                modelMap.put("vicePosts", iUnitMapper.getUnitPosts(vicePosts));
+            if(StringUtils.isNotBlank(vicePosts)) {
+                Set<Integer> vicePostIds = new HashSet<>();
+                for (String _id : vicePosts.split(",")) {
+                    vicePostIds.add(Integer.parseInt(_id));
+                }
+                modelMap.put("vicePostIds", vicePostIds);
             }
         }
+        
+        UnitTeam unitTeam = unitTeamMapper.selectByPrimaryKey(unitTeamId);
+        List<UnitPost> unitPosts = unitPostService.list(unitTeam.getUnitId());
+        modelMap.put("unitPosts", unitPosts);
+    
         return "unit/unitTeamPlan/unitTeamPlan_au";
     }
     

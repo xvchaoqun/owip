@@ -188,7 +188,8 @@ public class CadreReserveOriginController extends BaseController {
 
         List<CadreReserveOrigin> records = cadreReserveOriginMapper.selectByExample(example);
         int rownum = records.size();
-        String[] titles = {"产生方式|100","推荐人选|100","后备干部类别|100","推荐单位|100","推荐日期|100","推荐材料|100","推荐材料|100","考察材料|100","备注|100","添加日期|100"};
+        String[] titles = {"产生方式|100","推荐人选|100","后备干部类别|100","推荐单位|100",
+                "推荐日期|100","推荐材料|100","推荐材料|100","考察材料|100","备注|100","添加日期|100"};
         List<String[]> valuesList = new ArrayList<>();
         for (int i = 0; i < rownum; i++) {
             CadreReserveOrigin record = records.get(i);

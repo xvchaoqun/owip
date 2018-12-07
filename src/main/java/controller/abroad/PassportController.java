@@ -218,7 +218,7 @@ public class PassportController extends AbroadBaseController {
         List<Passport> records = iAbroadMapper.selectPassportList(bean, new RowBounds());
         int rownum = records.size();
         if(status==AbroadConstants.ABROAD_PASSPORT_TYPE_KEEP) {
-            String[] titles = {"工作证号|100", "姓名|50", "所在单位及职务|300", "职务属性|100", "干部类型|100",
+            String[] titles = {"工作证号|100", "姓名|50", "所在单位及职务|300|left", "职务属性|100", "干部类型|100",
                     "证件名称|160", "证件号码|100", "发证机关|150", "发证日期|100",
                     "有效期|100", "集中管理日期|100", "所在保险柜|100", "是否借出|80"};
             List<String[]> valuesList = new ArrayList<>();

@@ -144,10 +144,18 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 select ea.`*`, m.user_id, u.realname, u.code, u.gender, m.party_id, m.branch_id
 from ext_abroad ea , sys_user_view u, ow_member m where ea.gzzh=u.code and u.id=m.user_id ;
 
+-- 只统计“现有处级岗位”中的“占干部职数”的岗位
+DROP VIEW IF EXISTS `unit_post_count_view`;
+CREATE ALGORITHM = UNDEFINED VIEW `unit_post_count_view` AS
+select unit_id, admin_level as admin_level_id, count(is_cpc=1 or null) as num, count(*) as total
+from unit_post where status=1 group by unit_id, admin_level ;
+
+-- 只统计“现有处级岗位”中的“占干部职数”的岗位
 DROP VIEW IF EXISTS `unit_view`;
 CREATE ALGORITHM = UNDEFINED VIEW `unit_view` AS
 select u.*, up.principal_post_count, up.vice_post_count, cpc.main_count, cpc.vice_count, cpc.none_count from unit u left join
-(select unit_Id, sum(if(is_principal_post,1,0)) as principal_post_count, sum(if(is_principal_post,0,1)) as vice_post_count from unit_post group by unit_id) up on up.unit_id=u.id
+(select unit_Id, sum(if(is_principal_post,1,0)) as principal_post_count, sum(if(is_principal_post,0,1)) as vice_post_count
+from unit_post where status=1 and is_cpc=1 group by unit_id) up on up.unit_id=u.id
 left join
 (select upc.unit_id, sum(if(bmt.code='mt_admin_level_main', num,0)) as main_count,
 sum(if(bmt.code='mt_admin_level_vice', num,0)) as vice_count,

@@ -4,7 +4,8 @@
   <resultMap id="BaseResultMap" type="domain.unit.UnitTeam">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="unit_id" jdbcType="INTEGER" property="unitId" />
-    <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="is_present" jdbcType="BIT" property="isPresent" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="expect_depose_date" jdbcType="DATE" property="expectDeposeDate" />
     <result column="appoint_dispatch_cadre_id" jdbcType="INTEGER" property="appointDispatchCadreId" />
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, unit_id, seq, name, expect_depose_date, appoint_dispatch_cadre_id, appoint_date, 
-    depose_dispatch_cadre_id, depose_date, remark, sort_order
+    id, unit_id, year, is_present, name, expect_depose_date, appoint_dispatch_cadre_id, 
+    appoint_date, depose_dispatch_cadre_id, depose_date, remark, sort_order
   </sql>
   <select id="selectByExample" parameterType="domain.unit.UnitTeamExample" resultMap="BaseResultMap">
     select
@@ -110,12 +111,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into unit_team (unit_id, seq, name, 
-      expect_depose_date, appoint_dispatch_cadre_id, 
+    insert into unit_team (unit_id, year, is_present, 
+      name, expect_depose_date, appoint_dispatch_cadre_id, 
       appoint_date, depose_dispatch_cadre_id, depose_date, 
       remark, sort_order)
-    values (#{unitId,jdbcType=INTEGER}, #{seq,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{expectDeposeDate,jdbcType=DATE}, #{appointDispatchCadreId,jdbcType=INTEGER}, 
+    values (#{unitId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{isPresent,jdbcType=BIT}, 
+      #{name,jdbcType=VARCHAR}, #{expectDeposeDate,jdbcType=DATE}, #{appointDispatchCadreId,jdbcType=INTEGER}, 
       #{appointDate,jdbcType=DATE}, #{deposeDispatchCadreId,jdbcType=INTEGER}, #{deposeDate,jdbcType=DATE}, 
       #{remark,jdbcType=VARCHAR}, #{sortOrder,jdbcType=INTEGER})
   </insert>
@@ -128,8 +129,11 @@
       <if test="unitId != null">
         unit_id,
       </if>
-      <if test="seq != null">
-        seq,
+      <if test="year != null">
+        year,
+      </if>
+      <if test="isPresent != null">
+        is_present,
       </if>
       <if test="name != null">
         name,
@@ -160,8 +164,11 @@
       <if test="unitId != null">
         #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="seq != null">
-        #{seq,jdbcType=INTEGER},
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="isPresent != null">
+        #{isPresent,jdbcType=BIT},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -204,8 +211,11 @@
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=INTEGER},
       </if>
-      <if test="record.seq != null">
-        seq = #{record.seq,jdbcType=INTEGER},
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.isPresent != null">
+        is_present = #{record.isPresent,jdbcType=BIT},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -240,7 +250,8 @@
     update unit_team
     set id = #{record.id,jdbcType=INTEGER},
       unit_id = #{record.unitId,jdbcType=INTEGER},
-      seq = #{record.seq,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      is_present = #{record.isPresent,jdbcType=BIT},
       name = #{record.name,jdbcType=VARCHAR},
       expect_depose_date = #{record.expectDeposeDate,jdbcType=DATE},
       appoint_dispatch_cadre_id = #{record.appointDispatchCadreId,jdbcType=INTEGER},
@@ -259,8 +270,11 @@
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=INTEGER},
       </if>
-      <if test="seq != null">
-        seq = #{seq,jdbcType=INTEGER},
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="isPresent != null">
+        is_present = #{isPresent,jdbcType=BIT},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -292,7 +306,8 @@
   <update id="updateByPrimaryKey" parameterType="domain.unit.UnitTeam">
     update unit_team
     set unit_id = #{unitId,jdbcType=INTEGER},
-      seq = #{seq,jdbcType=INTEGER},
+      year = #{year,jdbcType=INTEGER},
+      is_present = #{isPresent,jdbcType=BIT},
       name = #{name,jdbcType=VARCHAR},
       expect_depose_date = #{expectDeposeDate,jdbcType=DATE},
       appoint_dispatch_cadre_id = #{appointDispatchCadreId,jdbcType=INTEGER},

@@ -7,7 +7,7 @@
     <if test="search != null" >
     and d.code like #{search}
     </if>
-    order by bdu.sort_order desc
+    order by d.sort_order desc
   </select>
   <select id="countDispatchByCodeUnitList" parameterType="map" resultType="java.lang.Integer" >
     select count(bdu.id) from dispatch_unit bdu, dispatch d

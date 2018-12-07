@@ -202,18 +202,18 @@
                             <td class="bg-center">${scCommittee.count+scCommittee.absentCount}</td>
                             <td class="bg-center">${scCommittee.count}</td>
                             <td class="bg-center">${scCommittee.absentCount}</td>
-                            <td class="bg-center"><input required class="form-control digits" type="text"
+                            <td class="bg-center"><input class="form-control digits" type="text"
                                        style="width: 100%" name="agreeCount"
                                        data-at="bottom center" data-my="top center"
                                        value="${scCommitteeVote.agreeCount}"></td>
                             <td class="bg-center">
-                                <input required class="form-control digits" type="text"
+                                <input class="form-control digits" type="text"
                                        style="width: 100%" name="abstainCount"
                                        data-at="bottom center" data-my="top center"
                                        value="${scCommitteeVote.abstainCount}"></td>
                             </td>
                             <td class="bg-center">
-                                <input required class="form-control digits" type="text"
+                                <input class="form-control digits" type="text"
                                        style="width: 100%" name="disagreeCount"
                                        data-at="bottom center" data-my="top center"
                                        value="${scCommitteeVote.disagreeCount}"></td>
