@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
         <input type="hidden" name="unitTeamId" value="${param.unitTeamId}">
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">起始时间</label>
+				<label class="col-xs-2 control-label">起始时间</label>
 				<div class="col-xs-6">
 					<div class="input-group">
                     <input required class="form-control date-picker" name="startDate" type="text"
@@ -22,7 +22,7 @@ pageEncoding="UTF-8"%>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-xs-3 control-label">行政正职</label>
+				<label class="col-xs-2 control-label">行政正职</label>
 				<div class="col-xs-9 mainPosts" style="max-height: 200px;overflow-y: scroll">
 				<table class="table table-condensed table-striped table-bordered table-unhover2 table-center">
 					<tr>
@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">行政副职</label>
+				<label class="col-xs-2 control-label">行政副职</label>
 				<div class="col-xs-9 vicePosts" style="max-height: 200px;overflow-y: scroll">
 				<table class="table table-condensed table-striped table-bordered table-unhover2 table-center">
 					<tr>
@@ -66,7 +66,7 @@ pageEncoding="UTF-8"%>
 			</div>
 
 			<div class="form-group">
-				<label class="col-xs-3 control-label">备注</label>
+				<label class="col-xs-2 control-label">备注</label>
 				<div class="col-xs-6">
 					<textarea class="form-control limited" name="remark">${unitTeamPlan.remark}</textarea>
 				</div>
